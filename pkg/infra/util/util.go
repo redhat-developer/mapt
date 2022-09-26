@@ -12,15 +12,16 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-type SetCredentials func(ctx context.Context, stack auto.Stack) error
+type SetCredentials func(ctx context.Context, stack auto.Stack, fixedCredentials map[string]string) error
 
 type PluginInfo struct {
 	Name              string
 	Version           string
 	SetCredentialFunc SetCredentials
+	FixedCredentials  map[string]string
 }
 
-type DeployableTarget struct {
+type Stack struct {
 	ProjectName string
 	StackName   string
 	BackedURL   string
@@ -30,7 +31,7 @@ type DeployableTarget struct {
 
 // this function gets our stack ready for update/destroy by prepping the workspace, init/selecting the stack
 // and doing a refresh to make sure state and cloud resources are in sync
-func GetStack(ctx context.Context, target DeployableTarget) auto.Stack {
+func GetStack(ctx context.Context, target Stack) auto.Stack {
 	opts := []auto.LocalWorkspaceOption{
 		auto.Project(workspace.Project{
 			Name:    tokens.PackageName(target.ProjectName),
@@ -59,7 +60,7 @@ func GetStack(ctx context.Context, target DeployableTarget) auto.Stack {
 		os.Exit(1)
 	}
 	// Set credentials
-	if err = target.Plugin.SetCredentialFunc(ctx, s); err != nil {
+	if err = target.Plugin.SetCredentialFunc(ctx, s, target.Plugin.FixedCredentials); err != nil {
 		logging.Errorf("Failed setting credentials: %v", err)
 		os.Exit(1)
 	}
