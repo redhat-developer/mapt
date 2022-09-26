@@ -3,7 +3,7 @@ package cmd
 import (
 	"strings"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/orchestrator"
+	"github.com/adrianriobo/qenvs/pkg/orchestrator"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
