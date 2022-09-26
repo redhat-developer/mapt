@@ -22,6 +22,13 @@ type SpotPriceStackRequest struct {
 	AvailabilityZones  []string
 }
 
+type SpotPriceData struct {
+	Price            string
+	AvailabilityZone string
+	Region           string
+	Err              error
+}
+
 const (
 	// https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSpotPriceHistory.html
 	spotQueryFilterProductDescription string = "product-description"
@@ -31,14 +38,27 @@ const (
 	stackGetSpotPriceOutputAvailabilityZone string = "availabilityZone"
 )
 
-func GetBestSpotPrice(projectName, backedURL, instanceType, productDescription, region string) (string, string, error) {
+func GetBestSpotPriceAsync(stackSuffix, projectName, backedURL, instanceType, productDescription, region string, c chan SpotPriceData) {
+	price, availabilityZone, err := GetBestSpotPrice(stackSuffix, projectName, backedURL, instanceType, productDescription, region)
+	c <- SpotPriceData{
+		Price:            price,
+		AvailabilityZone: availabilityZone,
+		Region:           region,
+		Err:              err}
+}
+
+func GetBestSpotPrice(stackSuffix, projectName, backedURL, instanceType, productDescription, region string) (string, string, error) {
 	ctx := context.Background()
 	stdoutStreamer := optup.ProgressStreams(os.Stdout)
 	stackRequest := SpotPriceStackRequest{
 		InstanceType:       instanceType,
 		ProductDescription: productDescription}
+	stackName := util.If(
+		len(stackSuffix) > 0,
+		fmt.Sprintf("%s-%s", stackGetSpotPriceName, stackSuffix),
+		stackGetSpotPriceName)
 	stack := infraUtil.Stack{
-		StackName:   stackGetSpotPriceName,
+		StackName:   stackName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.GetPluginAWS(map[string]string{aws.CONFIG_AWS_REGION: region}),
@@ -60,8 +80,6 @@ func GetBestSpotPrice(projectName, backedURL, instanceType, productDescription, 
 	}
 	return bestPrice, bestPriceAZ, nil
 }
-
-// https://github.com/pulumi/automation-api-examples/blob/f5444239378c9891250ee367e9c2a6f26149f375/go/multi_stack_orchestration/main.go#L132
 
 func (s SpotPriceStackRequest) getSpotPrice(ctx *pulumi.Context) error {
 	var spotPrices []*ec2.GetSpotPriceResult
@@ -112,4 +130,16 @@ func minSpotPrice(source []*ec2.GetSpotPriceResult) *ec2.GetSpotPriceResult {
 		return iPrice < jPrice
 	})
 	return source[0]
+}
+
+func MinSpotPricePerRegions(source []SpotPriceData) *SpotPriceData {
+	if len(source) == 0 {
+		return nil
+	}
+	sort.Slice(source, func(i, j int) bool {
+		iPrice, _ := strconv.ParseFloat(source[i].Price, 64)
+		jPrice, _ := strconv.ParseFloat(source[j].Price, 64)
+		return iPrice < jPrice
+	})
+	return &source[0]
 }
