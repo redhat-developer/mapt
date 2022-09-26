@@ -3,7 +3,7 @@ package cmd
 import (
 	"strings"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/manager"
+	"github.com/adrianriobo/qenvs/pkg/infra/orchestrator"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -43,7 +43,7 @@ var spotCmd = &cobra.Command{
 }
 
 func exec() {
-	if err := manager.GetBestBidForSpot(
+	if err := orchestrator.GetBestBidForSpot(
 		parsetAvailabilityZones(viper.GetString(availabilityZones)),
 		viper.GetString(instanceType),
 		viper.GetString(productDescription)); err != nil {
