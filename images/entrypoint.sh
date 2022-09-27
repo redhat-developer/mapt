@@ -2,8 +2,8 @@
 
 VALID_CONFIG=true
 # Check required ENVs
-if [ -z "${INSTANCE_TYPE}" ]; then 
-  echo "INSTANCE_TYPE is required"
+if [ -z "${INSTANCE_TYPES}" ]; then 
+  echo "INSTANCE_TYPES is required"
   VALID_CONFIG=false
 fi
 
@@ -29,5 +29,5 @@ fi
 
 # Run qenvs
 exec qenvs spot \
-    --instance-type "${INSTANCE_TYPE}" \
+    --instance-types "${INSTANCE_TYPES}" \
     --product-description "${PRODUCT_DESCRIPTION}"

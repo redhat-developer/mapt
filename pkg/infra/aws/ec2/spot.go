@@ -1,9 +1,7 @@
 package ec2
 
 import (
-	"context"
 	"fmt"
-	"os"
 	"sort"
 	"strconv"
 
@@ -12,7 +10,6 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
-	"github.com/pulumi/pulumi/sdk/v3/go/auto/optup"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -26,7 +23,12 @@ type SpotPriceData struct {
 	Price            string
 	AvailabilityZone string
 	Region           string
-	Err              error
+	InstanceType     string
+}
+
+type SpotPriceResult struct {
+	Data SpotPriceData
+	Err  error
 }
 
 const (
@@ -38,18 +40,24 @@ const (
 	stackGetSpotPriceOutputAvailabilityZone string = "availabilityZone"
 )
 
-func GetBestSpotPriceAsync(stackSuffix, projectName, backedURL, instanceType, productDescription, region string, c chan SpotPriceData) {
-	price, availabilityZone, err := GetBestSpotPrice(stackSuffix, projectName, backedURL, instanceType, productDescription, region)
-	c <- SpotPriceData{
-		Price:            price,
-		AvailabilityZone: availabilityZone,
-		Region:           region,
-		Err:              err}
+func GetBestSpotPriceAsync(stackSuffix, projectName, backedURL,
+	instanceType, productDescription, region string, c chan SpotPriceResult) {
+	price, availabilityZone, err := GetBestSpotPrice(
+		stackSuffix, projectName, backedURL,
+		instanceType, productDescription, region)
+	c <- SpotPriceResult{
+		SpotPriceData{
+			Price:            price,
+			AvailabilityZone: availabilityZone,
+			Region:           region,
+			InstanceType:     instanceType},
+		err}
+
 }
 
-func GetBestSpotPrice(stackSuffix, projectName, backedURL, instanceType, productDescription, region string) (string, string, error) {
-	ctx := context.Background()
-	stdoutStreamer := optup.ProgressStreams(os.Stdout)
+func GetBestSpotPrice(stackSuffix, projectName, backedURL, instanceType,
+	productDescription, region string) (string, string, error) {
+
 	stackRequest := SpotPriceStackRequest{
 		InstanceType:       instanceType,
 		ProductDescription: productDescription}
@@ -64,9 +72,8 @@ func GetBestSpotPrice(stackSuffix, projectName, backedURL, instanceType, product
 		Plugin:      aws.GetPluginAWS(map[string]string{aws.CONFIG_AWS_REGION: region}),
 		DeployFunc:  stackRequest.getSpotPrice,
 	}
-	// Plan stack
-	objectStack := infraUtil.GetStack(ctx, stack)
-	stackResult, err := objectStack.Up(ctx, stdoutStreamer)
+	// Exec stack
+	stackResult, err := infraUtil.ExecStack(stack)
 	if err != nil {
 		return "", "", err
 	}
@@ -93,6 +100,7 @@ func (s SpotPriceStackRequest) getSpotPrice(ctx *pulumi.Context) error {
 		if spotPrice, err := s.getSpotPriceByAZ(availabilityZone, ctx); err != nil {
 			logging.Debugf("Can not get price for %s on %s due to %v", s.InstanceType, availabilityZone, err)
 		} else {
+			logging.Debugf("Found price for %s on %s, current price is %s", s.InstanceType, availabilityZone, spotPrice.SpotPrice)
 			spotPrices = append(spotPrices, spotPrice)
 		}
 	}
