@@ -40,7 +40,7 @@ var rootCmd = &cobra.Command{
 }
 
 func runPrerun(cmd *cobra.Command) error {
-	logging.InitLogrus(logging.LogLevel, baseDir, logFile)
+	logging.InitLogrus(baseDir, logFile)
 	return nil
 }
 

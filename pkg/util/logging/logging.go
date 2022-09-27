@@ -38,7 +38,7 @@ func BackupLogFile() {
 	os.Rename(logfile.Name(), fmt.Sprintf("%s_%s", logfile.Name(), time.Now().Format("20060102150405"))) // nolint
 }
 
-func InitLogrus(logLevel, basePath string, fileName string) {
+func InitLogrus(basePath, fileName string) {
 	// var err error
 	// logfile, err = OpenLogFile(basePath, fileName)
 	// if err != nil {

@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"strings"
-
 	"github.com/adrianriobo/qenvs/pkg/orchestrator"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
@@ -17,7 +15,7 @@ const (
 	spotCmdDescription string = "spot"
 
 	availabilityZones  string = "availability-zones"
-	instanceType       string = "instance-type"
+	instanceTypes      string = "instance-types"
 	productDescription string = "product-description"
 )
 
@@ -25,7 +23,7 @@ func init() {
 	rootCmd.AddCommand(spotCmd)
 	flagSet := pflag.NewFlagSet(spotCmdName, pflag.ExitOnError)
 	flagSet.StringP(availabilityZones, "a", "", "List of comma separated azs to check. If empty all will be searched")
-	flagSet.StringP(instanceType, "i", "", "Instace type")
+	flagSet.StringP(instanceTypes, "i", "", "List of comma separated instace types")
 	flagSet.StringP(productDescription, "p", "", "Filter instances by product description")
 	spotCmd.Flags().AddFlagSet(flagSet)
 }
@@ -44,15 +42,9 @@ var spotCmd = &cobra.Command{
 
 func exec() {
 	if err := orchestrator.GetBestBidForSpot(
-		parsetAvailabilityZones(viper.GetString(availabilityZones)),
-		viper.GetString(instanceType),
+		util.SplitString(viper.GetString(availabilityZones), ","),
+		util.SplitString(viper.GetString(instanceTypes), ","),
 		viper.GetString(productDescription)); err != nil {
 		logging.Error(err)
 	}
-}
-
-func parsetAvailabilityZones(availabilityZones string) []string {
-	return util.If(strings.Contains(availabilityZones, ","),
-		strings.Split(viper.GetString(availabilityZones), ","),
-		[]string{})
 }
