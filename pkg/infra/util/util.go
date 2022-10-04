@@ -50,7 +50,6 @@ func GetStack(ctx context.Context, target Stack) auto.Stack {
 		logging.Errorf("Failed to create or select stack: %v", err)
 		os.Exit(1)
 	}
-	logging.Debugf("Runnig stack %s", target.StackName)
 
 	w := s.Workspace()
 
@@ -73,10 +72,21 @@ func GetStack(ctx context.Context, target Stack) auto.Stack {
 }
 
 func ExecStack(targetStack Stack) (auto.UpResult, error) {
+	logging.Debugf("Creating stack %s", targetStack.StackName)
 	ctx := context.Background()
 	objectStack := GetStack(ctx, targetStack)
 	// TODO add when loglevel debug control in place
 	// stdoutStreamer := optup.ProgressStreams(os.Stdout)
 	// return objectStack.Up(ctx, stdoutStreamer)
 	return objectStack.Up(ctx)
+}
+
+func DestroyStack(targetStack Stack) (auto.DestroyResult, error) {
+	logging.Debugf("Destroying stack %s", targetStack.StackName)
+	ctx := context.Background()
+	objectStack := GetStack(ctx, targetStack)
+	// TODO add when loglevel debug control in place
+	// stdoutStreamer := optup.ProgressStreams(os.Stdout)
+	// return objectStack.Up(ctx, stdoutStreamer)
+	return objectStack.Destroy(ctx)
 }

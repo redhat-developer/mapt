@@ -1,11 +1,12 @@
-package orchestrator
+package manager
 
 import (
 	"fmt"
 	"os"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws"
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/ec2"
+	ec2Spot "github.com/adrianriobo/qenvs/pkg/infra/aws/ec2/spot"
+	ec2Stacks "github.com/adrianriobo/qenvs/pkg/infra/aws/ec2/stacks"
+	awsMeta "github.com/adrianriobo/qenvs/pkg/infra/aws/meta"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
@@ -14,7 +15,7 @@ const BACKED_URL string = "file:///tmp/qenvs"
 const PROJECT_NAME string = "qenvs"
 
 func GetBestBidForSpot(azs, instanceTypes []string, productDescription string) error {
-	regions, err := aws.GetRegions(PROJECT_NAME, BACKED_URL)
+	regions, err := awsMeta.GetRegions(PROJECT_NAME, BACKED_URL)
 	if err != nil {
 		logging.Errorf("failed to get regions")
 		os.Exit(1)
@@ -26,7 +27,7 @@ func GetBestBidForSpot(azs, instanceTypes []string, productDescription string) e
 	}
 	worldwidePrices := getBestPricesPerRegion(
 		PROJECT_NAME, BACKED_URL, productDescription, regions, instanceTypes)
-	bestPrice := ec2.MinSpotPricePerRegions(worldwidePrices)
+	bestPrice := ec2Spot.MinSpotPricePerRegions(worldwidePrices)
 	if bestPrice != nil {
 		logging.Debugf("Best price found !!! instance type is %s on %s, current price is %s",
 			bestPrice.InstanceType, bestPrice.AvailabilityZone, bestPrice.Price)
@@ -35,12 +36,12 @@ func GetBestBidForSpot(azs, instanceTypes []string, productDescription string) e
 }
 
 func getBestPricesPerRegion(projectName, backedURL, productDescription string,
-	regions, instanceTypes []string) []ec2.SpotPriceData {
-	worldwidePrices := []ec2.SpotPriceData{}
-	c := make(chan ec2.SpotPriceResult)
+	regions, instanceTypes []string) []ec2Spot.SpotPriceData {
+	worldwidePrices := []ec2Spot.SpotPriceData{}
+	c := make(chan ec2Spot.SpotPriceResult)
 	for _, region := range regions {
 		for _, instanceType := range instanceTypes {
-			go ec2.GetBestSpotPriceAsync(
+			go ec2Stacks.GetBestSpotPriceAsync(
 				fmt.Sprintf("%s-%s", region, instanceType),
 				PROJECT_NAME,
 				BACKED_URL,
@@ -53,7 +54,7 @@ func getBestPricesPerRegion(projectName, backedURL, productDescription string,
 	for i := 0; i < len(regions)*len(instanceTypes); i++ {
 		spotPriceResult := <-c
 		if spotPriceResult.Err == nil {
-			worldwidePrices = append(worldwidePrices, ec2.SpotPriceData{
+			worldwidePrices = append(worldwidePrices, ec2Spot.SpotPriceData{
 				Price:            spotPriceResult.Data.Price,
 				AvailabilityZone: spotPriceResult.Data.AvailabilityZone,
 				Region:           spotPriceResult.Data.Region,
