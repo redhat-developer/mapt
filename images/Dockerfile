@@ -4,7 +4,7 @@ USER root
 WORKDIR /workspace
 COPY . .
 
-ENV PULUMI_VERSION 3.40.1
+ENV PULUMI_VERSION 3.40.2
 ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
 RUN make build \
