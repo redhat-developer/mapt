@@ -1,12 +1,12 @@
-package manager
+package orchestrator
 
 import (
 	"fmt"
 	"os"
 
 	ec2Spot "github.com/adrianriobo/qenvs/pkg/infra/aws/ec2/spot"
-	ec2Stacks "github.com/adrianriobo/qenvs/pkg/infra/aws/ec2/stacks"
-	awsMeta "github.com/adrianriobo/qenvs/pkg/infra/aws/meta"
+	awsEC2Stacks "github.com/adrianriobo/qenvs/pkg/infra/aws/ec2/stacks"
+	awsMetaStacks "github.com/adrianriobo/qenvs/pkg/infra/aws/meta/stacks"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
@@ -15,7 +15,7 @@ const BACKED_URL string = "file:///tmp/qenvs"
 const PROJECT_NAME string = "qenvs"
 
 func GetBestBidForSpot(azs, instanceTypes []string, productDescription string) error {
-	regions, err := awsMeta.GetRegions(PROJECT_NAME, BACKED_URL)
+	regions, err := awsMetaStacks.GetRegions(PROJECT_NAME, BACKED_URL)
 	if err != nil {
 		logging.Errorf("failed to get regions")
 		os.Exit(1)
@@ -41,7 +41,7 @@ func getBestPricesPerRegion(projectName, backedURL, productDescription string,
 	c := make(chan ec2Spot.SpotPriceResult)
 	for _, region := range regions {
 		for _, instanceType := range instanceTypes {
-			go ec2Stacks.GetBestSpotPriceAsync(
+			go awsEC2Stacks.GetBestSpotPriceAsync(
 				fmt.Sprintf("%s-%s", region, instanceType),
 				PROJECT_NAME,
 				BACKED_URL,

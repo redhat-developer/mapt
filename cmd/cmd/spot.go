@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/adrianriobo/qenvs/pkg/manager"
+	"github.com/adrianriobo/qenvs/pkg/orchestrator"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -34,7 +34,7 @@ var spotCmd = &cobra.Command{
 		if err := viper.BindPFlags(cmd.Flags()); err != nil {
 			return err
 		}
-		if err := manager.GetBestBidForSpot(
+		if err := orchestrator.GetBestBidForSpot(
 			util.SplitString(viper.GetString(availabilityZones), ","),
 			util.SplitString(viper.GetString(instanceTypes), ","),
 			viper.GetString(productDescription)); err != nil {

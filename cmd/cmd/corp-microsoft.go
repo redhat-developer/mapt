@@ -8,13 +8,6 @@ import (
 const (
 	corpMicrosoftCmdName        string = "corp"
 	corpMicrosoftCmdDescription string = "corp"
-
-	cidr                   string = "network-cidr"
-	cidrDesc               string = "cidr block for network"
-	publicSubnetCIDRs      string = "public-subnet-cidrs"
-	publicSubnetCIDRsDesc  string = "List of comma separated cidrs per public subnet."
-	privateSubnetCIDRs     string = "private-subnet-cidrs"
-	privateSubnetCIDRsDesc string = "List of comma separated cidrs per private subnet."
 )
 
 func init() {
@@ -28,12 +21,6 @@ var corpMicrosoftCmd = &cobra.Command{
 		if err := viper.BindPFlags(cmd.Flags()); err != nil {
 			return err
 		}
-		// if err := orchestrator.GetBestBidForSpot(
-		// 	util.SplitString(viper.GetString(availabilityZones), ","),
-		// 	util.SplitString(viper.GetString(instanceTypes), ","),
-		// 	viper.GetString(productDescription)); err != nil {
-		// 	logging.Error(err)
-		// }
 		return nil
 	},
 }
