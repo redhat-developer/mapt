@@ -9,8 +9,10 @@ import (
 )
 
 type PrivateSubnetRequest struct {
-	VPCID            string
-	NatGatewayID     string
+	VPC        *ec2.Vpc
+	Subnet     *ec2.Subnet
+	NatGateway *ec2.NatGateway
+
 	CIDR             string
 	AvailabilityZone string
 	Name             string
@@ -22,49 +24,57 @@ type PrivateSubnetResources struct {
 	RouteTableAssociation *ec2.RouteTableAssociation
 }
 
-func (s PrivateSubnetRequest) CreatePrivateSubnet(ctx *pulumi.Context) (*PrivateSubnetResources, error) {
+func (r PrivateSubnetRequest) Create(ctx *pulumi.Context) (*PrivateSubnetResources, error) {
+	snName := fmt.Sprintf("%s-%s", "subnet", r.Name)
 	sn, err := ec2.NewSubnet(ctx,
-		s.Name,
+		snName,
 		&ec2.SubnetArgs{
-			VpcId:            pulumi.String(s.VPCID),
-			CidrBlock:        pulumi.String(s.CIDR),
-			AvailabilityZone: pulumi.String(s.AvailabilityZone),
+			VpcId:            r.VPC.ID(),
+			CidrBlock:        pulumi.String(r.CIDR),
+			AvailabilityZone: pulumi.String(r.AvailabilityZone),
 			Tags: pulumi.StringMap{
-				"Name": pulumi.String(s.Name),
+				"Name": pulumi.String(snName),
 			},
 		})
 	if err != nil {
 		return nil, err
 	}
-	r, err := ec2.NewRouteTable(ctx,
-		fmt.Sprintf("%s-%s", "routeTable", s.Name),
+	rtName := fmt.Sprintf("%s-%s", "routeTable", r.Name)
+	rt, err := ec2.NewRouteTable(ctx,
+		rtName,
 		&ec2.RouteTableArgs{
-			VpcId: pulumi.String(s.VPCID),
-			Routes: ec2.RouteTableRouteArray{
-				&ec2.RouteTableRouteArgs{
-					CidrBlock: pulumi.String(vpcCommon.CIDR_ANY_IPV4),
-					GatewayId: pulumi.String(s.NatGatewayID),
-				},
-			},
+			VpcId:  r.VPC.ID(),
+			Routes: getRoutes(r.NatGateway),
 			Tags: pulumi.StringMap{
-				"Name": pulumi.String(s.Name),
+				"Name": pulumi.String(rtName),
 			},
 		})
 	if err != nil {
 		return nil, err
 	}
-	a, err := ec2.NewRouteTableAssociation(ctx,
-		fmt.Sprintf("%s-%s", "routeTableAssociation", s.Name),
+	rta, err := ec2.NewRouteTableAssociation(ctx,
+		fmt.Sprintf("%s-%s", "routeTableAssociation", r.Name),
 		&ec2.RouteTableAssociationArgs{
 			SubnetId:     sn.ID(),
-			RouteTableId: r.ID(),
+			RouteTableId: rt.ID(),
 		})
 	if err != nil {
 		return nil, err
 	}
 	return &PrivateSubnetResources{
 			Subnet:                sn,
-			RouteTable:            r,
-			RouteTableAssociation: a},
+			RouteTable:            rt,
+			RouteTableAssociation: rta},
 		nil
+}
+
+func getRoutes(natGateway *ec2.NatGateway) ec2.RouteTableRouteArray {
+	if natGateway != nil {
+		return ec2.RouteTableRouteArray{
+			&ec2.RouteTableRouteArgs{
+				CidrBlock: pulumi.String(vpcCommon.CIDR_ANY_IPV4),
+				GatewayId: natGateway.ID(),
+			}}
+	}
+	return nil
 }

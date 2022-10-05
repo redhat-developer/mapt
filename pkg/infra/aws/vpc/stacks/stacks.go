@@ -5,20 +5,22 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/vpc/orchestrator"
-	infraUtil "github.com/adrianriobo/qenvs/pkg/infra/util"
+	utilInfra "github.com/adrianriobo/qenvs/pkg/util/infra"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
 func CreateVPC(projectName, backedURL, cidr string,
-	azs, privateSubnets, publicSubnets []string) error {
+	azs, publicSubnets, privateSubnets, intraSubnets []string) error {
 
 	request := orchestrator.NetworkRequest{
 		CIDR:                cidr,
 		Name:                projectName,
 		AvailabilityZones:   azs,
 		PublicSubnetsCIDRs:  publicSubnets,
-		PrivateSubnetsCIDRs: privateSubnets}
-	stack := infraUtil.Stack{
+		PrivateSubnetsCIDRs: privateSubnets,
+		IntraSubnetsCIDRs:   intraSubnets,
+		SingleNatGateway:    false}
+	stack := utilInfra.Stack{
 		StackName:   orchestrator.StackCreateNetworkName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
@@ -26,7 +28,7 @@ func CreateVPC(projectName, backedURL, cidr string,
 		DeployFunc:  request.CreateNetwork,
 	}
 	// Exec stack
-	stackResult, err := infraUtil.ExecStack(stack)
+	stackResult, err := utilInfra.UpStack(stack)
 	if err != nil {
 		return err
 	}
@@ -39,12 +41,12 @@ func CreateVPC(projectName, backedURL, cidr string,
 }
 
 func DestroyVPC(projectName, backedURL string) error {
-	stack := infraUtil.Stack{
+	stack := utilInfra.Stack{
 		StackName:   orchestrator.StackCreateNetworkName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault}
-	_, err := infraUtil.DestroyStack(stack)
+	_, err := utilInfra.DestroyStack(stack)
 	if err != nil {
 		return err
 	}

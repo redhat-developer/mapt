@@ -1,4 +1,4 @@
-package util
+package infra
 
 import (
 	"context"
@@ -71,7 +71,7 @@ func GetStack(ctx context.Context, target Stack) auto.Stack {
 	return s
 }
 
-func ExecStack(targetStack Stack) (auto.UpResult, error) {
+func UpStack(targetStack Stack) (auto.UpResult, error) {
 	logging.Debugf("Creating stack %s", targetStack.StackName)
 	ctx := context.Background()
 	objectStack := GetStack(ctx, targetStack)
