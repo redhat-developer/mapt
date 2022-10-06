@@ -3,7 +3,7 @@ package network
 import (
 	"fmt"
 
-	vpcCommon "github.com/adrianriobo/qenvs/pkg/infra/aws/vpc"
+	"github.com/adrianriobo/qenvs/pkg/infra"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -63,7 +63,7 @@ func (s VPCRequest) CreateNetwork(ctx *pulumi.Context) (*VPCResources, error) {
 					ToPort:   pulumi.Int(0),
 					Protocol: pulumi.String("-1"),
 					CidrBlocks: pulumi.StringArray{
-						pulumi.String(vpcCommon.CIDR_ANY_IPV4),
+						pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4),
 					},
 				},
 			},
