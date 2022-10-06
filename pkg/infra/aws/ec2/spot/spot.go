@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strconv"
 
-	awsMeta "github.com/adrianriobo/qenvs/pkg/infra/aws/meta"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/meta/geo"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
@@ -44,7 +44,7 @@ func (s SpotPriceRequest) GetSpotPrice(ctx *pulumi.Context) error {
 	// If empty azs it will check all non opted-in
 	availabilityZones := util.If(len(s.AvailabilityZones) != 0,
 		s.AvailabilityZones,
-		awsMeta.GetAvailabilityZones(ctx))
+		geo.GetAvailabilityZones(ctx))
 
 	for _, availabilityZone := range availabilityZones {
 		if spotPrice, err := s.getSpotPriceByAZ(availabilityZone, ctx); err != nil {

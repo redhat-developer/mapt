@@ -19,43 +19,60 @@ type NetworkRequest struct {
 	SingleNatGateway    bool
 }
 
+type NetworkResources struct {
+	VPCResources       *vpc.VPCResources
+	PublicSNResources  []*subnet.PublicSubnetResources
+	PrivateSNResources []*subnet.PrivateSubnetResources
+	IntraSNResources   []*subnet.PrivateSubnetResources
+}
+
 const (
 	StackCreateNetworkName string = "Manage-Network"
 
 	StackCreateNetworkOutputVPCID string = "VPCID"
 )
 
-func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) error {
+func (r NetworkRequest) NetworkStackDeployer(ctx *pulumi.Context) (err error) {
+	_, err = r.CreateNetwork(ctx)
+	return
+}
+
+func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, error) {
 	// Data validation
 	if err := r.validate(); err != nil {
-		return err
+		return nil, err
 	}
 	// VPC creation
 	vpcRequest := vpc.VPCRequest{CIDR: r.CIDR, Name: r.Name}
 	vpcResult, err := vpcRequest.CreateNetwork(ctx)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	ctx.Export(StackCreateNetworkOutputVPCID, vpcResult.VPC.ID())
 	// Manage Public Subnets
 	publicSNResults, err :=
 		r.managePublicSubnets(vpcResult.VPC, vpcResult.InternetGateway, ctx, "public")
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// Manage Private Subnets
-	_, err =
+	privateSNResults, err :=
 		r.managePrivateSubnets(vpcResult.VPC, getNatGateways(publicSNResults), ctx, "private")
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// Manage Intra Subnets
-	_, err =
+	intraSNResults, err :=
 		r.manageIntraSubnets(vpcResult.VPC, ctx, "intra")
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return &NetworkResources{
+			VPCResources:       vpcResult,
+			PublicSNResources:  publicSNResults,
+			PrivateSNResources: privateSNResults,
+			IntraSNResources:   intraSNResults},
+		nil
 }
 
 func (r NetworkRequest) validate() error {

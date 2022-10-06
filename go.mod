@@ -3,7 +3,7 @@ module github.com/adrianriobo/qenvs
 go 1.18
 
 require (
-	github.com/pulumi/pulumi-aws/sdk/v5 v5.14.0
+	github.com/pulumi/pulumi-aws/sdk/v5 v5.16.2
 	github.com/pulumi/pulumi/sdk/v3 v3.40.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.5.0
