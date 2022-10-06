@@ -1,4 +1,4 @@
-package stacks
+package ec2
 
 import (
 	"fmt"

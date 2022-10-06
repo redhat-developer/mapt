@@ -1,4 +1,4 @@
-package orchestrator
+package vpc
 
 import (
 	"fmt"
@@ -25,7 +25,7 @@ func CreateNetwork(projectName, backedURL, cidr string,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault,
-		DeployFunc:  request.CreateNetwork,
+		DeployFunc:  request.NetworkStackDeployer,
 	}
 	// Exec stack
 	stackResult, err := utilInfra.UpStack(stack)
