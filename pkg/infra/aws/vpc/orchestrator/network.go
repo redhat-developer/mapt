@@ -1,18 +1,18 @@
-package stacks
+package orchestrator
 
 import (
 	"fmt"
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/vpc/orchestrator"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/vpc/stacks"
 	utilInfra "github.com/adrianriobo/qenvs/pkg/util/infra"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
-func CreateVPC(projectName, backedURL, cidr string,
+func CreateNetwork(projectName, backedURL, cidr string,
 	azs, publicSubnets, privateSubnets, intraSubnets []string) error {
 
-	request := orchestrator.NetworkRequest{
+	request := stacks.NetworkRequest{
 		CIDR:                cidr,
 		Name:                projectName,
 		AvailabilityZones:   azs,
@@ -21,7 +21,7 @@ func CreateVPC(projectName, backedURL, cidr string,
 		IntraSubnetsCIDRs:   intraSubnets,
 		SingleNatGateway:    false}
 	stack := utilInfra.Stack{
-		StackName:   orchestrator.StackCreateNetworkName,
+		StackName:   stacks.StackCreateNetworkName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault,
@@ -32,7 +32,7 @@ func CreateVPC(projectName, backedURL, cidr string,
 	if err != nil {
 		return err
 	}
-	vpcID, ok := stackResult.Outputs[orchestrator.StackCreateNetworkOutputVPCID].Value.(string)
+	vpcID, ok := stackResult.Outputs[stacks.StackCreateNetworkOutputVPCID].Value.(string)
 	if !ok {
 		return fmt.Errorf("error getting vpc id")
 	}
@@ -40,9 +40,9 @@ func CreateVPC(projectName, backedURL, cidr string,
 	return nil
 }
 
-func DestroyVPC(projectName, backedURL string) error {
+func DestroyNetwork(projectName, backedURL string) error {
 	stack := utilInfra.Stack{
-		StackName:   orchestrator.StackCreateNetworkName,
+		StackName:   stacks.StackCreateNetworkName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault}

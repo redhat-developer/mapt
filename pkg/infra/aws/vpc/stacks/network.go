@@ -1,4 +1,4 @@
-package orchestrator
+package stacks
 
 import (
 	"fmt"
