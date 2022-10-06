@@ -3,7 +3,7 @@ package subnet
 import (
 	"fmt"
 
-	vpcCommon "github.com/adrianriobo/qenvs/pkg/infra/aws/vpc"
+	"github.com/adrianriobo/qenvs/pkg/infra"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -72,7 +72,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 			VpcId: r.VPC.ID(),
 			Routes: ec2.RouteTableRouteArray{
 				&ec2.RouteTableRouteArgs{
-					CidrBlock: pulumi.String(vpcCommon.CIDR_ANY_IPV4),
+					CidrBlock: pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4),
 					GatewayId: r.InternetGateway.ID(),
 				},
 			},
