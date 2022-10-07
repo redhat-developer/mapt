@@ -10,7 +10,12 @@ import (
 const (
 	PRIVATE_KEY_TYPE string = "RSA PRIVATE KEY"
 	PUBLIC_KEY_TYPE  string = "RSA PUBLIC KEY"
+	DEFAULT_SIZE     int    = 4096
 )
+
+func CreateDefaultKey() (keyPEM, pubPEM []byte) {
+	return CreateKey(DEFAULT_SIZE)
+}
 
 func CreateKey(size int) (keyPEM, pubPEM []byte) {
 	key, err := rsa.GenerateKey(rand.Reader, size)
