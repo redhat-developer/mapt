@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/adrianriobo/qenvs/pkg/orchestrator"
+	spotPrice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -34,7 +34,8 @@ var spotCmd = &cobra.Command{
 		if err := viper.BindPFlags(cmd.Flags()); err != nil {
 			return err
 		}
-		if err := orchestrator.GetBestBidForSpot(
+		if err := spotPrice.GetBestBidForSpot(
+			"qenvs", "file:///tmp/qenvs",
 			util.SplitString(viper.GetString(availabilityZones), ","),
 			util.SplitString(viper.GetString(instanceTypes), ","),
 			viper.GetString(productDescription)); err != nil {
