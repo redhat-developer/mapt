@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/vpc"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
@@ -42,7 +42,7 @@ var corpMicrosoftCreateCmd = &cobra.Command{
 		if err := viper.BindPFlags(cmd.Flags()); err != nil {
 			return err
 		}
-		if err := vpc.CreateNetwork(
+		if err := network.CreateNetwork(
 			"qenvs", "file:///tmp/qenvs",
 			viper.GetString(cidr),
 			util.SplitString(viper.GetString(availabilityZones), ","),
