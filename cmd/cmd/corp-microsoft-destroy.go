@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/environment"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
@@ -24,7 +24,7 @@ var corpMicrosoftDestroyCmd = &cobra.Command{
 		if err := viper.BindPFlags(cmd.Flags()); err != nil {
 			return err
 		}
-		if err := network.DestroyNetwork("qenvs", "file:///tmp/qenvs"); err != nil {
+		if err := environment.Destroy("qenvs", "file:///tmp/qenvs"); err != nil {
 			logging.Error(err)
 		}
 		return nil

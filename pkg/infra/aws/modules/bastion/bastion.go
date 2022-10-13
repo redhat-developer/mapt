@@ -1,59 +1,48 @@
-package modules
+package bastion
 
 import (
 	// "github.com/pulumi/pulumi-aws/sdk/v5/go/aws/elb"
 
-	"fmt"
-
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/keypair"
+	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-type BastionRequest struct {
-	ProjectName string
-	Name        string
-	HA          bool
-	keyPair     *ec2.KeyPair
-	// loadBalancer *lb.LoadBalancer
-}
-
-type BastionResources struct {
-	LaunchTemplate *ec2.LaunchTemplate
-	Instance       *ec2.Instance
-	KeyPair        *ec2.KeyPair
-	// contains value if key is created within this module
-	KeyPEM []byte
-}
-
-const (
-	bastionDefaultAMI          string = "amzn2-ami-hvm-*-x86_64-gp2"
-	bastionDefaultInstanceType string = "t2.small"
-	// bastionDefaultDeviceType   string = "gp2"
-	// bastionDefaultDeviceSize   int    = 10
-)
-
 func (r BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
-	ami, err := ami.GetAMIByName(ctx, bastionDefaultAMI)
+	// Get keyName or create key pair
+	awsKeyPair, privateKey, err := r.manageKeypair(ctx)
 	if err != nil {
 		return nil, err
 	}
-	keyPair, keyPem, err := r.manageKeypair(ctx)
+	sg, err := securityGroup.SGRequest{
+		Name:         r.Name,
+		VPC:          r.VPC,
+		Description:  "bastion sg group",
+		IngressRules: []securityGroup.IngressRules{securityGroup.SSH_TCP}}.Create(ctx)
 	if err != nil {
 		return nil, err
 	}
-	name := fmt.Sprintf("%s-%s", r.ProjectName, r.Name)
+
 	var instance *ec2.Instance
 	if !r.HA {
+		ami, err := ami.GetAMIByName(ctx, bastionDefaultAMI)
+		if err != nil {
+			return nil, err
+		}
 		instance, err = ec2.NewInstance(ctx,
-			name,
+			r.Name,
 			&ec2.InstanceArgs{
-				Ami:          pulumi.String(ami.Id),
-				InstanceType: pulumi.String(bastionDefaultInstanceType),
 				Tags: pulumi.StringMap{
-					"Name": pulumi.String(name),
+					"Name": pulumi.String(r.Name),
 				},
+				SubnetId:            r.PublicSubnets[0].ID(),
+				Ami:                 pulumi.String(ami.Id),
+				InstanceType:        pulumi.String(bastionDefaultInstanceType),
+				KeyName:             awsKeyPair.KeyName,
+				VpcSecurityGroupIds: pulumi.StringArray{sg.SG.ID()},
 			})
 		if err != nil {
 			return nil, err
@@ -61,30 +50,34 @@ func (r BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
 	}
 
 	return &BastionResources{
-			KeyPair:  keyPair,
-			KeyPEM:   keyPem,
-			Instance: instance,
+			AWSKeyPair: awsKeyPair,
+			PrivateKey: privateKey,
+			Instance:   instance,
 		},
 		nil
 }
 
-func (r BastionRequest) manageKeypair(ctx *pulumi.Context) (*ec2.KeyPair, []byte, error) {
+func (r BastionRequest) manageKeypair(ctx *pulumi.Context) (*ec2.KeyPair, *tls.PrivateKey, error) {
 	if r.keyPair == nil {
 		// create key
 		keyResources, err := keypair.KeyPairRequest{
-			ProjectName: r.ProjectName,
-			Name:        r.Name}.Create(ctx)
+			Name: r.Name}.Create(ctx)
 		if err != nil {
 			return nil, nil, err
 		}
-		return keyResources.KeyPair, keyResources.KeyPEM, nil
+		ctx.Export(OutputPrivateKey, keyResources.PrivateKey.PrivateKeyPem)
+		return keyResources.AWSKeyPair, keyResources.PrivateKey, nil
 	}
 	return r.keyPair, nil, nil
 }
 
-// func manageHA(ctx *pulumi.Context, name string, ami *ec2.LookupAmiResult, keypair *ec2.KeyPair) (*ec2.Instance, error) {
-// 	lt, err := ec2.NewLaunchTemplate(ctx,
-// 		name,
+// func (r BastionRequest) getLaunchTemplate(ctx *pulumi.Context, sg *ec2.SecurityGroup, keyPair *ec2.KeyPair, ltName string) (*ec2.LaunchTemplate, error) {
+// 	ami, err := ami.GetAMIByName(ctx, bastionDefaultAMI)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return ec2.NewLaunchTemplate(ctx,
+// 		ltName,
 // 		&ec2.LaunchTemplateArgs{
 // 			// BlockDeviceMappings: ec2.LaunchTemplateBlockDeviceMappingArray{
 // 			// 	ec2.LaunchTemplateBlockDeviceMappingArgs{
@@ -93,14 +86,19 @@ func (r BastionRequest) manageKeypair(ctx *pulumi.Context) (*ec2.KeyPair, []byte
 // 			// 			VolumeSize: pulumi.Int(bastionDefaultDeviceSize)}},
 // 			// },
 // 			// InstanceMarketOptions: ec2.LaunchTemplateInstanceMarketOptionsArgs{SpotOptions: ec2.LaunchTemplateInstanceMarketOptionsSpotOptionsArgs{}}
-// 			NamePrefix:   pulumi.String(name),
-// 			ImageId:      pulumi.String(ami.Id),
-// 			InstanceType: pulumi.String(bastionDefaultInstanceType),
-// 			KeyName:      keypair.KeyName,
+// 			NamePrefix:          pulumi.String(ltName),
+// 			ImageId:             pulumi.String(ami.Id),
+// 			InstanceType:        pulumi.String(bastionDefaultInstanceType),
+// 			KeyName:             keyPair.KeyName,
+// 			VpcSecurityGroupIds: pulumi.StringArray{sg.ID()},
 // 		})
-// 	if err != nil {
-// 		return nil, err
-// 	}
+// }
+
+// func bastionHA(ctx *pulumi.Context, name string, ami *ec2.LookupAmiResult, keypair *ec2.KeyPair) (*ec2.Instance, error) {
+// lt, err := r.getLaunchTemplate(ctx, sg.SG, awsKeyPair, r.Name)
+// if err != nil {
+// 	return nil, err
+// }
 // 	_, err = autoscaling.NewGroup(ctx, "bar", &autoscaling.GroupArgs{
 // 		DesiredCapacity: pulumi.Int(1),
 // 		MaxSize:         pulumi.Int(1),

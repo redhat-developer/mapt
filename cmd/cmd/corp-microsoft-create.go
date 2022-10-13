@@ -5,8 +5,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
-	"github.com/adrianriobo/qenvs/pkg/util"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/environment"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
@@ -42,13 +41,13 @@ var corpMicrosoftCreateCmd = &cobra.Command{
 		if err := viper.BindPFlags(cmd.Flags()); err != nil {
 			return err
 		}
-		if err := network.CreateNetwork(
-			"qenvs", "file:///tmp/qenvs",
-			viper.GetString(cidr),
-			util.SplitString(viper.GetString(availabilityZones), ","),
-			util.SplitString(viper.GetString(publicSubnetCIDRs), ","),
-			util.SplitString(viper.GetString(privateSubnetCIDRs), ","),
-			util.SplitString(viper.GetString(intraSubnetCIDRs), ",")); err != nil {
+		if err := environment.Create(
+			"qenvs", "file:///tmp/qenvs"); err != nil {
+			// viper.GetString(cidr),
+			// util.SplitString(viper.GetString(availabilityZones), ","),
+			// util.SplitString(viper.GetString(publicSubnetCIDRs), ","),
+			// util.SplitString(viper.GetString(privateSubnetCIDRs), ","),
+			// util.SplitString(viper.GetString(intraSubnetCIDRs), ",")); err != nil {
 			logging.Error(err)
 		}
 		return nil

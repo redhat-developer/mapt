@@ -208,9 +208,10 @@ github.com/pkg/term/termios
 # github.com/pulumi/pulumi-aws/sdk/v5 v5.16.2
 ## explicit; go 1.17
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws
-github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2
-github.com/pulumi/pulumi-aws/sdk/v5/go/aws/lb
+# github.com/pulumi/pulumi-tls/sdk/v4 v4.6.1
+## explicit; go 1.17
+github.com/pulumi/pulumi-tls/sdk/v4/go/tls
 # github.com/pulumi/pulumi/sdk/v3 v3.40.0
 ## explicit; go 1.17
 github.com/pulumi/pulumi/sdk/v3/go/auto
