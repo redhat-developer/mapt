@@ -1,8 +1,6 @@
 package securitygroup
 
 import (
-	"fmt"
-
 	"github.com/adrianriobo/qenvs/pkg/infra"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -27,16 +25,15 @@ type SGResources struct {
 }
 
 func (r SGRequest) Create(ctx *pulumi.Context) (*SGResources, error) {
-	sgName := fmt.Sprintf("%s-%s", "sg", r.Name)
 	sg, err := ec2.NewSecurityGroup(ctx,
-		sgName,
+		r.Name,
 		&ec2.SecurityGroupArgs{
 			Description: pulumi.String(r.Description),
 			VpcId:       r.VPC.ID(),
 			Ingress:     getSecurityGroupIngressArray(r.IngressRules),
 			Egress:      ec2.SecurityGroupEgressArray{egressAll},
 			Tags: pulumi.StringMap{
-				"Name": pulumi.String(sgName),
+				"Name": pulumi.String(r.Name),
 			},
 		})
 	if err != nil {

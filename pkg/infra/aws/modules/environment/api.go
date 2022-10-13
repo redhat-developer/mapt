@@ -1,14 +1,14 @@
 package environment
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/bastion"
 	utilInfra "github.com/adrianriobo/qenvs/pkg/util/infra"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
-
-type corporateEnvironmentRequest struct {
-	name string
-}
 
 func Create(projectName, backedURL string) error {
 	request := corporateEnvironmentRequest{
@@ -25,7 +25,15 @@ func Create(projectName, backedURL string) error {
 		DeployFunc:  request.deployer,
 	}
 	// Exec stack
-	_, err := utilInfra.UpStack(stack)
+	stackResult, err := utilInfra.UpStack(stack)
+	if err != nil {
+		return err
+	}
+	bastionPrivateKey, ok := stackResult.Outputs[bastion.OutputPrivateKey].Value.(string)
+	if !ok {
+		return fmt.Errorf("error getting private key for bastion")
+	}
+	err = os.WriteFile("/tmp/qenvs/id_rsa", []byte(bastionPrivateKey), 0600)
 	if err != nil {
 		return err
 	}
@@ -33,7 +41,7 @@ func Create(projectName, backedURL string) error {
 	return nil
 }
 
-func DestroyNetwork(projectName, backedURL string) error {
+func Destroy(projectName, backedURL string) error {
 	stack := utilInfra.Stack{
 		StackName:   stackCreateEnvironmentName,
 		ProjectName: projectName,
