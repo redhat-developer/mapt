@@ -2,8 +2,8 @@ package regions
 
 import (
 	awsCommon "github.com/adrianriobo/qenvs/pkg/infra/aws"
+	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util"
-	utilInfra "github.com/adrianriobo/qenvs/pkg/util/infra"
 )
 
 func GetRegions(projectName, backedURL string) ([]string, error) {
