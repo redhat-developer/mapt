@@ -209,6 +209,10 @@ github.com/pkg/term/termios
 ## explicit; go 1.17
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2
+# github.com/pulumi/pulumi-command/sdk v0.5.2
+## explicit; go 1.17
+github.com/pulumi/pulumi-command/sdk/go/command
+github.com/pulumi/pulumi-command/sdk/go/command/remote
 # github.com/pulumi/pulumi-tls/sdk/v4 v4.6.1
 ## explicit; go 1.17
 github.com/pulumi/pulumi-tls/sdk/v4/go/tls

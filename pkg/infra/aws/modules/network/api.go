@@ -5,7 +5,7 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
 
-	utilInfra "github.com/adrianriobo/qenvs/pkg/util/infra"
+	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 

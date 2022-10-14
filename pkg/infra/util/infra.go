@@ -1,4 +1,4 @@
-package infra
+package util
 
 import (
 	"context"

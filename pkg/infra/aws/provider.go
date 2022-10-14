@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	infraUtil "github.com/adrianriobo/qenvs/pkg/util/infra"
+	infraUtil "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )

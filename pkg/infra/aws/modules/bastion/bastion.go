@@ -6,13 +6,14 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
+	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
+	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 func (r BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
-	// Get keyName or create key pair
 	awsKeyPair, privateKey, err := r.manageKeypair(ctx)
 	if err != nil {
 		return nil, err
@@ -38,23 +39,26 @@ func (r BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
 				Tags: pulumi.StringMap{
 					"Name": pulumi.String(r.Name),
 				},
-				SubnetId:            r.PublicSubnets[0].ID(),
-				Ami:                 pulumi.String(ami.Id),
-				InstanceType:        pulumi.String(bastionDefaultInstanceType),
-				KeyName:             awsKeyPair.KeyName,
-				VpcSecurityGroupIds: pulumi.StringArray{sg.SG.ID()},
+				SubnetId:                 r.PublicSubnets[0].ID(),
+				Ami:                      pulumi.String(ami.Id),
+				InstanceType:             pulumi.String(bastionDefaultInstanceType),
+				KeyName:                  awsKeyPair.KeyName,
+				VpcSecurityGroupIds:      pulumi.StringArray{sg.SG.ID()},
+				AssociatePublicIpAddress: pulumi.Bool(true),
 			})
 		if err != nil {
 			return nil, err
 		}
+		ctx.Export(OutputPublicIP, instance.PublicIp)
+		ctx.Export(OutputUsername, pulumi.String(bastionDefaultAMIUser))
 	}
-
-	return &BastionResources{
-			AWSKeyPair: awsKeyPair,
-			PrivateKey: privateKey,
-			Instance:   instance,
-		},
-		nil
+	bastion := BastionResources{
+		AWSKeyPair: awsKeyPair,
+		PrivateKey: privateKey,
+		Instance:   instance,
+	}
+	return &bastion, bastion.waitForInit(ctx)
+	// return &bastion, nil
 }
 
 func (r BastionRequest) manageKeypair(ctx *pulumi.Context) (*ec2.KeyPair, *tls.PrivateKey, error) {
@@ -69,6 +73,17 @@ func (r BastionRequest) manageKeypair(ctx *pulumi.Context) (*ec2.KeyPair, *tls.P
 		return keyResources.AWSKeyPair, keyResources.PrivateKey, nil
 	}
 	return r.keyPair, nil, nil
+}
+
+func (b BastionResources) waitForInit(ctx *pulumi.Context) error {
+	bastion := command.RemoteInstance{
+		Instace:    b.Instance,
+		Username:   bastionDefaultAMIUser,
+		PrivateKey: b.PrivateKey}
+	logging.Debug("Waiting for bastion to initialize")
+	return bastion.RemoteCommandAwait(bastion.RemoteCommand,
+		ctx, command.CommandPing)
+	// return bastion.RemoteCommand(ctx, command.CommandPing)
 }
 
 // func (r BastionRequest) getLaunchTemplate(ctx *pulumi.Context, sg *ec2.SecurityGroup, keyPair *ec2.KeyPair, ltName string) (*ec2.LaunchTemplate, error) {

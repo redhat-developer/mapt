@@ -6,8 +6,8 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/meta/regions"
+	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util"
-	utilInfra "github.com/adrianriobo/qenvs/pkg/util/infra"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 

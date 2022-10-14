@@ -3,11 +3,13 @@ package environment
 import (
 	"fmt"
 	"os"
+	"path"
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/bastion"
-	utilInfra "github.com/adrianriobo/qenvs/pkg/util/infra"
+	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
 
 func Create(projectName, backedURL string) error {
@@ -29,15 +31,28 @@ func Create(projectName, backedURL string) error {
 	if err != nil {
 		return err
 	}
-	bastionPrivateKey, ok := stackResult.Outputs[bastion.OutputPrivateKey].Value.(string)
-	if !ok {
-		return fmt.Errorf("error getting private key for bastion")
+	if err = writeOutput(stackResult, bastion.OutputPrivateKey, "/tmp/qenvs", "id_rsa"); err != nil {
+		return err
 	}
-	err = os.WriteFile("/tmp/qenvs/id_rsa", []byte(bastionPrivateKey), 0600)
-	if err != nil {
+	if err = writeOutput(stackResult, bastion.OutputPublicIP, "/tmp/qenvs", "host"); err != nil {
+		return err
+	}
+	if err = writeOutput(stackResult, bastion.OutputUsername, "/tmp/qenvs", "username"); err != nil {
 		return err
 	}
 	logging.Debug("Environment has been created")
+	return nil
+}
+
+func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destinationFilename string) error {
+	value, ok := stackResult.Outputs[outputkey].Value.(string)
+	if !ok {
+		return fmt.Errorf("error getting private key for bastion")
+	}
+	err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value), 0600)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

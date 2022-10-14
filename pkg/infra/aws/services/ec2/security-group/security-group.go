@@ -57,5 +57,5 @@ func getSecurityGroupIngressArray(rules []IngressRules) (sgia ec2.SecurityGroupI
 			},
 		})
 	}
-	return nil
+	return sgia
 }
