@@ -81,9 +81,9 @@ func (b BastionResources) waitForInit(ctx *pulumi.Context) error {
 		Username:   bastionDefaultAMIUser,
 		PrivateKey: b.PrivateKey}
 	logging.Debug("Waiting for bastion to initialize")
-	return bastion.RemoteCommandAwait(bastion.RemoteCommand,
-		ctx, command.CommandPing)
-	// return bastion.RemoteCommand(ctx, command.CommandPing)
+	// return bastion.RemoteCommandAwait(bastion.RemoteCommand,
+	// 	ctx, command.CommandPing)
+	return bastion.RemoteCommand(ctx, command.CommandPing)
 }
 
 // func (r BastionRequest) getLaunchTemplate(ctx *pulumi.Context, sg *ec2.SecurityGroup, keyPair *ec2.KeyPair, ltName string) (*ec2.LaunchTemplate, error) {
