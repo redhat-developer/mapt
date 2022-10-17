@@ -10,7 +10,7 @@ Create a composable environment with different qe target machines aggregated on 
 
 Current available features using cmd `qenvs corp create`
 
-![Environment](docs/diagrams/base.jpg?raw=true)
+![Environment](./docs/diagrams/base.svg)
 
 ## Spot price use case
 
