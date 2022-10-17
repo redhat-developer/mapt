@@ -7,6 +7,8 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
+	"github.com/pulumi/pulumi/sdk/v3/go/auto/optdestroy"
+	"github.com/pulumi/pulumi/sdk/v3/go/auto/optup"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -76,17 +78,18 @@ func UpStack(targetStack Stack) (auto.UpResult, error) {
 	ctx := context.Background()
 	objectStack := GetStack(ctx, targetStack)
 	// TODO add when loglevel debug control in place
-	// stdoutStreamer := optup.ProgressStreams(os.Stdout)
-	// return objectStack.Up(ctx, stdoutStreamer)
-	return objectStack.Up(ctx)
+	w := logging.GetWritter()
+	defer w.Close()
+	stdoutStreamer := optup.ProgressStreams(w)
+	return objectStack.Up(ctx, stdoutStreamer)
 }
 
 func DestroyStack(targetStack Stack) (auto.DestroyResult, error) {
 	logging.Debugf("Destroying stack %s", targetStack.StackName)
 	ctx := context.Background()
 	objectStack := GetStack(ctx, targetStack)
-	// TODO add when loglevel debug control in place
-	// stdoutStreamer := optup.ProgressStreams(os.Stdout)
-	// return objectStack.Up(ctx, stdoutStreamer)
-	return objectStack.Destroy(ctx)
+	w := logging.GetWritter()
+	defer w.Close()
+	stdoutStreamer := optdestroy.ProgressStreams(w)
+	return objectStack.Destroy(ctx, stdoutStreamer)
 }

@@ -53,6 +53,11 @@ func InitLogrus(basePath, fileName string) {
 	for k, v := range logrus.StandardLogger().Hooks {
 		originalHooks[k] = v
 	}
+
+}
+
+func GetWritter() *io.PipeWriter {
+	return logrus.StandardLogger().Writer()
 }
 
 func Info(args ...interface{}) {
