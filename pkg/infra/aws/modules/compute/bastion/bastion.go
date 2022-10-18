@@ -3,26 +3,27 @@ package bastion
 import (
 	// "github.com/pulumi/pulumi-aws/sdk/v5/go/aws/elb"
 
+	"github.com/adrianriobo/qenvs/pkg/infra"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
 	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
-	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 func (r BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
-	awsKeyPair, privateKey, err := r.manageKeypair(ctx)
+	awsKeyPair, privateKey, err := compute.ManageKeypair(ctx, r.keyPair, r.Name, OutputPrivateKey)
 	if err != nil {
 		return nil, err
 	}
+	bastionIngressRule := securityGroup.SSH_TCP
+	bastionIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
 	sg, err := securityGroup.SGRequest{
 		Name:         r.Name,
 		VPC:          r.VPC,
 		Description:  "bastion sg group",
-		IngressRules: []securityGroup.IngressRules{securityGroup.SSH_TCP}}.Create(ctx)
+		IngressRules: []securityGroup.IngressRules{bastionIngressRule}}.Create(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56,34 +57,18 @@ func (r BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
 		AWSKeyPair: awsKeyPair,
 		PrivateKey: privateKey,
 		Instance:   instance,
+		SG:         sg.SG,
 	}
+	// return &bastion, bastion.toRemoteIsn waitForInit(ctx)
 	return &bastion, bastion.waitForInit(ctx)
 	// return &bastion, nil
 }
 
-func (r BastionRequest) manageKeypair(ctx *pulumi.Context) (*ec2.KeyPair, *tls.PrivateKey, error) {
-	if r.keyPair == nil {
-		// create key
-		keyResources, err := keypair.KeyPairRequest{
-			Name: r.Name}.Create(ctx)
-		if err != nil {
-			return nil, nil, err
-		}
-		ctx.Export(OutputPrivateKey, keyResources.PrivateKey.PrivateKeyPem)
-		return keyResources.AWSKeyPair, keyResources.PrivateKey, nil
-	}
-	return r.keyPair, nil, nil
-}
-
-func (b BastionResources) waitForInit(ctx *pulumi.Context) error {
-	bastion := command.RemoteInstance{
-		Instace:    b.Instance,
+func (c BastionResources) waitForInit(ctx *pulumi.Context) error {
+	return command.RemoteInstance{
+		Instace:    c.Instance,
 		Username:   bastionDefaultAMIUser,
-		PrivateKey: b.PrivateKey}
-	logging.Debug("Waiting for bastion to initialize")
-	// return bastion.RemoteCommandAwait(bastion.RemoteCommand,
-	// 	ctx, command.CommandPing)
-	return bastion.RemoteCommand(ctx, command.CommandPing)
+		PrivateKey: c.PrivateKey}.RemoteExec(ctx, command.CommandPing, "bastion-WaitForConnect")
 }
 
 // func (r BastionRequest) getLaunchTemplate(ctx *pulumi.Context, sg *ec2.SecurityGroup, keyPair *ec2.KeyPair, ltName string) (*ec2.LaunchTemplate, error) {

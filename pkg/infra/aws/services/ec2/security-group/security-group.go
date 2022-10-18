@@ -11,6 +11,8 @@ type IngressRules struct {
 	FromPort    int
 	ToPort      int
 	Protocol    string
+	CidrBlocks  string
+	SG          *ec2.SecurityGroup
 }
 
 type SGRequest struct {
@@ -44,18 +46,20 @@ func (r SGRequest) Create(ctx *pulumi.Context) (*SGResources, error) {
 
 func getSecurityGroupIngressArray(rules []IngressRules) (sgia ec2.SecurityGroupIngressArray) {
 	for _, r := range rules {
-		sgia = append(sgia, &ec2.SecurityGroupIngressArgs{
+		args := &ec2.SecurityGroupIngressArgs{
 			Description: pulumi.String(r.Description),
 			FromPort:    pulumi.Int(r.FromPort),
 			ToPort:      pulumi.Int(r.ToPort),
 			Protocol:    pulumi.String(r.Protocol),
-			CidrBlocks: pulumi.StringArray{
-				pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4),
-			},
-			Ipv6CidrBlocks: pulumi.StringArray{
-				pulumi.String(infra.NETWORKING_CIDR_ANY_IPV6),
-			},
-		})
+		}
+		if r.SG != nil {
+			args.SecurityGroups = pulumi.StringArray{r.SG.ID()}
+		} else if len(r.CidrBlocks) > 0 {
+			args.CidrBlocks = pulumi.StringArray{pulumi.String(r.CidrBlocks)}
+		} else {
+			args.CidrBlocks = pulumi.StringArray{pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4)}
+		}
+		sgia = append(sgia, args)
 	}
 	return sgia
 }

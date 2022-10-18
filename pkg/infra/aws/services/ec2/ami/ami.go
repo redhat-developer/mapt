@@ -6,6 +6,7 @@ import (
 )
 
 const awsOwnerID string = "137112412989"
+const redhatOwnerID string = "309956199498"
 
 // Looks for the AMI ID on the current Region based on name
 // it only allows images from AWS and self
@@ -18,7 +19,7 @@ func GetAMIByName(ctx *pulumi.Context, imageName string) (*ec2.LookupAmiResult, 
 				Values: []string{imageName},
 			},
 		},
-		Owners:     []string{awsOwnerID},
+		Owners:     []string{awsOwnerID, redhatOwnerID},
 		MostRecent: &mostRecent,
 	})
 }

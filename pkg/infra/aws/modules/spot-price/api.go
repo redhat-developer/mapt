@@ -11,7 +11,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
-func GetBestBidForSpot(projectName, backedURL string, azs, instanceTypes []string, productDescription string) error {
+func BestSpotPriceInfo(projectName, backedURL string, azs, instanceTypes []string, productDescription string) (*SpotPriceData, error) {
 	regions, err := regions.GetRegions(projectName, backedURL)
 	if err != nil {
 		logging.Errorf("failed to get regions")
@@ -20,7 +20,7 @@ func GetBestBidForSpot(projectName, backedURL string, azs, instanceTypes []strin
 	logging.Debugf("Got all regions %v", regions)
 	// validations
 	if len(instanceTypes) == 0 {
-		return fmt.Errorf("instance type is required")
+		return nil, fmt.Errorf("instance type is required")
 	}
 	worldwidePrices := getBestPricesPerRegion(
 		projectName, backedURL, productDescription, regions, instanceTypes)
@@ -29,7 +29,7 @@ func GetBestBidForSpot(projectName, backedURL string, azs, instanceTypes []strin
 		logging.Debugf("Best price found !!! instance type is %s on %s, current price is %s",
 			bestPrice.InstanceType, bestPrice.AvailabilityZone, bestPrice.Price)
 	}
-	return nil
+	return bestPrice, nil
 }
 
 func getBestPricesPerRegion(projectName, backedURL, productDescription string,
