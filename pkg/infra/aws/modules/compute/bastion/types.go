@@ -17,6 +17,7 @@ type BastionRequest struct {
 type BastionResources struct {
 	LaunchTemplate *ec2.LaunchTemplate
 	Instance       *ec2.Instance
+	SG             *ec2.SecurityGroup
 	AWSKeyPair     *ec2.KeyPair
 	// contains value if key is created within this module
 	PrivateKey *tls.PrivateKey

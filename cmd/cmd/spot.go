@@ -34,7 +34,7 @@ var spotCmd = &cobra.Command{
 		if err := viper.BindPFlags(cmd.Flags()); err != nil {
 			return err
 		}
-		if err := spotPrice.GetBestBidForSpot(
+		if _, err := spotPrice.BestSpotPriceInfo(
 			"qenvs", "file:///tmp/qenvs",
 			util.SplitString(viper.GetString(availabilityZones), ","),
 			util.SplitString(viper.GetString(instanceTypes), ","),

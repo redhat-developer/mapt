@@ -13,11 +13,11 @@ import (
 func DefaultNetworkRequest(ctx *pulumi.Context, name string) NetworkRequest {
 	return NetworkRequest{
 		Name:                name,
-		CIDR:                cidrNetowrk,
+		CIDR:                DefaultCIDRNetwork,
 		AvailabilityZones:   azs.GetAvailabilityZones(ctx)[:3],
-		PublicSubnetsCIDRs:  cidrPublicSubnets[:],
-		PrivateSubnetsCIDRs: cidrPrivateSubnets[:],
-		IntraSubnetsCIDRs:   cidrIntraSubnets[:],
+		PublicSubnetsCIDRs:  DefaultCIDRPublicSubnets[:],
+		PrivateSubnetsCIDRs: DefaultCIDRPrivateSubnets[:],
+		IntraSubnetsCIDRs:   DefaultCIDRIntraSubnets[:],
 		SingleNatGateway:    false}
 
 }

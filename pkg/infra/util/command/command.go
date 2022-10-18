@@ -1,6 +1,8 @@
 package command
 
 import (
+	"fmt"
+
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
@@ -19,18 +21,23 @@ const (
 )
 
 type RemoteInstance struct {
-	Instace    *ec2.Instance
-	Username   string
-	PrivateKey *tls.PrivateKey
+	SpotInstanceRequest *ec2.SpotInstanceRequest
+	Instace             *ec2.Instance
+	Username            string
+	PrivateKey          *tls.PrivateKey
 }
 
 // Remote command success if error = nil
-type RemoteCommand func(ctx *pulumi.Context, remoteCommand string) error
+type RemoteCommand func(ctx *pulumi.Context, remoteCommand, remoteCommandName string) error
 
-func (r RemoteInstance) RemoteCommand(ctx *pulumi.Context, remoteCommand string) error {
-	_, err := remote.NewCommand(ctx, "WaitForConnect", &remote.CommandArgs{
+func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand, remoteCommandName string) error {
+	remoteIP, err := r.getRemoteHost()
+	if err != nil {
+		return err
+	}
+	_, err = remote.NewCommand(ctx, remoteCommandName, &remote.CommandArgs{
 		Connection: remote.ConnectionArgs{
-			Host:       r.Instace.PublicIp,
+			Host:       remoteIP,
 			PrivateKey: r.PrivateKey.PrivateKeyOpenssh,
 			User:       pulumi.String(r.Username),
 			Port:       pulumi.Float64(defaultSSHPort),
@@ -45,6 +52,16 @@ func (r RemoteInstance) RemoteCommand(ctx *pulumi.Context, remoteCommand string)
 		return err
 	}
 	return nil
+}
+
+func (r RemoteInstance) getRemoteHost() (pulumi.StringOutput, error) {
+	if r.Instace != nil {
+		return r.Instace.PublicIp, nil
+	}
+	if r.SpotInstanceRequest != nil {
+		return r.SpotInstanceRequest.PublicIp, nil
+	}
+	return pulumi.StringOutput{}, fmt.Errorf("a valid instance or spot request is required to exec a remote command")
 }
 
 // func (r RemoteInstance) RemoteCommandAwait(c RemoteCommand, ctx *pulumi.Context, remoteCommand string) error {
