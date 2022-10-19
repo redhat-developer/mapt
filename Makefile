@@ -31,7 +31,6 @@ install: $(SOURCES)
 	go install -ldflags="$(LDFLAGS)" $(GO_EXTRA_BUILDFLAGS) ./cmd
 
 $(BUILD_DIR)/qenvs: $(SOURCES)
-	GOOS=linux GOARCH=amd64 go generate ./...
 	GOOS=linux GOARCH=amd64 go build -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/qenvs $(GO_EXTRA_BUILDFLAGS) ./cmd
 
 
