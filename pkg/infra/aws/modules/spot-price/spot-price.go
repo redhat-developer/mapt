@@ -9,6 +9,10 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
 )
 
 func (s SpotPriceRequest) GetSpotPrice(ctx *pulumi.Context) error {
@@ -72,4 +76,35 @@ func minSpotPricePerRegions(source []SpotPriceData) *SpotPriceData {
 		return iPrice < jPrice
 	})
 	return &source[0]
+}
+
+func (s SpotPriceRequest) AWSGetSpotPrice() (*awsEC2.SpotPrice, error) {
+
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("us-west-2")})
+	// Create an EC2 service client.
+	if err != nil {
+		return nil, err
+	}
+	svc := awsEC2.New(sess)
+	history, err := svc.DescribeSpotPriceHistory(&awsEC2.DescribeSpotPriceHistoryInput{
+		InstanceTypes: []*string{&s.InstanceType},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return min(history.SpotPriceHistory), nil
+}
+
+func min(prices []*awsEC2.SpotPrice) *awsEC2.SpotPrice {
+	if len(prices) == 0 {
+		return nil
+	}
+	sort.Slice(prices, func(i, j int) bool {
+		iPrice, _ := strconv.ParseFloat(*prices[i].SpotPrice, 64)
+		jPrice, _ := strconv.ParseFloat(*prices[j].SpotPrice, 64)
+		return iPrice < jPrice
+	})
+	return prices[0]
 }

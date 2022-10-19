@@ -14,17 +14,28 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
 
-func Create(projectName, backedURL string) error {
+func Create(projectName, backedURL string, spot, public bool) (err error) {
 
 	// TODO define Parse configuration for env
 
 	// If option for best price in...
-	spotPriceInfo, err := spotprice.BestSpotPriceInfo(projectName, backedURL,
-		[]string{},
-		[]string{"c5n.metal"},
-		"Red Hat Enterprise Linux")
-	if err != nil {
-		return err
+	var spotPriceInfo *spotprice.SpotPriceData
+	var availabilityZones = network.DefaultAvailabilityZones[:1]
+	var spotPrice string
+	var plugin = aws.PluginAWSDefault
+	if spot {
+		spotPriceInfo, err = spotprice.BestSpotPriceInfo(projectName, backedURL,
+			[]string{},
+			[]string{"c5n.metal"},
+			"Red Hat Enterprise Linux")
+		if err != nil {
+			return err
+		}
+		availabilityZones = []string{spotPriceInfo.AvailabilityZone}
+		spotPrice = spotPriceInfo.Price
+		plugin = aws.GetPluginAWS(
+			map[string]string{
+				aws.CONFIG_AWS_REGION: spotPriceInfo.Region})
 	}
 
 	// Based on spot price info the full environment will be created
@@ -33,15 +44,15 @@ func Create(projectName, backedURL string) error {
 		network: &network.NetworkRequest{
 			Name:               fmt.Sprintf("%s-%s", projectName, "network"),
 			CIDR:               network.DefaultCIDRNetwork,
-			AvailabilityZones:  []string{spotPriceInfo.AvailabilityZone},
+			AvailabilityZones:  availabilityZones,
 			PublicSubnetsCIDRs: network.DefaultCIDRPublicSubnets[:1],
-			SingleNatGateway:   true,
+			SingleNatGateway:   false,
 		},
 		rhel: &rhel.RHELRequest{
 			Name:         fmt.Sprintf("%s-%s", projectName, "rhel"),
 			VersionMajor: rhel.VERSION_8,
-			Public:       true,
-			SpotPrice:    spotPriceInfo.Price,
+			Public:       public,
+			SpotPrice:    spotPrice,
 		},
 	}
 
@@ -50,10 +61,8 @@ func Create(projectName, backedURL string) error {
 		StackName:   stackCreateEnvironmentName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
-		Plugin: aws.GetPluginAWS(
-			map[string]string{
-				aws.CONFIG_AWS_REGION: spotPriceInfo.Region}),
-		DeployFunc: request.deployer,
+		Plugin:      plugin,
+		DeployFunc:  request.deployer,
 	}
 	// Exec stack
 	stackResult, err := utilInfra.UpStack(stack)
@@ -95,7 +104,7 @@ func Create(projectName, backedURL string) error {
 func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destinationFilename string) error {
 	value, ok := stackResult.Outputs[outputkey].Value.(string)
 	if !ok {
-		return fmt.Errorf("error getting private key for bastion")
+		return fmt.Errorf("error getting %s", outputkey)
 	}
 	err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value), 0600)
 	if err != nil {

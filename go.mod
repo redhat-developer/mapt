@@ -3,6 +3,7 @@ module github.com/adrianriobo/qenvs
 go 1.18
 
 require (
+	github.com/aws/aws-sdk-go v1.44.118
 	github.com/pulumi/pulumi-aws/sdk/v5 v5.16.2
 	github.com/pulumi/pulumi-command/sdk v0.5.2
 	github.com/pulumi/pulumi-tls/sdk/v4 v4.6.1
@@ -13,6 +14,7 @@ require (
 
 require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
