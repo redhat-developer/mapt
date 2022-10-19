@@ -70,11 +70,12 @@ func (r RHELRequest) Create(ctx *pulumi.Context) (*RHELResources, error) {
 		i, err = ec2.NewInstance(ctx,
 			r.Name,
 			&ec2.InstanceArgs{
-				SubnetId:            r.Subnets[0].ID(),
-				Ami:                 pulumi.String(ami.Id),
-				InstanceType:        pulumi.String(defaultInstanceType),
-				KeyName:             awsKeyPair.KeyName,
-				VpcSecurityGroupIds: pulumi.StringArray{sg.SG.ID()},
+				SubnetId:                 r.Subnets[0].ID(),
+				Ami:                      pulumi.String(ami.Id),
+				InstanceType:             pulumi.String(defaultInstanceType),
+				KeyName:                  awsKeyPair.KeyName,
+				AssociatePublicIpAddress: pulumi.Bool(r.Public),
+				VpcSecurityGroupIds:      pulumi.StringArray{sg.SG.ID()},
 				Tags: pulumi.StringMap{
 					"Name": pulumi.String(r.Name),
 				},
