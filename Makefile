@@ -31,7 +31,7 @@ install: $(SOURCES)
 	go install -ldflags="$(LDFLAGS)" $(GO_EXTRA_BUILDFLAGS) ./cmd
 
 $(BUILD_DIR)/qenvs: $(SOURCES)
-	GOOS=linux GOARCH=amd64 go build -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/qenvs $(GO_EXTRA_BUILDFLAGS) ./cmd
+	GOOS=linux GOARCH=amd64 go build -x -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/qenvs $(GO_EXTRA_BUILDFLAGS) ./cmd
 
 
  
@@ -40,7 +40,7 @@ build: $(BUILD_DIR)/qenvs
 
 .PHONY: test
 test:
-	go test -race --tags build -v -ldflags="$(VERSION_VARIABLES)" ./pkg/... ./cmd/...
+	go test -race --tags build -v -x -ldflags="$(VERSION_VARIABLES)" ./pkg/... ./cmd/...
 
 .PHONY: clean ## Remove all build artifacts
 clean:
@@ -61,7 +61,7 @@ lint: $(GOPATH)/bin/golangci-lint
 
 # Build the container image
 .PHONY: container-build
-container-build: test
+container-build: clean
 	${CONTAINER_MANAGER} build -t ${IMG} -f images/Dockerfile .
 
 # Push the docker image
