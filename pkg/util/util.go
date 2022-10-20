@@ -19,8 +19,8 @@ func ArrayCast[T any](source []interface{}) []T {
 	return result
 }
 
-func ArrayConvert[T any, X any](source []*X,
-	convert func(item *X) T) []T {
+func ArrayConvert[T any, Y any](source []Y,
+	convert func(item Y) T) []T {
 	var result []T
 	for _, item := range source {
 		result = append(result, convert(item))

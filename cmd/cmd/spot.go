@@ -14,16 +14,14 @@ const (
 	spotCmdName        string = "spot"
 	spotCmdDescription string = "spot"
 
-	instanceTypes      string = "instance-types"
-	productDescription string = "product-description"
+	supportedHostID string = "host-id"
 )
 
 func init() {
 	rootCmd.AddCommand(spotCmd)
 	flagSet := pflag.NewFlagSet(spotCmdName, pflag.ExitOnError)
 	flagSet.StringP(availabilityZones, "", "", availabilityZonesDesc)
-	flagSet.StringP(instanceTypes, "i", "", "List of comma separated instace types")
-	flagSet.StringP(productDescription, "p", "", "Filter instances by product description")
+	flagSet.StringP(supportedHostID, "", "", "List of comma separated instace types")
 	spotCmd.Flags().AddFlagSet(flagSet)
 }
 
@@ -36,8 +34,7 @@ var spotCmd = &cobra.Command{
 		}
 		if _, err := spotPrice.BestSpotPriceInfo(
 			util.SplitString(viper.GetString(availabilityZones), ","),
-			util.SplitString(viper.GetString(instanceTypes), ","),
-			viper.GetString(productDescription)); err != nil {
+			viper.GetString(supportedHostID)); err != nil {
 			logging.Error(err)
 		}
 		return nil

@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
@@ -26,7 +27,7 @@ func GetBestSpotPrice(instanceType, productDescription, region string) (string, 
 			InstanceTypes: []*string{&instanceType},
 			Filters: []*awsEC2.Filter{
 				{
-					Name:   &spotQueryFilterProductDescription,
+					Name:   aws.String(spotQueryFilterProductDescription),
 					Values: []*string{&productDescription},
 				},
 			},
@@ -36,10 +37,15 @@ func GetBestSpotPrice(instanceType, productDescription, region string) (string, 
 	if err != nil {
 		return "", "", err
 	}
+	resultAvalZones, err := svc.DescribeAvailabilityZones(nil)
+	if err != nil {
+		return "", "", err
+	}
+	// TODO Need to map my zone id with the availability zone
+	logging.Debugf("my avail zones %v", resultAvalZones)
 	if len(history.SpotPriceHistory) == 0 {
 		return "", "", fmt.Errorf("non available prices for the search criteria at %s", region)
 	}
-	// Check if history is empty?
 	slices.SortFunc(history.SpotPriceHistory,
 		func(a, b *awsEC2.SpotPrice) bool {
 			aPrice, err := strconv.ParseFloat(*a.SpotPrice, 64)
