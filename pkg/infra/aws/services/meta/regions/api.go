@@ -1,27 +1,32 @@
 package regions
 
 import (
-	awsCommon "github.com/adrianriobo/qenvs/pkg/infra/aws"
-	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util"
+	"github.com/aws/aws-sdk-go/aws/session"
+
+	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
 )
 
-func GetRegions(projectName, backedURL string) ([]string, error) {
-	stack := utilInfra.Stack{
-		StackName:   StackGetRegionsName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      awsCommon.PluginAWSDefault,
-		DeployFunc:  getDefaultRegionsRequest().GetRegions,
-	}
-	// Exec stack
-	stackResult, err := utilInfra.UpStack(stack)
+func GetRegions() ([]string, error) {
+	sess, err := session.NewSession()
 	if err != nil {
 		return nil, err
 	}
-	regions, ok := stackResult.Outputs[StackGetRegionsOutputAWSRegions].Value.([]interface{})
-	if !ok {
+	svc := awsEC2.New(sess)
+	regions, err := svc.DescribeRegions(
+		&awsEC2.DescribeRegionsInput{
+			Filters: []*awsEC2.Filter{
+				{
+					Name:   &optInStatusFilter,
+					Values: []*string{&optInStatusNorRequired},
+				},
+			}})
+	if err != nil {
 		return nil, err
 	}
-	return util.ArrayConvert[string](regions), nil
+	return util.ArrayConvert(regions.Regions,
+			func(item *awsEC2.Region) string {
+				return *item.RegionName
+			}),
+		nil
 }

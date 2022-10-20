@@ -396,6 +396,10 @@ golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
 golang.org/x/crypto/ssh/terminal
+# golang.org/x/exp v0.0.0-20221019170559-20944726eadf
+## explicit; go 1.18
+golang.org/x/exp/constraints
+golang.org/x/exp/slices
 # golang.org/x/net v0.0.0-20220520000938-2e3eb7b945c2
 ## explicit; go 1.17
 golang.org/x/net/context

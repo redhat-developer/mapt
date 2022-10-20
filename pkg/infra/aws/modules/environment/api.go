@@ -24,7 +24,7 @@ func Create(projectName, backedURL string, spot, public bool) (err error) {
 	var spotPrice string
 	var plugin = aws.PluginAWSDefault
 	if spot {
-		spotPriceInfo, err = spotprice.BestSpotPriceInfo(projectName, backedURL,
+		spotPriceInfo, err = spotprice.BestSpotPriceInfo(
 			[]string{},
 			[]string{"c5n.metal"},
 			"Red Hat Enterprise Linux")
