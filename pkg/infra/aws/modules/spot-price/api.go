@@ -1,27 +1,34 @@
 package spotprice
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/meta/regions"
+	supportmatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"golang.org/x/exp/slices"
 )
 
-func BestSpotPriceInfo(azs, instanceTypes []string, productDescription string) (*SpotPriceData, error) {
+func BestSpotPriceInfo(azs []string, supportedHostID string) (*SpotPriceData, error) {
 	regions, err := regions.GetRegions()
 	if err != nil {
 		logging.Errorf("failed to get regions")
 		os.Exit(1)
 	}
 	logging.Debugf("Got all regions %v", regions)
-	// validations
-	if len(instanceTypes) == 0 {
-		return nil, fmt.Errorf("instance type is required")
+	host, err := supportmatrix.GetHost(supportedHostID)
+	if err != nil {
+		logging.Error(err)
+		os.Exit(1)
 	}
-	worldwidePrices := getBestPricesPerRegion(productDescription, regions, instanceTypes)
+	// scores (capacity will be calculated by env analyzer)
+	err = GetBestPlacementScores(regions, host.Requirements, 1)
+	if err != nil {
+		logging.Errorf("failed to get spot placement scores")
+		// os.Exit(1)
+	}
+	worldwidePrices := getBestPricesPerRegion(host.ProductDescription, regions, host.InstaceTypes)
 
 	bestPrice := minSpotPricePerRegions(worldwidePrices)
 	if bestPrice != nil {

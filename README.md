@@ -14,23 +14,13 @@ Current available features using cmd `qenvs corp create`
 
 ## Spot price use case
 
-The purpose for this PoC with pulumi is to get the best price for bid a spot machine. The solution will check  
-the prices for a set of instances types based on a product description filter.
+This module allows to check for best bid price on all regions, to request instances at lower price to reduce costs. To calculate the best option, it is also required to:  
 
-It will return the best price, reporting also the instance type and the availability zone for getting the price.  
+* reduce interruptions
+* ensure capacity
 
-The outcome price of this solution will be passed as parameter to a second stack, where the vm will be requested as spot instance based 
-on that price, notice price is not enough, other parameters should be aligned (region and Az).  
+to check those requisites the module make use of spot placement scores based on machine requirements. Then best scores are crossed with lowers price from spot price history to pick the most valuable option.
 
-## Usage
+Current use case is working on one machine but it will be exteded to analyze any required environment offered by qenvs (checking with all the machines included on a specific environment).
 
-```bash
-podman run -d --name spot \
-        -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-        -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
-        -e AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
-        -e PULUMI_CONFIG_PASSPHRASE=sample_passphrase \
-        -e INSTANCE_TYPES='m5dn.metal,m5d.metal' \
-        -e PRODUCT_DESCRIPTION=Windows \
-        quay.io/ariobolo/qenvs:0.0.1
-```
+Current information about supported machines can be checked at [support-matrix](pkg/infra/aws/support-matrix/matrix.go)

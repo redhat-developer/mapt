@@ -8,7 +8,6 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/rhel"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
-	spotprice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
 	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -19,24 +18,24 @@ func Create(projectName, backedURL string, spot, public bool) (err error) {
 	// TODO define Parse configuration for env
 
 	// If option for best price in...
-	var spotPriceInfo *spotprice.SpotPriceData
+	// var spotPriceInfo *spotprice.SpotPriceData
 	var availabilityZones = network.DefaultAvailabilityZones[:1]
 	var spotPrice string
 	var plugin = aws.PluginAWSDefault
-	if spot {
-		spotPriceInfo, err = spotprice.BestSpotPriceInfo(
-			[]string{},
-			[]string{"c5n.metal"},
-			"Red Hat Enterprise Linux")
-		if err != nil {
-			return err
-		}
-		availabilityZones = []string{spotPriceInfo.AvailabilityZone}
-		spotPrice = spotPriceInfo.Price
-		plugin = aws.GetPluginAWS(
-			map[string]string{
-				aws.CONFIG_AWS_REGION: spotPriceInfo.Region})
-	}
+	// if spot {
+	// 	spotPriceInfo, err = spotprice.BestSpotPriceInfo(
+	// 		[]string{},
+	// 		[]string{"c5n.metal"},
+	// 		"Red Hat Enterprise Linux")
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	availabilityZones = []string{spotPriceInfo.AvailabilityZone}
+	// 	spotPrice = spotPriceInfo.Price
+	// 	plugin = aws.GetPluginAWS(
+	// 		map[string]string{
+	// 			aws.CONFIG_AWS_REGION: spotPriceInfo.Region})
+	// }
 
 	// Based on spot price info the full environment will be created
 	request := corporateEnvironmentRequest{
