@@ -10,6 +10,7 @@ require (
 	github.com/pulumi/pulumi/sdk/v3 v3.40.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.5.0
+	golang.org/x/exp v0.0.0-20221019170559-20944726eadf
 )
 
 require (

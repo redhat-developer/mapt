@@ -11,10 +11,19 @@ func If[T any](cond bool, vtrue, vfalse T) T {
 	return vfalse
 }
 
-func ArrayConvert[T any](source []interface{}) []T {
+func ArrayCast[T any](source []interface{}) []T {
 	var result []T
 	for _, item := range source {
 		result = append(result, item.(T))
+	}
+	return result
+}
+
+func ArrayConvert[T any, X any](source []*X,
+	convert func(item *X) T) []T {
+	var result []T
+	for _, item := range source {
+		result = append(result, convert(item))
 	}
 	return result
 }

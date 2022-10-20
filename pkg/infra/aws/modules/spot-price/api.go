@@ -3,16 +3,15 @@ package spotprice
 import (
 	"fmt"
 	"os"
+	"strconv"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/meta/regions"
-	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
-	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	"golang.org/x/exp/slices"
 )
 
-func BestSpotPriceInfo(projectName, backedURL string, azs, instanceTypes []string, productDescription string) (*SpotPriceData, error) {
-	regions, err := regions.GetRegions(projectName, backedURL)
+func BestSpotPriceInfo(azs, instanceTypes []string, productDescription string) (*SpotPriceData, error) {
+	regions, err := regions.GetRegions()
 	if err != nil {
 		logging.Errorf("failed to get regions")
 		os.Exit(1)
@@ -22,8 +21,8 @@ func BestSpotPriceInfo(projectName, backedURL string, azs, instanceTypes []strin
 	if len(instanceTypes) == 0 {
 		return nil, fmt.Errorf("instance type is required")
 	}
-	worldwidePrices := getBestPricesPerRegion(
-		projectName, backedURL, productDescription, regions, instanceTypes)
+	worldwidePrices := getBestPricesPerRegion(productDescription, regions, instanceTypes)
+
 	bestPrice := minSpotPricePerRegions(worldwidePrices)
 	if bestPrice != nil {
 		logging.Debugf("Best price found !!! instance type is %s on %s, current price is %s",
@@ -32,16 +31,13 @@ func BestSpotPriceInfo(projectName, backedURL string, azs, instanceTypes []strin
 	return bestPrice, nil
 }
 
-func getBestPricesPerRegion(projectName, backedURL, productDescription string,
+func getBestPricesPerRegion(productDescription string,
 	regions, instanceTypes []string) []SpotPriceData {
 	worldwidePrices := []SpotPriceData{}
 	c := make(chan SpotPriceResult)
 	for _, region := range regions {
 		for _, instanceType := range instanceTypes {
 			go GetBestSpotPriceAsync(
-				fmt.Sprintf("%s-%s", region, instanceType),
-				projectName,
-				backedURL,
 				instanceType,
 				productDescription,
 				region,
@@ -62,50 +58,21 @@ func getBestPricesPerRegion(projectName, backedURL, productDescription string,
 	return worldwidePrices
 }
 
-func GetBestSpotPrice(stackSuffix, projectName, backedURL, instanceType,
-	productDescription, region string) (string, string, error) {
-
-	request := SpotPriceRequest{
-		InstanceType:       instanceType,
-		ProductDescription: productDescription}
-	stackName := util.If(
-		len(stackSuffix) > 0,
-		fmt.Sprintf("%s-%s", StackGetSpotPriceName, stackSuffix),
-		StackGetSpotPriceName)
-	stack := utilInfra.Stack{
-		StackName:   stackName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      aws.GetPluginAWS(map[string]string{aws.CONFIG_AWS_REGION: region}),
-		DeployFunc:  request.GetSpotPrice,
+func minSpotPricePerRegions(source []SpotPriceData) *SpotPriceData {
+	if len(source) == 0 {
+		return nil
 	}
-	// Exec stack
-	stackResult, err := utilInfra.UpStack(stack)
-	if err != nil {
-		return "", "", err
-	}
-	bestPrice, ok := stackResult.Outputs[StackGetSpotPriceOutputSpotPrice].Value.(string)
-	if !ok {
-		return "", "", fmt.Errorf("error getting best price for spot")
-	}
-	bestPriceAZ, ok := stackResult.Outputs[StackGetSpotPriceOutputAvailabilityZone].Value.(string)
-	if !ok {
-		return "", "", fmt.Errorf("error getting best price for spot")
-	}
-	return bestPrice, bestPriceAZ, nil
-}
-
-func GetBestSpotPriceAsync(stackSuffix, projectName, backedURL,
-	instanceType, productDescription, region string, c chan SpotPriceResult) {
-	price, availabilityZone, err := GetBestSpotPrice(
-		stackSuffix, projectName, backedURL,
-		instanceType, productDescription, region)
-	c <- SpotPriceResult{
-		Data: SpotPriceData{
-			Price:            price,
-			AvailabilityZone: availabilityZone,
-			Region:           region,
-			InstanceType:     instanceType},
-		Err: err}
-
+	slices.SortFunc(source,
+		func(a, b SpotPriceData) bool {
+			aPrice, err := strconv.ParseFloat(a.Price, 64)
+			if err != nil {
+				return false
+			}
+			bPrice, err := strconv.ParseFloat(b.Price, 64)
+			if err != nil {
+				return false
+			}
+			return aPrice < bPrice
+		})
+	return &source[0]
 }

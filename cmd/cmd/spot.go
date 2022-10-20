@@ -35,7 +35,6 @@ var spotCmd = &cobra.Command{
 			return err
 		}
 		if _, err := spotPrice.BestSpotPriceInfo(
-			"qenvs", "file:///tmp/qenvs",
 			util.SplitString(viper.GetString(availabilityZones), ","),
 			util.SplitString(viper.GetString(instanceTypes), ","),
 			viper.GetString(productDescription)); err != nil {
