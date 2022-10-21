@@ -31,6 +31,7 @@ func init() {
 	flagSet.StringP(publicSubnetCIDRs, "", "", publicSubnetCIDRsDesc)
 	flagSet.StringP(privateSubnetCIDRs, "", "", privateSubnetCIDRsDesc)
 	flagSet.StringP(intraSubnetCIDRs, "", "", intraSubnetCIDRsDesc)
+	flagSet.StringP(supportedHostID, "", "", supportedHostIDDesc)
 	corpCreateCmd.Flags().AddFlagSet(flagSet)
 }
 
@@ -42,7 +43,8 @@ var corpCreateCmd = &cobra.Command{
 			return err
 		}
 		if err := environment.Create(
-			"qenvs", "file:///tmp/qenvs", false, true); err != nil {
+			"qenvs", "file:///tmp/qenvs", true, true,
+			viper.GetString(supportedHostID)); err != nil {
 			// viper.GetString(cidr),
 			// util.SplitString(viper.GetString(availabilityZones), ","),
 			// util.SplitString(viper.GetString(publicSubnetCIDRs), ","),

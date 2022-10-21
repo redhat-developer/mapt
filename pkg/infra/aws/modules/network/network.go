@@ -10,11 +10,11 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-func DefaultNetworkRequest(ctx *pulumi.Context, name string) NetworkRequest {
+func DefaultNetworkRequest(name, regionName string) NetworkRequest {
 	return NetworkRequest{
 		Name:                name,
 		CIDR:                DefaultCIDRNetwork,
-		AvailabilityZones:   azs.GetAvailabilityZones(ctx)[:3],
+		AvailabilityZones:   azs.GetAvailabilityZones()[:3],
 		PublicSubnetsCIDRs:  DefaultCIDRPublicSubnets[:],
 		PrivateSubnetsCIDRs: DefaultCIDRPrivateSubnets[:],
 		IntraSubnetsCIDRs:   DefaultCIDRIntraSubnets[:],
@@ -22,7 +22,7 @@ func DefaultNetworkRequest(ctx *pulumi.Context, name string) NetworkRequest {
 
 }
 
-func (r NetworkRequest) NetworkStackDeployer(ctx *pulumi.Context) (err error) {
+func (r NetworkRequest) Deployer(ctx *pulumi.Context) (err error) {
 	_, err = r.CreateNetwork(ctx)
 	return
 }

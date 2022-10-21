@@ -25,7 +25,7 @@ func CreateNetwork(projectName, backedURL, cidr string,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault,
-		DeployFunc:  request.NetworkStackDeployer,
+		DeployFunc:  request.Deployer,
 	}
 	// Exec stack
 	stackResult, err := utilInfra.UpStack(stack)
