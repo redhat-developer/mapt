@@ -6,14 +6,15 @@ type SpotPriceRequest struct {
 	AvailabilityZones  []string
 }
 
-type SpotPriceData struct {
-	Price            string
-	AvailabilityZone string
-	Region           string
-	InstanceType     string
+type SpotPriceResult struct {
+	Prices []SpotPriceGroup
+	Err    error
 }
 
-type SpotPriceResult struct {
-	Data SpotPriceData
-	Err  error
+type SpotPriceGroup struct {
+	Region           string
+	AvailabilityZone string
+	AVGPrice         float64
+	MaxPrice         float64
+	Score            int64
 }

@@ -3,19 +3,19 @@ package spotprice
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
 	"golang.org/x/exp/slices"
 )
 
+// return sps ordered from max to min by score
 func GetBestPlacementScores(regions []string,
 	requirements *awsEC2.InstanceRequirementsWithMetadataRequest,
-	capacity int64) error {
+	capacity int64) ([]*awsEC2.SpotPlacementScore, error) {
 	sess, err := session.NewSession()
 	if err != nil {
-		return err
+		return nil, err
 	}
 	svc := awsEC2.New(sess)
 
@@ -35,15 +35,14 @@ func GetBestPlacementScores(regions []string,
 			MaxResults:     aws.Int64(maxSpotPlacementScoreResults),
 		})
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if len(sps.SpotPlacementScores) == 0 {
-		return fmt.Errorf("non available scores")
+		return nil, fmt.Errorf("non available scores")
 	}
 	slices.SortFunc(sps.SpotPlacementScores,
 		func(a, b *awsEC2.SpotPlacementScore) bool {
-			return *a.Score < *b.Score
+			return *a.Score > *b.Score
 		})
-	logging.Debugf("available scores %v", sps.SpotPlacementScores)
-	return nil
+	return sps.SpotPlacementScores, nil
 }

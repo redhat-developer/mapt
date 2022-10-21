@@ -32,3 +32,35 @@ func SplitString(source, delimiter string) []string {
 	splitted := strings.Split(source, delimiter)
 	return If(len(splitted[0]) > 0, splitted, []string{})
 }
+
+// This function split a list based on a evaluation function
+// the result is a map of lists
+func SplitSlice[T any, Y comparable](source []T,
+	identification func(item T) Y) (m map[Y][]T) {
+	m = make(map[Y][]T)
+	for _, item := range source {
+		k := identification(item)
+		if l, found := m[k]; found {
+			m[k] = append(l, item)
+		} else {
+			m[k] = []T{item}
+		}
+	}
+	return
+}
+
+func Average(source []float64) float64 {
+	total := 0.0
+	for _, v := range source {
+		total += v
+	}
+	return total / float64(len(source))
+}
+
+func Max(source []float64) float64 {
+	total := 0.0
+	for _, v := range source {
+		total += v
+	}
+	return total / float64(len(source))
+}

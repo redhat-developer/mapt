@@ -73,9 +73,15 @@ github.com/aws/aws-sdk-go/service/sts/stsiface
 # github.com/blang/semver v3.5.1+incompatible
 ## explicit
 github.com/blang/semver
+# github.com/cespare/xxhash/v2 v2.1.2
+## explicit; go 1.11
+github.com/cespare/xxhash/v2
 # github.com/cheggaaa/pb v1.0.18
 ## explicit
 github.com/cheggaaa/pb
+# github.com/coocood/freecache v1.2.2
+## explicit; go 1.13
+github.com/coocood/freecache
 # github.com/djherbis/times v1.2.0
 ## explicit
 github.com/djherbis/times

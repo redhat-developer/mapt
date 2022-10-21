@@ -1,30 +1,37 @@
 package spotprice
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 
+	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
-
 	"golang.org/x/exp/slices"
 )
 
-func GetBestSpotPrice(instanceType, productDescription, region string) (string, string, error) {
+func GetBestSpotPriceAsync(instanceTypes []string, productDescription, region string, c chan SpotPriceResult) {
+	data, err := getBestSpotPrice(instanceTypes, productDescription, region)
+	c <- SpotPriceResult{
+		Prices: data,
+		Err:    err}
+
+}
+
+func getBestSpotPrice(instanceTypes []string, productDescription, region string) (pricesGroup []SpotPriceGroup, err error) {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(region)})
 	if err != nil {
-		return "", "", err
+		return nil, err
 	}
 	svc := awsEC2.New(sess)
 	starTime := time.Now().Add(-1 * time.Hour)
 	endTime := time.Now()
 	history, err := svc.DescribeSpotPriceHistory(
 		&awsEC2.DescribeSpotPriceHistoryInput{
-			InstanceTypes: []*string{&instanceType},
+			InstanceTypes: aws.StringSlice(instanceTypes),
 			Filters: []*awsEC2.Filter{
 				{
 					Name:   aws.String(spotQueryFilterProductDescription),
@@ -35,41 +42,27 @@ func GetBestSpotPrice(instanceType, productDescription, region string) (string, 
 			EndTime:   &endTime,
 		})
 	if err != nil {
-		return "", "", err
+		return nil, err
 	}
-	resultAvalZones, err := svc.DescribeAvailabilityZones(nil)
-	if err != nil {
-		return "", "", err
-	}
-	// TODO Need to map my zone id with the availability zone
-	logging.Debugf("my avail zones %v", resultAvalZones)
-	if len(history.SpotPriceHistory) == 0 {
-		return "", "", fmt.Errorf("non available prices for the search criteria at %s", region)
-	}
-	slices.SortFunc(history.SpotPriceHistory,
-		func(a, b *awsEC2.SpotPrice) bool {
-			aPrice, err := strconv.ParseFloat(*a.SpotPrice, 64)
+	spotPriceGroups := util.SplitSlice(history.SpotPriceHistory, func(priceData *awsEC2.SpotPrice) SpotPriceGroup {
+		return SpotPriceGroup{
+			AvailabilityZone: *priceData.AvailabilityZone,
+		}
+	})
+	logging.Debugf("grouped prices %v", spotPriceGroups)
+	for groupInfo, pricesHistory := range spotPriceGroups {
+		prices := util.ArrayConvert(pricesHistory, func(priceHisotry *awsEC2.SpotPrice) float64 {
+			price, err := strconv.ParseFloat(*priceHisotry.SpotPrice, 64)
 			if err != nil {
-				return false
+				// Overcost
+				return 100
 			}
-			bPrice, err := strconv.ParseFloat(*b.SpotPrice, 64)
-			if err != nil {
-				return false
-			}
-			return aPrice < bPrice
+			return price
 		})
-	return *history.SpotPriceHistory[0].SpotPrice, *history.SpotPriceHistory[0].AvailabilityZone, nil
-}
-
-func GetBestSpotPriceAsync(instanceType, productDescription, region string, c chan SpotPriceResult) {
-	price, availabilityZone, err := GetBestSpotPrice(
-		instanceType, productDescription, region)
-	c <- SpotPriceResult{
-		Data: SpotPriceData{
-			Price:            price,
-			AvailabilityZone: availabilityZone,
-			Region:           region,
-			InstanceType:     instanceType},
-		Err: err}
-
+		groupInfo.AVGPrice = util.Average(prices)
+		slices.SortFunc(prices, func(a, b float64) bool { return a < b })
+		groupInfo.MaxPrice = prices[len(prices)-1]
+		pricesGroup = append(pricesGroup, groupInfo)
+	}
+	return
 }
