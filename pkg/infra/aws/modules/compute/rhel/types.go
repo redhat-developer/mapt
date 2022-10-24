@@ -3,6 +3,7 @@ package rhel
 import (
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 type RHELRequest struct {
@@ -17,10 +18,11 @@ type RHELRequest struct {
 }
 
 type RHELResources struct {
-	Instance            *ec2.Instance
-	SpotInstanceRequest *ec2.SpotInstanceRequest
-	AWSKeyPair          *ec2.KeyPair
-	SG                  *ec2.SecurityGroup
+	// InstanceID string
+	Instance   *ec2.Instance
+	InstanceIP pulumi.StringOutput
+	AWSKeyPair *ec2.KeyPair
+	SG         *ec2.SecurityGroup
 	// contains value if key is created within this module
 	PrivateKey *tls.PrivateKey
 }
