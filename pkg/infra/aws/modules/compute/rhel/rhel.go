@@ -9,8 +9,9 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
-	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
+	supportmatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/util"
+	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -44,28 +45,65 @@ func (r RHELRequest) Create(ctx *pulumi.Context) (*RHELResources, error) {
 	var sir *ec2.SpotInstanceRequest
 	var i *ec2.Instance
 	if len(r.SpotPrice) > 0 {
-		sir, err = ec2.NewSpotInstanceRequest(ctx,
+		lt, err := ec2.NewLaunchTemplate(ctx,
 			r.Name,
-			&ec2.SpotInstanceRequestArgs{
-				SubnetId:            r.Subnets[0].ID(),
-				Ami:                 pulumi.String(ami.Id),
-				InstanceType:        pulumi.String(defaultInstanceType),
-				KeyName:             awsKeyPair.KeyName,
-				VpcSecurityGroupIds: pulumi.StringArray{sg.SG.ID()},
-				SpotPrice:           pulumi.String(r.SpotPrice),
-				// BlockDurationMinutes: pulumi.Int(defaultBlockDurationMinutes),
-				WaitForFulfillment: pulumi.Bool(true),
-				Tags: pulumi.StringMap{
-					"Name": pulumi.String(r.Name),
+			&ec2.LaunchTemplateArgs{
+				NamePrefix:   pulumi.String(r.Name),
+				ImageId:      pulumi.String(ami.Id),
+				InstanceType: pulumi.String(supportmatrix.OL_RHEL.InstaceTypes[0]),
+				KeyName:      awsKeyPair.KeyName,
+				// VpcSecurityGroupIds: pulumi.StringArray{sg.SG.ID()},
+				NetworkInterfaces: ec2.LaunchTemplateNetworkInterfaceArray{
+					&ec2.LaunchTemplateNetworkInterfaceArgs{
+						AssociatePublicIpAddress: pulumi.String("true"),
+						SecurityGroups:           pulumi.StringArray{sg.SG.ID()},
+					},
 				},
 			})
 		if err != nil {
 			return nil, err
 		}
-		ctx.Export(OutputPrivateIP,
-			util.If(r.Public,
-				sir.PublicIp,
-				sir.PrivateIp))
+		_, err = autoscaling.NewGroup(ctx,
+			r.Name,
+			&autoscaling.GroupArgs{
+				CapacityRebalance:  pulumi.Bool(true),
+				DesiredCapacity:    pulumi.Int(1),
+				MaxSize:            pulumi.Int(1),
+				MinSize:            pulumi.Int(1),
+				VpcZoneIdentifiers: pulumi.StringArray{r.Subnets[0].ID()},
+				MixedInstancesPolicy: &autoscaling.GroupMixedInstancesPolicyArgs{
+					InstancesDistribution: &autoscaling.GroupMixedInstancesPolicyInstancesDistributionArgs{
+						OnDemandBaseCapacity:                pulumi.Int(0),
+						OnDemandPercentageAboveBaseCapacity: pulumi.Int(0),
+						SpotAllocationStrategy:              pulumi.String("capacity-optimized"),
+						SpotMaxPrice:                        pulumi.String(r.SpotPrice),
+					},
+					LaunchTemplate: &autoscaling.GroupMixedInstancesPolicyLaunchTemplateArgs{
+						LaunchTemplateSpecification: &autoscaling.GroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecificationArgs{
+							LaunchTemplateId: lt.ID(),
+						},
+						Overrides: autoscaling.GroupMixedInstancesPolicyLaunchTemplateOverrideArray{
+							&autoscaling.GroupMixedInstancesPolicyLaunchTemplateOverrideArgs{
+								InstanceType: pulumi.String(supportmatrix.OL_RHEL.InstaceTypes[0]),
+							},
+							&autoscaling.GroupMixedInstancesPolicyLaunchTemplateOverrideArgs{
+								InstanceType: pulumi.String(supportmatrix.OL_RHEL.InstaceTypes[1]),
+							},
+							&autoscaling.GroupMixedInstancesPolicyLaunchTemplateOverrideArgs{
+								InstanceType: pulumi.String(supportmatrix.OL_RHEL.InstaceTypes[2]),
+							},
+						},
+					},
+				},
+			})
+		if err != nil {
+			return nil, err
+		}
+		// ctx.Export(OutputPrivateIP,
+		// 	util.If(r.Public,
+		// 		sir.PublicIp,
+		// 		sir.PrivateIp))
+		ctx.Export(OutputPrivateIP, pulumi.String("asdasd"))
 	} else {
 		i, err = ec2.NewInstance(ctx,
 			r.Name,
@@ -95,22 +133,22 @@ func (r RHELRequest) Create(ctx *pulumi.Context) (*RHELResources, error) {
 		Instance:            i,
 		SpotInstanceRequest: sir,
 	}
-	if r.Public {
-		return &rhel, rhel.waitForInit(ctx)
-	}
+	// if r.Public {
+	// 	return &rhel, rhel.waitForInit(ctx)
+	// }
 	// for private we need bastion support on commands
 	// https://github.com/pulumi/pulumi-command/pull/132
 	return &rhel, nil
 }
 
-func (c RHELResources) waitForInit(ctx *pulumi.Context) error {
-	instance := command.RemoteInstance{
-		Instace:             c.Instance,
-		SpotInstanceRequest: c.SpotInstanceRequest,
-		Username:            defaultAMIUser,
-		PrivateKey:          c.PrivateKey}
-	return instance.RemoteExec(
-		ctx,
-		command.CommandPing,
-		"rhel-WaitForConnect")
-}
+// func (c RHELResources) waitForInit(ctx *pulumi.Context) error {
+// 	instance := command.RemoteInstance{
+// 		Instace:             c.Instance,
+// 		SpotInstanceRequest: c.SpotInstanceRequest,
+// 		Username:            defaultAMIUser,
+// 		PrivateKey:          c.PrivateKey}
+// 	return instance.RemoteExec(
+// 		ctx,
+// 		command.CommandPing,
+// 		"rhel-WaitForConnect")
+// }
