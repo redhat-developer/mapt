@@ -66,64 +66,7 @@ func (r BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
 
 func (c BastionResources) waitForInit(ctx *pulumi.Context) error {
 	return command.RemoteInstance{
-		Instace:    c.Instance,
+		Instance:   c.Instance,
 		Username:   bastionDefaultAMIUser,
 		PrivateKey: c.PrivateKey}.RemoteExec(ctx, command.CommandPing, "bastion-WaitForConnect")
 }
-
-// func (r BastionRequest) getLaunchTemplate(ctx *pulumi.Context, sg *ec2.SecurityGroup, keyPair *ec2.KeyPair, ltName string) (*ec2.LaunchTemplate, error) {
-// 	ami, err := ami.GetAMIByName(ctx, bastionDefaultAMI)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return ec2.NewLaunchTemplate(ctx,
-// 		ltName,
-// 		&ec2.LaunchTemplateArgs{
-// 			// BlockDeviceMappings: ec2.LaunchTemplateBlockDeviceMappingArray{
-// 			// 	ec2.LaunchTemplateBlockDeviceMappingArgs{
-// 			// 		Ebs: ec2.LaunchTemplateBlockDeviceMappingEbsArgs{
-// 			// 			VolumeType: pulumi.String(bastionDefaultDeviceType),
-// 			// 			VolumeSize: pulumi.Int(bastionDefaultDeviceSize)}},
-// 			// },
-// 			// InstanceMarketOptions: ec2.LaunchTemplateInstanceMarketOptionsArgs{SpotOptions: ec2.LaunchTemplateInstanceMarketOptionsSpotOptionsArgs{}}
-// 			NamePrefix:          pulumi.String(ltName),
-// 			ImageId:             pulumi.String(ami.Id),
-// 			InstanceType:        pulumi.String(bastionDefaultInstanceType),
-// 			KeyName:             keyPair.KeyName,
-// 			VpcSecurityGroupIds: pulumi.StringArray{sg.ID()},
-// 		})
-// }
-
-// func bastionHA(ctx *pulumi.Context, name string, ami *ec2.LookupAmiResult, keypair *ec2.KeyPair) (*ec2.Instance, error) {
-// lt, err := r.getLaunchTemplate(ctx, sg.SG, awsKeyPair, r.Name)
-// if err != nil {
-// 	return nil, err
-// }
-// 	_, err = autoscaling.NewGroup(ctx, "bar", &autoscaling.GroupArgs{
-// 		DesiredCapacity: pulumi.Int(1),
-// 		MaxSize:         pulumi.Int(1),
-// 		MinSize:         pulumi.Int(1),
-// 		LaunchTemplate: &autoscaling.GroupLaunchTemplateArgs{
-// 			Id:      lt.ID(),
-// 			Version: pulumi.String("$Latest"),
-// 		},
-// 	})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	// _, err = lb.NewLoadBalancer(ctx, "example", &lb.LoadBalancerArgs{
-// 	// 	LoadBalancerType: pulumi.String("network"),
-// 	// 	SubnetMappings: lb.LoadBalancerSubnetMappingArray{
-// 	// 		&lb.LoadBalancerSubnetMappingArgs{
-// 	// 			SubnetId:           pulumi.Any(aws_subnet.Example1.Id),
-// 	// 			PrivateIpv4Address: pulumi.String("10.0.1.15"),
-// 	// 		},
-// 	// 		&lb.LoadBalancerSubnetMappingArgs{
-// 	// 			SubnetId:           pulumi.Any(aws_subnet.Example2.Id),
-// 	// 			PrivateIpv4Address: pulumi.String("10.0.2.15"),
-// 	// 		},
-// 	// 	},
-// 	// })
-// 	// _, err := elb.NewLoadBalancer(ctx, "bar", &elb.LoadBalancerArgs{})
-// 	return nil, nil
-// }

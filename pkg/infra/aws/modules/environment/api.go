@@ -24,15 +24,15 @@ func Create(projectName, backedURL string, spot, public bool, targetHostID strin
 	var spotPrice string
 	var plugin = aws.PluginAWSDefault
 	if spot {
-		spotPriceInfo, err := spotprice.BestSpotPriceInfo(targetHostID)
+		spg, err := spotprice.Create(projectName, backedURL, targetHostID)
 		if err != nil {
 			return err
 		}
-		availabilityZones = []string{spotPriceInfo.AvailabilityZone}
-		spotPrice = fmt.Sprintf("%f", spotPriceInfo.MaxPrice)
+		availabilityZones = []string{spg.AvailabilityZone}
+		spotPrice = fmt.Sprintf("%f", spg.MaxPrice)
 		plugin = aws.GetPluginAWS(
 			map[string]string{
-				aws.CONFIG_AWS_REGION: spotPriceInfo.Region})
+				aws.CONFIG_AWS_REGION: spg.Region})
 	}
 
 	// Based on spot price info the full environment will be created
@@ -120,6 +120,9 @@ func Destroy(projectName, backedURL string) error {
 	if err != nil {
 		return err
 	}
-	logging.Debugf("Environment has been destroyed")
+	err = spotprice.Destroy(projectName, backedURL)
+	if err != nil {
+		return err
+	}
 	return nil
 }

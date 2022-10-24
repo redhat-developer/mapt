@@ -1,9 +1,8 @@
 package spotprice
 
 type SpotPriceRequest struct {
-	ProductDescription string
-	InstanceType       string
-	AvailabilityZones  []string
+	TargetHostID string
+	Name         string
 }
 
 type SpotPriceResult struct {

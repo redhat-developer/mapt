@@ -21,10 +21,10 @@ const (
 )
 
 type RemoteInstance struct {
-	SpotInstanceRequest *ec2.SpotInstanceRequest
-	Instace             *ec2.Instance
-	Username            string
-	PrivateKey          *tls.PrivateKey
+	InstanceIP *pulumi.StringOutput
+	Instance   *ec2.Instance
+	Username   string
+	PrivateKey *tls.PrivateKey
 }
 
 // Remote command success if error = nil
@@ -55,12 +55,15 @@ func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand, remoteCom
 }
 
 func (r RemoteInstance) getRemoteHost() (pulumi.StringOutput, error) {
-	if r.Instace != nil {
-		return r.Instace.PublicIp, nil
+	if r.Instance != nil {
+		return r.Instance.PublicIp, nil
 	}
-	if r.SpotInstanceRequest != nil {
-		return r.SpotInstanceRequest.PublicIp, nil
+	if r.InstanceIP != nil {
+		return *r.InstanceIP, nil
 	}
+	// if len(r.InstanceIP) > 0 {
+	// 	return pulumi.String(r.InstanceIP).ToStringOutput(), nil
+
 	return pulumi.StringOutput{}, fmt.Errorf("a valid instance or spot request is required to exec a remote command")
 }
 
