@@ -41,8 +41,8 @@ func (r RHELRequest) Create(ctx *pulumi.Context) (*RHELResources, error) {
 		return nil, err
 	}
 
-	amiNameRegex := fmt.Sprintf(defaultAMIPattern, r.VersionMajor)
-	ami, err := ami.GetAMIByName(ctx, amiNameRegex)
+	amiNameRegex := fmt.Sprintf(r.Specs.AMI.RegexPattern, r.VersionMajor)
+	ami, err := ami.GetAMIByName(ctx, amiNameRegex, r.Specs.AMI.Filters)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (r RHELRequest) Create(ctx *pulumi.Context) (*RHELResources, error) {
 			return nil, err
 		}
 	}
-	ctx.Export(OutputUsername, pulumi.String(defaultAMIUser))
+	ctx.Export(OutputUsername, pulumi.String(r.Specs.AMI.DefaultUser))
 	if r.Public {
 		return &rhel, rhel.waitForInit(ctx)
 	}
@@ -70,7 +70,7 @@ func (c RHELResources) waitForInit(ctx *pulumi.Context) error {
 	instance := command.RemoteInstance{
 		Instance:   c.Instance,
 		InstanceIP: &c.InstanceIP,
-		Username:   defaultAMIUser,
+		Username:   c.Username,
 		PrivateKey: c.PrivateKey}
 	return instance.RemoteExec(
 		ctx,
@@ -136,6 +136,7 @@ func (r RHELRequest) spotInstance(ctx *pulumi.Context,
 		return err
 	}
 	rhel.InstanceIP = nlb.DnsName
+	rhel.Username = r.Specs.AMI.DefaultUser
 	_, err = autoscaling.NewGroup(ctx,
 		r.Name,
 		&autoscaling.GroupArgs{
@@ -197,7 +198,7 @@ func (r RHELRequest) onDemandInstance(ctx *pulumi.Context,
 		&ec2.InstanceArgs{
 			SubnetId:                 r.Subnets[0].ID(),
 			Ami:                      pulumi.String(amiID),
-			InstanceType:             pulumi.String(defaultInstanceType),
+			InstanceType:             pulumi.String(r.Specs.InstaceTypes[0]),
 			KeyName:                  keyPair.KeyName,
 			AssociatePublicIpAddress: pulumi.Bool(r.Public),
 			VpcSecurityGroupIds:      pulumi.StringArray{sg.ID()},
@@ -210,6 +211,7 @@ func (r RHELRequest) onDemandInstance(ctx *pulumi.Context,
 		return err
 	}
 	rhel.Instance = i
+	rhel.Username = r.Specs.AMI.DefaultUser
 	ctx.Export(OutputPrivateIP,
 		util.If(r.Public,
 			i.PublicIp,
