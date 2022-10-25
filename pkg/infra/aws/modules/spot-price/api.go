@@ -52,7 +52,7 @@ func BestSpotPriceInfo(targetHostID string) (*SpotPriceGroup, error) {
 		os.Exit(1)
 	}
 	// scores (capacity will be calculated by env analyzer)
-	sps, err := GetBestPlacementScores(regions, host.Requirements, 1)
+	sps, err := GetBestPlacementScores(regions, host.InstaceTypes, 1)
 	if err != nil {
 		logging.Errorf("failed to get spot placement scores")
 		// os.Exit(1)

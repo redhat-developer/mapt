@@ -10,8 +10,7 @@ import (
 )
 
 // return sps ordered from max to min by score
-func GetBestPlacementScores(regions []string,
-	requirements *awsEC2.InstanceRequirementsWithMetadataRequest,
+func GetBestPlacementScores(regions, instanceTypes []string,
 	capacity int64) ([]*awsEC2.SpotPlacementScore, error) {
 	sess, err := session.NewSession()
 	if err != nil {
@@ -22,17 +21,10 @@ func GetBestPlacementScores(regions []string,
 	sps, err := svc.GetSpotPlacementScores(
 		&awsEC2.GetSpotPlacementScoresInput{
 			SingleAvailabilityZone: aws.Bool(true),
-			// InstanceRequirementsWithMetadata: requirements,
-			// InstanceRequirementsWithMetadata: &awsEC2.InstanceRequirementsWithMetadataRequest{
-			// 	InstanceRequirements: &awsEC2.InstanceRequirementsRequest{
-			// 		BareMetal: &requirementRequired,
-			// 	},
-			// 	ArchitectureTypes: aws.StringSlice(),
-			// },
-			InstanceTypes:  aws.StringSlice([]string{"c5.metal", "c5d.metal", "c5n.metal"}),
-			RegionNames:    aws.StringSlice(regions),
-			TargetCapacity: aws.Int64(capacity),
-			MaxResults:     aws.Int64(maxSpotPlacementScoreResults),
+			InstanceTypes:          aws.StringSlice(instanceTypes),
+			RegionNames:            aws.StringSlice(regions),
+			TargetCapacity:         aws.Int64(capacity),
+			MaxResults:             aws.Int64(maxSpotPlacementScoreResults),
 		})
 	if err != nil {
 		return nil, err

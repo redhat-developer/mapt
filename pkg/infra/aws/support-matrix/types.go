@@ -1,7 +1,5 @@
 package supportmatrix
 
-import "github.com/aws/aws-sdk-go/service/ec2"
-
 type SupportedHost struct {
 	ID          string
 	Description string
@@ -10,14 +8,17 @@ type SupportedHost struct {
 	// Manually check the map on https://ap-south-1.console.aws.amazon.com/ec2/home?region=ap-south-1#SpotPlacementScore:
 	//between instances types and Requirements
 	InstaceTypes []string
-	Requirements *ec2.InstanceRequirementsWithMetadataRequest
 	// Requirements Requirements
 	// true if spot instances are supported
 	Spot bool
+	// AMI Pattern
+	AMI AMI
 }
 
-// type Requirements struct {
-// 	RAM          int64
-// 	Architecture string
-// 	Baremetal    string
-// }
+type AMI struct {
+	RegexName string
+	// In case wanna compose the regex pattern
+	RegexPattern string
+	Filters      map[string]string
+	DefaultUser  string
+}

@@ -1,4 +1,4 @@
-package rhel
+package macm1
 
 import (
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
@@ -8,19 +8,17 @@ import (
 	supportMatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
 )
 
-type RHELRequest struct {
-	Specs        supportMatrix.SupportedHost
-	Name         string
-	VersionMajor string
-	SpotPrice    string
-	Public       bool
-	BastionSG    *ec2.SecurityGroup
-	keyPair      *ec2.KeyPair
-	VPC          *ec2.Vpc
-	Subnets      []*ec2.Subnet
+type MacM1Request struct {
+	Name      string
+	Public    bool
+	BastionSG *ec2.SecurityGroup
+	KeyPair   *ec2.KeyPair
+	VPC       *ec2.Vpc
+	Subnets   []*ec2.Subnet
+	Specs     supportMatrix.SupportedHost
 }
 
-type RHELResources struct {
+type MacM1Resources struct {
 	// InstanceID string
 	Username   string
 	Instance   *ec2.Instance

@@ -10,15 +10,23 @@ const redhatOwnerID string = "309956199498"
 
 // Looks for the AMI ID on the current Region based on name
 // it only allows images from AWS and self
-func GetAMIByName(ctx *pulumi.Context, imageName string) (*ec2.LookupAmiResult, error) {
+func GetAMIByName(ctx *pulumi.Context,
+	imageName string, filters map[string]string) (*ec2.LookupAmiResult, error) {
 	mostRecent := true
-	return ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
-		Filters: []ec2.GetAmiFilter{
-			{
-				Name:   "name",
-				Values: []string{imageName},
-			},
+	lookupfilters := []ec2.GetAmiFilter{
+		{
+			Name:   "name",
+			Values: []string{imageName},
 		},
+	}
+	for k, v := range filters {
+		lookupfilters = append(lookupfilters, ec2.GetAmiFilter{
+			Name:   k,
+			Values: []string{v},
+		})
+	}
+	return ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
+		Filters:    lookupfilters,
 		Owners:     []string{awsOwnerID, redhatOwnerID},
 		MostRecent: &mostRecent,
 	})

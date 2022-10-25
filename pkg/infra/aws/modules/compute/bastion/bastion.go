@@ -30,7 +30,7 @@ func (r BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
 
 	var instance *ec2.Instance
 	if !r.HA {
-		ami, err := ami.GetAMIByName(ctx, bastionDefaultAMI)
+		ami, err := ami.GetAMIByName(ctx, bastionDefaultAMI, nil)
 		if err != nil {
 			return nil, err
 		}
