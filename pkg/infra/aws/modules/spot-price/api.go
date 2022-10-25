@@ -7,41 +7,36 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/meta/regions"
 	supportmatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 
 	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 )
 
 func Create(projectName, backedURL, targetHostID string) (*SpotPriceGroup, error) {
-	request := SpotPriceRequest{
-		TargetHostID: targetHostID,
-		Name:         projectName,
-	}
-	stack := utilInfra.Stack{
+	stack, err := utilInfra.CheckStack(utilInfra.Stack{
 		StackName:   StackName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault,
-		DeployFunc:  request.deployer,
-	}
-	stackResult, err := utilInfra.UpStack(stack)
+	})
 	if err != nil {
-		return nil, err
+		return createStack(projectName, backedURL, targetHostID)
+	} else {
+		return getOutputs(stack)
 	}
-	return getSpotPriceGroupFromStackResult(stackResult)
 }
 
-func Destroy(projectName, backedURL string) error {
+func Destroy(projectName, backedURL string) (err error) {
 	stack := utilInfra.Stack{
 		StackName:   StackName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault}
-	_, err := utilInfra.DestroyStack(stack)
-	if err != nil {
-		return err
+	err = utilInfra.DestroyStack(stack)
+	if err == nil {
+		logging.Debugf("%s has been destroyed", StackName)
 	}
-	logging.Debugf("%s has been destroyed", StackName)
-	return nil
+	return
 }
 
 func BestSpotPriceInfo(targetHostID string) (*SpotPriceGroup, error) {
@@ -70,4 +65,31 @@ func BestSpotPriceInfo(targetHostID string) (*SpotPriceGroup, error) {
 			host.InstaceTypes, bestPrice.AvailabilityZone, bestPrice.AVGPrice, bestPrice.MaxPrice, bestPrice.Score)
 	}
 	return bestPrice, nil
+}
+
+func createStack(projectName, backedURL, targetHostID string) (*SpotPriceGroup, error) {
+	request := SpotPriceRequest{
+		TargetHostID: targetHostID,
+		Name:         projectName,
+	}
+	stack := utilInfra.Stack{
+		StackName:   StackName,
+		ProjectName: projectName,
+		BackedURL:   backedURL,
+		Plugin:      aws.PluginAWSDefault,
+		DeployFunc:  request.deployer,
+	}
+	stackResult, err := utilInfra.UpStack(stack)
+	if err != nil {
+		return nil, err
+	}
+	return getSpotPriceGroupFromStackResult(stackResult)
+}
+
+func getOutputs(stack *auto.Stack) (*SpotPriceGroup, error) {
+	outputs, err := utilInfra.GetOutputs(*stack)
+	if err != nil {
+		return nil, err
+	}
+	return getSpotPriceGroupFromStackOutputs(outputs), nil
 }
