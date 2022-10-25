@@ -49,14 +49,21 @@ func (r MacM1Request) Create(ctx *pulumi.Context) (*MacM1Resources, error) {
 
 	ctx.Export(OutputUsername, pulumi.String(r.Specs.AMI.DefaultUser))
 	if r.Public {
-		return &macM1, macM1.waitForInit(ctx)
+		userData, err := getUserData(r.Specs.AMI.DefaultUser, "crcqe")
+		if err != nil {
+			return nil, err
+		}
+		if err = macM1.remoteExec(ctx, "macm1-prepare", userData); err != nil {
+			return nil, err
+		}
+		return &macM1, macM1.remoteExec(ctx, "macm1-wait", command.CommandPing)
 	}
 	// for private we need bastion support on commands
 	// https://github.com/pulumi/pulumi-command/pull/132
 	return &macM1, nil
 }
 
-func (c MacM1Resources) waitForInit(ctx *pulumi.Context) error {
+func (c MacM1Resources) remoteExec(ctx *pulumi.Context, cmdName, cmd string) error {
 	instance := command.RemoteInstance{
 		Instance:   c.Instance,
 		InstanceIP: &c.InstanceIP,
@@ -64,8 +71,8 @@ func (c MacM1Resources) waitForInit(ctx *pulumi.Context) error {
 		PrivateKey: c.PrivateKey}
 	return instance.RemoteExec(
 		ctx,
-		command.CommandPing,
-		"macm1-WaitForConnect")
+		cmd,
+		cmdName)
 }
 
 func (r MacM1Request) onDemandInstance(ctx *pulumi.Context,

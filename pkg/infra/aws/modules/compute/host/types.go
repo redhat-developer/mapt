@@ -20,6 +20,8 @@ type HostRequest struct {
 
 type HostResources struct {
 	// InstanceID string
+	Name       string
+	Username   string
 	Instance   *ec2.Instance
 	InstanceIP pulumi.StringOutput
 	AWSKeyPair *ec2.KeyPair

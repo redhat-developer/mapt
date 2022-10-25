@@ -12,7 +12,9 @@ import (
 )
 
 func (r HostRequest) Create(ctx *pulumi.Context) (*HostResources, error) {
-	var host HostResources
+	var host = HostResources{
+		Name: r.Name,
+	}
 	awsKeyPair, privateKey, err := compute.ManageKeypair(
 		ctx, r.KeyPair, r.Name,
 		fmt.Sprintf("%s%s", r.Name, OutputPrivateIP))
@@ -37,3 +39,15 @@ func (r HostRequest) Create(ctx *pulumi.Context) (*HostResources, error) {
 	}
 	return nil, nil
 }
+
+// func (c HostResources) remoteExec(ctx *pulumi.Context, cmdName, cmd string) error {
+// 	instance := command.RemoteInstance{
+// 		Instance:   c.Instance,
+// 		InstanceIP: &c.InstanceIP,
+// 		Username:   c.Username,
+// 		PrivateKey: c.PrivateKey}
+// 	return instance.RemoteExec(
+// 		ctx,
+// 		cmd,
+// 		cmdName)
+// }
