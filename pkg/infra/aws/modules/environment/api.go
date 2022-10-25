@@ -110,19 +110,16 @@ func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destin
 	return nil
 }
 
-func Destroy(projectName, backedURL string) error {
+func Destroy(projectName, backedURL string) (err error) {
 	stack := utilInfra.Stack{
 		StackName:   stackCreateEnvironmentName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault}
-	_, err := utilInfra.DestroyStack(stack)
+	err = utilInfra.DestroyStack(stack)
 	if err != nil {
-		return err
+		return
 	}
 	err = spotprice.Destroy(projectName, backedURL)
-	if err != nil {
-		return err
-	}
-	return nil
+	return
 }

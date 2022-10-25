@@ -49,3 +49,13 @@ func getSpotPriceGroupFromStackResult(stackResult auto.UpResult) (spg *SpotPrice
 	spg.Score = int64(score)
 	return
 }
+
+func getSpotPriceGroupFromStackOutputs(outputs auto.OutputMap) (spg *SpotPriceGroup) {
+	spg = &SpotPriceGroup{}
+	spg.Region = outputs[StackOutputRegion].Value.(string)
+	spg.AvailabilityZone = outputs[StackOutputAvailabilityZone].Value.(string)
+	spg.MaxPrice = outputs[StackOutputMaxPrice].Value.(float64)
+	spg.AVGPrice = outputs[StackOutputAVGPrice].Value.(float64)
+	spg.Score = int64(outputs[StackOutputScore].Value.(float64))
+	return
+}

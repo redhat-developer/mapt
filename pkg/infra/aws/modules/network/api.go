@@ -40,16 +40,15 @@ func CreateNetwork(projectName, backedURL, cidr string,
 	return nil
 }
 
-func DestroyNetwork(projectName, backedURL string) error {
+func DestroyNetwork(projectName, backedURL string) (err error) {
 	stack := utilInfra.Stack{
 		StackName:   StackCreateNetworkName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.PluginAWSDefault}
-	_, err := utilInfra.DestroyStack(stack)
-	if err != nil {
-		return err
+	err = utilInfra.DestroyStack(stack)
+	if err == nil {
+		logging.Debugf("VPC has been destroyed")
 	}
-	logging.Debugf("VPC has been destroyed")
-	return nil
+	return
 }
