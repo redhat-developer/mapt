@@ -43,7 +43,7 @@ var corpCreateCmd = &cobra.Command{
 			return err
 		}
 		if err := environment.Create(
-			"qenvs", "file:///tmp/qenvs", true, true,
+			"qenvs", "file:///tmp/qenvs", true,
 			viper.GetString(supportedHostID)); err != nil {
 			// viper.GetString(cidr),
 			// util.SplitString(viper.GetString(availabilityZones), ","),

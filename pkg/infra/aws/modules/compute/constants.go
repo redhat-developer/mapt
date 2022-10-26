@@ -1,7 +1,7 @@
-package macm1
+package compute
 
 const (
-	OutputPrivateIP  string = "PrivateIP"
+	OutputHost       string = "Host"
 	OutputUsername   string = "Username"
 	OutputPrivateKey string = "PrivateKey"
 )

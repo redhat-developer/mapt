@@ -6,35 +6,29 @@ import (
 	"path"
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/macm1"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/rhel"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
 	spotprice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
+	supportMatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
 	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
 
-func Create(projectName, backedURL string, spot, public bool, targetHostID string) (err error) {
-
-	// TODO define Parse configuration for env
-
-	// If option for best price in...
-	// var spotPriceInfo *spotprice.SpotPriceData
-	var availabilityZones = network.DefaultAvailabilityZones[:1]
-	var spotPrice string
-	var plugin = aws.PluginAWSDefault
-	if spot {
-		spg, err := spotprice.Create(projectName, backedURL, targetHostID)
-		if err != nil {
-			return err
-		}
-		availabilityZones = []string{spg.AvailabilityZone}
-		spotPrice = fmt.Sprintf("%f", spg.MaxPrice)
-		plugin = aws.GetPluginAWS(
-			map[string]string{
-				aws.CONFIG_AWS_REGION: spg.Region})
+func Create(projectName, backedURL string, public bool, targetHostID string) (err error) {
+	// Check which supported host
+	host, err := supportMatrix.GetHost(targetHostID)
+	if err != nil {
+		return err
 	}
-
+	// Check with spot price environment requirements
+	availabilityZones, spotPrice, plugin, err :=
+		getEnvironmentInfo(projectName, backedURL, host)
+	if err != nil {
+		return err
+	}
 	// Based on spot price info the full environment will be created
 	request := corporateEnvironmentRequest{
 		name: projectName,
@@ -45,20 +39,15 @@ func Create(projectName, backedURL string, spot, public bool, targetHostID strin
 			PublicSubnetsCIDRs: network.DefaultCIDRPublicSubnets[:1],
 			SingleNatGateway:   false,
 		},
-		rhel: &rhel.RHELRequest{
-			Name:         fmt.Sprintf("%s-%s", projectName, "rhel"),
-			VersionMajor: rhel.VERSION_8,
-			Public:       public,
-			SpotPrice:    spotPrice,
-		},
 	}
-
-	// plugin will use the region from the best spot price
+	// Add request values for requested host
+	manageRequest(&request, host, public, projectName, spotPrice)
+	// Create stack
 	stack := utilInfra.Stack{
 		StackName:   stackCreateEnvironmentName,
 		ProjectName: projectName,
 		BackedURL:   backedURL,
-		Plugin:      plugin,
+		Plugin:      *plugin,
 		DeployFunc:  request.deployer,
 	}
 	// Exec stack
@@ -66,47 +55,11 @@ func Create(projectName, backedURL string, spot, public bool, targetHostID strin
 	if err != nil {
 		return err
 	}
-
-	// if option bastion
-	// if err = bastionOutputs(stackResult); err != nil {
-	// 	return err
-	// }
-
-	if err = writeOutput(stackResult, rhel.OutputPrivateKey, "/tmp/qenvs", "rhel_id_rsa"); err != nil {
-		return err
-	}
-	if err = writeOutput(stackResult, rhel.OutputPrivateIP, "/tmp/qenvs", "rhel_host"); err != nil {
-		return err
-	}
-	if err = writeOutput(stackResult, rhel.OutputUsername, "/tmp/qenvs", "rhel_username"); err != nil {
+	// Write host access info to disk
+	if err = manageResults(stackResult, host, public, "/tmp/qenvs"); err != nil {
 		return err
 	}
 	logging.Debug("Environment has been created")
-	return nil
-}
-
-// func bastionOutputs(stackResult auto.UpResult) (err error) {
-// 	if err = writeOutput(stackResult, bastion.OutputPrivateKey, "/tmp/qenvs", "bastion_id_rsa"); err != nil {
-// 		return err
-// 	}
-// 	if err = writeOutput(stackResult, bastion.OutputPublicIP, "/tmp/qenvs", "bastion_host"); err != nil {
-// 		return err
-// 	}
-// 	if err = writeOutput(stackResult, bastion.OutputUsername, "/tmp/qenvs", "bastion_username"); err != nil {
-// 		return err
-// 	}
-// 	return
-// }
-
-func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destinationFilename string) error {
-	value, ok := stackResult.Outputs[outputkey].Value.(string)
-	if !ok {
-		return fmt.Errorf("error getting %s", outputkey)
-	}
-	err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value), 0600)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 
@@ -122,4 +75,103 @@ func Destroy(projectName, backedURL string) (err error) {
 	}
 	err = spotprice.Destroy(projectName, backedURL)
 	return
+}
+
+func getEnvironmentInfo(projectName, backedURL string,
+	host *supportMatrix.SupportedHost) ([]string, string, *utilInfra.PluginInfo, error) {
+	var availabilityZones = network.DefaultAvailabilityZones[:1]
+	var spotPrice string
+	var plugin = aws.PluginAWSDefault
+	if host.Spot {
+		spg, err := spotprice.Create(projectName, backedURL, host.ID)
+		if err != nil {
+			return nil, "", nil, err
+		}
+		availabilityZones = []string{spg.AvailabilityZone}
+		spotPrice = fmt.Sprintf("%f", spg.MaxPrice)
+		// plugin will use the region from the best spot price
+		plugin = aws.GetPluginAWS(
+			map[string]string{
+				aws.CONFIG_AWS_REGION: spg.Region})
+	}
+	return availabilityZones, spotPrice, &plugin, nil
+}
+
+func manageRequest(request *corporateEnvironmentRequest,
+	host *supportMatrix.SupportedHost, public bool, projectName, spotPrice string) {
+	switch host.Type {
+	case supportMatrix.RHEL:
+		request.rhel = &rhel.RHELRequest{
+			VersionMajor: "8",
+			Request: compute.Request{
+				ProjecName: projectName,
+				Public:     public,
+				SpotPrice:  spotPrice,
+				Specs:      host,
+			}}
+
+	case supportMatrix.MacM1:
+		request.macm1 = &macm1.MacM1Request{
+			Request: compute.Request{
+				ProjecName: projectName,
+				Public:     public,
+				Specs:      host,
+			},
+		}
+	}
+
+}
+
+func manageResults(stackResult auto.UpResult,
+	host *supportMatrix.SupportedHost, public bool,
+	destinationFolder string) error {
+	if !public {
+		if err := writeOutputs(stackResult, destinationFolder, map[string]string{
+			fmt.Sprintf("%s-%s", compute.OutputPrivateKey, "bastion"): "bastion_id_rsa",
+			fmt.Sprintf("%s-%s", compute.OutputHost, "bastion"):       "bastion_host",
+			fmt.Sprintf("%s-%s", compute.OutputUsername, "bastion"):   "bastion_username",
+		}); err != nil {
+			return err
+		}
+	}
+	switch host.Type {
+	case supportMatrix.RHEL:
+		if err := writeOutputs(stackResult, destinationFolder, map[string]string{
+			fmt.Sprintf("%s-%s", compute.OutputPrivateKey, supportMatrix.OL_RHEL.ID): "rhel_id_rsa",
+			fmt.Sprintf("%s-%s", compute.OutputHost, supportMatrix.OL_RHEL.ID):       "rhel_host",
+			fmt.Sprintf("%s-%s", compute.OutputUsername, supportMatrix.OL_RHEL.ID):   "rhel_username",
+		}); err != nil {
+			return err
+		}
+	case supportMatrix.MacM1:
+		if err := writeOutputs(stackResult, destinationFolder, map[string]string{
+			fmt.Sprintf("%s-%s", compute.OutputPrivateKey, supportMatrix.G_MAC_M1.ID): "macm1_id_rsa",
+			fmt.Sprintf("%s-%s", compute.OutputHost, supportMatrix.G_MAC_M1.ID):       "macm1_host",
+			fmt.Sprintf("%s-%s", compute.OutputUsername, supportMatrix.G_MAC_M1.ID):   "macm1_username",
+		}); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func writeOutputs(stackResult auto.UpResult, destinationFolder string, results map[string]string) (err error) {
+	for k, v := range results {
+		if err = writeOutput(stackResult, k, destinationFolder, v); err != nil {
+			return err
+		}
+	}
+	return
+}
+
+func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destinationFilename string) error {
+	value, ok := stackResult.Outputs[outputkey].Value.(string)
+	if !ok {
+		return fmt.Errorf("error getting %s", outputkey)
+	}
+	err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value), 0600)
+	if err != nil {
+		return err
+	}
+	return nil
 }

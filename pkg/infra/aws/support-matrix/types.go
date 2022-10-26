@@ -5,14 +5,13 @@ type SupportedHost struct {
 	Description string
 	// Filter for machine
 	ProductDescription string
-	// Manually check the map on https://ap-south-1.console.aws.amazon.com/ec2/home?region=ap-south-1#SpotPlacementScore:
-	//between instances types and Requirements
-	InstaceTypes []string
-	// Requirements Requirements
+	InstaceTypes       []string
 	// true if spot instances are supported
 	Spot bool
 	// AMI Pattern
 	AMI AMI
+	// RHEL, Windows, MacM1
+	Type SupportedType
 }
 
 type AMI struct {
@@ -21,4 +20,5 @@ type AMI struct {
 	RegexPattern string
 	Filters      map[string]string
 	DefaultUser  string
+	Owner        string
 }
