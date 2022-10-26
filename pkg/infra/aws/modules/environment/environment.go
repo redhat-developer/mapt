@@ -3,7 +3,9 @@ package environment
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/bastion"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
+	supportmatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -15,36 +17,51 @@ func (r corporateEnvironmentRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	var b *bastion.BastionResources
+	var b *compute.Resources
 	if r.bastion != nil {
 		logging.Debug("Creating bastion")
 		// Compose runtime resources info
-		_, err = bastion.BastionRequest{
-			Name:          fmt.Sprintf("%s-%s", r.name, "bastion"),
-			HA:            false,
-			VPC:           network.VPCResources.VPC,
-			PublicSubnets: []*ec2.Subnet{network.PublicSNResources[0].Subnet},
-		}.Create(ctx)
+		bastionRequest := compute.Request{
+			ProjecName: fmt.Sprintf("%s-%s", r.name, "bastion"),
+			VPC:        network.VPCResources.VPC,
+			Subnets:    []*ec2.Subnet{network.PublicSNResources[0].Subnet},
+			Specs:      &supportmatrix.S_BASTION,
+			//  need to complete Specs: ,
+		}
+		b, err = bastionRequest.Create(ctx, &bastionRequest)
 		if err != nil {
 			return err
 		}
 	}
 	if r.rhel != nil {
 		logging.Debug("Creating rhel")
-		// Compose runtime resources info
-		r.rhel.VPC = network.VPCResources.VPC
-		if r.rhel.Public {
-			r.rhel.Subnets = []*ec2.Subnet{network.PublicSNResources[0].Subnet}
-		} else {
-			r.rhel.Subnets = []*ec2.Subnet{network.PrivateSNResources[0].Subnet}
+		fillCompute(&r.rhel.Request, network, b)
+		_, err = r.rhel.Create(ctx, r.rhel)
+		if err != nil {
+			return err
 		}
-		if b != nil {
-			r.rhel.BastionSG = b.SG
-		}
-		_, err = r.rhel.Create(ctx)
+	}
+	if r.macm1 != nil {
+		logging.Debug("Creating macm1")
+		fillCompute(&r.macm1.Request, network, b)
+		_, err = r.macm1.Create(ctx, r.macm1)
 		if err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func fillCompute(request *compute.Request, network *network.NetworkResources,
+	bastion *compute.Resources) {
+	request.VPC = network.VPCResources.VPC
+	if request.Public {
+		request.Subnets = []*ec2.Subnet{network.PublicSNResources[0].Subnet}
+	} else {
+		request.Subnets = []*ec2.Subnet{network.PrivateSNResources[0].Subnet}
+	}
+	request.AvailabilityZones = []string{network.AvailabilityZones[0]}
+	if bastion != nil {
+		request.BastionSG = bastion.SG
+	}
 }

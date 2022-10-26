@@ -17,5 +17,5 @@ var (
 	DefaultCIDRIntraSubnets [3]string = [3]string{
 		"10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"}
 	DefaultAvailabilityZones [3]string = [3]string{
-		"us-east-1a", "us-east-1b", "us-east-1c"}
+		"us-east-1b", "us-east-1c", "us-east-1d"}
 )

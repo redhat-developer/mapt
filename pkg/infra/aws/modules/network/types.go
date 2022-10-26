@@ -17,6 +17,7 @@ type NetworkRequest struct {
 
 type NetworkResources struct {
 	VPCResources       *vpc.VPCResources
+	AvailabilityZones  []string
 	PublicSNResources  []*subnet.PublicSubnetResources
 	PrivateSNResources []*subnet.PrivateSubnetResources
 	IntraSNResources   []*subnet.PrivateSubnetResources

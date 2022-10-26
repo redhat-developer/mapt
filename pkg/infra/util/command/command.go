@@ -12,7 +12,7 @@ import (
 const (
 	// remoteCommandTimeout int = 300
 	// https://www.pulumi.com/docs/intro/concepts/resources/options/customtimeouts/
-	remoteTimeout string = "10m"
+	remoteTimeout string = "30m"
 
 	CommandCloudInitWait string = "sudo cloud-init status --wait"
 	CommandPing          string = "echo ping"
@@ -30,12 +30,13 @@ type RemoteInstance struct {
 // Remote command success if error = nil
 type RemoteCommand func(ctx *pulumi.Context, remoteCommand, remoteCommandName string) error
 
-func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand, remoteCommandName string) error {
+func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand, remoteCommandName string,
+	dependecies []pulumi.Resource) (*remote.Command, error) {
 	remoteIP, err := r.getRemoteHost()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	_, err = remote.NewCommand(ctx, remoteCommandName, &remote.CommandArgs{
+	return remote.NewCommand(ctx, remoteCommandName, &remote.CommandArgs{
 		Connection: remote.ConnectionArgs{
 			Host:       remoteIP,
 			PrivateKey: r.PrivateKey.PrivateKeyOpenssh,
@@ -47,11 +48,8 @@ func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand, remoteCom
 	}, pulumi.Timeouts(
 		&pulumi.CustomTimeouts{
 			Create: remoteTimeout,
-			Update: remoteTimeout}))
-	if err != nil {
-		return err
-	}
-	return nil
+			Update: remoteTimeout}),
+		pulumi.DependsOn(dependecies))
 }
 
 func (r RemoteInstance) getRemoteHost() (pulumi.StringOutput, error) {
