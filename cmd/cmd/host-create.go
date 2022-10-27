@@ -20,6 +20,9 @@ func init() {
 	flagSet.StringP(backedURL, "", "", backedURLDesc)
 	flagSet.StringP(connectionDetailsOutput, "", "", connectionDetailsOutputDesc)
 	flagSet.StringP(supportedHostID, "", "", supportedHostIDDesc)
+	flagSet.StringP(rhMajorVersion, "", "8", rhMajorVersionDesc)
+	flagSet.StringP(rhSubcriptionUsername, "", "", rhSubcriptionUsernameDesc)
+	flagSet.StringP(rhSubcriptionPassword, "", "", rhSubcriptionPasswordDesc)
 	hostCreateCmd.Flags().AddFlagSet(flagSet)
 }
 
@@ -37,7 +40,10 @@ var hostCreateCmd = &cobra.Command{
 			// fixed as public to ensure sync, when PR is merged we can offer as param
 			// https://github.com/pulumi/pulumi-command/pull/132
 			true,
-			viper.GetString(supportedHostID)); err != nil {
+			viper.GetString(supportedHostID),
+			viper.GetString(rhMajorVersion),
+			viper.GetString(rhSubcriptionUsername),
+			viper.GetString(rhSubcriptionPassword)); err != nil {
 			logging.Error(err)
 		}
 		return nil

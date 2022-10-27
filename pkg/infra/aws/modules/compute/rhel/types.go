@@ -6,6 +6,9 @@ import (
 
 type RHELRequest struct {
 	VersionMajor string
+	// username and password to handle rh subscription on userdata
+	SubscriptionUsername string
+	SubscriptionPassword string
 	compute.Request
 }
 

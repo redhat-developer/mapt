@@ -17,7 +17,9 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
 
-func Create(projectName, backedURL, connectionDetailsOutput string, public bool, targetHostID string) (err error) {
+func Create(projectName, backedURL, connectionDetailsOutput string,
+	public bool, targetHostID string,
+	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string) (err error) {
 	// Check which supported host
 	host, err := supportMatrix.GetHost(targetHostID)
 	if err != nil {
@@ -41,7 +43,8 @@ func Create(projectName, backedURL, connectionDetailsOutput string, public bool,
 		},
 	}
 	// Add request values for requested host
-	manageRequest(&request, host, public, projectName, spotPrice)
+	manageRequest(&request, host, public, projectName, spotPrice,
+		rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword)
 	// Create stack
 	stack := utilInfra.Stack{
 		StackName:   stackCreateEnvironmentName,
@@ -98,11 +101,15 @@ func getEnvironmentInfo(projectName, backedURL string,
 }
 
 func manageRequest(request *corporateEnvironmentRequest,
-	host *supportMatrix.SupportedHost, public bool, projectName, spotPrice string) {
+	host *supportMatrix.SupportedHost, public bool,
+	projectName, spotPrice string,
+	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string) {
 	switch host.Type {
 	case supportMatrix.RHEL:
 		request.rhel = &rhel.RHELRequest{
-			VersionMajor: "8",
+			VersionMajor:         rhMajorVersion,
+			SubscriptionUsername: rhSubscriptionUsername,
+			SubscriptionPassword: rhSubscriptionPassword,
 			Request: compute.Request{
 				ProjecName: projectName,
 				Public:     public,

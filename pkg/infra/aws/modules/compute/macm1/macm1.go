@@ -3,12 +3,11 @@ package macm1
 import (
 	// "github.com/pulumi/pulumi-aws/sdk/v5/go/aws/elb"
 
-	"bytes"
 	"fmt"
-	"text/template"
 
 	"github.com/adrianriobo/qenvs/pkg/infra"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
+	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
@@ -19,6 +18,10 @@ const vncDefaultPort int = 5900
 
 func (r *MacM1Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
+}
+
+func (r *MacM1Request) GetUserdata() (string, error) {
+	return "", nil
 }
 
 func (r *MacM1Request) GetDedicatedHost(ctx *pulumi.Context) (*ec2.DedicatedHost, error) {
@@ -48,7 +51,11 @@ func (r *MacM1Request) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Securit
 }
 
 func (r *MacM1Request) GetPostScript() (string, error) {
-	return getUserData(r.Specs.AMI.DefaultUser, "crcqe")
+	return util.Template(
+		UserDataValues{
+			r.Specs.AMI.DefaultUser,
+			r.Password},
+		"postscript", script)
 }
 
 var script string = `
@@ -78,18 +85,4 @@ sudo defaults write /Library/Preferences/.GlobalPreferences.plist com.apple.auto
 type UserDataValues struct {
 	Username string
 	Password string
-}
-
-func getUserData(username, password string) (string, error) {
-	data := UserDataValues{username, password}
-	tmpl, err := template.New("userdata").Parse(script)
-	if err != nil {
-		return "", err
-	}
-	buffer := new(bytes.Buffer)
-	err = tmpl.Execute(buffer, data)
-	if err != nil {
-		return "", err
-	}
-	return buffer.String(), nil
 }
