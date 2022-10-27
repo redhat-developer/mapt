@@ -11,6 +11,12 @@ const (
 	supportedHostIDDesc         string = "host id from supported hosts list"
 	availabilityZones           string = "availability-zones"
 	availabilityZonesDesc       string = "List of comma separated azs to check. If empty all will be searched"
+	rhMajorVersion              string = "rh-major-version"
+	rhMajorVersionDesc          string = "major version for rhel image 7, 8 or 9"
+	rhSubcriptionUsername       string = "rh-subscription-username"
+	rhSubcriptionUsernameDesc   string = "username for rhel subcription"
+	rhSubcriptionPassword       string = "rh-subscription-password"
+	rhSubcriptionPasswordDesc   string = "password for rhel subcription"
 
 	createCmdName  string = "create"
 	destroyCmdName string = "destroy"

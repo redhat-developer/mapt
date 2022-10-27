@@ -23,6 +23,10 @@ func (r *Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, "", r.Specs.AMI.Filters)
 }
 
+func (r *Request) GetUserdata() (string, error) {
+	return "", nil
+}
+
 func (r *Request) GetDedicatedHost(ctx *pulumi.Context) (*ec2.DedicatedHost, error) {
 	return nil, nil
 }
@@ -57,9 +61,12 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 	if err != nil {
 		return nil, err
 	}
-
+	userdataEncodedBase64, err := computeRequested.GetUserdata()
+	if err != nil {
+		return nil, err
+	}
 	if len(r.SpotPrice) > 0 {
-		err = r.createSpotInstance(ctx, ami.Id, &compute)
+		err = r.createSpotInstance(ctx, ami.Id, userdataEncodedBase64, &compute)
 		if err != nil {
 			return nil, err
 		}
@@ -68,7 +75,7 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 		if err != nil {
 			return nil, err
 		}
-		err = r.createOnDemand(ctx, ami.Id, dh, &compute)
+		err = r.createOnDemand(ctx, ami.Id, userdataEncodedBase64, dh, &compute)
 		if err != nil {
 			return nil, err
 		}
@@ -142,7 +149,7 @@ func (r *Request) manageSecurityGroup(ctx *pulumi.Context,
 	return nil
 }
 
-func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
+func (r *Request) createOnDemand(ctx *pulumi.Context, amiID, userdataEncodedBase64 string,
 	dh *ec2.DedicatedHost, compute *Compute) error {
 	instanceArgs := ec2.InstanceArgs{
 		SubnetId:                 r.Subnets[0].ID(),
@@ -159,6 +166,9 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
 	if dh != nil {
 		instanceArgs.HostId = dh.ID()
 	}
+	if len(userdataEncodedBase64) > 0 {
+		instanceArgs.UserData = pulumi.String(userdataEncodedBase64)
+	}
 	i, err := ec2.NewInstance(ctx, r.GetName(), &instanceArgs)
 	if err != nil {
 		return err
@@ -173,19 +183,21 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
 }
 
 func (r Request) createSpotInstance(ctx *pulumi.Context,
-	amiID string, compute *Compute) error {
-	lt, err := ec2.NewLaunchTemplate(ctx,
-		r.GetName(),
-		&ec2.LaunchTemplateArgs{
-			NamePrefix: pulumi.String(r.GetName()),
-			ImageId:    pulumi.String(amiID),
-			KeyName:    compute.AWSKeyPair.KeyName,
-			NetworkInterfaces: ec2.LaunchTemplateNetworkInterfaceArray{
-				&ec2.LaunchTemplateNetworkInterfaceArgs{
-					SecurityGroups: compute.getSecurityGroupsIDs(),
-				},
+	amiID, userdataEncodedBase64 string, compute *Compute) error {
+	args := &ec2.LaunchTemplateArgs{
+		NamePrefix: pulumi.String(r.GetName()),
+		ImageId:    pulumi.String(amiID),
+		KeyName:    compute.AWSKeyPair.KeyName,
+		NetworkInterfaces: ec2.LaunchTemplateNetworkInterfaceArray{
+			&ec2.LaunchTemplateNetworkInterfaceArgs{
+				SecurityGroups: compute.getSecurityGroupsIDs(),
 			},
-		})
+		},
+	}
+	if len(userdataEncodedBase64) > 0 {
+		args.UserData = pulumi.String(userdataEncodedBase64)
+	}
+	lt, err := ec2.NewLaunchTemplate(ctx, r.GetName(), args)
 	if err != nil {
 		return err
 	}
