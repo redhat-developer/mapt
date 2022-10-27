@@ -2,18 +2,18 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: infra-provision
+  name: infra-management
   labels:
     app.kubernetes.io/version: "0.1"
   annotations:
     tekton.dev/pipelines.minVersion: "0.24.x"
-    tekton.dev/categories: provision
-    tekton.dev/tags: provision, aws
-    tekton.dev/displayName: "aws provisioner"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, aws
+    tekton.dev/displayName: "aws manager"
     tekton.dev/platforms: "linux/amd64"
 spec:
   description: >-
-    This task will provision multiple environments on public cloud 
+    This task will provision / decomission multiple environments on public cloud 
 
     The output will give required information to connect within the remote provisioned host
 
@@ -25,6 +25,8 @@ spec:
     description: identifier for project. 
   - name: requestedHostID
     description: this is the ID for the supported host. Current values (ol-rhel,g-macos-m1)  
+  - name: operation 
+    description: operation to execute within the infrastructure. Current values (create, destroy)
   - name: aws-credentials-secret
     description: ocp secret holding the aws credentials. Secret should be accessible to this task.
     default: aws-crcqe-bot
@@ -33,6 +35,9 @@ spec:
     default: credentials-rh-subs-crcqe-prod
   - name: workspace-resources-path
     description: path on workspace where to store ephemeral assets related with the provisioning
+  - name: remove-lock
+    description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
+    default: 'true'
 
   results:
   - name: host
@@ -78,12 +83,17 @@ spec:
       mkdir -p ${workspace_path}
       BACKED_URL="file:/${workspace_path}" 
       CONNECTION_OUTPUT=${workspace_path}
-      OPERATION=create
+      OPERATION=$(params.operation)
       SUPPORTED_HOST_ID=$(params.requestedHostID)
 
       # Check error without this 
       # /usr/local/bin/entrypoint.sh: line 30: PULUMI_CONFIG_PASSPHRASE: parameter not set
       PULUMI_CONFIG_PASSPHRASE="passphrase"
+
+      # Remove lock
+      if [[ $(params.remove-lock) == "true" ]]; then
+          rm -rf ${workspace_path}/.pulumi/locks/*
+      fi
 
       # Default entrypoint 
       . entrypoint.sh
@@ -100,10 +110,10 @@ spec:
       fi
     resources:      
       requests:
-        memory: "100Mi"
-        cpu: "50m"
-      limits:
-        memory: "140Mi"
+        memory: "200Mi"
         cpu: "100m"
+      limits:
+        memory: "400Mi"
+        cpu: "200m"
   
       
