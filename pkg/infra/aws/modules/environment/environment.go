@@ -17,7 +17,7 @@ func (r corporateEnvironmentRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	var b *compute.Resources
+	var bastion *compute.Compute
 	if r.bastion != nil {
 		logging.Debug("Creating bastion")
 		// Compose runtime resources info
@@ -28,14 +28,14 @@ func (r corporateEnvironmentRequest) deployer(ctx *pulumi.Context) error {
 			Specs:      &supportmatrix.S_BASTION,
 			//  need to complete Specs: ,
 		}
-		b, err = bastionRequest.Create(ctx, &bastionRequest)
+		bastion, err = bastionRequest.Create(ctx, &bastionRequest)
 		if err != nil {
 			return err
 		}
 	}
 	if r.rhel != nil {
 		logging.Debug("Creating rhel")
-		fillCompute(&r.rhel.Request, network, b)
+		fillCompute(&r.rhel.Request, network, bastion)
 		_, err = r.rhel.Create(ctx, r.rhel)
 		if err != nil {
 			return err
@@ -43,7 +43,7 @@ func (r corporateEnvironmentRequest) deployer(ctx *pulumi.Context) error {
 	}
 	if r.macm1 != nil {
 		logging.Debug("Creating macm1")
-		fillCompute(&r.macm1.Request, network, b)
+		fillCompute(&r.macm1.Request, network, bastion)
 		_, err = r.macm1.Create(ctx, r.macm1)
 		if err != nil {
 			return err
@@ -53,7 +53,7 @@ func (r corporateEnvironmentRequest) deployer(ctx *pulumi.Context) error {
 }
 
 func fillCompute(request *compute.Request, network *network.NetworkResources,
-	bastion *compute.Resources) {
+	bastion *compute.Compute) {
 	request.VPC = network.VPCResources.VPC
 	if request.Public {
 		request.Subnets = []*ec2.Subnet{network.PublicSNResources[0].Subnet}
@@ -62,6 +62,6 @@ func fillCompute(request *compute.Request, network *network.NetworkResources,
 	}
 	request.AvailabilityZones = []string{network.AvailabilityZones[0]}
 	if bastion != nil {
-		request.BastionSG = bastion.SG
+		request.BastionSG = bastion.SG[0]
 	}
 }

@@ -8,6 +8,6 @@ type MacM1Request struct {
 	compute.Request
 }
 
-type MacM1Resources struct {
-	compute.Resources
+type MacM1Compute struct {
+	compute.Compute
 }
