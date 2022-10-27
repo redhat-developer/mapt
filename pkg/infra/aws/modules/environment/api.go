@@ -17,7 +17,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
 
-func Create(projectName, backedURL string, public bool, targetHostID string) (err error) {
+func Create(projectName, backedURL, connectionDetailsOutput string, public bool, targetHostID string) (err error) {
 	// Check which supported host
 	host, err := supportMatrix.GetHost(targetHostID)
 	if err != nil {
@@ -56,7 +56,7 @@ func Create(projectName, backedURL string, public bool, targetHostID string) (er
 		return err
 	}
 	// Write host access info to disk
-	if err = manageResults(stackResult, host, public, "/tmp/qenvs"); err != nil {
+	if err = manageResults(stackResult, host, public, connectionDetailsOutput); err != nil {
 		return err
 	}
 	logging.Debug("Environment has been created")
@@ -125,32 +125,18 @@ func manageRequest(request *corporateEnvironmentRequest,
 func manageResults(stackResult auto.UpResult,
 	host *supportMatrix.SupportedHost, public bool,
 	destinationFolder string) error {
+	// Currently support only one host on host operation
+	// this should be change when create a environment with multiple hosts
+	remoteHostID := host.ID
 	if !public {
-		if err := writeOutputs(stackResult, destinationFolder, map[string]string{
-			fmt.Sprintf("%s-%s", compute.OutputPrivateKey, "bastion"): "bastion_id_rsa",
-			fmt.Sprintf("%s-%s", compute.OutputHost, "bastion"):       "bastion_host",
-			fmt.Sprintf("%s-%s", compute.OutputUsername, "bastion"):   "bastion_username",
-		}); err != nil {
-			return err
-		}
+		remoteHostID = supportMatrix.S_BASTION.ID
 	}
-	switch host.Type {
-	case supportMatrix.RHEL:
-		if err := writeOutputs(stackResult, destinationFolder, map[string]string{
-			fmt.Sprintf("%s-%s", compute.OutputPrivateKey, supportMatrix.OL_RHEL.ID): "rhel_id_rsa",
-			fmt.Sprintf("%s-%s", compute.OutputHost, supportMatrix.OL_RHEL.ID):       "rhel_host",
-			fmt.Sprintf("%s-%s", compute.OutputUsername, supportMatrix.OL_RHEL.ID):   "rhel_username",
-		}); err != nil {
-			return err
-		}
-	case supportMatrix.MacM1:
-		if err := writeOutputs(stackResult, destinationFolder, map[string]string{
-			fmt.Sprintf("%s-%s", compute.OutputPrivateKey, supportMatrix.G_MAC_M1.ID): "macm1_id_rsa",
-			fmt.Sprintf("%s-%s", compute.OutputHost, supportMatrix.G_MAC_M1.ID):       "macm1_host",
-			fmt.Sprintf("%s-%s", compute.OutputUsername, supportMatrix.G_MAC_M1.ID):   "macm1_username",
-		}); err != nil {
-			return err
-		}
+	if err := writeOutputs(stackResult, destinationFolder, map[string]string{
+		fmt.Sprintf("%s-%s", compute.OutputPrivateKey, remoteHostID): "id_rsa",
+		fmt.Sprintf("%s-%s", compute.OutputHost, remoteHostID):       "host",
+		fmt.Sprintf("%s-%s", compute.OutputUsername, remoteHostID):   "username",
+	}); err != nil {
+		return err
 	}
 	return nil
 }
