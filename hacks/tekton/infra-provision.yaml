@@ -1,0 +1,109 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-provision
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.24.x"
+    tekton.dev/categories: provision
+    tekton.dev/tags: provision, aws
+    tekton.dev/displayName: "aws provisioner"
+    tekton.dev/platforms: "linux/amd64"
+spec:
+  description: >-
+    This task will provision multiple environments on public cloud 
+
+    The output will give required information to connect within the remote provisioned host
+
+  workspaces:
+  - name: pipelines-data
+
+  params: 
+  - name: project-name
+    description: identifier for project. 
+  - name: requestedHostID
+    description: this is the ID for the supported host. Current values (ol-rhel,g-macos-m1)  
+  - name: aws-credentials-secret
+    description: ocp secret holding the aws credentials. Secret should be accessible to this task.
+    default: aws-crcqe-bot
+  - name: rh-account-secret
+    description: ocp secret holding the credentials for a valid rh user to subscribe VM. Secret should be accessible to this task.
+    default: credentials-rh-subs-crcqe-prod
+  - name: workspace-resources-path
+    description: path on workspace where to store ephemeral assets related with the provisioning
+
+  results:
+  - name: host
+    description: ip to connect to the provisioned machine
+  - name: username
+    description: username to connect to the provisioned machine
+  - name: key
+    description: filename for the private key. The key is located at workspace-resources-path
+
+  volumes:
+  - name: aws-credentials
+    secret:
+      secretName: $(params.aws-credentials-secret)
+  - name: rh-account-secret
+    secret:
+      secretName: $(params.rh-account-secret)
+
+  steps:
+  - name: provisioner
+    image: quay.io/ariobolo/qenvs:v0.0.1
+    volumeMounts:
+    - mountPath: /opt/aws-credentials/
+      name: aws-credentials
+    - mountPath: /opt/rh-account-secret/
+      name: rh-account-secret
+    script: |
+      #!/bin/sh
+
+      # Added verbosity
+      set -xuo
+      
+      # Credentials
+      AWS_ACCESS_KEY_ID=$(cat /opt/aws-credentials/access-key)
+      AWS_SECRET_ACCESS_KEY=$(cat /opt/aws-credentials/secret-key)
+      AWS_DEFAULT_REGION=$(cat /opt/aws-credentials/region)
+
+      # Missing credentials for rh subs 
+      # Depends on https://github.com/adrianriobo/qenvs/issues/26
+
+      PROJECT_NAME=$(params.project-name)
+      workspace_path=$(workspaces.pipelines-data.path)/$(params.workspace-resources-path)
+      # In case the path does not exist previously 
+      mkdir -p ${workspace_path}
+      BACKED_URL="file:/${workspace_path}" 
+      CONNECTION_OUTPUT=${workspace_path}
+      OPERATION=create
+      SUPPORTED_HOST_ID=$(params.requestedHostID)
+
+      # Check error without this 
+      # /usr/local/bin/entrypoint.sh: line 30: PULUMI_CONFIG_PASSPHRASE: parameter not set
+      PULUMI_CONFIG_PASSPHRASE="passphrase"
+
+      # Default entrypoint 
+      . entrypoint.sh
+
+      create_exit_code=$?
+     
+      # set task results
+      cat "${workspace_path}/host" | tee $(results.host.path)
+      cat "${workspace_path}/username" | tee $(results.username.path)   
+      echo -n "id_rsa" | tee $(results.key.path)   
+
+      if [[ ${create_exit_code} -ne 0 ]]; then 
+        exit 1
+      fi
+    resources:      
+      requests:
+        memory: "100Mi"
+        cpu: "50m"
+      limits:
+        memory: "140Mi"
+        cpu: "100m"
+  
+      

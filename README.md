@@ -36,7 +36,7 @@ qenvs can be build as container
 make container-build
 ```
 
-An usage sample for container 
+run qenvs container, to setup AWS credentials there is a [helper script](hacks/aws_setup.sh)
 
 ```bash
 # state and connection outputs will be created in this folder
@@ -71,3 +71,7 @@ podman run -d --name qenvs-rhel \
         -e OPERATION=destroy \
         quay.io/ariobolo/qenvs:0.0.1
 ```
+
+### Tekton
+
+To facilitate the inclusion within a pipeline a [task defintion](hacks/tekton/infra-provision.yaml) can be used  as wrapper.
