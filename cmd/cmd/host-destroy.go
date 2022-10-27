@@ -29,8 +29,8 @@ var hostDestroyCmd = &cobra.Command{
 			return err
 		}
 		if err := environment.Destroy(
-			"qenvs",
-			"file:///tmp/qenvs"); err != nil {
+			viper.GetString(projectName),
+			viper.GetString(backedURL)); err != nil {
 			logging.Error(err)
 		}
 		return nil
