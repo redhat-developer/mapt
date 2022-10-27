@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.18 as builder
+FROM docker.io/library/golang:1.18-alpine3.16 as builder
 
 USER root
 WORKDIR /workspace
@@ -7,23 +7,24 @@ COPY . .
 ENV PULUMI_VERSION 3.40.2
 ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
-RUN make build \
+RUN apk add --update make gcc musl-dev curl \
+    && make build \
     && curl -LO ${PULUMI_URL} \
     && tar -xzvf pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
 # TODO review quay build with entitlements (microdnf...)
 # FROM registry.access.redhat.com/ubi8/ubi-minimal
-FROM docker.io/library/alpine:3.16.2
+FROM docker.io/library/alpine:3.16
 
 LABEL MAINTAINER "Adrian Riobo" "<ariobolo@redhat.com>"
 
 COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /workspace/images/entrypoint.sh /usr/local/bin/
 
-ENV DEFAULT_BACKED_URL /tmp/qenvs
+ENV INTERNAL_OUTPUT /tmp/qenvs
 
-VOLUME [ "${DEFAULT_BACKED_URL}" ]
+VOLUME [ "${INTERNAL_OUTPUT}" ]
 
 RUN apk add aws-cli \
-    && mkdir -p "${DEFAULT_BACKED_URL}"
+    && mkdir -p "${INTERNAL_OUTPUT}"
 
 ENTRYPOINT entrypoint.sh 

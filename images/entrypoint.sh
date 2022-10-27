@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 VALID_CONFIG=true
 # Check required ENVs
@@ -13,8 +13,13 @@ if [ -z "${PROJECT_NAME}" ]; then
 fi
 
 if [ -z "${BACKED_URL}" ]; then 
-  echo "${DEFAULT_BACKED_URL} will be used as backed url it will be exported as volume"
-  BACKED_URL="${DEFAULT_BACKED_URL}"
+  echo "${INTERNAL_OUTPUT} will be used as backed url it will be exported as volume"
+  BACKED_URL="file://${INTERNAL_OUTPUT}"
+fi
+
+if [ -z "${CONNECTION_OUTPUT}" ]; then 
+  echo "${INTERNAL_OUTPUT} will be used as output folder for connecion resources"
+  CONNECTION_OUTPUT="${INTERNAL_OUTPUT}"
 fi
 
 if [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ] || [ -z "${AWS_DEFAULT_REGION}" ]; then 
@@ -23,8 +28,8 @@ if [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ] || [ -z "$
 fi
 
 if [ -z "${PULUMI_CONFIG_PASSPHRASE}" ]; then 
-  echo "PULUMI_CONFIG_PASSPHRASE ENV is required"
-  VALID_CONFIG=false  
+  # https://www.pulumi.com/docs/reference/cli/environment-variables/
+  PULUMI_CONFIG_PASSPHRASE="passphrase"
 fi
 
 if [ "${VALID_CONFIG}" = false ]; then
@@ -34,23 +39,29 @@ fi
 
 # //https://docs.aws.amazon.com/sdk-for-go/api/aws/session/
 AWS_SDK_LOAD_CONFIG=1
-# https://www.pulumi.com/docs/reference/cli/environment-variables/
-PULUMI_CONFIG_PASSPHRASE="passphrase"
 
 if [[ "${OPERATION}" == "create" ]]; then
-    if [ -z "${SUPPORTED_HOST_ID}" ]; then 
-      echo "SUPPORTED_HOST_ID is required"
-      VALID_CONFIG=false
-    fi
-    exec qenvs host create \
-      --project-name "${PROJECT_NAME}" \
-      --backed-url "${BACKED_URL}" \
-      --host-id "${SUPPORTED_HOST_ID}"
+  if [ -z "${SUPPORTED_HOST_ID}" ]; then 
+    echo "SUPPORTED_HOST_ID is required"
+    VALID_CONFIG=false
+  fi
+  exec  env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+        env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+        env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+        env AWS_SDK_LOAD_CONFIG=${AWS_SDK_LOAD_CONFIG} \
+        env PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE} \
+        qenvs host create \
+          --project-name "${PROJECT_NAME}" \
+          --backed-url "${BACKED_URL}" \
+          --conn-details-output "${CONNECTION_OUTPUT}" \
+          --host-id "${SUPPORTED_HOST_ID}"
 else 
-  exec qenvs host destroy \
-      --project-name "${PROJECT_NAME}" \
-      --backed-url "${BACKED_URL}" 
+  exec  env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+        env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+        env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+        env AWS_SDK_LOAD_CONFIG=${AWS_SDK_LOAD_CONFIG} \
+        env PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE} \
+        qenvs host destroy \
+          --project-name "${PROJECT_NAME}" \
+          --backed-url "${BACKED_URL}" 
 fi
-
-
-
