@@ -74,4 +74,4 @@ podman run -d --name qenvs-rhel \
 
 ### Tekton
 
-To facilitate the inclusion within a pipeline a [task defintion](hacks/tekton/infra-provision.yaml) can be used  as wrapper.
+To facilitate the inclusion within a pipeline a [task defintion](hacks/tekton/infra-management.yaml) can be used  as wrapper.
