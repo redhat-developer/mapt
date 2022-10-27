@@ -61,7 +61,7 @@ lint: $(GOPATH)/bin/golangci-lint
 
 # Build the container image
 .PHONY: container-build
-container-build: test
+container-build: clean check
 	${CONTAINER_MANAGER} build -t ${IMG} -f images/Dockerfile .
 
 # Push the docker image
