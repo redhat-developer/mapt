@@ -9,6 +9,6 @@ type RHELRequest struct {
 	compute.Request
 }
 
-type RHELResources struct {
-	compute.Resources
+type RHELCompute struct {
+	compute.Compute
 }
