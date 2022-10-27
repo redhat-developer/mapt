@@ -19,8 +19,11 @@ LABEL MAINTAINER "Adrian Riobo" "<ariobolo@redhat.com>"
 
 COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /workspace/images/entrypoint.sh /usr/local/bin/
 
+ENV DEFAULT_BACKED_URL /tmp/qenvs
+
+VOLUME [ "${DEFAULT_BACKED_URL}" ]
+
 RUN apk add aws-cli \
-    # this is for dev purposes need to improve with backedURL
-    && mkdir -p /tmp/qenvs
+    && mkdir -p "${DEFAULT_BACKED_URL}"
 
 ENTRYPOINT entrypoint.sh 
