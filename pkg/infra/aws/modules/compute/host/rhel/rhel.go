@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"fmt"
 
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
 	"github.com/adrianriobo/qenvs/pkg/util"
 
@@ -11,6 +12,10 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
+
+func (r *RHELRequest) GetRequest() *compute.Request {
+	return &r.Request
+}
 
 func (r *RHELRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	amiNameRegex := fmt.Sprintf(r.Specs.AMI.RegexPattern, r.VersionMajor)
@@ -42,11 +47,17 @@ func (r *RHELRequest) GetPostScript() (string, error) {
 	return "", nil
 }
 
+func (r *RHELRequest) Create(ctx *pulumi.Context,
+	computeRequested compute.ComputeRequest) (*compute.Compute, error) {
+	return r.Request.Create(ctx, r)
+}
+
 var cloudConfig string = `
 #cloud-config  
 rh_subscription:
   username: {{.SubscriptionUsername}}
   password: {{.SubscriptionPassword}}
+  auto-attach: true
 packages:
   - podman
 `

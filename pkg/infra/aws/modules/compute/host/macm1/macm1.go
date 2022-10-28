@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/adrianriobo/qenvs/pkg/infra"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
@@ -15,6 +16,10 @@ import (
 )
 
 const vncDefaultPort int = 5900
+
+func (r *MacM1Request) GetRequest() *compute.Request {
+	return &r.Request
+}
 
 func (r *MacM1Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
@@ -56,6 +61,11 @@ func (r *MacM1Request) GetPostScript() (string, error) {
 			r.Specs.AMI.DefaultUser,
 			r.Password},
 		"postscript", script)
+}
+
+func (r *MacM1Request) Create(ctx *pulumi.Context,
+	computeRequested compute.ComputeRequest) (*compute.Compute, error) {
+	return r.Request.Create(ctx, r)
 }
 
 var script string = `
