@@ -2,32 +2,32 @@
 
 VALID_CONFIG=true
 # Check required ENVs
-if [ -z "${OPERATION}" ]; then 
+if [ -z "${OPERATION+x}" ]; then 
   echo "OPERATION is required"
   VALID_CONFIG=false
 fi
 
-if [ -z "${PROJECT_NAME}" ]; then 
+if [ -z "${PROJECT_NAME+x}" ]; then 
   echo "PROJECT_NAME ENV is required"
   VALID_CONFIG=false  
 fi
 
-if [ -z "${BACKED_URL}" ]; then 
+if [ -z "${BACKED_URL+x}" ]; then 
   echo "${INTERNAL_OUTPUT} will be used as backed url it will be exported as volume"
   BACKED_URL="file://${INTERNAL_OUTPUT}"
 fi
 
-if [ -z "${CONNECTION_OUTPUT}" ]; then 
+if [ -z "${CONNECTION_OUTPUT+x}" ]; then 
   echo "${INTERNAL_OUTPUT} will be used as output folder for connecion resources"
   CONNECTION_OUTPUT="${INTERNAL_OUTPUT}"
 fi
 
-if [ -z "${AWS_ACCESS_KEY_ID}" ] || [ -z "${AWS_SECRET_ACCESS_KEY}" ] || [ -z "${AWS_DEFAULT_REGION}" ]; then 
+if [ -z "${AWS_ACCESS_KEY_ID+x}" ] || [ -z "${AWS_SECRET_ACCESS_KEY+x}" ] || [ -z "${AWS_DEFAULT_REGION+x}" ]; then 
   echo "AWS ENV for credentials are required"
   VALID_CONFIG=false  
 fi
 
-if [ -z "${PULUMI_CONFIG_PASSPHRASE}" ]; then 
+if [ -z "${PULUMI_CONFIG_PASSPHRASE+x}" ]; then 
   # https://www.pulumi.com/docs/reference/cli/environment-variables/
   PULUMI_CONFIG_PASSPHRASE="passphrase"
 fi
@@ -41,7 +41,7 @@ fi
 AWS_SDK_LOAD_CONFIG=1
 
 if [[ "${OPERATION}" == "create" ]]; then
-  if [ -z "${SUPPORTED_HOST_ID}" ]; then 
+  if [ -z "${SUPPORTED_HOST_ID+x}" ]; then 
     echo "SUPPORTED_HOST_ID is required"
     VALID_CONFIG=false
   fi
