@@ -7,7 +7,7 @@ import (
 var (
 	OL_RHEL = SupportedHost{
 		ID:                 olRHELID,
-		Description:        "rhel machine supporting initialize / build openshift local",
+		Description:        "rhel machine supporting nested virtualization (requirement to run openshift local)",
 		Type:               RHEL,
 		InstaceTypes:       []string{"c5.metal", "c5d.metal", "c5n.metal"},
 		ProductDescription: "Red Hat Enterprise Linux",
@@ -44,6 +44,21 @@ var (
 		},
 	}
 
+	S_SNC = SupportedHost{
+		ID:                 sSNCID,
+		Description:        "rhel machine with setup for build SNC",
+		Type:               RHEL,
+		InstaceTypes:       []string{"c5.metal", "c5d.metal", "c5n.metal"},
+		ProductDescription: "Red Hat Enterprise Linux",
+		Spot:               true,
+		AMI: AMI{
+			// https://access.redhat.com/solutions/15356
+			// Pattern with composition %s is major rhel version
+			RegexPattern: "RHEL-%s*-x86_64-*",
+			DefaultUser:  "ec2-user",
+		},
+	}
+
 	S_BASTION = SupportedHost{
 		ID:           sBastionID,
 		Description:  "bastion host to access hosts on private subnets",
@@ -76,6 +91,8 @@ func GetHost(id string) (*SupportedHost, error) {
 		return &OL_Windows, nil
 	case gMacOSM1ID:
 		return &G_MAC_M1, nil
+	case sSNCID:
+		return &S_SNC, nil
 	}
 
 	return nil, fmt.Errorf("supported host id is not valid")
