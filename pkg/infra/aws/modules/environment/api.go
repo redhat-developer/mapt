@@ -9,6 +9,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/macm1"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/rhel"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/services/snc"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
 	spotprice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
 	supportMatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
@@ -104,8 +105,8 @@ func manageRequest(request *singleHostRequest,
 	host *supportMatrix.SupportedHost, public bool,
 	projectName, spotPrice string,
 	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string) {
-	switch host.Type {
-	case supportMatrix.RHEL:
+	switch host.ID {
+	case supportMatrix.OL_RHEL.ID:
 		request.hostRequested = &rhel.RHELRequest{
 			VersionMajor:         rhMajorVersion,
 			SubscriptionUsername: rhSubscriptionUsername,
@@ -117,7 +118,7 @@ func manageRequest(request *singleHostRequest,
 				Specs:      host,
 			}}
 
-	case supportMatrix.MacM1:
+	case supportMatrix.G_MAC_M1.ID:
 		request.hostRequested = &macm1.MacM1Request{
 			Request: compute.Request{
 				ProjecName: projectName,
@@ -125,8 +126,18 @@ func manageRequest(request *singleHostRequest,
 				Specs:      host,
 			},
 		}
+	case supportMatrix.S_SNC.ID:
+		request.hostRequested = &snc.SNCRequest{
+			RHELRequest: rhel.RHELRequest{VersionMajor: rhMajorVersion,
+				SubscriptionUsername: rhSubscriptionUsername,
+				SubscriptionPassword: rhSubscriptionPassword,
+				Request: compute.Request{
+					ProjecName: projectName,
+					Public:     public,
+					SpotPrice:  spotPrice,
+					Specs:      host,
+				}}}
 	}
-
 }
 
 func manageResults(stackResult auto.UpResult,
