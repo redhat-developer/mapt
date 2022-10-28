@@ -26,6 +26,8 @@ type Request struct {
 // Methods to be implemented by any specific type of compute supported
 // these methods implement specifics on each different type
 type ComputeRequest interface {
+	// Get Request information
+	GetRequest() *Request
 	// Get ami value for the compute
 	GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error)
 	// Get userdata if any
@@ -38,6 +40,8 @@ type ComputeRequest interface {
 	CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGroup, error)
 	// Get script to be executed after initalization (not suited for userdata)
 	GetPostScript() (string, error)
+	// Create function to get a compute based on request
+	Create(ctx *pulumi.Context, computeRequested ComputeRequest) (*Compute, error)
 }
 
 // Related resources created within the compute asset

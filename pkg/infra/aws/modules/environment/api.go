@@ -7,8 +7,8 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/macm1"
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/rhel"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/macm1"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/rhel"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
 	spotprice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
 	supportMatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
@@ -32,7 +32,7 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 		return err
 	}
 	// Based on spot price info the full environment will be created
-	request := corporateEnvironmentRequest{
+	request := singleHostRequest{
 		name: projectName,
 		network: &network.NetworkRequest{
 			Name:               fmt.Sprintf("%s-%s", projectName, "network"),
@@ -100,13 +100,13 @@ func getEnvironmentInfo(projectName, backedURL string,
 	return availabilityZones, spotPrice, &plugin, nil
 }
 
-func manageRequest(request *corporateEnvironmentRequest,
+func manageRequest(request *singleHostRequest,
 	host *supportMatrix.SupportedHost, public bool,
 	projectName, spotPrice string,
 	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string) {
 	switch host.Type {
 	case supportMatrix.RHEL:
-		request.rhel = &rhel.RHELRequest{
+		request.hostRequested = &rhel.RHELRequest{
 			VersionMajor:         rhMajorVersion,
 			SubscriptionUsername: rhSubscriptionUsername,
 			SubscriptionPassword: rhSubscriptionPassword,
@@ -118,7 +118,7 @@ func manageRequest(request *corporateEnvironmentRequest,
 			}}
 
 	case supportMatrix.MacM1:
-		request.macm1 = &macm1.MacM1Request{
+		request.hostRequested = &macm1.MacM1Request{
 			Request: compute.Request{
 				ProjecName: projectName,
 				Public:     public,

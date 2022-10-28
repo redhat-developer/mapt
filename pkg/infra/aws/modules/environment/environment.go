@@ -11,7 +11,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-func (r corporateEnvironmentRequest) deployer(ctx *pulumi.Context) error {
+func (r singleHostRequest) deployer(ctx *pulumi.Context) error {
 	logging.Debug("Creating network")
 	network, err := r.network.CreateNetwork(ctx)
 	if err != nil {
@@ -33,18 +33,10 @@ func (r corporateEnvironmentRequest) deployer(ctx *pulumi.Context) error {
 			return err
 		}
 	}
-	if r.rhel != nil {
-		logging.Debug("Creating rhel")
-		fillCompute(&r.rhel.Request, network, bastion)
-		_, err = r.rhel.Create(ctx, r.rhel)
-		if err != nil {
-			return err
-		}
-	}
-	if r.macm1 != nil {
-		logging.Debug("Creating macm1")
-		fillCompute(&r.macm1.Request, network, bastion)
-		_, err = r.macm1.Create(ctx, r.macm1)
+	if r.hostRequested != nil {
+		logging.Debug("Creating requested host %")
+		fillCompute(r.hostRequested.GetRequest(), network, bastion)
+		_, err = r.hostRequested.Create(ctx, r.hostRequested)
 		if err != nil {
 			return err
 		}

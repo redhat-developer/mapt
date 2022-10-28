@@ -20,6 +20,10 @@ func (r *Request) GetName() string {
 	return fmt.Sprintf("%s-%s", r.ProjecName, r.Specs.ID)
 }
 
+func (r *Request) GetRequest() *Request {
+	return r
+}
+
 func (r *Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, "", r.Specs.AMI.Filters)
 }
