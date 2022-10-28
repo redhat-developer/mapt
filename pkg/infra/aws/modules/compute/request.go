@@ -2,6 +2,7 @@ package compute
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/adrianriobo/qenvs/pkg/infra"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
@@ -190,7 +191,9 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 		KeyName:    compute.AWSKeyPair.KeyName,
 		NetworkInterfaces: ec2.LaunchTemplateNetworkInterfaceArray{
 			&ec2.LaunchTemplateNetworkInterfaceArgs{
-				SecurityGroups: compute.getSecurityGroupsIDs(),
+				SecurityGroups:           compute.getSecurityGroupsIDs(),
+				AssociatePublicIpAddress: pulumi.String(strconv.FormatBool(r.Public)),
+				SubnetId:                 r.Subnets[0].ID(),
 			},
 		},
 	}
