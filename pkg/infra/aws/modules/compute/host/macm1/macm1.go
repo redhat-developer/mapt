@@ -25,8 +25,8 @@ func (r *MacM1Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error)
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
 }
 
-func (r *MacM1Request) GetUserdata() (string, error) {
-	return "", nil
+func (r *MacM1Request) GetUserdata() (pulumi.StringPtrInput, error) {
+	return nil, nil
 }
 
 func (r *MacM1Request) GetDedicatedHost(ctx *pulumi.Context) (*ec2.DedicatedHost, error) {

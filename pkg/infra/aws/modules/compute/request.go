@@ -28,8 +28,8 @@ func (r *Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, "", r.Specs.AMI.Filters)
 }
 
-func (r *Request) GetUserdata() (string, error) {
-	return "", nil
+func (r *Request) GetUserdata() (pulumi.StringPtrInput, error) {
+	return nil, nil
 }
 
 func (r *Request) GetDedicatedHost(ctx *pulumi.Context) (*ec2.DedicatedHost, error) {
@@ -154,8 +154,8 @@ func (r *Request) manageSecurityGroup(ctx *pulumi.Context,
 	return nil
 }
 
-func (r *Request) createOnDemand(ctx *pulumi.Context, amiID, userdataEncodedBase64 string,
-	dh *ec2.DedicatedHost, compute *Compute) error {
+func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
+	udBase64 pulumi.StringPtrInput, dh *ec2.DedicatedHost, compute *Compute) error {
 	instanceArgs := ec2.InstanceArgs{
 		SubnetId:                 r.Subnets[0].ID(),
 		Ami:                      pulumi.String(amiID),
@@ -171,8 +171,8 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID, userdataEncodedBase
 	if dh != nil {
 		instanceArgs.HostId = dh.ID()
 	}
-	if len(userdataEncodedBase64) > 0 {
-		instanceArgs.UserData = pulumi.String(userdataEncodedBase64)
+	if udBase64 != nil {
+		instanceArgs.UserData = udBase64
 	}
 	i, err := ec2.NewInstance(ctx, r.GetName(), &instanceArgs)
 	if err != nil {
@@ -188,7 +188,7 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID, userdataEncodedBase
 }
 
 func (r Request) createSpotInstance(ctx *pulumi.Context,
-	amiID, userdataEncodedBase64 string, compute *Compute) error {
+	amiID string, udBase64 pulumi.StringPtrInput, compute *Compute) error {
 	args := &ec2.LaunchTemplateArgs{
 		NamePrefix: pulumi.String(r.GetName()),
 		ImageId:    pulumi.String(amiID),
@@ -201,8 +201,8 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 			},
 		},
 	}
-	if len(userdataEncodedBase64) > 0 {
-		args.UserData = pulumi.String(userdataEncodedBase64)
+	if udBase64 != nil {
+		args.UserData = udBase64
 	}
 	lt, err := ec2.NewLaunchTemplate(ctx, r.GetName(), args)
 	if err != nil {

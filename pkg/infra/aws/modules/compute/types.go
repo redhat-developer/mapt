@@ -31,7 +31,7 @@ type ComputeRequest interface {
 	// Get ami value for the compute
 	GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error)
 	// Get userdata if any
-	GetUserdata() (string, error)
+	GetUserdata() (pulumi.StringPtrInput, error)
 	// Create dedicated host if compute requires it
 	GetDedicatedHost(ctx *pulumi.Context) (*ec2.DedicatedHost, error)
 	// In case a host has any specific ingress rule, this ingress rule will take effect on a SG

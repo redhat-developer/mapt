@@ -22,13 +22,13 @@ func (r *RHELRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) 
 	return ami.GetAMIByName(ctx, amiNameRegex, "", r.Specs.AMI.Filters)
 }
 
-func (r *RHELRequest) GetUserdata() (string, error) {
+func (r *RHELRequest) GetUserdata() (pulumi.StringPtrInput, error) {
 	userdata, err := util.Template(
 		UserDataValues{
 			r.SubscriptionUsername,
 			r.SubscriptionPassword},
 		"userdata", cloudConfig)
-	return base64.StdEncoding.EncodeToString([]byte(userdata)), err
+	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
 }
 
 func (r *RHELRequest) GetDedicatedHost(ctx *pulumi.Context) (*ec2.DedicatedHost, error) {

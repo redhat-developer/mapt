@@ -18,13 +18,13 @@ func (r *SNCRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return r.RHELRequest.GetAMI(ctx)
 }
 
-func (r *SNCRequest) GetUserdata() (string, error) {
+func (r *SNCRequest) GetUserdata() (pulumi.StringPtrInput, error) {
 	userdata, err := util.Template(
 		userDataValues{
 			r.SubscriptionUsername,
 			r.SubscriptionPassword},
 		"userdata", cloudConfig)
-	return base64.StdEncoding.EncodeToString([]byte(userdata)), err
+	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
 }
 
 func (r *SNCRequest) GetDedicatedHost(ctx *pulumi.Context) (*ec2.DedicatedHost, error) {
