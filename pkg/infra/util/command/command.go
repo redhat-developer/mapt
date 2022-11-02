@@ -12,7 +12,7 @@ import (
 const (
 	// remoteCommandTimeout int = 300
 	// https://www.pulumi.com/docs/intro/concepts/resources/options/customtimeouts/
-	remoteTimeout string = "30m"
+	remoteTimeout string = "40m"
 
 	CommandCloudInitWait string = "sudo cloud-init status --wait"
 	CommandPing          string = "echo ping"
