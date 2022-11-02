@@ -7,6 +7,7 @@ require (
 	github.com/coocood/freecache v1.2.2
 	github.com/pulumi/pulumi-aws/sdk/v5 v5.16.2
 	github.com/pulumi/pulumi-command/sdk v0.5.2
+	github.com/pulumi/pulumi-random/sdk/v4 v4.8.2
 	github.com/pulumi/pulumi-tls/sdk/v4 v4.6.1
 	github.com/pulumi/pulumi/sdk/v3 v3.40.0
 	github.com/sirupsen/logrus v1.9.0
