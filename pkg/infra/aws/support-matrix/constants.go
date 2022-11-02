@@ -2,9 +2,10 @@ package supportmatrix
 
 const (
 	// Specific to Openshift Local
-	olRHELID    string = "ol-rhel"
-	olWindowsID string = "ol-windows"
-	sSNCID      string = "s-snc"
+	olRHELID          string = "ol-rhel"
+	olWindowsID       string = "ol-windows"
+	olWindowsNonEngID string = "ol-windows-non-eng"
+	sSNCID            string = "s-snc"
 
 	// General mac m1
 	gMacOSM1ID string = "g-macos-m1"
