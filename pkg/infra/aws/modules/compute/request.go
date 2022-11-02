@@ -8,7 +8,6 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
-	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
@@ -17,7 +16,9 @@ import (
 )
 
 func (r *Request) GetName() string {
-	return fmt.Sprintf("%s-%s", r.ProjecName, r.Specs.ID)
+	//TODO review this to move fully to tags and avoid 32 limitation on resources limit
+	name := fmt.Sprintf("%s-%s", r.ProjecName, r.Specs.ID)
+	return util.If(len(name) > 15, name[:15], name)
 }
 
 func (r *Request) GetRequest() *Request {
@@ -28,7 +29,7 @@ func (r *Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, "", r.Specs.AMI.Filters)
 }
 
-func (r *Request) GetUserdata() (pulumi.StringPtrInput, error) {
+func (r *Request) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
 	return nil, nil
 }
 
@@ -44,7 +45,7 @@ func (r *Request) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGrou
 	return nil, nil
 }
 
-func (r *Request) GetPostScript() (string, error) {
+func (r *Request) GetPostScript(ctx *pulumi.Context) (string, error) {
 	return "", nil
 }
 
@@ -66,7 +67,7 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 	if err != nil {
 		return nil, err
 	}
-	userdataEncodedBase64, err := computeRequested.GetUserdata()
+	userdataEncodedBase64, err := computeRequested.GetUserdata(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -85,25 +86,25 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 			return nil, err
 		}
 	}
-	ctx.Export(compute.OutputUsername(), pulumi.String(r.Specs.AMI.DefaultUser))
-	if r.Public {
-		postScript, err := computeRequested.GetPostScript()
-		if err != nil {
-			return nil, err
-		}
-		waitCmddependencies := []pulumi.Resource{}
-		if len(postScript) > 0 {
-			rc, err := compute.remoteExec(ctx,
-				fmt.Sprintf("%s-%s", r.Specs.ID, "postscript"), postScript, nil)
-			if err != nil {
-				return nil, err
-			}
-			waitCmddependencies = append(waitCmddependencies, rc)
-		}
-		_, err = compute.remoteExec(ctx,
-			fmt.Sprintf("%s-%s", r.Specs.ID, "wait"), command.CommandPing, waitCmddependencies)
-		return &compute, err
-	}
+	ctx.Export(r.OutputUsername(), pulumi.String(r.Specs.AMI.DefaultUser))
+	// if r.Public {
+	// 	postScript, err := computeRequested.GetPostScript(ctx)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	waitCmddependencies := []pulumi.Resource{}
+	// 	if len(postScript) > 0 {
+	// 		rc, err := compute.remoteExec(ctx,
+	// 			fmt.Sprintf("%s-%s", r.Specs.ID, "postscript"), postScript, nil)
+	// 		if err != nil {
+	// 			return nil, err
+	// 		}
+	// 		waitCmddependencies = append(waitCmddependencies, rc)
+	// 	}
+	// 	_, err = compute.remoteExec(ctx,
+	// 		fmt.Sprintf("%s-%s", r.Specs.ID, "wait"), command.CommandPing, waitCmddependencies)
+	// 	return &compute, err
+	// }
 	// for private we need bastion support on commands
 	// https://github.com/pulumi/pulumi-command/pull/132
 	return &compute, nil
@@ -119,7 +120,8 @@ func (r *Request) manageKeypair(ctx *pulumi.Context, result *Compute) error {
 		}
 		result.AWSKeyPair = keyResources.AWSKeyPair
 		result.PrivateKey = keyResources.PrivateKey
-		ctx.Export(result.OutputPrivateKey(), keyResources.PrivateKey.PrivateKeyPem)
+		r.PublicKeyOpenssh = keyResources.PrivateKey.PublicKeyOpenssh
+		ctx.Export(r.OutputPrivateKey(), keyResources.PrivateKey.PrivateKeyPem)
 		return nil
 	}
 	result.AWSKeyPair = r.KeyPair
@@ -163,6 +165,9 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
 		KeyName:                  compute.AWSKeyPair.KeyName,
 		AssociatePublicIpAddress: pulumi.Bool(r.Public),
 		VpcSecurityGroupIds:      compute.getSecurityGroupsIDs(),
+		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
+			VolumeSize: pulumi.Int(DefaultRootBlockDeviceSize),
+		},
 		Tags: pulumi.StringMap{
 			"Name":    pulumi.String(r.GetName()),
 			"HOST_ID": pulumi.String(r.Specs.ID),
@@ -180,7 +185,7 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
 	}
 	compute.Instance = i
 	compute.Username = r.Specs.AMI.DefaultUser
-	ctx.Export(compute.OutputHost(),
+	ctx.Export(r.OutputHost(),
 		util.If(r.Public,
 			i.PublicIp,
 			i.PrivateIp))
@@ -198,6 +203,14 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 				SecurityGroups:           compute.getSecurityGroupsIDs(),
 				AssociatePublicIpAddress: pulumi.String(strconv.FormatBool(r.Public)),
 				SubnetId:                 r.Subnets[0].ID(),
+			},
+		},
+		BlockDeviceMappings: ec2.LaunchTemplateBlockDeviceMappingArray{
+			&ec2.LaunchTemplateBlockDeviceMappingArgs{
+				DeviceName: pulumi.String(DefaultRootBlockDeviceName),
+				Ebs: &ec2.LaunchTemplateBlockDeviceMappingEbsArgs{
+					VolumeSize: pulumi.Int(DefaultRootBlockDeviceSize),
+				},
 			},
 		},
 	}
@@ -290,6 +303,22 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 	if err != nil {
 		return err
 	}
-	ctx.Export(compute.OutputHost(), compute.InstanceIP)
+	ctx.Export(r.OutputHost(), compute.InstanceIP)
 	return nil
+}
+
+func (r *Request) OutputPrivateKey() string {
+	return fmt.Sprintf("%s-%s", OutputPrivateKey, r.Specs.ID)
+}
+
+func (r *Request) OutputHost() string {
+	return fmt.Sprintf("%s-%s", OutputHost, r.Specs.ID)
+}
+
+func (r *Request) OutputUsername() string {
+	return fmt.Sprintf("%s-%s", OutputUsername, r.Specs.ID)
+}
+
+func (r *Request) OutputPassword() string {
+	return fmt.Sprintf("%s-%s", OutputPasswordKey, r.Specs.ID)
 }

@@ -18,7 +18,7 @@ func (r *SNCRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return r.RHELRequest.GetAMI(ctx)
 }
 
-func (r *SNCRequest) GetUserdata() (pulumi.StringPtrInput, error) {
+func (r *SNCRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
 	userdata, err := util.Template(
 		userDataValues{
 			r.SubscriptionUsername,
@@ -39,7 +39,7 @@ func (r *SNCRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityG
 	return nil, nil
 }
 
-func (r *SNCRequest) GetPostScript() (string, error) {
+func (r *SNCRequest) GetPostScript(ctx *pulumi.Context) (string, error) {
 	return "", nil
 }
 

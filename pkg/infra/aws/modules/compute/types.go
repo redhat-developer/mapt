@@ -12,11 +12,13 @@ import (
 // Composable resources and information provided
 // to create a compute asset
 type Request struct {
-	ProjecName        string
-	Specs             *supportMatrix.SupportedHost
-	Public            bool
-	BastionSG         *ec2.SecurityGroup
-	KeyPair           *ec2.KeyPair
+	ProjecName string
+	Specs      *supportMatrix.SupportedHost
+	Public     bool
+	BastionSG  *ec2.SecurityGroup
+	KeyPair    *ec2.KeyPair
+	// contains value if key is created within this module
+	PublicKeyOpenssh  pulumi.StringOutput
 	VPC               *ec2.Vpc
 	AvailabilityZones []string
 	Subnets           []*ec2.Subnet
@@ -31,7 +33,7 @@ type ComputeRequest interface {
 	// Get ami value for the compute
 	GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error)
 	// Get userdata if any
-	GetUserdata() (pulumi.StringPtrInput, error)
+	GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error)
 	// Create dedicated host if compute requires it
 	GetDedicatedHost(ctx *pulumi.Context) (*ec2.DedicatedHost, error)
 	// In case a host has any specific ingress rule, this ingress rule will take effect on a SG
@@ -39,7 +41,7 @@ type ComputeRequest interface {
 	CustomIngressRules() []securityGroup.IngressRules
 	CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGroup, error)
 	// Get script to be executed after initalization (not suited for userdata)
-	GetPostScript() (string, error)
+	GetPostScript(ctx *pulumi.Context) (string, error)
 	// Create function to get a compute based on request
 	Create(ctx *pulumi.Context, computeRequested ComputeRequest) (*Compute, error)
 }
