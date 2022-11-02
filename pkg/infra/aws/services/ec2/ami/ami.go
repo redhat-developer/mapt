@@ -5,8 +5,11 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-const awsOwnerID string = "137112412989"
-const redhatOwnerID string = "309956199498"
+const (
+	awsOwnerID       string = "137112412989"
+	amazonOwnerAlias string = "amazon"
+	redhatOwnerID    string = "309956199498"
+)
 
 // Looks for the AMI ID on the current Region based on name
 // it only allows images from AWS and self
@@ -25,7 +28,7 @@ func GetAMIByName(ctx *pulumi.Context,
 			Values: []string{v},
 		})
 	}
-	owners := []string{awsOwnerID, redhatOwnerID}
+	owners := []string{awsOwnerID, redhatOwnerID, amazonOwnerAlias}
 	if len(owner) > 0 {
 		owners = append(owners, owner)
 	}
