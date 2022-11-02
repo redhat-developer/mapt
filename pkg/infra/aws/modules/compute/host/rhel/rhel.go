@@ -22,7 +22,7 @@ func (r *RHELRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) 
 	return ami.GetAMIByName(ctx, amiNameRegex, "", r.Specs.AMI.Filters)
 }
 
-func (r *RHELRequest) GetUserdata() (pulumi.StringPtrInput, error) {
+func (r *RHELRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
 	userdata, err := util.Template(
 		UserDataValues{
 			r.SubscriptionUsername,
@@ -43,7 +43,7 @@ func (r *RHELRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Security
 	return nil, nil
 }
 
-func (r *RHELRequest) GetPostScript() (string, error) {
+func (r *RHELRequest) GetPostScript(ctx *pulumi.Context) (string, error) {
 	return "", nil
 }
 

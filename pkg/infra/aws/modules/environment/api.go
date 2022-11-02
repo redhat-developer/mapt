@@ -9,6 +9,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/macm1"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/rhel"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/windows"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/services/snc"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
 	spotprice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
@@ -60,7 +61,7 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 		return err
 	}
 	// Write host access info to disk
-	if err = manageResults(stackResult, host, public, connectionDetailsOutput); err != nil {
+	if err = manageResults(stackResult, &request, public, connectionDetailsOutput); err != nil {
 		return err
 	}
 	logging.Debug("Environment has been created")
@@ -117,7 +118,14 @@ func manageRequest(request *singleHostRequest,
 				SpotPrice:  spotPrice,
 				Specs:      host,
 			}}
-
+	case supportMatrix.OL_Windows.ID:
+		request.hostRequested = &windows.WindowsRequest{
+			Request: compute.Request{
+				ProjecName: projectName,
+				Public:     public,
+				SpotPrice:  spotPrice,
+				Specs:      host,
+			}}
 	case supportMatrix.G_MAC_M1.ID:
 		request.hostRequested = &macm1.MacM1Request{
 			Request: compute.Request{
@@ -140,19 +148,19 @@ func manageRequest(request *singleHostRequest,
 	}
 }
 
-func manageResults(stackResult auto.UpResult,
-	host *supportMatrix.SupportedHost, public bool,
-	destinationFolder string) error {
+func manageResults(stackResult auto.UpResult, request *singleHostRequest,
+	public bool, destinationFolder string) error {
 	// Currently support only one host on host operation
 	// this should be change when create a environment with multiple hosts
-	remoteHostID := host.ID
+	remoteHost := request.hostRequested
 	if !public {
-		remoteHostID = supportMatrix.S_BASTION.ID
+		remoteHost = request.bastion
 	}
 	if err := writeOutputs(stackResult, destinationFolder, map[string]string{
-		fmt.Sprintf("%s-%s", compute.OutputPrivateKey, remoteHostID): "id_rsa",
-		fmt.Sprintf("%s-%s", compute.OutputHost, remoteHostID):       "host",
-		fmt.Sprintf("%s-%s", compute.OutputUsername, remoteHostID):   "username",
+		remoteHost.GetRequest().OutputPrivateKey(): "id_rsa",
+		remoteHost.GetRequest().OutputHost():       "host",
+		remoteHost.GetRequest().OutputUsername():   "username",
+		remoteHost.GetRequest().OutputPassword():   "password",
 	}); err != nil {
 		return err
 	}
@@ -170,12 +178,12 @@ func writeOutputs(stackResult auto.UpResult, destinationFolder string, results m
 
 func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destinationFilename string) error {
 	value, ok := stackResult.Outputs[outputkey].Value.(string)
-	if !ok {
-		return fmt.Errorf("error getting %s", outputkey)
+	if ok {
+		err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value), 0600)
+		if err != nil {
+			return err
+		}
 	}
-	err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value), 0600)
-	if err != nil {
-		return err
-	}
+	logging.Debugf("error getting %s", outputkey)
 	return nil
 }
