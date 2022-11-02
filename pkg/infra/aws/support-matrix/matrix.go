@@ -27,6 +27,23 @@ var (
 		InstaceTypes:       []string{"c5.metal", "c5d.metal", "c5n.metal"},
 		ProductDescription: "Windows",
 		Spot:               true,
+		AMI: AMI{
+			RegexName:   "Windows_Server-2019-English-Full-HyperV*",
+			DefaultUser: "ec2-user",
+		},
+	}
+
+	OL_Windows_NonEng = SupportedHost{
+		ID:                 olWindowsID,
+		Description:        "non english windows machine supporting nested virtualization (start openshift local)",
+		Type:               Windows,
+		InstaceTypes:       []string{"c5.metal", "c5d.metal", "c5n.metal"},
+		ProductDescription: "Windows",
+		Spot:               true,
+		AMI: AMI{
+			RegexName:   "Windows_Server-2019-Spanish-Full-Base*",
+			DefaultUser: "ec2-user",
+		},
 	}
 
 	G_MAC_M1 = SupportedHost{
@@ -89,6 +106,8 @@ func GetHost(id string) (*SupportedHost, error) {
 		return &OL_RHEL, nil
 	case olWindowsID:
 		return &OL_Windows, nil
+	case olWindowsNonEngID:
+		return &OL_Windows_NonEng, nil
 	case gMacOSM1ID:
 		return &G_MAC_M1, nil
 	case sSNCID:
