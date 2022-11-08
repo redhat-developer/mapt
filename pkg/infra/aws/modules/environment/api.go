@@ -183,7 +183,8 @@ func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destin
 		if err != nil {
 			return err
 		}
+	} else {
+		logging.Debugf("error getting %s", outputkey)
 	}
-	logging.Debugf("error getting %s", outputkey)
 	return nil
 }
