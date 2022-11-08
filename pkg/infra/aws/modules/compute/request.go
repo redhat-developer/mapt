@@ -8,6 +8,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
+	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
@@ -87,24 +88,24 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 		}
 	}
 	ctx.Export(r.OutputUsername(), pulumi.String(r.Specs.AMI.DefaultUser))
-	// if r.Public {
-	// 	postScript, err := computeRequested.GetPostScript(ctx)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	waitCmddependencies := []pulumi.Resource{}
-	// 	if len(postScript) > 0 {
-	// 		rc, err := compute.remoteExec(ctx,
-	// 			fmt.Sprintf("%s-%s", r.Specs.ID, "postscript"), postScript, nil)
-	// 		if err != nil {
-	// 			return nil, err
-	// 		}
-	// 		waitCmddependencies = append(waitCmddependencies, rc)
-	// 	}
-	// 	_, err = compute.remoteExec(ctx,
-	// 		fmt.Sprintf("%s-%s", r.Specs.ID, "wait"), command.CommandPing, waitCmddependencies)
-	// 	return &compute, err
-	// }
+	if r.Public {
+		postScript, err := computeRequested.GetPostScript(ctx)
+		if err != nil {
+			return nil, err
+		}
+		waitCmddependencies := []pulumi.Resource{}
+		if len(postScript) > 0 {
+			rc, err := compute.remoteExec(ctx,
+				fmt.Sprintf("%s-%s", r.Specs.ID, "postscript"), postScript, nil)
+			if err != nil {
+				return nil, err
+			}
+			waitCmddependencies = append(waitCmddependencies, rc)
+		}
+		_, err = compute.remoteExec(ctx,
+			fmt.Sprintf("%s-%s", r.Specs.ID, "wait"), command.CommandPing, waitCmddependencies)
+		return &compute, err
+	}
 	// for private we need bastion support on commands
 	// https://github.com/pulumi/pulumi-command/pull/132
 	return &compute, nil
@@ -287,6 +288,12 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 			MinSize:              pulumi.Int(1),
 			VpcZoneIdentifiers:   pulumi.StringArray{r.Subnets[0].ID()},
 			MixedInstancesPolicy: mixedInstancesPolicy,
+			// Check if this is needed now
+			HealthCheckGracePeriod: pulumi.Int(defaultHealthCheckGracePeriod),
+			// Suspend healthcheck to allow restart computer
+			// required on windows hosts for Openshift local installation
+			SuspendedProcesses: pulumi.StringArray{
+				pulumi.String("HealthCheck")},
 			Tags: autoscaling.GroupTagArray{
 				&autoscaling.GroupTagArgs{
 					Key:               pulumi.String("Name"),
