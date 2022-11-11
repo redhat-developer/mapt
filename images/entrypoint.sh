@@ -54,7 +54,9 @@ if [[ "${OPERATION}" == "create" ]]; then
           --project-name "${PROJECT_NAME}" \
           --backed-url "${BACKED_URL}" \
           --conn-details-output "${CONNECTION_OUTPUT}" \
-          --host-id "${SUPPORTED_HOST_ID}"
+          --host-id "${SUPPORTED_HOST_ID}" \
+          --rh-subscription-username "${RH_SUBSCRIPTION_USERNAME}" \
+          --rh-subscription-password "${RH_SUBSCRIPTION_PASSWORD}"
 else 
   exec  env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
         env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
