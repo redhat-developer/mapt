@@ -17,6 +17,12 @@ const (
 	rhSubcriptionUsernameDesc   string = "username for rhel subcription"
 	rhSubcriptionPassword       string = "rh-subscription-password"
 	rhSubcriptionPasswordDesc   string = "password for rhel subcription"
+	amiIDName                   string = "ami-id"
+	amiIDDesc                   string = "id for the source ami"
+	amiNameName                 string = "ami-name"
+	amiNameDesc                 string = "name for the source ami"
+	amiSourceRegion             string = "ami-region"
+	amiSourceRegionDesc         string = "region for the ami to be copied worldwide"
 
 	createCmdName  string = "create"
 	destroyCmdName string = "destroy"

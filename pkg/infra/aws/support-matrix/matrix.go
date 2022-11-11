@@ -28,8 +28,10 @@ var (
 		ProductDescription: "Windows",
 		Spot:               true,
 		AMI: AMI{
-			RegexName:   "Windows_Server-2019-English-Full-HyperV*",
+			// RegexName:   "Windows_Server-2019-English-Full-HyperV*",
+			RegexName:   "Windows_Server-2019-English-Full-crc-RHQE*",
 			DefaultUser: "ec2-user",
+			Owner:       "self",
 		},
 	}
 
