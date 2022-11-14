@@ -1,0 +1,10 @@
+ # Install powershellcore
+  # curl.exe -LO https://github.com/PowerShell/PowerShell/releases/download/v7.3.0/PowerShell-7.3.0-win-x64.msi
+  # Start-Process C:\Windows\System32\msiexec.exe -ArgumentList '/qb /i PowerShell-7.3.0-win-x64.msi ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1 ENABLE_MU=1 ADD_PATH=1' -wait
+  # Set powershell as default shell on openssh
+  #New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Program Files\PowerShell\7\pwsh.exe" -PropertyType String -Force
+
+  # Stop initial sshd process with wrong auth_keys
+  #Stop-Process -Name "sshd"
+  # Manually start the start service
+  #Start-Process nohup -FilePath "C:\Users\{{.Username}}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\start-openssh.bat"

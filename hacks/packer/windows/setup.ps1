@@ -19,8 +19,10 @@ $RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
 Set-ItemProperty $RegistryPath 'AutoAdminLogon' -Value "1" -Type String
 Set-ItemProperty $RegistryPath 'DefaultUsername' -Value "$Env:USERNAME" -type String
 Set-ItemProperty $RegistryPath 'DefaultPassword' -Value "$Env:PASSWORD" -type String
+
+# TODO after check spanish version with installer
 # Install hyper-v
-# Install-WindowsFeature -Name Hyper-V
+# Install-WindowsFeature -Name Hyper-V -IncludeManagementTools
 
 # Install sshd
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
@@ -44,11 +46,13 @@ Set-Acl -Path "C:\ProgramData\ssh\*key" $acl
 New-Item -Path "C:\Users\$Env:USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup" -Name start-openssh.bat -ItemType "file" -Value 'powershell -command "sshd -f C:\ProgramData\ssh\sshd_config"'
 
 # Disable UAC
-#reg ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value "0"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorUser" -Value "3"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableLUA" -Value "1"
 
+# Install powershellcore
+curl.exe -LO https://github.com/PowerShell/PowerShell/releases/download/v7.3.0/PowerShell-7.3.0-win-x64.msi
+Start-Process C:\Windows\System32\msiexec.exe -ArgumentList '/qb /i PowerShell-7.3.0-win-x64.msi ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1 ENABLE_MU=1 ADD_PATH=1' -wait
 # Set powershell as default shell on openssh
-New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Program Files\PowerShell\7\pwsh.exe" -PropertyType String -Force
 

@@ -75,3 +75,12 @@ podman run -d --name qenvs-rhel \
 ### Tekton
 
 To facilitate the inclusion within a pipeline a [task defintion](hacks/tekton/infra-management.yaml) can be used  as wrapper.
+
+### Packer
+
+Due to hard requirements on nested virtualization, on AWS it is required to run baremetal machines, these type of machines have extra validations (in addtion to the standar ones for virtualize ec2 instances) which increases time on every boot.
+
+To minimize the impact of reboots the project contains [packer templates](hacks/packer/README.md) to create custom AMIs on those scnearios 
+where userdata requires reboots.  
+
+Also notice images use to be created per region, and the process itself requires to spinup a machine (not required to be baremetal). As qenvs offers the feature to dynamically adjust the location of the infrastructure based on best bid price, we need to replicate those images per region. To avoid extra cost with packer qenvs offers now a new command to replicate the ami created by packer `qenvs ami replicate`
