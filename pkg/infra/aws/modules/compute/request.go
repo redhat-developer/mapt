@@ -50,6 +50,10 @@ func (r *Request) GetPostScript(ctx *pulumi.Context) (string, error) {
 	return "", nil
 }
 
+func (r *Request) ReadinessCommand() string {
+	return command.CommandPing
+}
+
 func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (*Compute, error) {
 	// Manage keypairs for requested host
 	compute := Compute{
@@ -103,7 +107,9 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 			waitCmddependencies = append(waitCmddependencies, rc)
 		}
 		_, err = compute.remoteExec(ctx,
-			fmt.Sprintf("%s-%s", r.Specs.ID, "wait"), command.CommandPing, waitCmddependencies)
+			fmt.Sprintf("%s-%s", r.Specs.ID, "wait"),
+			computeRequested.ReadinessCommand(),
+			waitCmddependencies)
 		return &compute, err
 	}
 	// for private we need bastion support on commands
