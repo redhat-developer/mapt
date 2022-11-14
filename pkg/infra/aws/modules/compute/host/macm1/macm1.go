@@ -63,6 +63,10 @@ func (r *MacM1Request) GetPostScript(ctx *pulumi.Context) (string, error) {
 		"postscript", script)
 }
 
+func (r *MacM1Request) ReadinessCommand() string {
+	return r.Request.ReadinessCommand()
+}
+
 func (r *MacM1Request) Create(ctx *pulumi.Context,
 	computeRequested compute.ComputeRequest) (*compute.Compute, error) {
 	return r.Request.Create(ctx, r)

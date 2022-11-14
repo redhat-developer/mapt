@@ -42,6 +42,8 @@ type ComputeRequest interface {
 	CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGroup, error)
 	// Get script to be executed after initalization (not suited for userdata)
 	GetPostScript(ctx *pulumi.Context) (string, error)
+	// Command to be executed to ensure the provisioned is finish with fully setup
+	ReadinessCommand() string
 	// Create function to get a compute based on request
 	Create(ctx *pulumi.Context, computeRequested ComputeRequest) (*Compute, error)
 }

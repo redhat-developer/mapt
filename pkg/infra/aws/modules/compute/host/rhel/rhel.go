@@ -47,6 +47,10 @@ func (r *RHELRequest) GetPostScript(ctx *pulumi.Context) (string, error) {
 	return "", nil
 }
 
+func (r *RHELRequest) ReadinessCommand() string {
+	return r.Request.ReadinessCommand()
+}
+
 func (r *RHELRequest) Create(ctx *pulumi.Context,
 	computeRequested compute.ComputeRequest) (*compute.Compute, error) {
 	return r.Request.Create(ctx, r)

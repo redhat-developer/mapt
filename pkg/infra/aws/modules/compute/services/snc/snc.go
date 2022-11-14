@@ -5,6 +5,7 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
+	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -43,9 +44,13 @@ func (r *SNCRequest) GetPostScript(ctx *pulumi.Context) (string, error) {
 	return "", nil
 }
 
+func (r *SNCRequest) ReadinessCommand() string {
+	return command.CommandCloudInitWait
+}
+
 func (r *SNCRequest) Create(ctx *pulumi.Context,
 	computeRequested compute.ComputeRequest) (*compute.Compute, error) {
-	return r.RHELRequest.Create(ctx, r)
+	return r.RHELRequest.Request.Create(ctx, r)
 }
 
 var cloudConfig string = `
@@ -59,19 +64,19 @@ packages:
   - "@virt"
   - jq
 runcmd:
-  - systemctl daemon-reload 
-  - systemctl enable libvirtd-tcp.socket 
-  - systemctl start --no-block libvirtd-tcp.socket 
   # Debug libvirt
   #- echo 'log_filters="1:libvirt 1:util 1:qemu"' | tee -a /etc/libvirt/libvirtd.conf
   #- echo 'log_outputs="1:file:/var/log/libvirt/libvirtd.log"' | tee -a /etc/libvirt/libvirtd.conf
   # https://libvirt.org/manpages/libvirtd.html#system-socket-activation
-  - systemctl mask libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tls.socket libvirtd-tcp.socket
   - echo 'LIBVIRTD_ARGS="--listen"' | tee -a /etc/sysconfig/libvirtd
   - echo 'listen_tls = 0' | tee -a /etc/libvirt/libvirtd.conf
   - echo 'listen_tcp = 1' | tee -a /etc/libvirt/libvirtd.conf
   - echo 'tcp_port = "16509"' | tee -a /etc/libvirt/libvirtd.conf
   - echo 'auth_tcp = "none"' | tee -a /etc/libvirt/libvirtd.conf
+  - systemctl daemon-reload 
+  - systemctl enable libvirtd-tcp.socket 
+  - systemctl start --no-block libvirtd-tcp.socket 
+  - systemctl mask libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tls.socket libvirtd-tcp.socket
   - systemctl enable libvirtd 
   - systemctl start --no-block libvirtd  
   - usermod -a -G libvirt ${username}
