@@ -29,7 +29,7 @@ var (
 		Spot:               true,
 		AMI: AMI{
 			// RegexName:   "Windows_Server-2019-English-Full-HyperV*",
-			RegexName:   "Windows_Server-2019-English-Full-OCPL-RHQE*",
+			RegexName:   "Windows_Server-2019-English-Full-OCPL-*-RHQE*",
 			DefaultUser: "ec2-user",
 			Owner:       "self",
 		},
@@ -43,8 +43,11 @@ var (
 		ProductDescription: "Windows",
 		Spot:               true,
 		AMI: AMI{
-			RegexName:   "Windows_Server-2019-Spanish-Full-Base*",
+			// add param to set openshift local version
+			// RegexPattern: "Windows_Server-2019-Spanish-Full-OCPL-%s-RHQE*",
+			RegexName:   "Windows_Server-2019-Spanish-Full-OCPL-*-RHQE*",
 			DefaultUser: "ec2-user",
+			Owner:       "self",
 		},
 	}
 
