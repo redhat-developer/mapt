@@ -4,7 +4,7 @@ net user Administrador SuperS3cr3t!!!!
 wmic useraccount where "name='Administrador'" set PasswordExpires=FALSE
 
 # First, make sure WinRM can't be connected to
-netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" new enable=yes action=block
+netsh advfirewall firewall set rule name="Administración remota de Windows - Modo de compatibilidad (HTTP de entrada)" new enable=yes action=block
 
 # Delete any existing WinRM listeners
 winrm delete winrm/config/listener?Address=*+Transport=HTTP  2>$Null
@@ -35,6 +35,10 @@ Set-ItemProperty -Path $Key -Name $Setting -Value 1 -Force
 # Configure and restart the WinRM Service; Enable the required firewall exception
 Stop-Service -Name WinRM
 Set-Service -Name WinRM -StartupType Automatic
-netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" new action=allow localip=any remoteip=any
+netsh advfirewall firewall set rule name="Administración remota de Windows - Modo de compatibilidad (HTTP de entrada)" new action=allow localip=any remoteip=any
+netsh advfirewall firewall set rule group=”Detección de redes” new enable=yes
 Start-Service -Name WinRM
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 </powershell>
+
+
