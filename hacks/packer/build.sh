@@ -21,7 +21,8 @@ ${CONTAINER_RUNTIME} build -t qenvs-packer -f images/Dockerfile
                  
 # build_cmd "init . && build ami.pkr.hcl"
 build_cmd "init ."
-build_cmd "build -var crc-distributable-url='https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.10.2/crc-windows-installer.zip' ."
+# -var localize=spanish
+build_cmd "build -var crc-version=2.10.2 -var crc-distributable-url='https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.10.2/crc-windows-installer.zip' ."
 # build_cmd "build -machine-readable /workspace/ami.pkr.hcl | tee build.log"
 
 # Extract ami-id
