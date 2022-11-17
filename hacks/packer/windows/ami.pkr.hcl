@@ -52,6 +52,7 @@ variable target-ami-name {
 # In case thi variable is not empyt the image generated will included
 # openshift local
 variable crc-distributable-url  {  default = "" }
+variable crc-version            {  default = "" }
 variable default-aws-region     {  default= "us-east-1" }
 
 locals {
@@ -62,13 +63,17 @@ locals {
   target-ami-name             = join("-", 
                                   [
                                     lookup(var.target-ami-name, var.localize, var.target-ami-name-default),
-                                    var.crc-distributable-url != "" ? "OCPL" : "HyperV",
+                                    var.crc-distributable-url != "" ? "OCPL-${var.crc-version}" : "HyperV",
                                     "RHQE"])
 
-  builder-hyperv-types        = ["t2.small", 
-                                  "t2.medium", 
-                                  "t3.small", 
+  builder-debug-types        = ["t2.medium", 
                                   "t3.medium"]
+
+  # Required to enable hyper-v. AWS constraint only baremetal instances allows running
+  # nested virtualization
+  builder-hyperv-types        = ["c5.metal", 
+                                  "c5d.metal",
+                                  "c5n.metal"]
 
   # Openshift local requires at least 9G of RAM to run installation
   builder-ocpl-types          = ["m5zn.xlarge", 
@@ -84,8 +89,8 @@ locals {
 source "amazon-ebs" "this" {
   ami_name              = local.target-ami-name
   communicator          = "winrm"
-  spot_instance_types   =  var.crc-distributable-url != "" ? local.builder-ocpl-types : local.builder-hyperv-types
-
+  # If we build english base image already has hyper-v only contraint is for ocpl
+  spot_instance_types   = var.localize == "english" ? local.builder-ocpl-types : local.builder-hyperv-types
 
   # Use spot instance for building process
 	spot_price            = "auto"
@@ -147,19 +152,14 @@ build {
     only    = [local.if-install-crc]
   }
 
-//   $Password = ConvertTo-SecureString "{{.Password}}" -AsPlainText -Force
-// $UserAccount = Get-LocalUser -Name "{{.Username}}"
-// $UserAccount | Set-LocalUser -Password $Password
-// # Also need to set new password on autologin
-// $RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
-// Set-ItemProperty $RegistryPath 'DefaultPassword' -Value "{{.Password}}" -type String
+  # Cleanup s3 temp assets
+  provisioner "shell-local" {
+    inline  = ["aws s3api delete-object --bucket ${local.bucket-name} --key ${local.crc-distributable-name}",
+              "aws s3api delete-bucket --bucket ${local.bucket-name} --region ${var.default-aws-region}"]
 
-// # Set the authorized keys according to the private key
-// # Due to acl on the files Adminstrator can not write authorized_keys
-// # So we need to invoke it as the default user
-// $UserName = "{{.Username}}"
-// $Cred = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
-// Invoke-Command -ScriptBlock { New-Item -Path C:\Users\{{.Username}}\.ssh -Name "authorized_keys" -ItemType "file" -Value "{{.AuthorizedKey}}" -Force } -Credential $Cred -computername localhost
+    only    = [local.if-install-crc]
+  }
+
 
   provisioner powershell {
     inline = [
