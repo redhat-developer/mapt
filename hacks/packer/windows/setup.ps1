@@ -20,9 +20,13 @@ Set-ItemProperty $RegistryPath 'AutoAdminLogon' -Value "1" -Type String
 Set-ItemProperty $RegistryPath 'DefaultUsername' -Value "$Env:USERNAME" -type String
 Set-ItemProperty $RegistryPath 'DefaultPassword' -Value "$Env:PASSWORD" -type String
 
-# TODO after check spanish version with installer
-# Install hyper-v
-# Install-WindowsFeature -Name Hyper-V -IncludeManagementTools
+# Install HyperV
+$osProductType = Get-ComputerInfo | select -ExpandProperty OSProductType | Out-String -Stream | Where { $_.Trim().Length -gt 0 }
+switch ($osProductType)
+{
+    "WorkStation" {Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart}
+    "Server" {Install-WindowsFeature -Name Hyper-V -IncludeManagementTools}
+}
 
 # Install sshd
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
