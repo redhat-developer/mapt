@@ -83,4 +83,4 @@ Due to hard requirements on nested virtualization, on AWS it is required to run 
 To minimize the impact of reboots the project contains [packer templates](hacks/packer/README.md) to create custom AMIs on those scnearios 
 where userdata requires reboots.  
 
-Also notice images use to be created per region, and the process itself requires to spinup a machine (not required to be baremetal). As qenvs offers the feature to dynamically adjust the location of the infrastructure based on best bid price, we need to replicate those images per region. To avoid extra cost with packer qenvs offers now a new command to replicate the ami created by packer `qenvs ami replicate`
+Also notice images use to be created per region, and the process itself requires to spinup a machine. As qenvs offers the feature to dynamically adjust the location of the infrastructure based on best bid price, we need to replicate those images per region. To avoid extra cost with packer qenvs offers now a new command to replicate the ami created by packer `qenvs ami replicate`
