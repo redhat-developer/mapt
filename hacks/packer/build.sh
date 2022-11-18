@@ -16,18 +16,27 @@ build_cmd () {
     ${BUILD} ${1}
 }
 
+# /dev/null
+jq_cmd () {
+    echo '#!/bin/bash' | tee tmp-jq.sh>/dev/null
+    echo "jq ${2} /data" | tee -a tmp-jq.sh>/dev/null
+    chmod +x tmp-jq.sh
+    result=$(${CONTAINER_RUNTIME} run -v "$PWD/${1}":/data:Z -v "$PWD/tmp-jq.sh":/usr/local/bin/tmp-jq.sh:Z -ti quay.io/biocontainers/jq:1.6 tmp-jq.sh)>/dev/null
+    rm tmp-jq.sh
+    echo $result
+}
+
 # We will use a custom image to ensure we got the tools used on hcl scripts
-${CONTAINER_RUNTIME} build -t qenvs-packer -f images/Dockerfile
+# ${CONTAINER_RUNTIME} build -t qenvs-packer -f images/Dockerfile
                  
-# build_cmd "init . && build ami.pkr.hcl"
-build_cmd "init ."
-# -var localize=spanish
-build_cmd "build -var crc-version=2.10.2 -var crc-distributable-url='https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.10.2/crc-windows-installer.zip' ."
-# build_cmd "build -machine-readable /workspace/ami.pkr.hcl | tee build.log"
+# # build_cmd "init . && build ami.pkr.hcl"
+# build_cmd "init ."
+# # -var localize=spanish
+# build_cmd "build -var crc-version=2.10.2 -var crc-distributable-url='https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.10.2/crc-windows-installer.zip' ."
 
-# Extract ami-id
-# grep 'artifact,0,id' ${PWD}/${3}/build.log | cut -d, -f6 | cut -d: -f2 > ${PWD}/${3}/ami-id
+jq_cmd "${3}/manifest.json" "'(.builds[-1].artifact_id |= split(\":\")) | .builds[-1].artifact_id[1]'" > ami-id
 
-# Cleanup
-rm -rf "${PWD}/${3}/build.log"
-rm -rf "${PWD}/${3}/.packer.d"
+# # Cleanup
+# rm -rf "${PWD}/${3}/build.log"
+# rm -rf "${PWD}/${3}/.packer.d"
+# rm -rf "${PWD}/${3}/manifest.json"
