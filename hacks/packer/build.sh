@@ -27,12 +27,12 @@ jq_cmd () {
 }
 
 # We will use a custom image to ensure we got the tools used on hcl scripts
-# ${CONTAINER_RUNTIME} build -t qenvs-packer -f images/Dockerfile
+${CONTAINER_RUNTIME} build -t qenvs-packer -f images/Dockerfile.base
                  
 # # build_cmd "init . && build ami.pkr.hcl"
-# build_cmd "init ."
+build_cmd "init ."
 # # -var localize=spanish
-# build_cmd "build -var crc-version=2.10.2 -var crc-distributable-url='https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.10.2/crc-windows-installer.zip' ."
+build_cmd "build -var crc-version=2.10.2 -var crc-distributable-url='https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.10.2/crc-windows-installer.zip' ."
 
 jq_cmd "${3}/manifest.json" "'(.builds[-1].artifact_id |= split(\":\")) | .builds[-1].artifact_id[1]'" > ami-id
 
