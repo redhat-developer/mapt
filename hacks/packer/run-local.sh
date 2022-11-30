@@ -27,7 +27,7 @@ jq_cmd () {
 }
 
 # We will use a custom image to ensure we got the tools used on hcl scripts
-${CONTAINER_RUNTIME} build -t qenvs-packer -f images/Dockerfile.base
+${CONTAINER_RUNTIME} build -t qenvs-packer -f oci/Dockerfile
                  
 # # build_cmd "init . && build ami.pkr.hcl"
 build_cmd "init ."
