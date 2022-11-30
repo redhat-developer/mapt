@@ -19,7 +19,7 @@ jobs:
     - name: Pick image tag on non pull-request
       if: github.event_name != 'pull_request'
       shell: bash
-      run: echo "TAG=$(echo ${GITHUB_REF})" >> $GITHUB_ENV
+      run: echo "TAG=${{ GITHUB.REF}}" >> $GITHUB_ENV
 
     - name: Pick image tag on pull-request
       if: github.event_name == 'pull_request'
