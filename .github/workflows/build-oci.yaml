@@ -19,18 +19,12 @@ jobs:
     - name: Pick image tag on non pull-request
       if: github.event_name != 'pull_request'
       shell: bash
-      run: echo "TAG=${{ GITHUB.REF}}" >> $GITHUB_ENV
+      run: echo "TAG=${{ GITHUB.REF.NAME}}" >> $GITHUB_ENV
 
     - name: Pick image tag on pull-request
       if: github.event_name == 'pull_request'
       shell: bash
       run: echo "TAG=${{ GITHUB.EVENT.PULL_REQUEST.HEAD.REF}}" >> $GITHUB_ENV
-
-    - name: Debug
-      run: echo ${{ env.TAG }}
-
-    - name: Debug
-      run: echo ${{ GITHUB.EVENT.PULL_REQUEST.HEAD.REF}}
 
     - name: Build image
       id: build-image
