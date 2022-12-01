@@ -32,10 +32,10 @@ if [ ! -z "${CRC_DISTRIBUTABLE_URL+x}" ] ; then
   build_vars="${build_vars} -var crc-distributable-url=${CRC_VERSION}"
 fi
 
-packer build build_vars .
+packer build ${build_vars} .
 
 OUTPUT="${OUTPUT:-"/output"}"
 
 mkdir -p "${OUTPUT}"
 
-jq '(.builds[-1].artifact_id |= split(\":\")) | .builds[-1].artifact_id[1]' manifest.json > "${OUTPUT}/ami-id"
+jq '(.builds[-1].artifact_id |= split(":")) | .builds[-1].artifact_id[1]' manifest.json > "${OUTPUT}/ami-id"
