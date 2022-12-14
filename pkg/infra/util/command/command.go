@@ -30,7 +30,7 @@ type RemoteInstance struct {
 // Remote command success if error = nil
 type RemoteCommand func(ctx *pulumi.Context, remoteCommand, remoteCommandName string) error
 
-func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand, remoteCommandName string,
+func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand pulumi.StringPtrInput, remoteCommandName string,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
 	remoteIP, err := r.getRemoteHost()
 	if err != nil {
@@ -43,8 +43,8 @@ func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand, remoteCom
 			User:       pulumi.String(r.Username),
 			Port:       pulumi.Float64(defaultSSHPort),
 		},
-		Create: pulumi.String(remoteCommand),
-		Update: pulumi.String(remoteCommand),
+		Create: remoteCommand,
+		Update: remoteCommand,
 	}, pulumi.Timeouts(
 		&pulumi.CustomTimeouts{
 			Create: remoteTimeout,
