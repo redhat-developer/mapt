@@ -19,7 +19,7 @@ FROM docker.io/library/alpine:3.17
 
 LABEL MAINTAINER "Adrian Riobo" "<ariobolo@redhat.com>"
 
-COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /workspace/images/entrypoint.sh /usr/local/bin/
+COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /workspace/oci/entrypoint.sh /usr/local/bin/
 
 ENV INTERNAL_OUTPUT /tmp/qenvs
 
