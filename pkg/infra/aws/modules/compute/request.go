@@ -46,8 +46,8 @@ func (r *Request) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGrou
 	return nil, nil
 }
 
-func (r *Request) GetPostScript(ctx *pulumi.Context) (string, error) {
-	return "", nil
+func (r *Request) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+	return nil, nil
 }
 
 func (r *Request) ReadinessCommand() string {
@@ -98,17 +98,19 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 			return nil, err
 		}
 		waitCmddependencies := []pulumi.Resource{}
-		if len(postScript) > 0 {
+		if postScript != nil {
 			rc, err := compute.remoteExec(ctx,
-				fmt.Sprintf("%s-%s", r.Specs.ID, "postscript"), postScript, nil)
+				postScript,
+				fmt.Sprintf("%s-%s", r.Specs.ID, "postscript"),
+				nil)
 			if err != nil {
 				return nil, err
 			}
 			waitCmddependencies = append(waitCmddependencies, rc)
 		}
 		_, err = compute.remoteExec(ctx,
+			pulumi.String(computeRequested.ReadinessCommand()),
 			fmt.Sprintf("%s-%s", r.Specs.ID, "wait"),
-			computeRequested.ReadinessCommand(),
 			waitCmddependencies)
 		return &compute, err
 	}

@@ -29,17 +29,20 @@ func (r *WindowsRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput
 	}
 	ctx.Export(r.OutputPassword(), password.Result)
 	udBase64 := pulumi.All(password.Result, r.PublicKeyOpenssh).ApplyT(
-		func(args []interface{}) string {
+		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
-			userdata, _ := util.Template(
+			userdata, err := util.Template(
 				userDataValues{
 					r.Specs.AMI.DefaultUser,
 					password,
 					authorizedKey},
 				fmt.Sprintf("%s-%s", "userdata", r.GetName()),
 				userdata)
-			return base64.StdEncoding.EncodeToString([]byte(userdata))
+			if err != nil {
+				return "", err
+			}
+			return base64.StdEncoding.EncodeToString([]byte(userdata)), nil
 		}).(pulumi.StringOutput)
 	return udBase64, nil
 }
@@ -57,8 +60,8 @@ func (r *WindowsRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Secur
 	return nil, nil
 }
 
-func (r *WindowsRequest) GetPostScript(ctx *pulumi.Context) (string, error) {
-	return "", nil
+func (r *WindowsRequest) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+	return nil, nil
 }
 
 func (r *WindowsRequest) ReadinessCommand() string {

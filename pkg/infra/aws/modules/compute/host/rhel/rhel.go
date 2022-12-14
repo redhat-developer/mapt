@@ -43,8 +43,8 @@ func (r *RHELRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Security
 	return nil, nil
 }
 
-func (r *RHELRequest) GetPostScript(ctx *pulumi.Context) (string, error) {
-	return "", nil
+func (r *RHELRequest) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+	return nil, nil
 }
 
 func (r *RHELRequest) ReadinessCommand() string {

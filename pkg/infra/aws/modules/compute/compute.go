@@ -16,7 +16,7 @@ func (c *Compute) getSecurityGroupsIDs() pulumi.StringArrayInput {
 	return pulumi.StringArray(sgs[:])
 }
 
-func (c *Compute) remoteExec(ctx *pulumi.Context, cmdName, cmd string,
+func (c *Compute) remoteExec(ctx *pulumi.Context, cmd pulumi.StringPtrInput, cmdName string,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
 	instance := command.RemoteInstance{
 		Instance:   c.Instance,

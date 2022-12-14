@@ -58,6 +58,10 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 	// Exec stack
 	stackResult, err := utilInfra.UpStack(stack)
 	if err != nil {
+		// Even in case of failure we try to get credentials for manual interaction
+		if err = manageResults(stackResult, &request, public, connectionDetailsOutput); err != nil {
+			logging.Error(err)
+		}
 		return err
 	}
 	// Write host access info to disk

@@ -8,11 +8,11 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
+	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
+	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-
-	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
 )
 
 const vncDefaultPort int = 5900
@@ -55,12 +55,21 @@ func (r *MacM1Request) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Securit
 	return nil, nil
 }
 
-func (r *MacM1Request) GetPostScript(ctx *pulumi.Context) (string, error) {
-	return util.Template(
-		scriptDataValues{
-			r.Specs.AMI.DefaultUser,
-			r.Password},
-		"postscript", script)
+func (r *MacM1Request) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+	password, err := utilInfra.CreatePassword(ctx, r.GetName())
+	if err != nil {
+		return nil, err
+	}
+	ctx.Export(r.OutputPassword(), password.Result)
+	postscript := password.Result.ApplyT(func(password string) (string, error) {
+		return util.Template(
+			scriptDataValues{
+				r.Specs.AMI.DefaultUser,
+				password},
+			"postscript", script)
+
+	}).(pulumi.StringOutput)
+	return postscript, nil
 }
 
 func (r *MacM1Request) ReadinessCommand() string {
