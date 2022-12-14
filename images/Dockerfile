@@ -1,20 +1,21 @@
-FROM docker.io/library/golang:1.18-alpine3.16 as builder
+FROM docker.io/library/golang:1.18-alpine3.17 as builder 
 
 USER root
 WORKDIR /workspace
 COPY . .
 
-ENV PULUMI_VERSION 3.40.2
+ENV PULUMI_VERSION 3.49.0
 ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
-RUN apk add --update make gcc musl-dev curl \
+RUN apk -U upgrade \
+    && apk add make gcc musl-dev curl \
     && make build \
     && curl -LO ${PULUMI_URL} \
     && tar -xzvf pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
 # TODO review quay build with entitlements (microdnf...)
 # FROM registry.access.redhat.com/ubi8/ubi-minimal
-FROM docker.io/library/alpine:3.16
+FROM docker.io/library/alpine:3.17
 
 LABEL MAINTAINER "Adrian Riobo" "<ariobolo@redhat.com>"
 
