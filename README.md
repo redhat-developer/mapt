@@ -11,8 +11,11 @@ Create a composable environment with different qe target machines aggregated on 
 
 Current available features allow to create supported hosts on AWS using cmd `qenvs host create` current supported hosts:
 
-* RHEL v8 (host id `ol-rhel`)
+* RHEL v7-8-9 (host id `ol-rhel`)
 * MacOS M1 v12 (host id `g-macos-m1`)
+* Windows_Server-2019-English-Full (host id `ol-windows`)
+* Windows_Server-2019-English-Full (host id `ol-windows-non-eng`)
+* [SNC runner](https://github.com/crc-org/snc)  (host id `s-snc`)
 
 ![Environment](./docs/diagrams/base.svg)
 
