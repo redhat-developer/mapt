@@ -45,11 +45,11 @@ if [[ "${OPERATION}" == "create" ]]; then
     echo "SUPPORTED_HOST_ID is required"
     VALID_CONFIG=false
   fi
-  exec  env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-        env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
-        env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
-        env AWS_SDK_LOAD_CONFIG=${AWS_SDK_LOAD_CONFIG} \
-        env PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE} \
+  AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+  AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+  AWS_SDK_LOAD_CONFIG=${AWS_SDK_LOAD_CONFIG} \
+  PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE} \
         qenvs host create \
           --project-name "${PROJECT_NAME}" \
           --backed-url "${BACKED_URL}" \
@@ -58,11 +58,11 @@ if [[ "${OPERATION}" == "create" ]]; then
           --rh-subscription-username "${RH_SUBSCRIPTION_USERNAME}" \
           --rh-subscription-password "${RH_SUBSCRIPTION_PASSWORD}"
 else 
-  exec  env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
-        env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
-        env AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
-        env AWS_SDK_LOAD_CONFIG=${AWS_SDK_LOAD_CONFIG} \
-        env PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE} \
+  AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+  AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+  AWS_SDK_LOAD_CONFIG=${AWS_SDK_LOAD_CONFIG} \
+  PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE} \
         qenvs host destroy \
           --project-name "${PROJECT_NAME}" \
           --backed-url "${BACKED_URL}" 
