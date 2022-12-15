@@ -2,7 +2,8 @@
 
 automation for qe environments using pulumi
 
-[![Container Repository on Quay](https://quay.io/repository/ariobolo/qenvs/status "Container Repository on Quay")](https://quay.io/repository/ariobolo/qenvs)
+![code check](https://github.com/adrianriobo/qenvs/actions/workflows/build-go.yaml/badge.svg)
+![oci builds](https://github.com/adrianriobo/qenvs/actions/workflows/build-oci.yaml/badge.svg)
 
 ## Environment
 
