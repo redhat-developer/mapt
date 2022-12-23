@@ -1,4 +1,4 @@
-// Copyright 2016-2020, Pulumi Corporation.
+// Copyright 2016-2022, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -129,10 +129,14 @@ func (o *OutputState) elementType() reflect.Type {
 	return o.element
 }
 
+// Fetch the dependencies of an OutputState. It is not thread-safe to mutate values inside
+// returned slice.
 func (o *OutputState) dependencies() []Resource {
 	if o == nil {
 		return nil
 	}
+	o.cond.L.Lock()
+	defer o.cond.L.Unlock()
 	return o.deps
 }
 
@@ -205,7 +209,7 @@ func mergeDependencies(ours []Resource, theirs []Resource) []Resource {
 	} else if len(theirs) == 0 {
 		return append(make([]Resource, 0, len(ours)), ours...)
 	} else if len(ours) == 0 {
-		return append(make([]Resource, 0, len(ours)), theirs...)
+		return append(make([]Resource, 0, len(theirs)), theirs...)
 	}
 	depSet := make(map[Resource]struct{})
 	mergedDeps := make([]Resource, 0, len(ours)+len(theirs))
@@ -419,24 +423,23 @@ func checkApplier(fn interface{}, elementType reflect.Type) reflect.Value {
 //
 // The applier function must have one of the following signatures:
 //
-//    func (v U) T
-//    func (v U) (T, error)
+//	func (v U) T
+//	func (v U) (T, error)
 //
 // U must be assignable from the ElementType of the Output. If T is a type that has a registered Output type, the
 // result of ApplyT will be of the registered Output type, and can be used in an appropriate type assertion:
 //
-//    stringOutput := pulumi.String("hello").ToStringOutput()
-//    intOutput := stringOutput.ApplyT(func(v string) int {
-//        return len(v)
-//    }).(pulumi.IntOutput)
+//	stringOutput := pulumi.String("hello").ToStringOutput()
+//	intOutput := stringOutput.ApplyT(func(v string) int {
+//	    return len(v)
+//	}).(pulumi.IntOutput)
 //
 // Otherwise, the result will be of type AnyOutput:
 //
-//    stringOutput := pulumi.String("hello").ToStringOutput()
-//    intOutput := stringOutput.ApplyT(func(v string) []rune {
-//        return []rune(v)
-//    }).(pulumi.AnyOutput)
-//
+//	stringOutput := pulumi.String("hello").ToStringOutput()
+//	intOutput := stringOutput.ApplyT(func(v string) []rune {
+//	    return []rune(v)
+//	}).(pulumi.AnyOutput)
 func (o *OutputState) ApplyT(applier interface{}) Output {
 	return o.ApplyTWithContext(context.Background(), makeContextful(applier, o.elementType()))
 }
@@ -450,24 +453,23 @@ var anyOutputType = reflect.TypeOf((*AnyOutput)(nil)).Elem()
 //
 // The applier function must have one of the following signatures:
 //
-//    func (ctx context.Context, v U) T
-//    func (ctx context.Context, v U) (T, error)
+//	func (ctx context.Context, v U) T
+//	func (ctx context.Context, v U) (T, error)
 //
 // U must be assignable from the ElementType of the Output. If T is a type that has a registered Output type, the
 // result of ApplyT will be of the registered Output type, and can be used in an appropriate type assertion:
 //
-//    stringOutput := pulumi.String("hello").ToStringOutput()
-//    intOutput := stringOutput.ApplyTWithContext(func(_ context.Context, v string) int {
-//        return len(v)
-//    }).(pulumi.IntOutput)
+//	stringOutput := pulumi.String("hello").ToStringOutput()
+//	intOutput := stringOutput.ApplyTWithContext(func(_ context.Context, v string) int {
+//	    return len(v)
+//	}).(pulumi.IntOutput)
 //
 // Otherwise, the result will be of type AnyOutput:
 //
-//    stringOutput := pulumi.String("hello").ToStringOutput()
-//    intOutput := stringOutput.ApplyT(func(_ context.Context, v string) []rune {
-//        return []rune(v)
-//    }).(pulumi.AnyOutput)
-//
+//	stringOutput := pulumi.String("hello").ToStringOutput()
+//	intOutput := stringOutput.ApplyT(func(_ context.Context, v string) []rune {
+//	    return []rune(v)
+//	}).(pulumi.AnyOutput)
 func (o *OutputState) ApplyTWithContext(ctx context.Context, applier interface{}) Output {
 	fn := checkApplier(applier, o.elementType())
 
@@ -521,8 +523,33 @@ func (o *OutputState) ApplyTWithContext(ctx context.Context, applier interface{}
 }
 
 // IsSecret returns a bool representing the secretness of the Output
+//
+// IsSecret may return an inaccurate results if the Output is unknowable (during a
+// preview) or contains an error.
 func IsSecret(o Output) bool {
-	return o.getState().secret
+	_, _, secret, _, _ := o.getState().await(context.Background())
+	// We intentionally ignore both the `known` and `error` values returned by `await`:
+	//
+	// If a value is not known, it is possible that we will return the wrong result. This
+	// is unavoidable. Consider the example:
+	//
+	// ```go
+	// bucket, _ := s3.Bucket("bucket", &s3.BucketArgs{})
+	// unknowable := bucket.Bucket.ApplyT(func(b string) OutputString {
+	//   if strings.ContainsRune(b, '9') {
+	//     return ToSecret(String(b))
+	//   else {
+	//     return String(b)
+	//   }
+	// })
+	// ```
+	//
+	// Until we resolve values from the cloud, we can't know the correct value of
+	// `IsSecret(unknowable)`. We have the same problem for outputs with non-nil errors.
+	//
+	// This is tolerable because users will never be able to retrieve values (secret or
+	// otherwise) that are unknown or erred.
+	return secret
 }
 
 // Unsecret will unwrap a secret output as a new output with a resolved value and no secretness
@@ -545,7 +572,7 @@ func ToSecret(input interface{}) Output {
 	return ToSecretWithContext(context.Background(), input)
 }
 
-// Creates an unknown output. This is a low level API and should not be used in programs as this
+// UnsafeUnknownOutput Creates an unknown output. This is a low level API and should not be used in programs as this
 // will cause "pulumi up" to fail if called and used during a non-dryrun deployment.
 func UnsafeUnknownOutput(deps []Resource) Output {
 	output, _, _ := NewOutput()
@@ -675,19 +702,18 @@ func callToOutputMethod(ctx context.Context, input reflect.Value, resolvedType r
 // The logic to do this is pretty arcane, and very special-casey when it comes to finding Inputs, converting them to
 // Outputs, and awaiting their values. Roughly speaking:
 //
-// 1. If we cannot set resolved--e.g. because it was derived from an unexported field--we do nothing
-// 2. If the value is an Input:
+//  1. If we cannot set resolved--e.g. because it was derived from an unexported field--we do nothing
+//  2. If the value is an Input:
 //     a. If the value is `nil`, do nothing. The value is already fully-resolved. `resolved` is not set.
 //     b. Otherwise, convert the Input to an appropriately-typed Output by calling the corresponding `ToOutput` method.
-//        The desired type is determined based on the type of the destination, and the conversion method is determined
-//        from the name of the desired type. If no conversion method is available, we will attempt to assign the Input
-//        itself, and will panic if that assignment is not well-typed.
+//     The desired type is determined based on the type of the destination, and the conversion method is determined
+//     from the name of the desired type. If no conversion method is available, we will attempt to assign the Input
+//     itself, and will panic if that assignment is not well-typed.
 //     c. Replace the value to await with the resolved value of the input.
-// 3. Depending on the kind of the value:
+//  3. Depending on the kind of the value:
 //     a. If the value is a Resource, stop.
 //     b. If the value is a primitive, stop.
 //     c. If the value is a slice, array, struct, or map, recur on its contents.
-//
 func awaitInputs(ctx context.Context, v, resolved reflect.Value) (bool, bool, []Resource, error) {
 	contract.Assert(v.IsValid())
 
@@ -967,58 +993,57 @@ func toOutputWithContext(ctx context.Context, join *workGroup, v interface{}, fo
 //
 // For example, given a nested Pulumi value type with the following shape:
 //
-//     type Nested struct {
-//         Foo int
-//         Bar string
-//     }
+//	type Nested struct {
+//	    Foo int
+//	    Bar string
+//	}
 //
 // We would define the following:
 //
-//     var nestedType = reflect.TypeOf((*Nested)(nil)).Elem()
+//	var nestedType = reflect.TypeOf((*Nested)(nil)).Elem()
 //
-//     type NestedInput interface {
-//         pulumi.Input
+//	type NestedInput interface {
+//	    pulumi.Input
 //
-//         ToNestedOutput() NestedOutput
-//         ToNestedOutputWithContext(context.Context) NestedOutput
-//     }
+//	    ToNestedOutput() NestedOutput
+//	    ToNestedOutputWithContext(context.Context) NestedOutput
+//	}
 //
-//     type Nested struct {
-//         Foo int `pulumi:"foo"`
-//         Bar string `pulumi:"bar"`
-//     }
+//	type Nested struct {
+//	    Foo int `pulumi:"foo"`
+//	    Bar string `pulumi:"bar"`
+//	}
 //
-//     type NestedInputValue struct {
-//         Foo pulumi.IntInput `pulumi:"foo"`
-//         Bar pulumi.StringInput `pulumi:"bar"`
-//     }
+//	type NestedInputValue struct {
+//	    Foo pulumi.IntInput `pulumi:"foo"`
+//	    Bar pulumi.StringInput `pulumi:"bar"`
+//	}
 //
-//     func (NestedInputValue) ElementType() reflect.Type {
-//         return nestedType
-//     }
+//	func (NestedInputValue) ElementType() reflect.Type {
+//	    return nestedType
+//	}
 //
-//     func (v NestedInputValue) ToNestedOutput() NestedOutput {
-//         return pulumi.ToOutput(v).(NestedOutput)
-//     }
+//	func (v NestedInputValue) ToNestedOutput() NestedOutput {
+//	    return pulumi.ToOutput(v).(NestedOutput)
+//	}
 //
-//     func (v NestedInputValue) ToNestedOutputWithContext(ctx context.Context) NestedOutput {
-//         return pulumi.ToOutputWithContext(ctx, v).(NestedOutput)
-//     }
+//	func (v NestedInputValue) ToNestedOutputWithContext(ctx context.Context) NestedOutput {
+//	    return pulumi.ToOutputWithContext(ctx, v).(NestedOutput)
+//	}
 //
-//     type NestedOutput struct { *pulumi.OutputState }
+//	type NestedOutput struct { *pulumi.OutputState }
 //
-//     func (NestedOutput) ElementType() reflect.Type {
-//         return nestedType
-//     }
+//	func (NestedOutput) ElementType() reflect.Type {
+//	    return nestedType
+//	}
 //
-//     func (o NestedOutput) ToNestedOutput() NestedOutput {
-//         return o
-//     }
+//	func (o NestedOutput) ToNestedOutput() NestedOutput {
+//	    return o
+//	}
 //
-//     func (o NestedOutput) ToNestedOutputWithContext(ctx context.Context) NestedOutput {
-//         return o
-//     }
-//
+//	func (o NestedOutput) ToNestedOutputWithContext(ctx context.Context) NestedOutput {
+//	    return o
+//	}
 type Input interface {
 	ElementType() reflect.Type
 }
@@ -1100,8 +1125,8 @@ func convert(v interface{}, to reflect.Type) interface{} {
 	return rv.Convert(to).Interface()
 }
 
-// TODO: ResourceOutput and the init() should probably be code generated.
 // ResourceOutput is an Output that returns Resource values.
+// TODO: ResourceOutput and the init() should probably be code generated.
 type ResourceOutput struct{ *OutputState }
 
 // ElementType returns the element type of this Output (Resource).
@@ -1117,7 +1142,7 @@ func (o ResourceOutput) ToResourceOutputWithContext(ctx context.Context) Resourc
 	return o
 }
 
-// An Input type carrying Resource values.
+// ResourceInput is an Input type carrying Resource values.
 //
 // Unfortunately `Resource` values do not implement `ResourceInput` in
 // the current version. Use `NewResourceInput` instead.
@@ -1222,4 +1247,65 @@ func init() {
 	RegisterInputType(reflect.TypeOf((*ResourceArrayInput)(nil)).Elem(), ResourceArray{})
 	RegisterOutputType(ResourceOutput{})
 	RegisterOutputType(ResourceArrayOutput{})
+}
+
+// coerceTypeConversion assigns src to dst, performing deep type coercion as necessary.
+func coerceTypeConversion(src interface{}, dst reflect.Type) (interface{}, error) {
+	makeError := func(src, dst reflect.Value) error {
+		return fmt.Errorf("expected value of type %s, not %s", dst.Type(), src.Type())
+	}
+	var coerce func(reflect.Value, reflect.Value) error
+	coerce = func(src, dst reflect.Value) error {
+		if src.Type().Kind() == reflect.Interface && !src.IsNil() {
+			src = src.Elem()
+		}
+		if src.Type().AssignableTo(dst.Type()) {
+			dst.Set(src)
+			return nil
+		}
+		switch dst.Type().Kind() {
+		case reflect.Map:
+			if src.Kind() != reflect.Map {
+				return makeError(src, dst)
+			}
+
+			dst.Set(reflect.MakeMapWithSize(dst.Type(), src.Len()))
+
+			for iter := src.MapRange(); iter.Next(); {
+				dstKey := reflect.New(dst.Type().Key()).Elem()
+				dstVal := reflect.New(dst.Type().Elem()).Elem()
+				if err := coerce(iter.Key(), dstKey); err != nil {
+					return fmt.Errorf("invalid key: %w", err)
+				}
+				if err := coerce(iter.Value(), dstVal); err != nil {
+					return fmt.Errorf("[%#v]: %w", dstKey.Interface(), err)
+				}
+				dst.SetMapIndex(dstKey, dstVal)
+			}
+
+			return nil
+		case reflect.Slice:
+			if src.Kind() != reflect.Slice {
+				return makeError(src, dst)
+			}
+			dst.Set(reflect.MakeSlice(dst.Type(), src.Len(), src.Cap()))
+			for i := 0; i < src.Len(); i++ {
+				dstVal := reflect.New(dst.Type().Elem()).Elem()
+				if err := coerce(src.Index(i), dstVal); err != nil {
+					return fmt.Errorf("[%d]: %w", i, err)
+				}
+				dst.Index(i).Set(dstVal)
+			}
+			return nil
+		default:
+			return makeError(src, dst)
+		}
+	}
+
+	srcV, dstV := reflect.ValueOf(src), reflect.New(dst).Elem()
+
+	if err := coerce(srcV, dstV); err != nil {
+		return nil, err
+	}
+	return dstV.Interface(), nil
 }

@@ -3,8 +3,10 @@ LANGHOST_PKG     := github.com/pulumi/pulumi/sdk/v3/python/cmd/pulumi-language-p
 VERSION          := $(if ${PULUMI_VERSION},${PULUMI_VERSION},$(shell ../../scripts/pulumi-version.sh))
 PYPI_VERSION 	   := $(if ${PYPI_VERSION},${PYPI_VERSION},$(shell ../../scripts/pulumi-version.sh python))
 
+ifeq ($(DEBUG),"true")
 $(info    VERSION       = $(VERSION))
 $(info    PYPI_VERSION  = $(PYPI_VERSION))
+endif
 
 PYENV := ./env
 PYENVSRC := $(PYENV)/src
@@ -32,7 +34,7 @@ ensure:: $(PYTHON).ensure .ensure.phony
 
 build_package:: ensure
 	rm -rf $(PYENVSRC) && cp -R ./lib/. $(PYENVSRC)/
-	sed -i.bak "s/\$${VERSION}/$(PYPI_VERSION)/g" $(PYENVSRC)/setup.py && rm $(PYENVSRC)/setup.py.bak
+	sed -i.bak 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' $(PYENVSRC)/setup.py && rm $(PYENVSRC)/setup.py.bak
 	cp ../../README.md $(PYENVSRC)
 	. venv/*/activate && cd $(PYENVSRC) && \
 		python setup.py build bdist_wheel --universal

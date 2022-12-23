@@ -42,6 +42,7 @@ func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand pulumi.Str
 			PrivateKey: r.PrivateKey.PrivateKeyOpenssh,
 			User:       pulumi.String(r.Username),
 			Port:       pulumi.Float64(defaultSSHPort),
+			Timeout:    pulumi.String(remoteTimeout),
 		},
 		Create: remoteCommand,
 		Update: remoteCommand,

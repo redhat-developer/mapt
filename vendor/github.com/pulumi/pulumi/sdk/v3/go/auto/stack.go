@@ -1,4 +1,4 @@
-// Copyright 2016-2020, Pulumi Corporation.
+// Copyright 2016-2022, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,57 +20,65 @@
 //
 // In addition to fine-grained building blocks, Automation API provides three out of the box ways to work with Stacks:
 //
-// 1. Programs locally available on-disk and addressed via a filepath (NewStackLocalSource)
-//	stack, err := NewStackLocalSource(ctx, "myOrg/myProj/myStack", filepath.Join("..", "path", "to", "project"))
+//  1. Programs locally available on-disk and addressed via a filepath (NewStackLocalSource)
+//     stack, err := NewStackLocalSource(ctx, "myOrg/myProj/myStack", filepath.Join("..", "path", "to", "project"))
 //
-// 2. Programs fetched from a Git URL (NewStackRemoteSource)
-//	stack, err := NewStackRemoteSource(ctx, "myOrg/myProj/myStack", GitRepo{
-//		URL:         "https://github.com/pulumi/test-repo.git",
-//		ProjectPath: filepath.Join("project", "path", "repo", "root", "relative"),
-//	})
-// 3. Programs defined as a function alongside your Automation API code (NewStackInlineSource)
-//	 stack, err := NewStackInlineSource(ctx, "myOrg/myProj/myStack", func(pCtx *pulumi.Context) error {
-//		bucket, err := s3.NewBucket(pCtx, "bucket", nil)
-//		if err != nil {
-//			return err
-//		}
-//		pCtx.Export("bucketName", bucket.Bucket)
-//		return nil
-//	 })
+//  2. Programs fetched from a Git URL (NewStackRemoteSource)
+//     stack, err := NewStackRemoteSource(ctx, "myOrg/myProj/myStack", GitRepo{
+//     URL:         "https://github.com/pulumi/test-repo.git",
+//     ProjectPath: filepath.Join("project", "path", "repo", "root", "relative"),
+//     })
+//
+//  3. Programs defined as a function alongside your Automation API code (NewStackInlineSource)
+//     stack, err := NewStackInlineSource(ctx, "myOrg/myProj/myStack", func(pCtx *pulumi.Context) error {
+//     bucket, err := s3.NewBucket(pCtx, "bucket", nil)
+//     if err != nil {
+//     return err
+//     }
+//     pCtx.Export("bucketName", bucket.Bucket)
+//     return nil
+//     })
+//
 // Each of these creates a stack with access to the full range of Pulumi lifecycle methods
 // (up/preview/refresh/destroy), as well as methods for managing config, stack, and project settings.
-//	 err := stack.SetConfig(ctx, "key", ConfigValue{ Value: "value", Secret: true })
-//	 preRes, err := stack.Preview(ctx)
-//	 // detailed info about results
-//	 fmt.Println(preRes.prev.Steps[0].URN)
+//
+//	err := stack.SetConfig(ctx, "key", ConfigValue{ Value: "value", Secret: true })
+//	preRes, err := stack.Preview(ctx)
+//	// detailed info about results
+//	fmt.Println(preRes.prev.Steps[0].URN)
+//
 // The Automation API provides a natural way to orchestrate multiple stacks,
 // feeding the output of one stack as an input to the next as shown in the package-level example below.
 // The package can be used for a number of use cases:
 //
-// 	- Driving pulumi deployments within CI/CD workflows
+//   - Driving pulumi deployments within CI/CD workflows
 //
-// 	- Integration testing
+//   - Integration testing
 //
-// 	- Multi-stage deployments such as blue-green deployment patterns
+//   - Multi-stage deployments such as blue-green deployment patterns
 //
-// 	- Deployments involving application code like database migrations
+//   - Deployments involving application code like database migrations
 //
-// 	- Building higher level tools, custom CLIs over pulumi, etc
+//   - Building higher level tools, custom CLIs over pulumi, etc
 //
-//	- Using pulumi behind a REST or GRPC API
+//   - Using pulumi behind a REST or GRPC API
 //
-//  - Debugging Pulumi programs (by using a single main entrypoint with "inline" programs)
+//   - Debugging Pulumi programs (by using a single main entrypoint with "inline" programs)
 //
 // To enable a broad range of runtime customization the API defines a `Workspace` interface.
 // A Workspace is the execution context containing a single Pulumi project, a program, and multiple stacks.
 // Workspaces are used to manage the execution environment, providing various utilities such as plugin
 // installation, environment configuration ($PULUMI_HOME), and creation, deletion, and listing of Stacks.
 // Every Stack including those in the above examples are backed by a Workspace which can be accessed via:
-//	 w = stack.Workspace()
-//	 err := w.InstallPlugin("aws", "v3.2.0")
+//
+//	w = stack.Workspace()
+//	err := w.InstallPlugin("aws", "v3.2.0")
+//
 // Workspaces can be explicitly created and customized beyond the three Stack creation helpers noted above:
-//	 w, err := NewLocalWorkspace(ctx, WorkDir(filepath.Join(".", "project", "path"), PulumiHome("~/.pulumi"))
-//	 s := NewStack(ctx, "org/proj/stack", w)
+//
+//	w, err := NewLocalWorkspace(ctx, WorkDir(filepath.Join(".", "project", "path"), PulumiHome("~/.pulumi"))
+//	s := NewStack(ctx, "org/proj/stack", w)
+//
 // A default implementation of workspace is provided as `LocalWorkspace`. This implementation relies on Pulumi.yaml
 // and Pulumi.<stack>.yaml as the intermediate format for Project and Stack settings. Modifying ProjectSettings will
 // alter the Workspace Pulumi.yaml file, and setting config on a Stack will modify the Pulumi.<stack>.yaml file.
@@ -82,8 +90,9 @@
 //
 // The Automation API also provides error handling utilities to detect common cases such as concurrent update
 // conflicts:
-// 	uRes, err :=stack.Up(ctx)
-// 	if err != nil && IsConcurrentUpdateError(err) { /* retry logic here */ }
+//
+//	uRes, err :=stack.Up(ctx)
+//	if err != nil && IsConcurrentUpdateError(err) { /* retry logic here */ }
 package auto
 
 import (
@@ -257,6 +266,9 @@ func (s *Stack) Preview(ctx context.Context, opts ...optpreview.Option) (Preview
 		sharedArgs = append(sharedArgs, fmt.Sprintf("--save-plan=%s", preOpts.Plan))
 	}
 
+	// Apply the remote args, if needed.
+	sharedArgs = append(sharedArgs, s.remoteArgs()...)
+
 	kind, args := constant.ExecKindAutoLocal, []string{"preview"}
 	if program := s.Workspace().Program(); program != nil {
 		server, err := startLanguageRuntimeServer(program)
@@ -375,6 +387,9 @@ func (s *Stack) Up(ctx context.Context, opts ...optup.Option) (UpResult, error) 
 		sharedArgs = append(sharedArgs, fmt.Sprintf("--plan=%s", upOpts.Plan))
 	}
 
+	// Apply the remote args, if needed.
+	sharedArgs = append(sharedArgs, s.remoteArgs()...)
+
 	kind, args := constant.ExecKindAutoLocal, []string{"up", "--yes", "--skip-preview"}
 	if program := s.Workspace().Program(); program != nil {
 		server, err := startLanguageRuntimeServer(program)
@@ -411,6 +426,11 @@ func (s *Stack) Up(ctx context.Context, opts ...optup.Option) (UpResult, error) 
 	historyOpts := []opthistory.Option{}
 	if upOpts.ShowSecrets != nil {
 		historyOpts = append(historyOpts, opthistory.ShowSecrets(*upOpts.ShowSecrets))
+	}
+	// If it's a remote workspace, explicitly set ShowSecrets to false to prevent attempting to
+	// load the project file.
+	if s.isRemote() {
+		historyOpts = append(historyOpts, opthistory.ShowSecrets(false))
 	}
 	history, err := s.History(ctx, 1 /*pageSize*/, 1 /*page*/, historyOpts...)
 	if err != nil {
@@ -478,6 +498,9 @@ func (s *Stack) Refresh(ctx context.Context, opts ...optrefresh.Option) (Refresh
 		args = append(args, "--event-log", t.Filename)
 	}
 
+	// Apply the remote args, if needed.
+	args = append(args, s.remoteArgs()...)
+
 	stdout, stderr, code, err := s.runPulumiCmdSync(
 		ctx,
 		refreshOpts.ProgressStreams,      /* additionalOutputs */
@@ -491,6 +514,11 @@ func (s *Stack) Refresh(ctx context.Context, opts ...optrefresh.Option) (Refresh
 	historyOpts := []opthistory.Option{}
 	if showSecrets := refreshOpts.ShowSecrets; showSecrets != nil {
 		historyOpts = append(historyOpts, opthistory.ShowSecrets(*showSecrets))
+	}
+	// If it's a remote workspace, explicitly set ShowSecrets to false to prevent attempting to
+	// load the project file.
+	if s.isRemote() {
+		historyOpts = append(historyOpts, opthistory.ShowSecrets(false))
 	}
 	history, err := s.History(ctx, 1 /*pageSize*/, 1 /*page*/, historyOpts...)
 	if err != nil {
@@ -558,6 +586,9 @@ func (s *Stack) Destroy(ctx context.Context, opts ...optdestroy.Option) (Destroy
 		args = append(args, "--event-log", t.Filename)
 	}
 
+	// Apply the remote args, if needed.
+	args = append(args, s.remoteArgs()...)
+
 	stdout, stderr, code, err := s.runPulumiCmdSync(
 		ctx,
 		destroyOpts.ProgressStreams,      /* additionalOutputs */
@@ -571,6 +602,11 @@ func (s *Stack) Destroy(ctx context.Context, opts ...optdestroy.Option) (Destroy
 	historyOpts := []opthistory.Option{}
 	if showSecrets := destroyOpts.ShowSecrets; showSecrets != nil {
 		historyOpts = append(historyOpts, opthistory.ShowSecrets(*showSecrets))
+	}
+	// If it's a remote workspace, explicitly set ShowSecrets to false to prevent attempting to
+	// load the project file.
+	if s.isRemote() {
+		historyOpts = append(historyOpts, opthistory.ShowSecrets(false))
 	}
 	history, err := s.History(ctx, 1 /*pageSize*/, 1 /*page*/, historyOpts...)
 	if err != nil {
@@ -600,10 +636,6 @@ func (s *Stack) Outputs(ctx context.Context) (OutputMap, error) {
 // (up/preview/refresh/destroy).
 func (s *Stack) History(ctx context.Context,
 	pageSize int, page int, opts ...opthistory.Option) ([]UpdateSummary, error) {
-	err := s.Workspace().SelectStack(ctx, s.Name())
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to get stack history")
-	}
 	var options opthistory.Options
 	for _, opt := range opts {
 		opt.ApplyOption(&options)
@@ -867,6 +899,16 @@ func (s *Stack) runPulumiCmdSync(
 	var env []string
 	debugEnv := fmt.Sprintf("%s=%s", "PULUMI_DEBUG_COMMANDS", "true")
 	env = append(env, debugEnv)
+
+	var remote bool
+	if lws, isLocalWorkspace := s.Workspace().(*LocalWorkspace); isLocalWorkspace {
+		remote = lws.remote
+	}
+	if remote {
+		experimentalEnv := fmt.Sprintf("%s=%s", "PULUMI_EXPERIMENTAL", "true")
+		env = append(env, experimentalEnv)
+	}
+
 	if s.Workspace().PulumiHome() != "" {
 		homeEnv := fmt.Sprintf("%s=%s", pulumiHomeEnv, s.Workspace().PulumiHome())
 		env = append(env, homeEnv)
@@ -902,6 +944,79 @@ func (s *Stack) runPulumiCmdSync(
 	return stdout, stderr, errCode, nil
 }
 
+func (s *Stack) isRemote() bool {
+	var remote bool
+	if lws, isLocalWorkspace := s.Workspace().(*LocalWorkspace); isLocalWorkspace {
+		remote = lws.remote
+	}
+	return remote
+}
+
+func (s *Stack) remoteArgs() []string {
+	var remote bool
+	var repo *GitRepo
+	var preRunCommands []string
+	var envvars map[string]EnvVarValue
+	if lws, isLocalWorkspace := s.Workspace().(*LocalWorkspace); isLocalWorkspace {
+		remote = lws.remote
+		repo = lws.repo
+		preRunCommands = lws.preRunCommands
+		envvars = lws.remoteEnvVars
+	}
+	if !remote {
+		return nil
+	}
+
+	var args []string
+	args = append(args, "--remote")
+	if repo != nil {
+		if repo.URL != "" {
+			args = append(args, repo.URL)
+		}
+		if repo.Branch != "" {
+			args = append(args, fmt.Sprintf("--remote-git-branch=%s", repo.Branch))
+		}
+		if repo.CommitHash != "" {
+			args = append(args, fmt.Sprintf("--remote-git-commit=%s", repo.CommitHash))
+		}
+		if repo.ProjectPath != "" {
+			args = append(args, fmt.Sprintf("--remote-git-repo-dir=%s", repo.ProjectPath))
+		}
+		if repo.Auth != nil {
+			if repo.Auth.PersonalAccessToken != "" {
+				args = append(args, fmt.Sprintf("--remote-git-auth-access-token=%s", repo.Auth.PersonalAccessToken))
+			}
+			if repo.Auth.SSHPrivateKey != "" {
+				args = append(args, fmt.Sprintf("--remote-git-auth-ssh-private-key=%s", repo.Auth.SSHPrivateKey))
+			}
+			if repo.Auth.SSHPrivateKeyPath != "" {
+				args = append(args,
+					fmt.Sprintf("--remote-git-auth-ssh-private-key-path=%s", repo.Auth.SSHPrivateKeyPath))
+			}
+			if repo.Auth.Password != "" {
+				args = append(args, fmt.Sprintf("--remote-git-auth-password=%s", repo.Auth.Password))
+			}
+			if repo.Auth.Username != "" {
+				args = append(args, fmt.Sprintf("--remote-git-auth-username=%s", repo.Auth.Username))
+			}
+		}
+	}
+
+	for k, v := range envvars {
+		flag := "--remote-env"
+		if v.Secret {
+			flag += "-secret"
+		}
+		args = append(args, fmt.Sprintf("%s=%s=%s", flag, k, v.Value))
+	}
+
+	for _, command := range preRunCommands {
+		args = append(args, fmt.Sprintf("--remote-pre-run-command=%s", command))
+	}
+
+	return args
+}
+
 const (
 	stateWaiting = iota
 	stateRunning
@@ -918,7 +1033,7 @@ type languageRuntimeServer struct {
 
 	state  int
 	cancel chan bool
-	done   chan error
+	done   <-chan error
 }
 
 // isNestedInvocation returns true if pulumi.RunWithContext is on the stack.
@@ -951,16 +1066,18 @@ func startLanguageRuntimeServer(fn pulumi.RunFunc) (*languageRuntimeServer, erro
 	}
 	s.c = sync.NewCond(&s.m)
 
-	port, done, err := rpcutil.Serve(0, s.cancel, []func(*grpc.Server) error{
-		func(srv *grpc.Server) error {
+	handle, err := rpcutil.ServeWithOptions(rpcutil.ServeOptions{
+		Cancel: s.cancel,
+		Init: func(srv *grpc.Server) error {
 			pulumirpc.RegisterLanguageRuntimeServer(srv, s)
 			return nil
 		},
-	}, nil)
+		Options: rpcutil.OpenTracingServerInterceptorOptions(nil),
+	})
 	if err != nil {
 		return nil, err
 	}
-	s.address, s.done = fmt.Sprintf("127.0.0.1:%d", port), done
+	s.address, s.done = fmt.Sprintf("127.0.0.1:%d", handle.Port), handle.Done
 	return s, nil
 }
 
@@ -1065,6 +1182,11 @@ func (s *languageRuntimeServer) About(_ context.Context, _ *pbempty.Empty) (*pul
 func (s *languageRuntimeServer) GetProgramDependencies(
 	_ context.Context, _ *pulumirpc.GetProgramDependenciesRequest) (*pulumirpc.GetProgramDependenciesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProgramDependencies not implemented")
+}
+
+func (s *languageRuntimeServer) RunPlugin(
+	_ *pulumirpc.RunPluginRequest, _ pulumirpc.LanguageRuntime_RunPluginServer) error {
+	return status.Errorf(codes.Unimplemented, "method RunPlugin not implemented")
 }
 
 type fileWatcher struct {

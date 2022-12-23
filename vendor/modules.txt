@@ -264,7 +264,7 @@ github.com/pulumi/pulumi-aws/sdk/v5/go/aws
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/lb
-# github.com/pulumi/pulumi-command/sdk v0.5.2
+# github.com/pulumi/pulumi-command/sdk v0.5.2 => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20221223134842-88c99f4e9abf
 ## explicit; go 1.17
 github.com/pulumi/pulumi-command/sdk/go/command
 github.com/pulumi/pulumi-command/sdk/go/command/remote
@@ -274,7 +274,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random
 # github.com/pulumi/pulumi-tls/sdk/v4 v4.6.1
 ## explicit; go 1.17
 github.com/pulumi/pulumi-tls/sdk/v4/go/tls
-# github.com/pulumi/pulumi/sdk/v3 v3.40.0
+# github.com/pulumi/pulumi/sdk/v3 v3.47.0
 ## explicit; go 1.17
 github.com/pulumi/pulumi/sdk/v3/go/auto
 github.com/pulumi/pulumi/sdk/v3/go/auto/debug
@@ -283,6 +283,10 @@ github.com/pulumi/pulumi/sdk/v3/go/auto/optdestroy
 github.com/pulumi/pulumi/sdk/v3/go/auto/opthistory
 github.com/pulumi/pulumi/sdk/v3/go/auto/optpreview
 github.com/pulumi/pulumi/sdk/v3/go/auto/optrefresh
+github.com/pulumi/pulumi/sdk/v3/go/auto/optremotedestroy
+github.com/pulumi/pulumi/sdk/v3/go/auto/optremotepreview
+github.com/pulumi/pulumi/sdk/v3/go/auto/optremoterefresh
+github.com/pulumi/pulumi/sdk/v3/go/auto/optremoteup
 github.com/pulumi/pulumi/sdk/v3/go/auto/optremove
 github.com/pulumi/pulumi/sdk/v3/go/auto/optup
 github.com/pulumi/pulumi/sdk/v3/go/common/apitype
@@ -325,6 +329,9 @@ github.com/rogpeppe/go-internal/lockedfile/internal/filelock
 # github.com/sabhiram/go-gitignore v0.0.0-20180611051255-d3107576ba94
 ## explicit
 github.com/sabhiram/go-gitignore
+# github.com/santhosh-tekuri/jsonschema/v5 v5.0.0
+## explicit; go 1.15
+github.com/santhosh-tekuri/jsonschema/v5
 # github.com/sergi/go-diff v1.1.0
 ## explicit; go 1.12
 github.com/sergi/go-diff/diffmatchpatch
@@ -556,3 +563,4 @@ lukechampine.com/frand
 sourcegraph.com/sourcegraph/appdash
 sourcegraph.com/sourcegraph/appdash/internal/wire
 sourcegraph.com/sourcegraph/appdash/opentracing
+# github.com/pulumi/pulumi-command/sdk => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20221223134842-88c99f4e9abf
