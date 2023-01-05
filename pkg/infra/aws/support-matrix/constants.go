@@ -11,8 +11,9 @@ const (
 	gMacOSM1ID string = "g-macos-m1"
 
 	// General services
-	sBastionID string = "s-bastion"
-	sProxyID   string = "s-proxy"
+	sBastionID  string = "s-bastion"
+	sProxyID    string = "s-proxy"
+	sOpenspotNG string = "s-openspotng"
 
 	OwnerSelf string = "self"
 )

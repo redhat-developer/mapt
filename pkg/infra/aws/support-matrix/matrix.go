@@ -103,6 +103,21 @@ var (
 			DefaultUser: "ec2-user",
 		},
 	}
+
+	S_OPENSPOTNG = SupportedHost{
+		ID:           sOpenspotNG,
+		Description:  "openspotng cluster offering",
+		InstaceTypes: []string{"c6in.2xlarge", "c7g.2xlarge", "c6g.2xlarge"},
+		Spot:         true,
+		AMI: AMI{
+			RegexName:       "CRC Openshift*",
+			DefaultUser:     "core",
+			Owner:           OwnerSelf,
+			AMITargetName:   "CRC Openshift",
+			AMISourceID:     "ami-0569ce8a44f2351be",
+			AMISourceRegion: "us-west-2",
+		},
+	}
 )
 
 func GetHost(id string) (*SupportedHost, error) {
