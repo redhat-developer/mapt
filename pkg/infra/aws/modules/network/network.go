@@ -60,6 +60,7 @@ func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, e
 	return &NetworkResources{
 			VPCResources:       vpcResult,
 			AvailabilityZones:  r.AvailabilityZones,
+			Region:             r.Region,
 			PublicSNResources:  publicSNResults,
 			PrivateSNResources: privateSNResults,
 			IntraSNResources:   intraSNResults},

@@ -5,9 +5,11 @@ import (
 	"strconv"
 
 	"github.com/adrianriobo/qenvs/pkg/infra"
+	amireplication "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/ami-replication"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
+	supportmatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling"
@@ -67,6 +69,22 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 	if err := r.manageSecurityGroup(ctx, computeRequested.CustomIngressRules(),
 		&compute); err != nil {
 		return nil, err
+	}
+	// We only try to replicate if self ami and AMI source region is different from current one
+	if r.Specs.AMI.Owner == supportmatrix.OwnerSelf &&
+		r.Specs.AMI.AMISourceRegion != r.Region {
+		// If it is self need to check if exist on zone otherwise replicate
+		// TODO check first if already exists
+		amiReplicationRequest := amireplication.ReplicatedRequest{
+			ProjectName: r.GetName(),
+			// Review this name
+			AMITargetName:   r.Specs.AMI.AMITargetName,
+			AMISourceID:     r.Specs.AMI.AMISourceID,
+			AMISourceRegion: r.Specs.AMI.AMISourceRegion}
+		err := amiReplicationRequest.Replicate(ctx)
+		if err != nil {
+			return nil, err
+		}
 	}
 	ami, err := computeRequested.GetAMI(ctx)
 	if err != nil {

@@ -21,6 +21,7 @@ type Request struct {
 	PublicKeyOpenssh  pulumi.StringOutput
 	VPC               *ec2.Vpc
 	AvailabilityZones []string
+	Region            string
 	Subnets           []*ec2.Subnet
 	SpotPrice         string
 }

@@ -1,4 +1,4 @@
-package ami
+package amireplication
 
 import (
 	"fmt"
@@ -11,14 +11,14 @@ import (
 
 const stackName = "amiReplicate"
 
-func (r replicatedRequest) runStackAsync(backedURL, region, operation string, errChan chan error) {
+func (r ReplicatedRequest) runStackAsync(backedURL, region, operation string, errChan chan error) {
 	errChan <- r.runStack(backedURL, region, operation)
 }
 
-func (r replicatedRequest) runStack(backedURL, region, operation string) error {
+func (r ReplicatedRequest) runStack(backedURL, region, operation string) error {
 	stack := utilInfra.Stack{
 		StackName:   fmt.Sprintf("%s-%s", stackName, region),
-		ProjectName: r.projectName,
+		ProjectName: r.ProjectName,
 		BackedURL:   backedURL,
 		Plugin:      aws.GetPluginAWS(map[string]string{aws.CONFIG_AWS_REGION: region}),
 		DeployFunc:  r.deployer,
@@ -37,21 +37,25 @@ func (r replicatedRequest) runStack(backedURL, region, operation string) error {
 	return nil
 }
 
-func (r replicatedRequest) deployer(ctx *pulumi.Context) error {
+func (r ReplicatedRequest) deployer(ctx *pulumi.Context) error {
 	_, err := ec2.NewAmiCopy(ctx,
-		r.amiName,
+		r.AMITargetName,
 		&ec2.AmiCopyArgs{
 			Description: pulumi.String(
-				fmt.Sprintf("Replica of %s from %s", r.amiID, r.amiSourceRegion)),
-			SourceAmiId:     pulumi.String(r.amiID),
-			SourceAmiRegion: pulumi.String(r.amiSourceRegion),
+				fmt.Sprintf("Replica of %s from %s", r.AMISourceID, r.AMISourceRegion)),
+			SourceAmiId:     pulumi.String(r.AMISourceID),
+			SourceAmiRegion: pulumi.String(r.AMISourceRegion),
 			Tags: pulumi.StringMap{
-				"Name":    pulumi.String(r.amiName),
-				"Project": pulumi.String(r.projectName),
+				"Name":    pulumi.String(r.AMITargetName),
+				"Project": pulumi.String(r.ProjectName),
 			},
 		})
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func (r ReplicatedRequest) Replicate(ctx *pulumi.Context) error {
+	return r.deployer(ctx)
 }
