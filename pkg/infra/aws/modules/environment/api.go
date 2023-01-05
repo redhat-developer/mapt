@@ -28,8 +28,8 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 		return err
 	}
 	// Check with spot price environment requirements
-	availabilityZones, spotPrice, plugin, err :=
-		getSpotBestPriceInfo(projectName, backedURL, host)
+	availabilityZones, region, spotPrice, plugin, err :=
+		getHostParameters(projectName, backedURL, host)
 	if err != nil {
 		return err
 	}
@@ -40,6 +40,7 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 			Name:               fmt.Sprintf("%s-%s", projectName, "network"),
 			CIDR:               network.DefaultCIDRNetwork,
 			AvailabilityZones:  availabilityZones,
+			Region:             region,
 			PublicSubnetsCIDRs: network.DefaultCIDRPublicSubnets[:1],
 			SingleNatGateway:   false,
 		},
@@ -86,24 +87,27 @@ func Destroy(projectName, backedURL string) (err error) {
 	return
 }
 
-func getSpotBestPriceInfo(projectName, backedURL string,
-	host *supportMatrix.SupportedHost) ([]string, string, *utilInfra.PluginInfo, error) {
+// Function get host parameters for Az, Region, and price if spot, Plugin setup accordingly and error
+func getHostParameters(projectName, backedURL string,
+	host *supportMatrix.SupportedHost) ([]string, string, string, *utilInfra.PluginInfo, error) {
 	var availabilityZones = network.DefaultAvailabilityZones[:1]
+	var region string = network.DefaultRegion
 	var spotPrice string
 	var plugin = aws.PluginAWSDefault
 	if host.Spot {
 		spg, err := spotprice.Create(projectName, backedURL, host.ID)
 		if err != nil {
-			return nil, "", nil, err
+			return nil, "", "", nil, err
 		}
 		availabilityZones = []string{spg.AvailabilityZone}
+		region = spg.Region
 		spotPrice = fmt.Sprintf("%f", spg.MaxPrice)
 		// plugin will use the region from the best spot price
 		plugin = aws.GetPluginAWS(
 			map[string]string{
 				aws.CONFIG_AWS_REGION: spg.Region})
 	}
-	return availabilityZones, spotPrice, &plugin, nil
+	return availabilityZones, region, spotPrice, &plugin, nil
 }
 
 func manageRequest(request *singleHostRequest,

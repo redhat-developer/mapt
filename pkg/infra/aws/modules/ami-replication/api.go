@@ -1,4 +1,4 @@
-package ami
+package amireplication
 
 import (
 	"fmt"
@@ -25,11 +25,11 @@ func DestroyReplicas(projectName, backedURL string) (err error) {
 func manageReplicas(projectName, backedURL,
 	amiID, amiName, amiSourceRegion, operation string) (err error) {
 
-	request := replicatedRequest{
-		projectName:     projectName,
-		amiName:         amiName,
-		amiID:           amiID,
-		amiSourceRegion: amiSourceRegion}
+	request := ReplicatedRequest{
+		ProjectName:     projectName,
+		AMITargetName:   amiName,
+		AMISourceID:     amiID,
+		AMISourceRegion: amiSourceRegion}
 
 	regions, err := regions.GetRegions()
 	if err != nil {

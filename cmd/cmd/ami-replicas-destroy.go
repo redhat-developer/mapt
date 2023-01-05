@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/ami"
+	amireplication "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/ami-replication"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
@@ -28,7 +28,7 @@ var amiReplicasDestroyCmd = &cobra.Command{
 		if err := viper.BindPFlags(cmd.Flags()); err != nil {
 			return err
 		}
-		if err := ami.DestroyReplicas(
+		if err := amireplication.DestroyReplicas(
 			viper.GetString(projectName),
 			viper.GetString(backedURL)); err != nil {
 			logging.Error(err)

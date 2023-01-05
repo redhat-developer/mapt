@@ -53,6 +53,7 @@ func fillCompute(request *compute.Request, network *network.NetworkResources,
 		request.Subnets = []*ec2.Subnet{network.PrivateSNResources[0].Subnet}
 	}
 	request.AvailabilityZones = []string{network.AvailabilityZones[0]}
+	request.Region = network.Region
 	if bastion != nil {
 		request.BastionSG = bastion.SG[0]
 	}
