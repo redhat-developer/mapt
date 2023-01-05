@@ -13,6 +13,8 @@ const (
 	// General services
 	sBastionID string = "s-bastion"
 	sProxyID   string = "s-proxy"
+
+	OwnerSelf string = "self"
 )
 
 type SupportedType int
