@@ -29,7 +29,7 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 	}
 	// Check with spot price environment requirements
 	availabilityZones, spotPrice, plugin, err :=
-		getEnvironmentInfo(projectName, backedURL, host)
+		getSpotBestPriceInfo(projectName, backedURL, host)
 	if err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func Destroy(projectName, backedURL string) (err error) {
 	return
 }
 
-func getEnvironmentInfo(projectName, backedURL string,
+func getSpotBestPriceInfo(projectName, backedURL string,
 	host *supportMatrix.SupportedHost) ([]string, string, *utilInfra.PluginInfo, error) {
 	var availabilityZones = network.DefaultAvailabilityZones[:1]
 	var spotPrice string
