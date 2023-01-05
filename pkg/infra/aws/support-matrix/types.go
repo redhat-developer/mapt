@@ -17,8 +17,11 @@ type SupportedHost struct {
 type AMI struct {
 	RegexName string
 	// In case wanna compose the regex pattern
-	RegexPattern string
-	Filters      map[string]string
-	DefaultUser  string
-	Owner        string
+	RegexPattern    string
+	Filters         map[string]string
+	DefaultUser     string
+	Owner           string
+	AMITargetName   string
+	AMISourceID     string
+	AMISourceRegion string
 }
