@@ -95,7 +95,8 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 		return nil, err
 	}
 	if len(r.SpotPrice) > 0 {
-		err = r.createSpotInstance(ctx, ami.Id, userdataEncodedBase64, &compute)
+		err = r.createSpotInstance(ctx, ami.Id, userdataEncodedBase64,
+			computeRequested.CustomIngressRules(), &compute)
 		if err != nil {
 			return nil, err
 		}
@@ -220,7 +221,8 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
 }
 
 func (r Request) createSpotInstance(ctx *pulumi.Context,
-	amiID string, udBase64 pulumi.StringPtrInput, compute *Compute) error {
+	amiID string, udBase64 pulumi.StringPtrInput,
+	customIngressRules []securityGroup.IngressRules, compute *Compute) error {
 	args := &ec2.LaunchTemplateArgs{
 		NamePrefix: pulumi.String(r.GetName()),
 		ImageId:    pulumi.String(amiID),
@@ -248,15 +250,31 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 	if err != nil {
 		return err
 	}
-	nlb, err := lb.NewLoadBalancer(ctx,
+	eip, err := ec2.NewEip(ctx,
 		r.GetName(),
-		&lb.LoadBalancerArgs{
-			LoadBalancerType: pulumi.String("network"),
-			Subnets:          pulumi.StringArray{r.Subnets[0].ID()},
+		&ec2.EipArgs{
+			PublicIpv4Pool: pulumi.String("amazon"),
+			Vpc:            pulumi.Bool(true),
 		})
 	if err != nil {
 		return err
 	}
+	nlb, err := lb.NewLoadBalancer(ctx,
+		r.GetName(),
+		&lb.LoadBalancerArgs{
+			LoadBalancerType: pulumi.String("network"),
+			SubnetMappings: lb.LoadBalancerSubnetMappingArray{
+				&lb.LoadBalancerSubnetMappingArgs{
+					SubnetId:     r.Subnets[0].ID(),
+					AllocationId: eip.ID(),
+				},
+			},
+		})
+	if err != nil {
+		return err
+	}
+	// TODO need to create a target group for each ingress rule
+
 	rhelTargetGroup, err := lb.NewTargetGroup(ctx, r.GetName(),
 		&lb.TargetGroupArgs{
 			Port:     pulumi.Int(22),
@@ -282,7 +300,7 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 	if err != nil {
 		return err
 	}
-	compute.InstanceIP = nlb.DnsName
+	compute.InstanceIP = eip.PublicIp
 	compute.Username = r.Specs.AMI.DefaultUser
 	overrides := autoscaling.GroupMixedInstancesPolicyLaunchTemplateOverrideArray{}
 	for _, instanceType := range r.Specs.InstaceTypes {
