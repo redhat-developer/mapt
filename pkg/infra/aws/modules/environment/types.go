@@ -7,7 +7,6 @@ import (
 
 type singleHostRequest struct {
 	name          string
-	region        string
 	network       *network.NetworkRequest
 	bastion       *compute.Request
 	hostRequested compute.ComputeRequest
