@@ -9,8 +9,9 @@ import (
 // Pick ideas from
 // https://github.com/terraform-aws-modules/terraform-aws-security-group/blob/master/rules.tf
 var (
-	SSH_TCP = IngressRules{Description: "SSH", FromPort: 22, ToPort: 22, Protocol: "tcp"}
-	RDP_TCP = IngressRules{Description: "RDP", FromPort: 3389, ToPort: 3389, Protocol: "tcp"}
+	SSH_TCP   = IngressRules{Description: "SSH", FromPort: 22, ToPort: 22, Protocol: "tcp"}
+	RDP_TCP   = IngressRules{Description: "RDP", FromPort: 3389, ToPort: 3389, Protocol: "tcp"}
+	HTTPS_TCP = IngressRules{Description: "HTTPS", FromPort: 443, ToPort: 443, Protocol: "tcp"}
 )
 
 var egressAll = &ec2.SecurityGroupEgressArgs{
