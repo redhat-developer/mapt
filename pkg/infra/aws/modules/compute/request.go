@@ -48,7 +48,7 @@ func (r *Request) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGrou
 	return nil, nil
 }
 
-func (r *Request) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+func (r *Request) GetPostScript(ctx *pulumi.Context, compute *Compute) (pulumi.StringPtrInput, error) {
 	return nil, nil
 }
 
@@ -112,7 +112,7 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 	}
 	ctx.Export(r.OutputUsername(), pulumi.String(r.Specs.AMI.DefaultUser))
 	if r.Public {
-		postScript, err := computeRequested.GetPostScript(ctx)
+		postScript, err := computeRequested.GetPostScript(ctx, &compute)
 		if err != nil {
 			return nil, err
 		}
@@ -273,30 +273,7 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 	if err != nil {
 		return err
 	}
-	// TODO need to create a target group for each ingress rule
-
-	rhelTargetGroup, err := lb.NewTargetGroup(ctx, r.GetName(),
-		&lb.TargetGroupArgs{
-			Port:     pulumi.Int(22),
-			Protocol: pulumi.String("TCP"),
-			VpcId:    r.VPC.ID(),
-		})
-	if err != nil {
-		return err
-	}
-	_, err = lb.NewListener(ctx,
-		r.GetName(),
-		&lb.ListenerArgs{
-			LoadBalancerArn: nlb.Arn,
-			Port:            pulumi.Int(22),
-			Protocol:        pulumi.String("TCP"),
-			DefaultActions: lb.ListenerDefaultActionArray{
-				&lb.ListenerDefaultActionArgs{
-					Type:           pulumi.String("forward"),
-					TargetGroupArn: rhelTargetGroup.Arn,
-				},
-			},
-		})
+	targetGroupsArns, err := r.manageTargetGroups(ctx, nlb, customIngressRules)
 	if err != nil {
 		return err
 	}
@@ -325,7 +302,7 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 	_, err = autoscaling.NewGroup(ctx,
 		r.GetName(),
 		&autoscaling.GroupArgs{
-			TargetGroupArns:      pulumi.ToStringArrayOutput([]pulumi.StringOutput{rhelTargetGroup.Arn}),
+			TargetGroupArns:      pulumi.ToStringArrayOutput(targetGroupsArns),
 			CapacityRebalance:    pulumi.Bool(true),
 			DesiredCapacity:      pulumi.Int(1),
 			MaxSize:              pulumi.Int(1),
@@ -356,6 +333,56 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 	}
 	ctx.Export(r.OutputHost(), compute.InstanceIP)
 	return nil
+}
+
+func (r Request) manageTargetGroups(ctx *pulumi.Context,
+	nlb *lb.LoadBalancer, customIngressRules []securityGroup.IngressRules) ([]pulumi.StringOutput, error) {
+	var targetGroups []pulumi.StringOutput
+	sshTargetGroupArn, err := r.manageTargetGroup(ctx, nlb, 22)
+	if err != nil {
+		return nil, err
+	}
+	targetGroups = append(targetGroups, *sshTargetGroupArn)
+	for _, cir := range customIngressRules {
+		targetGroupArn, err := r.manageTargetGroup(ctx, nlb, cir.FromPort)
+		if err != nil {
+			return nil, err
+		}
+		targetGroups = append(targetGroups, *targetGroupArn)
+
+	}
+	return targetGroups, nil
+}
+
+func (r Request) manageTargetGroup(ctx *pulumi.Context,
+	nlb *lb.LoadBalancer, port int) (*pulumi.StringOutput, error) {
+	targetGroup, err := lb.NewTargetGroup(ctx, r.GetName(),
+		&lb.TargetGroupArgs{
+			Port:     pulumi.Int(port),
+			Protocol: pulumi.String("TCP"),
+			VpcId:    r.VPC.ID(),
+		})
+	if err != nil {
+		return nil, err
+	}
+	_, err = lb.NewListener(ctx,
+		r.GetName(),
+		&lb.ListenerArgs{
+			LoadBalancerArn: nlb.Arn,
+			Port:            pulumi.Int(port),
+			Protocol:        pulumi.String("TCP"),
+			DefaultActions: lb.ListenerDefaultActionArray{
+				&lb.ListenerDefaultActionArgs{
+					Type:           pulumi.String("forward"),
+					TargetGroupArn: targetGroup.Arn,
+				},
+			},
+		})
+	if err != nil {
+		return nil, err
+	}
+
+	return &targetGroup.Arn, nil
 }
 
 func (r *Request) OutputPrivateKey() string {

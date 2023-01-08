@@ -4,9 +4,11 @@ import (
 	// "github.com/pulumi/pulumi-aws/sdk/v5/go/aws/elb"
 
 	"fmt"
+	"io/ioutil"
 
 	"github.com/adrianriobo/qenvs/pkg/infra"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/services/openspotng/keys"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
 	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
@@ -50,22 +52,43 @@ func (r *OpenspotNGRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Se
 	return nil, nil
 }
 
-func (r *OpenspotNGRequest) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+func (r *OpenspotNGRequest) GetPostScript(ctx *pulumi.Context, compute *compute.Compute) (pulumi.StringPtrInput, error) {
 	password, err := utilInfra.CreatePassword(ctx, r.GetName())
 	if err != nil {
 		return nil, err
 	}
 	ctx.Export(r.OutputPassword(), password.Result)
-	postscript := password.Result.ApplyT(func(password string) (string, error) {
-		return util.Template(
-			scriptDataValues{},
-			"postscript", script)
+	pullsecret, err := ioutil.ReadFile(r.OCPPullSecretFilePath)
+	if err != nil {
+		return nil, err
+	}
+	keyContent, err := keys.GetKey(r.Specs.ID)
+	if err != nil {
+		return nil, err
+	}
+	compute.PrivateKeyContent = pulumi.String(keyContent)
+	postscript := pulumi.All(password.Result,
+		compute.InstanceIP, compute.Instance.PrivateIp,
+		string(pullsecret)).ApplyT(
+		func(password, publicIP, privateIP, pullsecret string) (string, error) {
+			return util.Template(
+				scriptDataValues{
+					InternalIP:        privateIP,
+					ExternalIP:        publicIP,
+					PullScret:         pullsecret,
+					DeveloperPassword: password,
+					KubeadminPassword: password,
+					RedHatPassword:    password,
+				},
+				"postscript", script)
 
-	}).(pulumi.StringOutput)
+		}).(pulumi.StringOutput)
 	return postscript, nil
 }
 
 func (r *OpenspotNGRequest) ReadinessCommand() string {
+	// If key is changed during postscript the compute.PrivateKeyContent = pulumi.String(keyContent) can be set to null
+	// to use default key from keypair created
 	return r.Request.ReadinessCommand()
 }
 

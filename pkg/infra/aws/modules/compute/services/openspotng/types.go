@@ -6,6 +6,10 @@ import (
 
 type OpenspotNGRequest struct {
 	compute.Request
+	OCPPullSecretFilePath string
+	DeveloperPassword     string
+	KubeadminPassword     string
+	RedHatPassword        string
 }
 
 type OpenspotNGCompute struct {

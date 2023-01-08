@@ -43,7 +43,7 @@ func (r *RHELRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Security
 	return nil, nil
 }
 
-func (r *RHELRequest) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+func (r *RHELRequest) GetPostScript(ctx *pulumi.Context, compute *compute.Compute) (pulumi.StringPtrInput, error) {
 	return nil, nil
 }
 

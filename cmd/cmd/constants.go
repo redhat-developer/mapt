@@ -17,6 +17,8 @@ const (
 	rhSubcriptionUsernameDesc   string = "username for rhel subcription"
 	rhSubcriptionPassword       string = "rh-subscription-password"
 	rhSubcriptionPasswordDesc   string = "password for rhel subcription"
+	ocpPullSecretFilePath       string = "pullsecret-filepath"
+	ocpPullSecretFilePathDesc   string = "path for pullsecret file"
 	amiIDName                   string = "ami-id"
 	amiIDDesc                   string = "id for the source ami"
 	amiNameName                 string = "ami-name"

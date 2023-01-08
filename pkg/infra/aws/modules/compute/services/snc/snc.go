@@ -44,7 +44,7 @@ func (r *SNCRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityG
 	return nil, nil
 }
 
-func (r *SNCRequest) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+func (r *SNCRequest) GetPostScript(ctx *pulumi.Context, compute *compute.Compute) (pulumi.StringPtrInput, error) {
 	return nil, nil
 }
 

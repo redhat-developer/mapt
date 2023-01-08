@@ -18,11 +18,16 @@ func (c *Compute) getSecurityGroupsIDs() pulumi.StringArrayInput {
 
 func (c *Compute) remoteExec(ctx *pulumi.Context, cmd pulumi.StringPtrInput, cmdName string,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
+	var privateKey pulumi.StringPtrInput
+	privateKey = c.PrivateKey.PrivateKeyOpenssh
+	if c.PrivateKeyContent != nil {
+		privateKey = c.PrivateKeyContent
+	}
 	instance := command.RemoteInstance{
 		Instance:   c.Instance,
 		InstanceIP: &c.InstanceIP,
 		Username:   c.Username,
-		PrivateKey: c.PrivateKey}
+		PrivateKey: privateKey}
 	return instance.RemoteExec(
 		ctx,
 		cmd,

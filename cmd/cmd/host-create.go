@@ -23,6 +23,7 @@ func init() {
 	flagSet.StringP(rhMajorVersion, "", "8", rhMajorVersionDesc)
 	flagSet.StringP(rhSubcriptionUsername, "", "", rhSubcriptionUsernameDesc)
 	flagSet.StringP(rhSubcriptionPassword, "", "", rhSubcriptionPasswordDesc)
+	flagSet.StringP(ocpPullSecretFilePath, "", "", ocpPullSecretFilePathDesc)
 	hostCreateCmd.Flags().AddFlagSet(flagSet)
 }
 
@@ -43,7 +44,8 @@ var hostCreateCmd = &cobra.Command{
 			viper.GetString(supportedHostID),
 			viper.GetString(rhMajorVersion),
 			viper.GetString(rhSubcriptionUsername),
-			viper.GetString(rhSubcriptionPassword)); err != nil {
+			viper.GetString(rhSubcriptionPassword),
+			viper.GetString(ocpPullSecretFilePath)); err != nil {
 			logging.Error(err)
 		}
 		return nil

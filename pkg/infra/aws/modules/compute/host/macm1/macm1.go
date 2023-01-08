@@ -55,7 +55,7 @@ func (r *MacM1Request) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Securit
 	return nil, nil
 }
 
-func (r *MacM1Request) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
+func (r *MacM1Request) GetPostScript(ctx *pulumi.Context, compute *compute.Compute) (pulumi.StringPtrInput, error) {
 	password, err := utilInfra.CreatePassword(ctx, r.GetName())
 	if err != nil {
 		return nil, err

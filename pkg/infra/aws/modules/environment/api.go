@@ -10,6 +10,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/macm1"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/rhel"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/host/windows"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/services/openspotng"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute/services/snc"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
 	spotprice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
@@ -21,7 +22,8 @@ import (
 
 func Create(projectName, backedURL, connectionDetailsOutput string,
 	public bool, targetHostID string,
-	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string) (err error) {
+	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string,
+	ocpPullSecretFilePath string) (err error) {
 	// Check which supported host
 	host, err := supportMatrix.GetHost(targetHostID)
 	if err != nil {
@@ -47,7 +49,8 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 	}
 	// Add request values for requested host
 	manageRequest(&request, host, public, projectName, spotPrice,
-		rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword)
+		rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword,
+		ocpPullSecretFilePath)
 	// Create stack
 	stack := utilInfra.Stack{
 		StackName:   stackCreateEnvironmentName,
@@ -113,7 +116,8 @@ func getHostParameters(projectName, backedURL string,
 func manageRequest(request *singleHostRequest,
 	host *supportMatrix.SupportedHost, public bool,
 	projectName, spotPrice string,
-	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string) {
+	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string,
+	ocpPullSecretFilePath string) {
 	switch host.ID {
 	case supportMatrix.OL_RHEL.ID:
 		request.hostRequested = &rhel.RHELRequest{
@@ -153,6 +157,15 @@ func manageRequest(request *singleHostRequest,
 					SpotPrice:  spotPrice,
 					Specs:      host,
 				}}}
+	case supportMatrix.S_OPENSPOTNG.ID:
+		request.hostRequested = &openspotng.OpenspotNGRequest{
+			Request: compute.Request{
+				ProjecName: projectName,
+				Public:     public,
+				Specs:      host,
+			},
+			OCPPullSecretFilePath: ocpPullSecretFilePath,
+		}
 	}
 }
 
