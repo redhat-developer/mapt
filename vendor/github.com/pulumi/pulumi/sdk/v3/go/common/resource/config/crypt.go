@@ -21,10 +21,10 @@ import (
 	cryptorand "crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"golang.org/x/crypto/pbkdf2"
 )
@@ -185,12 +185,12 @@ func (s symmetricCrypter) DecryptValue(ctx context.Context, value string) (strin
 
 	nonce, err := base64.StdEncoding.DecodeString(vals[1])
 	if err != nil {
-		return "", errors.Wrap(err, "bad value")
+		return "", fmt.Errorf("bad value: %w", err)
 	}
 
 	enc, err := base64.StdEncoding.DecodeString(vals[2])
 	if err != nil {
-		return "", errors.Wrap(err, "bad value")
+		return "", fmt.Errorf("bad value: %w", err)
 	}
 
 	return decryptAES256GCM(enc, s.key, nonce)
@@ -274,4 +274,25 @@ func DefaultBulkDecrypt(ctx context.Context,
 		secretMap[ct] = pt
 	}
 	return secretMap, nil
+}
+
+type base64Crypter struct{}
+
+// Base64Crypter is a Crypter that "encrypts" by encoding the string to base64.
+var Base64Crypter Crypter = &base64Crypter{}
+
+func (c *base64Crypter) EncryptValue(ctx context.Context, s string) (string, error) {
+	return base64.StdEncoding.EncodeToString([]byte(s)), nil
+}
+
+func (c *base64Crypter) DecryptValue(ctx context.Context, s string) (string, error) {
+	b, err := base64.StdEncoding.DecodeString(s)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+func (c *base64Crypter) BulkDecrypt(ctx context.Context, ciphertexts []string) (map[string]string, error) {
+	return DefaultBulkDecrypt(ctx, c, ciphertexts)
 }

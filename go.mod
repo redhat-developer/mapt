@@ -9,7 +9,7 @@ require (
 	github.com/pulumi/pulumi-command/sdk v0.5.2
 	github.com/pulumi/pulumi-random/sdk/v4 v4.8.2
 	github.com/pulumi/pulumi-tls/sdk/v4 v4.6.1
-	github.com/pulumi/pulumi/sdk/v3 v3.40.0
+	github.com/pulumi/pulumi/sdk/v3 v3.47.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.5.0
 	golang.org/x/exp v0.0.0-20221019170559-20944726eadf
@@ -23,6 +23,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
+	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect
 	github.com/spf13/afero v1.8.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -30,6 +31,8 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/pulumi/pulumi-command/sdk => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20230108211407-8136b84ebf9b
 
 require (
 	github.com/Microsoft/go-winio v0.5.2 // indirect

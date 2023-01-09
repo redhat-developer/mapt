@@ -4,7 +4,7 @@ USER root
 WORKDIR /workspace
 COPY . .
 
-ENV PULUMI_VERSION 3.49.0
+ENV PULUMI_VERSION 3.50.2
 ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
 RUN apk -U upgrade \
@@ -20,12 +20,15 @@ FROM docker.io/library/alpine:3.17
 LABEL MAINTAINER "Adrian Riobo" "<ariobolo@redhat.com>"
 
 COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /workspace/oci/entrypoint.sh /usr/local/bin/
+COPY --from=builder /workspace/oci/pulumi-resource-command /
 
 ENV INTERNAL_OUTPUT /tmp/qenvs
 
 VOLUME [ "${INTERNAL_OUTPUT}" ]
 
-RUN apk add aws-cli \
-    && mkdir -p "${INTERNAL_OUTPUT}"
+RUN apk add aws-cli libc6-compat \
+    && mkdir -p "${INTERNAL_OUTPUT}" \
+    && pulumi plugin install resource command v0.7.0 -f /pulumi-resource-command \
+    && rm /pulumi-resource-command
 
 ENTRYPOINT entrypoint.sh 
