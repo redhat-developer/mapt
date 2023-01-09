@@ -83,7 +83,6 @@ runcmd:
   - echo "user.max_user_namespaces=28633" | tee -a /etc/sysctl.d/userns.conf
   - sysctl -p /etc/sysctl.d/userns.conf
   - dnf upgrade -y curl openssl
-  - dnf group install -y "Development Tools"
 `
 
 type userDataValues struct {
