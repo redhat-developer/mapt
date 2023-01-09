@@ -16,6 +16,7 @@ package workspace
 
 import (
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -30,6 +31,7 @@ import (
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/gitutil"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
 )
 
 const (
@@ -103,7 +105,7 @@ func (repo TemplateRepository) Templates() ([]Template, error) {
 
 	// See if there's a Pulumi.yaml in the directory.
 	template, err := LoadTemplate(path)
-	if err != nil && !os.IsNotExist(err) {
+	if err != nil && !errors.Is(err, fs.ErrNotExist) {
 		return nil, err
 	} else if err == nil {
 		return []Template{template}, nil
@@ -111,7 +113,7 @@ func (repo TemplateRepository) Templates() ([]Template, error) {
 
 	// Otherwise, read all subdirectories to find the ones
 	// that contain a Pulumi.yaml.
-	infos, err := ioutil.ReadDir(path)
+	infos, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +129,7 @@ func (repo TemplateRepository) Templates() ([]Template, error) {
 			}
 
 			template, err := LoadTemplate(filepath.Join(path, name))
-			if err != nil && !os.IsNotExist(err) {
+			if err != nil && !errors.Is(err, fs.ErrNotExist) {
 				return nil, err
 			} else if err == nil {
 				result = append(result, template)
@@ -153,7 +155,7 @@ func (repo TemplateRepository) PolicyTemplates() ([]PolicyPackTemplate, error) {
 
 	// See if there's a PulumiPolicy.yaml in the directory.
 	template, err := LoadPolicyPackTemplate(path)
-	if err != nil && !os.IsNotExist(err) {
+	if err != nil && !errors.Is(err, fs.ErrNotExist) {
 		return nil, err
 	} else if err == nil {
 		return []PolicyPackTemplate{template}, nil
@@ -161,7 +163,7 @@ func (repo TemplateRepository) PolicyTemplates() ([]PolicyPackTemplate, error) {
 
 	// Otherwise, read all subdirectories to find the ones
 	// that contain a PulumiPolicy.yaml.
-	infos, err := ioutil.ReadDir(path)
+	infos, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -177,7 +179,7 @@ func (repo TemplateRepository) PolicyTemplates() ([]PolicyPackTemplate, error) {
 			}
 
 			template, err := LoadPolicyPackTemplate(filepath.Join(path, name))
-			if err != nil && !os.IsNotExist(err) {
+			if err != nil && !errors.Is(err, fs.ErrNotExist) {
 				return nil, err
 			} else if err == nil {
 				result = append(result, template)
@@ -286,7 +288,7 @@ func retrieveURLTemplates(rawurl string, offline bool, templateKind TemplateKind
 
 	var fullPath string
 	if fullPath, err = RetrieveGitFolder(rawurl, temp); err != nil {
-		return TemplateRepository{}, fmt.Errorf("Failed to retrieve git folder: %w", err)
+		return TemplateRepository{}, fmt.Errorf("failed to retrieve git folder: %w", err)
 	}
 
 	return TemplateRepository{
@@ -348,7 +350,7 @@ func retrievePulumiTemplates(templateName string, offline bool, templateKind Tem
 		// Provide a nicer error message when the template can't be found (dir doesn't exist).
 		_, err := os.Stat(subDir)
 		if err != nil {
-			if os.IsNotExist(err) {
+			if errors.Is(err, fs.ErrNotExist) {
 				return TemplateRepository{}, newTemplateNotFoundError(templateDir, templateName)
 			}
 			contract.IgnoreError(err)
@@ -373,8 +375,11 @@ func RetrieveGitFolder(rawurl string, path string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to get git ref: %w", err)
 	}
-	if ref != "" {
+	logging.V(10).Infof(
+		"Attempting to fetch from %s at commit %s@%s for subdirectory '%s'",
+		url, ref, commit, subDirectory)
 
+	if ref != "" {
 		// Different reference attempts to cycle through
 		// We default to master then main in that order. We need to order them to avoid breaking
 		// already existing processes for repos that already have a master and main branch.
@@ -405,6 +410,7 @@ func RetrieveGitFolder(rawurl string, path string) (string, error) {
 
 	// Verify the sub directory exists.
 	fullPath := filepath.Join(path, filepath.FromSlash(subDirectory))
+	logging.V(10).Infof("Cloned %s at commit %s@%s to %s", url, ref, commit, fullPath)
 	info, err := os.Stat(fullPath)
 	if err != nil {
 		return "", err
@@ -456,7 +462,7 @@ func LoadTemplate(path string) (Template, error) {
 func CopyTemplateFilesDryRun(sourceDir, destDir, projectName string) error {
 	var existing []string
 	if err := walkFiles(sourceDir, destDir, projectName,
-		func(info os.FileInfo, source string, dest string) error {
+		func(entry os.DirEntry, source string, dest string) error {
 			if destInfo, statErr := os.Stat(dest); statErr == nil && !destInfo.IsDir() {
 				existing = append(existing, filepath.Base(dest))
 			}
@@ -476,8 +482,8 @@ func CopyTemplateFiles(
 	sourceDir, destDir string, force bool, projectName string, projectDescription string) error {
 
 	return walkFiles(sourceDir, destDir, projectName,
-		func(info os.FileInfo, source string, dest string) error {
-			if info.IsDir() {
+		func(entry os.DirEntry, source string, dest string) error {
+			if entry.IsDir() {
 				// Create the destination directory.
 				return os.Mkdir(dest, 0700)
 			}
@@ -670,28 +676,28 @@ func getValidProjectName(name string) string {
 // walkFiles is a helper that walks the directories/files in a source directory
 // and performs an action for each item.
 func walkFiles(sourceDir string, destDir string, projectName string,
-	actionFn func(info os.FileInfo, source string, dest string) error) error {
+	actionFn func(entry os.DirEntry, source string, dest string) error) error {
 
 	contract.Require(sourceDir != "", "sourceDir")
 	contract.Require(destDir != "", "destDir")
 	contract.Require(actionFn != nil, "actionFn")
 
-	infos, err := ioutil.ReadDir(sourceDir)
+	entries, err := os.ReadDir(sourceDir)
 	if err != nil {
 		return err
 	}
-	for _, info := range infos {
-		name := info.Name()
+	for _, entry := range entries {
+		name := entry.Name()
 		source := filepath.Join(sourceDir, name)
 		dest := filepath.Join(destDir, name)
 
-		if info.IsDir() {
+		if entry.IsDir() {
 			// Ignore the .git directory.
 			if name == GitDir {
 				continue
 			}
 
-			if err := actionFn(info, source, dest); err != nil {
+			if err := actionFn(entry, source, dest); err != nil {
 				return err
 			}
 
@@ -707,7 +713,7 @@ func walkFiles(sourceDir string, destDir string, projectName string,
 			// The file name may contain a placeholder for project name: replace it with the actual value.
 			newDest := transform(dest, projectName, "")
 
-			if err := actionFn(info, source, newDest); err != nil {
+			if err := actionFn(entry, source, newDest); err != nil {
 				return err
 			}
 		}
@@ -734,7 +740,7 @@ func newTemplateNotFoundError(templateDir string, templateName string) error {
 	message := fmt.Sprintf("template '%s' not found", templateName)
 
 	// Attempt to read the directory to offer suggestions.
-	infos, err := ioutil.ReadDir(templateDir)
+	entries, err := os.ReadDir(templateDir)
 	if err != nil {
 		contract.IgnoreError(err)
 		return errors.New(message)
@@ -744,10 +750,10 @@ func newTemplateNotFoundError(templateDir string, templateName string) error {
 	suggestions := []string{}
 	const minDistance = 2
 	op := levenshtein.DefaultOptions
-	for _, info := range infos {
-		distance := levenshtein.DistanceForStrings([]rune(templateName), []rune(info.Name()), op)
+	for _, entry := range entries {
+		distance := levenshtein.DistanceForStrings([]rune(templateName), []rune(entry.Name()), op)
 		if distance <= minDistance {
-			suggestions = append(suggestions, info.Name())
+			suggestions = append(suggestions, entry.Name())
 		}
 	}
 

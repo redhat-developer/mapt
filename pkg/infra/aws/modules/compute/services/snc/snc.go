@@ -50,7 +50,8 @@ func (r *SNCRequest) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, 
 }
 
 func (r *SNCRequest) ReadinessCommand() string {
-	return command.CommandCloudInitWait
+	// return command.CommandCloudInitWait
+	return command.CommandPing
 }
 
 func (r *SNCRequest) Create(ctx *pulumi.Context,

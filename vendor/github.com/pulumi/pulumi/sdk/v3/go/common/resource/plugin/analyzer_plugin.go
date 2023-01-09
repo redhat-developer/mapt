@@ -27,6 +27,7 @@ import (
 	pbempty "github.com/golang/protobuf/ptypes/empty"
 	structpb "github.com/golang/protobuf/ptypes/struct"
 	"github.com/pkg/errors"
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/apitype"
@@ -34,6 +35,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/rpcutil"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/rpcutil/rpcerror"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 	pulumirpc "github.com/pulumi/pulumi/sdk/v3/proto/go"
@@ -62,8 +64,10 @@ func NewAnalyzer(host Host, ctx *Context, name tokens.QName) (Analyzer, error) {
 	}
 	contract.Assert(path != "")
 
+	dialOpts := rpcutil.OpenTracingInterceptorDialOptions()
+
 	plug, err := newPlugin(ctx, ctx.Pwd, path, fmt.Sprintf("%v (analyzer)", name),
-		[]string{host.ServerAddr(), ctx.Pwd}, nil /*env*/)
+		workspace.AnalyzerPlugin, []string{host.ServerAddr(), ctx.Pwd}, nil /*env*/, dialOpts)
 	if err != nil {
 		return nil, err
 	}
@@ -126,7 +130,8 @@ func NewPolicyAnalyzer(
 		}
 	}
 
-	plug, err := newPlugin(ctx, pwd, pluginPath, fmt.Sprintf("%v (analyzer)", name), args, env)
+	plug, err := newPlugin(ctx, pwd, pluginPath, fmt.Sprintf("%v (analyzer)", name),
+		workspace.AnalyzerPlugin, args, env, analyzerPluginDialOptions(ctx, fmt.Sprintf("%v", name)))
 	if err != nil {
 		// The original error might have been wrapped before being returned from newPlugin. So we look for
 		// the root cause of the error. This won't work if we switch to Go 1.13's new approach to wrapping.
@@ -222,7 +227,7 @@ func (a *analyzer) AnalyzeStack(resources []AnalyzerStackResource) ([]AnalyzeDia
 				continue
 			}
 
-			pdeps := []string{}
+			pdeps := make([]string, 0, 1)
 			for _, d := range pd {
 				pdeps = append(pdeps, string(d))
 			}
@@ -414,6 +419,27 @@ func (a *analyzer) Close() error {
 	return a.plug.Close()
 }
 
+func analyzerPluginDialOptions(ctx *Context, name string) []grpc.DialOption {
+	dialOpts := append(
+		rpcutil.OpenTracingInterceptorDialOptions(),
+		grpc.WithInsecure(),
+		rpcutil.GrpcChannelOptions(),
+	)
+
+	if ctx.DialOptions != nil {
+		metadata := map[string]interface{}{
+			"mode": "client",
+			"kind": "analyzer",
+		}
+		if name != "" {
+			metadata["name"] = name
+		}
+		dialOpts = append(dialOpts, ctx.DialOptions(metadata)...)
+	}
+
+	return dialOpts
+}
+
 func marshalResourceOptions(opts AnalyzerResourceOptions) *pulumirpc.AnalyzerResourceOptions {
 	secs := make([]string, len(opts.AdditionalSecretOutputs))
 	for idx := range opts.AdditionalSecretOutputs {
@@ -431,7 +457,7 @@ func marshalResourceOptions(opts AnalyzerResourceOptions) *pulumirpc.AnalyzerRes
 		DeleteBeforeReplace:        deleteBeforeReplace,
 		DeleteBeforeReplaceDefined: opts.DeleteBeforeReplace != nil,
 		AdditionalSecretOutputs:    secs,
-		Aliases:                    convertURNs(opts.Aliases),
+		Aliases:                    convertAliases(opts.Aliases, opts.AliasURNs),
 		CustomTimeouts: &pulumirpc.AnalyzerResourceOptions_CustomTimeouts{
 			Create: opts.CustomTimeouts.Create,
 			Update: opts.CustomTimeouts.Update,
@@ -579,6 +605,21 @@ func convertURNs(urns []resource.URN) []string {
 	return result
 }
 
+func convertAlias(alias resource.Alias) string {
+	return string(alias.GetURN())
+}
+
+func convertAliases(aliases []resource.Alias, aliasURNs []resource.URN) []string {
+	result := make([]string, len(aliases)+len(aliasURNs))
+	for idx, alias := range aliases {
+		result[idx] = convertAlias(alias)
+	}
+	for idx, aliasURN := range aliasURNs {
+		result[idx+len(aliases)] = convertAlias(resource.Alias{URN: aliasURN})
+	}
+	return result
+}
+
 func convertEnforcementLevel(el pulumirpc.EnforcementLevel) (apitype.EnforcementLevel, error) {
 	switch el {
 	case pulumirpc.EnforcementLevel_ADVISORY:
@@ -589,7 +630,7 @@ func convertEnforcementLevel(el pulumirpc.EnforcementLevel) (apitype.Enforcement
 		return apitype.Disabled, nil
 
 	default:
-		return "", fmt.Errorf("Invalid enforcement level %d", el)
+		return "", fmt.Errorf("invalid enforcement level %d", el)
 	}
 }
 

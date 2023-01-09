@@ -1,7 +1,7 @@
-VERSION ?= 0.0.1
+VERSION ?= 0.0.3
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
-IMG ?= quay.io/ariobolo/qenvs:${VERSION}
+IMG ?= quay.io/ariobolo/qenvs:v${VERSION}
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
@@ -61,7 +61,7 @@ lint: $(GOPATH)/bin/golangci-lint
 
 # Build the container image
 .PHONY: oci-build
-oci-build: clean check
+oci-build: clean
 	${CONTAINER_MANAGER} build -t ${IMG} -f oci/Containerfile .
 
 # Push the docker image
