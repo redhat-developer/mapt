@@ -56,7 +56,8 @@ if [[ "${OPERATION}" == "create" ]]; then
           --conn-details-output "${CONNECTION_OUTPUT}" \
           --host-id "${SUPPORTED_HOST_ID}" \
           --rh-subscription-username "${RH_SUBSCRIPTION_USERNAME}" \
-          --rh-subscription-password "${RH_SUBSCRIPTION_PASSWORD}"
+          --rh-subscription-password "${RH_SUBSCRIPTION_PASSWORD}" \
+          --pullsecret-filepath "${PULLSECRET_FILEPATH}"
 else 
   AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
   AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \

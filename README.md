@@ -16,6 +16,7 @@ Current available features allow to create supported hosts on AWS using cmd `qen
 * Windows_Server-2019-English-Full (host id `ol-windows`)
 * Windows_Server-2019-English-Full (host id `ol-windows-non-eng`)
 * [SNC runner](https://github.com/crc-org/snc)  (host id `s-snc`)
+* [openspot-ng](https://github.com/crc-org/crc-cloud)  (host id `s-openspotng`) 
 
 ![Environment](./docs/diagrams/base.svg)
 
