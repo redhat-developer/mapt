@@ -9,8 +9,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
-	supportmatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
-	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
+	utilRemote "github.com/adrianriobo/qenvs/pkg/infra/util/remote"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
@@ -48,12 +47,12 @@ func (r *Request) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGrou
 	return nil, nil
 }
 
-func (r *Request) GetPostScript(ctx *pulumi.Context, compute *Compute) (pulumi.StringPtrInput, error) {
-	return nil, nil
+func (r *Request) PostProcess(ctx *pulumi.Context, compute *Compute) ([]pulumi.Resource, error) {
+	return []pulumi.Resource{}, nil
 }
 
 func (r *Request) ReadinessCommand() string {
-	return command.CommandPing
+	return utilRemote.CommandPing
 }
 
 func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (*Compute, error) {
@@ -71,8 +70,7 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 		return nil, err
 	}
 	// We only try to replicate if self ami and AMI source region is different from current one
-	if r.Specs.AMI.Owner == supportmatrix.OwnerSelf &&
-		r.Specs.AMI.AMISourceRegion != r.Region {
+	if r.Specs.AMI.AMISourceRegion != r.Region {
 		// If it is self need to check if exist on zone otherwise replicate
 		// TODO check first if already exists
 		amiReplicationRequest := amireplication.ReplicatedRequest{
@@ -112,22 +110,12 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 	}
 	ctx.Export(r.OutputUsername(), pulumi.String(r.Specs.AMI.DefaultUser))
 	if r.Public {
-		postScript, err := computeRequested.GetPostScript(ctx, &compute)
+
+		waitCmddependencies, err := computeRequested.PostProcess(ctx, &compute)
 		if err != nil {
 			return nil, err
 		}
-		waitCmddependencies := []pulumi.Resource{}
-		if postScript != nil {
-			rc, err := compute.remoteExec(ctx,
-				postScript,
-				fmt.Sprintf("%s-%s", r.Specs.ID, "postscript"),
-				nil)
-			if err != nil {
-				return nil, err
-			}
-			waitCmddependencies = append(waitCmddependencies, rc)
-		}
-		_, err = compute.remoteExec(ctx,
+		_, err = compute.RemoteExec(ctx,
 			pulumi.String(computeRequested.ReadinessCommand()),
 			fmt.Sprintf("%s-%s", r.Specs.ID, "wait"),
 			waitCmddependencies)

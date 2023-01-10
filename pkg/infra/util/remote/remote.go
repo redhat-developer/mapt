@@ -1,4 +1,4 @@
-package command
+package remote
 
 import (
 	"fmt"
@@ -44,6 +44,28 @@ func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand pulumi.Str
 		},
 		Create: remoteCommand,
 		Update: remoteCommand,
+	}, pulumi.Timeouts(
+		&pulumi.CustomTimeouts{
+			Create: remoteTimeout,
+			Update: remoteTimeout}),
+		pulumi.DependsOn(dependecies))
+}
+
+func (r RemoteInstance) CopyFile(ctx *pulumi.Context, localPath, remotePath string, resourceName string,
+	dependecies []pulumi.Resource) (*remote.CopyFile, error) {
+	remoteIP, err := r.getRemoteHost()
+	if err != nil {
+		return nil, err
+	}
+	return remote.NewCopyFile(ctx, resourceName, &remote.CopyFileArgs{
+		Connection: remote.ConnectionArgs{
+			Host:       remoteIP,
+			PrivateKey: r.PrivateKey,
+			User:       pulumi.String(r.Username),
+			Port:       pulumi.Float64(defaultSSHPort),
+		},
+		LocalPath:  pulumi.String(localPath),
+		RemotePath: pulumi.String(remotePath),
 	}, pulumi.Timeouts(
 		&pulumi.CustomTimeouts{
 			Create: remoteTimeout,

@@ -41,8 +41,9 @@ type ComputeRequest interface {
 	// with egress to all in case of specific SG it is required to define them within CustomSecurityGroups
 	CustomIngressRules() []securityGroup.IngressRules
 	CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGroup, error)
-	// Get script to be executed after initalization (not suited for userdata)
-	GetPostScript(ctx *pulumi.Context, compute *Compute) (pulumi.StringPtrInput, error)
+	// Run post processing to setup the machine exec remote actions, copy files, ...
+	// Function will return resources created which then may needed as dependecies for others, or error if any
+	PostProcess(ctx *pulumi.Context, compute *Compute) ([]pulumi.Resource, error)
 	// Command to be executed to ensure the provisioned is finish with fully setup
 	ReadinessCommand() string
 	// Create function to get a compute based on request
@@ -59,6 +60,5 @@ type Compute struct {
 	AWSKeyPair *ec2.KeyPair
 	SG         []*ec2.SecurityGroup
 	// contains value if key is created within this module
-	PrivateKey        *tls.PrivateKey
-	PrivateKeyContent pulumi.StringPtrInput
+	PrivateKey *tls.PrivateKey
 }

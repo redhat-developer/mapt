@@ -47,10 +47,18 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 			SingleNatGateway:   false,
 		},
 	}
+
+	// In case of fixed AMIs
+	if host.FixedAMI != nil {
+		request.network.AvailabilityZones = []string{host.FixedAMI.AvailavilityZone}
+		request.network.Region = host.FixedAMI.Region
+	}
+
 	// Add request values for requested host
 	manageRequest(&request, host, public, projectName, spotPrice,
 		rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword,
 		ocpPullSecretFilePath)
+
 	// Create stack
 	stack := utilInfra.Stack{
 		StackName:   stackCreateEnvironmentName,

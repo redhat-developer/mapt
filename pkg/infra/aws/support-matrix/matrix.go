@@ -105,16 +105,24 @@ var (
 	}
 
 	S_OPENSPOTNG = SupportedHost{
-		ID:                 sOpenspotNG,
-		Description:        "openspotng cluster offering",
-		Type:               RHEL,
-		InstaceTypes:       []string{"c6in.2xlarge", "c7g.2xlarge", "c6g.2xlarge"},
+		ID:          sOpenspotNG,
+		Description: "openspotng cluster offering",
+		Type:        RHEL,
+		// InstaceTypes: []string{"c6in.2xlarge", "c7g.2xlarge", "c6g.2xlarge"},
+		InstaceTypes:       []string{"c6in.2xlarge"},
 		ProductDescription: "Linux/UNIX",
-		Spot:               true,
+		// Spot:               true,
+		Spot: false,
+		FixedAMI: &FixedAMI{
+			AvailavilityZone: "us-west-2b",
+			Region:           "us-west-2",
+		},
 		AMI: AMI{
-			RegexName:       "CRC Openshift*",
-			DefaultUser:     "core",
-			Owner:           OwnerSelf,
+			RegexName:   "CRC Openshift*",
+			DefaultUser: "core",
+			// Owner:           OwnerSelf,
+			Owner: "452958939641",
+			//
 			AMITargetName:   "CRC Openshift",
 			AMISourceID:     "ami-0569ce8a44f2351be",
 			AMISourceRegion: "us-west-2",

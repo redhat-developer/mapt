@@ -60,8 +60,8 @@ func (r *WindowsRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.Secur
 	return nil, nil
 }
 
-func (r *WindowsRequest) GetPostScript(ctx *pulumi.Context, compute *compute.Compute) (pulumi.StringPtrInput, error) {
-	return nil, nil
+func (r *WindowsRequest) PostProcess(ctx *pulumi.Context, compute *compute.Compute) ([]pulumi.Resource, error) {
+	return []pulumi.Resource{}, nil
 }
 
 func (r *WindowsRequest) ReadinessCommand() string {

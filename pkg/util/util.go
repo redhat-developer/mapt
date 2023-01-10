@@ -2,6 +2,10 @@ package util
 
 import (
 	"bytes"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 )
@@ -78,4 +82,14 @@ func Template(data any, templateName, templateContent string) (string, error) {
 		return "", err
 	}
 	return buffer.String(), nil
+}
+
+func WriteTempFile(content string) (string, error) {
+	tmpFile, err := ioutil.TempFile("", fmt.Sprintf("%s-", filepath.Base(os.Args[0])))
+	if err != nil {
+		return "", err
+	}
+	defer tmpFile.Close()
+	_, err = tmpFile.WriteString(content)
+	return tmpFile.Name(), err
 }

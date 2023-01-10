@@ -1,6 +1,3 @@
-package openspotng
-
-var script string = `
 #!/bin/bash
 #CONST
 export KUBECONFIG="/opt/kubeconfig"
@@ -278,14 +275,3 @@ done
 
 CONSOLE_ROUTE=$(oc get route console-custom -n openshift-console -o json | jq -r '.spec.host')
 pr_end $CONSOLE_ROUTE
-
-`
-
-type scriptDataValues struct {
-	InternalIP        string
-	ExternalIP        string
-	PullScret         string
-	DeveloperPassword string
-	KubeadminPassword string
-	RedHatPassword    string
-}

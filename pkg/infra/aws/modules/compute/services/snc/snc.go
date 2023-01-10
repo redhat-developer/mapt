@@ -5,7 +5,7 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
-	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
+	utilRemote "github.com/adrianriobo/qenvs/pkg/infra/util/remote"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -44,12 +44,12 @@ func (r *SNCRequest) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityG
 	return nil, nil
 }
 
-func (r *SNCRequest) GetPostScript(ctx *pulumi.Context, compute *compute.Compute) (pulumi.StringPtrInput, error) {
-	return nil, nil
+func (r *SNCRequest) PostProcess(ctx *pulumi.Context, compute *compute.Compute) ([]pulumi.Resource, error) {
+	return []pulumi.Resource{}, nil
 }
 
 func (r *SNCRequest) ReadinessCommand() string {
-	return command.CommandCloudInitWait
+	return utilRemote.CommandCloudInitWait
 }
 
 func (r *SNCRequest) Create(ctx *pulumi.Context,
