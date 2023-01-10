@@ -60,29 +60,42 @@ replace_default_ca() {
     oc patch apiserver cluster --type=merge -p '{"spec": {"clientCA": {"name": "client-ca-custom"}}}'
     stop_if_failed $? "failed to patch API server with newly created certificate"
     oc create configmap admin-kubeconfig-client-ca -n openshift-config --from-file=ca-bundle.crt=$NAME-ca.crt \
-    --dry-run=client -o yaml | oc replace -f -
+    --dry-run -o yaml | oc replace -f -
     stop_if_failed $? "failed to replace OpenShift CA"
-    pr_info "Updating the system:admin user client-certificate-data and client-key-data to $KUBECONFIG"
-    oc --kubeconfig=${KUBECONFIG} config set-credentials admin --client-certificate=${USER}.crt --client-key=${USER}.key  --embed-certs=true
 }
 
-check_cluster_access_with_new_ca() {
-    pr_info "Checking cluster access with new ca"
+login () {
+    pr_info "logging in again to update $KUBECONFIG"
     COUNTER=0
-    until $(oc --kubeconfig=${KUBECONFIG} get co > /dev/null 2>&1)
-    do
-        [[$COUNTER == $MAXIMUM_LOGIN_RETRY]] && stop_if_failed 1 "impossible to access cluster with new ca, installation failed."
-        pr_info "Checking cluster access with new ca try $COUNTER, hang on...."
+    until `oc login --insecure-skip-tls-verify=true -u kubeadmin -p "$PASS_KUBEADMIN" https://api.crc.testing:6443 > /dev/null 2>&1`
+    do 
+        [[$COUNTER == $MAXIMUM_LOGIN_RETRY]] && stop_if_failed 1 "impossible to login on OpenShift, installation failed."
+        pr_info "logging into OpenShift with updated credentials try $COUNTER, hang on...."
         sleep 5
         ((COUNTER++))
     done
 }
 
+wait_for_resource() {
+    local resource=$1
+    local retry=0
+    local max_retry=20
+    until `oc get $resource > /dev/null 2>&1`
+    do
+        [[$retry == $max_retry]] && stop_if_failed 1 "impossible to get resource ${resource}"
+        pr_info "waiting for ${resource} to become available try $retry, hang on...."
+        sleep 5
+        ((retry++))
+    done
+}
+
 #Replaces the default pubkey with the new one just generated to avoid the mysterious service to replace it later on :-\
 replace_default_pubkey() {
-    pr_info "replacing the default public key from /etc/machine-config-daemon/currentconfig"
-    cat <<< $(jq --arg pubkey "$(cat /home/core/id_rsa.pub)" '.spec.config.passwd.users[0].sshAuthorizedKeys=$pubkey' /etc/machine-config-daemon/currentconfig) > /etc/machine-config-daemon/currentconfig
-    stop_if_failed $? "failed to replace public key"
+    pr_info "Updating the public key resource for machine config operator"
+    local pub_key=$(tr -d '\n\r' < /home/core/id_rsa.pub)
+    wait_for_resource machineconfig
+    oc patch machineconfig 99-master-ssh -p "{\"spec\": {\"config\": {\"passwd\": {\"users\": [{\"name\": \"core\", \"sshAuthorizedKeys\": [\"${pub_key}\"]}]}}}}" --type merge
+    stop_if_failed $? "failed to update public key to machine config operator"
 }
 
 setup_dsnmasq(){
@@ -128,7 +141,7 @@ check_cluster_unhealthy() {
     WAIT="authentication|console|etcd|ingress|openshift-apiserver"
     [ ! -z $1 ] && WAIT=$1
 
-    until $(oc get co > /dev/null 2>&1)
+    until `oc get co > /dev/null 2>&1` 
     do
         pr_info "waiting Openshift API to become healthy, hang on...."
         sleep 2
@@ -234,16 +247,16 @@ set_credentials() {
     stop_if_failed $? "failed to replace Cluster secret"
 }
 
-replace_default_pubkey
 setup_dsnmasq
 
 enable_and_start_kubelet
+replace_default_pubkey
 wait_cluster_become_healthy "etcd|openshift-apiserver"
 stop_if_failed $? "failed to recover Cluster after $(expr $CLUSTER_HEALTH_RETRIES \* $CLUSTER_HEALTH_SLEEP) seconds"
 
 set_credentials
 replace_default_ca
-check_cluster_access_with_new_ca
+login
 stop_if_failed $? "failed to recover Cluster after $(expr $CLUSTER_HEALTH_RETRIES \* $CLUSTER_HEALTH_SLEEP) seconds"
 
 
@@ -267,11 +280,11 @@ patch_default_route
 
 wait_cluster_become_healthy "authentication|console|etcd|ingress|openshift-apiserver"
 
-until $(oc get route console-custom -n openshift-console > /dev/null 2>&1)
+until `oc get route console-custom -n openshift-console > /dev/null 2>&1` 
 do
     pr_info "waiting for console route to become ready, hang on...."
     sleep 2
 done 
 
-CONSOLE_ROUTE=$(oc get route console-custom -n openshift-console -o json | jq -r '.spec.host')
+CONSOLE_ROUTE=`oc get route console-custom -n openshift-console -o json | jq -r '.spec.host'`
 pr_end $CONSOLE_ROUTE
