@@ -53,6 +53,8 @@ IAMUserSSHKeys_arn="arn:aws:iam::aws:policy/IAMUserSSHKeys"
 aws_cmd "iam attach-group-policy --group-name ${group_name} --policy-arn ${IAMUserSSHKeys_arn}"
 AmazonS3FullAccess_arn="arn:aws:iam::aws:policy/AmazonS3FullAccess"
 aws_cmd "iam attach-group-policy --group-name ${group_name} --policy-arn ${AmazonS3FullAccess_arn}"
+IAMFullAccess_arn="arn:aws:iam::aws:policy/IAMFullAccess"
+aws_cmd "iam attach-group-policy --group-name ${group_name} --policy-arn ${IAMFullAccess_arn}"
 
 # Create bucket for remote state (backer-url)
 bucket_name="${4}-${5}-tfstate"
