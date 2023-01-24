@@ -16,7 +16,6 @@ require (
 )
 
 require (
-	github.com/adrianriobo/pulumi-command v0.0.0-20230108211407-8136b84ebf9b // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
