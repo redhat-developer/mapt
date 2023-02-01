@@ -7,6 +7,7 @@ packages:
   - podman
   - "@virt"
   - jq
+  - git
 runcmd:
   # Debug libvirt
   #- echo 'log_filters="1:libvirt 1:util 1:qemu"' | tee -a /etc/libvirt/libvirtd.conf
