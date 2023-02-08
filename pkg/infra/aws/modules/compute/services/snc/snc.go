@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/compute"
+	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/ami"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/infra/aws/services/ec2/security-group"
 	"github.com/adrianriobo/qenvs/pkg/infra/util/command"
 	"github.com/adrianriobo/qenvs/pkg/util"
@@ -16,7 +17,7 @@ func (r *SNCRequest) GetRequest() *compute.Request {
 }
 
 func (r *SNCRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
-	return r.RHELRequest.GetAMI(ctx)
+	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
 }
 
 func (r *SNCRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
