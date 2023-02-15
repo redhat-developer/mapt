@@ -46,6 +46,9 @@ jobs:
     - name: Check cluster config
       continue-on-error: true
       run: |
+        ls -al /tmp
+        pwd 
+        ls -al
         ssh -i id_rsa core@$(cat host) "cat /opt/kubeconfig"
 
     - name: Destroy cluster    
