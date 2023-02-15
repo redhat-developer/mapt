@@ -15,7 +15,7 @@ jobs:
 
     - name: Write pullsecret
       env:
-        PULLSECRET_BASE64: ${{ secrets.PULLSECRET_BASE64 }}
+        PULLSECRET_BASE64: ${{ secrets.PS_64 }}
       run: |
         echo $PULLSECRET_BASE64 | base64 --decode > pullsecret.txt
 
