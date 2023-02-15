@@ -20,7 +20,7 @@ jobs:
 
       - name: Create cluster
         run: |
-          docker run --name crccloud --rm \
+          docker run -d --name crccloud --rm \
           -v ${PWD}:/workspace:z \
           -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
           -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
@@ -51,7 +51,7 @@ jobs:
 
       - name: Destroy cluster    
         run: |
-          docker run --name crccloud-destroy --rm \
+          docker run -d --name crccloud-destroy --rm \
           -v ${PWD}:/workspace:z \
           -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
           -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
