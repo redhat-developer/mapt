@@ -32,7 +32,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/pulumi/pulumi-command/sdk => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20230108211407-8136b84ebf9b
+replace github.com/pulumi/pulumi-command/sdk => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20230215215154-a1cec3e014fa
 
 require (
 	github.com/Microsoft/go-winio v0.5.2 // indirect

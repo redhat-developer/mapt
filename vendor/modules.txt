@@ -264,7 +264,7 @@ github.com/pulumi/pulumi-aws/sdk/v5/go/aws
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/lb
-# github.com/pulumi/pulumi-command/sdk v0.5.2 => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20230108211407-8136b84ebf9b
+# github.com/pulumi/pulumi-command/sdk v0.5.2 => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20230215215154-a1cec3e014fa
 ## explicit; go 1.17
 github.com/pulumi/pulumi-command/sdk/go/command
 github.com/pulumi/pulumi-command/sdk/go/command/remote
@@ -563,4 +563,4 @@ lukechampine.com/frand
 sourcegraph.com/sourcegraph/appdash
 sourcegraph.com/sourcegraph/appdash/internal/wire
 sourcegraph.com/sourcegraph/appdash/opentracing
-# github.com/pulumi/pulumi-command/sdk => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20230108211407-8136b84ebf9b
+# github.com/pulumi/pulumi-command/sdk => github.com/adrianriobo/pulumi-command/sdk v0.0.0-20230215215154-a1cec3e014fa
