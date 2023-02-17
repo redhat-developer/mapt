@@ -26,6 +26,7 @@ jobs:
       run: |
         docker run -d --name crccloud --rm \
         --user "$(id -u):$(id -g)" \
+        -w /workspace \
         -v ${PWD}:/workspace:z \
         -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
         -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
@@ -57,6 +58,7 @@ jobs:
       run: |
         docker run -d --name crccloud-destroy --rm \
         --user "$(id -u):$(id -g)" \
+        -w /workspace \
         -v ${PWD}:/workspace:z \
         -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
         -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
