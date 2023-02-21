@@ -143,12 +143,9 @@ func marshalInputs(props Input) (resource.PropertyMap, map[string][]URN, []URN, 
 		}
 		deps.union(allDeps)
 
-		if len(allDeps) > 0 {
-			pdeps[pname] = allDeps.values()
-		}
-
 		if !v.IsNull() || len(allDeps) > 0 {
 			pmap[resource.PropertyKey(pname)] = v
+			pdeps[pname] = allDeps.values()
 		}
 		return nil
 	}
@@ -207,7 +204,8 @@ func marshalInputs(props Input) (resource.PropertyMap, map[string][]URN, []URN, 
 }
 
 // `gosec` thinks these are credentials, but they are not.
-// nolint: gosec
+//
+//nolint:gosec
 const rpcTokenUnknownValue = "04da6b54-80e4-46f7-96ec-b56ff0331ba9"
 
 const cannotAwaitFmt = "cannot marshal Output value of type %T; please use Apply to access the Output's value"
@@ -309,6 +307,15 @@ func marshalInputImpl(v interface{},
 		// If v is nil, just return that.
 		if v == nil {
 			return resource.PropertyValue{}, nil, nil
+		} else if val := reflect.ValueOf(v); val.Kind() == reflect.Ptr && val.IsNil() {
+			// Here we round trip through a reflect.Value to catch fat pointers of the
+			// form
+			//
+			// 	<SomeType><nil value>
+			//
+			// This prevents calling methods on nil pointers when we cast to an interface
+			// (like `Resource`)
+			return resource.PropertyValue{}, nil, nil
 		}
 
 		// Look for some well known types.
@@ -350,8 +357,8 @@ func marshalInputImpl(v interface{},
 			if err != nil {
 				return resource.PropertyValue{}, nil, err
 			}
-			contract.Assert(known)
-			contract.Assert(!secretURN)
+			contract.Assertf(known, "URN must be known")
+			contract.Assertf(!secretURN, "URN must not be secret")
 
 			if custom, ok := v.(CustomResource); ok {
 				id, _, secretID, err := custom.ID().awaitID(context.Background())

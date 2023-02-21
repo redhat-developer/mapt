@@ -19,11 +19,11 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"hash"
 	"io"
 	"io/fs"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -39,10 +39,10 @@ import (
 	"github.com/blang/semver"
 	"github.com/cheggaaa/pb"
 	"github.com/djherbis/times"
-	"github.com/pkg/errors"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag/colors"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/env"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/archive"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/cmdutil"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
@@ -102,11 +102,12 @@ func init() {
 
 // parsePluginDownloadURLOverrides parses an overrides string with the expected format `regexp1=URL1,regexp2=URL2`.
 func parsePluginDownloadURLOverrides(overrides string) (pluginDownloadOverrideArray, error) {
-	var result pluginDownloadOverrideArray
+	var splits = strings.Split(overrides, ",")
+	var result = make(pluginDownloadOverrideArray, 0, len(splits))
 	if overrides == "" {
 		return result, nil
 	}
-	for _, pair := range strings.Split(overrides, ",") {
+	for _, pair := range splits {
 		split := strings.Split(pair, "=")
 		if len(split) != 2 || split[0] == "" || split[1] == "" {
 			return nil, fmt.Errorf("expected format to be \"regexp1=URL1,regexp2=URL2\"; got %q", overrides)
@@ -137,7 +138,7 @@ type InstallPluginError struct {
 
 func (err *InstallPluginError) Error() string {
 	if err.Version != nil {
-		return fmt.Sprintf("Could not automatically download and install %[1]s plugin 'pulumi-%[1]s-%[2]s'"+
+		return fmt.Sprintf("Could not automatically download and install %[1]s plugin 'pulumi-%[1]s-%[2]s' "+
 			"at version v%[3]s, "+
 			"install the plugin using `pulumi plugin install %[1]s %[2]s v%[3]s`.\n"+
 			"Underlying error: %[4]s",
@@ -270,7 +271,7 @@ func (source *githubSource) GetLatestVersion(
 	if err != nil {
 		return nil, err
 	}
-	jsonBody, err := ioutil.ReadAll(resp)
+	jsonBody, err := io.ReadAll(resp)
 	if err != nil {
 		return nil, fmt.Errorf("cannot unmarshal github response len(%d): %s", length, err.Error())
 	}
@@ -308,7 +309,7 @@ func (source *githubSource) Download(
 	if err != nil {
 		return nil, -1, err
 	}
-	jsonBody, err := ioutil.ReadAll(resp)
+	jsonBody, err := io.ReadAll(resp)
 	if err != nil {
 		logging.V(9).Infof("cannot unmarshal github response len(%d): %s", length, err.Error())
 		return nil, -1, err
@@ -334,7 +335,7 @@ func (source *githubSource) Download(
 	if assetURL == "" {
 		logging.V(9).Infof("github json response: %s", jsonBody)
 		logging.V(9).Infof("plugin asset '%s' not found", assetName)
-		return nil, -1, errors.Errorf("plugin asset '%s' not found", assetName)
+		return nil, -1, fmt.Errorf("plugin asset '%s' not found", assetName)
 	}
 
 	logging.V(1).Infof("%s downloading from %s", source.name, assetURL)
@@ -411,50 +412,17 @@ func urlMustParse(rawURL string) *url.URL {
 func (source *fallbackSource) GetLatestVersion(
 	getHTTPResponse func(*http.Request) (io.ReadCloser, int64, error)) (*semver.Version, error) {
 
-	// Try and get this package from public pulumi github
+	// Try and get this package from our public pulumi github
 	public, err := newGithubSource(urlMustParse("github://api.github.com/pulumi"), source.name, source.kind)
 	if err != nil {
 		return nil, err
 	}
 	version, err := public.GetLatestVersion(getHTTPResponse)
-	if err == nil {
-		return version, nil
+	if err != nil {
+		return nil, err
 	}
 
-	// Are we in experimental mode? Try a users private github release
-	if _, ok := os.LookupEnv("PULUMI_EXPERIMENTAL"); ok {
-		// Check if we have a repo owner set
-		repoOwner := os.Getenv("GITHUB_REPOSITORY_OWNER")
-		var privateErr error
-		if repoOwner == "" {
-			privateErr = errors.New("ENV[GITHUB_REPOSITORY_OWNER] not set")
-		} else {
-			// This could panic on user input, but this is experimental and will be removed at some point
-			private, err := newGithubSource(urlMustParse("github://api.github.com/"+repoOwner), source.name, source.kind)
-			if err != nil {
-				return nil, err
-			}
-			if !private.HasAuthentication() {
-				privateErr = errors.New("no GitHub authentication information provided")
-			} else {
-				logging.V(1).Infof("downloading plugins based on GITHUB_REPOSITORY_OWNER is deprecated, " +
-					"please use a github download URL instead: " +
-					"https://www.pulumi.com/docs/guides/pulumi-packages/how-to-author/#support-for-github-releases")
-				version, privateErr = private.GetLatestVersion(getHTTPResponse)
-				if privateErr == nil {
-					return version, nil
-				}
-			}
-		}
-
-		logging.V(1).Infof("cannot find plugin %s on private GitHub releases: %s", source.name, privateErr.Error())
-
-		return nil, fmt.Errorf(
-			"error getting version from Pulumi github: %w\nand from private github: %s",
-			err, privateErr.Error())
-	}
-
-	return nil, err
+	return version, nil
 }
 
 func (source *fallbackSource) Download(
@@ -468,34 +436,6 @@ func (source *fallbackSource) Download(
 	resp, length, err := public.Download(version, opSy, arch, getHTTPResponse)
 	if err == nil {
 		return resp, length, nil
-	}
-
-	// Are we in experimental mode? Try a private github release
-	if _, ok := os.LookupEnv("PULUMI_EXPERIMENTAL"); ok {
-		// Check if we have a repo owner set
-		repoOwner := os.Getenv("GITHUB_REPOSITORY_OWNER")
-		if repoOwner == "" {
-			err = errors.New("ENV[GITHUB_REPOSITORY_OWNER] not set")
-		} else {
-			var private *githubSource
-			private, err = newGithubSource(urlMustParse("github://api.github.com/"+repoOwner), source.name, source.kind)
-			if err != nil {
-				return nil, -1, err
-			}
-			if !private.HasAuthentication() {
-				err = errors.New("no GitHub authentication information provided")
-			} else {
-				logging.V(1).Infof("downloading plugins based on GITHUB_REPOSITORY_OWNER is deprecated, " +
-					"please use a github download URL instead: " +
-					"https://www.pulumi.com/docs/guides/pulumi-packages/how-to-author/#support-for-github-releases")
-				resp, length, err := private.Download(version, opSy, arch, getHTTPResponse)
-				if err == nil {
-					return resp, length, nil
-				}
-			}
-		}
-
-		logging.V(1).Infof("cannot find plugin %s on private GitHub releases: %s", source.name, err.Error())
 	}
 
 	// Fallback to get.pulumi.com
@@ -577,7 +517,7 @@ func (source *checksumSource) Download(
 	}, length, nil
 }
 
-// Information about a locally installed plugin specified by the project.
+// ProjectPlugin Information about a locally installed plugin specified by the project.
 type ProjectPlugin struct {
 	Name    string          // the simple name of the plugin.
 	Kind    PluginKind      // the kind of the plugin (language, resource, etc).
@@ -585,7 +525,7 @@ type ProjectPlugin struct {
 	Path    string          // the path that a plugin is to be loaded from (this will always be a directory)
 }
 
-// Return a PluginSpec object for this project plugin.
+// Spec Return a PluginSpec object for this project plugin.
 func (pp ProjectPlugin) Spec() PluginSpec {
 	return PluginSpec{
 		Name:    pp.Name,
@@ -615,22 +555,10 @@ func (spec PluginSpec) Dir() string {
 	return dir
 }
 
-// File gets the expected filename for this plugin.
+// File gets the expected filename for this plugin, excluding any platform specific suffixes (e.g. ".exe" on
+// windows).
 func (spec PluginSpec) File() string {
-	return spec.FilePrefix() + spec.FileSuffix()
-}
-
-// FilePrefix gets the expected default file prefix for the plugin.
-func (spec PluginSpec) FilePrefix() string {
 	return fmt.Sprintf("pulumi-%s-%s", spec.Kind, spec.Name)
-}
-
-// FileSuffix returns the suffix for the plugin (if any).
-func (spec PluginSpec) FileSuffix() string {
-	if runtime.GOOS == windowsGOOS {
-		return ".exe"
-	}
-	return ""
 }
 
 // DirPath returns the directory where this plugin should be installed.
@@ -667,15 +595,6 @@ func (spec PluginSpec) PartialFilePath() (string, error) {
 	return fmt.Sprintf("%s.partial", dir), nil
 }
 
-// FilePath returns the full path where this plugin's primary executable should be installed.
-func (spec PluginSpec) FilePath() (string, error) {
-	dir, err := spec.DirPath()
-	if err != nil {
-		return "", err
-	}
-	return filepath.Join(dir, spec.File()), nil
-}
-
 func (spec PluginSpec) String() string {
 	var version string
 	if v := spec.Version; v != nil {
@@ -700,7 +619,7 @@ type PluginInfo struct {
 }
 
 // Spec returns the PluginSpec for this PluginInfo
-func (info PluginInfo) Spec() PluginSpec {
+func (info *PluginInfo) Spec() PluginSpec {
 	return PluginSpec{Name: info.Name, Kind: info.Kind, Version: info.Version}
 }
 
@@ -712,14 +631,9 @@ func (info PluginInfo) String() string {
 	return info.Name + version
 }
 
-// FilePath returns the full path where this plugin's primary executable should be installed.
-func (info PluginInfo) FilePath() string {
-	return filepath.Join(info.Path, info.Spec().File())
-}
-
 // Delete removes the plugin from the cache.  It also deletes any supporting files in the cache, which includes
 // any files that contain the same prefix as the plugin itself.
-func (info PluginInfo) Delete() error {
+func (info *PluginInfo) Delete() error {
 	dir := info.Path
 	if err := os.RemoveAll(dir); err != nil {
 		return err
@@ -759,21 +673,15 @@ func (info *PluginInfo) SetFileMetadata(path string) error {
 	info.LastUsedTime = tinfo.AccessTime()
 
 	if info.Kind == ResourcePlugin {
-		info.SetSchemaMetadata()
+		var v string
+		if info.Version != nil {
+			v = "-" + info.Version.String() + "-"
+		}
+		info.SchemaPath = filepath.Join(filepath.Dir(path), "schema-"+info.Name+v+".json")
+		info.SchemaTime = tinfo.ModTime()
 	}
 
 	return nil
-}
-
-func (info *PluginInfo) SetSchemaMetadata() {
-	binpath := info.FilePath()
-	bintime, err := times.Stat(binpath)
-	if err != nil {
-		return
-	}
-
-	info.SchemaPath = filepath.Join(info.Path, "schema-"+info.Name+".json")
-	info.SchemaTime = bintime.ModTime()
 }
 
 func interpolateURL(serverURL string, version semver.Version, os, arch string) string {
@@ -838,19 +746,19 @@ func (spec PluginSpec) Download() (io.ReadCloser, int64, error) {
 	case "darwin", "linux", "windows":
 		opSy = runtime.GOOS
 	default:
-		return nil, -1, errors.Errorf("unsupported plugin OS: %s", runtime.GOOS)
+		return nil, -1, fmt.Errorf("unsupported plugin OS: %s", runtime.GOOS)
 	}
 	var arch string
 	switch runtime.GOARCH {
 	case "amd64", "arm64":
 		arch = runtime.GOARCH
 	default:
-		return nil, -1, errors.Errorf("unsupported plugin architecture: %s", runtime.GOARCH)
+		return nil, -1, fmt.Errorf("unsupported plugin architecture: %s", runtime.GOARCH)
 	}
 
 	// The plugin version is necessary for the endpoint. If it's not present, return an error.
 	if spec.Version == nil {
-		return nil, -1, errors.Errorf("unknown version for plugin %s", spec.Name)
+		return nil, -1, fmt.Errorf("unknown version for plugin %s", spec.Name)
 	}
 
 	source, err := spec.GetSource()
@@ -892,19 +800,47 @@ func getHTTPResponse(req *http.Request) (io.ReadCloser, int64, error) {
 	logging.V(11).Infof("plugin install response headers: %v", resp.Header)
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
-
-		errmsg := "%d HTTP error fetching plugin from %s"
-
-		if req.URL.Host == "api.github.com" && resp.StatusCode == 404 {
-			errmsg += ". If this is a private GitHub repository, try " +
-				"providing a token via the GITHUB_TOKEN environment variable. " +
-				"See: https://github.com/settings/tokens"
-		}
-
-		return nil, -1, errors.Errorf(errmsg, resp.StatusCode, req.URL)
+		return nil, -1, newDownloadError(resp.StatusCode, req.URL)
 	}
 
 	return resp.Body, resp.ContentLength, nil
+}
+
+// downloadError is an error that happened during the HTTP download of a plugin.
+type downloadError struct {
+	msg  string
+	code int
+}
+
+func (e *downloadError) Error() string {
+	return e.msg
+}
+
+func (e *downloadError) Code() int {
+	return e.code
+}
+
+// Create a new downloadError with a message that indicates GITHUB_TOKEN should be set.
+func newGithubPrivateRepoError(statusCode int, url *url.URL) error {
+	return &downloadError{
+		code: statusCode,
+		msg: fmt.Sprintf("%d HTTP error fetching plugin from %s. "+
+			"If this is a private GitHub repository, try "+
+			"providing a token via the GITHUB_TOKEN environment variable. "+
+			"See: https://github.com/settings/tokens",
+			statusCode, url),
+	}
+}
+
+// Create a new downloadError.
+func newDownloadError(statusCode int, url *url.URL) error {
+	if url.Host == "api.github.com" && statusCode == 404 {
+		return newGithubPrivateRepoError(statusCode, url)
+	}
+	return &downloadError{
+		code: statusCode,
+		msg:  fmt.Sprintf("%d HTTP error fetching plugin from %s", statusCode, url),
+	}
 }
 
 // installLock acquires a file lock used to prevent concurrent installs.
@@ -916,7 +852,7 @@ func (spec PluginSpec) installLock() (unlock func(), err error) {
 	lockFilePath := fmt.Sprintf("%s.lock", finalDir)
 
 	if err := os.MkdirAll(filepath.Dir(lockFilePath), 0700); err != nil {
-		return nil, errors.Wrap(err, "creating plugin root")
+		return nil, fmt.Errorf("creating plugin root: %w", err)
 	}
 
 	mutex := fsutil.NewFileMutex(lockFilePath)
@@ -1003,7 +939,7 @@ func DownloadToFile(
 	}
 
 	tryDownloadToFile := func() (string, error, error) {
-		file, err := ioutil.TempFile("" /* default temp dir */, "pulumi-plugin-tar")
+		file, err := os.CreateTemp("" /* default temp dir */, "pulumi-plugin-tar")
 		if err != nil {
 			return "", nil, err
 		}
@@ -1039,6 +975,12 @@ func DownloadToFile(
 			if _, ok := readErr.(*checksumError); ok {
 				return "", readErr
 			}
+
+			// Don't retry, since the request was processed and rejected.
+			if err, ok := readErr.(*downloadError); ok && (err.Code() == 404 || err.Code() == 403) {
+				return "", readErr
+			}
+
 			// Don't attempt more than 5 times
 			attempts := 5
 			if readErr != nil && attempt >= attempts {
@@ -1081,7 +1023,7 @@ type singleFilePlugin struct {
 }
 
 func (p singleFilePlugin) writeToDir(finalDir string) error {
-	bytes, err := ioutil.ReadAll(p.F)
+	bytes, err := io.ReadAll(p.F)
 	if err != nil {
 		return err
 	}
@@ -1148,7 +1090,7 @@ func (p dirPlugin) writeToDir(dstRoot string) error {
 			return err
 		}
 
-		bytes, err := ioutil.ReadAll(src)
+		bytes, err := io.ReadAll(src)
 		if err != nil {
 			return err
 		}
@@ -1157,17 +1099,18 @@ func (p dirPlugin) writeToDir(dstRoot string) error {
 	})
 }
 
-// Install installs a plugin's tarball into the cache. It validates that plugin names are in the expected format.
-// Previous versions of Pulumi extracted the tarball to a temp directory first, and then renamed the temp directory
-// to the final directory. The rename operation fails often enough on Windows due to aggressive virus scanners opening
-// files in the temp directory. To address this, we now extract the tarball directly into the final directory, and use
-// file locks to prevent concurrent installs.
+// InstallWithContext installs a plugin's tarball into the cache. It validates that plugin names are in the expected
+// format. Previous versions of Pulumi extracted the tarball to a temp directory first, and then renamed the temp
+// directory to the final directory. The rename operation fails often enough on Windows due to aggressive virus scanners
+// opening files in the temp directory. To address this, we now extract the tarball directly into the final directory,
+// and use file locks to prevent concurrent installs.
+//
 // Each plugin has its own file lock, with the same name as the plugin directory, with a `.lock` suffix.
 // During installation an empty file with a `.partial` suffix is created, indicating that installation is in-progress.
 // The `.partial` file is deleted when installation is complete, indicating that the plugin has finished installing.
 // If a failure occurs during installation, the `.partial` file will remain, indicating the plugin wasn't fully
 // installed. The next time the plugin is installed, the old installation directory will be removed and replaced with
-// a fresh install.
+// a fresh installation.
 func (spec PluginSpec) InstallWithContext(ctx context.Context, content PluginContent, reinstall bool) error {
 	defer contract.IgnoreClose(content)
 
@@ -1223,7 +1166,7 @@ func (spec PluginSpec) InstallWithContext(ctx context.Context, content PluginCon
 	}
 
 	// Create an empty partial file to indicate installation is in-progress.
-	if err := ioutil.WriteFile(partialFilePath, nil, 0600); err != nil {
+	if err := os.WriteFile(partialFilePath, nil, 0600); err != nil {
 		return err
 	}
 
@@ -1244,7 +1187,7 @@ func (spec PluginSpec) InstallWithContext(ctx context.Context, content PluginCon
 	// Install dependencies, if needed.
 	proj, err := LoadPluginProject(filepath.Join(finalDir, "PulumiPlugin.yaml"))
 	if err != nil && !os.IsNotExist(err) {
-		return errors.Wrap(err, "loading PulumiPlugin.yaml")
+		return fmt.Errorf("loading PulumiPlugin.yaml: %w", err)
 	}
 	if proj != nil {
 		runtime := strings.ToLower(proj.Runtime.Name())
@@ -1257,11 +1200,11 @@ func (spec PluginSpec) InstallWithContext(ctx context.Context, content PluginCon
 			var b bytes.Buffer
 			if _, err := npm.Install(ctx, finalDir, true /* production */, &b, &b); err != nil {
 				os.Stderr.Write(b.Bytes())
-				return errors.Wrap(err, "installing plugin dependencies")
+				return fmt.Errorf("installing plugin dependencies: %w", err)
 			}
 		case "python":
 			if err := python.InstallDependencies(ctx, finalDir, "venv", false /*showOutput*/); err != nil {
-				return errors.Wrap(err, "installing plugin dependencies")
+				return fmt.Errorf("installing plugin dependencies: %w", err)
 			}
 		}
 	}
@@ -1274,18 +1217,18 @@ func (spec PluginSpec) InstallWithContext(ctx context.Context, content PluginCon
 func cleanupTempDirs(finalDir string) error {
 	dir := filepath.Dir(finalDir)
 
-	infos, err := ioutil.ReadDir(dir)
+	infos, err := os.ReadDir(dir)
 	if err != nil {
 		return err
 	}
 
 	for _, info := range infos {
 		// Temp dirs have a suffix of `.tmpXXXXXX` (where `XXXXXX`) is a random number,
-		// from ioutil.TempFile.
+		// from os.CreateTemp.
 		if info.IsDir() && installingPluginRegexp.MatchString(info.Name()) {
 			path := filepath.Join(dir, info.Name())
 			if err := os.RemoveAll(path); err != nil {
-				return errors.Wrapf(err, "cleaning up temp dir %s", path)
+				return fmt.Errorf("cleaning up temp dir %s: %w", path, err)
 			}
 		}
 	}
@@ -1424,7 +1367,7 @@ func GetPluginsWithMetadata() ([]PluginInfo, error) {
 }
 
 func getPlugins(dir string, skipMetadata bool) ([]PluginInfo, error) {
-	files, err := ioutil.ReadDir(dir)
+	files, err := os.ReadDir(dir)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return nil, nil
@@ -1473,10 +1416,7 @@ func GetPluginPath(kind PluginKind, name string, version *semver.Version,
 		return "", err
 	}
 
-	if info != nil {
-		contract.Assert(info.Path == filepath.Dir(path))
-	}
-
+	contract.Assert(info.Path == filepath.Dir(path))
 	return path, err
 }
 
@@ -1487,17 +1427,7 @@ func GetPluginInfo(kind PluginKind, name string, version *semver.Version,
 		return nil, err
 	}
 
-	if info != nil {
-		contract.Assert(info.Path == filepath.Dir(path))
-		return info, nil
-	}
-
-	info = &PluginInfo{
-		Kind: kind,
-		Name: name,
-		Path: filepath.Dir(path),
-	}
-
+	contract.Assert(info.Path == filepath.Dir(path))
 	return info, nil
 }
 
@@ -1557,10 +1487,27 @@ func attemptToDownloadAndInstallPlugin(kind PluginKind, name string, version *se
 	return nil
 }
 
+// Given a PluginInfo try to find the executable file that corresponds to it
+func getPluginPath(info *PluginInfo) string {
+	var path string
+	exts := getCandidateExtensions()
+	for _, ext := range exts {
+		path = filepath.Join(info.Path, info.Spec().File()) + ext
+		_, err := os.Stat(path)
+		if err == nil {
+			return path
+		}
+	}
+
+	// We didn't actually find a file for this plugin, so just use the old behaviour of assuming the first
+	// extension.
+	return filepath.Join(info.Path, info.Spec().File()) + exts[0]
+}
+
 // getPluginInfoAndPath searches for a compatible plugin kind, name, and version and returns either:
-//  * if found as an ambient plugin, nil and the path to the executable
-//  * if found in the pulumi dir's installed plugins, a PluginInfo and path to the executable
-//  * an error in all other cases.
+//   - if found as an ambient plugin, nil and the path to the executable
+//   - if found in the pulumi dir's installed plugins, a PluginInfo and path to the executable
+//   - an error in all other cases.
 func getPluginInfoAndPath(
 	kind PluginKind, name string, version *semver.Version, skipMetadata bool,
 	projectPlugins []ProjectPlugin) (*PluginInfo, string, error) {
@@ -1597,15 +1544,15 @@ func getPluginInfoAndPath(
 		}
 
 		spec := plugin.Spec()
-		path := filepath.Join(plugin.Path, spec.File())
 		info := &PluginInfo{
 			Name:    spec.Name,
 			Kind:    spec.Kind,
 			Version: spec.Version,
 			Path:    plugin.Path,
 		}
+		path := getPluginPath(info)
 		// computing plugin sizes can be very expensive (nested node_modules)
-		if !skipMetadata {
+		if !skipMetadata && path != "" {
 			if err := info.SetFileMetadata(path); err != nil {
 				return nil, "", err
 			}
@@ -1618,17 +1565,22 @@ func getPluginInfoAndPath(
 	// Eventually we want to fix this so new plugins are true plugins in the plugin cache.
 	isBundled := kind == LanguagePlugin ||
 		(kind == ResourcePlugin && name == "pulumi-nodejs") ||
-		(kind == ResourcePlugin && name == "pulumi-python")
+		(kind == ResourcePlugin && name == "pulumi-python") ||
+		(kind == AnalyzerPlugin && name == "policy") ||
+		(kind == AnalyzerPlugin && name == "policy-python")
 
 	// If we have a version of the plugin on its $PATH, use it, unless we have opted out of this behavior explicitly.
 	// This supports development scenarios.
-	optOut, isFound := os.LookupEnv("PULUMI_IGNORE_AMBIENT_PLUGINS")
-	includeAmbient := !(isFound && cmdutil.IsTruthy(optOut)) || isBundled
+	includeAmbient := !(env.IgnoreAmbientPlugins.Value()) || isBundled
 	if includeAmbient {
-		filename = (&PluginSpec{Kind: kind, Name: name, Version: version}).FilePrefix()
+		filename = (&PluginSpec{Kind: kind, Name: name}).File()
 		if path, err := exec.LookPath(filename); err == nil {
 			logging.V(6).Infof("GetPluginPath(%s, %s, %v): found on $PATH %s", kind, name, version, path)
-			return nil, path, nil
+			return &PluginInfo{
+				Kind: kind,
+				Name: name,
+				Path: filepath.Dir(path),
+			}, path, nil
 		}
 	}
 
@@ -1653,7 +1605,11 @@ func getPluginInfoAndPath(
 						logging.V(6).Infof("GetPluginPath(%s, %s, %v): found next to current executable %s",
 							kind, name, version, candidate)
 
-						return nil, candidate, nil
+						return &PluginInfo{
+							Kind: kind,
+							Name: name,
+							Path: filepath.Dir(candidate),
+						}, candidate, nil
 					}
 				}
 			}
@@ -1669,7 +1625,7 @@ func getPluginInfoAndPath(
 		plugins, err = GetPluginsWithMetadata()
 	}
 	if err != nil {
-		return nil, "", errors.Wrapf(err, "loading plugin list")
+		return nil, "", fmt.Errorf("loading plugin list: %w", err)
 	}
 
 	var match *PluginInfo
@@ -1718,7 +1674,7 @@ func getPluginInfoAndPath(
 	}
 
 	if match != nil {
-		matchPath := match.FilePath()
+		matchPath := getPluginPath(match)
 		logging.V(6).Infof("GetPluginPath(%s, %s, %v): found in cache at %s", kind, name, version, matchPath)
 		return match, matchPath, nil
 	}
@@ -1824,7 +1780,7 @@ func SelectCompatiblePlugin(
 
 	if !hasMatch {
 		logging.V(7).Infof("SelectCompatiblePlugin(..., %s): failed to find match", name)
-		return PluginInfo{}, errors.New("failed to locate compatible plugin")
+		return PluginInfo{}, fmt.Errorf("failed to locate compatible plugin: %#v", name)
 	}
 	logging.V(7).Infof("SelectCompatiblePlugin(..., %s): selecting plugin '%s': best match ", name, bestMatch.String())
 	return bestMatch, nil
@@ -1874,11 +1830,11 @@ var pluginRegexp = regexp.MustCompile(
 
 // installingPluginRegexp matches the name of temporary folders. Previous versions of Pulumi first extracted
 // plugins to a temporary folder with a suffix of `.tmpXXXXXX` (where `XXXXXX`) is a random number, from
-// ioutil.TempFile. We should ignore these folders.
+// os.CreateTemp. We should ignore these folders.
 var installingPluginRegexp = regexp.MustCompile(`\.tmp[0-9]+$`)
 
 // tryPlugin returns true if a file is a plugin, and extracts information about it.
-func tryPlugin(file os.FileInfo) (PluginKind, string, semver.Version, bool) {
+func tryPlugin(file os.DirEntry) (PluginKind, string, semver.Version, bool) {
 	// Only directories contain plugins.
 	if !file.IsDir() {
 		logging.V(11).Infof("skipping file in plugin directory: %s", file.Name())
@@ -1943,7 +1899,7 @@ func getPluginSize(path string) (int64, error) {
 
 	size := int64(0)
 	if file.IsDir() {
-		subs, err := ioutil.ReadDir(path)
+		subs, err := os.ReadDir(path)
 		if err != nil {
 			return 0, err
 		}

@@ -16,15 +16,17 @@ package auto
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"path/filepath"
 	"strings"
 
 	git "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
+	"github.com/go-git/go-git/v5/plumbing/protocol/packp/capability"
+	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/go-git/go-git/v5/plumbing/transport/http"
 	"github.com/go-git/go-git/v5/plumbing/transport/ssh"
-	"github.com/pkg/errors"
 )
 
 func setupGitRepo(ctx context.Context, workDir string, repoArgs *GitRepo) (string, error) {
@@ -49,7 +51,7 @@ func setupGitRepo(ctx context.Context, workDir string, repoArgs *GitRepo) (strin
 		if authDetails.SSHPrivateKeyPath != "" {
 			publicKeys, err := ssh.NewPublicKeysFromFile("git", repoArgs.Auth.SSHPrivateKeyPath, repoArgs.Auth.Password)
 			if err != nil {
-				return "", errors.Wrap(err, "unable to use SSH Private Key Path")
+				return "", fmt.Errorf("unable to use SSH Private Key Path: %w", err)
 			}
 
 			cloneOptions.Auth = publicKeys
@@ -59,7 +61,7 @@ func setupGitRepo(ctx context.Context, workDir string, repoArgs *GitRepo) (strin
 		if authDetails.SSHPrivateKey != "" {
 			publicKeys, err := ssh.NewPublicKeys("git", []byte(repoArgs.Auth.SSHPrivateKey), repoArgs.Auth.Password)
 			if err != nil {
-				return "", errors.Wrap(err, "unable to use SSH Private Key")
+				return "", fmt.Errorf("unable to use SSH Private Key: %w", err)
 			}
 
 			cloneOptions.Auth = publicKeys
@@ -111,11 +113,25 @@ func setupGitRepo(ctx context.Context, workDir string, repoArgs *GitRepo) (strin
 		cloneOptions.ReferenceName = refName
 	}
 
+	// Azure DevOps requires multi_ack and multi_ack_detailed capabilities, which go-git doesn't
+	// implement. But: it's possible to do a full clone by saying it's _not_ _un_supported, in which
+	// case the library happily functions so long as it doesn't _actually_ get a multi_ack packet. See
+	// https://github.com/go-git/go-git/blob/v5.5.1/_examples/azure_devops/main.go.
+	oldUnsupportedCaps := transport.UnsupportedCapabilities
+	// This check is crude, but avoids having another dependency to parse the git URL.
+	if strings.Contains(repoArgs.URL, "dev.azure.com") {
+		transport.UnsupportedCapabilities = []capability.Capability{
+			capability.ThinPack,
+		}
+	}
+
 	// clone
 	repo, err := git.PlainCloneContext(ctx, workDir, false, cloneOptions)
 	if err != nil {
-		return "", errors.Wrap(err, "unable to clone repo")
+		return "", fmt.Errorf("unable to clone repo: %w", err)
 	}
+
+	transport.UnsupportedCapabilities = oldUnsupportedCaps
 
 	if repoArgs.CommitHash != "" {
 		// checkout commit if specified
@@ -130,7 +146,7 @@ func setupGitRepo(ctx context.Context, workDir string, repoArgs *GitRepo) (strin
 			Force: true,
 		})
 		if err != nil {
-			return "", errors.Wrap(err, "unable to checkout commit")
+			return "", fmt.Errorf("unable to checkout commit: %w", err)
 		}
 	}
 

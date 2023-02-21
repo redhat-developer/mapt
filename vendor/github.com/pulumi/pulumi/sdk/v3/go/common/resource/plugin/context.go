@@ -16,9 +16,11 @@ package plugin
 
 import (
 	"context"
-	"io/ioutil"
+	"io"
+	"sync"
 
 	"github.com/opentracing/opentracing-go"
+	"google.golang.org/grpc"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag/colors"
@@ -35,6 +37,12 @@ type Context struct {
 	Host       Host      // the host that can be used to fetch providers.
 	Pwd        string    // the working directory to spawn all plugins in.
 	Root       string    // the root directory of the project.
+
+	// If non-nil, configures custom gRPC client options. Receives pluginInfo which is a JSON-serializable bit of
+	// metadata describing the plugin.
+	DialOptions func(pluginInfo interface{}) []grpc.DialOption
+
+	DebugTraceMutex *sync.Mutex // used internally to syncronize debug tracing
 
 	tracingSpan opentracing.Span // the OpenTracing span to parent requests within.
 
@@ -67,24 +75,25 @@ func NewContext(d, statusD diag.Sink, host Host, _ ConfigSource,
 		disableProviderPreview, parentSpan, plugins)
 }
 
-// Variation of NewContext that also sets known project Root. Additionally accepts Plugins
+// NewContextWithRoot is a variation of NewContext that also sets known project Root. Additionally accepts Plugins
 func NewContextWithRoot(d, statusD diag.Sink, host Host,
 	pwd, root string, runtimeOptions map[string]interface{}, disableProviderPreview bool,
 	parentSpan opentracing.Span, plugins *workspace.Plugins) (*Context, error) {
 
 	if d == nil {
-		d = diag.DefaultSink(ioutil.Discard, ioutil.Discard, diag.FormatOptions{Color: colors.Never})
+		d = diag.DefaultSink(io.Discard, io.Discard, diag.FormatOptions{Color: colors.Never})
 	}
 	if statusD == nil {
-		statusD = diag.DefaultSink(ioutil.Discard, ioutil.Discard, diag.FormatOptions{Color: colors.Never})
+		statusD = diag.DefaultSink(io.Discard, io.Discard, diag.FormatOptions{Color: colors.Never})
 	}
 
 	ctx := &Context{
-		Diag:        d,
-		StatusDiag:  statusD,
-		Host:        host,
-		Pwd:         pwd,
-		tracingSpan: parentSpan,
+		Diag:            d,
+		StatusDiag:      statusD,
+		Host:            host,
+		Pwd:             pwd,
+		tracingSpan:     parentSpan,
+		DebugTraceMutex: &sync.Mutex{},
 	}
 	if host == nil {
 		h, err := NewDefaultHost(ctx, runtimeOptions, disableProviderPreview, plugins)
@@ -132,10 +141,8 @@ func (ctx *Context) Close() error {
 func (ctx *Context) WithCancelChannel(c <-chan struct{}) *Context {
 	copy := *ctx
 	go func() {
-		select {
-		case _, _ = <-c:
-			copy.Close()
-		}
+		<-c
+		copy.Close()
 	}()
 	return &copy
 }

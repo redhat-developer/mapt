@@ -1,11 +1,11 @@
 package pulumi
 
 import (
+	"fmt"
 	"log"
 	"sync"
 
 	"github.com/golang/protobuf/ptypes/empty"
-	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
@@ -26,7 +26,13 @@ func WithMocks(project, stack string, mocks MockResourceMonitor) RunOption {
 	}
 }
 
-// MockResourceArgs is used to construct call Mock
+func WithMocksWithOrganization(organization, project, stack string, mocks MockResourceMonitor) RunOption {
+	return func(info *RunInfo) {
+		info.Project, info.Stack, info.Mocks, info.Organization = project, stack, mocks, organization
+	}
+}
+
+// MockCallArgs is used to construct a call Mock
 type MockCallArgs struct {
 	// Token indicates which function is being called. This token is of the form "package:module:function".
 	Token string
@@ -103,7 +109,7 @@ func (m *mockMonitor) Invoke(ctx context.Context, in *pulumirpc.ResourceInvokeRe
 		urn := args["urn"].StringValue()
 		registeredResourceV, ok := m.resources.Load(urn)
 		if !ok {
-			return nil, errors.Errorf("unknown resource %s", urn)
+			return nil, fmt.Errorf("unknown resource %s", urn)
 		}
 		registeredResource := registeredResourceV.(resource.PropertyMap)
 		result, err := plugin.MarshalProperties(registeredResource, plugin.MarshalOptions{
