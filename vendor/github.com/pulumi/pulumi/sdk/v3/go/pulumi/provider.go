@@ -108,11 +108,7 @@ func construct(ctx context.Context, req *pulumirpc.ConstructRequest, engineConn 
 	}
 	opts := resourceOption(func(ro *resourceOptions) {
 		ro.Aliases = aliases
-		ro.DependsOn = []func(ctx context.Context) (urnSet, error){
-			func(ctx context.Context) (urnSet, error) {
-				return dependencyURNs, nil
-			},
-		}
+		ro.DependsOn = []dependencySet{urnDependencySet(dependencyURNs)}
 		ro.Protect = req.GetProtect()
 		ro.Providers = providers
 		ro.Parent = parent
@@ -429,13 +425,16 @@ func copyInputTo(ctx *Context, v resource.PropertyValue, dest reflect.Value) err
 		return nil
 	}
 
-	switch dest.Type().Kind() {
-	case reflect.Map:
-		return copyToMap(ctx, v, dest.Type(), dest)
-	case reflect.Slice:
-		return copyToSlice(ctx, v, dest.Type(), dest)
-	case reflect.Struct:
-		return copyToStruct(ctx, v, dest.Type(), dest)
+	// A resource reference looks like a struct, but must be deserialzed differently.
+	if !v.IsResourceReference() {
+		switch dest.Type().Kind() {
+		case reflect.Map:
+			return copyToMap(ctx, v, dest.Type(), dest)
+		case reflect.Slice:
+			return copyToSlice(ctx, v, dest.Type(), dest)
+		case reflect.Struct:
+			return copyToStruct(ctx, v, dest.Type(), dest)
+		}
 	}
 
 	_, err := unmarshalOutput(ctx, v, dest)

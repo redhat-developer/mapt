@@ -15,16 +15,27 @@
 package rpcutil
 
 import (
+	"os"
+
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/cmdutil"
 	"google.golang.org/grpc"
 )
+
+// Configures interceptors to propagate OpenTracing metadata through headers. If parentSpan is non-nil, it becomes the
+// default parent for orphan spans.
+func OpenTracingServerInterceptorOptions(parentSpan opentracing.Span, options ...otgrpc.Option) []grpc.ServerOption {
+	return []grpc.ServerOption{
+		grpc.ChainUnaryInterceptor(OpenTracingServerInterceptor(parentSpan, options...)),
+		grpc.ChainStreamInterceptor(OpenTracingStreamServerInterceptor(parentSpan, options...)),
+	}
+}
 
 // OpenTracingServerInterceptor provides a default gRPC server
 // interceptor for emitting tracing to the global OpenTracing tracer.
 func OpenTracingServerInterceptor(parentSpan opentracing.Span, options ...otgrpc.Option) grpc.UnaryServerInterceptor {
-	// Log full payloads along with trace spans
-	options = append(options, otgrpc.LogPayloads())
+	options = append(options, logPayloads()...)
 	tracer := opentracing.GlobalTracer()
 
 	if parentSpan != nil {
@@ -34,12 +45,11 @@ func OpenTracingServerInterceptor(parentSpan opentracing.Span, options ...otgrpc
 	return otgrpc.OpenTracingServerInterceptor(tracer, options...)
 }
 
-// Like OpenTracingServerInterceptor but for instrumenting streaming gRPC calls.
+// OpenTracingStreamServerInterceptor is OpenTracingServerInterceptor for instrumenting streaming gRPC calls.
 func OpenTracingStreamServerInterceptor(parentSpan opentracing.Span,
 	options ...otgrpc.Option) grpc.StreamServerInterceptor {
 
-	// Log full payloads along with trace spans
-	options = append(options, otgrpc.LogPayloads())
+	options = append(options, logPayloads()...)
 	tracer := opentracing.GlobalTracer()
 
 	if parentSpan != nil {
@@ -52,26 +62,30 @@ func OpenTracingStreamServerInterceptor(parentSpan opentracing.Span,
 // OpenTracingClientInterceptor provides a default gRPC client interceptor for emitting tracing to the global
 // OpenTracing tracer.
 func OpenTracingClientInterceptor(options ...otgrpc.Option) grpc.UnaryClientInterceptor {
-	options = append(options,
-		// Log full payloads along with trace spans
-		otgrpc.LogPayloads(),
+	options = append(append(options,
 		// Do not trace calls to the empty method
 		otgrpc.IncludingSpans(func(_ opentracing.SpanContext, method string, _, _ interface{}) bool {
 			return method != ""
-		}))
+		})), logPayloads()...)
 	return otgrpc.OpenTracingClientInterceptor(opentracing.GlobalTracer(), options...)
 }
 
-// Like OpenTracingClientInterceptor but for streaming gRPC calls.
+// OpenTracingStreamClientInterceptor is OpenTracingClientInterceptor for streaming gRPC calls.
 func OpenTracingStreamClientInterceptor(options ...otgrpc.Option) grpc.StreamClientInterceptor {
-	options = append(options,
-		// Log full payloads along with trace spans
-		otgrpc.LogPayloads(),
+	options = append(append(options,
 		// Do not trace calls to the empty method
 		otgrpc.IncludingSpans(func(_ opentracing.SpanContext, method string, _, _ interface{}) bool {
 			return method != ""
-		}))
+		})), logPayloads()...)
 	return otgrpc.OpenTracingStreamClientInterceptor(opentracing.GlobalTracer(), options...)
+}
+
+// Configures gRPC clients with OpenTracing interceptors.
+func OpenTracingInterceptorDialOptions(opts ...otgrpc.Option) []grpc.DialOption {
+	return []grpc.DialOption{
+		grpc.WithChainUnaryInterceptor(OpenTracingClientInterceptor(opts...)),
+		grpc.WithChainStreamInterceptor(OpenTracingStreamClientInterceptor(opts...)),
+	}
 }
 
 // Wraps an opentracing.Tracer to reparent orphan traces with a given
@@ -114,3 +128,13 @@ func (t *reparentingTracer) hasChildOf(opts ...opentracing.StartSpanOption) bool
 }
 
 var _ opentracing.Tracer = &reparentingTracer{}
+
+// Option to log payloads in trace spans. Default is on. Can be
+// disabled by setting an env var to reduce tracing overhead.
+func logPayloads() []otgrpc.Option {
+	res := []otgrpc.Option{}
+	if !cmdutil.IsTruthy(os.Getenv("PULUMI_TRACING_NO_PAYLOADS")) {
+		res = append(res, otgrpc.LogPayloads())
+	}
+	return res
+}

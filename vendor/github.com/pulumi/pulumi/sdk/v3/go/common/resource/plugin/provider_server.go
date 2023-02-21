@@ -30,6 +30,8 @@ import (
 )
 
 type providerServer struct {
+	pulumirpc.UnsafeResourceProviderServer // opt out of forward compat
+
 	provider      Provider
 	keepSecrets   bool
 	keepResources bool
@@ -228,6 +230,7 @@ func (p *providerServer) Configure(ctx context.Context,
 		}
 		inputs = args
 	} else {
+		inputs = make(resource.PropertyMap)
 		for k, v := range req.GetVariables() {
 			key, err := config.ParseKey(k)
 			if err != nil {
@@ -443,9 +446,9 @@ func (p *providerServer) Construct(ctx context.Context,
 		MonitorAddress:   req.GetMonitorEndpoint(),
 	}
 
-	aliases := make([]resource.URN, len(req.GetAliases()))
+	aliases := make([]resource.Alias, len(req.GetAliases()))
 	for i, urn := range req.GetAliases() {
-		aliases[i] = resource.URN(urn)
+		aliases[i] = resource.Alias{URN: resource.URN(urn)}
 	}
 	dependencies := make([]resource.URN, len(req.GetDependencies()))
 	for i, urn := range req.GetDependencies() {
@@ -620,4 +623,13 @@ func (p *providerServer) Call(ctx context.Context, req *pulumirpc.CallRequest) (
 		ReturnDependencies: returnDependencies,
 		Failures:           rpcFailures,
 	}, nil
+}
+
+func (p *providerServer) GetMapping(ctx context.Context,
+	req *pulumirpc.GetMappingRequest) (*pulumirpc.GetMappingResponse, error) {
+	data, provider, err := p.provider.GetMapping(req.Key)
+	if err != nil {
+		return nil, err
+	}
+	return &pulumirpc.GetMappingResponse{Data: data, Provider: provider}, nil
 }

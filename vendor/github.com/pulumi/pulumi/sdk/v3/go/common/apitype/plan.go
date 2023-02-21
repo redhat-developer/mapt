@@ -26,9 +26,6 @@ type GoalV1 struct {
 	Name tokens.QName `json:"name"`
 	// true if this resource is custom, managed by a plugin.
 	Custom bool `json:"custom"`
-	// the resource's checked input properties that we saw during preview.
-	// TODO(pdg-plan): Temporary for preview release, should be removed for GA
-	CheckedInputs map[string]interface{} `json:"checkedInputs,omitempty"`
 	// the resource properties that will be changed.
 	InputDiff PlanDiffV1 `json:"inputDiff,omitempty"`
 	// the resource outputs that will be changed.
@@ -50,7 +47,9 @@ type GoalV1 struct {
 	// outputs that should always be treated as secrets.
 	AdditionalSecretOutputs []resource.PropertyKey `json:"additionalSecretOutputs,omitempty"`
 	// additional URNs that should be aliased to this resource.
-	Aliases []resource.URN `json:"aliases,omitempty"`
+	AliasURNs []resource.URN `json:"aliases,omitempty"`
+	// structured alias objects to be assigned to this resource.
+	Aliases []resource.Alias `json:"structuredAliases,omitempty"`
 	// the expected ID of the resource, if any.
 	ID resource.ID `json:"id,omitempty"`
 	// an optional config object for resource options

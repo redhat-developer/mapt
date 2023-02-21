@@ -17,6 +17,8 @@ package gitutil
 import (
 	"fmt"
 	"net/url"
+	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -30,6 +32,7 @@ import (
 	"github.com/go-git/go-git/v5/storage/memory"
 	"github.com/pkg/errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/fsutil"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
 )
 
 // VCSKind represents the hostname of a specific type of VCS.
@@ -40,13 +43,13 @@ type VCSKind = string
 const (
 	defaultGitCloudRepositorySuffix = ".git"
 
-	// The host name for GitLab.
+	// GitLabHostName The host name for GitLab.
 	GitLabHostName VCSKind = "gitlab.com"
-	// The host name for GitHub.
+	// GitHubHostName The host name for GitHub.
 	GitHubHostName VCSKind = "github.com"
-	// The host name for Azure DevOps
+	// AzureDevOpsHostName The host name for Azure DevOps
 	AzureDevOpsHostName VCSKind = "dev.azure.com"
-	// The host name for Bitbucket
+	// BitbucketHostName The host name for Bitbucket
 	BitbucketHostName VCSKind = "bitbucket.org"
 )
 
@@ -277,8 +280,18 @@ func GitCloneAndCheckoutCommit(url string, commit plumbing.Hash, path string) er
 	})
 }
 
+func GitCloneOrPull(rawurl string, referenceName plumbing.ReferenceName, path string, shallow bool) error {
+	logging.V(10).Infof("Attempting to clone from %s at ref %s", rawurl, referenceName)
+	if u, err := url.Parse(rawurl); err == nil && u.Hostname() == AzureDevOpsHostName {
+		// system-installed git is used to clone Azure DevOps repositories
+		// due to https://github.com/go-git/go-git/issues/64
+		return gitCloneOrPullSystemGit(rawurl, referenceName, path, shallow)
+	}
+	return gitCloneOrPull(rawurl, referenceName, path, shallow)
+}
+
 // GitCloneOrPull clones or updates the specified referenceName (branch or tag) of a Git repository.
-func GitCloneOrPull(url string, referenceName plumbing.ReferenceName, path string, shallow bool) error {
+func gitCloneOrPull(url string, referenceName plumbing.ReferenceName, path string, shallow bool) error {
 	// For shallow clones, use a depth of 1.
 	depth := 0
 	if shallow {
@@ -311,18 +324,92 @@ func GitCloneOrPull(url string, referenceName plumbing.ReferenceName, path strin
 				return err
 			}
 
-			if err = w.Pull(&git.PullOptions{
+			// There are cases where go-git gets confused about files that were included in .gitignore
+			// and then later removed from .gitignore and added to the repository, leaving unstaged
+			// changes in the working directory after a pull. To address this, we'll first do a hard
+			// reset of the worktree before pulling to ensure it's in a good state.
+			if err := w.Reset(&git.ResetOptions{
+				Mode: git.HardReset,
+			}); err != nil {
+				return err
+			}
+
+			if cloneErr = w.Pull(&git.PullOptions{
 				ReferenceName: referenceName,
 				SingleBranch:  true,
 				Force:         true,
-			}); err != nil && err != git.NoErrAlreadyUpToDate {
-				return err
+			}); cloneErr == git.NoErrAlreadyUpToDate {
+				return nil
 			}
-		} else {
-			return cloneErr
 		}
 	}
 
+	if cloneErr == git.ErrUnstagedChanges {
+		// See https://github.com/pulumi/pulumi/issues/11121. We seem to be getting intermittent unstaged
+		// changes errors, which is very hard to reproduce. This block of code catches this error and tries to
+		// do a diff to see what the unstaged change is and tells the user to report this error to the above
+		// ticket.
+
+		repo, err := git.PlainOpen(path)
+		if err != nil {
+			return fmt.Errorf(
+				"GitCloneOrPull reported unstaged changes, but the repo couldn't be opened to check: %w\n"+
+					"Please report this to https://github.com/pulumi/pulumi/issues/11121.", err)
+		}
+
+		worktree, err := repo.Worktree()
+		if err != nil {
+			return fmt.Errorf(
+				"GitCloneOrPull reported unstaged changes, but the worktree couldn't be opened to check: %w\n"+
+					"Please report this to https://github.com/pulumi/pulumi/issues/11121.", err)
+		}
+
+		status, err := worktree.Status()
+		if err != nil {
+			return fmt.Errorf(
+				"GitCloneOrPull reported unstaged changes, but the worktree status couldn't be fetched to check: %w\n"+
+					"Please report this to https://github.com/pulumi/pulumi/issues/11121.", err)
+		}
+
+		messages := make([]string, 0)
+		for path, stat := range status {
+			if stat.Worktree != git.Unmodified {
+				messages = append(messages, fmt.Sprintf("%s was %c", path, rune(stat.Worktree)))
+			}
+		}
+
+		return fmt.Errorf("GitCloneOrPull reported unstaged changes: %s\n"+
+			"Please report this to https://github.com/pulumi/pulumi/issues/11121.",
+			strings.Join(messages, "\n"))
+	}
+
+	return cloneErr
+}
+
+// gitCloneOrPullSystemGit uses the `git` command to pull or clone repositories.
+func gitCloneOrPullSystemGit(url string, referenceName plumbing.ReferenceName, path string, shallow bool) error {
+	// Assume repo already exists, pull changes.
+	gitArgs := []string{
+		"pull",
+	}
+	if _, err := os.Stat(filepath.Join(path, ".git")); os.IsNotExist(err) {
+		// Repo does not exist, clone it.
+		gitArgs = []string{
+			"clone", url, ".",
+		}
+		// For shallow clones, use a depth of 1.
+		if shallow {
+			gitArgs = append(gitArgs, "--depth")
+			gitArgs = append(gitArgs, "1")
+		}
+	}
+
+	cmd := exec.Command("git", gitArgs...)
+	cmd.Dir = path
+
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("failed to run `git %v`", strings.Join(gitArgs, " "))
+	}
 	return nil
 }
 
@@ -372,6 +459,9 @@ func parseHostAuth(u *url.URL) string {
 // Additionally, it supports nested git projects, as used by GitLab.
 // For example, "https://github.com/pulumi/platform-team/templates.git/templates/javascript"
 // returns "https://github.com/pulumi/platform-team/templates.git" and "templates/javascript"
+//
+// Note: URL with a hostname of `dev.azure.com`, are currently treated as a raw git clone url
+// and currently do not support subpaths.
 func ParseGitRepoURL(rawurl string) (string, string, error) {
 	u, err := url.Parse(rawurl)
 	if err != nil {
@@ -389,6 +479,12 @@ func ParseGitRepoURL(rawurl string) (string, string, error) {
 			return "", "", err
 		}
 		return repo, "", nil
+	}
+
+	// Special case Azure DevOps.
+	if u.Hostname() == AzureDevOpsHostName {
+		// Specifying branch/ref and subpath is currently unsupported.
+		return rawurl, "", nil
 	}
 
 	path := strings.TrimPrefix(u.Path, "/")

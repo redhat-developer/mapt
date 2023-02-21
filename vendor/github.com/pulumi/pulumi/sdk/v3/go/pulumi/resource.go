@@ -259,6 +259,23 @@ type ProviderResource interface {
 	getPackage() string
 }
 
+// CustomTimeouts specifies timeouts for resource provisioning operations.
+// Use it with the [Timeouts] option when creating new resources
+// to override default timeouts.
+//
+// Each timeout is specified as a duration string such as,
+// "5ms" (5 milliseconds), "40s" (40 seconds),
+// and "1m30s" (1 minute, 30 seconds).
+//
+// The following units are accepted.
+//
+//   - ns: nanoseconds
+//   - us: microseconds
+//   - µs: microseconds
+//   - ms: milliseconds
+//   - s: seconds
+//   - m: minutes
+//   - h: hours
 type CustomTimeouts struct {
 	Create string
 	Update string
@@ -275,7 +292,7 @@ type resourceOptions struct {
 	// DeleteBeforeReplace, when set to true, ensures that this resource is deleted prior to replacement.
 	DeleteBeforeReplace bool
 	// DependsOn is an optional array of explicit dependencies on other resources.
-	DependsOn []func(ctx context.Context) (urnSet, error)
+	DependsOn []dependencySet
 	// IgnoreChanges ignores changes to any of the specified properties.
 	IgnoreChanges []string
 	// Import, when provided with a resource ID, indicates that this resource's provider should import its state from
@@ -311,6 +328,9 @@ type resourceOptions struct {
 	PluginDownloadURL string
 	// If set to True, the providers Delete method will not be called for this resource.
 	RetainOnDelete bool
+	// If set, the providers Delete method will not be called for this resource
+	// if specified resource is being deleted as well.
+	DeletedWith Resource
 }
 
 type invokeOptions struct {
@@ -413,45 +433,89 @@ func CompositeInvoke(opts ...InvokeOption) InvokeOption {
 	})
 }
 
+// dependencySet unifies types that can provide dependencies for a
+// resource.
+type dependencySet interface {
+	// Adds URNs for addURNs from this set
+	// into the given urnSet.
+	addURNs(context.Context, urnSet) error
+}
+
+// urnDependencySet is a dependencySet built from a constant set of URNs.
+type urnDependencySet urnSet
+
+var _ dependencySet = (urnDependencySet)(nil)
+
+func (us urnDependencySet) addURNs(ctx context.Context, urns urnSet) error {
+	urns.union(urnSet(us))
+	return nil
+}
+
 // DependsOn is an optional array of explicit dependencies on other resources.
 func DependsOn(o []Resource) ResourceOption {
 	return resourceOption(func(ro *resourceOptions) {
-		ro.DependsOn = append(ro.DependsOn, func(ctx context.Context) (urnSet, error) {
-			return expandDependencies(ctx, o)
-		})
+		ro.DependsOn = append(ro.DependsOn, resourceDependencySet(o))
 	})
+}
+
+// resourceDependencySet is a dependencySet comprised of references to
+// resources.
+type resourceDependencySet []Resource
+
+var _ dependencySet = (resourceDependencySet)(nil)
+
+func (rs resourceDependencySet) addURNs(ctx context.Context, urns urnSet) error {
+	for _, r := range rs {
+		if err := addDependency(ctx, urns, r); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // Declares explicit dependencies on other resources. Similar to
 // `DependsOn`, but also admits resource inputs and outputs:
 //
-//     var r Resource
-//     var ri ResourceInput
-//     var ro ResourceOutput
-//     allDeps := NewResourceArrayOutput(NewResourceOutput(r), ri.ToResourceOutput(), ro)
-//     DependsOnInputs(allDeps)
+//	var r Resource
+//	var ri ResourceInput
+//	var ro ResourceOutput
+//	allDeps := NewResourceArrayOutput(NewResourceOutput(r), ri.ToResourceOutput(), ro)
+//	DependsOnInputs(allDeps)
 func DependsOnInputs(o ResourceArrayInput) ResourceOption {
 	return resourceOption(func(ro *resourceOptions) {
-		ro.DependsOn = append(ro.DependsOn, func(ctx context.Context) (urnSet, error) {
-			out := o.ToResourceArrayOutput()
-
-			value, known, _ /* secret */, _ /* deps */, err := out.await(ctx)
-			if err != nil || !known {
-				return nil, err
-			}
-
-			resources, ok := value.([]Resource)
-			if !ok {
-				return nil, fmt.Errorf("ResourceArrayInput resolved to a value of unexpected type %v, expected []Resource",
-					reflect.TypeOf(value))
-			}
-
-			// For some reason, deps returned above are incorrect; instead:
-			toplevelDeps := out.dependencies()
-
-			return expandDependencies(ctx, append(resources, toplevelDeps...))
-		})
+		ro.DependsOn = append(ro.DependsOn, &resourceArrayInputDependencySet{o})
 	})
+}
+
+// resourceArrayInputDependencySet is a dependencySet built from
+// collections of resources that are not yet known.
+type resourceArrayInputDependencySet struct{ input ResourceArrayInput }
+
+var _ dependencySet = (*resourceArrayInputDependencySet)(nil)
+
+func (ra *resourceArrayInputDependencySet) addURNs(ctx context.Context, urns urnSet) error {
+	out := ra.input.ToResourceArrayOutput()
+
+	value, known, _ /* secret */, _ /* deps */, err := out.await(ctx)
+	if err != nil || !known {
+		return err
+	}
+
+	resources, ok := value.([]Resource)
+	if !ok {
+		return fmt.Errorf("ResourceArrayInput resolved to a value of unexpected type %v, expected []Resource",
+			reflect.TypeOf(value))
+	}
+
+	// For some reason, deps returned above are incorrect; instead:
+	toplevelDeps := out.dependencies()
+
+	for _, r := range append(resources, toplevelDeps...) {
+		if err := addDependency(ctx, urns, r); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // Ignore changes to any of the specified properties.
@@ -549,7 +613,8 @@ func Transformations(o []ResourceTransformation) ResourceOption {
 }
 
 // URN_ is an optional URN of a previously-registered resource of this type to read from the engine.
-//nolint: revive
+//
+//nolint:revive
 func URN_(o string) ResourceOption {
 	return resourceOption(func(ro *resourceOptions) {
 		ro.URN = o
@@ -588,5 +653,13 @@ func PluginDownloadURL(o string) ResourceOrInvokeOption {
 func RetainOnDelete(b bool) ResourceOption {
 	return resourceOption(func(ro *resourceOptions) {
 		ro.RetainOnDelete = b
+	})
+}
+
+// If set, the providers Delete method will not be called for this resource
+// if specified resource is being deleted as well.
+func DeletedWith(r Resource) ResourceOption {
+	return resourceOption(func(ro *resourceOptions) {
+		ro.DeletedWith = r
 	})
 }
