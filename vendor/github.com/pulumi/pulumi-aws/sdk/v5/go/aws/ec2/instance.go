@@ -30,13 +30,13 @@ import (
 //			ubuntu, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
 //				MostRecent: pulumi.BoolRef(true),
 //				Filters: []ec2.GetAmiFilter{
-//					ec2.GetAmiFilter{
+//					{
 //						Name: "name",
 //						Values: []string{
 //							"ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*",
 //						},
 //					},
-//					ec2.GetAmiFilter{
+//					{
 //						Name: "virtualization-type",
 //						Values: []string{
 //							"hvm",
@@ -51,7 +51,7 @@ import (
 //				return err
 //			}
 //			_, err = ec2.NewInstance(ctx, "web", &ec2.InstanceArgs{
-//				Ami:          pulumi.String(ubuntu.Id),
+//				Ami:          *pulumi.String(ubuntu.Id),
 //				InstanceType: pulumi.String("t3.micro"),
 //				Tags: pulumi.StringMap{
 //					"Name": pulumi.String("HelloWorld"),
@@ -189,7 +189,7 @@ type Instance struct {
 	CapacityReservationSpecification InstanceCapacityReservationSpecificationOutput `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount pulumi.IntOutput `pulumi:"cpuCoreCount"`
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore pulumi.IntOutput `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification InstanceCreditSpecificationPtrOutput `pulumi:"creditSpecification"`
@@ -214,12 +214,12 @@ type Instance struct {
 	// ARN of the host resource group in which to launch the instances. If you specify an ARN, omit the `tenancy` parameter or set it to `host`.
 	HostResourceGroupArn pulumi.StringOutput `pulumi:"hostResourceGroupArn"`
 	// IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile. Ensure your credentials have the correct permission to assign the instance profile according to the [EC2 documentation](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html#roles-usingrole-ec2instance-permissions), notably `iam:PassRole`.
-	IamInstanceProfile pulumi.StringPtrOutput `pulumi:"iamInstanceProfile"`
+	IamInstanceProfile pulumi.StringOutput `pulumi:"iamInstanceProfile"`
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior pulumi.StringOutput `pulumi:"instanceInitiatedShutdownBehavior"`
 	// State of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`. See [Instance Lifecycle](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) for more information.
 	InstanceState pulumi.StringOutput `pulumi:"instanceState"`
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType pulumi.StringOutput `pulumi:"instanceType"`
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount pulumi.IntOutput `pulumi:"ipv6AddressCount"`
@@ -227,8 +227,7 @@ type Instance struct {
 	Ipv6Addresses pulumi.StringArrayOutput `pulumi:"ipv6Addresses"`
 	// Key name of the Key Pair to use for the instance; which can be managed using the `ec2.KeyPair` resource.
 	KeyName pulumi.StringOutput `pulumi:"keyName"`
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate InstanceLaunchTemplatePtrOutput `pulumi:"launchTemplate"`
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions InstanceMaintenanceOptionsOutput `pulumi:"maintenanceOptions"`
@@ -329,7 +328,7 @@ type instanceState struct {
 	CapacityReservationSpecification *InstanceCapacityReservationSpecification `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount *int `pulumi:"cpuCoreCount"`
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore *int `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification *InstanceCreditSpecification `pulumi:"creditSpecification"`
@@ -359,7 +358,7 @@ type instanceState struct {
 	InstanceInitiatedShutdownBehavior *string `pulumi:"instanceInitiatedShutdownBehavior"`
 	// State of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`. See [Instance Lifecycle](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) for more information.
 	InstanceState *string `pulumi:"instanceState"`
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType *string `pulumi:"instanceType"`
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount *int `pulumi:"ipv6AddressCount"`
@@ -367,8 +366,7 @@ type instanceState struct {
 	Ipv6Addresses []string `pulumi:"ipv6Addresses"`
 	// Key name of the Key Pair to use for the instance; which can be managed using the `ec2.KeyPair` resource.
 	KeyName *string `pulumi:"keyName"`
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate *InstanceLaunchTemplate `pulumi:"launchTemplate"`
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions *InstanceMaintenanceOptions `pulumi:"maintenanceOptions"`
@@ -441,7 +439,7 @@ type InstanceState struct {
 	CapacityReservationSpecification InstanceCapacityReservationSpecificationPtrInput
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount pulumi.IntPtrInput
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore pulumi.IntPtrInput
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification InstanceCreditSpecificationPtrInput
@@ -471,7 +469,7 @@ type InstanceState struct {
 	InstanceInitiatedShutdownBehavior pulumi.StringPtrInput
 	// State of the instance. One of: `pending`, `running`, `shutting-down`, `terminated`, `stopping`, `stopped`. See [Instance Lifecycle](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) for more information.
 	InstanceState pulumi.StringPtrInput
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType pulumi.StringPtrInput
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount pulumi.IntPtrInput
@@ -479,8 +477,7 @@ type InstanceState struct {
 	Ipv6Addresses pulumi.StringArrayInput
 	// Key name of the Key Pair to use for the instance; which can be managed using the `ec2.KeyPair` resource.
 	KeyName pulumi.StringPtrInput
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate InstanceLaunchTemplatePtrInput
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions InstanceMaintenanceOptionsPtrInput
@@ -555,7 +552,7 @@ type instanceArgs struct {
 	CapacityReservationSpecification *InstanceCapacityReservationSpecification `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount *int `pulumi:"cpuCoreCount"`
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore *int `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification *InstanceCreditSpecification `pulumi:"creditSpecification"`
@@ -583,7 +580,7 @@ type instanceArgs struct {
 	IamInstanceProfile interface{} `pulumi:"iamInstanceProfile"`
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior *string `pulumi:"instanceInitiatedShutdownBehavior"`
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType *string `pulumi:"instanceType"`
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount *int `pulumi:"ipv6AddressCount"`
@@ -591,8 +588,7 @@ type instanceArgs struct {
 	Ipv6Addresses []string `pulumi:"ipv6Addresses"`
 	// Key name of the Key Pair to use for the instance; which can be managed using the `ec2.KeyPair` resource.
 	KeyName *string `pulumi:"keyName"`
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate *InstanceLaunchTemplate `pulumi:"launchTemplate"`
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions *InstanceMaintenanceOptions `pulumi:"maintenanceOptions"`
@@ -650,7 +646,7 @@ type InstanceArgs struct {
 	CapacityReservationSpecification InstanceCapacityReservationSpecificationPtrInput
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount pulumi.IntPtrInput
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore pulumi.IntPtrInput
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification InstanceCreditSpecificationPtrInput
@@ -678,7 +674,7 @@ type InstanceArgs struct {
 	IamInstanceProfile pulumi.Input
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior pulumi.StringPtrInput
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType pulumi.StringPtrInput
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount pulumi.IntPtrInput
@@ -686,8 +682,7 @@ type InstanceArgs struct {
 	Ipv6Addresses pulumi.StringArrayInput
 	// Key name of the Key Pair to use for the instance; which can be managed using the `ec2.KeyPair` resource.
 	KeyName pulumi.StringPtrInput
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate InstanceLaunchTemplatePtrInput
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions InstanceMaintenanceOptionsPtrInput
@@ -852,7 +847,7 @@ func (o InstanceOutput) CpuCoreCount() pulumi.IntOutput {
 	return o.ApplyT(func(v *Instance) pulumi.IntOutput { return v.CpuCoreCount }).(pulumi.IntOutput)
 }
 
-// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 func (o InstanceOutput) CpuThreadsPerCore() pulumi.IntOutput {
 	return o.ApplyT(func(v *Instance) pulumi.IntOutput { return v.CpuThreadsPerCore }).(pulumi.IntOutput)
 }
@@ -913,8 +908,8 @@ func (o InstanceOutput) HostResourceGroupArn() pulumi.StringOutput {
 }
 
 // IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile. Ensure your credentials have the correct permission to assign the instance profile according to the [EC2 documentation](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html#roles-usingrole-ec2instance-permissions), notably `iam:PassRole`.
-func (o InstanceOutput) IamInstanceProfile() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *Instance) pulumi.StringPtrOutput { return v.IamInstanceProfile }).(pulumi.StringPtrOutput)
+func (o InstanceOutput) IamInstanceProfile() pulumi.StringOutput {
+	return o.ApplyT(func(v *Instance) pulumi.StringOutput { return v.IamInstanceProfile }).(pulumi.StringOutput)
 }
 
 // Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
@@ -927,7 +922,7 @@ func (o InstanceOutput) InstanceState() pulumi.StringOutput {
 	return o.ApplyT(func(v *Instance) pulumi.StringOutput { return v.InstanceState }).(pulumi.StringOutput)
 }
 
-// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 func (o InstanceOutput) InstanceType() pulumi.StringOutput {
 	return o.ApplyT(func(v *Instance) pulumi.StringOutput { return v.InstanceType }).(pulumi.StringOutput)
 }
@@ -947,8 +942,7 @@ func (o InstanceOutput) KeyName() pulumi.StringOutput {
 	return o.ApplyT(func(v *Instance) pulumi.StringOutput { return v.KeyName }).(pulumi.StringOutput)
 }
 
-// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-// See Launch Template Specification below for more details.
+// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 func (o InstanceOutput) LaunchTemplate() InstanceLaunchTemplatePtrOutput {
 	return o.ApplyT(func(v *Instance) InstanceLaunchTemplatePtrOutput { return v.LaunchTemplate }).(InstanceLaunchTemplatePtrOutput)
 }

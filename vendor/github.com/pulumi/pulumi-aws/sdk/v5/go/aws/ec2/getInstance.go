@@ -28,13 +28,13 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.LookupInstance(ctx, &ec2.LookupInstanceArgs{
 //				Filters: []ec2.GetInstanceFilter{
-//					ec2.GetInstanceFilter{
+//					{
 //						Name: "image-id",
 //						Values: []string{
 //							"ami-xxxxxxxx",
 //						},
 //					},
-//					ec2.GetInstanceFilter{
+//					{
 //						Name: "tag:Name",
 //						Values: []string{
 //							"instance-name-tag",

@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	infraUtil "github.com/adrianriobo/qenvs/pkg/infra/util"
+	"github.com/adrianriobo/qenvs/pkg/manager/plugin"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
@@ -13,6 +13,9 @@ const (
 	CONFIG_AWS_REGION     string = "aws:region"
 	CONFIG_AWS_ACCESS_KEY string = "aws:accessKey"
 	CONFIG_AWS_SECRET_KEY string = "aws:secretKey"
+
+	pluginName    string = "aws"
+	pluginVersion string = "v5.30.0"
 )
 
 // pulumi config key : aws env credential
@@ -40,12 +43,12 @@ func SetAWSCredentials(ctx context.Context, stack auto.Stack, fixedCredentials m
 	return nil
 }
 
-func GetPluginAWS(fixedCredentials map[string]string) infraUtil.PluginInfo {
-	return infraUtil.PluginInfo{
-		Name:              "aws",
-		Version:           "v4.0.0",
+func GetClouProviderPlugin(fixedCredentials map[string]string) plugin.PluginInfo {
+	return plugin.PluginInfo{
+		Name:              pluginName,
+		Version:           pluginVersion,
 		SetCredentialFunc: SetAWSCredentials,
 		FixedCredentials:  fixedCredentials}
 }
 
-var PluginAWSDefault = GetPluginAWS(nil)
+var DefaultPlugin = GetClouProviderPlugin(nil)

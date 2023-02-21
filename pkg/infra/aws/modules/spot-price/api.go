@@ -6,18 +6,17 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/services/meta/regions"
 	supportmatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
+	"github.com/adrianriobo/qenvs/pkg/manager"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
-
-	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 )
 
 func Create(projectName, backedURL, targetHostID string) (*SpotPriceGroup, error) {
-	stack, err := utilInfra.CheckStack(utilInfra.Stack{
-		StackName:   StackName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      aws.PluginAWSDefault,
+	stack, err := manager.CheckStack(manager.Stack{
+		StackName:           StackName,
+		ProjectName:         projectName,
+		BackedURL:           backedURL,
+		CloudProviderPlugin: aws.DefaultPlugin,
 	})
 	if err != nil {
 		return createStack(projectName, backedURL, targetHostID)
@@ -27,12 +26,12 @@ func Create(projectName, backedURL, targetHostID string) (*SpotPriceGroup, error
 }
 
 func Destroy(projectName, backedURL string) (err error) {
-	stack := utilInfra.Stack{
-		StackName:   StackName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      aws.PluginAWSDefault}
-	err = utilInfra.DestroyStack(stack)
+	stack := manager.Stack{
+		StackName:           StackName,
+		ProjectName:         projectName,
+		BackedURL:           backedURL,
+		CloudProviderPlugin: aws.DefaultPlugin}
+	err = manager.DestroyStack(stack)
 	if err == nil {
 		logging.Debugf("%s has been destroyed", StackName)
 	}
@@ -72,14 +71,14 @@ func createStack(projectName, backedURL, targetHostID string) (*SpotPriceGroup, 
 		TargetHostID: targetHostID,
 		Name:         projectName,
 	}
-	stack := utilInfra.Stack{
-		StackName:   StackName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      aws.PluginAWSDefault,
-		DeployFunc:  request.deployer,
+	stack := manager.Stack{
+		StackName:           StackName,
+		ProjectName:         projectName,
+		BackedURL:           backedURL,
+		CloudProviderPlugin: aws.DefaultPlugin,
+		DeployFunc:          request.deployer,
 	}
-	stackResult, err := utilInfra.UpStack(stack)
+	stackResult, err := manager.UpStack(stack)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +86,7 @@ func createStack(projectName, backedURL, targetHostID string) (*SpotPriceGroup, 
 }
 
 func getOutputs(stack *auto.Stack) (*SpotPriceGroup, error) {
-	outputs, err := utilInfra.GetOutputs(*stack)
+	outputs, err := manager.GetOutputs(*stack)
 	if err != nil {
 		return nil, err
 	}

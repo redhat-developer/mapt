@@ -81,7 +81,7 @@ type SpotInstanceRequest struct {
 	CapacityReservationSpecification SpotInstanceRequestCapacityReservationSpecificationOutput `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount pulumi.IntOutput `pulumi:"cpuCoreCount"`
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore pulumi.IntOutput `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification SpotInstanceRequestCreditSpecificationPtrOutput `pulumi:"creditSpecification"`
@@ -106,13 +106,13 @@ type SpotInstanceRequest struct {
 	// ARN of the host resource group in which to launch the instances. If you specify an ARN, omit the `tenancy` parameter or set it to `host`.
 	HostResourceGroupArn pulumi.StringOutput `pulumi:"hostResourceGroupArn"`
 	// IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile. Ensure your credentials have the correct permission to assign the instance profile according to the [EC2 documentation](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html#roles-usingrole-ec2instance-permissions), notably `iam:PassRole`.
-	IamInstanceProfile pulumi.StringPtrOutput `pulumi:"iamInstanceProfile"`
+	IamInstanceProfile pulumi.StringOutput `pulumi:"iamInstanceProfile"`
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior pulumi.StringOutput `pulumi:"instanceInitiatedShutdownBehavior"`
 	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior pulumi.StringPtrOutput `pulumi:"instanceInterruptionBehavior"`
 	InstanceState                pulumi.StringOutput    `pulumi:"instanceState"`
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType pulumi.StringOutput `pulumi:"instanceType"`
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount pulumi.IntOutput `pulumi:"ipv6AddressCount"`
@@ -123,8 +123,7 @@ type SpotInstanceRequest struct {
 	// A launch group is a group of spot instances that launch together and terminate together.
 	// If left empty instances are launched and terminated individually.
 	LaunchGroup pulumi.StringPtrOutput `pulumi:"launchGroup"`
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate SpotInstanceRequestLaunchTemplatePtrOutput `pulumi:"launchTemplate"`
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions SpotInstanceRequestMaintenanceOptionsOutput `pulumi:"maintenanceOptions"`
@@ -165,15 +164,15 @@ type SpotInstanceRequest struct {
 	// The current [bid
 	// status](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html)
 	// of the Spot Instance Request.
-	// * `spotRequestState` The current [request
-	//   state](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#creating-spot-request-status)
-	//   of the Spot Instance Request.
 	SpotBidStatus pulumi.StringOutput `pulumi:"spotBidStatus"`
 	// The Instance ID (if any) that is currently fulfilling
 	// the Spot Instance request.
 	SpotInstanceId pulumi.StringOutput `pulumi:"spotInstanceId"`
 	// The maximum price to request on the spot market.
-	SpotPrice        pulumi.StringOutput `pulumi:"spotPrice"`
+	SpotPrice pulumi.StringOutput `pulumi:"spotPrice"`
+	// The current [request
+	// state](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#creating-spot-request-status)
+	// of the Spot Instance Request.
 	SpotRequestState pulumi.StringOutput `pulumi:"spotRequestState"`
 	// If set to `one-time`, after
 	// the instance is terminated, the spot request will be closed.
@@ -250,7 +249,7 @@ type spotInstanceRequestState struct {
 	CapacityReservationSpecification *SpotInstanceRequestCapacityReservationSpecification `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount *int `pulumi:"cpuCoreCount"`
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore *int `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification *SpotInstanceRequestCreditSpecification `pulumi:"creditSpecification"`
@@ -281,7 +280,7 @@ type spotInstanceRequestState struct {
 	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior *string `pulumi:"instanceInterruptionBehavior"`
 	InstanceState                *string `pulumi:"instanceState"`
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType *string `pulumi:"instanceType"`
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount *int `pulumi:"ipv6AddressCount"`
@@ -292,8 +291,7 @@ type spotInstanceRequestState struct {
 	// A launch group is a group of spot instances that launch together and terminate together.
 	// If left empty instances are launched and terminated individually.
 	LaunchGroup *string `pulumi:"launchGroup"`
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate *SpotInstanceRequestLaunchTemplate `pulumi:"launchTemplate"`
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions *SpotInstanceRequestMaintenanceOptions `pulumi:"maintenanceOptions"`
@@ -334,15 +332,15 @@ type spotInstanceRequestState struct {
 	// The current [bid
 	// status](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html)
 	// of the Spot Instance Request.
-	// * `spotRequestState` The current [request
-	//   state](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#creating-spot-request-status)
-	//   of the Spot Instance Request.
 	SpotBidStatus *string `pulumi:"spotBidStatus"`
 	// The Instance ID (if any) that is currently fulfilling
 	// the Spot Instance request.
 	SpotInstanceId *string `pulumi:"spotInstanceId"`
 	// The maximum price to request on the spot market.
-	SpotPrice        *string `pulumi:"spotPrice"`
+	SpotPrice *string `pulumi:"spotPrice"`
+	// The current [request
+	// state](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#creating-spot-request-status)
+	// of the Spot Instance Request.
 	SpotRequestState *string `pulumi:"spotRequestState"`
 	// If set to `one-time`, after
 	// the instance is terminated, the spot request will be closed.
@@ -391,7 +389,7 @@ type SpotInstanceRequestState struct {
 	CapacityReservationSpecification SpotInstanceRequestCapacityReservationSpecificationPtrInput
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount pulumi.IntPtrInput
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore pulumi.IntPtrInput
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification SpotInstanceRequestCreditSpecificationPtrInput
@@ -422,7 +420,7 @@ type SpotInstanceRequestState struct {
 	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior pulumi.StringPtrInput
 	InstanceState                pulumi.StringPtrInput
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType pulumi.StringPtrInput
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount pulumi.IntPtrInput
@@ -433,8 +431,7 @@ type SpotInstanceRequestState struct {
 	// A launch group is a group of spot instances that launch together and terminate together.
 	// If left empty instances are launched and terminated individually.
 	LaunchGroup pulumi.StringPtrInput
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate SpotInstanceRequestLaunchTemplatePtrInput
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions SpotInstanceRequestMaintenanceOptionsPtrInput
@@ -475,15 +472,15 @@ type SpotInstanceRequestState struct {
 	// The current [bid
 	// status](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html)
 	// of the Spot Instance Request.
-	// * `spotRequestState` The current [request
-	//   state](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#creating-spot-request-status)
-	//   of the Spot Instance Request.
 	SpotBidStatus pulumi.StringPtrInput
 	// The Instance ID (if any) that is currently fulfilling
 	// the Spot Instance request.
 	SpotInstanceId pulumi.StringPtrInput
 	// The maximum price to request on the spot market.
-	SpotPrice        pulumi.StringPtrInput
+	SpotPrice pulumi.StringPtrInput
+	// The current [request
+	// state](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#creating-spot-request-status)
+	// of the Spot Instance Request.
 	SpotRequestState pulumi.StringPtrInput
 	// If set to `one-time`, after
 	// the instance is terminated, the spot request will be closed.
@@ -535,7 +532,7 @@ type spotInstanceRequestArgs struct {
 	CapacityReservationSpecification *SpotInstanceRequestCapacityReservationSpecification `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount *int `pulumi:"cpuCoreCount"`
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore *int `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification *SpotInstanceRequestCreditSpecification `pulumi:"creditSpecification"`
@@ -565,7 +562,7 @@ type spotInstanceRequestArgs struct {
 	InstanceInitiatedShutdownBehavior *string `pulumi:"instanceInitiatedShutdownBehavior"`
 	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior *string `pulumi:"instanceInterruptionBehavior"`
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType *string `pulumi:"instanceType"`
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount *int `pulumi:"ipv6AddressCount"`
@@ -576,8 +573,7 @@ type spotInstanceRequestArgs struct {
 	// A launch group is a group of spot instances that launch together and terminate together.
 	// If left empty instances are launched and terminated individually.
 	LaunchGroup *string `pulumi:"launchGroup"`
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate *SpotInstanceRequestLaunchTemplate `pulumi:"launchTemplate"`
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions *SpotInstanceRequestMaintenanceOptions `pulumi:"maintenanceOptions"`
@@ -650,7 +646,7 @@ type SpotInstanceRequestArgs struct {
 	CapacityReservationSpecification SpotInstanceRequestCapacityReservationSpecificationPtrInput
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CpuCoreCount pulumi.IntPtrInput
-	// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	CpuThreadsPerCore pulumi.IntPtrInput
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification SpotInstanceRequestCreditSpecificationPtrInput
@@ -680,7 +676,7 @@ type SpotInstanceRequestArgs struct {
 	InstanceInitiatedShutdownBehavior pulumi.StringPtrInput
 	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior pulumi.StringPtrInput
-	// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType pulumi.StringPtrInput
 	// Number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet.
 	Ipv6AddressCount pulumi.IntPtrInput
@@ -691,8 +687,7 @@ type SpotInstanceRequestArgs struct {
 	// A launch group is a group of spot instances that launch together and terminate together.
 	// If left empty instances are launched and terminated individually.
 	LaunchGroup pulumi.StringPtrInput
-	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-	// See Launch Template Specification below for more details.
+	// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 	LaunchTemplate SpotInstanceRequestLaunchTemplatePtrInput
 	// Maintenance and recovery options for the instance. See Maintenance Options below for more details.
 	MaintenanceOptions SpotInstanceRequestMaintenanceOptionsPtrInput
@@ -874,7 +869,7 @@ func (o SpotInstanceRequestOutput) CpuCoreCount() pulumi.IntOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.IntOutput { return v.CpuCoreCount }).(pulumi.IntOutput)
 }
 
-// If set to to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 func (o SpotInstanceRequestOutput) CpuThreadsPerCore() pulumi.IntOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.IntOutput { return v.CpuThreadsPerCore }).(pulumi.IntOutput)
 }
@@ -939,8 +934,8 @@ func (o SpotInstanceRequestOutput) HostResourceGroupArn() pulumi.StringOutput {
 }
 
 // IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile. Ensure your credentials have the correct permission to assign the instance profile according to the [EC2 documentation](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html#roles-usingrole-ec2instance-permissions), notably `iam:PassRole`.
-func (o SpotInstanceRequestOutput) IamInstanceProfile() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringPtrOutput { return v.IamInstanceProfile }).(pulumi.StringPtrOutput)
+func (o SpotInstanceRequestOutput) IamInstanceProfile() pulumi.StringOutput {
+	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.IamInstanceProfile }).(pulumi.StringOutput)
 }
 
 // Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
@@ -957,7 +952,7 @@ func (o SpotInstanceRequestOutput) InstanceState() pulumi.StringOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.InstanceState }).(pulumi.StringOutput)
 }
 
-// Instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance.
+// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 func (o SpotInstanceRequestOutput) InstanceType() pulumi.StringOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.InstanceType }).(pulumi.StringOutput)
 }
@@ -983,8 +978,7 @@ func (o SpotInstanceRequestOutput) LaunchGroup() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringPtrOutput { return v.LaunchGroup }).(pulumi.StringPtrOutput)
 }
 
-// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template.
-// See Launch Template Specification below for more details.
+// Specifies a Launch Template to configure the instance. Parameters configured on this resource will override the corresponding parameters in the Launch Template. See Launch Template Specification below for more details.
 func (o SpotInstanceRequestOutput) LaunchTemplate() SpotInstanceRequestLaunchTemplatePtrOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) SpotInstanceRequestLaunchTemplatePtrOutput { return v.LaunchTemplate }).(SpotInstanceRequestLaunchTemplatePtrOutput)
 }
@@ -1086,9 +1080,6 @@ func (o SpotInstanceRequestOutput) SourceDestCheck() pulumi.BoolPtrOutput {
 // The current [bid
 // status](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html)
 // of the Spot Instance Request.
-//   - `spotRequestState` The current [request
-//     state](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#creating-spot-request-status)
-//     of the Spot Instance Request.
 func (o SpotInstanceRequestOutput) SpotBidStatus() pulumi.StringOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.SpotBidStatus }).(pulumi.StringOutput)
 }
@@ -1104,6 +1095,9 @@ func (o SpotInstanceRequestOutput) SpotPrice() pulumi.StringOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.SpotPrice }).(pulumi.StringOutput)
 }
 
+// The current [request
+// state](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#creating-spot-request-status)
+// of the Spot Instance Request.
 func (o SpotInstanceRequestOutput) SpotRequestState() pulumi.StringOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.SpotRequestState }).(pulumi.StringOutput)
 }

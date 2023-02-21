@@ -54,13 +54,13 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.LookupVpcDhcpOptions(ctx, &ec2.LookupVpcDhcpOptionsArgs{
 //				Filters: []ec2.GetVpcDhcpOptionsFilter{
-//					ec2.GetVpcDhcpOptionsFilter{
+//					{
 //						Name: "key",
 //						Values: []string{
 //							"domain-name",
 //						},
 //					},
-//					ec2.GetVpcDhcpOptionsFilter{
+//					{
 //						Name: "value",
 //						Values: []string{
 //							"example.com",

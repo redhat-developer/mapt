@@ -28,7 +28,7 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.GetAmiIds(ctx, &ec2.GetAmiIdsArgs{
 //				Filters: []ec2.GetAmiIdsFilter{
-//					ec2.GetAmiIdsFilter{
+//					{
 //						Name: "name",
 //						Values: []string{
 //							"ubuntu/images/ubuntu-*-*-amd64-server-*",

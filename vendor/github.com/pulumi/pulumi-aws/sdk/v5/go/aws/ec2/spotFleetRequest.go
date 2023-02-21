@@ -11,6 +11,180 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Provides an EC2 Spot Fleet Request resource. This allows a fleet of Spot
+// instances to be requested on the Spot market.
+//
+// ## Example Usage
+// ### Using launch specifications
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := ec2.NewSpotFleetRequest(ctx, "cheapCompute", &ec2.SpotFleetRequestArgs{
+//				IamFleetRole:       pulumi.String("arn:aws:iam::12345678:role/spot-fleet"),
+//				SpotPrice:          pulumi.String("0.03"),
+//				AllocationStrategy: pulumi.String("diversified"),
+//				TargetCapacity:     pulumi.Int(6),
+//				ValidUntil:         pulumi.String("2019-11-04T20:44:20Z"),
+//				LaunchSpecifications: ec2.SpotFleetRequestLaunchSpecificationArray{
+//					&ec2.SpotFleetRequestLaunchSpecificationArgs{
+//						InstanceType:          pulumi.String("m4.10xlarge"),
+//						Ami:                   pulumi.String("ami-1234"),
+//						SpotPrice:             pulumi.String("2.793"),
+//						PlacementTenancy:      pulumi.String("dedicated"),
+//						IamInstanceProfileArn: pulumi.Any(aws_iam_instance_profile.Example.Arn),
+//					},
+//					&ec2.SpotFleetRequestLaunchSpecificationArgs{
+//						InstanceType:          pulumi.String("m4.4xlarge"),
+//						Ami:                   pulumi.String("ami-5678"),
+//						KeyName:               pulumi.String("my-key"),
+//						SpotPrice:             pulumi.String("1.117"),
+//						IamInstanceProfileArn: pulumi.Any(aws_iam_instance_profile.Example.Arn),
+//						AvailabilityZone:      pulumi.String("us-west-1a"),
+//						SubnetId:              pulumi.String("subnet-1234"),
+//						WeightedCapacity:      pulumi.String("35"),
+//						RootBlockDevices: ec2.SpotFleetRequestLaunchSpecificationRootBlockDeviceArray{
+//							&ec2.SpotFleetRequestLaunchSpecificationRootBlockDeviceArgs{
+//								VolumeSize: pulumi.Int(300),
+//								VolumeType: pulumi.String("gp2"),
+//							},
+//						},
+//						Tags: pulumi.StringMap{
+//							"Name": pulumi.String("spot-fleet-example"),
+//						},
+//					},
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+// ### Using launch templates
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			fooLaunchTemplate, err := ec2.NewLaunchTemplate(ctx, "fooLaunchTemplate", &ec2.LaunchTemplateArgs{
+//				ImageId:      pulumi.String("ami-516b9131"),
+//				InstanceType: pulumi.String("m1.small"),
+//				KeyName:      pulumi.String("some-key"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ec2.NewSpotFleetRequest(ctx, "fooSpotFleetRequest", &ec2.SpotFleetRequestArgs{
+//				IamFleetRole:   pulumi.String("arn:aws:iam::12345678:role/spot-fleet"),
+//				SpotPrice:      pulumi.String("0.005"),
+//				TargetCapacity: pulumi.Int(2),
+//				ValidUntil:     pulumi.String("2019-11-04T20:44:20Z"),
+//				LaunchTemplateConfigs: ec2.SpotFleetRequestLaunchTemplateConfigArray{
+//					&ec2.SpotFleetRequestLaunchTemplateConfigArgs{
+//						LaunchTemplateSpecification: &ec2.SpotFleetRequestLaunchTemplateConfigLaunchTemplateSpecificationArgs{
+//							Id:      fooLaunchTemplate.ID(),
+//							Version: fooLaunchTemplate.LatestVersion,
+//						},
+//					},
+//				},
+//			}, pulumi.DependsOn([]pulumi.Resource{
+//				aws_iam_policy_attachment.TestAttach,
+//			}))
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// > **NOTE:** This provider does not support the functionality where multiple `subnetId` or `availabilityZone` parameters can be specified in the same
+// launch configuration block. If you want to specify multiple values, then separate launch configuration blocks should be used or launch template overrides should be configured, one per subnet:
+// ### Using multiple launch configurations
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := ec2.GetSubnetIds(ctx, &ec2.GetSubnetIdsArgs{
+//				VpcId: _var.Vpc_id,
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			fooLaunchTemplate, err := ec2.NewLaunchTemplate(ctx, "fooLaunchTemplate", &ec2.LaunchTemplateArgs{
+//				ImageId:      pulumi.String("ami-516b9131"),
+//				InstanceType: pulumi.String("m1.small"),
+//				KeyName:      pulumi.String("some-key"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ec2.NewSpotFleetRequest(ctx, "fooSpotFleetRequest", &ec2.SpotFleetRequestArgs{
+//				IamFleetRole:   pulumi.String("arn:aws:iam::12345678:role/spot-fleet"),
+//				SpotPrice:      pulumi.String("0.005"),
+//				TargetCapacity: pulumi.Int(2),
+//				ValidUntil:     pulumi.String("2019-11-04T20:44:20Z"),
+//				LaunchTemplateConfigs: ec2.SpotFleetRequestLaunchTemplateConfigArray{
+//					&ec2.SpotFleetRequestLaunchTemplateConfigArgs{
+//						LaunchTemplateSpecification: &ec2.SpotFleetRequestLaunchTemplateConfigLaunchTemplateSpecificationArgs{
+//							Id:      fooLaunchTemplate.ID(),
+//							Version: fooLaunchTemplate.LatestVersion,
+//						},
+//						Overrides: ec2.SpotFleetRequestLaunchTemplateConfigOverrideArray{
+//							&ec2.SpotFleetRequestLaunchTemplateConfigOverrideArgs{
+//								SubnetId: pulumi.Any(data.Aws_subnets.Example.Ids[0]),
+//							},
+//							&ec2.SpotFleetRequestLaunchTemplateConfigOverrideArgs{
+//								SubnetId: pulumi.Any(data.Aws_subnets.Example.Ids[1]),
+//							},
+//							&ec2.SpotFleetRequestLaunchTemplateConfigOverrideArgs{
+//								SubnetId: pulumi.Any(data.Aws_subnets.Example.Ids[2]),
+//							},
+//						},
+//					},
+//				},
+//			}, pulumi.DependsOn([]pulumi.Resource{
+//				aws_iam_policy_attachment.TestAttach,
+//			}))
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
 // ## Import
 //
 // Spot Fleet Requests can be imported using `id`, e.g.,
@@ -24,7 +198,7 @@ type SpotFleetRequest struct {
 	pulumi.CustomResourceState
 
 	// Indicates how to allocate the target capacity across
-	// the Spot pools specified by the Spot fleet request. The default is
+	// the Spot pools specified by the Spot fleet request. Valid values: `lowestPrice`, `diversified`, `capacityOptimized`, `capacityOptimizedPrioritized`, and `priceCapacityOptimized`. The default is
 	// `lowestPrice`.
 	AllocationStrategy pulumi.StringPtrOutput `pulumi:"allocationStrategy"`
 	ClientToken        pulumi.StringOutput    `pulumi:"clientToken"`
@@ -67,7 +241,7 @@ type SpotFleetRequest struct {
 	ReplaceUnhealthyInstances pulumi.BoolPtrOutput `pulumi:"replaceUnhealthyInstances"`
 	// Nested argument containing maintenance strategies for managing your Spot Instances that are at an elevated risk of being interrupted. Defined below.
 	SpotMaintenanceStrategies SpotFleetRequestSpotMaintenanceStrategiesPtrOutput `pulumi:"spotMaintenanceStrategies"`
-	// The maximum spot bid for this override request.
+	// The maximum bid price per unit hour.
 	SpotPrice pulumi.StringPtrOutput `pulumi:"spotPrice"`
 	// The state of the Spot fleet request.
 	SpotRequestState pulumi.StringOutput `pulumi:"spotRequestState"`
@@ -136,7 +310,7 @@ func GetSpotFleetRequest(ctx *pulumi.Context,
 // Input properties used for looking up and filtering SpotFleetRequest resources.
 type spotFleetRequestState struct {
 	// Indicates how to allocate the target capacity across
-	// the Spot pools specified by the Spot fleet request. The default is
+	// the Spot pools specified by the Spot fleet request. Valid values: `lowestPrice`, `diversified`, `capacityOptimized`, `capacityOptimizedPrioritized`, and `priceCapacityOptimized`. The default is
 	// `lowestPrice`.
 	AllocationStrategy *string `pulumi:"allocationStrategy"`
 	ClientToken        *string `pulumi:"clientToken"`
@@ -179,7 +353,7 @@ type spotFleetRequestState struct {
 	ReplaceUnhealthyInstances *bool `pulumi:"replaceUnhealthyInstances"`
 	// Nested argument containing maintenance strategies for managing your Spot Instances that are at an elevated risk of being interrupted. Defined below.
 	SpotMaintenanceStrategies *SpotFleetRequestSpotMaintenanceStrategies `pulumi:"spotMaintenanceStrategies"`
-	// The maximum spot bid for this override request.
+	// The maximum bid price per unit hour.
 	SpotPrice *string `pulumi:"spotPrice"`
 	// The state of the Spot fleet request.
 	SpotRequestState *string `pulumi:"spotRequestState"`
@@ -214,7 +388,7 @@ type spotFleetRequestState struct {
 
 type SpotFleetRequestState struct {
 	// Indicates how to allocate the target capacity across
-	// the Spot pools specified by the Spot fleet request. The default is
+	// the Spot pools specified by the Spot fleet request. Valid values: `lowestPrice`, `diversified`, `capacityOptimized`, `capacityOptimizedPrioritized`, and `priceCapacityOptimized`. The default is
 	// `lowestPrice`.
 	AllocationStrategy pulumi.StringPtrInput
 	ClientToken        pulumi.StringPtrInput
@@ -257,7 +431,7 @@ type SpotFleetRequestState struct {
 	ReplaceUnhealthyInstances pulumi.BoolPtrInput
 	// Nested argument containing maintenance strategies for managing your Spot Instances that are at an elevated risk of being interrupted. Defined below.
 	SpotMaintenanceStrategies SpotFleetRequestSpotMaintenanceStrategiesPtrInput
-	// The maximum spot bid for this override request.
+	// The maximum bid price per unit hour.
 	SpotPrice pulumi.StringPtrInput
 	// The state of the Spot fleet request.
 	SpotRequestState pulumi.StringPtrInput
@@ -296,7 +470,7 @@ func (SpotFleetRequestState) ElementType() reflect.Type {
 
 type spotFleetRequestArgs struct {
 	// Indicates how to allocate the target capacity across
-	// the Spot pools specified by the Spot fleet request. The default is
+	// the Spot pools specified by the Spot fleet request. Valid values: `lowestPrice`, `diversified`, `capacityOptimized`, `capacityOptimizedPrioritized`, and `priceCapacityOptimized`. The default is
 	// `lowestPrice`.
 	AllocationStrategy *string `pulumi:"allocationStrategy"`
 	// Indicates whether running Spot
@@ -338,7 +512,7 @@ type spotFleetRequestArgs struct {
 	ReplaceUnhealthyInstances *bool `pulumi:"replaceUnhealthyInstances"`
 	// Nested argument containing maintenance strategies for managing your Spot Instances that are at an elevated risk of being interrupted. Defined below.
 	SpotMaintenanceStrategies *SpotFleetRequestSpotMaintenanceStrategies `pulumi:"spotMaintenanceStrategies"`
-	// The maximum spot bid for this override request.
+	// The maximum bid price per unit hour.
 	SpotPrice *string `pulumi:"spotPrice"`
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
@@ -370,7 +544,7 @@ type spotFleetRequestArgs struct {
 // The set of arguments for constructing a SpotFleetRequest resource.
 type SpotFleetRequestArgs struct {
 	// Indicates how to allocate the target capacity across
-	// the Spot pools specified by the Spot fleet request. The default is
+	// the Spot pools specified by the Spot fleet request. Valid values: `lowestPrice`, `diversified`, `capacityOptimized`, `capacityOptimizedPrioritized`, and `priceCapacityOptimized`. The default is
 	// `lowestPrice`.
 	AllocationStrategy pulumi.StringPtrInput
 	// Indicates whether running Spot
@@ -412,7 +586,7 @@ type SpotFleetRequestArgs struct {
 	ReplaceUnhealthyInstances pulumi.BoolPtrInput
 	// Nested argument containing maintenance strategies for managing your Spot Instances that are at an elevated risk of being interrupted. Defined below.
 	SpotMaintenanceStrategies SpotFleetRequestSpotMaintenanceStrategiesPtrInput
-	// The maximum spot bid for this override request.
+	// The maximum bid price per unit hour.
 	SpotPrice pulumi.StringPtrInput
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
@@ -529,7 +703,7 @@ func (o SpotFleetRequestOutput) ToSpotFleetRequestOutputWithContext(ctx context.
 }
 
 // Indicates how to allocate the target capacity across
-// the Spot pools specified by the Spot fleet request. The default is
+// the Spot pools specified by the Spot fleet request. Valid values: `lowestPrice`, `diversified`, `capacityOptimized`, `capacityOptimizedPrioritized`, and `priceCapacityOptimized`. The default is
 // `lowestPrice`.
 func (o SpotFleetRequestOutput) AllocationStrategy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequest) pulumi.StringPtrOutput { return v.AllocationStrategy }).(pulumi.StringPtrOutput)
@@ -623,7 +797,7 @@ func (o SpotFleetRequestOutput) SpotMaintenanceStrategies() SpotFleetRequestSpot
 	}).(SpotFleetRequestSpotMaintenanceStrategiesPtrOutput)
 }
 
-// The maximum spot bid for this override request.
+// The maximum bid price per unit hour.
 func (o SpotFleetRequestOutput) SpotPrice() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequest) pulumi.StringPtrOutput { return v.SpotPrice }).(pulumi.StringPtrOutput)
 }
