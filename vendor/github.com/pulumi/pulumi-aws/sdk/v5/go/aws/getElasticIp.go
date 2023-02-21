@@ -54,7 +54,7 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.GetElasticIp(ctx, &ec2.GetElasticIpArgs{
 //				Filters: []ec2.GetElasticIpFilter{
-//					ec2.GetElasticIpFilter{
+//					{
 //						Name: "tag:Name",
 //						Values: []string{
 //							"exampleNameTagValue",

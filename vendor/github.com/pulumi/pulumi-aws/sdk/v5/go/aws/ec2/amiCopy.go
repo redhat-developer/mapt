@@ -85,12 +85,12 @@ type AmiCopy struct {
 	ImageLocation   pulumi.StringOutput `pulumi:"imageLocation"`
 	ImageOwnerAlias pulumi.StringOutput `pulumi:"imageOwnerAlias"`
 	ImageType       pulumi.StringOutput `pulumi:"imageType"`
+	// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
+	ImdsSupport pulumi.StringOutput `pulumi:"imdsSupport"`
 	// ID of the kernel image (AKI) that will be used as the paravirtual
 	// kernel in created instances.
 	KernelId pulumi.StringOutput `pulumi:"kernelId"`
-	// Full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of
-	// an image during a copy operation. This parameter is only required if you want to use a non-default CMK;
-	// if this parameter is not specified, the default CMK for EBS is used
+	// Full ARN of the KMS Key to use when encrypting the snapshots of an image during a copy operation. If not specified, then the default AWS KMS Key will be used
 	KmsKeyId           pulumi.StringOutput `pulumi:"kmsKeyId"`
 	ManageEbsSnapshots pulumi.BoolOutput   `pulumi:"manageEbsSnapshots"`
 	// Region-unique name for the AMI.
@@ -190,12 +190,12 @@ type amiCopyState struct {
 	ImageLocation   *string `pulumi:"imageLocation"`
 	ImageOwnerAlias *string `pulumi:"imageOwnerAlias"`
 	ImageType       *string `pulumi:"imageType"`
+	// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
+	ImdsSupport *string `pulumi:"imdsSupport"`
 	// ID of the kernel image (AKI) that will be used as the paravirtual
 	// kernel in created instances.
 	KernelId *string `pulumi:"kernelId"`
-	// Full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of
-	// an image during a copy operation. This parameter is only required if you want to use a non-default CMK;
-	// if this parameter is not specified, the default CMK for EBS is used
+	// Full ARN of the KMS Key to use when encrypting the snapshots of an image during a copy operation. If not specified, then the default AWS KMS Key will be used
 	KmsKeyId           *string `pulumi:"kmsKeyId"`
 	ManageEbsSnapshots *bool   `pulumi:"manageEbsSnapshots"`
 	// Region-unique name for the AMI.
@@ -261,12 +261,12 @@ type AmiCopyState struct {
 	ImageLocation   pulumi.StringPtrInput
 	ImageOwnerAlias pulumi.StringPtrInput
 	ImageType       pulumi.StringPtrInput
+	// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
+	ImdsSupport pulumi.StringPtrInput
 	// ID of the kernel image (AKI) that will be used as the paravirtual
 	// kernel in created instances.
 	KernelId pulumi.StringPtrInput
-	// Full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of
-	// an image during a copy operation. This parameter is only required if you want to use a non-default CMK;
-	// if this parameter is not specified, the default CMK for EBS is used
+	// Full ARN of the KMS Key to use when encrypting the snapshots of an image during a copy operation. If not specified, then the default AWS KMS Key will be used
 	KmsKeyId           pulumi.StringPtrInput
 	ManageEbsSnapshots pulumi.BoolPtrInput
 	// Region-unique name for the AMI.
@@ -322,9 +322,7 @@ type amiCopyArgs struct {
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
 	EphemeralBlockDevices []AmiCopyEphemeralBlockDevice `pulumi:"ephemeralBlockDevices"`
-	// Full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of
-	// an image during a copy operation. This parameter is only required if you want to use a non-default CMK;
-	// if this parameter is not specified, the default CMK for EBS is used
+	// Full ARN of the KMS Key to use when encrypting the snapshots of an image during a copy operation. If not specified, then the default AWS KMS Key will be used
 	KmsKeyId *string `pulumi:"kmsKeyId"`
 	// Region-unique name for the AMI.
 	Name *string `pulumi:"name"`
@@ -355,9 +353,7 @@ type AmiCopyArgs struct {
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
 	EphemeralBlockDevices AmiCopyEphemeralBlockDeviceArrayInput
-	// Full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of
-	// an image during a copy operation. This parameter is only required if you want to use a non-default CMK;
-	// if this parameter is not specified, the default CMK for EBS is used
+	// Full ARN of the KMS Key to use when encrypting the snapshots of an image during a copy operation. If not specified, then the default AWS KMS Key will be used
 	KmsKeyId pulumi.StringPtrInput
 	// Region-unique name for the AMI.
 	Name pulumi.StringPtrInput
@@ -529,15 +525,18 @@ func (o AmiCopyOutput) ImageType() pulumi.StringOutput {
 	return o.ApplyT(func(v *AmiCopy) pulumi.StringOutput { return v.ImageType }).(pulumi.StringOutput)
 }
 
+// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
+func (o AmiCopyOutput) ImdsSupport() pulumi.StringOutput {
+	return o.ApplyT(func(v *AmiCopy) pulumi.StringOutput { return v.ImdsSupport }).(pulumi.StringOutput)
+}
+
 // ID of the kernel image (AKI) that will be used as the paravirtual
 // kernel in created instances.
 func (o AmiCopyOutput) KernelId() pulumi.StringOutput {
 	return o.ApplyT(func(v *AmiCopy) pulumi.StringOutput { return v.KernelId }).(pulumi.StringOutput)
 }
 
-// Full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of
-// an image during a copy operation. This parameter is only required if you want to use a non-default CMK;
-// if this parameter is not specified, the default CMK for EBS is used
+// Full ARN of the KMS Key to use when encrypting the snapshots of an image during a copy operation. If not specified, then the default AWS KMS Key will be used
 func (o AmiCopyOutput) KmsKeyId() pulumi.StringOutput {
 	return o.ApplyT(func(v *AmiCopy) pulumi.StringOutput { return v.KmsKeyId }).(pulumi.StringOutput)
 }

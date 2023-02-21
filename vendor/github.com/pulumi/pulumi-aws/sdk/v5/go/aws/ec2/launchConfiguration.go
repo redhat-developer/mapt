@@ -13,6 +13,8 @@ import (
 
 // Provides a resource to create a new launch configuration, used for autoscaling groups.
 //
+// > **Note** When using `ec2.LaunchConfiguration` with `autoscaling.Group`, it is recommended to use the `namePrefix` (Optional) instead of the `name` (Optional) attribute.
+//
 // ## Example Usage
 //
 // ```go
@@ -30,13 +32,13 @@ import (
 //			ubuntu, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
 //				MostRecent: pulumi.BoolRef(true),
 //				Filters: []ec2.GetAmiFilter{
-//					ec2.GetAmiFilter{
+//					{
 //						Name: "name",
 //						Values: []string{
 //							"ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*",
 //						},
 //					},
-//					ec2.GetAmiFilter{
+//					{
 //						Name: "virtualization-type",
 //						Values: []string{
 //							"hvm",
@@ -51,7 +53,7 @@ import (
 //				return err
 //			}
 //			_, err = ec2.NewLaunchConfiguration(ctx, "asConf", &ec2.LaunchConfigurationArgs{
-//				ImageId:      pulumi.String(ubuntu.Id),
+//				ImageId:      *pulumi.String(ubuntu.Id),
 //				InstanceType: pulumi.String("t2.micro"),
 //			})
 //			if err != nil {
@@ -67,8 +69,8 @@ import (
 // Launch Configurations cannot be updated after creation with the Amazon
 // Web Service API. In order to update a Launch Configuration, this provider will
 // destroy the existing resource and create a replacement. In order to effectively
-// use a Launch Configuration resource with an [AutoScaling Group resource](https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html),
-// it's recommended to specify `createBeforeDestroy` in a [lifecycle](https://www.terraform.io/docs/configuration/meta-arguments/lifecycle.html) block.
+// use a Launch Configuration resource with an AutoScaling Group resource,
+// it's recommended to specify `createBeforeDestroy` in a lifecycle block.
 // Either omit the Launch Configuration `name` attribute, or specify a partial name
 // with `namePrefix`.  Example:
 //
@@ -88,13 +90,13 @@ import (
 //			ubuntu, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
 //				MostRecent: pulumi.BoolRef(true),
 //				Filters: []ec2.GetAmiFilter{
-//					ec2.GetAmiFilter{
+//					{
 //						Name: "name",
 //						Values: []string{
 //							"ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*",
 //						},
 //					},
-//					ec2.GetAmiFilter{
+//					{
 //						Name: "virtualization-type",
 //						Values: []string{
 //							"hvm",
@@ -110,7 +112,7 @@ import (
 //			}
 //			asConf, err := ec2.NewLaunchConfiguration(ctx, "asConf", &ec2.LaunchConfigurationArgs{
 //				NamePrefix:   pulumi.String("lc-example-"),
-//				ImageId:      pulumi.String(ubuntu.Id),
+//				ImageId:      *pulumi.String(ubuntu.Id),
 //				InstanceType: pulumi.String("t2.micro"),
 //			})
 //			if err != nil {
@@ -141,7 +143,7 @@ import (
 // parameter will set the price on the Launch Configuration which will attempt to
 // reserve your instances at this price.  See the [AWS Spot Instance
 // documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html)
-// for more information or how to launch [Spot Instances](https://www.terraform.io/docs/providers/aws/r/spot_instance_request.html) with this provider.
+// for more information or how to launch [Spot Instances][3] with this provider.
 //
 // ```go
 // package main
@@ -159,13 +161,13 @@ import (
 //			ubuntu, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
 //				MostRecent: pulumi.BoolRef(true),
 //				Filters: []ec2.GetAmiFilter{
-//					ec2.GetAmiFilter{
+//					{
 //						Name: "name",
 //						Values: []string{
 //							"ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*",
 //						},
 //					},
-//					ec2.GetAmiFilter{
+//					{
 //						Name: "virtualization-type",
 //						Values: []string{
 //							"hvm",
@@ -180,7 +182,7 @@ import (
 //				return err
 //			}
 //			asConf, err := ec2.NewLaunchConfiguration(ctx, "asConf", &ec2.LaunchConfigurationArgs{
-//				ImageId:      pulumi.String(ubuntu.Id),
+//				ImageId:      *pulumi.String(ubuntu.Id),
 //				InstanceType: pulumi.String("m4.large"),
 //				SpotPrice:    pulumi.String("0.001"),
 //			})
@@ -206,58 +208,50 @@ import (
 // Mapping docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html)
 // to understand the implications of using these attributes.
 //
-// The `rootBlockDevice` mapping supports the following:
-//
-//   - `volumeType` - (Optional) The type of volume. Can be `"standard"`, `"gp2"`, `"gp3"`, `"st1"`, `"sc1"`
-//     or `"io1"`. (Default: `"standard"`).
-//   - `volumeSize` - (Optional) The size of the volume in gigabytes.
-//   - `iops` - (Optional) The amount of provisioned
-//     [IOPS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-io-characteristics.html).
-//     This must be set with a `volumeType` of `"io1"`.
-//   - `throughput` - (Optional) The throughput (MiBps) to provision for a `gp3` volume.
-//   - `deleteOnTermination` - (Optional) Whether the volume should be destroyed
-//     on instance termination (Default: `true`).
-//   - `encrypted` - (Optional) Whether the volume should be encrypted or not. (Default: `false`).
-//
-// Modifying any of the `rootBlockDevice` settings requires resource
-// replacement.
-//
-// Each `ebsBlockDevice` supports the following:
-//
-//   - `deviceName` - (Required) The name of the device to mount.
-//   - `snapshotId` - (Optional) The Snapshot ID to mount.
-//   - `volumeType` - (Optional) The type of volume. Can be `"standard"`, `"gp2"`, `"gp3"`, `"st1"`, `"sc1"`
-//     or `"io1"`. (Default: `"standard"`).
-//   - `volumeSize` - (Optional) The size of the volume in gigabytes.
-//   - `iops` - (Optional) The amount of provisioned
-//     [IOPS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-io-characteristics.html).
-//     This must be set with a `volumeType` of `"io1"`.
-//   - `throughput` - (Optional) The throughput (MiBps) to provision for a `gp3` volume.
-//   - `deleteOnTermination` - (Optional) Whether the volume should be destroyed
-//     on instance termination (Default: `true`).
-//   - `encrypted` - (Optional) Whether the volume should be encrypted or not. Do not use this option if you are using `snapshotId` as the encrypted flag will be determined by the snapshot. (Default: `false`).
-//   - `noDevice` - (Optional) Whether the device in the block device mapping of the AMI is suppressed.
-//
-// Modifying any `ebsBlockDevice` currently requires resource replacement.
-//
-// Each `ephemeralBlockDevice` supports the following:
-//
-//   - `deviceName` - (Required) The name of the block device to mount on the instance.
-//   - `noDevice` - (Optional) Whether the device in the block device mapping of the AMI is suppressed.
-//   - `virtualName` - (Optional) The [Instance Store Device
-//     Name](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#InstanceStoreDeviceNames)
-//     (e.g., `"ephemeral0"`)
-//
 // Each AWS Instance type has a different set of Instance Store block devices
 // available for attachment. AWS [publishes a
 // list](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#StorageOnInstanceTypes)
 // of which ephemeral devices are available on each type. The devices are always
-// identified by the `virtualName` in the format `"ephemeral{0..N}"`.
+// identified by the `virtualName` in the format `ephemeral{0..N}`.
 //
 // > **NOTE:** Changes to `*_block_device` configuration of _existing_ resources
 // cannot currently be detected by this provider. After updating to block device
 // configuration, resource recreation can be manually triggered by using the
 // [`up` command with the --replace argument](https://www.pulumi.com/docs/reference/cli/pulumi_up/).
+//
+// ### ebsBlockDevice
+//
+// Modifying any of the `ebsBlockDevice` settings requires resource replacement.
+//
+//   - `deviceName` - (Required) The name of the device to mount.
+//   - `snapshotId` - (Optional) The Snapshot ID to mount.
+//   - `volumeType` - (Optional) The type of volume. Can be `standard`, `gp2`, `gp3`, `st1`, `sc1` or `io1`.
+//   - `volumeSize` - (Optional) The size of the volume in gigabytes.
+//   - `iops` - (Optional) The amount of provisioned
+//     [IOPS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-io-characteristics.html).
+//     This must be set with a `volumeType` of `"io1"`.
+//   - `throughput` - (Optional) The throughput (MiBps) to provision for a `gp3` volume.
+//   - `deleteOnTermination` - (Optional) Whether the volume should be destroyed
+//     on instance termination (Default: `true`).
+//   - `encrypted` - (Optional) Whether the volume should be encrypted or not. Defaults to `false`.
+//   - `noDevice` - (Optional) Whether the device in the block device mapping of the AMI is suppressed.
+//
+// ### ephemeralBlockDevice
+//
+// * `deviceName` - (Required) The name of the block device to mount on the instance.
+// * `noDevice` - (Optional) Whether the device in the block device mapping of the AMI is suppressed.
+// * `virtualName` - (Optional) The [Instance Store Device Name](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#InstanceStoreDeviceNames).
+//
+// ### rootBlockDevice
+//
+// > Modifying any of the `rootBlockDevice` settings requires resource replacement.
+//
+// * `deleteOnTermination` - (Optional) Whether the volume should be destroyed on instance termination. Defaults to `true`.
+// * `encrypted` - (Optional) Whether the volume should be encrypted or not. Defaults to `false`.
+// * `iops` - (Optional) The amount of provisioned [IOPS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-io-characteristics.html). This must be set with a `volumeType` of `io1`.
+// * `throughput` - (Optional) The throughput (MiBps) to provision for a `gp3` volume.
+// * `volumeSize` - (Optional) The size of the volume in gigabytes.
+// * `volumeType` - (Optional) The type of volume. Can be `standard`, `gp2`, `gp3`, `st1`, `sc1` or `io1`.
 //
 // ## Import
 //
@@ -275,18 +269,15 @@ type LaunchConfiguration struct {
 	Arn pulumi.StringOutput `pulumi:"arn"`
 	// Associate a public ip address with an instance in a VPC.
 	AssociatePublicIpAddress pulumi.BoolPtrOutput `pulumi:"associatePublicIpAddress"`
-	// Additional EBS block devices to attach to the
-	// instance.  See Block Devices below for details.
+	// Additional EBS block devices to attach to the instance. See Block Devices below for details.
 	EbsBlockDevices LaunchConfigurationEbsBlockDeviceArrayOutput `pulumi:"ebsBlockDevices"`
 	// If true, the launched EC2 instance will be EBS-optimized.
 	EbsOptimized pulumi.BoolOutput `pulumi:"ebsOptimized"`
 	// Enables/disables detailed monitoring. This is enabled by default.
 	EnableMonitoring pulumi.BoolPtrOutput `pulumi:"enableMonitoring"`
-	// Customize Ephemeral (also known as
-	// "Instance Store") volumes on the instance. See Block Devices below for details.
+	// Customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details.
 	EphemeralBlockDevices LaunchConfigurationEphemeralBlockDeviceArrayOutput `pulumi:"ephemeralBlockDevices"`
-	// The name attribute of the IAM instance profile to associate
-	// with launched instances.
+	// The name attribute of the IAM instance profile to associate with launched instances.
 	IamInstanceProfile pulumi.StringPtrOutput `pulumi:"iamInstanceProfile"`
 	// The EC2 image ID to launch.
 	ImageId pulumi.StringOutput `pulumi:"imageId"`
@@ -296,18 +287,13 @@ type LaunchConfiguration struct {
 	KeyName pulumi.StringOutput `pulumi:"keyName"`
 	// The metadata options for the instance.
 	MetadataOptions LaunchConfigurationMetadataOptionsOutput `pulumi:"metadataOptions"`
-	// The name of the launch configuration. If you leave
-	// this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
+	// The name of the launch configuration. If you leave this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
 	Name pulumi.StringOutput `pulumi:"name"`
-	// Creates a unique name beginning with the specified
-	// prefix. Conflicts with `name`.
+	// Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 	NamePrefix pulumi.StringOutput `pulumi:"namePrefix"`
-	// The tenancy of the instance. Valid values are
-	// `"default"` or `"dedicated"`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html)
-	// for more details
+	// The tenancy of the instance. Valid values are `default` or `dedicated`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html) for more details.
 	PlacementTenancy pulumi.StringPtrOutput `pulumi:"placementTenancy"`
-	// Customize details about the root block
-	// device of the instance. See Block Devices below for details.
+	// Customize details about the root block device of the instance. See Block Devices below for details.
 	RootBlockDevice LaunchConfigurationRootBlockDeviceOutput `pulumi:"rootBlockDevice"`
 	// A list of associated security group IDS.
 	SecurityGroups pulumi.StringArrayOutput `pulumi:"securityGroups"`
@@ -366,18 +352,15 @@ type launchConfigurationState struct {
 	Arn *string `pulumi:"arn"`
 	// Associate a public ip address with an instance in a VPC.
 	AssociatePublicIpAddress *bool `pulumi:"associatePublicIpAddress"`
-	// Additional EBS block devices to attach to the
-	// instance.  See Block Devices below for details.
+	// Additional EBS block devices to attach to the instance. See Block Devices below for details.
 	EbsBlockDevices []LaunchConfigurationEbsBlockDevice `pulumi:"ebsBlockDevices"`
 	// If true, the launched EC2 instance will be EBS-optimized.
 	EbsOptimized *bool `pulumi:"ebsOptimized"`
 	// Enables/disables detailed monitoring. This is enabled by default.
 	EnableMonitoring *bool `pulumi:"enableMonitoring"`
-	// Customize Ephemeral (also known as
-	// "Instance Store") volumes on the instance. See Block Devices below for details.
+	// Customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details.
 	EphemeralBlockDevices []LaunchConfigurationEphemeralBlockDevice `pulumi:"ephemeralBlockDevices"`
-	// The name attribute of the IAM instance profile to associate
-	// with launched instances.
+	// The name attribute of the IAM instance profile to associate with launched instances.
 	IamInstanceProfile interface{} `pulumi:"iamInstanceProfile"`
 	// The EC2 image ID to launch.
 	ImageId *string `pulumi:"imageId"`
@@ -387,18 +370,13 @@ type launchConfigurationState struct {
 	KeyName *string `pulumi:"keyName"`
 	// The metadata options for the instance.
 	MetadataOptions *LaunchConfigurationMetadataOptions `pulumi:"metadataOptions"`
-	// The name of the launch configuration. If you leave
-	// this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
+	// The name of the launch configuration. If you leave this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
 	Name *string `pulumi:"name"`
-	// Creates a unique name beginning with the specified
-	// prefix. Conflicts with `name`.
+	// Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 	NamePrefix *string `pulumi:"namePrefix"`
-	// The tenancy of the instance. Valid values are
-	// `"default"` or `"dedicated"`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html)
-	// for more details
+	// The tenancy of the instance. Valid values are `default` or `dedicated`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html) for more details.
 	PlacementTenancy *string `pulumi:"placementTenancy"`
-	// Customize details about the root block
-	// device of the instance. See Block Devices below for details.
+	// Customize details about the root block device of the instance. See Block Devices below for details.
 	RootBlockDevice *LaunchConfigurationRootBlockDevice `pulumi:"rootBlockDevice"`
 	// A list of associated security group IDS.
 	SecurityGroups []string `pulumi:"securityGroups"`
@@ -423,18 +401,15 @@ type LaunchConfigurationState struct {
 	Arn pulumi.StringPtrInput
 	// Associate a public ip address with an instance in a VPC.
 	AssociatePublicIpAddress pulumi.BoolPtrInput
-	// Additional EBS block devices to attach to the
-	// instance.  See Block Devices below for details.
+	// Additional EBS block devices to attach to the instance. See Block Devices below for details.
 	EbsBlockDevices LaunchConfigurationEbsBlockDeviceArrayInput
 	// If true, the launched EC2 instance will be EBS-optimized.
 	EbsOptimized pulumi.BoolPtrInput
 	// Enables/disables detailed monitoring. This is enabled by default.
 	EnableMonitoring pulumi.BoolPtrInput
-	// Customize Ephemeral (also known as
-	// "Instance Store") volumes on the instance. See Block Devices below for details.
+	// Customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details.
 	EphemeralBlockDevices LaunchConfigurationEphemeralBlockDeviceArrayInput
-	// The name attribute of the IAM instance profile to associate
-	// with launched instances.
+	// The name attribute of the IAM instance profile to associate with launched instances.
 	IamInstanceProfile pulumi.Input
 	// The EC2 image ID to launch.
 	ImageId pulumi.StringPtrInput
@@ -444,18 +419,13 @@ type LaunchConfigurationState struct {
 	KeyName pulumi.StringPtrInput
 	// The metadata options for the instance.
 	MetadataOptions LaunchConfigurationMetadataOptionsPtrInput
-	// The name of the launch configuration. If you leave
-	// this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
+	// The name of the launch configuration. If you leave this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
 	Name pulumi.StringPtrInput
-	// Creates a unique name beginning with the specified
-	// prefix. Conflicts with `name`.
+	// Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 	NamePrefix pulumi.StringPtrInput
-	// The tenancy of the instance. Valid values are
-	// `"default"` or `"dedicated"`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html)
-	// for more details
+	// The tenancy of the instance. Valid values are `default` or `dedicated`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html) for more details.
 	PlacementTenancy pulumi.StringPtrInput
-	// Customize details about the root block
-	// device of the instance. See Block Devices below for details.
+	// Customize details about the root block device of the instance. See Block Devices below for details.
 	RootBlockDevice LaunchConfigurationRootBlockDevicePtrInput
 	// A list of associated security group IDS.
 	SecurityGroups pulumi.StringArrayInput
@@ -482,18 +452,15 @@ func (LaunchConfigurationState) ElementType() reflect.Type {
 type launchConfigurationArgs struct {
 	// Associate a public ip address with an instance in a VPC.
 	AssociatePublicIpAddress *bool `pulumi:"associatePublicIpAddress"`
-	// Additional EBS block devices to attach to the
-	// instance.  See Block Devices below for details.
+	// Additional EBS block devices to attach to the instance. See Block Devices below for details.
 	EbsBlockDevices []LaunchConfigurationEbsBlockDevice `pulumi:"ebsBlockDevices"`
 	// If true, the launched EC2 instance will be EBS-optimized.
 	EbsOptimized *bool `pulumi:"ebsOptimized"`
 	// Enables/disables detailed monitoring. This is enabled by default.
 	EnableMonitoring *bool `pulumi:"enableMonitoring"`
-	// Customize Ephemeral (also known as
-	// "Instance Store") volumes on the instance. See Block Devices below for details.
+	// Customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details.
 	EphemeralBlockDevices []LaunchConfigurationEphemeralBlockDevice `pulumi:"ephemeralBlockDevices"`
-	// The name attribute of the IAM instance profile to associate
-	// with launched instances.
+	// The name attribute of the IAM instance profile to associate with launched instances.
 	IamInstanceProfile interface{} `pulumi:"iamInstanceProfile"`
 	// The EC2 image ID to launch.
 	ImageId string `pulumi:"imageId"`
@@ -503,18 +470,13 @@ type launchConfigurationArgs struct {
 	KeyName *string `pulumi:"keyName"`
 	// The metadata options for the instance.
 	MetadataOptions *LaunchConfigurationMetadataOptions `pulumi:"metadataOptions"`
-	// The name of the launch configuration. If you leave
-	// this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
+	// The name of the launch configuration. If you leave this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
 	Name *string `pulumi:"name"`
-	// Creates a unique name beginning with the specified
-	// prefix. Conflicts with `name`.
+	// Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 	NamePrefix *string `pulumi:"namePrefix"`
-	// The tenancy of the instance. Valid values are
-	// `"default"` or `"dedicated"`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html)
-	// for more details
+	// The tenancy of the instance. Valid values are `default` or `dedicated`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html) for more details.
 	PlacementTenancy *string `pulumi:"placementTenancy"`
-	// Customize details about the root block
-	// device of the instance. See Block Devices below for details.
+	// Customize details about the root block device of the instance. See Block Devices below for details.
 	RootBlockDevice *LaunchConfigurationRootBlockDevice `pulumi:"rootBlockDevice"`
 	// A list of associated security group IDS.
 	SecurityGroups []string `pulumi:"securityGroups"`
@@ -538,18 +500,15 @@ type launchConfigurationArgs struct {
 type LaunchConfigurationArgs struct {
 	// Associate a public ip address with an instance in a VPC.
 	AssociatePublicIpAddress pulumi.BoolPtrInput
-	// Additional EBS block devices to attach to the
-	// instance.  See Block Devices below for details.
+	// Additional EBS block devices to attach to the instance. See Block Devices below for details.
 	EbsBlockDevices LaunchConfigurationEbsBlockDeviceArrayInput
 	// If true, the launched EC2 instance will be EBS-optimized.
 	EbsOptimized pulumi.BoolPtrInput
 	// Enables/disables detailed monitoring. This is enabled by default.
 	EnableMonitoring pulumi.BoolPtrInput
-	// Customize Ephemeral (also known as
-	// "Instance Store") volumes on the instance. See Block Devices below for details.
+	// Customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details.
 	EphemeralBlockDevices LaunchConfigurationEphemeralBlockDeviceArrayInput
-	// The name attribute of the IAM instance profile to associate
-	// with launched instances.
+	// The name attribute of the IAM instance profile to associate with launched instances.
 	IamInstanceProfile pulumi.Input
 	// The EC2 image ID to launch.
 	ImageId pulumi.StringInput
@@ -559,18 +518,13 @@ type LaunchConfigurationArgs struct {
 	KeyName pulumi.StringPtrInput
 	// The metadata options for the instance.
 	MetadataOptions LaunchConfigurationMetadataOptionsPtrInput
-	// The name of the launch configuration. If you leave
-	// this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
+	// The name of the launch configuration. If you leave this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
 	Name pulumi.StringPtrInput
-	// Creates a unique name beginning with the specified
-	// prefix. Conflicts with `name`.
+	// Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 	NamePrefix pulumi.StringPtrInput
-	// The tenancy of the instance. Valid values are
-	// `"default"` or `"dedicated"`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html)
-	// for more details
+	// The tenancy of the instance. Valid values are `default` or `dedicated`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html) for more details.
 	PlacementTenancy pulumi.StringPtrInput
-	// Customize details about the root block
-	// device of the instance. See Block Devices below for details.
+	// Customize details about the root block device of the instance. See Block Devices below for details.
 	RootBlockDevice LaunchConfigurationRootBlockDevicePtrInput
 	// A list of associated security group IDS.
 	SecurityGroups pulumi.StringArrayInput
@@ -687,8 +641,7 @@ func (o LaunchConfigurationOutput) AssociatePublicIpAddress() pulumi.BoolPtrOutp
 	return o.ApplyT(func(v *LaunchConfiguration) pulumi.BoolPtrOutput { return v.AssociatePublicIpAddress }).(pulumi.BoolPtrOutput)
 }
 
-// Additional EBS block devices to attach to the
-// instance.  See Block Devices below for details.
+// Additional EBS block devices to attach to the instance. See Block Devices below for details.
 func (o LaunchConfigurationOutput) EbsBlockDevices() LaunchConfigurationEbsBlockDeviceArrayOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) LaunchConfigurationEbsBlockDeviceArrayOutput { return v.EbsBlockDevices }).(LaunchConfigurationEbsBlockDeviceArrayOutput)
 }
@@ -703,16 +656,14 @@ func (o LaunchConfigurationOutput) EnableMonitoring() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) pulumi.BoolPtrOutput { return v.EnableMonitoring }).(pulumi.BoolPtrOutput)
 }
 
-// Customize Ephemeral (also known as
-// "Instance Store") volumes on the instance. See Block Devices below for details.
+// Customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details.
 func (o LaunchConfigurationOutput) EphemeralBlockDevices() LaunchConfigurationEphemeralBlockDeviceArrayOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) LaunchConfigurationEphemeralBlockDeviceArrayOutput {
 		return v.EphemeralBlockDevices
 	}).(LaunchConfigurationEphemeralBlockDeviceArrayOutput)
 }
 
-// The name attribute of the IAM instance profile to associate
-// with launched instances.
+// The name attribute of the IAM instance profile to associate with launched instances.
 func (o LaunchConfigurationOutput) IamInstanceProfile() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) pulumi.StringPtrOutput { return v.IamInstanceProfile }).(pulumi.StringPtrOutput)
 }
@@ -737,27 +688,22 @@ func (o LaunchConfigurationOutput) MetadataOptions() LaunchConfigurationMetadata
 	return o.ApplyT(func(v *LaunchConfiguration) LaunchConfigurationMetadataOptionsOutput { return v.MetadataOptions }).(LaunchConfigurationMetadataOptionsOutput)
 }
 
-// The name of the launch configuration. If you leave
-// this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
+// The name of the launch configuration. If you leave this blank, this provider will auto-generate a unique name. Conflicts with `namePrefix`.
 func (o LaunchConfigurationOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
-// Creates a unique name beginning with the specified
-// prefix. Conflicts with `name`.
+// Creates a unique name beginning with the specified prefix. Conflicts with `name`.
 func (o LaunchConfigurationOutput) NamePrefix() pulumi.StringOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) pulumi.StringOutput { return v.NamePrefix }).(pulumi.StringOutput)
 }
 
-// The tenancy of the instance. Valid values are
-// `"default"` or `"dedicated"`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html)
-// for more details
+// The tenancy of the instance. Valid values are `default` or `dedicated`, see [AWS's Create Launch Configuration](http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_CreateLaunchConfiguration.html) for more details.
 func (o LaunchConfigurationOutput) PlacementTenancy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) pulumi.StringPtrOutput { return v.PlacementTenancy }).(pulumi.StringPtrOutput)
 }
 
-// Customize details about the root block
-// device of the instance. See Block Devices below for details.
+// Customize details about the root block device of the instance. See Block Devices below for details.
 func (o LaunchConfigurationOutput) RootBlockDevice() LaunchConfigurationRootBlockDeviceOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) LaunchConfigurationRootBlockDeviceOutput { return v.RootBlockDevice }).(LaunchConfigurationRootBlockDeviceOutput)
 }

@@ -11,6 +11,14 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Provides an AutoScaling Scaling Policy resource.
+//
+// > **NOTE:** You may want to omit `desiredCapacity` attribute from attached `autoscaling.Group`
+// when using autoscaling policies. It's good practice to pick either
+// [manual](https://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/as-manual-scaling.html)
+// or [dynamic](https://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/as-scale-based-on-demand.html)
+// (policy-based) scaling.
+//
 // ## Example Usage
 //
 // ```go
@@ -78,16 +86,6 @@ import (
 //								&autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedCapacityMetricSpecificationMetricDataQueryArgs{
 //									Expression: pulumi.String("SUM(SEARCH('{AWS/AutoScaling,AutoScalingGroupName} MetricName=\"GroupInServiceIntances\" my-test-asg', 'Average', 300))"),
 //									Id:         pulumi.String("capacity_sum"),
-//									ReturnData: pulumi.Bool(false),
-//								},
-//								&autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedCapacityMetricSpecificationMetricDataQueryArgs{
-//									Expression: pulumi.String("SUM(SEARCH('{AWS/EC2,AutoScalingGroupName} MetricName=\"CPUUtilization\" my-test-asg', 'Sum', 300))"),
-//									Id:         pulumi.String("load_sum"),
-//									ReturnData: pulumi.Bool(false),
-//								},
-//								&autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedCapacityMetricSpecificationMetricDataQueryArgs{
-//									Expression: pulumi.String("load_sum / capacity_sum"),
-//									Id:         pulumi.String("weighted_average"),
 //								},
 //							},
 //						},
@@ -102,20 +100,18 @@ import (
 //						CustomizedScalingMetricSpecification: &autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationArgs{
 //							MetricDataQueries: autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationMetricDataQueryArray{
 //								&autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationMetricDataQueryArgs{
-//									Id: pulumi.String("scaling"),
-//									MetricStat: &autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationMetricDataQueryMetricStatArgs{
-//										Metric: &autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationMetricDataQueryMetricStatMetricArgs{
-//											Dimensions: autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationMetricDataQueryMetricStatMetricDimensionArray{
-//												&autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationMetricDataQueryMetricStatMetricDimensionArgs{
-//													Name:  pulumi.String("AutoScalingGroupName"),
-//													Value: pulumi.String("my-test-asg"),
-//												},
-//											},
-//											MetricName: pulumi.String("CPUUtilization"),
-//											Namespace:  pulumi.String("AWS/EC2"),
-//										},
-//										Stat: pulumi.String("Average"),
-//									},
+//									Expression: pulumi.String("SUM(SEARCH('{AWS/AutoScaling,AutoScalingGroupName} MetricName=\"GroupInServiceIntances\" my-test-asg', 'Average', 300))"),
+//									Id:         pulumi.String("capacity_sum"),
+//									ReturnData: pulumi.Bool(false),
+//								},
+//								&autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationMetricDataQueryArgs{
+//									Expression: pulumi.String("SUM(SEARCH('{AWS/EC2,AutoScalingGroupName} MetricName=\"CPUUtilization\" my-test-asg', 'Sum', 300))"),
+//									Id:         pulumi.String("load_sum"),
+//									ReturnData: pulumi.Bool(false),
+//								},
+//								&autoscaling.PolicyPredictiveScalingConfigurationMetricSpecificationCustomizedScalingMetricSpecificationMetricDataQueryArgs{
+//									Expression: pulumi.String("load_sum / (capacity_sum * PERIOD(capacity_sum) / 60)"),
+//									Id:         pulumi.String("weighted_average"),
 //								},
 //							},
 //						},
@@ -215,7 +211,7 @@ type Policy struct {
 	MetricAggregationType pulumi.StringOutput `pulumi:"metricAggregationType"`
 	// Minimum value to scale by when `adjustmentType` is set to `PercentChangeInCapacity`.
 	MinAdjustmentMagnitude pulumi.IntPtrOutput `pulumi:"minAdjustmentMagnitude"`
-	// Name of the dimension.
+	// Name of the policy.
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Policy type, either "SimpleScaling", "StepScaling", "TargetTrackingScaling", or "PredictiveScaling". If this value isn't provided, AWS will default to "SimpleScaling."
 	PolicyType pulumi.StringPtrOutput `pulumi:"policyType"`
@@ -280,7 +276,7 @@ type policyState struct {
 	MetricAggregationType *string `pulumi:"metricAggregationType"`
 	// Minimum value to scale by when `adjustmentType` is set to `PercentChangeInCapacity`.
 	MinAdjustmentMagnitude *int `pulumi:"minAdjustmentMagnitude"`
-	// Name of the dimension.
+	// Name of the policy.
 	Name *string `pulumi:"name"`
 	// Policy type, either "SimpleScaling", "StepScaling", "TargetTrackingScaling", or "PredictiveScaling". If this value isn't provided, AWS will default to "SimpleScaling."
 	PolicyType *string `pulumi:"policyType"`
@@ -314,7 +310,7 @@ type PolicyState struct {
 	MetricAggregationType pulumi.StringPtrInput
 	// Minimum value to scale by when `adjustmentType` is set to `PercentChangeInCapacity`.
 	MinAdjustmentMagnitude pulumi.IntPtrInput
-	// Name of the dimension.
+	// Name of the policy.
 	Name pulumi.StringPtrInput
 	// Policy type, either "SimpleScaling", "StepScaling", "TargetTrackingScaling", or "PredictiveScaling". If this value isn't provided, AWS will default to "SimpleScaling."
 	PolicyType pulumi.StringPtrInput
@@ -350,7 +346,7 @@ type policyArgs struct {
 	MetricAggregationType *string `pulumi:"metricAggregationType"`
 	// Minimum value to scale by when `adjustmentType` is set to `PercentChangeInCapacity`.
 	MinAdjustmentMagnitude *int `pulumi:"minAdjustmentMagnitude"`
-	// Name of the dimension.
+	// Name of the policy.
 	Name *string `pulumi:"name"`
 	// Policy type, either "SimpleScaling", "StepScaling", "TargetTrackingScaling", or "PredictiveScaling". If this value isn't provided, AWS will default to "SimpleScaling."
 	PolicyType *string `pulumi:"policyType"`
@@ -383,7 +379,7 @@ type PolicyArgs struct {
 	MetricAggregationType pulumi.StringPtrInput
 	// Minimum value to scale by when `adjustmentType` is set to `PercentChangeInCapacity`.
 	MinAdjustmentMagnitude pulumi.IntPtrInput
-	// Name of the dimension.
+	// Name of the policy.
 	Name pulumi.StringPtrInput
 	// Policy type, either "SimpleScaling", "StepScaling", "TargetTrackingScaling", or "PredictiveScaling". If this value isn't provided, AWS will default to "SimpleScaling."
 	PolicyType pulumi.StringPtrInput
@@ -527,7 +523,7 @@ func (o PolicyOutput) MinAdjustmentMagnitude() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *Policy) pulumi.IntPtrOutput { return v.MinAdjustmentMagnitude }).(pulumi.IntPtrOutput)
 }
 
-// Name of the dimension.
+// Name of the policy.
 func (o PolicyOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *Policy) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }

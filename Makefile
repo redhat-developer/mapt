@@ -9,7 +9,7 @@ BUILD_DIR ?= out
 SOURCE_DIRS = cmd pkg test
 # https://golang.org/cmd/link/
 LDFLAGS := $(VERSION_VARIABLES) -extldflags='-static' ${GO_EXTRA_LDFLAGS}
-GCFLAGS := all=-N -l
+GCFLAGS := all=-N -l 
 
 # Add default target
 .PHONY: default

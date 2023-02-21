@@ -29,7 +29,7 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.LookupDedicatedHost(ctx, &ec2.LookupDedicatedHostArgs{
 //				Filters: []ec2.GetDedicatedHostFilter{
-//					ec2.GetDedicatedHostFilter{
+//					{
 //						Name: "instance-type",
 //						Values: []string{
 //							"c5.18xlarge",

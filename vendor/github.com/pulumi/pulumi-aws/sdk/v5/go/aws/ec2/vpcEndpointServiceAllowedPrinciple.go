@@ -42,7 +42,7 @@ import (
 //			}
 //			_, err = ec2.NewVpcEndpointServiceAllowedPrinciple(ctx, "allowMeToFoo", &ec2.VpcEndpointServiceAllowedPrincipleArgs{
 //				VpcEndpointServiceId: pulumi.Any(aws_vpc_endpoint_service.Foo.Id),
-//				PrincipalArn:         pulumi.String(current.Arn),
+//				PrincipalArn:         *pulumi.String(current.Arn),
 //			})
 //			if err != nil {
 //				return err

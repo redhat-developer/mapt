@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/adrianriobo/qenvs/pkg/infra/aws"
+	"github.com/adrianriobo/qenvs/pkg/manager"
 
-	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
@@ -20,15 +20,15 @@ func CreateNetwork(projectName, backedURL, cidr string,
 		PrivateSubnetsCIDRs: privateSubnets,
 		IntraSubnetsCIDRs:   intraSubnets,
 		SingleNatGateway:    false}
-	stack := utilInfra.Stack{
-		StackName:   StackCreateNetworkName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      aws.PluginAWSDefault,
-		DeployFunc:  request.Deployer,
+	stack := manager.Stack{
+		StackName:           StackCreateNetworkName,
+		ProjectName:         projectName,
+		BackedURL:           backedURL,
+		CloudProviderPlugin: aws.DefaultPlugin,
+		DeployFunc:          request.Deployer,
 	}
 	// Exec stack
-	stackResult, err := utilInfra.UpStack(stack)
+	stackResult, err := manager.UpStack(stack)
 	if err != nil {
 		return err
 	}
@@ -41,12 +41,12 @@ func CreateNetwork(projectName, backedURL, cidr string,
 }
 
 func DestroyNetwork(projectName, backedURL string) (err error) {
-	stack := utilInfra.Stack{
-		StackName:   StackCreateNetworkName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      aws.PluginAWSDefault}
-	err = utilInfra.DestroyStack(stack)
+	stack := manager.Stack{
+		StackName:           StackCreateNetworkName,
+		ProjectName:         projectName,
+		BackedURL:           backedURL,
+		CloudProviderPlugin: aws.DefaultPlugin}
+	err = manager.DestroyStack(stack)
 	if err == nil {
 		logging.Debugf("VPC has been destroyed")
 	}

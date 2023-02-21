@@ -11,6 +11,16 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Provides a VPC Endpoint resource.
+//
+// > **NOTE on VPC Endpoints and VPC Endpoint Associations:** The provider provides both standalone VPC Endpoint Associations for
+// Route Tables - (an association between a VPC endpoint and a single `routeTableId`),
+// Security Groups - (an association between a VPC endpoint and a single `securityGroupId`),
+// and Subnets - (an association between a VPC endpoint and a single `subnetId`) and
+// a VPC Endpoint resource with `routeTableIds` and `subnetIds` attributes.
+// Do not use the same resource ID in both a VPC Endpoint resource and a VPC Endpoint Association resource.
+// Doing so will cause a conflict of associations and will overwrite the association.
+//
 // ## Example Usage
 // ### Basic
 //
@@ -86,7 +96,7 @@ import (
 //				ServiceName:     pulumi.String("com.amazonaws.us-west-2.ec2"),
 //				VpcEndpointType: pulumi.String("Interface"),
 //				SecurityGroupIds: pulumi.StringArray{
-//					pulumi.Any(aws_security_group.Sg1.Id),
+//					aws_security_group.Sg1.Id,
 //				},
 //				PrivateDnsEnabled: pulumi.Bool(true),
 //			})
@@ -120,10 +130,10 @@ import (
 //			exampleVpcEndpointService, err := ec2.NewVpcEndpointService(ctx, "exampleVpcEndpointService", &ec2.VpcEndpointServiceArgs{
 //				AcceptanceRequired: pulumi.Bool(false),
 //				AllowedPrincipals: pulumi.StringArray{
-//					pulumi.String(current.Arn),
+//					*pulumi.String(current.Arn),
 //				},
 //				GatewayLoadBalancerArns: pulumi.StringArray{
-//					pulumi.Any(aws_lb.Example.Arn),
+//					aws_lb.Example.Arn,
 //				},
 //			})
 //			if err != nil {
@@ -132,7 +142,7 @@ import (
 //			_, err = ec2.NewVpcEndpoint(ctx, "exampleVpcEndpoint", &ec2.VpcEndpointArgs{
 //				ServiceName: exampleVpcEndpointService.ServiceName,
 //				SubnetIds: pulumi.StringArray{
-//					pulumi.Any(aws_subnet.Example.Id),
+//					aws_subnet.Example.Id,
 //				},
 //				VpcEndpointType: exampleVpcEndpointService.ServiceType,
 //				VpcId:           pulumi.Any(aws_vpc.Example.Id),

@@ -130,7 +130,7 @@ import (
 //			}
 //			exampleTransitGateway, err := ec2transitgateway.NewTransitGateway(ctx, "exampleTransitGateway", &ec2transitgateway.TransitGatewayArgs{
 //				AmazonSideAsn: pulumi.Int(64513),
-//				Description:   pulumi.String("terraform_ipsec_vpn_example"),
+//				Description:   pulumi.String("example_ipsec_vpn_example"),
 //				TransitGatewayCidrBlocks: pulumi.StringArray{
 //					pulumi.String("10.0.0.0/24"),
 //				},
@@ -143,7 +143,7 @@ import (
 //				IpAddress: pulumi.String("10.0.0.1"),
 //				Type:      pulumi.String("ipsec.1"),
 //				Tags: pulumi.StringMap{
-//					"Name": pulumi.String("terraform_ipsec_vpn_example"),
+//					"Name": pulumi.String("example_ipsec_vpn_example"),
 //				},
 //			})
 //			if err != nil {
@@ -167,12 +167,12 @@ import (
 //				CustomerGatewayId:    exampleCustomerGateway.ID(),
 //				OutsideIpAddressType: pulumi.String("PrivateIpv4"),
 //				TransitGatewayId:     exampleTransitGateway.ID(),
-//				TransportTransitGatewayAttachmentId: exampleDirectConnectGatewayAttachment.ApplyT(func(exampleDirectConnectGatewayAttachment ec2transitgateway.GetDirectConnectGatewayAttachmentResult) (string, error) {
-//					return exampleDirectConnectGatewayAttachment.Id, nil
-//				}).(pulumi.StringOutput),
+//				TransportTransitGatewayAttachmentId: exampleDirectConnectGatewayAttachment.ApplyT(func(exampleDirectConnectGatewayAttachment ec2transitgateway.GetDirectConnectGatewayAttachmentResult) (*string, error) {
+//					return &exampleDirectConnectGatewayAttachment.Id, nil
+//				}).(pulumi.StringPtrOutput),
 //				Type: pulumi.String("ipsec.1"),
 //				Tags: pulumi.StringMap{
-//					"Name": pulumi.String("terraform_ipsec_vpn_example"),
+//					"Name": pulumi.String("example_ipsec_vpn_example"),
 //				},
 //			})
 //			if err != nil {
@@ -226,7 +226,7 @@ type VpnConnection struct {
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
-	// When associated with an EC2 Transit Gateway (`transitGatewayId` argument), the attachment ID. See also the `ec2.Tag` for tagging the EC2 Transit Gateway VPN Attachment.
+	// When associated with an EC2 Transit Gateway (`transitGatewayId` argument), the attachment ID. See also the `ec2.Tag` resource for tagging the EC2 Transit Gateway VPN Attachment.
 	TransitGatewayAttachmentId pulumi.StringOutput `pulumi:"transitGatewayAttachmentId"`
 	// The ID of the EC2 Transit Gateway.
 	TransitGatewayId pulumi.StringPtrOutput `pulumi:"transitGatewayId"`
@@ -351,6 +351,18 @@ func NewVpnConnection(ctx *pulumi.Context,
 	if args.Type == nil {
 		return nil, errors.New("invalid value for required argument 'Type'")
 	}
+	if args.Tunnel1PresharedKey != nil {
+		args.Tunnel1PresharedKey = pulumi.ToSecret(args.Tunnel1PresharedKey).(pulumi.StringPtrInput)
+	}
+	if args.Tunnel2PresharedKey != nil {
+		args.Tunnel2PresharedKey = pulumi.ToSecret(args.Tunnel2PresharedKey).(pulumi.StringPtrInput)
+	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"customerGatewayConfiguration",
+		"tunnel1PresharedKey",
+		"tunnel2PresharedKey",
+	})
+	opts = append(opts, secrets)
 	var resource VpnConnection
 	err := ctx.RegisterResource("aws:ec2/vpnConnection:VpnConnection", name, args, &resource, opts...)
 	if err != nil {
@@ -403,7 +415,7 @@ type vpnConnectionState struct {
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll map[string]string `pulumi:"tagsAll"`
-	// When associated with an EC2 Transit Gateway (`transitGatewayId` argument), the attachment ID. See also the `ec2.Tag` for tagging the EC2 Transit Gateway VPN Attachment.
+	// When associated with an EC2 Transit Gateway (`transitGatewayId` argument), the attachment ID. See also the `ec2.Tag` resource for tagging the EC2 Transit Gateway VPN Attachment.
 	TransitGatewayAttachmentId *string `pulumi:"transitGatewayAttachmentId"`
 	// The ID of the EC2 Transit Gateway.
 	TransitGatewayId *string `pulumi:"transitGatewayId"`
@@ -546,7 +558,7 @@ type VpnConnectionState struct {
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll pulumi.StringMapInput
-	// When associated with an EC2 Transit Gateway (`transitGatewayId` argument), the attachment ID. See also the `ec2.Tag` for tagging the EC2 Transit Gateway VPN Attachment.
+	// When associated with an EC2 Transit Gateway (`transitGatewayId` argument), the attachment ID. See also the `ec2.Tag` resource for tagging the EC2 Transit Gateway VPN Attachment.
 	TransitGatewayAttachmentId pulumi.StringPtrInput
 	// The ID of the EC2 Transit Gateway.
 	TransitGatewayId pulumi.StringPtrInput
@@ -1039,7 +1051,7 @@ func (o VpnConnectionOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
 
-// When associated with an EC2 Transit Gateway (`transitGatewayId` argument), the attachment ID. See also the `ec2.Tag` for tagging the EC2 Transit Gateway VPN Attachment.
+// When associated with an EC2 Transit Gateway (`transitGatewayId` argument), the attachment ID. See also the `ec2.Tag` resource for tagging the EC2 Transit Gateway VPN Attachment.
 func (o VpnConnectionOutput) TransitGatewayAttachmentId() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringOutput { return v.TransitGatewayAttachmentId }).(pulumi.StringOutput)
 }

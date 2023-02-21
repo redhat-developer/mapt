@@ -112,11 +112,9 @@ type LoadBalancer struct {
 	DnsName pulumi.StringOutput `pulumi:"dnsName"`
 	// Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for Load Balancers of type `application`.
 	DropInvalidHeaderFields pulumi.BoolPtrOutput `pulumi:"dropInvalidHeaderFields"`
-	// If true, cross-zone load balancing of the load balancer will be enabled.
-	// This is a `network` load balancer feature. Defaults to `false`.
+	// If true, cross-zone load balancing of the load balancer will be enabled. For `network` and `gateway` type load balancers, this feature is disabled by default (`false`). For `application` load balancer this feature is always enabled (`true`) and cannot be disabled. Defaults to `false`.
 	EnableCrossZoneLoadBalancing pulumi.BoolPtrOutput `pulumi:"enableCrossZoneLoadBalancing"`
-	// If true, deletion of the load balancer will be disabled via
-	// the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
+	// If true, deletion of the load balancer will be disabled via the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
 	EnableDeletionProtection pulumi.BoolPtrOutput `pulumi:"enableDeletionProtection"`
 	// Indicates whether HTTP/2 is enabled in `application` load balancers. Defaults to `true`.
 	EnableHttp2 pulumi.BoolPtrOutput `pulumi:"enableHttp2"`
@@ -126,7 +124,7 @@ type LoadBalancer struct {
 	IdleTimeout pulumi.IntPtrOutput `pulumi:"idleTimeout"`
 	// If true, the LB will be internal.
 	Internal pulumi.BoolOutput `pulumi:"internal"`
-	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`
+	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
 	IpAddressType pulumi.StringOutput `pulumi:"ipAddressType"`
 	// The type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType pulumi.StringPtrOutput `pulumi:"loadBalancerType"`
@@ -152,7 +150,6 @@ type LoadBalancer struct {
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	VpcId   pulumi.StringOutput    `pulumi:"vpcId"`
 	// The canonical hosted zone ID of the load balancer (to be used in a Route 53 Alias record).
-	// * `subnet_mapping.*.outpost_id` - ID of the Outpost containing the load balancer.
 	ZoneId pulumi.StringOutput `pulumi:"zoneId"`
 }
 
@@ -205,11 +202,9 @@ type loadBalancerState struct {
 	DnsName *string `pulumi:"dnsName"`
 	// Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for Load Balancers of type `application`.
 	DropInvalidHeaderFields *bool `pulumi:"dropInvalidHeaderFields"`
-	// If true, cross-zone load balancing of the load balancer will be enabled.
-	// This is a `network` load balancer feature. Defaults to `false`.
+	// If true, cross-zone load balancing of the load balancer will be enabled. For `network` and `gateway` type load balancers, this feature is disabled by default (`false`). For `application` load balancer this feature is always enabled (`true`) and cannot be disabled. Defaults to `false`.
 	EnableCrossZoneLoadBalancing *bool `pulumi:"enableCrossZoneLoadBalancing"`
-	// If true, deletion of the load balancer will be disabled via
-	// the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
+	// If true, deletion of the load balancer will be disabled via the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
 	EnableDeletionProtection *bool `pulumi:"enableDeletionProtection"`
 	// Indicates whether HTTP/2 is enabled in `application` load balancers. Defaults to `true`.
 	EnableHttp2 *bool `pulumi:"enableHttp2"`
@@ -219,7 +214,7 @@ type loadBalancerState struct {
 	IdleTimeout *int `pulumi:"idleTimeout"`
 	// If true, the LB will be internal.
 	Internal *bool `pulumi:"internal"`
-	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`
+	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
 	IpAddressType *string `pulumi:"ipAddressType"`
 	// The type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType *string `pulumi:"loadBalancerType"`
@@ -245,7 +240,6 @@ type loadBalancerState struct {
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	VpcId   *string           `pulumi:"vpcId"`
 	// The canonical hosted zone ID of the load balancer (to be used in a Route 53 Alias record).
-	// * `subnet_mapping.*.outpost_id` - ID of the Outpost containing the load balancer.
 	ZoneId *string `pulumi:"zoneId"`
 }
 
@@ -264,11 +258,9 @@ type LoadBalancerState struct {
 	DnsName pulumi.StringPtrInput
 	// Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for Load Balancers of type `application`.
 	DropInvalidHeaderFields pulumi.BoolPtrInput
-	// If true, cross-zone load balancing of the load balancer will be enabled.
-	// This is a `network` load balancer feature. Defaults to `false`.
+	// If true, cross-zone load balancing of the load balancer will be enabled. For `network` and `gateway` type load balancers, this feature is disabled by default (`false`). For `application` load balancer this feature is always enabled (`true`) and cannot be disabled. Defaults to `false`.
 	EnableCrossZoneLoadBalancing pulumi.BoolPtrInput
-	// If true, deletion of the load balancer will be disabled via
-	// the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
+	// If true, deletion of the load balancer will be disabled via the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
 	EnableDeletionProtection pulumi.BoolPtrInput
 	// Indicates whether HTTP/2 is enabled in `application` load balancers. Defaults to `true`.
 	EnableHttp2 pulumi.BoolPtrInput
@@ -278,7 +270,7 @@ type LoadBalancerState struct {
 	IdleTimeout pulumi.IntPtrInput
 	// If true, the LB will be internal.
 	Internal pulumi.BoolPtrInput
-	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`
+	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
 	IpAddressType pulumi.StringPtrInput
 	// The type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType pulumi.StringPtrInput
@@ -304,7 +296,6 @@ type LoadBalancerState struct {
 	TagsAll pulumi.StringMapInput
 	VpcId   pulumi.StringPtrInput
 	// The canonical hosted zone ID of the load balancer (to be used in a Route 53 Alias record).
-	// * `subnet_mapping.*.outpost_id` - ID of the Outpost containing the load balancer.
 	ZoneId pulumi.StringPtrInput
 }
 
@@ -321,11 +312,9 @@ type loadBalancerArgs struct {
 	DesyncMitigationMode *string `pulumi:"desyncMitigationMode"`
 	// Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for Load Balancers of type `application`.
 	DropInvalidHeaderFields *bool `pulumi:"dropInvalidHeaderFields"`
-	// If true, cross-zone load balancing of the load balancer will be enabled.
-	// This is a `network` load balancer feature. Defaults to `false`.
+	// If true, cross-zone load balancing of the load balancer will be enabled. For `network` and `gateway` type load balancers, this feature is disabled by default (`false`). For `application` load balancer this feature is always enabled (`true`) and cannot be disabled. Defaults to `false`.
 	EnableCrossZoneLoadBalancing *bool `pulumi:"enableCrossZoneLoadBalancing"`
-	// If true, deletion of the load balancer will be disabled via
-	// the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
+	// If true, deletion of the load balancer will be disabled via the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
 	EnableDeletionProtection *bool `pulumi:"enableDeletionProtection"`
 	// Indicates whether HTTP/2 is enabled in `application` load balancers. Defaults to `true`.
 	EnableHttp2 *bool `pulumi:"enableHttp2"`
@@ -335,7 +324,7 @@ type loadBalancerArgs struct {
 	IdleTimeout *int `pulumi:"idleTimeout"`
 	// If true, the LB will be internal.
 	Internal *bool `pulumi:"internal"`
-	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`
+	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
 	IpAddressType *string `pulumi:"ipAddressType"`
 	// The type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType *string `pulumi:"loadBalancerType"`
@@ -369,11 +358,9 @@ type LoadBalancerArgs struct {
 	DesyncMitigationMode pulumi.StringPtrInput
 	// Indicates whether HTTP headers with header fields that are not valid are removed by the load balancer (true) or routed to targets (false). The default is false. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens. Only valid for Load Balancers of type `application`.
 	DropInvalidHeaderFields pulumi.BoolPtrInput
-	// If true, cross-zone load balancing of the load balancer will be enabled.
-	// This is a `network` load balancer feature. Defaults to `false`.
+	// If true, cross-zone load balancing of the load balancer will be enabled. For `network` and `gateway` type load balancers, this feature is disabled by default (`false`). For `application` load balancer this feature is always enabled (`true`) and cannot be disabled. Defaults to `false`.
 	EnableCrossZoneLoadBalancing pulumi.BoolPtrInput
-	// If true, deletion of the load balancer will be disabled via
-	// the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
+	// If true, deletion of the load balancer will be disabled via the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
 	EnableDeletionProtection pulumi.BoolPtrInput
 	// Indicates whether HTTP/2 is enabled in `application` load balancers. Defaults to `true`.
 	EnableHttp2 pulumi.BoolPtrInput
@@ -383,7 +370,7 @@ type LoadBalancerArgs struct {
 	IdleTimeout pulumi.IntPtrInput
 	// If true, the LB will be internal.
 	Internal pulumi.BoolPtrInput
-	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`
+	// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
 	IpAddressType pulumi.StringPtrInput
 	// The type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType pulumi.StringPtrInput
@@ -529,14 +516,12 @@ func (o LoadBalancerOutput) DropInvalidHeaderFields() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.BoolPtrOutput { return v.DropInvalidHeaderFields }).(pulumi.BoolPtrOutput)
 }
 
-// If true, cross-zone load balancing of the load balancer will be enabled.
-// This is a `network` load balancer feature. Defaults to `false`.
+// If true, cross-zone load balancing of the load balancer will be enabled. For `network` and `gateway` type load balancers, this feature is disabled by default (`false`). For `application` load balancer this feature is always enabled (`true`) and cannot be disabled. Defaults to `false`.
 func (o LoadBalancerOutput) EnableCrossZoneLoadBalancing() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.BoolPtrOutput { return v.EnableCrossZoneLoadBalancing }).(pulumi.BoolPtrOutput)
 }
 
-// If true, deletion of the load balancer will be disabled via
-// the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
+// If true, deletion of the load balancer will be disabled via the AWS API. This will prevent this provider from deleting the load balancer. Defaults to `false`.
 func (o LoadBalancerOutput) EnableDeletionProtection() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.BoolPtrOutput { return v.EnableDeletionProtection }).(pulumi.BoolPtrOutput)
 }
@@ -561,7 +546,7 @@ func (o LoadBalancerOutput) Internal() pulumi.BoolOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.BoolOutput { return v.Internal }).(pulumi.BoolOutput)
 }
 
-// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`
+// The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
 func (o LoadBalancerOutput) IpAddressType() pulumi.StringOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.StringOutput { return v.IpAddressType }).(pulumi.StringOutput)
 }
@@ -620,7 +605,6 @@ func (o LoadBalancerOutput) VpcId() pulumi.StringOutput {
 }
 
 // The canonical hosted zone ID of the load balancer (to be used in a Route 53 Alias record).
-// * `subnet_mapping.*.outpost_id` - ID of the Outpost containing the load balancer.
 func (o LoadBalancerOutput) ZoneId() pulumi.StringOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.StringOutput { return v.ZoneId }).(pulumi.StringOutput)
 }

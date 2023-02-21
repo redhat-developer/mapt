@@ -60,9 +60,6 @@ func NewProvider(ctx *pulumi.Context,
 	if isZero(args.SkipCredentialsValidation) {
 		args.SkipCredentialsValidation = pulumi.BoolPtr(false)
 	}
-	if isZero(args.SkipGetEc2Platforms) {
-		args.SkipGetEc2Platforms = pulumi.BoolPtr(true)
-	}
 	if isZero(args.SkipMetadataApiCheck) {
 		args.SkipMetadataApiCheck = pulumi.BoolPtr(true)
 	}
@@ -133,6 +130,8 @@ type providerArgs struct {
 	// available/implemented.
 	SkipCredentialsValidation *bool `pulumi:"skipCredentialsValidation"`
 	// Skip getting the supported EC2 platforms. Used by users that don't have ec2:DescribeAccountAttributes permissions.
+	//
+	// Deprecated: With the retirement of EC2-Classic the skip_get_ec2_platforms attribute has been deprecated and will be removed in a future version.
 	SkipGetEc2Platforms *bool `pulumi:"skipGetEc2Platforms"`
 	// Skip the AWS Metadata API check. Used for AWS API implementations that do not have a metadata api endpoint.
 	SkipMetadataApiCheck *bool `pulumi:"skipMetadataApiCheck"`
@@ -208,6 +207,8 @@ type ProviderArgs struct {
 	// available/implemented.
 	SkipCredentialsValidation pulumi.BoolPtrInput
 	// Skip getting the supported EC2 platforms. Used by users that don't have ec2:DescribeAccountAttributes permissions.
+	//
+	// Deprecated: With the retirement of EC2-Classic the skip_get_ec2_platforms attribute has been deprecated and will be removed in a future version.
 	SkipGetEc2Platforms pulumi.BoolPtrInput
 	// Skip the AWS Metadata API check. Used for AWS API implementations that do not have a metadata api endpoint.
 	SkipMetadataApiCheck pulumi.BoolPtrInput

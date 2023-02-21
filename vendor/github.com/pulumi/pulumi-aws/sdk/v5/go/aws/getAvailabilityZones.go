@@ -35,20 +35,20 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			available, err := aws.GetAvailabilityZones(ctx, &GetAvailabilityZonesArgs{
+//			available, err := aws.GetAvailabilityZones(ctx, &aws.GetAvailabilityZonesArgs{
 //				State: pulumi.StringRef("available"),
 //			}, nil)
 //			if err != nil {
 //				return err
 //			}
 //			_, err = ec2.NewSubnet(ctx, "primary", &ec2.SubnetArgs{
-//				AvailabilityZone: pulumi.String(available.Names[0]),
+//				AvailabilityZone: *pulumi.String(available.Names[0]),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = ec2.NewSubnet(ctx, "secondary", &ec2.SubnetArgs{
-//				AvailabilityZone: pulumi.String(available.Names[1]),
+//				AvailabilityZone: *pulumi.String(available.Names[1]),
 //			})
 //			if err != nil {
 //				return err
@@ -74,10 +74,10 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := aws.GetAvailabilityZones(ctx, &GetAvailabilityZonesArgs{
+//			_, err := aws.GetAvailabilityZones(ctx, &aws.GetAvailabilityZonesArgs{
 //				AllAvailabilityZones: pulumi.BoolRef(true),
-//				Filters: []GetAvailabilityZonesFilter{
-//					GetAvailabilityZonesFilter{
+//				Filters: []aws.GetAvailabilityZonesFilter{
+//					{
 //						Name: "opt-in-status",
 //						Values: []string{
 //							"not-opted-in",
@@ -109,9 +109,9 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := aws.GetAvailabilityZones(ctx, &GetAvailabilityZonesArgs{
-//				Filters: []GetAvailabilityZonesFilter{
-//					GetAvailabilityZonesFilter{
+//			_, err := aws.GetAvailabilityZones(ctx, &aws.GetAvailabilityZonesArgs{
+//				Filters: []aws.GetAvailabilityZonesFilter{
+//					{
 //						Name: "opt-in-status",
 //						Values: []string{
 //							"opt-in-not-required",
@@ -159,7 +159,8 @@ type GetAvailabilityZonesResult struct {
 	ExcludeNames         []string                     `pulumi:"excludeNames"`
 	ExcludeZoneIds       []string                     `pulumi:"excludeZoneIds"`
 	Filters              []GetAvailabilityZonesFilter `pulumi:"filters"`
-	GroupNames           []string                     `pulumi:"groupNames"`
+	// A set of the Availability Zone Group names. For Availability Zones, this is the same value as the Region name. For Local Zones, the name of the associated group, for example `us-west-2-lax-1`.
+	GroupNames []string `pulumi:"groupNames"`
 	// The provider-assigned unique ID for this managed resource.
 	Id string `pulumi:"id"`
 	// List of the Availability Zone names available to the account.
@@ -234,6 +235,7 @@ func (o GetAvailabilityZonesResultOutput) Filters() GetAvailabilityZonesFilterAr
 	return o.ApplyT(func(v GetAvailabilityZonesResult) []GetAvailabilityZonesFilter { return v.Filters }).(GetAvailabilityZonesFilterArrayOutput)
 }
 
+// A set of the Availability Zone Group names. For Availability Zones, this is the same value as the Region name. For Local Zones, the name of the associated group, for example `us-west-2-lax-1`.
 func (o GetAvailabilityZonesResultOutput) GroupNames() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v GetAvailabilityZonesResult) []string { return v.GroupNames }).(pulumi.StringArrayOutput)
 }

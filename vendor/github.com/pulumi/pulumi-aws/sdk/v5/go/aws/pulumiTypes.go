@@ -725,6 +725,7 @@ type ProviderEndpoint struct {
 	Connectcontactlens                  *string `pulumi:"connectcontactlens"`
 	Connectparticipant                  *string `pulumi:"connectparticipant"`
 	Connectwisdomservice                *string `pulumi:"connectwisdomservice"`
+	Controltower                        *string `pulumi:"controltower"`
 	Costandusagereportservice           *string `pulumi:"costandusagereportservice"`
 	Costexplorer                        *string `pulumi:"costexplorer"`
 	Cur                                 *string `pulumi:"cur"`
@@ -804,6 +805,7 @@ type ProviderEndpoint struct {
 	Imagebuilder                        *string `pulumi:"imagebuilder"`
 	Inspector                           *string `pulumi:"inspector"`
 	Inspector2                          *string `pulumi:"inspector2"`
+	Inspectorv2                         *string `pulumi:"inspectorv2"`
 	Iot                                 *string `pulumi:"iot"`
 	Iot1clickdevices                    *string `pulumi:"iot1clickdevices"`
 	Iot1clickdevicesservice             *string `pulumi:"iot1clickdevicesservice"`
@@ -823,6 +825,7 @@ type ProviderEndpoint struct {
 	Iottwinmaker                        *string `pulumi:"iottwinmaker"`
 	Iotwireless                         *string `pulumi:"iotwireless"`
 	Ivs                                 *string `pulumi:"ivs"`
+	Ivschat                             *string `pulumi:"ivschat"`
 	Kafka                               *string `pulumi:"kafka"`
 	Kafkaconnect                        *string `pulumi:"kafkaconnect"`
 	Kendra                              *string `pulumi:"kendra"`
@@ -895,6 +898,7 @@ type ProviderEndpoint struct {
 	Nimble                              *string `pulumi:"nimble"`
 	Nimblestudio                        *string `pulumi:"nimblestudio"`
 	Opensearch                          *string `pulumi:"opensearch"`
+	Opensearchserverless                *string `pulumi:"opensearchserverless"`
 	Opensearchservice                   *string `pulumi:"opensearchservice"`
 	Opsworks                            *string `pulumi:"opsworks"`
 	Opsworkscm                          *string `pulumi:"opsworkscm"`
@@ -908,6 +912,7 @@ type ProviderEndpoint struct {
 	Pinpoint                            *string `pulumi:"pinpoint"`
 	Pinpointemail                       *string `pulumi:"pinpointemail"`
 	Pinpointsmsvoice                    *string `pulumi:"pinpointsmsvoice"`
+	Pipes                               *string `pulumi:"pipes"`
 	Polly                               *string `pulumi:"polly"`
 	Pricing                             *string `pulumi:"pricing"`
 	Prometheus                          *string `pulumi:"prometheus"`
@@ -928,6 +933,7 @@ type ProviderEndpoint struct {
 	Redshiftserverless                  *string `pulumi:"redshiftserverless"`
 	Rekognition                         *string `pulumi:"rekognition"`
 	Resiliencehub                       *string `pulumi:"resiliencehub"`
+	Resourceexplorer2                   *string `pulumi:"resourceexplorer2"`
 	Resourcegroups                      *string `pulumi:"resourcegroups"`
 	Resourcegroupstagging               *string `pulumi:"resourcegroupstagging"`
 	Resourcegroupstaggingapi            *string `pulumi:"resourcegroupstaggingapi"`
@@ -951,6 +957,7 @@ type ProviderEndpoint struct {
 	Sagemakerfeaturestoreruntime        *string `pulumi:"sagemakerfeaturestoreruntime"`
 	Sagemakerruntime                    *string `pulumi:"sagemakerruntime"`
 	Savingsplans                        *string `pulumi:"savingsplans"`
+	Scheduler                           *string `pulumi:"scheduler"`
 	Schemas                             *string `pulumi:"schemas"`
 	Sdb                                 *string `pulumi:"sdb"`
 	Secretsmanager                      *string `pulumi:"secretsmanager"`
@@ -1107,6 +1114,7 @@ type ProviderEndpointArgs struct {
 	Connectcontactlens                  pulumi.StringPtrInput `pulumi:"connectcontactlens"`
 	Connectparticipant                  pulumi.StringPtrInput `pulumi:"connectparticipant"`
 	Connectwisdomservice                pulumi.StringPtrInput `pulumi:"connectwisdomservice"`
+	Controltower                        pulumi.StringPtrInput `pulumi:"controltower"`
 	Costandusagereportservice           pulumi.StringPtrInput `pulumi:"costandusagereportservice"`
 	Costexplorer                        pulumi.StringPtrInput `pulumi:"costexplorer"`
 	Cur                                 pulumi.StringPtrInput `pulumi:"cur"`
@@ -1186,6 +1194,7 @@ type ProviderEndpointArgs struct {
 	Imagebuilder                        pulumi.StringPtrInput `pulumi:"imagebuilder"`
 	Inspector                           pulumi.StringPtrInput `pulumi:"inspector"`
 	Inspector2                          pulumi.StringPtrInput `pulumi:"inspector2"`
+	Inspectorv2                         pulumi.StringPtrInput `pulumi:"inspectorv2"`
 	Iot                                 pulumi.StringPtrInput `pulumi:"iot"`
 	Iot1clickdevices                    pulumi.StringPtrInput `pulumi:"iot1clickdevices"`
 	Iot1clickdevicesservice             pulumi.StringPtrInput `pulumi:"iot1clickdevicesservice"`
@@ -1205,6 +1214,7 @@ type ProviderEndpointArgs struct {
 	Iottwinmaker                        pulumi.StringPtrInput `pulumi:"iottwinmaker"`
 	Iotwireless                         pulumi.StringPtrInput `pulumi:"iotwireless"`
 	Ivs                                 pulumi.StringPtrInput `pulumi:"ivs"`
+	Ivschat                             pulumi.StringPtrInput `pulumi:"ivschat"`
 	Kafka                               pulumi.StringPtrInput `pulumi:"kafka"`
 	Kafkaconnect                        pulumi.StringPtrInput `pulumi:"kafkaconnect"`
 	Kendra                              pulumi.StringPtrInput `pulumi:"kendra"`
@@ -1277,6 +1287,7 @@ type ProviderEndpointArgs struct {
 	Nimble                              pulumi.StringPtrInput `pulumi:"nimble"`
 	Nimblestudio                        pulumi.StringPtrInput `pulumi:"nimblestudio"`
 	Opensearch                          pulumi.StringPtrInput `pulumi:"opensearch"`
+	Opensearchserverless                pulumi.StringPtrInput `pulumi:"opensearchserverless"`
 	Opensearchservice                   pulumi.StringPtrInput `pulumi:"opensearchservice"`
 	Opsworks                            pulumi.StringPtrInput `pulumi:"opsworks"`
 	Opsworkscm                          pulumi.StringPtrInput `pulumi:"opsworkscm"`
@@ -1290,6 +1301,7 @@ type ProviderEndpointArgs struct {
 	Pinpoint                            pulumi.StringPtrInput `pulumi:"pinpoint"`
 	Pinpointemail                       pulumi.StringPtrInput `pulumi:"pinpointemail"`
 	Pinpointsmsvoice                    pulumi.StringPtrInput `pulumi:"pinpointsmsvoice"`
+	Pipes                               pulumi.StringPtrInput `pulumi:"pipes"`
 	Polly                               pulumi.StringPtrInput `pulumi:"polly"`
 	Pricing                             pulumi.StringPtrInput `pulumi:"pricing"`
 	Prometheus                          pulumi.StringPtrInput `pulumi:"prometheus"`
@@ -1310,6 +1322,7 @@ type ProviderEndpointArgs struct {
 	Redshiftserverless                  pulumi.StringPtrInput `pulumi:"redshiftserverless"`
 	Rekognition                         pulumi.StringPtrInput `pulumi:"rekognition"`
 	Resiliencehub                       pulumi.StringPtrInput `pulumi:"resiliencehub"`
+	Resourceexplorer2                   pulumi.StringPtrInput `pulumi:"resourceexplorer2"`
 	Resourcegroups                      pulumi.StringPtrInput `pulumi:"resourcegroups"`
 	Resourcegroupstagging               pulumi.StringPtrInput `pulumi:"resourcegroupstagging"`
 	Resourcegroupstaggingapi            pulumi.StringPtrInput `pulumi:"resourcegroupstaggingapi"`
@@ -1333,6 +1346,7 @@ type ProviderEndpointArgs struct {
 	Sagemakerfeaturestoreruntime        pulumi.StringPtrInput `pulumi:"sagemakerfeaturestoreruntime"`
 	Sagemakerruntime                    pulumi.StringPtrInput `pulumi:"sagemakerruntime"`
 	Savingsplans                        pulumi.StringPtrInput `pulumi:"savingsplans"`
+	Scheduler                           pulumi.StringPtrInput `pulumi:"scheduler"`
 	Schemas                             pulumi.StringPtrInput `pulumi:"schemas"`
 	Sdb                                 pulumi.StringPtrInput `pulumi:"sdb"`
 	Secretsmanager                      pulumi.StringPtrInput `pulumi:"secretsmanager"`
@@ -1786,6 +1800,10 @@ func (o ProviderEndpointOutput) Connectwisdomservice() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Connectwisdomservice }).(pulumi.StringPtrOutput)
 }
 
+func (o ProviderEndpointOutput) Controltower() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Controltower }).(pulumi.StringPtrOutput)
+}
+
 func (o ProviderEndpointOutput) Costandusagereportservice() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Costandusagereportservice }).(pulumi.StringPtrOutput)
 }
@@ -2102,6 +2120,10 @@ func (o ProviderEndpointOutput) Inspector2() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Inspector2 }).(pulumi.StringPtrOutput)
 }
 
+func (o ProviderEndpointOutput) Inspectorv2() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Inspectorv2 }).(pulumi.StringPtrOutput)
+}
+
 func (o ProviderEndpointOutput) Iot() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Iot }).(pulumi.StringPtrOutput)
 }
@@ -2176,6 +2198,10 @@ func (o ProviderEndpointOutput) Iotwireless() pulumi.StringPtrOutput {
 
 func (o ProviderEndpointOutput) Ivs() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Ivs }).(pulumi.StringPtrOutput)
+}
+
+func (o ProviderEndpointOutput) Ivschat() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Ivschat }).(pulumi.StringPtrOutput)
 }
 
 func (o ProviderEndpointOutput) Kafka() pulumi.StringPtrOutput {
@@ -2466,6 +2492,10 @@ func (o ProviderEndpointOutput) Opensearch() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Opensearch }).(pulumi.StringPtrOutput)
 }
 
+func (o ProviderEndpointOutput) Opensearchserverless() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Opensearchserverless }).(pulumi.StringPtrOutput)
+}
+
 func (o ProviderEndpointOutput) Opensearchservice() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Opensearchservice }).(pulumi.StringPtrOutput)
 }
@@ -2516,6 +2546,10 @@ func (o ProviderEndpointOutput) Pinpointemail() pulumi.StringPtrOutput {
 
 func (o ProviderEndpointOutput) Pinpointsmsvoice() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Pinpointsmsvoice }).(pulumi.StringPtrOutput)
+}
+
+func (o ProviderEndpointOutput) Pipes() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Pipes }).(pulumi.StringPtrOutput)
 }
 
 func (o ProviderEndpointOutput) Polly() pulumi.StringPtrOutput {
@@ -2596,6 +2630,10 @@ func (o ProviderEndpointOutput) Rekognition() pulumi.StringPtrOutput {
 
 func (o ProviderEndpointOutput) Resiliencehub() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Resiliencehub }).(pulumi.StringPtrOutput)
+}
+
+func (o ProviderEndpointOutput) Resourceexplorer2() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Resourceexplorer2 }).(pulumi.StringPtrOutput)
 }
 
 func (o ProviderEndpointOutput) Resourcegroups() pulumi.StringPtrOutput {
@@ -2688,6 +2726,10 @@ func (o ProviderEndpointOutput) Sagemakerruntime() pulumi.StringPtrOutput {
 
 func (o ProviderEndpointOutput) Savingsplans() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Savingsplans }).(pulumi.StringPtrOutput)
+}
+
+func (o ProviderEndpointOutput) Scheduler() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Scheduler }).(pulumi.StringPtrOutput)
 }
 
 func (o ProviderEndpointOutput) Schemas() pulumi.StringPtrOutput {

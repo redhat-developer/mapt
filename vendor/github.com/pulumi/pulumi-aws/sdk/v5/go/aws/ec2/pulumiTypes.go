@@ -2796,7 +2796,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsPtrOutput) VcpuCoun
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -2814,7 +2814,7 @@ type FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountInput 
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -2897,7 +2897,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountOut
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCount) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -2931,7 +2931,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountPtr
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCount) *int {
 		if v == nil {
@@ -2952,7 +2952,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountPtr
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMib struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -2970,7 +2970,7 @@ type FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemory
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -3053,7 +3053,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMem
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMib) *int {
 		return v.Max
@@ -3091,7 +3091,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMem
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMib) *int {
 		if v == nil {
@@ -3112,7 +3112,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMem
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbps struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -3130,7 +3130,7 @@ type FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMb
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -3213,7 +3213,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidt
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbps) *int {
 		return v.Max
@@ -3251,7 +3251,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidt
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbps) *int {
 		if v == nil {
@@ -3272,7 +3272,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidt
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpu struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *float64 `pulumi:"max"`
 	// Minimum.
 	Min *float64 `pulumi:"min"`
@@ -3290,7 +3290,7 @@ type FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuInput 
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.Float64PtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.Float64PtrInput `pulumi:"min"`
@@ -3373,7 +3373,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuOut
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpu) *float64 { return v.Max }).(pulumi.Float64PtrOutput)
 }
@@ -3407,7 +3407,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuPtr
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuPtrOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v *FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpu) *float64 {
 		if v == nil {
@@ -3428,7 +3428,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuPtr
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMib struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min int `pulumi:"min"`
@@ -3446,7 +3446,7 @@ type FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibInput interfa
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntInput `pulumi:"min"`
@@ -3529,7 +3529,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibOutput) To
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMib) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -3563,7 +3563,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibPtrOutput)
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMib) *int {
 		if v == nil {
@@ -3584,7 +3584,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibPtrOutput)
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -3602,7 +3602,7 @@ type FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountI
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -3685,7 +3685,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCou
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCount) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -3719,7 +3719,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCou
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCount) *int {
 		if v == nil {
@@ -3740,7 +3740,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCou
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *float64 `pulumi:"max"`
 	// Minimum.
 	Min *float64 `pulumi:"min"`
@@ -3758,7 +3758,7 @@ type FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbInp
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.Float64PtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.Float64PtrInput `pulumi:"min"`
@@ -3841,7 +3841,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb) *float64 {
 		return v.Max
@@ -3879,7 +3879,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbPtrOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v *FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb) *float64 {
 		if v == nil {
@@ -3900,7 +3900,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min int `pulumi:"min"`
@@ -3918,7 +3918,7 @@ type FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountInput interfa
 }
 
 type FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntInput `pulumi:"min"`
@@ -4001,7 +4001,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountOutput) To
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCount) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -4035,7 +4035,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountPtrOutput)
 	}).(FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCount) *int {
 		if v == nil {
@@ -4056,7 +4056,7 @@ func (o FleetLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountPtrOutput)
 }
 
 type FleetOnDemandOptions struct {
-	// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized` and `capacity-optimized-prioritized`. Default: `lowestPrice`.
+	// The order of the launch template overrides to use in fulfilling On-Demand capacity. Valid values: `lowestPrice`, `prioritized`. Default: `lowestPrice`.
 	AllocationStrategy *string `pulumi:"allocationStrategy"`
 }
 
@@ -4072,7 +4072,7 @@ type FleetOnDemandOptionsInput interface {
 }
 
 type FleetOnDemandOptionsArgs struct {
-	// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized` and `capacity-optimized-prioritized`. Default: `lowestPrice`.
+	// The order of the launch template overrides to use in fulfilling On-Demand capacity. Valid values: `lowestPrice`, `prioritized`. Default: `lowestPrice`.
 	AllocationStrategy pulumi.StringPtrInput `pulumi:"allocationStrategy"`
 }
 
@@ -4153,7 +4153,7 @@ func (o FleetOnDemandOptionsOutput) ToFleetOnDemandOptionsPtrOutputWithContext(c
 	}).(FleetOnDemandOptionsPtrOutput)
 }
 
-// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized` and `capacity-optimized-prioritized`. Default: `lowestPrice`.
+// The order of the launch template overrides to use in fulfilling On-Demand capacity. Valid values: `lowestPrice`, `prioritized`. Default: `lowestPrice`.
 func (o FleetOnDemandOptionsOutput) AllocationStrategy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v FleetOnDemandOptions) *string { return v.AllocationStrategy }).(pulumi.StringPtrOutput)
 }
@@ -4182,7 +4182,7 @@ func (o FleetOnDemandOptionsPtrOutput) Elem() FleetOnDemandOptionsOutput {
 	}).(FleetOnDemandOptionsOutput)
 }
 
-// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized` and `capacity-optimized-prioritized`. Default: `lowestPrice`.
+// The order of the launch template overrides to use in fulfilling On-Demand capacity. Valid values: `lowestPrice`, `prioritized`. Default: `lowestPrice`.
 func (o FleetOnDemandOptionsPtrOutput) AllocationStrategy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FleetOnDemandOptions) *string {
 		if v == nil {
@@ -4193,7 +4193,7 @@ func (o FleetOnDemandOptionsPtrOutput) AllocationStrategy() pulumi.StringPtrOutp
 }
 
 type FleetSpotOptions struct {
-	// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized` and `capacity-optimized-prioritized`. Default: `lowestPrice`.
+	// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized`, `capacity-optimized-prioritized` and `price-capacity-optimized`. Default: `lowestPrice`.
 	AllocationStrategy *string `pulumi:"allocationStrategy"`
 	// Behavior when a Spot Instance is interrupted. Valid values: `hibernate`, `stop`, `terminate`. Default: `terminate`.
 	InstanceInterruptionBehavior *string `pulumi:"instanceInterruptionBehavior"`
@@ -4215,7 +4215,7 @@ type FleetSpotOptionsInput interface {
 }
 
 type FleetSpotOptionsArgs struct {
-	// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized` and `capacity-optimized-prioritized`. Default: `lowestPrice`.
+	// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized`, `capacity-optimized-prioritized` and `price-capacity-optimized`. Default: `lowestPrice`.
 	AllocationStrategy pulumi.StringPtrInput `pulumi:"allocationStrategy"`
 	// Behavior when a Spot Instance is interrupted. Valid values: `hibernate`, `stop`, `terminate`. Default: `terminate`.
 	InstanceInterruptionBehavior pulumi.StringPtrInput `pulumi:"instanceInterruptionBehavior"`
@@ -4302,7 +4302,7 @@ func (o FleetSpotOptionsOutput) ToFleetSpotOptionsPtrOutputWithContext(ctx conte
 	}).(FleetSpotOptionsPtrOutput)
 }
 
-// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized` and `capacity-optimized-prioritized`. Default: `lowestPrice`.
+// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized`, `capacity-optimized-prioritized` and `price-capacity-optimized`. Default: `lowestPrice`.
 func (o FleetSpotOptionsOutput) AllocationStrategy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v FleetSpotOptions) *string { return v.AllocationStrategy }).(pulumi.StringPtrOutput)
 }
@@ -4346,7 +4346,7 @@ func (o FleetSpotOptionsPtrOutput) Elem() FleetSpotOptionsOutput {
 	}).(FleetSpotOptionsOutput)
 }
 
-// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized` and `capacity-optimized-prioritized`. Default: `lowestPrice`.
+// How to allocate the target capacity across the Spot pools. Valid values: `diversified`, `lowestPrice`, `capacity-optimized`, `capacity-optimized-prioritized` and `price-capacity-optimized`. Default: `lowestPrice`.
 func (o FleetSpotOptionsPtrOutput) AllocationStrategy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FleetSpotOptions) *string {
 		if v == nil {
@@ -10292,7 +10292,7 @@ func (o LaunchTemplateInstanceRequirementsPtrOutput) VcpuCount() LaunchTemplateI
 }
 
 type LaunchTemplateInstanceRequirementsAcceleratorCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -10310,7 +10310,7 @@ type LaunchTemplateInstanceRequirementsAcceleratorCountInput interface {
 }
 
 type LaunchTemplateInstanceRequirementsAcceleratorCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -10393,7 +10393,7 @@ func (o LaunchTemplateInstanceRequirementsAcceleratorCountOutput) ToLaunchTempla
 	}).(LaunchTemplateInstanceRequirementsAcceleratorCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsAcceleratorCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v LaunchTemplateInstanceRequirementsAcceleratorCount) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -10427,7 +10427,7 @@ func (o LaunchTemplateInstanceRequirementsAcceleratorCountPtrOutput) Elem() Laun
 	}).(LaunchTemplateInstanceRequirementsAcceleratorCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsAcceleratorCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateInstanceRequirementsAcceleratorCount) *int {
 		if v == nil {
@@ -10448,7 +10448,7 @@ func (o LaunchTemplateInstanceRequirementsAcceleratorCountPtrOutput) Min() pulum
 }
 
 type LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMib struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -10466,7 +10466,7 @@ type LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibInput interface 
 }
 
 type LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -10549,7 +10549,7 @@ func (o LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibOutput) ToLau
 	}).(LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMib) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -10583,7 +10583,7 @@ func (o LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput) El
 	}).(LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMib) *int {
 		if v == nil {
@@ -10604,7 +10604,7 @@ func (o LaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput) Mi
 }
 
 type LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbps struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -10622,7 +10622,7 @@ type LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsInput interface {
 }
 
 type LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -10705,7 +10705,7 @@ func (o LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsOutput) ToLaun
 	}).(LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbps) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -10739,7 +10739,7 @@ func (o LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsPtrOutput) Ele
 	}).(LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbps) *int {
 		if v == nil {
@@ -10760,7 +10760,7 @@ func (o LaunchTemplateInstanceRequirementsBaselineEbsBandwidthMbpsPtrOutput) Min
 }
 
 type LaunchTemplateInstanceRequirementsMemoryGibPerVcpu struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *float64 `pulumi:"max"`
 	// Minimum.
 	Min *float64 `pulumi:"min"`
@@ -10778,7 +10778,7 @@ type LaunchTemplateInstanceRequirementsMemoryGibPerVcpuInput interface {
 }
 
 type LaunchTemplateInstanceRequirementsMemoryGibPerVcpuArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.Float64PtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.Float64PtrInput `pulumi:"min"`
@@ -10861,7 +10861,7 @@ func (o LaunchTemplateInstanceRequirementsMemoryGibPerVcpuOutput) ToLaunchTempla
 	}).(LaunchTemplateInstanceRequirementsMemoryGibPerVcpuPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsMemoryGibPerVcpuOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v LaunchTemplateInstanceRequirementsMemoryGibPerVcpu) *float64 { return v.Max }).(pulumi.Float64PtrOutput)
 }
@@ -10895,7 +10895,7 @@ func (o LaunchTemplateInstanceRequirementsMemoryGibPerVcpuPtrOutput) Elem() Laun
 	}).(LaunchTemplateInstanceRequirementsMemoryGibPerVcpuOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsMemoryGibPerVcpuPtrOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateInstanceRequirementsMemoryGibPerVcpu) *float64 {
 		if v == nil {
@@ -10916,7 +10916,7 @@ func (o LaunchTemplateInstanceRequirementsMemoryGibPerVcpuPtrOutput) Min() pulum
 }
 
 type LaunchTemplateInstanceRequirementsMemoryMib struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min int `pulumi:"min"`
@@ -10934,7 +10934,7 @@ type LaunchTemplateInstanceRequirementsMemoryMibInput interface {
 }
 
 type LaunchTemplateInstanceRequirementsMemoryMibArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntInput `pulumi:"min"`
@@ -11017,7 +11017,7 @@ func (o LaunchTemplateInstanceRequirementsMemoryMibOutput) ToLaunchTemplateInsta
 	}).(LaunchTemplateInstanceRequirementsMemoryMibPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsMemoryMibOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v LaunchTemplateInstanceRequirementsMemoryMib) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -11051,7 +11051,7 @@ func (o LaunchTemplateInstanceRequirementsMemoryMibPtrOutput) Elem() LaunchTempl
 	}).(LaunchTemplateInstanceRequirementsMemoryMibOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsMemoryMibPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateInstanceRequirementsMemoryMib) *int {
 		if v == nil {
@@ -11072,7 +11072,7 @@ func (o LaunchTemplateInstanceRequirementsMemoryMibPtrOutput) Min() pulumi.IntPt
 }
 
 type LaunchTemplateInstanceRequirementsNetworkInterfaceCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -11090,7 +11090,7 @@ type LaunchTemplateInstanceRequirementsNetworkInterfaceCountInput interface {
 }
 
 type LaunchTemplateInstanceRequirementsNetworkInterfaceCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -11173,7 +11173,7 @@ func (o LaunchTemplateInstanceRequirementsNetworkInterfaceCountOutput) ToLaunchT
 	}).(LaunchTemplateInstanceRequirementsNetworkInterfaceCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsNetworkInterfaceCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v LaunchTemplateInstanceRequirementsNetworkInterfaceCount) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -11207,7 +11207,7 @@ func (o LaunchTemplateInstanceRequirementsNetworkInterfaceCountPtrOutput) Elem()
 	}).(LaunchTemplateInstanceRequirementsNetworkInterfaceCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsNetworkInterfaceCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateInstanceRequirementsNetworkInterfaceCount) *int {
 		if v == nil {
@@ -11228,7 +11228,7 @@ func (o LaunchTemplateInstanceRequirementsNetworkInterfaceCountPtrOutput) Min() 
 }
 
 type LaunchTemplateInstanceRequirementsTotalLocalStorageGb struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *float64 `pulumi:"max"`
 	// Minimum.
 	Min *float64 `pulumi:"min"`
@@ -11246,7 +11246,7 @@ type LaunchTemplateInstanceRequirementsTotalLocalStorageGbInput interface {
 }
 
 type LaunchTemplateInstanceRequirementsTotalLocalStorageGbArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.Float64PtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.Float64PtrInput `pulumi:"min"`
@@ -11329,7 +11329,7 @@ func (o LaunchTemplateInstanceRequirementsTotalLocalStorageGbOutput) ToLaunchTem
 	}).(LaunchTemplateInstanceRequirementsTotalLocalStorageGbPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsTotalLocalStorageGbOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v LaunchTemplateInstanceRequirementsTotalLocalStorageGb) *float64 { return v.Max }).(pulumi.Float64PtrOutput)
 }
@@ -11363,7 +11363,7 @@ func (o LaunchTemplateInstanceRequirementsTotalLocalStorageGbPtrOutput) Elem() L
 	}).(LaunchTemplateInstanceRequirementsTotalLocalStorageGbOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsTotalLocalStorageGbPtrOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateInstanceRequirementsTotalLocalStorageGb) *float64 {
 		if v == nil {
@@ -11384,7 +11384,7 @@ func (o LaunchTemplateInstanceRequirementsTotalLocalStorageGbPtrOutput) Min() pu
 }
 
 type LaunchTemplateInstanceRequirementsVcpuCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min int `pulumi:"min"`
@@ -11402,7 +11402,7 @@ type LaunchTemplateInstanceRequirementsVcpuCountInput interface {
 }
 
 type LaunchTemplateInstanceRequirementsVcpuCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntInput `pulumi:"min"`
@@ -11485,7 +11485,7 @@ func (o LaunchTemplateInstanceRequirementsVcpuCountOutput) ToLaunchTemplateInsta
 	}).(LaunchTemplateInstanceRequirementsVcpuCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsVcpuCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v LaunchTemplateInstanceRequirementsVcpuCount) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -11519,7 +11519,7 @@ func (o LaunchTemplateInstanceRequirementsVcpuCountPtrOutput) Elem() LaunchTempl
 	}).(LaunchTemplateInstanceRequirementsVcpuCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o LaunchTemplateInstanceRequirementsVcpuCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateInstanceRequirementsVcpuCount) *int {
 		if v == nil {
@@ -13515,6 +13515,7 @@ type NetworkInsightsAnalysisExplanation struct {
 	InternetGateways               []NetworkInsightsAnalysisExplanationInternetGateway               `pulumi:"internetGateways"`
 	LoadBalancerArn                *string                                                           `pulumi:"loadBalancerArn"`
 	LoadBalancerListenerPort       *int                                                              `pulumi:"loadBalancerListenerPort"`
+	LoadBalancerTargetGroup        []NetworkInsightsAnalysisExplanationLoadBalancerTargetGroup       `pulumi:"loadBalancerTargetGroup"`
 	LoadBalancerTargetGroups       []NetworkInsightsAnalysisExplanationLoadBalancerTargetGroup       `pulumi:"loadBalancerTargetGroups"`
 	LoadBalancerTargetPort         *int                                                              `pulumi:"loadBalancerTargetPort"`
 	MissingComponent               *string                                                           `pulumi:"missingComponent"`
@@ -13527,6 +13528,7 @@ type NetworkInsightsAnalysisExplanation struct {
 	Protocols                      []string                                                          `pulumi:"protocols"`
 	RouteTableRoutes               []NetworkInsightsAnalysisExplanationRouteTableRoute               `pulumi:"routeTableRoutes"`
 	RouteTables                    []NetworkInsightsAnalysisExplanationRouteTable                    `pulumi:"routeTables"`
+	SecurityGroup                  []NetworkInsightsAnalysisExplanationSecurityGroup                 `pulumi:"securityGroup"`
 	SecurityGroupRules             []NetworkInsightsAnalysisExplanationSecurityGroupRule             `pulumi:"securityGroupRules"`
 	SecurityGroups                 []NetworkInsightsAnalysisExplanationSecurityGroup                 `pulumi:"securityGroups"`
 	SourceVpcs                     []NetworkInsightsAnalysisExplanationSourceVpc                     `pulumi:"sourceVpcs"`
@@ -13575,6 +13577,7 @@ type NetworkInsightsAnalysisExplanationArgs struct {
 	InternetGateways               NetworkInsightsAnalysisExplanationInternetGatewayArrayInput               `pulumi:"internetGateways"`
 	LoadBalancerArn                pulumi.StringPtrInput                                                     `pulumi:"loadBalancerArn"`
 	LoadBalancerListenerPort       pulumi.IntPtrInput                                                        `pulumi:"loadBalancerListenerPort"`
+	LoadBalancerTargetGroup        NetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayInput       `pulumi:"loadBalancerTargetGroup"`
 	LoadBalancerTargetGroups       NetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayInput       `pulumi:"loadBalancerTargetGroups"`
 	LoadBalancerTargetPort         pulumi.IntPtrInput                                                        `pulumi:"loadBalancerTargetPort"`
 	MissingComponent               pulumi.StringPtrInput                                                     `pulumi:"missingComponent"`
@@ -13587,6 +13590,7 @@ type NetworkInsightsAnalysisExplanationArgs struct {
 	Protocols                      pulumi.StringArrayInput                                                   `pulumi:"protocols"`
 	RouteTableRoutes               NetworkInsightsAnalysisExplanationRouteTableRouteArrayInput               `pulumi:"routeTableRoutes"`
 	RouteTables                    NetworkInsightsAnalysisExplanationRouteTableArrayInput                    `pulumi:"routeTables"`
+	SecurityGroup                  NetworkInsightsAnalysisExplanationSecurityGroupArrayInput                 `pulumi:"securityGroup"`
 	SecurityGroupRules             NetworkInsightsAnalysisExplanationSecurityGroupRuleArrayInput             `pulumi:"securityGroupRules"`
 	SecurityGroups                 NetworkInsightsAnalysisExplanationSecurityGroupArrayInput                 `pulumi:"securityGroups"`
 	SourceVpcs                     NetworkInsightsAnalysisExplanationSourceVpcArrayInput                     `pulumi:"sourceVpcs"`
@@ -13751,6 +13755,12 @@ func (o NetworkInsightsAnalysisExplanationOutput) LoadBalancerListenerPort() pul
 	return o.ApplyT(func(v NetworkInsightsAnalysisExplanation) *int { return v.LoadBalancerListenerPort }).(pulumi.IntPtrOutput)
 }
 
+func (o NetworkInsightsAnalysisExplanationOutput) LoadBalancerTargetGroup() NetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayOutput {
+	return o.ApplyT(func(v NetworkInsightsAnalysisExplanation) []NetworkInsightsAnalysisExplanationLoadBalancerTargetGroup {
+		return v.LoadBalancerTargetGroup
+	}).(NetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayOutput)
+}
+
 func (o NetworkInsightsAnalysisExplanationOutput) LoadBalancerTargetGroups() NetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayOutput {
 	return o.ApplyT(func(v NetworkInsightsAnalysisExplanation) []NetworkInsightsAnalysisExplanationLoadBalancerTargetGroup {
 		return v.LoadBalancerTargetGroups
@@ -13811,6 +13821,12 @@ func (o NetworkInsightsAnalysisExplanationOutput) RouteTables() NetworkInsightsA
 	return o.ApplyT(func(v NetworkInsightsAnalysisExplanation) []NetworkInsightsAnalysisExplanationRouteTable {
 		return v.RouteTables
 	}).(NetworkInsightsAnalysisExplanationRouteTableArrayOutput)
+}
+
+func (o NetworkInsightsAnalysisExplanationOutput) SecurityGroup() NetworkInsightsAnalysisExplanationSecurityGroupArrayOutput {
+	return o.ApplyT(func(v NetworkInsightsAnalysisExplanation) []NetworkInsightsAnalysisExplanationSecurityGroup {
+		return v.SecurityGroup
+	}).(NetworkInsightsAnalysisExplanationSecurityGroupArrayOutput)
 }
 
 func (o NetworkInsightsAnalysisExplanationOutput) SecurityGroupRules() NetworkInsightsAnalysisExplanationSecurityGroupRuleArrayOutput {
@@ -23911,19 +23927,19 @@ func (o SecurityGroupEgressArrayOutput) Index(i pulumi.IntInput) SecurityGroupEg
 type SecurityGroupIngress struct {
 	// List of CIDR blocks.
 	CidrBlocks []string `pulumi:"cidrBlocks"`
-	// Description of this egress rule.
+	// Description of this ingress rule.
 	Description *string `pulumi:"description"`
-	// Start port (or ICMP type number if protocol is `icmp`)
+	// Start port (or ICMP type number if protocol is `icmp` or `icmpv6`).
 	FromPort int `pulumi:"fromPort"`
 	// List of IPv6 CIDR blocks.
 	Ipv6CidrBlocks []string `pulumi:"ipv6CidrBlocks"`
 	// List of Prefix List IDs.
 	PrefixListIds []string `pulumi:"prefixListIds"`
-	// Protocol. If you select a protocol of `-1` (semantically equivalent to `all`, which is not a valid value here), you must specify a `fromPort` and `toPort` equal to 0.  The supported values are defined in the `IpProtocol` argument in the [IpPermission](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IpPermission.html) API reference.
+	// Protocol. If you select a protocol of `-1` (semantically equivalent to `all`, which is not a valid value here), you must specify a `fromPort` and `toPort` equal to 0.  The supported values are defined in the `IpProtocol` argument on the [IpPermission](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IpPermission.html) API reference.
 	Protocol string `pulumi:"protocol"`
 	// List of security groups. A group name can be used relative to the default VPC. Otherwise, group ID.
 	SecurityGroups []string `pulumi:"securityGroups"`
-	// Whether the security group itself will be added as a source to this egress rule.
+	// Whether the security group itself will be added as a source to this ingress rule.
 	Self *bool `pulumi:"self"`
 	// End range port (or ICMP code if protocol is `icmp`).
 	ToPort int `pulumi:"toPort"`
@@ -23943,19 +23959,19 @@ type SecurityGroupIngressInput interface {
 type SecurityGroupIngressArgs struct {
 	// List of CIDR blocks.
 	CidrBlocks pulumi.StringArrayInput `pulumi:"cidrBlocks"`
-	// Description of this egress rule.
+	// Description of this ingress rule.
 	Description pulumi.StringPtrInput `pulumi:"description"`
-	// Start port (or ICMP type number if protocol is `icmp`)
+	// Start port (or ICMP type number if protocol is `icmp` or `icmpv6`).
 	FromPort pulumi.IntInput `pulumi:"fromPort"`
 	// List of IPv6 CIDR blocks.
 	Ipv6CidrBlocks pulumi.StringArrayInput `pulumi:"ipv6CidrBlocks"`
 	// List of Prefix List IDs.
 	PrefixListIds pulumi.StringArrayInput `pulumi:"prefixListIds"`
-	// Protocol. If you select a protocol of `-1` (semantically equivalent to `all`, which is not a valid value here), you must specify a `fromPort` and `toPort` equal to 0.  The supported values are defined in the `IpProtocol` argument in the [IpPermission](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IpPermission.html) API reference.
+	// Protocol. If you select a protocol of `-1` (semantically equivalent to `all`, which is not a valid value here), you must specify a `fromPort` and `toPort` equal to 0.  The supported values are defined in the `IpProtocol` argument on the [IpPermission](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IpPermission.html) API reference.
 	Protocol pulumi.StringInput `pulumi:"protocol"`
 	// List of security groups. A group name can be used relative to the default VPC. Otherwise, group ID.
 	SecurityGroups pulumi.StringArrayInput `pulumi:"securityGroups"`
-	// Whether the security group itself will be added as a source to this egress rule.
+	// Whether the security group itself will be added as a source to this ingress rule.
 	Self pulumi.BoolPtrInput `pulumi:"self"`
 	// End range port (or ICMP code if protocol is `icmp`).
 	ToPort pulumi.IntInput `pulumi:"toPort"`
@@ -24017,12 +24033,12 @@ func (o SecurityGroupIngressOutput) CidrBlocks() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v SecurityGroupIngress) []string { return v.CidrBlocks }).(pulumi.StringArrayOutput)
 }
 
-// Description of this egress rule.
+// Description of this ingress rule.
 func (o SecurityGroupIngressOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v SecurityGroupIngress) *string { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// Start port (or ICMP type number if protocol is `icmp`)
+// Start port (or ICMP type number if protocol is `icmp` or `icmpv6`).
 func (o SecurityGroupIngressOutput) FromPort() pulumi.IntOutput {
 	return o.ApplyT(func(v SecurityGroupIngress) int { return v.FromPort }).(pulumi.IntOutput)
 }
@@ -24037,7 +24053,7 @@ func (o SecurityGroupIngressOutput) PrefixListIds() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v SecurityGroupIngress) []string { return v.PrefixListIds }).(pulumi.StringArrayOutput)
 }
 
-// Protocol. If you select a protocol of `-1` (semantically equivalent to `all`, which is not a valid value here), you must specify a `fromPort` and `toPort` equal to 0.  The supported values are defined in the `IpProtocol` argument in the [IpPermission](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IpPermission.html) API reference.
+// Protocol. If you select a protocol of `-1` (semantically equivalent to `all`, which is not a valid value here), you must specify a `fromPort` and `toPort` equal to 0.  The supported values are defined in the `IpProtocol` argument on the [IpPermission](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IpPermission.html) API reference.
 func (o SecurityGroupIngressOutput) Protocol() pulumi.StringOutput {
 	return o.ApplyT(func(v SecurityGroupIngress) string { return v.Protocol }).(pulumi.StringOutput)
 }
@@ -24047,7 +24063,7 @@ func (o SecurityGroupIngressOutput) SecurityGroups() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v SecurityGroupIngress) []string { return v.SecurityGroups }).(pulumi.StringArrayOutput)
 }
 
-// Whether the security group itself will be added as a source to this egress rule.
+// Whether the security group itself will be added as a source to this ingress rule.
 func (o SecurityGroupIngressOutput) Self() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v SecurityGroupIngress) *bool { return v.Self }).(pulumi.BoolPtrOutput)
 }
@@ -24094,7 +24110,7 @@ type SpotFleetRequestLaunchSpecification struct {
 	PlacementGroup   *string                                              `pulumi:"placementGroup"`
 	PlacementTenancy *string                                              `pulumi:"placementTenancy"`
 	RootBlockDevices []SpotFleetRequestLaunchSpecificationRootBlockDevice `pulumi:"rootBlockDevices"`
-	// The maximum spot bid for this override request.
+	// The maximum bid price per unit hour.
 	SpotPrice *string `pulumi:"spotPrice"`
 	// The subnet in which to launch the requested instance.
 	SubnetId *string `pulumi:"subnetId"`
@@ -24134,7 +24150,7 @@ type SpotFleetRequestLaunchSpecificationArgs struct {
 	PlacementGroup   pulumi.StringPtrInput                                        `pulumi:"placementGroup"`
 	PlacementTenancy pulumi.StringPtrInput                                        `pulumi:"placementTenancy"`
 	RootBlockDevices SpotFleetRequestLaunchSpecificationRootBlockDeviceArrayInput `pulumi:"rootBlockDevices"`
-	// The maximum spot bid for this override request.
+	// The maximum bid price per unit hour.
 	SpotPrice pulumi.StringPtrInput `pulumi:"spotPrice"`
 	// The subnet in which to launch the requested instance.
 	SubnetId pulumi.StringPtrInput `pulumi:"subnetId"`
@@ -24261,7 +24277,7 @@ func (o SpotFleetRequestLaunchSpecificationOutput) RootBlockDevices() SpotFleetR
 	}).(SpotFleetRequestLaunchSpecificationRootBlockDeviceArrayOutput)
 }
 
-// The maximum spot bid for this override request.
+// The maximum bid price per unit hour.
 func (o SpotFleetRequestLaunchSpecificationOutput) SpotPrice() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchSpecification) *string { return v.SpotPrice }).(pulumi.StringPtrOutput)
 }
@@ -25572,7 +25588,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsPtrOutpu
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -25590,7 +25606,7 @@ type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAccelerator
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -25673,7 +25689,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAccelera
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCount) *int {
 		return v.Max
@@ -25711,7 +25727,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAccelera
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorCount) *int {
 		if v == nil {
@@ -25732,7 +25748,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAccelera
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMib struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -25750,7 +25766,7 @@ type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAccelerator
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -25833,7 +25849,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAccelera
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMib) *int {
 		return v.Max
@@ -25871,7 +25887,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAccelera
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAcceleratorTotalMemoryMib) *int {
 		if v == nil {
@@ -25892,7 +25908,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsAccelera
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbps struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -25910,7 +25926,7 @@ type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbs
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -25993,7 +26009,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaseline
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbps) *int {
 		return v.Max
@@ -26031,7 +26047,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaseline
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbpsPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaselineEbsBandwidthMbps) *int {
 		if v == nil {
@@ -26052,7 +26068,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsBaseline
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpu struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *float64 `pulumi:"max"`
 	// Minimum.
 	Min *float64 `pulumi:"min"`
@@ -26070,7 +26086,7 @@ type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPe
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.Float64PtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.Float64PtrInput `pulumi:"min"`
@@ -26153,7 +26169,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGi
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpu) *float64 {
 		return v.Max
@@ -26191,7 +26207,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGi
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpuPtrOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGibPerVcpu) *float64 {
 		if v == nil {
@@ -26212,7 +26228,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryGi
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMib struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -26230,7 +26246,7 @@ type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibIn
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -26313,7 +26329,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMi
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMib) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -26347,7 +26363,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMi
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMibPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMib) *int {
 		if v == nil {
@@ -26368,7 +26384,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsMemoryMi
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -26386,7 +26402,7 @@ type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInte
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -26469,7 +26485,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkI
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCount) *int {
 		return v.Max
@@ -26507,7 +26523,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkI
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkInterfaceCount) *int {
 		if v == nil {
@@ -26528,7 +26544,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsNetworkI
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *float64 `pulumi:"max"`
 	// Minimum.
 	Min *float64 `pulumi:"min"`
@@ -26546,7 +26562,7 @@ type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalS
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.Float64PtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.Float64PtrInput `pulumi:"min"`
@@ -26629,7 +26645,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLoc
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb) *float64 {
 		return v.Max
@@ -26667,7 +26683,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLoc
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGbPtrOutput) Max() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLocalStorageGb) *float64 {
 		if v == nil {
@@ -26688,7 +26704,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsTotalLoc
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCount struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max *int `pulumi:"max"`
 	// Minimum.
 	Min *int `pulumi:"min"`
@@ -26706,7 +26722,7 @@ type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountIn
 }
 
 type SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountArgs struct {
-	// Maximum.
+	// Maximum. Set to `0` to exclude instance types with accelerators.
 	Max pulumi.IntPtrInput `pulumi:"max"`
 	// Minimum.
 	Min pulumi.IntPtrInput `pulumi:"min"`
@@ -26789,7 +26805,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCoun
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountPtrOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCount) *int { return v.Max }).(pulumi.IntPtrOutput)
 }
@@ -26823,7 +26839,7 @@ func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCoun
 	}).(SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountOutput)
 }
 
-// Maximum.
+// Maximum. Set to `0` to exclude instance types with accelerators.
 func (o SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCountPtrOutput) Max() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *SpotFleetRequestLaunchTemplateConfigOverrideInstanceRequirementsVcpuCount) *int {
 		if v == nil {
@@ -36779,7 +36795,7 @@ func (o GetLaunchTemplateHibernationOptionArrayOutput) Index(i pulumi.IntInput) 
 
 type GetLaunchTemplateIamInstanceProfile struct {
 	Arn string `pulumi:"arn"`
-	// Name of the filter field. Valid values can be found in the [EC2 DescribeLaunchTemplates API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html).
+	// Name of the launch template.
 	Name string `pulumi:"name"`
 }
 
@@ -36796,7 +36812,7 @@ type GetLaunchTemplateIamInstanceProfileInput interface {
 
 type GetLaunchTemplateIamInstanceProfileArgs struct {
 	Arn pulumi.StringInput `pulumi:"arn"`
-	// Name of the filter field. Valid values can be found in the [EC2 DescribeLaunchTemplates API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html).
+	// Name of the launch template.
 	Name pulumi.StringInput `pulumi:"name"`
 }
 
@@ -36855,7 +36871,7 @@ func (o GetLaunchTemplateIamInstanceProfileOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v GetLaunchTemplateIamInstanceProfile) string { return v.Arn }).(pulumi.StringOutput)
 }
 
-// Name of the filter field. Valid values can be found in the [EC2 DescribeLaunchTemplates API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html).
+// Name of the launch template.
 func (o GetLaunchTemplateIamInstanceProfileOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v GetLaunchTemplateIamInstanceProfile) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -40617,6 +40633,7 @@ type GetNetworkInsightsAnalysisExplanation struct {
 	InternetGateways               []GetNetworkInsightsAnalysisExplanationInternetGateway               `pulumi:"internetGateways"`
 	LoadBalancerArn                string                                                               `pulumi:"loadBalancerArn"`
 	LoadBalancerListenerPort       int                                                                  `pulumi:"loadBalancerListenerPort"`
+	LoadBalancerTargetGroup        []GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroup       `pulumi:"loadBalancerTargetGroup"`
 	LoadBalancerTargetGroups       []GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroup       `pulumi:"loadBalancerTargetGroups"`
 	LoadBalancerTargetPort         int                                                                  `pulumi:"loadBalancerTargetPort"`
 	MissingComponent               string                                                               `pulumi:"missingComponent"`
@@ -40629,6 +40646,7 @@ type GetNetworkInsightsAnalysisExplanation struct {
 	Protocols                      []string                                                             `pulumi:"protocols"`
 	RouteTableRoutes               []GetNetworkInsightsAnalysisExplanationRouteTableRoute               `pulumi:"routeTableRoutes"`
 	RouteTables                    []GetNetworkInsightsAnalysisExplanationRouteTable                    `pulumi:"routeTables"`
+	SecurityGroup                  []GetNetworkInsightsAnalysisExplanationSecurityGroup                 `pulumi:"securityGroup"`
 	SecurityGroupRules             []GetNetworkInsightsAnalysisExplanationSecurityGroupRule             `pulumi:"securityGroupRules"`
 	SecurityGroups                 []GetNetworkInsightsAnalysisExplanationSecurityGroup                 `pulumi:"securityGroups"`
 	SourceVpcs                     []GetNetworkInsightsAnalysisExplanationSourceVpc                     `pulumi:"sourceVpcs"`
@@ -40677,6 +40695,7 @@ type GetNetworkInsightsAnalysisExplanationArgs struct {
 	InternetGateways               GetNetworkInsightsAnalysisExplanationInternetGatewayArrayInput               `pulumi:"internetGateways"`
 	LoadBalancerArn                pulumi.StringInput                                                           `pulumi:"loadBalancerArn"`
 	LoadBalancerListenerPort       pulumi.IntInput                                                              `pulumi:"loadBalancerListenerPort"`
+	LoadBalancerTargetGroup        GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayInput       `pulumi:"loadBalancerTargetGroup"`
 	LoadBalancerTargetGroups       GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayInput       `pulumi:"loadBalancerTargetGroups"`
 	LoadBalancerTargetPort         pulumi.IntInput                                                              `pulumi:"loadBalancerTargetPort"`
 	MissingComponent               pulumi.StringInput                                                           `pulumi:"missingComponent"`
@@ -40689,6 +40708,7 @@ type GetNetworkInsightsAnalysisExplanationArgs struct {
 	Protocols                      pulumi.StringArrayInput                                                      `pulumi:"protocols"`
 	RouteTableRoutes               GetNetworkInsightsAnalysisExplanationRouteTableRouteArrayInput               `pulumi:"routeTableRoutes"`
 	RouteTables                    GetNetworkInsightsAnalysisExplanationRouteTableArrayInput                    `pulumi:"routeTables"`
+	SecurityGroup                  GetNetworkInsightsAnalysisExplanationSecurityGroupArrayInput                 `pulumi:"securityGroup"`
 	SecurityGroupRules             GetNetworkInsightsAnalysisExplanationSecurityGroupRuleArrayInput             `pulumi:"securityGroupRules"`
 	SecurityGroups                 GetNetworkInsightsAnalysisExplanationSecurityGroupArrayInput                 `pulumi:"securityGroups"`
 	SourceVpcs                     GetNetworkInsightsAnalysisExplanationSourceVpcArrayInput                     `pulumi:"sourceVpcs"`
@@ -40855,6 +40875,12 @@ func (o GetNetworkInsightsAnalysisExplanationOutput) LoadBalancerListenerPort() 
 	return o.ApplyT(func(v GetNetworkInsightsAnalysisExplanation) int { return v.LoadBalancerListenerPort }).(pulumi.IntOutput)
 }
 
+func (o GetNetworkInsightsAnalysisExplanationOutput) LoadBalancerTargetGroup() GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayOutput {
+	return o.ApplyT(func(v GetNetworkInsightsAnalysisExplanation) []GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroup {
+		return v.LoadBalancerTargetGroup
+	}).(GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayOutput)
+}
+
 func (o GetNetworkInsightsAnalysisExplanationOutput) LoadBalancerTargetGroups() GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroupArrayOutput {
 	return o.ApplyT(func(v GetNetworkInsightsAnalysisExplanation) []GetNetworkInsightsAnalysisExplanationLoadBalancerTargetGroup {
 		return v.LoadBalancerTargetGroups
@@ -40915,6 +40941,12 @@ func (o GetNetworkInsightsAnalysisExplanationOutput) RouteTables() GetNetworkIns
 	return o.ApplyT(func(v GetNetworkInsightsAnalysisExplanation) []GetNetworkInsightsAnalysisExplanationRouteTable {
 		return v.RouteTables
 	}).(GetNetworkInsightsAnalysisExplanationRouteTableArrayOutput)
+}
+
+func (o GetNetworkInsightsAnalysisExplanationOutput) SecurityGroup() GetNetworkInsightsAnalysisExplanationSecurityGroupArrayOutput {
+	return o.ApplyT(func(v GetNetworkInsightsAnalysisExplanation) []GetNetworkInsightsAnalysisExplanationSecurityGroup {
+		return v.SecurityGroup
+	}).(GetNetworkInsightsAnalysisExplanationSecurityGroupArrayOutput)
 }
 
 func (o GetNetworkInsightsAnalysisExplanationOutput) SecurityGroupRules() GetNetworkInsightsAnalysisExplanationSecurityGroupRuleArrayOutput {
@@ -52239,7 +52271,7 @@ func (o GetTransitGatewayRouteTablesFilterArrayOutput) Index(i pulumi.IntInput) 
 }
 
 type GetVpcCidrBlockAssociation struct {
-	// Association ID for the the IPv4 CIDR block.
+	// Association ID for the IPv4 CIDR block.
 	AssociationId string `pulumi:"associationId"`
 	// Cidr block of the desired VPC.
 	CidrBlock string `pulumi:"cidrBlock"`
@@ -52260,7 +52292,7 @@ type GetVpcCidrBlockAssociationInput interface {
 }
 
 type GetVpcCidrBlockAssociationArgs struct {
-	// Association ID for the the IPv4 CIDR block.
+	// Association ID for the IPv4 CIDR block.
 	AssociationId pulumi.StringInput `pulumi:"associationId"`
 	// Cidr block of the desired VPC.
 	CidrBlock pulumi.StringInput `pulumi:"cidrBlock"`
@@ -52320,7 +52352,7 @@ func (o GetVpcCidrBlockAssociationOutput) ToGetVpcCidrBlockAssociationOutputWith
 	return o
 }
 
-// Association ID for the the IPv4 CIDR block.
+// Association ID for the IPv4 CIDR block.
 func (o GetVpcCidrBlockAssociationOutput) AssociationId() pulumi.StringOutput {
 	return o.ApplyT(func(v GetVpcCidrBlockAssociation) string { return v.AssociationId }).(pulumi.StringOutput)
 }
@@ -52992,8 +53024,216 @@ func (o GetVpcFilterArrayOutput) Index(i pulumi.IntInput) GetVpcFilterOutput {
 	}).(GetVpcFilterOutput)
 }
 
-type GetVpcIamPoolFilter struct {
+type GetVpcIamPoolCidrsFilter struct {
 	Name   string   `pulumi:"name"`
+	Values []string `pulumi:"values"`
+}
+
+// GetVpcIamPoolCidrsFilterInput is an input type that accepts GetVpcIamPoolCidrsFilterArgs and GetVpcIamPoolCidrsFilterOutput values.
+// You can construct a concrete instance of `GetVpcIamPoolCidrsFilterInput` via:
+//
+//	GetVpcIamPoolCidrsFilterArgs{...}
+type GetVpcIamPoolCidrsFilterInput interface {
+	pulumi.Input
+
+	ToGetVpcIamPoolCidrsFilterOutput() GetVpcIamPoolCidrsFilterOutput
+	ToGetVpcIamPoolCidrsFilterOutputWithContext(context.Context) GetVpcIamPoolCidrsFilterOutput
+}
+
+type GetVpcIamPoolCidrsFilterArgs struct {
+	Name   pulumi.StringInput      `pulumi:"name"`
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (GetVpcIamPoolCidrsFilterArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetVpcIamPoolCidrsFilter)(nil)).Elem()
+}
+
+func (i GetVpcIamPoolCidrsFilterArgs) ToGetVpcIamPoolCidrsFilterOutput() GetVpcIamPoolCidrsFilterOutput {
+	return i.ToGetVpcIamPoolCidrsFilterOutputWithContext(context.Background())
+}
+
+func (i GetVpcIamPoolCidrsFilterArgs) ToGetVpcIamPoolCidrsFilterOutputWithContext(ctx context.Context) GetVpcIamPoolCidrsFilterOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetVpcIamPoolCidrsFilterOutput)
+}
+
+// GetVpcIamPoolCidrsFilterArrayInput is an input type that accepts GetVpcIamPoolCidrsFilterArray and GetVpcIamPoolCidrsFilterArrayOutput values.
+// You can construct a concrete instance of `GetVpcIamPoolCidrsFilterArrayInput` via:
+//
+//	GetVpcIamPoolCidrsFilterArray{ GetVpcIamPoolCidrsFilterArgs{...} }
+type GetVpcIamPoolCidrsFilterArrayInput interface {
+	pulumi.Input
+
+	ToGetVpcIamPoolCidrsFilterArrayOutput() GetVpcIamPoolCidrsFilterArrayOutput
+	ToGetVpcIamPoolCidrsFilterArrayOutputWithContext(context.Context) GetVpcIamPoolCidrsFilterArrayOutput
+}
+
+type GetVpcIamPoolCidrsFilterArray []GetVpcIamPoolCidrsFilterInput
+
+func (GetVpcIamPoolCidrsFilterArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetVpcIamPoolCidrsFilter)(nil)).Elem()
+}
+
+func (i GetVpcIamPoolCidrsFilterArray) ToGetVpcIamPoolCidrsFilterArrayOutput() GetVpcIamPoolCidrsFilterArrayOutput {
+	return i.ToGetVpcIamPoolCidrsFilterArrayOutputWithContext(context.Background())
+}
+
+func (i GetVpcIamPoolCidrsFilterArray) ToGetVpcIamPoolCidrsFilterArrayOutputWithContext(ctx context.Context) GetVpcIamPoolCidrsFilterArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetVpcIamPoolCidrsFilterArrayOutput)
+}
+
+type GetVpcIamPoolCidrsFilterOutput struct{ *pulumi.OutputState }
+
+func (GetVpcIamPoolCidrsFilterOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetVpcIamPoolCidrsFilter)(nil)).Elem()
+}
+
+func (o GetVpcIamPoolCidrsFilterOutput) ToGetVpcIamPoolCidrsFilterOutput() GetVpcIamPoolCidrsFilterOutput {
+	return o
+}
+
+func (o GetVpcIamPoolCidrsFilterOutput) ToGetVpcIamPoolCidrsFilterOutputWithContext(ctx context.Context) GetVpcIamPoolCidrsFilterOutput {
+	return o
+}
+
+func (o GetVpcIamPoolCidrsFilterOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolCidrsFilter) string { return v.Name }).(pulumi.StringOutput)
+}
+
+func (o GetVpcIamPoolCidrsFilterOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetVpcIamPoolCidrsFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type GetVpcIamPoolCidrsFilterArrayOutput struct{ *pulumi.OutputState }
+
+func (GetVpcIamPoolCidrsFilterArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetVpcIamPoolCidrsFilter)(nil)).Elem()
+}
+
+func (o GetVpcIamPoolCidrsFilterArrayOutput) ToGetVpcIamPoolCidrsFilterArrayOutput() GetVpcIamPoolCidrsFilterArrayOutput {
+	return o
+}
+
+func (o GetVpcIamPoolCidrsFilterArrayOutput) ToGetVpcIamPoolCidrsFilterArrayOutputWithContext(ctx context.Context) GetVpcIamPoolCidrsFilterArrayOutput {
+	return o
+}
+
+func (o GetVpcIamPoolCidrsFilterArrayOutput) Index(i pulumi.IntInput) GetVpcIamPoolCidrsFilterOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetVpcIamPoolCidrsFilter {
+		return vs[0].([]GetVpcIamPoolCidrsFilter)[vs[1].(int)]
+	}).(GetVpcIamPoolCidrsFilterOutput)
+}
+
+type GetVpcIamPoolCidrsIpamPoolCidr struct {
+	// A network CIDR.
+	Cidr string `pulumi:"cidr"`
+	// The provisioning state of that CIDR.
+	State string `pulumi:"state"`
+}
+
+// GetVpcIamPoolCidrsIpamPoolCidrInput is an input type that accepts GetVpcIamPoolCidrsIpamPoolCidrArgs and GetVpcIamPoolCidrsIpamPoolCidrOutput values.
+// You can construct a concrete instance of `GetVpcIamPoolCidrsIpamPoolCidrInput` via:
+//
+//	GetVpcIamPoolCidrsIpamPoolCidrArgs{...}
+type GetVpcIamPoolCidrsIpamPoolCidrInput interface {
+	pulumi.Input
+
+	ToGetVpcIamPoolCidrsIpamPoolCidrOutput() GetVpcIamPoolCidrsIpamPoolCidrOutput
+	ToGetVpcIamPoolCidrsIpamPoolCidrOutputWithContext(context.Context) GetVpcIamPoolCidrsIpamPoolCidrOutput
+}
+
+type GetVpcIamPoolCidrsIpamPoolCidrArgs struct {
+	// A network CIDR.
+	Cidr pulumi.StringInput `pulumi:"cidr"`
+	// The provisioning state of that CIDR.
+	State pulumi.StringInput `pulumi:"state"`
+}
+
+func (GetVpcIamPoolCidrsIpamPoolCidrArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetVpcIamPoolCidrsIpamPoolCidr)(nil)).Elem()
+}
+
+func (i GetVpcIamPoolCidrsIpamPoolCidrArgs) ToGetVpcIamPoolCidrsIpamPoolCidrOutput() GetVpcIamPoolCidrsIpamPoolCidrOutput {
+	return i.ToGetVpcIamPoolCidrsIpamPoolCidrOutputWithContext(context.Background())
+}
+
+func (i GetVpcIamPoolCidrsIpamPoolCidrArgs) ToGetVpcIamPoolCidrsIpamPoolCidrOutputWithContext(ctx context.Context) GetVpcIamPoolCidrsIpamPoolCidrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetVpcIamPoolCidrsIpamPoolCidrOutput)
+}
+
+// GetVpcIamPoolCidrsIpamPoolCidrArrayInput is an input type that accepts GetVpcIamPoolCidrsIpamPoolCidrArray and GetVpcIamPoolCidrsIpamPoolCidrArrayOutput values.
+// You can construct a concrete instance of `GetVpcIamPoolCidrsIpamPoolCidrArrayInput` via:
+//
+//	GetVpcIamPoolCidrsIpamPoolCidrArray{ GetVpcIamPoolCidrsIpamPoolCidrArgs{...} }
+type GetVpcIamPoolCidrsIpamPoolCidrArrayInput interface {
+	pulumi.Input
+
+	ToGetVpcIamPoolCidrsIpamPoolCidrArrayOutput() GetVpcIamPoolCidrsIpamPoolCidrArrayOutput
+	ToGetVpcIamPoolCidrsIpamPoolCidrArrayOutputWithContext(context.Context) GetVpcIamPoolCidrsIpamPoolCidrArrayOutput
+}
+
+type GetVpcIamPoolCidrsIpamPoolCidrArray []GetVpcIamPoolCidrsIpamPoolCidrInput
+
+func (GetVpcIamPoolCidrsIpamPoolCidrArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetVpcIamPoolCidrsIpamPoolCidr)(nil)).Elem()
+}
+
+func (i GetVpcIamPoolCidrsIpamPoolCidrArray) ToGetVpcIamPoolCidrsIpamPoolCidrArrayOutput() GetVpcIamPoolCidrsIpamPoolCidrArrayOutput {
+	return i.ToGetVpcIamPoolCidrsIpamPoolCidrArrayOutputWithContext(context.Background())
+}
+
+func (i GetVpcIamPoolCidrsIpamPoolCidrArray) ToGetVpcIamPoolCidrsIpamPoolCidrArrayOutputWithContext(ctx context.Context) GetVpcIamPoolCidrsIpamPoolCidrArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetVpcIamPoolCidrsIpamPoolCidrArrayOutput)
+}
+
+type GetVpcIamPoolCidrsIpamPoolCidrOutput struct{ *pulumi.OutputState }
+
+func (GetVpcIamPoolCidrsIpamPoolCidrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetVpcIamPoolCidrsIpamPoolCidr)(nil)).Elem()
+}
+
+func (o GetVpcIamPoolCidrsIpamPoolCidrOutput) ToGetVpcIamPoolCidrsIpamPoolCidrOutput() GetVpcIamPoolCidrsIpamPoolCidrOutput {
+	return o
+}
+
+func (o GetVpcIamPoolCidrsIpamPoolCidrOutput) ToGetVpcIamPoolCidrsIpamPoolCidrOutputWithContext(ctx context.Context) GetVpcIamPoolCidrsIpamPoolCidrOutput {
+	return o
+}
+
+// A network CIDR.
+func (o GetVpcIamPoolCidrsIpamPoolCidrOutput) Cidr() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolCidrsIpamPoolCidr) string { return v.Cidr }).(pulumi.StringOutput)
+}
+
+// The provisioning state of that CIDR.
+func (o GetVpcIamPoolCidrsIpamPoolCidrOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolCidrsIpamPoolCidr) string { return v.State }).(pulumi.StringOutput)
+}
+
+type GetVpcIamPoolCidrsIpamPoolCidrArrayOutput struct{ *pulumi.OutputState }
+
+func (GetVpcIamPoolCidrsIpamPoolCidrArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetVpcIamPoolCidrsIpamPoolCidr)(nil)).Elem()
+}
+
+func (o GetVpcIamPoolCidrsIpamPoolCidrArrayOutput) ToGetVpcIamPoolCidrsIpamPoolCidrArrayOutput() GetVpcIamPoolCidrsIpamPoolCidrArrayOutput {
+	return o
+}
+
+func (o GetVpcIamPoolCidrsIpamPoolCidrArrayOutput) ToGetVpcIamPoolCidrsIpamPoolCidrArrayOutputWithContext(ctx context.Context) GetVpcIamPoolCidrsIpamPoolCidrArrayOutput {
+	return o
+}
+
+func (o GetVpcIamPoolCidrsIpamPoolCidrArrayOutput) Index(i pulumi.IntInput) GetVpcIamPoolCidrsIpamPoolCidrOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetVpcIamPoolCidrsIpamPoolCidr {
+		return vs[0].([]GetVpcIamPoolCidrsIpamPoolCidr)[vs[1].(int)]
+	}).(GetVpcIamPoolCidrsIpamPoolCidrOutput)
+}
+
+type GetVpcIamPoolFilter struct {
+	// The name of the filter. Filter names are case-sensitive.
+	Name string `pulumi:"name"`
+	// The filter values. Filter values are case-sensitive.
 	Values []string `pulumi:"values"`
 }
 
@@ -53009,7 +53249,9 @@ type GetVpcIamPoolFilterInput interface {
 }
 
 type GetVpcIamPoolFilterArgs struct {
-	Name   pulumi.StringInput      `pulumi:"name"`
+	// The name of the filter. Filter names are case-sensitive.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The filter values. Filter values are case-sensitive.
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -53064,10 +53306,12 @@ func (o GetVpcIamPoolFilterOutput) ToGetVpcIamPoolFilterOutputWithContext(ctx co
 	return o
 }
 
+// The name of the filter. Filter names are case-sensitive.
 func (o GetVpcIamPoolFilterOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v GetVpcIamPoolFilter) string { return v.Name }).(pulumi.StringOutput)
 }
 
+// The filter values. Filter values are case-sensitive.
 func (o GetVpcIamPoolFilterOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v GetVpcIamPoolFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -53090,6 +53334,359 @@ func (o GetVpcIamPoolFilterArrayOutput) Index(i pulumi.IntInput) GetVpcIamPoolFi
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetVpcIamPoolFilter {
 		return vs[0].([]GetVpcIamPoolFilter)[vs[1].(int)]
 	}).(GetVpcIamPoolFilterOutput)
+}
+
+type GetVpcIamPoolsFilter struct {
+	// The name of the filter. Filter names are case-sensitive.
+	Name string `pulumi:"name"`
+	// The filter values. Filter values are case-sensitive.
+	Values []string `pulumi:"values"`
+}
+
+// GetVpcIamPoolsFilterInput is an input type that accepts GetVpcIamPoolsFilterArgs and GetVpcIamPoolsFilterOutput values.
+// You can construct a concrete instance of `GetVpcIamPoolsFilterInput` via:
+//
+//	GetVpcIamPoolsFilterArgs{...}
+type GetVpcIamPoolsFilterInput interface {
+	pulumi.Input
+
+	ToGetVpcIamPoolsFilterOutput() GetVpcIamPoolsFilterOutput
+	ToGetVpcIamPoolsFilterOutputWithContext(context.Context) GetVpcIamPoolsFilterOutput
+}
+
+type GetVpcIamPoolsFilterArgs struct {
+	// The name of the filter. Filter names are case-sensitive.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The filter values. Filter values are case-sensitive.
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (GetVpcIamPoolsFilterArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetVpcIamPoolsFilter)(nil)).Elem()
+}
+
+func (i GetVpcIamPoolsFilterArgs) ToGetVpcIamPoolsFilterOutput() GetVpcIamPoolsFilterOutput {
+	return i.ToGetVpcIamPoolsFilterOutputWithContext(context.Background())
+}
+
+func (i GetVpcIamPoolsFilterArgs) ToGetVpcIamPoolsFilterOutputWithContext(ctx context.Context) GetVpcIamPoolsFilterOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetVpcIamPoolsFilterOutput)
+}
+
+// GetVpcIamPoolsFilterArrayInput is an input type that accepts GetVpcIamPoolsFilterArray and GetVpcIamPoolsFilterArrayOutput values.
+// You can construct a concrete instance of `GetVpcIamPoolsFilterArrayInput` via:
+//
+//	GetVpcIamPoolsFilterArray{ GetVpcIamPoolsFilterArgs{...} }
+type GetVpcIamPoolsFilterArrayInput interface {
+	pulumi.Input
+
+	ToGetVpcIamPoolsFilterArrayOutput() GetVpcIamPoolsFilterArrayOutput
+	ToGetVpcIamPoolsFilterArrayOutputWithContext(context.Context) GetVpcIamPoolsFilterArrayOutput
+}
+
+type GetVpcIamPoolsFilterArray []GetVpcIamPoolsFilterInput
+
+func (GetVpcIamPoolsFilterArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetVpcIamPoolsFilter)(nil)).Elem()
+}
+
+func (i GetVpcIamPoolsFilterArray) ToGetVpcIamPoolsFilterArrayOutput() GetVpcIamPoolsFilterArrayOutput {
+	return i.ToGetVpcIamPoolsFilterArrayOutputWithContext(context.Background())
+}
+
+func (i GetVpcIamPoolsFilterArray) ToGetVpcIamPoolsFilterArrayOutputWithContext(ctx context.Context) GetVpcIamPoolsFilterArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetVpcIamPoolsFilterArrayOutput)
+}
+
+type GetVpcIamPoolsFilterOutput struct{ *pulumi.OutputState }
+
+func (GetVpcIamPoolsFilterOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetVpcIamPoolsFilter)(nil)).Elem()
+}
+
+func (o GetVpcIamPoolsFilterOutput) ToGetVpcIamPoolsFilterOutput() GetVpcIamPoolsFilterOutput {
+	return o
+}
+
+func (o GetVpcIamPoolsFilterOutput) ToGetVpcIamPoolsFilterOutputWithContext(ctx context.Context) GetVpcIamPoolsFilterOutput {
+	return o
+}
+
+// The name of the filter. Filter names are case-sensitive.
+func (o GetVpcIamPoolsFilterOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsFilter) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The filter values. Filter values are case-sensitive.
+func (o GetVpcIamPoolsFilterOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type GetVpcIamPoolsFilterArrayOutput struct{ *pulumi.OutputState }
+
+func (GetVpcIamPoolsFilterArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetVpcIamPoolsFilter)(nil)).Elem()
+}
+
+func (o GetVpcIamPoolsFilterArrayOutput) ToGetVpcIamPoolsFilterArrayOutput() GetVpcIamPoolsFilterArrayOutput {
+	return o
+}
+
+func (o GetVpcIamPoolsFilterArrayOutput) ToGetVpcIamPoolsFilterArrayOutputWithContext(ctx context.Context) GetVpcIamPoolsFilterArrayOutput {
+	return o
+}
+
+func (o GetVpcIamPoolsFilterArrayOutput) Index(i pulumi.IntInput) GetVpcIamPoolsFilterOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetVpcIamPoolsFilter {
+		return vs[0].([]GetVpcIamPoolsFilter)[vs[1].(int)]
+	}).(GetVpcIamPoolsFilterOutput)
+}
+
+type GetVpcIamPoolsIpamPool struct {
+	// IP protocol assigned to this pool.
+	AddressFamily string `pulumi:"addressFamily"`
+	// A default netmask length for allocations added to this pool. If, for example, the CIDR assigned to this pool is `10.0.0.0/8` and you enter 16 here, new allocations will default to `10.0.0.0/16`.
+	AllocationDefaultNetmaskLength int `pulumi:"allocationDefaultNetmaskLength"`
+	// The maximum netmask length that will be required for CIDR allocations in this pool.
+	AllocationMaxNetmaskLength int `pulumi:"allocationMaxNetmaskLength"`
+	// The minimum netmask length that will be required for CIDR allocations in this pool.
+	AllocationMinNetmaskLength int `pulumi:"allocationMinNetmaskLength"`
+	// Tags that are required to create resources in using this pool.
+	AllocationResourceTags map[string]string `pulumi:"allocationResourceTags"`
+	// ARN of the pool
+	Arn string `pulumi:"arn"`
+	// If enabled, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM.
+	AutoImport bool `pulumi:"autoImport"`
+	// Limits which service in AWS that the pool can be used in. `ec2` for example, allows users to use space for Elastic IP addresses and VPCs.
+	AwsService string `pulumi:"awsService"`
+	// Description for the IPAM pool.
+	Description string `pulumi:"description"`
+	// ID of the IPAM pool.
+	Id         *string `pulumi:"id"`
+	IpamPoolId string  `pulumi:"ipamPoolId"`
+	// ID of the scope the pool belongs to.
+	IpamScopeId   string `pulumi:"ipamScopeId"`
+	IpamScopeType string `pulumi:"ipamScopeType"`
+	// Locale is the Region where your pool is available for allocations. You can only create pools with locales that match the operating Regions of the IPAM. You can only create VPCs from a pool whose locale matches the VPC's Region.
+	Locale    string `pulumi:"locale"`
+	PoolDepth int    `pulumi:"poolDepth"`
+	// Defines whether or not IPv6 pool space is publicly advertisable over the internet.
+	PubliclyAdvertisable bool `pulumi:"publiclyAdvertisable"`
+	// ID of the source IPAM pool.
+	SourceIpamPoolId string `pulumi:"sourceIpamPoolId"`
+	State            string `pulumi:"state"`
+	// Map of tags to assigned to the resource.
+	Tags map[string]string `pulumi:"tags"`
+}
+
+// GetVpcIamPoolsIpamPoolInput is an input type that accepts GetVpcIamPoolsIpamPoolArgs and GetVpcIamPoolsIpamPoolOutput values.
+// You can construct a concrete instance of `GetVpcIamPoolsIpamPoolInput` via:
+//
+//	GetVpcIamPoolsIpamPoolArgs{...}
+type GetVpcIamPoolsIpamPoolInput interface {
+	pulumi.Input
+
+	ToGetVpcIamPoolsIpamPoolOutput() GetVpcIamPoolsIpamPoolOutput
+	ToGetVpcIamPoolsIpamPoolOutputWithContext(context.Context) GetVpcIamPoolsIpamPoolOutput
+}
+
+type GetVpcIamPoolsIpamPoolArgs struct {
+	// IP protocol assigned to this pool.
+	AddressFamily pulumi.StringInput `pulumi:"addressFamily"`
+	// A default netmask length for allocations added to this pool. If, for example, the CIDR assigned to this pool is `10.0.0.0/8` and you enter 16 here, new allocations will default to `10.0.0.0/16`.
+	AllocationDefaultNetmaskLength pulumi.IntInput `pulumi:"allocationDefaultNetmaskLength"`
+	// The maximum netmask length that will be required for CIDR allocations in this pool.
+	AllocationMaxNetmaskLength pulumi.IntInput `pulumi:"allocationMaxNetmaskLength"`
+	// The minimum netmask length that will be required for CIDR allocations in this pool.
+	AllocationMinNetmaskLength pulumi.IntInput `pulumi:"allocationMinNetmaskLength"`
+	// Tags that are required to create resources in using this pool.
+	AllocationResourceTags pulumi.StringMapInput `pulumi:"allocationResourceTags"`
+	// ARN of the pool
+	Arn pulumi.StringInput `pulumi:"arn"`
+	// If enabled, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM.
+	AutoImport pulumi.BoolInput `pulumi:"autoImport"`
+	// Limits which service in AWS that the pool can be used in. `ec2` for example, allows users to use space for Elastic IP addresses and VPCs.
+	AwsService pulumi.StringInput `pulumi:"awsService"`
+	// Description for the IPAM pool.
+	Description pulumi.StringInput `pulumi:"description"`
+	// ID of the IPAM pool.
+	Id         pulumi.StringPtrInput `pulumi:"id"`
+	IpamPoolId pulumi.StringInput    `pulumi:"ipamPoolId"`
+	// ID of the scope the pool belongs to.
+	IpamScopeId   pulumi.StringInput `pulumi:"ipamScopeId"`
+	IpamScopeType pulumi.StringInput `pulumi:"ipamScopeType"`
+	// Locale is the Region where your pool is available for allocations. You can only create pools with locales that match the operating Regions of the IPAM. You can only create VPCs from a pool whose locale matches the VPC's Region.
+	Locale    pulumi.StringInput `pulumi:"locale"`
+	PoolDepth pulumi.IntInput    `pulumi:"poolDepth"`
+	// Defines whether or not IPv6 pool space is publicly advertisable over the internet.
+	PubliclyAdvertisable pulumi.BoolInput `pulumi:"publiclyAdvertisable"`
+	// ID of the source IPAM pool.
+	SourceIpamPoolId pulumi.StringInput `pulumi:"sourceIpamPoolId"`
+	State            pulumi.StringInput `pulumi:"state"`
+	// Map of tags to assigned to the resource.
+	Tags pulumi.StringMapInput `pulumi:"tags"`
+}
+
+func (GetVpcIamPoolsIpamPoolArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetVpcIamPoolsIpamPool)(nil)).Elem()
+}
+
+func (i GetVpcIamPoolsIpamPoolArgs) ToGetVpcIamPoolsIpamPoolOutput() GetVpcIamPoolsIpamPoolOutput {
+	return i.ToGetVpcIamPoolsIpamPoolOutputWithContext(context.Background())
+}
+
+func (i GetVpcIamPoolsIpamPoolArgs) ToGetVpcIamPoolsIpamPoolOutputWithContext(ctx context.Context) GetVpcIamPoolsIpamPoolOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetVpcIamPoolsIpamPoolOutput)
+}
+
+// GetVpcIamPoolsIpamPoolArrayInput is an input type that accepts GetVpcIamPoolsIpamPoolArray and GetVpcIamPoolsIpamPoolArrayOutput values.
+// You can construct a concrete instance of `GetVpcIamPoolsIpamPoolArrayInput` via:
+//
+//	GetVpcIamPoolsIpamPoolArray{ GetVpcIamPoolsIpamPoolArgs{...} }
+type GetVpcIamPoolsIpamPoolArrayInput interface {
+	pulumi.Input
+
+	ToGetVpcIamPoolsIpamPoolArrayOutput() GetVpcIamPoolsIpamPoolArrayOutput
+	ToGetVpcIamPoolsIpamPoolArrayOutputWithContext(context.Context) GetVpcIamPoolsIpamPoolArrayOutput
+}
+
+type GetVpcIamPoolsIpamPoolArray []GetVpcIamPoolsIpamPoolInput
+
+func (GetVpcIamPoolsIpamPoolArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetVpcIamPoolsIpamPool)(nil)).Elem()
+}
+
+func (i GetVpcIamPoolsIpamPoolArray) ToGetVpcIamPoolsIpamPoolArrayOutput() GetVpcIamPoolsIpamPoolArrayOutput {
+	return i.ToGetVpcIamPoolsIpamPoolArrayOutputWithContext(context.Background())
+}
+
+func (i GetVpcIamPoolsIpamPoolArray) ToGetVpcIamPoolsIpamPoolArrayOutputWithContext(ctx context.Context) GetVpcIamPoolsIpamPoolArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetVpcIamPoolsIpamPoolArrayOutput)
+}
+
+type GetVpcIamPoolsIpamPoolOutput struct{ *pulumi.OutputState }
+
+func (GetVpcIamPoolsIpamPoolOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetVpcIamPoolsIpamPool)(nil)).Elem()
+}
+
+func (o GetVpcIamPoolsIpamPoolOutput) ToGetVpcIamPoolsIpamPoolOutput() GetVpcIamPoolsIpamPoolOutput {
+	return o
+}
+
+func (o GetVpcIamPoolsIpamPoolOutput) ToGetVpcIamPoolsIpamPoolOutputWithContext(ctx context.Context) GetVpcIamPoolsIpamPoolOutput {
+	return o
+}
+
+// IP protocol assigned to this pool.
+func (o GetVpcIamPoolsIpamPoolOutput) AddressFamily() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.AddressFamily }).(pulumi.StringOutput)
+}
+
+// A default netmask length for allocations added to this pool. If, for example, the CIDR assigned to this pool is `10.0.0.0/8` and you enter 16 here, new allocations will default to `10.0.0.0/16`.
+func (o GetVpcIamPoolsIpamPoolOutput) AllocationDefaultNetmaskLength() pulumi.IntOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) int { return v.AllocationDefaultNetmaskLength }).(pulumi.IntOutput)
+}
+
+// The maximum netmask length that will be required for CIDR allocations in this pool.
+func (o GetVpcIamPoolsIpamPoolOutput) AllocationMaxNetmaskLength() pulumi.IntOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) int { return v.AllocationMaxNetmaskLength }).(pulumi.IntOutput)
+}
+
+// The minimum netmask length that will be required for CIDR allocations in this pool.
+func (o GetVpcIamPoolsIpamPoolOutput) AllocationMinNetmaskLength() pulumi.IntOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) int { return v.AllocationMinNetmaskLength }).(pulumi.IntOutput)
+}
+
+// Tags that are required to create resources in using this pool.
+func (o GetVpcIamPoolsIpamPoolOutput) AllocationResourceTags() pulumi.StringMapOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) map[string]string { return v.AllocationResourceTags }).(pulumi.StringMapOutput)
+}
+
+// ARN of the pool
+func (o GetVpcIamPoolsIpamPoolOutput) Arn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.Arn }).(pulumi.StringOutput)
+}
+
+// If enabled, IPAM will continuously look for resources within the CIDR range of this pool and automatically import them as allocations into your IPAM.
+func (o GetVpcIamPoolsIpamPoolOutput) AutoImport() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) bool { return v.AutoImport }).(pulumi.BoolOutput)
+}
+
+// Limits which service in AWS that the pool can be used in. `ec2` for example, allows users to use space for Elastic IP addresses and VPCs.
+func (o GetVpcIamPoolsIpamPoolOutput) AwsService() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.AwsService }).(pulumi.StringOutput)
+}
+
+// Description for the IPAM pool.
+func (o GetVpcIamPoolsIpamPoolOutput) Description() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.Description }).(pulumi.StringOutput)
+}
+
+// ID of the IPAM pool.
+func (o GetVpcIamPoolsIpamPoolOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+func (o GetVpcIamPoolsIpamPoolOutput) IpamPoolId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.IpamPoolId }).(pulumi.StringOutput)
+}
+
+// ID of the scope the pool belongs to.
+func (o GetVpcIamPoolsIpamPoolOutput) IpamScopeId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.IpamScopeId }).(pulumi.StringOutput)
+}
+
+func (o GetVpcIamPoolsIpamPoolOutput) IpamScopeType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.IpamScopeType }).(pulumi.StringOutput)
+}
+
+// Locale is the Region where your pool is available for allocations. You can only create pools with locales that match the operating Regions of the IPAM. You can only create VPCs from a pool whose locale matches the VPC's Region.
+func (o GetVpcIamPoolsIpamPoolOutput) Locale() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.Locale }).(pulumi.StringOutput)
+}
+
+func (o GetVpcIamPoolsIpamPoolOutput) PoolDepth() pulumi.IntOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) int { return v.PoolDepth }).(pulumi.IntOutput)
+}
+
+// Defines whether or not IPv6 pool space is publicly advertisable over the internet.
+func (o GetVpcIamPoolsIpamPoolOutput) PubliclyAdvertisable() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) bool { return v.PubliclyAdvertisable }).(pulumi.BoolOutput)
+}
+
+// ID of the source IPAM pool.
+func (o GetVpcIamPoolsIpamPoolOutput) SourceIpamPoolId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.SourceIpamPoolId }).(pulumi.StringOutput)
+}
+
+func (o GetVpcIamPoolsIpamPoolOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) string { return v.State }).(pulumi.StringOutput)
+}
+
+// Map of tags to assigned to the resource.
+func (o GetVpcIamPoolsIpamPoolOutput) Tags() pulumi.StringMapOutput {
+	return o.ApplyT(func(v GetVpcIamPoolsIpamPool) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
+}
+
+type GetVpcIamPoolsIpamPoolArrayOutput struct{ *pulumi.OutputState }
+
+func (GetVpcIamPoolsIpamPoolArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetVpcIamPoolsIpamPool)(nil)).Elem()
+}
+
+func (o GetVpcIamPoolsIpamPoolArrayOutput) ToGetVpcIamPoolsIpamPoolArrayOutput() GetVpcIamPoolsIpamPoolArrayOutput {
+	return o
+}
+
+func (o GetVpcIamPoolsIpamPoolArrayOutput) ToGetVpcIamPoolsIpamPoolArrayOutputWithContext(ctx context.Context) GetVpcIamPoolsIpamPoolArrayOutput {
+	return o
+}
+
+func (o GetVpcIamPoolsIpamPoolArrayOutput) Index(i pulumi.IntInput) GetVpcIamPoolsIpamPoolOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetVpcIamPoolsIpamPool {
+		return vs[0].([]GetVpcIamPoolsIpamPool)[vs[1].(int)]
+	}).(GetVpcIamPoolsIpamPoolOutput)
 }
 
 type GetVpcPeeringConnectionCidrBlockSet struct {
@@ -54522,8 +55119,16 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcEndpointServiceFilterArrayInput)(nil)).Elem(), GetVpcEndpointServiceFilterArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcFilterInput)(nil)).Elem(), GetVpcFilterArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcFilterArrayInput)(nil)).Elem(), GetVpcFilterArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolCidrsFilterInput)(nil)).Elem(), GetVpcIamPoolCidrsFilterArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolCidrsFilterArrayInput)(nil)).Elem(), GetVpcIamPoolCidrsFilterArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolCidrsIpamPoolCidrInput)(nil)).Elem(), GetVpcIamPoolCidrsIpamPoolCidrArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolCidrsIpamPoolCidrArrayInput)(nil)).Elem(), GetVpcIamPoolCidrsIpamPoolCidrArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolFilterInput)(nil)).Elem(), GetVpcIamPoolFilterArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolFilterArrayInput)(nil)).Elem(), GetVpcIamPoolFilterArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolsFilterInput)(nil)).Elem(), GetVpcIamPoolsFilterArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolsFilterArrayInput)(nil)).Elem(), GetVpcIamPoolsFilterArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolsIpamPoolInput)(nil)).Elem(), GetVpcIamPoolsIpamPoolArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcIamPoolsIpamPoolArrayInput)(nil)).Elem(), GetVpcIamPoolsIpamPoolArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcPeeringConnectionCidrBlockSetInput)(nil)).Elem(), GetVpcPeeringConnectionCidrBlockSetArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcPeeringConnectionCidrBlockSetArrayInput)(nil)).Elem(), GetVpcPeeringConnectionCidrBlockSetArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetVpcPeeringConnectionFilterInput)(nil)).Elem(), GetVpcPeeringConnectionFilterArgs{})
@@ -55323,8 +55928,16 @@ func init() {
 	pulumi.RegisterOutputType(GetVpcEndpointServiceFilterArrayOutput{})
 	pulumi.RegisterOutputType(GetVpcFilterOutput{})
 	pulumi.RegisterOutputType(GetVpcFilterArrayOutput{})
+	pulumi.RegisterOutputType(GetVpcIamPoolCidrsFilterOutput{})
+	pulumi.RegisterOutputType(GetVpcIamPoolCidrsFilterArrayOutput{})
+	pulumi.RegisterOutputType(GetVpcIamPoolCidrsIpamPoolCidrOutput{})
+	pulumi.RegisterOutputType(GetVpcIamPoolCidrsIpamPoolCidrArrayOutput{})
 	pulumi.RegisterOutputType(GetVpcIamPoolFilterOutput{})
 	pulumi.RegisterOutputType(GetVpcIamPoolFilterArrayOutput{})
+	pulumi.RegisterOutputType(GetVpcIamPoolsFilterOutput{})
+	pulumi.RegisterOutputType(GetVpcIamPoolsFilterArrayOutput{})
+	pulumi.RegisterOutputType(GetVpcIamPoolsIpamPoolOutput{})
+	pulumi.RegisterOutputType(GetVpcIamPoolsIpamPoolArrayOutput{})
 	pulumi.RegisterOutputType(GetVpcPeeringConnectionCidrBlockSetOutput{})
 	pulumi.RegisterOutputType(GetVpcPeeringConnectionCidrBlockSetArrayOutput{})
 	pulumi.RegisterOutputType(GetVpcPeeringConnectionFilterOutput{})

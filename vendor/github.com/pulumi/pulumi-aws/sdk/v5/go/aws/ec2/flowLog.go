@@ -11,7 +11,7 @@ import (
 )
 
 // Provides a VPC/Subnet/ENI/Transit Gateway/Transit Gateway Attachment Flow Log to capture IP traffic for a specific network
-// interface, subnet, or VPC. Logs are sent to a CloudWatch Log Group or a S3 Bucket.
+// interface, subnet, or VPC. Logs are sent to a CloudWatch Log Group, a S3 Bucket, or Amazon Kinesis Data Firehose
 //
 // ## Example Usage
 // ### CloudWatch Logging
@@ -84,6 +84,109 @@ import (
 //	    }
 //	  ]
 //	}
+//
+// `)),
+//
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+// ### Amazon Kinesis Data Firehose logging
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"fmt"
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/iam"
+//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/kinesis"
+//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/s3"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			exampleBucketV2, err := s3.NewBucketV2(ctx, "exampleBucketV2", nil)
+//			if err != nil {
+//				return err
+//			}
+//			exampleRole, err := iam.NewRole(ctx, "exampleRole", &iam.RoleArgs{
+//				AssumeRolePolicy: pulumi.Any(fmt.Sprintf(` {
+//	   "Version":"2012-10-17",
+//	   "Statement": [
+//	     {
+//	       "Action":"sts:AssumeRole",
+//	       "Principal":{
+//	         "Service":"firehose.amazonaws.com"
+//	       },
+//	       "Effect":"Allow",
+//	       "Sid":""
+//	     }
+//	   ]
+//	 }
+//
+// `)),
+//
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			exampleFirehoseDeliveryStream, err := kinesis.NewFirehoseDeliveryStream(ctx, "exampleFirehoseDeliveryStream", &kinesis.FirehoseDeliveryStreamArgs{
+//				Destination: pulumi.String("extended_s3"),
+//				ExtendedS3Configuration: &kinesis.FirehoseDeliveryStreamExtendedS3ConfigurationArgs{
+//					RoleArn:   exampleRole.Arn,
+//					BucketArn: exampleBucketV2.Arn,
+//				},
+//				Tags: pulumi.StringMap{
+//					"LogDeliveryEnabled": pulumi.String("true"),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ec2.NewFlowLog(ctx, "exampleFlowLog", &ec2.FlowLogArgs{
+//				LogDestination:     exampleFirehoseDeliveryStream.Arn,
+//				LogDestinationType: pulumi.String("kinesis-data-firehose"),
+//				TrafficType:        pulumi.String("ALL"),
+//				VpcId:              pulumi.Any(aws_vpc.Example.Id),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = s3.NewBucketAclV2(ctx, "exampleBucketAclV2", &s3.BucketAclV2Args{
+//				Bucket: exampleBucketV2.ID(),
+//				Acl:    pulumi.String("private"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = iam.NewRolePolicy(ctx, "exampleRolePolicy", &iam.RolePolicyArgs{
+//				Role: exampleRole.ID(),
+//				Policy: pulumi.Any(fmt.Sprintf(` {
+//	   "Version":"2012-10-17",
+//	   "Statement":[
+//	     {
+//	       "Action": [
+//	         "logs:CreateLogDelivery",
+//	         "logs:DeleteLogDelivery",
+//	         "logs:ListLogDeliveries",
+//	         "logs:GetLogDelivery",
+//	         "firehose:TagDeliveryStream"
+//	       ],
+//	       "Effect":"Allow",
+//	       "Resource":"*"
+//	     }
+//	   ]
+//	 }
 //
 // `)),
 //
@@ -189,7 +292,7 @@ type FlowLog struct {
 	IamRoleArn pulumi.StringPtrOutput `pulumi:"iamRoleArn"`
 	// The ARN of the logging destination. Either `logDestination` or `logGroupName` must be set.
 	LogDestination pulumi.StringOutput `pulumi:"logDestination"`
-	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`. Default: `cloud-watch-logs`.
+	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrOutput `pulumi:"logDestinationType"`
 	// The fields to include in the flow log record, in the order in which they should appear.
 	LogFormat pulumi.StringOutput `pulumi:"logFormat"`
@@ -204,7 +307,7 @@ type FlowLog struct {
 	MaxAggregationInterval pulumi.IntPtrOutput `pulumi:"maxAggregationInterval"`
 	// Subnet ID to attach to
 	SubnetId pulumi.StringPtrOutput `pulumi:"subnetId"`
-	// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
+	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
@@ -257,7 +360,7 @@ type flowLogState struct {
 	IamRoleArn *string `pulumi:"iamRoleArn"`
 	// The ARN of the logging destination. Either `logDestination` or `logGroupName` must be set.
 	LogDestination *string `pulumi:"logDestination"`
-	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`. Default: `cloud-watch-logs`.
+	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType *string `pulumi:"logDestinationType"`
 	// The fields to include in the flow log record, in the order in which they should appear.
 	LogFormat *string `pulumi:"logFormat"`
@@ -272,7 +375,7 @@ type flowLogState struct {
 	MaxAggregationInterval *int `pulumi:"maxAggregationInterval"`
 	// Subnet ID to attach to
 	SubnetId *string `pulumi:"subnetId"`
-	// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
+	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll map[string]string `pulumi:"tagsAll"`
@@ -297,7 +400,7 @@ type FlowLogState struct {
 	IamRoleArn pulumi.StringPtrInput
 	// The ARN of the logging destination. Either `logDestination` or `logGroupName` must be set.
 	LogDestination pulumi.StringPtrInput
-	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`. Default: `cloud-watch-logs`.
+	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrInput
 	// The fields to include in the flow log record, in the order in which they should appear.
 	LogFormat pulumi.StringPtrInput
@@ -312,7 +415,7 @@ type FlowLogState struct {
 	MaxAggregationInterval pulumi.IntPtrInput
 	// Subnet ID to attach to
 	SubnetId pulumi.StringPtrInput
-	// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
+	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll pulumi.StringMapInput
@@ -339,7 +442,7 @@ type flowLogArgs struct {
 	IamRoleArn *string `pulumi:"iamRoleArn"`
 	// The ARN of the logging destination. Either `logDestination` or `logGroupName` must be set.
 	LogDestination *string `pulumi:"logDestination"`
-	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`. Default: `cloud-watch-logs`.
+	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType *string `pulumi:"logDestinationType"`
 	// The fields to include in the flow log record, in the order in which they should appear.
 	LogFormat *string `pulumi:"logFormat"`
@@ -354,7 +457,7 @@ type flowLogArgs struct {
 	MaxAggregationInterval *int `pulumi:"maxAggregationInterval"`
 	// Subnet ID to attach to
 	SubnetId *string `pulumi:"subnetId"`
-	// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
+	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// The type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`.
 	TrafficType *string `pulumi:"trafficType"`
@@ -376,7 +479,7 @@ type FlowLogArgs struct {
 	IamRoleArn pulumi.StringPtrInput
 	// The ARN of the logging destination. Either `logDestination` or `logGroupName` must be set.
 	LogDestination pulumi.StringPtrInput
-	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`. Default: `cloud-watch-logs`.
+	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrInput
 	// The fields to include in the flow log record, in the order in which they should appear.
 	LogFormat pulumi.StringPtrInput
@@ -391,7 +494,7 @@ type FlowLogArgs struct {
 	MaxAggregationInterval pulumi.IntPtrInput
 	// Subnet ID to attach to
 	SubnetId pulumi.StringPtrInput
-	// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
+	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// The type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`.
 	TrafficType pulumi.StringPtrInput
@@ -515,7 +618,7 @@ func (o FlowLogOutput) LogDestination() pulumi.StringOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringOutput { return v.LogDestination }).(pulumi.StringOutput)
 }
 
-// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`. Default: `cloud-watch-logs`.
+// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 func (o FlowLogOutput) LogDestinationType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringPtrOutput { return v.LogDestinationType }).(pulumi.StringPtrOutput)
 }
@@ -545,7 +648,7 @@ func (o FlowLogOutput) SubnetId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringPtrOutput { return v.SubnetId }).(pulumi.StringPtrOutput)
 }
 
-// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
+// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 func (o FlowLogOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }

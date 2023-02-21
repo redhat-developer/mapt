@@ -14,7 +14,8 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/network"
 	spotprice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
 	supportMatrix "github.com/adrianriobo/qenvs/pkg/infra/aws/support-matrix"
-	utilInfra "github.com/adrianriobo/qenvs/pkg/infra/util"
+	"github.com/adrianriobo/qenvs/pkg/manager"
+	"github.com/adrianriobo/qenvs/pkg/manager/plugin"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
@@ -49,15 +50,15 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 	manageRequest(&request, host, public, projectName, spotPrice,
 		rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword)
 	// Create stack
-	stack := utilInfra.Stack{
-		StackName:   stackCreateEnvironmentName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      *plugin,
-		DeployFunc:  request.deployer,
+	stack := manager.Stack{
+		StackName:           stackCreateEnvironmentName,
+		ProjectName:         projectName,
+		BackedURL:           backedURL,
+		CloudProviderPlugin: *plugin,
+		DeployFunc:          request.deployer,
 	}
 	// Exec stack
-	stackResult, err := utilInfra.UpStack(stack)
+	stackResult, err := manager.UpStack(stack)
 	if err != nil {
 		// Even in case of failure we try to get credentials for manual interaction
 		if err = manageResults(stackResult, &request, public, connectionDetailsOutput); err != nil {
@@ -74,12 +75,12 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 }
 
 func Destroy(projectName, backedURL string) (err error) {
-	stack := utilInfra.Stack{
-		StackName:   stackCreateEnvironmentName,
-		ProjectName: projectName,
-		BackedURL:   backedURL,
-		Plugin:      aws.PluginAWSDefault}
-	err = utilInfra.DestroyStack(stack)
+	stack := manager.Stack{
+		StackName:           stackCreateEnvironmentName,
+		ProjectName:         projectName,
+		BackedURL:           backedURL,
+		CloudProviderPlugin: aws.DefaultPlugin}
+	err = manager.DestroyStack(stack)
 	if err != nil {
 		return
 	}
@@ -89,11 +90,11 @@ func Destroy(projectName, backedURL string) (err error) {
 
 // Function get host parameters for Az, Region, and price if spot, Plugin setup accordingly and error
 func getHostParameters(projectName, backedURL string,
-	host *supportMatrix.SupportedHost) ([]string, string, string, *utilInfra.PluginInfo, error) {
+	host *supportMatrix.SupportedHost) ([]string, string, string, *plugin.PluginInfo, error) {
 	var availabilityZones = network.DefaultAvailabilityZones[:1]
 	var region string = network.DefaultRegion
 	var spotPrice string
-	var plugin = aws.PluginAWSDefault
+	var plugin = aws.DefaultPlugin
 	if host.Spot {
 		spg, err := spotprice.Create(projectName, backedURL, host.ID)
 		if err != nil {
@@ -103,7 +104,7 @@ func getHostParameters(projectName, backedURL string,
 		region = spg.Region
 		spotPrice = fmt.Sprintf("%f", spg.MaxPrice)
 		// plugin will use the region from the best spot price
-		plugin = aws.GetPluginAWS(
+		plugin = aws.GetClouProviderPlugin(
 			map[string]string{
 				aws.CONFIG_AWS_REGION: spg.Region})
 	}

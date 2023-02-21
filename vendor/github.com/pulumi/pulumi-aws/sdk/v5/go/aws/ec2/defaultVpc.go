@@ -10,6 +10,18 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Provides a resource to manage the [default AWS VPC](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html)
+// in the current AWS Region.
+//
+// If you created your AWS account after 2013-12-04 you have a default VPC in each AWS Region.
+//
+// **This is an advanced resource** and has special caveats to be aware of when using it. Please read this document in its entirety before using this resource.
+//
+// The `ec2.DefaultVpc` resource behaves differently from normal resources in that if a default VPC exists, this provider does not _create_ this resource, but instead "adopts" it into management.
+// If no default VPC exists, the provider creates a new default VPC, which leads to the implicit creation of [other resources](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#default-vpc-components).
+// By default, `pulumi destroy` does not delete the default VPC but does remove the resource from the state.
+// Set the `forceDestroy` argument to `true` to delete the default VPC.
+//
 // ## Example Usage
 //
 // Basic usage with tags:
@@ -63,10 +75,11 @@ type DefaultVpc struct {
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink attribute has been deprecated and will be removed in a future version.
 	EnableClassiclink pulumi.BoolOutput `pulumi:"enableClassiclink"`
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink_dns_support attribute has been deprecated and will be removed in a future version.
-	EnableClassiclinkDnsSupport pulumi.BoolOutput    `pulumi:"enableClassiclinkDnsSupport"`
-	EnableDnsHostnames          pulumi.BoolPtrOutput `pulumi:"enableDnsHostnames"`
-	EnableDnsSupport            pulumi.BoolPtrOutput `pulumi:"enableDnsSupport"`
-	ExistingDefaultVpc          pulumi.BoolOutput    `pulumi:"existingDefaultVpc"`
+	EnableClassiclinkDnsSupport      pulumi.BoolOutput    `pulumi:"enableClassiclinkDnsSupport"`
+	EnableDnsHostnames               pulumi.BoolPtrOutput `pulumi:"enableDnsHostnames"`
+	EnableDnsSupport                 pulumi.BoolPtrOutput `pulumi:"enableDnsSupport"`
+	EnableNetworkAddressUsageMetrics pulumi.BoolPtrOutput `pulumi:"enableNetworkAddressUsageMetrics"`
+	ExistingDefaultVpc               pulumi.BoolOutput    `pulumi:"existingDefaultVpc"`
 	// Whether destroying the resource deletes the default VPC. Default: `false`
 	ForceDestroy pulumi.BoolPtrOutput `pulumi:"forceDestroy"`
 	// The allowed tenancy of instances launched into the VPC
@@ -122,10 +135,11 @@ type defaultVpcState struct {
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink attribute has been deprecated and will be removed in a future version.
 	EnableClassiclink *bool `pulumi:"enableClassiclink"`
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink_dns_support attribute has been deprecated and will be removed in a future version.
-	EnableClassiclinkDnsSupport *bool `pulumi:"enableClassiclinkDnsSupport"`
-	EnableDnsHostnames          *bool `pulumi:"enableDnsHostnames"`
-	EnableDnsSupport            *bool `pulumi:"enableDnsSupport"`
-	ExistingDefaultVpc          *bool `pulumi:"existingDefaultVpc"`
+	EnableClassiclinkDnsSupport      *bool `pulumi:"enableClassiclinkDnsSupport"`
+	EnableDnsHostnames               *bool `pulumi:"enableDnsHostnames"`
+	EnableDnsSupport                 *bool `pulumi:"enableDnsSupport"`
+	EnableNetworkAddressUsageMetrics *bool `pulumi:"enableNetworkAddressUsageMetrics"`
+	ExistingDefaultVpc               *bool `pulumi:"existingDefaultVpc"`
 	// Whether destroying the resource deletes the default VPC. Default: `false`
 	ForceDestroy *bool `pulumi:"forceDestroy"`
 	// The allowed tenancy of instances launched into the VPC
@@ -153,10 +167,11 @@ type DefaultVpcState struct {
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink attribute has been deprecated and will be removed in a future version.
 	EnableClassiclink pulumi.BoolPtrInput
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink_dns_support attribute has been deprecated and will be removed in a future version.
-	EnableClassiclinkDnsSupport pulumi.BoolPtrInput
-	EnableDnsHostnames          pulumi.BoolPtrInput
-	EnableDnsSupport            pulumi.BoolPtrInput
-	ExistingDefaultVpc          pulumi.BoolPtrInput
+	EnableClassiclinkDnsSupport      pulumi.BoolPtrInput
+	EnableDnsHostnames               pulumi.BoolPtrInput
+	EnableDnsSupport                 pulumi.BoolPtrInput
+	EnableNetworkAddressUsageMetrics pulumi.BoolPtrInput
+	ExistingDefaultVpc               pulumi.BoolPtrInput
 	// Whether destroying the resource deletes the default VPC. Default: `false`
 	ForceDestroy pulumi.BoolPtrInput
 	// The allowed tenancy of instances launched into the VPC
@@ -181,9 +196,10 @@ type defaultVpcArgs struct {
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink attribute has been deprecated and will be removed in a future version.
 	EnableClassiclink *bool `pulumi:"enableClassiclink"`
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink_dns_support attribute has been deprecated and will be removed in a future version.
-	EnableClassiclinkDnsSupport *bool `pulumi:"enableClassiclinkDnsSupport"`
-	EnableDnsHostnames          *bool `pulumi:"enableDnsHostnames"`
-	EnableDnsSupport            *bool `pulumi:"enableDnsSupport"`
+	EnableClassiclinkDnsSupport      *bool `pulumi:"enableClassiclinkDnsSupport"`
+	EnableDnsHostnames               *bool `pulumi:"enableDnsHostnames"`
+	EnableDnsSupport                 *bool `pulumi:"enableDnsSupport"`
+	EnableNetworkAddressUsageMetrics *bool `pulumi:"enableNetworkAddressUsageMetrics"`
 	// Whether destroying the resource deletes the default VPC. Default: `false`
 	ForceDestroy                    *bool             `pulumi:"forceDestroy"`
 	Ipv6CidrBlock                   *string           `pulumi:"ipv6CidrBlock"`
@@ -199,9 +215,10 @@ type DefaultVpcArgs struct {
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink attribute has been deprecated and will be removed in a future version.
 	EnableClassiclink pulumi.BoolPtrInput
 	// Deprecated: With the retirement of EC2-Classic the enable_classiclink_dns_support attribute has been deprecated and will be removed in a future version.
-	EnableClassiclinkDnsSupport pulumi.BoolPtrInput
-	EnableDnsHostnames          pulumi.BoolPtrInput
-	EnableDnsSupport            pulumi.BoolPtrInput
+	EnableClassiclinkDnsSupport      pulumi.BoolPtrInput
+	EnableDnsHostnames               pulumi.BoolPtrInput
+	EnableDnsSupport                 pulumi.BoolPtrInput
+	EnableNetworkAddressUsageMetrics pulumi.BoolPtrInput
 	// Whether destroying the resource deletes the default VPC. Default: `false`
 	ForceDestroy                    pulumi.BoolPtrInput
 	Ipv6CidrBlock                   pulumi.StringPtrInput
@@ -343,6 +360,10 @@ func (o DefaultVpcOutput) EnableDnsHostnames() pulumi.BoolPtrOutput {
 
 func (o DefaultVpcOutput) EnableDnsSupport() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *DefaultVpc) pulumi.BoolPtrOutput { return v.EnableDnsSupport }).(pulumi.BoolPtrOutput)
+}
+
+func (o DefaultVpcOutput) EnableNetworkAddressUsageMetrics() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *DefaultVpc) pulumi.BoolPtrOutput { return v.EnableNetworkAddressUsageMetrics }).(pulumi.BoolPtrOutput)
 }
 
 func (o DefaultVpcOutput) ExistingDefaultVpc() pulumi.BoolOutput {

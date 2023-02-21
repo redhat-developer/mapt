@@ -60,7 +60,7 @@ import (
 //			peerVpcPeeringConnection, err := ec2.NewVpcPeeringConnection(ctx, "peerVpcPeeringConnection", &ec2.VpcPeeringConnectionArgs{
 //				VpcId:       main.ID(),
 //				PeerVpcId:   peerVpc.ID(),
-//				PeerOwnerId: pulumi.String(peerCallerIdentity.AccountId),
+//				PeerOwnerId: *pulumi.String(peerCallerIdentity.AccountId),
 //				PeerRegion:  pulumi.String("us-west-2"),
 //				AutoAccept:  pulumi.Bool(false),
 //				Tags: pulumi.StringMap{
