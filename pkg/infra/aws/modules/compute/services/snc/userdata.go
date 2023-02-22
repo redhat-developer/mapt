@@ -3,7 +3,7 @@ package snc
 import (
 	_ "embed"
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
@@ -17,7 +17,7 @@ type userDataValues struct {
 }
 
 func init() {
-	err := ioutil.WriteFile("userdata.tpl", userdataTemplate, 0644)
+	err := os.WriteFile("userdata.tpl", userdataTemplate, 0644)
 	if err != nil {
 		logging.Errorf("error loading snc userdata.tpl: %v", err)
 	}
