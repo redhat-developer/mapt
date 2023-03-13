@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/environment"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/environment"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
@@ -21,6 +21,7 @@ func init() {
 	flagSet.StringP(connectionDetailsOutput, "", "", connectionDetailsOutputDesc)
 	flagSet.StringP(supportedHostID, "", "", supportedHostIDDesc)
 	flagSet.StringP(rhMajorVersion, "", "8", rhMajorVersionDesc)
+	flagSet.StringP(fedoraMajorVersion, "", "37", fedoraMajorVersionDesc)
 	flagSet.StringP(rhSubcriptionUsername, "", "", rhSubcriptionUsernameDesc)
 	flagSet.StringP(rhSubcriptionPassword, "", "", rhSubcriptionPasswordDesc)
 	hostCreateCmd.Flags().AddFlagSet(flagSet)
@@ -43,7 +44,8 @@ var hostCreateCmd = &cobra.Command{
 			viper.GetString(supportedHostID),
 			viper.GetString(rhMajorVersion),
 			viper.GetString(rhSubcriptionUsername),
-			viper.GetString(rhSubcriptionPassword)); err != nil {
+			viper.GetString(rhSubcriptionPassword),
+			viper.GetString(fedoraMajorVersion)); err != nil {
 			logging.Error(err)
 		}
 		return nil

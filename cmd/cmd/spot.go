@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	spotPrice "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/spot-price"
+	spotPrice "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/spot-price"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
