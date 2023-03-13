@@ -22,7 +22,7 @@ var (
 
 	OL_Fedora = SupportedHost{
 		ID:                 olFedoraID,
-		Description:        "rhel machine supporting nested virtualization (requirement to run openshift local)",
+		Description:        "fedora machine supporting nested virtualization (requirement to run openshift local)",
 		Type:               Fedora,
 		InstaceTypes:       []string{"c5.metal", "c5d.metal", "c5n.metal"},
 		ProductDescription: "Linux/UNIX",
