@@ -17,6 +17,8 @@ const (
 	rhSubcriptionUsernameDesc   string = "username for rhel subcription"
 	rhSubcriptionPassword       string = "rh-subscription-password"
 	rhSubcriptionPasswordDesc   string = "password for rhel subcription"
+	fedoraMajorVersion          string = "fedora-major-version"
+	fedoraMajorVersionDesc      string = "major version for fedora image 36, 37"
 	amiIDName                   string = "ami-id"
 	amiIDDesc                   string = "id for the source ami"
 	amiNameName                 string = "ami-name"

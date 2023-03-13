@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"github.com/adrianriobo/qenvs/pkg/infra/aws/modules/environment"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/environment"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 

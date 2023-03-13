@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	amireplication "github.com/adrianriobo/qenvs/pkg/infra/aws/modules/ami-replication"
+	amireplication "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/ami-replication"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
