@@ -17,7 +17,7 @@ func (r *Request) GetRequest() *compute.Request {
 
 func (r *Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	amiNameRegex := fmt.Sprintf(r.Specs.AMI.RegexPattern, r.VersionMajor)
-	return ami.GetAMIByName(ctx, amiNameRegex, "", r.Specs.AMI.Filters)
+	return ami.GetAMIByName(ctx, amiNameRegex, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
 }
 
 func (r *Request) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
