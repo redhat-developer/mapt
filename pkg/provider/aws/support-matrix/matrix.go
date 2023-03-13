@@ -31,7 +31,7 @@ var (
 			// https://access.redhat.com/solutions/15356
 			// Pattern with composition %s is major rhel version
 			RegexPattern: "fedora-coreos-%s*",
-			DefaultUser:  "fedora",
+			DefaultUser:  "core",
 			// https://wiki.centos.org/Cloud/AWS
 			Owner: "125523088429",
 		},
