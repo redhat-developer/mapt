@@ -28,10 +28,10 @@ var (
 		ProductDescription: "Linux/UNIX",
 		Spot:               true,
 		AMI: AMI{
-			// https://access.redhat.com/solutions/15356
-			// Pattern with composition %s is major rhel version
-			RegexPattern: "fedora-coreos-%s*",
-			DefaultUser:  "core",
+			// https://alt.fedoraproject.org/en/cloud/
+			// Pattern with composition %s is major fedora version
+			RegexPattern: "Fedora-Cloud-Base-%s*",
+			DefaultUser:  "fedora",
 			// https://wiki.centos.org/Cloud/AWS
 			Owner: "125523088429",
 		},
