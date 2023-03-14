@@ -34,6 +34,8 @@ var (
 			DefaultUser:  "fedora",
 			// https://wiki.centos.org/Cloud/AWS
 			Owner: "125523088429",
+			Filters: map[string]string{
+				"architecture": "x86_64"},
 		},
 	}
 
