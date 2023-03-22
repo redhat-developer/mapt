@@ -2,6 +2,7 @@ package snc
 
 import (
 	"encoding/base64"
+	"fmt"
 
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
@@ -17,7 +18,8 @@ func (r *SNCRequest) GetRequest() *compute.Request {
 }
 
 func (r *SNCRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
-	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
+	amiNameRegex := fmt.Sprintf(r.Specs.AMI.RegexPattern, r.VersionMajor)
+	return ami.GetAMIByName(ctx, amiNameRegex, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
 }
 
 func (r *SNCRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {

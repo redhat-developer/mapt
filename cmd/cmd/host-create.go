@@ -20,7 +20,7 @@ func init() {
 	flagSet.StringP(backedURL, "", "", backedURLDesc)
 	flagSet.StringP(connectionDetailsOutput, "", "", connectionDetailsOutputDesc)
 	flagSet.StringP(supportedHostID, "", "", supportedHostIDDesc)
-	flagSet.StringP(rhMajorVersion, "", "8", rhMajorVersionDesc)
+	flagSet.StringP(rhMajorVersion, "", "9", rhMajorVersionDesc)
 	flagSet.StringP(fedoraMajorVersion, "", "37", fedoraMajorVersionDesc)
 	flagSet.StringP(rhSubcriptionUsername, "", "", rhSubcriptionUsernameDesc)
 	flagSet.StringP(rhSubcriptionPassword, "", "", rhSubcriptionPasswordDesc)

@@ -157,18 +157,8 @@ func manageRequest(request *singleHostRequest,
 		}
 	case supportMatrix.S_SNC.ID:
 		request.hostRequested = &snc.SNCRequest{
-			RHELRequest: rhel.RHELRequest{VersionMajor: rhMajorVersion,
-				SubscriptionUsername: rhSubscriptionUsername,
-				SubscriptionPassword: rhSubscriptionPassword,
-				Request: compute.Request{
-					ProjecName: projectName,
-					Public:     public,
-					SpotPrice:  spotPrice,
-					Specs:      host,
-				}}}
-	case supportMatrix.S_SNC.ID:
-		request.hostRequested = &snc.SNCRequest{
-			RHELRequest: rhel.RHELRequest{VersionMajor: rhMajorVersion,
+			RHELRequest: rhel.RHELRequest{
+				VersionMajor:         rhMajorVersion,
 				SubscriptionUsername: rhSubscriptionUsername,
 				SubscriptionPassword: rhSubscriptionPassword,
 				Request: compute.Request{
