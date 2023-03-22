@@ -24,6 +24,7 @@ func init() {
 	flagSet.StringP(fedoraMajorVersion, "", "37", fedoraMajorVersionDesc)
 	flagSet.StringP(rhSubcriptionUsername, "", "", rhSubcriptionUsernameDesc)
 	flagSet.StringP(rhSubcriptionPassword, "", "", rhSubcriptionPasswordDesc)
+	flagSet.StringToStringP(tags, "", nil, tagsDesc)
 	hostCreateCmd.Flags().AddFlagSet(flagSet)
 }
 
@@ -45,7 +46,8 @@ var hostCreateCmd = &cobra.Command{
 			viper.GetString(rhMajorVersion),
 			viper.GetString(rhSubcriptionUsername),
 			viper.GetString(rhSubcriptionPassword),
-			viper.GetString(fedoraMajorVersion)); err != nil {
+			viper.GetString(fedoraMajorVersion),
+			viper.GetStringMapString(tags)); err != nil {
 			logging.Error(err)
 		}
 		return nil

@@ -6,6 +6,7 @@ import (
 	"path"
 
 	"github.com/adrianriobo/qenvs/pkg/manager"
+	"github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/manager/plugin"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
@@ -24,7 +25,12 @@ import (
 func Create(projectName, backedURL, connectionDetailsOutput string,
 	public bool, targetHostID string,
 	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string,
-	fedoraMajorVersion string) (err error) {
+	fedoraMajorVersion string,
+	tags map[string]string) (err error) {
+	// init context
+	context.Init(projectName, tags)
+
+	logging.Debugf("%v", context.GetTags())
 	// Check which supported host
 	host, err := supportMatrix.GetHost(targetHostID)
 	if err != nil {

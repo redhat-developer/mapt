@@ -25,6 +25,8 @@ const (
 	amiNameDesc                 string = "name for the source ami"
 	amiSourceRegion             string = "ami-region"
 	amiSourceRegionDesc         string = "region for the ami to be copied worldwide"
+	tags                        string = "tags"
+	tagsDesc                    string = "tags to add on each created resource on providers"
 
 	createCmdName  string = "create"
 	destroyCmdName string = "destroy"
