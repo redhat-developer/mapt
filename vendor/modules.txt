@@ -231,8 +231,6 @@ github.com/kevinburke/ssh_config
 # github.com/magiconair/properties v1.8.6
 ## explicit; go 1.13
 github.com/magiconair/properties
-# github.com/mattn/go-isatty v0.0.16
-## explicit; go 1.15
 # github.com/mattn/go-runewidth v0.0.13
 ## explicit; go 1.9
 github.com/mattn/go-runewidth
@@ -284,6 +282,21 @@ github.com/pulumi/pulumi-aws/sdk/v5/go/aws
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/lb
+# github.com/pulumi/pulumi-azure-native-sdk v1.99.1
+## explicit; go 1.17
+github.com/pulumi/pulumi-azure-native-sdk
+# github.com/pulumi/pulumi-azure-native-sdk/compute v1.98.1
+## explicit; go 1.17
+github.com/pulumi/pulumi-azure-native-sdk/compute
+# github.com/pulumi/pulumi-azure-native-sdk/network v1.98.1
+## explicit; go 1.17
+github.com/pulumi/pulumi-azure-native-sdk/network
+# github.com/pulumi/pulumi-azure-native-sdk/resources v1.98.1
+## explicit; go 1.17
+github.com/pulumi/pulumi-azure-native-sdk/resources
+# github.com/pulumi/pulumi-azure-native-sdk/storage v1.99.1
+## explicit; go 1.17
+github.com/pulumi/pulumi-azure-native-sdk/storage
 # github.com/pulumi/pulumi-command/sdk v0.7.1
 ## explicit; go 1.19
 github.com/pulumi/pulumi-command/sdk/go/command
@@ -454,7 +467,7 @@ golang.org/x/net/internal/socks
 golang.org/x/net/internal/timeseries
 golang.org/x/net/proxy
 golang.org/x/net/trace
-# golang.org/x/sys v0.4.0
+# golang.org/x/sys v0.6.0
 ## explicit; go 1.17
 golang.org/x/sys/cpu
 golang.org/x/sys/execabs

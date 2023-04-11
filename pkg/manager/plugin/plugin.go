@@ -33,13 +33,14 @@ func InstallFuntionalPlugins(ctx context.Context, stack *auto.Stack) (err error)
 }
 
 func InstallCloudProviderPlugin(ctx context.Context, stack *auto.Stack, p PluginInfo) (err error) {
+	w := stack.Workspace()
 	// for inline source programs, we must manage plugins ourselves
-	if err = stack.Workspace().InstallPlugin(ctx, p.Name, p.Version); err != nil {
+	if err = w.InstallPlugin(ctx, p.Name, p.Version); err != nil {
 		return
 	}
 	// Set credentials
-	if err = p.SetCredentialFunc(ctx, *stack, p.FixedCredentials); err != nil {
-		return
+	if p.SetCredentialFunc != nil {
+		err = p.SetCredentialFunc(ctx, *stack, p.FixedCredentials)
 	}
 	return
 }

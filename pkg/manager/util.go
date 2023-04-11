@@ -51,10 +51,6 @@ func postStack(ctx context.Context, target Stack, stack *auto.Stack) (err error)
 	if err = plugin.InstallFuntionalPlugins(ctx, stack); err != nil {
 		return
 	}
-	// Set credentials
-	if err = target.CloudProviderPlugin.SetCredentialFunc(ctx, *stack, target.CloudProviderPlugin.FixedCredentials); err != nil {
-		return
-	}
 	_, err = stack.Refresh(ctx)
 	return
 }

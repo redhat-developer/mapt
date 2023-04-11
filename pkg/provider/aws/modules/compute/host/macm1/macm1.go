@@ -9,8 +9,8 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
-	utilInfra "github.com/adrianriobo/qenvs/pkg/provider/util"
-	"github.com/adrianriobo/qenvs/pkg/util"
+	"github.com/adrianriobo/qenvs/pkg/provider/util/security"
+	"github.com/adrianriobo/qenvs/pkg/util/file"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -56,13 +56,13 @@ func (r *Request) CustomSecurityGroups(ctx *pulumi.Context) ([]*ec2.SecurityGrou
 }
 
 func (r *Request) GetPostScript(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
-	password, err := utilInfra.CreatePassword(ctx, r.GetName())
+	password, err := security.CreatePassword(ctx, r.GetName())
 	if err != nil {
 		return nil, err
 	}
 	ctx.Export(r.OutputPassword(), password.Result)
 	postscript := password.Result.ApplyT(func(password string) (string, error) {
-		return util.Template(
+		return file.Template(
 			scriptDataValues{
 				r.Specs.AMI.DefaultUser,
 				password},

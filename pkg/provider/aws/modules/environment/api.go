@@ -2,8 +2,6 @@ package environment
 
 import (
 	"fmt"
-	"os"
-	"path"
 
 	"github.com/adrianriobo/qenvs/pkg/manager"
 	"github.com/adrianriobo/qenvs/pkg/manager/plugin"
@@ -17,6 +15,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
 	spotprice "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/spot-price"
 	supportMatrix "github.com/adrianriobo/qenvs/pkg/provider/aws/support-matrix"
+	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
@@ -188,35 +187,13 @@ func manageResults(stackResult auto.UpResult, request *singleHostRequest,
 	if !public {
 		remoteHost = request.bastion
 	}
-	if err := writeOutputs(stackResult, destinationFolder, map[string]string{
+	if err := output.Write(stackResult, destinationFolder, map[string]string{
 		remoteHost.GetRequest().OutputPrivateKey(): "id_rsa",
 		remoteHost.GetRequest().OutputHost():       "host",
 		remoteHost.GetRequest().OutputUsername():   "username",
 		remoteHost.GetRequest().OutputPassword():   "password",
 	}); err != nil {
 		return err
-	}
-	return nil
-}
-
-func writeOutputs(stackResult auto.UpResult, destinationFolder string, results map[string]string) (err error) {
-	for k, v := range results {
-		if err = writeOutput(stackResult, k, destinationFolder, v); err != nil {
-			return err
-		}
-	}
-	return
-}
-
-func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destinationFilename string) error {
-	value, ok := stackResult.Outputs[outputkey].Value.(string)
-	if ok {
-		err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value), 0600)
-		if err != nil {
-			return err
-		}
-	} else {
-		logging.Debugf("error getting %s", outputkey)
 	}
 	return nil
 }

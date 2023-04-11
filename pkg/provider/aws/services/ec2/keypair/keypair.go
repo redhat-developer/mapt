@@ -26,9 +26,6 @@ func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err != nil {
-		return nil, err
-	}
 	k, err := ec2.NewKeyPair(ctx,
 		r.Name,
 		&ec2.KeyPairArgs{
