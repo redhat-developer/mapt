@@ -6,7 +6,7 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
-	"github.com/adrianriobo/qenvs/pkg/util"
+	"github.com/adrianriobo/qenvs/pkg/util/file"
 
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
@@ -23,7 +23,7 @@ func (r *RHELRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) 
 }
 
 func (r *RHELRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
-	userdata, err := util.Template(
+	userdata, err := file.Template(
 		UserDataValues{
 			r.SubscriptionUsername,
 			r.SubscriptionPassword},

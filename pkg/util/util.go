@@ -1,9 +1,7 @@
 package util
 
 import (
-	"bytes"
 	"strings"
-	"text/template"
 )
 
 func If[T any](cond bool, vtrue, vfalse T) T {
@@ -65,17 +63,4 @@ func Max(source []float64) float64 {
 		total += v
 	}
 	return total / float64(len(source))
-}
-
-func Template(data any, templateName, templateContent string) (string, error) {
-	tmpl, err := template.New(templateName).Parse(templateContent)
-	if err != nil {
-		return "", err
-	}
-	buffer := new(bytes.Buffer)
-	err = tmpl.Execute(buffer, data)
-	if err != nil {
-		return "", err
-	}
-	return buffer.String(), nil
 }

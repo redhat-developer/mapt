@@ -6,6 +6,10 @@ require (
 	github.com/aws/aws-sdk-go v1.44.118
 	github.com/coocood/freecache v1.2.2
 	github.com/pulumi/pulumi-aws/sdk/v5 v5.30.0
+	github.com/pulumi/pulumi-azure-native-sdk/compute v1.98.1
+	github.com/pulumi/pulumi-azure-native-sdk/network v1.98.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources v1.98.1
+	github.com/pulumi/pulumi-azure-native-sdk/storage v1.99.1
 	github.com/pulumi/pulumi-command/sdk v0.7.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.11.2
 	github.com/pulumi/pulumi-tls/sdk/v4 v4.10.0
@@ -25,6 +29,7 @@ require (
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
 	github.com/pjbgf/sha1cd v0.2.3 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk v1.99.1 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect
 	github.com/skeema/knownhosts v1.1.0 // indirect
 	github.com/spf13/afero v1.8.2 // indirect
@@ -59,7 +64,6 @@ require (
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
-	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/mitchellh/go-ps v1.0.0 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
@@ -81,7 +85,7 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	golang.org/x/crypto v0.3.0 // indirect
 	golang.org/x/net v0.5.0 // indirect
-	golang.org/x/sys v0.4.0 // indirect
+	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/term v0.4.0 // indirect
 	golang.org/x/text v0.6.0 // indirect
 	google.golang.org/genproto v0.0.0-20220802133213-ce4fa296bf78 // indirect

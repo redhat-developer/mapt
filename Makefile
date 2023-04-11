@@ -8,7 +8,8 @@ GOPATH ?= $(shell go env GOPATH)
 BUILD_DIR ?= out
 SOURCE_DIRS = cmd pkg test
 # https://golang.org/cmd/link/
-LDFLAGS := $(VERSION_VARIABLES) -extldflags='-static' ${GO_EXTRA_LDFLAGS}
+# LDFLAGS := $(VERSION_VARIABLES) -extldflags='-static' ${GO_EXTRA_LDFLAGS}
+LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
 GCFLAGS := all=-N -l 
 
 # Add default target

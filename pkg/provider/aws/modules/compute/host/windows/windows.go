@@ -6,10 +6,10 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
-	"github.com/adrianriobo/qenvs/pkg/util"
+	"github.com/adrianriobo/qenvs/pkg/util/file"
 
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
-	utilInfra "github.com/adrianriobo/qenvs/pkg/provider/util"
+	"github.com/adrianriobo/qenvs/pkg/provider/util/security"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -23,7 +23,7 @@ func (r *WindowsRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, erro
 }
 
 func (r *WindowsRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
-	password, err := utilInfra.CreatePassword(ctx, r.GetName())
+	password, err := security.CreatePassword(ctx, r.GetName())
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,7 @@ func (r *WindowsRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
-			userdata, err := util.Template(
+			userdata, err := file.Template(
 				userDataValues{
 					r.Specs.AMI.DefaultUser,
 					password,

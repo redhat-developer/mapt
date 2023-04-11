@@ -7,7 +7,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
-	"github.com/adrianriobo/qenvs/pkg/util"
+	"github.com/adrianriobo/qenvs/pkg/util/file"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -25,7 +25,7 @@ func (r *SNCRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, er
 	if err != nil {
 		return nil, err
 	}
-	userdata, err := util.Template(
+	userdata, err := file.Template(
 		userDataValues{
 			r.SubscriptionUsername,
 			r.SubscriptionPassword},

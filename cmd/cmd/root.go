@@ -7,8 +7,12 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/adrianriobo/qenvs/cmd/cmd/aws"
+	"github.com/adrianriobo/qenvs/cmd/cmd/azure"
+	params "github.com/adrianriobo/qenvs/cmd/cmd/constants"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 const (
@@ -46,6 +50,18 @@ func runPrerun(cmd *cobra.Command) error {
 
 func runRoot() {
 	fmt.Println("No command given")
+}
+
+func init() {
+	// Common flags
+	flagSet := pflag.NewFlagSet(commandName, pflag.ExitOnError)
+	flagSet.StringP(params.ProjectName, "", "", params.ProjectNameDesc)
+	flagSet.StringP(params.BackedURL, "", "", params.BackedURLDesc)
+	rootCmd.PersistentFlags().AddFlagSet(flagSet)
+	// Subcommands
+	rootCmd.AddCommand(
+		aws.GetCmd(),
+		azure.GetCmd())
 }
 
 func Execute() {
