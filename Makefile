@@ -1,7 +1,7 @@
-VERSION ?= 0.0.1
+VERSION ?= 0.0.4
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
-IMG ?= quay.io/ariobolo/qenvs:${VERSION}
+IMG ?= quay.io/rhqp/qenvs:${VERSION}
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
