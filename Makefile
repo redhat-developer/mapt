@@ -33,8 +33,6 @@ install: $(SOURCES)
 
 $(BUILD_DIR)/qenvs: $(SOURCES)
 	GOOS=linux GOARCH=amd64 go build -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/qenvs $(GO_EXTRA_BUILDFLAGS) ./cmd
-
-
  
 .PHONY: build 
 build: $(BUILD_DIR)/qenvs
@@ -62,7 +60,7 @@ lint: $(GOPATH)/bin/golangci-lint
 
 # Build the container image
 .PHONY: oci-build
-oci-build: clean check
+oci-build: clean
 	${CONTAINER_MANAGER} build -t ${IMG} -f oci/Containerfile .
 
 # Push the docker image
