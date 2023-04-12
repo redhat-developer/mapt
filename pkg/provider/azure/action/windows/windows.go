@@ -328,15 +328,13 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
 			hostname := args[2].(*string)
-			cmd := fmt.Sprintf(
+			return fmt.Sprintf(
 				"powershell -ExecutionPolicy Unrestricted -File %s -userPass \"%s\" -user %s -hostname %s -authorizedKey \"%s\"",
 				scriptName,
 				password,
 				r.Username,
 				*hostname,
 				authorizedKey)
-			logging.Debugf("cmd for running the post init extension is %s", cmd)
-			return cmd
 		}).(pulumi.StringOutput)
 	// the post script will be executed as a extension
 	_, err = compute.NewVirtualMachineExtension(
