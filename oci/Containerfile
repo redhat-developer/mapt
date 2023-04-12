@@ -21,15 +21,16 @@ FROM mcr.microsoft.com/azure-cli:2.47.0
 
 LABEL org.opencontainers.image.authors="Adrian Riobo<ariobolo@redhat.com>"
 
-COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /workspace/oci/entrypoint.sh /usr/local/bin/
+COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /usr/local/bin/
 
 ENV INTERNAL_OUTPUT=/tmp/qenvs \
-    PULUMI_CONFIG_PASSPHRASE="passphrase"
+    PULUMI_CONFIG_PASSPHRASE="passphrase" \
+    AWS_SDK_LOAD_CONFIG=1
 
 VOLUME [ "${INTERNAL_OUTPUT}" ]
 
 RUN apk add aws-cli \
-    && mkdir -p "${INTERNAL_OUTPUT}"
+    && mkdir -p "${INTERNAL_OUTPUT}" 
 
 ENTRYPOINT [ "qenvs" ]
 
