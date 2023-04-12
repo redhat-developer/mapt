@@ -2,7 +2,6 @@ package rhel
 
 import (
 	"encoding/base64"
-	"fmt"
 
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
@@ -18,8 +17,9 @@ func (r *RHELRequest) GetRequest() *compute.Request {
 }
 
 func (r *RHELRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
-	amiNameRegex := fmt.Sprintf(r.Specs.AMI.RegexPattern, r.VersionMajor)
-	return ami.GetAMIByName(ctx, amiNameRegex, "", r.Specs.AMI.Filters)
+	// amiNameRegex := fmt.Sprintf(r.Specs.AMI.RegexPattern, r.VersionMajor)
+	// return ami.GetAMIByName(ctx, amiNameRegex, "", r.Specs.AMI.Filters)
+	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
 }
 
 func (r *RHELRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {

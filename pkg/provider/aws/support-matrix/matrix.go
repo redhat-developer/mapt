@@ -13,10 +13,11 @@ var (
 		ProductDescription: "Red Hat Enterprise Linux",
 		Spot:               true,
 		AMI: AMI{
+			RegexName: "RHEL-8.7.0_HVM-*-x86_64*",
 			// https://access.redhat.com/solutions/15356
 			// Pattern with composition %s is major rhel version
-			RegexPattern: "RHEL-%s*-x86_64-*",
-			DefaultUser:  "ec2-user",
+			// RegexPattern: "RHEL-%s*-x86_64-*",
+			DefaultUser: "ec2-user",
 		},
 	}
 
@@ -93,7 +94,7 @@ var (
 		ProductDescription: "Red Hat Enterprise Linux",
 		Spot:               true,
 		AMI: AMI{
-			RegexName: "RHEL-8.6.0_HVM-*-x86_64*",
+			RegexName: "RHEL-8.7.0_HVM-*-x86_64*",
 			// https://access.redhat.com/solutions/15356
 			// Pattern with composition %s is major rhel version
 			// RegexPattern: "RHEL-%s*-x86_64-*",
