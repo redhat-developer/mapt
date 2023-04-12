@@ -1,3 +1,4 @@
+
 FROM docker.io/library/golang:1.19-alpine as builder 
 
 USER root
@@ -15,17 +16,20 @@ RUN apk -U upgrade \
 
 # TODO review quay build with entitlements (microdnf...)
 # FROM registry.access.redhat.com/ubi8/ubi-minimal
-FROM docker.io/library/alpine:3.17
+# FROM docker.io/library/alpine:3.17
+FROM mcr.microsoft.com/azure-cli:2.47.0
 
-LABEL MAINTAINER "Adrian Riobo" "<ariobolo@redhat.com>"
+LABEL org.opencontainers.image.authors="Adrian Riobo<ariobolo@redhat.com>"
 
 COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /workspace/oci/entrypoint.sh /usr/local/bin/
 
-ENV INTERNAL_OUTPUT /tmp/qenvs
+ENV INTERNAL_OUTPUT=/tmp/qenvs \
+    PULUMI_CONFIG_PASSPHRASE="passphrase"
 
 VOLUME [ "${INTERNAL_OUTPUT}" ]
 
 RUN apk add aws-cli \
     && mkdir -p "${INTERNAL_OUTPUT}"
 
-ENTRYPOINT entrypoint.sh 
+ENTRYPOINT [ "qenvs" ]
+
