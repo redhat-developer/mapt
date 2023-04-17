@@ -61,6 +61,16 @@ switch ($osProductType)
     "Server" {Install-WindowsFeature -Name Hyper-V -IncludeManagementTools}
 }
 
+# Install wsl2 per user
+$wslparameters = @{
+    ComputerName = 'localhost'
+    Credential = $Cred
+    ScriptBlock  = {
+        Start-Process wsl --install -WindowStyle Hidden -Wait
+    }
+}
+Invoke-Command -asjob @wslparameters
+
 # Install sshd
 # Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 curl.exe -LO https://github.com/PowerShell/Win32-OpenSSH/releases/download/v9.2.0.0p1-Beta/OpenSSH-Win64-v9.2.0.0.msi
