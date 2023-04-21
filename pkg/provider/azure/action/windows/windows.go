@@ -104,6 +104,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(r.Location),
 			ResourceGroupName: pulumi.String(qenvsContext.GetID()),
+			Tags:              qenvsContext.GetTags(),
 		})
 	if err != nil {
 		return err
