@@ -5,7 +5,10 @@ rh_subscription:
   auto-attach: true
 packages:
   - podman
-  - "@virt"
+  - qemu-kvm 
+  - libvirt 
+  - virt-install 
+  - virt-viewer
   - jq
   - git
 runcmd:
