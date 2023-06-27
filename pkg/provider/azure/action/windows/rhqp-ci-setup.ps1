@@ -96,6 +96,13 @@ Start-Process C:\Windows\System32\msiexec.exe -ArgumentList '/qb /i PowerShell-7
 # Set powershell as default shell on openssh
 New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Program Files\PowerShell\7\pwsh.exe" -PropertyType String -Force
 
+# Remove curl alias
+$profilePath="C:\Users\$user\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+if (!(Test-Path -Path $profilePath)) {
+    New-Item -Path $profilePath -Force
+}
+Add-Content -Path $profilePath -Value "Remove-Item alias:curl"
+
 # Restart computer to have the ssh connection available with setup from this script
 Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"
 
