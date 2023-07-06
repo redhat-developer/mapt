@@ -1,0 +1,32 @@
+name: tkn-build
+
+on:
+  push:
+    branches: [ main ]
+    tags:        
+      - '*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  
+  tkn-build:
+    name: tkn-build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to quay.io Registry
+      uses: redhat-actions/podman-login@v1
+      with:
+        registry: quay.io
+        username: ${{ secrets.QUAY_IO_USERNAME }}
+        password: ${{ secrets.QUAY_IO_PASSWORD }}
+
+    - name: Push task
+      shell: bash
+      run: make tkn-push
+        
+
+        
