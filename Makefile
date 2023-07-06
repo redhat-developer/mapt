@@ -1,7 +1,8 @@
-VERSION ?= 0.0.4
+VERSION ?= 0.0.4-snapshot
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/rhqp/qenvs:${VERSION}
+TKN_IMG ?= quay.io/rhqp/qenvs-tkn:${VERSION}
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
@@ -11,6 +12,9 @@ SOURCE_DIRS = cmd pkg test
 # LDFLAGS := $(VERSION_VARIABLES) -extldflags='-static' ${GO_EXTRA_LDFLAGS}
 LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
 GCFLAGS := all=-N -l 
+
+TOOLS_DIR := tools
+include tools/tools.mk
 
 # Add default target
 .PHONY: default
@@ -68,3 +72,9 @@ oci-build: clean
 oci-push:
 	${CONTAINER_MANAGER} push ${IMG}
 	
+# Create tekton task bundle
+.PHONY: tkn-push
+tkn-push: install-out-of-tree-tools
+	$(TOOLS_BINDIR)/tkn bundle push $(TKN_IMG) \
+		-f tkn/infra-management-aws.yaml \
+		-f tkn/infra-management-azure.yaml
