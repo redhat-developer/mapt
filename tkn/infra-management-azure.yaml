@@ -56,6 +56,8 @@ spec:
     description: ip to connect to the provisioned machine
   - name: username
     description: username to connect to the provisioned machine
+  - name: userpassword
+    description: password for the user to connect to the provisioned machine
   - name: key-filename
     description: filename for the private key. The key is located at workspace-resources-path
 
@@ -108,6 +110,7 @@ spec:
       # set task results
       cat "${workspace_path}/host" | tee $(results.host.path)
       cat "${workspace_path}/username" | tee $(results.username.path)   
+      cat "${workspace_path}/userpassword" | tee $(results.userpassword.path)   
       echo -n "id_rsa" | tee $(results.key-filename.path)   
 
       if [[ ${create_exit_code} -ne 0 ]]; then 
