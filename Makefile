@@ -1,8 +1,8 @@
 VERSION ?= 0.0.4-snapshot
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
-IMG ?= quay.io/rhqp/qenvs:${VERSION}
-TKN_IMG ?= quay.io/rhqp/qenvs-tkn:${VERSION}
+IMG ?= quay.io/rhqp/qenvs:v${VERSION}
+TKN_IMG ?= quay.io/rhqp/qenvs-tkn:v${VERSION}
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
