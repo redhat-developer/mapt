@@ -69,6 +69,7 @@ spec:
   steps:
   - name: provisioner
     image: quay.io/rhqp/qenvs:v0.0.4-snapshot
+    imagePullPolicy: Always
     volumeMounts:
     - mountPath: /opt/credentials/
       name: credentials
