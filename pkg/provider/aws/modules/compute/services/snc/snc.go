@@ -12,12 +12,20 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+const (
+	sncRootBlockDeviceSize int = 200
+)
+
 func (r *SNCRequest) GetRequest() *compute.Request {
 	return &r.Request
 }
 
 func (r *SNCRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
+}
+
+func (r *SNCRequest) GetDiskSize() int {
+	return sncRootBlockDeviceSize
 }
 
 func (r *SNCRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {

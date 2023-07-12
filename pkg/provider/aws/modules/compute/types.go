@@ -47,6 +47,8 @@ type ComputeRequest interface {
 	ReadinessCommand() string
 	// Create function to get a compute based on request
 	Create(ctx *pulumi.Context, computeRequested ComputeRequest) (*Compute, error)
+	// Get diskspace size in GB for the requested computer
+	GetDiskSize() int
 }
 
 // Related resources created within the compute asset

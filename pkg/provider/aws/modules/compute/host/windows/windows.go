@@ -22,6 +22,10 @@ func (r *WindowsRequest) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, erro
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
 }
 
+func (r *WindowsRequest) GetDiskSize() int {
+	return r.Request.GetDiskSize()
+}
+
 func (r *WindowsRequest) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
 	password, err := security.CreatePassword(ctx, r.GetName())
 	if err != nil {

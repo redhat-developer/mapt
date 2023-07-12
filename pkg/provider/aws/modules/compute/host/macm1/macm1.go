@@ -25,6 +25,10 @@ func (r *Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
 }
 
+func (r *Request) GetDiskSize() int {
+	return r.Request.GetDiskSize()
+}
+
 func (r *Request) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
 	return nil, nil
 }
