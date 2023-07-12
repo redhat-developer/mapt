@@ -32,6 +32,10 @@ func (r *Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
 	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, "", r.Specs.AMI.Filters)
 }
 
+func (r *Request) GetDiskSize() int {
+	return DefaultRootBlockDeviceSize
+}
+
 func (r *Request) GetUserdata(ctx *pulumi.Context) (pulumi.StringPtrInput, error) {
 	return nil, nil
 }
@@ -95,7 +99,8 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 		return nil, err
 	}
 	if len(r.SpotPrice) > 0 {
-		err = r.createSpotInstance(ctx, ami.Id, userdataEncodedBase64, &compute)
+		err = r.createSpotInstance(ctx, ami.Id, computeRequested.GetDiskSize(),
+			userdataEncodedBase64, &compute)
 		if err != nil {
 			return nil, err
 		}
@@ -104,7 +109,8 @@ func (r *Request) Create(ctx *pulumi.Context, computeRequested ComputeRequest) (
 		if err != nil {
 			return nil, err
 		}
-		err = r.createOnDemand(ctx, ami.Id, userdataEncodedBase64, dh, &compute)
+		err = r.createOnDemand(ctx, ami.Id, computeRequested.GetDiskSize(),
+			userdataEncodedBase64, dh, &compute)
 		if err != nil {
 			return nil, err
 		}
@@ -183,7 +189,7 @@ func (r *Request) manageSecurityGroup(ctx *pulumi.Context,
 	return nil
 }
 
-func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
+func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string, diskSize int,
 	udBase64 pulumi.StringPtrInput, dh *ec2.DedicatedHost, compute *Compute) error {
 	instanceArgs := ec2.InstanceArgs{
 		SubnetId:                 r.Subnets[0].ID(),
@@ -193,7 +199,7 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
 		AssociatePublicIpAddress: pulumi.Bool(r.Public),
 		VpcSecurityGroupIds:      compute.getSecurityGroupsIDs(),
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
-			VolumeSize: pulumi.Int(DefaultRootBlockDeviceSize),
+			VolumeSize: pulumi.Int(diskSize),
 		},
 		Tags: pulumi.StringMap{
 			"Name":    pulumi.String(r.GetName()),
@@ -220,7 +226,7 @@ func (r *Request) createOnDemand(ctx *pulumi.Context, amiID string,
 }
 
 func (r Request) createSpotInstance(ctx *pulumi.Context,
-	amiID string, udBase64 pulumi.StringPtrInput, compute *Compute) error {
+	amiID string, diskSize int, udBase64 pulumi.StringPtrInput, compute *Compute) error {
 	args := &ec2.LaunchTemplateArgs{
 		NamePrefix: pulumi.String(r.GetName()),
 		ImageId:    pulumi.String(amiID),
@@ -236,7 +242,7 @@ func (r Request) createSpotInstance(ctx *pulumi.Context,
 			&ec2.LaunchTemplateBlockDeviceMappingArgs{
 				DeviceName: pulumi.String(DefaultRootBlockDeviceName),
 				Ebs: &ec2.LaunchTemplateBlockDeviceMappingEbsArgs{
-					VolumeSize: pulumi.Int(DefaultRootBlockDeviceSize),
+					VolumeSize: pulumi.Int(diskSize),
 				},
 			},
 		},
