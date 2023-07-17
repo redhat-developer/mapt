@@ -240,6 +240,13 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
+      resources:      
+        requests:
+          memory: "150Mi"
+          cpu: "50m"
+        limits:
+          memory: "700Mi"
+          cpu: "100m"
     - name: inspect-image
       params:
       - name: IMAGE_URL
