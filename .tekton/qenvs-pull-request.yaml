@@ -242,11 +242,11 @@ spec:
         workspace: workspace
       resources:      
         requests:
-          memory: "750Mi"
-          cpu: "450m"
+          memory: "950Mi"
+          cpu: "1450m"
         limits:
-          memory: "1700Mi"
-          cpu: "900m"
+          memory: "2700Mi"
+          cpu: "1900m"
     - name: inspect-image
       params:
       - name: IMAGE_URL
