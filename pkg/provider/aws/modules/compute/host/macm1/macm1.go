@@ -22,7 +22,8 @@ func (r *Request) GetRequest() *compute.Request {
 }
 
 func (r *Request) GetAMI(ctx *pulumi.Context) (*ec2.LookupAmiResult, error) {
-	return ami.GetAMIByName(ctx, r.Specs.AMI.RegexName, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
+	amiNameRegex := fmt.Sprintf(r.Specs.AMI.RegexPattern, r.VersionMajor)
+	return ami.GetAMIByName(ctx, amiNameRegex, r.Specs.AMI.Owner, r.Specs.AMI.Filters)
 }
 
 func (r *Request) GetDiskSize() int {
