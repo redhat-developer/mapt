@@ -23,7 +23,7 @@ import (
 func Create(projectName, backedURL, connectionDetailsOutput string,
 	public bool, targetHostID string,
 	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string,
-	fedoraMajorVersion string) (err error) {
+	fedoraMajorVersion, macosMajorVersion string) (err error) {
 	// Check which supported host
 	host, err := supportMatrix.GetHost(targetHostID)
 	if err != nil {
@@ -49,7 +49,8 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 	}
 	// Add request values for requested host
 	manageRequest(&request, host, public, projectName, spotPrice,
-		rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword, fedoraMajorVersion)
+		rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword,
+		fedoraMajorVersion, macosMajorVersion)
 	// Create stack
 	stack := manager.Stack{
 		StackName:           stackCreateEnvironmentName,
@@ -116,7 +117,7 @@ func manageRequest(request *singleHostRequest,
 	host *supportMatrix.SupportedHost, public bool,
 	projectName, spotPrice string,
 	rhMajorVersion, rhSubscriptionUsername, rhSubscriptionPassword string,
-	fedoraMajorVersion string) {
+	fedoraMajorVersion, macosMajorVersion string) {
 	switch host.ID {
 	case supportMatrix.OL_RHEL.ID:
 		request.hostRequested = &rhel.RHELRequest{
@@ -153,6 +154,7 @@ func manageRequest(request *singleHostRequest,
 				Public:     public,
 				Specs:      host,
 			},
+			VersionMajor: macosMajorVersion,
 		}
 	case supportMatrix.S_SNC.ID:
 		request.hostRequested = &snc.SNCRequest{

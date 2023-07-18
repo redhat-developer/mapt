@@ -78,9 +78,9 @@ var (
 		InstaceTypes: []string{"mac2.metal"},
 		Spot:         false,
 		AMI: AMI{
-			RegexName:   "amzn-ec2-macos-12*",
-			DefaultUser: "ec2-user",
-			Owner:       "628277914472",
+			RegexPattern: "amzn-ec2-macos-%s*",
+			DefaultUser:  "ec2-user",
+			Owner:        "628277914472",
 			Filters: map[string]string{
 				"architecture": "arm64_mac"},
 		},

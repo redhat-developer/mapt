@@ -48,7 +48,8 @@ func getCreate() *cobra.Command {
 				viper.GetString(params.RHMajorVersion),
 				viper.GetString(params.RHSubcriptionUsername),
 				viper.GetString(params.RHSubcriptionPassword),
-				viper.GetString(params.FedoraMajorVersion)); err != nil {
+				viper.GetString(params.FedoraMajorVersion),
+				viper.GetString(params.MacOSMajorVersion)); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -58,9 +59,11 @@ func getCreate() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringP(params.SupportedHostID, "", "", params.SupportedHostIDDesc)
 	flagSet.StringP(params.RHMajorVersion, "", "8", params.RHMajorVersionDesc)
-	flagSet.StringP(params.FedoraMajorVersion, "", "37", params.FedoraMajorVersionDesc)
+	flagSet.StringP(params.FedoraMajorVersion, "", "38", params.FedoraMajorVersionDesc)
 	flagSet.StringP(params.RHSubcriptionUsername, "", "", params.RHSubcriptionUsernameDesc)
 	flagSet.StringP(params.RHSubcriptionPassword, "", "", params.RHSubcriptionPasswordDesc)
+	flagSet.StringP(params.MacOSMajorVersion, "", "13", params.MacOSMajorVersionDesc)
+
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

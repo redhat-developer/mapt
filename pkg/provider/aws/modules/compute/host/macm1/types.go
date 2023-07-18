@@ -7,7 +7,8 @@ import (
 type Request struct {
 	compute.Request
 	// Set the new password for the user, will be used to connect with vncviewer
-	Password string
+	Password     string
+	VersionMajor string
 }
 
 type Compute struct {
