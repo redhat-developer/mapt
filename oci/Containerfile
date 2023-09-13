@@ -1,23 +1,18 @@
 
-FROM docker.io/library/golang:1.19-alpine as builder 
+FROM registry.access.redhat.com/ubi9/go-toolset:1.19 as builder
 
 USER root
 WORKDIR /workspace
 COPY . .
 
-ENV PULUMI_VERSION 3.62.0
+ENV PULUMI_VERSION 3.82.1
 ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
-RUN apk -U upgrade \
-    && apk add make gcc musl-dev curl \
-    && make build \
-    && curl -LO ${PULUMI_URL} \
-    && tar -xzvf pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
+RUN make build \
+    && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
+    && tar -xzvf pulumicli.tar.gz 
 
-# TODO review quay build with entitlements (microdnf...)
-# FROM registry.access.redhat.com/ubi8/ubi-minimal
-# FROM docker.io/library/alpine:3.17
-FROM mcr.microsoft.com/azure-cli:2.47.0
+FROM registry.access.redhat.com/ubi9/ubi
 
 LABEL org.opencontainers.image.authors="Adrian Riobo<ariobolo@redhat.com>"
 
@@ -29,8 +24,26 @@ ENV INTERNAL_OUTPUT=/tmp/qenvs \
 
 VOLUME [ "${INTERNAL_OUTPUT}" ]
 
-RUN apk add aws-cli \
+ENV AWS_CLI_VERSION 2.13.17
+ENV AWS_CLI_URL https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
+ENV AZ_CLI_VERSION 2.52.0
+ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli-${AZ_CLI_VERSION}-1.el9.x86_64.rpm
+
+RUN curl ${AWS_CLI_URL} -o awscliv2.zip \
+    && dnf install -y unzip \
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && curl -L ${AZ_CLI_RPM} -o azure-cli.rpm \
+    && dnf install -y azure-cli.rpm \
+    && rm -rf aws awscliv2.zip azure-cli.rpm \
+    && dnf clean all \
+  	&& rm -rf /var/cache/yum \
     && mkdir -p "${INTERNAL_OUTPUT}" 
 
-ENTRYPOINT [ "qenvs" ]
+# TODO review permissions on sharing mounting volume from host
+# USER 65532:65532
+
+ENTRYPOINT ["qenvs"]
+# Default to show help
+CMD ["-h"]
 
