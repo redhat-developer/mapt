@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-management-azure
   labels:
-    app.kubernetes.io/version: "0.0.4"
+    app.kubernetes.io/version: "0.0.5-dev"
   annotations:
     tekton.dev/pipelines.minVersion: "0.24.x"
     tekton.dev/categories: infrastructure
@@ -17,25 +17,12 @@ spec:
 
     The output will give required information to connect within the remote provisioned host
 
-  workspaces:
-  - name: pipelines-data
-
   params: 
   - name: project-name
     description: identifier for project.   
   - name: operation 
     description: operation to execute within the infrastructure. Current values (create, destroy)
-    default: create
-  - name: credentials-secret
-    description: |
-      ocp secret holding the azure credentials. Secret should be accessible to this task.
-
-      To be a valid secret it should contains the following fields:
-      * tenant_id
-      * subscription_id
-      * client_id
-      * client_secret
-    
+    default: create   
   - name: windows-featurepack
     description: windows feature pack (default "22h2-pro")
     default: 22h2-pro 
@@ -61,14 +48,10 @@ spec:
   - name: key-filename
     description: filename for the private key. The key is located at workspace-resources-path
 
-  volumes:
-  - name: credentials
-    secret:
-      secretName: $(params.credentials-secret)
-
   steps:
   - name: provisioner
-    image: quay.io/rhqp/qenvs:v0.0.4
+    image: quay.io/rhqp/qenvs:v0.0.5-dev
+    imagePullPolicy: Always
     volumeMounts:
     - mountPath: /opt/credentials/
       name: credentials
@@ -124,5 +107,18 @@ spec:
       limits:
         memory: "400Mi"
         cpu: "200m"
-  
+        
+  workspaces:
+  - name: pipelines-data
+    description: volume to store outputs to connect within the target machine + state file for the infrastructure 
+  - name: az-credentials
+    description: |
+      ocp secret holding the azure credentials. Secret should be accessible to this task.
+
+      To be a valid secret it should contains the following fields:
+      * tenant_id
+      * subscription_id
+      * client_id
+      * client_secret
+    mountPath: /opt/credentials
       
