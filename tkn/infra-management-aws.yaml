@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-management-aws
   labels:
-    app.kubernetes.io/version: "0.0.4"
+    app.kubernetes.io/version: "0.0.5-dev"
   annotations:
     tekton.dev/pipelines.minVersion: "0.24.x"
     tekton.dev/categories: infrastructure
@@ -16,44 +16,22 @@ spec:
     This task will provision / decomission multiple environments on public cloud 
 
     The output will give required information to connect within the remote provisioned host
-
-  workspaces:
-  - name: pipelines-data
-
+  
   params: 
   - name: project-name
     description: identifier for project. 
+
   - name: requestedHostID
     description: |
       this is the ID for the supported host. 
-      
       Current values:
       * ol-rhel
       * g-macos-m1
       * s-snc
       * ol-fedora
-
   - name: operation 
     description: operation to execute within the infrastructure. Current values (create, destroy)
-  - name: aws-credentials-secret
-    description: |
-      ocp secret holding the aws credentials. Secret should be accessible to this task.
-
-      To be a valid secret it should contains the following fields:
-      * tenant_id
-      * subscription_id
-      * client_id
-      * client_secret
-
-  # RHEL Params
-  - name: rh-account-secret
-    description: |
-      ocp secret holding the credentials for a valid rh user to subscribe VM. Secret should be accessible to this task.
-
-      To be a valid secret it should contains the following fields:
-      * user
-      * password
-    default: ''
+  
   # Fedora Params
   - name: fedora-version
     description: in case requestedHostID set to ol-fedora this param will control the major fedora version (i.e 37, 38,...)
@@ -81,7 +59,8 @@ spec:
 
   steps:
   - name: provisioner
-    image: quay.io/rhqp/qenvs:v0.0.4
+    image: quay.io/rhqp/qenvs:v0.0.5-dev
+    imagePullPolicy: Always
     script: |
       #!/bin/sh
 
@@ -135,12 +114,6 @@ spec:
         exit 1
       fi
 
-    volumeMounts:
-    - mountPath: /opt/aws-credentials/
-      name: aws-credentials
-    - mountPath: /opt/rh-account-secret/
-      name: rh-account-secret
-      
     resources:      
       requests:
         memory: "200Mi"
@@ -149,13 +122,27 @@ spec:
         memory: "400Mi"
         cpu: "200m"
 
-  volumes:
+  workspaces:
+  - name: pipelines-data
+    description: volume to store outputs to connect within the target machine + state file for the infrastructure 
   - name: aws-credentials
-    secret:
-      secretName: $(params.aws-credentials-secret)
+    description: |
+      ocp secret holding the aws credentials. Secret should be accessible to this task.
+
+      To be a valid secret it should contains the following fields:
+      * tenant_id
+      * subscription_id
+      * client_id
+      * client_secret
+    mountPath: /opt/aws-credentials
   - name: rh-account-secret
-    secret:
-      secretName: $(params.rh-account-secret)
-      optional: true
+    description: |
+      ocp secret holding the credentials for a valid rh user to subscribe VM. Secret should be accessible to this task.
+
+      To be a valid secret it should contains the following fields:
+      * user
+      * password
+    optional: true
+    mountPath: /opt/rh-account-secret
   
       
