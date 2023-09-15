@@ -20,7 +20,7 @@ It creates / destroy a windows dekstop edition ready to be included within the C
 This will create a windows desktop accordig to params specificed:
 
 ```bash
-podman run -it --rm quay.io/rhqp/qenvs:0.0.4 azure windows create -h
+podman run -it --rm quay.io/rhqp/qenvs:v0.0.5-dev azure windows create -h
 create
 
 Usage:
@@ -31,9 +31,10 @@ Flags:
       --conn-details-output string   path to export host connection information (host, username and privateKey)
   -h, --help                         help for create
       --location string              location for created resources within Windows desktop (default "West US")
+      --spot                         if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)
       --tags stringToString          tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --username string              username for general user. SSH accessible + rdp with generated password (default "rhqp")
-      --vmsize string                size for the VM. Type requires to allow nested virtualization (default "Standard_D4_v5")
+      --vmsize string                size for the VM. Type requires to allow nested virtualization (default "Standard_D8a_v4")
       --windows-featurepack string   windows feature pack (default "22h2-pro")
       --windows-version string       Major version for windows desktop 10 or 11 (default "11")
 
@@ -63,11 +64,12 @@ podman run -d --rm \
     -e ARM_SUBSCRIPTION_ID=${asi_value} \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
-    quay.io/rhqp/qenvs:0.0.4 azure \
+    quay.io/rhqp/qenvs:v0.0.5-dev azure \
         windows create \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace" \
-        --conn-details-output "/workspace" 
+        --conn-details-output "/workspace" \
+        --spot
 ```
 
 The following is a snipped on how to destroy the resources:
@@ -79,7 +81,7 @@ podman run -d --rm \
     -e ARM_SUBSCRIPTION_ID=${asi_value} \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
-    quay.io/rhqp/qenvs:0.0.4 azure \
+    quay.io/rhqp/qenvs:v0.0.5-dev azure \
         windows destroy \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace"

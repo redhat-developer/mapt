@@ -19,7 +19,7 @@ const (
 	defaultLocation        = "West US"
 	paramVMSize            = "vmsize"
 	paramVMSizeDesc        = "size for the VM. Type requires to allow nested virtualization"
-	defaultVMSize          = "Standard_D4_v5"
+	defaultVMSize          = "Standard_D8a_v4"
 	paramVersion           = "windows-version"
 	paramVersionDesc       = "Major version for windows desktop 10 or 11"
 	defaultVersion         = "11"
@@ -32,6 +32,8 @@ const (
 	paramAdminUsername     = "admin-username"
 	paramAdminUsernameDesc = "username for admin user. Only rdp accessible within generated password"
 	defaultAdminUsername   = "rhqpadmin"
+	paramSpot              = "spot"
+	paramSpotDesc          = "if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)"
 )
 
 func GetCmd() *cobra.Command {
@@ -72,7 +74,8 @@ func getCreate() *cobra.Command {
 					Version:       viper.GetString(paramVersion),
 					Feature:       viper.GetString(paramFeature),
 					Username:      viper.GetString(paramUsername),
-					AdminUsername: viper.GetString(paramAdminUsername)}); err != nil {
+					AdminUsername: viper.GetString(paramAdminUsername),
+					Spot:          viper.IsSet(paramSpot)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -87,6 +90,7 @@ func getCreate() *cobra.Command {
 	flagSet.StringP(paramFeature, "", defaultFeature, paramFeatureDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
 	flagSet.StringP(paramAdminUsername, "", defaultAdminUsername, paramAdminUsernameDesc)
+	flagSet.Bool(paramSpot, false, paramSpotDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
