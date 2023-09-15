@@ -16,4 +16,6 @@ const (
 	outputUserPrivateKey    = "awdUserPrivatekey"
 	outputAdminUsername     = "awdAdminUsername"
 	outputAdminUserPassword = "awdAdminUserPassword"
+
+	prioritySpot = "Spot"
 )
