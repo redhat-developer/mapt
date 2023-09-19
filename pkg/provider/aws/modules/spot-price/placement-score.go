@@ -33,8 +33,8 @@ func GetBestPlacementScores(regions, instanceTypes []string,
 		return nil, fmt.Errorf("non available scores")
 	}
 	slices.SortFunc(sps.SpotPlacementScores,
-		func(a, b *awsEC2.SpotPlacementScore) bool {
-			return *a.Score > *b.Score
+		func(a, b *awsEC2.SpotPlacementScore) int {
+			return int(*a.Score - *b.Score)
 		})
 	return sps.SpotPlacementScores, nil
 }

@@ -63,8 +63,8 @@ func getDescribeAvailabilityZones(regions []string) []*ec2.AvailabilityZone {
 
 func checkBestOption(source []SpotPriceGroup, sps []*ec2.SpotPlacementScore, availabilityZones []*ec2.AvailabilityZone) *SpotPriceGroup {
 	slices.SortFunc(source,
-		func(a, b SpotPriceGroup) bool {
-			return a.AVGPrice < b.AVGPrice
+		func(a, b SpotPriceGroup) int {
+			return int(a.AVGPrice - b.AVGPrice)
 		})
 	var score int64 = spsMaxScore
 	for score > 3 {
@@ -137,7 +137,7 @@ func getBestSpotPrice(instanceTypes []string, productDescription, region string)
 			return price
 		})
 		groupInfo.AVGPrice = util.Average(prices)
-		slices.SortFunc(prices, func(a, b float64) bool { return a < b })
+		slices.SortFunc(prices, func(a, b float64) int { return int(a - b) })
 		groupInfo.MaxPrice = prices[len(prices)-1]
 		pricesGroup = append(pricesGroup, groupInfo)
 	}
