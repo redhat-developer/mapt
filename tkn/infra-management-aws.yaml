@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-management-aws
   labels:
-    app.kubernetes.io/version: "0.0.5"
+    app.kubernetes.io/version: "0.0.6-dev"
   annotations:
     tekton.dev/pipelines.minVersion: "0.24.x"
     tekton.dev/categories: infrastructure
@@ -59,7 +59,8 @@ spec:
 
   steps:
   - name: provisioner
-    image: quay.io/rhqp/qenvs:v0.0.5
+    image: quay.io/rhqp/qenvs:v0.0.6-dev
+    imagePullPolicy: Always
     script: |
       #!/bin/sh
 
