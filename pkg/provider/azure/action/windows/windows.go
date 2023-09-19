@@ -3,8 +3,6 @@ package windows
 import (
 	_ "embed"
 	"fmt"
-	"os"
-	"path"
 
 	"github.com/adrianriobo/qenvs/pkg/manager"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
@@ -40,13 +38,6 @@ type WindowsRequest struct {
 	Spot          bool
 }
 
-type syncRequest struct {
-	name       string
-	prefix     string
-	username   string
-	privatekey *string
-}
-
 func Create(r *WindowsRequest) (err error) {
 	logging.Debug("Creating Windows Desktop")
 	cs := manager.Stack{
@@ -60,30 +51,7 @@ func Create(r *WindowsRequest) (err error) {
 	if err != nil {
 		return err
 	}
-	privatekey, err := r.manageResults(csResult, qenvsContext.GetResultsOutput())
-	if err != nil {
-		return err
-	}
-	logging.Debug("Windows Desktop has been created")
-	logging.Debug("Sync Windows Desktop")
-	sr := syncRequest{
-		name:       qenvsContext.GetID(),
-		prefix:     r.Prefix,
-		username:   r.Username,
-		privatekey: privatekey,
-	}
-	ss := manager.Stack{
-		StackName:           qenvsContext.GetStackInstanceName(stackSyncWindowsDesktop),
-		ProjectName:         qenvsContext.GetInstanceName(),
-		BackedURL:           qenvsContext.GetBackedURL(),
-		CloudProviderPlugin: azurePlugin.DefaultPlugin,
-		DeployFunc:          sr.sync,
-	}
-	_, err = manager.UpStack(ss)
-	if err != nil {
-		logging.Debug("Windows Desktop is able to process workloads from now on")
-	}
-	return err
+	return r.manageResults(csResult, qenvsContext.GetResultsOutput())
 }
 
 func Destroy() error {
@@ -115,7 +83,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	ni, err := r.createNetworking(ctx, rg, *location)
+	ni, pi, err := r.createNetworking(ctx, rg, *location)
 	if err != nil {
 		return err
 	}
@@ -123,7 +91,23 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	return r.postInitSetup(ctx, rg, vm, *location)
+	pk, err := r.postInitSetup(ctx, rg, vm, *location)
+	if err != nil {
+		return err
+	}
+	_, err = remote.NewCommand(ctx,
+		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "cmd"),
+		&remote.CommandArgs{
+			Connection: remote.ConnectionArgs{
+				Host:           pi.IpAddress.Elem(),
+				PrivateKey:     pk.PrivateKeyOpenssh,
+				User:           pulumi.String(r.Username),
+				DialErrorLimit: pulumi.Int(-1),
+			},
+			Create: pulumi.String(command.CommandPing),
+			Update: pulumi.String(command.CommandPing),
+		})
+	return err
 }
 
 func (r *WindowsRequest) valuesWetherSpot() (*string, *float64, error) {
@@ -142,56 +126,17 @@ func (r *WindowsRequest) valuesWetherSpot() (*string, *float64, error) {
 	return &r.Location, nil, nil
 }
 
-// This function works as a syncer for the created VM
-// due to https://github.com/pulumi/pulumi-azure-native/issues/2336 we need to
-// lookup for the ip after stack is created, also we need that value
-// to run a remote command to wait for the instance to ensure it is healthy
-// also this will export the host ip for the instance
-func (r *syncRequest) sync(ctx *pulumi.Context) error {
-	ip, err := network.LookupPublicIPAddress(ctx,
-		&network.LookupPublicIPAddressArgs{
-			PublicIpAddressName: r.name,
-			ResourceGroupName:   r.name,
-		})
-	if err != nil {
-		return err
-	}
-	err = os.WriteFile(path.Join(qenvsContext.GetResultsOutput(), "host"), []byte(*ip.IpAddress), 0600)
-	if err != nil {
-		return err
-	}
-	_, err = remote.NewCommand(ctx,
-		resourcesUtil.GetResourceName(r.prefix, azureWindowsDesktopID, "cmd"),
-		&remote.CommandArgs{
-			Connection: remote.ConnectionArgs{
-				Host:           pulumi.String(*ip.IpAddress),
-				PrivateKey:     pulumi.String(*r.privatekey),
-				User:           pulumi.String(r.username),
-				DialErrorLimit: pulumi.Int(-1),
-			},
-			Create: pulumi.String(command.CommandPing),
-			Update: pulumi.String(command.CommandPing),
-		})
-	return err
-}
-
 // Write exported values in context to files o a selected target folder
 func (r *WindowsRequest) manageResults(stackResult auto.UpResult,
-	destinationFolder string) (*string, error) {
-	if err := output.Write(stackResult, destinationFolder, map[string]string{
+	destinationFolder string) error {
+	return output.Write(stackResult, destinationFolder, map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername):     "adminusername",
 		fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword): "adminuserpassword",
 		fmt.Sprintf("%s-%s", r.Prefix, outputUsername):          "username",
 		fmt.Sprintf("%s-%s", r.Prefix, outputUserPassword):      "userpassword",
 		fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey):    "id_rsa",
-	}); err != nil {
-		return nil, err
-	}
-	privatekey, ok := stackResult.Outputs[fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey)].Value.(string)
-	if !ok {
-		return nil, fmt.Errorf("error getting private key")
-	}
-	return &privatekey, nil
+		fmt.Sprintf("%s-%s", r.Prefix, outputHost):              "host",
+	})
 }
 
 // Create virtual machine based on request + export to context
@@ -251,6 +196,7 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 			MaxPrice: pulumi.Float64(*spotPrice),
 		}
 	}
+
 	return compute.NewVirtualMachine(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "vm"),
 		vmArgs)
@@ -258,7 +204,8 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 
 // Create networking resource required for spin the VM
 func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
-	rg *resources.ResourceGroup, location string) (*network.NetworkInterface, error) {
+	rg *resources.ResourceGroup, location string) (*network.NetworkInterface,
+	*network.PublicIPAddress, error) {
 	vn, err := network.NewVirtualNetwork(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "vn"),
 		&network.VirtualNetworkArgs{
@@ -273,7 +220,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 			Tags:              qenvsContext.GetTags(),
 		})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	sn, err := network.NewSubnet(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "sn"),
@@ -286,23 +233,25 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 			},
 		})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	publicIP, err := network.NewPublicIPAddress(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pip"),
 		&network.PublicIPAddressArgs{
-			Location:            pulumi.String(location),
-			PublicIpAddressName: pulumi.String(qenvsContext.GetID()),
-			ResourceGroupName:   rg.Name,
-			Tags:                qenvsContext.GetTags(),
+			Location:                 pulumi.String(location),
+			PublicIpAddressName:      pulumi.String(qenvsContext.GetID()),
+			PublicIPAllocationMethod: pulumi.String("Static"),
+			ResourceGroupName:        rg.Name,
+			Tags:                     qenvsContext.GetTags(),
 			// DnsSettings: network.PublicIPAddressDnsSettingsArgs{
 			// 	DomainNameLabel: pulumi.String("qenvs"),
 			// },
 		})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return network.NewNetworkInterface(ctx,
+	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputHost), publicIP.IpAddress)
+	ni, err := network.NewNetworkInterface(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "ni"),
 		&network.NetworkInterfaceArgs{
 			NetworkInterfaceName: pulumi.String(qenvsContext.GetID()),
@@ -322,17 +271,21 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 			},
 			Tags: qenvsContext.GetTags(),
 		})
+	if err != nil {
+		return nil, nil, err
+	}
+	return ni, publicIP, nil
 }
 
 // run a post script to setup the machine as expected according to rhqp-ci-setup.ps1
 // it also exports to pulumi context user name, user password and user privatekey
 func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.ResourceGroup,
-	vm *compute.VirtualMachine, location string) error {
+	vm *compute.VirtualMachine, location string) (*tls.PrivateKey, error) {
 	userPasswd, err := security.CreatePassword(
 		ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-user"))
 	if err != nil {
-		return err
+		return nil, err
 
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUsername), pulumi.String(r.Username))
@@ -345,13 +298,13 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 			RsaBits:   pulumi.Int(4096),
 		})
 	if err != nil {
-		return err
+		return nil, err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
 	// upload the script to a ephemeral blob container
 	b, err := r.uploadScript(ctx, rg, location)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// the post script command will be generated based on generated data as parameters
 	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName()).ApplyT(
@@ -386,7 +339,7 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 			},
 			Tags: qenvsContext.GetTags(),
 		})
-	return err
+	return privateKey, err
 }
 
 // Upload scrip to blob container to be used within Microsoft Compute extension

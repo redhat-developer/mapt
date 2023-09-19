@@ -11,6 +11,7 @@ const (
 
 	scriptName = "setup.ps1"
 
+	outputHost              = "awdHost"
 	outputUsername          = "awdUsername"
 	outputUserPassword      = "awdUserPassword"
 	outputUserPrivateKey    = "awdUserPrivatekey"
