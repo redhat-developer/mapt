@@ -133,6 +133,7 @@ func (r *WindowsRequest) valuesWetherSpot() (*string, *float64, error) {
 				VMTypes: []string{r.VMSize},
 				OSType:  "windows",
 			})
+		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
 			return nil, nil, err
 		}

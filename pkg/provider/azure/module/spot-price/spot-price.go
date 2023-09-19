@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph"
+	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
 const (
@@ -129,6 +130,7 @@ func getPriceHistory(ctx context.Context, client *armresourcegraph.Client,
 		}
 		results = append(results, rStruct)
 	}
+	logging.Debugf("spot prices history %v", results)
 	return results, nil
 }
 
