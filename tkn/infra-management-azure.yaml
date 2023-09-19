@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-management-azure
   labels:
-    app.kubernetes.io/version: "0.0.5-dev"
+    app.kubernetes.io/version: "0.0.5"
   annotations:
     tekton.dev/pipelines.minVersion: "0.24.x"
     tekton.dev/categories: infrastructure
@@ -50,8 +50,7 @@ spec:
 
   steps:
   - name: provisioner
-    image: quay.io/rhqp/qenvs:v0.0.5-dev
-    imagePullPolicy: Always
+    image: quay.io/rhqp/qenvs:v0.0.5
     volumeMounts:
     - mountPath: /opt/credentials/
       name: credentials

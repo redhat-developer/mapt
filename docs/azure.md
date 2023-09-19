@@ -20,7 +20,7 @@ It creates / destroy a windows dekstop edition ready to be included within the C
 This will create a windows desktop accordig to params specificed:
 
 ```bash
-podman run -it --rm quay.io/rhqp/qenvs:v0.0.5-dev azure windows create -h
+podman run -it --rm quay.io/rhqp/qenvs:v0.0.5 azure windows create -h
 create
 
 Usage:
@@ -64,7 +64,7 @@ podman run -d --rm \
     -e ARM_SUBSCRIPTION_ID=${asi_value} \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
-    quay.io/rhqp/qenvs:v0.0.5-dev azure \
+    quay.io/rhqp/qenvs:v0.0.5 azure \
         windows create \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace" \
@@ -81,7 +81,7 @@ podman run -d --rm \
     -e ARM_SUBSCRIPTION_ID=${asi_value} \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
-    quay.io/rhqp/qenvs:v0.0.5-dev azure \
+    quay.io/rhqp/qenvs:v0.0.5 azure \
         windows destroy \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace"
