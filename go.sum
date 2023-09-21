@@ -315,6 +315,8 @@ github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.8.0 h1:ZYoTXEyI93nSrgad+
 github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.8.0/go.mod h1:iyUPFNGU9a/6OVtlMjmPXU2bItkYsuApelMdw1GSydI=
 github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.6.0 h1:TyDRtmPZlEsaEMjkHpNggohZyLup8gyr8dMx2fId+4A=
 github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.6.0/go.mod h1:n25zeuzMVh+zBxgp7ed1yNlOu/h054/Xv47J+/l6Ejk=
+github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.8.0 h1:+W6yCqaI+fIcZiPbVqVYzuhIyYSA2pbx57GIr1rk4GI=
+github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.8.0/go.mod h1:X4GBG6E05h3a2gmr+COaaHZOnT+cQupu3VlnT6FeD/w=
 github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.6.0 h1:VwJOP3VNejnpylsWJtuLUNHK7TwzRBlkBp3pxcgA1CE=
 github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.6.0/go.mod h1:3wUD5FQBn+vuDMbiF44KYh82Hctnt2Sr6eNm8XL+SAc=
 github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.8.0 h1:GBvUXMg/39zWN/1yx7jWBKsWpxdyq6hzbw68vkhaYJw=
