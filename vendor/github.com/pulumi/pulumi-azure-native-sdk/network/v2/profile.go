@@ -121,6 +121,7 @@ type profileArgs struct {
 	// The DNS settings of the Traffic Manager profile.
 	DnsConfig *DnsConfig `pulumi:"dnsConfig"`
 	// The list of endpoints in the Traffic Manager profile.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Endpoints []EndpointType `pulumi:"endpoints"`
 	// Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
 	Id *string `pulumi:"id"`
@@ -155,6 +156,7 @@ type ProfileArgs struct {
 	// The DNS settings of the Traffic Manager profile.
 	DnsConfig DnsConfigPtrInput
 	// The list of endpoints in the Traffic Manager profile.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Endpoints EndpointTypeArrayInput
 	// Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
 	Id pulumi.StringPtrInput

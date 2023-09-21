@@ -240,6 +240,7 @@ type routeTableArgs struct {
 	// The name of the route table.
 	RouteTableName *string `pulumi:"routeTableName"`
 	// Collection of routes contained within a route table.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Routes []RouteType `pulumi:"routes"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
@@ -258,6 +259,7 @@ type RouteTableArgs struct {
 	// The name of the route table.
 	RouteTableName pulumi.StringPtrInput
 	// Collection of routes contained within a route table.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Routes RouteTypeArrayInput
 	// Resource tags.
 	Tags pulumi.StringMapInput

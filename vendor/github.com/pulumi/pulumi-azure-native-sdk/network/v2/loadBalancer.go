@@ -242,6 +242,7 @@ func (LoadBalancerState) ElementType() reflect.Type {
 
 type loadBalancerArgs struct {
 	// Collection of backend address pools used by a load balancer.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	BackendAddressPools []BackendAddressPool `pulumi:"backendAddressPools"`
 	// The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation `pulumi:"extendedLocation"`
@@ -252,6 +253,7 @@ type loadBalancerArgs struct {
 	// Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
 	InboundNatPools []InboundNatPool `pulumi:"inboundNatPools"`
 	// Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	InboundNatRules []InboundNatRuleType `pulumi:"inboundNatRules"`
 	// The name of the load balancer.
 	LoadBalancerName *string `pulumi:"loadBalancerName"`
@@ -274,6 +276,7 @@ type loadBalancerArgs struct {
 // The set of arguments for constructing a LoadBalancer resource.
 type LoadBalancerArgs struct {
 	// Collection of backend address pools used by a load balancer.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	BackendAddressPools BackendAddressPoolArrayInput
 	// The extended location of the load balancer.
 	ExtendedLocation ExtendedLocationPtrInput
@@ -284,6 +287,7 @@ type LoadBalancerArgs struct {
 	// Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
 	InboundNatPools InboundNatPoolArrayInput
 	// Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	InboundNatRules InboundNatRuleTypeArrayInput
 	// The name of the load balancer.
 	LoadBalancerName pulumi.StringPtrInput

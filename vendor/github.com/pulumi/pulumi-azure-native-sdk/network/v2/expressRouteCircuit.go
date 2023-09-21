@@ -258,6 +258,7 @@ type expressRouteCircuitArgs struct {
 	// The authorizationKey.
 	AuthorizationKey *string `pulumi:"authorizationKey"`
 	// The list of authorizations.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Authorizations []ExpressRouteCircuitAuthorizationType `pulumi:"authorizations"`
 	// The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource.
 	BandwidthInGbps *float64 `pulumi:"bandwidthInGbps"`
@@ -276,6 +277,7 @@ type expressRouteCircuitArgs struct {
 	// Resource location.
 	Location *string `pulumi:"location"`
 	// The list of peerings.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Peerings []ExpressRouteCircuitPeeringType `pulumi:"peerings"`
 	// The name of the resource group.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
@@ -300,6 +302,7 @@ type ExpressRouteCircuitArgs struct {
 	// The authorizationKey.
 	AuthorizationKey pulumi.StringPtrInput
 	// The list of authorizations.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Authorizations ExpressRouteCircuitAuthorizationTypeArrayInput
 	// The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource.
 	BandwidthInGbps pulumi.Float64PtrInput
@@ -318,6 +321,7 @@ type ExpressRouteCircuitArgs struct {
 	// Resource location.
 	Location pulumi.StringPtrInput
 	// The list of peerings.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Peerings ExpressRouteCircuitPeeringTypeArrayInput
 	// The name of the resource group.
 	ResourceGroupName pulumi.StringInput
