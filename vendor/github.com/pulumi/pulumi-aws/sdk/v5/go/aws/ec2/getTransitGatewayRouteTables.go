@@ -14,7 +14,7 @@ import (
 //
 // ## Example Usage
 //
-// The following shows outputing all Transit Gateway Route Table Ids.
+// The following shows outputting all Transit Gateway Route Table Ids.
 //
 // ```go
 // package main
@@ -53,6 +53,9 @@ type GetTransitGatewayRouteTablesArgs struct {
 	Filters []GetTransitGatewayRouteTablesFilter `pulumi:"filters"`
 	// Mapping of tags, each pair of which must exactly match
 	// a pair on the desired transit gateway route table.
+	//
+	// More complex filters can be expressed using one or more `filter` sub-blocks,
+	// which take the following arguments:
 	Tags map[string]string `pulumi:"tags"`
 }
 
@@ -85,6 +88,9 @@ type GetTransitGatewayRouteTablesOutputArgs struct {
 	Filters GetTransitGatewayRouteTablesFilterArrayInput `pulumi:"filters"`
 	// Mapping of tags, each pair of which must exactly match
 	// a pair on the desired transit gateway route table.
+	//
+	// More complex filters can be expressed using one or more `filter` sub-blocks,
+	// which take the following arguments:
 	Tags pulumi.StringMapInput `pulumi:"tags"`
 }
 

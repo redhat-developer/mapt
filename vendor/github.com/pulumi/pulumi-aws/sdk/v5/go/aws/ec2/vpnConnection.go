@@ -7,7 +7,7 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -244,6 +244,8 @@ type VpnConnection struct {
 	Tunnel1DpdTimeoutAction pulumi.StringPtrOutput `pulumi:"tunnel1DpdTimeoutAction"`
 	// The number of seconds after which a DPD timeout occurs for the first VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel1DpdTimeoutSeconds pulumi.IntPtrOutput `pulumi:"tunnel1DpdTimeoutSeconds"`
+	// Turn on or off tunnel endpoint lifecycle control feature for the first VPN tunnel. Valid values are `true | false`.
+	Tunnel1EnableTunnelLifecycleControl pulumi.BoolPtrOutput `pulumi:"tunnel1EnableTunnelLifecycleControl"`
 	// The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel1IkeVersions pulumi.StringArrayOutput `pulumi:"tunnel1IkeVersions"`
 	// The CIDR block of the inside IP addresses for the first VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -292,6 +294,8 @@ type VpnConnection struct {
 	Tunnel2DpdTimeoutAction pulumi.StringPtrOutput `pulumi:"tunnel2DpdTimeoutAction"`
 	// The number of seconds after which a DPD timeout occurs for the second VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel2DpdTimeoutSeconds pulumi.IntPtrOutput `pulumi:"tunnel2DpdTimeoutSeconds"`
+	// Turn on or off tunnel endpoint lifecycle control feature for the second VPN tunnel. Valid values are `true | false`.
+	Tunnel2EnableTunnelLifecycleControl pulumi.BoolPtrOutput `pulumi:"tunnel2EnableTunnelLifecycleControl"`
 	// The IKE versions that are permitted for the second VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel2IkeVersions pulumi.StringArrayOutput `pulumi:"tunnel2IkeVersions"`
 	// The CIDR block of the inside IP addresses for the second VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -433,6 +437,8 @@ type vpnConnectionState struct {
 	Tunnel1DpdTimeoutAction *string `pulumi:"tunnel1DpdTimeoutAction"`
 	// The number of seconds after which a DPD timeout occurs for the first VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel1DpdTimeoutSeconds *int `pulumi:"tunnel1DpdTimeoutSeconds"`
+	// Turn on or off tunnel endpoint lifecycle control feature for the first VPN tunnel. Valid values are `true | false`.
+	Tunnel1EnableTunnelLifecycleControl *bool `pulumi:"tunnel1EnableTunnelLifecycleControl"`
 	// The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel1IkeVersions []string `pulumi:"tunnel1IkeVersions"`
 	// The CIDR block of the inside IP addresses for the first VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -481,6 +487,8 @@ type vpnConnectionState struct {
 	Tunnel2DpdTimeoutAction *string `pulumi:"tunnel2DpdTimeoutAction"`
 	// The number of seconds after which a DPD timeout occurs for the second VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel2DpdTimeoutSeconds *int `pulumi:"tunnel2DpdTimeoutSeconds"`
+	// Turn on or off tunnel endpoint lifecycle control feature for the second VPN tunnel. Valid values are `true | false`.
+	Tunnel2EnableTunnelLifecycleControl *bool `pulumi:"tunnel2EnableTunnelLifecycleControl"`
 	// The IKE versions that are permitted for the second VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel2IkeVersions []string `pulumi:"tunnel2IkeVersions"`
 	// The CIDR block of the inside IP addresses for the second VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -576,6 +584,8 @@ type VpnConnectionState struct {
 	Tunnel1DpdTimeoutAction pulumi.StringPtrInput
 	// The number of seconds after which a DPD timeout occurs for the first VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel1DpdTimeoutSeconds pulumi.IntPtrInput
+	// Turn on or off tunnel endpoint lifecycle control feature for the first VPN tunnel. Valid values are `true | false`.
+	Tunnel1EnableTunnelLifecycleControl pulumi.BoolPtrInput
 	// The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel1IkeVersions pulumi.StringArrayInput
 	// The CIDR block of the inside IP addresses for the first VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -624,6 +634,8 @@ type VpnConnectionState struct {
 	Tunnel2DpdTimeoutAction pulumi.StringPtrInput
 	// The number of seconds after which a DPD timeout occurs for the second VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel2DpdTimeoutSeconds pulumi.IntPtrInput
+	// Turn on or off tunnel endpoint lifecycle control feature for the second VPN tunnel. Valid values are `true | false`.
+	Tunnel2EnableTunnelLifecycleControl pulumi.BoolPtrInput
 	// The IKE versions that are permitted for the second VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel2IkeVersions pulumi.StringArrayInput
 	// The CIDR block of the inside IP addresses for the second VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -701,6 +713,8 @@ type vpnConnectionArgs struct {
 	Tunnel1DpdTimeoutAction *string `pulumi:"tunnel1DpdTimeoutAction"`
 	// The number of seconds after which a DPD timeout occurs for the first VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel1DpdTimeoutSeconds *int `pulumi:"tunnel1DpdTimeoutSeconds"`
+	// Turn on or off tunnel endpoint lifecycle control feature for the first VPN tunnel. Valid values are `true | false`.
+	Tunnel1EnableTunnelLifecycleControl *bool `pulumi:"tunnel1EnableTunnelLifecycleControl"`
 	// The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel1IkeVersions []string `pulumi:"tunnel1IkeVersions"`
 	// The CIDR block of the inside IP addresses for the first VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -739,6 +753,8 @@ type vpnConnectionArgs struct {
 	Tunnel2DpdTimeoutAction *string `pulumi:"tunnel2DpdTimeoutAction"`
 	// The number of seconds after which a DPD timeout occurs for the second VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel2DpdTimeoutSeconds *int `pulumi:"tunnel2DpdTimeoutSeconds"`
+	// Turn on or off tunnel endpoint lifecycle control feature for the second VPN tunnel. Valid values are `true | false`.
+	Tunnel2EnableTunnelLifecycleControl *bool `pulumi:"tunnel2EnableTunnelLifecycleControl"`
 	// The IKE versions that are permitted for the second VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel2IkeVersions []string `pulumi:"tunnel2IkeVersions"`
 	// The CIDR block of the inside IP addresses for the second VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -809,6 +825,8 @@ type VpnConnectionArgs struct {
 	Tunnel1DpdTimeoutAction pulumi.StringPtrInput
 	// The number of seconds after which a DPD timeout occurs for the first VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel1DpdTimeoutSeconds pulumi.IntPtrInput
+	// Turn on or off tunnel endpoint lifecycle control feature for the first VPN tunnel. Valid values are `true | false`.
+	Tunnel1EnableTunnelLifecycleControl pulumi.BoolPtrInput
 	// The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel1IkeVersions pulumi.StringArrayInput
 	// The CIDR block of the inside IP addresses for the first VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -847,6 +865,8 @@ type VpnConnectionArgs struct {
 	Tunnel2DpdTimeoutAction pulumi.StringPtrInput
 	// The number of seconds after which a DPD timeout occurs for the second VPN tunnel. Valid value is equal or higher than `30`.
 	Tunnel2DpdTimeoutSeconds pulumi.IntPtrInput
+	// Turn on or off tunnel endpoint lifecycle control feature for the second VPN tunnel. Valid values are `true | false`.
+	Tunnel2EnableTunnelLifecycleControl pulumi.BoolPtrInput
 	// The IKE versions that are permitted for the second VPN tunnel. Valid values are `ikev1 | ikev2`.
 	Tunnel2IkeVersions pulumi.StringArrayInput
 	// The CIDR block of the inside IP addresses for the second VPN tunnel. Valid value is a size /30 CIDR block from the 169.254.0.0/16 range.
@@ -1096,6 +1116,11 @@ func (o VpnConnectionOutput) Tunnel1DpdTimeoutSeconds() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.IntPtrOutput { return v.Tunnel1DpdTimeoutSeconds }).(pulumi.IntPtrOutput)
 }
 
+// Turn on or off tunnel endpoint lifecycle control feature for the first VPN tunnel. Valid values are `true | false`.
+func (o VpnConnectionOutput) Tunnel1EnableTunnelLifecycleControl() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *VpnConnection) pulumi.BoolPtrOutput { return v.Tunnel1EnableTunnelLifecycleControl }).(pulumi.BoolPtrOutput)
+}
+
 // The IKE versions that are permitted for the first VPN tunnel. Valid values are `ikev1 | ikev2`.
 func (o VpnConnectionOutput) Tunnel1IkeVersions() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringArrayOutput { return v.Tunnel1IkeVersions }).(pulumi.StringArrayOutput)
@@ -1214,6 +1239,11 @@ func (o VpnConnectionOutput) Tunnel2DpdTimeoutAction() pulumi.StringPtrOutput {
 // The number of seconds after which a DPD timeout occurs for the second VPN tunnel. Valid value is equal or higher than `30`.
 func (o VpnConnectionOutput) Tunnel2DpdTimeoutSeconds() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.IntPtrOutput { return v.Tunnel2DpdTimeoutSeconds }).(pulumi.IntPtrOutput)
+}
+
+// Turn on or off tunnel endpoint lifecycle control feature for the second VPN tunnel. Valid values are `true | false`.
+func (o VpnConnectionOutput) Tunnel2EnableTunnelLifecycleControl() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *VpnConnection) pulumi.BoolPtrOutput { return v.Tunnel2EnableTunnelLifecycleControl }).(pulumi.BoolPtrOutput)
 }
 
 // The IKE versions that are permitted for the second VPN tunnel. Valid values are `ikev1 | ikev2`.

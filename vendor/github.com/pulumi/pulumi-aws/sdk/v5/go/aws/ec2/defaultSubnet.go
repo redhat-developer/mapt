@@ -7,7 +7,7 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -66,6 +66,8 @@ type DefaultSubnet struct {
 	// is required
 	// * The `availabilityZoneId`, `cidrBlock` and `vpcId` arguments become computed attributes
 	// * The default value for `mapPublicIpOnLaunch` is `true`
+	//
+	// The following additional arguments are supported:
 	AvailabilityZone pulumi.StringOutput `pulumi:"availabilityZone"`
 	// The AZ ID of the subnet
 	AvailabilityZoneId pulumi.StringOutput `pulumi:"availabilityZoneId"`
@@ -73,6 +75,7 @@ type DefaultSubnet struct {
 	CidrBlock                               pulumi.StringOutput    `pulumi:"cidrBlock"`
 	CustomerOwnedIpv4Pool                   pulumi.StringPtrOutput `pulumi:"customerOwnedIpv4Pool"`
 	EnableDns64                             pulumi.BoolPtrOutput   `pulumi:"enableDns64"`
+	EnableLniAtDeviceIndex                  pulumi.IntOutput       `pulumi:"enableLniAtDeviceIndex"`
 	EnableResourceNameDnsARecordOnLaunch    pulumi.BoolPtrOutput   `pulumi:"enableResourceNameDnsARecordOnLaunch"`
 	EnableResourceNameDnsAaaaRecordOnLaunch pulumi.BoolPtrOutput   `pulumi:"enableResourceNameDnsAaaaRecordOnLaunch"`
 	ExistingDefaultSubnet                   pulumi.BoolOutput      `pulumi:"existingDefaultSubnet"`
@@ -129,6 +132,8 @@ type defaultSubnetState struct {
 	// is required
 	// * The `availabilityZoneId`, `cidrBlock` and `vpcId` arguments become computed attributes
 	// * The default value for `mapPublicIpOnLaunch` is `true`
+	//
+	// The following additional arguments are supported:
 	AvailabilityZone *string `pulumi:"availabilityZone"`
 	// The AZ ID of the subnet
 	AvailabilityZoneId *string `pulumi:"availabilityZoneId"`
@@ -136,6 +141,7 @@ type defaultSubnetState struct {
 	CidrBlock                               *string `pulumi:"cidrBlock"`
 	CustomerOwnedIpv4Pool                   *string `pulumi:"customerOwnedIpv4Pool"`
 	EnableDns64                             *bool   `pulumi:"enableDns64"`
+	EnableLniAtDeviceIndex                  *int    `pulumi:"enableLniAtDeviceIndex"`
 	EnableResourceNameDnsARecordOnLaunch    *bool   `pulumi:"enableResourceNameDnsARecordOnLaunch"`
 	EnableResourceNameDnsAaaaRecordOnLaunch *bool   `pulumi:"enableResourceNameDnsAaaaRecordOnLaunch"`
 	ExistingDefaultSubnet                   *bool   `pulumi:"existingDefaultSubnet"`
@@ -161,6 +167,8 @@ type DefaultSubnetState struct {
 	// is required
 	// * The `availabilityZoneId`, `cidrBlock` and `vpcId` arguments become computed attributes
 	// * The default value for `mapPublicIpOnLaunch` is `true`
+	//
+	// The following additional arguments are supported:
 	AvailabilityZone pulumi.StringPtrInput
 	// The AZ ID of the subnet
 	AvailabilityZoneId pulumi.StringPtrInput
@@ -168,6 +176,7 @@ type DefaultSubnetState struct {
 	CidrBlock                               pulumi.StringPtrInput
 	CustomerOwnedIpv4Pool                   pulumi.StringPtrInput
 	EnableDns64                             pulumi.BoolPtrInput
+	EnableLniAtDeviceIndex                  pulumi.IntPtrInput
 	EnableResourceNameDnsARecordOnLaunch    pulumi.BoolPtrInput
 	EnableResourceNameDnsAaaaRecordOnLaunch pulumi.BoolPtrInput
 	ExistingDefaultSubnet                   pulumi.BoolPtrInput
@@ -196,6 +205,8 @@ type defaultSubnetArgs struct {
 	// is required
 	// * The `availabilityZoneId`, `cidrBlock` and `vpcId` arguments become computed attributes
 	// * The default value for `mapPublicIpOnLaunch` is `true`
+	//
+	// The following additional arguments are supported:
 	AvailabilityZone                        string  `pulumi:"availabilityZone"`
 	CustomerOwnedIpv4Pool                   *string `pulumi:"customerOwnedIpv4Pool"`
 	EnableDns64                             *bool   `pulumi:"enableDns64"`
@@ -217,6 +228,8 @@ type DefaultSubnetArgs struct {
 	// is required
 	// * The `availabilityZoneId`, `cidrBlock` and `vpcId` arguments become computed attributes
 	// * The default value for `mapPublicIpOnLaunch` is `true`
+	//
+	// The following additional arguments are supported:
 	AvailabilityZone                        pulumi.StringInput
 	CustomerOwnedIpv4Pool                   pulumi.StringPtrInput
 	EnableDns64                             pulumi.BoolPtrInput
@@ -330,6 +343,8 @@ func (o DefaultSubnetOutput) AssignIpv6AddressOnCreation() pulumi.BoolPtrOutput 
 // is required
 // * The `availabilityZoneId`, `cidrBlock` and `vpcId` arguments become computed attributes
 // * The default value for `mapPublicIpOnLaunch` is `true`
+//
+// The following additional arguments are supported:
 func (o DefaultSubnetOutput) AvailabilityZone() pulumi.StringOutput {
 	return o.ApplyT(func(v *DefaultSubnet) pulumi.StringOutput { return v.AvailabilityZone }).(pulumi.StringOutput)
 }
@@ -350,6 +365,10 @@ func (o DefaultSubnetOutput) CustomerOwnedIpv4Pool() pulumi.StringPtrOutput {
 
 func (o DefaultSubnetOutput) EnableDns64() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *DefaultSubnet) pulumi.BoolPtrOutput { return v.EnableDns64 }).(pulumi.BoolPtrOutput)
+}
+
+func (o DefaultSubnetOutput) EnableLniAtDeviceIndex() pulumi.IntOutput {
+	return o.ApplyT(func(v *DefaultSubnet) pulumi.IntOutput { return v.EnableLniAtDeviceIndex }).(pulumi.IntOutput)
 }
 
 func (o DefaultSubnetOutput) EnableResourceNameDnsARecordOnLaunch() pulumi.BoolPtrOutput {

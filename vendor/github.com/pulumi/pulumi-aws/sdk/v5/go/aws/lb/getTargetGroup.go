@@ -70,6 +70,8 @@ type LookupTargetGroupArgs struct {
 	// Unique name of the target group.
 	Name *string `pulumi:"name"`
 	// Mapping of tags, each pair of which must exactly match a pair on the desired target group.
+	//
+	// > **NOTE:** When both `arn` and `name` are specified, `arn` takes precedence. `tags` has the lowest precedence.
 	Tags map[string]string `pulumi:"tags"`
 }
 
@@ -84,6 +86,7 @@ type LookupTargetGroupResult struct {
 	Id                             string                   `pulumi:"id"`
 	LambdaMultiValueHeadersEnabled bool                     `pulumi:"lambdaMultiValueHeadersEnabled"`
 	LoadBalancingAlgorithmType     string                   `pulumi:"loadBalancingAlgorithmType"`
+	LoadBalancingCrossZoneEnabled  string                   `pulumi:"loadBalancingCrossZoneEnabled"`
 	Name                           string                   `pulumi:"name"`
 	Port                           int                      `pulumi:"port"`
 	PreserveClientIp               string                   `pulumi:"preserveClientIp"`
@@ -117,6 +120,8 @@ type LookupTargetGroupOutputArgs struct {
 	// Unique name of the target group.
 	Name pulumi.StringPtrInput `pulumi:"name"`
 	// Mapping of tags, each pair of which must exactly match a pair on the desired target group.
+	//
+	// > **NOTE:** When both `arn` and `name` are specified, `arn` takes precedence. `tags` has the lowest precedence.
 	Tags pulumi.StringMapInput `pulumi:"tags"`
 }
 
@@ -170,6 +175,10 @@ func (o LookupTargetGroupResultOutput) LambdaMultiValueHeadersEnabled() pulumi.B
 
 func (o LookupTargetGroupResultOutput) LoadBalancingAlgorithmType() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupTargetGroupResult) string { return v.LoadBalancingAlgorithmType }).(pulumi.StringOutput)
+}
+
+func (o LookupTargetGroupResultOutput) LoadBalancingCrossZoneEnabled() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupTargetGroupResult) string { return v.LoadBalancingCrossZoneEnabled }).(pulumi.StringOutput)
 }
 
 func (o LookupTargetGroupResultOutput) Name() pulumi.StringOutput {
