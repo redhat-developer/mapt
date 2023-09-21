@@ -15,6 +15,8 @@
 package resource
 
 import (
+	"fmt"
+	"runtime"
 	"strings"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
@@ -52,6 +54,27 @@ const (
 	URNTypeDelimiter = "$"                           // the delimiter between URN type elements
 )
 
+// ParseURN attempts to parse a string into a URN returning an error if it's not valid.
+func ParseURN(s string) (URN, error) {
+	if s == "" {
+		return "", fmt.Errorf("missing required URN")
+	}
+
+	urn := URN(s)
+	if !urn.IsValid() {
+		return "", fmt.Errorf("invalid URN %q", s)
+	}
+	return urn, nil
+}
+
+// ParseOptionalURN is the same as ParseURN except it will allow the empty string.
+func ParseOptionalURN(s string) (URN, error) {
+	if s == "" {
+		return "", nil
+	}
+	return ParseURN(s)
+}
+
 // NewURN creates a unique resource URN for the given resource object.
 func NewURN(stack tokens.QName, proj tokens.PackageName, parentType, baseType tokens.Type, name tokens.QName) URN {
 	typ := string(baseType)
@@ -66,6 +89,16 @@ func NewURN(stack tokens.QName, proj tokens.PackageName, parentType, baseType to
 			URNNameDelimiter + typ +
 			URNNameDelimiter + string(name),
 	)
+}
+
+// Quote returns the quoted form of the URN appropriate for use as a command line argument for the current OS.
+func (urn URN) Quote() string {
+	quote := `'`
+	if runtime.GOOS == "windows" {
+		// Windows uses double-quotes instead of single-quotes.
+		quote = `"`
+	}
+	return quote + string(urn) + quote
 }
 
 // IsValid returns true if the URN is well-formed.

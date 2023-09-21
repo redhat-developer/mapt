@@ -1,10 +1,10 @@
 # Packages needed by the library.
 # Keep this list in sync with setup.py.
 protobuf~=4.21
-grpcio==1.50
+grpcio==1.56.2
 dill~=0.3
 six~=1.12
-semver~=2.8
+semver~=2.13
 pyyaml~=6.0
 
 # Dev packages only needed during development.

@@ -34,6 +34,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pulumi/pulumi/sdk/v3/go/common/slice"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/httputil"
 )
@@ -162,7 +163,7 @@ func MassageIfUserProgramCodeAsset(asset *Asset, debug bool) *Asset {
 	text := asset.Text
 	replaceNewlines := func() {
 		for {
-			newText := strings.Replace(text, "\n\n\n", "\n\n", -1)
+			newText := strings.ReplaceAll(text, "\n\n\n", "\n\n")
 			if len(newText) == len(text) {
 				break
 			}
@@ -363,9 +364,9 @@ func (a *Asset) readURI() (*Blob, error) {
 		}
 		return NewReadCloserBlob(resp.Body)
 	case "file":
-		contract.Assert(url.User == nil)
-		contract.Assert(url.RawQuery == "")
-		contract.Assert(url.Fragment == "")
+		contract.Assertf(url.User == nil, "file:// URIs cannot have a user: %v", url)
+		contract.Assertf(url.RawQuery == "", "file:// URIs cannot have a query string: %v", url)
+		contract.Assertf(url.Fragment == "", "file:// URIs cannot have a fragment: %v", url)
 		if url.Host != "" && url.Host != "localhost" {
 			return nil, fmt.Errorf("file:// host '%v' not supported (only localhost)", url.Host)
 		}
@@ -757,7 +758,7 @@ func (a *Archive) readAssets() (ArchiveReader, error) {
 	contract.Assertf(isassets, "Expected an asset map-based archive")
 
 	// Calculate and sort the list of member names s.t. it is deterministically orderered.
-	keys := make([]string, 0, len(m))
+	keys := slice.Prealloc[string](len(m))
 	for k := range m {
 		keys = append(keys, k)
 	}
@@ -912,10 +913,10 @@ func (a *Archive) openURLStream(url *url.URL) (io.ReadCloser, error) {
 		}
 		return resp.Body, nil
 	case "file":
-		contract.Assert(url.Host == "")
-		contract.Assert(url.User == nil)
-		contract.Assert(url.RawQuery == "")
-		contract.Assert(url.Fragment == "")
+		contract.Assertf(url.Host == "", "file:// URIs cannot have a host: %v", url)
+		contract.Assertf(url.User == nil, "file:// URIs cannot have a user: %v", url)
+		contract.Assertf(url.RawQuery == "", "file:// URIs cannot have a query string: %v", url)
+		contract.Assertf(url.Fragment == "", "file:// URIs cannot have a fragment: %v", url)
 		return os.Open(url.Path)
 	default:
 		return nil, fmt.Errorf("Unrecognized or unsupported URI scheme: %v", s)
@@ -978,7 +979,7 @@ func addNextFileToTar(r ArchiveReader, tw *tar.Writer, seenFiles map[string]bool
 	sz := data.Size()
 	if err = tw.WriteHeader(&tar.Header{
 		Name: file,
-		Mode: 0600,
+		Mode: 0o600,
 		Size: sz,
 	}); err != nil {
 		return err
@@ -1047,9 +1048,7 @@ func addNextFileToZIP(r ArchiveReader, zw *zip.Writer, seenFiles map[string]bool
 
 	// Set a nonzero -- but constant -- modification time. Otherwise, some agents (e.g. Azure
 	// websites) can't extract the resulting archive. The date is comfortably after 1980 because
-	// the ZIP format includes a date representation that starts at 1980. Use `SetModTime` to
-	// remain compatible with Go 1.9.
-	//nolint:megacheck
+	// the ZIP format includes a date representation that starts at 1980.
 	fh.Modified = time.Date(1990, time.January, 1, 0, 0, 0, 0, time.UTC)
 
 	fw, err := zw.CreateHeader(fh)

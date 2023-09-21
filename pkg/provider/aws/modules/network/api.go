@@ -24,7 +24,7 @@ func CreateNetwork(projectName, backedURL, cidr string,
 		StackName:           StackCreateNetworkName,
 		ProjectName:         projectName,
 		BackedURL:           backedURL,
-		CloudProviderPlugin: aws.DefaultPlugin,
+		ProviderCredentials: aws.DefaultCredentials,
 		DeployFunc:          request.Deployer,
 	}
 	// Exec stack
@@ -45,7 +45,7 @@ func DestroyNetwork(projectName, backedURL string) (err error) {
 		StackName:           StackCreateNetworkName,
 		ProjectName:         projectName,
 		BackedURL:           backedURL,
-		CloudProviderPlugin: aws.DefaultPlugin}
+		ProviderCredentials: aws.DefaultCredentials}
 	err = manager.DestroyStack(stack)
 	if err == nil {
 		logging.Debugf("VPC has been destroyed")

@@ -7,18 +7,20 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Identical to random_string.
+//
+// This resource *does* use a cryptographic random number generator.
+//
 // ## Example Usage
 //
 // ```go
 // package main
 //
 // import (
-//
-//	"fmt"
 //
 //	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/rds"
 //	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
@@ -31,7 +33,7 @@ import (
 //			password, err := random.NewRandomPassword(ctx, "password", &random.RandomPasswordArgs{
 //				Length:          pulumi.Int(16),
 //				Special:         pulumi.Bool(true),
-//				OverrideSpecial: pulumi.String(fmt.Sprintf("!#$%v&*()-_=+[]{}<>:?", "%")),
+//				OverrideSpecial: pulumi.String("!#$%&*()-_=+[]{}<>:?"),
 //			})
 //			if err != nil {
 //				return err

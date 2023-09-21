@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/adrianriobo/qenvs/pkg/manager"
-	"github.com/adrianriobo/qenvs/pkg/manager/plugin"
+	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute/host/fedora"
@@ -56,7 +56,7 @@ func Create(projectName, backedURL, connectionDetailsOutput string,
 		StackName:           stackCreateEnvironmentName,
 		ProjectName:         projectName,
 		BackedURL:           backedURL,
-		CloudProviderPlugin: *plugin,
+		ProviderCredentials: *plugin,
 		DeployFunc:          request.deployer,
 	}
 	// Exec stack
@@ -81,7 +81,7 @@ func Destroy(projectName, backedURL string) (err error) {
 		StackName:           stackCreateEnvironmentName,
 		ProjectName:         projectName,
 		BackedURL:           backedURL,
-		CloudProviderPlugin: aws.DefaultPlugin}
+		ProviderCredentials: aws.DefaultCredentials}
 	err = manager.DestroyStack(stack)
 	if err != nil {
 		return
@@ -92,11 +92,11 @@ func Destroy(projectName, backedURL string) (err error) {
 
 // Function get host parameters for Az, Region, and price if spot, Plugin setup accordingly and error
 func getHostParameters(projectName, backedURL string,
-	host *supportMatrix.SupportedHost) ([]string, string, string, *plugin.PluginInfo, error) {
+	host *supportMatrix.SupportedHost) ([]string, string, string, *credentials.ProviderCredentials, error) {
 	var availabilityZones = network.DefaultAvailabilityZones[:1]
 	var region string = network.DefaultRegion
 	var spotPrice string
-	var plugin = aws.DefaultPlugin
+	var credentials = aws.DefaultCredentials
 	if host.Spot {
 		spg, err := spotprice.Create(projectName, backedURL, host.ID)
 		if err != nil {
@@ -106,11 +106,11 @@ func getHostParameters(projectName, backedURL string,
 		region = spg.Region
 		spotPrice = fmt.Sprintf("%f", spg.MaxPrice)
 		// plugin will use the region from the best spot price
-		plugin = aws.GetClouProviderPlugin(
+		credentials = aws.GetClouProviderCredentials(
 			map[string]string{
 				aws.CONFIG_AWS_REGION: spg.Region})
 	}
-	return availabilityZones, region, spotPrice, &plugin, nil
+	return availabilityZones, region, spotPrice, &credentials, nil
 }
 
 func manageRequest(request *singleHostRequest,

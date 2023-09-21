@@ -24,12 +24,14 @@ import (
 
 	"github.com/blang/semver"
 	pbempty "github.com/golang/protobuf/ptypes/empty"
+	"github.com/hashicorp/hcl/v2"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag/colors"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/slice"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/cmdutil"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
@@ -51,15 +53,15 @@ type langhost struct {
 // NewLanguageRuntime binds to a language's runtime plugin and then creates a gRPC connection to it.  If the
 // plugin could not be found, or an error occurs while creating the child process, an error is returned.
 func NewLanguageRuntime(host Host, ctx *Context, root, pwd, runtime string,
-	options map[string]interface{}) (LanguageRuntime, error) {
-
-	path, err := workspace.GetPluginPath(
-		workspace.LanguagePlugin, strings.Replace(runtime, tokens.QNameDelimiter, "_", -1), nil, host.GetProjectPlugins())
+	options map[string]interface{},
+) (LanguageRuntime, error) {
+	path, err := workspace.GetPluginPath(ctx.Diag,
+		workspace.LanguagePlugin, strings.ReplaceAll(runtime, tokens.QNameDelimiter, "_"), nil, host.GetProjectPlugins())
 	if err != nil {
 		return nil, err
 	}
 
-	contract.Assert(path != "")
+	contract.Assertf(path != "", "unexpected empty path for language plugin %s", runtime)
 
 	args, err := buildArgsForNewPlugin(host, root, options)
 	if err != nil {
@@ -107,7 +109,7 @@ func buildArgsForNewPlugin(host Host, root string, options map[string]interface{
 	if err != nil {
 		return nil, err
 	}
-	args := make([]string, 0, len(options))
+	args := slice.Prealloc[string](len(options))
 
 	for k, v := range options {
 		args = append(args, fmt.Sprintf("-%s=%v", k, v))
@@ -128,8 +130,6 @@ func NewLanguageRuntimeClient(ctx *Context, runtime string, client pulumirpc.Lan
 		client:  client,
 	}
 }
-
-func (h *langhost) Runtime() string { return h.runtime }
 
 // GetRequiredPlugins computes the complete set of anticipated plugins required by a program.
 func (h *langhost) GetRequiredPlugins(info ProgInfo) ([]workspace.PluginSpec, error) {
@@ -155,7 +155,7 @@ func (h *langhost) GetRequiredPlugins(info ProgInfo) ([]workspace.PluginSpec, er
 		return nil, rpcError
 	}
 
-	var results = make([]workspace.PluginSpec, 0, len(resp.GetPlugins()))
+	results := slice.Prealloc[workspace.PluginSpec](len(resp.GetPlugins()))
 	for _, info := range resp.GetPlugins() {
 		var version *semver.Version
 		if v := info.GetVersion(); v != "" {
@@ -165,14 +165,15 @@ func (h *langhost) GetRequiredPlugins(info ProgInfo) ([]workspace.PluginSpec, er
 			}
 			version = &sv
 		}
-		if !workspace.IsPluginKind(info.GetKind()) {
-			return nil, errors.Errorf("unrecognized plugin kind: %s", info.GetKind())
+		if !workspace.IsPluginKind(info.Kind) {
+			return nil, errors.Errorf("unrecognized plugin kind: %s", info.Kind)
 		}
 		results = append(results, workspace.PluginSpec{
-			Name:              info.GetName(),
-			Kind:              workspace.PluginKind(info.GetKind()),
+			Name:              info.Name,
+			Kind:              workspace.PluginKind(info.Kind),
 			Version:           version,
-			PluginDownloadURL: info.GetServer(),
+			PluginDownloadURL: info.Server,
+			Checksums:         info.Checksums,
 		})
 	}
 
@@ -219,8 +220,8 @@ func (h *langhost) Run(info RunInfo) (string, bool, error) {
 
 	progerr := resp.GetError()
 	bail := resp.GetBail()
-	logging.V(7).Infof("langhost[%v].RunPlan(pwd=%v,program=%v,...,dryrun=%v) success: progerr=%v",
-		h.runtime, info.Pwd, info.Program, info.DryRun, progerr)
+	logging.V(7).Infof("langhost[%v].Run(pwd=%v,program=%v,...,dryrun=%v) success: progerr=%v, bail=%v",
+		h.runtime, info.Pwd, info.Program, info.DryRun, progerr, bail)
 	return progerr, bail, nil
 }
 
@@ -269,7 +270,6 @@ func (h *langhost) InstallDependencies(directory string) error {
 		Directory:  directory,
 		IsTerminal: cmdutil.GetGlobalColorization() != colors.Never,
 	})
-
 	if err != nil {
 		rpcError := rpcerror.Convert(err)
 		logging.V(7).Infof("langhost[%v].InstallDependencies(directory=%s) failed: err=%v",
@@ -308,7 +308,6 @@ func (h *langhost) InstallDependencies(directory string) error {
 	logging.V(7).Infof("langhost[%v].InstallDependencies(directory=%s) success",
 		h.runtime, directory)
 	return nil
-
 }
 
 func (h *langhost) About() (AboutInfo, error) {
@@ -350,7 +349,7 @@ func (h *langhost) GetProgramDependencies(info ProgInfo, transitiveDependencies 
 		return nil, rpcError
 	}
 
-	results := make([]DependencyInfo, 0, len(resp.GetDependencies()))
+	results := slice.Prealloc[DependencyInfo](len(resp.GetDependencies()))
 	for _, dep := range resp.GetDependencies() {
 		var version semver.Version
 		if v := dep.Version; v != "" {
@@ -381,7 +380,6 @@ func (h *langhost) RunPlugin(info RunPluginInfo) (io.Reader, io.Reader, context.
 		Args:    info.Args,
 		Env:     info.Env,
 	})
-
 	if err != nil {
 		// If there was an error starting the plugin kill the context for this request to ensure any lingering
 		// connection terminates.
@@ -406,12 +404,12 @@ func (h *langhost) RunPlugin(info RunPluginInfo) (io.Reader, io.Reader, context.
 
 			if value, ok := msg.Output.(*pulumirpc.RunPluginResponse_Stdout); ok {
 				n, err := outw.Write(value.Stdout)
-				contract.AssertNoError(err)
-				contract.Assert(n == len(value.Stdout))
+				contract.AssertNoErrorf(err, "failed to write to stdout pipe: %v", err)
+				contract.Assertf(n == len(value.Stdout), "wrote fewer bytes (%d) than expected (%d)", n, len(value.Stdout))
 			} else if value, ok := msg.Output.(*pulumirpc.RunPluginResponse_Stderr); ok {
 				n, err := errw.Write(value.Stderr)
-				contract.AssertNoError(err)
-				contract.Assert(n == len(value.Stderr))
+				contract.AssertNoErrorf(err, "failed to write to stderr pipe: %v", err)
+				contract.Assertf(n == len(value.Stderr), "wrote fewer bytes (%d) than expected (%d)", n, len(value.Stderr))
 			} else if _, ok := msg.Output.(*pulumirpc.RunPluginResponse_Exitcode); ok {
 				// If stdout and stderr are empty we've flushed and are returning the exit code
 				outw.Close()
@@ -422,4 +420,107 @@ func (h *langhost) RunPlugin(info RunPluginInfo) (io.Reader, io.Reader, context.
 	}()
 
 	return outr, errr, kill, nil
+}
+
+func (h *langhost) GenerateProject(
+	sourceDirectory, targetDirectory, project string, strict bool,
+	loaderTarget string, localDependencies map[string]string,
+) (hcl.Diagnostics, error) {
+	logging.V(7).Infof("langhost[%v].GenerateProject() executing", h.runtime)
+	resp, err := h.client.GenerateProject(h.ctx.Request(), &pulumirpc.GenerateProjectRequest{
+		SourceDirectory:   sourceDirectory,
+		TargetDirectory:   targetDirectory,
+		Project:           project,
+		Strict:            strict,
+		LoaderTarget:      loaderTarget,
+		LocalDependencies: localDependencies,
+	})
+	if err != nil {
+		rpcError := rpcerror.Convert(err)
+		logging.V(7).Infof("langhost[%v].GenerateProject() failed: err=%v", h.runtime, rpcError)
+		return nil, rpcError
+	}
+
+	// Translate the rpc diagnostics into hcl.Diagnostics.
+	var diags hcl.Diagnostics
+	for _, rpcDiag := range resp.Diagnostics {
+		diags = append(diags, RPCDiagnosticToHclDiagnostic(rpcDiag))
+	}
+
+	logging.V(7).Infof("langhost[%v].GenerateProject() success", h.runtime)
+	return diags, nil
+}
+
+func (h *langhost) GeneratePackage(
+	directory string, schema string, extraFiles map[string][]byte, loaderTarget string,
+) error {
+	logging.V(7).Infof("langhost[%v].GeneratePackage() executing", h.runtime)
+	_, err := h.client.GeneratePackage(h.ctx.Request(), &pulumirpc.GeneratePackageRequest{
+		Directory:    directory,
+		Schema:       schema,
+		ExtraFiles:   extraFiles,
+		LoaderTarget: loaderTarget,
+	})
+	if err != nil {
+		rpcError := rpcerror.Convert(err)
+		logging.V(7).Infof("langhost[%v].GeneratePackage() failed: err=%v", h.runtime, rpcError)
+		return rpcError
+	}
+
+	logging.V(7).Infof("langhost[%v].GeneratePackage() success", h.runtime)
+	return nil
+}
+
+func (h *langhost) GenerateProgram(program map[string]string, loaderTarget string,
+) (map[string][]byte, hcl.Diagnostics, error) {
+	logging.V(7).Infof("langhost[%v].GenerateProgram() executing", h.runtime)
+	resp, err := h.client.GenerateProgram(h.ctx.Request(), &pulumirpc.GenerateProgramRequest{
+		Source:       program,
+		LoaderTarget: loaderTarget,
+	})
+	if err != nil {
+		rpcError := rpcerror.Convert(err)
+		logging.V(7).Infof("langhost[%v].GenerateProgram() failed: err=%v", h.runtime, rpcError)
+		return nil, nil, rpcError
+	}
+
+	// Translate the rpc diagnostics into hcl.Diagnostics.
+	var diags hcl.Diagnostics
+	for _, rpcDiag := range resp.Diagnostics {
+		diags = append(diags, RPCDiagnosticToHclDiagnostic(rpcDiag))
+	}
+
+	logging.V(7).Infof("langhost[%v].GenerateProgram() success", h.runtime)
+	return resp.Source, diags, nil
+}
+
+func (h *langhost) Pack(
+	packageDirectory string, version semver.Version, destinationDirectory string,
+) (string, error) {
+	label := fmt.Sprintf("langhost[%v].Pack(%s, %s, %s)", h.runtime, packageDirectory, version, destinationDirectory)
+	logging.V(7).Infof("%s executing", label)
+
+	// Always send absolute paths to the plugin, as it may be running in a different working directory.
+	packageDirectory, err := filepath.Abs(packageDirectory)
+	if err != nil {
+		return "", err
+	}
+	destinationDirectory, err = filepath.Abs(destinationDirectory)
+	if err != nil {
+		return "", err
+	}
+
+	req, err := h.client.Pack(h.ctx.Request(), &pulumirpc.PackRequest{
+		PackageDirectory:     packageDirectory,
+		Version:              version.String(),
+		DestinationDirectory: destinationDirectory,
+	})
+	if err != nil {
+		rpcError := rpcerror.Convert(err)
+		logging.V(7).Infof("%s failed: err=%v", label, rpcError)
+		return "", rpcError
+	}
+
+	logging.V(7).Infof("%s success: artifactPath=%s", label, req.ArtifactPath)
+	return req.ArtifactPath, nil
 }

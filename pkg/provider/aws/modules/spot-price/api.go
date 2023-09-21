@@ -16,8 +16,7 @@ func Create(projectName, backedURL, targetHostID string) (*SpotPriceGroup, error
 		StackName:           StackName,
 		ProjectName:         projectName,
 		BackedURL:           backedURL,
-		CloudProviderPlugin: aws.DefaultPlugin,
-	})
+		ProviderCredentials: aws.DefaultCredentials})
 	if err != nil {
 		return createStack(projectName, backedURL, targetHostID)
 	} else {
@@ -30,7 +29,7 @@ func Destroy(projectName, backedURL string) (err error) {
 		StackName:           StackName,
 		ProjectName:         projectName,
 		BackedURL:           backedURL,
-		CloudProviderPlugin: aws.DefaultPlugin}
+		ProviderCredentials: aws.DefaultCredentials}
 	err = manager.DestroyStack(stack)
 	if err == nil {
 		logging.Debugf("%s has been destroyed", StackName)
@@ -75,7 +74,7 @@ func createStack(projectName, backedURL, targetHostID string) (*SpotPriceGroup, 
 		StackName:           StackName,
 		ProjectName:         projectName,
 		BackedURL:           backedURL,
-		CloudProviderPlugin: aws.DefaultPlugin,
+		ProviderCredentials: aws.DefaultCredentials,
 		DeployFunc:          request.deployer,
 	}
 	stackResult, err := manager.UpStack(stack)

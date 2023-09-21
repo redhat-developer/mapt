@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/adrianriobo/qenvs/pkg/manager/plugin"
+	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
@@ -44,11 +44,8 @@ func getOpts(target Stack) []auto.LocalWorkspaceOption {
 }
 
 func postStack(ctx context.Context, target Stack, stack *auto.Stack) (err error) {
-	// for inline source programs, we must manage plugins ourselves
-	if err = plugin.InstallCloudProviderPlugin(ctx, stack, target.CloudProviderPlugin); err != nil {
-		return
-	}
-	if err = plugin.InstallFuntionalPlugins(ctx, stack); err != nil {
+	// Set credentails
+	if err = credentials.SetProviderCredentials(ctx, stack, target.ProviderCredentials); err != nil {
 		return
 	}
 	_, err = stack.Refresh(ctx)

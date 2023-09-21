@@ -3,7 +3,7 @@ package manager
 import (
 	"context"
 
-	"github.com/adrianriobo/qenvs/pkg/manager/plugin"
+	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optdestroy"
@@ -16,7 +16,7 @@ type Stack struct {
 	StackName           string
 	BackedURL           string
 	DeployFunc          pulumi.RunFunc
-	CloudProviderPlugin plugin.PluginInfo
+	ProviderCredentials credentials.ProviderCredentials
 }
 
 func UpStack(targetStack Stack) (auto.UpResult, error) {

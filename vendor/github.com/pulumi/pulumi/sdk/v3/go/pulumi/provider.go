@@ -24,7 +24,9 @@ import (
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/slice"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
+	"github.com/pulumi/pulumi/sdk/v3/go/internal"
 
 	pulumirpc "github.com/pulumi/pulumi/sdk/v3/proto/go"
 	"google.golang.org/grpc"
@@ -35,8 +37,8 @@ type constructFunc func(ctx *Context, typ, name string, inputs map[string]interf
 
 // construct adapts the gRPC ConstructRequest/ConstructResponse to/from the Pulumi Go SDK programming model.
 func construct(ctx context.Context, req *pulumirpc.ConstructRequest, engineConn *grpc.ClientConn,
-	constructF constructFunc) (*pulumirpc.ConstructResponse, error) {
-
+	constructF constructFunc,
+) (*pulumirpc.ConstructResponse, error) {
 	// Configure the RunInfo.
 	runInfo := RunInfo{
 		Project:          req.GetProject(),
@@ -90,10 +92,12 @@ func construct(ctx context.Context, req *pulumirpc.ConstructRequest, engineConn 
 	for i, urn := range req.GetAliases() {
 		aliases[i] = Alias{URN: URN(urn)}
 	}
-	dependencyURNs := urnSet{}
+
+	dependencies := slice.Prealloc[Resource](len(req.GetDependencies()))
 	for _, urn := range req.GetDependencies() {
-		dependencyURNs.add(URN(urn))
+		dependencies = append(dependencies, pulumiCtx.newDependencyResource(URN(urn)))
 	}
+
 	providers := make(map[string]ProviderResource, len(req.GetProviders()))
 	for pkg, ref := range req.GetProviders() {
 		resource, err := createProviderResource(pulumiCtx, ref)
@@ -108,10 +112,28 @@ func construct(ctx context.Context, req *pulumirpc.ConstructRequest, engineConn 
 	}
 	opts := resourceOption(func(ro *resourceOptions) {
 		ro.Aliases = aliases
-		ro.DependsOn = []dependencySet{urnDependencySet(dependencyURNs)}
+		if len(dependencies) > 0 {
+			ro.DependsOn = append(ro.DependsOn, resourceDependencySet(dependencies))
+		}
 		ro.Protect = req.GetProtect()
 		ro.Providers = providers
 		ro.Parent = parent
+
+		ro.AdditionalSecretOutputs = append(ro.AdditionalSecretOutputs, req.GetAdditionalSecretOutputs()...)
+		if t := req.CustomTimeouts; t != nil {
+			ro.CustomTimeouts = &CustomTimeouts{
+				Create: t.GetCreate(),
+				Update: t.GetUpdate(),
+				Delete: t.GetDelete(),
+			}
+		}
+		if urn := req.DeletedWith; urn != "" {
+			ro.DeletedWith = pulumiCtx.newDependencyResource(URN(urn))
+		}
+		ro.DeleteBeforeReplace = req.GetDeleteBeforeReplace()
+		ro.IgnoreChanges = append(ro.IgnoreChanges, req.GetIgnoreChanges()...)
+		ro.ReplaceOnChanges = append(ro.ReplaceOnChanges, req.GetReplaceOnChanges()...)
+		ro.RetainOnDelete = req.GetRetainOnDelete()
 	})
 
 	urn, state, err := constructF(pulumiCtx, req.GetType(), req.GetName(), inputs, opts)
@@ -149,7 +171,7 @@ func construct(ctx context.Context, req *pulumirpc.ConstructRequest, engineConn 
 	for k, deps := range propertyDeps {
 		sort.Slice(deps, func(i, j int) bool { return deps[i] < deps[j] })
 
-		urns := make([]string, 0, len(deps))
+		urns := slice.Prealloc[string](len(deps))
 		for i, d := range deps {
 			if i > 0 && urns[i-1] == string(d) {
 				continue
@@ -225,12 +247,12 @@ func constructInputsMap(ctx *Context, inputs map[string]interface{}) (Map, error
 		}
 
 		resultType := anyOutputType
-		if ot, ok := concreteTypeToOutputType.Load(reflect.TypeOf(value)); ok {
-			resultType = ot.(reflect.Type)
+		if ot := internal.ConcreteTypeToOutputType(reflect.TypeOf(value)); ot != nil {
+			resultType = ot
 		}
 
 		output := ctx.newOutput(resultType, ci.Dependencies(ctx)...)
-		output.getState().resolve(value, known, secret, nil)
+		internal.ResolveOutput(output, value, known, secret, resourcesToInternal(nil))
 		result[k] = output
 	}
 	return result, nil
@@ -261,7 +283,7 @@ func gatherDeps(v resource.PropertyValue, deps urnSet) {
 }
 
 func copyInputTo(ctx *Context, v resource.PropertyValue, dest reflect.Value) error {
-	contract.Assert(dest.CanSet())
+	contract.Requiref(dest.CanSet(), "dest", "value must be settable")
 
 	// Check for nils. The destination will be left with the zero value.
 	if v.IsNull() {
@@ -298,7 +320,7 @@ func copyInputTo(ctx *Context, v resource.PropertyValue, dest reflect.Value) err
 		}
 
 		if !dest.Type().Implements(outputType) && !dest.Type().Implements(inputType) {
-			return fmt.Errorf("expected destination type to implement %v or %v, got %v", inputType, outputType, dest.Type())
+			return fmt.Errorf("expected destination type to implement pulumi.Input or pulumi.Output, got %v", dest.Type())
 		}
 
 		resourceDeps := make([]Resource, len(v.OutputValue().Dependencies))
@@ -326,9 +348,8 @@ func copyInputTo(ctx *Context, v resource.PropertyValue, dest reflect.Value) err
 
 	if dest.Type().Implements(inputType) {
 		// Try to determine the input type from the interface.
-		if it, ok := inputInterfaceTypeToConcreteType.Load(dest.Type()); ok {
-			inputType := it.(reflect.Type)
-
+		if it := internal.InputInterfaceTypeToConcreteType(dest.Type()); it != nil {
+			inputType := it
 			for inputType.Kind() == reflect.Ptr {
 				inputType = inputType.Elem()
 			}
@@ -445,8 +466,8 @@ func copyInputTo(ctx *Context, v resource.PropertyValue, dest reflect.Value) err
 }
 
 func createOutput(ctx *Context, destType reflect.Type, v resource.PropertyValue, known, secret bool,
-	deps []Resource) (reflect.Value, error) {
-
+	deps []Resource,
+) (reflect.Value, error) {
 	outputType := getOutputType(destType)
 	output := ctx.newOutput(outputType, deps...)
 	outputValueDest := reflect.New(output.ElementType()).Elem()
@@ -454,7 +475,7 @@ func createOutput(ctx *Context, destType reflect.Type, v resource.PropertyValue,
 	if err != nil {
 		return reflect.Value{}, fmt.Errorf("unmarshaling value: %w", err)
 	}
-	output.getState().resolve(outputValueDest.Interface(), known, secret, nil)
+	internal.ResolveOutput(output, outputValueDest.Interface(), known, secret, resourcesToInternal(nil))
 	return reflect.ValueOf(output), nil
 }
 
@@ -465,11 +486,11 @@ func getOutputType(typ reflect.Type) reflect.Type {
 		// Attempt to determine the output type by looking up the registered input type,
 		// getting the input type's element type, and then looking up the registered output
 		// type by the element type.
-		if inputStructType, found := inputInterfaceTypeToConcreteType.Load(typ); found {
-			input := reflect.New(inputStructType.(reflect.Type)).Elem().Interface().(Input)
+		if inputStructType := internal.InputInterfaceTypeToConcreteType(typ); inputStructType != nil {
+			input := reflect.New(inputStructType).Elem().Interface().(Input)
 			elementType := input.ElementType()
-			if outputType, ok := concreteTypeToOutputType.Load(elementType); ok {
-				return outputType.(reflect.Type)
+			if outputType := internal.ConcreteTypeToOutputType(elementType); outputType != nil {
+				return outputType
 			}
 		}
 
@@ -600,7 +621,8 @@ func constructInputsCopyTo(ctx *Context, inputs map[string]interface{}, args int
 			}
 
 			handleField := func(typ reflect.Type, value resource.PropertyValue,
-				deps []Resource) (reflect.Value, error) {
+				deps []Resource,
+			) (reflect.Value, error) {
 				resultType := getOutputType(typ)
 				output := ctx.newOutput(resultType, deps...)
 				dest := reflect.New(output.ElementType()).Elem()
@@ -609,7 +631,7 @@ func constructInputsCopyTo(ctx *Context, inputs map[string]interface{}, args int
 				if err != nil {
 					return reflect.Value{}, err
 				}
-				output.getState().resolve(dest.Interface(), known, secret, nil)
+				internal.ResolveOutput(output, dest.Interface(), known, secret, resourcesToInternal(nil))
 				return reflect.ValueOf(output), nil
 			}
 
@@ -658,8 +680,8 @@ func constructInputsCopyTo(ctx *Context, inputs map[string]interface{}, args int
 			}
 
 			if len(ci.deps) > 0 {
-				return fmt.Errorf("copying input %q: %s.%s is typed as %v but must be a type that implements %v or "+
-					"%v for input with dependencies", k, typ, field.Name, field.Type, inputType, outputType)
+				return fmt.Errorf("copying input %q: %s.%s is typed as %v but must be a type that implements pulumi.Input or "+
+					"pulumi.Output for input with dependencies", k, typ, field.Name, field.Type)
 			}
 			dest := reflect.New(field.Type).Elem()
 			secret, err := unmarshalOutput(ctx, ci.value, dest)
@@ -667,8 +689,8 @@ func constructInputsCopyTo(ctx *Context, inputs map[string]interface{}, args int
 				return fmt.Errorf("copying input %q: unmarshaling value: %w", k, err)
 			}
 			if secret {
-				return fmt.Errorf("copying input %q: %s.%s is typed as %v but must be a type that implements %v or "+
-					"%v for secret input", k, typ, field.Name, field.Type, inputType, outputType)
+				return fmt.Errorf("copying input %q: %s.%s is typed as %v but must be a type that implements pulumi.Input or "+
+					"pulumi.Output for secret input", k, typ, field.Name, field.Type)
 			}
 			fieldV.Set(reflect.ValueOf(dest.Interface()))
 		}
@@ -722,8 +744,8 @@ type callFunc func(ctx *Context, tok string, args map[string]interface{}) (Input
 
 // call adapts the gRPC CallRequest/CallResponse to/from the Pulumi Go SDK programming model.
 func call(ctx context.Context, req *pulumirpc.CallRequest, engineConn *grpc.ClientConn,
-	callF callFunc) (*pulumirpc.CallResponse, error) {
-
+	callF callFunc,
+) (*pulumirpc.CallResponse, error) {
 	// Configure the RunInfo.
 	runInfo := RunInfo{
 		Project:      req.GetProject(),
@@ -801,7 +823,7 @@ func call(ctx context.Context, req *pulumirpc.CallRequest, engineConn *grpc.Clie
 	for k, deps := range propertyDeps {
 		sort.Slice(deps, func(i, j int) bool { return deps[i] < deps[j] })
 
-		urns := make([]string, 0, len(deps))
+		urns := slice.Prealloc[string](len(deps))
 		for i, d := range deps {
 			if i > 0 && urns[i-1] == string(d) {
 				continue

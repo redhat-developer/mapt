@@ -25,8 +25,10 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 )
 
-const colorLeft = "<{%"
-const colorRight = "%}>"
+const (
+	colorLeft  = "<{%"
+	colorRight = "%}>"
+)
 
 type Color = string
 
@@ -224,7 +226,7 @@ func measureText(s string) int {
 	i := iterator{s}
 	var text, directive string
 	for i.next(&text, &directive) {
-		width += uniseg.GraphemeClusterCount(text)
+		width += uniseg.StringWidth(text)
 	}
 
 	return width
@@ -234,9 +236,9 @@ func clampString(s string, maxWidth int) string {
 	width, end := 0, 0
 
 	graphemes := uniseg.NewGraphemes(s)
-	for width < maxWidth && graphemes.Next() {
+	for graphemes.Next() && graphemes.Width() <= maxWidth-width {
 		_, end = graphemes.Positions()
-		width++
+		width += graphemes.Width()
 	}
 
 	return s[:end]
@@ -245,7 +247,7 @@ func clampString(s string, maxWidth int) string {
 // Highlight takes an input string, a sequence of commands, and replaces all occurrences of that string with
 // a "highlighted" version surrounded by those commands and a final reset afterwards.
 func Highlight(s, text, commands string) string {
-	return strings.Replace(s, text, commands+text+Reset, -1)
+	return strings.ReplaceAll(s, text, commands+text+Reset)
 }
 
 var (
