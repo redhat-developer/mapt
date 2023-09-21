@@ -424,10 +424,10 @@ github.com/pulumi/pulumi-azure-native-sdk/network/v2
 # github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.6.0
 ## explicit; go 1.17
 github.com/pulumi/pulumi-azure-native-sdk/resources/v2
-# github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.6.0
+# github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.8.0
 ## explicit; go 1.17
 github.com/pulumi/pulumi-azure-native-sdk/storage/v2
-# github.com/pulumi/pulumi-azure-native-sdk/v2 v2.6.0
+# github.com/pulumi/pulumi-azure-native-sdk/v2 v2.8.0
 ## explicit; go 1.17
 github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
 # github.com/pulumi/pulumi-command/sdk v0.9.0
