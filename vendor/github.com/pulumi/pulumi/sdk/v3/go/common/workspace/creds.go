@@ -24,6 +24,7 @@ import (
 
 	"github.com/rogpeppe/go-internal/lockedfile"
 
+	"github.com/pulumi/pulumi/sdk/v3/go/common/slice"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
 )
@@ -139,7 +140,7 @@ func getCredsFilePath() (string, error) {
 		pulumiFolder = folder
 	}
 
-	err := os.MkdirAll(pulumiFolder, 0700)
+	err := os.MkdirAll(pulumiFolder, 0o700)
 	if err != nil {
 		return "", fmt.Errorf("failed to create '%s': %w", pulumiFolder, err)
 	}
@@ -150,23 +151,16 @@ func getCredsFilePath() (string, error) {
 // GetCurrentCloudURL returns the URL of the cloud we are currently connected to. This may be empty if we
 // have not logged in. Note if PULUMI_BACKEND_URL is set, the corresponding value is returned
 // instead irrespective of the backend for current project or stored credentials.
-func GetCurrentCloudURL() (string, error) {
+func GetCurrentCloudURL(project *Project) (string, error) {
 	// Allow PULUMI_BACKEND_URL to override the current cloud URL selection
 	if backend := os.Getenv(PulumiBackendURLEnvVar); backend != "" {
 		return backend, nil
 	}
 
 	var url string
-	// Try detecting backend from config
-	projPath, err := DetectProjectPath()
-	if err == nil && projPath != "" {
-		proj, err := LoadProject(projPath)
-		if err != nil {
-			return "", fmt.Errorf("could not load current project: %w", err)
-		}
-
-		if proj.Backend != nil {
-			url = proj.Backend.URL
+	if project != nil {
+		if project.Backend != nil {
+			url = project.Backend.URL
 		}
 	}
 
@@ -215,7 +209,7 @@ func GetStoredCredentials() (Credentials, error) {
 			"`pulumi login` to reset your credentials file: %w", err)
 	}
 
-	secrets := make([]string, 0, len(creds.AccessTokens))
+	secrets := slice.Prealloc[string](len(creds.AccessTokens))
 	for _, v := range creds.AccessTokens {
 		secrets = append(secrets, v)
 	}
@@ -246,11 +240,7 @@ func StoreCredentials(creds Credentials) error {
 		return fmt.Errorf("marshalling credentials object: %w", err)
 	}
 
-	if err := lockedfile.Write(credsFile, bytes.NewReader(raw), 0600); err != nil {
-		return err
-	}
-
-	return nil
+	return lockedfile.Write(credsFile, bytes.NewReader(raw), 0o600)
 }
 
 type BackendConfig struct {
@@ -272,7 +262,7 @@ func getConfigFilePath() (string, error) {
 		pulumiFolder = folder
 	}
 
-	err := os.MkdirAll(pulumiFolder, 0700)
+	err := os.MkdirAll(pulumiFolder, 0o700)
 	if err != nil {
 		return "", fmt.Errorf("failed to create '%s': %w", pulumiFolder, err)
 	}
@@ -353,13 +343,13 @@ func SetBackendConfigDefaultOrg(backendURL, defaultOrg string) error {
 	return StorePulumiConfig(config)
 }
 
-func GetBackendConfigDefaultOrg() (string, error) {
+func GetBackendConfigDefaultOrg(project *Project) (string, error) {
 	config, err := GetPulumiConfig()
 	if err != nil && !os.IsNotExist(err) {
 		return "", err
 	}
 
-	backendURL, err := GetCurrentCloudURL()
+	backendURL, err := GetCurrentCloudURL(project)
 	if err != nil {
 		return "", err
 	}

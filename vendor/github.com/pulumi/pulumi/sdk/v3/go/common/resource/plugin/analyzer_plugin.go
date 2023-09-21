@@ -33,6 +33,7 @@ import (
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/apitype"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/slice"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
@@ -57,13 +58,13 @@ var _ Analyzer = (*analyzer)(nil)
 // could not be found by name on the PATH, or an error occurs while creating the child process, an error is returned.
 func NewAnalyzer(host Host, ctx *Context, name tokens.QName) (Analyzer, error) {
 	// Load the plugin's path by using the standard workspace logic.
-	path, err := workspace.GetPluginPath(
-		workspace.AnalyzerPlugin, strings.Replace(string(name), tokens.QNameDelimiter, "_", -1),
+	path, err := workspace.GetPluginPath(ctx.Diag,
+		workspace.AnalyzerPlugin, strings.ReplaceAll(string(name), tokens.QNameDelimiter, "_"),
 		nil, host.GetProjectPlugins())
 	if err != nil {
 		return nil, rpcerror.Convert(err)
 	}
-	contract.Assert(path != "")
+	contract.Assertf(path != "", "unexpected empty path for analyzer plugin %s", name)
 
 	dialOpts := rpcutil.OpenTracingInterceptorDialOptions()
 
@@ -84,8 +85,8 @@ func NewAnalyzer(host Host, ctx *Context, name tokens.QName) (Analyzer, error) {
 
 // NewPolicyAnalyzer boots the nodejs analyzer plugin located at `policyPackpath`
 func NewPolicyAnalyzer(
-	host Host, ctx *Context, name tokens.QName, policyPackPath string, opts *PolicyAnalyzerOptions) (Analyzer, error) {
-
+	host Host, ctx *Context, name tokens.QName, policyPackPath string, opts *PolicyAnalyzerOptions,
+) (Analyzer, error) {
 	projPath := filepath.Join(policyPackPath, "PulumiPolicy.yaml")
 	proj, err := workspace.LoadPolicyPack(projPath)
 	if err != nil {
@@ -100,15 +101,17 @@ func NewPolicyAnalyzer(
 	}
 
 	// Load the policy-booting analyzer plugin (i.e., `pulumi-analyzer-${policyAnalyzerName}`).
-	pluginPath, err := workspace.GetPluginPath(
+	pluginPath, err := workspace.GetPluginPath(ctx.Diag,
 		workspace.AnalyzerPlugin, policyAnalyzerName, nil, host.GetProjectPlugins())
-	if err != nil {
-		return nil, rpcerror.Convert(err)
-	} else if pluginPath == "" {
+
+	var e *workspace.MissingError
+	if errors.As(err, &e) {
 		return nil, fmt.Errorf("could not start policy pack %q because the built-in analyzer "+
 			"plugin that runs policy plugins is missing. This might occur when the plugin "+
 			"directory is not on your $PATH, or when the installed version of the Pulumi SDK "+
 			"does not support resource policies", string(name))
+	} else if err != nil {
+		return nil, err
 	}
 
 	// Create the environment variables from the options.
@@ -228,7 +231,7 @@ func (a *analyzer) AnalyzeStack(resources []AnalyzerStackResource) ([]AnalyzeDia
 				continue
 			}
 
-			pdeps := make([]string, 0, 1)
+			pdeps := slice.Prealloc[string](1)
 			for _, d := range pd {
 				pdeps = append(pdeps, string(d))
 			}

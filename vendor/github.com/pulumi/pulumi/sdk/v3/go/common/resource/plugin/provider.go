@@ -49,7 +49,7 @@ type Provider interface {
 	CheckConfig(urn resource.URN, olds, news resource.PropertyMap,
 		allowUnknowns bool) (resource.PropertyMap, []CheckFailure, error)
 	// DiffConfig checks what impacts a hypothetical change to this provider's configuration will have on the provider.
-	DiffConfig(urn resource.URN, olds, news resource.PropertyMap, allowUnknowns bool,
+	DiffConfig(urn resource.URN, oldInputs, oldOutputs, newInputs resource.PropertyMap, allowUnknowns bool,
 		ignoreChanges []string) (DiffResult, error)
 	// Configure configures the resource provider with "globals" that control its behavior.
 	Configure(inputs resource.PropertyMap) error
@@ -59,7 +59,7 @@ type Provider interface {
 	Check(urn resource.URN, olds, news resource.PropertyMap,
 		allowUnknowns bool, randomSeed []byte) (resource.PropertyMap, []CheckFailure, error)
 	// Diff checks what impacts a hypothetical update will have on the resource's properties.
-	Diff(urn resource.URN, id resource.ID, olds resource.PropertyMap, news resource.PropertyMap,
+	Diff(urn resource.URN, id resource.ID, oldInputs, oldOutputs, newInputs resource.PropertyMap,
 		allowUnknowns bool, ignoreChanges []string) (DiffResult, error)
 	// Create allocates a new instance of the provided resource and returns its unique resource.ID.
 	Create(urn resource.URN, news resource.PropertyMap, timeout float64, preview bool) (resource.ID,
@@ -71,7 +71,7 @@ type Provider interface {
 		inputs, state resource.PropertyMap) (ReadResult, resource.Status, error)
 	// Update updates an existing resource with new values.
 	Update(urn resource.URN, id resource.ID,
-		olds resource.PropertyMap, news resource.PropertyMap, timeout float64,
+		oldInputs, oldOutputs, newInputs resource.PropertyMap, timeout float64,
 		ignoreChanges []string, preview bool) (resource.PropertyMap, resource.Status, error)
 	// Delete tears down an existing resource.
 	Delete(urn resource.URN, id resource.ID, props resource.PropertyMap, timeout float64) (resource.Status, error)
@@ -242,7 +242,6 @@ func NewDetailedDiffFromObjectDiff(diff *resource.ObjectDiff) map[string]Propert
 }
 
 func objectDiffToDetailedDiff(prefix string, diff *resource.ObjectDiff, acc map[string]PropertyDiff) {
-
 	getPrefix := func(k resource.PropertyKey) string {
 		if prefix == "" {
 			return string(k)
@@ -277,7 +276,6 @@ func arrayDiffToDetailedDiff(prefix string, d *resource.ArrayDiff, acc map[strin
 	for i := range d.Deletes {
 		acc[nestedPrefix(i)] = PropertyDiff{Kind: DiffDelete}
 	}
-
 }
 
 func valueDiffToDetailedDiff(prefix string, vd resource.ValueDiff, acc map[string]PropertyDiff) {
@@ -350,14 +348,53 @@ type ConstructInfo struct {
 type ConstructOptions struct {
 	// Aliases is the set of aliases for the component.
 	Aliases []resource.Alias
+
 	// Dependencies is the list of resources this component depends on.
 	Dependencies []resource.URN
+
 	// Protect is true if the component is protected.
 	Protect bool
+
 	// Providers is a map from package name to provider reference.
 	Providers map[string]string
+
 	// PropertyDependencies is a map from property name to a list of resources that property depends on.
 	PropertyDependencies map[resource.PropertyKey][]resource.URN
+
+	// AdditionalSecretOutputs lists extra output properties
+	// that should be treated as secrets.
+	AdditionalSecretOutputs []string
+
+	// CustomTimeouts overrides default timeouts for resource operations.
+	CustomTimeouts *CustomTimeouts
+
+	// DeletedWith specifies that if the given resource is deleted,
+	// it will also delete this resource.
+	DeletedWith resource.URN
+
+	// DeleteBeforeReplace specifies that replacements of this resource
+	// should delete the old resource before creating the new resource.
+	DeleteBeforeReplace bool
+
+	// IgnoreChanges lists properties that should be ignored
+	// when determining whether the resource should has changed.
+	IgnoreChanges []string
+
+	// ReplaceOnChanges lists properties changing which should cause
+	// the resource to be replaced.
+	ReplaceOnChanges []string
+
+	// RetainOnDelete is true if deletion of the resource should not
+	// delete the resource in the provider.
+	RetainOnDelete bool
+}
+
+// CustomTimeouts overrides default timeouts for resource operations.
+// Timeout values are strings in the format accepted by time.ParseDuration.
+type CustomTimeouts struct {
+	Create string
+	Update string
+	Delete string
 }
 
 // ConstructResult is the result of a call to Construct.

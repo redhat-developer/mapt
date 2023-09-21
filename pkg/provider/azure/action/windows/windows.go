@@ -8,7 +8,6 @@ import (
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/provider/azure"
 	spotprice "github.com/adrianriobo/qenvs/pkg/provider/azure/module/spot-price"
-	azurePlugin "github.com/adrianriobo/qenvs/pkg/provider/azure/plugin"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/security"
@@ -44,7 +43,7 @@ func Create(r *WindowsRequest) (err error) {
 		StackName:           qenvsContext.GetStackInstanceName(stackCreateWindowsDesktop),
 		ProjectName:         qenvsContext.GetInstanceName(),
 		BackedURL:           qenvsContext.GetBackedURL(),
-		CloudProviderPlugin: azurePlugin.DefaultPlugin,
+		ProviderCredentials: azure.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
 	csResult, err := manager.UpStack(cs)

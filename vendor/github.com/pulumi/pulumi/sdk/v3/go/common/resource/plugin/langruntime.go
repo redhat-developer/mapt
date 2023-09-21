@@ -19,6 +19,7 @@ import (
 	"io"
 
 	"github.com/blang/semver"
+	"github.com/hashicorp/hcl/v2"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/config"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 )
@@ -52,6 +53,21 @@ type LanguageRuntime interface {
 
 	// RunPlugin executes a plugin program and returns its result asynchronously.
 	RunPlugin(info RunPluginInfo) (io.Reader, io.Reader, context.CancelFunc, error)
+
+	// GenerateProject generates a program project in the given directory. This will include metadata files such
+	// as Pulumi.yaml and package.json.
+	GenerateProject(sourceDirectory, targetDirectory, project string,
+		strict bool, loaderTarget string, localDependencies map[string]string) (hcl.Diagnostics, error)
+
+	// GeneratePlugin generates an SDK package.
+	GeneratePackage(directory string, schema string, extraFiles map[string][]byte, loaderTarget string) error
+
+	// GenerateProgram is similar to GenerateProject but doesn't include any metadata files, just the program
+	// source code.
+	GenerateProgram(program map[string]string, loaderTarget string) (map[string][]byte, hcl.Diagnostics, error)
+
+	// Pack packs a library package into a language specific artifact in the given destination directory.
+	Pack(packageDirectory string, version semver.Version, destinationDirectory string) (string, error)
 }
 
 type DependencyInfo struct {

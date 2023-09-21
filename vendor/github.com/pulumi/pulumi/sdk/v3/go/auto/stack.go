@@ -122,6 +122,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/apitype"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/constant"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/slice"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/rpcutil"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -204,7 +205,7 @@ func (s *Stack) Workspace() Workspace {
 }
 
 // Preview preforms a dry-run update to a stack, returning pending changes.
-// https://www.pulumi.com/docs/reference/cli/pulumi_preview/
+// https://www.pulumi.com/docs/cli/commands/pulumi_preview/
 func (s *Stack) Preview(ctx context.Context, opts ...optpreview.Option) (PreviewResult, error) {
 	var res PreviewResult
 
@@ -213,9 +214,9 @@ func (s *Stack) Preview(ctx context.Context, opts ...optpreview.Option) (Preview
 		o.ApplyOption(preOpts)
 	}
 
-	var bufferSizeHint = len(preOpts.Replace) + len(preOpts.Target) +
+	bufferSizeHint := len(preOpts.Replace) + len(preOpts.Target) +
 		len(preOpts.PolicyPacks) + len(preOpts.PolicyPackConfigs)
-	sharedArgs := make([]string, 0, bufferSizeHint)
+	sharedArgs := slice.Prealloc[string](bufferSizeHint)
 
 	sharedArgs = debug.AddArgs(&preOpts.DebugLogOpts, sharedArgs)
 	if preOpts.Message != "" {
@@ -327,7 +328,7 @@ func (s *Stack) Preview(ctx context.Context, opts ...optpreview.Option) (Preview
 }
 
 // Up creates or updates the resources in a stack by executing the program in the Workspace.
-// https://www.pulumi.com/docs/reference/cli/pulumi_up/
+// https://www.pulumi.com/docs/cli/commands/pulumi_up/
 func (s *Stack) Up(ctx context.Context, opts ...optup.Option) (UpResult, error) {
 	var res UpResult
 
@@ -336,8 +337,8 @@ func (s *Stack) Up(ctx context.Context, opts ...optup.Option) (UpResult, error) 
 		o.ApplyOption(upOpts)
 	}
 
-	var bufferSizeHint = len(upOpts.Replace) + len(upOpts.Target) + len(upOpts.PolicyPacks) + len(upOpts.PolicyPackConfigs)
-	sharedArgs := make([]string, 0, bufferSizeHint)
+	bufferSizeHint := len(upOpts.Replace) + len(upOpts.Target) + len(upOpts.PolicyPacks) + len(upOpts.PolicyPackConfigs)
+	sharedArgs := slice.Prealloc[string](bufferSizeHint)
 
 	sharedArgs = debug.AddArgs(&upOpts.DebugLogOpts, sharedArgs)
 	if upOpts.Message != "" {
@@ -450,7 +451,7 @@ func (s *Stack) Refresh(ctx context.Context, opts ...optrefresh.Option) (Refresh
 		o.ApplyOption(refreshOpts)
 	}
 
-	args := make([]string, 0, len(refreshOpts.Target))
+	args := slice.Prealloc[string](len(refreshOpts.Target))
 
 	args = debug.AddArgs(&refreshOpts.DebugLogOpts, args)
 	args = append(args, "refresh", "--yes", "--skip-preview")
@@ -538,7 +539,7 @@ func (s *Stack) Destroy(ctx context.Context, opts ...optdestroy.Option) (Destroy
 		o.ApplyOption(destroyOpts)
 	}
 
-	args := make([]string, 0, len(destroyOpts.Target))
+	args := slice.Prealloc[string](len(destroyOpts.Target))
 
 	args = debug.AddArgs(&destroyOpts.DebugLogOpts, args)
 	args = append(args, "destroy", "--yes", "--skip-preview")
@@ -625,7 +626,8 @@ func (s *Stack) Outputs(ctx context.Context) (OutputMap, error) {
 // History returns a list summarizing all previous and current results from Stack lifecycle operations
 // (up/preview/refresh/destroy).
 func (s *Stack) History(ctx context.Context,
-	pageSize int, page int, opts ...opthistory.Option) ([]UpdateSummary, error) {
+	pageSize int, page int, opts ...opthistory.Option,
+) ([]UpdateSummary, error) {
 	var options opthistory.Options
 	for _, opt := range opts {
 		opt.ApplyOption(&options)
@@ -670,6 +672,11 @@ func (s *Stack) GetConfig(ctx context.Context, key string) (ConfigValue, error) 
 	return s.Workspace().GetConfig(ctx, s.Name(), key)
 }
 
+// GetConfigWithOptions returns the config value associated with the specified key using the optional ConfigOptions.
+func (s *Stack) GetConfigWithOptions(ctx context.Context, key string, opts *ConfigOptions) (ConfigValue, error) {
+	return s.Workspace().GetConfigWithOptions(ctx, s.Name(), key, opts)
+}
+
 // GetAllConfig returns the full config map.
 func (s *Stack) GetAllConfig(ctx context.Context) (ConfigMap, error) {
 	return s.Workspace().GetAllConfig(ctx, s.Name())
@@ -680,9 +687,19 @@ func (s *Stack) SetConfig(ctx context.Context, key string, val ConfigValue) erro
 	return s.Workspace().SetConfig(ctx, s.Name(), key, val)
 }
 
+// SetConfigWithOptions sets the specified config key-value pair using the optional ConfigOptions.
+func (s *Stack) SetConfigWithOptions(ctx context.Context, key string, val ConfigValue, opts *ConfigOptions) error {
+	return s.Workspace().SetConfigWithOptions(ctx, s.Name(), key, val, opts)
+}
+
 // SetAllConfig sets all values in the provided config map.
 func (s *Stack) SetAllConfig(ctx context.Context, config ConfigMap) error {
 	return s.Workspace().SetAllConfig(ctx, s.Name(), config)
+}
+
+// SetAllConfigWithOptions sets all values in the provided config map using the optional ConfigOptions.
+func (s *Stack) SetAllConfigWithOptions(ctx context.Context, config ConfigMap, opts *ConfigOptions) error {
+	return s.Workspace().SetAllConfigWithOptions(ctx, s.Name(), config, opts)
 }
 
 // RemoveConfig removes the specified config key-value pair.
@@ -690,14 +707,44 @@ func (s *Stack) RemoveConfig(ctx context.Context, key string) error {
 	return s.Workspace().RemoveConfig(ctx, s.Name(), key)
 }
 
+// RemoveConfigWithOptions removes the specified config key-value pair using the optional ConfigOptions.
+func (s *Stack) RemoveConfigWithOptions(ctx context.Context, key string, opts *ConfigOptions) error {
+	return s.Workspace().RemoveConfigWithOptions(ctx, s.Name(), key, opts)
+}
+
 // RemoveAllConfig removes all values in the provided list of keys.
 func (s *Stack) RemoveAllConfig(ctx context.Context, keys []string) error {
 	return s.Workspace().RemoveAllConfig(ctx, s.Name(), keys)
 }
 
+// RemoveAllConfigWithOptions removes all values in the provided list of keys using the optional ConfigOptions.
+func (s *Stack) RemoveAllConfigWithOptions(ctx context.Context, keys []string, opts *ConfigOptions) error {
+	return s.Workspace().RemoveAllConfigWithOptions(ctx, s.Name(), keys, opts)
+}
+
 // RefreshConfig gets and sets the config map used with the last Update.
 func (s *Stack) RefreshConfig(ctx context.Context) (ConfigMap, error) {
 	return s.Workspace().RefreshConfig(ctx, s.Name())
+}
+
+// GetTag returns the tag value associated with specified key.
+func (s *Stack) GetTag(ctx context.Context, key string) (string, error) {
+	return s.Workspace().GetTag(ctx, s.Name(), key)
+}
+
+// SetTag sets a tag key-value pair on the stack.
+func (s *Stack) SetTag(ctx context.Context, key string, value string) error {
+	return s.Workspace().SetTag(ctx, s.Name(), key, value)
+}
+
+// RemoveTag removes the specified tag key-value pair from the stack.
+func (s *Stack) RemoveTag(ctx context.Context, key string) error {
+	return s.Workspace().RemoveTag(ctx, s.Name(), key)
+}
+
+// ListTags returns the full key-value tag map associated with the stack.
+func (s *Stack) ListTags(ctx context.Context) (map[string]string, error) {
+	return s.Workspace().ListTags(ctx, s.Name())
 }
 
 // Info returns a summary of the Stack including its URL.
@@ -790,7 +837,7 @@ var ErrParsePermalinkFailed = errors.New("failed to get permalink")
 // GetPermalink returns the permalink URL in the Pulumi Console for the update
 // or refresh operation. This will error for alternate, local backends.
 func GetPermalink(stdout string) (string, error) {
-	const permalinkSearchStr = "View Live: |Permalink: "
+	const permalinkSearchStr = `View Live: |View in Browser: |View in Browser \(Ctrl\+O\): |Permalink: `
 	startRegex := regexp.MustCompile(permalinkSearchStr)
 	endRegex := regexp.MustCompile("\n")
 
@@ -959,7 +1006,7 @@ func (s *Stack) remoteArgs() []string {
 		return nil
 	}
 
-	args := make([]string, 0, len(envvars)+len(preRunCommands))
+	args := slice.Prealloc[string](len(envvars) + len(preRunCommands))
 	args = append(args, "--remote")
 	if repo != nil {
 		if repo.URL != "" {
@@ -1101,7 +1148,8 @@ func (s *languageRuntimeServer) Close() error {
 }
 
 func (s *languageRuntimeServer) GetRequiredPlugins(ctx context.Context,
-	req *pulumirpc.GetRequiredPluginsRequest) (*pulumirpc.GetRequiredPluginsResponse, error) {
+	req *pulumirpc.GetRequiredPluginsRequest,
+) (*pulumirpc.GetRequiredPluginsResponse, error) {
 	return &pulumirpc.GetRequiredPluginsResponse{}, nil
 }
 
@@ -1141,6 +1189,7 @@ func (s *languageRuntimeServer) Run(ctx context.Context, req *pulumirpc.RunReque
 	if err != nil {
 		return nil, err
 	}
+	defer pulumiCtx.Close()
 
 	err = func() (err error) {
 		defer func() {
@@ -1169,7 +1218,8 @@ func (s *languageRuntimeServer) GetPluginInfo(ctx context.Context, req *pbempty.
 
 func (s *languageRuntimeServer) InstallDependencies(
 	req *pulumirpc.InstallDependenciesRequest,
-	server pulumirpc.LanguageRuntime_InstallDependenciesServer) error {
+	server pulumirpc.LanguageRuntime_InstallDependenciesServer,
+) error {
 	return nil
 }
 

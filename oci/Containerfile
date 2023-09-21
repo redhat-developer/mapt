@@ -31,6 +31,18 @@ ENV AWS_CLI_URL https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_V
 ENV AZ_CLI_VERSION 2.52.0
 ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli-${AZ_CLI_VERSION}-1.el9.x86_64.rpm
 
+# Pulumi plugins
+# renovate: datasource=github-releases depName=pulumi/pulumi-aws
+ARG PULUMI_AWS_VERSION=v6.2.0
+# renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
+ARG PULUMI_AZURE_NATIVE_VERSION=v2.8.0
+# renovate: datasource=github-releases depName=pulumi/pulumi-command
+ARG PULUMI_COMMAND_VERSION=v0.9.0
+# renovate: datasource=github-releases depName=pulumi/pulumi-tls
+ARG PULUMI_TLS_VERSION=v4.10.0
+# renovate: datasource=github-releases depName=pulumi/pulumi-random
+ARG PULUMI_RANDOM_VERSION=v4.13.4
+
 RUN curl ${AWS_CLI_URL} -o awscliv2.zip \
     && dnf install -y unzip \
     && unzip awscliv2.zip \
@@ -40,7 +52,12 @@ RUN curl ${AWS_CLI_URL} -o awscliv2.zip \
     && rm -rf aws awscliv2.zip azure-cli.rpm \
     && dnf clean all \
   	&& rm -rf /var/cache/yum \
-    && mkdir -p "${INTERNAL_OUTPUT}" 
+    && mkdir -p "${INTERNAL_OUTPUT}" \
+    && pulumi plugin install resource aws ${PULUMI_AWS_VERSION} \
+    && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
+    && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
+    && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \
+    && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION}
 
 # TODO review permissions on sharing mounting volume from host
 # USER 65532:65532

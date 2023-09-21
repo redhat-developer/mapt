@@ -258,7 +258,6 @@ func RewriteShorthandConfigValues(project map[string]interface{}) map[string]int
 	}
 
 	for key, value := range config {
-
 		if isPrimitiveValue(value) || isArray(value) {
 			configTypeDefinition := make(map[string]interface{})
 			if configKeyIsNamespacedByProject(projectName, key) {
@@ -328,7 +327,6 @@ func SimplifyMarshalledProject(raw interface{}) (map[string]interface{}, error) 
 }
 
 func ValidateProject(raw interface{}) error {
-
 	project, err := SimplifyMarshalledProject(raw)
 	if err != nil {
 		return err
@@ -360,7 +358,7 @@ func ValidateProject(raw interface{}) error {
 	appendError = func(err *jsonschema.ValidationError) {
 		if err.InstanceLocation != "" && err.Message != "" {
 			errorf := func(path, message string, args ...interface{}) error {
-				contract.Require(path != "", "path")
+				contract.Requiref(path != "", "path", "path must not be empty")
 				return fmt.Errorf("%s: %s", path, fmt.Sprintf(message, args...))
 			}
 
@@ -387,7 +385,6 @@ func InferFullTypeName(typeName string, itemsType *ProjectConfigItemsType) strin
 // We use this to validate the default config values alongside their type definition but
 // also to validate config values coming from individual stacks.
 func ValidateConfigValue(typeName string, itemsType *ProjectConfigItemsType, value interface{}) bool {
-
 	if typeName == stringTypeName {
 		_, ok := value.(string)
 		return ok
@@ -514,8 +511,8 @@ func (proj *Project) TrustResourceDependencies() bool {
 
 // Save writes a project definition to a file.
 func (proj *Project) Save(path string) error {
-	contract.Require(path != "", "path")
-	contract.Require(proj != nil, "proj")
+	contract.Requiref(path != "", "path", "must not be empty")
+	contract.Requiref(proj != nil, "proj", "must not be nil")
 	contract.Requiref(proj.Validate() == nil, "proj", "Validate()")
 	return save(path, proj, false /*mkDirAll*/)
 }
@@ -557,8 +554,8 @@ func (proj *PolicyPackProject) Validate() error {
 
 // Save writes a project definition to a file.
 func (proj *PolicyPackProject) Save(path string) error {
-	contract.Require(path != "", "path")
-	contract.Require(proj != nil, "proj")
+	contract.Requiref(path != "", "path", "must not be empty")
+	contract.Requiref(proj != nil, "proj", "must not be nil")
 	contract.Requiref(proj.Validate() == nil, "proj", "Validate()")
 	return save(path, proj, false /*mkDirAll*/)
 }
@@ -599,8 +596,8 @@ func (ps ProjectStack) RawValue() []byte {
 
 // Save writes a project definition to a file.
 func (ps *ProjectStack) Save(path string) error {
-	contract.Require(path != "", "path")
-	contract.Require(ps != nil, "ps")
+	contract.Requiref(path != "", "path", "must not be empty")
+	contract.Requiref(ps != nil, "ps", "must not be nil")
 	return save(path, ps, true /*mkDirAll*/)
 }
 
@@ -702,8 +699,8 @@ func marshallerForPath(path string) (encoding.Marshaler, error) {
 }
 
 func save(path string, value interface{}, mkDirAll bool) error {
-	contract.Require(path != "", "path")
-	contract.Require(value != nil, "value")
+	contract.Requiref(path != "", "path", "must not be empty")
+	contract.Requiref(value != nil, "value", "must not be nil")
 
 	m, err := marshallerForPath(path)
 	if err != nil {
@@ -716,11 +713,11 @@ func save(path string, value interface{}, mkDirAll bool) error {
 	}
 
 	if mkDirAll {
-		if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
+		if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
 			return err
 		}
 	}
 
 	//nolint:gosec
-	return os.WriteFile(path, b, 0644)
+	return os.WriteFile(path, b, 0o644)
 }

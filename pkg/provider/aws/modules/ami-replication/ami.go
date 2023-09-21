@@ -20,7 +20,7 @@ func (r ReplicatedRequest) runStack(backedURL, region, operation string) error {
 		StackName:   fmt.Sprintf("%s-%s", stackName, region),
 		ProjectName: r.ProjectName,
 		BackedURL:   backedURL,
-		CloudProviderPlugin: aws.GetClouProviderPlugin(
+		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{aws.CONFIG_AWS_REGION: region}),
 		DeployFunc: r.deployer,
 	}
