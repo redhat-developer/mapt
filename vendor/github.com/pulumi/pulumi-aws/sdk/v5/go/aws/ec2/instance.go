@@ -132,6 +132,77 @@ import (
 //	}
 //
 // ```
+// ### CPU options example
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			exampleVpc, err := ec2.NewVpc(ctx, "exampleVpc", &ec2.VpcArgs{
+//				CidrBlock: pulumi.String("172.16.0.0/16"),
+//				Tags: pulumi.StringMap{
+//					"Name": pulumi.String("tf-example"),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			exampleSubnet, err := ec2.NewSubnet(ctx, "exampleSubnet", &ec2.SubnetArgs{
+//				VpcId:            exampleVpc.ID(),
+//				CidrBlock:        pulumi.String("172.16.10.0/24"),
+//				AvailabilityZone: pulumi.String("us-east-2a"),
+//				Tags: pulumi.StringMap{
+//					"Name": pulumi.String("tf-example"),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			amzn_linux_2023_ami, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
+//				MostRecent: pulumi.BoolRef(true),
+//				Owners: []string{
+//					"amazon",
+//				},
+//				Filters: []ec2.GetAmiFilter{
+//					{
+//						Name: "name",
+//						Values: []string{
+//							"al2023-ami-2023.*-x86_64",
+//						},
+//					},
+//				},
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ec2.NewInstance(ctx, "exampleInstance", &ec2.InstanceArgs{
+//				Ami:          *pulumi.String(amzn_linux_2023_ami.Id),
+//				InstanceType: pulumi.String("c6a.2xlarge"),
+//				SubnetId:     exampleSubnet.ID(),
+//				CpuOptions: &ec2.InstanceCpuOptionsArgs{
+//					CoreCount:      pulumi.Int(2),
+//					ThreadsPerCore: pulumi.Int(2),
+//				},
+//				Tags: pulumi.StringMap{
+//					"Name": pulumi.String("tf-example"),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
 // ### Host resource group or Licence Manager registered AMI example
 //
 // A host resource group is a collection of Dedicated Hosts that you can manage as a single entity. As you launch instances, License Manager allocates the hosts and launches instances on them based on the settings that you configured. You can add existing Dedicated Hosts to a host resource group and take advantage of automated host management through License Manager.
@@ -186,10 +257,18 @@ type Instance struct {
 	// AZ to start the instance in.
 	AvailabilityZone pulumi.StringOutput `pulumi:"availabilityZone"`
 	// Describes an instance's Capacity Reservation targeting option. See Capacity Reservation Specification below for more details.
+	//
+	// > **NOTE:** Changing `cpuCoreCount` and/or `cpuThreadsPerCore` will cause the resource to be destroyed and re-created.
 	CapacityReservationSpecification InstanceCapacityReservationSpecificationOutput `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuCoreCount pulumi.IntOutput `pulumi:"cpuCoreCount"`
+	// The CPU options for the instance. See CPU Options below for more details.
+	CpuOptions InstanceCpuOptionsOutput `pulumi:"cpuOptions"`
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuThreadsPerCore pulumi.IntOutput `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification InstanceCreditSpecificationPtrOutput `pulumi:"creditSpecification"`
@@ -263,6 +342,8 @@ type Instance struct {
 	SecondaryPrivateIps pulumi.StringArrayOutput `pulumi:"secondaryPrivateIps"`
 	// List of security group names to associate with.
 	//
+	// > **NOTE:** If you are creating Instances in a VPC, use `vpcSecurityGroupIds` instead.
+	//
 	// Deprecated: Use of `securityGroups` is discouraged as it does not allow for changes and will force your instance to be replaced if changes are made. To avoid this, use `vpcSecurityGroupIds` which allows for updates.
 	SecurityGroups pulumi.StringArrayOutput `pulumi:"securityGroups"`
 	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
@@ -282,6 +363,8 @@ type Instance struct {
 	// When used in combination with `userData` or `userDataBase64` will trigger a destroy and recreate when set to `true`. Defaults to `false` if not set.
 	UserDataReplaceOnChange pulumi.BoolPtrOutput `pulumi:"userDataReplaceOnChange"`
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
+	//
+	// > **NOTE:** Do not use `volumeTags` if you plan to manage block device tags outside the `ec2.Instance` configuration, such as using `tags` in an `ebs.Volume` resource attached via `ec2.VolumeAttachment`. Doing so will result in resource cycling and inconsistent behavior.
 	VolumeTags pulumi.StringMapOutput `pulumi:"volumeTags"`
 	// List of security group IDs to associate with.
 	VpcSecurityGroupIds pulumi.StringArrayOutput `pulumi:"vpcSecurityGroupIds"`
@@ -325,10 +408,18 @@ type instanceState struct {
 	// AZ to start the instance in.
 	AvailabilityZone *string `pulumi:"availabilityZone"`
 	// Describes an instance's Capacity Reservation targeting option. See Capacity Reservation Specification below for more details.
+	//
+	// > **NOTE:** Changing `cpuCoreCount` and/or `cpuThreadsPerCore` will cause the resource to be destroyed and re-created.
 	CapacityReservationSpecification *InstanceCapacityReservationSpecification `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuCoreCount *int `pulumi:"cpuCoreCount"`
+	// The CPU options for the instance. See CPU Options below for more details.
+	CpuOptions *InstanceCpuOptions `pulumi:"cpuOptions"`
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuThreadsPerCore *int `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification *InstanceCreditSpecification `pulumi:"creditSpecification"`
@@ -402,6 +493,8 @@ type instanceState struct {
 	SecondaryPrivateIps []string `pulumi:"secondaryPrivateIps"`
 	// List of security group names to associate with.
 	//
+	// > **NOTE:** If you are creating Instances in a VPC, use `vpcSecurityGroupIds` instead.
+	//
 	// Deprecated: Use of `securityGroups` is discouraged as it does not allow for changes and will force your instance to be replaced if changes are made. To avoid this, use `vpcSecurityGroupIds` which allows for updates.
 	SecurityGroups []string `pulumi:"securityGroups"`
 	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
@@ -421,6 +514,8 @@ type instanceState struct {
 	// When used in combination with `userData` or `userDataBase64` will trigger a destroy and recreate when set to `true`. Defaults to `false` if not set.
 	UserDataReplaceOnChange *bool `pulumi:"userDataReplaceOnChange"`
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
+	//
+	// > **NOTE:** Do not use `volumeTags` if you plan to manage block device tags outside the `ec2.Instance` configuration, such as using `tags` in an `ebs.Volume` resource attached via `ec2.VolumeAttachment`. Doing so will result in resource cycling and inconsistent behavior.
 	VolumeTags map[string]string `pulumi:"volumeTags"`
 	// List of security group IDs to associate with.
 	VpcSecurityGroupIds []string `pulumi:"vpcSecurityGroupIds"`
@@ -436,10 +531,18 @@ type InstanceState struct {
 	// AZ to start the instance in.
 	AvailabilityZone pulumi.StringPtrInput
 	// Describes an instance's Capacity Reservation targeting option. See Capacity Reservation Specification below for more details.
+	//
+	// > **NOTE:** Changing `cpuCoreCount` and/or `cpuThreadsPerCore` will cause the resource to be destroyed and re-created.
 	CapacityReservationSpecification InstanceCapacityReservationSpecificationPtrInput
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuCoreCount pulumi.IntPtrInput
+	// The CPU options for the instance. See CPU Options below for more details.
+	CpuOptions InstanceCpuOptionsPtrInput
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuThreadsPerCore pulumi.IntPtrInput
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification InstanceCreditSpecificationPtrInput
@@ -513,6 +616,8 @@ type InstanceState struct {
 	SecondaryPrivateIps pulumi.StringArrayInput
 	// List of security group names to associate with.
 	//
+	// > **NOTE:** If you are creating Instances in a VPC, use `vpcSecurityGroupIds` instead.
+	//
 	// Deprecated: Use of `securityGroups` is discouraged as it does not allow for changes and will force your instance to be replaced if changes are made. To avoid this, use `vpcSecurityGroupIds` which allows for updates.
 	SecurityGroups pulumi.StringArrayInput
 	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
@@ -532,6 +637,8 @@ type InstanceState struct {
 	// When used in combination with `userData` or `userDataBase64` will trigger a destroy and recreate when set to `true`. Defaults to `false` if not set.
 	UserDataReplaceOnChange pulumi.BoolPtrInput
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
+	//
+	// > **NOTE:** Do not use `volumeTags` if you plan to manage block device tags outside the `ec2.Instance` configuration, such as using `tags` in an `ebs.Volume` resource attached via `ec2.VolumeAttachment`. Doing so will result in resource cycling and inconsistent behavior.
 	VolumeTags pulumi.StringMapInput
 	// List of security group IDs to associate with.
 	VpcSecurityGroupIds pulumi.StringArrayInput
@@ -549,10 +656,18 @@ type instanceArgs struct {
 	// AZ to start the instance in.
 	AvailabilityZone *string `pulumi:"availabilityZone"`
 	// Describes an instance's Capacity Reservation targeting option. See Capacity Reservation Specification below for more details.
+	//
+	// > **NOTE:** Changing `cpuCoreCount` and/or `cpuThreadsPerCore` will cause the resource to be destroyed and re-created.
 	CapacityReservationSpecification *InstanceCapacityReservationSpecification `pulumi:"capacityReservationSpecification"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuCoreCount *int `pulumi:"cpuCoreCount"`
+	// The CPU options for the instance. See CPU Options below for more details.
+	CpuOptions *InstanceCpuOptions `pulumi:"cpuOptions"`
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuThreadsPerCore *int `pulumi:"cpuThreadsPerCore"`
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification *InstanceCreditSpecification `pulumi:"creditSpecification"`
@@ -612,6 +727,8 @@ type instanceArgs struct {
 	SecondaryPrivateIps []string `pulumi:"secondaryPrivateIps"`
 	// List of security group names to associate with.
 	//
+	// > **NOTE:** If you are creating Instances in a VPC, use `vpcSecurityGroupIds` instead.
+	//
 	// Deprecated: Use of `securityGroups` is discouraged as it does not allow for changes and will force your instance to be replaced if changes are made. To avoid this, use `vpcSecurityGroupIds` which allows for updates.
 	SecurityGroups []string `pulumi:"securityGroups"`
 	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
@@ -629,6 +746,8 @@ type instanceArgs struct {
 	// When used in combination with `userData` or `userDataBase64` will trigger a destroy and recreate when set to `true`. Defaults to `false` if not set.
 	UserDataReplaceOnChange *bool `pulumi:"userDataReplaceOnChange"`
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
+	//
+	// > **NOTE:** Do not use `volumeTags` if you plan to manage block device tags outside the `ec2.Instance` configuration, such as using `tags` in an `ebs.Volume` resource attached via `ec2.VolumeAttachment`. Doing so will result in resource cycling and inconsistent behavior.
 	VolumeTags map[string]string `pulumi:"volumeTags"`
 	// List of security group IDs to associate with.
 	VpcSecurityGroupIds []string `pulumi:"vpcSecurityGroupIds"`
@@ -643,10 +762,18 @@ type InstanceArgs struct {
 	// AZ to start the instance in.
 	AvailabilityZone pulumi.StringPtrInput
 	// Describes an instance's Capacity Reservation targeting option. See Capacity Reservation Specification below for more details.
+	//
+	// > **NOTE:** Changing `cpuCoreCount` and/or `cpuThreadsPerCore` will cause the resource to be destroyed and re-created.
 	CapacityReservationSpecification InstanceCapacityReservationSpecificationPtrInput
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuCoreCount pulumi.IntPtrInput
+	// The CPU options for the instance. See CPU Options below for more details.
+	CpuOptions InstanceCpuOptionsPtrInput
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+	//
+	// Deprecated: use 'cpu_options' argument instead
 	CpuThreadsPerCore pulumi.IntPtrInput
 	// Configuration block for customizing the credit specification of the instance. See Credit Specification below for more details. This provider will only perform drift detection of its value when present in a configuration. Removing this configuration on existing instances will only stop managing it. It will not change the configuration back to the default for the instance type.
 	CreditSpecification InstanceCreditSpecificationPtrInput
@@ -706,6 +833,8 @@ type InstanceArgs struct {
 	SecondaryPrivateIps pulumi.StringArrayInput
 	// List of security group names to associate with.
 	//
+	// > **NOTE:** If you are creating Instances in a VPC, use `vpcSecurityGroupIds` instead.
+	//
 	// Deprecated: Use of `securityGroups` is discouraged as it does not allow for changes and will force your instance to be replaced if changes are made. To avoid this, use `vpcSecurityGroupIds` which allows for updates.
 	SecurityGroups pulumi.StringArrayInput
 	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
@@ -723,6 +852,8 @@ type InstanceArgs struct {
 	// When used in combination with `userData` or `userDataBase64` will trigger a destroy and recreate when set to `true`. Defaults to `false` if not set.
 	UserDataReplaceOnChange pulumi.BoolPtrInput
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
+	//
+	// > **NOTE:** Do not use `volumeTags` if you plan to manage block device tags outside the `ec2.Instance` configuration, such as using `tags` in an `ebs.Volume` resource attached via `ec2.VolumeAttachment`. Doing so will result in resource cycling and inconsistent behavior.
 	VolumeTags pulumi.StringMapInput
 	// List of security group IDs to associate with.
 	VpcSecurityGroupIds pulumi.StringArrayInput
@@ -836,6 +967,8 @@ func (o InstanceOutput) AvailabilityZone() pulumi.StringOutput {
 }
 
 // Describes an instance's Capacity Reservation targeting option. See Capacity Reservation Specification below for more details.
+//
+// > **NOTE:** Changing `cpuCoreCount` and/or `cpuThreadsPerCore` will cause the resource to be destroyed and re-created.
 func (o InstanceOutput) CapacityReservationSpecification() InstanceCapacityReservationSpecificationOutput {
 	return o.ApplyT(func(v *Instance) InstanceCapacityReservationSpecificationOutput {
 		return v.CapacityReservationSpecification
@@ -843,11 +976,20 @@ func (o InstanceOutput) CapacityReservationSpecification() InstanceCapacityReser
 }
 
 // Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
+//
+// Deprecated: use 'cpu_options' argument instead
 func (o InstanceOutput) CpuCoreCount() pulumi.IntOutput {
 	return o.ApplyT(func(v *Instance) pulumi.IntOutput { return v.CpuCoreCount }).(pulumi.IntOutput)
 }
 
+// The CPU options for the instance. See CPU Options below for more details.
+func (o InstanceOutput) CpuOptions() InstanceCpuOptionsOutput {
+	return o.ApplyT(func(v *Instance) InstanceCpuOptionsOutput { return v.CpuOptions }).(InstanceCpuOptionsOutput)
+}
+
 // If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
+//
+// Deprecated: use 'cpu_options' argument instead
 func (o InstanceOutput) CpuThreadsPerCore() pulumi.IntOutput {
 	return o.ApplyT(func(v *Instance) pulumi.IntOutput { return v.CpuThreadsPerCore }).(pulumi.IntOutput)
 }
@@ -1029,6 +1171,8 @@ func (o InstanceOutput) SecondaryPrivateIps() pulumi.StringArrayOutput {
 
 // List of security group names to associate with.
 //
+// > **NOTE:** If you are creating Instances in a VPC, use `vpcSecurityGroupIds` instead.
+//
 // Deprecated: Use of `securityGroups` is discouraged as it does not allow for changes and will force your instance to be replaced if changes are made. To avoid this, use `vpcSecurityGroupIds` which allows for updates.
 func (o InstanceOutput) SecurityGroups() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *Instance) pulumi.StringArrayOutput { return v.SecurityGroups }).(pulumi.StringArrayOutput)
@@ -1075,6 +1219,8 @@ func (o InstanceOutput) UserDataReplaceOnChange() pulumi.BoolPtrOutput {
 }
 
 // Map of tags to assign, at instance-creation time, to root and EBS volumes.
+//
+// > **NOTE:** Do not use `volumeTags` if you plan to manage block device tags outside the `ec2.Instance` configuration, such as using `tags` in an `ebs.Volume` resource attached via `ec2.VolumeAttachment`. Doing so will result in resource cycling and inconsistent behavior.
 func (o InstanceOutput) VolumeTags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Instance) pulumi.StringMapOutput { return v.VolumeTags }).(pulumi.StringMapOutput)
 }

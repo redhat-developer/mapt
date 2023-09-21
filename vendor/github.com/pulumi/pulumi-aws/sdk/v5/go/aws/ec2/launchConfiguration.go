@@ -7,11 +7,13 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 // Provides a resource to create a new launch configuration, used for autoscaling groups.
+//
+// !> **WARNING:** The use of launch configurations is discouraged in favour of launch templates. Read more in the [AWS EC2 Documentation](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-configurations.html).
 //
 // > **Note** When using `ec2.LaunchConfiguration` with `autoscaling.Group`, it is recommended to use the `namePrefix` (Optional) instead of the `name` (Optional) attribute.
 //
@@ -282,6 +284,8 @@ type LaunchConfiguration struct {
 	// The EC2 image ID to launch.
 	ImageId pulumi.StringOutput `pulumi:"imageId"`
 	// The size of instance to launch.
+	//
+	// The following arguments are optional:
 	InstanceType pulumi.StringOutput `pulumi:"instanceType"`
 	// The key name that should be used for the instance.
 	KeyName pulumi.StringOutput `pulumi:"keyName"`
@@ -365,6 +369,8 @@ type launchConfigurationState struct {
 	// The EC2 image ID to launch.
 	ImageId *string `pulumi:"imageId"`
 	// The size of instance to launch.
+	//
+	// The following arguments are optional:
 	InstanceType *string `pulumi:"instanceType"`
 	// The key name that should be used for the instance.
 	KeyName *string `pulumi:"keyName"`
@@ -414,6 +420,8 @@ type LaunchConfigurationState struct {
 	// The EC2 image ID to launch.
 	ImageId pulumi.StringPtrInput
 	// The size of instance to launch.
+	//
+	// The following arguments are optional:
 	InstanceType pulumi.StringPtrInput
 	// The key name that should be used for the instance.
 	KeyName pulumi.StringPtrInput
@@ -465,6 +473,8 @@ type launchConfigurationArgs struct {
 	// The EC2 image ID to launch.
 	ImageId string `pulumi:"imageId"`
 	// The size of instance to launch.
+	//
+	// The following arguments are optional:
 	InstanceType string `pulumi:"instanceType"`
 	// The key name that should be used for the instance.
 	KeyName *string `pulumi:"keyName"`
@@ -513,6 +523,8 @@ type LaunchConfigurationArgs struct {
 	// The EC2 image ID to launch.
 	ImageId pulumi.StringInput
 	// The size of instance to launch.
+	//
+	// The following arguments are optional:
 	InstanceType pulumi.StringInput
 	// The key name that should be used for the instance.
 	KeyName pulumi.StringPtrInput
@@ -674,6 +686,8 @@ func (o LaunchConfigurationOutput) ImageId() pulumi.StringOutput {
 }
 
 // The size of instance to launch.
+//
+// The following arguments are optional:
 func (o LaunchConfigurationOutput) InstanceType() pulumi.StringOutput {
 	return o.ApplyT(func(v *LaunchConfiguration) pulumi.StringOutput { return v.InstanceType }).(pulumi.StringOutput)
 }

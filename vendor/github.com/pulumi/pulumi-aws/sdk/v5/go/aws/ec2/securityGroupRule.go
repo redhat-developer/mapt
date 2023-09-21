@@ -7,19 +7,17 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 // Provides a security group rule resource. Represents a single `ingress` or
 // `egress` group rule, which can be added to external Security Groups.
 //
-// > **NOTE on Security Groups and Security Group Rules:** This provider currently
-// provides both a standalone Security Group Rule resource (one or many `ingress` or
-// `egress` rules), and a Security Group resource with `ingress` and `egress` rules
-// defined in-line. At this time you cannot use a Security Group with in-line rules
-// in conjunction with any Security Group Rule resources. Doing so will cause
-// a conflict of rule settings and will overwrite rules.
+// > **NOTE on Security Groups and Security Group Rules:** This provider currently provides a Security Group resource with `ingress` and `egress` rules defined in-line and a Security Group Rule resource which manages one or more `ingress` or
+// `egress` rules. Both of these resource were added before AWS assigned a [security group rule unique ID](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules.html), and they do not work well in all scenarios using the`description` and `tags` attributes, which rely on the unique ID.
+// The `awsVpcSecurityGroupEgressRule` and `awsVpcSecurityGroupIngressRule` resources have been added to address these limitations and should be used for all new security group rules.
+// You should not use the `awsVpcSecurityGroupEgressRule` and `awsVpcSecurityGroupIngressRule` resources in conjunction with an `ec2.SecurityGroup` resource with in-line rules or with `ec2.SecurityGroupRule` resources defined for the same Security Group, as rule conflicts may occur and rules will be overwritten.
 //
 // > **NOTE:** Setting `protocol = "all"` or `protocol = -1` with `fromPort` and `toPort` will result in the EC2 API creating a security group rule with all ports open. This API behavior cannot be controlled by this provider and may generate warnings in the future.
 //
@@ -237,6 +235,8 @@ type SecurityGroupRule struct {
 	ToPort pulumi.IntOutput `pulumi:"toPort"`
 	// Type of rule being created. Valid options are `ingress` (inbound)
 	// or `egress` (outbound).
+	//
+	// The following arguments are optional:
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -308,6 +308,8 @@ type securityGroupRuleState struct {
 	ToPort *int `pulumi:"toPort"`
 	// Type of rule being created. Valid options are `ingress` (inbound)
 	// or `egress` (outbound).
+	//
+	// The following arguments are optional:
 	Type *string `pulumi:"type"`
 }
 
@@ -336,6 +338,8 @@ type SecurityGroupRuleState struct {
 	ToPort pulumi.IntPtrInput
 	// Type of rule being created. Valid options are `ingress` (inbound)
 	// or `egress` (outbound).
+	//
+	// The following arguments are optional:
 	Type pulumi.StringPtrInput
 }
 
@@ -366,6 +370,8 @@ type securityGroupRuleArgs struct {
 	ToPort int `pulumi:"toPort"`
 	// Type of rule being created. Valid options are `ingress` (inbound)
 	// or `egress` (outbound).
+	//
+	// The following arguments are optional:
 	Type string `pulumi:"type"`
 }
 
@@ -393,6 +399,8 @@ type SecurityGroupRuleArgs struct {
 	ToPort pulumi.IntInput
 	// Type of rule being created. Valid options are `ingress` (inbound)
 	// or `egress` (outbound).
+	//
+	// The following arguments are optional:
 	Type pulumi.StringInput
 }
 
@@ -540,6 +548,8 @@ func (o SecurityGroupRuleOutput) ToPort() pulumi.IntOutput {
 
 // Type of rule being created. Valid options are `ingress` (inbound)
 // or `egress` (outbound).
+//
+// The following arguments are optional:
 func (o SecurityGroupRuleOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *SecurityGroupRule) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

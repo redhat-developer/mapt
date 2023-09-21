@@ -7,7 +7,7 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -202,6 +202,8 @@ type SpotFleetRequest struct {
 	// `lowestPrice`.
 	AllocationStrategy pulumi.StringPtrOutput `pulumi:"allocationStrategy"`
 	ClientToken        pulumi.StringOutput    `pulumi:"clientToken"`
+	// Reserved.
+	Context pulumi.StringPtrOutput `pulumi:"context"`
 	// Indicates whether running Spot
 	// instances should be terminated if the target capacity of the Spot fleet
 	// request is decreased below the current size of the Spot fleet.
@@ -226,6 +228,12 @@ type SpotFleetRequest struct {
 	// Used to define the launch configuration of the
 	// spot-fleet request. Can be specified multiple times to define different bids
 	// across different markets and instance types. Conflicts with `launchTemplateConfig`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
+	//
+	// **Note**: This takes in similar but not
+	// identical inputs as `ec2.Instance`.  There are limitations on
+	// what you can specify. See the list of officially supported inputs in the
+	// [reference documentation](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetLaunchSpecification.html). Any normal `ec2.Instance` parameter that corresponds to those inputs may be used and it have
+	// a additional parameter `iamInstanceProfileArn` takes `iam.InstanceProfile` attribute `arn` as input.
 	LaunchSpecifications SpotFleetRequestLaunchSpecificationArrayOutput `pulumi:"launchSpecifications"`
 	// Launch template configuration block. See Launch Template Configs below for more details. Conflicts with `launchSpecification`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
 	LaunchTemplateConfigs SpotFleetRequestLaunchTemplateConfigArrayOutput `pulumi:"launchTemplateConfigs"`
@@ -314,6 +322,8 @@ type spotFleetRequestState struct {
 	// `lowestPrice`.
 	AllocationStrategy *string `pulumi:"allocationStrategy"`
 	ClientToken        *string `pulumi:"clientToken"`
+	// Reserved.
+	Context *string `pulumi:"context"`
 	// Indicates whether running Spot
 	// instances should be terminated if the target capacity of the Spot fleet
 	// request is decreased below the current size of the Spot fleet.
@@ -338,6 +348,12 @@ type spotFleetRequestState struct {
 	// Used to define the launch configuration of the
 	// spot-fleet request. Can be specified multiple times to define different bids
 	// across different markets and instance types. Conflicts with `launchTemplateConfig`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
+	//
+	// **Note**: This takes in similar but not
+	// identical inputs as `ec2.Instance`.  There are limitations on
+	// what you can specify. See the list of officially supported inputs in the
+	// [reference documentation](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetLaunchSpecification.html). Any normal `ec2.Instance` parameter that corresponds to those inputs may be used and it have
+	// a additional parameter `iamInstanceProfileArn` takes `iam.InstanceProfile` attribute `arn` as input.
 	LaunchSpecifications []SpotFleetRequestLaunchSpecification `pulumi:"launchSpecifications"`
 	// Launch template configuration block. See Launch Template Configs below for more details. Conflicts with `launchSpecification`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
 	LaunchTemplateConfigs []SpotFleetRequestLaunchTemplateConfig `pulumi:"launchTemplateConfigs"`
@@ -392,6 +408,8 @@ type SpotFleetRequestState struct {
 	// `lowestPrice`.
 	AllocationStrategy pulumi.StringPtrInput
 	ClientToken        pulumi.StringPtrInput
+	// Reserved.
+	Context pulumi.StringPtrInput
 	// Indicates whether running Spot
 	// instances should be terminated if the target capacity of the Spot fleet
 	// request is decreased below the current size of the Spot fleet.
@@ -416,6 +434,12 @@ type SpotFleetRequestState struct {
 	// Used to define the launch configuration of the
 	// spot-fleet request. Can be specified multiple times to define different bids
 	// across different markets and instance types. Conflicts with `launchTemplateConfig`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
+	//
+	// **Note**: This takes in similar but not
+	// identical inputs as `ec2.Instance`.  There are limitations on
+	// what you can specify. See the list of officially supported inputs in the
+	// [reference documentation](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetLaunchSpecification.html). Any normal `ec2.Instance` parameter that corresponds to those inputs may be used and it have
+	// a additional parameter `iamInstanceProfileArn` takes `iam.InstanceProfile` attribute `arn` as input.
 	LaunchSpecifications SpotFleetRequestLaunchSpecificationArrayInput
 	// Launch template configuration block. See Launch Template Configs below for more details. Conflicts with `launchSpecification`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
 	LaunchTemplateConfigs SpotFleetRequestLaunchTemplateConfigArrayInput
@@ -473,6 +497,8 @@ type spotFleetRequestArgs struct {
 	// the Spot pools specified by the Spot fleet request. Valid values: `lowestPrice`, `diversified`, `capacityOptimized`, `capacityOptimizedPrioritized`, and `priceCapacityOptimized`. The default is
 	// `lowestPrice`.
 	AllocationStrategy *string `pulumi:"allocationStrategy"`
+	// Reserved.
+	Context *string `pulumi:"context"`
 	// Indicates whether running Spot
 	// instances should be terminated if the target capacity of the Spot fleet
 	// request is decreased below the current size of the Spot fleet.
@@ -497,6 +523,12 @@ type spotFleetRequestArgs struct {
 	// Used to define the launch configuration of the
 	// spot-fleet request. Can be specified multiple times to define different bids
 	// across different markets and instance types. Conflicts with `launchTemplateConfig`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
+	//
+	// **Note**: This takes in similar but not
+	// identical inputs as `ec2.Instance`.  There are limitations on
+	// what you can specify. See the list of officially supported inputs in the
+	// [reference documentation](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetLaunchSpecification.html). Any normal `ec2.Instance` parameter that corresponds to those inputs may be used and it have
+	// a additional parameter `iamInstanceProfileArn` takes `iam.InstanceProfile` attribute `arn` as input.
 	LaunchSpecifications []SpotFleetRequestLaunchSpecification `pulumi:"launchSpecifications"`
 	// Launch template configuration block. See Launch Template Configs below for more details. Conflicts with `launchSpecification`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
 	LaunchTemplateConfigs []SpotFleetRequestLaunchTemplateConfig `pulumi:"launchTemplateConfigs"`
@@ -547,6 +579,8 @@ type SpotFleetRequestArgs struct {
 	// the Spot pools specified by the Spot fleet request. Valid values: `lowestPrice`, `diversified`, `capacityOptimized`, `capacityOptimizedPrioritized`, and `priceCapacityOptimized`. The default is
 	// `lowestPrice`.
 	AllocationStrategy pulumi.StringPtrInput
+	// Reserved.
+	Context pulumi.StringPtrInput
 	// Indicates whether running Spot
 	// instances should be terminated if the target capacity of the Spot fleet
 	// request is decreased below the current size of the Spot fleet.
@@ -571,6 +605,12 @@ type SpotFleetRequestArgs struct {
 	// Used to define the launch configuration of the
 	// spot-fleet request. Can be specified multiple times to define different bids
 	// across different markets and instance types. Conflicts with `launchTemplateConfig`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
+	//
+	// **Note**: This takes in similar but not
+	// identical inputs as `ec2.Instance`.  There are limitations on
+	// what you can specify. See the list of officially supported inputs in the
+	// [reference documentation](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetLaunchSpecification.html). Any normal `ec2.Instance` parameter that corresponds to those inputs may be used and it have
+	// a additional parameter `iamInstanceProfileArn` takes `iam.InstanceProfile` attribute `arn` as input.
 	LaunchSpecifications SpotFleetRequestLaunchSpecificationArrayInput
 	// Launch template configuration block. See Launch Template Configs below for more details. Conflicts with `launchSpecification`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
 	LaunchTemplateConfigs SpotFleetRequestLaunchTemplateConfigArrayInput
@@ -713,6 +753,11 @@ func (o SpotFleetRequestOutput) ClientToken() pulumi.StringOutput {
 	return o.ApplyT(func(v *SpotFleetRequest) pulumi.StringOutput { return v.ClientToken }).(pulumi.StringOutput)
 }
 
+// Reserved.
+func (o SpotFleetRequestOutput) Context() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SpotFleetRequest) pulumi.StringPtrOutput { return v.Context }).(pulumi.StringPtrOutput)
+}
+
 // Indicates whether running Spot
 // instances should be terminated if the target capacity of the Spot fleet
 // request is decreased below the current size of the Spot fleet.
@@ -752,6 +797,12 @@ func (o SpotFleetRequestOutput) InstancePoolsToUseCount() pulumi.IntPtrOutput {
 // Used to define the launch configuration of the
 // spot-fleet request. Can be specified multiple times to define different bids
 // across different markets and instance types. Conflicts with `launchTemplateConfig`. At least one of `launchSpecification` or `launchTemplateConfig` is required.
+//
+// **Note**: This takes in similar but not
+// identical inputs as `ec2.Instance`.  There are limitations on
+// what you can specify. See the list of officially supported inputs in the
+// [reference documentation](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetLaunchSpecification.html). Any normal `ec2.Instance` parameter that corresponds to those inputs may be used and it have
+// a additional parameter `iamInstanceProfileArn` takes `iam.InstanceProfile` attribute `arn` as input.
 func (o SpotFleetRequestOutput) LaunchSpecifications() SpotFleetRequestLaunchSpecificationArrayOutput {
 	return o.ApplyT(func(v *SpotFleetRequest) SpotFleetRequestLaunchSpecificationArrayOutput {
 		return v.LaunchSpecifications

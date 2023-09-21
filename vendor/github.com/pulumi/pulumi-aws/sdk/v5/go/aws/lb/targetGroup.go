@@ -166,7 +166,9 @@ type TargetGroup struct {
 	LambdaMultiValueHeadersEnabled pulumi.BoolPtrOutput `pulumi:"lambdaMultiValueHeadersEnabled"`
 	// Determines how the load balancer selects targets when routing requests. Only applicable for Application Load Balancer Target Groups. The value is `roundRobin` or `leastOutstandingRequests`. The default is `roundRobin`.
 	LoadBalancingAlgorithmType pulumi.StringOutput `pulumi:"loadBalancingAlgorithmType"`
-	// Name of the target group. If omitted, this provider will assign a random, unique name.
+	// Indicates whether cross zone load balancing is enabled. The value is `"true"`, `"false"` or `"useLoadBalancerConfiguration"`. The default is `"useLoadBalancerConfiguration"`.
+	LoadBalancingCrossZoneEnabled pulumi.StringOutput `pulumi:"loadBalancingCrossZoneEnabled"`
+	// Name of the target group. If omitted, this provider will assign a random, unique name. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Creates a unique name beginning with the specified prefix. Conflicts with `name`. Cannot be longer than 6 characters.
 	NamePrefix pulumi.StringPtrOutput `pulumi:"namePrefix"`
@@ -191,6 +193,14 @@ type TargetGroup struct {
 	// Target failover block. Only applicable for Gateway Load Balancer target groups. See targetFailover for more information.
 	TargetFailovers TargetGroupTargetFailoverArrayOutput `pulumi:"targetFailovers"`
 	// Type of target that you must specify when registering targets with this target group. See [doc](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) for supported values. The default is `instance`.
+	//
+	// Note that you can't specify targets for a target group using both instance IDs and IP addresses.
+	//
+	// If the target type is `ip`, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
+	//
+	// Network Load Balancers do not support the `lambda` target type.
+	//
+	// Application Load Balancers do not support the `alb` target type.
 	TargetType pulumi.StringPtrOutput `pulumi:"targetType"`
 	// Identifier of the VPC in which to create the target group. Required when `targetType` is `instance`, `ip` or `alb`. Does not apply when `targetType` is `lambda`.
 	VpcId pulumi.StringPtrOutput `pulumi:"vpcId"`
@@ -247,7 +257,9 @@ type targetGroupState struct {
 	LambdaMultiValueHeadersEnabled *bool `pulumi:"lambdaMultiValueHeadersEnabled"`
 	// Determines how the load balancer selects targets when routing requests. Only applicable for Application Load Balancer Target Groups. The value is `roundRobin` or `leastOutstandingRequests`. The default is `roundRobin`.
 	LoadBalancingAlgorithmType *string `pulumi:"loadBalancingAlgorithmType"`
-	// Name of the target group. If omitted, this provider will assign a random, unique name.
+	// Indicates whether cross zone load balancing is enabled. The value is `"true"`, `"false"` or `"useLoadBalancerConfiguration"`. The default is `"useLoadBalancerConfiguration"`.
+	LoadBalancingCrossZoneEnabled *string `pulumi:"loadBalancingCrossZoneEnabled"`
+	// Name of the target group. If omitted, this provider will assign a random, unique name. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
 	Name *string `pulumi:"name"`
 	// Creates a unique name beginning with the specified prefix. Conflicts with `name`. Cannot be longer than 6 characters.
 	NamePrefix *string `pulumi:"namePrefix"`
@@ -272,6 +284,14 @@ type targetGroupState struct {
 	// Target failover block. Only applicable for Gateway Load Balancer target groups. See targetFailover for more information.
 	TargetFailovers []TargetGroupTargetFailover `pulumi:"targetFailovers"`
 	// Type of target that you must specify when registering targets with this target group. See [doc](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) for supported values. The default is `instance`.
+	//
+	// Note that you can't specify targets for a target group using both instance IDs and IP addresses.
+	//
+	// If the target type is `ip`, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
+	//
+	// Network Load Balancers do not support the `lambda` target type.
+	//
+	// Application Load Balancers do not support the `alb` target type.
 	TargetType *string `pulumi:"targetType"`
 	// Identifier of the VPC in which to create the target group. Required when `targetType` is `instance`, `ip` or `alb`. Does not apply when `targetType` is `lambda`.
 	VpcId *string `pulumi:"vpcId"`
@@ -294,7 +314,9 @@ type TargetGroupState struct {
 	LambdaMultiValueHeadersEnabled pulumi.BoolPtrInput
 	// Determines how the load balancer selects targets when routing requests. Only applicable for Application Load Balancer Target Groups. The value is `roundRobin` or `leastOutstandingRequests`. The default is `roundRobin`.
 	LoadBalancingAlgorithmType pulumi.StringPtrInput
-	// Name of the target group. If omitted, this provider will assign a random, unique name.
+	// Indicates whether cross zone load balancing is enabled. The value is `"true"`, `"false"` or `"useLoadBalancerConfiguration"`. The default is `"useLoadBalancerConfiguration"`.
+	LoadBalancingCrossZoneEnabled pulumi.StringPtrInput
+	// Name of the target group. If omitted, this provider will assign a random, unique name. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
 	Name pulumi.StringPtrInput
 	// Creates a unique name beginning with the specified prefix. Conflicts with `name`. Cannot be longer than 6 characters.
 	NamePrefix pulumi.StringPtrInput
@@ -319,6 +341,14 @@ type TargetGroupState struct {
 	// Target failover block. Only applicable for Gateway Load Balancer target groups. See targetFailover for more information.
 	TargetFailovers TargetGroupTargetFailoverArrayInput
 	// Type of target that you must specify when registering targets with this target group. See [doc](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) for supported values. The default is `instance`.
+	//
+	// Note that you can't specify targets for a target group using both instance IDs and IP addresses.
+	//
+	// If the target type is `ip`, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
+	//
+	// Network Load Balancers do not support the `lambda` target type.
+	//
+	// Application Load Balancers do not support the `alb` target type.
 	TargetType pulumi.StringPtrInput
 	// Identifier of the VPC in which to create the target group. Required when `targetType` is `instance`, `ip` or `alb`. Does not apply when `targetType` is `lambda`.
 	VpcId pulumi.StringPtrInput
@@ -341,7 +371,9 @@ type targetGroupArgs struct {
 	LambdaMultiValueHeadersEnabled *bool `pulumi:"lambdaMultiValueHeadersEnabled"`
 	// Determines how the load balancer selects targets when routing requests. Only applicable for Application Load Balancer Target Groups. The value is `roundRobin` or `leastOutstandingRequests`. The default is `roundRobin`.
 	LoadBalancingAlgorithmType *string `pulumi:"loadBalancingAlgorithmType"`
-	// Name of the target group. If omitted, this provider will assign a random, unique name.
+	// Indicates whether cross zone load balancing is enabled. The value is `"true"`, `"false"` or `"useLoadBalancerConfiguration"`. The default is `"useLoadBalancerConfiguration"`.
+	LoadBalancingCrossZoneEnabled *string `pulumi:"loadBalancingCrossZoneEnabled"`
+	// Name of the target group. If omitted, this provider will assign a random, unique name. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
 	Name *string `pulumi:"name"`
 	// Creates a unique name beginning with the specified prefix. Conflicts with `name`. Cannot be longer than 6 characters.
 	NamePrefix *string `pulumi:"namePrefix"`
@@ -364,6 +396,14 @@ type targetGroupArgs struct {
 	// Target failover block. Only applicable for Gateway Load Balancer target groups. See targetFailover for more information.
 	TargetFailovers []TargetGroupTargetFailover `pulumi:"targetFailovers"`
 	// Type of target that you must specify when registering targets with this target group. See [doc](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) for supported values. The default is `instance`.
+	//
+	// Note that you can't specify targets for a target group using both instance IDs and IP addresses.
+	//
+	// If the target type is `ip`, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
+	//
+	// Network Load Balancers do not support the `lambda` target type.
+	//
+	// Application Load Balancers do not support the `alb` target type.
 	TargetType *string `pulumi:"targetType"`
 	// Identifier of the VPC in which to create the target group. Required when `targetType` is `instance`, `ip` or `alb`. Does not apply when `targetType` is `lambda`.
 	VpcId *string `pulumi:"vpcId"`
@@ -383,7 +423,9 @@ type TargetGroupArgs struct {
 	LambdaMultiValueHeadersEnabled pulumi.BoolPtrInput
 	// Determines how the load balancer selects targets when routing requests. Only applicable for Application Load Balancer Target Groups. The value is `roundRobin` or `leastOutstandingRequests`. The default is `roundRobin`.
 	LoadBalancingAlgorithmType pulumi.StringPtrInput
-	// Name of the target group. If omitted, this provider will assign a random, unique name.
+	// Indicates whether cross zone load balancing is enabled. The value is `"true"`, `"false"` or `"useLoadBalancerConfiguration"`. The default is `"useLoadBalancerConfiguration"`.
+	LoadBalancingCrossZoneEnabled pulumi.StringPtrInput
+	// Name of the target group. If omitted, this provider will assign a random, unique name. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
 	Name pulumi.StringPtrInput
 	// Creates a unique name beginning with the specified prefix. Conflicts with `name`. Cannot be longer than 6 characters.
 	NamePrefix pulumi.StringPtrInput
@@ -406,6 +448,14 @@ type TargetGroupArgs struct {
 	// Target failover block. Only applicable for Gateway Load Balancer target groups. See targetFailover for more information.
 	TargetFailovers TargetGroupTargetFailoverArrayInput
 	// Type of target that you must specify when registering targets with this target group. See [doc](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) for supported values. The default is `instance`.
+	//
+	// Note that you can't specify targets for a target group using both instance IDs and IP addresses.
+	//
+	// If the target type is `ip`, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
+	//
+	// Network Load Balancers do not support the `lambda` target type.
+	//
+	// Application Load Balancers do not support the `alb` target type.
 	TargetType pulumi.StringPtrInput
 	// Identifier of the VPC in which to create the target group. Required when `targetType` is `instance`, `ip` or `alb`. Does not apply when `targetType` is `lambda`.
 	VpcId pulumi.StringPtrInput
@@ -538,7 +588,12 @@ func (o TargetGroupOutput) LoadBalancingAlgorithmType() pulumi.StringOutput {
 	return o.ApplyT(func(v *TargetGroup) pulumi.StringOutput { return v.LoadBalancingAlgorithmType }).(pulumi.StringOutput)
 }
 
-// Name of the target group. If omitted, this provider will assign a random, unique name.
+// Indicates whether cross zone load balancing is enabled. The value is `"true"`, `"false"` or `"useLoadBalancerConfiguration"`. The default is `"useLoadBalancerConfiguration"`.
+func (o TargetGroupOutput) LoadBalancingCrossZoneEnabled() pulumi.StringOutput {
+	return o.ApplyT(func(v *TargetGroup) pulumi.StringOutput { return v.LoadBalancingCrossZoneEnabled }).(pulumi.StringOutput)
+}
+
+// Name of the target group. If omitted, this provider will assign a random, unique name. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
 func (o TargetGroupOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *TargetGroup) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -599,6 +654,14 @@ func (o TargetGroupOutput) TargetFailovers() TargetGroupTargetFailoverArrayOutpu
 }
 
 // Type of target that you must specify when registering targets with this target group. See [doc](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) for supported values. The default is `instance`.
+//
+// Note that you can't specify targets for a target group using both instance IDs and IP addresses.
+//
+// If the target type is `ip`, specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
+//
+// Network Load Balancers do not support the `lambda` target type.
+//
+// Application Load Balancers do not support the `alb` target type.
 func (o TargetGroupOutput) TargetType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *TargetGroup) pulumi.StringPtrOutput { return v.TargetType }).(pulumi.StringPtrOutput)
 }
