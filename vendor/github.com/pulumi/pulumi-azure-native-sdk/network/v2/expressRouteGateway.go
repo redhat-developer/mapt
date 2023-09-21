@@ -186,6 +186,7 @@ type expressRouteGatewayArgs struct {
 	// Configuration for auto scaling.
 	AutoScaleConfiguration *ExpressRouteGatewayPropertiesAutoScaleConfiguration `pulumi:"autoScaleConfiguration"`
 	// List of ExpressRoute connections to the ExpressRoute gateway.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	ExpressRouteConnections []ExpressRouteConnectionType `pulumi:"expressRouteConnections"`
 	// The name of the ExpressRoute gateway.
 	ExpressRouteGatewayName *string `pulumi:"expressRouteGatewayName"`
@@ -208,6 +209,7 @@ type ExpressRouteGatewayArgs struct {
 	// Configuration for auto scaling.
 	AutoScaleConfiguration ExpressRouteGatewayPropertiesAutoScaleConfigurationPtrInput
 	// List of ExpressRoute connections to the ExpressRoute gateway.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	ExpressRouteConnections ExpressRouteConnectionTypeArrayInput
 	// The name of the ExpressRoute gateway.
 	ExpressRouteGatewayName pulumi.StringPtrInput

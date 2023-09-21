@@ -282,12 +282,14 @@ type virtualNetworkArgs struct {
 	// The name of the resource group.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// A list of subnets in a Virtual Network.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Subnets []SubnetType `pulumi:"subnets"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The name of the virtual network.
 	VirtualNetworkName *string `pulumi:"virtualNetworkName"`
 	// A list of peerings in a Virtual Network.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	VirtualNetworkPeerings []VirtualNetworkPeeringType `pulumi:"virtualNetworkPeerings"`
 }
 
@@ -320,12 +322,14 @@ type VirtualNetworkArgs struct {
 	// The name of the resource group.
 	ResourceGroupName pulumi.StringInput
 	// A list of subnets in a Virtual Network.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Subnets SubnetTypeArrayInput
 	// Resource tags.
 	Tags pulumi.StringMapInput
 	// The name of the virtual network.
 	VirtualNetworkName pulumi.StringPtrInput
 	// A list of peerings in a Virtual Network.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	VirtualNetworkPeerings VirtualNetworkPeeringTypeArrayInput
 }
 

@@ -196,6 +196,7 @@ type serviceEndpointPolicyArgs struct {
 	// The alias indicating if the policy belongs to a service
 	ServiceAlias *string `pulumi:"serviceAlias"`
 	// A collection of service endpoint policy definitions of the service endpoint policy.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinitionType `pulumi:"serviceEndpointPolicyDefinitions"`
 	// The name of the service endpoint policy.
 	ServiceEndpointPolicyName *string `pulumi:"serviceEndpointPolicyName"`
@@ -216,6 +217,7 @@ type ServiceEndpointPolicyArgs struct {
 	// The alias indicating if the policy belongs to a service
 	ServiceAlias pulumi.StringPtrInput
 	// A collection of service endpoint policy definitions of the service endpoint policy.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	ServiceEndpointPolicyDefinitions ServiceEndpointPolicyDefinitionTypeArrayInput
 	// The name of the service endpoint policy.
 	ServiceEndpointPolicyName pulumi.StringPtrInput

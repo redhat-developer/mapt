@@ -198,6 +198,7 @@ type vpnGatewayArgs struct {
 	// Local network gateway's BGP speaker settings.
 	BgpSettings *BgpSettings `pulumi:"bgpSettings"`
 	// List of all vpn connections to the gateway.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Connections []VpnConnectionType `pulumi:"connections"`
 	// Enable BGP routes translation for NAT on this VpnGateway.
 	EnableBgpRouteTranslationForNat *bool `pulumi:"enableBgpRouteTranslationForNat"`
@@ -210,6 +211,7 @@ type vpnGatewayArgs struct {
 	// Resource location.
 	Location *string `pulumi:"location"`
 	// List of all the nat Rules associated with the gateway.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	NatRules []VpnGatewayNatRule `pulumi:"natRules"`
 	// The resource group name of the VpnGateway.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
@@ -226,6 +228,7 @@ type VpnGatewayArgs struct {
 	// Local network gateway's BGP speaker settings.
 	BgpSettings BgpSettingsPtrInput
 	// List of all vpn connections to the gateway.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	Connections VpnConnectionTypeArrayInput
 	// Enable BGP routes translation for NAT on this VpnGateway.
 	EnableBgpRouteTranslationForNat pulumi.BoolPtrInput
@@ -238,6 +241,7 @@ type VpnGatewayArgs struct {
 	// Resource location.
 	Location pulumi.StringPtrInput
 	// List of all the nat Rules associated with the gateway.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	NatRules VpnGatewayNatRuleArrayInput
 	// The resource group name of the VpnGateway.
 	ResourceGroupName pulumi.StringInput

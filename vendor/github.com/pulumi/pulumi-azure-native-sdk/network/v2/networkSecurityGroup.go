@@ -246,6 +246,7 @@ type networkSecurityGroupArgs struct {
 	// The name of the resource group.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// A collection of security rules of the network security group.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	SecurityRules []SecurityRuleType `pulumi:"securityRules"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
@@ -264,6 +265,7 @@ type NetworkSecurityGroupArgs struct {
 	// The name of the resource group.
 	ResourceGroupName pulumi.StringInput
 	// A collection of security rules of the network security group.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	SecurityRules SecurityRuleTypeArrayInput
 	// Resource tags.
 	Tags pulumi.StringMapInput

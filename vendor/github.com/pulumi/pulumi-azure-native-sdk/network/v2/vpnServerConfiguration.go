@@ -175,6 +175,7 @@ type vpnServerConfigurationArgs struct {
 	// The set of aad vpn authentication parameters.
 	AadAuthenticationParameters *AadAuthenticationParameters `pulumi:"aadAuthenticationParameters"`
 	// List of all VpnServerConfigurationPolicyGroups.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	ConfigurationPolicyGroups []VpnServerConfigurationPolicyGroup `pulumi:"configurationPolicyGroups"`
 	// Resource ID.
 	Id *string `pulumi:"id"`
@@ -215,6 +216,7 @@ type VpnServerConfigurationArgs struct {
 	// The set of aad vpn authentication parameters.
 	AadAuthenticationParameters AadAuthenticationParametersPtrInput
 	// List of all VpnServerConfigurationPolicyGroups.
+	// These are also available as standalone resources. Do not mix inline and standalone resource as they will conflict with each other, leading to resources deletion.
 	ConfigurationPolicyGroups VpnServerConfigurationPolicyGroupArrayInput
 	// Resource ID.
 	Id pulumi.StringPtrInput
