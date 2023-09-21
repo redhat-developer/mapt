@@ -23,7 +23,7 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.6.0
 	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.6.0
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.6.0
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.6.0
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.8.0
 )
 
 require (
@@ -59,7 +59,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.6.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.8.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect
 	github.com/skeema/knownhosts v1.1.0 // indirect
 	github.com/spf13/afero v1.8.2 // indirect
