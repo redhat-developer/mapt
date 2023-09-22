@@ -7,7 +7,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
 	supportmatrix "github.com/adrianriobo/qenvs/pkg/provider/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 

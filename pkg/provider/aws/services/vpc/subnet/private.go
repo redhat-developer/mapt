@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	infra "github.com/adrianriobo/qenvs/pkg/provider"
-	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
