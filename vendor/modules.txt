@@ -266,8 +266,6 @@ github.com/go-git/go-git/v5/utils/sync
 ## explicit; go 1.15
 github.com/gogo/protobuf/io
 github.com/gogo/protobuf/proto
-# github.com/golang-jwt/jwt/v4 v4.5.0
-## explicit; go 1.16
 # github.com/golang-jwt/jwt/v5 v5.0.0
 ## explicit; go 1.18
 github.com/golang-jwt/jwt/v5
@@ -388,8 +386,6 @@ github.com/opentracing/basictracer-go/wire
 github.com/opentracing/opentracing-go
 github.com/opentracing/opentracing-go/ext
 github.com/opentracing/opentracing-go/log
-# github.com/pelletier/go-toml v1.9.5
-## explicit; go 1.12
 # github.com/pelletier/go-toml/v2 v2.0.8
 ## explicit; go 1.16
 github.com/pelletier/go-toml/v2
@@ -411,12 +407,12 @@ github.com/pkg/errors
 # github.com/pkg/term v1.1.0
 ## explicit; go 1.14
 github.com/pkg/term/termios
-# github.com/pulumi/pulumi-aws/sdk/v5 v5.42.0
-## explicit; go 1.17
-github.com/pulumi/pulumi-aws/sdk/v5/go/aws
-github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling
-github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2
-github.com/pulumi/pulumi-aws/sdk/v5/go/aws/lb
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.2.0
+## explicit; go 1.21
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb
 # github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.8.0
 ## explicit; go 1.17
 github.com/pulumi/pulumi-azure-native-sdk/compute/v2
@@ -436,12 +432,14 @@ github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
 ## explicit; go 1.19
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
-# github.com/pulumi/pulumi-random/sdk/v4 v4.13.4
-## explicit; go 1.19
+# github.com/pulumi/pulumi-random/sdk/v4 v4.14.0
+## explicit; go 1.21
 github.com/pulumi/pulumi-random/sdk/v4/go/random
-# github.com/pulumi/pulumi-tls/sdk/v4 v4.10.0
-## explicit; go 1.17
+github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
+# github.com/pulumi/pulumi-tls/sdk/v4 v4.11.0
+## explicit; go 1.21
 github.com/pulumi/pulumi-tls/sdk/v4/go/tls
+github.com/pulumi/pulumi-tls/sdk/v4/go/tls/internal
 # github.com/pulumi/pulumi/sdk/v3 v3.84.0
 ## explicit; go 1.18
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -740,8 +738,6 @@ gopkg.in/tomb.v1
 # gopkg.in/warnings.v0 v0.1.2
 ## explicit
 gopkg.in/warnings.v0
-# gopkg.in/yaml.v2 v2.4.0
-## explicit; go 1.15
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
