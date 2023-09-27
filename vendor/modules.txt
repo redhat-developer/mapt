@@ -407,7 +407,7 @@ github.com/pkg/errors
 # github.com/pkg/term v1.1.0
 ## explicit; go 1.14
 github.com/pkg/term/termios
-# github.com/pulumi/pulumi-aws/sdk/v6 v6.2.0
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.2.1
 ## explicit; go 1.21
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2
