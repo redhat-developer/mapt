@@ -5,6 +5,7 @@ IMG ?= quay.io/rhqp/qenvs:v${VERSION}
 TKN_IMG ?= quay.io/rhqp/qenvs-tkn:v${VERSION}
 
 # Go and compilation related variables
+GO_VERSION ?= 1.19
 GOPATH ?= $(shell go env GOPATH)
 BUILD_DIR ?= out
 SOURCE_DIRS = cmd pkg test
@@ -42,8 +43,9 @@ $(BUILD_DIR)/qenvs: $(SOURCES)
 build: $(BUILD_DIR)/qenvs
 
 .PHONY: test
-test:
-	go test -race --tags build -v -ldflags="$(VERSION_VARIABLES)" ./pkg/... ./cmd/...
+test: 
+	${CONTAINER_MANAGER} run -it --rm -v ${PWD}:/workspace:z --workdir=/workspace registry.access.redhat.com/ubi9/go-toolset:$(GO_VERSION) \
+		go test -race --tags build -v ./pkg/... ./cmd/...
 
 .PHONY: clean ## Remove all build artifacts
 clean:
@@ -54,13 +56,11 @@ clean:
 fmt:
 	@gofmt -l -w $(SOURCE_DIRS)
 
-$(GOPATH)/bin/golangci-lint:
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.2
-
-# Run golangci-lint against code
 .PHONY: lint
-lint: $(GOPATH)/bin/golangci-lint
-	$(GOPATH)/bin/golangci-lint run
+lint: 
+	${CONTAINER_MANAGER} run -it --rm -v ${PWD}:/workspace:z --workdir=/workspace registry.access.redhat.com/ubi9/go-toolset:$(GO_VERSION) \
+		go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.2 \
+		&& $(GOPATH)/bin/golangci-lint run 
 
 # Build the container image
 .PHONY: oci-build
