@@ -58,9 +58,8 @@ fmt:
 
 .PHONY: lint
 lint: 
-	${CONTAINER_MANAGER} run -it --rm -v ${PWD}:/workspace:z --workdir=/workspace registry.access.redhat.com/ubi9/go-toolset:$(GO_VERSION) \
-		go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.2 \
-		&& $(GOPATH)/bin/golangci-lint run 
+	${CONTAINER_MANAGER} run -it --rm -v ${PWD}:/workspace:z --workdir=/workspace quay.io/app-sre/golangci-lint:v1.53.2-alpine \
+		run -v --timeout 10m
 
 # Build the container image
 .PHONY: oci-build
