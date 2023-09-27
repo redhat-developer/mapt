@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.82.1
+ENV PULUMI_VERSION 3.86.0
 ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
 RUN make build \
@@ -37,7 +37,7 @@ ARG PULUMI_AWS_VERSION=v6.2.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
 ARG PULUMI_AZURE_NATIVE_VERSION=v2.8.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
-ARG PULUMI_COMMAND_VERSION=v0.9.0
+ARG PULUMI_COMMAND_VERSION=v0.9.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
 ARG PULUMI_TLS_VERSION=v4.11.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-random

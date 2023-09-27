@@ -98,7 +98,7 @@ github.com/apparentlymart/go-textseg/v13/textseg
 # github.com/atotto/clipboard v0.1.4
 ## explicit
 github.com/atotto/clipboard
-# github.com/aws/aws-sdk-go v1.45.14
+# github.com/aws/aws-sdk-go v1.45.17
 ## explicit; go 1.11
 github.com/aws/aws-sdk-go/aws
 github.com/aws/aws-sdk-go/aws/auth/bearer
@@ -185,7 +185,7 @@ github.com/cloudflare/circl/sign/ed448
 # github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81
 ## explicit; go 1.13
 github.com/containerd/console
-# github.com/coocood/freecache v1.2.3
+# github.com/coocood/freecache v1.2.4
 ## explicit; go 1.13
 github.com/coocood/freecache
 # github.com/djherbis/times v1.5.0
@@ -428,7 +428,7 @@ github.com/pulumi/pulumi-azure-native-sdk/storage/v2
 # github.com/pulumi/pulumi-azure-native-sdk/v2 v2.8.0
 ## explicit; go 1.17
 github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
-# github.com/pulumi/pulumi-command/sdk v0.9.0
+# github.com/pulumi/pulumi-command/sdk v0.9.1
 ## explicit; go 1.19
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
@@ -440,7 +440,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.21
 github.com/pulumi/pulumi-tls/sdk/v4/go/tls
 github.com/pulumi/pulumi-tls/sdk/v4/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.84.0
+# github.com/pulumi/pulumi/sdk/v3 v3.86.0
 ## explicit; go 1.18
 github.com/pulumi/pulumi/sdk/v3/go/auto
 github.com/pulumi/pulumi/sdk/v3/go/auto/debug
