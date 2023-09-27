@@ -43,9 +43,8 @@ $(BUILD_DIR)/qenvs: $(SOURCES)
 build: $(BUILD_DIR)/qenvs
 
 .PHONY: test
-test: 
-	${CONTAINER_MANAGER} run -it --rm -v ${PWD}:/workspace:z --workdir=/workspace registry.access.redhat.com/ubi9/go-toolset:$(GO_VERSION) \
-		go test -race --tags build -v ./pkg/... ./cmd/...
+test:
+	go test -race --tags build -v ./pkg/... ./cmd/...
 
 .PHONY: clean ## Remove all build artifacts
 clean:
