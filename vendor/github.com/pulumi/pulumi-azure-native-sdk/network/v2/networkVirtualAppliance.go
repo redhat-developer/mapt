@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // NetworkVirtualAppliance Resource.
@@ -260,6 +261,12 @@ func (i *NetworkVirtualAppliance) ToNetworkVirtualApplianceOutputWithContext(ctx
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkVirtualApplianceOutput)
 }
 
+func (i *NetworkVirtualAppliance) ToOutput(ctx context.Context) pulumix.Output[*NetworkVirtualAppliance] {
+	return pulumix.Output[*NetworkVirtualAppliance]{
+		OutputState: i.ToNetworkVirtualApplianceOutputWithContext(ctx).OutputState,
+	}
+}
+
 type NetworkVirtualApplianceOutput struct{ *pulumi.OutputState }
 
 func (NetworkVirtualApplianceOutput) ElementType() reflect.Type {
@@ -272,6 +279,12 @@ func (o NetworkVirtualApplianceOutput) ToNetworkVirtualApplianceOutput() Network
 
 func (o NetworkVirtualApplianceOutput) ToNetworkVirtualApplianceOutputWithContext(ctx context.Context) NetworkVirtualApplianceOutput {
 	return o
+}
+
+func (o NetworkVirtualApplianceOutput) ToOutput(ctx context.Context) pulumix.Output[*NetworkVirtualAppliance] {
+	return pulumix.Output[*NetworkVirtualAppliance]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Details required for Additional Network Interface.

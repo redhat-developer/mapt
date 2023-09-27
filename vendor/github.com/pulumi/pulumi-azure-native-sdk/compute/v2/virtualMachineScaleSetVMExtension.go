@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a VMSS VM Extension.
@@ -237,6 +238,12 @@ func (i *VirtualMachineScaleSetVMExtension) ToVirtualMachineScaleSetVMExtensionO
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineScaleSetVMExtensionOutput)
 }
 
+func (i *VirtualMachineScaleSetVMExtension) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineScaleSetVMExtension] {
+	return pulumix.Output[*VirtualMachineScaleSetVMExtension]{
+		OutputState: i.ToVirtualMachineScaleSetVMExtensionOutputWithContext(ctx).OutputState,
+	}
+}
+
 type VirtualMachineScaleSetVMExtensionOutput struct{ *pulumi.OutputState }
 
 func (VirtualMachineScaleSetVMExtensionOutput) ElementType() reflect.Type {
@@ -249,6 +256,12 @@ func (o VirtualMachineScaleSetVMExtensionOutput) ToVirtualMachineScaleSetVMExten
 
 func (o VirtualMachineScaleSetVMExtensionOutput) ToVirtualMachineScaleSetVMExtensionOutputWithContext(ctx context.Context) VirtualMachineScaleSetVMExtensionOutput {
 	return o
+}
+
+func (o VirtualMachineScaleSetVMExtensionOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineScaleSetVMExtension] {
+	return pulumix.Output[*VirtualMachineScaleSetVMExtension]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.

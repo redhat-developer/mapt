@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the Dedicated host.
@@ -206,6 +207,12 @@ func (i *DedicatedHost) ToDedicatedHostOutputWithContext(ctx context.Context) De
 	return pulumi.ToOutputWithContext(ctx, i).(DedicatedHostOutput)
 }
 
+func (i *DedicatedHost) ToOutput(ctx context.Context) pulumix.Output[*DedicatedHost] {
+	return pulumix.Output[*DedicatedHost]{
+		OutputState: i.ToDedicatedHostOutputWithContext(ctx).OutputState,
+	}
+}
+
 type DedicatedHostOutput struct{ *pulumi.OutputState }
 
 func (DedicatedHostOutput) ElementType() reflect.Type {
@@ -218,6 +225,12 @@ func (o DedicatedHostOutput) ToDedicatedHostOutput() DedicatedHostOutput {
 
 func (o DedicatedHostOutput) ToDedicatedHostOutputWithContext(ctx context.Context) DedicatedHostOutput {
 	return o
+}
+
+func (o DedicatedHostOutput) ToOutput(ctx context.Context) pulumix.Output[*DedicatedHost] {
+	return pulumix.Output[*DedicatedHost]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided.

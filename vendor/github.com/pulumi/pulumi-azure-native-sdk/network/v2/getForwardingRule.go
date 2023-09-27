@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets properties of a forwarding rule in a DNS forwarding ruleset.
@@ -95,6 +96,12 @@ func (o LookupForwardingRuleResultOutput) ToLookupForwardingRuleResultOutput() L
 
 func (o LookupForwardingRuleResultOutput) ToLookupForwardingRuleResultOutputWithContext(ctx context.Context) LookupForwardingRuleResultOutput {
 	return o
+}
+
+func (o LookupForwardingRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupForwardingRuleResult] {
+	return pulumix.Output[LookupForwardingRuleResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The domain name for the forwarding rule.

@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Public IP address resource.
@@ -370,6 +371,12 @@ func (i *PublicIPAddress) ToPublicIPAddressOutputWithContext(ctx context.Context
 	return pulumi.ToOutputWithContext(ctx, i).(PublicIPAddressOutput)
 }
 
+func (i *PublicIPAddress) ToOutput(ctx context.Context) pulumix.Output[*PublicIPAddress] {
+	return pulumix.Output[*PublicIPAddress]{
+		OutputState: i.ToPublicIPAddressOutputWithContext(ctx).OutputState,
+	}
+}
+
 type PublicIPAddressOutput struct{ *pulumi.OutputState }
 
 func (PublicIPAddressOutput) ElementType() reflect.Type {
@@ -382,6 +389,12 @@ func (o PublicIPAddressOutput) ToPublicIPAddressOutput() PublicIPAddressOutput {
 
 func (o PublicIPAddressOutput) ToPublicIPAddressOutputWithContext(ctx context.Context) PublicIPAddressOutput {
 	return o
+}
+
+func (o PublicIPAddressOutput) ToOutput(ctx context.Context) pulumix.Output[*PublicIPAddress] {
+	return pulumix.Output[*PublicIPAddress]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The DDoS protection custom policy associated with the public IP address.

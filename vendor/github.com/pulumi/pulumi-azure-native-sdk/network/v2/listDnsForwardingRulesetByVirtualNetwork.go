@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Lists DNS forwarding ruleset resource IDs attached to a virtual network.
@@ -79,6 +80,12 @@ func (o ListDnsForwardingRulesetByVirtualNetworkResultOutput) ToListDnsForwardin
 
 func (o ListDnsForwardingRulesetByVirtualNetworkResultOutput) ToListDnsForwardingRulesetByVirtualNetworkResultOutputWithContext(ctx context.Context) ListDnsForwardingRulesetByVirtualNetworkResultOutput {
 	return o
+}
+
+func (o ListDnsForwardingRulesetByVirtualNetworkResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListDnsForwardingRulesetByVirtualNetworkResult] {
+	return pulumix.Output[ListDnsForwardingRulesetByVirtualNetworkResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The continuation token for the next page of results.

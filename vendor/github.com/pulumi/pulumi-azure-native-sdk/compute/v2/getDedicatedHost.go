@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves information about a dedicated host.
@@ -109,6 +110,12 @@ func (o LookupDedicatedHostResultOutput) ToLookupDedicatedHostResultOutput() Loo
 
 func (o LookupDedicatedHostResultOutput) ToLookupDedicatedHostResultOutputWithContext(ctx context.Context) LookupDedicatedHostResultOutput {
 	return o
+}
+
+func (o LookupDedicatedHostResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDedicatedHostResult] {
+	return pulumix.Output[LookupDedicatedHostResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided.

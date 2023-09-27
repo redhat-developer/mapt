@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified public IP address in a specified resource group.
@@ -140,6 +141,12 @@ func (o LookupPublicIPAddressResultOutput) ToLookupPublicIPAddressResultOutput()
 
 func (o LookupPublicIPAddressResultOutput) ToLookupPublicIPAddressResultOutputWithContext(ctx context.Context) LookupPublicIPAddressResultOutput {
 	return o
+}
+
+func (o LookupPublicIPAddressResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPublicIPAddressResult] {
+	return pulumix.Output[LookupPublicIPAddressResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The DDoS protection custom policy associated with the public IP address.

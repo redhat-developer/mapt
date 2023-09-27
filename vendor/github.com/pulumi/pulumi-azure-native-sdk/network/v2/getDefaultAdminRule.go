@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a network manager security configuration admin rule.
@@ -120,6 +121,12 @@ func (o LookupDefaultAdminRuleResultOutput) ToLookupDefaultAdminRuleResultOutput
 
 func (o LookupDefaultAdminRuleResultOutput) ToLookupDefaultAdminRuleResultOutputWithContext(ctx context.Context) LookupDefaultAdminRuleResultOutput {
 	return o
+}
+
+func (o LookupDefaultAdminRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDefaultAdminRuleResult] {
+	return pulumix.Output[LookupDefaultAdminRuleResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Indicates the access allowed for this particular rule

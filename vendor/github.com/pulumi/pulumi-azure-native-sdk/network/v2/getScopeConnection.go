@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get specified scope connection created by this Network Manager.
@@ -91,6 +92,12 @@ func (o LookupScopeConnectionResultOutput) ToLookupScopeConnectionResultOutput()
 
 func (o LookupScopeConnectionResultOutput) ToLookupScopeConnectionResultOutputWithContext(ctx context.Context) LookupScopeConnectionResultOutput {
 	return o
+}
+
+func (o LookupScopeConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupScopeConnectionResult] {
+	return pulumix.Output[LookupScopeConnectionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the scope connection.

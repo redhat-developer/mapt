@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified service Endpoint Policies in a specified resource group.
@@ -101,6 +102,12 @@ func (o LookupServiceEndpointPolicyResultOutput) ToLookupServiceEndpointPolicyRe
 
 func (o LookupServiceEndpointPolicyResultOutput) ToLookupServiceEndpointPolicyResultOutputWithContext(ctx context.Context) LookupServiceEndpointPolicyResultOutput {
 	return o
+}
+
+func (o LookupServiceEndpointPolicyResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupServiceEndpointPolicyResult] {
+	return pulumix.Output[LookupServiceEndpointPolicyResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A collection of contextual service endpoint policy.

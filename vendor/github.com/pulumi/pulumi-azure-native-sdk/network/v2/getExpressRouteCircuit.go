@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets information about the specified express route circuit.
@@ -117,6 +118,12 @@ func (o LookupExpressRouteCircuitResultOutput) ToLookupExpressRouteCircuitResult
 
 func (o LookupExpressRouteCircuitResultOutput) ToLookupExpressRouteCircuitResultOutputWithContext(ctx context.Context) LookupExpressRouteCircuitResultOutput {
 	return o
+}
+
+func (o LookupExpressRouteCircuitResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupExpressRouteCircuitResult] {
+	return pulumix.Output[LookupExpressRouteCircuitResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Allow classic operations.

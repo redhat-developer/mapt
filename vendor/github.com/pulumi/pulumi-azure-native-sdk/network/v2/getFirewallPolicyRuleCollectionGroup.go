@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified FirewallPolicyRuleCollectionGroup.
@@ -89,6 +90,12 @@ func (o LookupFirewallPolicyRuleCollectionGroupResultOutput) ToLookupFirewallPol
 
 func (o LookupFirewallPolicyRuleCollectionGroupResultOutput) ToLookupFirewallPolicyRuleCollectionGroupResultOutputWithContext(ctx context.Context) LookupFirewallPolicyRuleCollectionGroupResultOutput {
 	return o
+}
+
+func (o LookupFirewallPolicyRuleCollectionGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupFirewallPolicyRuleCollectionGroupResult] {
+	return pulumix.Output[LookupFirewallPolicyRuleCollectionGroupResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

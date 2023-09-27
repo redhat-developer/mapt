@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The network security perimeter profile resource
@@ -140,6 +141,12 @@ func (i *NspProfile) ToNspProfileOutputWithContext(ctx context.Context) NspProfi
 	return pulumi.ToOutputWithContext(ctx, i).(NspProfileOutput)
 }
 
+func (i *NspProfile) ToOutput(ctx context.Context) pulumix.Output[*NspProfile] {
+	return pulumix.Output[*NspProfile]{
+		OutputState: i.ToNspProfileOutputWithContext(ctx).OutputState,
+	}
+}
+
 type NspProfileOutput struct{ *pulumi.OutputState }
 
 func (NspProfileOutput) ElementType() reflect.Type {
@@ -152,6 +159,12 @@ func (o NspProfileOutput) ToNspProfileOutput() NspProfileOutput {
 
 func (o NspProfileOutput) ToNspProfileOutputWithContext(ctx context.Context) NspProfileOutput {
 	return o
+}
+
+func (o NspProfileOutput) ToOutput(ctx context.Context) pulumix.Output[*NspProfile] {
+	return pulumix.Output[*NspProfile]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Version number that increases with every update to access rules within the profile.

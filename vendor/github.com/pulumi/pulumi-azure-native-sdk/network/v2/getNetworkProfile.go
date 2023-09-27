@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified network profile in a specified resource group.
@@ -95,6 +96,12 @@ func (o LookupNetworkProfileResultOutput) ToLookupNetworkProfileResultOutput() L
 
 func (o LookupNetworkProfileResultOutput) ToLookupNetworkProfileResultOutputWithContext(ctx context.Context) LookupNetworkProfileResultOutput {
 	return o
+}
+
+func (o LookupNetworkProfileResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNetworkProfileResult] {
+	return pulumix.Output[LookupNetworkProfileResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // List of chid container network interface configurations.

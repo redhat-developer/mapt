@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a RoutingIntent.
@@ -87,6 +88,12 @@ func (o LookupRoutingIntentResultOutput) ToLookupRoutingIntentResultOutput() Loo
 
 func (o LookupRoutingIntentResultOutput) ToLookupRoutingIntentResultOutputWithContext(ctx context.Context) LookupRoutingIntentResultOutput {
 	return o
+}
+
+func (o LookupRoutingIntentResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupRoutingIntentResult] {
+	return pulumix.Output[LookupRoutingIntentResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a VirtualHub.
@@ -129,6 +130,12 @@ func (o LookupVirtualHubResultOutput) ToLookupVirtualHubResultOutput() LookupVir
 
 func (o LookupVirtualHubResultOutput) ToLookupVirtualHubResultOutputWithContext(ctx context.Context) LookupVirtualHubResultOutput {
 	return o
+}
+
+func (o LookupVirtualHubResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualHubResult] {
+	return pulumix.Output[LookupVirtualHubResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Address-prefix for this VirtualHub.

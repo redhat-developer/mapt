@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets properties of an inbound endpoint for a DNS resolver.
@@ -95,6 +96,12 @@ func (o LookupInboundEndpointResultOutput) ToLookupInboundEndpointResultOutput()
 
 func (o LookupInboundEndpointResultOutput) ToLookupInboundEndpointResultOutputWithContext(ctx context.Context) LookupInboundEndpointResultOutput {
 	return o
+}
+
+func (o LookupInboundEndpointResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupInboundEndpointResult] {
+	return pulumix.Output[LookupInboundEndpointResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // ETag of the inbound endpoint.

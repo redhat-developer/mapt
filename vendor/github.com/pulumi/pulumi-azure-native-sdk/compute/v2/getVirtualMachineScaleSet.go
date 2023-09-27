@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Display information about a virtual machine scale set.
@@ -133,6 +134,12 @@ func (o LookupVirtualMachineScaleSetResultOutput) ToLookupVirtualMachineScaleSet
 
 func (o LookupVirtualMachineScaleSetResultOutput) ToLookupVirtualMachineScaleSetResultOutputWithContext(ctx context.Context) LookupVirtualMachineScaleSetResultOutput {
 	return o
+}
+
+func (o LookupVirtualMachineScaleSetResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualMachineScaleSetResult] {
+	return pulumix.Output[LookupVirtualMachineScaleSetResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type.

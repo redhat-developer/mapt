@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a Virtual Hub Bgp Connection.
@@ -93,6 +94,12 @@ func (o LookupVirtualHubBgpConnectionResultOutput) ToLookupVirtualHubBgpConnecti
 
 func (o LookupVirtualHubBgpConnectionResultOutput) ToLookupVirtualHubBgpConnectionResultOutputWithContext(ctx context.Context) LookupVirtualHubBgpConnectionResultOutput {
 	return o
+}
+
+func (o LookupVirtualHubBgpConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualHubBgpConnectionResult] {
+	return pulumix.Output[LookupVirtualHubBgpConnectionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The current state of the VirtualHub to Peer.

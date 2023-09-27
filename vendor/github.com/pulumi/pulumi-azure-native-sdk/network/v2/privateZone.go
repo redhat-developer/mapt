@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a Private DNS zone.
@@ -145,6 +146,12 @@ func (i *PrivateZone) ToPrivateZoneOutputWithContext(ctx context.Context) Privat
 	return pulumi.ToOutputWithContext(ctx, i).(PrivateZoneOutput)
 }
 
+func (i *PrivateZone) ToOutput(ctx context.Context) pulumix.Output[*PrivateZone] {
+	return pulumix.Output[*PrivateZone]{
+		OutputState: i.ToPrivateZoneOutputWithContext(ctx).OutputState,
+	}
+}
+
 type PrivateZoneOutput struct{ *pulumi.OutputState }
 
 func (PrivateZoneOutput) ElementType() reflect.Type {
@@ -157,6 +164,12 @@ func (o PrivateZoneOutput) ToPrivateZoneOutput() PrivateZoneOutput {
 
 func (o PrivateZoneOutput) ToPrivateZoneOutputWithContext(ctx context.Context) PrivateZoneOutput {
 	return o
+}
+
+func (o PrivateZoneOutput) ToOutput(ctx context.Context) pulumix.Output[*PrivateZone] {
+	return pulumix.Output[*PrivateZone]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The ETag of the zone.

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves information about a dedicated host group.
@@ -97,6 +98,12 @@ func (o LookupDedicatedHostGroupResultOutput) ToLookupDedicatedHostGroupResultOu
 
 func (o LookupDedicatedHostGroupResultOutput) ToLookupDedicatedHostGroupResultOutputWithContext(ctx context.Context) LookupDedicatedHostGroupResultOutput {
 	return o
+}
+
+func (o LookupDedicatedHostGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDedicatedHostGroupResult] {
+	return pulumix.Output[LookupDedicatedHostGroupResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01.

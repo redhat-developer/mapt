@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
@@ -77,6 +78,12 @@ func (o GetVirtualNetworkGatewayAdvertisedRoutesResultOutput) ToGetVirtualNetwor
 
 func (o GetVirtualNetworkGatewayAdvertisedRoutesResultOutput) ToGetVirtualNetworkGatewayAdvertisedRoutesResultOutputWithContext(ctx context.Context) GetVirtualNetworkGatewayAdvertisedRoutesResultOutput {
 	return o
+}
+
+func (o GetVirtualNetworkGatewayAdvertisedRoutesResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetVirtualNetworkGatewayAdvertisedRoutesResult] {
+	return pulumix.Output[GetVirtualNetworkGatewayAdvertisedRoutesResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // List of gateway routes.

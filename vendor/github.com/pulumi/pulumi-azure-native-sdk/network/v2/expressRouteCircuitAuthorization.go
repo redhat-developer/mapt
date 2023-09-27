@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Authorization in an ExpressRouteCircuit resource.
@@ -281,6 +282,12 @@ func (i *ExpressRouteCircuitAuthorization) ToExpressRouteCircuitAuthorizationOut
 	return pulumi.ToOutputWithContext(ctx, i).(ExpressRouteCircuitAuthorizationOutput)
 }
 
+func (i *ExpressRouteCircuitAuthorization) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteCircuitAuthorization] {
+	return pulumix.Output[*ExpressRouteCircuitAuthorization]{
+		OutputState: i.ToExpressRouteCircuitAuthorizationOutputWithContext(ctx).OutputState,
+	}
+}
+
 type ExpressRouteCircuitAuthorizationOutput struct{ *pulumi.OutputState }
 
 func (ExpressRouteCircuitAuthorizationOutput) ElementType() reflect.Type {
@@ -293,6 +300,12 @@ func (o ExpressRouteCircuitAuthorizationOutput) ToExpressRouteCircuitAuthorizati
 
 func (o ExpressRouteCircuitAuthorizationOutput) ToExpressRouteCircuitAuthorizationOutputWithContext(ctx context.Context) ExpressRouteCircuitAuthorizationOutput {
 	return o
+}
+
+func (o ExpressRouteCircuitAuthorizationOutput) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteCircuitAuthorization] {
+	return pulumix.Output[*ExpressRouteCircuitAuthorization]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The authorization key.

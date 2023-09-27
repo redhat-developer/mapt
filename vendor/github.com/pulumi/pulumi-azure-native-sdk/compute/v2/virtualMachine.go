@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a Virtual Machine.
@@ -350,6 +351,12 @@ func (i *VirtualMachine) ToVirtualMachineOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineOutput)
 }
 
+func (i *VirtualMachine) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachine] {
+	return pulumix.Output[*VirtualMachine]{
+		OutputState: i.ToVirtualMachineOutputWithContext(ctx).OutputState,
+	}
+}
+
 type VirtualMachineOutput struct{ *pulumi.OutputState }
 
 func (VirtualMachineOutput) ElementType() reflect.Type {
@@ -362,6 +369,12 @@ func (o VirtualMachineOutput) ToVirtualMachineOutput() VirtualMachineOutput {
 
 func (o VirtualMachineOutput) ToVirtualMachineOutputWithContext(ctx context.Context) VirtualMachineOutput {
 	return o
+}
+
+func (o VirtualMachineOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachine] {
+	return pulumix.Output[*VirtualMachine]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Specifies additional capabilities enabled or disabled on the virtual machine.

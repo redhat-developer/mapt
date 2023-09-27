@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The RouteMap child resource of a Virtual hub.
@@ -160,6 +161,12 @@ func (i *RouteMap) ToRouteMapOutputWithContext(ctx context.Context) RouteMapOutp
 	return pulumi.ToOutputWithContext(ctx, i).(RouteMapOutput)
 }
 
+func (i *RouteMap) ToOutput(ctx context.Context) pulumix.Output[*RouteMap] {
+	return pulumix.Output[*RouteMap]{
+		OutputState: i.ToRouteMapOutputWithContext(ctx).OutputState,
+	}
+}
+
 type RouteMapOutput struct{ *pulumi.OutputState }
 
 func (RouteMapOutput) ElementType() reflect.Type {
@@ -172,6 +179,12 @@ func (o RouteMapOutput) ToRouteMapOutput() RouteMapOutput {
 
 func (o RouteMapOutput) ToRouteMapOutputWithContext(ctx context.Context) RouteMapOutput {
 	return o
+}
+
+func (o RouteMapOutput) ToOutput(ctx context.Context) pulumix.Output[*RouteMap] {
+	return pulumix.Output[*RouteMap]{
+		OutputState: o.OutputState,
+	}
 }
 
 // List of connections which have this RoutMap associated for inbound traffic.

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the private dns zone group resource by specified private dns zone group name.
@@ -85,6 +86,12 @@ func (o LookupPrivateDnsZoneGroupResultOutput) ToLookupPrivateDnsZoneGroupResult
 
 func (o LookupPrivateDnsZoneGroupResultOutput) ToLookupPrivateDnsZoneGroupResultOutputWithContext(ctx context.Context) LookupPrivateDnsZoneGroupResultOutput {
 	return o
+}
+
+func (o LookupPrivateDnsZoneGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPrivateDnsZoneGroupResult] {
+	return pulumix.Output[LookupPrivateDnsZoneGroupResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

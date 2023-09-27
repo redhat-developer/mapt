@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Bastion Host resource.
@@ -282,6 +283,12 @@ func (i *BastionHost) ToBastionHostOutputWithContext(ctx context.Context) Bastio
 	return pulumi.ToOutputWithContext(ctx, i).(BastionHostOutput)
 }
 
+func (i *BastionHost) ToOutput(ctx context.Context) pulumix.Output[*BastionHost] {
+	return pulumix.Output[*BastionHost]{
+		OutputState: i.ToBastionHostOutputWithContext(ctx).OutputState,
+	}
+}
+
 type BastionHostOutput struct{ *pulumi.OutputState }
 
 func (BastionHostOutput) ElementType() reflect.Type {
@@ -294,6 +301,12 @@ func (o BastionHostOutput) ToBastionHostOutput() BastionHostOutput {
 
 func (o BastionHostOutput) ToBastionHostOutputWithContext(ctx context.Context) BastionHostOutput {
 	return o
+}
+
+func (o BastionHostOutput) ToOutput(ctx context.Context) pulumix.Output[*BastionHost] {
+	return pulumix.Output[*BastionHost]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Enable/Disable Copy/Paste feature of the Bastion Host resource.

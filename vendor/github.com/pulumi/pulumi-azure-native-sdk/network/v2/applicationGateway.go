@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Application gateway resource.
@@ -476,6 +477,12 @@ func (i *ApplicationGateway) ToApplicationGatewayOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(ApplicationGatewayOutput)
 }
 
+func (i *ApplicationGateway) ToOutput(ctx context.Context) pulumix.Output[*ApplicationGateway] {
+	return pulumix.Output[*ApplicationGateway]{
+		OutputState: i.ToApplicationGatewayOutputWithContext(ctx).OutputState,
+	}
+}
+
 type ApplicationGatewayOutput struct{ *pulumi.OutputState }
 
 func (ApplicationGatewayOutput) ElementType() reflect.Type {
@@ -488,6 +495,12 @@ func (o ApplicationGatewayOutput) ToApplicationGatewayOutput() ApplicationGatewa
 
 func (o ApplicationGatewayOutput) ToApplicationGatewayOutputWithContext(ctx context.Context) ApplicationGatewayOutput {
 	return o
+}
+
+func (o ApplicationGatewayOutput) ToOutput(ctx context.Context) pulumix.Output[*ApplicationGateway] {
+	return pulumix.Output[*ApplicationGateway]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Authentication certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified static member.
@@ -95,6 +96,12 @@ func (o LookupStaticMemberResultOutput) ToLookupStaticMemberResultOutput() Looku
 
 func (o LookupStaticMemberResultOutput) ToLookupStaticMemberResultOutputWithContext(ctx context.Context) LookupStaticMemberResultOutput {
 	return o
+}
+
+func (o LookupStaticMemberResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupStaticMemberResult] {
+	return pulumix.Output[LookupStaticMemberResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

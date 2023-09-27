@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
@@ -105,6 +106,12 @@ func (o GetLogAnalyticExportRequestRateByIntervalResultOutput) ToGetLogAnalyticE
 
 func (o GetLogAnalyticExportRequestRateByIntervalResultOutput) ToGetLogAnalyticExportRequestRateByIntervalResultOutputWithContext(ctx context.Context) GetLogAnalyticExportRequestRateByIntervalResultOutput {
 	return o
+}
+
+func (o GetLogAnalyticExportRequestRateByIntervalResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetLogAnalyticExportRequestRateByIntervalResult] {
+	return pulumix.Output[GetLogAnalyticExportRequestRateByIntervalResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // LogAnalyticsOutput

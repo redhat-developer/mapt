@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // StaticMember Item.
@@ -167,6 +168,12 @@ func (i *StaticMember) ToStaticMemberOutputWithContext(ctx context.Context) Stat
 	return pulumi.ToOutputWithContext(ctx, i).(StaticMemberOutput)
 }
 
+func (i *StaticMember) ToOutput(ctx context.Context) pulumix.Output[*StaticMember] {
+	return pulumix.Output[*StaticMember]{
+		OutputState: i.ToStaticMemberOutputWithContext(ctx).OutputState,
+	}
+}
+
 type StaticMemberOutput struct{ *pulumi.OutputState }
 
 func (StaticMemberOutput) ElementType() reflect.Type {
@@ -179,6 +186,12 @@ func (o StaticMemberOutput) ToStaticMemberOutput() StaticMemberOutput {
 
 func (o StaticMemberOutput) ToStaticMemberOutputWithContext(ctx context.Context) StaticMemberOutput {
 	return o
+}
+
+func (o StaticMemberOutput) ToOutput(ctx context.Context) pulumix.Output[*StaticMember] {
+	return pulumix.Output[*StaticMember]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

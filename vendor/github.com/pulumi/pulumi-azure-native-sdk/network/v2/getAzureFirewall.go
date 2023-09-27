@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified Azure Firewall.
@@ -111,6 +112,12 @@ func (o LookupAzureFirewallResultOutput) ToLookupAzureFirewallResultOutput() Loo
 
 func (o LookupAzureFirewallResultOutput) ToLookupAzureFirewallResultOutputWithContext(ctx context.Context) LookupAzureFirewallResultOutput {
 	return o
+}
+
+func (o LookupAzureFirewallResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupAzureFirewallResult] {
+	return pulumix.Output[LookupAzureFirewallResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The additional properties used to further config this azure firewall.

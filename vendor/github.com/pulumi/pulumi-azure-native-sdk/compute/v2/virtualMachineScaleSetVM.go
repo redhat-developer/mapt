@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a virtual machine scale set virtual machine.
@@ -281,6 +282,12 @@ func (i *VirtualMachineScaleSetVM) ToVirtualMachineScaleSetVMOutputWithContext(c
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineScaleSetVMOutput)
 }
 
+func (i *VirtualMachineScaleSetVM) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineScaleSetVM] {
+	return pulumix.Output[*VirtualMachineScaleSetVM]{
+		OutputState: i.ToVirtualMachineScaleSetVMOutputWithContext(ctx).OutputState,
+	}
+}
+
 type VirtualMachineScaleSetVMOutput struct{ *pulumi.OutputState }
 
 func (VirtualMachineScaleSetVMOutput) ElementType() reflect.Type {
@@ -293,6 +300,12 @@ func (o VirtualMachineScaleSetVMOutput) ToVirtualMachineScaleSetVMOutput() Virtu
 
 func (o VirtualMachineScaleSetVMOutput) ToVirtualMachineScaleSetVMOutputWithContext(ctx context.Context) VirtualMachineScaleSetVMOutput {
 	return o
+}
+
+func (o VirtualMachineScaleSetVMOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineScaleSetVM] {
+	return pulumix.Output[*VirtualMachineScaleSetVM]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.

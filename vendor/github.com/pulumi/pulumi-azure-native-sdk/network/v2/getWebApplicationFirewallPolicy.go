@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieve protection policy with specified name within a resource group.
@@ -110,6 +111,12 @@ func (o LookupWebApplicationFirewallPolicyResultOutput) ToLookupWebApplicationFi
 
 func (o LookupWebApplicationFirewallPolicyResultOutput) ToLookupWebApplicationFirewallPolicyResultOutputWithContext(ctx context.Context) LookupWebApplicationFirewallPolicyResultOutput {
 	return o
+}
+
+func (o LookupWebApplicationFirewallPolicyResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupWebApplicationFirewallPolicyResult] {
+	return pulumix.Output[LookupWebApplicationFirewallPolicyResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A collection of references to application gateways.

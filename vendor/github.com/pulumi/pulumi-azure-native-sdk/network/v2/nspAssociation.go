@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The NSP resource association resource
@@ -158,6 +159,12 @@ func (i *NspAssociation) ToNspAssociationOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(NspAssociationOutput)
 }
 
+func (i *NspAssociation) ToOutput(ctx context.Context) pulumix.Output[*NspAssociation] {
+	return pulumix.Output[*NspAssociation]{
+		OutputState: i.ToNspAssociationOutputWithContext(ctx).OutputState,
+	}
+}
+
 type NspAssociationOutput struct{ *pulumi.OutputState }
 
 func (NspAssociationOutput) ElementType() reflect.Type {
@@ -170,6 +177,12 @@ func (o NspAssociationOutput) ToNspAssociationOutput() NspAssociationOutput {
 
 func (o NspAssociationOutput) ToNspAssociationOutputWithContext(ctx context.Context) NspAssociationOutput {
 	return o
+}
+
+func (o NspAssociationOutput) ToOutput(ctx context.Context) pulumix.Output[*NspAssociation] {
+	return pulumix.Output[*NspAssociation]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Access mode on the association.

@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The Network Manager Connection resource
@@ -152,6 +153,12 @@ func (i *ManagementGroupNetworkManagerConnection) ToManagementGroupNetworkManage
 	return pulumi.ToOutputWithContext(ctx, i).(ManagementGroupNetworkManagerConnectionOutput)
 }
 
+func (i *ManagementGroupNetworkManagerConnection) ToOutput(ctx context.Context) pulumix.Output[*ManagementGroupNetworkManagerConnection] {
+	return pulumix.Output[*ManagementGroupNetworkManagerConnection]{
+		OutputState: i.ToManagementGroupNetworkManagerConnectionOutputWithContext(ctx).OutputState,
+	}
+}
+
 type ManagementGroupNetworkManagerConnectionOutput struct{ *pulumi.OutputState }
 
 func (ManagementGroupNetworkManagerConnectionOutput) ElementType() reflect.Type {
@@ -164,6 +171,12 @@ func (o ManagementGroupNetworkManagerConnectionOutput) ToManagementGroupNetworkM
 
 func (o ManagementGroupNetworkManagerConnectionOutput) ToManagementGroupNetworkManagerConnectionOutputWithContext(ctx context.Context) ManagementGroupNetworkManagerConnectionOutput {
 	return o
+}
+
+func (o ManagementGroupNetworkManagerConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*ManagementGroupNetworkManagerConnection] {
+	return pulumix.Output[*ManagementGroupNetworkManagerConnection]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the network manager connection.

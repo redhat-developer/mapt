@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a nat ruleGet.
@@ -97,6 +98,12 @@ func (o LookupNatRuleResultOutput) ToLookupNatRuleResultOutput() LookupNatRuleRe
 
 func (o LookupNatRuleResultOutput) ToLookupNatRuleResultOutputWithContext(ctx context.Context) LookupNatRuleResultOutput {
 	return o
+}
+
+func (o LookupNatRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNatRuleResult] {
+	return pulumix.Output[LookupNatRuleResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // List of egress VpnSiteLinkConnections.

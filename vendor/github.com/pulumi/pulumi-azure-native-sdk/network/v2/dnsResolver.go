@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a DNS resolver.
@@ -143,6 +144,12 @@ func (i *DnsResolver) ToDnsResolverOutputWithContext(ctx context.Context) DnsRes
 	return pulumi.ToOutputWithContext(ctx, i).(DnsResolverOutput)
 }
 
+func (i *DnsResolver) ToOutput(ctx context.Context) pulumix.Output[*DnsResolver] {
+	return pulumix.Output[*DnsResolver]{
+		OutputState: i.ToDnsResolverOutputWithContext(ctx).OutputState,
+	}
+}
+
 type DnsResolverOutput struct{ *pulumi.OutputState }
 
 func (DnsResolverOutput) ElementType() reflect.Type {
@@ -155,6 +162,12 @@ func (o DnsResolverOutput) ToDnsResolverOutput() DnsResolverOutput {
 
 func (o DnsResolverOutput) ToDnsResolverOutputWithContext(ctx context.Context) DnsResolverOutput {
 	return o
+}
+
+func (o DnsResolverOutput) ToOutput(ctx context.Context) pulumix.Output[*DnsResolver] {
+	return pulumix.Output[*DnsResolver]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The current status of the DNS resolver. This is a read-only property and any attempt to set this value will be ignored.

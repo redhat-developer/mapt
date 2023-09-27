@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // ExpressRouteCircuit resource.
@@ -362,6 +363,12 @@ func (i *ExpressRouteCircuit) ToExpressRouteCircuitOutputWithContext(ctx context
 	return pulumi.ToOutputWithContext(ctx, i).(ExpressRouteCircuitOutput)
 }
 
+func (i *ExpressRouteCircuit) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteCircuit] {
+	return pulumix.Output[*ExpressRouteCircuit]{
+		OutputState: i.ToExpressRouteCircuitOutputWithContext(ctx).OutputState,
+	}
+}
+
 type ExpressRouteCircuitOutput struct{ *pulumi.OutputState }
 
 func (ExpressRouteCircuitOutput) ElementType() reflect.Type {
@@ -374,6 +381,12 @@ func (o ExpressRouteCircuitOutput) ToExpressRouteCircuitOutput() ExpressRouteCir
 
 func (o ExpressRouteCircuitOutput) ToExpressRouteCircuitOutputWithContext(ctx context.Context) ExpressRouteCircuitOutput {
 	return o
+}
+
+func (o ExpressRouteCircuitOutput) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteCircuit] {
+	return pulumix.Output[*ExpressRouteCircuit]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Allow classic operations.

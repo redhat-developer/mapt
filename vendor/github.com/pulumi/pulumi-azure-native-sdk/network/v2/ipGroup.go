@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The IpGroups resource information.
@@ -202,6 +203,12 @@ func (i *IpGroup) ToIpGroupOutputWithContext(ctx context.Context) IpGroupOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(IpGroupOutput)
 }
 
+func (i *IpGroup) ToOutput(ctx context.Context) pulumix.Output[*IpGroup] {
+	return pulumix.Output[*IpGroup]{
+		OutputState: i.ToIpGroupOutputWithContext(ctx).OutputState,
+	}
+}
+
 type IpGroupOutput struct{ *pulumi.OutputState }
 
 func (IpGroupOutput) ElementType() reflect.Type {
@@ -214,6 +221,12 @@ func (o IpGroupOutput) ToIpGroupOutput() IpGroupOutput {
 
 func (o IpGroupOutput) ToIpGroupOutputWithContext(ctx context.Context) IpGroupOutput {
 	return o
+}
+
+func (o IpGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*IpGroup] {
+	return pulumix.Output[*IpGroup]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

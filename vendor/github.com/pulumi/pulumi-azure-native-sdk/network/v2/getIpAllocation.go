@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified IpAllocation by resource group.
@@ -114,6 +115,12 @@ func (o LookupIpAllocationResultOutput) ToLookupIpAllocationResultOutput() Looku
 
 func (o LookupIpAllocationResultOutput) ToLookupIpAllocationResultOutputWithContext(ctx context.Context) LookupIpAllocationResultOutput {
 	return o
+}
+
+func (o LookupIpAllocationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupIpAllocationResult] {
+	return pulumix.Output[LookupIpAllocationResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // IpAllocation tags.
