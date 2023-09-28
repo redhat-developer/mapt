@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // VpnServerConfiguration Resource.
@@ -275,6 +276,12 @@ func (i *VpnServerConfiguration) ToVpnServerConfigurationOutputWithContext(ctx c
 	return pulumi.ToOutputWithContext(ctx, i).(VpnServerConfigurationOutput)
 }
 
+func (i *VpnServerConfiguration) ToOutput(ctx context.Context) pulumix.Output[*VpnServerConfiguration] {
+	return pulumix.Output[*VpnServerConfiguration]{
+		OutputState: i.ToVpnServerConfigurationOutputWithContext(ctx).OutputState,
+	}
+}
+
 type VpnServerConfigurationOutput struct{ *pulumi.OutputState }
 
 func (VpnServerConfigurationOutput) ElementType() reflect.Type {
@@ -287,6 +294,12 @@ func (o VpnServerConfigurationOutput) ToVpnServerConfigurationOutput() VpnServer
 
 func (o VpnServerConfigurationOutput) ToVpnServerConfigurationOutputWithContext(ctx context.Context) VpnServerConfigurationOutput {
 	return o
+}
+
+func (o VpnServerConfigurationOutput) ToOutput(ctx context.Context) pulumix.Output[*VpnServerConfiguration] {
+	return pulumix.Output[*VpnServerConfiguration]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The set of aad vpn authentication parameters.

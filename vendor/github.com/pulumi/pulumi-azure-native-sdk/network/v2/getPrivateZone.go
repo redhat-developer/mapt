@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
@@ -99,6 +100,12 @@ func (o LookupPrivateZoneResultOutput) ToLookupPrivateZoneResultOutput() LookupP
 
 func (o LookupPrivateZoneResultOutput) ToLookupPrivateZoneResultOutputWithContext(ctx context.Context) LookupPrivateZoneResultOutput {
 	return o
+}
+
+func (o LookupPrivateZoneResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPrivateZoneResult] {
+	return pulumix.Output[LookupPrivateZoneResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The ETag of the zone.

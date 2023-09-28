@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets properties of a DNS resolver.
@@ -93,6 +94,12 @@ func (o LookupDnsResolverResultOutput) ToLookupDnsResolverResultOutput() LookupD
 
 func (o LookupDnsResolverResultOutput) ToLookupDnsResolverResultOutputWithContext(ctx context.Context) LookupDnsResolverResultOutput {
 	return o
+}
+
+func (o LookupDnsResolverResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDnsResolverResult] {
+	return pulumix.Output[LookupDnsResolverResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The current status of the DNS resolver. This is a read-only property and any attempt to set this value will be ignored.

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Returns the list of currently active sessions on the Bastion.
@@ -75,6 +76,12 @@ func (o GetActiveSessionsResultOutput) ToGetActiveSessionsResultOutput() GetActi
 
 func (o GetActiveSessionsResultOutput) ToGetActiveSessionsResultOutputWithContext(ctx context.Context) GetActiveSessionsResultOutput {
 	return o
+}
+
+func (o GetActiveSessionsResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetActiveSessionsResult] {
+	return pulumix.Output[GetActiveSessionsResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The URL to get the next set of results.

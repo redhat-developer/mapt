@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // disk encryption set resource.
@@ -195,6 +196,12 @@ func (i *DiskEncryptionSet) ToDiskEncryptionSetOutputWithContext(ctx context.Con
 	return pulumi.ToOutputWithContext(ctx, i).(DiskEncryptionSetOutput)
 }
 
+func (i *DiskEncryptionSet) ToOutput(ctx context.Context) pulumix.Output[*DiskEncryptionSet] {
+	return pulumix.Output[*DiskEncryptionSet]{
+		OutputState: i.ToDiskEncryptionSetOutputWithContext(ctx).OutputState,
+	}
+}
+
 type DiskEncryptionSetOutput struct{ *pulumi.OutputState }
 
 func (DiskEncryptionSetOutput) ElementType() reflect.Type {
@@ -207,6 +214,12 @@ func (o DiskEncryptionSetOutput) ToDiskEncryptionSetOutput() DiskEncryptionSetOu
 
 func (o DiskEncryptionSetOutput) ToDiskEncryptionSetOutputWithContext(ctx context.Context) DiskEncryptionSetOutput {
 	return o
+}
+
+func (o DiskEncryptionSetOutput) ToOutput(ctx context.Context) pulumix.Output[*DiskEncryptionSet] {
+	return pulumix.Output[*DiskEncryptionSet]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The key vault key which is currently used by this disk encryption set.

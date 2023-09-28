@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Network security default user rule.
@@ -178,6 +179,12 @@ func (i *DefaultUserRule) ToDefaultUserRuleOutputWithContext(ctx context.Context
 	return pulumi.ToOutputWithContext(ctx, i).(DefaultUserRuleOutput)
 }
 
+func (i *DefaultUserRule) ToOutput(ctx context.Context) pulumix.Output[*DefaultUserRule] {
+	return pulumix.Output[*DefaultUserRule]{
+		OutputState: i.ToDefaultUserRuleOutputWithContext(ctx).OutputState,
+	}
+}
+
 type DefaultUserRuleOutput struct{ *pulumi.OutputState }
 
 func (DefaultUserRuleOutput) ElementType() reflect.Type {
@@ -190,6 +197,12 @@ func (o DefaultUserRuleOutput) ToDefaultUserRuleOutput() DefaultUserRuleOutput {
 
 func (o DefaultUserRuleOutput) ToDefaultUserRuleOutputWithContext(ctx context.Context) DefaultUserRuleOutput {
 	return o
+}
+
+func (o DefaultUserRuleOutput) ToOutput(ctx context.Context) pulumix.Output[*DefaultUserRule] {
+	return pulumix.Output[*DefaultUserRule]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description for this rule. Restricted to 140 chars.

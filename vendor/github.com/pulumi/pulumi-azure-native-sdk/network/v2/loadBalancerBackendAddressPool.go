@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Pool of backend IP addresses.
@@ -219,6 +220,12 @@ func (i *LoadBalancerBackendAddressPool) ToLoadBalancerBackendAddressPoolOutputW
 	return pulumi.ToOutputWithContext(ctx, i).(LoadBalancerBackendAddressPoolOutput)
 }
 
+func (i *LoadBalancerBackendAddressPool) ToOutput(ctx context.Context) pulumix.Output[*LoadBalancerBackendAddressPool] {
+	return pulumix.Output[*LoadBalancerBackendAddressPool]{
+		OutputState: i.ToLoadBalancerBackendAddressPoolOutputWithContext(ctx).OutputState,
+	}
+}
+
 type LoadBalancerBackendAddressPoolOutput struct{ *pulumi.OutputState }
 
 func (LoadBalancerBackendAddressPoolOutput) ElementType() reflect.Type {
@@ -231,6 +238,12 @@ func (o LoadBalancerBackendAddressPoolOutput) ToLoadBalancerBackendAddressPoolOu
 
 func (o LoadBalancerBackendAddressPoolOutput) ToLoadBalancerBackendAddressPoolOutputWithContext(ctx context.Context) LoadBalancerBackendAddressPoolOutput {
 	return o
+}
+
+func (o LoadBalancerBackendAddressPoolOutput) ToOutput(ctx context.Context) pulumix.Output[*LoadBalancerBackendAddressPool] {
+	return pulumix.Output[*LoadBalancerBackendAddressPool]{
+		OutputState: o.OutputState,
+	}
 }
 
 // An array of references to IP addresses defined in network interfaces.

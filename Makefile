@@ -54,13 +54,10 @@ clean:
 fmt:
 	@gofmt -l -w $(SOURCE_DIRS)
 
-$(GOPATH)/bin/golangci-lint:
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.2
-
-# Run golangci-lint against code
 .PHONY: lint
-lint: $(GOPATH)/bin/golangci-lint
-	$(GOPATH)/bin/golangci-lint run
+lint: 
+	${CONTAINER_MANAGER} run -it --rm -v ${PWD}:/workspace:z --workdir=/workspace quay.io/app-sre/golangci-lint:v1.53.2-alpine \
+		golangci-lint run -v --timeout 10m
 
 # Build the container image
 .PHONY: oci-build

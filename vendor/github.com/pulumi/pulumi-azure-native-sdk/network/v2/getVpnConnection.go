@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a vpn connection.
@@ -119,6 +120,12 @@ func (o LookupVpnConnectionResultOutput) ToLookupVpnConnectionResultOutput() Loo
 
 func (o LookupVpnConnectionResultOutput) ToLookupVpnConnectionResultOutputWithContext(ctx context.Context) LookupVpnConnectionResultOutput {
 	return o
+}
+
+func (o LookupVpnConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVpnConnectionResult] {
+	return pulumix.Output[LookupVpnConnectionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Expected bandwidth in MBPS.

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a Traffic Manager profile.
@@ -97,6 +98,12 @@ func (o LookupProfileResultOutput) ToLookupProfileResultOutput() LookupProfileRe
 
 func (o LookupProfileResultOutput) ToLookupProfileResultOutputWithContext(ctx context.Context) LookupProfileResultOutput {
 	return o
+}
+
+func (o LookupProfileResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupProfileResult] {
+	return pulumix.Output[LookupProfileResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The list of allowed endpoint record types.

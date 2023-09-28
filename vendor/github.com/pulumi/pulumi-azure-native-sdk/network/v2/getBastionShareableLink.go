@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Return the Bastion Shareable Links for all the VMs specified in the request.
@@ -79,6 +80,12 @@ func (o GetBastionShareableLinkResultOutput) ToGetBastionShareableLinkResultOutp
 
 func (o GetBastionShareableLinkResultOutput) ToGetBastionShareableLinkResultOutputWithContext(ctx context.Context) GetBastionShareableLinkResultOutput {
 	return o
+}
+
+func (o GetBastionShareableLinkResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetBastionShareableLinkResult] {
+	return pulumix.Output[GetBastionShareableLinkResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The URL to get the next set of results.

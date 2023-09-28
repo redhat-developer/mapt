@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves information about an availability set.
@@ -93,6 +94,12 @@ func (o LookupAvailabilitySetResultOutput) ToLookupAvailabilitySetResultOutput()
 
 func (o LookupAvailabilitySetResultOutput) ToLookupAvailabilitySetResultOutputWithContext(ctx context.Context) LookupAvailabilitySetResultOutput {
 	return o
+}
+
+func (o LookupAvailabilitySetResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupAvailabilitySetResult] {
+	return pulumix.Output[LookupAvailabilitySetResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Resource Id

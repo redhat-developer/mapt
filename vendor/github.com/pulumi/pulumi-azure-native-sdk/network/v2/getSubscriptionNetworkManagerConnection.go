@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get a specified connection created by this subscription.
@@ -81,6 +82,12 @@ func (o LookupSubscriptionNetworkManagerConnectionResultOutput) ToLookupSubscrip
 
 func (o LookupSubscriptionNetworkManagerConnectionResultOutput) ToLookupSubscriptionNetworkManagerConnectionResultOutputWithContext(ctx context.Context) LookupSubscriptionNetworkManagerConnectionResultOutput {
 	return o
+}
+
+func (o LookupSubscriptionNetworkManagerConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupSubscriptionNetworkManagerConnectionResult] {
+	return pulumix.Output[LookupSubscriptionNetworkManagerConnectionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the network manager connection.

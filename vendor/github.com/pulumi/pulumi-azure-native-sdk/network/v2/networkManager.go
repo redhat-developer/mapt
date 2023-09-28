@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The Managed Network resource
@@ -190,6 +191,12 @@ func (i *NetworkManager) ToNetworkManagerOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkManagerOutput)
 }
 
+func (i *NetworkManager) ToOutput(ctx context.Context) pulumix.Output[*NetworkManager] {
+	return pulumix.Output[*NetworkManager]{
+		OutputState: i.ToNetworkManagerOutputWithContext(ctx).OutputState,
+	}
+}
+
 type NetworkManagerOutput struct{ *pulumi.OutputState }
 
 func (NetworkManagerOutput) ElementType() reflect.Type {
@@ -202,6 +209,12 @@ func (o NetworkManagerOutput) ToNetworkManagerOutput() NetworkManagerOutput {
 
 func (o NetworkManagerOutput) ToNetworkManagerOutputWithContext(ctx context.Context) NetworkManagerOutput {
 	return o
+}
+
+func (o NetworkManagerOutput) ToOutput(ctx context.Context) pulumix.Output[*NetworkManager] {
+	return pulumix.Output[*NetworkManager]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the network manager.

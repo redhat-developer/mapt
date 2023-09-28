@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Virtual Appliance Site resource.
@@ -196,6 +197,12 @@ func (i *VirtualHubBgpConnection) ToVirtualHubBgpConnectionOutputWithContext(ctx
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualHubBgpConnectionOutput)
 }
 
+func (i *VirtualHubBgpConnection) ToOutput(ctx context.Context) pulumix.Output[*VirtualHubBgpConnection] {
+	return pulumix.Output[*VirtualHubBgpConnection]{
+		OutputState: i.ToVirtualHubBgpConnectionOutputWithContext(ctx).OutputState,
+	}
+}
+
 type VirtualHubBgpConnectionOutput struct{ *pulumi.OutputState }
 
 func (VirtualHubBgpConnectionOutput) ElementType() reflect.Type {
@@ -208,6 +215,12 @@ func (o VirtualHubBgpConnectionOutput) ToVirtualHubBgpConnectionOutput() Virtual
 
 func (o VirtualHubBgpConnectionOutput) ToVirtualHubBgpConnectionOutputWithContext(ctx context.Context) VirtualHubBgpConnectionOutput {
 	return o
+}
+
+func (o VirtualHubBgpConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualHubBgpConnection] {
+	return pulumix.Output[*VirtualHubBgpConnection]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The current state of the VirtualHub to Peer.

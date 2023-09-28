@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a HubVirtualNetworkConnection.
@@ -93,6 +94,12 @@ func (o LookupHubVirtualNetworkConnectionResultOutput) ToLookupHubVirtualNetwork
 
 func (o LookupHubVirtualNetworkConnectionResultOutput) ToLookupHubVirtualNetworkConnectionResultOutputWithContext(ctx context.Context) LookupHubVirtualNetworkConnectionResultOutput {
 	return o
+}
+
+func (o LookupHubVirtualNetworkConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupHubVirtualNetworkConnectionResult] {
+	return pulumix.Output[LookupHubVirtualNetworkConnectionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Deprecated: VirtualHub to RemoteVnet transit to enabled or not.

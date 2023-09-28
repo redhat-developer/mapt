@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets properties of a virtual network link to a DNS forwarding ruleset.
@@ -91,6 +92,12 @@ func (o LookupPrivateResolverVirtualNetworkLinkResultOutput) ToLookupPrivateReso
 
 func (o LookupPrivateResolverVirtualNetworkLinkResultOutput) ToLookupPrivateResolverVirtualNetworkLinkResultOutputWithContext(ctx context.Context) LookupPrivateResolverVirtualNetworkLinkResultOutput {
 	return o
+}
+
+func (o LookupPrivateResolverVirtualNetworkLinkResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPrivateResolverVirtualNetworkLinkResult] {
+	return pulumix.Output[LookupPrivateResolverVirtualNetworkLinkResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // ETag of the virtual network link.

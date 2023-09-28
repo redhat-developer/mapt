@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The access type of the rule.
@@ -1310,6 +1311,12 @@ func (o PacketCaptureTargetTypeOutput) ToPacketCaptureTargetTypePtrOutputWithCon
 	}).(PacketCaptureTargetTypePtrOutput)
 }
 
+func (o PacketCaptureTargetTypeOutput) ToOutput(ctx context.Context) pulumix.Output[PacketCaptureTargetType] {
+	return pulumix.Output[PacketCaptureTargetType]{
+		OutputState: o.OutputState,
+	}
+}
+
 func (o PacketCaptureTargetTypeOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -1343,6 +1350,12 @@ func (o PacketCaptureTargetTypePtrOutput) ToPacketCaptureTargetTypePtrOutput() P
 
 func (o PacketCaptureTargetTypePtrOutput) ToPacketCaptureTargetTypePtrOutputWithContext(ctx context.Context) PacketCaptureTargetTypePtrOutput {
 	return o
+}
+
+func (o PacketCaptureTargetTypePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*PacketCaptureTargetType] {
+	return pulumix.Output[*PacketCaptureTargetType]{
+		OutputState: o.OutputState,
+	}
 }
 
 func (o PacketCaptureTargetTypePtrOutput) Elem() PacketCaptureTargetTypeOutput {
@@ -1405,6 +1418,12 @@ func (in *packetCaptureTargetTypePtr) ToPacketCaptureTargetTypePtrOutput() Packe
 
 func (in *packetCaptureTargetTypePtr) ToPacketCaptureTargetTypePtrOutputWithContext(ctx context.Context) PacketCaptureTargetTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(PacketCaptureTargetTypePtrOutput)
+}
+
+func (in *packetCaptureTargetTypePtr) ToOutput(ctx context.Context) pulumix.Output[*PacketCaptureTargetType] {
+	return pulumix.Output[*PacketCaptureTargetType]{
+		OutputState: in.ToPacketCaptureTargetTypePtrOutputWithContext(ctx).OutputState,
+	}
 }
 
 // Protocol to be filtered on.
@@ -1627,6 +1646,12 @@ func (o PublicIpAddressDnsSettingsDomainNameLabelScopeOutput) ToPublicIpAddressD
 	}).(PublicIpAddressDnsSettingsDomainNameLabelScopePtrOutput)
 }
 
+func (o PublicIpAddressDnsSettingsDomainNameLabelScopeOutput) ToOutput(ctx context.Context) pulumix.Output[PublicIpAddressDnsSettingsDomainNameLabelScope] {
+	return pulumix.Output[PublicIpAddressDnsSettingsDomainNameLabelScope]{
+		OutputState: o.OutputState,
+	}
+}
+
 func (o PublicIpAddressDnsSettingsDomainNameLabelScopeOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -1660,6 +1685,12 @@ func (o PublicIpAddressDnsSettingsDomainNameLabelScopePtrOutput) ToPublicIpAddre
 
 func (o PublicIpAddressDnsSettingsDomainNameLabelScopePtrOutput) ToPublicIpAddressDnsSettingsDomainNameLabelScopePtrOutputWithContext(ctx context.Context) PublicIpAddressDnsSettingsDomainNameLabelScopePtrOutput {
 	return o
+}
+
+func (o PublicIpAddressDnsSettingsDomainNameLabelScopePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*PublicIpAddressDnsSettingsDomainNameLabelScope] {
+	return pulumix.Output[*PublicIpAddressDnsSettingsDomainNameLabelScope]{
+		OutputState: o.OutputState,
+	}
 }
 
 func (o PublicIpAddressDnsSettingsDomainNameLabelScopePtrOutput) Elem() PublicIpAddressDnsSettingsDomainNameLabelScopeOutput {
@@ -1722,6 +1753,12 @@ func (in *publicIpAddressDnsSettingsDomainNameLabelScopePtr) ToPublicIpAddressDn
 
 func (in *publicIpAddressDnsSettingsDomainNameLabelScopePtr) ToPublicIpAddressDnsSettingsDomainNameLabelScopePtrOutputWithContext(ctx context.Context) PublicIpAddressDnsSettingsDomainNameLabelScopePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(PublicIpAddressDnsSettingsDomainNameLabelScopePtrOutput)
+}
+
+func (in *publicIpAddressDnsSettingsDomainNameLabelScopePtr) ToOutput(ctx context.Context) pulumix.Output[*PublicIpAddressDnsSettingsDomainNameLabelScope] {
+	return pulumix.Output[*PublicIpAddressDnsSettingsDomainNameLabelScope]{
+		OutputState: in.ToPublicIpAddressDnsSettingsDomainNameLabelScopePtrOutputWithContext(ctx).OutputState,
+	}
 }
 
 // The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
@@ -1794,6 +1831,12 @@ func (o ResourceIdentityTypeOutput) ToResourceIdentityTypePtrOutputWithContext(c
 	}).(ResourceIdentityTypePtrOutput)
 }
 
+func (o ResourceIdentityTypeOutput) ToOutput(ctx context.Context) pulumix.Output[ResourceIdentityType] {
+	return pulumix.Output[ResourceIdentityType]{
+		OutputState: o.OutputState,
+	}
+}
+
 func (o ResourceIdentityTypeOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -1827,6 +1870,12 @@ func (o ResourceIdentityTypePtrOutput) ToResourceIdentityTypePtrOutput() Resourc
 
 func (o ResourceIdentityTypePtrOutput) ToResourceIdentityTypePtrOutputWithContext(ctx context.Context) ResourceIdentityTypePtrOutput {
 	return o
+}
+
+func (o ResourceIdentityTypePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ResourceIdentityType] {
+	return pulumix.Output[*ResourceIdentityType]{
+		OutputState: o.OutputState,
+	}
 }
 
 func (o ResourceIdentityTypePtrOutput) Elem() ResourceIdentityTypeOutput {
@@ -1889,6 +1938,12 @@ func (in *resourceIdentityTypePtr) ToResourceIdentityTypePtrOutput() ResourceIde
 
 func (in *resourceIdentityTypePtr) ToResourceIdentityTypePtrOutputWithContext(ctx context.Context) ResourceIdentityTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ResourceIdentityTypePtrOutput)
+}
+
+func (in *resourceIdentityTypePtr) ToOutput(ctx context.Context) pulumix.Output[*ResourceIdentityType] {
+	return pulumix.Output[*ResourceIdentityType]{
+		OutputState: in.ToResourceIdentityTypePtrOutputWithContext(ctx).OutputState,
+	}
 }
 
 // The rule type of the rule.
@@ -2553,6 +2608,12 @@ func (o ZoneTypeOutput) ToZoneTypePtrOutputWithContext(ctx context.Context) Zone
 	}).(ZoneTypePtrOutput)
 }
 
+func (o ZoneTypeOutput) ToOutput(ctx context.Context) pulumix.Output[ZoneType] {
+	return pulumix.Output[ZoneType]{
+		OutputState: o.OutputState,
+	}
+}
+
 func (o ZoneTypeOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -2586,6 +2647,12 @@ func (o ZoneTypePtrOutput) ToZoneTypePtrOutput() ZoneTypePtrOutput {
 
 func (o ZoneTypePtrOutput) ToZoneTypePtrOutputWithContext(ctx context.Context) ZoneTypePtrOutput {
 	return o
+}
+
+func (o ZoneTypePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ZoneType] {
+	return pulumix.Output[*ZoneType]{
+		OutputState: o.OutputState,
+	}
 }
 
 func (o ZoneTypePtrOutput) Elem() ZoneTypeOutput {
@@ -2648,6 +2715,12 @@ func (in *zoneTypePtr) ToZoneTypePtrOutput() ZoneTypePtrOutput {
 
 func (in *zoneTypePtr) ToZoneTypePtrOutputWithContext(ctx context.Context) ZoneTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ZoneTypePtrOutput)
+}
+
+func (in *zoneTypePtr) ToOutput(ctx context.Context) pulumix.Output[*ZoneType] {
+	return pulumix.Output[*ZoneType]{
+		OutputState: in.ToZoneTypePtrOutputWithContext(ctx).OutputState,
+	}
 }
 
 func init() {

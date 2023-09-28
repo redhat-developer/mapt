@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the capacity reservation.
@@ -178,6 +179,12 @@ func (i *CapacityReservation) ToCapacityReservationOutputWithContext(ctx context
 	return pulumi.ToOutputWithContext(ctx, i).(CapacityReservationOutput)
 }
 
+func (i *CapacityReservation) ToOutput(ctx context.Context) pulumix.Output[*CapacityReservation] {
+	return pulumix.Output[*CapacityReservation]{
+		OutputState: i.ToCapacityReservationOutputWithContext(ctx).OutputState,
+	}
+}
+
 type CapacityReservationOutput struct{ *pulumi.OutputState }
 
 func (CapacityReservationOutput) ElementType() reflect.Type {
@@ -190,6 +197,12 @@ func (o CapacityReservationOutput) ToCapacityReservationOutput() CapacityReserva
 
 func (o CapacityReservationOutput) ToCapacityReservationOutputWithContext(ctx context.Context) CapacityReservationOutput {
 	return o
+}
+
+func (o CapacityReservationOutput) ToOutput(ctx context.Context) pulumix.Output[*CapacityReservation] {
+	return pulumix.Output[*CapacityReservation]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The Capacity reservation instance view.

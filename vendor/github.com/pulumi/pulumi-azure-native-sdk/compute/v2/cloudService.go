@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes the cloud service.
@@ -144,6 +145,12 @@ func (i *CloudService) ToCloudServiceOutputWithContext(ctx context.Context) Clou
 	return pulumi.ToOutputWithContext(ctx, i).(CloudServiceOutput)
 }
 
+func (i *CloudService) ToOutput(ctx context.Context) pulumix.Output[*CloudService] {
+	return pulumix.Output[*CloudService]{
+		OutputState: i.ToCloudServiceOutputWithContext(ctx).OutputState,
+	}
+}
+
 type CloudServiceOutput struct{ *pulumi.OutputState }
 
 func (CloudServiceOutput) ElementType() reflect.Type {
@@ -156,6 +163,12 @@ func (o CloudServiceOutput) ToCloudServiceOutput() CloudServiceOutput {
 
 func (o CloudServiceOutput) ToCloudServiceOutputWithContext(ctx context.Context) CloudServiceOutput {
 	return o
+}
+
+func (o CloudServiceOutput) ToOutput(ctx context.Context) pulumix.Output[*CloudService] {
+	return pulumix.Output[*CloudService]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Resource location.

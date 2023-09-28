@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the gallery image definition that you want to create or update.
@@ -247,6 +248,12 @@ func (i *GalleryImage) ToGalleryImageOutputWithContext(ctx context.Context) Gall
 	return pulumi.ToOutputWithContext(ctx, i).(GalleryImageOutput)
 }
 
+func (i *GalleryImage) ToOutput(ctx context.Context) pulumix.Output[*GalleryImage] {
+	return pulumix.Output[*GalleryImage]{
+		OutputState: i.ToGalleryImageOutputWithContext(ctx).OutputState,
+	}
+}
+
 type GalleryImageOutput struct{ *pulumi.OutputState }
 
 func (GalleryImageOutput) ElementType() reflect.Type {
@@ -259,6 +266,12 @@ func (o GalleryImageOutput) ToGalleryImageOutput() GalleryImageOutput {
 
 func (o GalleryImageOutput) ToGalleryImageOutputWithContext(ctx context.Context) GalleryImageOutput {
 	return o
+}
+
+func (o GalleryImageOutput) ToOutput(ctx context.Context) pulumix.Output[*GalleryImage] {
+	return pulumix.Output[*GalleryImage]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The architecture of the image. Applicable to OS disks only.

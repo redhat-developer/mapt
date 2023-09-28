@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets information about the specified DDoS protection plan.
@@ -91,6 +92,12 @@ func (o LookupDdosProtectionPlanResultOutput) ToLookupDdosProtectionPlanResultOu
 
 func (o LookupDdosProtectionPlanResultOutput) ToLookupDdosProtectionPlanResultOutputWithContext(ctx context.Context) LookupDdosProtectionPlanResultOutput {
 	return o
+}
+
+func (o LookupDdosProtectionPlanResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDdosProtectionPlanResult] {
+	return pulumix.Output[LookupDdosProtectionPlanResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

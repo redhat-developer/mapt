@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified private link service by resource group.
@@ -109,6 +110,12 @@ func (o LookupPrivateLinkServiceResultOutput) ToLookupPrivateLinkServiceResultOu
 
 func (o LookupPrivateLinkServiceResultOutput) ToLookupPrivateLinkServiceResultOutputWithContext(ctx context.Context) LookupPrivateLinkServiceResultOutput {
 	return o
+}
+
+func (o LookupPrivateLinkServiceResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPrivateLinkServiceResult] {
+	return pulumix.Output[LookupPrivateLinkServiceResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The alias of the private link service.

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Defines an Network Experiment Profile and lists of Experiments
@@ -87,6 +88,12 @@ func (o LookupNetworkExperimentProfileResultOutput) ToLookupNetworkExperimentPro
 
 func (o LookupNetworkExperimentProfileResultOutput) ToLookupNetworkExperimentProfileResultOutputWithContext(ctx context.Context) LookupNetworkExperimentProfileResultOutput {
 	return o
+}
+
+func (o LookupNetworkExperimentProfileResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNetworkExperimentProfileResult] {
+	return pulumix.Output[LookupNetworkExperimentProfileResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The state of the Experiment

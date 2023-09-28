@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // ExpressRoutePort resource definition.
@@ -267,6 +268,12 @@ func (i *ExpressRoutePort) ToExpressRoutePortOutputWithContext(ctx context.Conte
 	return pulumi.ToOutputWithContext(ctx, i).(ExpressRoutePortOutput)
 }
 
+func (i *ExpressRoutePort) ToOutput(ctx context.Context) pulumix.Output[*ExpressRoutePort] {
+	return pulumix.Output[*ExpressRoutePort]{
+		OutputState: i.ToExpressRoutePortOutputWithContext(ctx).OutputState,
+	}
+}
+
 type ExpressRoutePortOutput struct{ *pulumi.OutputState }
 
 func (ExpressRoutePortOutput) ElementType() reflect.Type {
@@ -279,6 +286,12 @@ func (o ExpressRoutePortOutput) ToExpressRoutePortOutput() ExpressRoutePortOutpu
 
 func (o ExpressRoutePortOutput) ToExpressRoutePortOutputWithContext(ctx context.Context) ExpressRoutePortOutput {
 	return o
+}
+
+func (o ExpressRoutePortOutput) ToOutput(ctx context.Context) pulumix.Output[*ExpressRoutePort] {
+	return pulumix.Output[*ExpressRoutePort]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Date of the physical port allocation to be used in Letter of Authorization.

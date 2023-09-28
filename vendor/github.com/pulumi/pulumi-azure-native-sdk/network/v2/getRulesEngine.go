@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a Rules Engine Configuration with the specified name within the specified Front Door.
@@ -85,6 +86,12 @@ func (o LookupRulesEngineResultOutput) ToLookupRulesEngineResultOutput() LookupR
 
 func (o LookupRulesEngineResultOutput) ToLookupRulesEngineResultOutputWithContext(ctx context.Context) LookupRulesEngineResultOutput {
 	return o
+}
+
+func (o LookupRulesEngineResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupRulesEngineResult] {
+	return pulumix.Output[LookupRulesEngineResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Resource ID.

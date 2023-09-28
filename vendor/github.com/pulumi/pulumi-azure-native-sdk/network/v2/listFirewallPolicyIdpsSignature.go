@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the current status of IDPS signatures for the relevant policy
@@ -95,6 +96,12 @@ func (o ListFirewallPolicyIdpsSignatureResultOutput) ToListFirewallPolicyIdpsSig
 
 func (o ListFirewallPolicyIdpsSignatureResultOutput) ToListFirewallPolicyIdpsSignatureResultOutputWithContext(ctx context.Context) ListFirewallPolicyIdpsSignatureResultOutput {
 	return o
+}
+
+func (o ListFirewallPolicyIdpsSignatureResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListFirewallPolicyIdpsSignatureResult] {
+	return pulumix.Output[ListFirewallPolicyIdpsSignatureResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Number of total records matching the query.

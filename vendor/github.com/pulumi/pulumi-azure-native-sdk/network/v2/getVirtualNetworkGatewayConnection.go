@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified virtual network gateway connection by resource group.
@@ -137,6 +138,12 @@ func (o LookupVirtualNetworkGatewayConnectionResultOutput) ToLookupVirtualNetwor
 
 func (o LookupVirtualNetworkGatewayConnectionResultOutput) ToLookupVirtualNetworkGatewayConnectionResultOutputWithContext(ctx context.Context) LookupVirtualNetworkGatewayConnectionResultOutput {
 	return o
+}
+
+func (o LookupVirtualNetworkGatewayConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualNetworkGatewayConnectionResult] {
+	return pulumix.Output[LookupVirtualNetworkGatewayConnectionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The authorizationKey.

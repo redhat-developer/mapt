@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
@@ -110,6 +111,12 @@ func (o LookupZoneResultOutput) ToLookupZoneResultOutput() LookupZoneResultOutpu
 
 func (o LookupZoneResultOutput) ToLookupZoneResultOutputWithContext(ctx context.Context) LookupZoneResultOutput {
 	return o
+}
+
+func (o LookupZoneResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupZoneResult] {
+	return pulumix.Output[LookupZoneResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The etag of the zone.

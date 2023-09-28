@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified peering for the express route circuit.
@@ -123,6 +124,12 @@ func (o LookupExpressRouteCircuitPeeringResultOutput) ToLookupExpressRouteCircui
 
 func (o LookupExpressRouteCircuitPeeringResultOutput) ToLookupExpressRouteCircuitPeeringResultOutputWithContext(ctx context.Context) LookupExpressRouteCircuitPeeringResultOutput {
 	return o
+}
+
+func (o LookupExpressRouteCircuitPeeringResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupExpressRouteCircuitPeeringResult] {
+	return pulumix.Output[LookupExpressRouteCircuitPeeringResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The Azure ASN.

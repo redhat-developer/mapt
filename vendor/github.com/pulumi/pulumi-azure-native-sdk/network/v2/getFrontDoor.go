@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a Front Door with the specified Front Door name under the specified subscription and resource group.
@@ -120,6 +121,12 @@ func (o LookupFrontDoorResultOutput) ToLookupFrontDoorResultOutput() LookupFront
 
 func (o LookupFrontDoorResultOutput) ToLookupFrontDoorResultOutputWithContext(ctx context.Context) LookupFrontDoorResultOutput {
 	return o
+}
+
+func (o LookupFrontDoorResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupFrontDoorResult] {
+	return pulumix.Output[LookupFrontDoorResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Backend pools available to routing rules.

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets information about a disk encryption set.
@@ -99,6 +100,12 @@ func (o LookupDiskEncryptionSetResultOutput) ToLookupDiskEncryptionSetResultOutp
 
 func (o LookupDiskEncryptionSetResultOutput) ToLookupDiskEncryptionSetResultOutputWithContext(ctx context.Context) LookupDiskEncryptionSetResultOutput {
 	return o
+}
+
+func (o LookupDiskEncryptionSetResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDiskEncryptionSetResult] {
+	return pulumix.Output[LookupDiskEncryptionSetResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The key vault key which is currently used by this disk encryption set.

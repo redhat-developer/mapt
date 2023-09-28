@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // P2SVpnGateway Resource.
@@ -257,6 +258,12 @@ func (i *P2sVpnGateway) ToP2sVpnGatewayOutputWithContext(ctx context.Context) P2
 	return pulumi.ToOutputWithContext(ctx, i).(P2sVpnGatewayOutput)
 }
 
+func (i *P2sVpnGateway) ToOutput(ctx context.Context) pulumix.Output[*P2sVpnGateway] {
+	return pulumix.Output[*P2sVpnGateway]{
+		OutputState: i.ToP2sVpnGatewayOutputWithContext(ctx).OutputState,
+	}
+}
+
 type P2sVpnGatewayOutput struct{ *pulumi.OutputState }
 
 func (P2sVpnGatewayOutput) ElementType() reflect.Type {
@@ -269,6 +276,12 @@ func (o P2sVpnGatewayOutput) ToP2sVpnGatewayOutput() P2sVpnGatewayOutput {
 
 func (o P2sVpnGatewayOutput) ToP2sVpnGatewayOutputWithContext(ctx context.Context) P2sVpnGatewayOutput {
 	return o
+}
+
+func (o P2sVpnGatewayOutput) ToOutput(ctx context.Context) pulumix.Output[*P2sVpnGateway] {
+	return pulumix.Output[*P2sVpnGateway]{
+		OutputState: o.OutputState,
+	}
 }
 
 // List of all customer specified DNS servers IP addresses.

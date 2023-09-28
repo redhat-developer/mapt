@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Snapshot resource.
@@ -306,6 +307,12 @@ func (i *Snapshot) ToSnapshotOutputWithContext(ctx context.Context) SnapshotOutp
 	return pulumi.ToOutputWithContext(ctx, i).(SnapshotOutput)
 }
 
+func (i *Snapshot) ToOutput(ctx context.Context) pulumix.Output[*Snapshot] {
+	return pulumix.Output[*Snapshot]{
+		OutputState: i.ToSnapshotOutputWithContext(ctx).OutputState,
+	}
+}
+
 type SnapshotOutput struct{ *pulumi.OutputState }
 
 func (SnapshotOutput) ElementType() reflect.Type {
@@ -318,6 +325,12 @@ func (o SnapshotOutput) ToSnapshotOutput() SnapshotOutput {
 
 func (o SnapshotOutput) ToSnapshotOutputWithContext(ctx context.Context) SnapshotOutput {
 	return o
+}
+
+func (o SnapshotOutput) ToOutput(ctx context.Context) pulumix.Output[*Snapshot] {
+	return pulumix.Output[*Snapshot]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Percentage complete for the background copy when a resource is created via the CopyStart operation.

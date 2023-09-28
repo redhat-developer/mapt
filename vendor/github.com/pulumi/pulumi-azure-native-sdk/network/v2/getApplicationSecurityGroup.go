@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets information about the specified application security group.
@@ -87,6 +88,12 @@ func (o LookupApplicationSecurityGroupResultOutput) ToLookupApplicationSecurityG
 
 func (o LookupApplicationSecurityGroupResultOutput) ToLookupApplicationSecurityGroupResultOutputWithContext(ctx context.Context) LookupApplicationSecurityGroupResultOutput {
 	return o
+}
+
+func (o LookupApplicationSecurityGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupApplicationSecurityGroupResult] {
+	return pulumix.Output[LookupApplicationSecurityGroupResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

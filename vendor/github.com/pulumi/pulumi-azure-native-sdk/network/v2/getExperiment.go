@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Defines the properties of an Experiment
@@ -99,6 +100,12 @@ func (o LookupExperimentResultOutput) ToLookupExperimentResultOutput() LookupExp
 
 func (o LookupExperimentResultOutput) ToLookupExperimentResultOutputWithContext(ctx context.Context) LookupExperimentResultOutput {
 	return o
+}
+
+func (o LookupExperimentResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupExperimentResult] {
+	return pulumix.Output[LookupExperimentResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The description of the details or intents of the Experiment
