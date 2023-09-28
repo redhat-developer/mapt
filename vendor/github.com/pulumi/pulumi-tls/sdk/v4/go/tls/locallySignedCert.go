@@ -7,10 +7,8 @@ import (
 	"context"
 	"reflect"
 
-	"errors"
-	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls/internal"
+	"github.com/pkg/errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 type LocallySignedCert struct {
@@ -26,7 +24,11 @@ type LocallySignedCert struct {
 	CaKeyAlgorithm pulumi.StringOutput `pulumi:"caKeyAlgorithm"`
 	// Private key of the Certificate Authority (CA) used to sign the certificate, in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
 	CaPrivateKeyPem pulumi.StringOutput `pulumi:"caPrivateKeyPem"`
-	// Certificate data in PEM (RFC 1421).
+	// Certificate data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the
+	// [underlying](https://pkg.go.dev/encoding/pem#Encode)
+	// [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at
+	// the end of the PEM. In case this disrupts your use case, we recommend using
+	// [`trimspace()`](https://www.terraform.io/language/functions/trimspace).
 	CertPem pulumi.StringOutput `pulumi:"certPem"`
 	// Certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
 	CertRequestPem pulumi.StringOutput `pulumi:"certRequestPem"`
@@ -79,7 +81,6 @@ func NewLocallySignedCert(ctx *pulumi.Context,
 		"caPrivateKeyPem",
 	})
 	opts = append(opts, secrets)
-	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource LocallySignedCert
 	err := ctx.RegisterResource("tls:index/locallySignedCert:LocallySignedCert", name, args, &resource, opts...)
 	if err != nil {
@@ -112,7 +113,11 @@ type locallySignedCertState struct {
 	CaKeyAlgorithm *string `pulumi:"caKeyAlgorithm"`
 	// Private key of the Certificate Authority (CA) used to sign the certificate, in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
 	CaPrivateKeyPem *string `pulumi:"caPrivateKeyPem"`
-	// Certificate data in PEM (RFC 1421).
+	// Certificate data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the
+	// [underlying](https://pkg.go.dev/encoding/pem#Encode)
+	// [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at
+	// the end of the PEM. In case this disrupts your use case, we recommend using
+	// [`trimspace()`](https://www.terraform.io/language/functions/trimspace).
 	CertPem *string `pulumi:"certPem"`
 	// Certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
 	CertRequestPem *string `pulumi:"certRequestPem"`
@@ -147,7 +152,11 @@ type LocallySignedCertState struct {
 	CaKeyAlgorithm pulumi.StringPtrInput
 	// Private key of the Certificate Authority (CA) used to sign the certificate, in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
 	CaPrivateKeyPem pulumi.StringPtrInput
-	// Certificate data in PEM (RFC 1421).
+	// Certificate data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the
+	// [underlying](https://pkg.go.dev/encoding/pem#Encode)
+	// [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at
+	// the end of the PEM. In case this disrupts your use case, we recommend using
+	// [`trimspace()`](https://www.terraform.io/language/functions/trimspace).
 	CertPem pulumi.StringPtrInput
 	// Certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
 	CertRequestPem pulumi.StringPtrInput
@@ -253,12 +262,6 @@ func (i *LocallySignedCert) ToLocallySignedCertOutputWithContext(ctx context.Con
 	return pulumi.ToOutputWithContext(ctx, i).(LocallySignedCertOutput)
 }
 
-func (i *LocallySignedCert) ToOutput(ctx context.Context) pulumix.Output[*LocallySignedCert] {
-	return pulumix.Output[*LocallySignedCert]{
-		OutputState: i.ToLocallySignedCertOutputWithContext(ctx).OutputState,
-	}
-}
-
 // LocallySignedCertArrayInput is an input type that accepts LocallySignedCertArray and LocallySignedCertArrayOutput values.
 // You can construct a concrete instance of `LocallySignedCertArrayInput` via:
 //
@@ -282,12 +285,6 @@ func (i LocallySignedCertArray) ToLocallySignedCertArrayOutput() LocallySignedCe
 
 func (i LocallySignedCertArray) ToLocallySignedCertArrayOutputWithContext(ctx context.Context) LocallySignedCertArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(LocallySignedCertArrayOutput)
-}
-
-func (i LocallySignedCertArray) ToOutput(ctx context.Context) pulumix.Output[[]*LocallySignedCert] {
-	return pulumix.Output[[]*LocallySignedCert]{
-		OutputState: i.ToLocallySignedCertArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // LocallySignedCertMapInput is an input type that accepts LocallySignedCertMap and LocallySignedCertMapOutput values.
@@ -315,12 +312,6 @@ func (i LocallySignedCertMap) ToLocallySignedCertMapOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, i).(LocallySignedCertMapOutput)
 }
 
-func (i LocallySignedCertMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*LocallySignedCert] {
-	return pulumix.Output[map[string]*LocallySignedCert]{
-		OutputState: i.ToLocallySignedCertMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type LocallySignedCertOutput struct{ *pulumi.OutputState }
 
 func (LocallySignedCertOutput) ElementType() reflect.Type {
@@ -333,12 +324,6 @@ func (o LocallySignedCertOutput) ToLocallySignedCertOutput() LocallySignedCertOu
 
 func (o LocallySignedCertOutput) ToLocallySignedCertOutputWithContext(ctx context.Context) LocallySignedCertOutput {
 	return o
-}
-
-func (o LocallySignedCertOutput) ToOutput(ctx context.Context) pulumix.Output[*LocallySignedCert] {
-	return pulumix.Output[*LocallySignedCert]{
-		OutputState: o.OutputState,
-	}
 }
 
 // List of key usages allowed for the issued certificate. Values are defined in [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280) and combine flags defined by both [Key Usages](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.3) and [Extended Key Usages](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.12). Accepted values: `anyExtended`, `certSigning`, `clientAuth`, `codeSigning`, `contentCommitment`, `crlSigning`, `dataEncipherment`, `decipherOnly`, `digitalSignature`, `emailProtection`, `encipherOnly`, `ipsecEndSystem`, `ipsecTunnel`, `ipsecUser`, `keyAgreement`, `keyEncipherment`, `microsoftCommercialCodeSigning`, `microsoftKernelCodeSigning`, `microsoftServerGatedCrypto`, `netscapeServerGatedCrypto`, `ocspSigning`, `serverAuth`, `timestamping`.
@@ -363,7 +348,11 @@ func (o LocallySignedCertOutput) CaPrivateKeyPem() pulumi.StringOutput {
 	return o.ApplyT(func(v *LocallySignedCert) pulumi.StringOutput { return v.CaPrivateKeyPem }).(pulumi.StringOutput)
 }
 
-// Certificate data in PEM (RFC 1421).
+// Certificate data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the
+// [underlying](https://pkg.go.dev/encoding/pem#Encode)
+// [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at
+// the end of the PEM. In case this disrupts your use case, we recommend using
+// [`trimspace()`](https://www.terraform.io/language/functions/trimspace).
 func (o LocallySignedCertOutput) CertPem() pulumi.StringOutput {
 	return o.ApplyT(func(v *LocallySignedCert) pulumi.StringOutput { return v.CertPem }).(pulumi.StringOutput)
 }
@@ -426,12 +415,6 @@ func (o LocallySignedCertArrayOutput) ToLocallySignedCertArrayOutputWithContext(
 	return o
 }
 
-func (o LocallySignedCertArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*LocallySignedCert] {
-	return pulumix.Output[[]*LocallySignedCert]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o LocallySignedCertArrayOutput) Index(i pulumi.IntInput) LocallySignedCertOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *LocallySignedCert {
 		return vs[0].([]*LocallySignedCert)[vs[1].(int)]
@@ -450,12 +433,6 @@ func (o LocallySignedCertMapOutput) ToLocallySignedCertMapOutput() LocallySigned
 
 func (o LocallySignedCertMapOutput) ToLocallySignedCertMapOutputWithContext(ctx context.Context) LocallySignedCertMapOutput {
 	return o
-}
-
-func (o LocallySignedCertMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*LocallySignedCert] {
-	return pulumix.Output[map[string]*LocallySignedCert]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o LocallySignedCertMapOutput) MapIndex(k pulumi.StringInput) LocallySignedCertOutput {

@@ -3,7 +3,7 @@ package compute
 import (
 	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
 	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )

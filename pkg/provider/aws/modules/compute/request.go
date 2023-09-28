@@ -12,9 +12,9 @@ import (
 	supportmatrix "github.com/adrianriobo/qenvs/pkg/provider/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
 	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb"
+	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling"
+	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/lb"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 

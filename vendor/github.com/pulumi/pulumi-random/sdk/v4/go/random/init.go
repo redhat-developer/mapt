@@ -7,7 +7,6 @@ import (
 	"fmt"
 
 	"github.com/blang/semver"
-	"github.com/pulumi/pulumi-random/sdk/v4/go/random/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -62,10 +61,7 @@ func (p *pkg) ConstructProvider(ctx *pulumi.Context, name, typ, urn string) (pul
 }
 
 func init() {
-	version, err := internal.PkgVersion()
-	if err != nil {
-		version = semver.Version{Major: 1}
-	}
+	version, _ := PkgVersion()
 	pulumi.RegisterResourceModule(
 		"random",
 		"index/randomId",
