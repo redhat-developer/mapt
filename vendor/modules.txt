@@ -185,7 +185,7 @@ github.com/cloudflare/circl/sign/ed448
 # github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81
 ## explicit; go 1.13
 github.com/containerd/console
-# github.com/coocood/freecache v1.2.3
+# github.com/coocood/freecache v1.2.4
 ## explicit; go 1.13
 github.com/coocood/freecache
 # github.com/djherbis/times v1.5.0
