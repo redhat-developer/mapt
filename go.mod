@@ -7,7 +7,7 @@ require (
 	github.com/coocood/freecache v1.2.3
 	// github.com/pulumi/pulumi-aws-native/sdk
 	github.com/pulumi/pulumi-aws/sdk/v5 v5.42.0
-	github.com/pulumi/pulumi-command/sdk v0.9.0
+	github.com/pulumi/pulumi-command/sdk v0.9.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.13.4
 	github.com/pulumi/pulumi-tls/sdk/v4 v4.10.0
 	github.com/pulumi/pulumi/sdk/v3 v3.84.0
