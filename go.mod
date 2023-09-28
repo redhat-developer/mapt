@@ -1,6 +1,8 @@
 module github.com/adrianriobo/qenvs
 
-go 1.19
+go 1.21
+
+toolchain go1.21.1
 
 require (
 	github.com/aws/aws-sdk-go v1.45.14
@@ -9,7 +11,7 @@ require (
 	github.com/pulumi/pulumi-aws/sdk/v5 v5.42.0
 	github.com/pulumi/pulumi-command/sdk v0.9.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.13.4
-	github.com/pulumi/pulumi-tls/sdk/v4 v4.10.0
+	github.com/pulumi/pulumi-tls/sdk/v4 v4.11.0
 	github.com/pulumi/pulumi/sdk/v3 v3.84.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.7.0
