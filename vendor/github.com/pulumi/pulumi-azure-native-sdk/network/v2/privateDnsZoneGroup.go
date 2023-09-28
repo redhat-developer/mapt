@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Private dns zone group resource.
@@ -186,6 +187,12 @@ func (i *PrivateDnsZoneGroup) ToPrivateDnsZoneGroupOutputWithContext(ctx context
 	return pulumi.ToOutputWithContext(ctx, i).(PrivateDnsZoneGroupOutput)
 }
 
+func (i *PrivateDnsZoneGroup) ToOutput(ctx context.Context) pulumix.Output[*PrivateDnsZoneGroup] {
+	return pulumix.Output[*PrivateDnsZoneGroup]{
+		OutputState: i.ToPrivateDnsZoneGroupOutputWithContext(ctx).OutputState,
+	}
+}
+
 type PrivateDnsZoneGroupOutput struct{ *pulumi.OutputState }
 
 func (PrivateDnsZoneGroupOutput) ElementType() reflect.Type {
@@ -198,6 +205,12 @@ func (o PrivateDnsZoneGroupOutput) ToPrivateDnsZoneGroupOutput() PrivateDnsZoneG
 
 func (o PrivateDnsZoneGroupOutput) ToPrivateDnsZoneGroupOutputWithContext(ctx context.Context) PrivateDnsZoneGroupOutput {
 	return o
+}
+
+func (o PrivateDnsZoneGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*PrivateDnsZoneGroup] {
+	return pulumix.Output[*PrivateDnsZoneGroup]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

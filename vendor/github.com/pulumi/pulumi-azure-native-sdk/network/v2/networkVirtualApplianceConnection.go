@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // NetworkVirtualApplianceConnection resource.
@@ -163,6 +164,12 @@ func (i *NetworkVirtualApplianceConnection) ToNetworkVirtualApplianceConnectionO
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkVirtualApplianceConnectionOutput)
 }
 
+func (i *NetworkVirtualApplianceConnection) ToOutput(ctx context.Context) pulumix.Output[*NetworkVirtualApplianceConnection] {
+	return pulumix.Output[*NetworkVirtualApplianceConnection]{
+		OutputState: i.ToNetworkVirtualApplianceConnectionOutputWithContext(ctx).OutputState,
+	}
+}
+
 type NetworkVirtualApplianceConnectionOutput struct{ *pulumi.OutputState }
 
 func (NetworkVirtualApplianceConnectionOutput) ElementType() reflect.Type {
@@ -175,6 +182,12 @@ func (o NetworkVirtualApplianceConnectionOutput) ToNetworkVirtualApplianceConnec
 
 func (o NetworkVirtualApplianceConnectionOutput) ToNetworkVirtualApplianceConnectionOutputWithContext(ctx context.Context) NetworkVirtualApplianceConnectionOutput {
 	return o
+}
+
+func (o NetworkVirtualApplianceConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*NetworkVirtualApplianceConnection] {
+	return pulumix.Output[*NetworkVirtualApplianceConnection]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Network Virtual Appliance ASN.

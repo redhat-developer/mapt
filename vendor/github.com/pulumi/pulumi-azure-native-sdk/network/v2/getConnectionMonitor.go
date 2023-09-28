@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a connection monitor by name.
@@ -130,6 +131,12 @@ func (o LookupConnectionMonitorResultOutput) ToLookupConnectionMonitorResultOutp
 
 func (o LookupConnectionMonitorResultOutput) ToLookupConnectionMonitorResultOutputWithContext(ctx context.Context) LookupConnectionMonitorResultOutput {
 	return o
+}
+
+func (o LookupConnectionMonitorResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupConnectionMonitorResult] {
+	return pulumix.Output[LookupConnectionMonitorResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Determines if the connection monitor will start automatically once created.

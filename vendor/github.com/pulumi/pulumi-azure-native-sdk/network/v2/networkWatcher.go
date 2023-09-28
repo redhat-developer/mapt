@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Network watcher in a resource group.
@@ -258,6 +259,12 @@ func (i *NetworkWatcher) ToNetworkWatcherOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkWatcherOutput)
 }
 
+func (i *NetworkWatcher) ToOutput(ctx context.Context) pulumix.Output[*NetworkWatcher] {
+	return pulumix.Output[*NetworkWatcher]{
+		OutputState: i.ToNetworkWatcherOutputWithContext(ctx).OutputState,
+	}
+}
+
 type NetworkWatcherOutput struct{ *pulumi.OutputState }
 
 func (NetworkWatcherOutput) ElementType() reflect.Type {
@@ -270,6 +277,12 @@ func (o NetworkWatcherOutput) ToNetworkWatcherOutput() NetworkWatcherOutput {
 
 func (o NetworkWatcherOutput) ToNetworkWatcherOutputWithContext(ctx context.Context) NetworkWatcherOutput {
 	return o
+}
+
+func (o NetworkWatcherOutput) ToOutput(ctx context.Context) pulumix.Output[*NetworkWatcher] {
+	return pulumix.Output[*NetworkWatcher]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

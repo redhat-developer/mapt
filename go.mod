@@ -10,7 +10,7 @@ require (
 	github.com/pulumi/pulumi-command/sdk v0.9.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.13.4
 	github.com/pulumi/pulumi-tls/sdk/v4 v4.10.0
-	github.com/pulumi/pulumi/sdk/v3 v3.84.0
+	github.com/pulumi/pulumi/sdk/v3 v3.86.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.7.0
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9
@@ -21,7 +21,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.3.1
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.8.1
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.8.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.8.0
+	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.9.0
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.8.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.8.0
 )
@@ -60,7 +60,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.8.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.9.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect
 	github.com/skeema/knownhosts v1.1.0 // indirect
 	github.com/spf13/afero v1.9.5 // indirect

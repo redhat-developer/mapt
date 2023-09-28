@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
@@ -73,6 +74,12 @@ func (o GetVirtualNetworkGatewayLearnedRoutesResultOutput) ToGetVirtualNetworkGa
 
 func (o GetVirtualNetworkGatewayLearnedRoutesResultOutput) ToGetVirtualNetworkGatewayLearnedRoutesResultOutputWithContext(ctx context.Context) GetVirtualNetworkGatewayLearnedRoutesResultOutput {
 	return o
+}
+
+func (o GetVirtualNetworkGatewayLearnedRoutesResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetVirtualNetworkGatewayLearnedRoutesResult] {
+	return pulumix.Output[GetVirtualNetworkGatewayLearnedRoutesResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // List of gateway routes.

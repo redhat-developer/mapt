@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
@@ -87,6 +88,12 @@ func (o GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput) ToGetVirtu
 
 func (o GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput) ToGetVirtualNetworkGatewayVpnclientIpsecParametersResultOutputWithContext(ctx context.Context) GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput {
 	return o
+}
+
+func (o GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetVirtualNetworkGatewayVpnclientIpsecParametersResult] {
+	return pulumix.Output[GetVirtualNetworkGatewayVpnclientIpsecParametersResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The DH Group used in IKE Phase 1 for initial SA.

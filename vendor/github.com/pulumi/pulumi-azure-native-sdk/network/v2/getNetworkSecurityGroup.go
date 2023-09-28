@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified network security group.
@@ -103,6 +104,12 @@ func (o LookupNetworkSecurityGroupResultOutput) ToLookupNetworkSecurityGroupResu
 
 func (o LookupNetworkSecurityGroupResultOutput) ToLookupNetworkSecurityGroupResultOutputWithContext(ctx context.Context) LookupNetworkSecurityGroupResultOutput {
 	return o
+}
+
+func (o LookupNetworkSecurityGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNetworkSecurityGroupResult] {
+	return pulumix.Output[LookupNetworkSecurityGroupResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The default security rules of network security group.

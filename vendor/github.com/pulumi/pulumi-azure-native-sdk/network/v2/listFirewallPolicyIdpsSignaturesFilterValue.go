@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the current filter values for the signatures overrides
@@ -77,6 +78,12 @@ func (o ListFirewallPolicyIdpsSignaturesFilterValueResultOutput) ToListFirewallP
 
 func (o ListFirewallPolicyIdpsSignaturesFilterValueResultOutput) ToListFirewallPolicyIdpsSignaturesFilterValueResultOutputWithContext(ctx context.Context) ListFirewallPolicyIdpsSignaturesFilterValueResultOutput {
 	return o
+}
+
+func (o ListFirewallPolicyIdpsSignaturesFilterValueResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListFirewallPolicyIdpsSignaturesFilterValueResult] {
+	return pulumix.Output[ListFirewallPolicyIdpsSignaturesFilterValueResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Describes the possible values

@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Custom IP prefix resource.
@@ -254,6 +255,12 @@ func (i *CustomIPPrefix) ToCustomIPPrefixOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(CustomIPPrefixOutput)
 }
 
+func (i *CustomIPPrefix) ToOutput(ctx context.Context) pulumix.Output[*CustomIPPrefix] {
+	return pulumix.Output[*CustomIPPrefix]{
+		OutputState: i.ToCustomIPPrefixOutputWithContext(ctx).OutputState,
+	}
+}
+
 type CustomIPPrefixOutput struct{ *pulumi.OutputState }
 
 func (CustomIPPrefixOutput) ElementType() reflect.Type {
@@ -266,6 +273,12 @@ func (o CustomIPPrefixOutput) ToCustomIPPrefixOutput() CustomIPPrefixOutput {
 
 func (o CustomIPPrefixOutput) ToCustomIPPrefixOutputWithContext(ctx context.Context) CustomIPPrefixOutput {
 	return o
+}
+
+func (o CustomIPPrefixOutput) ToOutput(ctx context.Context) pulumix.Output[*CustomIPPrefix] {
+	return pulumix.Output[*CustomIPPrefix]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The ASN for CIDR advertising. Should be an integer as string.

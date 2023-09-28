@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a Network Connectivity Configuration, specified by the resource group, network manager name, and connectivity Configuration name
@@ -101,6 +102,12 @@ func (o LookupConnectivityConfigurationResultOutput) ToLookupConnectivityConfigu
 
 func (o LookupConnectivityConfigurationResultOutput) ToLookupConnectivityConfigurationResultOutputWithContext(ctx context.Context) LookupConnectivityConfigurationResultOutput {
 	return o
+}
+
+func (o LookupConnectivityConfigurationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupConnectivityConfigurationResult] {
+	return pulumix.Output[LookupConnectivityConfigurationResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Groups for configuration

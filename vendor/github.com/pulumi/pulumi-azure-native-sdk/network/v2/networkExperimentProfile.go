@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Defines an Network Experiment Profile and lists of Experiments
@@ -135,6 +136,12 @@ func (i *NetworkExperimentProfile) ToNetworkExperimentProfileOutputWithContext(c
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkExperimentProfileOutput)
 }
 
+func (i *NetworkExperimentProfile) ToOutput(ctx context.Context) pulumix.Output[*NetworkExperimentProfile] {
+	return pulumix.Output[*NetworkExperimentProfile]{
+		OutputState: i.ToNetworkExperimentProfileOutputWithContext(ctx).OutputState,
+	}
+}
+
 type NetworkExperimentProfileOutput struct{ *pulumi.OutputState }
 
 func (NetworkExperimentProfileOutput) ElementType() reflect.Type {
@@ -147,6 +154,12 @@ func (o NetworkExperimentProfileOutput) ToNetworkExperimentProfileOutput() Netwo
 
 func (o NetworkExperimentProfileOutput) ToNetworkExperimentProfileOutputWithContext(ctx context.Context) NetworkExperimentProfileOutput {
 	return o
+}
+
+func (o NetworkExperimentProfileOutput) ToOutput(ctx context.Context) pulumix.Output[*NetworkExperimentProfile] {
+	return pulumix.Output[*NetworkExperimentProfile]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The state of the Experiment

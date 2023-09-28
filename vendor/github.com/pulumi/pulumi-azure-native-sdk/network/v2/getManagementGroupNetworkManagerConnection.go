@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get a specified connection created by this management group.
@@ -85,6 +86,12 @@ func (o LookupManagementGroupNetworkManagerConnectionResultOutput) ToLookupManag
 
 func (o LookupManagementGroupNetworkManagerConnectionResultOutput) ToLookupManagementGroupNetworkManagerConnectionResultOutputWithContext(ctx context.Context) LookupManagementGroupNetworkManagerConnectionResultOutput {
 	return o
+}
+
+func (o LookupManagementGroupNetworkManagerConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupManagementGroupNetworkManagerConnectionResult] {
+	return pulumix.Output[LookupManagementGroupNetworkManagerConnectionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the network manager connection.

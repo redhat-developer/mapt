@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The GetBgpPeerStatus operation retrieves the status of all BGP peers.
@@ -77,6 +78,12 @@ func (o GetVirtualNetworkGatewayBgpPeerStatusResultOutput) ToGetVirtualNetworkGa
 
 func (o GetVirtualNetworkGatewayBgpPeerStatusResultOutput) ToGetVirtualNetworkGatewayBgpPeerStatusResultOutputWithContext(ctx context.Context) GetVirtualNetworkGatewayBgpPeerStatusResultOutput {
 	return o
+}
+
+func (o GetVirtualNetworkGatewayBgpPeerStatusResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetVirtualNetworkGatewayBgpPeerStatusResult] {
+	return pulumix.Output[GetVirtualNetworkGatewayBgpPeerStatusResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // List of BGP peers.

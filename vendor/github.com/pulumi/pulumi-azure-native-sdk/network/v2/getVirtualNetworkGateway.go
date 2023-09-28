@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified virtual network gateway by resource group.
@@ -133,6 +134,12 @@ func (o LookupVirtualNetworkGatewayResultOutput) ToLookupVirtualNetworkGatewayRe
 
 func (o LookupVirtualNetworkGatewayResultOutput) ToLookupVirtualNetworkGatewayResultOutputWithContext(ctx context.Context) LookupVirtualNetworkGatewayResultOutput {
 	return o
+}
+
+func (o LookupVirtualNetworkGatewayResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualNetworkGatewayResult] {
+	return pulumix.Output[LookupVirtualNetworkGatewayResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // ActiveActive flag.

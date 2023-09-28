@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // ExpressRoute gateway resource.
@@ -248,6 +249,12 @@ func (i *ExpressRouteGateway) ToExpressRouteGatewayOutputWithContext(ctx context
 	return pulumi.ToOutputWithContext(ctx, i).(ExpressRouteGatewayOutput)
 }
 
+func (i *ExpressRouteGateway) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteGateway] {
+	return pulumix.Output[*ExpressRouteGateway]{
+		OutputState: i.ToExpressRouteGatewayOutputWithContext(ctx).OutputState,
+	}
+}
+
 type ExpressRouteGatewayOutput struct{ *pulumi.OutputState }
 
 func (ExpressRouteGatewayOutput) ElementType() reflect.Type {
@@ -260,6 +267,12 @@ func (o ExpressRouteGatewayOutput) ToExpressRouteGatewayOutput() ExpressRouteGat
 
 func (o ExpressRouteGatewayOutput) ToExpressRouteGatewayOutputWithContext(ctx context.Context) ExpressRouteGatewayOutput {
 	return o
+}
+
+func (o ExpressRouteGatewayOutput) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteGateway] {
+	return pulumix.Output[*ExpressRouteGateway]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Configures this gateway to accept traffic from non Virtual WAN networks.

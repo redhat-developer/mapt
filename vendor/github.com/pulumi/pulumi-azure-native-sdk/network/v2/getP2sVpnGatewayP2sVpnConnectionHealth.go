@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
@@ -99,6 +100,12 @@ func (o GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput) ToGetP2sVpnGatewayP2
 
 func (o GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput) ToGetP2sVpnGatewayP2sVpnConnectionHealthResultOutputWithContext(ctx context.Context) GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput {
 	return o
+}
+
+func (o GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetP2sVpnGatewayP2sVpnConnectionHealthResult] {
+	return pulumix.Output[GetP2sVpnGatewayP2sVpnConnectionHealthResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // List of all customer specified DNS servers IP addresses.

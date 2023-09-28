@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
@@ -81,6 +82,12 @@ func (o GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput) ToGetP2sVpnG
 
 func (o GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput) ToGetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutputWithContext(ctx context.Context) GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput {
 	return o
+}
+
+func (o GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResult] {
+	return pulumix.Output[GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Returned sas url of the blob to which the p2s vpn connection detailed health will be written.
