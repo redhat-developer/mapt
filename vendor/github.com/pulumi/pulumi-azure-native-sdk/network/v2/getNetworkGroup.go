@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified network group.
@@ -91,6 +92,12 @@ func (o LookupNetworkGroupResultOutput) ToLookupNetworkGroupResultOutput() Looku
 
 func (o LookupNetworkGroupResultOutput) ToLookupNetworkGroupResultOutputWithContext(ctx context.Context) LookupNetworkGroupResultOutput {
 	return o
+}
+
+func (o LookupNetworkGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNetworkGroupResult] {
+	return pulumix.Output[LookupNetworkGroupResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the network group.

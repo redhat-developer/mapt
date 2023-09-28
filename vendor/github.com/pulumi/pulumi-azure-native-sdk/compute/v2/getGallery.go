@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves information about a Shared Image Gallery.
@@ -101,6 +102,12 @@ func (o LookupGalleryResultOutput) ToLookupGalleryResultOutput() LookupGalleryRe
 
 func (o LookupGalleryResultOutput) ToLookupGalleryResultOutputWithContext(ctx context.Context) LookupGalleryResultOutput {
 	return o
+}
+
+func (o LookupGalleryResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupGalleryResult] {
+	return pulumix.Output[LookupGalleryResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The description of this Shared Image Gallery resource. This property is updatable.

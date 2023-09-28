@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Network default admin rule.
@@ -208,6 +209,12 @@ func (i *DefaultAdminRule) ToDefaultAdminRuleOutputWithContext(ctx context.Conte
 	return pulumi.ToOutputWithContext(ctx, i).(DefaultAdminRuleOutput)
 }
 
+func (i *DefaultAdminRule) ToOutput(ctx context.Context) pulumix.Output[*DefaultAdminRule] {
+	return pulumix.Output[*DefaultAdminRule]{
+		OutputState: i.ToDefaultAdminRuleOutputWithContext(ctx).OutputState,
+	}
+}
+
 type DefaultAdminRuleOutput struct{ *pulumi.OutputState }
 
 func (DefaultAdminRuleOutput) ElementType() reflect.Type {
@@ -220,6 +227,12 @@ func (o DefaultAdminRuleOutput) ToDefaultAdminRuleOutput() DefaultAdminRuleOutpu
 
 func (o DefaultAdminRuleOutput) ToDefaultAdminRuleOutputWithContext(ctx context.Context) DefaultAdminRuleOutput {
 	return o
+}
+
+func (o DefaultAdminRuleOutput) ToOutput(ctx context.Context) pulumix.Output[*DefaultAdminRule] {
+	return pulumix.Output[*DefaultAdminRule]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Indicates the access allowed for this particular rule

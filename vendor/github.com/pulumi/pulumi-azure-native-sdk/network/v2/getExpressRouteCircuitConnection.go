@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified Express Route Circuit Connection from the specified express route circuit.
@@ -101,6 +102,12 @@ func (o LookupExpressRouteCircuitConnectionResultOutput) ToLookupExpressRouteCir
 
 func (o LookupExpressRouteCircuitConnectionResultOutput) ToLookupExpressRouteCircuitConnectionResultOutputWithContext(ctx context.Context) LookupExpressRouteCircuitConnectionResultOutput {
 	return o
+}
+
+func (o LookupExpressRouteCircuitConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupExpressRouteCircuitConnectionResult] {
+	return pulumix.Output[LookupExpressRouteCircuitConnectionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // /29 IP address space to carve out Customer addresses for tunnels.

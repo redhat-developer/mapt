@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Security Partner Provider resource.
@@ -197,6 +198,12 @@ func (i *SecurityPartnerProvider) ToSecurityPartnerProviderOutputWithContext(ctx
 	return pulumi.ToOutputWithContext(ctx, i).(SecurityPartnerProviderOutput)
 }
 
+func (i *SecurityPartnerProvider) ToOutput(ctx context.Context) pulumix.Output[*SecurityPartnerProvider] {
+	return pulumix.Output[*SecurityPartnerProvider]{
+		OutputState: i.ToSecurityPartnerProviderOutputWithContext(ctx).OutputState,
+	}
+}
+
 type SecurityPartnerProviderOutput struct{ *pulumi.OutputState }
 
 func (SecurityPartnerProviderOutput) ElementType() reflect.Type {
@@ -209,6 +216,12 @@ func (o SecurityPartnerProviderOutput) ToSecurityPartnerProviderOutput() Securit
 
 func (o SecurityPartnerProviderOutput) ToSecurityPartnerProviderOutputWithContext(ctx context.Context) SecurityPartnerProviderOutput {
 	return o
+}
+
+func (o SecurityPartnerProviderOutput) ToOutput(ctx context.Context) pulumix.Output[*SecurityPartnerProvider] {
+	return pulumix.Output[*SecurityPartnerProvider]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The connection status with the Security Partner Provider.

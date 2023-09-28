@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified Network Manager.
@@ -95,6 +96,12 @@ func (o LookupNetworkManagerResultOutput) ToLookupNetworkManagerResultOutput() L
 
 func (o LookupNetworkManagerResultOutput) ToLookupNetworkManagerResultOutputWithContext(ctx context.Context) LookupNetworkManagerResultOutput {
 	return o
+}
+
+func (o LookupNetworkManagerResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNetworkManagerResult] {
+	return pulumix.Output[LookupNetworkManagerResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the network manager.

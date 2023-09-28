@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Defines the security user configuration
@@ -143,6 +144,12 @@ func (i *SecurityUserConfiguration) ToSecurityUserConfigurationOutputWithContext
 	return pulumi.ToOutputWithContext(ctx, i).(SecurityUserConfigurationOutput)
 }
 
+func (i *SecurityUserConfiguration) ToOutput(ctx context.Context) pulumix.Output[*SecurityUserConfiguration] {
+	return pulumix.Output[*SecurityUserConfiguration]{
+		OutputState: i.ToSecurityUserConfigurationOutputWithContext(ctx).OutputState,
+	}
+}
+
 type SecurityUserConfigurationOutput struct{ *pulumi.OutputState }
 
 func (SecurityUserConfigurationOutput) ElementType() reflect.Type {
@@ -155,6 +162,12 @@ func (o SecurityUserConfigurationOutput) ToSecurityUserConfigurationOutput() Sec
 
 func (o SecurityUserConfigurationOutput) ToSecurityUserConfigurationOutputWithContext(ctx context.Context) SecurityUserConfigurationOutput {
 	return o
+}
+
+func (o SecurityUserConfigurationOutput) ToOutput(ctx context.Context) pulumix.Output[*SecurityUserConfiguration] {
+	return pulumix.Output[*SecurityUserConfiguration]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Flag if need to delete existing network security groups.

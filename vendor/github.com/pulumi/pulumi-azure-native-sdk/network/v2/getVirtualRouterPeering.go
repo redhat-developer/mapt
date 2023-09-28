@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified Virtual Router Peering.
@@ -89,6 +90,12 @@ func (o LookupVirtualRouterPeeringResultOutput) ToLookupVirtualRouterPeeringResu
 
 func (o LookupVirtualRouterPeeringResultOutput) ToLookupVirtualRouterPeeringResultOutputWithContext(ctx context.Context) LookupVirtualRouterPeeringResultOutput {
 	return o
+}
+
+func (o LookupVirtualRouterPeeringResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualRouterPeeringResult] {
+	return pulumix.Output[LookupVirtualRouterPeeringResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

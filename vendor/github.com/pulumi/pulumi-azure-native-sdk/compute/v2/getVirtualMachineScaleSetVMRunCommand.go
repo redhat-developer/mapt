@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The operation to get the VMSS VM run command.
@@ -138,6 +139,12 @@ func (o LookupVirtualMachineScaleSetVMRunCommandResultOutput) ToLookupVirtualMac
 
 func (o LookupVirtualMachineScaleSetVMRunCommandResultOutput) ToLookupVirtualMachineScaleSetVMRunCommandResultOutputWithContext(ctx context.Context) LookupVirtualMachineScaleSetVMRunCommandResultOutput {
 	return o
+}
+
+func (o LookupVirtualMachineScaleSetVMRunCommandResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualMachineScaleSetVMRunCommandResult] {
+	return pulumix.Output[LookupVirtualMachineScaleSetVMRunCommandResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.

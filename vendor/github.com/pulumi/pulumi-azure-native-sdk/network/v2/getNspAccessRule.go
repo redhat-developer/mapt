@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified NSP access rule by name.
@@ -105,6 +106,12 @@ func (o LookupNspAccessRuleResultOutput) ToLookupNspAccessRuleResultOutput() Loo
 
 func (o LookupNspAccessRuleResultOutput) ToLookupNspAccessRuleResultOutputWithContext(ctx context.Context) LookupNspAccessRuleResultOutput {
 	return o
+}
+
+func (o LookupNspAccessRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNspAccessRuleResult] {
+	return pulumix.Output[LookupNspAccessRuleResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Inbound address prefixes (IPv4/IPv6)

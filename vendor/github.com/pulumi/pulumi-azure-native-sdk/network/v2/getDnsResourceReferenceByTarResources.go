@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Returns the DNS records specified by the referencing targetResourceIds.
@@ -69,6 +70,12 @@ func (o GetDnsResourceReferenceByTarResourcesResultOutput) ToGetDnsResourceRefer
 
 func (o GetDnsResourceReferenceByTarResourcesResultOutput) ToGetDnsResourceReferenceByTarResourcesResultOutputWithContext(ctx context.Context) GetDnsResourceReferenceByTarResourcesResultOutput {
 	return o
+}
+
+func (o GetDnsResourceReferenceByTarResourcesResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetDnsResourceReferenceByTarResourcesResult] {
+	return pulumix.Output[GetDnsResourceReferenceByTarResourcesResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The result of dns resource reference request. A list of dns resource references for each of the azure resource in the request

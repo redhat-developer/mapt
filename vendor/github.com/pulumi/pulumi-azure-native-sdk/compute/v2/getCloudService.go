@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Display information about a cloud service.
@@ -87,6 +88,12 @@ func (o LookupCloudServiceResultOutput) ToLookupCloudServiceResultOutput() Looku
 
 func (o LookupCloudServiceResultOutput) ToLookupCloudServiceResultOutputWithContext(ctx context.Context) LookupCloudServiceResultOutput {
 	return o
+}
+
+func (o LookupCloudServiceResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupCloudServiceResult] {
+	return pulumix.Output[LookupCloudServiceResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Resource Id.

@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get the specified network security rule.
@@ -115,6 +116,12 @@ func (o LookupSecurityRuleResultOutput) ToLookupSecurityRuleResultOutput() Looku
 
 func (o LookupSecurityRuleResultOutput) ToLookupSecurityRuleResultOutputWithContext(ctx context.Context) LookupSecurityRuleResultOutput {
 	return o
+}
+
+func (o LookupSecurityRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupSecurityRuleResult] {
+	return pulumix.Output[LookupSecurityRuleResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The network traffic is allowed or denied.

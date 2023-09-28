@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Rule Group resource.
@@ -161,6 +162,12 @@ func (i *FirewallPolicyRuleGroup) ToFirewallPolicyRuleGroupOutputWithContext(ctx
 	return pulumi.ToOutputWithContext(ctx, i).(FirewallPolicyRuleGroupOutput)
 }
 
+func (i *FirewallPolicyRuleGroup) ToOutput(ctx context.Context) pulumix.Output[*FirewallPolicyRuleGroup] {
+	return pulumix.Output[*FirewallPolicyRuleGroup]{
+		OutputState: i.ToFirewallPolicyRuleGroupOutputWithContext(ctx).OutputState,
+	}
+}
+
 type FirewallPolicyRuleGroupOutput struct{ *pulumi.OutputState }
 
 func (FirewallPolicyRuleGroupOutput) ElementType() reflect.Type {
@@ -173,6 +180,12 @@ func (o FirewallPolicyRuleGroupOutput) ToFirewallPolicyRuleGroupOutput() Firewal
 
 func (o FirewallPolicyRuleGroupOutput) ToFirewallPolicyRuleGroupOutputWithContext(ctx context.Context) FirewallPolicyRuleGroupOutput {
 	return o
+}
+
+func (o FirewallPolicyRuleGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*FirewallPolicyRuleGroup] {
+	return pulumix.Output[*FirewallPolicyRuleGroup]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

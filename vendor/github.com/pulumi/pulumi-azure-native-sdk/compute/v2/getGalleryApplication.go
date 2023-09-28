@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves information about a gallery Application Definition.
@@ -99,6 +100,12 @@ func (o LookupGalleryApplicationResultOutput) ToLookupGalleryApplicationResultOu
 
 func (o LookupGalleryApplicationResultOutput) ToLookupGalleryApplicationResultOutputWithContext(ctx context.Context) LookupGalleryApplicationResultOutput {
 	return o
+}
+
+func (o LookupGalleryApplicationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupGalleryApplicationResult] {
+	return pulumix.Output[LookupGalleryApplicationResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application.

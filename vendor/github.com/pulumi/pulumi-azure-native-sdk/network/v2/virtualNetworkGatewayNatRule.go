@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // VirtualNetworkGatewayNatRule Resource.
@@ -189,6 +190,12 @@ func (i *VirtualNetworkGatewayNatRule) ToVirtualNetworkGatewayNatRuleOutputWithC
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualNetworkGatewayNatRuleOutput)
 }
 
+func (i *VirtualNetworkGatewayNatRule) ToOutput(ctx context.Context) pulumix.Output[*VirtualNetworkGatewayNatRule] {
+	return pulumix.Output[*VirtualNetworkGatewayNatRule]{
+		OutputState: i.ToVirtualNetworkGatewayNatRuleOutputWithContext(ctx).OutputState,
+	}
+}
+
 type VirtualNetworkGatewayNatRuleOutput struct{ *pulumi.OutputState }
 
 func (VirtualNetworkGatewayNatRuleOutput) ElementType() reflect.Type {
@@ -201,6 +208,12 @@ func (o VirtualNetworkGatewayNatRuleOutput) ToVirtualNetworkGatewayNatRuleOutput
 
 func (o VirtualNetworkGatewayNatRuleOutput) ToVirtualNetworkGatewayNatRuleOutputWithContext(ctx context.Context) VirtualNetworkGatewayNatRuleOutput {
 	return o
+}
+
+func (o VirtualNetworkGatewayNatRuleOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualNetworkGatewayNatRule] {
+	return pulumix.Output[*VirtualNetworkGatewayNatRule]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

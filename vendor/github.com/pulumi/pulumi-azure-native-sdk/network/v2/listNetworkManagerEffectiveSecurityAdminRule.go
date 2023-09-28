@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // List all effective security admin rules applied on a virtual network.
@@ -79,6 +80,12 @@ func (o ListNetworkManagerEffectiveSecurityAdminRuleResultOutput) ToListNetworkM
 
 func (o ListNetworkManagerEffectiveSecurityAdminRuleResultOutput) ToListNetworkManagerEffectiveSecurityAdminRuleResultOutputWithContext(ctx context.Context) ListNetworkManagerEffectiveSecurityAdminRuleResultOutput {
 	return o
+}
+
+func (o ListNetworkManagerEffectiveSecurityAdminRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListNetworkManagerEffectiveSecurityAdminRuleResult] {
+	return pulumix.Output[ListNetworkManagerEffectiveSecurityAdminRuleResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.

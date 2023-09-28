@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a Virtual Machine run command.
@@ -240,6 +241,12 @@ func (i *VirtualMachineRunCommandByVirtualMachine) ToVirtualMachineRunCommandByV
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineRunCommandByVirtualMachineOutput)
 }
 
+func (i *VirtualMachineRunCommandByVirtualMachine) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineRunCommandByVirtualMachine] {
+	return pulumix.Output[*VirtualMachineRunCommandByVirtualMachine]{
+		OutputState: i.ToVirtualMachineRunCommandByVirtualMachineOutputWithContext(ctx).OutputState,
+	}
+}
+
 type VirtualMachineRunCommandByVirtualMachineOutput struct{ *pulumi.OutputState }
 
 func (VirtualMachineRunCommandByVirtualMachineOutput) ElementType() reflect.Type {
@@ -252,6 +259,12 @@ func (o VirtualMachineRunCommandByVirtualMachineOutput) ToVirtualMachineRunComma
 
 func (o VirtualMachineRunCommandByVirtualMachineOutput) ToVirtualMachineRunCommandByVirtualMachineOutputWithContext(ctx context.Context) VirtualMachineRunCommandByVirtualMachineOutput {
 	return o
+}
+
+func (o VirtualMachineRunCommandByVirtualMachineOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineRunCommandByVirtualMachine] {
+	return pulumix.Output[*VirtualMachineRunCommandByVirtualMachine]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.

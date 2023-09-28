@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The network security perimeter link resource
@@ -154,6 +155,12 @@ func (i *NspLink) ToNspLinkOutputWithContext(ctx context.Context) NspLinkOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(NspLinkOutput)
 }
 
+func (i *NspLink) ToOutput(ctx context.Context) pulumix.Output[*NspLink] {
+	return pulumix.Output[*NspLink]{
+		OutputState: i.ToNspLinkOutputWithContext(ctx).OutputState,
+	}
+}
+
 type NspLinkOutput struct{ *pulumi.OutputState }
 
 func (NspLinkOutput) ElementType() reflect.Type {
@@ -166,6 +173,12 @@ func (o NspLinkOutput) ToNspLinkOutput() NspLinkOutput {
 
 func (o NspLinkOutput) ToNspLinkOutputWithContext(ctx context.Context) NspLinkOutput {
 	return o
+}
+
+func (o NspLinkOutput) ToOutput(ctx context.Context) pulumix.Output[*NspLink] {
+	return pulumix.Output[*NspLink]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Perimeter ARM Id for the remote NSP with which the link gets created in Auto-approval mode. It should be used when the NSP admin have Microsoft.Network/networkSecurityPerimeters/linkPerimeter/action permission on the remote NSP resource.

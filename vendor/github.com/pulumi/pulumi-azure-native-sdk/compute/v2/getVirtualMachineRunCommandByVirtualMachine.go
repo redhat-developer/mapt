@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The operation to get the run command.
@@ -134,6 +135,12 @@ func (o LookupVirtualMachineRunCommandByVirtualMachineResultOutput) ToLookupVirt
 
 func (o LookupVirtualMachineRunCommandByVirtualMachineResultOutput) ToLookupVirtualMachineRunCommandByVirtualMachineResultOutputWithContext(ctx context.Context) LookupVirtualMachineRunCommandByVirtualMachineResultOutput {
 	return o
+}
+
+func (o LookupVirtualMachineRunCommandByVirtualMachineResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualMachineRunCommandByVirtualMachineResult] {
+	return pulumix.Output[LookupVirtualMachineRunCommandByVirtualMachineResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.

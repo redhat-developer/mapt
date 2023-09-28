@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get the specified service endpoint policy definitions from service endpoint policy.
@@ -91,6 +92,12 @@ func (o LookupServiceEndpointPolicyDefinitionResultOutput) ToLookupServiceEndpoi
 
 func (o LookupServiceEndpointPolicyDefinitionResultOutput) ToLookupServiceEndpointPolicyDefinitionResultOutputWithContext(ctx context.Context) LookupServiceEndpointPolicyDefinitionResultOutput {
 	return o
+}
+
+func (o LookupServiceEndpointPolicyDefinitionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupServiceEndpointPolicyDefinitionResult] {
+	return pulumix.Output[LookupServiceEndpointPolicyDefinitionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description for this rule. Restricted to 140 chars.

@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Azure Firewall resource.
@@ -302,6 +303,12 @@ func (i *AzureFirewall) ToAzureFirewallOutputWithContext(ctx context.Context) Az
 	return pulumi.ToOutputWithContext(ctx, i).(AzureFirewallOutput)
 }
 
+func (i *AzureFirewall) ToOutput(ctx context.Context) pulumix.Output[*AzureFirewall] {
+	return pulumix.Output[*AzureFirewall]{
+		OutputState: i.ToAzureFirewallOutputWithContext(ctx).OutputState,
+	}
+}
+
 type AzureFirewallOutput struct{ *pulumi.OutputState }
 
 func (AzureFirewallOutput) ElementType() reflect.Type {
@@ -314,6 +321,12 @@ func (o AzureFirewallOutput) ToAzureFirewallOutput() AzureFirewallOutput {
 
 func (o AzureFirewallOutput) ToAzureFirewallOutputWithContext(ctx context.Context) AzureFirewallOutput {
 	return o
+}
+
+func (o AzureFirewallOutput) ToOutput(ctx context.Context) pulumix.Output[*AzureFirewall] {
+	return pulumix.Output[*AzureFirewall]{
+		OutputState: o.OutputState,
+	}
 }
 
 // The additional properties used to further config this azure firewall.

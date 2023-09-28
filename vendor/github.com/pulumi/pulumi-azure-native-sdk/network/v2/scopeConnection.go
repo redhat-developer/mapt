@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The Scope Connections resource
@@ -168,6 +169,12 @@ func (i *ScopeConnection) ToScopeConnectionOutputWithContext(ctx context.Context
 	return pulumi.ToOutputWithContext(ctx, i).(ScopeConnectionOutput)
 }
 
+func (i *ScopeConnection) ToOutput(ctx context.Context) pulumix.Output[*ScopeConnection] {
+	return pulumix.Output[*ScopeConnection]{
+		OutputState: i.ToScopeConnectionOutputWithContext(ctx).OutputState,
+	}
+}
+
 type ScopeConnectionOutput struct{ *pulumi.OutputState }
 
 func (ScopeConnectionOutput) ElementType() reflect.Type {
@@ -180,6 +187,12 @@ func (o ScopeConnectionOutput) ToScopeConnectionOutput() ScopeConnectionOutput {
 
 func (o ScopeConnectionOutput) ToScopeConnectionOutputWithContext(ctx context.Context) ScopeConnectionOutput {
 	return o
+}
+
+func (o ScopeConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*ScopeConnection] {
+	return pulumix.Output[*ScopeConnection]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the scope connection.

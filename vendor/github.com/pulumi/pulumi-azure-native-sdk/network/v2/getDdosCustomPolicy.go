@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets information about the specified DDoS custom policy.
@@ -87,6 +88,12 @@ func (o LookupDdosCustomPolicyResultOutput) ToLookupDdosCustomPolicyResultOutput
 
 func (o LookupDdosCustomPolicyResultOutput) ToLookupDdosCustomPolicyResultOutputWithContext(ctx context.Context) LookupDdosCustomPolicyResultOutput {
 	return o
+}
+
+func (o LookupDdosCustomPolicyResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDdosCustomPolicyResult] {
+	return pulumix.Output[LookupDdosCustomPolicyResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

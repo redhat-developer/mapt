@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // List all effective connectivity configurations applied on a virtual network.
@@ -79,6 +80,12 @@ func (o ListEffectiveConnectivityConfigurationResultOutput) ToListEffectiveConne
 
 func (o ListEffectiveConnectivityConfigurationResultOutput) ToListEffectiveConnectivityConfigurationResultOutputWithContext(ctx context.Context) ListEffectiveConnectivityConfigurationResultOutput {
 	return o
+}
+
+func (o ListEffectiveConnectivityConfigurationResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListEffectiveConnectivityConfigurationResult] {
+	return pulumix.Output[ListEffectiveConnectivityConfigurationResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.

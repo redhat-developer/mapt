@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Differentiated Services Code Point configuration for any given network interface
@@ -222,6 +223,12 @@ func (i *DscpConfiguration) ToDscpConfigurationOutputWithContext(ctx context.Con
 	return pulumi.ToOutputWithContext(ctx, i).(DscpConfigurationOutput)
 }
 
+func (i *DscpConfiguration) ToOutput(ctx context.Context) pulumix.Output[*DscpConfiguration] {
+	return pulumix.Output[*DscpConfiguration]{
+		OutputState: i.ToDscpConfigurationOutputWithContext(ctx).OutputState,
+	}
+}
+
 type DscpConfigurationOutput struct{ *pulumi.OutputState }
 
 func (DscpConfigurationOutput) ElementType() reflect.Type {
@@ -234,6 +241,12 @@ func (o DscpConfigurationOutput) ToDscpConfigurationOutput() DscpConfigurationOu
 
 func (o DscpConfigurationOutput) ToDscpConfigurationOutputWithContext(ctx context.Context) DscpConfigurationOutput {
 	return o
+}
+
+func (o DscpConfigurationOutput) ToOutput(ctx context.Context) pulumix.Output[*DscpConfiguration] {
+	return pulumix.Output[*DscpConfiguration]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Associated Network Interfaces to the DSCP Configuration.

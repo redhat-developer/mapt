@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // A common class for general resource information.
@@ -293,6 +294,12 @@ func (i *LocalNetworkGateway) ToLocalNetworkGatewayOutputWithContext(ctx context
 	return pulumi.ToOutputWithContext(ctx, i).(LocalNetworkGatewayOutput)
 }
 
+func (i *LocalNetworkGateway) ToOutput(ctx context.Context) pulumix.Output[*LocalNetworkGateway] {
+	return pulumix.Output[*LocalNetworkGateway]{
+		OutputState: i.ToLocalNetworkGatewayOutputWithContext(ctx).OutputState,
+	}
+}
+
 type LocalNetworkGatewayOutput struct{ *pulumi.OutputState }
 
 func (LocalNetworkGatewayOutput) ElementType() reflect.Type {
@@ -305,6 +312,12 @@ func (o LocalNetworkGatewayOutput) ToLocalNetworkGatewayOutput() LocalNetworkGat
 
 func (o LocalNetworkGatewayOutput) ToLocalNetworkGatewayOutputWithContext(ctx context.Context) LocalNetworkGatewayOutput {
 	return o
+}
+
+func (o LocalNetworkGatewayOutput) ToOutput(ctx context.Context) pulumix.Output[*LocalNetworkGateway] {
+	return pulumix.Output[*LocalNetworkGateway]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Local network gateway's BGP speaker settings.

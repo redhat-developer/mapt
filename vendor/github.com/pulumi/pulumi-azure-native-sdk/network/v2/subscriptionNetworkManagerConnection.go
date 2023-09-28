@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The Network Manager Connection resource
@@ -147,6 +148,12 @@ func (i *SubscriptionNetworkManagerConnection) ToSubscriptionNetworkManagerConne
 	return pulumi.ToOutputWithContext(ctx, i).(SubscriptionNetworkManagerConnectionOutput)
 }
 
+func (i *SubscriptionNetworkManagerConnection) ToOutput(ctx context.Context) pulumix.Output[*SubscriptionNetworkManagerConnection] {
+	return pulumix.Output[*SubscriptionNetworkManagerConnection]{
+		OutputState: i.ToSubscriptionNetworkManagerConnectionOutputWithContext(ctx).OutputState,
+	}
+}
+
 type SubscriptionNetworkManagerConnectionOutput struct{ *pulumi.OutputState }
 
 func (SubscriptionNetworkManagerConnectionOutput) ElementType() reflect.Type {
@@ -159,6 +166,12 @@ func (o SubscriptionNetworkManagerConnectionOutput) ToSubscriptionNetworkManager
 
 func (o SubscriptionNetworkManagerConnectionOutput) ToSubscriptionNetworkManagerConnectionOutputWithContext(ctx context.Context) SubscriptionNetworkManagerConnectionOutput {
 	return o
+}
+
+func (o SubscriptionNetworkManagerConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*SubscriptionNetworkManagerConnection] {
+	return pulumix.Output[*SubscriptionNetworkManagerConnection]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description of the network manager connection.

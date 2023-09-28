@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a Virtual Machine Scale Set Extension.
@@ -240,6 +241,12 @@ func (i *VirtualMachineScaleSetExtension) ToVirtualMachineScaleSetExtensionOutpu
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineScaleSetExtensionOutput)
 }
 
+func (i *VirtualMachineScaleSetExtension) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineScaleSetExtension] {
+	return pulumix.Output[*VirtualMachineScaleSetExtension]{
+		OutputState: i.ToVirtualMachineScaleSetExtensionOutputWithContext(ctx).OutputState,
+	}
+}
+
 type VirtualMachineScaleSetExtensionOutput struct{ *pulumi.OutputState }
 
 func (VirtualMachineScaleSetExtensionOutput) ElementType() reflect.Type {
@@ -252,6 +259,12 @@ func (o VirtualMachineScaleSetExtensionOutput) ToVirtualMachineScaleSetExtension
 
 func (o VirtualMachineScaleSetExtensionOutput) ToVirtualMachineScaleSetExtensionOutputWithContext(ctx context.Context) VirtualMachineScaleSetExtensionOutput {
 	return o
+}
+
+func (o VirtualMachineScaleSetExtensionOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineScaleSetExtension] {
+	return pulumix.Output[*VirtualMachineScaleSetExtension]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.

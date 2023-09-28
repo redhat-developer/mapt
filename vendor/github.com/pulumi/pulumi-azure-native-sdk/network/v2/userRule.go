@@ -10,6 +10,7 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Network security user rule.
@@ -206,6 +207,12 @@ func (i *UserRule) ToUserRuleOutputWithContext(ctx context.Context) UserRuleOutp
 	return pulumi.ToOutputWithContext(ctx, i).(UserRuleOutput)
 }
 
+func (i *UserRule) ToOutput(ctx context.Context) pulumix.Output[*UserRule] {
+	return pulumix.Output[*UserRule]{
+		OutputState: i.ToUserRuleOutputWithContext(ctx).OutputState,
+	}
+}
+
 type UserRuleOutput struct{ *pulumi.OutputState }
 
 func (UserRuleOutput) ElementType() reflect.Type {
@@ -218,6 +225,12 @@ func (o UserRuleOutput) ToUserRuleOutput() UserRuleOutput {
 
 func (o UserRuleOutput) ToUserRuleOutputWithContext(ctx context.Context) UserRuleOutput {
 	return o
+}
+
+func (o UserRuleOutput) ToOutput(ctx context.Context) pulumix.Output[*UserRule] {
+	return pulumix.Output[*UserRule]{
+		OutputState: o.OutputState,
+	}
 }
 
 // A description for this rule.
