@@ -9,6 +9,7 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves information about a gallery Application Version.
@@ -101,6 +102,12 @@ func (o LookupGalleryApplicationVersionResultOutput) ToLookupGalleryApplicationV
 
 func (o LookupGalleryApplicationVersionResultOutput) ToLookupGalleryApplicationVersionResultOutputWithContext(ctx context.Context) LookupGalleryApplicationVersionResultOutput {
 	return o
+}
+
+func (o LookupGalleryApplicationVersionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupGalleryApplicationVersionResult] {
+	return pulumix.Output[LookupGalleryApplicationVersionResult]{
+		OutputState: o.OutputState,
+	}
 }
 
 // Resource Id
