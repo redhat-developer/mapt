@@ -1,12 +1,14 @@
 module github.com/adrianriobo/qenvs
 
-go 1.19
+go 1.21
+
+toolchain go1.21.1
 
 require (
 	github.com/aws/aws-sdk-go v1.45.14
 	github.com/coocood/freecache v1.2.3
 	// keep 5.42.0 it until we upgrade go version
-	github.com/pulumi/pulumi-aws/sdk/v5 v5.42.0
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.2.1
 	github.com/pulumi/pulumi-command/sdk v0.9.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.14.0
 	github.com/pulumi/pulumi-tls/sdk/v4 v4.11.0
@@ -20,6 +22,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.8.0-beta.3
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.3.1
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.8.1
+	github.com/pulumi/pulumi-aws/sdk/v5 v5.42.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.9.0
 	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.9.0
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.9.0

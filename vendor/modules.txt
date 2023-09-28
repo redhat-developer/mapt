@@ -413,6 +413,8 @@ github.com/pulumi/pulumi-aws/sdk/v5/go/aws
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2
 github.com/pulumi/pulumi-aws/sdk/v5/go/aws/lb
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.2.1
+## explicit; go 1.21
 # github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.9.0
 ## explicit; go 1.18
 github.com/pulumi/pulumi-azure-native-sdk/compute/v2
