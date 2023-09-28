@@ -8,9 +8,7 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/pulumi/pulumi-random/sdk/v4/go/random/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Identical to random_string.
@@ -58,19 +56,67 @@ import (
 //
 // ## Import
 //
-// You can import external passwords into your Pulumi programs as follows:
+// ### Avoiding Replacement
 //
 // ```sh
 //
-//	$ import random:index/randomPassword:RandomPassword newPassword supersecret
+//	$ pulumi import random:index/randomPassword:RandomPassword If the resource were imported using `random_password.password securepassword`,
 //
 // ```
 //
-// This command will encode the `supersecret` token in Pulumi state and generate a code suggestion to include a new RandomPassword resource in your Pulumi program. Include the suggested code and do a `pulumi up`. Your secret password is now securely stored in Pulumi, and you can reference it in your Pulumi program as `newPassword.result`.
+//	replacement could be avoided by using1. Attribute values that match the imported ID and defaults:
+//
+//	terraform
+//
+//	resource "random_password" "password" {
+//
+//	length = 14
+//
+//	lower
+//
+// = true
+//
+//	} 2. Attribute values that match the imported ID and omit the attributes with defaults:
+//
+//	terraform
+//
+//	resource "random_password" "password" {
+//
+//	length = 14
+//
+//	} 3. `ignore_changes` specifying the attributes to ignore:
+//
+//	terraform
+//
+//	resource "random_password" "password" {
+//
+//	length = 16
+//
+//	lower
+//
+// = false
+//
+//	lifecycle {
+//
+//	ignore_changes = [
+//
+//	length,
+//
+//	lower,
+//
+//	]
+//
+//	}
+//
+//	}
+//
+//	**NOTE** `ignore_changes` is only required until the resource is recreated after import,
+//
+//	after which it will use the configuration values specified.
 type RandomPassword struct {
 	pulumi.CustomResourceState
 
-	// A bcrypt hash of the generated random string. **NOTE**: If the generated random string is greater than 72 bytes in length, `bcryptHash` will contain a hash of the first 72 bytes.
+	// A bcrypt hash of the generated random string.
 	BcryptHash pulumi.StringOutput `pulumi:"bcryptHash"`
 	// Arbitrary map of values that, when changed, will trigger recreation of resource. See the main provider documentation for more information.
 	Keepers pulumi.StringMapOutput `pulumi:"keepers"`
@@ -117,7 +163,6 @@ func NewRandomPassword(ctx *pulumi.Context,
 		"result",
 	})
 	opts = append(opts, secrets)
-	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource RandomPassword
 	err := ctx.RegisterResource("random:index/randomPassword:RandomPassword", name, args, &resource, opts...)
 	if err != nil {
@@ -140,7 +185,7 @@ func GetRandomPassword(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering RandomPassword resources.
 type randomPasswordState struct {
-	// A bcrypt hash of the generated random string. **NOTE**: If the generated random string is greater than 72 bytes in length, `bcryptHash` will contain a hash of the first 72 bytes.
+	// A bcrypt hash of the generated random string.
 	BcryptHash *string `pulumi:"bcryptHash"`
 	// Arbitrary map of values that, when changed, will trigger recreation of resource. See the main provider documentation for more information.
 	Keepers map[string]string `pulumi:"keepers"`
@@ -173,7 +218,7 @@ type randomPasswordState struct {
 }
 
 type RandomPasswordState struct {
-	// A bcrypt hash of the generated random string. **NOTE**: If the generated random string is greater than 72 bytes in length, `bcryptHash` will contain a hash of the first 72 bytes.
+	// A bcrypt hash of the generated random string.
 	BcryptHash pulumi.StringPtrInput
 	// Arbitrary map of values that, when changed, will trigger recreation of resource. See the main provider documentation for more information.
 	Keepers pulumi.StringMapInput
@@ -291,12 +336,6 @@ func (i *RandomPassword) ToRandomPasswordOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(RandomPasswordOutput)
 }
 
-func (i *RandomPassword) ToOutput(ctx context.Context) pulumix.Output[*RandomPassword] {
-	return pulumix.Output[*RandomPassword]{
-		OutputState: i.ToRandomPasswordOutputWithContext(ctx).OutputState,
-	}
-}
-
 // RandomPasswordArrayInput is an input type that accepts RandomPasswordArray and RandomPasswordArrayOutput values.
 // You can construct a concrete instance of `RandomPasswordArrayInput` via:
 //
@@ -320,12 +359,6 @@ func (i RandomPasswordArray) ToRandomPasswordArrayOutput() RandomPasswordArrayOu
 
 func (i RandomPasswordArray) ToRandomPasswordArrayOutputWithContext(ctx context.Context) RandomPasswordArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(RandomPasswordArrayOutput)
-}
-
-func (i RandomPasswordArray) ToOutput(ctx context.Context) pulumix.Output[[]*RandomPassword] {
-	return pulumix.Output[[]*RandomPassword]{
-		OutputState: i.ToRandomPasswordArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // RandomPasswordMapInput is an input type that accepts RandomPasswordMap and RandomPasswordMapOutput values.
@@ -353,12 +386,6 @@ func (i RandomPasswordMap) ToRandomPasswordMapOutputWithContext(ctx context.Cont
 	return pulumi.ToOutputWithContext(ctx, i).(RandomPasswordMapOutput)
 }
 
-func (i RandomPasswordMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*RandomPassword] {
-	return pulumix.Output[map[string]*RandomPassword]{
-		OutputState: i.ToRandomPasswordMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RandomPasswordOutput struct{ *pulumi.OutputState }
 
 func (RandomPasswordOutput) ElementType() reflect.Type {
@@ -373,13 +400,7 @@ func (o RandomPasswordOutput) ToRandomPasswordOutputWithContext(ctx context.Cont
 	return o
 }
 
-func (o RandomPasswordOutput) ToOutput(ctx context.Context) pulumix.Output[*RandomPassword] {
-	return pulumix.Output[*RandomPassword]{
-		OutputState: o.OutputState,
-	}
-}
-
-// A bcrypt hash of the generated random string. **NOTE**: If the generated random string is greater than 72 bytes in length, `bcryptHash` will contain a hash of the first 72 bytes.
+// A bcrypt hash of the generated random string.
 func (o RandomPasswordOutput) BcryptHash() pulumi.StringOutput {
 	return o.ApplyT(func(v *RandomPassword) pulumi.StringOutput { return v.BcryptHash }).(pulumi.StringOutput)
 }
@@ -465,12 +486,6 @@ func (o RandomPasswordArrayOutput) ToRandomPasswordArrayOutputWithContext(ctx co
 	return o
 }
 
-func (o RandomPasswordArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*RandomPassword] {
-	return pulumix.Output[[]*RandomPassword]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o RandomPasswordArrayOutput) Index(i pulumi.IntInput) RandomPasswordOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *RandomPassword {
 		return vs[0].([]*RandomPassword)[vs[1].(int)]
@@ -489,12 +504,6 @@ func (o RandomPasswordMapOutput) ToRandomPasswordMapOutput() RandomPasswordMapOu
 
 func (o RandomPasswordMapOutput) ToRandomPasswordMapOutputWithContext(ctx context.Context) RandomPasswordMapOutput {
 	return o
-}
-
-func (o RandomPasswordMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*RandomPassword] {
-	return pulumix.Output[map[string]*RandomPassword]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o RandomPasswordMapOutput) MapIndex(k pulumi.StringInput) RandomPasswordOutput {

@@ -6,7 +6,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/meta/azs"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/subnet"
 	vpc "github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/vpc"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 

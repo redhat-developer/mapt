@@ -7,10 +7,8 @@ import (
 	"context"
 	"reflect"
 
-	"errors"
-	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls/internal"
+	"github.com/pkg/errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // ## Example Usage
@@ -20,7 +18,7 @@ import (
 //
 // import (
 //
-//	"os"
+//	"io/ioutil"
 //
 //	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -28,7 +26,7 @@ import (
 // )
 //
 //	func readFileOrPanic(path string) pulumi.StringPtrInput {
-//		data, err := os.ReadFile(path)
+//		data, err := ioutil.ReadFile(path)
 //		if err != nil {
 //			panic(err.Error())
 //		}
@@ -55,7 +53,11 @@ import (
 type CertRequest struct {
 	pulumi.CustomResourceState
 
-	// The certificate request data in PEM (RFC 1421).
+	// The certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the
+	// [underlying](https://pkg.go.dev/encoding/pem#Encode)
+	// [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at
+	// the end of the PEM. In case this disrupts your use case, we recommend using
+	// [`trimspace()`](https://www.terraform.io/language/functions/trimspace).
 	CertRequestPem pulumi.StringOutput `pulumi:"certRequestPem"`
 	// List of DNS names for which a certificate is being requested (i.e. certificate subjects).
 	DnsNames pulumi.StringArrayOutput `pulumi:"dnsNames"`
@@ -92,7 +94,6 @@ func NewCertRequest(ctx *pulumi.Context,
 		"privateKeyPem",
 	})
 	opts = append(opts, secrets)
-	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource CertRequest
 	err := ctx.RegisterResource("tls:index/certRequest:CertRequest", name, args, &resource, opts...)
 	if err != nil {
@@ -115,7 +116,11 @@ func GetCertRequest(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering CertRequest resources.
 type certRequestState struct {
-	// The certificate request data in PEM (RFC 1421).
+	// The certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the
+	// [underlying](https://pkg.go.dev/encoding/pem#Encode)
+	// [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at
+	// the end of the PEM. In case this disrupts your use case, we recommend using
+	// [`trimspace()`](https://www.terraform.io/language/functions/trimspace).
 	CertRequestPem *string `pulumi:"certRequestPem"`
 	// List of DNS names for which a certificate is being requested (i.e. certificate subjects).
 	DnsNames []string `pulumi:"dnsNames"`
@@ -136,7 +141,11 @@ type certRequestState struct {
 }
 
 type CertRequestState struct {
-	// The certificate request data in PEM (RFC 1421).
+	// The certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the
+	// [underlying](https://pkg.go.dev/encoding/pem#Encode)
+	// [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at
+	// the end of the PEM. In case this disrupts your use case, we recommend using
+	// [`trimspace()`](https://www.terraform.io/language/functions/trimspace).
 	CertRequestPem pulumi.StringPtrInput
 	// List of DNS names for which a certificate is being requested (i.e. certificate subjects).
 	DnsNames pulumi.StringArrayInput
@@ -222,12 +231,6 @@ func (i *CertRequest) ToCertRequestOutputWithContext(ctx context.Context) CertRe
 	return pulumi.ToOutputWithContext(ctx, i).(CertRequestOutput)
 }
 
-func (i *CertRequest) ToOutput(ctx context.Context) pulumix.Output[*CertRequest] {
-	return pulumix.Output[*CertRequest]{
-		OutputState: i.ToCertRequestOutputWithContext(ctx).OutputState,
-	}
-}
-
 // CertRequestArrayInput is an input type that accepts CertRequestArray and CertRequestArrayOutput values.
 // You can construct a concrete instance of `CertRequestArrayInput` via:
 //
@@ -251,12 +254,6 @@ func (i CertRequestArray) ToCertRequestArrayOutput() CertRequestArrayOutput {
 
 func (i CertRequestArray) ToCertRequestArrayOutputWithContext(ctx context.Context) CertRequestArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(CertRequestArrayOutput)
-}
-
-func (i CertRequestArray) ToOutput(ctx context.Context) pulumix.Output[[]*CertRequest] {
-	return pulumix.Output[[]*CertRequest]{
-		OutputState: i.ToCertRequestArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // CertRequestMapInput is an input type that accepts CertRequestMap and CertRequestMapOutput values.
@@ -284,12 +281,6 @@ func (i CertRequestMap) ToCertRequestMapOutputWithContext(ctx context.Context) C
 	return pulumi.ToOutputWithContext(ctx, i).(CertRequestMapOutput)
 }
 
-func (i CertRequestMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*CertRequest] {
-	return pulumix.Output[map[string]*CertRequest]{
-		OutputState: i.ToCertRequestMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type CertRequestOutput struct{ *pulumi.OutputState }
 
 func (CertRequestOutput) ElementType() reflect.Type {
@@ -304,13 +295,11 @@ func (o CertRequestOutput) ToCertRequestOutputWithContext(ctx context.Context) C
 	return o
 }
 
-func (o CertRequestOutput) ToOutput(ctx context.Context) pulumix.Output[*CertRequest] {
-	return pulumix.Output[*CertRequest]{
-		OutputState: o.OutputState,
-	}
-}
-
-// The certificate request data in PEM (RFC 1421).
+// The certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the
+// [underlying](https://pkg.go.dev/encoding/pem#Encode)
+// [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at
+// the end of the PEM. In case this disrupts your use case, we recommend using
+// [`trimspace()`](https://www.terraform.io/language/functions/trimspace).
 func (o CertRequestOutput) CertRequestPem() pulumi.StringOutput {
 	return o.ApplyT(func(v *CertRequest) pulumi.StringOutput { return v.CertRequestPem }).(pulumi.StringOutput)
 }
@@ -363,12 +352,6 @@ func (o CertRequestArrayOutput) ToCertRequestArrayOutputWithContext(ctx context.
 	return o
 }
 
-func (o CertRequestArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*CertRequest] {
-	return pulumix.Output[[]*CertRequest]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o CertRequestArrayOutput) Index(i pulumi.IntInput) CertRequestOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *CertRequest {
 		return vs[0].([]*CertRequest)[vs[1].(int)]
@@ -387,12 +370,6 @@ func (o CertRequestMapOutput) ToCertRequestMapOutput() CertRequestMapOutput {
 
 func (o CertRequestMapOutput) ToCertRequestMapOutputWithContext(ctx context.Context) CertRequestMapOutput {
 	return o
-}
-
-func (o CertRequestMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*CertRequest] {
-	return pulumix.Output[map[string]*CertRequest]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o CertRequestMapOutput) MapIndex(k pulumi.StringInput) CertRequestOutput {

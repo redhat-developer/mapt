@@ -7,9 +7,7 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get a public key from a PEM-encoded private key.
@@ -23,7 +21,7 @@ import (
 //
 // import (
 //
-//	"os"
+//	"io/ioutil"
 //
 //	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -31,7 +29,7 @@ import (
 // )
 //
 //	func readFileOrPanic(path string) pulumi.StringPtrInput {
-//		data, err := os.ReadFile(path)
+//		data, err := ioutil.ReadFile(path)
 //		if err != nil {
 //			panic(err.Error())
 //		}
@@ -61,7 +59,6 @@ import (
 //
 // ```
 func GetPublicKey(ctx *pulumi.Context, args *GetPublicKeyArgs, opts ...pulumi.InvokeOption) (*GetPublicKeyResult, error) {
-	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv GetPublicKeyResult
 	err := ctx.Invoke("tls:index/getPublicKey:getPublicKey", args, &rv, opts...)
 	if err != nil {
@@ -92,10 +89,8 @@ type GetPublicKeyResult struct {
 	PublicKeyFingerprintMd5 string `pulumi:"publicKeyFingerprintMd5"`
 	// The fingerprint of the public key data in OpenSSH SHA256 hash format, e.g. `SHA256:...`. Only available if the selected private key format is compatible, as per the rules for `publicKeyOpenssh` and ECDSA P224 limitations.
 	PublicKeyFingerprintSha256 string `pulumi:"publicKeyFingerprintSha256"`
-	// The public key, in  OpenSSH PEM (RFC 4716).
-	PublicKeyOpenssh string `pulumi:"publicKeyOpenssh"`
-	// The public key, in PEM (RFC 1421).
-	PublicKeyPem string `pulumi:"publicKeyPem"`
+	PublicKeyOpenssh           string `pulumi:"publicKeyOpenssh"`
+	PublicKeyPem               string `pulumi:"publicKeyPem"`
 }
 
 func GetPublicKeyOutput(ctx *pulumi.Context, args GetPublicKeyOutputArgs, opts ...pulumi.InvokeOption) GetPublicKeyResultOutput {
@@ -138,12 +133,6 @@ func (o GetPublicKeyResultOutput) ToGetPublicKeyResultOutputWithContext(ctx cont
 	return o
 }
 
-func (o GetPublicKeyResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetPublicKeyResult] {
-	return pulumix.Output[GetPublicKeyResult]{
-		OutputState: o.OutputState,
-	}
-}
-
 // The name of the algorithm used by the given private key. Possible values are: `RSA`, `ECDSA` and `ED25519`.
 func (o GetPublicKeyResultOutput) Algorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPublicKeyResult) string { return v.Algorithm }).(pulumi.StringOutput)
@@ -174,12 +163,10 @@ func (o GetPublicKeyResultOutput) PublicKeyFingerprintSha256() pulumi.StringOutp
 	return o.ApplyT(func(v GetPublicKeyResult) string { return v.PublicKeyFingerprintSha256 }).(pulumi.StringOutput)
 }
 
-// The public key, in  OpenSSH PEM (RFC 4716).
 func (o GetPublicKeyResultOutput) PublicKeyOpenssh() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPublicKeyResult) string { return v.PublicKeyOpenssh }).(pulumi.StringOutput)
 }
 
-// The public key, in PEM (RFC 1421).
 func (o GetPublicKeyResultOutput) PublicKeyPem() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPublicKeyResult) string { return v.PublicKeyPem }).(pulumi.StringOutput)
 }
