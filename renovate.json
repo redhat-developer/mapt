@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "config:recommended",
     ":maintainLockFilesWeekly",
     ":enablePreCommit",
     "group:all",
@@ -13,24 +13,37 @@
   "packageRules": [
     {
       "description": "Enable go indirect dependencies",
-      "matchManagers": ["gomod"],
-      "matchDepTypes": ["indirect"],
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchDepTypes": [
+        "indirect"
+      ],
       "enabled": true
     },
     {
       "description": "Group go major upgrades",
-      "matchManagers": ["gomod"],
-      "matchUpdateTypes": ["major"],
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "go major updates"
     },
     {
       "description": "Group patch updates",
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "groupName": "Patch updates",
       "automerge": true,
       "platformAutomerge": true
     }
   ],
-  "postUpdateOptions": ["gomodUpdateImportPaths", "gomodTidy"],
+  "postUpdateOptions": [
+    "gomodUpdateImportPaths",
+    "gomodTidy"
+  ],
   "configMigration": true
 }
