@@ -3,8 +3,8 @@ module github.com/adrianriobo/qenvs
 go 1.19
 
 require (
-	github.com/aws/aws-sdk-go v1.45.14
-	github.com/coocood/freecache v1.2.3
+	github.com/aws/aws-sdk-go v1.45.19
+	github.com/coocood/freecache v1.2.4
 	// keep 5.42.0 it until we upgrade go version
 	github.com/pulumi/pulumi-aws/sdk/v5 v5.42.0
 	github.com/pulumi/pulumi-command/sdk v0.9.1
