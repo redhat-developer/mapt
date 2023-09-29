@@ -103,6 +103,9 @@ if (!(Test-Path -Path $profilePath)) {
 }
 Add-Content -Path $profilePath -Value "Remove-Item alias:curl"
 
+# Install chocolatey
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
 # Restart computer to have the ssh connection available with setup from this script
 Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"
 
