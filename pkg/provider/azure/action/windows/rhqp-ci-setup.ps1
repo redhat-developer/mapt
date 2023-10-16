@@ -61,6 +61,11 @@ switch ($osProductType)
     "Server" {Install-WindowsFeature -Name Hyper-V -IncludeManagementTools}
 }
 
+# Install wsl2
+Enable-WindowsOptionalFeature -Online -NoRestart -FeatureName VirtualMachinePlatform 
+Enable-WindowsOptionalFeature -Online -NoRestart -FeatureName Microsoft-Windows-Subsystem-Linux 
+New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp" -Name wsl-install.bat -ItemType "file" -Value 'wsl --update'
+
 # Install sshd
 # Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 curl.exe -LO https://github.com/PowerShell/Win32-OpenSSH/releases/download/v9.2.0.0p1-Beta/OpenSSH-Win64-v9.2.0.0.msi
