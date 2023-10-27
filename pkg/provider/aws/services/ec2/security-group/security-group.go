@@ -1,6 +1,7 @@
 package securitygroup
 
 import (
+	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	infra "github.com/adrianriobo/qenvs/pkg/provider"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -34,9 +35,7 @@ func (r SGRequest) Create(ctx *pulumi.Context) (*SGResources, error) {
 			VpcId:       r.VPC.ID(),
 			Ingress:     getSecurityGroupIngressArray(r.IngressRules),
 			Egress:      ec2.SecurityGroupEgressArray{egressAll},
-			Tags: pulumi.StringMap{
-				"Name": pulumi.String(r.Name),
-			},
+			Tags:        qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	if err != nil {
 		return nil, err

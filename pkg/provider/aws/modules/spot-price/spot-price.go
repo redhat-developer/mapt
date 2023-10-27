@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/meta/azs"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/aws/aws-sdk-go/aws"
@@ -47,9 +47,9 @@ func getPricesPerRegion(productDescription string,
 
 func getDescribeAvailabilityZones(regions []string) []*ec2.AvailabilityZone {
 	allAvailabilityZones := []*ec2.AvailabilityZone{}
-	c := make(chan azs.AvailabilityZonesResult)
+	c := make(chan data.AvailabilityZonesResult)
 	for _, region := range regions {
-		go azs.DescribeAvailabilityZonesAsync(region, c)
+		go data.DescribeAvailabilityZonesAsync(region, c)
 	}
 	for i := 0; i < len(regions); i++ {
 		availabilityZonesResult := <-c
@@ -71,7 +71,7 @@ func checkBestOption(source []SpotPriceGroup, sps []*ec2.SpotPlacementScore, ava
 		for _, price := range source {
 			idx := slices.IndexFunc(sps, func(item *ec2.SpotPlacementScore) bool {
 				// Need transform
-				spsZoneName, err := azs.GetZoneName(*item.AvailabilityZoneId, availabilityZones)
+				spsZoneName, err := data.GetZoneName(*item.AvailabilityZoneId, availabilityZones)
 				if err != nil {
 					return false
 				}

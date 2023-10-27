@@ -2,7 +2,7 @@ package environment
 
 import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
+	network "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network/standard"
 )
 
 type singleHostRequest struct {

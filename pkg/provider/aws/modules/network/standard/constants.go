@@ -1,4 +1,4 @@
-package network
+package standard
 
 const (
 	StackCreateNetworkName        string = "Manage-Network"

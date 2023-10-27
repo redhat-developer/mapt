@@ -16,11 +16,12 @@ const (
 
 // store details for the current execution
 type context struct {
-	id            string
-	instanceID    string
-	backedURL     string
-	resultsOutput string
-	tags          pulumi.StringMap
+	id                    string
+	instanceID            string
+	backedURL             string
+	resultsOutput         string
+	tags                  map[string]string
+	tagsAsPulumiStringMap pulumi.StringMap
 }
 
 var c context
@@ -31,15 +32,29 @@ func Init(instanceID, backedURL, resultsOutput string, tags map[string]string) {
 		id:            randomID(originTagValue),
 		backedURL:     backedURL,
 		resultsOutput: resultsOutput,
-		tags: maps.Convert(tags,
-			func(name string) string { return name },
-			func(value string) pulumi.StringInput { return pulumi.String(value) }),
+		tags:          tags,
 	}
 	addCommonTags()
 }
 
-func GetTags() pulumi.StringMap {
+func InitBase(instanceID, backedURL string) {
+	c = context{
+		instanceID: instanceID,
+		backedURL:  backedURL,
+	}
+}
+
+func GetTags() map[string]string {
 	return c.tags
+}
+
+func GetTagsAsPulumiStringMap() pulumi.StringMap {
+	if c.tagsAsPulumiStringMap == nil {
+		c.tagsAsPulumiStringMap = maps.Convert(c.tags,
+			func(name string) string { return name },
+			func(value string) pulumi.StringInput { return pulumi.String(value) })
+	}
+	return c.tagsAsPulumiStringMap
 }
 
 func GetID() string {
@@ -63,8 +78,8 @@ func GetStackInstanceName(stackName string) string {
 }
 
 func addCommonTags() {
-	c.tags[originTagName] = pulumi.String(originTagValue)
-	c.tags[instaceTagName] = pulumi.String(c.instanceID)
+	c.tags[originTagName] = originTagValue
+	c.tags[instaceTagName] = c.instanceID
 }
 
 func randomID(name string) string {

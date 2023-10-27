@@ -1,8 +1,8 @@
-package network
+package standard
 
 import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/subnet"
-	vpc "github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/vpc"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/vpc"
 )
 
 type NetworkRequest struct {
@@ -14,6 +14,7 @@ type NetworkRequest struct {
 	PrivateSubnetsCIDRs []string
 	IntraSubnetsCIDRs   []string
 	SingleNatGateway    bool
+	PublicToIntra       *bool
 }
 
 type NetworkResources struct {

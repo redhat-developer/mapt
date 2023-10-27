@@ -1,10 +1,15 @@
-package regions
+package data
 
 import (
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/aws/aws-sdk-go/aws/session"
 
 	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
+)
+
+var (
+	optInStatusFilter      string = "opt-in-status"
+	optInStatusNorRequired string = "opt-in-not-required"
 )
 
 func GetRegions() ([]string, error) {

@@ -1,11 +1,8 @@
 package environment
 
 import (
-	"fmt"
-
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
-	supportmatrix "github.com/adrianriobo/qenvs/pkg/provider/aws/support-matrix"
+	network "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network/standard"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -17,25 +14,10 @@ func (r singleHostRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	var bastion *compute.Compute
-	if r.bastion != nil {
-		logging.Debug("Creating bastion")
-		// Compose runtime resources info
-		bastionRequest := compute.Request{
-			ProjecName: fmt.Sprintf("%s-%s", r.name, "bastion"),
-			VPC:        network.VPCResources.VPC,
-			Subnets:    []*ec2.Subnet{network.PublicSNResources[0].Subnet},
-			Specs:      &supportmatrix.S_BASTION,
-			//  need to complete Specs: ,
-		}
-		bastion, err = bastionRequest.Create(ctx, &bastionRequest)
-		if err != nil {
-			return err
-		}
-	}
+
 	if r.hostRequested != nil {
 		logging.Debug("Creating requested host %")
-		fillCompute(r.hostRequested.GetRequest(), network, bastion)
+		fillCompute(r.hostRequested.GetRequest(), network, nil)
 		_, err = r.hostRequested.Create(ctx, r.hostRequested)
 		if err != nil {
 			return err
