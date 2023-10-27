@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/meta/regions"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 )
 
@@ -31,7 +31,7 @@ func manageReplicas(projectName, backedURL,
 		AMISourceID:     amiID,
 		AMISourceRegion: amiSourceRegion}
 
-	regions, err := regions.GetRegions()
+	regions, err := data.GetRegions()
 	if err != nil {
 		logging.Errorf("failed to get regions")
 		os.Exit(1)

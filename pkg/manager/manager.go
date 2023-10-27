@@ -54,6 +54,6 @@ func CheckStack(target Stack) (*auto.Stack, error) {
 	return &stack, err
 }
 
-func GetOutputs(stack auto.Stack) (auto.OutputMap, error) {
+func GetOutputs(stack *auto.Stack) (auto.OutputMap, error) {
 	return stack.Outputs(context.Background())
 }

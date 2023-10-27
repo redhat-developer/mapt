@@ -1,8 +1,9 @@
-package network
+package vpc
 
 import (
 	"fmt"
 
+	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	infra "github.com/adrianriobo/qenvs/pkg/provider"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -24,9 +25,7 @@ func (s VPCRequest) CreateNetwork(ctx *pulumi.Context) (*VPCResources, error) {
 	v, err := ec2.NewVpc(ctx, vName,
 		&ec2.VpcArgs{
 			CidrBlock: pulumi.String(s.CIDR),
-			Tags: pulumi.StringMap{
-				"Name": pulumi.String(vName),
-			},
+			Tags:      qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	if err != nil {
 		return nil, err
@@ -36,9 +35,7 @@ func (s VPCRequest) CreateNetwork(ctx *pulumi.Context) (*VPCResources, error) {
 		iName,
 		&ec2.InternetGatewayArgs{
 			VpcId: v.ID(),
-			Tags: pulumi.StringMap{
-				"Name": pulumi.String(iName),
-			},
+			Tags:  qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	if err != nil {
 		return nil, err
@@ -67,9 +64,7 @@ func (s VPCRequest) CreateNetwork(ctx *pulumi.Context) (*VPCResources, error) {
 					},
 				},
 			},
-			Tags: pulumi.StringMap{
-				"Name": pulumi.String(sgName),
-			},
+			Tags: qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	if err != nil {
 		return nil, err

@@ -8,11 +8,10 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute/host/fedora"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute/host/macm1"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute/host/rhel"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute/host/windows"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/compute/services/snc"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
+	network "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network/standard"
 	spotprice "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/spot-price"
 	supportMatrix "github.com/adrianriobo/qenvs/pkg/provider/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
@@ -147,15 +146,6 @@ func manageRequest(request *singleHostRequest,
 				SpotPrice:  spotPrice,
 				Specs:      host,
 			}}
-	case supportMatrix.G_MAC_M1.ID:
-		request.hostRequested = &macm1.Request{
-			Request: compute.Request{
-				ProjecName: projectName,
-				Public:     public,
-				Specs:      host,
-			},
-			VersionMajor: macosMajorVersion,
-		}
 	case supportMatrix.S_SNC.ID:
 		request.hostRequested = &snc.SNCRequest{
 			RHELRequest: rhel.RHELRequest{VersionMajor: rhMajorVersion,

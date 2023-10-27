@@ -77,7 +77,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(*location),
 			ResourceGroupName: pulumi.String(qenvsContext.GetID()),
-			Tags:              qenvsContext.GetTags(),
+			Tags:              qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	if err != nil {
 		return err
@@ -187,7 +187,7 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 			AdminPassword: adminPasswd.Result,
 			ComputerName:  pulumi.String(qenvsContext.GetID()),
 		},
-		Tags: qenvsContext.GetTags(),
+		Tags: qenvsContext.GetTagsAsPulumiStringMap(),
 	}
 	if spotPrice != nil {
 		vmArgs.Priority = pulumi.String(prioritySpot)
@@ -216,7 +216,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 			},
 			ResourceGroupName: rg.Name,
 			Location:          pulumi.String(location),
-			Tags:              qenvsContext.GetTags(),
+			Tags:              qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	if err != nil {
 		return nil, nil, err
@@ -241,7 +241,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 			PublicIpAddressName:      pulumi.String(qenvsContext.GetID()),
 			PublicIPAllocationMethod: pulumi.String("Static"),
 			ResourceGroupName:        rg.Name,
-			Tags:                     qenvsContext.GetTags(),
+			Tags:                     qenvsContext.GetTagsAsPulumiStringMap(),
 			// DnsSettings: network.PublicIPAddressDnsSettingsArgs{
 			// 	DomainNameLabel: pulumi.String("qenvs"),
 			// },
@@ -268,7 +268,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 					},
 				},
 			},
-			Tags: qenvsContext.GetTags(),
+			Tags: qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	if err != nil {
 		return nil, nil, err
@@ -336,7 +336,7 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				},
 				"commandToExecute": setupCommand,
 			},
-			Tags: qenvsContext.GetTags(),
+			Tags: qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	return privateKey, err
 }
@@ -354,7 +354,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 			Sku: &storage.SkuArgs{
 				Name: pulumi.String("Premium_LRS"),
 			},
-			Tags: qenvsContext.GetTags(),
+			Tags: qenvsContext.GetTagsAsPulumiStringMap(),
 		})
 	if err != nil {
 		return nil, err

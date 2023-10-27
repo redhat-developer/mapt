@@ -1,4 +1,4 @@
-package azs
+package data
 
 import (
 	"fmt"
@@ -9,9 +9,15 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"golang.org/x/exp/slices"
-	// "github.com/pulumi/pulumi-aws/sdk/v5/go/aws"
-	// "github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
+
+func GetRandomAvailabilityZone(region string) (*string, error) {
+	azs, err := DescribeAvailabilityZones(region)
+	if err != nil {
+		return nil, err
+	}
+	return azs[util.Random(len(azs)-1, 0)].ZoneName, nil
+}
 
 func GetAvailabilityZones() []string {
 	azs, err := describeAvailabilityZones("")

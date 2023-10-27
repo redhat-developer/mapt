@@ -1,11 +1,11 @@
-package network
+package standard
 
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/meta/azs"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/subnet"
-	vpc "github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/vpc"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/vpc"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -14,7 +14,7 @@ func DefaultNetworkRequest(name, regionName string) NetworkRequest {
 	return NetworkRequest{
 		Name:                name,
 		CIDR:                DefaultCIDRNetwork,
-		AvailabilityZones:   azs.GetAvailabilityZones()[:3],
+		AvailabilityZones:   data.GetAvailabilityZones()[:3],
 		PublicSubnetsCIDRs:  DefaultCIDRPublicSubnets[:],
 		PrivateSubnetsCIDRs: DefaultCIDRPrivateSubnets[:],
 		IntraSubnetsCIDRs:   DefaultCIDRIntraSubnets[:],

@@ -8,12 +8,8 @@ const (
 	olFedoraID        string = "ol-fedora"
 	sSNCID            string = "s-snc"
 
-	// General mac m1
-	gMacOSM1ID string = "g-macos-m1"
-
 	// General services
-	sBastionID string = "s-bastion"
-	sProxyID   string = "s-proxy"
+	sProxyID string = "s-proxy"
 
 	OwnerSelf string = "self"
 )

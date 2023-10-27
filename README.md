@@ -7,8 +7,8 @@ automation for qe environments using pulumi
 
 ## Supported environments
 
-Currently qenvs wil handle offerings on azure and aws the main purpose is offer machines which allows nested virtualization and 
-could be added to a CI/CD system for handling automation on top of them.
+Currently qenvs wil handle offerings on azure and aws the main purpose is offer machines which allows nested virtualization and could be added to a CI/CD system for handling automation on top of them.
 
 * [azure supported environments](docs/azure.md)
 * [aws supported environments](docs/aws.md)
+  * [aws mac](docs/aws/mac.md)  

@@ -1,6 +1,7 @@
 package keypair
 
 import (
+	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -29,7 +30,8 @@ func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
 	k, err := ec2.NewKeyPair(ctx,
 		r.Name,
 		&ec2.KeyPairArgs{
-			PublicKey: privateKey.PublicKeyOpenssh})
+			PublicKey: privateKey.PublicKeyOpenssh,
+			Tags:      qenvsContext.GetTagsAsPulumiStringMap()})
 	if err != nil {
 		return nil, err
 	}

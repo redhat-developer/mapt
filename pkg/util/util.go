@@ -1,6 +1,7 @@
 package util
 
 import (
+	"math/rand"
 	"strings"
 )
 
@@ -63,4 +64,8 @@ func Max(source []float64) float64 {
 		total += v
 	}
 	return total / float64(len(source))
+}
+
+func Random(max, min int) int {
+	return rand.Intn(max-min+1) + min
 }

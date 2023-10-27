@@ -5,7 +5,7 @@ import (
 
 	"github.com/adrianriobo/qenvs/pkg/manager"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/meta/regions"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	supportmatrix "github.com/adrianriobo/qenvs/pkg/provider/aws/support-matrix"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -38,7 +38,7 @@ func Destroy(projectName, backedURL string) (err error) {
 }
 
 func BestSpotPriceInfo(targetHostID string) (*SpotPriceGroup, error) {
-	regions, err := regions.GetRegions()
+	regions, err := data.GetRegions()
 	if err != nil {
 		logging.Errorf("failed to get regions")
 		os.Exit(1)
@@ -85,7 +85,7 @@ func createStack(projectName, backedURL, targetHostID string) (*SpotPriceGroup, 
 }
 
 func getOutputs(stack *auto.Stack) (*SpotPriceGroup, error) {
-	outputs, err := manager.GetOutputs(*stack)
+	outputs, err := manager.GetOutputs(stack)
 	if err != nil {
 		return nil, err
 	}
