@@ -31,7 +31,10 @@ spec:
     default: '11'
   - name: vmsize
     description: size for the machine
-    default: Standard_D8a_v4
+    default: Standard_D8s_v4
+  - name: spot
+    description: in case spot is set to true it will check for best spot price and create the VM on the target region
+    default: 'true'
   - name: workspace-resources-path
     description: path on workspace where to store ephemeral assets related with the provisioning
   - name: remove-lock
@@ -85,6 +88,9 @@ spec:
         cmd="$cmd --windows-featurepack $(params.windows-featurepack) "
         cmd="$cmd --windows-version $(params.windows-version) "
         cmd="$cmd --vmsize $(params.vmsize) "
+        if [[ $(params.spot) == "true" ]]; then
+          cmd="$cmd --spot "
+        if
       fi
       eval "${cmd}"
 
