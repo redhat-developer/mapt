@@ -1,5 +1,5 @@
 TOOLS_BINDIR = $(realpath $(TOOLS_DIR)/bin)
-TKN_VERSION = 0.31.1
+TKN_VERSION = 0.32.2
 
 .PHONY: install-out-of-tree-tools
 install-out-of-tree-tools: \
