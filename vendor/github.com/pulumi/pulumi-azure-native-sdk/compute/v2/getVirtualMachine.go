@@ -14,6 +14,8 @@ import (
 
 // Retrieves information about the model view or the instance view of a virtual machine.
 // Azure REST API version: 2023-03-01.
+//
+// Other available API versions: 2023-07-01.
 func LookupVirtualMachine(ctx *pulumi.Context, args *LookupVirtualMachineArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineResult

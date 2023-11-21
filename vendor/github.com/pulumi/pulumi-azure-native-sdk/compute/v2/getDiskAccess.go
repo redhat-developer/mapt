@@ -14,6 +14,8 @@ import (
 
 // Gets information about a disk access resource.
 // Azure REST API version: 2022-07-02.
+//
+// Other available API versions: 2023-01-02, 2023-04-02.
 func LookupDiskAccess(ctx *pulumi.Context, args *LookupDiskAccessArgs, opts ...pulumi.InvokeOption) (*LookupDiskAccessResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDiskAccessResult

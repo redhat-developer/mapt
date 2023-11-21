@@ -5,7 +5,7 @@ import (
 
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	infra "github.com/adrianriobo/qenvs/pkg/provider"
-	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -33,7 +33,7 @@ func (r PrivateSubnetRequest) Create(ctx *pulumi.Context) (*PrivateSubnetResourc
 			VpcId:            r.VPC.ID(),
 			CidrBlock:        pulumi.String(r.CIDR),
 			AvailabilityZone: pulumi.String(r.AvailabilityZone),
-			Tags:             qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags:             qenvsContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (r PrivateSubnetRequest) Create(ctx *pulumi.Context) (*PrivateSubnetResourc
 		&ec2.RouteTableArgs{
 			VpcId:  r.VPC.ID(),
 			Routes: getRoutes(r.NatGateway),
-			Tags:   qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags:   qenvsContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err

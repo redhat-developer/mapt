@@ -14,6 +14,8 @@ import (
 
 // Retrieves the current status of IDPS signatures for the relevant policy
 // Azure REST API version: 2023-02-01.
+//
+// Other available API versions: 2021-08-01, 2023-04-01, 2023-05-01, 2023-06-01.
 func ListFirewallPolicyIdpsSignature(ctx *pulumi.Context, args *ListFirewallPolicyIdpsSignatureArgs, opts ...pulumi.InvokeOption) (*ListFirewallPolicyIdpsSignatureResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListFirewallPolicyIdpsSignatureResult

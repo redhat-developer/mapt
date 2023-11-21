@@ -14,7 +14,9 @@ import (
 )
 
 // NetworkVirtualAppliance Resource.
-// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01
+// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01.
+//
+// Other available API versions: 2020-04-01, 2023-04-01, 2023-05-01, 2023-06-01.
 type NetworkVirtualAppliance struct {
 	pulumi.CustomResourceState
 
@@ -56,8 +58,6 @@ type NetworkVirtualAppliance struct {
 	Type pulumi.StringOutput `pulumi:"type"`
 	// VirtualAppliance ASN. Microsoft private, public and IANA reserved ASN are not supported.
 	VirtualApplianceAsn pulumi.Float64PtrOutput `pulumi:"virtualApplianceAsn"`
-	// List of references to VirtualApplianceConnections.
-	VirtualApplianceConnections SubResourceResponseArrayOutput `pulumi:"virtualApplianceConnections"`
 	// List of Virtual Appliance Network Interfaces.
 	VirtualApplianceNics VirtualApplianceNicPropertiesResponseArrayOutput `pulumi:"virtualApplianceNics"`
 	// List of references to VirtualApplianceSite.
@@ -136,6 +136,9 @@ func NewNetworkVirtualAppliance(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230501:NetworkVirtualAppliance"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230601:NetworkVirtualAppliance"),
 		},
 	})
 	opts = append(opts, aliases)
@@ -384,11 +387,6 @@ func (o NetworkVirtualApplianceOutput) Type() pulumi.StringOutput {
 // VirtualAppliance ASN. Microsoft private, public and IANA reserved ASN are not supported.
 func (o NetworkVirtualApplianceOutput) VirtualApplianceAsn() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v *NetworkVirtualAppliance) pulumi.Float64PtrOutput { return v.VirtualApplianceAsn }).(pulumi.Float64PtrOutput)
-}
-
-// List of references to VirtualApplianceConnections.
-func (o NetworkVirtualApplianceOutput) VirtualApplianceConnections() SubResourceResponseArrayOutput {
-	return o.ApplyT(func(v *NetworkVirtualAppliance) SubResourceResponseArrayOutput { return v.VirtualApplianceConnections }).(SubResourceResponseArrayOutput)
 }
 
 // List of Virtual Appliance Network Interfaces.

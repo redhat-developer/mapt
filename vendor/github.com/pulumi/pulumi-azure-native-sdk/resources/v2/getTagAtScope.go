@@ -14,6 +14,8 @@ import (
 
 // Wrapper resource for tags API requests and responses.
 // Azure REST API version: 2022-09-01.
+//
+// Other available API versions: 2023-07-01.
 func LookupTagAtScope(ctx *pulumi.Context, args *LookupTagAtScopeArgs, opts ...pulumi.InvokeOption) (*LookupTagAtScopeResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupTagAtScopeResult

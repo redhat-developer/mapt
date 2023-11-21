@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
 )
 
 // PropertyPath represents a path to a nested property. The path may be composed of strings (which access properties
@@ -49,13 +50,24 @@ type PropertyPath []interface{}
 func ParsePropertyPath(path string) (PropertyPath, error) {
 	// We interpret the grammar above a little loosely in order to keep things simple. Specifically, we will accept
 	// something close to the following:
-	// pathElement := { '.' } ( '[' ( [0-9]+ | '"' ('\' '"' | [^"] )+ '"' ']' | [a-zA-Z_$][a-zA-Z0-9_$] )
-	// path := { pathElement }
+	// pathElement := { '.' } [a-zA-Z_$][a-zA-Z0-9_$]
+	// pathIndex := '[' ( [0-9]+ | '"' ('\' '"' | [^"] )+ '"' ']'
+	// path := { pathElement | pathIndex }
 	var elements []interface{}
+	if len(path) > 0 && path[0] == '.' {
+		return nil, errors.New("expected property path to start with a name or index")
+	}
 	for len(path) > 0 {
 		switch path[0] {
 		case '.':
 			path = path[1:]
+			if len(path) == 0 {
+				return nil, errors.New("expected property path to end with a name or index")
+			}
+			if path[0] == '[' {
+				// We tolerate a '.' followed by a '[', which is not strictly legal, but is common from old providers.
+				logging.V(10).Infof("property path '%s' contains a '.' followed by a '['; this is not strictly legal", path)
+			}
 		case '[':
 			// If the character following the '[' is a '"', parse a string key.
 			var pathElement interface{}

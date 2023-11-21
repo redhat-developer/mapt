@@ -135,8 +135,6 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &NetworkSecurityPerimeter{}
 	case "azure-native:network:NetworkVirtualAppliance":
 		r = &NetworkVirtualAppliance{}
-	case "azure-native:network:NetworkVirtualApplianceConnection":
-		r = &NetworkVirtualApplianceConnection{}
 	case "azure-native:network:NetworkWatcher":
 		r = &NetworkWatcher{}
 	case "azure-native:network:NspAccessRule":

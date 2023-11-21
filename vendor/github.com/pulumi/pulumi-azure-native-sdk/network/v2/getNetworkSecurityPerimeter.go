@@ -14,6 +14,8 @@ import (
 
 // Gets the specified network security perimeter by the name.
 // Azure REST API version: 2021-03-01-preview.
+//
+// Other available API versions: 2021-02-01-preview, 2023-07-01-preview, 2023-08-01-preview.
 func LookupNetworkSecurityPerimeter(ctx *pulumi.Context, args *LookupNetworkSecurityPerimeterArgs, opts ...pulumi.InvokeOption) (*LookupNetworkSecurityPerimeterResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkSecurityPerimeterResult

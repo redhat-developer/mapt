@@ -14,7 +14,7 @@ import (
 )
 
 // Describes the cloud service.
-// Azure REST API version: 2022-09-04. Prior API version in Azure Native 1.x: 2021-03-01
+// Azure REST API version: 2022-09-04. Prior API version in Azure Native 1.x: 2021-03-01.
 type CloudService struct {
 	pulumi.CustomResourceState
 

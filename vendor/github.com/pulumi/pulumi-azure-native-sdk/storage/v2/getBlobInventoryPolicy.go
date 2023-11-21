@@ -14,6 +14,8 @@ import (
 
 // Gets the blob inventory policy associated with the specified storage account.
 // Azure REST API version: 2022-09-01.
+//
+// Other available API versions: 2023-01-01.
 func LookupBlobInventoryPolicy(ctx *pulumi.Context, args *LookupBlobInventoryPolicyArgs, opts ...pulumi.InvokeOption) (*LookupBlobInventoryPolicyResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupBlobInventoryPolicyResult

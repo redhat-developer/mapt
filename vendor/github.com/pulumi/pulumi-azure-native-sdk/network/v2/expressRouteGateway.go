@@ -14,7 +14,9 @@ import (
 )
 
 // ExpressRoute gateway resource.
-// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01
+// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01.
+//
+// Other available API versions: 2021-03-01, 2023-04-01, 2023-05-01, 2023-06-01.
 type ExpressRouteGateway struct {
 	pulumi.CustomResourceState
 
@@ -146,6 +148,9 @@ func NewExpressRouteGateway(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230501:ExpressRouteGateway"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230601:ExpressRouteGateway"),
 		},
 	})
 	opts = append(opts, aliases)

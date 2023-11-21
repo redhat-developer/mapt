@@ -14,7 +14,9 @@ import (
 )
 
 // ExpressRoutePort Authorization resource definition.
-// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2022-01-01
+// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2022-01-01.
+//
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01.
 type ExpressRoutePortAuthorization struct {
 	pulumi.CustomResourceState
 
@@ -74,6 +76,9 @@ func NewExpressRoutePortAuthorization(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230501:ExpressRoutePortAuthorization"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230601:ExpressRoutePortAuthorization"),
 		},
 	})
 	opts = append(opts, aliases)

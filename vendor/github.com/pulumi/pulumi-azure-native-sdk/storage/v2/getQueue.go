@@ -14,6 +14,8 @@ import (
 
 // Gets the queue with the specified queue name, under the specified account if it exists.
 // Azure REST API version: 2022-09-01.
+//
+// Other available API versions: 2023-01-01.
 func LookupQueue(ctx *pulumi.Context, args *LookupQueueArgs, opts ...pulumi.InvokeOption) (*LookupQueueResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupQueueResult

@@ -14,6 +14,8 @@ import (
 
 // Gets the existing immutability policy along with the corresponding ETag in response headers and body.
 // Azure REST API version: 2022-09-01.
+//
+// Other available API versions: 2019-04-01, 2023-01-01.
 func LookupBlobContainerImmutabilityPolicy(ctx *pulumi.Context, args *LookupBlobContainerImmutabilityPolicyArgs, opts ...pulumi.InvokeOption) (*LookupBlobContainerImmutabilityPolicyResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupBlobContainerImmutabilityPolicyResult

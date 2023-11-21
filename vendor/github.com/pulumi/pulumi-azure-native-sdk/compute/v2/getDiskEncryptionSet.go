@@ -14,6 +14,8 @@ import (
 
 // Gets information about a disk encryption set.
 // Azure REST API version: 2022-07-02.
+//
+// Other available API versions: 2020-06-30, 2023-01-02, 2023-04-02.
 func LookupDiskEncryptionSet(ctx *pulumi.Context, args *LookupDiskEncryptionSetArgs, opts ...pulumi.InvokeOption) (*LookupDiskEncryptionSetResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDiskEncryptionSetResult

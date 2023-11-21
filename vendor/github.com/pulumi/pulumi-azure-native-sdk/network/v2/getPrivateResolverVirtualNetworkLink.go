@@ -14,6 +14,8 @@ import (
 
 // Gets properties of a virtual network link to a DNS forwarding ruleset.
 // Azure REST API version: 2022-07-01.
+//
+// Other available API versions: 2020-04-01-preview.
 func LookupPrivateResolverVirtualNetworkLink(ctx *pulumi.Context, args *LookupPrivateResolverVirtualNetworkLinkArgs, opts ...pulumi.InvokeOption) (*LookupPrivateResolverVirtualNetworkLinkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPrivateResolverVirtualNetworkLinkResult

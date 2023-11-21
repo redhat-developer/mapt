@@ -14,6 +14,8 @@ import (
 
 // The operation to get the run command.
 // Azure REST API version: 2023-03-01.
+//
+// Other available API versions: 2023-07-01.
 func LookupVirtualMachineRunCommandByVirtualMachine(ctx *pulumi.Context, args *LookupVirtualMachineRunCommandByVirtualMachineArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineRunCommandByVirtualMachineResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineRunCommandByVirtualMachineResult

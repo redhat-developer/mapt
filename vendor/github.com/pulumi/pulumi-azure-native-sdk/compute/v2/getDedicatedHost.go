@@ -14,6 +14,8 @@ import (
 
 // Retrieves information about a dedicated host.
 // Azure REST API version: 2023-03-01.
+//
+// Other available API versions: 2023-07-01.
 func LookupDedicatedHost(ctx *pulumi.Context, args *LookupDedicatedHostArgs, opts ...pulumi.InvokeOption) (*LookupDedicatedHostResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDedicatedHostResult

@@ -14,6 +14,8 @@ import (
 
 // Retrieves the details of a VirtualHub.
 // Azure REST API version: 2023-02-01.
+//
+// Other available API versions: 2018-07-01, 2020-04-01, 2020-06-01, 2023-04-01, 2023-05-01, 2023-06-01.
 func LookupVirtualHub(ctx *pulumi.Context, args *LookupVirtualHubArgs, opts ...pulumi.InvokeOption) (*LookupVirtualHubResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualHubResult

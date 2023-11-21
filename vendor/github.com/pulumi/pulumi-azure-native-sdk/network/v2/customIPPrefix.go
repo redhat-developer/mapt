@@ -14,7 +14,9 @@ import (
 )
 
 // Custom IP prefix resource.
-// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01
+// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01.
+//
+// Other available API versions: 2021-03-01, 2023-04-01, 2023-05-01, 2023-06-01.
 type CustomIPPrefix struct {
 	pulumi.CustomResourceState
 
@@ -122,6 +124,9 @@ func NewCustomIPPrefix(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230501:CustomIPPrefix"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230601:CustomIPPrefix"),
 		},
 	})
 	opts = append(opts, aliases)

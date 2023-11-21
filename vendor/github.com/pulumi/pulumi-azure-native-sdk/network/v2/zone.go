@@ -14,7 +14,9 @@ import (
 )
 
 // Describes a DNS zone.
-// Azure REST API version: 2018-05-01. Prior API version in Azure Native 1.x: 2018-05-01
+// Azure REST API version: 2018-05-01. Prior API version in Azure Native 1.x: 2018-05-01.
+//
+// Other available API versions: 2015-05-04-preview, 2016-04-01, 2023-07-01-preview.
 type Zone struct {
 	pulumi.CustomResourceState
 

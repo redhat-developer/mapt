@@ -4,8 +4,10 @@ import (
 	"crypto/rand"
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/util/maps"
+	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	utilMaps "github.com/adrianriobo/qenvs/pkg/util/maps"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"golang.org/x/exp/maps"
 )
 
 const (
@@ -35,6 +37,7 @@ func Init(instanceID, backedURL, resultsOutput string, tags map[string]string) {
 		tags:          tags,
 	}
 	addCommonTags()
+	logging.Debugf("context initialized for %s", c.id)
 }
 
 func InitBase(instanceID, backedURL string) {
@@ -48,9 +51,21 @@ func GetTags() map[string]string {
 	return c.tags
 }
 
-func GetTagsAsPulumiStringMap() pulumi.StringMap {
+// Get tags ready to be added to any pulumi resource
+func ResourceTags() pulumi.StringMap {
+	return ResourceTagsWithCustom(nil)
+}
+
+// Get tags ready to be added to any pulumi resource
+// in addition we cas set specific custom tags
+func ResourceTagsWithCustom(customTags map[string]string) pulumi.StringMap {
+	lTags := make(map[string]string)
+	maps.Copy(lTags, c.tags)
+	if customTags != nil {
+		maps.Copy(lTags, customTags)
+	}
 	if c.tagsAsPulumiStringMap == nil {
-		c.tagsAsPulumiStringMap = maps.Convert(c.tags,
+		c.tagsAsPulumiStringMap = utilMaps.Convert(lTags,
 			func(name string) string { return name },
 			func(value string) pulumi.StringInput { return pulumi.String(value) })
 	}
@@ -69,7 +84,7 @@ func GetBackedURL() string {
 	return c.backedURL
 }
 
-func GetResultsOutput() string {
+func GetResultsOutputPath() string {
 	return c.resultsOutput
 }
 

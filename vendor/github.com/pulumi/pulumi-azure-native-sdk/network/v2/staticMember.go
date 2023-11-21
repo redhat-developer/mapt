@@ -14,7 +14,9 @@ import (
 )
 
 // StaticMember Item.
-// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2022-02-01-preview
+// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2022-02-01-preview.
+//
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01.
 type StaticMember struct {
 	pulumi.CustomResourceState
 
@@ -83,6 +85,9 @@ func NewStaticMember(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230501:StaticMember"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230601:StaticMember"),
 		},
 	})
 	opts = append(opts, aliases)

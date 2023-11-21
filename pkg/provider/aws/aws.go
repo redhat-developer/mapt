@@ -28,15 +28,15 @@ var envCredentials = map[string]string{
 
 var DefaultCredentials = GetClouProviderCredentials(nil)
 
-func GetClouProviderCredentials(fixedCredentials map[string]string) credentials.ProviderCredentials {
+func GetClouProviderCredentials(customCredentials map[string]string) credentials.ProviderCredentials {
 	return credentials.ProviderCredentials{
 		SetCredentialFunc: SetAWSCredentials,
-		FixedCredentials:  fixedCredentials}
+		FixedCredentials:  customCredentials}
 }
 
-func SetAWSCredentials(ctx context.Context, stack auto.Stack, fixedCredentials map[string]string) error {
+func SetAWSCredentials(ctx context.Context, stack auto.Stack, customCredentials map[string]string) error {
 	for configKey, envKey := range envCredentials {
-		if value, ok := fixedCredentials[configKey]; ok {
+		if value, ok := customCredentials[configKey]; ok {
 			if err := stack.SetConfig(ctx, configKey,
 				auto.ConfigValue{Value: value}); err != nil {
 				logging.Errorf("Failed setting credential: %v", err)
@@ -53,7 +53,7 @@ func SetAWSCredentials(ctx context.Context, stack auto.Stack, fixedCredentials m
 	return nil
 }
 
-func DestroyStack(region, stackname string) error {
+func DestroyStackByRegion(region, stackname string) error {
 	stack := manager.Stack{
 		StackName:   qenvsContext.GetStackInstanceName(stackname),
 		ProjectName: qenvsContext.GetInstanceName(),
@@ -62,6 +62,10 @@ func DestroyStack(region, stackname string) error {
 			map[string]string{
 				CONFIG_AWS_REGION: region})}
 	return manager.DestroyStack(stack)
+}
+
+func DestroyStack(stackname string) error {
+	return DestroyStackByRegion(os.Getenv("AWS_DEFAULT_REGION"), stackname)
 }
 
 // Create a list of filters for tags based on the tags added by qenvs

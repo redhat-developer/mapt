@@ -69,3 +69,7 @@ func Max(source []float64) float64 {
 func Random(max, min int) int {
 	return rand.Intn(max-min+1) + min
 }
+
+func RandomItemFromArray[X any](source []X) X {
+	return source[Random(len(source)-1, 0)]
+}

@@ -9,8 +9,7 @@ import (
 	infra "github.com/adrianriobo/qenvs/pkg/provider"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/bastion"
-	na "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network/airgap"
-	ns "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network/standard"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
@@ -22,7 +21,7 @@ import (
 	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/aws/aws-sdk-go/aws/session"
 	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
-	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
@@ -62,8 +61,7 @@ func (r *MacRequest) createMacMachine() error {
 	if err != nil {
 		return err
 	}
-	err = r.manageResultsMachine(
-		csResult, qenvsContext.GetResultsOutput())
+	err = r.manageResultsMachine(csResult)
 	if err != nil {
 		return err
 	}
@@ -72,12 +70,12 @@ func (r *MacRequest) createMacMachine() error {
 
 // this creates the stack for the mac machine
 func (r *MacRequest) createAirgapMacMachine() error {
-	r.airgapPhaseConnectivity = on
+	r.airgapPhaseConnectivity = network.ON
 	err := r.createMacMachine()
 	if err != nil {
 		return nil
 	}
-	r.airgapPhaseConnectivity = off
+	r.airgapPhaseConnectivity = network.OFF
 	return r.createMacMachine()
 }
 
@@ -94,7 +92,15 @@ func (r *MacRequest) deployerMachine(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	vpc, targetSubnet, targetRouteTableAssociation, bastion, err := r.network(ctx)
+	nr := network.NetworkRequest{
+		Prefix:                  r.Prefix,
+		ID:                      awsMacMachineID,
+		Region:                  r.Region,
+		AZ:                      r.AvailabilityZone,
+		Airgap:                  r.Airgap,
+		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
+	}
+	vpc, targetSubnet, targetRouteTableAssociation, bastion, _, err := nr.Network(ctx)
 	if err != nil {
 		return err
 	}
@@ -143,8 +149,7 @@ func (r *MacRequest) deployerMachine(ctx *pulumi.Context) error {
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *MacRequest) manageResultsMachine(stackResult auto.UpResult,
-	destinationFolder string) error {
+func (r *MacRequest) manageResultsMachine(stackResult auto.UpResult) error {
 	results := map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputUsername):       "username",
 		fmt.Sprintf("%s-%s", r.Prefix, outputUserPassword):   "userpassword",
@@ -152,11 +157,12 @@ func (r *MacRequest) manageResultsMachine(stackResult auto.UpResult,
 		fmt.Sprintf("%s-%s", r.Prefix, outputHost):           "host",
 	}
 	if r.Airgap {
-		results[fmt.Sprintf("%s-%s", r.Prefix, outputBastionUserPrivateKey)] = "bastion_id_rsa"
-		results[fmt.Sprintf("%s-%s", r.Prefix, outputBastionUsername)] = "bastion_username"
-		results[fmt.Sprintf("%s-%s", r.Prefix, outputBastionHost)] = "bastion_host"
+		err := bastion.WriteOutputs(stackResult, r.Prefix, qenvsContext.GetResultsOutputPath())
+		if err != nil {
+			return err
+		}
 	}
-	return output.Write(stackResult, destinationFolder, results)
+	return output.Write(stackResult, qenvsContext.GetResultsOutputPath(), results)
 }
 
 // this function will return the AZ for the dedicated host
@@ -228,7 +234,7 @@ func (r *MacRequest) instance(ctx *pulumi.Context,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: qenvsContext.GetTagsAsPulumiStringMap(),
+		Tags: qenvsContext.ResourceTags(),
 	}
 	if r.Airgap {
 		instanceArgs.AssociatePublicIpAddress = pulumi.Bool(false)
@@ -238,82 +244,10 @@ func (r *MacRequest) instance(ctx *pulumi.Context,
 		&instanceArgs)
 }
 
-func (r *MacRequest) network(ctx *pulumi.Context) (
-	vpc *ec2.Vpc,
-	targetSubnet *ec2.Subnet,
-	targetRouteTableAssociation *ec2.RouteTableAssociation,
-	b *bastion.BastionResources,
-	err error) {
-	if !r.Airgap {
-		vpc, targetSubnet, err = r.manageNetworking(ctx)
-		return
-	} else {
-		var publicSubnet *ec2.Subnet
-		if vpc, publicSubnet, targetSubnet, targetRouteTableAssociation, err =
-			r.manageAirgapNetworking(ctx); err != nil {
-			return nil, nil, nil, nil, err
-		}
-		br := bastion.BastionRequest{
-			Prefix: r.Prefix,
-			VPC:    vpc,
-			Subnet: publicSubnet,
-			// private key for bastion will be exported with this key
-			OutputKeyPrivateKey: fmt.Sprintf("%s-%s", r.Prefix, outputBastionUserPrivateKey),
-			OutputKeyUsername:   fmt.Sprintf("%s-%s", r.Prefix, outputBastionUsername),
-			OutputKeyHost:       fmt.Sprintf("%s-%s", r.Prefix, outputBastionHost),
-		}
-		b, err = br.Create(ctx)
-		return
-	}
-}
-
-// Create a standard network (only one public subnet)
-func (r *MacRequest) manageNetworking(ctx *pulumi.Context) (*ec2.Vpc, *ec2.Subnet, error) {
-	net, err := ns.NetworkRequest{
-		CIDR:               cidrVN,
-		Name:               resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "net"),
-		Region:             r.Region,
-		AvailabilityZones:  []string{r.AvailabilityZone},
-		PublicSubnetsCIDRs: []string{cidrPublicSN},
-		SingleNatGateway:   true,
-	}.CreateNetwork(ctx)
-	if err != nil {
-		return nil, nil, err
-	}
-	return net.VPCResources.VPC,
-		net.PublicSNResources[0].Subnet,
-		nil
-}
-
-// Create an airgap scenario (on and off phases will be executed to remove the nat gateway on the off phase)
-func (r *MacRequest) manageAirgapNetworking(ctx *pulumi.Context) (
-	vpc *ec2.Vpc,
-	publicSubnet *ec2.Subnet,
-	targetSubnet *ec2.Subnet,
-	targetRouteTableAssociation *ec2.RouteTableAssociation,
-	err error) {
-	net, err := na.AirgapNetworkRequest{
-		CIDR:             cidrVN,
-		Name:             resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "net"),
-		Region:           r.Region,
-		AvailabilityZone: r.AvailabilityZone,
-		PublicSubnetCIDR: cidrPublicSN,
-		TargetSubnetCIDR: cidrIntraSN,
-		SetAsAirgap:      r.airgapPhaseConnectivity == off}.CreateNetwork(ctx)
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-	return net.VPCResources.VPC,
-		net.PublicSubnet.Subnet,
-		net.TargetSubnet.Subnet,
-		net.TargetSubnet.RouteTableAssociation,
-		nil
-}
-
 func (r *MacRequest) bootstrapscript(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
-	b *bastion.BastionResources,
+	b *bastion.Bastion,
 	dependecies []pulumi.Resource) (
 	*remote.Command,
 	*random.RandomPassword,
@@ -354,7 +288,7 @@ func (r *MacRequest) getBootstrapScript(ctx *pulumi.Context) (
 			userDataValues{
 				defaultUsername,
 				password},
-			fmt.Sprintf("%s-%s", r.Prefix, outputUsername),
+			resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "mac-bootstrap"),
 			string(BootstrapScript[:]))
 
 	}).(pulumi.StringOutput)
@@ -364,7 +298,7 @@ func (r *MacRequest) getBootstrapScript(ctx *pulumi.Context) (
 func (r *MacRequest) readiness(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
-	b *bastion.BastionResources,
+	b *bastion.Bastion,
 	dependecies []pulumi.Resource) error {
 	_, err := remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "readiness-cmd"),
@@ -385,7 +319,7 @@ func (r *MacRequest) readiness(ctx *pulumi.Context,
 func remoteCommandArgs(
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
-	b *bastion.BastionResources) remote.ConnectionArgs {
+	b *bastion.Bastion) remote.ConnectionArgs {
 	ca := remote.ConnectionArgs{
 		Host:           m.PublicIp,
 		PrivateKey:     mk.PrivateKeyOpenssh,
