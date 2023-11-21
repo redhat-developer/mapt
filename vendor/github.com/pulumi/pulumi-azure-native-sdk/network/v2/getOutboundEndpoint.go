@@ -14,6 +14,8 @@ import (
 
 // Gets properties of an outbound endpoint for a DNS resolver.
 // Azure REST API version: 2022-07-01.
+//
+// Other available API versions: 2020-04-01-preview.
 func LookupOutboundEndpoint(ctx *pulumi.Context, args *LookupOutboundEndpointArgs, opts ...pulumi.InvokeOption) (*LookupOutboundEndpointResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupOutboundEndpointResult

@@ -9,14 +9,8 @@ import (
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
-)
-
-type connectivity int
-
-const (
-	on connectivity = iota
-	off
 )
 
 type MacRequest struct {
@@ -33,7 +27,7 @@ type MacRequest struct {
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
 	// a pahase with connectivyt off where the subnet for the target lost the nat gateway
-	airgapPhaseConnectivity connectivity
+	airgapPhaseConnectivity network.Connectivity
 }
 
 // this function orchestrate the two stacks related to mac machine
@@ -81,7 +75,7 @@ func Destroy(r *MacRequest) (err error) {
 		if err != nil {
 			return
 		}
-		if err = aws.DestroyStack(*region, stackMacMachine); err != nil {
+		if err = aws.DestroyStackByRegion(*region, stackMacMachine); err != nil {
 			return
 		}
 	}
@@ -93,7 +87,7 @@ func Destroy(r *MacRequest) (err error) {
 				return
 			}
 		}
-		return aws.DestroyStack(*region, stackDedicatedHost)
+		return aws.DestroyStackByRegion(*region, stackDedicatedHost)
 	}
 	return nil
 }

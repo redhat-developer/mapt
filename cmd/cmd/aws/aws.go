@@ -1,10 +1,7 @@
 package aws
 
 import (
-	"github.com/adrianriobo/qenvs/cmd/cmd/aws/host"
-	"github.com/adrianriobo/qenvs/cmd/cmd/aws/mac"
-	"github.com/adrianriobo/qenvs/cmd/cmd/aws/replica"
-	"github.com/adrianriobo/qenvs/cmd/cmd/aws/spot"
+	"github.com/adrianriobo/qenvs/cmd/cmd/aws/hosts"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -27,9 +24,9 @@ func GetCmd() *cobra.Command {
 	}
 
 	c.AddCommand(
-		replica.GetCmd(),
-		spot.GetCmd(),
-		host.GetCmd(),
-		mac.GetCmd())
+		hosts.GetMacCmd(),
+		hosts.GetWindowsCmd(),
+		hosts.GetRHELCmd(),
+		hosts.GetFedoraCmd())
 	return c
 }

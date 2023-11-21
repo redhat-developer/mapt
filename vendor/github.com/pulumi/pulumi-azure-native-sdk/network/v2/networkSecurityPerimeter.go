@@ -14,7 +14,9 @@ import (
 )
 
 // The Network Security Perimeter resource
-// Azure REST API version: 2021-03-01-preview. Prior API version in Azure Native 1.x: 2021-02-01-preview
+// Azure REST API version: 2021-03-01-preview. Prior API version in Azure Native 1.x: 2021-02-01-preview.
+//
+// Other available API versions: 2021-02-01-preview, 2023-07-01-preview, 2023-08-01-preview.
 type NetworkSecurityPerimeter struct {
 	pulumi.CustomResourceState
 
@@ -52,6 +54,12 @@ func NewNetworkSecurityPerimeter(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20210301preview:NetworkSecurityPerimeter"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230701preview:NetworkSecurityPerimeter"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230801preview:NetworkSecurityPerimeter"),
 		},
 	})
 	opts = append(opts, aliases)

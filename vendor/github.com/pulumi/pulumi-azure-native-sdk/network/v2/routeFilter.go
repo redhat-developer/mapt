@@ -14,7 +14,9 @@ import (
 )
 
 // Route Filter Resource.
-// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01
+// Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01.
+//
+// Other available API versions: 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01.
 type RouteFilter struct {
 	pulumi.CustomResourceState
 
@@ -177,6 +179,9 @@ func NewRouteFilter(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230501:RouteFilter"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230601:RouteFilter"),
 		},
 	})
 	opts = append(opts, aliases)

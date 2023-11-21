@@ -1,0 +1,7 @@
+#cloud-config  
+rh_subscription:
+  username: {{.SubscriptionUsername}}
+  password: {{.SubscriptionPassword}}
+  auto-attach: true
+packages:
+  - podman

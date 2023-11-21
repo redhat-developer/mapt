@@ -3,7 +3,7 @@ package command
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -12,7 +12,7 @@ import (
 const (
 	// remoteCommandTimeout int = 300
 	// https://www.pulumi.com/docs/intro/concepts/resources/options/customtimeouts/
-	remoteTimeout string = "40m"
+	RemoteTimeout string = "40m"
 
 	CommandCloudInitWait string = "sudo cloud-init status --wait"
 	CommandPing          string = "echo ping"
@@ -48,8 +48,8 @@ func (r RemoteInstance) RemoteExec(ctx *pulumi.Context, remoteCommand pulumi.Str
 		Update: remoteCommand,
 	}, pulumi.Timeouts(
 		&pulumi.CustomTimeouts{
-			Create: remoteTimeout,
-			Update: remoteTimeout}),
+			Create: RemoteTimeout,
+			Update: RemoteTimeout}),
 		pulumi.DependsOn(dependecies))
 }
 

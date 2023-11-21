@@ -1,4 +1,4 @@
-VERSION ?= 0.0.6-dev
+VERSION ?= 0.6.0
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/rhqp/qenvs:v${VERSION}
@@ -43,7 +43,7 @@ build: $(BUILD_DIR)/qenvs
 
 .PHONY: test
 test:
-	go test -race --tags build -v -ldflags="$(VERSION_VARIABLES)" ./pkg/... ./cmd/...
+	CGO_ENABLED=1 go test -race --tags build -v -ldflags="$(VERSION_VARIABLES)" ./pkg/... ./cmd/...
 
 .PHONY: clean ## Remove all build artifacts
 clean:
@@ -73,5 +73,8 @@ oci-push:
 .PHONY: tkn-push
 tkn-push: install-out-of-tree-tools
 	$(TOOLS_BINDIR)/tkn bundle push $(TKN_IMG) \
-		-f tkn/infra-management-aws.yaml \
-		-f tkn/infra-management-azure.yaml
+		-f tkn/infra-aws-fedora.yaml \
+		-f tkn/infra-aws-mac.yaml \
+		-f tkn/infra-aws-rhel.yaml \
+		-f tkn/infra-aws-windows-server.yaml \
+		-f tkn/infra-azure-windows-desktop.yaml

@@ -14,6 +14,8 @@ import (
 
 // The operation to get the extension.
 // Azure REST API version: 2023-03-01.
+//
+// Other available API versions: 2021-11-01, 2023-07-01.
 func LookupVirtualMachineScaleSetExtension(ctx *pulumi.Context, args *LookupVirtualMachineScaleSetExtensionArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineScaleSetExtensionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineScaleSetExtensionResult

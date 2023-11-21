@@ -2,7 +2,7 @@ package replica
 
 import (
 	params "github.com/adrianriobo/qenvs/cmd/cmd/constants"
-	amireplication "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/ami-replication"
+	amireplication "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/ami"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -37,7 +37,7 @@ func getCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := amireplication.CreateReplicas(
+			if err := amireplication.CreateReplica(
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.AMIIDName),
@@ -64,7 +64,7 @@ func getDestroy() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := amireplication.DestroyReplicas(
+			if err := amireplication.DestroyReplica(
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL)); err != nil {
 				logging.Error(err)

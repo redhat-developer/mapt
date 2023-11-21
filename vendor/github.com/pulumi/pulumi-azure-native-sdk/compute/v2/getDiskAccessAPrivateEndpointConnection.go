@@ -14,6 +14,8 @@ import (
 
 // Gets information about a private endpoint connection under a disk access resource.
 // Azure REST API version: 2022-07-02.
+//
+// Other available API versions: 2023-01-02, 2023-04-02.
 func LookupDiskAccessAPrivateEndpointConnection(ctx *pulumi.Context, args *LookupDiskAccessAPrivateEndpointConnectionArgs, opts ...pulumi.InvokeOption) (*LookupDiskAccessAPrivateEndpointConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDiskAccessAPrivateEndpointConnectionResult

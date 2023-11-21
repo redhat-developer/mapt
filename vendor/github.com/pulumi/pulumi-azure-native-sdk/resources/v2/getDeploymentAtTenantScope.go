@@ -14,6 +14,8 @@ import (
 
 // Gets a deployment.
 // Azure REST API version: 2022-09-01.
+//
+// Other available API versions: 2023-07-01.
 func LookupDeploymentAtTenantScope(ctx *pulumi.Context, args *LookupDeploymentAtTenantScopeArgs, opts ...pulumi.InvokeOption) (*LookupDeploymentAtTenantScopeResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDeploymentAtTenantScopeResult

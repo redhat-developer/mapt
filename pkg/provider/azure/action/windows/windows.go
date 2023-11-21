@@ -50,7 +50,7 @@ func Create(r *WindowsRequest) (err error) {
 	if err != nil {
 		return err
 	}
-	return r.manageResults(csResult, qenvsContext.GetResultsOutput())
+	return r.manageResults(csResult)
 }
 
 func Destroy() error {
@@ -77,7 +77,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(*location),
 			ResourceGroupName: pulumi.String(qenvsContext.GetID()),
-			Tags:              qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags:              qenvsContext.ResourceTags(),
 		})
 	if err != nil {
 		return err
@@ -90,7 +90,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	pk, err := r.postInitSetup(ctx, rg, vm, *location)
+	pk, vme, err := r.postInitSetup(ctx, rg, vm, *location)
 	if err != nil {
 		return err
 	}
@@ -105,7 +105,12 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 			},
 			Create: pulumi.String(command.CommandPing),
 			Update: pulumi.String(command.CommandPing),
-		})
+		},
+		pulumi.Timeouts(
+			&pulumi.CustomTimeouts{
+				Create: "10m",
+				Update: "10m"}),
+		pulumi.DependsOn([]pulumi.Resource{vme}))
 	return err
 }
 
@@ -126,9 +131,8 @@ func (r *WindowsRequest) valuesWetherSpot() (*string, *float64, error) {
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *WindowsRequest) manageResults(stackResult auto.UpResult,
-	destinationFolder string) error {
-	return output.Write(stackResult, destinationFolder, map[string]string{
+func (r *WindowsRequest) manageResults(stackResult auto.UpResult) error {
+	return output.Write(stackResult, qenvsContext.GetResultsOutputPath(), map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername):     "adminusername",
 		fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword): "adminuserpassword",
 		fmt.Sprintf("%s-%s", r.Prefix, outputUsername):          "username",
@@ -148,7 +152,6 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-adminuser"))
 	if err != nil {
 		return nil, err
-
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername), pulumi.String(r.AdminUsername))
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), adminPasswd.Result)
@@ -187,7 +190,7 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 			AdminPassword: adminPasswd.Result,
 			ComputerName:  pulumi.String(qenvsContext.GetID()),
 		},
-		Tags: qenvsContext.GetTagsAsPulumiStringMap(),
+		Tags: qenvsContext.ResourceTags(),
 	}
 	if spotPrice != nil {
 		vmArgs.Priority = pulumi.String(prioritySpot)
@@ -216,7 +219,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 			},
 			ResourceGroupName: rg.Name,
 			Location:          pulumi.String(location),
-			Tags:              qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags:              qenvsContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, nil, err
@@ -241,7 +244,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 			PublicIpAddressName:      pulumi.String(qenvsContext.GetID()),
 			PublicIPAllocationMethod: pulumi.String("Static"),
 			ResourceGroupName:        rg.Name,
-			Tags:                     qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags:                     qenvsContext.ResourceTags(),
 			// DnsSettings: network.PublicIPAddressDnsSettingsArgs{
 			// 	DomainNameLabel: pulumi.String("qenvs"),
 			// },
@@ -268,7 +271,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 					},
 				},
 			},
-			Tags: qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags: qenvsContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, nil, err
@@ -279,12 +282,12 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 // run a post script to setup the machine as expected according to rhqp-ci-setup.ps1
 // it also exports to pulumi context user name, user password and user privatekey
 func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.ResourceGroup,
-	vm *compute.VirtualMachine, location string) (*tls.PrivateKey, error) {
+	vm *compute.VirtualMachine, location string) (*tls.PrivateKey, *compute.VirtualMachineExtension, error) {
 	userPasswd, err := security.CreatePassword(
 		ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-user"))
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUsername), pulumi.String(r.Username))
@@ -297,13 +300,13 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 			RsaBits:   pulumi.Int(4096),
 		})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
 	// upload the script to a ephemeral blob container
 	b, err := r.uploadScript(ctx, rg, location)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	// the post script command will be generated based on generated data as parameters
 	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName()).ApplyT(
@@ -320,7 +323,7 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				authorizedKey)
 		}).(pulumi.StringOutput)
 	// the post script will be executed as a extension
-	_, err = compute.NewVirtualMachineExtension(
+	vme, err := compute.NewVirtualMachineExtension(
 		ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "ext"),
 		&compute.VirtualMachineExtensionArgs{
@@ -336,9 +339,9 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				},
 				"commandToExecute": setupCommand,
 			},
-			Tags: qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags: qenvsContext.ResourceTags(),
 		})
-	return privateKey, err
+	return privateKey, vme, err
 }
 
 // Upload scrip to blob container to be used within Microsoft Compute extension
@@ -347,14 +350,15 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	sa, err := storage.NewStorageAccount(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "sa"),
 		&storage.StorageAccountArgs{
-			AccountName:       pulumi.String(qenvsContext.GetID()),
-			Kind:              pulumi.String("BlockBlobStorage"),
-			ResourceGroupName: rg.Name,
-			Location:          pulumi.String(location),
+			AccountName:           pulumi.String(qenvsContext.GetID()),
+			Kind:                  pulumi.String("BlockBlobStorage"),
+			ResourceGroupName:     rg.Name,
+			Location:              pulumi.String(location),
+			AllowBlobPublicAccess: pulumi.BoolPtr(true),
 			Sku: &storage.SkuArgs{
 				Name: pulumi.String("Premium_LRS"),
 			},
-			Tags: qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags: qenvsContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err

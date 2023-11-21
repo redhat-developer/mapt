@@ -14,6 +14,8 @@ import (
 
 // List effective virtual networks in a network manager.
 // Azure REST API version: 2022-04-01-preview.
+//
+// Other available API versions: 2021-02-01-preview, 2021-05-01-preview.
 func ListEffectiveVirtualNetworkByNetworkManager(ctx *pulumi.Context, args *ListEffectiveVirtualNetworkByNetworkManagerArgs, opts ...pulumi.InvokeOption) (*ListEffectiveVirtualNetworkByNetworkManagerResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListEffectiveVirtualNetworkByNetworkManagerResult

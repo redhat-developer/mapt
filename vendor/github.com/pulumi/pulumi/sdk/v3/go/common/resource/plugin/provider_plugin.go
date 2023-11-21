@@ -503,7 +503,7 @@ func (p *provider) DiffConfig(urn resource.URN, oldInputs, oldOutputs, newInputs
 		}
 		logging.V(8).Infof("%s provider received rpc error `%s`: `%s`", label, rpcError.Code(),
 			rpcError.Message())
-		return DiffResult{}, nil
+		return DiffResult{}, err
 	}
 
 	replaces := slice.Prealloc[resource.PropertyKey](len(resp.GetReplaces()))
@@ -601,6 +601,87 @@ func removeSecrets(v resource.PropertyValue) interface{} {
 	}
 }
 
+func traverseProperty(element resource.PropertyValue, f func(resource.PropertyValue)) {
+	f(element)
+	if element.IsSecret() {
+		traverseSecret(element.SecretValue(), f)
+	} else if element.IsObject() {
+		traverseMap(element.ObjectValue(), f)
+	} else if element.IsArray() {
+		traverseArray(element.ArrayValue(), f)
+	}
+}
+
+func traverseArray(elements []resource.PropertyValue, f func(resource.PropertyValue)) {
+	for _, element := range elements {
+		traverseProperty(element, f)
+	}
+}
+
+func traverseSecret(v *resource.Secret, f func(resource.PropertyValue)) {
+	traverseProperty(v.Element, f)
+}
+
+func traverseMap(m resource.PropertyMap, f func(resource.PropertyValue)) {
+	for _, value := range m {
+		traverseProperty(value, f)
+	}
+}
+
+// restoreElidedAssetContents is used to restore contents of assets inside resource property maps after
+// we have skipped serializing contents of assets in order to avoid sending them over the wire to resource
+// providers. Mainly used in `Read` operations after we receive the live inputs from the resource provider plugin.
+// Those inputs may echo back the input assets and the engine writes them out to the state. We need to make sure that
+// we don't write out empty assets to the state, so we restore the asset contents from the original inputs.
+func restoreElidedAssetContents(original resource.PropertyMap, transformed resource.PropertyMap) {
+	isEmptyAsset := func(v *resource.Asset) bool {
+		return v.Text == "" && v.Path == "" && v.URI == ""
+	}
+
+	isEmptyArchive := func(v *resource.Archive) bool {
+		return v.Path == "" && v.URI == "" && v.Assets == nil
+	}
+
+	originalAssets := map[string]*resource.Asset{}
+	originalArchives := map[string]*resource.Archive{}
+
+	traverseMap(original, func(value resource.PropertyValue) {
+		if value.IsAsset() {
+			originalAsset := value.AssetValue()
+			originalAssets[originalAsset.Hash] = originalAsset
+		}
+
+		if value.IsArchive() {
+			originalArchive := value.ArchiveValue()
+			originalArchives[originalArchive.Hash] = originalArchive
+		}
+	})
+
+	traverseMap(transformed, func(value resource.PropertyValue) {
+		if value.IsAsset() {
+			transformedAsset := value.AssetValue()
+			originalAsset, has := originalAssets[transformedAsset.Hash]
+			if has && isEmptyAsset(transformedAsset) {
+				transformedAsset.Sig = originalAsset.Sig
+				transformedAsset.Text = originalAsset.Text
+				transformedAsset.Path = originalAsset.Path
+				transformedAsset.URI = originalAsset.URI
+			}
+		}
+
+		if value.IsArchive() {
+			transformedArchive := value.ArchiveValue()
+			originalArchive, has := originalArchives[transformedArchive.Hash]
+			if has && isEmptyArchive(transformedArchive) {
+				transformedArchive.Sig = originalArchive.Sig
+				transformedArchive.URI = originalArchive.URI
+				transformedArchive.Path = originalArchive.Path
+				transformedArchive.Assets = originalArchive.Assets
+			}
+		}
+	})
+}
+
 // Configure configures the resource provider with "globals" that control its behavior.
 func (p *provider) Configure(inputs resource.PropertyMap) error {
 	label := fmt.Sprintf("%s.Configure()", p.label())
@@ -655,11 +736,12 @@ func (p *provider) Configure(inputs resource.PropertyMap) error {
 	// want to make forward progress, even as the configure call is happening.
 	go func() {
 		resp, err := p.clientRaw.Configure(p.requestContext(), &pulumirpc.ConfigureRequest{
-			AcceptSecrets:   true,
-			AcceptResources: true,
-			SendsOldInputs:  true,
-			Variables:       config,
-			Args:            minputs,
+			AcceptSecrets:          true,
+			AcceptResources:        true,
+			SendsOldInputs:         true,
+			SendsOldInputsToDelete: true,
+			Variables:              config,
+			Args:                   minputs,
 		})
 		if err != nil {
 			rpcError := rpcerror.Convert(err)
@@ -771,8 +853,8 @@ func (p *provider) Diff(urn resource.URN, id resource.ID,
 	contract.Assertf(urn != "", "Diff requires a URN")
 	contract.Assertf(id != "", "Diff requires an ID")
 	contract.Assertf(oldInputs != nil, "Diff requires old input properties")
-	contract.Assertf(newInputs != nil, "Diff requires old output properties")
-	contract.Assertf(oldOutputs != nil, "Diff requires new properties")
+	contract.Assertf(newInputs != nil, "Diff requires new input properties")
+	contract.Assertf(oldOutputs != nil, "Diff requires old output properties")
 
 	label := fmt.Sprintf("%s.Diff(%s,%s)", p.label(), urn, id)
 	logging.V(7).Infof("%s: executing (#oldInputs=%d#oldOutputs=%d,#newInputs=%d)",
@@ -1090,6 +1172,10 @@ func (p *provider) Read(urn resource.URN, id resource.ID,
 		annotateSecrets(newState, state)
 	}
 
+	// make sure any echoed properties restore their original asset contents if they have not changed
+	restoreElidedAssetContents(inputs, newInputs)
+	restoreElidedAssetContents(inputs, newState)
+
 	logging.V(7).Infof("%s success; #outs=%d, #inputs=%d", label, len(newState), len(newInputs))
 	return ReadResult{
 		ID:      readID,
@@ -1216,7 +1302,6 @@ func (p *provider) Update(urn resource.URN, id resource.ID,
 	if !pcfg.acceptSecrets {
 		annotateSecrets(outs, newInputs)
 	}
-
 	logging.V(7).Infof("%s success; #outs=%d", label, len(outs))
 	if resourceError == nil {
 		return outs, resourceStatus, nil
@@ -1225,14 +1310,14 @@ func (p *provider) Update(urn resource.URN, id resource.ID,
 }
 
 // Delete tears down an existing resource.
-func (p *provider) Delete(urn resource.URN, id resource.ID, props resource.PropertyMap,
+func (p *provider) Delete(urn resource.URN, id resource.ID, oldInputs, oldOutputs resource.PropertyMap,
 	timeout float64,
 ) (resource.Status, error) {
 	contract.Assertf(urn != "", "Delete requires a URN")
 	contract.Assertf(id != "", "Delete requires an ID")
 
 	label := fmt.Sprintf("%s.Delete(%s,%s)", p.label(), urn, id)
-	logging.V(7).Infof("%s executing (#props=%d)", label, len(props))
+	logging.V(7).Infof("%s executing (#inputs=%d, #outputs=%d)", label, len(oldInputs), len(oldOutputs))
 
 	// Ensure that the plugin is configured.
 	client := p.clientRaw
@@ -1244,7 +1329,17 @@ func (p *provider) Delete(urn resource.URN, id resource.ID, props resource.Prope
 	// We should never call delete at preview time, so we should never see unknowns here
 	contract.Assertf(pcfg.known, "Delete cannot be called if the configuration is unknown")
 
-	mprops, err := MarshalProperties(props, MarshalOptions{
+	minputs, err := MarshalProperties(oldInputs, MarshalOptions{
+		Label:              label,
+		ElideAssetContents: true,
+		KeepSecrets:        pcfg.acceptSecrets,
+		KeepResources:      pcfg.acceptResources,
+	})
+	if err != nil {
+		return resource.StatusOK, err
+	}
+
+	moutputs, err := MarshalProperties(oldOutputs, MarshalOptions{
 		Label:              label,
 		ElideAssetContents: true,
 		KeepSecrets:        pcfg.acceptSecrets,
@@ -1260,8 +1355,9 @@ func (p *provider) Delete(urn resource.URN, id resource.ID, props resource.Prope
 	if _, err := client.Delete(p.requestContext(), &pulumirpc.DeleteRequest{
 		Id:         string(id),
 		Urn:        string(urn),
-		Properties: mprops,
+		Properties: moutputs,
 		Timeout:    timeout,
+		OldInputs:  minputs,
 	}); err != nil {
 		resourceStatus, rpcErr := resourceStateAndError(err)
 		logging.V(7).Infof("%s failed: %v", label, rpcErr)

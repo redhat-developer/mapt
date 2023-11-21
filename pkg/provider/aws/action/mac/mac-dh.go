@@ -10,7 +10,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
-	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -32,8 +32,7 @@ func (r *MacRequest) createDedicatedHost() (*string, *string, error) {
 		return nil, nil, err
 	}
 	dhID, dhAZ, err := r.manageResultsDedicatedHost(
-		csResult,
-		qenvsContext.GetResultsOutput())
+		csResult)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -54,7 +53,7 @@ func (r *MacRequest) deployerDedicatedHost(ctx *pulumi.Context) (err error) {
 			AutoPlacement:    pulumi.String("off"),
 			AvailabilityZone: pulumi.String(*az),
 			InstanceType:     pulumi.String(macTypesByArch[r.Architecture]),
-			Tags:             qenvsContext.GetTagsAsPulumiStringMap(),
+			Tags:             qenvsContext.ResourceTags(),
 		})
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID), dh.ID())
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostAZ), pulumi.String(*az))
@@ -66,9 +65,8 @@ func (r *MacRequest) deployerDedicatedHost(ctx *pulumi.Context) (err error) {
 
 // results for dedicated host it will return dedicatedhost ID and dedicatedhost AZ
 // also write results to files on the target folder
-func (r *MacRequest) manageResultsDedicatedHost(stackResult auto.UpResult,
-	destinationFolder string) (*string, *string, error) {
-	if err := output.Write(stackResult, destinationFolder, map[string]string{
+func (r *MacRequest) manageResultsDedicatedHost(stackResult auto.UpResult) (*string, *string, error) {
+	if err := output.Write(stackResult, qenvsContext.GetResultsOutputPath(), map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID): "dedicatedHostID",
 	}); err != nil {
 		return nil, nil, err

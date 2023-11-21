@@ -14,7 +14,9 @@ import (
 )
 
 // The Encryption Scope resource.
-// Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01
+// Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01.
+//
+// Other available API versions: 2023-01-01.
 type EncryptionScope struct {
 	pulumi.CustomResourceState
 

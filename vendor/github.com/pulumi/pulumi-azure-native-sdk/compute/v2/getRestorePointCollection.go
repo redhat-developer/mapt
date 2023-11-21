@@ -14,6 +14,8 @@ import (
 
 // The operation to get the restore point collection.
 // Azure REST API version: 2023-03-01.
+//
+// Other available API versions: 2023-07-01.
 func LookupRestorePointCollection(ctx *pulumi.Context, args *LookupRestorePointCollectionArgs, opts ...pulumi.InvokeOption) (*LookupRestorePointCollectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRestorePointCollectionResult

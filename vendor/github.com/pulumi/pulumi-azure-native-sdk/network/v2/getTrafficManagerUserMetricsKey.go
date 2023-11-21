@@ -4,12 +4,18 @@
 package network
 
 import (
+	"context"
+	"reflect"
+
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get the subscription-level key used for Real User Metrics collection.
 // Azure REST API version: 2022-04-01.
+//
+// Other available API versions: 2017-09-01-preview, 2022-04-01-preview.
 func LookupTrafficManagerUserMetricsKey(ctx *pulumi.Context, args *LookupTrafficManagerUserMetricsKeyArgs, opts ...pulumi.InvokeOption) (*LookupTrafficManagerUserMetricsKeyResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupTrafficManagerUserMetricsKeyResult
@@ -33,4 +39,69 @@ type LookupTrafficManagerUserMetricsKeyResult struct {
 	Name *string `pulumi:"name"`
 	// The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.
 	Type *string `pulumi:"type"`
+}
+
+func LookupTrafficManagerUserMetricsKeyOutput(ctx *pulumi.Context, args LookupTrafficManagerUserMetricsKeyOutputArgs, opts ...pulumi.InvokeOption) LookupTrafficManagerUserMetricsKeyResultOutput {
+	return pulumi.ToOutputWithContext(context.Background(), args).
+		ApplyT(func(v interface{}) (LookupTrafficManagerUserMetricsKeyResult, error) {
+			args := v.(LookupTrafficManagerUserMetricsKeyArgs)
+			r, err := LookupTrafficManagerUserMetricsKey(ctx, &args, opts...)
+			var s LookupTrafficManagerUserMetricsKeyResult
+			if r != nil {
+				s = *r
+			}
+			return s, err
+		}).(LookupTrafficManagerUserMetricsKeyResultOutput)
+}
+
+type LookupTrafficManagerUserMetricsKeyOutputArgs struct {
+}
+
+func (LookupTrafficManagerUserMetricsKeyOutputArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*LookupTrafficManagerUserMetricsKeyArgs)(nil)).Elem()
+}
+
+// Class representing Traffic Manager User Metrics.
+type LookupTrafficManagerUserMetricsKeyResultOutput struct{ *pulumi.OutputState }
+
+func (LookupTrafficManagerUserMetricsKeyResultOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LookupTrafficManagerUserMetricsKeyResult)(nil)).Elem()
+}
+
+func (o LookupTrafficManagerUserMetricsKeyResultOutput) ToLookupTrafficManagerUserMetricsKeyResultOutput() LookupTrafficManagerUserMetricsKeyResultOutput {
+	return o
+}
+
+func (o LookupTrafficManagerUserMetricsKeyResultOutput) ToLookupTrafficManagerUserMetricsKeyResultOutputWithContext(ctx context.Context) LookupTrafficManagerUserMetricsKeyResultOutput {
+	return o
+}
+
+func (o LookupTrafficManagerUserMetricsKeyResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupTrafficManagerUserMetricsKeyResult] {
+	return pulumix.Output[LookupTrafficManagerUserMetricsKeyResult]{
+		OutputState: o.OutputState,
+	}
+}
+
+// Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}
+func (o LookupTrafficManagerUserMetricsKeyResultOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupTrafficManagerUserMetricsKeyResult) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The key returned by the User Metrics operation.
+func (o LookupTrafficManagerUserMetricsKeyResultOutput) Key() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupTrafficManagerUserMetricsKeyResult) *string { return v.Key }).(pulumi.StringPtrOutput)
+}
+
+// The name of the resource
+func (o LookupTrafficManagerUserMetricsKeyResultOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupTrafficManagerUserMetricsKeyResult) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.
+func (o LookupTrafficManagerUserMetricsKeyResultOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupTrafficManagerUserMetricsKeyResult) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+func init() {
+	pulumi.RegisterOutputType(LookupTrafficManagerUserMetricsKeyResultOutput{})
 }

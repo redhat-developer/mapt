@@ -15,6 +15,8 @@ import (
 
 // Describes a virtual network link.
 // Azure REST API version: 2022-07-01.
+//
+// Other available API versions: 2020-04-01-preview.
 type PrivateResolverVirtualNetworkLink struct {
 	pulumi.CustomResourceState
 

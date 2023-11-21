@@ -14,7 +14,7 @@ import (
 )
 
 // Defines the properties of an Experiment
-// Azure REST API version: 2019-11-01. Prior API version in Azure Native 1.x: 2019-11-01
+// Azure REST API version: 2019-11-01. Prior API version in Azure Native 1.x: 2019-11-01.
 type Experiment struct {
 	pulumi.CustomResourceState
 

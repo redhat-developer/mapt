@@ -14,6 +14,8 @@ import (
 
 // Retrieves the current filter values for the signatures overrides
 // Azure REST API version: 2023-02-01.
+//
+// Other available API versions: 2021-08-01, 2023-04-01, 2023-05-01, 2023-06-01.
 func ListFirewallPolicyIdpsSignaturesFilterValue(ctx *pulumi.Context, args *ListFirewallPolicyIdpsSignaturesFilterValueArgs, opts ...pulumi.InvokeOption) (*ListFirewallPolicyIdpsSignaturesFilterValueResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListFirewallPolicyIdpsSignaturesFilterValueResult

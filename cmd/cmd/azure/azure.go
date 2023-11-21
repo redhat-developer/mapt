@@ -1,7 +1,7 @@
 package azure
 
 import (
-	"github.com/adrianriobo/qenvs/cmd/cmd/azure/windows"
+	"github.com/adrianriobo/qenvs/cmd/cmd/azure/hosts"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -23,6 +23,6 @@ func GetCmd() *cobra.Command {
 		},
 	}
 
-	c.AddCommand(windows.GetCmd())
+	c.AddCommand(hosts.GetWindowsDesktopCmd())
 	return c
 }

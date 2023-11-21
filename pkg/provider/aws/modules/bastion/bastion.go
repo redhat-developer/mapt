@@ -8,10 +8,12 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
+	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
-	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v4/go/tls"
+	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -24,18 +26,27 @@ const (
 
 	diskSize       int = 100
 	defaultSSHPort int = 22
+
+	// Outputs
+	OutputBastionUserPrivateKey = "bastion_id_rsa"
+	OutputBastionUsername       = "bastion_username"
+	OutputBastionHost           = "bastion_host"
 )
 
 type BastionRequest struct {
-	Prefix              string
-	VPC                 *ec2.Vpc
-	Subnet              *ec2.Subnet
+	Prefix string
+	VPC    *ec2.Vpc
+	Subnet *ec2.Subnet
+	// Custon key for the outputs
+	// in case we want to create a stack with 2 bastions
+	// we need to use diff keys for outputs which should be controlled
+	// outside
 	OutputKeyPrivateKey string
 	OutputKeyHost       string
 	OutputKeyUsername   string
 }
 
-type BastionResources struct {
+type Bastion struct {
 	Instance   *ec2.Instance
 	PrivateKey *tls.PrivateKey
 	Usarname   string
@@ -49,7 +60,7 @@ type BastionResources struct {
 // * host
 // It will also return the required refs to resources as BastionsResources to
 // allow orchestrated within the wrapping stack
-func (r *BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) {
+func (r *BastionRequest) Create(ctx *pulumi.Context) (*Bastion, error) {
 	// Get AMI
 	ami, err := ami.GetAMIByName(ctx, amiRegex, "", nil)
 	if err != nil {
@@ -72,7 +83,7 @@ func (r *BastionRequest) Create(ctx *pulumi.Context) (*BastionResources, error) 
 	if err != nil {
 		return nil, err
 	}
-	return &BastionResources{
+	return &Bastion{
 		Instance:   i,
 		PrivateKey: keyResources.PrivateKey,
 		Usarname:   amiDefaultUsername,
@@ -115,7 +126,7 @@ func (r *BastionRequest) instance(ctx *pulumi.Context,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: qenvsContext.GetTagsAsPulumiStringMap(),
+		Tags: qenvsContext.ResourceTags(),
 	}
 	i, err := ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, bastionMachineID, "instance"),
@@ -126,4 +137,16 @@ func (r *BastionRequest) instance(ctx *pulumi.Context,
 	ctx.Export(r.OutputKeyUsername, pulumi.String(amiDefaultUsername))
 	ctx.Export(r.OutputKeyHost, i.PublicIp)
 	return i, nil
+}
+
+// Write exported values in context to files o a selected target folder
+func WriteOutputs(stackResult auto.UpResult,
+	prefix string,
+	destinationFolder string) error {
+	results := map[string]string{
+		fmt.Sprintf("%s-%s", prefix, OutputBastionUserPrivateKey): "bastion_id_rsa",
+		fmt.Sprintf("%s-%s", prefix, OutputBastionUsername):       "bastion_username",
+		fmt.Sprintf("%s-%s", prefix, OutputBastionHost):           "bastion_host",
+	}
+	return output.Write(stackResult, destinationFolder, results)
 }

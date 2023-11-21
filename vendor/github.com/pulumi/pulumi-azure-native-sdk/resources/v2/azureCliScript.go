@@ -14,7 +14,7 @@ import (
 )
 
 // Object model for the Azure CLI script.
-// Azure REST API version: 2020-10-01. Prior API version in Azure Native 1.x: 2020-10-01
+// Azure REST API version: 2020-10-01. Prior API version in Azure Native 1.x: 2020-10-01.
 type AzureCliScript struct {
 	pulumi.CustomResourceState
 
@@ -97,6 +97,9 @@ func NewAzureCliScript(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:resources/v20201001:AzureCliScript"),
+		},
+		{
+			Type: pulumi.String("azure-native:resources/v20230801:AzureCliScript"),
 		},
 	})
 	opts = append(opts, aliases)

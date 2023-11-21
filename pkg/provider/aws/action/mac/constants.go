@@ -6,10 +6,6 @@ const (
 
 	awsMacMachineID = "amm"
 
-	cidrVN       = "10.0.0.0/16"
-	cidrPublicSN = "10.0.2.0/24"
-	cidrIntraSN  = "10.0.101.0/24"
-
 	outputHost            = "ammHost"
 	outputUsername        = "ammUsername"
 	outputUserPassword    = "ammUserPassword"
@@ -19,9 +15,6 @@ const (
 	outputRegion          = "ammRegion"
 	// outputAdminUsername     = "ammAdminUsername"
 	// outputAdminUserPassword = "ammAdminUserPassword"
-	outputBastionUserPrivateKey = "bastionUserPrivatekey"
-	outputBastionUsername       = "bastionUsername"
-	outputBastionHost           = "bastionHost"
 
 	amiRegex = "amzn-ec2-macos-%s*"
 	amiOwner = "628277914472"

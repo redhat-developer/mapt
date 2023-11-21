@@ -14,6 +14,8 @@ import (
 
 // Retrieves information about a proximity placement group .
 // Azure REST API version: 2023-03-01.
+//
+// Other available API versions: 2019-03-01, 2023-07-01.
 func LookupProximityPlacementGroup(ctx *pulumi.Context, args *LookupProximityPlacementGroupArgs, opts ...pulumi.InvokeOption) (*LookupProximityPlacementGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupProximityPlacementGroupResult

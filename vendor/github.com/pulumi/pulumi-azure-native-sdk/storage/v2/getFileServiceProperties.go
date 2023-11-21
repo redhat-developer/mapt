@@ -14,6 +14,8 @@ import (
 
 // Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
 // Azure REST API version: 2022-09-01.
+//
+// Other available API versions: 2023-01-01.
 func LookupFileServiceProperties(ctx *pulumi.Context, args *LookupFileServicePropertiesArgs, opts ...pulumi.InvokeOption) (*LookupFileServicePropertiesResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFileServicePropertiesResult

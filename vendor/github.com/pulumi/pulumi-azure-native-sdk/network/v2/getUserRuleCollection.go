@@ -14,6 +14,8 @@ import (
 
 // Gets a network manager security user configuration rule collection.
 // Azure REST API version: 2022-04-01-preview.
+//
+// Other available API versions: 2021-02-01-preview, 2021-05-01-preview.
 func LookupUserRuleCollection(ctx *pulumi.Context, args *LookupUserRuleCollectionArgs, opts ...pulumi.InvokeOption) (*LookupUserRuleCollectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupUserRuleCollectionResult

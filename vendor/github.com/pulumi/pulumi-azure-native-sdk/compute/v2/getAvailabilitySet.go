@@ -14,6 +14,8 @@ import (
 
 // Retrieves information about an availability set.
 // Azure REST API version: 2023-03-01.
+//
+// Other available API versions: 2016-04-30-preview, 2023-07-01.
 func LookupAvailabilitySet(ctx *pulumi.Context, args *LookupAvailabilitySetArgs, opts ...pulumi.InvokeOption) (*LookupAvailabilitySetResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupAvailabilitySetResult
