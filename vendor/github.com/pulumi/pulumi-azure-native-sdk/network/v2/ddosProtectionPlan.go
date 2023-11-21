@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // A DDoS protection plan in a resource group.
@@ -239,12 +238,6 @@ func (i *DdosProtectionPlan) ToDdosProtectionPlanOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(DdosProtectionPlanOutput)
 }
 
-func (i *DdosProtectionPlan) ToOutput(ctx context.Context) pulumix.Output[*DdosProtectionPlan] {
-	return pulumix.Output[*DdosProtectionPlan]{
-		OutputState: i.ToDdosProtectionPlanOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DdosProtectionPlanOutput struct{ *pulumi.OutputState }
 
 func (DdosProtectionPlanOutput) ElementType() reflect.Type {
@@ -257,12 +250,6 @@ func (o DdosProtectionPlanOutput) ToDdosProtectionPlanOutput() DdosProtectionPla
 
 func (o DdosProtectionPlanOutput) ToDdosProtectionPlanOutputWithContext(ctx context.Context) DdosProtectionPlanOutput {
 	return o
-}
-
-func (o DdosProtectionPlanOutput) ToOutput(ctx context.Context) pulumix.Output[*DdosProtectionPlan] {
-	return pulumix.Output[*DdosProtectionPlan]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

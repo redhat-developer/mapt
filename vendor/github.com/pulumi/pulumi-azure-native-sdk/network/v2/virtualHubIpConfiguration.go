@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // IpConfigurations.
@@ -209,12 +208,6 @@ func (i *VirtualHubIpConfiguration) ToVirtualHubIpConfigurationOutputWithContext
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualHubIpConfigurationOutput)
 }
 
-func (i *VirtualHubIpConfiguration) ToOutput(ctx context.Context) pulumix.Output[*VirtualHubIpConfiguration] {
-	return pulumix.Output[*VirtualHubIpConfiguration]{
-		OutputState: i.ToVirtualHubIpConfigurationOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualHubIpConfigurationOutput struct{ *pulumi.OutputState }
 
 func (VirtualHubIpConfigurationOutput) ElementType() reflect.Type {
@@ -227,12 +220,6 @@ func (o VirtualHubIpConfigurationOutput) ToVirtualHubIpConfigurationOutput() Vir
 
 func (o VirtualHubIpConfigurationOutput) ToVirtualHubIpConfigurationOutputWithContext(ctx context.Context) VirtualHubIpConfigurationOutput {
 	return o
-}
-
-func (o VirtualHubIpConfigurationOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualHubIpConfiguration] {
-	return pulumix.Output[*VirtualHubIpConfiguration]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

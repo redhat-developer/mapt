@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Defines web application firewall policy.
@@ -248,12 +247,6 @@ func (i *WebApplicationFirewallPolicy) ToWebApplicationFirewallPolicyOutputWithC
 	return pulumi.ToOutputWithContext(ctx, i).(WebApplicationFirewallPolicyOutput)
 }
 
-func (i *WebApplicationFirewallPolicy) ToOutput(ctx context.Context) pulumix.Output[*WebApplicationFirewallPolicy] {
-	return pulumix.Output[*WebApplicationFirewallPolicy]{
-		OutputState: i.ToWebApplicationFirewallPolicyOutputWithContext(ctx).OutputState,
-	}
-}
-
 type WebApplicationFirewallPolicyOutput struct{ *pulumi.OutputState }
 
 func (WebApplicationFirewallPolicyOutput) ElementType() reflect.Type {
@@ -266,12 +259,6 @@ func (o WebApplicationFirewallPolicyOutput) ToWebApplicationFirewallPolicyOutput
 
 func (o WebApplicationFirewallPolicyOutput) ToWebApplicationFirewallPolicyOutputWithContext(ctx context.Context) WebApplicationFirewallPolicyOutput {
 	return o
-}
-
-func (o WebApplicationFirewallPolicyOutput) ToOutput(ctx context.Context) pulumix.Output[*WebApplicationFirewallPolicy] {
-	return pulumix.Output[*WebApplicationFirewallPolicy]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A collection of references to application gateways.

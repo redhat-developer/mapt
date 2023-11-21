@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // HubVirtualNetworkConnection Resource.
@@ -210,12 +209,6 @@ func (i *HubVirtualNetworkConnection) ToHubVirtualNetworkConnectionOutputWithCon
 	return pulumi.ToOutputWithContext(ctx, i).(HubVirtualNetworkConnectionOutput)
 }
 
-func (i *HubVirtualNetworkConnection) ToOutput(ctx context.Context) pulumix.Output[*HubVirtualNetworkConnection] {
-	return pulumix.Output[*HubVirtualNetworkConnection]{
-		OutputState: i.ToHubVirtualNetworkConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type HubVirtualNetworkConnectionOutput struct{ *pulumi.OutputState }
 
 func (HubVirtualNetworkConnectionOutput) ElementType() reflect.Type {
@@ -228,12 +221,6 @@ func (o HubVirtualNetworkConnectionOutput) ToHubVirtualNetworkConnectionOutput()
 
 func (o HubVirtualNetworkConnectionOutput) ToHubVirtualNetworkConnectionOutputWithContext(ctx context.Context) HubVirtualNetworkConnectionOutput {
 	return o
-}
-
-func (o HubVirtualNetworkConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*HubVirtualNetworkConnection] {
-	return pulumix.Output[*HubVirtualNetworkConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Deprecated: VirtualHub to RemoteVnet transit to enabled or not.

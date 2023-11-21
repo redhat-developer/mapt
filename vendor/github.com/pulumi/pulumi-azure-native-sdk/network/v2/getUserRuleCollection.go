@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a network manager security user configuration rule collection.
@@ -98,12 +97,6 @@ func (o LookupUserRuleCollectionResultOutput) ToLookupUserRuleCollectionResultOu
 
 func (o LookupUserRuleCollectionResultOutput) ToLookupUserRuleCollectionResultOutputWithContext(ctx context.Context) LookupUserRuleCollectionResultOutput {
 	return o
-}
-
-func (o LookupUserRuleCollectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupUserRuleCollectionResult] {
-	return pulumix.Output[LookupUserRuleCollectionResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Groups for configuration

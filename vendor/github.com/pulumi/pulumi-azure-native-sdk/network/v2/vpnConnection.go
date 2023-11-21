@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // VpnConnection Resource.
@@ -327,12 +326,6 @@ func (i *VpnConnection) ToVpnConnectionOutputWithContext(ctx context.Context) Vp
 	return pulumi.ToOutputWithContext(ctx, i).(VpnConnectionOutput)
 }
 
-func (i *VpnConnection) ToOutput(ctx context.Context) pulumix.Output[*VpnConnection] {
-	return pulumix.Output[*VpnConnection]{
-		OutputState: i.ToVpnConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpnConnectionOutput struct{ *pulumi.OutputState }
 
 func (VpnConnectionOutput) ElementType() reflect.Type {
@@ -345,12 +338,6 @@ func (o VpnConnectionOutput) ToVpnConnectionOutput() VpnConnectionOutput {
 
 func (o VpnConnectionOutput) ToVpnConnectionOutputWithContext(ctx context.Context) VpnConnectionOutput {
 	return o
-}
-
-func (o VpnConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*VpnConnection] {
-	return pulumix.Output[*VpnConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Expected bandwidth in MBPS.

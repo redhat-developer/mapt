@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the dedicated host group that the dedicated hosts should be assigned to. Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group.
@@ -194,12 +193,6 @@ func (i *DedicatedHostGroup) ToDedicatedHostGroupOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(DedicatedHostGroupOutput)
 }
 
-func (i *DedicatedHostGroup) ToOutput(ctx context.Context) pulumix.Output[*DedicatedHostGroup] {
-	return pulumix.Output[*DedicatedHostGroup]{
-		OutputState: i.ToDedicatedHostGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DedicatedHostGroupOutput struct{ *pulumi.OutputState }
 
 func (DedicatedHostGroupOutput) ElementType() reflect.Type {
@@ -212,12 +205,6 @@ func (o DedicatedHostGroupOutput) ToDedicatedHostGroupOutput() DedicatedHostGrou
 
 func (o DedicatedHostGroupOutput) ToDedicatedHostGroupOutputWithContext(ctx context.Context) DedicatedHostGroupOutput {
 	return o
-}
-
-func (o DedicatedHostGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*DedicatedHostGroup] {
-	return pulumix.Output[*DedicatedHostGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01.

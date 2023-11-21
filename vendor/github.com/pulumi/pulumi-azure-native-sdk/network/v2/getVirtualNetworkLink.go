@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a virtual network link to the specified Private DNS zone.
@@ -96,12 +95,6 @@ func (o LookupVirtualNetworkLinkResultOutput) ToLookupVirtualNetworkLinkResultOu
 
 func (o LookupVirtualNetworkLinkResultOutput) ToLookupVirtualNetworkLinkResultOutputWithContext(ctx context.Context) LookupVirtualNetworkLinkResultOutput {
 	return o
-}
-
-func (o LookupVirtualNetworkLinkResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualNetworkLinkResult] {
-	return pulumix.Output[LookupVirtualNetworkLinkResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ETag of the virtual network link.

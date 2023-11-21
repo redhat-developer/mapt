@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get the subscription-level key used for Real User Metrics collection.
@@ -74,12 +73,6 @@ func (o LookupTrafficManagerUserMetricsKeyResultOutput) ToLookupTrafficManagerUs
 
 func (o LookupTrafficManagerUserMetricsKeyResultOutput) ToLookupTrafficManagerUserMetricsKeyResultOutputWithContext(ctx context.Context) LookupTrafficManagerUserMetricsKeyResultOutput {
 	return o
-}
-
-func (o LookupTrafficManagerUserMetricsKeyResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupTrafficManagerUserMetricsKeyResult] {
-	return pulumix.Output[LookupTrafficManagerUserMetricsKeyResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}

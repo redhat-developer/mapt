@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The "AMI copy" resource allows duplication of an Amazon Machine Image (AMI),
@@ -76,7 +75,7 @@ type AmiCopy struct {
 	EbsBlockDevices AmiCopyEbsBlockDeviceArrayOutput `pulumi:"ebsBlockDevices"`
 	// Whether enhanced networking with ENA is enabled. Defaults to `false`.
 	EnaSupport pulumi.BoolOutput `pulumi:"enaSupport"`
-	// Boolean controlling whether the created EBS volumes will be encrypted. Can't be used with `snapshotId`.
+	// Whether the destination snapshots of the copied image should be encrypted. Defaults to `false`
 	Encrypted pulumi.BoolPtrOutput `pulumi:"encrypted"`
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
@@ -117,7 +116,8 @@ type AmiCopy struct {
 	// for created instances. No other value is supported at this time.
 	SriovNetSupport pulumi.StringOutput `pulumi:"sriovNetSupport"`
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    pulumi.StringMapOutput `pulumi:"tags"`
+	Tags pulumi.StringMapOutput `pulumi:"tags"`
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport     pulumi.StringOutput `pulumi:"tpmSupport"`
@@ -141,6 +141,10 @@ func NewAmiCopy(ctx *pulumi.Context,
 	if args.SourceAmiRegion == nil {
 		return nil, errors.New("invalid value for required argument 'SourceAmiRegion'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource AmiCopy
 	err := ctx.RegisterResource("aws:ec2/amiCopy:AmiCopy", name, args, &resource, opts...)
@@ -182,7 +186,7 @@ type amiCopyState struct {
 	EbsBlockDevices []AmiCopyEbsBlockDevice `pulumi:"ebsBlockDevices"`
 	// Whether enhanced networking with ENA is enabled. Defaults to `false`.
 	EnaSupport *bool `pulumi:"enaSupport"`
-	// Boolean controlling whether the created EBS volumes will be encrypted. Can't be used with `snapshotId`.
+	// Whether the destination snapshots of the copied image should be encrypted. Defaults to `false`
 	Encrypted *bool `pulumi:"encrypted"`
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
@@ -223,7 +227,8 @@ type amiCopyState struct {
 	// for created instances. No other value is supported at this time.
 	SriovNetSupport *string `pulumi:"sriovNetSupport"`
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    map[string]string `pulumi:"tags"`
+	Tags map[string]string `pulumi:"tags"`
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport     *string `pulumi:"tpmSupport"`
@@ -253,7 +258,7 @@ type AmiCopyState struct {
 	EbsBlockDevices AmiCopyEbsBlockDeviceArrayInput
 	// Whether enhanced networking with ENA is enabled. Defaults to `false`.
 	EnaSupport pulumi.BoolPtrInput
-	// Boolean controlling whether the created EBS volumes will be encrypted. Can't be used with `snapshotId`.
+	// Whether the destination snapshots of the copied image should be encrypted. Defaults to `false`
 	Encrypted pulumi.BoolPtrInput
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
@@ -294,7 +299,8 @@ type AmiCopyState struct {
 	// for created instances. No other value is supported at this time.
 	SriovNetSupport pulumi.StringPtrInput
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    pulumi.StringMapInput
+	Tags pulumi.StringMapInput
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport     pulumi.StringPtrInput
@@ -320,7 +326,7 @@ type amiCopyArgs struct {
 	// Nested block describing an EBS block device that should be
 	// attached to created instances. The structure of this block is described below.
 	EbsBlockDevices []AmiCopyEbsBlockDevice `pulumi:"ebsBlockDevices"`
-	// Boolean controlling whether the created EBS volumes will be encrypted. Can't be used with `snapshotId`.
+	// Whether the destination snapshots of the copied image should be encrypted. Defaults to `false`
 	Encrypted *bool `pulumi:"encrypted"`
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
@@ -351,7 +357,7 @@ type AmiCopyArgs struct {
 	// Nested block describing an EBS block device that should be
 	// attached to created instances. The structure of this block is described below.
 	EbsBlockDevices AmiCopyEbsBlockDeviceArrayInput
-	// Boolean controlling whether the created EBS volumes will be encrypted. Can't be used with `snapshotId`.
+	// Whether the destination snapshots of the copied image should be encrypted. Defaults to `false`
 	Encrypted pulumi.BoolPtrInput
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
@@ -393,12 +399,6 @@ func (i *AmiCopy) ToAmiCopyOutputWithContext(ctx context.Context) AmiCopyOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(AmiCopyOutput)
 }
 
-func (i *AmiCopy) ToOutput(ctx context.Context) pulumix.Output[*AmiCopy] {
-	return pulumix.Output[*AmiCopy]{
-		OutputState: i.ToAmiCopyOutputWithContext(ctx).OutputState,
-	}
-}
-
 // AmiCopyArrayInput is an input type that accepts AmiCopyArray and AmiCopyArrayOutput values.
 // You can construct a concrete instance of `AmiCopyArrayInput` via:
 //
@@ -422,12 +422,6 @@ func (i AmiCopyArray) ToAmiCopyArrayOutput() AmiCopyArrayOutput {
 
 func (i AmiCopyArray) ToAmiCopyArrayOutputWithContext(ctx context.Context) AmiCopyArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(AmiCopyArrayOutput)
-}
-
-func (i AmiCopyArray) ToOutput(ctx context.Context) pulumix.Output[[]*AmiCopy] {
-	return pulumix.Output[[]*AmiCopy]{
-		OutputState: i.ToAmiCopyArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // AmiCopyMapInput is an input type that accepts AmiCopyMap and AmiCopyMapOutput values.
@@ -455,12 +449,6 @@ func (i AmiCopyMap) ToAmiCopyMapOutputWithContext(ctx context.Context) AmiCopyMa
 	return pulumi.ToOutputWithContext(ctx, i).(AmiCopyMapOutput)
 }
 
-func (i AmiCopyMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*AmiCopy] {
-	return pulumix.Output[map[string]*AmiCopy]{
-		OutputState: i.ToAmiCopyMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type AmiCopyOutput struct{ *pulumi.OutputState }
 
 func (AmiCopyOutput) ElementType() reflect.Type {
@@ -473,12 +461,6 @@ func (o AmiCopyOutput) ToAmiCopyOutput() AmiCopyOutput {
 
 func (o AmiCopyOutput) ToAmiCopyOutputWithContext(ctx context.Context) AmiCopyOutput {
 	return o
-}
-
-func (o AmiCopyOutput) ToOutput(ctx context.Context) pulumix.Output[*AmiCopy] {
-	return pulumix.Output[*AmiCopy]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Machine architecture for created instances. Defaults to "x8664".
@@ -523,7 +505,7 @@ func (o AmiCopyOutput) EnaSupport() pulumi.BoolOutput {
 	return o.ApplyT(func(v *AmiCopy) pulumi.BoolOutput { return v.EnaSupport }).(pulumi.BoolOutput)
 }
 
-// Boolean controlling whether the created EBS volumes will be encrypted. Can't be used with `snapshotId`.
+// Whether the destination snapshots of the copied image should be encrypted. Defaults to `false`
 func (o AmiCopyOutput) Encrypted() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AmiCopy) pulumi.BoolPtrOutput { return v.Encrypted }).(pulumi.BoolPtrOutput)
 }
@@ -631,6 +613,7 @@ func (o AmiCopyOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *AmiCopy) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
+// Deprecated: Please use `tags` instead.
 func (o AmiCopyOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *AmiCopy) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -665,12 +648,6 @@ func (o AmiCopyArrayOutput) ToAmiCopyArrayOutputWithContext(ctx context.Context)
 	return o
 }
 
-func (o AmiCopyArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*AmiCopy] {
-	return pulumix.Output[[]*AmiCopy]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o AmiCopyArrayOutput) Index(i pulumi.IntInput) AmiCopyOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *AmiCopy {
 		return vs[0].([]*AmiCopy)[vs[1].(int)]
@@ -689,12 +666,6 @@ func (o AmiCopyMapOutput) ToAmiCopyMapOutput() AmiCopyMapOutput {
 
 func (o AmiCopyMapOutput) ToAmiCopyMapOutputWithContext(ctx context.Context) AmiCopyMapOutput {
 	return o
-}
-
-func (o AmiCopyMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*AmiCopy] {
-	return pulumix.Output[map[string]*AmiCopy]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o AmiCopyMapOutput) MapIndex(k pulumi.StringInput) AmiCopyOutput {

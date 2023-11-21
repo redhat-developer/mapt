@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // VirtualWAN Resource.
@@ -262,12 +261,6 @@ func (i *VirtualWan) ToVirtualWanOutputWithContext(ctx context.Context) VirtualW
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualWanOutput)
 }
 
-func (i *VirtualWan) ToOutput(ctx context.Context) pulumix.Output[*VirtualWan] {
-	return pulumix.Output[*VirtualWan]{
-		OutputState: i.ToVirtualWanOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualWanOutput struct{ *pulumi.OutputState }
 
 func (VirtualWanOutput) ElementType() reflect.Type {
@@ -280,12 +273,6 @@ func (o VirtualWanOutput) ToVirtualWanOutput() VirtualWanOutput {
 
 func (o VirtualWanOutput) ToVirtualWanOutputWithContext(ctx context.Context) VirtualWanOutput {
 	return o
-}
-
-func (o VirtualWanOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualWan] {
-	return pulumix.Output[*VirtualWan]{
-		OutputState: o.OutputState,
-	}
 }
 
 // True if branch to branch traffic is allowed.

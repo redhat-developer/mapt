@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the gallery Application Version that you want to create or update.
@@ -176,12 +175,6 @@ func (i *GalleryApplicationVersion) ToGalleryApplicationVersionOutputWithContext
 	return pulumi.ToOutputWithContext(ctx, i).(GalleryApplicationVersionOutput)
 }
 
-func (i *GalleryApplicationVersion) ToOutput(ctx context.Context) pulumix.Output[*GalleryApplicationVersion] {
-	return pulumix.Output[*GalleryApplicationVersion]{
-		OutputState: i.ToGalleryApplicationVersionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GalleryApplicationVersionOutput struct{ *pulumi.OutputState }
 
 func (GalleryApplicationVersionOutput) ElementType() reflect.Type {
@@ -194,12 +187,6 @@ func (o GalleryApplicationVersionOutput) ToGalleryApplicationVersionOutput() Gal
 
 func (o GalleryApplicationVersionOutput) ToGalleryApplicationVersionOutputWithContext(ctx context.Context) GalleryApplicationVersionOutput {
 	return o
-}
-
-func (o GalleryApplicationVersionOutput) ToOutput(ctx context.Context) pulumix.Output[*GalleryApplicationVersion] {
-	return pulumix.Output[*GalleryApplicationVersion]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Resource location

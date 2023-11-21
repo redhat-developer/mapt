@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // VirtualHub Resource.
@@ -348,12 +347,6 @@ func (i *VirtualHub) ToVirtualHubOutputWithContext(ctx context.Context) VirtualH
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualHubOutput)
 }
 
-func (i *VirtualHub) ToOutput(ctx context.Context) pulumix.Output[*VirtualHub] {
-	return pulumix.Output[*VirtualHub]{
-		OutputState: i.ToVirtualHubOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualHubOutput struct{ *pulumi.OutputState }
 
 func (VirtualHubOutput) ElementType() reflect.Type {
@@ -366,12 +359,6 @@ func (o VirtualHubOutput) ToVirtualHubOutput() VirtualHubOutput {
 
 func (o VirtualHubOutput) ToVirtualHubOutputWithContext(ctx context.Context) VirtualHubOutput {
 	return o
-}
-
-func (o VirtualHubOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualHub] {
-	return pulumix.Output[*VirtualHub]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Address-prefix for this VirtualHub.

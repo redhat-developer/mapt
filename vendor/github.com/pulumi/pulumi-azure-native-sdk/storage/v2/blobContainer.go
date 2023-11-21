@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Properties of the blob container, including Id, resource name, resource type, Etag.
@@ -232,12 +231,6 @@ func (i *BlobContainer) ToBlobContainerOutputWithContext(ctx context.Context) Bl
 	return pulumi.ToOutputWithContext(ctx, i).(BlobContainerOutput)
 }
 
-func (i *BlobContainer) ToOutput(ctx context.Context) pulumix.Output[*BlobContainer] {
-	return pulumix.Output[*BlobContainer]{
-		OutputState: i.ToBlobContainerOutputWithContext(ctx).OutputState,
-	}
-}
-
 type BlobContainerOutput struct{ *pulumi.OutputState }
 
 func (BlobContainerOutput) ElementType() reflect.Type {
@@ -250,12 +243,6 @@ func (o BlobContainerOutput) ToBlobContainerOutput() BlobContainerOutput {
 
 func (o BlobContainerOutput) ToBlobContainerOutputWithContext(ctx context.Context) BlobContainerOutput {
 	return o
-}
-
-func (o BlobContainerOutput) ToOutput(ctx context.Context) pulumix.Output[*BlobContainer] {
-	return pulumix.Output[*BlobContainer]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Default the container to use specified encryption scope for all writes.

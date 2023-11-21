@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an IP address pool resource for IPAM.
@@ -173,6 +172,8 @@ type VpcIpamPool struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -189,6 +190,10 @@ func NewVpcIpamPool(ctx *pulumi.Context,
 	if args.IpamScopeId == nil {
 		return nil, errors.New("invalid value for required argument 'IpamScopeId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcIpamPool
 	err := ctx.RegisterResource("aws:ec2/vpcIpamPool:VpcIpamPool", name, args, &resource, opts...)
@@ -248,6 +253,8 @@ type vpcIpamPoolState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -288,6 +295,8 @@ type VpcIpamPoolState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -383,12 +392,6 @@ func (i *VpcIpamPool) ToVpcIpamPoolOutputWithContext(ctx context.Context) VpcIpa
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamPoolOutput)
 }
 
-func (i *VpcIpamPool) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamPool] {
-	return pulumix.Output[*VpcIpamPool]{
-		OutputState: i.ToVpcIpamPoolOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcIpamPoolArrayInput is an input type that accepts VpcIpamPoolArray and VpcIpamPoolArrayOutput values.
 // You can construct a concrete instance of `VpcIpamPoolArrayInput` via:
 //
@@ -412,12 +415,6 @@ func (i VpcIpamPoolArray) ToVpcIpamPoolArrayOutput() VpcIpamPoolArrayOutput {
 
 func (i VpcIpamPoolArray) ToVpcIpamPoolArrayOutputWithContext(ctx context.Context) VpcIpamPoolArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamPoolArrayOutput)
-}
-
-func (i VpcIpamPoolArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamPool] {
-	return pulumix.Output[[]*VpcIpamPool]{
-		OutputState: i.ToVpcIpamPoolArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcIpamPoolMapInput is an input type that accepts VpcIpamPoolMap and VpcIpamPoolMapOutput values.
@@ -445,12 +442,6 @@ func (i VpcIpamPoolMap) ToVpcIpamPoolMapOutputWithContext(ctx context.Context) V
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamPoolMapOutput)
 }
 
-func (i VpcIpamPoolMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamPool] {
-	return pulumix.Output[map[string]*VpcIpamPool]{
-		OutputState: i.ToVpcIpamPoolMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcIpamPoolOutput struct{ *pulumi.OutputState }
 
 func (VpcIpamPoolOutput) ElementType() reflect.Type {
@@ -463,12 +454,6 @@ func (o VpcIpamPoolOutput) ToVpcIpamPoolOutput() VpcIpamPoolOutput {
 
 func (o VpcIpamPoolOutput) ToVpcIpamPoolOutputWithContext(ctx context.Context) VpcIpamPoolOutput {
 	return o
-}
-
-func (o VpcIpamPoolOutput) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamPool] {
-	return pulumix.Output[*VpcIpamPool]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The IP protocol assigned to this pool. You must choose either IPv4 or IPv6 protocol for a pool.
@@ -561,6 +546,8 @@ func (o VpcIpamPoolOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o VpcIpamPoolOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpcIpamPool) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -577,12 +564,6 @@ func (o VpcIpamPoolArrayOutput) ToVpcIpamPoolArrayOutput() VpcIpamPoolArrayOutpu
 
 func (o VpcIpamPoolArrayOutput) ToVpcIpamPoolArrayOutputWithContext(ctx context.Context) VpcIpamPoolArrayOutput {
 	return o
-}
-
-func (o VpcIpamPoolArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamPool] {
-	return pulumix.Output[[]*VpcIpamPool]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamPoolArrayOutput) Index(i pulumi.IntInput) VpcIpamPoolOutput {
@@ -603,12 +584,6 @@ func (o VpcIpamPoolMapOutput) ToVpcIpamPoolMapOutput() VpcIpamPoolMapOutput {
 
 func (o VpcIpamPoolMapOutput) ToVpcIpamPoolMapOutputWithContext(ctx context.Context) VpcIpamPoolMapOutput {
 	return o
-}
-
-func (o VpcIpamPoolMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamPool] {
-	return pulumix.Output[map[string]*VpcIpamPool]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamPoolMapOutput) MapIndex(k pulumi.StringInput) VpcIpamPoolOutput {

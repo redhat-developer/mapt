@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a Template Spec with a given name.
@@ -96,12 +95,6 @@ func (o LookupTemplateSpecResultOutput) ToLookupTemplateSpecResultOutput() Looku
 
 func (o LookupTemplateSpecResultOutput) ToLookupTemplateSpecResultOutputWithContext(ctx context.Context) LookupTemplateSpecResultOutput {
 	return o
-}
-
-func (o LookupTemplateSpecResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupTemplateSpecResult] {
-	return pulumix.Output[LookupTemplateSpecResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Template Spec description.

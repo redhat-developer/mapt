@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an EC2 launch template resource. Can be used to create instances or auto scaling groups.
@@ -138,7 +137,7 @@ import (
 type LaunchTemplate struct {
 	pulumi.CustomResourceState
 
-	// The Amazon Resource Name (ARN) of the instance profile.
+	// The Amazon Resource Name (ARN) of the instance profile. Conflicts with `name`.
 	Arn pulumi.StringOutput `pulumi:"arn"`
 	// Specify volumes to attach to the instance besides the volumes specified by the AMI.
 	// See Block Devices below for details.
@@ -220,6 +219,8 @@ type LaunchTemplate struct {
 	// A map of tags to assign to the launch template. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// Whether to update Default Version each update. Conflicts with `defaultVersion`.
 	UpdateDefaultVersion pulumi.BoolPtrOutput `pulumi:"updateDefaultVersion"`
@@ -236,6 +237,10 @@ func NewLaunchTemplate(ctx *pulumi.Context,
 		args = &LaunchTemplateArgs{}
 	}
 
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource LaunchTemplate
 	err := ctx.RegisterResource("aws:ec2/launchTemplate:LaunchTemplate", name, args, &resource, opts...)
@@ -259,7 +264,7 @@ func GetLaunchTemplate(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering LaunchTemplate resources.
 type launchTemplateState struct {
-	// The Amazon Resource Name (ARN) of the instance profile.
+	// The Amazon Resource Name (ARN) of the instance profile. Conflicts with `name`.
 	Arn *string `pulumi:"arn"`
 	// Specify volumes to attach to the instance besides the volumes specified by the AMI.
 	// See Block Devices below for details.
@@ -341,6 +346,8 @@ type launchTemplateState struct {
 	// A map of tags to assign to the launch template. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// Whether to update Default Version each update. Conflicts with `defaultVersion`.
 	UpdateDefaultVersion *bool `pulumi:"updateDefaultVersion"`
@@ -351,7 +358,7 @@ type launchTemplateState struct {
 }
 
 type LaunchTemplateState struct {
-	// The Amazon Resource Name (ARN) of the instance profile.
+	// The Amazon Resource Name (ARN) of the instance profile. Conflicts with `name`.
 	Arn pulumi.StringPtrInput
 	// Specify volumes to attach to the instance besides the volumes specified by the AMI.
 	// See Block Devices below for details.
@@ -433,6 +440,8 @@ type LaunchTemplateState struct {
 	// A map of tags to assign to the launch template. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// Whether to update Default Version each update. Conflicts with `defaultVersion`.
 	UpdateDefaultVersion pulumi.BoolPtrInput
@@ -642,12 +651,6 @@ func (i *LaunchTemplate) ToLaunchTemplateOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(LaunchTemplateOutput)
 }
 
-func (i *LaunchTemplate) ToOutput(ctx context.Context) pulumix.Output[*LaunchTemplate] {
-	return pulumix.Output[*LaunchTemplate]{
-		OutputState: i.ToLaunchTemplateOutputWithContext(ctx).OutputState,
-	}
-}
-
 // LaunchTemplateArrayInput is an input type that accepts LaunchTemplateArray and LaunchTemplateArrayOutput values.
 // You can construct a concrete instance of `LaunchTemplateArrayInput` via:
 //
@@ -671,12 +674,6 @@ func (i LaunchTemplateArray) ToLaunchTemplateArrayOutput() LaunchTemplateArrayOu
 
 func (i LaunchTemplateArray) ToLaunchTemplateArrayOutputWithContext(ctx context.Context) LaunchTemplateArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(LaunchTemplateArrayOutput)
-}
-
-func (i LaunchTemplateArray) ToOutput(ctx context.Context) pulumix.Output[[]*LaunchTemplate] {
-	return pulumix.Output[[]*LaunchTemplate]{
-		OutputState: i.ToLaunchTemplateArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // LaunchTemplateMapInput is an input type that accepts LaunchTemplateMap and LaunchTemplateMapOutput values.
@@ -704,12 +701,6 @@ func (i LaunchTemplateMap) ToLaunchTemplateMapOutputWithContext(ctx context.Cont
 	return pulumi.ToOutputWithContext(ctx, i).(LaunchTemplateMapOutput)
 }
 
-func (i LaunchTemplateMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*LaunchTemplate] {
-	return pulumix.Output[map[string]*LaunchTemplate]{
-		OutputState: i.ToLaunchTemplateMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type LaunchTemplateOutput struct{ *pulumi.OutputState }
 
 func (LaunchTemplateOutput) ElementType() reflect.Type {
@@ -724,13 +715,7 @@ func (o LaunchTemplateOutput) ToLaunchTemplateOutputWithContext(ctx context.Cont
 	return o
 }
 
-func (o LaunchTemplateOutput) ToOutput(ctx context.Context) pulumix.Output[*LaunchTemplate] {
-	return pulumix.Output[*LaunchTemplate]{
-		OutputState: o.OutputState,
-	}
-}
-
-// The Amazon Resource Name (ARN) of the instance profile.
+// The Amazon Resource Name (ARN) of the instance profile. Conflicts with `name`.
 func (o LaunchTemplateOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v *LaunchTemplate) pulumi.StringOutput { return v.Arn }).(pulumi.StringOutput)
 }
@@ -926,6 +911,8 @@ func (o LaunchTemplateOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o LaunchTemplateOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *LaunchTemplate) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -959,12 +946,6 @@ func (o LaunchTemplateArrayOutput) ToLaunchTemplateArrayOutputWithContext(ctx co
 	return o
 }
 
-func (o LaunchTemplateArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*LaunchTemplate] {
-	return pulumix.Output[[]*LaunchTemplate]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o LaunchTemplateArrayOutput) Index(i pulumi.IntInput) LaunchTemplateOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *LaunchTemplate {
 		return vs[0].([]*LaunchTemplate)[vs[1].(int)]
@@ -983,12 +964,6 @@ func (o LaunchTemplateMapOutput) ToLaunchTemplateMapOutput() LaunchTemplateMapOu
 
 func (o LaunchTemplateMapOutput) ToLaunchTemplateMapOutputWithContext(ctx context.Context) LaunchTemplateMapOutput {
 	return o
-}
-
-func (o LaunchTemplateMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*LaunchTemplate] {
-	return pulumix.Output[map[string]*LaunchTemplate]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o LaunchTemplateMapOutput) MapIndex(k pulumi.StringInput) LaunchTemplateOutput {

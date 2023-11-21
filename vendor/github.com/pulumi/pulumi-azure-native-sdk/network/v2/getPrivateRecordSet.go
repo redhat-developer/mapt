@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a record set.
@@ -112,12 +111,6 @@ func (o LookupPrivateRecordSetResultOutput) ToLookupPrivateRecordSetResultOutput
 
 func (o LookupPrivateRecordSetResultOutput) ToLookupPrivateRecordSetResultOutputWithContext(ctx context.Context) LookupPrivateRecordSetResultOutput {
 	return o
-}
-
-func (o LookupPrivateRecordSetResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPrivateRecordSetResult] {
-	return pulumix.Output[LookupPrivateRecordSetResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The list of A records in the record set.

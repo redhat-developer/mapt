@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a link to virtual network for a Private DNS zone.
@@ -153,12 +152,6 @@ func (i *VirtualNetworkLink) ToVirtualNetworkLinkOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualNetworkLinkOutput)
 }
 
-func (i *VirtualNetworkLink) ToOutput(ctx context.Context) pulumix.Output[*VirtualNetworkLink] {
-	return pulumix.Output[*VirtualNetworkLink]{
-		OutputState: i.ToVirtualNetworkLinkOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualNetworkLinkOutput struct{ *pulumi.OutputState }
 
 func (VirtualNetworkLinkOutput) ElementType() reflect.Type {
@@ -171,12 +164,6 @@ func (o VirtualNetworkLinkOutput) ToVirtualNetworkLinkOutput() VirtualNetworkLin
 
 func (o VirtualNetworkLinkOutput) ToVirtualNetworkLinkOutputWithContext(ctx context.Context) VirtualNetworkLinkOutput {
 	return o
-}
-
-func (o VirtualNetworkLinkOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualNetworkLink] {
-	return pulumix.Output[*VirtualNetworkLink]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ETag of the virtual network link.

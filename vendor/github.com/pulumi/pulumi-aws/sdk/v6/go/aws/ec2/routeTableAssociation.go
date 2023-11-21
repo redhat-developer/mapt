@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a resource to create an association between a route table and a subnet or a route table and an
@@ -69,10 +68,6 @@ import (
 // ```
 //
 // ## Import
-//
-// ~> __NOTE:__ Attempting to associate a route table with a subnet or gateway, where either is already associated, will result in an error (e.g., `Resource.AlreadyAssociatedthe specified association for route table rtb-4176657279 conflicts with an existing association`) unless you first import the original association.
-//
-// With EC2 Subnets:
 //
 // With EC2 Internet Gateways:
 //
@@ -200,12 +195,6 @@ func (i *RouteTableAssociation) ToRouteTableAssociationOutputWithContext(ctx con
 	return pulumi.ToOutputWithContext(ctx, i).(RouteTableAssociationOutput)
 }
 
-func (i *RouteTableAssociation) ToOutput(ctx context.Context) pulumix.Output[*RouteTableAssociation] {
-	return pulumix.Output[*RouteTableAssociation]{
-		OutputState: i.ToRouteTableAssociationOutputWithContext(ctx).OutputState,
-	}
-}
-
 // RouteTableAssociationArrayInput is an input type that accepts RouteTableAssociationArray and RouteTableAssociationArrayOutput values.
 // You can construct a concrete instance of `RouteTableAssociationArrayInput` via:
 //
@@ -229,12 +218,6 @@ func (i RouteTableAssociationArray) ToRouteTableAssociationArrayOutput() RouteTa
 
 func (i RouteTableAssociationArray) ToRouteTableAssociationArrayOutputWithContext(ctx context.Context) RouteTableAssociationArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(RouteTableAssociationArrayOutput)
-}
-
-func (i RouteTableAssociationArray) ToOutput(ctx context.Context) pulumix.Output[[]*RouteTableAssociation] {
-	return pulumix.Output[[]*RouteTableAssociation]{
-		OutputState: i.ToRouteTableAssociationArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // RouteTableAssociationMapInput is an input type that accepts RouteTableAssociationMap and RouteTableAssociationMapOutput values.
@@ -262,12 +245,6 @@ func (i RouteTableAssociationMap) ToRouteTableAssociationMapOutputWithContext(ct
 	return pulumi.ToOutputWithContext(ctx, i).(RouteTableAssociationMapOutput)
 }
 
-func (i RouteTableAssociationMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*RouteTableAssociation] {
-	return pulumix.Output[map[string]*RouteTableAssociation]{
-		OutputState: i.ToRouteTableAssociationMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RouteTableAssociationOutput struct{ *pulumi.OutputState }
 
 func (RouteTableAssociationOutput) ElementType() reflect.Type {
@@ -280,12 +257,6 @@ func (o RouteTableAssociationOutput) ToRouteTableAssociationOutput() RouteTableA
 
 func (o RouteTableAssociationOutput) ToRouteTableAssociationOutputWithContext(ctx context.Context) RouteTableAssociationOutput {
 	return o
-}
-
-func (o RouteTableAssociationOutput) ToOutput(ctx context.Context) pulumix.Output[*RouteTableAssociation] {
-	return pulumix.Output[*RouteTableAssociation]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The gateway ID to create an association. Conflicts with `subnetId`.
@@ -317,12 +288,6 @@ func (o RouteTableAssociationArrayOutput) ToRouteTableAssociationArrayOutputWith
 	return o
 }
 
-func (o RouteTableAssociationArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*RouteTableAssociation] {
-	return pulumix.Output[[]*RouteTableAssociation]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o RouteTableAssociationArrayOutput) Index(i pulumi.IntInput) RouteTableAssociationOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *RouteTableAssociation {
 		return vs[0].([]*RouteTableAssociation)[vs[1].(int)]
@@ -341,12 +306,6 @@ func (o RouteTableAssociationMapOutput) ToRouteTableAssociationMapOutput() Route
 
 func (o RouteTableAssociationMapOutput) ToRouteTableAssociationMapOutputWithContext(ctx context.Context) RouteTableAssociationMapOutput {
 	return o
-}
-
-func (o RouteTableAssociationMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*RouteTableAssociation] {
-	return pulumix.Output[map[string]*RouteTableAssociation]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o RouteTableAssociationMapOutput) MapIndex(k pulumi.StringInput) RouteTableAssociationOutput {

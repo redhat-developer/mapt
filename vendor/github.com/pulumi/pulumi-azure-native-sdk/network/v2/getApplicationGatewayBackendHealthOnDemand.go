@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
@@ -114,12 +113,6 @@ func (o GetApplicationGatewayBackendHealthOnDemandResultOutput) ToGetApplication
 
 func (o GetApplicationGatewayBackendHealthOnDemandResultOutput) ToGetApplicationGatewayBackendHealthOnDemandResultOutputWithContext(ctx context.Context) GetApplicationGatewayBackendHealthOnDemandResultOutput {
 	return o
-}
-
-func (o GetApplicationGatewayBackendHealthOnDemandResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetApplicationGatewayBackendHealthOnDemandResult] {
-	return pulumix.Output[GetApplicationGatewayBackendHealthOnDemandResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Reference to an ApplicationGatewayBackendAddressPool resource.

@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a Load Balancer Listener resource.
@@ -385,6 +384,8 @@ type Listener struct {
 	// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -407,6 +408,10 @@ func NewListener(ctx *pulumi.Context,
 		},
 	})
 	opts = append(opts, aliases)
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Listener
 	err := ctx.RegisterResource("aws:lb/listener:Listener", name, args, &resource, opts...)
@@ -455,6 +460,8 @@ type listenerState struct {
 	// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -484,6 +491,8 @@ type ListenerState struct {
 	// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -561,12 +570,6 @@ func (i *Listener) ToListenerOutputWithContext(ctx context.Context) ListenerOutp
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerOutput)
 }
 
-func (i *Listener) ToOutput(ctx context.Context) pulumix.Output[*Listener] {
-	return pulumix.Output[*Listener]{
-		OutputState: i.ToListenerOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ListenerArrayInput is an input type that accepts ListenerArray and ListenerArrayOutput values.
 // You can construct a concrete instance of `ListenerArrayInput` via:
 //
@@ -590,12 +593,6 @@ func (i ListenerArray) ToListenerArrayOutput() ListenerArrayOutput {
 
 func (i ListenerArray) ToListenerArrayOutputWithContext(ctx context.Context) ListenerArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerArrayOutput)
-}
-
-func (i ListenerArray) ToOutput(ctx context.Context) pulumix.Output[[]*Listener] {
-	return pulumix.Output[[]*Listener]{
-		OutputState: i.ToListenerArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // ListenerMapInput is an input type that accepts ListenerMap and ListenerMapOutput values.
@@ -623,12 +620,6 @@ func (i ListenerMap) ToListenerMapOutputWithContext(ctx context.Context) Listene
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerMapOutput)
 }
 
-func (i ListenerMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Listener] {
-	return pulumix.Output[map[string]*Listener]{
-		OutputState: i.ToListenerMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerOutput struct{ *pulumi.OutputState }
 
 func (ListenerOutput) ElementType() reflect.Type {
@@ -641,12 +632,6 @@ func (o ListenerOutput) ToListenerOutput() ListenerOutput {
 
 func (o ListenerOutput) ToListenerOutputWithContext(ctx context.Context) ListenerOutput {
 	return o
-}
-
-func (o ListenerOutput) ToOutput(ctx context.Context) pulumix.Output[*Listener] {
-	return pulumix.Output[*Listener]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Name of the Application-Layer Protocol Negotiation (ALPN) policy. Can be set if `protocol` is `TLS`. Valid values are `HTTP1Only`, `HTTP2Only`, `HTTP2Optional`, `HTTP2Preferred`, and `None`.
@@ -701,6 +686,8 @@ func (o ListenerOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o ListenerOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Listener) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -717,12 +704,6 @@ func (o ListenerArrayOutput) ToListenerArrayOutput() ListenerArrayOutput {
 
 func (o ListenerArrayOutput) ToListenerArrayOutputWithContext(ctx context.Context) ListenerArrayOutput {
 	return o
-}
-
-func (o ListenerArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Listener] {
-	return pulumix.Output[[]*Listener]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerArrayOutput) Index(i pulumi.IntInput) ListenerOutput {
@@ -743,12 +724,6 @@ func (o ListenerMapOutput) ToListenerMapOutput() ListenerMapOutput {
 
 func (o ListenerMapOutput) ToListenerMapOutputWithContext(ctx context.Context) ListenerMapOutput {
 	return o
-}
-
-func (o ListenerMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Listener] {
-	return pulumix.Output[map[string]*Listener]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerMapOutput) MapIndex(k pulumi.StringInput) ListenerOutput {

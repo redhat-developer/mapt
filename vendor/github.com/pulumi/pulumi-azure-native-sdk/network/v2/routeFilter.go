@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Route Filter Resource.
@@ -273,12 +272,6 @@ func (i *RouteFilter) ToRouteFilterOutputWithContext(ctx context.Context) RouteF
 	return pulumi.ToOutputWithContext(ctx, i).(RouteFilterOutput)
 }
 
-func (i *RouteFilter) ToOutput(ctx context.Context) pulumix.Output[*RouteFilter] {
-	return pulumix.Output[*RouteFilter]{
-		OutputState: i.ToRouteFilterOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RouteFilterOutput struct{ *pulumi.OutputState }
 
 func (RouteFilterOutput) ElementType() reflect.Type {
@@ -291,12 +284,6 @@ func (o RouteFilterOutput) ToRouteFilterOutput() RouteFilterOutput {
 
 func (o RouteFilterOutput) ToRouteFilterOutputWithContext(ctx context.Context) RouteFilterOutput {
 	return o
-}
-
-func (o RouteFilterOutput) ToOutput(ctx context.Context) pulumix.Output[*RouteFilter] {
-	return pulumix.Output[*RouteFilter]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

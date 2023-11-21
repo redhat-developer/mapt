@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Class representing a Traffic Manager profile.
@@ -210,12 +209,6 @@ func (i *Profile) ToProfileOutputWithContext(ctx context.Context) ProfileOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(ProfileOutput)
 }
 
-func (i *Profile) ToOutput(ctx context.Context) pulumix.Output[*Profile] {
-	return pulumix.Output[*Profile]{
-		OutputState: i.ToProfileOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ProfileOutput struct{ *pulumi.OutputState }
 
 func (ProfileOutput) ElementType() reflect.Type {
@@ -228,12 +221,6 @@ func (o ProfileOutput) ToProfileOutput() ProfileOutput {
 
 func (o ProfileOutput) ToProfileOutputWithContext(ctx context.Context) ProfileOutput {
 	return o
-}
-
-func (o ProfileOutput) ToOutput(ctx context.Context) pulumix.Output[*Profile] {
-	return pulumix.Output[*Profile]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The list of allowed endpoint record types.

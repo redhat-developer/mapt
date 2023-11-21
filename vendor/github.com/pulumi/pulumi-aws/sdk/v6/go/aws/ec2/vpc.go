@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a VPC resource.
@@ -187,6 +186,8 @@ type Vpc struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -197,6 +198,10 @@ func NewVpc(ctx *pulumi.Context,
 		args = &VpcArgs{}
 	}
 
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Vpc
 	err := ctx.RegisterResource("aws:ec2/vpc:Vpc", name, args, &resource, opts...)
@@ -264,6 +269,8 @@ type vpcState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -312,6 +319,8 @@ type VpcState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -401,12 +410,6 @@ func (i *Vpc) ToVpcOutputWithContext(ctx context.Context) VpcOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcOutput)
 }
 
-func (i *Vpc) ToOutput(ctx context.Context) pulumix.Output[*Vpc] {
-	return pulumix.Output[*Vpc]{
-		OutputState: i.ToVpcOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcArrayInput is an input type that accepts VpcArray and VpcArrayOutput values.
 // You can construct a concrete instance of `VpcArrayInput` via:
 //
@@ -430,12 +433,6 @@ func (i VpcArray) ToVpcArrayOutput() VpcArrayOutput {
 
 func (i VpcArray) ToVpcArrayOutputWithContext(ctx context.Context) VpcArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcArrayOutput)
-}
-
-func (i VpcArray) ToOutput(ctx context.Context) pulumix.Output[[]*Vpc] {
-	return pulumix.Output[[]*Vpc]{
-		OutputState: i.ToVpcArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcMapInput is an input type that accepts VpcMap and VpcMapOutput values.
@@ -463,12 +460,6 @@ func (i VpcMap) ToVpcMapOutputWithContext(ctx context.Context) VpcMapOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcMapOutput)
 }
 
-func (i VpcMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Vpc] {
-	return pulumix.Output[map[string]*Vpc]{
-		OutputState: i.ToVpcMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcOutput struct{ *pulumi.OutputState }
 
 func (VpcOutput) ElementType() reflect.Type {
@@ -481,12 +472,6 @@ func (o VpcOutput) ToVpcOutput() VpcOutput {
 
 func (o VpcOutput) ToVpcOutputWithContext(ctx context.Context) VpcOutput {
 	return o
-}
-
-func (o VpcOutput) ToOutput(ctx context.Context) pulumix.Output[*Vpc] {
-	return pulumix.Output[*Vpc]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Amazon Resource Name (ARN) of VPC
@@ -596,6 +581,8 @@ func (o VpcOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o VpcOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Vpc) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -612,12 +599,6 @@ func (o VpcArrayOutput) ToVpcArrayOutput() VpcArrayOutput {
 
 func (o VpcArrayOutput) ToVpcArrayOutputWithContext(ctx context.Context) VpcArrayOutput {
 	return o
-}
-
-func (o VpcArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Vpc] {
-	return pulumix.Output[[]*Vpc]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcArrayOutput) Index(i pulumi.IntInput) VpcOutput {
@@ -638,12 +619,6 @@ func (o VpcMapOutput) ToVpcMapOutput() VpcMapOutput {
 
 func (o VpcMapOutput) ToVpcMapOutputWithContext(ctx context.Context) VpcMapOutput {
 	return o
-}
-
-func (o VpcMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Vpc] {
-	return pulumix.Output[map[string]*Vpc]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcMapOutput) MapIndex(k pulumi.StringInput) VpcOutput {

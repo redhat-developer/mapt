@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Returns the properties for the specified encryption scope.
@@ -96,12 +95,6 @@ func (o LookupEncryptionScopeResultOutput) ToLookupEncryptionScopeResultOutput()
 
 func (o LookupEncryptionScopeResultOutput) ToLookupEncryptionScopeResultOutputWithContext(ctx context.Context) LookupEncryptionScopeResultOutput {
 	return o
-}
-
-func (o LookupEncryptionScopeResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupEncryptionScopeResult] {
-	return pulumix.Output[LookupEncryptionScopeResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Gets the creation date and time of the encryption scope in UTC.

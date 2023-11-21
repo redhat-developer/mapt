@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a nat rule.
@@ -96,12 +95,6 @@ func (o LookupVirtualNetworkGatewayNatRuleResultOutput) ToLookupVirtualNetworkGa
 
 func (o LookupVirtualNetworkGatewayNatRuleResultOutput) ToLookupVirtualNetworkGatewayNatRuleResultOutputWithContext(ctx context.Context) LookupVirtualNetworkGatewayNatRuleResultOutput {
 	return o
-}
-
-func (o LookupVirtualNetworkGatewayNatRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualNetworkGatewayNatRuleResult] {
-	return pulumix.Output[LookupVirtualNetworkGatewayNatRuleResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

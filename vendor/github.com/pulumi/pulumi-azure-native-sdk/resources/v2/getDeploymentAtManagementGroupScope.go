@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a deployment.
@@ -86,12 +85,6 @@ func (o LookupDeploymentAtManagementGroupScopeResultOutput) ToLookupDeploymentAt
 
 func (o LookupDeploymentAtManagementGroupScopeResultOutput) ToLookupDeploymentAtManagementGroupScopeResultOutputWithContext(ctx context.Context) LookupDeploymentAtManagementGroupScopeResultOutput {
 	return o
-}
-
-func (o LookupDeploymentAtManagementGroupScopeResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDeploymentAtManagementGroupScopeResult] {
-	return pulumix.Output[LookupDeploymentAtManagementGroupScopeResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ID of the deployment.

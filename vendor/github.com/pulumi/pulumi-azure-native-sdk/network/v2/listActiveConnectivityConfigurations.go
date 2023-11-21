@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Lists active connectivity configurations in a network manager.
@@ -90,12 +89,6 @@ func (o ListActiveConnectivityConfigurationsResultOutput) ToListActiveConnectivi
 
 func (o ListActiveConnectivityConfigurationsResultOutput) ToListActiveConnectivityConfigurationsResultOutputWithContext(ctx context.Context) ListActiveConnectivityConfigurationsResultOutput {
 	return o
-}
-
-func (o ListActiveConnectivityConfigurationsResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListActiveConnectivityConfigurationsResult] {
-	return pulumix.Output[ListActiveConnectivityConfigurationsResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.

@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // VpnSite Resource.
@@ -288,12 +287,6 @@ func (i *VpnSite) ToVpnSiteOutputWithContext(ctx context.Context) VpnSiteOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(VpnSiteOutput)
 }
 
-func (i *VpnSite) ToOutput(ctx context.Context) pulumix.Output[*VpnSite] {
-	return pulumix.Output[*VpnSite]{
-		OutputState: i.ToVpnSiteOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpnSiteOutput struct{ *pulumi.OutputState }
 
 func (VpnSiteOutput) ElementType() reflect.Type {
@@ -306,12 +299,6 @@ func (o VpnSiteOutput) ToVpnSiteOutput() VpnSiteOutput {
 
 func (o VpnSiteOutput) ToVpnSiteOutputWithContext(ctx context.Context) VpnSiteOutput {
 	return o
-}
-
-func (o VpnSiteOutput) ToOutput(ctx context.Context) pulumix.Output[*VpnSite] {
-	return pulumix.Output[*VpnSite]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The AddressSpace that contains an array of IP address ranges.

@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates). Currently, a VM can only be added to an availability set at creation time. An existing VM cannot be added to an availability set.
@@ -219,12 +218,6 @@ func (i *AvailabilitySet) ToAvailabilitySetOutputWithContext(ctx context.Context
 	return pulumi.ToOutputWithContext(ctx, i).(AvailabilitySetOutput)
 }
 
-func (i *AvailabilitySet) ToOutput(ctx context.Context) pulumix.Output[*AvailabilitySet] {
-	return pulumix.Output[*AvailabilitySet]{
-		OutputState: i.ToAvailabilitySetOutputWithContext(ctx).OutputState,
-	}
-}
-
 type AvailabilitySetOutput struct{ *pulumi.OutputState }
 
 func (AvailabilitySetOutput) ElementType() reflect.Type {
@@ -237,12 +230,6 @@ func (o AvailabilitySetOutput) ToAvailabilitySetOutput() AvailabilitySetOutput {
 
 func (o AvailabilitySetOutput) ToAvailabilitySetOutputWithContext(ctx context.Context) AvailabilitySetOutput {
 	return o
-}
-
-func (o AvailabilitySetOutput) ToOutput(ctx context.Context) pulumix.Output[*AvailabilitySet] {
-	return pulumix.Output[*AvailabilitySet]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Resource location

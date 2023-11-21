@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a DNS record set (a collection of DNS records with the same name and type) in a Private DNS zone.
@@ -196,12 +195,6 @@ func (i *PrivateRecordSet) ToPrivateRecordSetOutputWithContext(ctx context.Conte
 	return pulumi.ToOutputWithContext(ctx, i).(PrivateRecordSetOutput)
 }
 
-func (i *PrivateRecordSet) ToOutput(ctx context.Context) pulumix.Output[*PrivateRecordSet] {
-	return pulumix.Output[*PrivateRecordSet]{
-		OutputState: i.ToPrivateRecordSetOutputWithContext(ctx).OutputState,
-	}
-}
-
 type PrivateRecordSetOutput struct{ *pulumi.OutputState }
 
 func (PrivateRecordSetOutput) ElementType() reflect.Type {
@@ -214,12 +207,6 @@ func (o PrivateRecordSetOutput) ToPrivateRecordSetOutput() PrivateRecordSetOutpu
 
 func (o PrivateRecordSetOutput) ToPrivateRecordSetOutputWithContext(ctx context.Context) PrivateRecordSetOutput {
 	return o
-}
-
-func (o PrivateRecordSetOutput) ToOutput(ctx context.Context) pulumix.Output[*PrivateRecordSet] {
-	return pulumix.Output[*PrivateRecordSet]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The list of A records in the record set.

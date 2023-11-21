@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified route filter.
@@ -98,12 +97,6 @@ func (o LookupRouteFilterResultOutput) ToLookupRouteFilterResultOutput() LookupR
 
 func (o LookupRouteFilterResultOutput) ToLookupRouteFilterResultOutputWithContext(ctx context.Context) LookupRouteFilterResultOutput {
 	return o
-}
-
-func (o LookupRouteFilterResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupRouteFilterResult] {
-	return pulumix.Output[LookupRouteFilterResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a DNS forwarding ruleset properties.
@@ -94,12 +93,6 @@ func (o LookupDnsForwardingRulesetResultOutput) ToLookupDnsForwardingRulesetResu
 
 func (o LookupDnsForwardingRulesetResultOutput) ToLookupDnsForwardingRulesetResultOutputWithContext(ctx context.Context) LookupDnsForwardingRulesetResultOutput {
 	return o
-}
-
-func (o LookupDnsForwardingRulesetResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDnsForwardingRulesetResult] {
-	return pulumix.Output[LookupDnsForwardingRulesetResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The reference to the DNS resolver outbound endpoints that are used to route DNS queries matching the forwarding rules in the ruleset to the target DNS servers.

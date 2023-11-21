@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Service End point policy resource.
@@ -254,12 +253,6 @@ func (i *ServiceEndpointPolicy) ToServiceEndpointPolicyOutputWithContext(ctx con
 	return pulumi.ToOutputWithContext(ctx, i).(ServiceEndpointPolicyOutput)
 }
 
-func (i *ServiceEndpointPolicy) ToOutput(ctx context.Context) pulumix.Output[*ServiceEndpointPolicy] {
-	return pulumix.Output[*ServiceEndpointPolicy]{
-		OutputState: i.ToServiceEndpointPolicyOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ServiceEndpointPolicyOutput struct{ *pulumi.OutputState }
 
 func (ServiceEndpointPolicyOutput) ElementType() reflect.Type {
@@ -272,12 +265,6 @@ func (o ServiceEndpointPolicyOutput) ToServiceEndpointPolicyOutput() ServiceEndp
 
 func (o ServiceEndpointPolicyOutput) ToServiceEndpointPolicyOutputWithContext(ctx context.Context) ServiceEndpointPolicyOutput {
 	return o
-}
-
-func (o ServiceEndpointPolicyOutput) ToOutput(ctx context.Context) pulumix.Output[*ServiceEndpointPolicy] {
-	return pulumix.Output[*ServiceEndpointPolicy]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A collection of contextual service endpoint policy.

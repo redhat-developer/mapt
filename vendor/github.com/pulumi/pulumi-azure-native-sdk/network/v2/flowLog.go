@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // A flow log resource.
@@ -252,12 +251,6 @@ func (i *FlowLog) ToFlowLogOutputWithContext(ctx context.Context) FlowLogOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(FlowLogOutput)
 }
 
-func (i *FlowLog) ToOutput(ctx context.Context) pulumix.Output[*FlowLog] {
-	return pulumix.Output[*FlowLog]{
-		OutputState: i.ToFlowLogOutputWithContext(ctx).OutputState,
-	}
-}
-
 type FlowLogOutput struct{ *pulumi.OutputState }
 
 func (FlowLogOutput) ElementType() reflect.Type {
@@ -270,12 +263,6 @@ func (o FlowLogOutput) ToFlowLogOutput() FlowLogOutput {
 
 func (o FlowLogOutput) ToFlowLogOutputWithContext(ctx context.Context) FlowLogOutput {
 	return o
-}
-
-func (o FlowLogOutput) ToOutput(ctx context.Context) pulumix.Output[*FlowLog] {
-	return pulumix.Output[*FlowLog]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Flag to enable/disable flow logging.

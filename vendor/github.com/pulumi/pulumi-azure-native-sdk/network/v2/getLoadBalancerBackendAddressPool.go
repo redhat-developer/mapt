@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets load balancer backend address pool.
@@ -108,12 +107,6 @@ func (o LookupLoadBalancerBackendAddressPoolResultOutput) ToLookupLoadBalancerBa
 
 func (o LookupLoadBalancerBackendAddressPoolResultOutput) ToLookupLoadBalancerBackendAddressPoolResultOutputWithContext(ctx context.Context) LookupLoadBalancerBackendAddressPoolResultOutput {
 	return o
-}
-
-func (o LookupLoadBalancerBackendAddressPoolResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupLoadBalancerBackendAddressPoolResult] {
-	return pulumix.Output[LookupLoadBalancerBackendAddressPoolResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // An array of references to IP addresses defined in network interfaces.

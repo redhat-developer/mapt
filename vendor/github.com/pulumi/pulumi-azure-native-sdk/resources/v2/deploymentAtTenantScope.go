@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Deployment information.
@@ -153,12 +152,6 @@ func (i *DeploymentAtTenantScope) ToDeploymentAtTenantScopeOutputWithContext(ctx
 	return pulumi.ToOutputWithContext(ctx, i).(DeploymentAtTenantScopeOutput)
 }
 
-func (i *DeploymentAtTenantScope) ToOutput(ctx context.Context) pulumix.Output[*DeploymentAtTenantScope] {
-	return pulumix.Output[*DeploymentAtTenantScope]{
-		OutputState: i.ToDeploymentAtTenantScopeOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DeploymentAtTenantScopeOutput struct{ *pulumi.OutputState }
 
 func (DeploymentAtTenantScopeOutput) ElementType() reflect.Type {
@@ -171,12 +164,6 @@ func (o DeploymentAtTenantScopeOutput) ToDeploymentAtTenantScopeOutput() Deploym
 
 func (o DeploymentAtTenantScopeOutput) ToDeploymentAtTenantScopeOutputWithContext(ctx context.Context) DeploymentAtTenantScopeOutput {
 	return o
-}
-
-func (o DeploymentAtTenantScopeOutput) ToOutput(ctx context.Context) pulumix.Output[*DeploymentAtTenantScope] {
-	return pulumix.Output[*DeploymentAtTenantScope]{
-		OutputState: o.OutputState,
-	}
 }
 
 // the location of the deployment.

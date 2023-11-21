@@ -88,12 +88,6 @@ func (o CachingTypesOutput) ToCachingTypesPtrOutputWithContext(ctx context.Conte
 	}).(CachingTypesPtrOutput)
 }
 
-func (o CachingTypesOutput) ToOutput(ctx context.Context) pulumix.Output[CachingTypes] {
-	return pulumix.Output[CachingTypes]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o CachingTypesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -127,12 +121,6 @@ func (o CachingTypesPtrOutput) ToCachingTypesPtrOutput() CachingTypesPtrOutput {
 
 func (o CachingTypesPtrOutput) ToCachingTypesPtrOutputWithContext(ctx context.Context) CachingTypesPtrOutput {
 	return o
-}
-
-func (o CachingTypesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*CachingTypes] {
-	return pulumix.Output[*CachingTypes]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o CachingTypesPtrOutput) Elem() CachingTypesOutput {
@@ -291,12 +279,6 @@ func (o ComponentNamesOutput) ToComponentNamesPtrOutputWithContext(ctx context.C
 	}).(ComponentNamesPtrOutput)
 }
 
-func (o ComponentNamesOutput) ToOutput(ctx context.Context) pulumix.Output[ComponentNames] {
-	return pulumix.Output[ComponentNames]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ComponentNamesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -330,12 +312,6 @@ func (o ComponentNamesPtrOutput) ToComponentNamesPtrOutput() ComponentNamesPtrOu
 
 func (o ComponentNamesPtrOutput) ToComponentNamesPtrOutputWithContext(ctx context.Context) ComponentNamesPtrOutput {
 	return o
-}
-
-func (o ComponentNamesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ComponentNames] {
-	return pulumix.Output[*ComponentNames]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ComponentNamesPtrOutput) Elem() ComponentNamesOutput {
@@ -511,12 +487,6 @@ func (o DedicatedHostLicenseTypesOutput) ToDedicatedHostLicenseTypesPtrOutputWit
 	}).(DedicatedHostLicenseTypesPtrOutput)
 }
 
-func (o DedicatedHostLicenseTypesOutput) ToOutput(ctx context.Context) pulumix.Output[DedicatedHostLicenseTypes] {
-	return pulumix.Output[DedicatedHostLicenseTypes]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o DedicatedHostLicenseTypesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -550,12 +520,6 @@ func (o DedicatedHostLicenseTypesPtrOutput) ToDedicatedHostLicenseTypesPtrOutput
 
 func (o DedicatedHostLicenseTypesPtrOutput) ToDedicatedHostLicenseTypesPtrOutputWithContext(ctx context.Context) DedicatedHostLicenseTypesPtrOutput {
 	return o
-}
-
-func (o DedicatedHostLicenseTypesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*DedicatedHostLicenseTypes] {
-	return pulumix.Output[*DedicatedHostLicenseTypes]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o DedicatedHostLicenseTypesPtrOutput) Elem() DedicatedHostLicenseTypesOutput {
@@ -861,12 +825,6 @@ func (o GalleryApplicationCustomActionParameterTypeOutput) ToGalleryApplicationC
 	}).(GalleryApplicationCustomActionParameterTypePtrOutput)
 }
 
-func (o GalleryApplicationCustomActionParameterTypeOutput) ToOutput(ctx context.Context) pulumix.Output[GalleryApplicationCustomActionParameterType] {
-	return pulumix.Output[GalleryApplicationCustomActionParameterType]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o GalleryApplicationCustomActionParameterTypeOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -900,12 +858,6 @@ func (o GalleryApplicationCustomActionParameterTypePtrOutput) ToGalleryApplicati
 
 func (o GalleryApplicationCustomActionParameterTypePtrOutput) ToGalleryApplicationCustomActionParameterTypePtrOutputWithContext(ctx context.Context) GalleryApplicationCustomActionParameterTypePtrOutput {
 	return o
-}
-
-func (o GalleryApplicationCustomActionParameterTypePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*GalleryApplicationCustomActionParameterType] {
-	return pulumix.Output[*GalleryApplicationCustomActionParameterType]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GalleryApplicationCustomActionParameterTypePtrOutput) Elem() GalleryApplicationCustomActionParameterTypeOutput {
@@ -1062,12 +1014,6 @@ func (o HostCachingOutput) ToHostCachingPtrOutputWithContext(ctx context.Context
 	}).(HostCachingPtrOutput)
 }
 
-func (o HostCachingOutput) ToOutput(ctx context.Context) pulumix.Output[HostCaching] {
-	return pulumix.Output[HostCaching]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o HostCachingOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -1101,12 +1047,6 @@ func (o HostCachingPtrOutput) ToHostCachingPtrOutput() HostCachingPtrOutput {
 
 func (o HostCachingPtrOutput) ToHostCachingPtrOutputWithContext(ctx context.Context) HostCachingPtrOutput {
 	return o
-}
-
-func (o HostCachingPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*HostCaching] {
-	return pulumix.Output[*HostCaching]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o HostCachingPtrOutput) Elem() HostCachingOutput {
@@ -1279,12 +1219,6 @@ func (o IntervalInMinsOutput) ToIntervalInMinsPtrOutputWithContext(ctx context.C
 	}).(IntervalInMinsPtrOutput)
 }
 
-func (o IntervalInMinsOutput) ToOutput(ctx context.Context) pulumix.Output[IntervalInMins] {
-	return pulumix.Output[IntervalInMins]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o IntervalInMinsOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -1318,12 +1252,6 @@ func (o IntervalInMinsPtrOutput) ToIntervalInMinsPtrOutput() IntervalInMinsPtrOu
 
 func (o IntervalInMinsPtrOutput) ToIntervalInMinsPtrOutputWithContext(ctx context.Context) IntervalInMinsPtrOutput {
 	return o
-}
-
-func (o IntervalInMinsPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*IntervalInMins] {
-	return pulumix.Output[*IntervalInMins]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o IntervalInMinsPtrOutput) Elem() IntervalInMinsOutput {
@@ -1509,12 +1437,6 @@ func (o OperatingSystemStateTypesOutput) ToOperatingSystemStateTypesPtrOutputWit
 	}).(OperatingSystemStateTypesPtrOutput)
 }
 
-func (o OperatingSystemStateTypesOutput) ToOutput(ctx context.Context) pulumix.Output[OperatingSystemStateTypes] {
-	return pulumix.Output[OperatingSystemStateTypes]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o OperatingSystemStateTypesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -1548,12 +1470,6 @@ func (o OperatingSystemStateTypesPtrOutput) ToOperatingSystemStateTypesPtrOutput
 
 func (o OperatingSystemStateTypesPtrOutput) ToOperatingSystemStateTypesPtrOutputWithContext(ctx context.Context) OperatingSystemStateTypesPtrOutput {
 	return o
-}
-
-func (o OperatingSystemStateTypesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*OperatingSystemStateTypes] {
-	return pulumix.Output[*OperatingSystemStateTypes]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o OperatingSystemStateTypesPtrOutput) Elem() OperatingSystemStateTypesOutput {
@@ -1692,12 +1608,6 @@ func (o OperatingSystemTypesOutput) ToOperatingSystemTypesPtrOutputWithContext(c
 	}).(OperatingSystemTypesPtrOutput)
 }
 
-func (o OperatingSystemTypesOutput) ToOutput(ctx context.Context) pulumix.Output[OperatingSystemTypes] {
-	return pulumix.Output[OperatingSystemTypes]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o OperatingSystemTypesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -1731,12 +1641,6 @@ func (o OperatingSystemTypesPtrOutput) ToOperatingSystemTypesPtrOutput() Operati
 
 func (o OperatingSystemTypesPtrOutput) ToOperatingSystemTypesPtrOutputWithContext(ctx context.Context) OperatingSystemTypesPtrOutput {
 	return o
-}
-
-func (o OperatingSystemTypesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*OperatingSystemTypes] {
-	return pulumix.Output[*OperatingSystemTypes]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o OperatingSystemTypesPtrOutput) Elem() OperatingSystemTypesOutput {
@@ -1882,12 +1786,6 @@ func (o PassNamesOutput) ToPassNamesPtrOutputWithContext(ctx context.Context) Pa
 	}).(PassNamesPtrOutput)
 }
 
-func (o PassNamesOutput) ToOutput(ctx context.Context) pulumix.Output[PassNames] {
-	return pulumix.Output[PassNames]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o PassNamesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -1921,12 +1819,6 @@ func (o PassNamesPtrOutput) ToPassNamesPtrOutput() PassNamesPtrOutput {
 
 func (o PassNamesPtrOutput) ToPassNamesPtrOutputWithContext(ctx context.Context) PassNamesPtrOutput {
 	return o
-}
-
-func (o PassNamesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*PassNames] {
-	return pulumix.Output[*PassNames]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o PassNamesPtrOutput) Elem() PassNamesOutput {
@@ -2074,12 +1966,6 @@ func (o ProtocolTypesOutput) ToProtocolTypesPtrOutputWithContext(ctx context.Con
 	}).(ProtocolTypesPtrOutput)
 }
 
-func (o ProtocolTypesOutput) ToOutput(ctx context.Context) pulumix.Output[ProtocolTypes] {
-	return pulumix.Output[ProtocolTypes]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ProtocolTypesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -2113,12 +1999,6 @@ func (o ProtocolTypesPtrOutput) ToProtocolTypesPtrOutput() ProtocolTypesPtrOutpu
 
 func (o ProtocolTypesPtrOutput) ToProtocolTypesPtrOutputWithContext(ctx context.Context) ProtocolTypesPtrOutput {
 	return o
-}
-
-func (o ProtocolTypesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ProtocolTypes] {
-	return pulumix.Output[*ProtocolTypes]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ProtocolTypesPtrOutput) Elem() ProtocolTypesOutput {
@@ -2318,12 +2198,6 @@ func (o ResourceIdentityTypeOutput) ToResourceIdentityTypePtrOutputWithContext(c
 	}).(ResourceIdentityTypePtrOutput)
 }
 
-func (o ResourceIdentityTypeOutput) ToOutput(ctx context.Context) pulumix.Output[ResourceIdentityType] {
-	return pulumix.Output[ResourceIdentityType]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ResourceIdentityTypeOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -2357,12 +2231,6 @@ func (o ResourceIdentityTypePtrOutput) ToResourceIdentityTypePtrOutput() Resourc
 
 func (o ResourceIdentityTypePtrOutput) ToResourceIdentityTypePtrOutputWithContext(ctx context.Context) ResourceIdentityTypePtrOutput {
 	return o
-}
-
-func (o ResourceIdentityTypePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ResourceIdentityType] {
-	return pulumix.Output[*ResourceIdentityType]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ResourceIdentityTypePtrOutput) Elem() ResourceIdentityTypeOutput {
@@ -2529,12 +2397,6 @@ func (o SettingNamesOutput) ToSettingNamesPtrOutputWithContext(ctx context.Conte
 	}).(SettingNamesPtrOutput)
 }
 
-func (o SettingNamesOutput) ToOutput(ctx context.Context) pulumix.Output[SettingNames] {
-	return pulumix.Output[SettingNames]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o SettingNamesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -2568,12 +2430,6 @@ func (o SettingNamesPtrOutput) ToSettingNamesPtrOutput() SettingNamesPtrOutput {
 
 func (o SettingNamesPtrOutput) ToSettingNamesPtrOutputWithContext(ctx context.Context) SettingNamesPtrOutput {
 	return o
-}
-
-func (o SettingNamesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*SettingNames] {
-	return pulumix.Output[*SettingNames]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o SettingNamesPtrOutput) Elem() SettingNamesOutput {
@@ -2725,12 +2581,6 @@ func (o StatusLevelTypesOutput) ToStatusLevelTypesPtrOutputWithContext(ctx conte
 	}).(StatusLevelTypesPtrOutput)
 }
 
-func (o StatusLevelTypesOutput) ToOutput(ctx context.Context) pulumix.Output[StatusLevelTypes] {
-	return pulumix.Output[StatusLevelTypes]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o StatusLevelTypesOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -2764,12 +2614,6 @@ func (o StatusLevelTypesPtrOutput) ToStatusLevelTypesPtrOutput() StatusLevelType
 
 func (o StatusLevelTypesPtrOutput) ToStatusLevelTypesPtrOutputWithContext(ctx context.Context) StatusLevelTypesPtrOutput {
 	return o
-}
-
-func (o StatusLevelTypesPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*StatusLevelTypes] {
-	return pulumix.Output[*StatusLevelTypes]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o StatusLevelTypesPtrOutput) Elem() StatusLevelTypesOutput {
@@ -2931,12 +2775,6 @@ func (o UpgradeModeOutput) ToUpgradeModePtrOutputWithContext(ctx context.Context
 	}).(UpgradeModePtrOutput)
 }
 
-func (o UpgradeModeOutput) ToOutput(ctx context.Context) pulumix.Output[UpgradeMode] {
-	return pulumix.Output[UpgradeMode]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o UpgradeModeOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -2970,12 +2808,6 @@ func (o UpgradeModePtrOutput) ToUpgradeModePtrOutput() UpgradeModePtrOutput {
 
 func (o UpgradeModePtrOutput) ToUpgradeModePtrOutputWithContext(ctx context.Context) UpgradeModePtrOutput {
 	return o
-}
-
-func (o UpgradeModePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*UpgradeMode] {
-	return pulumix.Output[*UpgradeMode]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o UpgradeModePtrOutput) Elem() UpgradeModeOutput {

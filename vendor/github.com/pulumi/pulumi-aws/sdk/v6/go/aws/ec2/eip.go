@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an Elastic IP resource.
@@ -226,6 +225,8 @@ type Eip struct {
 	// Map of tags to assign to the resource. Tags can only be applied to EIPs in a VPC. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// Boolean if the EIP is in a VPC or not. Use `domain` instead.
 	// Defaults to `true` unless the region supports EC2-Classic.
@@ -246,6 +247,10 @@ func NewEip(ctx *pulumi.Context,
 		args = &EipArgs{}
 	}
 
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Eip
 	err := ctx.RegisterResource("aws:ec2/eip:Eip", name, args, &resource, opts...)
@@ -305,6 +310,8 @@ type eipState struct {
 	// Map of tags to assign to the resource. Tags can only be applied to EIPs in a VPC. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// Boolean if the EIP is in a VPC or not. Use `domain` instead.
 	// Defaults to `true` unless the region supports EC2-Classic.
@@ -355,6 +362,8 @@ type EipState struct {
 	// Map of tags to assign to the resource. Tags can only be applied to EIPs in a VPC. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// Boolean if the EIP is in a VPC or not. Use `domain` instead.
 	// Defaults to `true` unless the region supports EC2-Classic.
@@ -460,12 +469,6 @@ func (i *Eip) ToEipOutputWithContext(ctx context.Context) EipOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(EipOutput)
 }
 
-func (i *Eip) ToOutput(ctx context.Context) pulumix.Output[*Eip] {
-	return pulumix.Output[*Eip]{
-		OutputState: i.ToEipOutputWithContext(ctx).OutputState,
-	}
-}
-
 // EipArrayInput is an input type that accepts EipArray and EipArrayOutput values.
 // You can construct a concrete instance of `EipArrayInput` via:
 //
@@ -489,12 +492,6 @@ func (i EipArray) ToEipArrayOutput() EipArrayOutput {
 
 func (i EipArray) ToEipArrayOutputWithContext(ctx context.Context) EipArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(EipArrayOutput)
-}
-
-func (i EipArray) ToOutput(ctx context.Context) pulumix.Output[[]*Eip] {
-	return pulumix.Output[[]*Eip]{
-		OutputState: i.ToEipArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // EipMapInput is an input type that accepts EipMap and EipMapOutput values.
@@ -522,12 +519,6 @@ func (i EipMap) ToEipMapOutputWithContext(ctx context.Context) EipMapOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(EipMapOutput)
 }
 
-func (i EipMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Eip] {
-	return pulumix.Output[map[string]*Eip]{
-		OutputState: i.ToEipMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type EipOutput struct{ *pulumi.OutputState }
 
 func (EipOutput) ElementType() reflect.Type {
@@ -540,12 +531,6 @@ func (o EipOutput) ToEipOutput() EipOutput {
 
 func (o EipOutput) ToEipOutputWithContext(ctx context.Context) EipOutput {
 	return o
-}
-
-func (o EipOutput) ToOutput(ctx context.Context) pulumix.Output[*Eip] {
-	return pulumix.Output[*Eip]{
-		OutputState: o.OutputState,
-	}
 }
 
 // IP address from an EC2 BYOIP pool. This option is only available for VPC EIPs.
@@ -635,6 +620,8 @@ func (o EipOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o EipOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Eip) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -666,12 +653,6 @@ func (o EipArrayOutput) ToEipArrayOutputWithContext(ctx context.Context) EipArra
 	return o
 }
 
-func (o EipArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Eip] {
-	return pulumix.Output[[]*Eip]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o EipArrayOutput) Index(i pulumi.IntInput) EipOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Eip {
 		return vs[0].([]*Eip)[vs[1].(int)]
@@ -690,12 +671,6 @@ func (o EipMapOutput) ToEipMapOutput() EipMapOutput {
 
 func (o EipMapOutput) ToEipMapOutputWithContext(ctx context.Context) EipMapOutput {
 	return o
-}
-
-func (o EipMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Eip] {
-	return pulumix.Output[map[string]*Eip]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o EipMapOutput) MapIndex(k pulumi.StringInput) EipOutput {

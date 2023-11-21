@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an IPAM Resource Discovery resource. IPAM Resource Discoveries are resources meant for multi-organization customers. If you wish to use a single IPAM across multiple orgs, a resource discovery can be created and shared from a subordinate organization to the management organizations IPAM delegated admin account. For a full deployment example, see `ec2.VpcIpamResourceDiscoveryAssociation` resource.
@@ -83,6 +82,8 @@ type VpcIpamResourceDiscovery struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -96,6 +97,10 @@ func NewVpcIpamResourceDiscovery(ctx *pulumi.Context,
 	if args.OperatingRegions == nil {
 		return nil, errors.New("invalid value for required argument 'OperatingRegions'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcIpamResourceDiscovery
 	err := ctx.RegisterResource("aws:ec2/vpcIpamResourceDiscovery:VpcIpamResourceDiscovery", name, args, &resource, opts...)
@@ -134,6 +139,8 @@ type vpcIpamResourceDiscoveryState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -153,6 +160,8 @@ type VpcIpamResourceDiscoveryState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -202,12 +211,6 @@ func (i *VpcIpamResourceDiscovery) ToVpcIpamResourceDiscoveryOutputWithContext(c
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamResourceDiscoveryOutput)
 }
 
-func (i *VpcIpamResourceDiscovery) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamResourceDiscovery] {
-	return pulumix.Output[*VpcIpamResourceDiscovery]{
-		OutputState: i.ToVpcIpamResourceDiscoveryOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcIpamResourceDiscoveryArrayInput is an input type that accepts VpcIpamResourceDiscoveryArray and VpcIpamResourceDiscoveryArrayOutput values.
 // You can construct a concrete instance of `VpcIpamResourceDiscoveryArrayInput` via:
 //
@@ -231,12 +234,6 @@ func (i VpcIpamResourceDiscoveryArray) ToVpcIpamResourceDiscoveryArrayOutput() V
 
 func (i VpcIpamResourceDiscoveryArray) ToVpcIpamResourceDiscoveryArrayOutputWithContext(ctx context.Context) VpcIpamResourceDiscoveryArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamResourceDiscoveryArrayOutput)
-}
-
-func (i VpcIpamResourceDiscoveryArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamResourceDiscovery] {
-	return pulumix.Output[[]*VpcIpamResourceDiscovery]{
-		OutputState: i.ToVpcIpamResourceDiscoveryArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcIpamResourceDiscoveryMapInput is an input type that accepts VpcIpamResourceDiscoveryMap and VpcIpamResourceDiscoveryMapOutput values.
@@ -264,12 +261,6 @@ func (i VpcIpamResourceDiscoveryMap) ToVpcIpamResourceDiscoveryMapOutputWithCont
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamResourceDiscoveryMapOutput)
 }
 
-func (i VpcIpamResourceDiscoveryMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamResourceDiscovery] {
-	return pulumix.Output[map[string]*VpcIpamResourceDiscovery]{
-		OutputState: i.ToVpcIpamResourceDiscoveryMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcIpamResourceDiscoveryOutput struct{ *pulumi.OutputState }
 
 func (VpcIpamResourceDiscoveryOutput) ElementType() reflect.Type {
@@ -282,12 +273,6 @@ func (o VpcIpamResourceDiscoveryOutput) ToVpcIpamResourceDiscoveryOutput() VpcIp
 
 func (o VpcIpamResourceDiscoveryOutput) ToVpcIpamResourceDiscoveryOutputWithContext(ctx context.Context) VpcIpamResourceDiscoveryOutput {
 	return o
-}
-
-func (o VpcIpamResourceDiscoveryOutput) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamResourceDiscovery] {
-	return pulumix.Output[*VpcIpamResourceDiscovery]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Amazon Resource Name (ARN) of IPAM Resource Discovery
@@ -328,6 +313,8 @@ func (o VpcIpamResourceDiscoveryOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o VpcIpamResourceDiscoveryOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpcIpamResourceDiscovery) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -344,12 +331,6 @@ func (o VpcIpamResourceDiscoveryArrayOutput) ToVpcIpamResourceDiscoveryArrayOutp
 
 func (o VpcIpamResourceDiscoveryArrayOutput) ToVpcIpamResourceDiscoveryArrayOutputWithContext(ctx context.Context) VpcIpamResourceDiscoveryArrayOutput {
 	return o
-}
-
-func (o VpcIpamResourceDiscoveryArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamResourceDiscovery] {
-	return pulumix.Output[[]*VpcIpamResourceDiscovery]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamResourceDiscoveryArrayOutput) Index(i pulumi.IntInput) VpcIpamResourceDiscoveryOutput {
@@ -370,12 +351,6 @@ func (o VpcIpamResourceDiscoveryMapOutput) ToVpcIpamResourceDiscoveryMapOutput()
 
 func (o VpcIpamResourceDiscoveryMapOutput) ToVpcIpamResourceDiscoveryMapOutputWithContext(ctx context.Context) VpcIpamResourceDiscoveryMapOutput {
 	return o
-}
-
-func (o VpcIpamResourceDiscoveryMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamResourceDiscovery] {
-	return pulumix.Output[map[string]*VpcIpamResourceDiscovery]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamResourceDiscoveryMapOutput) MapIndex(k pulumi.StringInput) VpcIpamResourceDiscoveryOutput {

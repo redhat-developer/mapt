@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an [EC2 key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) resource. A key pair is used to control login access to EC2 instances.
@@ -80,6 +79,8 @@ type KeyPair struct {
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -93,6 +94,10 @@ func NewKeyPair(ctx *pulumi.Context,
 	if args.PublicKey == nil {
 		return nil, errors.New("invalid value for required argument 'PublicKey'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource KeyPair
 	err := ctx.RegisterResource("aws:ec2/keyPair:KeyPair", name, args, &resource, opts...)
@@ -133,6 +138,8 @@ type keyPairState struct {
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -154,6 +161,8 @@ type KeyPairState struct {
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -207,12 +216,6 @@ func (i *KeyPair) ToKeyPairOutputWithContext(ctx context.Context) KeyPairOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(KeyPairOutput)
 }
 
-func (i *KeyPair) ToOutput(ctx context.Context) pulumix.Output[*KeyPair] {
-	return pulumix.Output[*KeyPair]{
-		OutputState: i.ToKeyPairOutputWithContext(ctx).OutputState,
-	}
-}
-
 // KeyPairArrayInput is an input type that accepts KeyPairArray and KeyPairArrayOutput values.
 // You can construct a concrete instance of `KeyPairArrayInput` via:
 //
@@ -236,12 +239,6 @@ func (i KeyPairArray) ToKeyPairArrayOutput() KeyPairArrayOutput {
 
 func (i KeyPairArray) ToKeyPairArrayOutputWithContext(ctx context.Context) KeyPairArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(KeyPairArrayOutput)
-}
-
-func (i KeyPairArray) ToOutput(ctx context.Context) pulumix.Output[[]*KeyPair] {
-	return pulumix.Output[[]*KeyPair]{
-		OutputState: i.ToKeyPairArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // KeyPairMapInput is an input type that accepts KeyPairMap and KeyPairMapOutput values.
@@ -269,12 +266,6 @@ func (i KeyPairMap) ToKeyPairMapOutputWithContext(ctx context.Context) KeyPairMa
 	return pulumi.ToOutputWithContext(ctx, i).(KeyPairMapOutput)
 }
 
-func (i KeyPairMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*KeyPair] {
-	return pulumix.Output[map[string]*KeyPair]{
-		OutputState: i.ToKeyPairMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type KeyPairOutput struct{ *pulumi.OutputState }
 
 func (KeyPairOutput) ElementType() reflect.Type {
@@ -287,12 +278,6 @@ func (o KeyPairOutput) ToKeyPairOutput() KeyPairOutput {
 
 func (o KeyPairOutput) ToKeyPairOutputWithContext(ctx context.Context) KeyPairOutput {
 	return o
-}
-
-func (o KeyPairOutput) ToOutput(ctx context.Context) pulumix.Output[*KeyPair] {
-	return pulumix.Output[*KeyPair]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The key pair ARN.
@@ -336,6 +321,8 @@ func (o KeyPairOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o KeyPairOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *KeyPair) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -352,12 +339,6 @@ func (o KeyPairArrayOutput) ToKeyPairArrayOutput() KeyPairArrayOutput {
 
 func (o KeyPairArrayOutput) ToKeyPairArrayOutputWithContext(ctx context.Context) KeyPairArrayOutput {
 	return o
-}
-
-func (o KeyPairArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*KeyPair] {
-	return pulumix.Output[[]*KeyPair]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o KeyPairArrayOutput) Index(i pulumi.IntInput) KeyPairOutput {
@@ -378,12 +359,6 @@ func (o KeyPairMapOutput) ToKeyPairMapOutput() KeyPairMapOutput {
 
 func (o KeyPairMapOutput) ToKeyPairMapOutputWithContext(ctx context.Context) KeyPairMapOutput {
 	return o
-}
-
-func (o KeyPairMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*KeyPair] {
-	return pulumix.Output[map[string]*KeyPair]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o KeyPairMapOutput) MapIndex(k pulumi.StringInput) KeyPairOutput {

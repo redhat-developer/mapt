@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Private Endpoint connection on an application gateway.
@@ -192,12 +191,6 @@ func (i *ApplicationGatewayPrivateEndpointConnection) ToApplicationGatewayPrivat
 	return pulumi.ToOutputWithContext(ctx, i).(ApplicationGatewayPrivateEndpointConnectionOutput)
 }
 
-func (i *ApplicationGatewayPrivateEndpointConnection) ToOutput(ctx context.Context) pulumix.Output[*ApplicationGatewayPrivateEndpointConnection] {
-	return pulumix.Output[*ApplicationGatewayPrivateEndpointConnection]{
-		OutputState: i.ToApplicationGatewayPrivateEndpointConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ApplicationGatewayPrivateEndpointConnectionOutput struct{ *pulumi.OutputState }
 
 func (ApplicationGatewayPrivateEndpointConnectionOutput) ElementType() reflect.Type {
@@ -210,12 +203,6 @@ func (o ApplicationGatewayPrivateEndpointConnectionOutput) ToApplicationGatewayP
 
 func (o ApplicationGatewayPrivateEndpointConnectionOutput) ToApplicationGatewayPrivateEndpointConnectionOutputWithContext(ctx context.Context) ApplicationGatewayPrivateEndpointConnectionOutput {
 	return o
-}
-
-func (o ApplicationGatewayPrivateEndpointConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*ApplicationGatewayPrivateEndpointConnection] {
-	return pulumix.Output[*ApplicationGatewayPrivateEndpointConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

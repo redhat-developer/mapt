@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // A DDoS custom policy in a resource group.
@@ -221,12 +220,6 @@ func (i *DdosCustomPolicy) ToDdosCustomPolicyOutputWithContext(ctx context.Conte
 	return pulumi.ToOutputWithContext(ctx, i).(DdosCustomPolicyOutput)
 }
 
-func (i *DdosCustomPolicy) ToOutput(ctx context.Context) pulumix.Output[*DdosCustomPolicy] {
-	return pulumix.Output[*DdosCustomPolicy]{
-		OutputState: i.ToDdosCustomPolicyOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DdosCustomPolicyOutput struct{ *pulumi.OutputState }
 
 func (DdosCustomPolicyOutput) ElementType() reflect.Type {
@@ -239,12 +232,6 @@ func (o DdosCustomPolicyOutput) ToDdosCustomPolicyOutput() DdosCustomPolicyOutpu
 
 func (o DdosCustomPolicyOutput) ToDdosCustomPolicyOutputWithContext(ctx context.Context) DdosCustomPolicyOutput {
 	return o
-}
-
-func (o DdosCustomPolicyOutput) ToOutput(ctx context.Context) pulumix.Output[*DdosCustomPolicy] {
-	return pulumix.Output[*DdosCustomPolicy]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

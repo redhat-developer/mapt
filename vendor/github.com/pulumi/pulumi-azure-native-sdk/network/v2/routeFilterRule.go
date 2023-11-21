@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Route Filter Rule Resource.
@@ -291,12 +290,6 @@ func (i *RouteFilterRule) ToRouteFilterRuleOutputWithContext(ctx context.Context
 	return pulumi.ToOutputWithContext(ctx, i).(RouteFilterRuleOutput)
 }
 
-func (i *RouteFilterRule) ToOutput(ctx context.Context) pulumix.Output[*RouteFilterRule] {
-	return pulumix.Output[*RouteFilterRule]{
-		OutputState: i.ToRouteFilterRuleOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RouteFilterRuleOutput struct{ *pulumi.OutputState }
 
 func (RouteFilterRuleOutput) ElementType() reflect.Type {
@@ -309,12 +302,6 @@ func (o RouteFilterRuleOutput) ToRouteFilterRuleOutput() RouteFilterRuleOutput {
 
 func (o RouteFilterRuleOutput) ToRouteFilterRuleOutputWithContext(ctx context.Context) RouteFilterRuleOutput {
 	return o
-}
-
-func (o RouteFilterRuleOutput) ToOutput(ctx context.Context) pulumix.Output[*RouteFilterRule] {
-	return pulumix.Output[*RouteFilterRule]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The access type of the rule.

@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
@@ -76,12 +75,6 @@ func (o GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput) ToGetVirt
 
 func (o GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput) ToGetVirtualNetworkGatewayVpnclientConnectionHealthResultOutputWithContext(ctx context.Context) GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput {
 	return o
-}
-
-func (o GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetVirtualNetworkGatewayVpnclientConnectionHealthResult] {
-	return pulumix.Output[GetVirtualNetworkGatewayVpnclientConnectionHealthResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // List of vpn client connection health.

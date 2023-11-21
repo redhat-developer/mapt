@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Lists Active Security User Rules in a network manager.
@@ -84,12 +83,6 @@ func (o ListActiveSecurityUserRuleResultOutput) ToListActiveSecurityUserRuleResu
 
 func (o ListActiveSecurityUserRuleResultOutput) ToListActiveSecurityUserRuleResultOutputWithContext(ctx context.Context) ListActiveSecurityUserRuleResultOutput {
 	return o
-}
-
-func (o ListActiveSecurityUserRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListActiveSecurityUserRuleResult] {
-	return pulumix.Output[ListActiveSecurityUserRuleResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.

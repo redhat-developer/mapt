@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a resource to create a VPC routing table.
@@ -222,6 +221,8 @@ type RouteTable struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// The VPC ID.
 	VpcId pulumi.StringOutput `pulumi:"vpcId"`
@@ -237,6 +238,10 @@ func NewRouteTable(ctx *pulumi.Context,
 	if args.VpcId == nil {
 		return nil, errors.New("invalid value for required argument 'VpcId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource RouteTable
 	err := ctx.RegisterResource("aws:ec2/routeTable:RouteTable", name, args, &resource, opts...)
@@ -272,6 +277,8 @@ type routeTableState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// The VPC ID.
 	VpcId *string `pulumi:"vpcId"`
@@ -290,6 +297,8 @@ type RouteTableState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// The VPC ID.
 	VpcId pulumi.StringPtrInput
@@ -347,12 +356,6 @@ func (i *RouteTable) ToRouteTableOutputWithContext(ctx context.Context) RouteTab
 	return pulumi.ToOutputWithContext(ctx, i).(RouteTableOutput)
 }
 
-func (i *RouteTable) ToOutput(ctx context.Context) pulumix.Output[*RouteTable] {
-	return pulumix.Output[*RouteTable]{
-		OutputState: i.ToRouteTableOutputWithContext(ctx).OutputState,
-	}
-}
-
 // RouteTableArrayInput is an input type that accepts RouteTableArray and RouteTableArrayOutput values.
 // You can construct a concrete instance of `RouteTableArrayInput` via:
 //
@@ -376,12 +379,6 @@ func (i RouteTableArray) ToRouteTableArrayOutput() RouteTableArrayOutput {
 
 func (i RouteTableArray) ToRouteTableArrayOutputWithContext(ctx context.Context) RouteTableArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(RouteTableArrayOutput)
-}
-
-func (i RouteTableArray) ToOutput(ctx context.Context) pulumix.Output[[]*RouteTable] {
-	return pulumix.Output[[]*RouteTable]{
-		OutputState: i.ToRouteTableArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // RouteTableMapInput is an input type that accepts RouteTableMap and RouteTableMapOutput values.
@@ -409,12 +406,6 @@ func (i RouteTableMap) ToRouteTableMapOutputWithContext(ctx context.Context) Rou
 	return pulumi.ToOutputWithContext(ctx, i).(RouteTableMapOutput)
 }
 
-func (i RouteTableMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*RouteTable] {
-	return pulumix.Output[map[string]*RouteTable]{
-		OutputState: i.ToRouteTableMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RouteTableOutput struct{ *pulumi.OutputState }
 
 func (RouteTableOutput) ElementType() reflect.Type {
@@ -427,12 +418,6 @@ func (o RouteTableOutput) ToRouteTableOutput() RouteTableOutput {
 
 func (o RouteTableOutput) ToRouteTableOutputWithContext(ctx context.Context) RouteTableOutput {
 	return o
-}
-
-func (o RouteTableOutput) ToOutput(ctx context.Context) pulumix.Output[*RouteTable] {
-	return pulumix.Output[*RouteTable]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ARN of the route table.
@@ -462,6 +447,8 @@ func (o RouteTableOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o RouteTableOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *RouteTable) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -485,12 +472,6 @@ func (o RouteTableArrayOutput) ToRouteTableArrayOutputWithContext(ctx context.Co
 	return o
 }
 
-func (o RouteTableArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*RouteTable] {
-	return pulumix.Output[[]*RouteTable]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o RouteTableArrayOutput) Index(i pulumi.IntInput) RouteTableOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *RouteTable {
 		return vs[0].([]*RouteTable)[vs[1].(int)]
@@ -509,12 +490,6 @@ func (o RouteTableMapOutput) ToRouteTableMapOutput() RouteTableMapOutput {
 
 func (o RouteTableMapOutput) ToRouteTableMapOutputWithContext(ctx context.Context) RouteTableMapOutput {
 	return o
-}
-
-func (o RouteTableMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*RouteTable] {
-	return pulumix.Output[map[string]*RouteTable]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o RouteTableMapOutput) MapIndex(k pulumi.StringInput) RouteTableOutput {

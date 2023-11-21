@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified application gateway.
@@ -162,12 +161,6 @@ func (o LookupApplicationGatewayResultOutput) ToLookupApplicationGatewayResultOu
 
 func (o LookupApplicationGatewayResultOutput) ToLookupApplicationGatewayResultOutputWithContext(ctx context.Context) LookupApplicationGatewayResultOutput {
 	return o
-}
-
-func (o LookupApplicationGatewayResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupApplicationGatewayResult] {
-	return pulumix.Output[LookupApplicationGatewayResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Authentication certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).

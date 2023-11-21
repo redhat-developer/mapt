@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a virtual wan p2s vpn gateway.
@@ -102,12 +101,6 @@ func (o LookupP2sVpnGatewayResultOutput) ToLookupP2sVpnGatewayResultOutput() Loo
 
 func (o LookupP2sVpnGatewayResultOutput) ToLookupP2sVpnGatewayResultOutputWithContext(ctx context.Context) LookupP2sVpnGatewayResultOutput {
 	return o
-}
-
-func (o LookupP2sVpnGatewayResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupP2sVpnGatewayResult] {
-	return pulumix.Output[LookupP2sVpnGatewayResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // List of all customer specified DNS servers IP addresses.

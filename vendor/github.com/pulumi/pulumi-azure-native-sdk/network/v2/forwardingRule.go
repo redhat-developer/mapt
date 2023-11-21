@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a forwarding rule within a DNS forwarding ruleset.
@@ -156,12 +155,6 @@ func (i *ForwardingRule) ToForwardingRuleOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(ForwardingRuleOutput)
 }
 
-func (i *ForwardingRule) ToOutput(ctx context.Context) pulumix.Output[*ForwardingRule] {
-	return pulumix.Output[*ForwardingRule]{
-		OutputState: i.ToForwardingRuleOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ForwardingRuleOutput struct{ *pulumi.OutputState }
 
 func (ForwardingRuleOutput) ElementType() reflect.Type {
@@ -174,12 +167,6 @@ func (o ForwardingRuleOutput) ToForwardingRuleOutput() ForwardingRuleOutput {
 
 func (o ForwardingRuleOutput) ToForwardingRuleOutputWithContext(ctx context.Context) ForwardingRuleOutput {
 	return o
-}
-
-func (o ForwardingRuleOutput) ToOutput(ctx context.Context) pulumix.Output[*ForwardingRule] {
-	return pulumix.Output[*ForwardingRule]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The domain name for the forwarding rule.

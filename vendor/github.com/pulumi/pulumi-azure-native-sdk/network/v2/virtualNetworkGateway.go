@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // A common class for general resource information.
@@ -411,12 +410,6 @@ func (i *VirtualNetworkGateway) ToVirtualNetworkGatewayOutputWithContext(ctx con
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualNetworkGatewayOutput)
 }
 
-func (i *VirtualNetworkGateway) ToOutput(ctx context.Context) pulumix.Output[*VirtualNetworkGateway] {
-	return pulumix.Output[*VirtualNetworkGateway]{
-		OutputState: i.ToVirtualNetworkGatewayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualNetworkGatewayOutput struct{ *pulumi.OutputState }
 
 func (VirtualNetworkGatewayOutput) ElementType() reflect.Type {
@@ -429,12 +422,6 @@ func (o VirtualNetworkGatewayOutput) ToVirtualNetworkGatewayOutput() VirtualNetw
 
 func (o VirtualNetworkGatewayOutput) ToVirtualNetworkGatewayOutputWithContext(ctx context.Context) VirtualNetworkGatewayOutput {
 	return o
-}
-
-func (o VirtualNetworkGatewayOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualNetworkGateway] {
-	return pulumix.Output[*VirtualNetworkGateway]{
-		OutputState: o.OutputState,
-	}
 }
 
 // ActiveActive flag.

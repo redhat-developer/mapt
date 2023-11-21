@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified Virtual Router.
@@ -102,12 +101,6 @@ func (o LookupVirtualRouterResultOutput) ToLookupVirtualRouterResultOutput() Loo
 
 func (o LookupVirtualRouterResultOutput) ToLookupVirtualRouterResultOutputWithContext(ctx context.Context) LookupVirtualRouterResultOutput {
 	return o
-}
-
-func (o LookupVirtualRouterResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualRouterResult] {
-	return pulumix.Output[LookupVirtualRouterResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

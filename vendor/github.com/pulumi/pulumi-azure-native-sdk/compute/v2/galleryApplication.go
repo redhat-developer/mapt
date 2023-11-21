@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the gallery Application Definition that you want to create or update.
@@ -195,12 +194,6 @@ func (i *GalleryApplication) ToGalleryApplicationOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(GalleryApplicationOutput)
 }
 
-func (i *GalleryApplication) ToOutput(ctx context.Context) pulumix.Output[*GalleryApplication] {
-	return pulumix.Output[*GalleryApplication]{
-		OutputState: i.ToGalleryApplicationOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GalleryApplicationOutput struct{ *pulumi.OutputState }
 
 func (GalleryApplicationOutput) ElementType() reflect.Type {
@@ -213,12 +206,6 @@ func (o GalleryApplicationOutput) ToGalleryApplicationOutput() GalleryApplicatio
 
 func (o GalleryApplicationOutput) ToGalleryApplicationOutputWithContext(ctx context.Context) GalleryApplicationOutput {
 	return o
-}
-
-func (o GalleryApplicationOutput) ToOutput(ctx context.Context) pulumix.Output[*GalleryApplication] {
-	return pulumix.Output[*GalleryApplication]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A list of custom actions that can be performed with all of the Gallery Application Versions within this Gallery Application.

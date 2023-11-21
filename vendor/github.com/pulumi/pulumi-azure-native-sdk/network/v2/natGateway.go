@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Nat Gateway resource.
@@ -247,12 +246,6 @@ func (i *NatGateway) ToNatGatewayOutputWithContext(ctx context.Context) NatGatew
 	return pulumi.ToOutputWithContext(ctx, i).(NatGatewayOutput)
 }
 
-func (i *NatGateway) ToOutput(ctx context.Context) pulumix.Output[*NatGateway] {
-	return pulumix.Output[*NatGateway]{
-		OutputState: i.ToNatGatewayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type NatGatewayOutput struct{ *pulumi.OutputState }
 
 func (NatGatewayOutput) ElementType() reflect.Type {
@@ -265,12 +258,6 @@ func (o NatGatewayOutput) ToNatGatewayOutput() NatGatewayOutput {
 
 func (o NatGatewayOutput) ToNatGatewayOutputWithContext(ctx context.Context) NatGatewayOutput {
 	return o
-}
-
-func (o NatGatewayOutput) ToOutput(ctx context.Context) pulumix.Output[*NatGateway] {
-	return pulumix.Output[*NatGateway]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

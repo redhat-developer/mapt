@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a VPN site.
@@ -106,12 +105,6 @@ func (o LookupVpnSiteResultOutput) ToLookupVpnSiteResultOutput() LookupVpnSiteRe
 
 func (o LookupVpnSiteResultOutput) ToLookupVpnSiteResultOutputWithContext(ctx context.Context) LookupVpnSiteResultOutput {
 	return o
-}
-
-func (o LookupVpnSiteResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVpnSiteResult] {
-	return pulumix.Output[LookupVpnSiteResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The AddressSpace that contains an array of IP address ranges.

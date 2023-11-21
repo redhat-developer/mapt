@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the Shared Image Gallery that you want to create or update.
@@ -170,12 +169,6 @@ func (i *Gallery) ToGalleryOutputWithContext(ctx context.Context) GalleryOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(GalleryOutput)
 }
 
-func (i *Gallery) ToOutput(ctx context.Context) pulumix.Output[*Gallery] {
-	return pulumix.Output[*Gallery]{
-		OutputState: i.ToGalleryOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GalleryOutput struct{ *pulumi.OutputState }
 
 func (GalleryOutput) ElementType() reflect.Type {
@@ -188,12 +181,6 @@ func (o GalleryOutput) ToGalleryOutput() GalleryOutput {
 
 func (o GalleryOutput) ToGalleryOutputWithContext(ctx context.Context) GalleryOutput {
 	return o
-}
-
-func (o GalleryOutput) ToOutput(ctx context.Context) pulumix.Output[*Gallery] {
-	return pulumix.Output[*Gallery]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The description of this Shared Image Gallery resource. This property is updatable.

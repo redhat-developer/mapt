@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified virtual network peering.
@@ -114,12 +113,6 @@ func (o LookupVirtualNetworkPeeringResultOutput) ToLookupVirtualNetworkPeeringRe
 
 func (o LookupVirtualNetworkPeeringResultOutput) ToLookupVirtualNetworkPeeringResultOutputWithContext(ctx context.Context) LookupVirtualNetworkPeeringResultOutput {
 	return o
-}
-
-func (o LookupVirtualNetworkPeeringResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualNetworkPeeringResult] {
-	return pulumix.Output[LookupVirtualNetworkPeeringResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Whether the forwarded traffic from the VMs in the local virtual network will be allowed/disallowed in remote virtual network.

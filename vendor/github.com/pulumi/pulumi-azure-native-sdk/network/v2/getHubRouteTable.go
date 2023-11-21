@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a RouteTable.
@@ -96,12 +95,6 @@ func (o LookupHubRouteTableResultOutput) ToLookupHubRouteTableResultOutput() Loo
 
 func (o LookupHubRouteTableResultOutput) ToLookupHubRouteTableResultOutputWithContext(ctx context.Context) LookupHubRouteTableResultOutput {
 	return o
-}
-
-func (o LookupHubRouteTableResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupHubRouteTableResult] {
-	return pulumix.Output[LookupHubRouteTableResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // List of all connections associated with this route table.

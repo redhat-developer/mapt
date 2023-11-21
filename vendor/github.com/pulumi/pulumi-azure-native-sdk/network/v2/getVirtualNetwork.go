@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified virtual network by resource group.
@@ -137,12 +136,6 @@ func (o LookupVirtualNetworkResultOutput) ToLookupVirtualNetworkResultOutput() L
 
 func (o LookupVirtualNetworkResultOutput) ToLookupVirtualNetworkResultOutputWithContext(ctx context.Context) LookupVirtualNetworkResultOutput {
 	return o
-}
-
-func (o LookupVirtualNetworkResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualNetworkResult] {
-	return pulumix.Output[LookupVirtualNetworkResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The AddressSpace that contains an array of IP address ranges that can be used by subnets.

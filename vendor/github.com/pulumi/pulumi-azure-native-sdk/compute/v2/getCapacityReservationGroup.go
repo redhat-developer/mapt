@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The operation that retrieves information about a capacity reservation group.
@@ -96,12 +95,6 @@ func (o LookupCapacityReservationGroupResultOutput) ToLookupCapacityReservationG
 
 func (o LookupCapacityReservationGroupResultOutput) ToLookupCapacityReservationGroupResultOutputWithContext(ctx context.Context) LookupCapacityReservationGroupResultOutput {
 	return o
-}
-
-func (o LookupCapacityReservationGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupCapacityReservationGroupResult] {
-	return pulumix.Output[LookupCapacityReservationGroupResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A list of all capacity reservation resource ids that belong to capacity reservation group.

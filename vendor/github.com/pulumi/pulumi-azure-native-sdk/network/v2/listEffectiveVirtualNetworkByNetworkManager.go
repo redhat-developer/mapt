@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // List effective virtual networks in a network manager.
@@ -90,12 +89,6 @@ func (o ListEffectiveVirtualNetworkByNetworkManagerResultOutput) ToListEffective
 
 func (o ListEffectiveVirtualNetworkByNetworkManagerResultOutput) ToListEffectiveVirtualNetworkByNetworkManagerResultOutputWithContext(ctx context.Context) ListEffectiveVirtualNetworkByNetworkManagerResultOutput {
 	return o
-}
-
-func (o ListEffectiveVirtualNetworkByNetworkManagerResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListEffectiveVirtualNetworkByNetworkManagerResult] {
-	return pulumix.Output[ListEffectiveVirtualNetworkByNetworkManagerResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.

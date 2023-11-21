@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified peering for the ExpressRouteCrossConnection.
@@ -114,12 +113,6 @@ func (o LookupExpressRouteCrossConnectionPeeringResultOutput) ToLookupExpressRou
 
 func (o LookupExpressRouteCrossConnectionPeeringResultOutput) ToLookupExpressRouteCrossConnectionPeeringResultOutputWithContext(ctx context.Context) LookupExpressRouteCrossConnectionPeeringResultOutput {
 	return o
-}
-
-func (o LookupExpressRouteCrossConnectionPeeringResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupExpressRouteCrossConnectionPeeringResult] {
-	return pulumix.Output[LookupExpressRouteCrossConnectionPeeringResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The Azure ASN.

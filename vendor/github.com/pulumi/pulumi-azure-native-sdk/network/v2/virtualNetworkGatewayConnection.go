@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // A common class for general resource information.
@@ -415,12 +414,6 @@ func (i *VirtualNetworkGatewayConnection) ToVirtualNetworkGatewayConnectionOutpu
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualNetworkGatewayConnectionOutput)
 }
 
-func (i *VirtualNetworkGatewayConnection) ToOutput(ctx context.Context) pulumix.Output[*VirtualNetworkGatewayConnection] {
-	return pulumix.Output[*VirtualNetworkGatewayConnection]{
-		OutputState: i.ToVirtualNetworkGatewayConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualNetworkGatewayConnectionOutput struct{ *pulumi.OutputState }
 
 func (VirtualNetworkGatewayConnectionOutput) ElementType() reflect.Type {
@@ -433,12 +426,6 @@ func (o VirtualNetworkGatewayConnectionOutput) ToVirtualNetworkGatewayConnection
 
 func (o VirtualNetworkGatewayConnectionOutput) ToVirtualNetworkGatewayConnectionOutputWithContext(ctx context.Context) VirtualNetworkGatewayConnectionOutput {
 	return o
-}
-
-func (o VirtualNetworkGatewayConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualNetworkGatewayConnection] {
-	return pulumix.Output[*VirtualNetworkGatewayConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The authorizationKey.

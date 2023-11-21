@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a Virtual Machine Extension.
@@ -266,12 +265,6 @@ func (i *VirtualMachineExtension) ToVirtualMachineExtensionOutputWithContext(ctx
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineExtensionOutput)
 }
 
-func (i *VirtualMachineExtension) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineExtension] {
-	return pulumix.Output[*VirtualMachineExtension]{
-		OutputState: i.ToVirtualMachineExtensionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualMachineExtensionOutput struct{ *pulumi.OutputState }
 
 func (VirtualMachineExtensionOutput) ElementType() reflect.Type {
@@ -284,12 +277,6 @@ func (o VirtualMachineExtensionOutput) ToVirtualMachineExtensionOutput() Virtual
 
 func (o VirtualMachineExtensionOutput) ToVirtualMachineExtensionOutputWithContext(ctx context.Context) VirtualMachineExtensionOutput {
 	return o
-}
-
-func (o VirtualMachineExtensionOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualMachineExtension] {
-	return pulumix.Output[*VirtualMachineExtension]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.

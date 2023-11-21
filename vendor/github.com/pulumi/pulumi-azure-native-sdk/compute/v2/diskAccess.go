@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // disk access resource.
@@ -166,12 +165,6 @@ func (i *DiskAccess) ToDiskAccessOutputWithContext(ctx context.Context) DiskAcce
 	return pulumi.ToOutputWithContext(ctx, i).(DiskAccessOutput)
 }
 
-func (i *DiskAccess) ToOutput(ctx context.Context) pulumix.Output[*DiskAccess] {
-	return pulumix.Output[*DiskAccess]{
-		OutputState: i.ToDiskAccessOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DiskAccessOutput struct{ *pulumi.OutputState }
 
 func (DiskAccessOutput) ElementType() reflect.Type {
@@ -184,12 +177,6 @@ func (o DiskAccessOutput) ToDiskAccessOutput() DiskAccessOutput {
 
 func (o DiskAccessOutput) ToDiskAccessOutputWithContext(ctx context.Context) DiskAccessOutput {
 	return o
-}
-
-func (o DiskAccessOutput) ToOutput(ctx context.Context) pulumix.Output[*DiskAccess] {
-	return pulumix.Output[*DiskAccess]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The extended location where the disk access will be created. Extended location cannot be changed.

@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The NSP access rule resource
@@ -192,12 +191,6 @@ func (i *NspAccessRule) ToNspAccessRuleOutputWithContext(ctx context.Context) Ns
 	return pulumi.ToOutputWithContext(ctx, i).(NspAccessRuleOutput)
 }
 
-func (i *NspAccessRule) ToOutput(ctx context.Context) pulumix.Output[*NspAccessRule] {
-	return pulumix.Output[*NspAccessRule]{
-		OutputState: i.ToNspAccessRuleOutputWithContext(ctx).OutputState,
-	}
-}
-
 type NspAccessRuleOutput struct{ *pulumi.OutputState }
 
 func (NspAccessRuleOutput) ElementType() reflect.Type {
@@ -210,12 +203,6 @@ func (o NspAccessRuleOutput) ToNspAccessRuleOutput() NspAccessRuleOutput {
 
 func (o NspAccessRuleOutput) ToNspAccessRuleOutputWithContext(ctx context.Context) NspAccessRuleOutput {
 	return o
-}
-
-func (o NspAccessRuleOutput) ToOutput(ctx context.Context) pulumix.Output[*NspAccessRule] {
-	return pulumix.Output[*NspAccessRule]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Inbound address prefixes (IPv4/IPv6)

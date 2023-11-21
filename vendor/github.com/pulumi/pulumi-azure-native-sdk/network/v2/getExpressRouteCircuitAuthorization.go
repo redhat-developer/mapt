@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified authorization from the specified express route circuit.
@@ -92,12 +91,6 @@ func (o LookupExpressRouteCircuitAuthorizationResultOutput) ToLookupExpressRoute
 
 func (o LookupExpressRouteCircuitAuthorizationResultOutput) ToLookupExpressRouteCircuitAuthorizationResultOutputWithContext(ctx context.Context) LookupExpressRouteCircuitAuthorizationResultOutput {
 	return o
-}
-
-func (o LookupExpressRouteCircuitAuthorizationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupExpressRouteCircuitAuthorizationResult] {
-	return pulumix.Output[LookupExpressRouteCircuitAuthorizationResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The authorization key.

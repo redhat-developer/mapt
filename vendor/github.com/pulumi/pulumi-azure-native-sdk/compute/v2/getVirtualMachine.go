@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves information about the model view or the instance view of a virtual machine.
@@ -150,12 +149,6 @@ func (o LookupVirtualMachineResultOutput) ToLookupVirtualMachineResultOutput() L
 
 func (o LookupVirtualMachineResultOutput) ToLookupVirtualMachineResultOutputWithContext(ctx context.Context) LookupVirtualMachineResultOutput {
 	return o
-}
-
-func (o LookupVirtualMachineResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualMachineResult] {
-	return pulumix.Output[LookupVirtualMachineResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Specifies additional capabilities enabled or disabled on the virtual machine.

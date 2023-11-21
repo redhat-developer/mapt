@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified ExpressRouteConnection.
@@ -98,12 +97,6 @@ func (o LookupExpressRouteConnectionResultOutput) ToLookupExpressRouteConnection
 
 func (o LookupExpressRouteConnectionResultOutput) ToLookupExpressRouteConnectionResultOutputWithContext(ctx context.Context) LookupExpressRouteConnectionResultOutput {
 	return o
-}
-
-func (o LookupExpressRouteConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupExpressRouteConnectionResult] {
-	return pulumix.Output[LookupExpressRouteConnectionResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Authorization key to establish the connection.

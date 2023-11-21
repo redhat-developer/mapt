@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a DNS forwarding ruleset.
@@ -144,12 +143,6 @@ func (i *DnsForwardingRuleset) ToDnsForwardingRulesetOutputWithContext(ctx conte
 	return pulumi.ToOutputWithContext(ctx, i).(DnsForwardingRulesetOutput)
 }
 
-func (i *DnsForwardingRuleset) ToOutput(ctx context.Context) pulumix.Output[*DnsForwardingRuleset] {
-	return pulumix.Output[*DnsForwardingRuleset]{
-		OutputState: i.ToDnsForwardingRulesetOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DnsForwardingRulesetOutput struct{ *pulumi.OutputState }
 
 func (DnsForwardingRulesetOutput) ElementType() reflect.Type {
@@ -162,12 +155,6 @@ func (o DnsForwardingRulesetOutput) ToDnsForwardingRulesetOutput() DnsForwarding
 
 func (o DnsForwardingRulesetOutput) ToDnsForwardingRulesetOutputWithContext(ctx context.Context) DnsForwardingRulesetOutput {
 	return o
-}
-
-func (o DnsForwardingRulesetOutput) ToOutput(ctx context.Context) pulumix.Output[*DnsForwardingRuleset] {
-	return pulumix.Output[*DnsForwardingRuleset]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The reference to the DNS resolver outbound endpoints that are used to route DNS queries matching the forwarding rules in the ruleset to the target DNS servers.

@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified ipGroups.
@@ -98,12 +97,6 @@ func (o LookupIpGroupResultOutput) ToLookupIpGroupResultOutput() LookupIpGroupRe
 
 func (o LookupIpGroupResultOutput) ToLookupIpGroupResultOutputWithContext(ctx context.Context) LookupIpGroupResultOutput {
 	return o
-}
-
-func (o LookupIpGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupIpGroupResult] {
-	return pulumix.Output[LookupIpGroupResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

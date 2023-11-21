@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a Network Insights Analysis resource. Part of the "Reachability Analyzer" service in the AWS VPC console.
@@ -88,6 +87,8 @@ type NetworkInsightsAnalysis struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// If enabled, the resource will wait for the Network Insights Analysis status to change to `succeeded` or `failed`. Setting this to `false` will skip the process. Default: `true`.
 	WaitForCompletion pulumi.BoolPtrOutput `pulumi:"waitForCompletion"`
@@ -105,6 +106,10 @@ func NewNetworkInsightsAnalysis(ctx *pulumi.Context,
 	if args.NetworkInsightsPathId == nil {
 		return nil, errors.New("invalid value for required argument 'NetworkInsightsPathId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource NetworkInsightsAnalysis
 	err := ctx.RegisterResource("aws:ec2/networkInsightsAnalysis:NetworkInsightsAnalysis", name, args, &resource, opts...)
@@ -155,6 +160,8 @@ type networkInsightsAnalysisState struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// If enabled, the resource will wait for the Network Insights Analysis status to change to `succeeded` or `failed`. Setting this to `false` will skip the process. Default: `true`.
 	WaitForCompletion *bool `pulumi:"waitForCompletion"`
@@ -190,6 +197,8 @@ type NetworkInsightsAnalysisState struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// If enabled, the resource will wait for the Network Insights Analysis status to change to `succeeded` or `failed`. Setting this to `false` will skip the process. Default: `true`.
 	WaitForCompletion pulumi.BoolPtrInput
@@ -251,12 +260,6 @@ func (i *NetworkInsightsAnalysis) ToNetworkInsightsAnalysisOutputWithContext(ctx
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkInsightsAnalysisOutput)
 }
 
-func (i *NetworkInsightsAnalysis) ToOutput(ctx context.Context) pulumix.Output[*NetworkInsightsAnalysis] {
-	return pulumix.Output[*NetworkInsightsAnalysis]{
-		OutputState: i.ToNetworkInsightsAnalysisOutputWithContext(ctx).OutputState,
-	}
-}
-
 // NetworkInsightsAnalysisArrayInput is an input type that accepts NetworkInsightsAnalysisArray and NetworkInsightsAnalysisArrayOutput values.
 // You can construct a concrete instance of `NetworkInsightsAnalysisArrayInput` via:
 //
@@ -280,12 +283,6 @@ func (i NetworkInsightsAnalysisArray) ToNetworkInsightsAnalysisArrayOutput() Net
 
 func (i NetworkInsightsAnalysisArray) ToNetworkInsightsAnalysisArrayOutputWithContext(ctx context.Context) NetworkInsightsAnalysisArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkInsightsAnalysisArrayOutput)
-}
-
-func (i NetworkInsightsAnalysisArray) ToOutput(ctx context.Context) pulumix.Output[[]*NetworkInsightsAnalysis] {
-	return pulumix.Output[[]*NetworkInsightsAnalysis]{
-		OutputState: i.ToNetworkInsightsAnalysisArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // NetworkInsightsAnalysisMapInput is an input type that accepts NetworkInsightsAnalysisMap and NetworkInsightsAnalysisMapOutput values.
@@ -313,12 +310,6 @@ func (i NetworkInsightsAnalysisMap) ToNetworkInsightsAnalysisMapOutputWithContex
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkInsightsAnalysisMapOutput)
 }
 
-func (i NetworkInsightsAnalysisMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*NetworkInsightsAnalysis] {
-	return pulumix.Output[map[string]*NetworkInsightsAnalysis]{
-		OutputState: i.ToNetworkInsightsAnalysisMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type NetworkInsightsAnalysisOutput struct{ *pulumi.OutputState }
 
 func (NetworkInsightsAnalysisOutput) ElementType() reflect.Type {
@@ -331,12 +322,6 @@ func (o NetworkInsightsAnalysisOutput) ToNetworkInsightsAnalysisOutput() Network
 
 func (o NetworkInsightsAnalysisOutput) ToNetworkInsightsAnalysisOutputWithContext(ctx context.Context) NetworkInsightsAnalysisOutput {
 	return o
-}
-
-func (o NetworkInsightsAnalysisOutput) ToOutput(ctx context.Context) pulumix.Output[*NetworkInsightsAnalysis] {
-	return pulumix.Output[*NetworkInsightsAnalysis]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Potential intermediate components of a feasible path. Described below.
@@ -408,6 +393,8 @@ func (o NetworkInsightsAnalysisOutput) Tags() pulumi.StringMapOutput {
 }
 
 // Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o NetworkInsightsAnalysisOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *NetworkInsightsAnalysis) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -436,12 +423,6 @@ func (o NetworkInsightsAnalysisArrayOutput) ToNetworkInsightsAnalysisArrayOutput
 	return o
 }
 
-func (o NetworkInsightsAnalysisArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*NetworkInsightsAnalysis] {
-	return pulumix.Output[[]*NetworkInsightsAnalysis]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o NetworkInsightsAnalysisArrayOutput) Index(i pulumi.IntInput) NetworkInsightsAnalysisOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *NetworkInsightsAnalysis {
 		return vs[0].([]*NetworkInsightsAnalysis)[vs[1].(int)]
@@ -460,12 +441,6 @@ func (o NetworkInsightsAnalysisMapOutput) ToNetworkInsightsAnalysisMapOutput() N
 
 func (o NetworkInsightsAnalysisMapOutput) ToNetworkInsightsAnalysisMapOutputWithContext(ctx context.Context) NetworkInsightsAnalysisMapOutput {
 	return o
-}
-
-func (o NetworkInsightsAnalysisMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*NetworkInsightsAnalysis] {
-	return pulumix.Output[map[string]*NetworkInsightsAnalysis]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o NetworkInsightsAnalysisMapOutput) MapIndex(k pulumi.StringInput) NetworkInsightsAnalysisOutput {

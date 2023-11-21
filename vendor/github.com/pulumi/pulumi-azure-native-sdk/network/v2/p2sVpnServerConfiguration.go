@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // P2SVpnServerConfiguration Resource.
@@ -198,12 +197,6 @@ func (i *P2sVpnServerConfiguration) ToP2sVpnServerConfigurationOutputWithContext
 	return pulumi.ToOutputWithContext(ctx, i).(P2sVpnServerConfigurationOutput)
 }
 
-func (i *P2sVpnServerConfiguration) ToOutput(ctx context.Context) pulumix.Output[*P2sVpnServerConfiguration] {
-	return pulumix.Output[*P2sVpnServerConfiguration]{
-		OutputState: i.ToP2sVpnServerConfigurationOutputWithContext(ctx).OutputState,
-	}
-}
-
 type P2sVpnServerConfigurationOutput struct{ *pulumi.OutputState }
 
 func (P2sVpnServerConfigurationOutput) ElementType() reflect.Type {
@@ -216,12 +209,6 @@ func (o P2sVpnServerConfigurationOutput) ToP2sVpnServerConfigurationOutput() P2s
 
 func (o P2sVpnServerConfigurationOutput) ToP2sVpnServerConfigurationOutputWithContext(ctx context.Context) P2sVpnServerConfigurationOutput {
 	return o
-}
-
-func (o P2sVpnServerConfigurationOutput) ToOutput(ctx context.Context) pulumix.Output[*P2sVpnServerConfiguration] {
-	return pulumix.Output[*P2sVpnServerConfiguration]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

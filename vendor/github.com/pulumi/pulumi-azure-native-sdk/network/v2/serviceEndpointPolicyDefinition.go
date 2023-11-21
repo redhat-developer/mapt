@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Service Endpoint policy definitions.
@@ -249,12 +248,6 @@ func (i *ServiceEndpointPolicyDefinition) ToServiceEndpointPolicyDefinitionOutpu
 	return pulumi.ToOutputWithContext(ctx, i).(ServiceEndpointPolicyDefinitionOutput)
 }
 
-func (i *ServiceEndpointPolicyDefinition) ToOutput(ctx context.Context) pulumix.Output[*ServiceEndpointPolicyDefinition] {
-	return pulumix.Output[*ServiceEndpointPolicyDefinition]{
-		OutputState: i.ToServiceEndpointPolicyDefinitionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ServiceEndpointPolicyDefinitionOutput struct{ *pulumi.OutputState }
 
 func (ServiceEndpointPolicyDefinitionOutput) ElementType() reflect.Type {
@@ -267,12 +260,6 @@ func (o ServiceEndpointPolicyDefinitionOutput) ToServiceEndpointPolicyDefinition
 
 func (o ServiceEndpointPolicyDefinitionOutput) ToServiceEndpointPolicyDefinitionOutputWithContext(ctx context.Context) ServiceEndpointPolicyDefinitionOutput {
 	return o
-}
-
-func (o ServiceEndpointPolicyDefinitionOutput) ToOutput(ctx context.Context) pulumix.Output[*ServiceEndpointPolicyDefinition] {
-	return pulumix.Output[*ServiceEndpointPolicyDefinition]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A description for this rule. Restricted to 140 chars.

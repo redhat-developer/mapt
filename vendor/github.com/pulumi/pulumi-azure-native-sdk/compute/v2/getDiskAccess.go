@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets information about a disk access resource.
@@ -92,12 +91,6 @@ func (o LookupDiskAccessResultOutput) ToLookupDiskAccessResultOutput() LookupDis
 
 func (o LookupDiskAccessResultOutput) ToLookupDiskAccessResultOutputWithContext(ctx context.Context) LookupDiskAccessResultOutput {
 	return o
-}
-
-func (o LookupDiskAccessResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDiskAccessResult] {
-	return pulumix.Output[LookupDiskAccessResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The extended location where the disk access will be created. Extended location cannot be changed.

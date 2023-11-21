@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified NSP profile.
@@ -92,12 +91,6 @@ func (o LookupNspProfileResultOutput) ToLookupNspProfileResultOutput() LookupNsp
 
 func (o LookupNspProfileResultOutput) ToLookupNspProfileResultOutputWithContext(ctx context.Context) LookupNspProfileResultOutput {
 	return o
-}
-
-func (o LookupNspProfileResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNspProfileResult] {
-	return pulumix.Output[LookupNspProfileResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Version number that increases with every update to access rules within the profile.
