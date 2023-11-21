@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // VpnServerConfigurationPolicyGroup Resource.
@@ -178,12 +177,6 @@ func (i *ConfigurationPolicyGroup) ToConfigurationPolicyGroupOutputWithContext(c
 	return pulumi.ToOutputWithContext(ctx, i).(ConfigurationPolicyGroupOutput)
 }
 
-func (i *ConfigurationPolicyGroup) ToOutput(ctx context.Context) pulumix.Output[*ConfigurationPolicyGroup] {
-	return pulumix.Output[*ConfigurationPolicyGroup]{
-		OutputState: i.ToConfigurationPolicyGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ConfigurationPolicyGroupOutput struct{ *pulumi.OutputState }
 
 func (ConfigurationPolicyGroupOutput) ElementType() reflect.Type {
@@ -196,12 +189,6 @@ func (o ConfigurationPolicyGroupOutput) ToConfigurationPolicyGroupOutput() Confi
 
 func (o ConfigurationPolicyGroupOutput) ToConfigurationPolicyGroupOutputWithContext(ctx context.Context) ConfigurationPolicyGroupOutput {
 	return o
-}
-
-func (o ConfigurationPolicyGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*ConfigurationPolicyGroup] {
-	return pulumix.Output[*ConfigurationPolicyGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

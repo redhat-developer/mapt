@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves information about a proximity placement group .
@@ -102,12 +101,6 @@ func (o LookupProximityPlacementGroupResultOutput) ToLookupProximityPlacementGro
 
 func (o LookupProximityPlacementGroupResultOutput) ToLookupProximityPlacementGroupResultOutputWithContext(ctx context.Context) LookupProximityPlacementGroupResultOutput {
 	return o
-}
-
-func (o LookupProximityPlacementGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupProximityPlacementGroupResult] {
-	return pulumix.Output[LookupProximityPlacementGroupResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A list of references to all availability sets in the proximity placement group.

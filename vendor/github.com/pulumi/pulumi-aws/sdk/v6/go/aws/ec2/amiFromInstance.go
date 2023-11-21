@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The "AMI from instance" resource allows the creation of an Amazon Machine
@@ -112,7 +111,8 @@ type AmiFromInstance struct {
 	// for created instances. No other value is supported at this time.
 	SriovNetSupport pulumi.StringOutput `pulumi:"sriovNetSupport"`
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    pulumi.StringMapOutput `pulumi:"tags"`
+	Tags pulumi.StringMapOutput `pulumi:"tags"`
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport     pulumi.StringOutput `pulumi:"tpmSupport"`
@@ -133,6 +133,10 @@ func NewAmiFromInstance(ctx *pulumi.Context,
 	if args.SourceInstanceId == nil {
 		return nil, errors.New("invalid value for required argument 'SourceInstanceId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource AmiFromInstance
 	err := ctx.RegisterResource("aws:ec2/amiFromInstance:AmiFromInstance", name, args, &resource, opts...)
@@ -209,7 +213,8 @@ type amiFromInstanceState struct {
 	// for created instances. No other value is supported at this time.
 	SriovNetSupport *string `pulumi:"sriovNetSupport"`
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    map[string]string `pulumi:"tags"`
+	Tags map[string]string `pulumi:"tags"`
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport     *string `pulumi:"tpmSupport"`
@@ -274,7 +279,8 @@ type AmiFromInstanceState struct {
 	// for created instances. No other value is supported at this time.
 	SriovNetSupport pulumi.StringPtrInput
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    pulumi.StringMapInput
+	Tags pulumi.StringMapInput
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport     pulumi.StringPtrInput
@@ -361,12 +367,6 @@ func (i *AmiFromInstance) ToAmiFromInstanceOutputWithContext(ctx context.Context
 	return pulumi.ToOutputWithContext(ctx, i).(AmiFromInstanceOutput)
 }
 
-func (i *AmiFromInstance) ToOutput(ctx context.Context) pulumix.Output[*AmiFromInstance] {
-	return pulumix.Output[*AmiFromInstance]{
-		OutputState: i.ToAmiFromInstanceOutputWithContext(ctx).OutputState,
-	}
-}
-
 // AmiFromInstanceArrayInput is an input type that accepts AmiFromInstanceArray and AmiFromInstanceArrayOutput values.
 // You can construct a concrete instance of `AmiFromInstanceArrayInput` via:
 //
@@ -390,12 +390,6 @@ func (i AmiFromInstanceArray) ToAmiFromInstanceArrayOutput() AmiFromInstanceArra
 
 func (i AmiFromInstanceArray) ToAmiFromInstanceArrayOutputWithContext(ctx context.Context) AmiFromInstanceArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(AmiFromInstanceArrayOutput)
-}
-
-func (i AmiFromInstanceArray) ToOutput(ctx context.Context) pulumix.Output[[]*AmiFromInstance] {
-	return pulumix.Output[[]*AmiFromInstance]{
-		OutputState: i.ToAmiFromInstanceArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // AmiFromInstanceMapInput is an input type that accepts AmiFromInstanceMap and AmiFromInstanceMapOutput values.
@@ -423,12 +417,6 @@ func (i AmiFromInstanceMap) ToAmiFromInstanceMapOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, i).(AmiFromInstanceMapOutput)
 }
 
-func (i AmiFromInstanceMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*AmiFromInstance] {
-	return pulumix.Output[map[string]*AmiFromInstance]{
-		OutputState: i.ToAmiFromInstanceMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type AmiFromInstanceOutput struct{ *pulumi.OutputState }
 
 func (AmiFromInstanceOutput) ElementType() reflect.Type {
@@ -441,12 +429,6 @@ func (o AmiFromInstanceOutput) ToAmiFromInstanceOutput() AmiFromInstanceOutput {
 
 func (o AmiFromInstanceOutput) ToAmiFromInstanceOutputWithContext(ctx context.Context) AmiFromInstanceOutput {
 	return o
-}
-
-func (o AmiFromInstanceOutput) ToOutput(ctx context.Context) pulumix.Output[*AmiFromInstance] {
-	return pulumix.Output[*AmiFromInstance]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Machine architecture for created instances. Defaults to "x8664".
@@ -586,6 +568,7 @@ func (o AmiFromInstanceOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *AmiFromInstance) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
+// Deprecated: Please use `tags` instead.
 func (o AmiFromInstanceOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *AmiFromInstance) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -620,12 +603,6 @@ func (o AmiFromInstanceArrayOutput) ToAmiFromInstanceArrayOutputWithContext(ctx 
 	return o
 }
 
-func (o AmiFromInstanceArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*AmiFromInstance] {
-	return pulumix.Output[[]*AmiFromInstance]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o AmiFromInstanceArrayOutput) Index(i pulumi.IntInput) AmiFromInstanceOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *AmiFromInstance {
 		return vs[0].([]*AmiFromInstance)[vs[1].(int)]
@@ -644,12 +621,6 @@ func (o AmiFromInstanceMapOutput) ToAmiFromInstanceMapOutput() AmiFromInstanceMa
 
 func (o AmiFromInstanceMapOutput) ToAmiFromInstanceMapOutputWithContext(ctx context.Context) AmiFromInstanceMapOutput {
 	return o
-}
-
-func (o AmiFromInstanceMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*AmiFromInstance] {
-	return pulumix.Output[map[string]*AmiFromInstance]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o AmiFromInstanceMapOutput) MapIndex(k pulumi.StringInput) AmiFromInstanceOutput {

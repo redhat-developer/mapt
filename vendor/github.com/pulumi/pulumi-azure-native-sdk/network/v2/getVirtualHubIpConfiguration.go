@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a Virtual Hub Ip configuration.
@@ -109,12 +108,6 @@ func (o LookupVirtualHubIpConfigurationResultOutput) ToLookupVirtualHubIpConfigu
 
 func (o LookupVirtualHubIpConfigurationResultOutput) ToLookupVirtualHubIpConfigurationResultOutputWithContext(ctx context.Context) LookupVirtualHubIpConfigurationResultOutput {
 	return o
-}
-
-func (o LookupVirtualHubIpConfigurationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualHubIpConfigurationResult] {
-	return pulumix.Output[LookupVirtualHubIpConfigurationResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

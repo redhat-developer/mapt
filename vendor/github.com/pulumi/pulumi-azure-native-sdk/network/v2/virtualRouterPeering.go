@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Virtual Router Peering resource.
@@ -215,12 +214,6 @@ func (i *VirtualRouterPeering) ToVirtualRouterPeeringOutputWithContext(ctx conte
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualRouterPeeringOutput)
 }
 
-func (i *VirtualRouterPeering) ToOutput(ctx context.Context) pulumix.Output[*VirtualRouterPeering] {
-	return pulumix.Output[*VirtualRouterPeering]{
-		OutputState: i.ToVirtualRouterPeeringOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualRouterPeeringOutput struct{ *pulumi.OutputState }
 
 func (VirtualRouterPeeringOutput) ElementType() reflect.Type {
@@ -233,12 +226,6 @@ func (o VirtualRouterPeeringOutput) ToVirtualRouterPeeringOutput() VirtualRouter
 
 func (o VirtualRouterPeeringOutput) ToVirtualRouterPeeringOutputWithContext(ctx context.Context) VirtualRouterPeeringOutput {
 	return o
-}
-
-func (o VirtualRouterPeeringOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualRouterPeering] {
-	return pulumix.Output[*VirtualRouterPeering]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

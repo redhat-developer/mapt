@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets information about the specified virtual network tap.
@@ -111,12 +110,6 @@ func (o LookupVirtualNetworkTapResultOutput) ToLookupVirtualNetworkTapResultOutp
 
 func (o LookupVirtualNetworkTapResultOutput) ToLookupVirtualNetworkTapResultOutputWithContext(ctx context.Context) LookupVirtualNetworkTapResultOutput {
 	return o
-}
-
-func (o LookupVirtualNetworkTapResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualNetworkTapResult] {
-	return pulumix.Output[LookupVirtualNetworkTapResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The reference to the private IP address on the internal Load Balancer that will receive the tap.

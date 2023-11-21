@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a RouteMap.
@@ -94,12 +93,6 @@ func (o LookupRouteMapResultOutput) ToLookupRouteMapResultOutput() LookupRouteMa
 
 func (o LookupRouteMapResultOutput) ToLookupRouteMapResultOutputWithContext(ctx context.Context) LookupRouteMapResultOutput {
 	return o
-}
-
-func (o LookupRouteMapResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupRouteMapResult] {
-	return pulumix.Output[LookupRouteMapResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // List of connections which have this RoutMap associated for inbound traffic.

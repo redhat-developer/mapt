@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The Private Endpoint Connection resource.
@@ -156,12 +155,6 @@ func (i *DiskAccessAPrivateEndpointConnection) ToDiskAccessAPrivateEndpointConne
 	return pulumi.ToOutputWithContext(ctx, i).(DiskAccessAPrivateEndpointConnectionOutput)
 }
 
-func (i *DiskAccessAPrivateEndpointConnection) ToOutput(ctx context.Context) pulumix.Output[*DiskAccessAPrivateEndpointConnection] {
-	return pulumix.Output[*DiskAccessAPrivateEndpointConnection]{
-		OutputState: i.ToDiskAccessAPrivateEndpointConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DiskAccessAPrivateEndpointConnectionOutput struct{ *pulumi.OutputState }
 
 func (DiskAccessAPrivateEndpointConnectionOutput) ElementType() reflect.Type {
@@ -174,12 +167,6 @@ func (o DiskAccessAPrivateEndpointConnectionOutput) ToDiskAccessAPrivateEndpoint
 
 func (o DiskAccessAPrivateEndpointConnectionOutput) ToDiskAccessAPrivateEndpointConnectionOutputWithContext(ctx context.Context) DiskAccessAPrivateEndpointConnectionOutput {
 	return o
-}
-
-func (o DiskAccessAPrivateEndpointConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*DiskAccessAPrivateEndpointConnection] {
-	return pulumix.Output[*DiskAccessAPrivateEndpointConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // private endpoint connection name

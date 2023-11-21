@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified nat gateway in a specified resource group.
@@ -106,12 +105,6 @@ func (o LookupNatGatewayResultOutput) ToLookupNatGatewayResultOutput() LookupNat
 
 func (o LookupNatGatewayResultOutput) ToLookupNatGatewayResultOutputWithContext(ctx context.Context) LookupNatGatewayResultOutput {
 	return o
-}
-
-func (o LookupNatGatewayResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNatGatewayResult] {
-	return pulumix.Output[LookupNatGatewayResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

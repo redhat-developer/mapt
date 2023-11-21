@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // List SAS credentials of a storage account.
@@ -108,12 +107,6 @@ func (o ListStorageAccountSASResultOutput) ToListStorageAccountSASResultOutput()
 
 func (o ListStorageAccountSASResultOutput) ToListStorageAccountSASResultOutputWithContext(ctx context.Context) ListStorageAccountSASResultOutput {
 	return o
-}
-
-func (o ListStorageAccountSASResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListStorageAccountSASResult] {
-	return pulumix.Output[ListStorageAccountSASResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // List SAS credentials of storage account.

@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified custom IP prefix in a specified resource group.
@@ -124,12 +123,6 @@ func (o LookupCustomIPPrefixResultOutput) ToLookupCustomIPPrefixResultOutput() L
 
 func (o LookupCustomIPPrefixResultOutput) ToLookupCustomIPPrefixResultOutputWithContext(ctx context.Context) LookupCustomIPPrefixResultOutput {
 	return o
-}
-
-func (o LookupCustomIPPrefixResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupCustomIPPrefixResult] {
-	return pulumix.Output[LookupCustomIPPrefixResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ASN for CIDR advertising. Should be an integer as string.

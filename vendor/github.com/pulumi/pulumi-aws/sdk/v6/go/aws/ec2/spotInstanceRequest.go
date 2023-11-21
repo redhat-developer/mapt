@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an EC2 Spot Instance Request resource. This allows instances to be
@@ -122,7 +121,7 @@ type SpotInstanceRequest struct {
 	IamInstanceProfile pulumi.StringOutput `pulumi:"iamInstanceProfile"`
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior pulumi.StringOutput `pulumi:"instanceInitiatedShutdownBehavior"`
-	// The behavior when a Spot Instance is interrupted. Valid values include `hibernate`, `stop`, `terminate` . The default is `terminate`.
+	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior pulumi.StringPtrOutput `pulumi:"instanceInterruptionBehavior"`
 	InstanceState                pulumi.StringOutput    `pulumi:"instanceState"`
 	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
@@ -197,6 +196,8 @@ type SpotInstanceRequest struct {
 	// Map of tags to assign to the resource. Note that these tags apply to the instance and not block storage devices. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// Tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of `dedicated` runs on single-tenant hardware. The `host` tenancy is not supported for the import-instance command. Valid values are `default`, `dedicated`, and `host`.
 	Tenancy pulumi.StringOutput `pulumi:"tenancy"`
@@ -208,7 +209,7 @@ type SpotInstanceRequest struct {
 	UserDataReplaceOnChange pulumi.BoolPtrOutput `pulumi:"userDataReplaceOnChange"`
 	// The start date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
 	ValidFrom pulumi.StringOutput `pulumi:"validFrom"`
-	// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.
+	// The end date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new Spot instance requests are placed or enabled to fulfill the request. The default end date is 7 days from the current date.
 	ValidUntil pulumi.StringOutput `pulumi:"validUntil"`
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
 	//
@@ -229,6 +230,10 @@ func NewSpotInstanceRequest(ctx *pulumi.Context,
 		args = &SpotInstanceRequestArgs{}
 	}
 
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource SpotInstanceRequest
 	err := ctx.RegisterResource("aws:ec2/spotInstanceRequest:SpotInstanceRequest", name, args, &resource, opts...)
@@ -303,7 +308,7 @@ type spotInstanceRequestState struct {
 	IamInstanceProfile *string `pulumi:"iamInstanceProfile"`
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior *string `pulumi:"instanceInitiatedShutdownBehavior"`
-	// The behavior when a Spot Instance is interrupted. Valid values include `hibernate`, `stop`, `terminate` . The default is `terminate`.
+	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior *string `pulumi:"instanceInterruptionBehavior"`
 	InstanceState                *string `pulumi:"instanceState"`
 	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
@@ -378,6 +383,8 @@ type spotInstanceRequestState struct {
 	// Map of tags to assign to the resource. Note that these tags apply to the instance and not block storage devices. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// Tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of `dedicated` runs on single-tenant hardware. The `host` tenancy is not supported for the import-instance command. Valid values are `default`, `dedicated`, and `host`.
 	Tenancy *string `pulumi:"tenancy"`
@@ -389,7 +396,7 @@ type spotInstanceRequestState struct {
 	UserDataReplaceOnChange *bool `pulumi:"userDataReplaceOnChange"`
 	// The start date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
 	ValidFrom *string `pulumi:"validFrom"`
-	// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.
+	// The end date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new Spot instance requests are placed or enabled to fulfill the request. The default end date is 7 days from the current date.
 	ValidUntil *string `pulumi:"validUntil"`
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
 	//
@@ -455,7 +462,7 @@ type SpotInstanceRequestState struct {
 	IamInstanceProfile pulumi.StringPtrInput
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior pulumi.StringPtrInput
-	// The behavior when a Spot Instance is interrupted. Valid values include `hibernate`, `stop`, `terminate` . The default is `terminate`.
+	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior pulumi.StringPtrInput
 	InstanceState                pulumi.StringPtrInput
 	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
@@ -530,6 +537,8 @@ type SpotInstanceRequestState struct {
 	// Map of tags to assign to the resource. Note that these tags apply to the instance and not block storage devices. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// Tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of `dedicated` runs on single-tenant hardware. The `host` tenancy is not supported for the import-instance command. Valid values are `default`, `dedicated`, and `host`.
 	Tenancy pulumi.StringPtrInput
@@ -541,7 +550,7 @@ type SpotInstanceRequestState struct {
 	UserDataReplaceOnChange pulumi.BoolPtrInput
 	// The start date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
 	ValidFrom pulumi.StringPtrInput
-	// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.
+	// The end date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new Spot instance requests are placed or enabled to fulfill the request. The default end date is 7 days from the current date.
 	ValidUntil pulumi.StringPtrInput
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
 	//
@@ -610,7 +619,7 @@ type spotInstanceRequestArgs struct {
 	IamInstanceProfile *string `pulumi:"iamInstanceProfile"`
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior *string `pulumi:"instanceInitiatedShutdownBehavior"`
-	// The behavior when a Spot Instance is interrupted. Valid values include `hibernate`, `stop`, `terminate` . The default is `terminate`.
+	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior *string `pulumi:"instanceInterruptionBehavior"`
 	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType *string `pulumi:"instanceType"`
@@ -670,7 +679,7 @@ type spotInstanceRequestArgs struct {
 	UserDataReplaceOnChange *bool `pulumi:"userDataReplaceOnChange"`
 	// The start date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
 	ValidFrom *string `pulumi:"validFrom"`
-	// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.
+	// The end date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new Spot instance requests are placed or enabled to fulfill the request. The default end date is 7 days from the current date.
 	ValidUntil *string `pulumi:"validUntil"`
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
 	//
@@ -736,7 +745,7 @@ type SpotInstanceRequestArgs struct {
 	IamInstanceProfile pulumi.StringPtrInput
 	// Shutdown behavior for the instance. Amazon defaults this to `stop` for EBS-backed instances and `terminate` for instance-store instances. Cannot be set on instance-store instances. See [Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior) for more information.
 	InstanceInitiatedShutdownBehavior pulumi.StringPtrInput
-	// The behavior when a Spot Instance is interrupted. Valid values include `hibernate`, `stop`, `terminate` . The default is `terminate`.
+	// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 	InstanceInterruptionBehavior pulumi.StringPtrInput
 	// Instance type to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifies an instance type. If an instance type is specified in the Launch Template, setting `instanceType` will override the instance type specified in the Launch Template. Updates to this field will trigger a stop/start of the EC2 instance.
 	InstanceType pulumi.StringPtrInput
@@ -796,7 +805,7 @@ type SpotInstanceRequestArgs struct {
 	UserDataReplaceOnChange pulumi.BoolPtrInput
 	// The start date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
 	ValidFrom pulumi.StringPtrInput
-	// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.
+	// The end date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new Spot instance requests are placed or enabled to fulfill the request. The default end date is 7 days from the current date.
 	ValidUntil pulumi.StringPtrInput
 	// Map of tags to assign, at instance-creation time, to root and EBS volumes.
 	//
@@ -833,12 +842,6 @@ func (i *SpotInstanceRequest) ToSpotInstanceRequestOutputWithContext(ctx context
 	return pulumi.ToOutputWithContext(ctx, i).(SpotInstanceRequestOutput)
 }
 
-func (i *SpotInstanceRequest) ToOutput(ctx context.Context) pulumix.Output[*SpotInstanceRequest] {
-	return pulumix.Output[*SpotInstanceRequest]{
-		OutputState: i.ToSpotInstanceRequestOutputWithContext(ctx).OutputState,
-	}
-}
-
 // SpotInstanceRequestArrayInput is an input type that accepts SpotInstanceRequestArray and SpotInstanceRequestArrayOutput values.
 // You can construct a concrete instance of `SpotInstanceRequestArrayInput` via:
 //
@@ -862,12 +865,6 @@ func (i SpotInstanceRequestArray) ToSpotInstanceRequestArrayOutput() SpotInstanc
 
 func (i SpotInstanceRequestArray) ToSpotInstanceRequestArrayOutputWithContext(ctx context.Context) SpotInstanceRequestArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(SpotInstanceRequestArrayOutput)
-}
-
-func (i SpotInstanceRequestArray) ToOutput(ctx context.Context) pulumix.Output[[]*SpotInstanceRequest] {
-	return pulumix.Output[[]*SpotInstanceRequest]{
-		OutputState: i.ToSpotInstanceRequestArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // SpotInstanceRequestMapInput is an input type that accepts SpotInstanceRequestMap and SpotInstanceRequestMapOutput values.
@@ -895,12 +892,6 @@ func (i SpotInstanceRequestMap) ToSpotInstanceRequestMapOutputWithContext(ctx co
 	return pulumi.ToOutputWithContext(ctx, i).(SpotInstanceRequestMapOutput)
 }
 
-func (i SpotInstanceRequestMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*SpotInstanceRequest] {
-	return pulumix.Output[map[string]*SpotInstanceRequest]{
-		OutputState: i.ToSpotInstanceRequestMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type SpotInstanceRequestOutput struct{ *pulumi.OutputState }
 
 func (SpotInstanceRequestOutput) ElementType() reflect.Type {
@@ -913,12 +904,6 @@ func (o SpotInstanceRequestOutput) ToSpotInstanceRequestOutput() SpotInstanceReq
 
 func (o SpotInstanceRequestOutput) ToSpotInstanceRequestOutputWithContext(ctx context.Context) SpotInstanceRequestOutput {
 	return o
-}
-
-func (o SpotInstanceRequestOutput) ToOutput(ctx context.Context) pulumix.Output[*SpotInstanceRequest] {
-	return pulumix.Output[*SpotInstanceRequest]{
-		OutputState: o.OutputState,
-	}
 }
 
 // AMI to use for the instance. Required unless `launchTemplate` is specified and the Launch Template specifes an AMI. If an AMI is specified in the Launch Template, setting `ami` will override the AMI specified in the Launch Template.
@@ -1044,7 +1029,7 @@ func (o SpotInstanceRequestOutput) InstanceInitiatedShutdownBehavior() pulumi.St
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.InstanceInitiatedShutdownBehavior }).(pulumi.StringOutput)
 }
 
-// The behavior when a Spot Instance is interrupted. Valid values include `hibernate`, `stop`, `terminate` . The default is `terminate`.
+// Indicates Spot instance behavior when it is interrupted. Valid values are `terminate`, `stop`, or `hibernate`. Default value is `terminate`.
 func (o SpotInstanceRequestOutput) InstanceInterruptionBehavior() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringPtrOutput { return v.InstanceInterruptionBehavior }).(pulumi.StringPtrOutput)
 }
@@ -1222,6 +1207,8 @@ func (o SpotInstanceRequestOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o SpotInstanceRequestOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -1251,7 +1238,7 @@ func (o SpotInstanceRequestOutput) ValidFrom() pulumi.StringOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.ValidFrom }).(pulumi.StringOutput)
 }
 
-// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.
+// The end date and time of the request, in UTC [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.8) format(for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new Spot instance requests are placed or enabled to fulfill the request. The default end date is 7 days from the current date.
 func (o SpotInstanceRequestOutput) ValidUntil() pulumi.StringOutput {
 	return o.ApplyT(func(v *SpotInstanceRequest) pulumi.StringOutput { return v.ValidUntil }).(pulumi.StringOutput)
 }
@@ -1289,12 +1276,6 @@ func (o SpotInstanceRequestArrayOutput) ToSpotInstanceRequestArrayOutputWithCont
 	return o
 }
 
-func (o SpotInstanceRequestArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*SpotInstanceRequest] {
-	return pulumix.Output[[]*SpotInstanceRequest]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o SpotInstanceRequestArrayOutput) Index(i pulumi.IntInput) SpotInstanceRequestOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *SpotInstanceRequest {
 		return vs[0].([]*SpotInstanceRequest)[vs[1].(int)]
@@ -1313,12 +1294,6 @@ func (o SpotInstanceRequestMapOutput) ToSpotInstanceRequestMapOutput() SpotInsta
 
 func (o SpotInstanceRequestMapOutput) ToSpotInstanceRequestMapOutputWithContext(ctx context.Context) SpotInstanceRequestMapOutput {
 	return o
-}
-
-func (o SpotInstanceRequestMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*SpotInstanceRequest] {
-	return pulumix.Output[map[string]*SpotInstanceRequest]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o SpotInstanceRequestMapOutput) MapIndex(k pulumi.StringInput) SpotInstanceRequestOutput {

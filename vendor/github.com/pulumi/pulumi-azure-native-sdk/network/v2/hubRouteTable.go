@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // RouteTable resource in a virtual hub.
@@ -201,12 +200,6 @@ func (i *HubRouteTable) ToHubRouteTableOutputWithContext(ctx context.Context) Hu
 	return pulumi.ToOutputWithContext(ctx, i).(HubRouteTableOutput)
 }
 
-func (i *HubRouteTable) ToOutput(ctx context.Context) pulumix.Output[*HubRouteTable] {
-	return pulumix.Output[*HubRouteTable]{
-		OutputState: i.ToHubRouteTableOutputWithContext(ctx).OutputState,
-	}
-}
-
 type HubRouteTableOutput struct{ *pulumi.OutputState }
 
 func (HubRouteTableOutput) ElementType() reflect.Type {
@@ -219,12 +212,6 @@ func (o HubRouteTableOutput) ToHubRouteTableOutput() HubRouteTableOutput {
 
 func (o HubRouteTableOutput) ToHubRouteTableOutputWithContext(ctx context.Context) HubRouteTableOutput {
 	return o
-}
-
-func (o HubRouteTableOutput) ToOutput(ctx context.Context) pulumix.Output[*HubRouteTable] {
-	return pulumix.Output[*HubRouteTable]{
-		OutputState: o.OutputState,
-	}
 }
 
 // List of all connections associated with this route table.

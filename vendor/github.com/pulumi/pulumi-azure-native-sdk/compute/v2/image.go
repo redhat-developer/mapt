@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
@@ -207,12 +206,6 @@ func (i *Image) ToImageOutputWithContext(ctx context.Context) ImageOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ImageOutput)
 }
 
-func (i *Image) ToOutput(ctx context.Context) pulumix.Output[*Image] {
-	return pulumix.Output[*Image]{
-		OutputState: i.ToImageOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ImageOutput struct{ *pulumi.OutputState }
 
 func (ImageOutput) ElementType() reflect.Type {
@@ -225,12 +218,6 @@ func (o ImageOutput) ToImageOutput() ImageOutput {
 
 func (o ImageOutput) ToImageOutputWithContext(ctx context.Context) ImageOutput {
 	return o
-}
-
-func (o ImageOutput) ToOutput(ctx context.Context) pulumix.Output[*Image] {
-	return pulumix.Output[*Image]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The extended location of the Image.

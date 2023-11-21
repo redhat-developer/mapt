@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 var _ = internal.GetEnvOrDefault
@@ -79,12 +78,6 @@ func (i ListenerDefaultActionArgs) ToListenerDefaultActionOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionOutput)
 }
 
-func (i ListenerDefaultActionArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultAction] {
-	return pulumix.Output[ListenerDefaultAction]{
-		OutputState: i.ToListenerDefaultActionOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ListenerDefaultActionArrayInput is an input type that accepts ListenerDefaultActionArray and ListenerDefaultActionArrayOutput values.
 // You can construct a concrete instance of `ListenerDefaultActionArrayInput` via:
 //
@@ -110,12 +103,6 @@ func (i ListenerDefaultActionArray) ToListenerDefaultActionArrayOutputWithContex
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionArrayOutput)
 }
 
-func (i ListenerDefaultActionArray) ToOutput(ctx context.Context) pulumix.Output[[]ListenerDefaultAction] {
-	return pulumix.Output[[]ListenerDefaultAction]{
-		OutputState: i.ToListenerDefaultActionArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerDefaultActionOutput struct{ *pulumi.OutputState }
 
 func (ListenerDefaultActionOutput) ElementType() reflect.Type {
@@ -128,12 +115,6 @@ func (o ListenerDefaultActionOutput) ToListenerDefaultActionOutput() ListenerDef
 
 func (o ListenerDefaultActionOutput) ToListenerDefaultActionOutputWithContext(ctx context.Context) ListenerDefaultActionOutput {
 	return o
-}
-
-func (o ListenerDefaultActionOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultAction] {
-	return pulumix.Output[ListenerDefaultAction]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Configuration block for using Amazon Cognito to authenticate users. Specify only when `type` is `authenticate-cognito`. Detailed below.
@@ -190,12 +171,6 @@ func (o ListenerDefaultActionArrayOutput) ToListenerDefaultActionArrayOutput() L
 
 func (o ListenerDefaultActionArrayOutput) ToListenerDefaultActionArrayOutputWithContext(ctx context.Context) ListenerDefaultActionArrayOutput {
 	return o
-}
-
-func (o ListenerDefaultActionArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]ListenerDefaultAction] {
-	return pulumix.Output[[]ListenerDefaultAction]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerDefaultActionArrayOutput) Index(i pulumi.IntInput) ListenerDefaultActionOutput {
@@ -269,12 +244,6 @@ func (i ListenerDefaultActionAuthenticateCognitoArgs) ToListenerDefaultActionAut
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionAuthenticateCognitoOutput)
 }
 
-func (i ListenerDefaultActionAuthenticateCognitoArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionAuthenticateCognito] {
-	return pulumix.Output[ListenerDefaultActionAuthenticateCognito]{
-		OutputState: i.ToListenerDefaultActionAuthenticateCognitoOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerDefaultActionAuthenticateCognitoArgs) ToListenerDefaultActionAuthenticateCognitoPtrOutput() ListenerDefaultActionAuthenticateCognitoPtrOutput {
 	return i.ToListenerDefaultActionAuthenticateCognitoPtrOutputWithContext(context.Background())
 }
@@ -316,12 +285,6 @@ func (i *listenerDefaultActionAuthenticateCognitoPtrType) ToListenerDefaultActio
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionAuthenticateCognitoPtrOutput)
 }
 
-func (i *listenerDefaultActionAuthenticateCognitoPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionAuthenticateCognito] {
-	return pulumix.Output[*ListenerDefaultActionAuthenticateCognito]{
-		OutputState: i.ToListenerDefaultActionAuthenticateCognitoPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerDefaultActionAuthenticateCognitoOutput struct{ *pulumi.OutputState }
 
 func (ListenerDefaultActionAuthenticateCognitoOutput) ElementType() reflect.Type {
@@ -344,12 +307,6 @@ func (o ListenerDefaultActionAuthenticateCognitoOutput) ToListenerDefaultActionA
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerDefaultActionAuthenticateCognito) *ListenerDefaultActionAuthenticateCognito {
 		return &v
 	}).(ListenerDefaultActionAuthenticateCognitoPtrOutput)
-}
-
-func (o ListenerDefaultActionAuthenticateCognitoOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionAuthenticateCognito] {
-	return pulumix.Output[ListenerDefaultActionAuthenticateCognito]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Query parameters to include in the redirect request to the authorization endpoint. Max: 10. Detailed below.
@@ -408,12 +365,6 @@ func (o ListenerDefaultActionAuthenticateCognitoPtrOutput) ToListenerDefaultActi
 
 func (o ListenerDefaultActionAuthenticateCognitoPtrOutput) ToListenerDefaultActionAuthenticateCognitoPtrOutputWithContext(ctx context.Context) ListenerDefaultActionAuthenticateCognitoPtrOutput {
 	return o
-}
-
-func (o ListenerDefaultActionAuthenticateCognitoPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionAuthenticateCognito] {
-	return pulumix.Output[*ListenerDefaultActionAuthenticateCognito]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerDefaultActionAuthenticateCognitoPtrOutput) Elem() ListenerDefaultActionAuthenticateCognitoOutput {
@@ -585,12 +536,6 @@ func (i ListenerDefaultActionAuthenticateOidcArgs) ToListenerDefaultActionAuthen
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionAuthenticateOidcOutput)
 }
 
-func (i ListenerDefaultActionAuthenticateOidcArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionAuthenticateOidc] {
-	return pulumix.Output[ListenerDefaultActionAuthenticateOidc]{
-		OutputState: i.ToListenerDefaultActionAuthenticateOidcOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerDefaultActionAuthenticateOidcArgs) ToListenerDefaultActionAuthenticateOidcPtrOutput() ListenerDefaultActionAuthenticateOidcPtrOutput {
 	return i.ToListenerDefaultActionAuthenticateOidcPtrOutputWithContext(context.Background())
 }
@@ -632,12 +577,6 @@ func (i *listenerDefaultActionAuthenticateOidcPtrType) ToListenerDefaultActionAu
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionAuthenticateOidcPtrOutput)
 }
 
-func (i *listenerDefaultActionAuthenticateOidcPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionAuthenticateOidc] {
-	return pulumix.Output[*ListenerDefaultActionAuthenticateOidc]{
-		OutputState: i.ToListenerDefaultActionAuthenticateOidcPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerDefaultActionAuthenticateOidcOutput struct{ *pulumi.OutputState }
 
 func (ListenerDefaultActionAuthenticateOidcOutput) ElementType() reflect.Type {
@@ -660,12 +599,6 @@ func (o ListenerDefaultActionAuthenticateOidcOutput) ToListenerDefaultActionAuth
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerDefaultActionAuthenticateOidc) *ListenerDefaultActionAuthenticateOidc {
 		return &v
 	}).(ListenerDefaultActionAuthenticateOidcPtrOutput)
-}
-
-func (o ListenerDefaultActionAuthenticateOidcOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionAuthenticateOidc] {
-	return pulumix.Output[ListenerDefaultActionAuthenticateOidc]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Query parameters to include in the redirect request to the authorization endpoint. Max: 10.
@@ -739,12 +672,6 @@ func (o ListenerDefaultActionAuthenticateOidcPtrOutput) ToListenerDefaultActionA
 
 func (o ListenerDefaultActionAuthenticateOidcPtrOutput) ToListenerDefaultActionAuthenticateOidcPtrOutputWithContext(ctx context.Context) ListenerDefaultActionAuthenticateOidcPtrOutput {
 	return o
-}
-
-func (o ListenerDefaultActionAuthenticateOidcPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionAuthenticateOidc] {
-	return pulumix.Output[*ListenerDefaultActionAuthenticateOidc]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerDefaultActionAuthenticateOidcPtrOutput) Elem() ListenerDefaultActionAuthenticateOidcOutput {
@@ -914,12 +841,6 @@ func (i ListenerDefaultActionFixedResponseArgs) ToListenerDefaultActionFixedResp
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionFixedResponseOutput)
 }
 
-func (i ListenerDefaultActionFixedResponseArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionFixedResponse] {
-	return pulumix.Output[ListenerDefaultActionFixedResponse]{
-		OutputState: i.ToListenerDefaultActionFixedResponseOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerDefaultActionFixedResponseArgs) ToListenerDefaultActionFixedResponsePtrOutput() ListenerDefaultActionFixedResponsePtrOutput {
 	return i.ToListenerDefaultActionFixedResponsePtrOutputWithContext(context.Background())
 }
@@ -961,12 +882,6 @@ func (i *listenerDefaultActionFixedResponsePtrType) ToListenerDefaultActionFixed
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionFixedResponsePtrOutput)
 }
 
-func (i *listenerDefaultActionFixedResponsePtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionFixedResponse] {
-	return pulumix.Output[*ListenerDefaultActionFixedResponse]{
-		OutputState: i.ToListenerDefaultActionFixedResponsePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerDefaultActionFixedResponseOutput struct{ *pulumi.OutputState }
 
 func (ListenerDefaultActionFixedResponseOutput) ElementType() reflect.Type {
@@ -989,12 +904,6 @@ func (o ListenerDefaultActionFixedResponseOutput) ToListenerDefaultActionFixedRe
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerDefaultActionFixedResponse) *ListenerDefaultActionFixedResponse {
 		return &v
 	}).(ListenerDefaultActionFixedResponsePtrOutput)
-}
-
-func (o ListenerDefaultActionFixedResponseOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionFixedResponse] {
-	return pulumix.Output[ListenerDefaultActionFixedResponse]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Content type. Valid values are `text/plain`, `text/css`, `text/html`, `application/javascript` and `application/json`.
@@ -1026,12 +935,6 @@ func (o ListenerDefaultActionFixedResponsePtrOutput) ToListenerDefaultActionFixe
 
 func (o ListenerDefaultActionFixedResponsePtrOutput) ToListenerDefaultActionFixedResponsePtrOutputWithContext(ctx context.Context) ListenerDefaultActionFixedResponsePtrOutput {
 	return o
-}
-
-func (o ListenerDefaultActionFixedResponsePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionFixedResponse] {
-	return pulumix.Output[*ListenerDefaultActionFixedResponse]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerDefaultActionFixedResponsePtrOutput) Elem() ListenerDefaultActionFixedResponseOutput {
@@ -1117,12 +1020,6 @@ func (i ListenerDefaultActionForwardArgs) ToListenerDefaultActionForwardOutputWi
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionForwardOutput)
 }
 
-func (i ListenerDefaultActionForwardArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionForward] {
-	return pulumix.Output[ListenerDefaultActionForward]{
-		OutputState: i.ToListenerDefaultActionForwardOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerDefaultActionForwardArgs) ToListenerDefaultActionForwardPtrOutput() ListenerDefaultActionForwardPtrOutput {
 	return i.ToListenerDefaultActionForwardPtrOutputWithContext(context.Background())
 }
@@ -1164,12 +1061,6 @@ func (i *listenerDefaultActionForwardPtrType) ToListenerDefaultActionForwardPtrO
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionForwardPtrOutput)
 }
 
-func (i *listenerDefaultActionForwardPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionForward] {
-	return pulumix.Output[*ListenerDefaultActionForward]{
-		OutputState: i.ToListenerDefaultActionForwardPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerDefaultActionForwardOutput struct{ *pulumi.OutputState }
 
 func (ListenerDefaultActionForwardOutput) ElementType() reflect.Type {
@@ -1192,12 +1083,6 @@ func (o ListenerDefaultActionForwardOutput) ToListenerDefaultActionForwardPtrOut
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerDefaultActionForward) *ListenerDefaultActionForward {
 		return &v
 	}).(ListenerDefaultActionForwardPtrOutput)
-}
-
-func (o ListenerDefaultActionForwardOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionForward] {
-	return pulumix.Output[ListenerDefaultActionForward]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Configuration block for target group stickiness for the rule. Detailed below.
@@ -1224,12 +1109,6 @@ func (o ListenerDefaultActionForwardPtrOutput) ToListenerDefaultActionForwardPtr
 
 func (o ListenerDefaultActionForwardPtrOutput) ToListenerDefaultActionForwardPtrOutputWithContext(ctx context.Context) ListenerDefaultActionForwardPtrOutput {
 	return o
-}
-
-func (o ListenerDefaultActionForwardPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionForward] {
-	return pulumix.Output[*ListenerDefaultActionForward]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerDefaultActionForwardPtrOutput) Elem() ListenerDefaultActionForwardOutput {
@@ -1305,12 +1184,6 @@ func (i ListenerDefaultActionForwardStickinessArgs) ToListenerDefaultActionForwa
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionForwardStickinessOutput)
 }
 
-func (i ListenerDefaultActionForwardStickinessArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionForwardStickiness] {
-	return pulumix.Output[ListenerDefaultActionForwardStickiness]{
-		OutputState: i.ToListenerDefaultActionForwardStickinessOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerDefaultActionForwardStickinessArgs) ToListenerDefaultActionForwardStickinessPtrOutput() ListenerDefaultActionForwardStickinessPtrOutput {
 	return i.ToListenerDefaultActionForwardStickinessPtrOutputWithContext(context.Background())
 }
@@ -1352,12 +1225,6 @@ func (i *listenerDefaultActionForwardStickinessPtrType) ToListenerDefaultActionF
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionForwardStickinessPtrOutput)
 }
 
-func (i *listenerDefaultActionForwardStickinessPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionForwardStickiness] {
-	return pulumix.Output[*ListenerDefaultActionForwardStickiness]{
-		OutputState: i.ToListenerDefaultActionForwardStickinessPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerDefaultActionForwardStickinessOutput struct{ *pulumi.OutputState }
 
 func (ListenerDefaultActionForwardStickinessOutput) ElementType() reflect.Type {
@@ -1380,12 +1247,6 @@ func (o ListenerDefaultActionForwardStickinessOutput) ToListenerDefaultActionFor
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerDefaultActionForwardStickiness) *ListenerDefaultActionForwardStickiness {
 		return &v
 	}).(ListenerDefaultActionForwardStickinessPtrOutput)
-}
-
-func (o ListenerDefaultActionForwardStickinessOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionForwardStickiness] {
-	return pulumix.Output[ListenerDefaultActionForwardStickiness]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days).
@@ -1412,12 +1273,6 @@ func (o ListenerDefaultActionForwardStickinessPtrOutput) ToListenerDefaultAction
 
 func (o ListenerDefaultActionForwardStickinessPtrOutput) ToListenerDefaultActionForwardStickinessPtrOutputWithContext(ctx context.Context) ListenerDefaultActionForwardStickinessPtrOutput {
 	return o
-}
-
-func (o ListenerDefaultActionForwardStickinessPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionForwardStickiness] {
-	return pulumix.Output[*ListenerDefaultActionForwardStickiness]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerDefaultActionForwardStickinessPtrOutput) Elem() ListenerDefaultActionForwardStickinessOutput {
@@ -1493,12 +1348,6 @@ func (i ListenerDefaultActionForwardTargetGroupArgs) ToListenerDefaultActionForw
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionForwardTargetGroupOutput)
 }
 
-func (i ListenerDefaultActionForwardTargetGroupArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionForwardTargetGroup] {
-	return pulumix.Output[ListenerDefaultActionForwardTargetGroup]{
-		OutputState: i.ToListenerDefaultActionForwardTargetGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ListenerDefaultActionForwardTargetGroupArrayInput is an input type that accepts ListenerDefaultActionForwardTargetGroupArray and ListenerDefaultActionForwardTargetGroupArrayOutput values.
 // You can construct a concrete instance of `ListenerDefaultActionForwardTargetGroupArrayInput` via:
 //
@@ -1524,12 +1373,6 @@ func (i ListenerDefaultActionForwardTargetGroupArray) ToListenerDefaultActionFor
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionForwardTargetGroupArrayOutput)
 }
 
-func (i ListenerDefaultActionForwardTargetGroupArray) ToOutput(ctx context.Context) pulumix.Output[[]ListenerDefaultActionForwardTargetGroup] {
-	return pulumix.Output[[]ListenerDefaultActionForwardTargetGroup]{
-		OutputState: i.ToListenerDefaultActionForwardTargetGroupArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerDefaultActionForwardTargetGroupOutput struct{ *pulumi.OutputState }
 
 func (ListenerDefaultActionForwardTargetGroupOutput) ElementType() reflect.Type {
@@ -1542,12 +1385,6 @@ func (o ListenerDefaultActionForwardTargetGroupOutput) ToListenerDefaultActionFo
 
 func (o ListenerDefaultActionForwardTargetGroupOutput) ToListenerDefaultActionForwardTargetGroupOutputWithContext(ctx context.Context) ListenerDefaultActionForwardTargetGroupOutput {
 	return o
-}
-
-func (o ListenerDefaultActionForwardTargetGroupOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionForwardTargetGroup] {
-	return pulumix.Output[ListenerDefaultActionForwardTargetGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // ARN of the target group.
@@ -1574,12 +1411,6 @@ func (o ListenerDefaultActionForwardTargetGroupArrayOutput) ToListenerDefaultAct
 
 func (o ListenerDefaultActionForwardTargetGroupArrayOutput) ToListenerDefaultActionForwardTargetGroupArrayOutputWithContext(ctx context.Context) ListenerDefaultActionForwardTargetGroupArrayOutput {
 	return o
-}
-
-func (o ListenerDefaultActionForwardTargetGroupArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]ListenerDefaultActionForwardTargetGroup] {
-	return pulumix.Output[[]ListenerDefaultActionForwardTargetGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerDefaultActionForwardTargetGroupArrayOutput) Index(i pulumi.IntInput) ListenerDefaultActionForwardTargetGroupOutput {
@@ -1645,12 +1476,6 @@ func (i ListenerDefaultActionRedirectArgs) ToListenerDefaultActionRedirectOutput
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionRedirectOutput)
 }
 
-func (i ListenerDefaultActionRedirectArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionRedirect] {
-	return pulumix.Output[ListenerDefaultActionRedirect]{
-		OutputState: i.ToListenerDefaultActionRedirectOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerDefaultActionRedirectArgs) ToListenerDefaultActionRedirectPtrOutput() ListenerDefaultActionRedirectPtrOutput {
 	return i.ToListenerDefaultActionRedirectPtrOutputWithContext(context.Background())
 }
@@ -1692,12 +1517,6 @@ func (i *listenerDefaultActionRedirectPtrType) ToListenerDefaultActionRedirectPt
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerDefaultActionRedirectPtrOutput)
 }
 
-func (i *listenerDefaultActionRedirectPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionRedirect] {
-	return pulumix.Output[*ListenerDefaultActionRedirect]{
-		OutputState: i.ToListenerDefaultActionRedirectPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerDefaultActionRedirectOutput struct{ *pulumi.OutputState }
 
 func (ListenerDefaultActionRedirectOutput) ElementType() reflect.Type {
@@ -1720,12 +1539,6 @@ func (o ListenerDefaultActionRedirectOutput) ToListenerDefaultActionRedirectPtrO
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerDefaultActionRedirect) *ListenerDefaultActionRedirect {
 		return &v
 	}).(ListenerDefaultActionRedirectPtrOutput)
-}
-
-func (o ListenerDefaultActionRedirectOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerDefaultActionRedirect] {
-	return pulumix.Output[ListenerDefaultActionRedirect]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Hostname. This component is not percent-encoded. The hostname can contain `#{host}`. Defaults to `#{host}`.
@@ -1772,12 +1585,6 @@ func (o ListenerDefaultActionRedirectPtrOutput) ToListenerDefaultActionRedirectP
 
 func (o ListenerDefaultActionRedirectPtrOutput) ToListenerDefaultActionRedirectPtrOutputWithContext(ctx context.Context) ListenerDefaultActionRedirectPtrOutput {
 	return o
-}
-
-func (o ListenerDefaultActionRedirectPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerDefaultActionRedirect] {
-	return pulumix.Output[*ListenerDefaultActionRedirect]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerDefaultActionRedirectPtrOutput) Elem() ListenerDefaultActionRedirectOutput {
@@ -1911,12 +1718,6 @@ func (i ListenerRuleActionArgs) ToListenerRuleActionOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionOutput)
 }
 
-func (i ListenerRuleActionArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleAction] {
-	return pulumix.Output[ListenerRuleAction]{
-		OutputState: i.ToListenerRuleActionOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ListenerRuleActionArrayInput is an input type that accepts ListenerRuleActionArray and ListenerRuleActionArrayOutput values.
 // You can construct a concrete instance of `ListenerRuleActionArrayInput` via:
 //
@@ -1942,12 +1743,6 @@ func (i ListenerRuleActionArray) ToListenerRuleActionArrayOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionArrayOutput)
 }
 
-func (i ListenerRuleActionArray) ToOutput(ctx context.Context) pulumix.Output[[]ListenerRuleAction] {
-	return pulumix.Output[[]ListenerRuleAction]{
-		OutputState: i.ToListenerRuleActionArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleActionOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleActionOutput) ElementType() reflect.Type {
@@ -1960,12 +1755,6 @@ func (o ListenerRuleActionOutput) ToListenerRuleActionOutput() ListenerRuleActio
 
 func (o ListenerRuleActionOutput) ToListenerRuleActionOutputWithContext(ctx context.Context) ListenerRuleActionOutput {
 	return o
-}
-
-func (o ListenerRuleActionOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleAction] {
-	return pulumix.Output[ListenerRuleAction]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Information for creating an authenticate action using Cognito. Required if `type` is `authenticate-cognito`.
@@ -2019,12 +1808,6 @@ func (o ListenerRuleActionArrayOutput) ToListenerRuleActionArrayOutput() Listene
 
 func (o ListenerRuleActionArrayOutput) ToListenerRuleActionArrayOutputWithContext(ctx context.Context) ListenerRuleActionArrayOutput {
 	return o
-}
-
-func (o ListenerRuleActionArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]ListenerRuleAction] {
-	return pulumix.Output[[]ListenerRuleAction]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleActionArrayOutput) Index(i pulumi.IntInput) ListenerRuleActionOutput {
@@ -2094,12 +1877,6 @@ func (i ListenerRuleActionAuthenticateCognitoArgs) ToListenerRuleActionAuthentic
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionAuthenticateCognitoOutput)
 }
 
-func (i ListenerRuleActionAuthenticateCognitoArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionAuthenticateCognito] {
-	return pulumix.Output[ListenerRuleActionAuthenticateCognito]{
-		OutputState: i.ToListenerRuleActionAuthenticateCognitoOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerRuleActionAuthenticateCognitoArgs) ToListenerRuleActionAuthenticateCognitoPtrOutput() ListenerRuleActionAuthenticateCognitoPtrOutput {
 	return i.ToListenerRuleActionAuthenticateCognitoPtrOutputWithContext(context.Background())
 }
@@ -2141,12 +1918,6 @@ func (i *listenerRuleActionAuthenticateCognitoPtrType) ToListenerRuleActionAuthe
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionAuthenticateCognitoPtrOutput)
 }
 
-func (i *listenerRuleActionAuthenticateCognitoPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionAuthenticateCognito] {
-	return pulumix.Output[*ListenerRuleActionAuthenticateCognito]{
-		OutputState: i.ToListenerRuleActionAuthenticateCognitoPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleActionAuthenticateCognitoOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleActionAuthenticateCognitoOutput) ElementType() reflect.Type {
@@ -2169,12 +1940,6 @@ func (o ListenerRuleActionAuthenticateCognitoOutput) ToListenerRuleActionAuthent
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerRuleActionAuthenticateCognito) *ListenerRuleActionAuthenticateCognito {
 		return &v
 	}).(ListenerRuleActionAuthenticateCognitoPtrOutput)
-}
-
-func (o ListenerRuleActionAuthenticateCognitoOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionAuthenticateCognito] {
-	return pulumix.Output[ListenerRuleActionAuthenticateCognito]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The query parameters to include in the redirect request to the authorization endpoint. Max: 10.
@@ -2231,12 +1996,6 @@ func (o ListenerRuleActionAuthenticateCognitoPtrOutput) ToListenerRuleActionAuth
 
 func (o ListenerRuleActionAuthenticateCognitoPtrOutput) ToListenerRuleActionAuthenticateCognitoPtrOutputWithContext(ctx context.Context) ListenerRuleActionAuthenticateCognitoPtrOutput {
 	return o
-}
-
-func (o ListenerRuleActionAuthenticateCognitoPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionAuthenticateCognito] {
-	return pulumix.Output[*ListenerRuleActionAuthenticateCognito]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleActionAuthenticateCognitoPtrOutput) Elem() ListenerRuleActionAuthenticateCognitoOutput {
@@ -2402,12 +2161,6 @@ func (i ListenerRuleActionAuthenticateOidcArgs) ToListenerRuleActionAuthenticate
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionAuthenticateOidcOutput)
 }
 
-func (i ListenerRuleActionAuthenticateOidcArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionAuthenticateOidc] {
-	return pulumix.Output[ListenerRuleActionAuthenticateOidc]{
-		OutputState: i.ToListenerRuleActionAuthenticateOidcOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerRuleActionAuthenticateOidcArgs) ToListenerRuleActionAuthenticateOidcPtrOutput() ListenerRuleActionAuthenticateOidcPtrOutput {
 	return i.ToListenerRuleActionAuthenticateOidcPtrOutputWithContext(context.Background())
 }
@@ -2449,12 +2202,6 @@ func (i *listenerRuleActionAuthenticateOidcPtrType) ToListenerRuleActionAuthenti
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionAuthenticateOidcPtrOutput)
 }
 
-func (i *listenerRuleActionAuthenticateOidcPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionAuthenticateOidc] {
-	return pulumix.Output[*ListenerRuleActionAuthenticateOidc]{
-		OutputState: i.ToListenerRuleActionAuthenticateOidcPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleActionAuthenticateOidcOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleActionAuthenticateOidcOutput) ElementType() reflect.Type {
@@ -2477,12 +2224,6 @@ func (o ListenerRuleActionAuthenticateOidcOutput) ToListenerRuleActionAuthentica
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerRuleActionAuthenticateOidc) *ListenerRuleActionAuthenticateOidc {
 		return &v
 	}).(ListenerRuleActionAuthenticateOidcPtrOutput)
-}
-
-func (o ListenerRuleActionAuthenticateOidcOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionAuthenticateOidc] {
-	return pulumix.Output[ListenerRuleActionAuthenticateOidc]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The query parameters to include in the redirect request to the authorization endpoint. Max: 10.
@@ -2554,12 +2295,6 @@ func (o ListenerRuleActionAuthenticateOidcPtrOutput) ToListenerRuleActionAuthent
 
 func (o ListenerRuleActionAuthenticateOidcPtrOutput) ToListenerRuleActionAuthenticateOidcPtrOutputWithContext(ctx context.Context) ListenerRuleActionAuthenticateOidcPtrOutput {
 	return o
-}
-
-func (o ListenerRuleActionAuthenticateOidcPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionAuthenticateOidc] {
-	return pulumix.Output[*ListenerRuleActionAuthenticateOidc]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleActionAuthenticateOidcPtrOutput) Elem() ListenerRuleActionAuthenticateOidcOutput {
@@ -2723,12 +2458,6 @@ func (i ListenerRuleActionFixedResponseArgs) ToListenerRuleActionFixedResponseOu
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionFixedResponseOutput)
 }
 
-func (i ListenerRuleActionFixedResponseArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionFixedResponse] {
-	return pulumix.Output[ListenerRuleActionFixedResponse]{
-		OutputState: i.ToListenerRuleActionFixedResponseOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerRuleActionFixedResponseArgs) ToListenerRuleActionFixedResponsePtrOutput() ListenerRuleActionFixedResponsePtrOutput {
 	return i.ToListenerRuleActionFixedResponsePtrOutputWithContext(context.Background())
 }
@@ -2770,12 +2499,6 @@ func (i *listenerRuleActionFixedResponsePtrType) ToListenerRuleActionFixedRespon
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionFixedResponsePtrOutput)
 }
 
-func (i *listenerRuleActionFixedResponsePtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionFixedResponse] {
-	return pulumix.Output[*ListenerRuleActionFixedResponse]{
-		OutputState: i.ToListenerRuleActionFixedResponsePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleActionFixedResponseOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleActionFixedResponseOutput) ElementType() reflect.Type {
@@ -2798,12 +2521,6 @@ func (o ListenerRuleActionFixedResponseOutput) ToListenerRuleActionFixedResponse
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerRuleActionFixedResponse) *ListenerRuleActionFixedResponse {
 		return &v
 	}).(ListenerRuleActionFixedResponsePtrOutput)
-}
-
-func (o ListenerRuleActionFixedResponseOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionFixedResponse] {
-	return pulumix.Output[ListenerRuleActionFixedResponse]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The content type. Valid values are `text/plain`, `text/css`, `text/html`, `application/javascript` and `application/json`.
@@ -2833,12 +2550,6 @@ func (o ListenerRuleActionFixedResponsePtrOutput) ToListenerRuleActionFixedRespo
 
 func (o ListenerRuleActionFixedResponsePtrOutput) ToListenerRuleActionFixedResponsePtrOutputWithContext(ctx context.Context) ListenerRuleActionFixedResponsePtrOutput {
 	return o
-}
-
-func (o ListenerRuleActionFixedResponsePtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionFixedResponse] {
-	return pulumix.Output[*ListenerRuleActionFixedResponse]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleActionFixedResponsePtrOutput) Elem() ListenerRuleActionFixedResponseOutput {
@@ -2918,12 +2629,6 @@ func (i ListenerRuleActionForwardArgs) ToListenerRuleActionForwardOutputWithCont
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionForwardOutput)
 }
 
-func (i ListenerRuleActionForwardArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionForward] {
-	return pulumix.Output[ListenerRuleActionForward]{
-		OutputState: i.ToListenerRuleActionForwardOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerRuleActionForwardArgs) ToListenerRuleActionForwardPtrOutput() ListenerRuleActionForwardPtrOutput {
 	return i.ToListenerRuleActionForwardPtrOutputWithContext(context.Background())
 }
@@ -2965,12 +2670,6 @@ func (i *listenerRuleActionForwardPtrType) ToListenerRuleActionForwardPtrOutputW
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionForwardPtrOutput)
 }
 
-func (i *listenerRuleActionForwardPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionForward] {
-	return pulumix.Output[*ListenerRuleActionForward]{
-		OutputState: i.ToListenerRuleActionForwardPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleActionForwardOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleActionForwardOutput) ElementType() reflect.Type {
@@ -2995,12 +2694,6 @@ func (o ListenerRuleActionForwardOutput) ToListenerRuleActionForwardPtrOutputWit
 	}).(ListenerRuleActionForwardPtrOutput)
 }
 
-func (o ListenerRuleActionForwardOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionForward] {
-	return pulumix.Output[ListenerRuleActionForward]{
-		OutputState: o.OutputState,
-	}
-}
-
 // The target group stickiness for the rule.
 func (o ListenerRuleActionForwardOutput) Stickiness() ListenerRuleActionForwardStickinessPtrOutput {
 	return o.ApplyT(func(v ListenerRuleActionForward) *ListenerRuleActionForwardStickiness { return v.Stickiness }).(ListenerRuleActionForwardStickinessPtrOutput)
@@ -3023,12 +2716,6 @@ func (o ListenerRuleActionForwardPtrOutput) ToListenerRuleActionForwardPtrOutput
 
 func (o ListenerRuleActionForwardPtrOutput) ToListenerRuleActionForwardPtrOutputWithContext(ctx context.Context) ListenerRuleActionForwardPtrOutput {
 	return o
-}
-
-func (o ListenerRuleActionForwardPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionForward] {
-	return pulumix.Output[*ListenerRuleActionForward]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleActionForwardPtrOutput) Elem() ListenerRuleActionForwardOutput {
@@ -3098,12 +2785,6 @@ func (i ListenerRuleActionForwardStickinessArgs) ToListenerRuleActionForwardStic
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionForwardStickinessOutput)
 }
 
-func (i ListenerRuleActionForwardStickinessArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionForwardStickiness] {
-	return pulumix.Output[ListenerRuleActionForwardStickiness]{
-		OutputState: i.ToListenerRuleActionForwardStickinessOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerRuleActionForwardStickinessArgs) ToListenerRuleActionForwardStickinessPtrOutput() ListenerRuleActionForwardStickinessPtrOutput {
 	return i.ToListenerRuleActionForwardStickinessPtrOutputWithContext(context.Background())
 }
@@ -3145,12 +2826,6 @@ func (i *listenerRuleActionForwardStickinessPtrType) ToListenerRuleActionForward
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionForwardStickinessPtrOutput)
 }
 
-func (i *listenerRuleActionForwardStickinessPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionForwardStickiness] {
-	return pulumix.Output[*ListenerRuleActionForwardStickiness]{
-		OutputState: i.ToListenerRuleActionForwardStickinessPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleActionForwardStickinessOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleActionForwardStickinessOutput) ElementType() reflect.Type {
@@ -3175,12 +2850,6 @@ func (o ListenerRuleActionForwardStickinessOutput) ToListenerRuleActionForwardSt
 	}).(ListenerRuleActionForwardStickinessPtrOutput)
 }
 
-func (o ListenerRuleActionForwardStickinessOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionForwardStickiness] {
-	return pulumix.Output[ListenerRuleActionForwardStickiness]{
-		OutputState: o.OutputState,
-	}
-}
-
 // The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days).
 func (o ListenerRuleActionForwardStickinessOutput) Duration() pulumi.IntOutput {
 	return o.ApplyT(func(v ListenerRuleActionForwardStickiness) int { return v.Duration }).(pulumi.IntOutput)
@@ -3203,12 +2872,6 @@ func (o ListenerRuleActionForwardStickinessPtrOutput) ToListenerRuleActionForwar
 
 func (o ListenerRuleActionForwardStickinessPtrOutput) ToListenerRuleActionForwardStickinessPtrOutputWithContext(ctx context.Context) ListenerRuleActionForwardStickinessPtrOutput {
 	return o
-}
-
-func (o ListenerRuleActionForwardStickinessPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionForwardStickiness] {
-	return pulumix.Output[*ListenerRuleActionForwardStickiness]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleActionForwardStickinessPtrOutput) Elem() ListenerRuleActionForwardStickinessOutput {
@@ -3278,12 +2941,6 @@ func (i ListenerRuleActionForwardTargetGroupArgs) ToListenerRuleActionForwardTar
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionForwardTargetGroupOutput)
 }
 
-func (i ListenerRuleActionForwardTargetGroupArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionForwardTargetGroup] {
-	return pulumix.Output[ListenerRuleActionForwardTargetGroup]{
-		OutputState: i.ToListenerRuleActionForwardTargetGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ListenerRuleActionForwardTargetGroupArrayInput is an input type that accepts ListenerRuleActionForwardTargetGroupArray and ListenerRuleActionForwardTargetGroupArrayOutput values.
 // You can construct a concrete instance of `ListenerRuleActionForwardTargetGroupArrayInput` via:
 //
@@ -3309,12 +2966,6 @@ func (i ListenerRuleActionForwardTargetGroupArray) ToListenerRuleActionForwardTa
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionForwardTargetGroupArrayOutput)
 }
 
-func (i ListenerRuleActionForwardTargetGroupArray) ToOutput(ctx context.Context) pulumix.Output[[]ListenerRuleActionForwardTargetGroup] {
-	return pulumix.Output[[]ListenerRuleActionForwardTargetGroup]{
-		OutputState: i.ToListenerRuleActionForwardTargetGroupArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleActionForwardTargetGroupOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleActionForwardTargetGroupOutput) ElementType() reflect.Type {
@@ -3327,12 +2978,6 @@ func (o ListenerRuleActionForwardTargetGroupOutput) ToListenerRuleActionForwardT
 
 func (o ListenerRuleActionForwardTargetGroupOutput) ToListenerRuleActionForwardTargetGroupOutputWithContext(ctx context.Context) ListenerRuleActionForwardTargetGroupOutput {
 	return o
-}
-
-func (o ListenerRuleActionForwardTargetGroupOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionForwardTargetGroup] {
-	return pulumix.Output[ListenerRuleActionForwardTargetGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The Amazon Resource Name (ARN) of the target group.
@@ -3357,12 +3002,6 @@ func (o ListenerRuleActionForwardTargetGroupArrayOutput) ToListenerRuleActionFor
 
 func (o ListenerRuleActionForwardTargetGroupArrayOutput) ToListenerRuleActionForwardTargetGroupArrayOutputWithContext(ctx context.Context) ListenerRuleActionForwardTargetGroupArrayOutput {
 	return o
-}
-
-func (o ListenerRuleActionForwardTargetGroupArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]ListenerRuleActionForwardTargetGroup] {
-	return pulumix.Output[[]ListenerRuleActionForwardTargetGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleActionForwardTargetGroupArrayOutput) Index(i pulumi.IntInput) ListenerRuleActionForwardTargetGroupOutput {
@@ -3424,12 +3063,6 @@ func (i ListenerRuleActionRedirectArgs) ToListenerRuleActionRedirectOutputWithCo
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionRedirectOutput)
 }
 
-func (i ListenerRuleActionRedirectArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionRedirect] {
-	return pulumix.Output[ListenerRuleActionRedirect]{
-		OutputState: i.ToListenerRuleActionRedirectOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerRuleActionRedirectArgs) ToListenerRuleActionRedirectPtrOutput() ListenerRuleActionRedirectPtrOutput {
 	return i.ToListenerRuleActionRedirectPtrOutputWithContext(context.Background())
 }
@@ -3471,12 +3104,6 @@ func (i *listenerRuleActionRedirectPtrType) ToListenerRuleActionRedirectPtrOutpu
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleActionRedirectPtrOutput)
 }
 
-func (i *listenerRuleActionRedirectPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionRedirect] {
-	return pulumix.Output[*ListenerRuleActionRedirect]{
-		OutputState: i.ToListenerRuleActionRedirectPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleActionRedirectOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleActionRedirectOutput) ElementType() reflect.Type {
@@ -3499,12 +3126,6 @@ func (o ListenerRuleActionRedirectOutput) ToListenerRuleActionRedirectPtrOutputW
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v ListenerRuleActionRedirect) *ListenerRuleActionRedirect {
 		return &v
 	}).(ListenerRuleActionRedirectPtrOutput)
-}
-
-func (o ListenerRuleActionRedirectOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleActionRedirect] {
-	return pulumix.Output[ListenerRuleActionRedirect]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The hostname. This component is not percent-encoded. The hostname can contain `#{host}`. Defaults to `#{host}`.
@@ -3549,12 +3170,6 @@ func (o ListenerRuleActionRedirectPtrOutput) ToListenerRuleActionRedirectPtrOutp
 
 func (o ListenerRuleActionRedirectPtrOutput) ToListenerRuleActionRedirectPtrOutputWithContext(ctx context.Context) ListenerRuleActionRedirectPtrOutput {
 	return o
-}
-
-func (o ListenerRuleActionRedirectPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleActionRedirect] {
-	return pulumix.Output[*ListenerRuleActionRedirect]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleActionRedirectPtrOutput) Elem() ListenerRuleActionRedirectOutput {
@@ -3684,12 +3299,6 @@ func (i ListenerRuleConditionArgs) ToListenerRuleConditionOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionOutput)
 }
 
-func (i ListenerRuleConditionArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleCondition] {
-	return pulumix.Output[ListenerRuleCondition]{
-		OutputState: i.ToListenerRuleConditionOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ListenerRuleConditionArrayInput is an input type that accepts ListenerRuleConditionArray and ListenerRuleConditionArrayOutput values.
 // You can construct a concrete instance of `ListenerRuleConditionArrayInput` via:
 //
@@ -3715,12 +3324,6 @@ func (i ListenerRuleConditionArray) ToListenerRuleConditionArrayOutputWithContex
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionArrayOutput)
 }
 
-func (i ListenerRuleConditionArray) ToOutput(ctx context.Context) pulumix.Output[[]ListenerRuleCondition] {
-	return pulumix.Output[[]ListenerRuleCondition]{
-		OutputState: i.ToListenerRuleConditionArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleConditionOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleConditionOutput) ElementType() reflect.Type {
@@ -3733,12 +3336,6 @@ func (o ListenerRuleConditionOutput) ToListenerRuleConditionOutput() ListenerRul
 
 func (o ListenerRuleConditionOutput) ToListenerRuleConditionOutputWithContext(ctx context.Context) ListenerRuleConditionOutput {
 	return o
-}
-
-func (o ListenerRuleConditionOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleCondition] {
-	return pulumix.Output[ListenerRuleCondition]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Contains a single `values` item which is a list of host header patterns to match. The maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). Only one pattern needs to match for the condition to be satisfied.
@@ -3787,12 +3384,6 @@ func (o ListenerRuleConditionArrayOutput) ToListenerRuleConditionArrayOutputWith
 	return o
 }
 
-func (o ListenerRuleConditionArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]ListenerRuleCondition] {
-	return pulumix.Output[[]ListenerRuleCondition]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ListenerRuleConditionArrayOutput) Index(i pulumi.IntInput) ListenerRuleConditionOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ListenerRuleCondition {
 		return vs[0].([]ListenerRuleCondition)[vs[1].(int)]
@@ -3801,8 +3392,6 @@ func (o ListenerRuleConditionArrayOutput) Index(i pulumi.IntInput) ListenerRuleC
 
 type ListenerRuleConditionHostHeader struct {
 	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-	//
-	// Query String Value Blocks (for `query_string.values`) support the following:
 	Values []string `pulumi:"values"`
 }
 
@@ -3819,8 +3408,6 @@ type ListenerRuleConditionHostHeaderInput interface {
 
 type ListenerRuleConditionHostHeaderArgs struct {
 	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-	//
-	// Query String Value Blocks (for `query_string.values`) support the following:
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -3834,12 +3421,6 @@ func (i ListenerRuleConditionHostHeaderArgs) ToListenerRuleConditionHostHeaderOu
 
 func (i ListenerRuleConditionHostHeaderArgs) ToListenerRuleConditionHostHeaderOutputWithContext(ctx context.Context) ListenerRuleConditionHostHeaderOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionHostHeaderOutput)
-}
-
-func (i ListenerRuleConditionHostHeaderArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionHostHeader] {
-	return pulumix.Output[ListenerRuleConditionHostHeader]{
-		OutputState: i.ToListenerRuleConditionHostHeaderOutputWithContext(ctx).OutputState,
-	}
 }
 
 func (i ListenerRuleConditionHostHeaderArgs) ToListenerRuleConditionHostHeaderPtrOutput() ListenerRuleConditionHostHeaderPtrOutput {
@@ -3883,12 +3464,6 @@ func (i *listenerRuleConditionHostHeaderPtrType) ToListenerRuleConditionHostHead
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionHostHeaderPtrOutput)
 }
 
-func (i *listenerRuleConditionHostHeaderPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionHostHeader] {
-	return pulumix.Output[*ListenerRuleConditionHostHeader]{
-		OutputState: i.ToListenerRuleConditionHostHeaderPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleConditionHostHeaderOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleConditionHostHeaderOutput) ElementType() reflect.Type {
@@ -3913,15 +3488,7 @@ func (o ListenerRuleConditionHostHeaderOutput) ToListenerRuleConditionHostHeader
 	}).(ListenerRuleConditionHostHeaderPtrOutput)
 }
 
-func (o ListenerRuleConditionHostHeaderOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionHostHeader] {
-	return pulumix.Output[ListenerRuleConditionHostHeader]{
-		OutputState: o.OutputState,
-	}
-}
-
 // List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-//
-// Query String Value Blocks (for `query_string.values`) support the following:
 func (o ListenerRuleConditionHostHeaderOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ListenerRuleConditionHostHeader) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -3940,12 +3507,6 @@ func (o ListenerRuleConditionHostHeaderPtrOutput) ToListenerRuleConditionHostHea
 	return o
 }
 
-func (o ListenerRuleConditionHostHeaderPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionHostHeader] {
-	return pulumix.Output[*ListenerRuleConditionHostHeader]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ListenerRuleConditionHostHeaderPtrOutput) Elem() ListenerRuleConditionHostHeaderOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionHostHeader) ListenerRuleConditionHostHeader {
 		if v != nil {
@@ -3957,8 +3518,6 @@ func (o ListenerRuleConditionHostHeaderPtrOutput) Elem() ListenerRuleConditionHo
 }
 
 // List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-//
-// Query String Value Blocks (for `query_string.values`) support the following:
 func (o ListenerRuleConditionHostHeaderPtrOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionHostHeader) []string {
 		if v == nil {
@@ -4005,12 +3564,6 @@ func (i ListenerRuleConditionHttpHeaderArgs) ToListenerRuleConditionHttpHeaderOu
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionHttpHeaderOutput)
 }
 
-func (i ListenerRuleConditionHttpHeaderArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionHttpHeader] {
-	return pulumix.Output[ListenerRuleConditionHttpHeader]{
-		OutputState: i.ToListenerRuleConditionHttpHeaderOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i ListenerRuleConditionHttpHeaderArgs) ToListenerRuleConditionHttpHeaderPtrOutput() ListenerRuleConditionHttpHeaderPtrOutput {
 	return i.ToListenerRuleConditionHttpHeaderPtrOutputWithContext(context.Background())
 }
@@ -4052,12 +3605,6 @@ func (i *listenerRuleConditionHttpHeaderPtrType) ToListenerRuleConditionHttpHead
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionHttpHeaderPtrOutput)
 }
 
-func (i *listenerRuleConditionHttpHeaderPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionHttpHeader] {
-	return pulumix.Output[*ListenerRuleConditionHttpHeader]{
-		OutputState: i.ToListenerRuleConditionHttpHeaderPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleConditionHttpHeaderOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleConditionHttpHeaderOutput) ElementType() reflect.Type {
@@ -4082,12 +3629,6 @@ func (o ListenerRuleConditionHttpHeaderOutput) ToListenerRuleConditionHttpHeader
 	}).(ListenerRuleConditionHttpHeaderPtrOutput)
 }
 
-func (o ListenerRuleConditionHttpHeaderOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionHttpHeader] {
-	return pulumix.Output[ListenerRuleConditionHttpHeader]{
-		OutputState: o.OutputState,
-	}
-}
-
 // Name of HTTP header to search. The maximum size is 40 characters. Comparison is case insensitive. Only RFC7240 characters are supported. Wildcards are not supported. You cannot use HTTP header condition to specify the host header, use a `host-header` condition instead.
 func (o ListenerRuleConditionHttpHeaderOutput) HttpHeaderName() pulumi.StringOutput {
 	return o.ApplyT(func(v ListenerRuleConditionHttpHeader) string { return v.HttpHeaderName }).(pulumi.StringOutput)
@@ -4110,12 +3651,6 @@ func (o ListenerRuleConditionHttpHeaderPtrOutput) ToListenerRuleConditionHttpHea
 
 func (o ListenerRuleConditionHttpHeaderPtrOutput) ToListenerRuleConditionHttpHeaderPtrOutputWithContext(ctx context.Context) ListenerRuleConditionHttpHeaderPtrOutput {
 	return o
-}
-
-func (o ListenerRuleConditionHttpHeaderPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionHttpHeader] {
-	return pulumix.Output[*ListenerRuleConditionHttpHeader]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ListenerRuleConditionHttpHeaderPtrOutput) Elem() ListenerRuleConditionHttpHeaderOutput {
@@ -4150,8 +3685,6 @@ func (o ListenerRuleConditionHttpHeaderPtrOutput) Values() pulumi.StringArrayOut
 
 type ListenerRuleConditionHttpRequestMethod struct {
 	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-	//
-	// Query String Value Blocks (for `query_string.values`) support the following:
 	Values []string `pulumi:"values"`
 }
 
@@ -4168,8 +3701,6 @@ type ListenerRuleConditionHttpRequestMethodInput interface {
 
 type ListenerRuleConditionHttpRequestMethodArgs struct {
 	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-	//
-	// Query String Value Blocks (for `query_string.values`) support the following:
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -4183,12 +3714,6 @@ func (i ListenerRuleConditionHttpRequestMethodArgs) ToListenerRuleConditionHttpR
 
 func (i ListenerRuleConditionHttpRequestMethodArgs) ToListenerRuleConditionHttpRequestMethodOutputWithContext(ctx context.Context) ListenerRuleConditionHttpRequestMethodOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionHttpRequestMethodOutput)
-}
-
-func (i ListenerRuleConditionHttpRequestMethodArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionHttpRequestMethod] {
-	return pulumix.Output[ListenerRuleConditionHttpRequestMethod]{
-		OutputState: i.ToListenerRuleConditionHttpRequestMethodOutputWithContext(ctx).OutputState,
-	}
 }
 
 func (i ListenerRuleConditionHttpRequestMethodArgs) ToListenerRuleConditionHttpRequestMethodPtrOutput() ListenerRuleConditionHttpRequestMethodPtrOutput {
@@ -4232,12 +3757,6 @@ func (i *listenerRuleConditionHttpRequestMethodPtrType) ToListenerRuleConditionH
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionHttpRequestMethodPtrOutput)
 }
 
-func (i *listenerRuleConditionHttpRequestMethodPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionHttpRequestMethod] {
-	return pulumix.Output[*ListenerRuleConditionHttpRequestMethod]{
-		OutputState: i.ToListenerRuleConditionHttpRequestMethodPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleConditionHttpRequestMethodOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleConditionHttpRequestMethodOutput) ElementType() reflect.Type {
@@ -4262,15 +3781,7 @@ func (o ListenerRuleConditionHttpRequestMethodOutput) ToListenerRuleConditionHtt
 	}).(ListenerRuleConditionHttpRequestMethodPtrOutput)
 }
 
-func (o ListenerRuleConditionHttpRequestMethodOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionHttpRequestMethod] {
-	return pulumix.Output[ListenerRuleConditionHttpRequestMethod]{
-		OutputState: o.OutputState,
-	}
-}
-
 // List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-//
-// Query String Value Blocks (for `query_string.values`) support the following:
 func (o ListenerRuleConditionHttpRequestMethodOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ListenerRuleConditionHttpRequestMethod) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -4289,12 +3800,6 @@ func (o ListenerRuleConditionHttpRequestMethodPtrOutput) ToListenerRuleCondition
 	return o
 }
 
-func (o ListenerRuleConditionHttpRequestMethodPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionHttpRequestMethod] {
-	return pulumix.Output[*ListenerRuleConditionHttpRequestMethod]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ListenerRuleConditionHttpRequestMethodPtrOutput) Elem() ListenerRuleConditionHttpRequestMethodOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionHttpRequestMethod) ListenerRuleConditionHttpRequestMethod {
 		if v != nil {
@@ -4306,8 +3811,6 @@ func (o ListenerRuleConditionHttpRequestMethodPtrOutput) Elem() ListenerRuleCond
 }
 
 // List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-//
-// Query String Value Blocks (for `query_string.values`) support the following:
 func (o ListenerRuleConditionHttpRequestMethodPtrOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionHttpRequestMethod) []string {
 		if v == nil {
@@ -4319,8 +3822,6 @@ func (o ListenerRuleConditionHttpRequestMethodPtrOutput) Values() pulumi.StringA
 
 type ListenerRuleConditionPathPattern struct {
 	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-	//
-	// Query String Value Blocks (for `query_string.values`) support the following:
 	Values []string `pulumi:"values"`
 }
 
@@ -4337,8 +3838,6 @@ type ListenerRuleConditionPathPatternInput interface {
 
 type ListenerRuleConditionPathPatternArgs struct {
 	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-	//
-	// Query String Value Blocks (for `query_string.values`) support the following:
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -4352,12 +3851,6 @@ func (i ListenerRuleConditionPathPatternArgs) ToListenerRuleConditionPathPattern
 
 func (i ListenerRuleConditionPathPatternArgs) ToListenerRuleConditionPathPatternOutputWithContext(ctx context.Context) ListenerRuleConditionPathPatternOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionPathPatternOutput)
-}
-
-func (i ListenerRuleConditionPathPatternArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionPathPattern] {
-	return pulumix.Output[ListenerRuleConditionPathPattern]{
-		OutputState: i.ToListenerRuleConditionPathPatternOutputWithContext(ctx).OutputState,
-	}
 }
 
 func (i ListenerRuleConditionPathPatternArgs) ToListenerRuleConditionPathPatternPtrOutput() ListenerRuleConditionPathPatternPtrOutput {
@@ -4401,12 +3894,6 @@ func (i *listenerRuleConditionPathPatternPtrType) ToListenerRuleConditionPathPat
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionPathPatternPtrOutput)
 }
 
-func (i *listenerRuleConditionPathPatternPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionPathPattern] {
-	return pulumix.Output[*ListenerRuleConditionPathPattern]{
-		OutputState: i.ToListenerRuleConditionPathPatternPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleConditionPathPatternOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleConditionPathPatternOutput) ElementType() reflect.Type {
@@ -4431,15 +3918,7 @@ func (o ListenerRuleConditionPathPatternOutput) ToListenerRuleConditionPathPatte
 	}).(ListenerRuleConditionPathPatternPtrOutput)
 }
 
-func (o ListenerRuleConditionPathPatternOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionPathPattern] {
-	return pulumix.Output[ListenerRuleConditionPathPattern]{
-		OutputState: o.OutputState,
-	}
-}
-
 // List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-//
-// Query String Value Blocks (for `query_string.values`) support the following:
 func (o ListenerRuleConditionPathPatternOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ListenerRuleConditionPathPattern) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -4458,12 +3937,6 @@ func (o ListenerRuleConditionPathPatternPtrOutput) ToListenerRuleConditionPathPa
 	return o
 }
 
-func (o ListenerRuleConditionPathPatternPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionPathPattern] {
-	return pulumix.Output[*ListenerRuleConditionPathPattern]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ListenerRuleConditionPathPatternPtrOutput) Elem() ListenerRuleConditionPathPatternOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionPathPattern) ListenerRuleConditionPathPattern {
 		if v != nil {
@@ -4475,8 +3948,6 @@ func (o ListenerRuleConditionPathPatternPtrOutput) Elem() ListenerRuleConditionP
 }
 
 // List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-//
-// Query String Value Blocks (for `query_string.values`) support the following:
 func (o ListenerRuleConditionPathPatternPtrOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionPathPattern) []string {
 		if v == nil {
@@ -4523,12 +3994,6 @@ func (i ListenerRuleConditionQueryStringArgs) ToListenerRuleConditionQueryString
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionQueryStringOutput)
 }
 
-func (i ListenerRuleConditionQueryStringArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionQueryString] {
-	return pulumix.Output[ListenerRuleConditionQueryString]{
-		OutputState: i.ToListenerRuleConditionQueryStringOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ListenerRuleConditionQueryStringArrayInput is an input type that accepts ListenerRuleConditionQueryStringArray and ListenerRuleConditionQueryStringArrayOutput values.
 // You can construct a concrete instance of `ListenerRuleConditionQueryStringArrayInput` via:
 //
@@ -4554,12 +4019,6 @@ func (i ListenerRuleConditionQueryStringArray) ToListenerRuleConditionQueryStrin
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionQueryStringArrayOutput)
 }
 
-func (i ListenerRuleConditionQueryStringArray) ToOutput(ctx context.Context) pulumix.Output[[]ListenerRuleConditionQueryString] {
-	return pulumix.Output[[]ListenerRuleConditionQueryString]{
-		OutputState: i.ToListenerRuleConditionQueryStringArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleConditionQueryStringOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleConditionQueryStringOutput) ElementType() reflect.Type {
@@ -4572,12 +4031,6 @@ func (o ListenerRuleConditionQueryStringOutput) ToListenerRuleConditionQueryStri
 
 func (o ListenerRuleConditionQueryStringOutput) ToListenerRuleConditionQueryStringOutputWithContext(ctx context.Context) ListenerRuleConditionQueryStringOutput {
 	return o
-}
-
-func (o ListenerRuleConditionQueryStringOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionQueryString] {
-	return pulumix.Output[ListenerRuleConditionQueryString]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Query string key pattern to match.
@@ -4604,12 +4057,6 @@ func (o ListenerRuleConditionQueryStringArrayOutput) ToListenerRuleConditionQuer
 	return o
 }
 
-func (o ListenerRuleConditionQueryStringArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]ListenerRuleConditionQueryString] {
-	return pulumix.Output[[]ListenerRuleConditionQueryString]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ListenerRuleConditionQueryStringArrayOutput) Index(i pulumi.IntInput) ListenerRuleConditionQueryStringOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ListenerRuleConditionQueryString {
 		return vs[0].([]ListenerRuleConditionQueryString)[vs[1].(int)]
@@ -4618,8 +4065,6 @@ func (o ListenerRuleConditionQueryStringArrayOutput) Index(i pulumi.IntInput) Li
 
 type ListenerRuleConditionSourceIp struct {
 	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-	//
-	// Query String Value Blocks (for `query_string.values`) support the following:
 	Values []string `pulumi:"values"`
 }
 
@@ -4636,8 +4081,6 @@ type ListenerRuleConditionSourceIpInput interface {
 
 type ListenerRuleConditionSourceIpArgs struct {
 	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-	//
-	// Query String Value Blocks (for `query_string.values`) support the following:
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -4651,12 +4094,6 @@ func (i ListenerRuleConditionSourceIpArgs) ToListenerRuleConditionSourceIpOutput
 
 func (i ListenerRuleConditionSourceIpArgs) ToListenerRuleConditionSourceIpOutputWithContext(ctx context.Context) ListenerRuleConditionSourceIpOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionSourceIpOutput)
-}
-
-func (i ListenerRuleConditionSourceIpArgs) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionSourceIp] {
-	return pulumix.Output[ListenerRuleConditionSourceIp]{
-		OutputState: i.ToListenerRuleConditionSourceIpOutputWithContext(ctx).OutputState,
-	}
 }
 
 func (i ListenerRuleConditionSourceIpArgs) ToListenerRuleConditionSourceIpPtrOutput() ListenerRuleConditionSourceIpPtrOutput {
@@ -4700,12 +4137,6 @@ func (i *listenerRuleConditionSourceIpPtrType) ToListenerRuleConditionSourceIpPt
 	return pulumi.ToOutputWithContext(ctx, i).(ListenerRuleConditionSourceIpPtrOutput)
 }
 
-func (i *listenerRuleConditionSourceIpPtrType) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionSourceIp] {
-	return pulumix.Output[*ListenerRuleConditionSourceIp]{
-		OutputState: i.ToListenerRuleConditionSourceIpPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ListenerRuleConditionSourceIpOutput struct{ *pulumi.OutputState }
 
 func (ListenerRuleConditionSourceIpOutput) ElementType() reflect.Type {
@@ -4730,15 +4161,7 @@ func (o ListenerRuleConditionSourceIpOutput) ToListenerRuleConditionSourceIpPtrO
 	}).(ListenerRuleConditionSourceIpPtrOutput)
 }
 
-func (o ListenerRuleConditionSourceIpOutput) ToOutput(ctx context.Context) pulumix.Output[ListenerRuleConditionSourceIp] {
-	return pulumix.Output[ListenerRuleConditionSourceIp]{
-		OutputState: o.OutputState,
-	}
-}
-
 // List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-//
-// Query String Value Blocks (for `query_string.values`) support the following:
 func (o ListenerRuleConditionSourceIpOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ListenerRuleConditionSourceIp) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -4757,12 +4180,6 @@ func (o ListenerRuleConditionSourceIpPtrOutput) ToListenerRuleConditionSourceIpP
 	return o
 }
 
-func (o ListenerRuleConditionSourceIpPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*ListenerRuleConditionSourceIp] {
-	return pulumix.Output[*ListenerRuleConditionSourceIp]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ListenerRuleConditionSourceIpPtrOutput) Elem() ListenerRuleConditionSourceIpOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionSourceIp) ListenerRuleConditionSourceIp {
 		if v != nil {
@@ -4774,8 +4191,6 @@ func (o ListenerRuleConditionSourceIpPtrOutput) Elem() ListenerRuleConditionSour
 }
 
 // List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
-//
-// Query String Value Blocks (for `query_string.values`) support the following:
 func (o ListenerRuleConditionSourceIpPtrOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionSourceIp) []string {
 		if v == nil {
@@ -4826,12 +4241,6 @@ func (i LoadBalancerAccessLogsArgs) ToLoadBalancerAccessLogsOutputWithContext(ct
 	return pulumi.ToOutputWithContext(ctx, i).(LoadBalancerAccessLogsOutput)
 }
 
-func (i LoadBalancerAccessLogsArgs) ToOutput(ctx context.Context) pulumix.Output[LoadBalancerAccessLogs] {
-	return pulumix.Output[LoadBalancerAccessLogs]{
-		OutputState: i.ToLoadBalancerAccessLogsOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i LoadBalancerAccessLogsArgs) ToLoadBalancerAccessLogsPtrOutput() LoadBalancerAccessLogsPtrOutput {
 	return i.ToLoadBalancerAccessLogsPtrOutputWithContext(context.Background())
 }
@@ -4873,12 +4282,6 @@ func (i *loadBalancerAccessLogsPtrType) ToLoadBalancerAccessLogsPtrOutputWithCon
 	return pulumi.ToOutputWithContext(ctx, i).(LoadBalancerAccessLogsPtrOutput)
 }
 
-func (i *loadBalancerAccessLogsPtrType) ToOutput(ctx context.Context) pulumix.Output[*LoadBalancerAccessLogs] {
-	return pulumix.Output[*LoadBalancerAccessLogs]{
-		OutputState: i.ToLoadBalancerAccessLogsPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type LoadBalancerAccessLogsOutput struct{ *pulumi.OutputState }
 
 func (LoadBalancerAccessLogsOutput) ElementType() reflect.Type {
@@ -4901,12 +4304,6 @@ func (o LoadBalancerAccessLogsOutput) ToLoadBalancerAccessLogsPtrOutputWithConte
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v LoadBalancerAccessLogs) *LoadBalancerAccessLogs {
 		return &v
 	}).(LoadBalancerAccessLogsPtrOutput)
-}
-
-func (o LoadBalancerAccessLogsOutput) ToOutput(ctx context.Context) pulumix.Output[LoadBalancerAccessLogs] {
-	return pulumix.Output[LoadBalancerAccessLogs]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The S3 bucket name to store the logs in.
@@ -4936,12 +4333,6 @@ func (o LoadBalancerAccessLogsPtrOutput) ToLoadBalancerAccessLogsPtrOutput() Loa
 
 func (o LoadBalancerAccessLogsPtrOutput) ToLoadBalancerAccessLogsPtrOutputWithContext(ctx context.Context) LoadBalancerAccessLogsPtrOutput {
 	return o
-}
-
-func (o LoadBalancerAccessLogsPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*LoadBalancerAccessLogs] {
-	return pulumix.Output[*LoadBalancerAccessLogs]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o LoadBalancerAccessLogsPtrOutput) Elem() LoadBalancerAccessLogsOutput {
@@ -5031,12 +4422,6 @@ func (i LoadBalancerSubnetMappingArgs) ToLoadBalancerSubnetMappingOutputWithCont
 	return pulumi.ToOutputWithContext(ctx, i).(LoadBalancerSubnetMappingOutput)
 }
 
-func (i LoadBalancerSubnetMappingArgs) ToOutput(ctx context.Context) pulumix.Output[LoadBalancerSubnetMapping] {
-	return pulumix.Output[LoadBalancerSubnetMapping]{
-		OutputState: i.ToLoadBalancerSubnetMappingOutputWithContext(ctx).OutputState,
-	}
-}
-
 // LoadBalancerSubnetMappingArrayInput is an input type that accepts LoadBalancerSubnetMappingArray and LoadBalancerSubnetMappingArrayOutput values.
 // You can construct a concrete instance of `LoadBalancerSubnetMappingArrayInput` via:
 //
@@ -5062,12 +4447,6 @@ func (i LoadBalancerSubnetMappingArray) ToLoadBalancerSubnetMappingArrayOutputWi
 	return pulumi.ToOutputWithContext(ctx, i).(LoadBalancerSubnetMappingArrayOutput)
 }
 
-func (i LoadBalancerSubnetMappingArray) ToOutput(ctx context.Context) pulumix.Output[[]LoadBalancerSubnetMapping] {
-	return pulumix.Output[[]LoadBalancerSubnetMapping]{
-		OutputState: i.ToLoadBalancerSubnetMappingArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type LoadBalancerSubnetMappingOutput struct{ *pulumi.OutputState }
 
 func (LoadBalancerSubnetMappingOutput) ElementType() reflect.Type {
@@ -5080,12 +4459,6 @@ func (o LoadBalancerSubnetMappingOutput) ToLoadBalancerSubnetMappingOutput() Loa
 
 func (o LoadBalancerSubnetMappingOutput) ToLoadBalancerSubnetMappingOutputWithContext(ctx context.Context) LoadBalancerSubnetMappingOutput {
 	return o
-}
-
-func (o LoadBalancerSubnetMappingOutput) ToOutput(ctx context.Context) pulumix.Output[LoadBalancerSubnetMapping] {
-	return pulumix.Output[LoadBalancerSubnetMapping]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The allocation ID of the Elastic IP address for an internet-facing load balancer.
@@ -5124,12 +4497,6 @@ func (o LoadBalancerSubnetMappingArrayOutput) ToLoadBalancerSubnetMappingArrayOu
 
 func (o LoadBalancerSubnetMappingArrayOutput) ToLoadBalancerSubnetMappingArrayOutputWithContext(ctx context.Context) LoadBalancerSubnetMappingArrayOutput {
 	return o
-}
-
-func (o LoadBalancerSubnetMappingArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]LoadBalancerSubnetMapping] {
-	return pulumix.Output[[]LoadBalancerSubnetMapping]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o LoadBalancerSubnetMappingArrayOutput) Index(i pulumi.IntInput) LoadBalancerSubnetMappingOutput {
@@ -5203,12 +4570,6 @@ func (i TargetGroupHealthCheckArgs) ToTargetGroupHealthCheckOutputWithContext(ct
 	return pulumi.ToOutputWithContext(ctx, i).(TargetGroupHealthCheckOutput)
 }
 
-func (i TargetGroupHealthCheckArgs) ToOutput(ctx context.Context) pulumix.Output[TargetGroupHealthCheck] {
-	return pulumix.Output[TargetGroupHealthCheck]{
-		OutputState: i.ToTargetGroupHealthCheckOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i TargetGroupHealthCheckArgs) ToTargetGroupHealthCheckPtrOutput() TargetGroupHealthCheckPtrOutput {
 	return i.ToTargetGroupHealthCheckPtrOutputWithContext(context.Background())
 }
@@ -5250,12 +4611,6 @@ func (i *targetGroupHealthCheckPtrType) ToTargetGroupHealthCheckPtrOutputWithCon
 	return pulumi.ToOutputWithContext(ctx, i).(TargetGroupHealthCheckPtrOutput)
 }
 
-func (i *targetGroupHealthCheckPtrType) ToOutput(ctx context.Context) pulumix.Output[*TargetGroupHealthCheck] {
-	return pulumix.Output[*TargetGroupHealthCheck]{
-		OutputState: i.ToTargetGroupHealthCheckPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type TargetGroupHealthCheckOutput struct{ *pulumi.OutputState }
 
 func (TargetGroupHealthCheckOutput) ElementType() reflect.Type {
@@ -5278,12 +4633,6 @@ func (o TargetGroupHealthCheckOutput) ToTargetGroupHealthCheckPtrOutputWithConte
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v TargetGroupHealthCheck) *TargetGroupHealthCheck {
 		return &v
 	}).(TargetGroupHealthCheckPtrOutput)
-}
-
-func (o TargetGroupHealthCheckOutput) ToOutput(ctx context.Context) pulumix.Output[TargetGroupHealthCheck] {
-	return pulumix.Output[TargetGroupHealthCheck]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Whether health checks are enabled. Defaults to `true`.
@@ -5343,12 +4692,6 @@ func (o TargetGroupHealthCheckPtrOutput) ToTargetGroupHealthCheckPtrOutput() Tar
 
 func (o TargetGroupHealthCheckPtrOutput) ToTargetGroupHealthCheckPtrOutputWithContext(ctx context.Context) TargetGroupHealthCheckPtrOutput {
 	return o
-}
-
-func (o TargetGroupHealthCheckPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*TargetGroupHealthCheck] {
-	return pulumix.Output[*TargetGroupHealthCheck]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o TargetGroupHealthCheckPtrOutput) Elem() TargetGroupHealthCheckOutput {
@@ -5496,12 +4839,6 @@ func (i TargetGroupStickinessArgs) ToTargetGroupStickinessOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, i).(TargetGroupStickinessOutput)
 }
 
-func (i TargetGroupStickinessArgs) ToOutput(ctx context.Context) pulumix.Output[TargetGroupStickiness] {
-	return pulumix.Output[TargetGroupStickiness]{
-		OutputState: i.ToTargetGroupStickinessOutputWithContext(ctx).OutputState,
-	}
-}
-
 func (i TargetGroupStickinessArgs) ToTargetGroupStickinessPtrOutput() TargetGroupStickinessPtrOutput {
 	return i.ToTargetGroupStickinessPtrOutputWithContext(context.Background())
 }
@@ -5543,12 +4880,6 @@ func (i *targetGroupStickinessPtrType) ToTargetGroupStickinessPtrOutputWithConte
 	return pulumi.ToOutputWithContext(ctx, i).(TargetGroupStickinessPtrOutput)
 }
 
-func (i *targetGroupStickinessPtrType) ToOutput(ctx context.Context) pulumix.Output[*TargetGroupStickiness] {
-	return pulumix.Output[*TargetGroupStickiness]{
-		OutputState: i.ToTargetGroupStickinessPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 type TargetGroupStickinessOutput struct{ *pulumi.OutputState }
 
 func (TargetGroupStickinessOutput) ElementType() reflect.Type {
@@ -5571,12 +4902,6 @@ func (o TargetGroupStickinessOutput) ToTargetGroupStickinessPtrOutputWithContext
 	return o.ApplyTWithContext(ctx, func(_ context.Context, v TargetGroupStickiness) *TargetGroupStickiness {
 		return &v
 	}).(TargetGroupStickinessPtrOutput)
-}
-
-func (o TargetGroupStickinessOutput) ToOutput(ctx context.Context) pulumix.Output[TargetGroupStickiness] {
-	return pulumix.Output[TargetGroupStickiness]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Only used when the type is `lbCookie`. The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).
@@ -5611,12 +4936,6 @@ func (o TargetGroupStickinessPtrOutput) ToTargetGroupStickinessPtrOutput() Targe
 
 func (o TargetGroupStickinessPtrOutput) ToTargetGroupStickinessPtrOutputWithContext(ctx context.Context) TargetGroupStickinessPtrOutput {
 	return o
-}
-
-func (o TargetGroupStickinessPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*TargetGroupStickiness] {
-	return pulumix.Output[*TargetGroupStickiness]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o TargetGroupStickinessPtrOutput) Elem() TargetGroupStickinessOutput {
@@ -5706,12 +5025,6 @@ func (i TargetGroupTargetFailoverArgs) ToTargetGroupTargetFailoverOutputWithCont
 	return pulumi.ToOutputWithContext(ctx, i).(TargetGroupTargetFailoverOutput)
 }
 
-func (i TargetGroupTargetFailoverArgs) ToOutput(ctx context.Context) pulumix.Output[TargetGroupTargetFailover] {
-	return pulumix.Output[TargetGroupTargetFailover]{
-		OutputState: i.ToTargetGroupTargetFailoverOutputWithContext(ctx).OutputState,
-	}
-}
-
 // TargetGroupTargetFailoverArrayInput is an input type that accepts TargetGroupTargetFailoverArray and TargetGroupTargetFailoverArrayOutput values.
 // You can construct a concrete instance of `TargetGroupTargetFailoverArrayInput` via:
 //
@@ -5737,12 +5050,6 @@ func (i TargetGroupTargetFailoverArray) ToTargetGroupTargetFailoverArrayOutputWi
 	return pulumi.ToOutputWithContext(ctx, i).(TargetGroupTargetFailoverArrayOutput)
 }
 
-func (i TargetGroupTargetFailoverArray) ToOutput(ctx context.Context) pulumix.Output[[]TargetGroupTargetFailover] {
-	return pulumix.Output[[]TargetGroupTargetFailover]{
-		OutputState: i.ToTargetGroupTargetFailoverArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type TargetGroupTargetFailoverOutput struct{ *pulumi.OutputState }
 
 func (TargetGroupTargetFailoverOutput) ElementType() reflect.Type {
@@ -5755,12 +5062,6 @@ func (o TargetGroupTargetFailoverOutput) ToTargetGroupTargetFailoverOutput() Tar
 
 func (o TargetGroupTargetFailoverOutput) ToTargetGroupTargetFailoverOutputWithContext(ctx context.Context) TargetGroupTargetFailoverOutput {
 	return o
-}
-
-func (o TargetGroupTargetFailoverOutput) ToOutput(ctx context.Context) pulumix.Output[TargetGroupTargetFailover] {
-	return pulumix.Output[TargetGroupTargetFailover]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Indicates how the GWLB handles existing flows when a target is deregistered. Possible values are `rebalance` and `noRebalance`. Must match the attribute value set for `onUnhealthy`. Default: `noRebalance`.
@@ -5787,16 +5088,107 @@ func (o TargetGroupTargetFailoverArrayOutput) ToTargetGroupTargetFailoverArrayOu
 	return o
 }
 
-func (o TargetGroupTargetFailoverArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]TargetGroupTargetFailover] {
-	return pulumix.Output[[]TargetGroupTargetFailover]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o TargetGroupTargetFailoverArrayOutput) Index(i pulumi.IntInput) TargetGroupTargetFailoverOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) TargetGroupTargetFailover {
 		return vs[0].([]TargetGroupTargetFailover)[vs[1].(int)]
 	}).(TargetGroupTargetFailoverOutput)
+}
+
+type TargetGroupTargetHealthState struct {
+	// Indicates whether the load balancer terminates connections to unhealthy targets. Possible values are `true` or `false`. Default: `true`.
+	EnableUnhealthyConnectionTermination bool `pulumi:"enableUnhealthyConnectionTermination"`
+}
+
+// TargetGroupTargetHealthStateInput is an input type that accepts TargetGroupTargetHealthStateArgs and TargetGroupTargetHealthStateOutput values.
+// You can construct a concrete instance of `TargetGroupTargetHealthStateInput` via:
+//
+//	TargetGroupTargetHealthStateArgs{...}
+type TargetGroupTargetHealthStateInput interface {
+	pulumi.Input
+
+	ToTargetGroupTargetHealthStateOutput() TargetGroupTargetHealthStateOutput
+	ToTargetGroupTargetHealthStateOutputWithContext(context.Context) TargetGroupTargetHealthStateOutput
+}
+
+type TargetGroupTargetHealthStateArgs struct {
+	// Indicates whether the load balancer terminates connections to unhealthy targets. Possible values are `true` or `false`. Default: `true`.
+	EnableUnhealthyConnectionTermination pulumi.BoolInput `pulumi:"enableUnhealthyConnectionTermination"`
+}
+
+func (TargetGroupTargetHealthStateArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*TargetGroupTargetHealthState)(nil)).Elem()
+}
+
+func (i TargetGroupTargetHealthStateArgs) ToTargetGroupTargetHealthStateOutput() TargetGroupTargetHealthStateOutput {
+	return i.ToTargetGroupTargetHealthStateOutputWithContext(context.Background())
+}
+
+func (i TargetGroupTargetHealthStateArgs) ToTargetGroupTargetHealthStateOutputWithContext(ctx context.Context) TargetGroupTargetHealthStateOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(TargetGroupTargetHealthStateOutput)
+}
+
+// TargetGroupTargetHealthStateArrayInput is an input type that accepts TargetGroupTargetHealthStateArray and TargetGroupTargetHealthStateArrayOutput values.
+// You can construct a concrete instance of `TargetGroupTargetHealthStateArrayInput` via:
+//
+//	TargetGroupTargetHealthStateArray{ TargetGroupTargetHealthStateArgs{...} }
+type TargetGroupTargetHealthStateArrayInput interface {
+	pulumi.Input
+
+	ToTargetGroupTargetHealthStateArrayOutput() TargetGroupTargetHealthStateArrayOutput
+	ToTargetGroupTargetHealthStateArrayOutputWithContext(context.Context) TargetGroupTargetHealthStateArrayOutput
+}
+
+type TargetGroupTargetHealthStateArray []TargetGroupTargetHealthStateInput
+
+func (TargetGroupTargetHealthStateArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]TargetGroupTargetHealthState)(nil)).Elem()
+}
+
+func (i TargetGroupTargetHealthStateArray) ToTargetGroupTargetHealthStateArrayOutput() TargetGroupTargetHealthStateArrayOutput {
+	return i.ToTargetGroupTargetHealthStateArrayOutputWithContext(context.Background())
+}
+
+func (i TargetGroupTargetHealthStateArray) ToTargetGroupTargetHealthStateArrayOutputWithContext(ctx context.Context) TargetGroupTargetHealthStateArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(TargetGroupTargetHealthStateArrayOutput)
+}
+
+type TargetGroupTargetHealthStateOutput struct{ *pulumi.OutputState }
+
+func (TargetGroupTargetHealthStateOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*TargetGroupTargetHealthState)(nil)).Elem()
+}
+
+func (o TargetGroupTargetHealthStateOutput) ToTargetGroupTargetHealthStateOutput() TargetGroupTargetHealthStateOutput {
+	return o
+}
+
+func (o TargetGroupTargetHealthStateOutput) ToTargetGroupTargetHealthStateOutputWithContext(ctx context.Context) TargetGroupTargetHealthStateOutput {
+	return o
+}
+
+// Indicates whether the load balancer terminates connections to unhealthy targets. Possible values are `true` or `false`. Default: `true`.
+func (o TargetGroupTargetHealthStateOutput) EnableUnhealthyConnectionTermination() pulumi.BoolOutput {
+	return o.ApplyT(func(v TargetGroupTargetHealthState) bool { return v.EnableUnhealthyConnectionTermination }).(pulumi.BoolOutput)
+}
+
+type TargetGroupTargetHealthStateArrayOutput struct{ *pulumi.OutputState }
+
+func (TargetGroupTargetHealthStateArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]TargetGroupTargetHealthState)(nil)).Elem()
+}
+
+func (o TargetGroupTargetHealthStateArrayOutput) ToTargetGroupTargetHealthStateArrayOutput() TargetGroupTargetHealthStateArrayOutput {
+	return o
+}
+
+func (o TargetGroupTargetHealthStateArrayOutput) ToTargetGroupTargetHealthStateArrayOutputWithContext(ctx context.Context) TargetGroupTargetHealthStateArrayOutput {
+	return o
+}
+
+func (o TargetGroupTargetHealthStateArrayOutput) Index(i pulumi.IntInput) TargetGroupTargetHealthStateOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) TargetGroupTargetHealthState {
+		return vs[0].([]TargetGroupTargetHealthState)[vs[1].(int)]
+	}).(TargetGroupTargetHealthStateOutput)
 }
 
 type GetListenerDefaultAction struct {
@@ -5844,12 +5236,6 @@ func (i GetListenerDefaultActionArgs) ToGetListenerDefaultActionOutputWithContex
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionOutput)
 }
 
-func (i GetListenerDefaultActionArgs) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultAction] {
-	return pulumix.Output[GetListenerDefaultAction]{
-		OutputState: i.ToGetListenerDefaultActionOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetListenerDefaultActionArrayInput is an input type that accepts GetListenerDefaultActionArray and GetListenerDefaultActionArrayOutput values.
 // You can construct a concrete instance of `GetListenerDefaultActionArrayInput` via:
 //
@@ -5875,12 +5261,6 @@ func (i GetListenerDefaultActionArray) ToGetListenerDefaultActionArrayOutputWith
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionArrayOutput)
 }
 
-func (i GetListenerDefaultActionArray) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultAction] {
-	return pulumix.Output[[]GetListenerDefaultAction]{
-		OutputState: i.ToGetListenerDefaultActionArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetListenerDefaultActionOutput struct{ *pulumi.OutputState }
 
 func (GetListenerDefaultActionOutput) ElementType() reflect.Type {
@@ -5893,12 +5273,6 @@ func (o GetListenerDefaultActionOutput) ToGetListenerDefaultActionOutput() GetLi
 
 func (o GetListenerDefaultActionOutput) ToGetListenerDefaultActionOutputWithContext(ctx context.Context) GetListenerDefaultActionOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionOutput) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultAction] {
-	return pulumix.Output[GetListenerDefaultAction]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionOutput) AuthenticateCognitos() GetListenerDefaultActionAuthenticateCognitoArrayOutput {
@@ -5949,12 +5323,6 @@ func (o GetListenerDefaultActionArrayOutput) ToGetListenerDefaultActionArrayOutp
 
 func (o GetListenerDefaultActionArrayOutput) ToGetListenerDefaultActionArrayOutputWithContext(ctx context.Context) GetListenerDefaultActionArrayOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultAction] {
-	return pulumix.Output[[]GetListenerDefaultAction]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionArrayOutput) Index(i pulumi.IntInput) GetListenerDefaultActionOutput {
@@ -6008,12 +5376,6 @@ func (i GetListenerDefaultActionAuthenticateCognitoArgs) ToGetListenerDefaultAct
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionAuthenticateCognitoOutput)
 }
 
-func (i GetListenerDefaultActionAuthenticateCognitoArgs) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionAuthenticateCognito] {
-	return pulumix.Output[GetListenerDefaultActionAuthenticateCognito]{
-		OutputState: i.ToGetListenerDefaultActionAuthenticateCognitoOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetListenerDefaultActionAuthenticateCognitoArrayInput is an input type that accepts GetListenerDefaultActionAuthenticateCognitoArray and GetListenerDefaultActionAuthenticateCognitoArrayOutput values.
 // You can construct a concrete instance of `GetListenerDefaultActionAuthenticateCognitoArrayInput` via:
 //
@@ -6039,12 +5401,6 @@ func (i GetListenerDefaultActionAuthenticateCognitoArray) ToGetListenerDefaultAc
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionAuthenticateCognitoArrayOutput)
 }
 
-func (i GetListenerDefaultActionAuthenticateCognitoArray) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionAuthenticateCognito] {
-	return pulumix.Output[[]GetListenerDefaultActionAuthenticateCognito]{
-		OutputState: i.ToGetListenerDefaultActionAuthenticateCognitoArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetListenerDefaultActionAuthenticateCognitoOutput struct{ *pulumi.OutputState }
 
 func (GetListenerDefaultActionAuthenticateCognitoOutput) ElementType() reflect.Type {
@@ -6057,12 +5413,6 @@ func (o GetListenerDefaultActionAuthenticateCognitoOutput) ToGetListenerDefaultA
 
 func (o GetListenerDefaultActionAuthenticateCognitoOutput) ToGetListenerDefaultActionAuthenticateCognitoOutputWithContext(ctx context.Context) GetListenerDefaultActionAuthenticateCognitoOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionAuthenticateCognitoOutput) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionAuthenticateCognito] {
-	return pulumix.Output[GetListenerDefaultActionAuthenticateCognito]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionAuthenticateCognitoOutput) AuthenticationRequestExtraParams() pulumi.StringMapOutput {
@@ -6111,12 +5461,6 @@ func (o GetListenerDefaultActionAuthenticateCognitoArrayOutput) ToGetListenerDef
 
 func (o GetListenerDefaultActionAuthenticateCognitoArrayOutput) ToGetListenerDefaultActionAuthenticateCognitoArrayOutputWithContext(ctx context.Context) GetListenerDefaultActionAuthenticateCognitoArrayOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionAuthenticateCognitoArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionAuthenticateCognito] {
-	return pulumix.Output[[]GetListenerDefaultActionAuthenticateCognito]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionAuthenticateCognitoArrayOutput) Index(i pulumi.IntInput) GetListenerDefaultActionAuthenticateCognitoOutput {
@@ -6176,12 +5520,6 @@ func (i GetListenerDefaultActionAuthenticateOidcArgs) ToGetListenerDefaultAction
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionAuthenticateOidcOutput)
 }
 
-func (i GetListenerDefaultActionAuthenticateOidcArgs) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionAuthenticateOidc] {
-	return pulumix.Output[GetListenerDefaultActionAuthenticateOidc]{
-		OutputState: i.ToGetListenerDefaultActionAuthenticateOidcOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetListenerDefaultActionAuthenticateOidcArrayInput is an input type that accepts GetListenerDefaultActionAuthenticateOidcArray and GetListenerDefaultActionAuthenticateOidcArrayOutput values.
 // You can construct a concrete instance of `GetListenerDefaultActionAuthenticateOidcArrayInput` via:
 //
@@ -6207,12 +5545,6 @@ func (i GetListenerDefaultActionAuthenticateOidcArray) ToGetListenerDefaultActio
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionAuthenticateOidcArrayOutput)
 }
 
-func (i GetListenerDefaultActionAuthenticateOidcArray) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionAuthenticateOidc] {
-	return pulumix.Output[[]GetListenerDefaultActionAuthenticateOidc]{
-		OutputState: i.ToGetListenerDefaultActionAuthenticateOidcArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetListenerDefaultActionAuthenticateOidcOutput struct{ *pulumi.OutputState }
 
 func (GetListenerDefaultActionAuthenticateOidcOutput) ElementType() reflect.Type {
@@ -6225,12 +5557,6 @@ func (o GetListenerDefaultActionAuthenticateOidcOutput) ToGetListenerDefaultActi
 
 func (o GetListenerDefaultActionAuthenticateOidcOutput) ToGetListenerDefaultActionAuthenticateOidcOutputWithContext(ctx context.Context) GetListenerDefaultActionAuthenticateOidcOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionAuthenticateOidcOutput) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionAuthenticateOidc] {
-	return pulumix.Output[GetListenerDefaultActionAuthenticateOidc]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionAuthenticateOidcOutput) AuthenticationRequestExtraParams() pulumi.StringMapOutput {
@@ -6293,12 +5619,6 @@ func (o GetListenerDefaultActionAuthenticateOidcArrayOutput) ToGetListenerDefaul
 	return o
 }
 
-func (o GetListenerDefaultActionAuthenticateOidcArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionAuthenticateOidc] {
-	return pulumix.Output[[]GetListenerDefaultActionAuthenticateOidc]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o GetListenerDefaultActionAuthenticateOidcArrayOutput) Index(i pulumi.IntInput) GetListenerDefaultActionAuthenticateOidcOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetListenerDefaultActionAuthenticateOidc {
 		return vs[0].([]GetListenerDefaultActionAuthenticateOidc)[vs[1].(int)]
@@ -6340,12 +5660,6 @@ func (i GetListenerDefaultActionFixedResponseArgs) ToGetListenerDefaultActionFix
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionFixedResponseOutput)
 }
 
-func (i GetListenerDefaultActionFixedResponseArgs) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionFixedResponse] {
-	return pulumix.Output[GetListenerDefaultActionFixedResponse]{
-		OutputState: i.ToGetListenerDefaultActionFixedResponseOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetListenerDefaultActionFixedResponseArrayInput is an input type that accepts GetListenerDefaultActionFixedResponseArray and GetListenerDefaultActionFixedResponseArrayOutput values.
 // You can construct a concrete instance of `GetListenerDefaultActionFixedResponseArrayInput` via:
 //
@@ -6371,12 +5685,6 @@ func (i GetListenerDefaultActionFixedResponseArray) ToGetListenerDefaultActionFi
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionFixedResponseArrayOutput)
 }
 
-func (i GetListenerDefaultActionFixedResponseArray) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionFixedResponse] {
-	return pulumix.Output[[]GetListenerDefaultActionFixedResponse]{
-		OutputState: i.ToGetListenerDefaultActionFixedResponseArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetListenerDefaultActionFixedResponseOutput struct{ *pulumi.OutputState }
 
 func (GetListenerDefaultActionFixedResponseOutput) ElementType() reflect.Type {
@@ -6389,12 +5697,6 @@ func (o GetListenerDefaultActionFixedResponseOutput) ToGetListenerDefaultActionF
 
 func (o GetListenerDefaultActionFixedResponseOutput) ToGetListenerDefaultActionFixedResponseOutputWithContext(ctx context.Context) GetListenerDefaultActionFixedResponseOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionFixedResponseOutput) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionFixedResponse] {
-	return pulumix.Output[GetListenerDefaultActionFixedResponse]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionFixedResponseOutput) ContentType() pulumi.StringOutput {
@@ -6421,12 +5723,6 @@ func (o GetListenerDefaultActionFixedResponseArrayOutput) ToGetListenerDefaultAc
 
 func (o GetListenerDefaultActionFixedResponseArrayOutput) ToGetListenerDefaultActionFixedResponseArrayOutputWithContext(ctx context.Context) GetListenerDefaultActionFixedResponseArrayOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionFixedResponseArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionFixedResponse] {
-	return pulumix.Output[[]GetListenerDefaultActionFixedResponse]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionFixedResponseArrayOutput) Index(i pulumi.IntInput) GetListenerDefaultActionFixedResponseOutput {
@@ -6468,12 +5764,6 @@ func (i GetListenerDefaultActionForwardArgs) ToGetListenerDefaultActionForwardOu
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionForwardOutput)
 }
 
-func (i GetListenerDefaultActionForwardArgs) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionForward] {
-	return pulumix.Output[GetListenerDefaultActionForward]{
-		OutputState: i.ToGetListenerDefaultActionForwardOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetListenerDefaultActionForwardArrayInput is an input type that accepts GetListenerDefaultActionForwardArray and GetListenerDefaultActionForwardArrayOutput values.
 // You can construct a concrete instance of `GetListenerDefaultActionForwardArrayInput` via:
 //
@@ -6499,12 +5789,6 @@ func (i GetListenerDefaultActionForwardArray) ToGetListenerDefaultActionForwardA
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionForwardArrayOutput)
 }
 
-func (i GetListenerDefaultActionForwardArray) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionForward] {
-	return pulumix.Output[[]GetListenerDefaultActionForward]{
-		OutputState: i.ToGetListenerDefaultActionForwardArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetListenerDefaultActionForwardOutput struct{ *pulumi.OutputState }
 
 func (GetListenerDefaultActionForwardOutput) ElementType() reflect.Type {
@@ -6517,12 +5801,6 @@ func (o GetListenerDefaultActionForwardOutput) ToGetListenerDefaultActionForward
 
 func (o GetListenerDefaultActionForwardOutput) ToGetListenerDefaultActionForwardOutputWithContext(ctx context.Context) GetListenerDefaultActionForwardOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionForwardOutput) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionForward] {
-	return pulumix.Output[GetListenerDefaultActionForward]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionForwardOutput) Stickinesses() GetListenerDefaultActionForwardStickinessArrayOutput {
@@ -6549,12 +5827,6 @@ func (o GetListenerDefaultActionForwardArrayOutput) ToGetListenerDefaultActionFo
 
 func (o GetListenerDefaultActionForwardArrayOutput) ToGetListenerDefaultActionForwardArrayOutputWithContext(ctx context.Context) GetListenerDefaultActionForwardArrayOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionForwardArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionForward] {
-	return pulumix.Output[[]GetListenerDefaultActionForward]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionForwardArrayOutput) Index(i pulumi.IntInput) GetListenerDefaultActionForwardOutput {
@@ -6596,12 +5868,6 @@ func (i GetListenerDefaultActionForwardStickinessArgs) ToGetListenerDefaultActio
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionForwardStickinessOutput)
 }
 
-func (i GetListenerDefaultActionForwardStickinessArgs) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionForwardStickiness] {
-	return pulumix.Output[GetListenerDefaultActionForwardStickiness]{
-		OutputState: i.ToGetListenerDefaultActionForwardStickinessOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetListenerDefaultActionForwardStickinessArrayInput is an input type that accepts GetListenerDefaultActionForwardStickinessArray and GetListenerDefaultActionForwardStickinessArrayOutput values.
 // You can construct a concrete instance of `GetListenerDefaultActionForwardStickinessArrayInput` via:
 //
@@ -6627,12 +5893,6 @@ func (i GetListenerDefaultActionForwardStickinessArray) ToGetListenerDefaultActi
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionForwardStickinessArrayOutput)
 }
 
-func (i GetListenerDefaultActionForwardStickinessArray) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionForwardStickiness] {
-	return pulumix.Output[[]GetListenerDefaultActionForwardStickiness]{
-		OutputState: i.ToGetListenerDefaultActionForwardStickinessArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetListenerDefaultActionForwardStickinessOutput struct{ *pulumi.OutputState }
 
 func (GetListenerDefaultActionForwardStickinessOutput) ElementType() reflect.Type {
@@ -6645,12 +5905,6 @@ func (o GetListenerDefaultActionForwardStickinessOutput) ToGetListenerDefaultAct
 
 func (o GetListenerDefaultActionForwardStickinessOutput) ToGetListenerDefaultActionForwardStickinessOutputWithContext(ctx context.Context) GetListenerDefaultActionForwardStickinessOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionForwardStickinessOutput) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionForwardStickiness] {
-	return pulumix.Output[GetListenerDefaultActionForwardStickiness]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionForwardStickinessOutput) Duration() pulumi.IntOutput {
@@ -6673,12 +5927,6 @@ func (o GetListenerDefaultActionForwardStickinessArrayOutput) ToGetListenerDefau
 
 func (o GetListenerDefaultActionForwardStickinessArrayOutput) ToGetListenerDefaultActionForwardStickinessArrayOutputWithContext(ctx context.Context) GetListenerDefaultActionForwardStickinessArrayOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionForwardStickinessArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionForwardStickiness] {
-	return pulumix.Output[[]GetListenerDefaultActionForwardStickiness]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionForwardStickinessArrayOutput) Index(i pulumi.IntInput) GetListenerDefaultActionForwardStickinessOutput {
@@ -6722,12 +5970,6 @@ func (i GetListenerDefaultActionForwardTargetGroupArgs) ToGetListenerDefaultActi
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionForwardTargetGroupOutput)
 }
 
-func (i GetListenerDefaultActionForwardTargetGroupArgs) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionForwardTargetGroup] {
-	return pulumix.Output[GetListenerDefaultActionForwardTargetGroup]{
-		OutputState: i.ToGetListenerDefaultActionForwardTargetGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetListenerDefaultActionForwardTargetGroupArrayInput is an input type that accepts GetListenerDefaultActionForwardTargetGroupArray and GetListenerDefaultActionForwardTargetGroupArrayOutput values.
 // You can construct a concrete instance of `GetListenerDefaultActionForwardTargetGroupArrayInput` via:
 //
@@ -6753,12 +5995,6 @@ func (i GetListenerDefaultActionForwardTargetGroupArray) ToGetListenerDefaultAct
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionForwardTargetGroupArrayOutput)
 }
 
-func (i GetListenerDefaultActionForwardTargetGroupArray) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionForwardTargetGroup] {
-	return pulumix.Output[[]GetListenerDefaultActionForwardTargetGroup]{
-		OutputState: i.ToGetListenerDefaultActionForwardTargetGroupArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetListenerDefaultActionForwardTargetGroupOutput struct{ *pulumi.OutputState }
 
 func (GetListenerDefaultActionForwardTargetGroupOutput) ElementType() reflect.Type {
@@ -6771,12 +6007,6 @@ func (o GetListenerDefaultActionForwardTargetGroupOutput) ToGetListenerDefaultAc
 
 func (o GetListenerDefaultActionForwardTargetGroupOutput) ToGetListenerDefaultActionForwardTargetGroupOutputWithContext(ctx context.Context) GetListenerDefaultActionForwardTargetGroupOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionForwardTargetGroupOutput) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionForwardTargetGroup] {
-	return pulumix.Output[GetListenerDefaultActionForwardTargetGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // ARN of the listener. Required if `loadBalancerArn` and `port` is not set.
@@ -6800,12 +6030,6 @@ func (o GetListenerDefaultActionForwardTargetGroupArrayOutput) ToGetListenerDefa
 
 func (o GetListenerDefaultActionForwardTargetGroupArrayOutput) ToGetListenerDefaultActionForwardTargetGroupArrayOutputWithContext(ctx context.Context) GetListenerDefaultActionForwardTargetGroupArrayOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionForwardTargetGroupArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionForwardTargetGroup] {
-	return pulumix.Output[[]GetListenerDefaultActionForwardTargetGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionForwardTargetGroupArrayOutput) Index(i pulumi.IntInput) GetListenerDefaultActionForwardTargetGroupOutput {
@@ -6857,12 +6081,6 @@ func (i GetListenerDefaultActionRedirectArgs) ToGetListenerDefaultActionRedirect
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionRedirectOutput)
 }
 
-func (i GetListenerDefaultActionRedirectArgs) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionRedirect] {
-	return pulumix.Output[GetListenerDefaultActionRedirect]{
-		OutputState: i.ToGetListenerDefaultActionRedirectOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetListenerDefaultActionRedirectArrayInput is an input type that accepts GetListenerDefaultActionRedirectArray and GetListenerDefaultActionRedirectArrayOutput values.
 // You can construct a concrete instance of `GetListenerDefaultActionRedirectArrayInput` via:
 //
@@ -6888,12 +6106,6 @@ func (i GetListenerDefaultActionRedirectArray) ToGetListenerDefaultActionRedirec
 	return pulumi.ToOutputWithContext(ctx, i).(GetListenerDefaultActionRedirectArrayOutput)
 }
 
-func (i GetListenerDefaultActionRedirectArray) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionRedirect] {
-	return pulumix.Output[[]GetListenerDefaultActionRedirect]{
-		OutputState: i.ToGetListenerDefaultActionRedirectArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetListenerDefaultActionRedirectOutput struct{ *pulumi.OutputState }
 
 func (GetListenerDefaultActionRedirectOutput) ElementType() reflect.Type {
@@ -6906,12 +6118,6 @@ func (o GetListenerDefaultActionRedirectOutput) ToGetListenerDefaultActionRedire
 
 func (o GetListenerDefaultActionRedirectOutput) ToGetListenerDefaultActionRedirectOutputWithContext(ctx context.Context) GetListenerDefaultActionRedirectOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionRedirectOutput) ToOutput(ctx context.Context) pulumix.Output[GetListenerDefaultActionRedirect] {
-	return pulumix.Output[GetListenerDefaultActionRedirect]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionRedirectOutput) Host() pulumi.StringOutput {
@@ -6951,12 +6157,6 @@ func (o GetListenerDefaultActionRedirectArrayOutput) ToGetListenerDefaultActionR
 
 func (o GetListenerDefaultActionRedirectArrayOutput) ToGetListenerDefaultActionRedirectArrayOutputWithContext(ctx context.Context) GetListenerDefaultActionRedirectArrayOutput {
 	return o
-}
-
-func (o GetListenerDefaultActionRedirectArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetListenerDefaultActionRedirect] {
-	return pulumix.Output[[]GetListenerDefaultActionRedirect]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetListenerDefaultActionRedirectArrayOutput) Index(i pulumi.IntInput) GetListenerDefaultActionRedirectOutput {
@@ -7000,12 +6200,6 @@ func (i GetLoadBalancerAccessLogsArgs) ToGetLoadBalancerAccessLogsOutputWithCont
 	return pulumi.ToOutputWithContext(ctx, i).(GetLoadBalancerAccessLogsOutput)
 }
 
-func (i GetLoadBalancerAccessLogsArgs) ToOutput(ctx context.Context) pulumix.Output[GetLoadBalancerAccessLogs] {
-	return pulumix.Output[GetLoadBalancerAccessLogs]{
-		OutputState: i.ToGetLoadBalancerAccessLogsOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetLoadBalancerAccessLogsOutput struct{ *pulumi.OutputState }
 
 func (GetLoadBalancerAccessLogsOutput) ElementType() reflect.Type {
@@ -7018,12 +6212,6 @@ func (o GetLoadBalancerAccessLogsOutput) ToGetLoadBalancerAccessLogsOutput() Get
 
 func (o GetLoadBalancerAccessLogsOutput) ToGetLoadBalancerAccessLogsOutputWithContext(ctx context.Context) GetLoadBalancerAccessLogsOutput {
 	return o
-}
-
-func (o GetLoadBalancerAccessLogsOutput) ToOutput(ctx context.Context) pulumix.Output[GetLoadBalancerAccessLogs] {
-	return pulumix.Output[GetLoadBalancerAccessLogs]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetLoadBalancerAccessLogsOutput) Bucket() pulumi.StringOutput {
@@ -7077,12 +6265,6 @@ func (i GetLoadBalancerSubnetMappingArgs) ToGetLoadBalancerSubnetMappingOutputWi
 	return pulumi.ToOutputWithContext(ctx, i).(GetLoadBalancerSubnetMappingOutput)
 }
 
-func (i GetLoadBalancerSubnetMappingArgs) ToOutput(ctx context.Context) pulumix.Output[GetLoadBalancerSubnetMapping] {
-	return pulumix.Output[GetLoadBalancerSubnetMapping]{
-		OutputState: i.ToGetLoadBalancerSubnetMappingOutputWithContext(ctx).OutputState,
-	}
-}
-
 // GetLoadBalancerSubnetMappingArrayInput is an input type that accepts GetLoadBalancerSubnetMappingArray and GetLoadBalancerSubnetMappingArrayOutput values.
 // You can construct a concrete instance of `GetLoadBalancerSubnetMappingArrayInput` via:
 //
@@ -7108,12 +6290,6 @@ func (i GetLoadBalancerSubnetMappingArray) ToGetLoadBalancerSubnetMappingArrayOu
 	return pulumi.ToOutputWithContext(ctx, i).(GetLoadBalancerSubnetMappingArrayOutput)
 }
 
-func (i GetLoadBalancerSubnetMappingArray) ToOutput(ctx context.Context) pulumix.Output[[]GetLoadBalancerSubnetMapping] {
-	return pulumix.Output[[]GetLoadBalancerSubnetMapping]{
-		OutputState: i.ToGetLoadBalancerSubnetMappingArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetLoadBalancerSubnetMappingOutput struct{ *pulumi.OutputState }
 
 func (GetLoadBalancerSubnetMappingOutput) ElementType() reflect.Type {
@@ -7126,12 +6302,6 @@ func (o GetLoadBalancerSubnetMappingOutput) ToGetLoadBalancerSubnetMappingOutput
 
 func (o GetLoadBalancerSubnetMappingOutput) ToGetLoadBalancerSubnetMappingOutputWithContext(ctx context.Context) GetLoadBalancerSubnetMappingOutput {
 	return o
-}
-
-func (o GetLoadBalancerSubnetMappingOutput) ToOutput(ctx context.Context) pulumix.Output[GetLoadBalancerSubnetMapping] {
-	return pulumix.Output[GetLoadBalancerSubnetMapping]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetLoadBalancerSubnetMappingOutput) AllocationId() pulumi.StringOutput {
@@ -7166,12 +6336,6 @@ func (o GetLoadBalancerSubnetMappingArrayOutput) ToGetLoadBalancerSubnetMappingA
 
 func (o GetLoadBalancerSubnetMappingArrayOutput) ToGetLoadBalancerSubnetMappingArrayOutputWithContext(ctx context.Context) GetLoadBalancerSubnetMappingArrayOutput {
 	return o
-}
-
-func (o GetLoadBalancerSubnetMappingArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]GetLoadBalancerSubnetMapping] {
-	return pulumix.Output[[]GetLoadBalancerSubnetMapping]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetLoadBalancerSubnetMappingArrayOutput) Index(i pulumi.IntInput) GetLoadBalancerSubnetMappingOutput {
@@ -7227,12 +6391,6 @@ func (i GetTargetGroupHealthCheckArgs) ToGetTargetGroupHealthCheckOutputWithCont
 	return pulumi.ToOutputWithContext(ctx, i).(GetTargetGroupHealthCheckOutput)
 }
 
-func (i GetTargetGroupHealthCheckArgs) ToOutput(ctx context.Context) pulumix.Output[GetTargetGroupHealthCheck] {
-	return pulumix.Output[GetTargetGroupHealthCheck]{
-		OutputState: i.ToGetTargetGroupHealthCheckOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetTargetGroupHealthCheckOutput struct{ *pulumi.OutputState }
 
 func (GetTargetGroupHealthCheckOutput) ElementType() reflect.Type {
@@ -7245,12 +6403,6 @@ func (o GetTargetGroupHealthCheckOutput) ToGetTargetGroupHealthCheckOutput() Get
 
 func (o GetTargetGroupHealthCheckOutput) ToGetTargetGroupHealthCheckOutputWithContext(ctx context.Context) GetTargetGroupHealthCheckOutput {
 	return o
-}
-
-func (o GetTargetGroupHealthCheckOutput) ToOutput(ctx context.Context) pulumix.Output[GetTargetGroupHealthCheck] {
-	return pulumix.Output[GetTargetGroupHealthCheck]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetTargetGroupHealthCheckOutput) Enabled() pulumi.BoolOutput {
@@ -7326,12 +6478,6 @@ func (i GetTargetGroupStickinessArgs) ToGetTargetGroupStickinessOutputWithContex
 	return pulumi.ToOutputWithContext(ctx, i).(GetTargetGroupStickinessOutput)
 }
 
-func (i GetTargetGroupStickinessArgs) ToOutput(ctx context.Context) pulumix.Output[GetTargetGroupStickiness] {
-	return pulumix.Output[GetTargetGroupStickiness]{
-		OutputState: i.ToGetTargetGroupStickinessOutputWithContext(ctx).OutputState,
-	}
-}
-
 type GetTargetGroupStickinessOutput struct{ *pulumi.OutputState }
 
 func (GetTargetGroupStickinessOutput) ElementType() reflect.Type {
@@ -7344,12 +6490,6 @@ func (o GetTargetGroupStickinessOutput) ToGetTargetGroupStickinessOutput() GetTa
 
 func (o GetTargetGroupStickinessOutput) ToGetTargetGroupStickinessOutputWithContext(ctx context.Context) GetTargetGroupStickinessOutput {
 	return o
-}
-
-func (o GetTargetGroupStickinessOutput) ToOutput(ctx context.Context) pulumix.Output[GetTargetGroupStickiness] {
-	return pulumix.Output[GetTargetGroupStickiness]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetTargetGroupStickinessOutput) CookieDuration() pulumi.IntOutput {
@@ -7425,6 +6565,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*TargetGroupStickinessPtrInput)(nil)).Elem(), TargetGroupStickinessArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*TargetGroupTargetFailoverInput)(nil)).Elem(), TargetGroupTargetFailoverArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*TargetGroupTargetFailoverArrayInput)(nil)).Elem(), TargetGroupTargetFailoverArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*TargetGroupTargetHealthStateInput)(nil)).Elem(), TargetGroupTargetHealthStateArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*TargetGroupTargetHealthStateArrayInput)(nil)).Elem(), TargetGroupTargetHealthStateArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetListenerDefaultActionInput)(nil)).Elem(), GetListenerDefaultActionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetListenerDefaultActionArrayInput)(nil)).Elem(), GetListenerDefaultActionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetListenerDefaultActionAuthenticateCognitoInput)(nil)).Elem(), GetListenerDefaultActionAuthenticateCognitoArgs{})
@@ -7502,6 +6644,8 @@ func init() {
 	pulumi.RegisterOutputType(TargetGroupStickinessPtrOutput{})
 	pulumi.RegisterOutputType(TargetGroupTargetFailoverOutput{})
 	pulumi.RegisterOutputType(TargetGroupTargetFailoverArrayOutput{})
+	pulumi.RegisterOutputType(TargetGroupTargetHealthStateOutput{})
+	pulumi.RegisterOutputType(TargetGroupTargetHealthStateArrayOutput{})
 	pulumi.RegisterOutputType(GetListenerDefaultActionOutput{})
 	pulumi.RegisterOutputType(GetListenerDefaultActionArrayOutput{})
 	pulumi.RegisterOutputType(GetListenerDefaultActionAuthenticateCognitoOutput{})

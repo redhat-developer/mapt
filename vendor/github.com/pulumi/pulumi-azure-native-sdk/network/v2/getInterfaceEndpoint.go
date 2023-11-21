@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified interface endpoint by resource group.
@@ -111,12 +110,6 @@ func (o LookupInterfaceEndpointResultOutput) ToLookupInterfaceEndpointResultOutp
 
 func (o LookupInterfaceEndpointResultOutput) ToLookupInterfaceEndpointResultOutputWithContext(ctx context.Context) LookupInterfaceEndpointResultOutput {
 	return o
-}
-
-func (o LookupInterfaceEndpointResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupInterfaceEndpointResult] {
-	return pulumix.Output[LookupInterfaceEndpointResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A reference to the service being brought into the virtual network.

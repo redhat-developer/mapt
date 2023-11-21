@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Post to List of Network Manager Deployment Status.
@@ -94,12 +93,6 @@ func (o ListNetworkManagerDeploymentStatusResultOutput) ToListNetworkManagerDepl
 
 func (o ListNetworkManagerDeploymentStatusResultOutput) ToListNetworkManagerDeploymentStatusResultOutputWithContext(ctx context.Context) ListNetworkManagerDeploymentStatusResultOutput {
 	return o
-}
-
-func (o ListNetworkManagerDeploymentStatusResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListNetworkManagerDeploymentStatusResult] {
-	return pulumix.Output[ListNetworkManagerDeploymentStatusResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.

@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a user rule.
@@ -115,12 +114,6 @@ func (o LookupDefaultUserRuleResultOutput) ToLookupDefaultUserRuleResultOutput()
 
 func (o LookupDefaultUserRuleResultOutput) ToLookupDefaultUserRuleResultOutputWithContext(ctx context.Context) LookupDefaultUserRuleResultOutput {
 	return o
-}
-
-func (o LookupDefaultUserRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupDefaultUserRuleResult] {
-	return pulumix.Output[LookupDefaultUserRuleResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A description for this rule. Restricted to 140 chars.

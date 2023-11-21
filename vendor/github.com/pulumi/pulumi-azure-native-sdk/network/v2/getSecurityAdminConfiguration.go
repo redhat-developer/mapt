@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves a network manager security admin configuration.
@@ -96,12 +95,6 @@ func (o LookupSecurityAdminConfigurationResultOutput) ToLookupSecurityAdminConfi
 
 func (o LookupSecurityAdminConfigurationResultOutput) ToLookupSecurityAdminConfigurationResultOutputWithContext(ctx context.Context) LookupSecurityAdminConfigurationResultOutput {
 	return o
-}
-
-func (o LookupSecurityAdminConfigurationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupSecurityAdminConfigurationResult] {
-	return pulumix.Output[LookupSecurityAdminConfigurationResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Enum list of network intent policy based services.

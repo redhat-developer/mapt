@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Network security rule.
@@ -381,12 +380,6 @@ func (i *SecurityRule) ToSecurityRuleOutputWithContext(ctx context.Context) Secu
 	return pulumi.ToOutputWithContext(ctx, i).(SecurityRuleOutput)
 }
 
-func (i *SecurityRule) ToOutput(ctx context.Context) pulumix.Output[*SecurityRule] {
-	return pulumix.Output[*SecurityRule]{
-		OutputState: i.ToSecurityRuleOutputWithContext(ctx).OutputState,
-	}
-}
-
 type SecurityRuleOutput struct{ *pulumi.OutputState }
 
 func (SecurityRuleOutput) ElementType() reflect.Type {
@@ -399,12 +392,6 @@ func (o SecurityRuleOutput) ToSecurityRuleOutput() SecurityRuleOutput {
 
 func (o SecurityRuleOutput) ToSecurityRuleOutputWithContext(ctx context.Context) SecurityRuleOutput {
 	return o
-}
-
-func (o SecurityRuleOutput) ToOutput(ctx context.Context) pulumix.Output[*SecurityRule] {
-	return pulumix.Output[*SecurityRule]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The network traffic is allowed or denied.

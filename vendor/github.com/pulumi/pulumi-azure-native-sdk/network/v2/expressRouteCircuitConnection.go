@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
@@ -275,12 +274,6 @@ func (i *ExpressRouteCircuitConnection) ToExpressRouteCircuitConnectionOutputWit
 	return pulumi.ToOutputWithContext(ctx, i).(ExpressRouteCircuitConnectionOutput)
 }
 
-func (i *ExpressRouteCircuitConnection) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteCircuitConnection] {
-	return pulumix.Output[*ExpressRouteCircuitConnection]{
-		OutputState: i.ToExpressRouteCircuitConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ExpressRouteCircuitConnectionOutput struct{ *pulumi.OutputState }
 
 func (ExpressRouteCircuitConnectionOutput) ElementType() reflect.Type {
@@ -293,12 +286,6 @@ func (o ExpressRouteCircuitConnectionOutput) ToExpressRouteCircuitConnectionOutp
 
 func (o ExpressRouteCircuitConnectionOutput) ToExpressRouteCircuitConnectionOutputWithContext(ctx context.Context) ExpressRouteCircuitConnectionOutput {
 	return o
-}
-
-func (o ExpressRouteCircuitConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteCircuitConnection] {
-	return pulumix.Output[*ExpressRouteCircuitConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // /29 IP address space to carve out Customer addresses for tunnels.

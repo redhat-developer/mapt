@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.93.0
+ENV PULUMI_VERSION 3.94.2
 ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
 RUN make build \
@@ -33,13 +33,13 @@ ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.2.0
+ARG PULUMI_AWS_VERSION=v6.9.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v2.17.0
+ARG PULUMI_AZURE_NATIVE_VERSION=v2.18.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v0.9.2
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
-ARG PULUMI_TLS_VERSION=v4.11.0
+ARG PULUMI_TLS_VERSION=v4.11.1 
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.14.0
 

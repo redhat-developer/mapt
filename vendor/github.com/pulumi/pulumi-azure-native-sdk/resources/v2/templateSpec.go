@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Template Spec object.
@@ -153,12 +152,6 @@ func (i *TemplateSpec) ToTemplateSpecOutputWithContext(ctx context.Context) Temp
 	return pulumi.ToOutputWithContext(ctx, i).(TemplateSpecOutput)
 }
 
-func (i *TemplateSpec) ToOutput(ctx context.Context) pulumix.Output[*TemplateSpec] {
-	return pulumix.Output[*TemplateSpec]{
-		OutputState: i.ToTemplateSpecOutputWithContext(ctx).OutputState,
-	}
-}
-
 type TemplateSpecOutput struct{ *pulumi.OutputState }
 
 func (TemplateSpecOutput) ElementType() reflect.Type {
@@ -171,12 +164,6 @@ func (o TemplateSpecOutput) ToTemplateSpecOutput() TemplateSpecOutput {
 
 func (o TemplateSpecOutput) ToTemplateSpecOutputWithContext(ctx context.Context) TemplateSpecOutput {
 	return o
-}
-
-func (o TemplateSpecOutput) ToOutput(ctx context.Context) pulumix.Output[*TemplateSpec] {
-	return pulumix.Output[*TemplateSpec]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Template Spec description.

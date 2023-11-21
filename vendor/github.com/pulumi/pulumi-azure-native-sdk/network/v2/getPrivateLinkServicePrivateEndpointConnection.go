@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Get the specific private end point connection by specific private link service in the resource group.
@@ -111,12 +110,6 @@ func (o LookupPrivateLinkServicePrivateEndpointConnectionResultOutput) ToLookupP
 
 func (o LookupPrivateLinkServicePrivateEndpointConnectionResultOutput) ToLookupPrivateLinkServicePrivateEndpointConnectionResultOutputWithContext(ctx context.Context) LookupPrivateLinkServicePrivateEndpointConnectionResultOutput {
 	return o
-}
-
-func (o LookupPrivateLinkServicePrivateEndpointConnectionResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPrivateLinkServicePrivateEndpointConnectionResult] {
-	return pulumix.Output[LookupPrivateLinkServicePrivateEndpointConnectionResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

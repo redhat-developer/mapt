@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The AMI resource allows the creation and management of a completely-custom
@@ -124,6 +123,8 @@ type Ami struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport pulumi.StringPtrOutput `pulumi:"tpmSupport"`
@@ -142,6 +143,10 @@ func NewAmi(ctx *pulumi.Context,
 		args = &AmiArgs{}
 	}
 
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Ami
 	err := ctx.RegisterResource("aws:ec2/ami:Ami", name, args, &resource, opts...)
@@ -221,6 +226,8 @@ type amiState struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport *string `pulumi:"tpmSupport"`
@@ -289,6 +296,8 @@ type AmiState struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// If the image is configured for NitroTPM support, the value is `v2.0`. For more information, see [NitroTPM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitrotpm.html) in the Amazon Elastic Compute Cloud User Guide.
 	TpmSupport pulumi.StringPtrInput
@@ -418,12 +427,6 @@ func (i *Ami) ToAmiOutputWithContext(ctx context.Context) AmiOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(AmiOutput)
 }
 
-func (i *Ami) ToOutput(ctx context.Context) pulumix.Output[*Ami] {
-	return pulumix.Output[*Ami]{
-		OutputState: i.ToAmiOutputWithContext(ctx).OutputState,
-	}
-}
-
 // AmiArrayInput is an input type that accepts AmiArray and AmiArrayOutput values.
 // You can construct a concrete instance of `AmiArrayInput` via:
 //
@@ -447,12 +450,6 @@ func (i AmiArray) ToAmiArrayOutput() AmiArrayOutput {
 
 func (i AmiArray) ToAmiArrayOutputWithContext(ctx context.Context) AmiArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(AmiArrayOutput)
-}
-
-func (i AmiArray) ToOutput(ctx context.Context) pulumix.Output[[]*Ami] {
-	return pulumix.Output[[]*Ami]{
-		OutputState: i.ToAmiArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // AmiMapInput is an input type that accepts AmiMap and AmiMapOutput values.
@@ -480,12 +477,6 @@ func (i AmiMap) ToAmiMapOutputWithContext(ctx context.Context) AmiMapOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(AmiMapOutput)
 }
 
-func (i AmiMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Ami] {
-	return pulumix.Output[map[string]*Ami]{
-		OutputState: i.ToAmiMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type AmiOutput struct{ *pulumi.OutputState }
 
 func (AmiOutput) ElementType() reflect.Type {
@@ -498,12 +489,6 @@ func (o AmiOutput) ToAmiOutput() AmiOutput {
 
 func (o AmiOutput) ToAmiOutputWithContext(ctx context.Context) AmiOutput {
 	return o
-}
-
-func (o AmiOutput) ToOutput(ctx context.Context) pulumix.Output[*Ami] {
-	return pulumix.Output[*Ami]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Machine architecture for created instances. Defaults to "x8664".
@@ -637,6 +622,8 @@ func (o AmiOutput) Tags() pulumi.StringMapOutput {
 }
 
 // Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o AmiOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Ami) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -672,12 +659,6 @@ func (o AmiArrayOutput) ToAmiArrayOutputWithContext(ctx context.Context) AmiArra
 	return o
 }
 
-func (o AmiArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Ami] {
-	return pulumix.Output[[]*Ami]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o AmiArrayOutput) Index(i pulumi.IntInput) AmiOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Ami {
 		return vs[0].([]*Ami)[vs[1].(int)]
@@ -696,12 +677,6 @@ func (o AmiMapOutput) ToAmiMapOutput() AmiMapOutput {
 
 func (o AmiMapOutput) ToAmiMapOutputWithContext(ctx context.Context) AmiMapOutput {
 	return o
-}
-
-func (o AmiMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Ami] {
-	return pulumix.Output[map[string]*Ami]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o AmiMapOutput) MapIndex(k pulumi.StringInput) AmiOutput {

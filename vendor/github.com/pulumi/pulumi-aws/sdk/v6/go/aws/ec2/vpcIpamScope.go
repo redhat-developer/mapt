@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Creates a scope for AWS IPAM.
@@ -85,7 +84,8 @@ type VpcIpamScope struct {
 	// The number of pools in the scope.
 	PoolCount pulumi.IntOutput `pulumi:"poolCount"`
 	// Key-value mapping of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    pulumi.StringMapOutput `pulumi:"tags"`
+	Tags pulumi.StringMapOutput `pulumi:"tags"`
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -99,6 +99,10 @@ func NewVpcIpamScope(ctx *pulumi.Context,
 	if args.IpamId == nil {
 		return nil, errors.New("invalid value for required argument 'IpamId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcIpamScope
 	err := ctx.RegisterResource("aws:ec2/vpcIpamScope:VpcIpamScope", name, args, &resource, opts...)
@@ -136,7 +140,8 @@ type vpcIpamScopeState struct {
 	// The number of pools in the scope.
 	PoolCount *int `pulumi:"poolCount"`
 	// Key-value mapping of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    map[string]string `pulumi:"tags"`
+	Tags map[string]string `pulumi:"tags"`
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -155,7 +160,8 @@ type VpcIpamScopeState struct {
 	// The number of pools in the scope.
 	PoolCount pulumi.IntPtrInput
 	// Key-value mapping of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	Tags    pulumi.StringMapInput
+	Tags pulumi.StringMapInput
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -205,12 +211,6 @@ func (i *VpcIpamScope) ToVpcIpamScopeOutputWithContext(ctx context.Context) VpcI
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamScopeOutput)
 }
 
-func (i *VpcIpamScope) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamScope] {
-	return pulumix.Output[*VpcIpamScope]{
-		OutputState: i.ToVpcIpamScopeOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcIpamScopeArrayInput is an input type that accepts VpcIpamScopeArray and VpcIpamScopeArrayOutput values.
 // You can construct a concrete instance of `VpcIpamScopeArrayInput` via:
 //
@@ -234,12 +234,6 @@ func (i VpcIpamScopeArray) ToVpcIpamScopeArrayOutput() VpcIpamScopeArrayOutput {
 
 func (i VpcIpamScopeArray) ToVpcIpamScopeArrayOutputWithContext(ctx context.Context) VpcIpamScopeArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamScopeArrayOutput)
-}
-
-func (i VpcIpamScopeArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamScope] {
-	return pulumix.Output[[]*VpcIpamScope]{
-		OutputState: i.ToVpcIpamScopeArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcIpamScopeMapInput is an input type that accepts VpcIpamScopeMap and VpcIpamScopeMapOutput values.
@@ -267,12 +261,6 @@ func (i VpcIpamScopeMap) ToVpcIpamScopeMapOutputWithContext(ctx context.Context)
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamScopeMapOutput)
 }
 
-func (i VpcIpamScopeMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamScope] {
-	return pulumix.Output[map[string]*VpcIpamScope]{
-		OutputState: i.ToVpcIpamScopeMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcIpamScopeOutput struct{ *pulumi.OutputState }
 
 func (VpcIpamScopeOutput) ElementType() reflect.Type {
@@ -285,12 +273,6 @@ func (o VpcIpamScopeOutput) ToVpcIpamScopeOutput() VpcIpamScopeOutput {
 
 func (o VpcIpamScopeOutput) ToVpcIpamScopeOutputWithContext(ctx context.Context) VpcIpamScopeOutput {
 	return o
-}
-
-func (o VpcIpamScopeOutput) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamScope] {
-	return pulumix.Output[*VpcIpamScope]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The Amazon Resource Name (ARN) of the scope.
@@ -332,6 +314,7 @@ func (o VpcIpamScopeOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpcIpamScope) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
+// Deprecated: Please use `tags` instead.
 func (o VpcIpamScopeOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpcIpamScope) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -348,12 +331,6 @@ func (o VpcIpamScopeArrayOutput) ToVpcIpamScopeArrayOutput() VpcIpamScopeArrayOu
 
 func (o VpcIpamScopeArrayOutput) ToVpcIpamScopeArrayOutputWithContext(ctx context.Context) VpcIpamScopeArrayOutput {
 	return o
-}
-
-func (o VpcIpamScopeArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamScope] {
-	return pulumix.Output[[]*VpcIpamScope]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamScopeArrayOutput) Index(i pulumi.IntInput) VpcIpamScopeOutput {
@@ -374,12 +351,6 @@ func (o VpcIpamScopeMapOutput) ToVpcIpamScopeMapOutput() VpcIpamScopeMapOutput {
 
 func (o VpcIpamScopeMapOutput) ToVpcIpamScopeMapOutputWithContext(ctx context.Context) VpcIpamScopeMapOutput {
 	return o
-}
-
-func (o VpcIpamScopeMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamScope] {
-	return pulumix.Output[map[string]*VpcIpamScope]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamScopeMapOutput) MapIndex(k pulumi.StringInput) VpcIpamScopeOutput {

@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an association between an Amazon IP Address Manager (IPAM) and a IPAM Resource Discovery. IPAM Resource Discoveries are resources meant for multi-organization customers. If you wish to use a single IPAM across multiple orgs, a resource discovery can be created and shared from a subordinate organization to the management organizations IPAM delegated admin account.
@@ -80,6 +79,8 @@ type VpcIpamResourceDiscoveryAssociation struct {
 	// A map of tags to add to the IPAM resource discovery association resource.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -96,6 +97,10 @@ func NewVpcIpamResourceDiscoveryAssociation(ctx *pulumi.Context,
 	if args.IpamResourceDiscoveryId == nil {
 		return nil, errors.New("invalid value for required argument 'IpamResourceDiscoveryId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcIpamResourceDiscoveryAssociation
 	err := ctx.RegisterResource("aws:ec2/vpcIpamResourceDiscoveryAssociation:VpcIpamResourceDiscoveryAssociation", name, args, &resource, opts...)
@@ -138,6 +143,8 @@ type vpcIpamResourceDiscoveryAssociationState struct {
 	// A map of tags to add to the IPAM resource discovery association resource.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -161,6 +168,8 @@ type VpcIpamResourceDiscoveryAssociationState struct {
 	// A map of tags to add to the IPAM resource discovery association resource.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -210,12 +219,6 @@ func (i *VpcIpamResourceDiscoveryAssociation) ToVpcIpamResourceDiscoveryAssociat
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamResourceDiscoveryAssociationOutput)
 }
 
-func (i *VpcIpamResourceDiscoveryAssociation) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamResourceDiscoveryAssociation] {
-	return pulumix.Output[*VpcIpamResourceDiscoveryAssociation]{
-		OutputState: i.ToVpcIpamResourceDiscoveryAssociationOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcIpamResourceDiscoveryAssociationArrayInput is an input type that accepts VpcIpamResourceDiscoveryAssociationArray and VpcIpamResourceDiscoveryAssociationArrayOutput values.
 // You can construct a concrete instance of `VpcIpamResourceDiscoveryAssociationArrayInput` via:
 //
@@ -239,12 +242,6 @@ func (i VpcIpamResourceDiscoveryAssociationArray) ToVpcIpamResourceDiscoveryAsso
 
 func (i VpcIpamResourceDiscoveryAssociationArray) ToVpcIpamResourceDiscoveryAssociationArrayOutputWithContext(ctx context.Context) VpcIpamResourceDiscoveryAssociationArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamResourceDiscoveryAssociationArrayOutput)
-}
-
-func (i VpcIpamResourceDiscoveryAssociationArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamResourceDiscoveryAssociation] {
-	return pulumix.Output[[]*VpcIpamResourceDiscoveryAssociation]{
-		OutputState: i.ToVpcIpamResourceDiscoveryAssociationArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcIpamResourceDiscoveryAssociationMapInput is an input type that accepts VpcIpamResourceDiscoveryAssociationMap and VpcIpamResourceDiscoveryAssociationMapOutput values.
@@ -272,12 +269,6 @@ func (i VpcIpamResourceDiscoveryAssociationMap) ToVpcIpamResourceDiscoveryAssoci
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamResourceDiscoveryAssociationMapOutput)
 }
 
-func (i VpcIpamResourceDiscoveryAssociationMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamResourceDiscoveryAssociation] {
-	return pulumix.Output[map[string]*VpcIpamResourceDiscoveryAssociation]{
-		OutputState: i.ToVpcIpamResourceDiscoveryAssociationMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcIpamResourceDiscoveryAssociationOutput struct{ *pulumi.OutputState }
 
 func (VpcIpamResourceDiscoveryAssociationOutput) ElementType() reflect.Type {
@@ -290,12 +281,6 @@ func (o VpcIpamResourceDiscoveryAssociationOutput) ToVpcIpamResourceDiscoveryAss
 
 func (o VpcIpamResourceDiscoveryAssociationOutput) ToVpcIpamResourceDiscoveryAssociationOutputWithContext(ctx context.Context) VpcIpamResourceDiscoveryAssociationOutput {
 	return o
-}
-
-func (o VpcIpamResourceDiscoveryAssociationOutput) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamResourceDiscoveryAssociation] {
-	return pulumix.Output[*VpcIpamResourceDiscoveryAssociation]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The Amazon Resource Name (ARN) of IPAM Resource Discovery Association.
@@ -344,6 +329,8 @@ func (o VpcIpamResourceDiscoveryAssociationOutput) Tags() pulumi.StringMapOutput
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o VpcIpamResourceDiscoveryAssociationOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpcIpamResourceDiscoveryAssociation) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -360,12 +347,6 @@ func (o VpcIpamResourceDiscoveryAssociationArrayOutput) ToVpcIpamResourceDiscove
 
 func (o VpcIpamResourceDiscoveryAssociationArrayOutput) ToVpcIpamResourceDiscoveryAssociationArrayOutputWithContext(ctx context.Context) VpcIpamResourceDiscoveryAssociationArrayOutput {
 	return o
-}
-
-func (o VpcIpamResourceDiscoveryAssociationArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamResourceDiscoveryAssociation] {
-	return pulumix.Output[[]*VpcIpamResourceDiscoveryAssociation]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamResourceDiscoveryAssociationArrayOutput) Index(i pulumi.IntInput) VpcIpamResourceDiscoveryAssociationOutput {
@@ -386,12 +367,6 @@ func (o VpcIpamResourceDiscoveryAssociationMapOutput) ToVpcIpamResourceDiscovery
 
 func (o VpcIpamResourceDiscoveryAssociationMapOutput) ToVpcIpamResourceDiscoveryAssociationMapOutputWithContext(ctx context.Context) VpcIpamResourceDiscoveryAssociationMapOutput {
 	return o
-}
-
-func (o VpcIpamResourceDiscoveryAssociationMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamResourceDiscoveryAssociation] {
-	return pulumix.Output[map[string]*VpcIpamResourceDiscoveryAssociation]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamResourceDiscoveryAssociationMapOutput) MapIndex(k pulumi.StringInput) VpcIpamResourceDiscoveryAssociationOutput {

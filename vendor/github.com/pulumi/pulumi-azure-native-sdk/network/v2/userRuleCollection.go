@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Defines the user rule collection.
@@ -156,12 +155,6 @@ func (i *UserRuleCollection) ToUserRuleCollectionOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(UserRuleCollectionOutput)
 }
 
-func (i *UserRuleCollection) ToOutput(ctx context.Context) pulumix.Output[*UserRuleCollection] {
-	return pulumix.Output[*UserRuleCollection]{
-		OutputState: i.ToUserRuleCollectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type UserRuleCollectionOutput struct{ *pulumi.OutputState }
 
 func (UserRuleCollectionOutput) ElementType() reflect.Type {
@@ -174,12 +167,6 @@ func (o UserRuleCollectionOutput) ToUserRuleCollectionOutput() UserRuleCollectio
 
 func (o UserRuleCollectionOutput) ToUserRuleCollectionOutputWithContext(ctx context.Context) UserRuleCollectionOutput {
 	return o
-}
-
-func (o UserRuleCollectionOutput) ToOutput(ctx context.Context) pulumix.Output[*UserRuleCollection] {
-	return pulumix.Output[*UserRuleCollection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Groups for configuration

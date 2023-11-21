@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified Virtual Appliance Site.
@@ -92,12 +91,6 @@ func (o LookupVirtualApplianceSiteResultOutput) ToLookupVirtualApplianceSiteResu
 
 func (o LookupVirtualApplianceSiteResultOutput) ToLookupVirtualApplianceSiteResultOutputWithContext(ctx context.Context) LookupVirtualApplianceSiteResultOutput {
 	return o
-}
-
-func (o LookupVirtualApplianceSiteResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVirtualApplianceSiteResult] {
-	return pulumix.Output[LookupVirtualApplianceSiteResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Address Prefix.

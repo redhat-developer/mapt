@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an EC2 placement group. Read more about placement groups
@@ -72,6 +71,8 @@ type PlacementGroup struct {
 	// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -85,6 +86,10 @@ func NewPlacementGroup(ctx *pulumi.Context,
 	if args.Strategy == nil {
 		return nil, errors.New("invalid value for required argument 'Strategy'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource PlacementGroup
 	err := ctx.RegisterResource("aws:ec2/placementGroup:PlacementGroup", name, args, &resource, opts...)
@@ -126,6 +131,8 @@ type placementGroupState struct {
 	// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -148,6 +155,8 @@ type PlacementGroupState struct {
 	// Key-value map of resource tags. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -211,12 +220,6 @@ func (i *PlacementGroup) ToPlacementGroupOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(PlacementGroupOutput)
 }
 
-func (i *PlacementGroup) ToOutput(ctx context.Context) pulumix.Output[*PlacementGroup] {
-	return pulumix.Output[*PlacementGroup]{
-		OutputState: i.ToPlacementGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 // PlacementGroupArrayInput is an input type that accepts PlacementGroupArray and PlacementGroupArrayOutput values.
 // You can construct a concrete instance of `PlacementGroupArrayInput` via:
 //
@@ -240,12 +243,6 @@ func (i PlacementGroupArray) ToPlacementGroupArrayOutput() PlacementGroupArrayOu
 
 func (i PlacementGroupArray) ToPlacementGroupArrayOutputWithContext(ctx context.Context) PlacementGroupArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(PlacementGroupArrayOutput)
-}
-
-func (i PlacementGroupArray) ToOutput(ctx context.Context) pulumix.Output[[]*PlacementGroup] {
-	return pulumix.Output[[]*PlacementGroup]{
-		OutputState: i.ToPlacementGroupArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // PlacementGroupMapInput is an input type that accepts PlacementGroupMap and PlacementGroupMapOutput values.
@@ -273,12 +270,6 @@ func (i PlacementGroupMap) ToPlacementGroupMapOutputWithContext(ctx context.Cont
 	return pulumi.ToOutputWithContext(ctx, i).(PlacementGroupMapOutput)
 }
 
-func (i PlacementGroupMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*PlacementGroup] {
-	return pulumix.Output[map[string]*PlacementGroup]{
-		OutputState: i.ToPlacementGroupMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type PlacementGroupOutput struct{ *pulumi.OutputState }
 
 func (PlacementGroupOutput) ElementType() reflect.Type {
@@ -291,12 +282,6 @@ func (o PlacementGroupOutput) ToPlacementGroupOutput() PlacementGroupOutput {
 
 func (o PlacementGroupOutput) ToPlacementGroupOutputWithContext(ctx context.Context) PlacementGroupOutput {
 	return o
-}
-
-func (o PlacementGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*PlacementGroup] {
-	return pulumix.Output[*PlacementGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Amazon Resource Name (ARN) of the placement group.
@@ -338,6 +323,8 @@ func (o PlacementGroupOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o PlacementGroupOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *PlacementGroup) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -354,12 +341,6 @@ func (o PlacementGroupArrayOutput) ToPlacementGroupArrayOutput() PlacementGroupA
 
 func (o PlacementGroupArrayOutput) ToPlacementGroupArrayOutputWithContext(ctx context.Context) PlacementGroupArrayOutput {
 	return o
-}
-
-func (o PlacementGroupArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*PlacementGroup] {
-	return pulumix.Output[[]*PlacementGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o PlacementGroupArrayOutput) Index(i pulumi.IntInput) PlacementGroupOutput {
@@ -380,12 +361,6 @@ func (o PlacementGroupMapOutput) ToPlacementGroupMapOutput() PlacementGroupMapOu
 
 func (o PlacementGroupMapOutput) ToPlacementGroupMapOutputWithContext(ctx context.Context) PlacementGroupMapOutput {
 	return o
-}
-
-func (o PlacementGroupMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*PlacementGroup] {
-	return pulumix.Output[map[string]*PlacementGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o PlacementGroupMapOutput) MapIndex(k pulumi.StringInput) PlacementGroupOutput {

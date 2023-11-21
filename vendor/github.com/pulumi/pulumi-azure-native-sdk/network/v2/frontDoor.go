@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there.
@@ -200,12 +199,6 @@ func (i *FrontDoor) ToFrontDoorOutputWithContext(ctx context.Context) FrontDoorO
 	return pulumi.ToOutputWithContext(ctx, i).(FrontDoorOutput)
 }
 
-func (i *FrontDoor) ToOutput(ctx context.Context) pulumix.Output[*FrontDoor] {
-	return pulumix.Output[*FrontDoor]{
-		OutputState: i.ToFrontDoorOutputWithContext(ctx).OutputState,
-	}
-}
-
 type FrontDoorOutput struct{ *pulumi.OutputState }
 
 func (FrontDoorOutput) ElementType() reflect.Type {
@@ -218,12 +211,6 @@ func (o FrontDoorOutput) ToFrontDoorOutput() FrontDoorOutput {
 
 func (o FrontDoorOutput) ToFrontDoorOutputWithContext(ctx context.Context) FrontDoorOutput {
 	return o
-}
-
-func (o FrontDoorOutput) ToOutput(ctx context.Context) pulumix.Output[*FrontDoor] {
-	return pulumix.Output[*FrontDoor]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Backend pools available to routing rules.

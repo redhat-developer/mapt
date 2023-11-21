@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a DNS record set (a collection of DNS records with the same name and type).
@@ -228,12 +227,6 @@ func (i *RecordSet) ToRecordSetOutputWithContext(ctx context.Context) RecordSetO
 	return pulumi.ToOutputWithContext(ctx, i).(RecordSetOutput)
 }
 
-func (i *RecordSet) ToOutput(ctx context.Context) pulumix.Output[*RecordSet] {
-	return pulumix.Output[*RecordSet]{
-		OutputState: i.ToRecordSetOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RecordSetOutput struct{ *pulumi.OutputState }
 
 func (RecordSetOutput) ElementType() reflect.Type {
@@ -246,12 +239,6 @@ func (o RecordSetOutput) ToRecordSetOutput() RecordSetOutput {
 
 func (o RecordSetOutput) ToRecordSetOutputWithContext(ctx context.Context) RecordSetOutput {
 	return o
-}
-
-func (o RecordSetOutput) ToOutput(ctx context.Context) pulumix.Output[*RecordSet] {
-	return pulumix.Output[*RecordSet]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The list of A records in the record set.

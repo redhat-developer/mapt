@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The Network Security Perimeter resource
@@ -157,12 +156,6 @@ func (i *NetworkSecurityPerimeter) ToNetworkSecurityPerimeterOutputWithContext(c
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkSecurityPerimeterOutput)
 }
 
-func (i *NetworkSecurityPerimeter) ToOutput(ctx context.Context) pulumix.Output[*NetworkSecurityPerimeter] {
-	return pulumix.Output[*NetworkSecurityPerimeter]{
-		OutputState: i.ToNetworkSecurityPerimeterOutputWithContext(ctx).OutputState,
-	}
-}
-
 type NetworkSecurityPerimeterOutput struct{ *pulumi.OutputState }
 
 func (NetworkSecurityPerimeterOutput) ElementType() reflect.Type {
@@ -175,12 +168,6 @@ func (o NetworkSecurityPerimeterOutput) ToNetworkSecurityPerimeterOutput() Netwo
 
 func (o NetworkSecurityPerimeterOutput) ToNetworkSecurityPerimeterOutputWithContext(ctx context.Context) NetworkSecurityPerimeterOutput {
 	return o
-}
-
-func (o NetworkSecurityPerimeterOutput) ToOutput(ctx context.Context) pulumix.Output[*NetworkSecurityPerimeter] {
-	return pulumix.Output[*NetworkSecurityPerimeter]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A description of the network security perimeter.

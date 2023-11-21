@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified rule from a route filter.
@@ -94,12 +93,6 @@ func (o LookupRouteFilterRuleResultOutput) ToLookupRouteFilterRuleResultOutput()
 
 func (o LookupRouteFilterRuleResultOutput) ToLookupRouteFilterRuleResultOutputWithContext(ctx context.Context) LookupRouteFilterRuleResultOutput {
 	return o
-}
-
-func (o LookupRouteFilterRuleResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupRouteFilterRuleResult] {
-	return pulumix.Output[LookupRouteFilterRuleResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The access type of the rule.

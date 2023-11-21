@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a resource to create a VPC VPN Gateway.
@@ -64,6 +63,8 @@ type VpnGateway struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// The VPC ID to create in.
 	VpcId pulumi.StringOutput `pulumi:"vpcId"`
@@ -76,6 +77,10 @@ func NewVpnGateway(ctx *pulumi.Context,
 		args = &VpnGatewayArgs{}
 	}
 
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpnGateway
 	err := ctx.RegisterResource("aws:ec2/vpnGateway:VpnGateway", name, args, &resource, opts...)
@@ -108,6 +113,8 @@ type vpnGatewayState struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// The VPC ID to create in.
 	VpcId *string `pulumi:"vpcId"`
@@ -123,6 +130,8 @@ type VpnGatewayState struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// The VPC ID to create in.
 	VpcId pulumi.StringPtrInput
@@ -178,12 +187,6 @@ func (i *VpnGateway) ToVpnGatewayOutputWithContext(ctx context.Context) VpnGatew
 	return pulumi.ToOutputWithContext(ctx, i).(VpnGatewayOutput)
 }
 
-func (i *VpnGateway) ToOutput(ctx context.Context) pulumix.Output[*VpnGateway] {
-	return pulumix.Output[*VpnGateway]{
-		OutputState: i.ToVpnGatewayOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpnGatewayArrayInput is an input type that accepts VpnGatewayArray and VpnGatewayArrayOutput values.
 // You can construct a concrete instance of `VpnGatewayArrayInput` via:
 //
@@ -207,12 +210,6 @@ func (i VpnGatewayArray) ToVpnGatewayArrayOutput() VpnGatewayArrayOutput {
 
 func (i VpnGatewayArray) ToVpnGatewayArrayOutputWithContext(ctx context.Context) VpnGatewayArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpnGatewayArrayOutput)
-}
-
-func (i VpnGatewayArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpnGateway] {
-	return pulumix.Output[[]*VpnGateway]{
-		OutputState: i.ToVpnGatewayArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpnGatewayMapInput is an input type that accepts VpnGatewayMap and VpnGatewayMapOutput values.
@@ -240,12 +237,6 @@ func (i VpnGatewayMap) ToVpnGatewayMapOutputWithContext(ctx context.Context) Vpn
 	return pulumi.ToOutputWithContext(ctx, i).(VpnGatewayMapOutput)
 }
 
-func (i VpnGatewayMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpnGateway] {
-	return pulumix.Output[map[string]*VpnGateway]{
-		OutputState: i.ToVpnGatewayMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpnGatewayOutput struct{ *pulumi.OutputState }
 
 func (VpnGatewayOutput) ElementType() reflect.Type {
@@ -258,12 +249,6 @@ func (o VpnGatewayOutput) ToVpnGatewayOutput() VpnGatewayOutput {
 
 func (o VpnGatewayOutput) ToVpnGatewayOutputWithContext(ctx context.Context) VpnGatewayOutput {
 	return o
-}
-
-func (o VpnGatewayOutput) ToOutput(ctx context.Context) pulumix.Output[*VpnGateway] {
-	return pulumix.Output[*VpnGateway]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The Autonomous System Number (ASN) for the Amazon side of the gateway. If you don't specify an ASN, the virtual private gateway is created with the default ASN.
@@ -287,6 +272,8 @@ func (o VpnGatewayOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o VpnGatewayOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpnGateway) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -310,12 +297,6 @@ func (o VpnGatewayArrayOutput) ToVpnGatewayArrayOutputWithContext(ctx context.Co
 	return o
 }
 
-func (o VpnGatewayArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpnGateway] {
-	return pulumix.Output[[]*VpnGateway]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o VpnGatewayArrayOutput) Index(i pulumi.IntInput) VpnGatewayOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *VpnGateway {
 		return vs[0].([]*VpnGateway)[vs[1].(int)]
@@ -334,12 +315,6 @@ func (o VpnGatewayMapOutput) ToVpnGatewayMapOutput() VpnGatewayMapOutput {
 
 func (o VpnGatewayMapOutput) ToVpnGatewayMapOutputWithContext(ctx context.Context) VpnGatewayMapOutput {
 	return o
-}
-
-func (o VpnGatewayMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpnGateway] {
-	return pulumix.Output[map[string]*VpnGateway]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpnGatewayMapOutput) MapIndex(k pulumi.StringInput) VpnGatewayOutput {

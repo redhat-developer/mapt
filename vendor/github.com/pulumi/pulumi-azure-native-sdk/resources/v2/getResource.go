@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a resource.
@@ -110,12 +109,6 @@ func (o LookupResourceResultOutput) ToLookupResourceResultOutput() LookupResourc
 
 func (o LookupResourceResultOutput) ToLookupResourceResultOutputWithContext(ctx context.Context) LookupResourceResultOutput {
 	return o
-}
-
-func (o LookupResourceResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupResourceResult] {
-	return pulumix.Output[LookupResourceResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Resource extended location.

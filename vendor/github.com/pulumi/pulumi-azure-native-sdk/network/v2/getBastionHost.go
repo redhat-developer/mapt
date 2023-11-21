@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified Bastion Host.
@@ -141,12 +140,6 @@ func (o LookupBastionHostResultOutput) ToLookupBastionHostResultOutput() LookupB
 
 func (o LookupBastionHostResultOutput) ToLookupBastionHostResultOutputWithContext(ctx context.Context) LookupBastionHostResultOutput {
 	return o
-}
-
-func (o LookupBastionHostResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupBastionHostResult] {
-	return pulumix.Output[LookupBastionHostResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Enable/Disable Copy/Paste feature of the Bastion Host resource.

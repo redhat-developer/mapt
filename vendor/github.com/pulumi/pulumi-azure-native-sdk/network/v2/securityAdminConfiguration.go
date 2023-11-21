@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Defines the security admin configuration
@@ -175,12 +174,6 @@ func (i *SecurityAdminConfiguration) ToSecurityAdminConfigurationOutputWithConte
 	return pulumi.ToOutputWithContext(ctx, i).(SecurityAdminConfigurationOutput)
 }
 
-func (i *SecurityAdminConfiguration) ToOutput(ctx context.Context) pulumix.Output[*SecurityAdminConfiguration] {
-	return pulumix.Output[*SecurityAdminConfiguration]{
-		OutputState: i.ToSecurityAdminConfigurationOutputWithContext(ctx).OutputState,
-	}
-}
-
 type SecurityAdminConfigurationOutput struct{ *pulumi.OutputState }
 
 func (SecurityAdminConfigurationOutput) ElementType() reflect.Type {
@@ -193,12 +186,6 @@ func (o SecurityAdminConfigurationOutput) ToSecurityAdminConfigurationOutput() S
 
 func (o SecurityAdminConfigurationOutput) ToSecurityAdminConfigurationOutputWithContext(ctx context.Context) SecurityAdminConfigurationOutput {
 	return o
-}
-
-func (o SecurityAdminConfigurationOutput) ToOutput(ctx context.Context) pulumix.Output[*SecurityAdminConfiguration] {
-	return pulumix.Output[*SecurityAdminConfiguration]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Enum list of network intent policy based services.

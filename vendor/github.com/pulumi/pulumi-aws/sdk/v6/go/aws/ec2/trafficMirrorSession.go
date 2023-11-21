@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an Traffic mirror session.\
@@ -90,6 +89,8 @@ type TrafficMirrorSession struct {
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// ID of the traffic mirror filter to be used
 	TrafficMirrorFilterId pulumi.StringOutput `pulumi:"trafficMirrorFilterId"`
@@ -118,6 +119,10 @@ func NewTrafficMirrorSession(ctx *pulumi.Context,
 	if args.TrafficMirrorTargetId == nil {
 		return nil, errors.New("invalid value for required argument 'TrafficMirrorTargetId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource TrafficMirrorSession
 	err := ctx.RegisterResource("aws:ec2/trafficMirrorSession:TrafficMirrorSession", name, args, &resource, opts...)
@@ -156,6 +161,8 @@ type trafficMirrorSessionState struct {
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// ID of the traffic mirror filter to be used
 	TrafficMirrorFilterId *string `pulumi:"trafficMirrorFilterId"`
@@ -181,6 +188,8 @@ type TrafficMirrorSessionState struct {
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// ID of the traffic mirror filter to be used
 	TrafficMirrorFilterId pulumi.StringPtrInput
@@ -256,12 +265,6 @@ func (i *TrafficMirrorSession) ToTrafficMirrorSessionOutputWithContext(ctx conte
 	return pulumi.ToOutputWithContext(ctx, i).(TrafficMirrorSessionOutput)
 }
 
-func (i *TrafficMirrorSession) ToOutput(ctx context.Context) pulumix.Output[*TrafficMirrorSession] {
-	return pulumix.Output[*TrafficMirrorSession]{
-		OutputState: i.ToTrafficMirrorSessionOutputWithContext(ctx).OutputState,
-	}
-}
-
 // TrafficMirrorSessionArrayInput is an input type that accepts TrafficMirrorSessionArray and TrafficMirrorSessionArrayOutput values.
 // You can construct a concrete instance of `TrafficMirrorSessionArrayInput` via:
 //
@@ -285,12 +288,6 @@ func (i TrafficMirrorSessionArray) ToTrafficMirrorSessionArrayOutput() TrafficMi
 
 func (i TrafficMirrorSessionArray) ToTrafficMirrorSessionArrayOutputWithContext(ctx context.Context) TrafficMirrorSessionArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(TrafficMirrorSessionArrayOutput)
-}
-
-func (i TrafficMirrorSessionArray) ToOutput(ctx context.Context) pulumix.Output[[]*TrafficMirrorSession] {
-	return pulumix.Output[[]*TrafficMirrorSession]{
-		OutputState: i.ToTrafficMirrorSessionArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // TrafficMirrorSessionMapInput is an input type that accepts TrafficMirrorSessionMap and TrafficMirrorSessionMapOutput values.
@@ -318,12 +315,6 @@ func (i TrafficMirrorSessionMap) ToTrafficMirrorSessionMapOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, i).(TrafficMirrorSessionMapOutput)
 }
 
-func (i TrafficMirrorSessionMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*TrafficMirrorSession] {
-	return pulumix.Output[map[string]*TrafficMirrorSession]{
-		OutputState: i.ToTrafficMirrorSessionMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type TrafficMirrorSessionOutput struct{ *pulumi.OutputState }
 
 func (TrafficMirrorSessionOutput) ElementType() reflect.Type {
@@ -336,12 +327,6 @@ func (o TrafficMirrorSessionOutput) ToTrafficMirrorSessionOutput() TrafficMirror
 
 func (o TrafficMirrorSessionOutput) ToTrafficMirrorSessionOutputWithContext(ctx context.Context) TrafficMirrorSessionOutput {
 	return o
-}
-
-func (o TrafficMirrorSessionOutput) ToOutput(ctx context.Context) pulumix.Output[*TrafficMirrorSession] {
-	return pulumix.Output[*TrafficMirrorSession]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ARN of the traffic mirror session.
@@ -380,6 +365,8 @@ func (o TrafficMirrorSessionOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o TrafficMirrorSessionOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *TrafficMirrorSession) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -413,12 +400,6 @@ func (o TrafficMirrorSessionArrayOutput) ToTrafficMirrorSessionArrayOutputWithCo
 	return o
 }
 
-func (o TrafficMirrorSessionArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*TrafficMirrorSession] {
-	return pulumix.Output[[]*TrafficMirrorSession]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o TrafficMirrorSessionArrayOutput) Index(i pulumi.IntInput) TrafficMirrorSessionOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *TrafficMirrorSession {
 		return vs[0].([]*TrafficMirrorSession)[vs[1].(int)]
@@ -437,12 +418,6 @@ func (o TrafficMirrorSessionMapOutput) ToTrafficMirrorSessionMapOutput() Traffic
 
 func (o TrafficMirrorSessionMapOutput) ToTrafficMirrorSessionMapOutputWithContext(ctx context.Context) TrafficMirrorSessionMapOutput {
 	return o
-}
-
-func (o TrafficMirrorSessionMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*TrafficMirrorSession] {
-	return pulumix.Output[map[string]*TrafficMirrorSession]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o TrafficMirrorSessionMapOutput) MapIndex(k pulumi.StringInput) TrafficMirrorSessionOutput {

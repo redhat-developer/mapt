@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // ExpressRoutePort Authorization resource definition.
@@ -164,12 +163,6 @@ func (i *ExpressRoutePortAuthorization) ToExpressRoutePortAuthorizationOutputWit
 	return pulumi.ToOutputWithContext(ctx, i).(ExpressRoutePortAuthorizationOutput)
 }
 
-func (i *ExpressRoutePortAuthorization) ToOutput(ctx context.Context) pulumix.Output[*ExpressRoutePortAuthorization] {
-	return pulumix.Output[*ExpressRoutePortAuthorization]{
-		OutputState: i.ToExpressRoutePortAuthorizationOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ExpressRoutePortAuthorizationOutput struct{ *pulumi.OutputState }
 
 func (ExpressRoutePortAuthorizationOutput) ElementType() reflect.Type {
@@ -182,12 +175,6 @@ func (o ExpressRoutePortAuthorizationOutput) ToExpressRoutePortAuthorizationOutp
 
 func (o ExpressRoutePortAuthorizationOutput) ToExpressRoutePortAuthorizationOutputWithContext(ctx context.Context) ExpressRoutePortAuthorizationOutput {
 	return o
-}
-
-func (o ExpressRoutePortAuthorizationOutput) ToOutput(ctx context.Context) pulumix.Output[*ExpressRoutePortAuthorization] {
-	return pulumix.Output[*ExpressRoutePortAuthorization]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The authorization key.

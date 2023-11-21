@@ -10,13 +10,12 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a resource for managing the main routing table of a VPC.
 //
 // > **NOTE:** **Do not** use both `ec2.DefaultRouteTable` to manage a default route table **and** `ec2.MainRouteTableAssociation` with the same VPC due to possible route conflicts. See ec2.DefaultRouteTable documentation for more details.
-// For more information, see the Amazon VPC User Guide on [Route Tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html). For information about managing normal route tables in the provider, see `ec2.RouteTable`.
+// For more information, see the Amazon VPC User Guide on [Route Tables][aws-route-tables]. For information about managing normal route tables in Pulumi, see [`ec2.RouteTable`][tf-route-tables].
 //
 // ## Example Usage
 //
@@ -163,12 +162,6 @@ func (i *MainRouteTableAssociation) ToMainRouteTableAssociationOutputWithContext
 	return pulumi.ToOutputWithContext(ctx, i).(MainRouteTableAssociationOutput)
 }
 
-func (i *MainRouteTableAssociation) ToOutput(ctx context.Context) pulumix.Output[*MainRouteTableAssociation] {
-	return pulumix.Output[*MainRouteTableAssociation]{
-		OutputState: i.ToMainRouteTableAssociationOutputWithContext(ctx).OutputState,
-	}
-}
-
 // MainRouteTableAssociationArrayInput is an input type that accepts MainRouteTableAssociationArray and MainRouteTableAssociationArrayOutput values.
 // You can construct a concrete instance of `MainRouteTableAssociationArrayInput` via:
 //
@@ -192,12 +185,6 @@ func (i MainRouteTableAssociationArray) ToMainRouteTableAssociationArrayOutput()
 
 func (i MainRouteTableAssociationArray) ToMainRouteTableAssociationArrayOutputWithContext(ctx context.Context) MainRouteTableAssociationArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(MainRouteTableAssociationArrayOutput)
-}
-
-func (i MainRouteTableAssociationArray) ToOutput(ctx context.Context) pulumix.Output[[]*MainRouteTableAssociation] {
-	return pulumix.Output[[]*MainRouteTableAssociation]{
-		OutputState: i.ToMainRouteTableAssociationArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // MainRouteTableAssociationMapInput is an input type that accepts MainRouteTableAssociationMap and MainRouteTableAssociationMapOutput values.
@@ -225,12 +212,6 @@ func (i MainRouteTableAssociationMap) ToMainRouteTableAssociationMapOutputWithCo
 	return pulumi.ToOutputWithContext(ctx, i).(MainRouteTableAssociationMapOutput)
 }
 
-func (i MainRouteTableAssociationMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*MainRouteTableAssociation] {
-	return pulumix.Output[map[string]*MainRouteTableAssociation]{
-		OutputState: i.ToMainRouteTableAssociationMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type MainRouteTableAssociationOutput struct{ *pulumi.OutputState }
 
 func (MainRouteTableAssociationOutput) ElementType() reflect.Type {
@@ -243,12 +224,6 @@ func (o MainRouteTableAssociationOutput) ToMainRouteTableAssociationOutput() Mai
 
 func (o MainRouteTableAssociationOutput) ToMainRouteTableAssociationOutputWithContext(ctx context.Context) MainRouteTableAssociationOutput {
 	return o
-}
-
-func (o MainRouteTableAssociationOutput) ToOutput(ctx context.Context) pulumix.Output[*MainRouteTableAssociation] {
-	return pulumix.Output[*MainRouteTableAssociation]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Used internally, see **Notes** below
@@ -281,12 +256,6 @@ func (o MainRouteTableAssociationArrayOutput) ToMainRouteTableAssociationArrayOu
 	return o
 }
 
-func (o MainRouteTableAssociationArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*MainRouteTableAssociation] {
-	return pulumix.Output[[]*MainRouteTableAssociation]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o MainRouteTableAssociationArrayOutput) Index(i pulumi.IntInput) MainRouteTableAssociationOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *MainRouteTableAssociation {
 		return vs[0].([]*MainRouteTableAssociation)[vs[1].(int)]
@@ -305,12 +274,6 @@ func (o MainRouteTableAssociationMapOutput) ToMainRouteTableAssociationMapOutput
 
 func (o MainRouteTableAssociationMapOutput) ToMainRouteTableAssociationMapOutputWithContext(ctx context.Context) MainRouteTableAssociationMapOutput {
 	return o
-}
-
-func (o MainRouteTableAssociationMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*MainRouteTableAssociation] {
-	return pulumix.Output[map[string]*MainRouteTableAssociation]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o MainRouteTableAssociationMapOutput) MapIndex(k pulumi.StringInput) MainRouteTableAssociationOutput {

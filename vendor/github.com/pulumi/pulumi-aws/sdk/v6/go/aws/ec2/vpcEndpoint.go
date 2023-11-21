@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a VPC Endpoint resource.
@@ -190,7 +189,7 @@ type VpcEndpoint struct {
 	Policy pulumi.StringOutput `pulumi:"policy"`
 	// The prefix list ID of the exposed AWS service. Applicable for endpoints of type `Gateway`.
 	PrefixListId pulumi.StringOutput `pulumi:"prefixListId"`
-	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`.
+	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`. Most users will want this enabled to allow services within the VPC to automatically use the endpoint.
 	// Defaults to `false`.
 	PrivateDnsEnabled pulumi.BoolPtrOutput `pulumi:"privateDnsEnabled"`
 	// Whether or not the VPC Endpoint is being managed by its service - `true` or `false`.
@@ -204,11 +203,13 @@ type VpcEndpoint struct {
 	ServiceName pulumi.StringOutput `pulumi:"serviceName"`
 	// The state of the VPC endpoint.
 	State pulumi.StringOutput `pulumi:"state"`
-	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`.
+	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`. Interface type endpoints cannot function without being assigned to a subnet.
 	SubnetIds pulumi.StringArrayOutput `pulumi:"subnetIds"`
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// The VPC endpoint type, `Gateway`, `GatewayLoadBalancer`, or `Interface`. Defaults to `Gateway`.
 	VpcEndpointType pulumi.StringPtrOutput `pulumi:"vpcEndpointType"`
@@ -229,6 +230,10 @@ func NewVpcEndpoint(ctx *pulumi.Context,
 	if args.VpcId == nil {
 		return nil, errors.New("invalid value for required argument 'VpcId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcEndpoint
 	err := ctx.RegisterResource("aws:ec2/vpcEndpoint:VpcEndpoint", name, args, &resource, opts...)
@@ -272,7 +277,7 @@ type vpcEndpointState struct {
 	Policy *string `pulumi:"policy"`
 	// The prefix list ID of the exposed AWS service. Applicable for endpoints of type `Gateway`.
 	PrefixListId *string `pulumi:"prefixListId"`
-	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`.
+	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`. Most users will want this enabled to allow services within the VPC to automatically use the endpoint.
 	// Defaults to `false`.
 	PrivateDnsEnabled *bool `pulumi:"privateDnsEnabled"`
 	// Whether or not the VPC Endpoint is being managed by its service - `true` or `false`.
@@ -286,11 +291,13 @@ type vpcEndpointState struct {
 	ServiceName *string `pulumi:"serviceName"`
 	// The state of the VPC endpoint.
 	State *string `pulumi:"state"`
-	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`.
+	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`. Interface type endpoints cannot function without being assigned to a subnet.
 	SubnetIds []string `pulumi:"subnetIds"`
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// The VPC endpoint type, `Gateway`, `GatewayLoadBalancer`, or `Interface`. Defaults to `Gateway`.
 	VpcEndpointType *string `pulumi:"vpcEndpointType"`
@@ -319,7 +326,7 @@ type VpcEndpointState struct {
 	Policy pulumi.StringPtrInput
 	// The prefix list ID of the exposed AWS service. Applicable for endpoints of type `Gateway`.
 	PrefixListId pulumi.StringPtrInput
-	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`.
+	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`. Most users will want this enabled to allow services within the VPC to automatically use the endpoint.
 	// Defaults to `false`.
 	PrivateDnsEnabled pulumi.BoolPtrInput
 	// Whether or not the VPC Endpoint is being managed by its service - `true` or `false`.
@@ -333,11 +340,13 @@ type VpcEndpointState struct {
 	ServiceName pulumi.StringPtrInput
 	// The state of the VPC endpoint.
 	State pulumi.StringPtrInput
-	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`.
+	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`. Interface type endpoints cannot function without being assigned to a subnet.
 	SubnetIds pulumi.StringArrayInput
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// The VPC endpoint type, `Gateway`, `GatewayLoadBalancer`, or `Interface`. Defaults to `Gateway`.
 	VpcEndpointType pulumi.StringPtrInput
@@ -358,7 +367,7 @@ type vpcEndpointArgs struct {
 	IpAddressType *string `pulumi:"ipAddressType"`
 	// A policy to attach to the endpoint that controls access to the service. This is a JSON formatted string. Defaults to full access. All `Gateway` and some `Interface` endpoints support policies - see the [relevant AWS documentation](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html) for more details.
 	Policy *string `pulumi:"policy"`
-	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`.
+	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`. Most users will want this enabled to allow services within the VPC to automatically use the endpoint.
 	// Defaults to `false`.
 	PrivateDnsEnabled *bool `pulumi:"privateDnsEnabled"`
 	// One or more route table IDs. Applicable for endpoints of type `Gateway`.
@@ -368,7 +377,7 @@ type vpcEndpointArgs struct {
 	SecurityGroupIds []string `pulumi:"securityGroupIds"`
 	// The service name. For AWS services the service name is usually in the form `com.amazonaws.<region>.<service>` (the SageMaker Notebook service is an exception to this rule, the service name is in the form `aws.sagemaker.<region>.notebook`).
 	ServiceName string `pulumi:"serviceName"`
-	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`.
+	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`. Interface type endpoints cannot function without being assigned to a subnet.
 	SubnetIds []string `pulumi:"subnetIds"`
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
@@ -388,7 +397,7 @@ type VpcEndpointArgs struct {
 	IpAddressType pulumi.StringPtrInput
 	// A policy to attach to the endpoint that controls access to the service. This is a JSON formatted string. Defaults to full access. All `Gateway` and some `Interface` endpoints support policies - see the [relevant AWS documentation](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html) for more details.
 	Policy pulumi.StringPtrInput
-	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`.
+	// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`. Most users will want this enabled to allow services within the VPC to automatically use the endpoint.
 	// Defaults to `false`.
 	PrivateDnsEnabled pulumi.BoolPtrInput
 	// One or more route table IDs. Applicable for endpoints of type `Gateway`.
@@ -398,7 +407,7 @@ type VpcEndpointArgs struct {
 	SecurityGroupIds pulumi.StringArrayInput
 	// The service name. For AWS services the service name is usually in the form `com.amazonaws.<region>.<service>` (the SageMaker Notebook service is an exception to this rule, the service name is in the form `aws.sagemaker.<region>.notebook`).
 	ServiceName pulumi.StringInput
-	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`.
+	// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`. Interface type endpoints cannot function without being assigned to a subnet.
 	SubnetIds pulumi.StringArrayInput
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
@@ -431,12 +440,6 @@ func (i *VpcEndpoint) ToVpcEndpointOutputWithContext(ctx context.Context) VpcEnd
 	return pulumi.ToOutputWithContext(ctx, i).(VpcEndpointOutput)
 }
 
-func (i *VpcEndpoint) ToOutput(ctx context.Context) pulumix.Output[*VpcEndpoint] {
-	return pulumix.Output[*VpcEndpoint]{
-		OutputState: i.ToVpcEndpointOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcEndpointArrayInput is an input type that accepts VpcEndpointArray and VpcEndpointArrayOutput values.
 // You can construct a concrete instance of `VpcEndpointArrayInput` via:
 //
@@ -460,12 +463,6 @@ func (i VpcEndpointArray) ToVpcEndpointArrayOutput() VpcEndpointArrayOutput {
 
 func (i VpcEndpointArray) ToVpcEndpointArrayOutputWithContext(ctx context.Context) VpcEndpointArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcEndpointArrayOutput)
-}
-
-func (i VpcEndpointArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpcEndpoint] {
-	return pulumix.Output[[]*VpcEndpoint]{
-		OutputState: i.ToVpcEndpointArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcEndpointMapInput is an input type that accepts VpcEndpointMap and VpcEndpointMapOutput values.
@@ -493,12 +490,6 @@ func (i VpcEndpointMap) ToVpcEndpointMapOutputWithContext(ctx context.Context) V
 	return pulumi.ToOutputWithContext(ctx, i).(VpcEndpointMapOutput)
 }
 
-func (i VpcEndpointMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcEndpoint] {
-	return pulumix.Output[map[string]*VpcEndpoint]{
-		OutputState: i.ToVpcEndpointMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcEndpointOutput struct{ *pulumi.OutputState }
 
 func (VpcEndpointOutput) ElementType() reflect.Type {
@@ -511,12 +502,6 @@ func (o VpcEndpointOutput) ToVpcEndpointOutput() VpcEndpointOutput {
 
 func (o VpcEndpointOutput) ToVpcEndpointOutputWithContext(ctx context.Context) VpcEndpointOutput {
 	return o
-}
-
-func (o VpcEndpointOutput) ToOutput(ctx context.Context) pulumix.Output[*VpcEndpoint] {
-	return pulumix.Output[*VpcEndpoint]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The Amazon Resource Name (ARN) of the VPC endpoint.
@@ -569,7 +554,7 @@ func (o VpcEndpointOutput) PrefixListId() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpcEndpoint) pulumi.StringOutput { return v.PrefixListId }).(pulumi.StringOutput)
 }
 
-// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`.
+// Whether or not to associate a private hosted zone with the specified VPC. Applicable for endpoints of type `Interface`. Most users will want this enabled to allow services within the VPC to automatically use the endpoint.
 // Defaults to `false`.
 func (o VpcEndpointOutput) PrivateDnsEnabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *VpcEndpoint) pulumi.BoolPtrOutput { return v.PrivateDnsEnabled }).(pulumi.BoolPtrOutput)
@@ -601,7 +586,7 @@ func (o VpcEndpointOutput) State() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpcEndpoint) pulumi.StringOutput { return v.State }).(pulumi.StringOutput)
 }
 
-// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`.
+// The ID of one or more subnets in which to create a network interface for the endpoint. Applicable for endpoints of type `GatewayLoadBalancer` and `Interface`. Interface type endpoints cannot function without being assigned to a subnet.
 func (o VpcEndpointOutput) SubnetIds() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *VpcEndpoint) pulumi.StringArrayOutput { return v.SubnetIds }).(pulumi.StringArrayOutput)
 }
@@ -612,6 +597,8 @@ func (o VpcEndpointOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o VpcEndpointOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpcEndpoint) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -640,12 +627,6 @@ func (o VpcEndpointArrayOutput) ToVpcEndpointArrayOutputWithContext(ctx context.
 	return o
 }
 
-func (o VpcEndpointArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpcEndpoint] {
-	return pulumix.Output[[]*VpcEndpoint]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o VpcEndpointArrayOutput) Index(i pulumi.IntInput) VpcEndpointOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *VpcEndpoint {
 		return vs[0].([]*VpcEndpoint)[vs[1].(int)]
@@ -664,12 +645,6 @@ func (o VpcEndpointMapOutput) ToVpcEndpointMapOutput() VpcEndpointMapOutput {
 
 func (o VpcEndpointMapOutput) ToVpcEndpointMapOutputWithContext(ctx context.Context) VpcEndpointMapOutput {
 	return o
-}
-
-func (o VpcEndpointMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcEndpoint] {
-	return pulumix.Output[map[string]*VpcEndpoint]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcEndpointMapOutput) MapIndex(k pulumi.StringInput) VpcEndpointOutput {

@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified NSP association by name.
@@ -98,12 +97,6 @@ func (o LookupNspAssociationResultOutput) ToLookupNspAssociationResultOutput() L
 
 func (o LookupNspAssociationResultOutput) ToLookupNspAssociationResultOutputWithContext(ctx context.Context) LookupNspAssociationResultOutput {
 	return o
-}
-
-func (o LookupNspAssociationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNspAssociationResult] {
-	return pulumix.Output[LookupNspAssociationResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Access mode on the association.

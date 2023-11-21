@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Properties of the file share, including Id, resource name, resource type, Etag.
@@ -218,12 +217,6 @@ func (i *FileShare) ToFileShareOutputWithContext(ctx context.Context) FileShareO
 	return pulumi.ToOutputWithContext(ctx, i).(FileShareOutput)
 }
 
-func (i *FileShare) ToOutput(ctx context.Context) pulumix.Output[*FileShare] {
-	return pulumix.Output[*FileShare]{
-		OutputState: i.ToFileShareOutputWithContext(ctx).OutputState,
-	}
-}
-
 type FileShareOutput struct{ *pulumi.OutputState }
 
 func (FileShareOutput) ElementType() reflect.Type {
@@ -236,12 +229,6 @@ func (o FileShareOutput) ToFileShareOutput() FileShareOutput {
 
 func (o FileShareOutput) ToFileShareOutputWithContext(ctx context.Context) FileShareOutput {
 	return o
-}
-
-func (o FileShareOutput) ToOutput(ctx context.Context) pulumix.Output[*FileShare] {
-	return pulumix.Output[*FileShare]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.

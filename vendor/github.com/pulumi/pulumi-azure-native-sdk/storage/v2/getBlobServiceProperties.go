@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
@@ -104,12 +103,6 @@ func (o LookupBlobServicePropertiesResultOutput) ToLookupBlobServicePropertiesRe
 
 func (o LookupBlobServicePropertiesResultOutput) ToLookupBlobServicePropertiesResultOutputWithContext(ctx context.Context) LookupBlobServicePropertiesResultOutput {
 	return o
-}
-
-func (o LookupBlobServicePropertiesResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupBlobServicePropertiesResult] {
-	return pulumix.Output[LookupBlobServicePropertiesResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Deprecated in favor of isVersioningEnabled property.

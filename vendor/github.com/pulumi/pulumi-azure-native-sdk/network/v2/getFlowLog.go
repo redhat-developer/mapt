@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a flow log resource by name.
@@ -119,12 +118,6 @@ func (o LookupFlowLogResultOutput) ToLookupFlowLogResultOutput() LookupFlowLogRe
 
 func (o LookupFlowLogResultOutput) ToLookupFlowLogResultOutputWithContext(ctx context.Context) LookupFlowLogResultOutput {
 	return o
-}
-
-func (o LookupFlowLogResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupFlowLogResult] {
-	return pulumix.Output[LookupFlowLogResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Flag to enable/disable flow logging.

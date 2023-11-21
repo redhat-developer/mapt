@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Manages an EC2 Carrier Gateway. See the AWS [documentation](https://docs.aws.amazon.com/vpc/latest/userguide/Carrier_Gateway.html) for more information.
@@ -63,6 +62,8 @@ type CarrierGateway struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// The ID of the VPC to associate with the carrier gateway.
 	VpcId pulumi.StringOutput `pulumi:"vpcId"`
@@ -78,6 +79,10 @@ func NewCarrierGateway(ctx *pulumi.Context,
 	if args.VpcId == nil {
 		return nil, errors.New("invalid value for required argument 'VpcId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource CarrierGateway
 	err := ctx.RegisterResource("aws:ec2/carrierGateway:CarrierGateway", name, args, &resource, opts...)
@@ -108,6 +113,8 @@ type carrierGatewayState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// The ID of the VPC to associate with the carrier gateway.
 	VpcId *string `pulumi:"vpcId"`
@@ -121,6 +128,8 @@ type CarrierGatewayState struct {
 	// A map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// The ID of the VPC to associate with the carrier gateway.
 	VpcId pulumi.StringPtrInput
@@ -168,12 +177,6 @@ func (i *CarrierGateway) ToCarrierGatewayOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(CarrierGatewayOutput)
 }
 
-func (i *CarrierGateway) ToOutput(ctx context.Context) pulumix.Output[*CarrierGateway] {
-	return pulumix.Output[*CarrierGateway]{
-		OutputState: i.ToCarrierGatewayOutputWithContext(ctx).OutputState,
-	}
-}
-
 // CarrierGatewayArrayInput is an input type that accepts CarrierGatewayArray and CarrierGatewayArrayOutput values.
 // You can construct a concrete instance of `CarrierGatewayArrayInput` via:
 //
@@ -197,12 +200,6 @@ func (i CarrierGatewayArray) ToCarrierGatewayArrayOutput() CarrierGatewayArrayOu
 
 func (i CarrierGatewayArray) ToCarrierGatewayArrayOutputWithContext(ctx context.Context) CarrierGatewayArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(CarrierGatewayArrayOutput)
-}
-
-func (i CarrierGatewayArray) ToOutput(ctx context.Context) pulumix.Output[[]*CarrierGateway] {
-	return pulumix.Output[[]*CarrierGateway]{
-		OutputState: i.ToCarrierGatewayArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // CarrierGatewayMapInput is an input type that accepts CarrierGatewayMap and CarrierGatewayMapOutput values.
@@ -230,12 +227,6 @@ func (i CarrierGatewayMap) ToCarrierGatewayMapOutputWithContext(ctx context.Cont
 	return pulumi.ToOutputWithContext(ctx, i).(CarrierGatewayMapOutput)
 }
 
-func (i CarrierGatewayMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*CarrierGateway] {
-	return pulumix.Output[map[string]*CarrierGateway]{
-		OutputState: i.ToCarrierGatewayMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type CarrierGatewayOutput struct{ *pulumi.OutputState }
 
 func (CarrierGatewayOutput) ElementType() reflect.Type {
@@ -248,12 +239,6 @@ func (o CarrierGatewayOutput) ToCarrierGatewayOutput() CarrierGatewayOutput {
 
 func (o CarrierGatewayOutput) ToCarrierGatewayOutputWithContext(ctx context.Context) CarrierGatewayOutput {
 	return o
-}
-
-func (o CarrierGatewayOutput) ToOutput(ctx context.Context) pulumix.Output[*CarrierGateway] {
-	return pulumix.Output[*CarrierGateway]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ARN of the carrier gateway.
@@ -272,6 +257,8 @@ func (o CarrierGatewayOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o CarrierGatewayOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *CarrierGateway) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -295,12 +282,6 @@ func (o CarrierGatewayArrayOutput) ToCarrierGatewayArrayOutputWithContext(ctx co
 	return o
 }
 
-func (o CarrierGatewayArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*CarrierGateway] {
-	return pulumix.Output[[]*CarrierGateway]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o CarrierGatewayArrayOutput) Index(i pulumi.IntInput) CarrierGatewayOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *CarrierGateway {
 		return vs[0].([]*CarrierGateway)[vs[1].(int)]
@@ -319,12 +300,6 @@ func (o CarrierGatewayMapOutput) ToCarrierGatewayMapOutput() CarrierGatewayMapOu
 
 func (o CarrierGatewayMapOutput) ToCarrierGatewayMapOutputWithContext(ctx context.Context) CarrierGatewayMapOutput {
 	return o
-}
-
-func (o CarrierGatewayMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*CarrierGateway] {
-	return pulumix.Output[map[string]*CarrierGateway]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o CarrierGatewayMapOutput) MapIndex(k pulumi.StringInput) CarrierGatewayOutput {

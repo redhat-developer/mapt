@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Interface endpoint resource.
@@ -248,12 +247,6 @@ func (i *InterfaceEndpoint) ToInterfaceEndpointOutputWithContext(ctx context.Con
 	return pulumi.ToOutputWithContext(ctx, i).(InterfaceEndpointOutput)
 }
 
-func (i *InterfaceEndpoint) ToOutput(ctx context.Context) pulumix.Output[*InterfaceEndpoint] {
-	return pulumix.Output[*InterfaceEndpoint]{
-		OutputState: i.ToInterfaceEndpointOutputWithContext(ctx).OutputState,
-	}
-}
-
 type InterfaceEndpointOutput struct{ *pulumi.OutputState }
 
 func (InterfaceEndpointOutput) ElementType() reflect.Type {
@@ -266,12 +259,6 @@ func (o InterfaceEndpointOutput) ToInterfaceEndpointOutput() InterfaceEndpointOu
 
 func (o InterfaceEndpointOutput) ToInterfaceEndpointOutputWithContext(ctx context.Context) InterfaceEndpointOutput {
 	return o
-}
-
-func (o InterfaceEndpointOutput) ToOutput(ctx context.Context) pulumix.Output[*InterfaceEndpoint] {
-	return pulumix.Output[*InterfaceEndpoint]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A reference to the service being brought into the virtual network.

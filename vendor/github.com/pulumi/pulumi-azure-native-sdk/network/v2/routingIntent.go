@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The routing intent child resource of a Virtual hub.
@@ -167,12 +166,6 @@ func (i *RoutingIntent) ToRoutingIntentOutputWithContext(ctx context.Context) Ro
 	return pulumi.ToOutputWithContext(ctx, i).(RoutingIntentOutput)
 }
 
-func (i *RoutingIntent) ToOutput(ctx context.Context) pulumix.Output[*RoutingIntent] {
-	return pulumix.Output[*RoutingIntent]{
-		OutputState: i.ToRoutingIntentOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RoutingIntentOutput struct{ *pulumi.OutputState }
 
 func (RoutingIntentOutput) ElementType() reflect.Type {
@@ -185,12 +178,6 @@ func (o RoutingIntentOutput) ToRoutingIntentOutput() RoutingIntentOutput {
 
 func (o RoutingIntentOutput) ToRoutingIntentOutputWithContext(ctx context.Context) RoutingIntentOutput {
 	return o
-}
-
-func (o RoutingIntentOutput) ToOutput(ctx context.Context) pulumix.Output[*RoutingIntent] {
-	return pulumix.Output[*RoutingIntent]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

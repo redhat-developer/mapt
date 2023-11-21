@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The local user associated with the storage accounts.
@@ -171,12 +170,6 @@ func (i *LocalUser) ToLocalUserOutputWithContext(ctx context.Context) LocalUserO
 	return pulumi.ToOutputWithContext(ctx, i).(LocalUserOutput)
 }
 
-func (i *LocalUser) ToOutput(ctx context.Context) pulumix.Output[*LocalUser] {
-	return pulumix.Output[*LocalUser]{
-		OutputState: i.ToLocalUserOutputWithContext(ctx).OutputState,
-	}
-}
-
 type LocalUserOutput struct{ *pulumi.OutputState }
 
 func (LocalUserOutput) ElementType() reflect.Type {
@@ -189,12 +182,6 @@ func (o LocalUserOutput) ToLocalUserOutput() LocalUserOutput {
 
 func (o LocalUserOutput) ToLocalUserOutputWithContext(ctx context.Context) LocalUserOutput {
 	return o
-}
-
-func (o LocalUserOutput) ToOutput(ctx context.Context) pulumix.Output[*LocalUser] {
-	return pulumix.Output[*LocalUser]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Indicates whether shared key exists. Set it to false to remove existing shared key.

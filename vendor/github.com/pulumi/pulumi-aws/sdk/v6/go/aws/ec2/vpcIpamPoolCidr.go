@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provisions a CIDR from an IPAM address pool.
@@ -20,13 +19,123 @@ import (
 // > **NOTE:** In order to deprovision CIDRs all Allocations must be released. Allocations created by a VPC take up to 30 minutes to be released. However, for IPAM to properly manage the removal of allocation records created by VPCs and other resources, you must [grant it permissions](https://docs.aws.amazon.com/vpc/latest/ipam/choose-single-user-or-orgs-ipam.html) in
 // either a single account or organizationally. If you are unable to deprovision a cidr after waiting over 30 minutes, you may be missing the Service Linked Role.
 //
+// ## Example Usage
+//
+// Basic usage:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws"
+//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			current, err := aws.GetRegion(ctx, nil, nil)
+//			if err != nil {
+//				return err
+//			}
+//			exampleVpcIpam, err := ec2.NewVpcIpam(ctx, "exampleVpcIpam", &ec2.VpcIpamArgs{
+//				OperatingRegions: ec2.VpcIpamOperatingRegionArray{
+//					&ec2.VpcIpamOperatingRegionArgs{
+//						RegionName: *pulumi.String(current.Name),
+//					},
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			exampleVpcIpamPool, err := ec2.NewVpcIpamPool(ctx, "exampleVpcIpamPool", &ec2.VpcIpamPoolArgs{
+//				AddressFamily: pulumi.String("ipv4"),
+//				IpamScopeId:   exampleVpcIpam.PrivateDefaultScopeId,
+//				Locale:        *pulumi.String(current.Name),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ec2.NewVpcIpamPoolCidr(ctx, "exampleVpcIpamPoolCidr", &ec2.VpcIpamPoolCidrArgs{
+//				IpamPoolId: exampleVpcIpamPool.ID(),
+//				Cidr:       pulumi.String("172.20.0.0/16"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// Provision Public IPv6 Pool CIDRs:
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws"
+//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			current, err := aws.GetRegion(ctx, nil, nil)
+//			if err != nil {
+//				return err
+//			}
+//			example, err := ec2.NewVpcIpam(ctx, "example", &ec2.VpcIpamArgs{
+//				OperatingRegions: ec2.VpcIpamOperatingRegionArray{
+//					&ec2.VpcIpamOperatingRegionArgs{
+//						RegionName: *pulumi.String(current.Name),
+//					},
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			ipv6TestPublicVpcIpamPool, err := ec2.NewVpcIpamPool(ctx, "ipv6TestPublicVpcIpamPool", &ec2.VpcIpamPoolArgs{
+//				AddressFamily:        pulumi.String("ipv6"),
+//				IpamScopeId:          example.PublicDefaultScopeId,
+//				Locale:               pulumi.String("us-east-1"),
+//				Description:          pulumi.String("public ipv6"),
+//				PubliclyAdvertisable: pulumi.Bool(false),
+//				PublicIpSource:       pulumi.String("amazon"),
+//				AwsService:           pulumi.String("ec2"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = ec2.NewVpcIpamPoolCidr(ctx, "ipv6TestPublicVpcIpamPoolCidr", &ec2.VpcIpamPoolCidrArgs{
+//				IpamPoolId:    ipv6TestPublicVpcIpamPool.ID(),
+//				NetmaskLength: pulumi.Int(52),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
 // ## Import
 //
-// terraform import {
+// Using `pulumi import`, import IPAMs using the `<cidr>_<ipam-pool-id>`. For example:
 //
-//	to = aws_vpc_ipam_pool_cidr.example
+// __NOTE:__ Do not use the IPAM Pool Cidr ID as this was introduced after the resource already existed.
 //
-//	id = "172.20.0.0/24_ipam-pool-0e634f5a1517cccdc" } Using `pulumi import`, import IPAMs using the `<cidr>_<ipam-pool-id>`. For exampleconsole % TODO import aws_vpc_ipam_pool_cidr.example 172.20.0.0/24_ipam-pool-0e634f5a1517cccdc
+// ```sh
+//
+//	$ pulumi import aws:ec2/vpcIpamPoolCidr:VpcIpamPoolCidr example 172.20.0.0/24_ipam-pool-0e634f5a1517cccdc
+//
+// ```
 type VpcIpamPoolCidr struct {
 	pulumi.CustomResourceState
 
@@ -150,12 +259,6 @@ func (i *VpcIpamPoolCidr) ToVpcIpamPoolCidrOutputWithContext(ctx context.Context
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamPoolCidrOutput)
 }
 
-func (i *VpcIpamPoolCidr) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamPoolCidr] {
-	return pulumix.Output[*VpcIpamPoolCidr]{
-		OutputState: i.ToVpcIpamPoolCidrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcIpamPoolCidrArrayInput is an input type that accepts VpcIpamPoolCidrArray and VpcIpamPoolCidrArrayOutput values.
 // You can construct a concrete instance of `VpcIpamPoolCidrArrayInput` via:
 //
@@ -179,12 +282,6 @@ func (i VpcIpamPoolCidrArray) ToVpcIpamPoolCidrArrayOutput() VpcIpamPoolCidrArra
 
 func (i VpcIpamPoolCidrArray) ToVpcIpamPoolCidrArrayOutputWithContext(ctx context.Context) VpcIpamPoolCidrArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamPoolCidrArrayOutput)
-}
-
-func (i VpcIpamPoolCidrArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamPoolCidr] {
-	return pulumix.Output[[]*VpcIpamPoolCidr]{
-		OutputState: i.ToVpcIpamPoolCidrArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcIpamPoolCidrMapInput is an input type that accepts VpcIpamPoolCidrMap and VpcIpamPoolCidrMapOutput values.
@@ -212,12 +309,6 @@ func (i VpcIpamPoolCidrMap) ToVpcIpamPoolCidrMapOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, i).(VpcIpamPoolCidrMapOutput)
 }
 
-func (i VpcIpamPoolCidrMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamPoolCidr] {
-	return pulumix.Output[map[string]*VpcIpamPoolCidr]{
-		OutputState: i.ToVpcIpamPoolCidrMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcIpamPoolCidrOutput struct{ *pulumi.OutputState }
 
 func (VpcIpamPoolCidrOutput) ElementType() reflect.Type {
@@ -230,12 +321,6 @@ func (o VpcIpamPoolCidrOutput) ToVpcIpamPoolCidrOutput() VpcIpamPoolCidrOutput {
 
 func (o VpcIpamPoolCidrOutput) ToVpcIpamPoolCidrOutputWithContext(ctx context.Context) VpcIpamPoolCidrOutput {
 	return o
-}
-
-func (o VpcIpamPoolCidrOutput) ToOutput(ctx context.Context) pulumix.Output[*VpcIpamPoolCidr] {
-	return pulumix.Output[*VpcIpamPoolCidr]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The CIDR you want to assign to the pool. Conflicts with `netmaskLength`.
@@ -279,12 +364,6 @@ func (o VpcIpamPoolCidrArrayOutput) ToVpcIpamPoolCidrArrayOutputWithContext(ctx 
 	return o
 }
 
-func (o VpcIpamPoolCidrArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpcIpamPoolCidr] {
-	return pulumix.Output[[]*VpcIpamPoolCidr]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o VpcIpamPoolCidrArrayOutput) Index(i pulumi.IntInput) VpcIpamPoolCidrOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *VpcIpamPoolCidr {
 		return vs[0].([]*VpcIpamPoolCidr)[vs[1].(int)]
@@ -303,12 +382,6 @@ func (o VpcIpamPoolCidrMapOutput) ToVpcIpamPoolCidrMapOutput() VpcIpamPoolCidrMa
 
 func (o VpcIpamPoolCidrMapOutput) ToVpcIpamPoolCidrMapOutputWithContext(ctx context.Context) VpcIpamPoolCidrMapOutput {
 	return o
-}
-
-func (o VpcIpamPoolCidrMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcIpamPoolCidr] {
-	return pulumix.Output[map[string]*VpcIpamPoolCidr]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcIpamPoolCidrMapOutput) MapIndex(k pulumi.StringInput) VpcIpamPoolCidrOutput {

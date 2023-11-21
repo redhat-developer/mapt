@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the capacity reservation group that the capacity reservations should be assigned to. Currently, a capacity reservation can only be added to a capacity reservation group at creation time. An existing capacity reservation cannot be added or moved to another capacity reservation group.
@@ -157,12 +156,6 @@ func (i *CapacityReservationGroup) ToCapacityReservationGroupOutputWithContext(c
 	return pulumi.ToOutputWithContext(ctx, i).(CapacityReservationGroupOutput)
 }
 
-func (i *CapacityReservationGroup) ToOutput(ctx context.Context) pulumix.Output[*CapacityReservationGroup] {
-	return pulumix.Output[*CapacityReservationGroup]{
-		OutputState: i.ToCapacityReservationGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 type CapacityReservationGroupOutput struct{ *pulumi.OutputState }
 
 func (CapacityReservationGroupOutput) ElementType() reflect.Type {
@@ -175,12 +168,6 @@ func (o CapacityReservationGroupOutput) ToCapacityReservationGroupOutput() Capac
 
 func (o CapacityReservationGroupOutput) ToCapacityReservationGroupOutputWithContext(ctx context.Context) CapacityReservationGroupOutput {
 	return o
-}
-
-func (o CapacityReservationGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*CapacityReservationGroup] {
-	return pulumix.Output[*CapacityReservationGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A list of all capacity reservation resource ids that belong to capacity reservation group.

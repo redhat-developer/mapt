@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // ExpressRouteConnection resource.
@@ -268,12 +267,6 @@ func (i *ExpressRouteConnection) ToExpressRouteConnectionOutputWithContext(ctx c
 	return pulumi.ToOutputWithContext(ctx, i).(ExpressRouteConnectionOutput)
 }
 
-func (i *ExpressRouteConnection) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteConnection] {
-	return pulumix.Output[*ExpressRouteConnection]{
-		OutputState: i.ToExpressRouteConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ExpressRouteConnectionOutput struct{ *pulumi.OutputState }
 
 func (ExpressRouteConnectionOutput) ElementType() reflect.Type {
@@ -286,12 +279,6 @@ func (o ExpressRouteConnectionOutput) ToExpressRouteConnectionOutput() ExpressRo
 
 func (o ExpressRouteConnectionOutput) ToExpressRouteConnectionOutputWithContext(ctx context.Context) ExpressRouteConnectionOutput {
 	return o
-}
-
-func (o ExpressRouteConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteConnection] {
-	return pulumix.Output[*ExpressRouteConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Authorization key to establish the connection.

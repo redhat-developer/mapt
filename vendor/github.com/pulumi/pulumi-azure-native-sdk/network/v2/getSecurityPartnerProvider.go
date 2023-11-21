@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified Security Partner Provider.
@@ -94,12 +93,6 @@ func (o LookupSecurityPartnerProviderResultOutput) ToLookupSecurityPartnerProvid
 
 func (o LookupSecurityPartnerProviderResultOutput) ToLookupSecurityPartnerProviderResultOutputWithContext(ctx context.Context) LookupSecurityPartnerProviderResultOutput {
 	return o
-}
-
-func (o LookupSecurityPartnerProviderResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupSecurityPartnerProviderResult] {
-	return pulumix.Output[LookupSecurityPartnerProviderResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The connection status with the Security Partner Provider.

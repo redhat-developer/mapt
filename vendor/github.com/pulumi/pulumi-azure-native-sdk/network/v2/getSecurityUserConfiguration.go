@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves a network manager security user configuration.
@@ -94,12 +93,6 @@ func (o LookupSecurityUserConfigurationResultOutput) ToLookupSecurityUserConfigu
 
 func (o LookupSecurityUserConfigurationResultOutput) ToLookupSecurityUserConfigurationResultOutputWithContext(ctx context.Context) LookupSecurityUserConfigurationResultOutput {
 	return o
-}
-
-func (o LookupSecurityUserConfigurationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupSecurityUserConfigurationResult] {
-	return pulumix.Output[LookupSecurityUserConfigurationResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Flag if need to delete existing network security groups.

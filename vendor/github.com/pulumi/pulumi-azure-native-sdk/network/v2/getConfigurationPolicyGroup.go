@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a ConfigurationPolicyGroup.
@@ -96,12 +95,6 @@ func (o LookupConfigurationPolicyGroupResultOutput) ToLookupConfigurationPolicyG
 
 func (o LookupConfigurationPolicyGroupResultOutput) ToLookupConfigurationPolicyGroupResultOutputWithContext(ctx context.Context) LookupConfigurationPolicyGroupResultOutput {
 	return o
-}
-
-func (o LookupConfigurationPolicyGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupConfigurationPolicyGroupResult] {
-	return pulumix.Output[LookupConfigurationPolicyGroupResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

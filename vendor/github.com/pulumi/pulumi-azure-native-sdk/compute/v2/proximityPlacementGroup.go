@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Specifies information about the proximity placement group.
@@ -202,12 +201,6 @@ func (i *ProximityPlacementGroup) ToProximityPlacementGroupOutputWithContext(ctx
 	return pulumi.ToOutputWithContext(ctx, i).(ProximityPlacementGroupOutput)
 }
 
-func (i *ProximityPlacementGroup) ToOutput(ctx context.Context) pulumix.Output[*ProximityPlacementGroup] {
-	return pulumix.Output[*ProximityPlacementGroup]{
-		OutputState: i.ToProximityPlacementGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ProximityPlacementGroupOutput struct{ *pulumi.OutputState }
 
 func (ProximityPlacementGroupOutput) ElementType() reflect.Type {
@@ -220,12 +213,6 @@ func (o ProximityPlacementGroupOutput) ToProximityPlacementGroupOutput() Proximi
 
 func (o ProximityPlacementGroupOutput) ToProximityPlacementGroupOutputWithContext(ctx context.Context) ProximityPlacementGroupOutput {
 	return o
-}
-
-func (o ProximityPlacementGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*ProximityPlacementGroup] {
-	return pulumix.Output[*ProximityPlacementGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A list of references to all availability sets in the proximity placement group.

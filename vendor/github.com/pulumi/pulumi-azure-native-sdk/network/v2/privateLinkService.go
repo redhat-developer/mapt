@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Private link service resource.
@@ -258,12 +257,6 @@ func (i *PrivateLinkService) ToPrivateLinkServiceOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(PrivateLinkServiceOutput)
 }
 
-func (i *PrivateLinkService) ToOutput(ctx context.Context) pulumix.Output[*PrivateLinkService] {
-	return pulumix.Output[*PrivateLinkService]{
-		OutputState: i.ToPrivateLinkServiceOutputWithContext(ctx).OutputState,
-	}
-}
-
 type PrivateLinkServiceOutput struct{ *pulumi.OutputState }
 
 func (PrivateLinkServiceOutput) ElementType() reflect.Type {
@@ -276,12 +269,6 @@ func (o PrivateLinkServiceOutput) ToPrivateLinkServiceOutput() PrivateLinkServic
 
 func (o PrivateLinkServiceOutput) ToPrivateLinkServiceOutputWithContext(ctx context.Context) PrivateLinkServiceOutput {
 	return o
-}
-
-func (o PrivateLinkServiceOutput) ToOutput(ctx context.Context) pulumix.Output[*PrivateLinkService] {
-	return pulumix.Output[*PrivateLinkService]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The alias of the private link service.

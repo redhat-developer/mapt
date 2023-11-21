@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // A rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response.
@@ -134,12 +133,6 @@ func (i *RulesEngine) ToRulesEngineOutputWithContext(ctx context.Context) RulesE
 	return pulumi.ToOutputWithContext(ctx, i).(RulesEngineOutput)
 }
 
-func (i *RulesEngine) ToOutput(ctx context.Context) pulumix.Output[*RulesEngine] {
-	return pulumix.Output[*RulesEngine]{
-		OutputState: i.ToRulesEngineOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RulesEngineOutput struct{ *pulumi.OutputState }
 
 func (RulesEngineOutput) ElementType() reflect.Type {
@@ -152,12 +145,6 @@ func (o RulesEngineOutput) ToRulesEngineOutput() RulesEngineOutput {
 
 func (o RulesEngineOutput) ToRulesEngineOutputWithContext(ctx context.Context) RulesEngineOutput {
 	return o
-}
-
-func (o RulesEngineOutput) ToOutput(ctx context.Context) pulumix.Output[*RulesEngine] {
-	return pulumix.Output[*RulesEngine]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Resource name.

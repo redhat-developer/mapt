@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a VPC Endpoint Service resource.
@@ -123,6 +122,8 @@ type VpcEndpointService struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 }
 
@@ -136,6 +137,10 @@ func NewVpcEndpointService(ctx *pulumi.Context,
 	if args.AcceptanceRequired == nil {
 		return nil, errors.New("invalid value for required argument 'AcceptanceRequired'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcEndpointService
 	err := ctx.RegisterResource("aws:ec2/vpcEndpointService:VpcEndpointService", name, args, &resource, opts...)
@@ -190,6 +195,8 @@ type vpcEndpointServiceState struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 }
 
@@ -225,6 +232,8 @@ type VpcEndpointServiceState struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 }
 
@@ -290,12 +299,6 @@ func (i *VpcEndpointService) ToVpcEndpointServiceOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(VpcEndpointServiceOutput)
 }
 
-func (i *VpcEndpointService) ToOutput(ctx context.Context) pulumix.Output[*VpcEndpointService] {
-	return pulumix.Output[*VpcEndpointService]{
-		OutputState: i.ToVpcEndpointServiceOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcEndpointServiceArrayInput is an input type that accepts VpcEndpointServiceArray and VpcEndpointServiceArrayOutput values.
 // You can construct a concrete instance of `VpcEndpointServiceArrayInput` via:
 //
@@ -319,12 +322,6 @@ func (i VpcEndpointServiceArray) ToVpcEndpointServiceArrayOutput() VpcEndpointSe
 
 func (i VpcEndpointServiceArray) ToVpcEndpointServiceArrayOutputWithContext(ctx context.Context) VpcEndpointServiceArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcEndpointServiceArrayOutput)
-}
-
-func (i VpcEndpointServiceArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpcEndpointService] {
-	return pulumix.Output[[]*VpcEndpointService]{
-		OutputState: i.ToVpcEndpointServiceArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcEndpointServiceMapInput is an input type that accepts VpcEndpointServiceMap and VpcEndpointServiceMapOutput values.
@@ -352,12 +349,6 @@ func (i VpcEndpointServiceMap) ToVpcEndpointServiceMapOutputWithContext(ctx cont
 	return pulumi.ToOutputWithContext(ctx, i).(VpcEndpointServiceMapOutput)
 }
 
-func (i VpcEndpointServiceMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcEndpointService] {
-	return pulumix.Output[map[string]*VpcEndpointService]{
-		OutputState: i.ToVpcEndpointServiceMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcEndpointServiceOutput struct{ *pulumi.OutputState }
 
 func (VpcEndpointServiceOutput) ElementType() reflect.Type {
@@ -370,12 +361,6 @@ func (o VpcEndpointServiceOutput) ToVpcEndpointServiceOutput() VpcEndpointServic
 
 func (o VpcEndpointServiceOutput) ToVpcEndpointServiceOutputWithContext(ctx context.Context) VpcEndpointServiceOutput {
 	return o
-}
-
-func (o VpcEndpointServiceOutput) ToOutput(ctx context.Context) pulumix.Output[*VpcEndpointService] {
-	return pulumix.Output[*VpcEndpointService]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Whether or not VPC endpoint connection requests to the service must be accepted by the service owner - `true` or `false`.
@@ -456,6 +441,8 @@ func (o VpcEndpointServiceOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o VpcEndpointServiceOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpcEndpointService) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -472,12 +459,6 @@ func (o VpcEndpointServiceArrayOutput) ToVpcEndpointServiceArrayOutput() VpcEndp
 
 func (o VpcEndpointServiceArrayOutput) ToVpcEndpointServiceArrayOutputWithContext(ctx context.Context) VpcEndpointServiceArrayOutput {
 	return o
-}
-
-func (o VpcEndpointServiceArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpcEndpointService] {
-	return pulumix.Output[[]*VpcEndpointService]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcEndpointServiceArrayOutput) Index(i pulumi.IntInput) VpcEndpointServiceOutput {
@@ -498,12 +479,6 @@ func (o VpcEndpointServiceMapOutput) ToVpcEndpointServiceMapOutput() VpcEndpoint
 
 func (o VpcEndpointServiceMapOutput) ToVpcEndpointServiceMapOutputWithContext(ctx context.Context) VpcEndpointServiceMapOutput {
 	return o
-}
-
-func (o VpcEndpointServiceMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcEndpointService] {
-	return pulumix.Output[map[string]*VpcEndpointService]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcEndpointServiceMapOutput) MapIndex(k pulumi.StringInput) VpcEndpointServiceOutput {

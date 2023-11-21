@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified public IP prefix in a specified resource group.
@@ -116,12 +115,6 @@ func (o LookupPublicIPPrefixResultOutput) ToLookupPublicIPPrefixResultOutput() L
 
 func (o LookupPublicIPPrefixResultOutput) ToLookupPublicIPPrefixResultOutputWithContext(ctx context.Context) LookupPublicIPPrefixResultOutput {
 	return o
-}
-
-func (o LookupPublicIPPrefixResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPublicIPPrefixResult] {
-	return pulumix.Output[LookupPublicIPPrefixResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The customIpPrefix that this prefix is associated with.

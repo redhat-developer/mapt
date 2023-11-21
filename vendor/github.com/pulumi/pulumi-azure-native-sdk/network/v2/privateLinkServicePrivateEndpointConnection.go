@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // PrivateEndpointConnection resource.
@@ -209,12 +208,6 @@ func (i *PrivateLinkServicePrivateEndpointConnection) ToPrivateLinkServicePrivat
 	return pulumi.ToOutputWithContext(ctx, i).(PrivateLinkServicePrivateEndpointConnectionOutput)
 }
 
-func (i *PrivateLinkServicePrivateEndpointConnection) ToOutput(ctx context.Context) pulumix.Output[*PrivateLinkServicePrivateEndpointConnection] {
-	return pulumix.Output[*PrivateLinkServicePrivateEndpointConnection]{
-		OutputState: i.ToPrivateLinkServicePrivateEndpointConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 type PrivateLinkServicePrivateEndpointConnectionOutput struct{ *pulumi.OutputState }
 
 func (PrivateLinkServicePrivateEndpointConnectionOutput) ElementType() reflect.Type {
@@ -227,12 +220,6 @@ func (o PrivateLinkServicePrivateEndpointConnectionOutput) ToPrivateLinkServiceP
 
 func (o PrivateLinkServicePrivateEndpointConnectionOutput) ToPrivateLinkServicePrivateEndpointConnectionOutputWithContext(ctx context.Context) PrivateLinkServicePrivateEndpointConnectionOutput {
 	return o
-}
-
-func (o PrivateLinkServicePrivateEndpointConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*PrivateLinkServicePrivateEndpointConnection] {
-	return pulumix.Output[*PrivateLinkServicePrivateEndpointConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

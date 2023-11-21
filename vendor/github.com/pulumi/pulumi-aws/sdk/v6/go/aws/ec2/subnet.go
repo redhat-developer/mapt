@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides an VPC subnet resource.
@@ -140,6 +139,8 @@ type Subnet struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// The VPC ID.
 	VpcId pulumi.StringOutput `pulumi:"vpcId"`
@@ -155,6 +156,10 @@ func NewSubnet(ctx *pulumi.Context,
 	if args.VpcId == nil {
 		return nil, errors.New("invalid value for required argument 'VpcId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Subnet
 	err := ctx.RegisterResource("aws:ec2/subnet:Subnet", name, args, &resource, opts...)
@@ -222,6 +227,8 @@ type subnetState struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// The VPC ID.
 	VpcId *string `pulumi:"vpcId"`
@@ -272,6 +279,8 @@ type SubnetState struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// The VPC ID.
 	VpcId pulumi.StringPtrInput
@@ -389,12 +398,6 @@ func (i *Subnet) ToSubnetOutputWithContext(ctx context.Context) SubnetOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(SubnetOutput)
 }
 
-func (i *Subnet) ToOutput(ctx context.Context) pulumix.Output[*Subnet] {
-	return pulumix.Output[*Subnet]{
-		OutputState: i.ToSubnetOutputWithContext(ctx).OutputState,
-	}
-}
-
 // SubnetArrayInput is an input type that accepts SubnetArray and SubnetArrayOutput values.
 // You can construct a concrete instance of `SubnetArrayInput` via:
 //
@@ -418,12 +421,6 @@ func (i SubnetArray) ToSubnetArrayOutput() SubnetArrayOutput {
 
 func (i SubnetArray) ToSubnetArrayOutputWithContext(ctx context.Context) SubnetArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(SubnetArrayOutput)
-}
-
-func (i SubnetArray) ToOutput(ctx context.Context) pulumix.Output[[]*Subnet] {
-	return pulumix.Output[[]*Subnet]{
-		OutputState: i.ToSubnetArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // SubnetMapInput is an input type that accepts SubnetMap and SubnetMapOutput values.
@@ -451,12 +448,6 @@ func (i SubnetMap) ToSubnetMapOutputWithContext(ctx context.Context) SubnetMapOu
 	return pulumi.ToOutputWithContext(ctx, i).(SubnetMapOutput)
 }
 
-func (i SubnetMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Subnet] {
-	return pulumix.Output[map[string]*Subnet]{
-		OutputState: i.ToSubnetMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type SubnetOutput struct{ *pulumi.OutputState }
 
 func (SubnetOutput) ElementType() reflect.Type {
@@ -469,12 +460,6 @@ func (o SubnetOutput) ToSubnetOutput() SubnetOutput {
 
 func (o SubnetOutput) ToSubnetOutputWithContext(ctx context.Context) SubnetOutput {
 	return o
-}
-
-func (o SubnetOutput) ToOutput(ctx context.Context) pulumix.Output[*Subnet] {
-	return pulumix.Output[*Subnet]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ARN of the subnet.
@@ -578,6 +563,8 @@ func (o SubnetOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o SubnetOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Subnet) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -601,12 +588,6 @@ func (o SubnetArrayOutput) ToSubnetArrayOutputWithContext(ctx context.Context) S
 	return o
 }
 
-func (o SubnetArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Subnet] {
-	return pulumix.Output[[]*Subnet]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o SubnetArrayOutput) Index(i pulumi.IntInput) SubnetOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Subnet {
 		return vs[0].([]*Subnet)[vs[1].(int)]
@@ -625,12 +606,6 @@ func (o SubnetMapOutput) ToSubnetMapOutput() SubnetMapOutput {
 
 func (o SubnetMapOutput) ToSubnetMapOutputWithContext(ctx context.Context) SubnetMapOutput {
 	return o
-}
-
-func (o SubnetMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Subnet] {
-	return pulumix.Output[map[string]*Subnet]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o SubnetMapOutput) MapIndex(k pulumi.StringInput) SubnetOutput {

@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a resource to manage a VPC peering connection.
@@ -214,6 +213,8 @@ type VpcPeeringConnection struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// The ID of the requester VPC.
 	VpcId pulumi.StringOutput `pulumi:"vpcId"`
@@ -232,6 +233,10 @@ func NewVpcPeeringConnection(ctx *pulumi.Context,
 	if args.VpcId == nil {
 		return nil, errors.New("invalid value for required argument 'VpcId'")
 	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcPeeringConnection
 	err := ctx.RegisterResource("aws:ec2/vpcPeeringConnection:VpcPeeringConnection", name, args, &resource, opts...)
@@ -276,6 +281,8 @@ type vpcPeeringConnectionState struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// The ID of the requester VPC.
 	VpcId *string `pulumi:"vpcId"`
@@ -303,6 +310,8 @@ type VpcPeeringConnectionState struct {
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// The ID of the requester VPC.
 	VpcId pulumi.StringPtrInput
@@ -382,12 +391,6 @@ func (i *VpcPeeringConnection) ToVpcPeeringConnectionOutputWithContext(ctx conte
 	return pulumi.ToOutputWithContext(ctx, i).(VpcPeeringConnectionOutput)
 }
 
-func (i *VpcPeeringConnection) ToOutput(ctx context.Context) pulumix.Output[*VpcPeeringConnection] {
-	return pulumix.Output[*VpcPeeringConnection]{
-		OutputState: i.ToVpcPeeringConnectionOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VpcPeeringConnectionArrayInput is an input type that accepts VpcPeeringConnectionArray and VpcPeeringConnectionArrayOutput values.
 // You can construct a concrete instance of `VpcPeeringConnectionArrayInput` via:
 //
@@ -411,12 +414,6 @@ func (i VpcPeeringConnectionArray) ToVpcPeeringConnectionArrayOutput() VpcPeerin
 
 func (i VpcPeeringConnectionArray) ToVpcPeeringConnectionArrayOutputWithContext(ctx context.Context) VpcPeeringConnectionArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VpcPeeringConnectionArrayOutput)
-}
-
-func (i VpcPeeringConnectionArray) ToOutput(ctx context.Context) pulumix.Output[[]*VpcPeeringConnection] {
-	return pulumix.Output[[]*VpcPeeringConnection]{
-		OutputState: i.ToVpcPeeringConnectionArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VpcPeeringConnectionMapInput is an input type that accepts VpcPeeringConnectionMap and VpcPeeringConnectionMapOutput values.
@@ -444,12 +441,6 @@ func (i VpcPeeringConnectionMap) ToVpcPeeringConnectionMapOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, i).(VpcPeeringConnectionMapOutput)
 }
 
-func (i VpcPeeringConnectionMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcPeeringConnection] {
-	return pulumix.Output[map[string]*VpcPeeringConnection]{
-		OutputState: i.ToVpcPeeringConnectionMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VpcPeeringConnectionOutput struct{ *pulumi.OutputState }
 
 func (VpcPeeringConnectionOutput) ElementType() reflect.Type {
@@ -462,12 +453,6 @@ func (o VpcPeeringConnectionOutput) ToVpcPeeringConnectionOutput() VpcPeeringCon
 
 func (o VpcPeeringConnectionOutput) ToVpcPeeringConnectionOutputWithContext(ctx context.Context) VpcPeeringConnectionOutput {
 	return o
-}
-
-func (o VpcPeeringConnectionOutput) ToOutput(ctx context.Context) pulumix.Output[*VpcPeeringConnection] {
-	return pulumix.Output[*VpcPeeringConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The status of the VPC Peering Connection request.
@@ -515,6 +500,8 @@ func (o VpcPeeringConnectionOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o VpcPeeringConnectionOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VpcPeeringConnection) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -538,12 +525,6 @@ func (o VpcPeeringConnectionArrayOutput) ToVpcPeeringConnectionArrayOutputWithCo
 	return o
 }
 
-func (o VpcPeeringConnectionArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*VpcPeeringConnection] {
-	return pulumix.Output[[]*VpcPeeringConnection]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o VpcPeeringConnectionArrayOutput) Index(i pulumi.IntInput) VpcPeeringConnectionOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *VpcPeeringConnection {
 		return vs[0].([]*VpcPeeringConnection)[vs[1].(int)]
@@ -562,12 +543,6 @@ func (o VpcPeeringConnectionMapOutput) ToVpcPeeringConnectionMapOutput() VpcPeer
 
 func (o VpcPeeringConnectionMapOutput) ToVpcPeeringConnectionMapOutputWithContext(ctx context.Context) VpcPeeringConnectionMapOutput {
 	return o
-}
-
-func (o VpcPeeringConnectionMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*VpcPeeringConnection] {
-	return pulumix.Output[map[string]*VpcPeeringConnection]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VpcPeeringConnectionMapOutput) MapIndex(k pulumi.StringInput) VpcPeeringConnectionOutput {

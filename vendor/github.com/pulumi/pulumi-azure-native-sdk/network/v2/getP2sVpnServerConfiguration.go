@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a P2SVpnServerConfiguration.
@@ -102,12 +101,6 @@ func (o LookupP2sVpnServerConfigurationResultOutput) ToLookupP2sVpnServerConfigu
 
 func (o LookupP2sVpnServerConfigurationResultOutput) ToLookupP2sVpnServerConfigurationResultOutputWithContext(ctx context.Context) LookupP2sVpnServerConfigurationResultOutput {
 	return o
-}
-
-func (o LookupP2sVpnServerConfigurationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupP2sVpnServerConfigurationResult] {
-	return pulumix.Output[LookupP2sVpnServerConfigurationResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // A unique read-only string that changes whenever the resource is updated.

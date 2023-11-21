@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // IpAllocation resource.
@@ -228,12 +227,6 @@ func (i *IpAllocation) ToIpAllocationOutputWithContext(ctx context.Context) IpAl
 	return pulumi.ToOutputWithContext(ctx, i).(IpAllocationOutput)
 }
 
-func (i *IpAllocation) ToOutput(ctx context.Context) pulumix.Output[*IpAllocation] {
-	return pulumix.Output[*IpAllocation]{
-		OutputState: i.ToIpAllocationOutputWithContext(ctx).OutputState,
-	}
-}
-
 type IpAllocationOutput struct{ *pulumi.OutputState }
 
 func (IpAllocationOutput) ElementType() reflect.Type {
@@ -246,12 +239,6 @@ func (o IpAllocationOutput) ToIpAllocationOutput() IpAllocationOutput {
 
 func (o IpAllocationOutput) ToIpAllocationOutputWithContext(ctx context.Context) IpAllocationOutput {
 	return o
-}
-
-func (o IpAllocationOutput) ToOutput(ctx context.Context) pulumix.Output[*IpAllocation] {
-	return pulumix.Output[*IpAllocation]{
-		OutputState: o.OutputState,
-	}
 }
 
 // IpAllocation tags.

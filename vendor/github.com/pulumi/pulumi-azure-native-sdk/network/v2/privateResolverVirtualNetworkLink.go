@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Describes a virtual network link.
@@ -143,12 +142,6 @@ func (i *PrivateResolverVirtualNetworkLink) ToPrivateResolverVirtualNetworkLinkO
 	return pulumi.ToOutputWithContext(ctx, i).(PrivateResolverVirtualNetworkLinkOutput)
 }
 
-func (i *PrivateResolverVirtualNetworkLink) ToOutput(ctx context.Context) pulumix.Output[*PrivateResolverVirtualNetworkLink] {
-	return pulumix.Output[*PrivateResolverVirtualNetworkLink]{
-		OutputState: i.ToPrivateResolverVirtualNetworkLinkOutputWithContext(ctx).OutputState,
-	}
-}
-
 type PrivateResolverVirtualNetworkLinkOutput struct{ *pulumi.OutputState }
 
 func (PrivateResolverVirtualNetworkLinkOutput) ElementType() reflect.Type {
@@ -161,12 +154,6 @@ func (o PrivateResolverVirtualNetworkLinkOutput) ToPrivateResolverVirtualNetwork
 
 func (o PrivateResolverVirtualNetworkLinkOutput) ToPrivateResolverVirtualNetworkLinkOutputWithContext(ctx context.Context) PrivateResolverVirtualNetworkLinkOutput {
 	return o
-}
-
-func (o PrivateResolverVirtualNetworkLinkOutput) ToOutput(ctx context.Context) pulumix.Output[*PrivateResolverVirtualNetworkLink] {
-	return pulumix.Output[*PrivateResolverVirtualNetworkLink]{
-		OutputState: o.OutputState,
-	}
 }
 
 // ETag of the virtual network link.

@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Virtual Appliance Site resource.
@@ -194,12 +193,6 @@ func (i *VirtualApplianceSite) ToVirtualApplianceSiteOutputWithContext(ctx conte
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualApplianceSiteOutput)
 }
 
-func (i *VirtualApplianceSite) ToOutput(ctx context.Context) pulumix.Output[*VirtualApplianceSite] {
-	return pulumix.Output[*VirtualApplianceSite]{
-		OutputState: i.ToVirtualApplianceSiteOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VirtualApplianceSiteOutput struct{ *pulumi.OutputState }
 
 func (VirtualApplianceSiteOutput) ElementType() reflect.Type {
@@ -212,12 +205,6 @@ func (o VirtualApplianceSiteOutput) ToVirtualApplianceSiteOutput() VirtualApplia
 
 func (o VirtualApplianceSiteOutput) ToVirtualApplianceSiteOutputWithContext(ctx context.Context) VirtualApplianceSiteOutput {
 	return o
-}
-
-func (o VirtualApplianceSiteOutput) ToOutput(ctx context.Context) pulumix.Output[*VirtualApplianceSite] {
-	return pulumix.Output[*VirtualApplianceSite]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Address Prefix.

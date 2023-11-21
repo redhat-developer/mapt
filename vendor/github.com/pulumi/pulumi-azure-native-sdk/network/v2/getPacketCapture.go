@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a packet capture session by name.
@@ -123,12 +122,6 @@ func (o LookupPacketCaptureResultOutput) ToLookupPacketCaptureResultOutput() Loo
 
 func (o LookupPacketCaptureResultOutput) ToLookupPacketCaptureResultOutputWithContext(ctx context.Context) LookupPacketCaptureResultOutput {
 	return o
-}
-
-func (o LookupPacketCaptureResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPacketCaptureResult] {
-	return pulumix.Output[LookupPacketCaptureResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Number of bytes captured per packet, the remaining bytes are truncated.

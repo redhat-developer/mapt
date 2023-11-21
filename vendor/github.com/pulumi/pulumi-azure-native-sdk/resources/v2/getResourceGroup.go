@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets a resource group.
@@ -84,12 +83,6 @@ func (o LookupResourceGroupResultOutput) ToLookupResourceGroupResultOutput() Loo
 
 func (o LookupResourceGroupResultOutput) ToLookupResourceGroupResultOutputWithContext(ctx context.Context) LookupResourceGroupResultOutput {
 	return o
-}
-
-func (o LookupResourceGroupResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupResourceGroupResult] {
-	return pulumix.Output[LookupResourceGroupResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The ID of the resource group.

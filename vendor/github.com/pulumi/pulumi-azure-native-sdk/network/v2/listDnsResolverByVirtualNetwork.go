@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Lists DNS resolver resource IDs linked to a virtual network.
@@ -82,12 +81,6 @@ func (o ListDnsResolverByVirtualNetworkResultOutput) ToListDnsResolverByVirtualN
 
 func (o ListDnsResolverByVirtualNetworkResultOutput) ToListDnsResolverByVirtualNetworkResultOutputWithContext(ctx context.Context) ListDnsResolverByVirtualNetworkResultOutput {
 	return o
-}
-
-func (o ListDnsResolverByVirtualNetworkResultOutput) ToOutput(ctx context.Context) pulumix.Output[ListDnsResolverByVirtualNetworkResult] {
-	return pulumix.Output[ListDnsResolverByVirtualNetworkResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The continuation token for the next page of results.

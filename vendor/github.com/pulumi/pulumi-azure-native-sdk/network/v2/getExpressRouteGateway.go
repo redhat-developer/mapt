@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Fetches the details of a ExpressRoute gateway in a resource group.
@@ -96,12 +95,6 @@ func (o LookupExpressRouteGatewayResultOutput) ToLookupExpressRouteGatewayResult
 
 func (o LookupExpressRouteGatewayResultOutput) ToLookupExpressRouteGatewayResultOutputWithContext(ctx context.Context) LookupExpressRouteGatewayResultOutput {
 	return o
-}
-
-func (o LookupExpressRouteGatewayResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupExpressRouteGatewayResult] {
-	return pulumix.Output[LookupExpressRouteGatewayResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Configures this gateway to accept traffic from non Virtual WAN networks.

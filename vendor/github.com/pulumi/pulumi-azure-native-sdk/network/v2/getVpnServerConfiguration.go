@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Retrieves the details of a VpnServerConfiguration.
@@ -114,12 +113,6 @@ func (o LookupVpnServerConfigurationResultOutput) ToLookupVpnServerConfiguration
 
 func (o LookupVpnServerConfigurationResultOutput) ToLookupVpnServerConfigurationResultOutputWithContext(ctx context.Context) LookupVpnServerConfigurationResultOutput {
 	return o
-}
-
-func (o LookupVpnServerConfigurationResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupVpnServerConfigurationResult] {
-	return pulumix.Output[LookupVpnServerConfigurationResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The set of aad vpn authentication parameters.

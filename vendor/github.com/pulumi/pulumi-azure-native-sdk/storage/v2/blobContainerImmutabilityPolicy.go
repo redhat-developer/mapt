@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag.
@@ -193,12 +192,6 @@ func (i *BlobContainerImmutabilityPolicy) ToBlobContainerImmutabilityPolicyOutpu
 	return pulumi.ToOutputWithContext(ctx, i).(BlobContainerImmutabilityPolicyOutput)
 }
 
-func (i *BlobContainerImmutabilityPolicy) ToOutput(ctx context.Context) pulumix.Output[*BlobContainerImmutabilityPolicy] {
-	return pulumix.Output[*BlobContainerImmutabilityPolicy]{
-		OutputState: i.ToBlobContainerImmutabilityPolicyOutputWithContext(ctx).OutputState,
-	}
-}
-
 type BlobContainerImmutabilityPolicyOutput struct{ *pulumi.OutputState }
 
 func (BlobContainerImmutabilityPolicyOutput) ElementType() reflect.Type {
@@ -211,12 +204,6 @@ func (o BlobContainerImmutabilityPolicyOutput) ToBlobContainerImmutabilityPolicy
 
 func (o BlobContainerImmutabilityPolicyOutput) ToBlobContainerImmutabilityPolicyOutputWithContext(ctx context.Context) BlobContainerImmutabilityPolicyOutput {
 	return o
-}
-
-func (o BlobContainerImmutabilityPolicyOutput) ToOutput(ctx context.Context) pulumix.Output[*BlobContainerImmutabilityPolicy] {
-	return pulumix.Output[*BlobContainerImmutabilityPolicy]{
-		OutputState: o.OutputState,
-	}
 }
 
 // This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.

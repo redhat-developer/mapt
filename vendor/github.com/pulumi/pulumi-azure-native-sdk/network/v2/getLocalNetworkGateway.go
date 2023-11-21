@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Gets the specified local network gateway in a resource group.
@@ -98,12 +97,6 @@ func (o LookupLocalNetworkGatewayResultOutput) ToLookupLocalNetworkGatewayResult
 
 func (o LookupLocalNetworkGatewayResultOutput) ToLookupLocalNetworkGatewayResultOutputWithContext(ctx context.Context) LookupLocalNetworkGatewayResultOutput {
 	return o
-}
-
-func (o LookupLocalNetworkGatewayResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupLocalNetworkGatewayResult] {
-	return pulumix.Output[LookupLocalNetworkGatewayResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Local network gateway's BGP speaker settings.

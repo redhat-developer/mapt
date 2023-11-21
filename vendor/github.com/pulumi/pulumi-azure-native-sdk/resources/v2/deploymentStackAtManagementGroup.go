@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Deployment stack object.
@@ -198,12 +197,6 @@ func (i *DeploymentStackAtManagementGroup) ToDeploymentStackAtManagementGroupOut
 	return pulumi.ToOutputWithContext(ctx, i).(DeploymentStackAtManagementGroupOutput)
 }
 
-func (i *DeploymentStackAtManagementGroup) ToOutput(ctx context.Context) pulumix.Output[*DeploymentStackAtManagementGroup] {
-	return pulumix.Output[*DeploymentStackAtManagementGroup]{
-		OutputState: i.ToDeploymentStackAtManagementGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DeploymentStackAtManagementGroupOutput struct{ *pulumi.OutputState }
 
 func (DeploymentStackAtManagementGroupOutput) ElementType() reflect.Type {
@@ -216,12 +209,6 @@ func (o DeploymentStackAtManagementGroupOutput) ToDeploymentStackAtManagementGro
 
 func (o DeploymentStackAtManagementGroupOutput) ToDeploymentStackAtManagementGroupOutputWithContext(ctx context.Context) DeploymentStackAtManagementGroupOutput {
 	return o
-}
-
-func (o DeploymentStackAtManagementGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*DeploymentStackAtManagementGroup] {
-	return pulumix.Output[*DeploymentStackAtManagementGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Defines the behavior of resources that are not managed immediately after the stack is updated.

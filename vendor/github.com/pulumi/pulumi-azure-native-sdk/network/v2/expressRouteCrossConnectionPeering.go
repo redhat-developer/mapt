@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-azure-native-sdk/v2/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Peering in an ExpressRoute Cross Connection resource.
@@ -302,12 +301,6 @@ func (i *ExpressRouteCrossConnectionPeering) ToExpressRouteCrossConnectionPeerin
 	return pulumi.ToOutputWithContext(ctx, i).(ExpressRouteCrossConnectionPeeringOutput)
 }
 
-func (i *ExpressRouteCrossConnectionPeering) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteCrossConnectionPeering] {
-	return pulumix.Output[*ExpressRouteCrossConnectionPeering]{
-		OutputState: i.ToExpressRouteCrossConnectionPeeringOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ExpressRouteCrossConnectionPeeringOutput struct{ *pulumi.OutputState }
 
 func (ExpressRouteCrossConnectionPeeringOutput) ElementType() reflect.Type {
@@ -320,12 +313,6 @@ func (o ExpressRouteCrossConnectionPeeringOutput) ToExpressRouteCrossConnectionP
 
 func (o ExpressRouteCrossConnectionPeeringOutput) ToExpressRouteCrossConnectionPeeringOutputWithContext(ctx context.Context) ExpressRouteCrossConnectionPeeringOutput {
 	return o
-}
-
-func (o ExpressRouteCrossConnectionPeeringOutput) ToOutput(ctx context.Context) pulumix.Output[*ExpressRouteCrossConnectionPeering] {
-	return pulumix.Output[*ExpressRouteCrossConnectionPeering]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The Azure ASN.

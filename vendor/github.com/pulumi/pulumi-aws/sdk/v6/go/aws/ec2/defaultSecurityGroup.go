@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Provides a resource to manage a default security group. This resource can manage the default security group of the default or a non-default VPC.
@@ -147,6 +146,8 @@ type DefaultSecurityGroup struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// VPC ID. **Note that changing the `vpcId` will _not_ restore any default security group rules that were modified, added, or removed.** It will be left in its current state.
 	VpcId pulumi.StringOutput `pulumi:"vpcId"`
@@ -159,6 +160,10 @@ func NewDefaultSecurityGroup(ctx *pulumi.Context,
 		args = &DefaultSecurityGroupArgs{}
 	}
 
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"tagsAll",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource DefaultSecurityGroup
 	err := ctx.RegisterResource("aws:ec2/defaultSecurityGroup:DefaultSecurityGroup", name, args, &resource, opts...)
@@ -199,6 +204,8 @@ type defaultSecurityGroupState struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// VPC ID. **Note that changing the `vpcId` will _not_ restore any default security group rules that were modified, added, or removed.** It will be left in its current state.
 	VpcId *string `pulumi:"vpcId"`
@@ -222,6 +229,8 @@ type DefaultSecurityGroupState struct {
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	//
+	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
 	// VPC ID. **Note that changing the `vpcId` will _not_ restore any default security group rules that were modified, added, or removed.** It will be left in its current state.
 	VpcId pulumi.StringPtrInput
@@ -279,12 +288,6 @@ func (i *DefaultSecurityGroup) ToDefaultSecurityGroupOutputWithContext(ctx conte
 	return pulumi.ToOutputWithContext(ctx, i).(DefaultSecurityGroupOutput)
 }
 
-func (i *DefaultSecurityGroup) ToOutput(ctx context.Context) pulumix.Output[*DefaultSecurityGroup] {
-	return pulumix.Output[*DefaultSecurityGroup]{
-		OutputState: i.ToDefaultSecurityGroupOutputWithContext(ctx).OutputState,
-	}
-}
-
 // DefaultSecurityGroupArrayInput is an input type that accepts DefaultSecurityGroupArray and DefaultSecurityGroupArrayOutput values.
 // You can construct a concrete instance of `DefaultSecurityGroupArrayInput` via:
 //
@@ -308,12 +311,6 @@ func (i DefaultSecurityGroupArray) ToDefaultSecurityGroupArrayOutput() DefaultSe
 
 func (i DefaultSecurityGroupArray) ToDefaultSecurityGroupArrayOutputWithContext(ctx context.Context) DefaultSecurityGroupArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(DefaultSecurityGroupArrayOutput)
-}
-
-func (i DefaultSecurityGroupArray) ToOutput(ctx context.Context) pulumix.Output[[]*DefaultSecurityGroup] {
-	return pulumix.Output[[]*DefaultSecurityGroup]{
-		OutputState: i.ToDefaultSecurityGroupArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // DefaultSecurityGroupMapInput is an input type that accepts DefaultSecurityGroupMap and DefaultSecurityGroupMapOutput values.
@@ -341,12 +338,6 @@ func (i DefaultSecurityGroupMap) ToDefaultSecurityGroupMapOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, i).(DefaultSecurityGroupMapOutput)
 }
 
-func (i DefaultSecurityGroupMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*DefaultSecurityGroup] {
-	return pulumix.Output[map[string]*DefaultSecurityGroup]{
-		OutputState: i.ToDefaultSecurityGroupMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DefaultSecurityGroupOutput struct{ *pulumi.OutputState }
 
 func (DefaultSecurityGroupOutput) ElementType() reflect.Type {
@@ -359,12 +350,6 @@ func (o DefaultSecurityGroupOutput) ToDefaultSecurityGroupOutput() DefaultSecuri
 
 func (o DefaultSecurityGroupOutput) ToDefaultSecurityGroupOutputWithContext(ctx context.Context) DefaultSecurityGroupOutput {
 	return o
-}
-
-func (o DefaultSecurityGroupOutput) ToOutput(ctx context.Context) pulumix.Output[*DefaultSecurityGroup] {
-	return pulumix.Output[*DefaultSecurityGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 // ARN of the security group.
@@ -411,6 +396,8 @@ func (o DefaultSecurityGroupOutput) Tags() pulumi.StringMapOutput {
 }
 
 // A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+//
+// Deprecated: Please use `tags` instead.
 func (o DefaultSecurityGroupOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *DefaultSecurityGroup) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
@@ -434,12 +421,6 @@ func (o DefaultSecurityGroupArrayOutput) ToDefaultSecurityGroupArrayOutputWithCo
 	return o
 }
 
-func (o DefaultSecurityGroupArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*DefaultSecurityGroup] {
-	return pulumix.Output[[]*DefaultSecurityGroup]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o DefaultSecurityGroupArrayOutput) Index(i pulumi.IntInput) DefaultSecurityGroupOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *DefaultSecurityGroup {
 		return vs[0].([]*DefaultSecurityGroup)[vs[1].(int)]
@@ -458,12 +439,6 @@ func (o DefaultSecurityGroupMapOutput) ToDefaultSecurityGroupMapOutput() Default
 
 func (o DefaultSecurityGroupMapOutput) ToDefaultSecurityGroupMapOutputWithContext(ctx context.Context) DefaultSecurityGroupMapOutput {
 	return o
-}
-
-func (o DefaultSecurityGroupMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*DefaultSecurityGroup] {
-	return pulumix.Output[map[string]*DefaultSecurityGroup]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o DefaultSecurityGroupMapOutput) MapIndex(k pulumi.StringInput) DefaultSecurityGroupOutput {
