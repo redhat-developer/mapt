@@ -19,6 +19,7 @@ import (
 	amiSVC "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
+	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/security"
 	"github.com/adrianriobo/qenvs/pkg/util"
@@ -253,7 +254,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		password.Result)
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputHost),
 		c.GetHostIP(!r.Airgap))
-	return c.Readiness(ctx, r.Prefix, awsWindowsDedicatedID,
+	return c.Readiness(ctx, command.CommandPing, r.Prefix, awsWindowsDedicatedID,
 		keyResources.PrivateKey, r.AMIUser, bastion, []pulumi.Resource{})
 }
 
