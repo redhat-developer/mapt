@@ -197,8 +197,9 @@ func (c *Compute) GetHostIP(public bool) (ip pulumi.StringInput) {
 	return c.LB.DnsName
 }
 
-// Check if compute is healthy (ping on ssh)
+// Check if compute is healthy based on running a remote cmd
 func (compute *Compute) Readiness(ctx *pulumi.Context,
+	cmd string,
 	prefix, id string,
 	mk *tls.PrivateKey, username string,
 	b *bastion.Bastion,
@@ -207,8 +208,8 @@ func (compute *Compute) Readiness(ctx *pulumi.Context,
 		resourcesUtil.GetResourceName(prefix, id, "readiness-cmd"),
 		&remote.CommandArgs{
 			Connection: remoteCommandArgs(compute, mk, username, b),
-			Create:     pulumi.String(command.CommandPing),
-			Update:     pulumi.String(command.CommandPing),
+			Create:     pulumi.String(cmd),
+			Update:     pulumi.String(cmd),
 		}, pulumi.Timeouts(
 			&pulumi.CustomTimeouts{
 				Create: command.RemoteTimeout,
