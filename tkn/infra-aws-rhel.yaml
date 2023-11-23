@@ -191,6 +191,7 @@ spec:
         region: ${region}
     mountPath: /opt/aws-credentials
   - name: rh-account-secret
+    optional: true
     description: |
       ocp secret holding the credentials for a valid rh user to subscribe VM. Secret should be accessible to this task.
 
