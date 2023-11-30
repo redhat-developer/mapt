@@ -14,3 +14,26 @@ echo $subscriptionId
 az ad sp create-for-rbac --name ${name} \
                          --role Contributor \
                          --scopes /subscriptions/${subscriptionId}
+
+# Create rg for blob container for pulumi state
+
+az group create \
+    --name crc-qenvs \
+    --location westeurope
+
+az storage account create \
+    --name crcqenvs \
+    --resource-group crc-qenvs \
+    --location westeurope \
+    --sku Standard_ZRS \
+    --encryption-services blob \
+    --allow-blob-public-access false
+
+az storage container create \
+    --account-name crcqenvs \
+    --name crc-qenvs-state \
+    --auth-mode login
+
+# Get az storage account key to set on AZURE_STORAGE_KEY
+# https://www.pulumi.com/docs/concepts/state/#azure-blob-storage
+az storage account keys list --account-name crcqenvs
