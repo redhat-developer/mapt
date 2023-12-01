@@ -33,9 +33,11 @@ ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.9.0
+ARG PULUMI_AWS_VERSION=v6.12.1
+# renovate: datasource=github-releases depName=pulumi/pulumi-aws
+ARG PULUMI_AWSX_VERSION=v2.3.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v2.18.0
+ARG PULUMI_AZURE_NATIVE_VERSION=v2.20.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v0.9.2
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
@@ -54,6 +56,7 @@ RUN curl ${AWS_CLI_URL} -o awscliv2.zip \
   	&& rm -rf /var/cache/yum \
     && mkdir -p "${INTERNAL_OUTPUT}" \
     && pulumi plugin install resource aws ${PULUMI_AWS_VERSION} \
+    && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
     && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
     && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \
