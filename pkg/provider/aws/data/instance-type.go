@@ -60,6 +60,5 @@ func LokupRegionOfferingInstanceType(instanceType string) (*string, error) {
 	}
 	// First region with offering is enoguh
 	oRegion := <-c
-	close(c)
 	return &oRegion, nil
 }
