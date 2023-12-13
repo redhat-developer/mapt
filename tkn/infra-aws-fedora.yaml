@@ -156,8 +156,8 @@ spec:
         memory: "200Mi"
         cpu: "100m"
       limits:
-        memory: "400Mi"
-        cpu: "200m"
+        memory: "600Mi"
+        cpu: "300m"
 
   workspaces:
   - name: storage
