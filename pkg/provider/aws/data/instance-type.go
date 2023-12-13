@@ -1,43 +1,73 @@
 package data
 
 import (
-	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"golang.org/x/exp/slices"
 
 	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
 )
 
+var (
+	locatioRegion string = "region"
+	locationAZ    string = "availability-zone"
+
+	filternameLocation     string = "location"
+	filternameInstanceType string = "instance-type"
+)
+
 // Get InstanceTypes offerings on current location
-func GetInstanceTypesOfferingsByRegion(region string) ([]string, error) {
+func IsInstanceTypeOfferedByRegion(instanceType, region string) (bool, error) {
 	config := aws.Config{}
 	if len(region) > 0 {
 		config.Region = aws.String(region)
 	}
 	sess, err := session.NewSession(&config)
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 	svc := awsEC2.New(sess)
-	o, err := svc.DescribeInstanceTypeOfferings(nil)
-	if err != nil {
-		return nil, err
-	}
-	return util.ArrayConvert(o.InstanceTypeOfferings,
-			func(item *awsEC2.InstanceTypeOffering) string {
-				return *item.InstanceType
-			}),
-		nil
-}
-
-// Check if a instance type is available at the current location
-func IsInstaceTypeOffered(instanceType, region string) (bool, error) {
-	o, err := GetInstanceTypesOfferingsByRegion(region)
+	o, err := svc.DescribeInstanceTypeOfferings(
+		&awsEC2.DescribeInstanceTypeOfferingsInput{
+			LocationType: &locatioRegion,
+			Filters: []*awsEC2.Filter{
+				{
+					Name:   &filternameLocation,
+					Values: []*string{&region}},
+				{
+					Name:   &filternameInstanceType,
+					Values: []*string{&instanceType}},
+			}})
 	if err != nil {
 		return false, err
 	}
-	return slices.Contains(o, instanceType), nil
+	return len(o.InstanceTypeOfferings) == 1, nil
+}
+
+func IsInstanceTypeOfferedByAZ(region, instanceType, az string) (bool, error) {
+	config := aws.Config{}
+	if len(region) > 0 {
+		config.Region = aws.String(region)
+	}
+	sess, err := session.NewSession(&config)
+	if err != nil {
+		return false, err
+	}
+	svc := awsEC2.New(sess)
+	o, err := svc.DescribeInstanceTypeOfferings(
+		&awsEC2.DescribeInstanceTypeOfferingsInput{
+			LocationType: &locationAZ,
+			Filters: []*awsEC2.Filter{
+				{
+					Name:   &filternameLocation,
+					Values: []*string{&az}},
+				{
+					Name:   &filternameInstanceType,
+					Values: []*string{&instanceType}},
+			}})
+	if err != nil {
+		return false, err
+	}
+	return len(o.InstanceTypeOfferings) == 1, nil
 }
 
 // Check on all regions which offers the type of instance got one having it
@@ -51,7 +81,7 @@ func LokupRegionOfferingInstanceType(instanceType string) (*string, error) {
 	for _, region := range regions {
 		lRegion := region
 		go func(c chan string) {
-			if is, err := IsInstaceTypeOffered(
+			if is, err := IsInstanceTypeOfferedByRegion(
 				instanceType,
 				lRegion); err == nil && is {
 				c <- lRegion

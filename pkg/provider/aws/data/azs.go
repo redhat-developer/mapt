@@ -11,11 +11,14 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-func GetRandomAvailabilityZone(region string) (*string, error) {
+func GetRandomAvailabilityZone(region string, excludedAZs []string) (*string, error) {
 	azs, err := DescribeAvailabilityZones(region)
 	if err != nil {
 		return nil, err
 	}
+	azs = slices.DeleteFunc(azs, func(a *ec2.AvailabilityZone) bool {
+		return slices.Contains(excludedAZs, *a.ZoneName)
+	})
 	return azs[util.Random(len(azs)-1, 0)].ZoneName, nil
 }
 

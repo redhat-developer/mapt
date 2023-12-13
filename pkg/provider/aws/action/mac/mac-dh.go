@@ -6,7 +6,6 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/manager"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
@@ -43,20 +42,20 @@ func (r *MacRequest) createDedicatedHost() (*string, *string, error) {
 // this function will create the dedicated host resource
 func (r *MacRequest) deployerDedicatedHost(ctx *pulumi.Context) (err error) {
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputRegion), pulumi.String(r.Region))
-	az, err := data.GetRandomAvailabilityZone(r.Region)
-	if err != nil {
-		return
-	}
+	// az, err := data.GetRandomAvailabilityZone(r.Region)
+	// if err != nil {
+	// 	return
+	// }
 	dh, err := ec2.NewDedicatedHost(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "dh"),
 		&ec2.DedicatedHostArgs{
 			AutoPlacement:    pulumi.String("off"),
-			AvailabilityZone: pulumi.String(*az),
+			AvailabilityZone: pulumi.String(r.AvailabilityZone),
 			InstanceType:     pulumi.String(macTypesByArch[r.Architecture]),
 			Tags:             qenvsContext.ResourceTags(),
 		})
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID), dh.ID())
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostAZ), pulumi.String(*az))
+	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostAZ), pulumi.String(r.AvailabilityZone))
 	if err != nil {
 		return err
 	}
