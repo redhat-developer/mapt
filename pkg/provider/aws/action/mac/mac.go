@@ -43,6 +43,11 @@ func Create(r *MacRequest) (err error) {
 			return err
 		}
 		r.Region = *region
+		az, err := getAZ(r)
+		if err != nil {
+			return err
+		}
+		r.AvailabilityZone = *az
 		// No host id means need to create dedicated host
 		dhID, dhAZ, err := r.createDedicatedHost()
 		if err != nil {
@@ -100,7 +105,7 @@ func getRegion(r *MacRequest) (*string, error) {
 	logging.Debugf("checking if %s is offered at %s",
 		r.Architecture,
 		os.Getenv("AWS_DEFAULT_REGION"))
-	isOffered, err := data.IsInstaceTypeOffered(
+	isOffered, err := data.IsInstanceTypeOfferedByRegion(
 		macTypesByArch[r.Architecture],
 		os.Getenv("AWS_DEFAULT_REGION"))
 	if err != nil {
@@ -118,6 +123,26 @@ func getRegion(r *MacRequest) (*string, error) {
 	// We look for a region offering the type of instance
 	return data.LokupRegionOfferingInstanceType(
 		macTypesByArch[r.Architecture])
+}
+
+// Get a random AZ from the requested region, it ensures the az offers the instance type
+func getAZ(r *MacRequest) (az *string, err error) {
+	isOffered := false
+	var excludedAZs []string
+	for !isOffered {
+		az, err = data.GetRandomAvailabilityZone(r.Region, excludedAZs)
+		if err != nil {
+			return nil, err
+		}
+		isOffered, err = data.IsInstanceTypeOfferedByAZ(r.Region, macTypesByArch[r.Architecture], *az)
+		if err != nil {
+			return nil, err
+		}
+		if !isOffered {
+			excludedAZs = append(excludedAZs, *az)
+		}
+	}
+	return
 }
 
 // Mac machine can be dinamically moved across regions as it is

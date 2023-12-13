@@ -94,7 +94,7 @@ func Create(r *Request) error {
 		r.spotPrice = so.MaxPrice
 	} else {
 		r.region = os.Getenv("AWS_DEFAULT_REGION")
-		az, err := data.GetRandomAvailabilityZone(r.region)
+		az, err := data.GetRandomAvailabilityZone(r.region, nil)
 		if err != nil {
 			return err
 		}
