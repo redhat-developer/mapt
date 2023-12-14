@@ -16,9 +16,11 @@ func GetRandomAvailabilityZone(region string, excludedAZs []string) (*string, er
 	if err != nil {
 		return nil, err
 	}
-	azs = slices.DeleteFunc(azs, func(a *ec2.AvailabilityZone) bool {
-		return slices.Contains(excludedAZs, *a.ZoneName)
-	})
+	if len(excludedAZs) > 0 {
+		azs = slices.DeleteFunc(azs, func(a *ec2.AvailabilityZone) bool {
+			return slices.Contains(excludedAZs, *a.ZoneName)
+		})
+	}
 	return azs[util.Random(len(azs)-1, 0)].ZoneName, nil
 }
 
