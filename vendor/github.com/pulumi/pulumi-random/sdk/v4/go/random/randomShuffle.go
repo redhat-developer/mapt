@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The resource `RandomShuffle` generates a random permutation of a list of strings given as an argument.
@@ -43,9 +42,7 @@ import (
 //				return err
 //			}
 //			_, err = elb.NewLoadBalancer(ctx, "example", &elb.LoadBalancerArgs{
-//				AvailabilityZones: pulumi.StringArray{
-//					az.Results,
-//				},
+//				AvailabilityZones: az.Results,
 //			})
 //			if err != nil {
 //				return err
@@ -178,12 +175,6 @@ func (i *RandomShuffle) ToRandomShuffleOutputWithContext(ctx context.Context) Ra
 	return pulumi.ToOutputWithContext(ctx, i).(RandomShuffleOutput)
 }
 
-func (i *RandomShuffle) ToOutput(ctx context.Context) pulumix.Output[*RandomShuffle] {
-	return pulumix.Output[*RandomShuffle]{
-		OutputState: i.ToRandomShuffleOutputWithContext(ctx).OutputState,
-	}
-}
-
 // RandomShuffleArrayInput is an input type that accepts RandomShuffleArray and RandomShuffleArrayOutput values.
 // You can construct a concrete instance of `RandomShuffleArrayInput` via:
 //
@@ -207,12 +198,6 @@ func (i RandomShuffleArray) ToRandomShuffleArrayOutput() RandomShuffleArrayOutpu
 
 func (i RandomShuffleArray) ToRandomShuffleArrayOutputWithContext(ctx context.Context) RandomShuffleArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(RandomShuffleArrayOutput)
-}
-
-func (i RandomShuffleArray) ToOutput(ctx context.Context) pulumix.Output[[]*RandomShuffle] {
-	return pulumix.Output[[]*RandomShuffle]{
-		OutputState: i.ToRandomShuffleArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // RandomShuffleMapInput is an input type that accepts RandomShuffleMap and RandomShuffleMapOutput values.
@@ -240,12 +225,6 @@ func (i RandomShuffleMap) ToRandomShuffleMapOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, i).(RandomShuffleMapOutput)
 }
 
-func (i RandomShuffleMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*RandomShuffle] {
-	return pulumix.Output[map[string]*RandomShuffle]{
-		OutputState: i.ToRandomShuffleMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RandomShuffleOutput struct{ *pulumi.OutputState }
 
 func (RandomShuffleOutput) ElementType() reflect.Type {
@@ -258,12 +237,6 @@ func (o RandomShuffleOutput) ToRandomShuffleOutput() RandomShuffleOutput {
 
 func (o RandomShuffleOutput) ToRandomShuffleOutputWithContext(ctx context.Context) RandomShuffleOutput {
 	return o
-}
-
-func (o RandomShuffleOutput) ToOutput(ctx context.Context) pulumix.Output[*RandomShuffle] {
-	return pulumix.Output[*RandomShuffle]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The list of strings to shuffle.
@@ -305,12 +278,6 @@ func (o RandomShuffleArrayOutput) ToRandomShuffleArrayOutputWithContext(ctx cont
 	return o
 }
 
-func (o RandomShuffleArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*RandomShuffle] {
-	return pulumix.Output[[]*RandomShuffle]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o RandomShuffleArrayOutput) Index(i pulumi.IntInput) RandomShuffleOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *RandomShuffle {
 		return vs[0].([]*RandomShuffle)[vs[1].(int)]
@@ -329,12 +296,6 @@ func (o RandomShuffleMapOutput) ToRandomShuffleMapOutput() RandomShuffleMapOutpu
 
 func (o RandomShuffleMapOutput) ToRandomShuffleMapOutputWithContext(ctx context.Context) RandomShuffleMapOutput {
 	return o
-}
-
-func (o RandomShuffleMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*RandomShuffle] {
-	return pulumix.Output[map[string]*RandomShuffle]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o RandomShuffleMapOutput) MapIndex(k pulumi.StringInput) RandomShuffleOutput {
