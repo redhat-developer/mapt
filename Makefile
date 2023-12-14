@@ -1,4 +1,4 @@
-VERSION ?= 0.7.0-dev
+VERSION ?= 0.6.1
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/rhqp/qenvs:v${VERSION}

@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-aws-fedora
   labels:
-    app.kubernetes.io/version: "0.6.0"
+    app.kubernetes.io/version: "0.6.1"
   annotations:
     tekton.dev/pipelines.minVersion: "0.24.x"
     tekton.dev/categories: infrastructure
@@ -77,7 +77,7 @@ spec:
 
   steps:
   - name: provisioner
-    image: quay.io/rhqp/qenvs:v0.6.0
+    image: quay.io/rhqp/qenvs:v0.6.1
     imagePullPolicy: Always
     script: |
       #!/bin/sh
