@@ -2,11 +2,14 @@ name: oci-builds
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main 
+      - 'patch*'
     tags:        
       - '*'
   pull_request:
-    branches: [ main ]
+    branches: 
+      - main
 
 jobs:
   build-qenvs:

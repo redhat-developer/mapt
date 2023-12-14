@@ -2,11 +2,14 @@ name: tkn-build
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main 
+      - 'patch*'
     tags:        
       - '*'
   pull_request:
-    branches: [ main ]
+    branches: 
+      - main
 
 jobs:
   
