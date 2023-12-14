@@ -16,7 +16,7 @@ const (
 
 	amiName            string = "ami-name"
 	amiNameDesc        string = "name for the custom ami to be used within windows machine. Check README on how to build it"
-	amiNameDefault     string = "Windows_Server-2019-English-Full-HyperV-RHQE"
+	amiNameDefault     string = "Windows_Server-2022-English-Full-HyperV-RHQE"
 	amiUsername        string = "ami-username"
 	amiUsernameDesc    string = "name for de default user on the custom AMI"
 	amiUsernameDefault string = "ec2-user"
