@@ -40,7 +40,6 @@ type Request struct {
 	AMIUser  string
 	AMIOwner string
 	AMILang  string
-	AMIArch  string
 	Spot     bool
 	Airgap   bool
 	// internal management
@@ -71,7 +70,6 @@ func Create(r *Request) error {
 		r.AMIName = amiNameDefault
 		r.AMIUser = amiUserDefault
 		r.AMIOwner = amiOwnerDefault
-		r.AMIArch = amiArchDefault
 	}
 	if len(r.AMILang) > 0 && r.AMILang == amiLangNonEng {
 		r.AMIName = amiNonEngNameDefault
@@ -100,7 +98,7 @@ func Create(r *Request) error {
 		}
 		r.az = *az
 	}
-	isAMIOffered, _, err := amiSVC.IsAMIOffered(r.AMIName, r.AMIArch, r.region)
+	isAMIOffered, _, err := amiSVC.IsAMIOffered(&r.AMIName, nil, &r.region)
 	if err != nil {
 		return err
 	}
@@ -109,7 +107,8 @@ func Create(r *Request) error {
 		acr := amiCopy.CopyAMIRequest{
 			Prefix:          r.Prefix,
 			ID:              awsWindowsDedicatedID,
-			AMISourceName:   r.AMIName,
+			AMISourceName:   &r.AMIName,
+			AMISourceArch:   nil,
 			AMITargetRegion: &r.region,
 		}
 		if err := acr.Create(); err != nil {

@@ -53,47 +53,49 @@ type ImageInfo struct {
 }
 
 // IsAMIOffered checks if an ami based on its Name is offered on a specific region
-func IsAMIOffered(amiName, amiArch, region string) (bool, *ImageInfo, error) {
+func IsAMIOffered(amiName, amiArch, region *string) (bool, *ImageInfo, error) {
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String(region),
+		Region: aws.String(*region),
 	})
 	if err != nil {
 		return false, nil, err
 	}
 	svc := awsEC2.New(sess)
 	var filterName = "name"
-	var filterArch = "architecture"
+	filters := []*awsEC2.Filter{
+		{
+			Name:   &filterName,
+			Values: aws.StringSlice([]string{*amiName})}}
+	if amiArch != nil {
+		var filterArch = "architecture"
+		filters = append(filters, &awsEC2.Filter{
+			Name:   &filterArch,
+			Values: aws.StringSlice([]string{*amiArch})})
+	}
 	result, err := svc.DescribeImages(&awsEC2.DescribeImagesInput{
-		Filters: []*awsEC2.Filter{
-			{
-				Name:   &filterName,
-				Values: aws.StringSlice([]string{amiName})},
-			{
-				Name:   &filterArch,
-				Values: aws.StringSlice([]string{amiArch})},
-		}})
+		Filters: filters})
 	if err != nil {
-		logging.Debugf("error checking %s in %s error is %v", amiName, region, err)
+		logging.Debugf("error checking %s in %s error is %v", *amiName, *region, err)
 		return false, nil, err
 	}
 	if result == nil || len(result.Images) == 0 {
-		logging.Debugf("result len 0 checking %s in %s", amiName, region)
+		logging.Debugf("result len 0 checking %s in %s", *amiName, *region)
 		return false, nil, nil
 	}
-	logging.Debugf("len %d checking %s in %s", len(result.Images), amiName, region)
+	logging.Debugf("len %d checking %s in %s", len(result.Images), *amiName, *region)
 	if err != nil {
 		return false, nil, err
 	}
 	return len(result.Images) > 0,
 		&ImageInfo{
-			Region: &region,
+			Region: region,
 			Image:  result.Images[0]},
 		nil
 }
 
 // This function check all regions to get the AMI filter by its name
 // it will return the first region where the AMI is offered
-func FindAMI(amiName, amiArch string) (*ImageInfo, error) {
+func FindAMI(amiName, amiArch *string) (*ImageInfo, error) {
 	regions, err := data.GetRegions()
 	if err != nil {
 		return nil, err
@@ -108,7 +110,7 @@ func FindAMI(amiName, amiArch string) (*ImageInfo, error) {
 		go func(r chan *ImageInfo) {
 			defer wg.Done()
 			if isOffered, i, _ := IsAMIOffered(
-				amiName, amiArch, lRegion); isOffered {
+				amiName, amiArch, &lRegion); isOffered {
 				r <- i
 			}
 		}(r)
@@ -122,6 +124,6 @@ func FindAMI(amiName, amiArch string) (*ImageInfo, error) {
 	case sAMI := <-r:
 		return sAMI, nil
 	case <-e:
-		return nil, fmt.Errorf("not AMI find with name %s on any region", amiName)
+		return nil, fmt.Errorf("not AMI find with name %s on any region", *amiName)
 	}
 }

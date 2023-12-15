@@ -14,8 +14,8 @@ import (
 type CopyAMIRequest struct {
 	Prefix        string
 	ID            string
-	AMISourceName string
-	AMISourceArch string
+	AMISourceName *string
+	AMISourceArch *string
 	// AMITargetName string
 	// If AMITargetRegion is nil
 	// it will be copied to all regions
@@ -99,14 +99,14 @@ func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 	// mostly for covering use case on copy to all regions (all except the source)
 	if amiInfo.Region != r.AMITargetRegion {
 		_, err = ec2.NewAmiCopy(ctx,
-			r.AMISourceName,
+			*r.AMISourceName,
 			&ec2.AmiCopyArgs{
 				Description: pulumi.String(
 					fmt.Sprintf("Replica of %s from %s", *amiInfo.Image.ImageId, *amiInfo.Region)),
 				SourceAmiId:     pulumi.String(*amiInfo.Image.ImageId),
 				SourceAmiRegion: pulumi.String(*amiInfo.Region),
 				Tags: qenvsContext.ResourceTagsWithCustom(
-					map[string]string{"Name": r.AMISourceName}),
+					map[string]string{"Name": *r.AMISourceName}),
 			})
 		if err != nil {
 			return err
