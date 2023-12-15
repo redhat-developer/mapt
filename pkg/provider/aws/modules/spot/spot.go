@@ -230,7 +230,7 @@ func checkBestOption(amiName, amiArch string, source []spotOptionInfo,
 				// Check for AMI is optional, i.e if we will use custom AMIs which can be replicated
 				// we want the best option and the we will take care for replicate the AMI
 				if result && len(amiName) > 0 {
-					result, _, err = ami.IsAMIOffered(amiName, amiArch, price.Region)
+					result, _, err = ami.IsAMIOffered(&amiName, &amiArch, &price.Region)
 					if err != nil {
 						return false
 					}
