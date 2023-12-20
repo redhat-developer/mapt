@@ -2,7 +2,6 @@
 
 #Usage ./../aws_setup.sh ACCESS_KEY SECRET_KEY REGION TEAM_ID PROJECT_ID
 
-
 CONTAINER_RUNTIME="${CONTAINER_RUNTIME:-"podman"}"
 AWS_CLI="${CONTAINER_RUNTIME} run --rm -it -e AWS_ACCESS_KEY_ID=${1} -e AWS_SECRET_ACCESS_KEY=${2} -e AWS_DEFAULT_REGION=${3} docker.io/amazon/aws-cli:latest"
 
@@ -27,11 +26,11 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # Create user
-user_name="${4}-${5}"
+user_name=${4}-${5}
 aws_cmd "iam get-user --user-name ${user_name}"
 if [[ $? -ne 0 ]]; then 
     aws_cmd "iam create-user --user-name ${user_name}"
-    aws_cmd "iam create-access-key --user-name crcqe-tstenvs > access_key_info"
+    aws_cmd "iam create-access-key --user-name ${user_name}" > access_key_info
 fi
 
 # Add user to group
