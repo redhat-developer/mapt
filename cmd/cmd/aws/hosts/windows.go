@@ -26,6 +26,8 @@ const (
 	amiLang            string = "ami-lang"
 	amiLangDesc        string = "language for the ami possible values (eng, non-eng). This param is used when no ami-name is set and the action uses the default custom ami"
 	amiLangDefault     string = "eng"
+	amiKeepCopy        string = "ami-keep-copy"
+	amiKeepCopyDesc    string = "in case the ami needs to be copied to a target region (i.e due to spot) if ami-keep-copy flag is present the destroy operation will not remove the AMI (this is intended for speed it up on coming provisionings)"
 )
 
 func GetWindowsCmd() *cobra.Command {
@@ -62,13 +64,14 @@ func getWindowsCreate() *cobra.Command {
 			// Run create
 			if err := windows.Create(
 				&windows.Request{
-					Prefix:   "main",
-					AMIName:  viper.GetString(amiName),
-					AMIUser:  viper.GetString(amiUsername),
-					AMIOwner: viper.GetString(amiOwner),
-					AMILang:  viper.GetString(amiLang),
-					Spot:     viper.IsSet(spot),
-					Airgap:   viper.IsSet(airgap)}); err != nil {
+					Prefix:      "main",
+					AMIName:     viper.GetString(amiName),
+					AMIUser:     viper.GetString(amiUsername),
+					AMIOwner:    viper.GetString(amiOwner),
+					AMILang:     viper.GetString(amiLang),
+					AMIKeepCopy: viper.IsSet(amiKeepCopy),
+					Spot:        viper.IsSet(spot),
+					Airgap:      viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -83,6 +86,7 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.StringP(amiLang, "", amiLangDefault, amiLangDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
+	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

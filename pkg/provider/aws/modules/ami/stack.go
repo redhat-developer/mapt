@@ -20,15 +20,9 @@ type CopyAMIRequest struct {
 	// If AMITargetRegion is nil
 	// it will be copied to all regions
 	AMITargetRegion *string
+	// if set to true it will keep the AMI on destroy
+	AMIKeepCopy bool
 }
-
-// type SpotOptionResult struct {
-// 	Region           string
-// 	AvailabilityZone string
-// 	AVGPrice         float64
-// 	MaxPrice         float64
-// 	Score            int64
-// }
 
 // Create wil get the information for the best spot choice it is backed
 // within a stack and state to allow idempotency, otherwise run 2nd time a create
@@ -107,7 +101,8 @@ func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 				SourceAmiRegion: pulumi.String(*amiInfo.Region),
 				Tags: qenvsContext.ResourceTagsWithCustom(
 					map[string]string{"Name": *r.AMISourceName}),
-			})
+			},
+			pulumi.RetainOnDelete(r.AMIKeepCopy))
 		if err != nil {
 			return err
 		}

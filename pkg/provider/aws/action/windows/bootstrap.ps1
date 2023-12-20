@@ -7,10 +7,19 @@ $UserAccount | Set-LocalUser -Password $Password
 $RegistryPath = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
 Set-ItemProperty $RegistryPath 'DefaultPassword' -Value "{{.Password}}" -type String
 
-# Set the authorized keys according to the private key
-# Due to acl on the files Adminstrator can not write authorized_keys
-# So we need to invoke it as the default user
+# On windows server 2022 need to ensure unencrypted communications are allowed for this setup
+cd WSMan:\localhost\Client
+Set-Item .\allowunencrypted $true
+# now Create a session
 $UserName = "{{.Username}}"
 $Cred = New-Object System.Management.Automation.PSCredential ($UserName, $Password)
-Invoke-Command -ScriptBlock { New-Item -Path C:\Users\{{.Username}}\.ssh -Name "authorized_keys" -ItemType "file" -Value "{{.AuthorizedKey}}" -Force } -Credential $Cred -computername localhost
+$s = New-PSSession -ComputerName localhost -Credential $Cred -Authentication Basic
+# Set the authorized keys according to the private key
+Invoke-Command -ScriptBlock { New-Item -Path C:\Users\{{.Username}}\.ssh -Name "authorized_keys" -ItemType "file" -Value "{{.AuthorizedKey}}" -Force } -Session $s
+# Set back disable unnecrypted communications
+Set-Item .\allowunencrypted $false
+
+# Restart computer to have the ssh connection available with setup from this script
+# Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"
+netsh advfirewall firewall add rule name="Open SSH Port 22" dir=in action=allow protocol=TCP localport=22 remoteip=any
 </powershell>

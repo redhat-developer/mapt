@@ -36,12 +36,14 @@ type Request struct {
 	Prefix string
 	// AMI info. Optional. User and Owner only applied
 	// if AMIName is set
-	AMIName  string
-	AMIUser  string
-	AMIOwner string
-	AMILang  string
-	Spot     bool
-	Airgap   bool
+	AMIName     string
+	AMIUser     string
+	AMIOwner    string
+	AMILang     string
+	AMIKeepCopy bool
+	// Features
+	Spot   bool
+	Airgap bool
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -110,6 +112,7 @@ func Create(r *Request) error {
 			AMISourceName:   &r.AMIName,
 			AMISourceArch:   nil,
 			AMITargetRegion: &r.region,
+			AMIKeepCopy:     r.AMIKeepCopy,
 		}
 		if err := acr.Create(); err != nil {
 			return err
