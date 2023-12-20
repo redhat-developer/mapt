@@ -9,8 +9,8 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/adrianriobo/qenvs/pkg/util/maps"
-	"github.com/aws/aws-sdk-go/aws"
-	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	awsEC2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 )
 
@@ -69,12 +69,12 @@ func DestroyStack(stackname string) error {
 }
 
 // Create a list of filters for tags based on the tags added by qenvs
-func GetTagsAsFilters() (filters []*awsEC2.Filter) {
+func GetTagsAsFilters() (filters []*awsEC2Types.Filter) {
 	filterMap := maps.Convert(qenvsContext.GetTags(),
 		func(name string) *string { return aws.String("tag:" + name) },
-		func(value string) []*string { return []*string{aws.String(value)} })
+		func(value string) []string { return []string{value} })
 	for k, v := range filterMap {
-		filter := awsEC2.Filter{
+		filter := awsEC2Types.Filter{
 			Name:   k,
 			Values: v,
 		}

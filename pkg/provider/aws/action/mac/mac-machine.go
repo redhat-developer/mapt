@@ -1,6 +1,7 @@
 package mac
 
 import (
+	"context"
 	_ "embed"
 	"fmt"
 
@@ -19,8 +20,8 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/file"
 	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
-	"github.com/aws/aws-sdk-go/aws/session"
-	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/config"
+	awsEC2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
@@ -169,13 +170,13 @@ func (r *MacRequest) manageResultsMachine(stackResult auto.UpResult) error {
 // dedicated host are tied to an specific Az, as so we need to create
 // all resources within the mac machine on that specific region
 func getDedicatedHostZoneName(dhID string) (*string, error) {
-	sess, err := session.NewSession()
+	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return nil, err
 	}
-	svc := awsEC2.New(sess)
-	dh, err := svc.DescribeHosts(&awsEC2.DescribeHostsInput{
-		HostIds: []*string{&dhID},
+	client := awsEC2.NewFromConfig(cfg)
+	dh, err := client.DescribeHosts(context.Background(), &awsEC2.DescribeHostsInput{
+		HostIds: []string{dhID},
 	})
 	if err != nil {
 		return nil, err

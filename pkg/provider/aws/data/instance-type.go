@@ -1,10 +1,11 @@
 package data
 
 import (
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
+	"context"
 
-	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
 var (
@@ -17,25 +18,26 @@ var (
 
 // Get InstanceTypes offerings on current location
 func IsInstanceTypeOfferedByRegion(instanceType, region string) (bool, error) {
-	config := aws.Config{}
+	var cfgOpts config.LoadOptionsFunc
 	if len(region) > 0 {
-		config.Region = aws.String(region)
+		cfgOpts = config.WithRegion(region)
 	}
-	sess, err := session.NewSession(&config)
+	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
 	if err != nil {
 		return false, err
 	}
-	svc := awsEC2.New(sess)
-	o, err := svc.DescribeInstanceTypeOfferings(
-		&awsEC2.DescribeInstanceTypeOfferingsInput{
-			LocationType: &locatioRegion,
-			Filters: []*awsEC2.Filter{
+	client := ec2.NewFromConfig(cfg)
+	o, err := client.DescribeInstanceTypeOfferings(
+		context.Background(),
+		&ec2.DescribeInstanceTypeOfferingsInput{
+			LocationType: ec2Types.LocationType(locatioRegion),
+			Filters: []ec2Types.Filter{
 				{
 					Name:   &filternameLocation,
-					Values: []*string{&region}},
+					Values: []string{region}},
 				{
 					Name:   &filternameInstanceType,
-					Values: []*string{&instanceType}},
+					Values: []string{instanceType}},
 			}})
 	if err != nil {
 		return false, err
@@ -44,25 +46,26 @@ func IsInstanceTypeOfferedByRegion(instanceType, region string) (bool, error) {
 }
 
 func IsInstanceTypeOfferedByAZ(region, instanceType, az string) (bool, error) {
-	config := aws.Config{}
+	var cfgOpts config.LoadOptionsFunc
 	if len(region) > 0 {
-		config.Region = aws.String(region)
+		cfgOpts = config.WithRegion(region)
 	}
-	sess, err := session.NewSession(&config)
+	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
 	if err != nil {
 		return false, err
 	}
-	svc := awsEC2.New(sess)
-	o, err := svc.DescribeInstanceTypeOfferings(
-		&awsEC2.DescribeInstanceTypeOfferingsInput{
-			LocationType: &locationAZ,
-			Filters: []*awsEC2.Filter{
+	client := ec2.NewFromConfig(cfg)
+	o, err := client.DescribeInstanceTypeOfferings(
+		context.Background(),
+		&ec2.DescribeInstanceTypeOfferingsInput{
+			LocationType: ec2Types.LocationType(locationAZ),
+			Filters: []ec2Types.Filter{
 				{
 					Name:   &filternameLocation,
-					Values: []*string{&az}},
+					Values: []string{az}},
 				{
 					Name:   &filternameInstanceType,
-					Values: []*string{&instanceType}},
+					Values: []string{instanceType}},
 			}})
 	if err != nil {
 		return false, err

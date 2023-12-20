@@ -1,14 +1,15 @@
 package ami
 
 import (
+	"context"
 	"fmt"
 	"sync"
 
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/config"
+	awsEC2 "github.com/aws/aws-sdk-go-v2/service/ec2"
+	awsEC2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -49,31 +50,35 @@ func GetAMIByName(ctx *pulumi.Context,
 
 type ImageInfo struct {
 	Region *string
-	Image  *awsEC2.Image
+	Image  *awsEC2Types.Image
 }
 
 // IsAMIOffered checks if an ami based on its Name is offered on a specific region
 func IsAMIOffered(amiName, amiArch, region *string) (bool, *ImageInfo, error) {
-	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String(*region),
-	})
+	var cfgOpts config.LoadOptionsFunc
+	if len(*region) > 0 {
+		cfgOpts = config.WithRegion(*region)
+	}
+	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
 	if err != nil {
 		return false, nil, err
 	}
-	svc := awsEC2.New(sess)
+	client := awsEC2.NewFromConfig(cfg)
 	var filterName = "name"
-	filters := []*awsEC2.Filter{
+	filters := []awsEC2Types.Filter{
 		{
 			Name:   &filterName,
-			Values: aws.StringSlice([]string{*amiName})}}
+			Values: []string{*amiName}}}
 	if amiArch != nil {
 		var filterArch = "architecture"
-		filters = append(filters, &awsEC2.Filter{
+		filters = append(filters, awsEC2Types.Filter{
 			Name:   &filterArch,
-			Values: aws.StringSlice([]string{*amiArch})})
+			Values: []string{*amiArch}})
 	}
-	result, err := svc.DescribeImages(&awsEC2.DescribeImagesInput{
-		Filters: filters})
+	result, err := client.DescribeImages(
+		context.Background(),
+		&awsEC2.DescribeImagesInput{
+			Filters: filters})
 	if err != nil {
 		logging.Debugf("error checking %s in %s error is %v", *amiName, *region, err)
 		return false, nil, err
@@ -89,7 +94,7 @@ func IsAMIOffered(amiName, amiArch, region *string) (bool, *ImageInfo, error) {
 	return len(result.Images) > 0,
 		&ImageInfo{
 			Region: region,
-			Image:  result.Images[0]},
+			Image:  &result.Images[0]},
 		nil
 }
 

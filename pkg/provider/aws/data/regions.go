@@ -1,10 +1,13 @@
 package data
 
 import (
-	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/aws/aws-sdk-go/aws/session"
+	"context"
 
-	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/adrianriobo/qenvs/pkg/util"
+
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
 var (
@@ -13,24 +16,25 @@ var (
 )
 
 func GetRegions() ([]string, error) {
-	sess, err := session.NewSession()
+	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return nil, err
 	}
-	svc := awsEC2.New(sess)
-	regions, err := svc.DescribeRegions(
-		&awsEC2.DescribeRegionsInput{
-			Filters: []*awsEC2.Filter{
+	client := ec2.NewFromConfig(cfg)
+	regions, err := client.DescribeRegions(
+		context.Background(),
+		&ec2.DescribeRegionsInput{
+			Filters: []ec2Types.Filter{
 				{
 					Name:   &optInStatusFilter,
-					Values: []*string{&optInStatusNorRequired},
+					Values: []string{optInStatusNorRequired},
 				},
 			}})
 	if err != nil {
 		return nil, err
 	}
 	return util.ArrayConvert(regions.Regions,
-			func(item *awsEC2.Region) string {
+			func(item ec2Types.Region) string {
 				return *item.RegionName
 			}),
 		nil
