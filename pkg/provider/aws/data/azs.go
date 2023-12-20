@@ -1,13 +1,15 @@
 package data
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	ec2types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"golang.org/x/exp/slices"
 )
 
@@ -17,7 +19,7 @@ func GetRandomAvailabilityZone(region string, excludedAZs []string) (*string, er
 		return nil, err
 	}
 	if len(excludedAZs) > 0 {
-		azs = slices.DeleteFunc(azs, func(a *ec2.AvailabilityZone) bool {
+		azs = slices.DeleteFunc(azs, func(a ec2types.AvailabilityZone) bool {
 			return slices.Contains(excludedAZs, *a.ZoneName)
 		})
 	}
@@ -30,13 +32,13 @@ func GetAvailabilityZones() []string {
 		logging.Error(err)
 		return nil
 	}
-	return util.ArrayConvert(azs, func(source *ec2.AvailabilityZone) string {
+	return util.ArrayConvert(azs, func(source ec2types.AvailabilityZone) string {
 		return *source.ZoneName
 	})
 }
 
 type AvailabilityZonesResult struct {
-	AvailabilityZones []*ec2.AvailabilityZone
+	AvailabilityZones []ec2types.AvailabilityZone
 	Err               error
 }
 
@@ -48,40 +50,40 @@ func DescribeAvailabilityZonesAsync(regionName string, c chan AvailabilityZonesR
 
 }
 
-func DescribeAvailabilityZones(regionName string) ([]*ec2.AvailabilityZone, error) {
+func DescribeAvailabilityZones(regionName string) ([]ec2types.AvailabilityZone, error) {
 	return describeAvailabilityZones(regionName)
 }
 
-func describeAvailabilityZones(regionName string) ([]*ec2.AvailabilityZone, error) {
-	config := aws.Config{}
+func describeAvailabilityZones(regionName string) ([]ec2types.AvailabilityZone, error) {
+	var cfgOpts config.LoadOptionsFunc
 	if len(regionName) > 0 {
-		config.Region = aws.String(regionName)
+		cfgOpts = config.WithRegion(regionName)
 	}
-	sess, err := session.NewSession(&config)
+	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
 	if err != nil {
 		return nil, err
 	}
-	svc := ec2.New(sess)
+	client := ec2.NewFromConfig(cfg)
 	// TODO check what happen when true and region name
-	input := &ec2.DescribeAvailabilityZonesInput{
+	input := ec2.DescribeAvailabilityZonesInput{
 		// AllAvailabilityZones: aws.Bool(true),
 	}
-	input.Filters = []*ec2.Filter{
+	input.Filters = []ec2types.Filter{
 		{
 			Name:   aws.String("zone-type"),
-			Values: aws.StringSlice([]string{"availability-zone"}),
+			Values: []string{"availability-zone"},
 		},
 	}
-	resultAZs, err := svc.DescribeAvailabilityZones(input)
+	resultAZs, err := client.DescribeAvailabilityZones(context.Background(), &input)
 	if err != nil {
 		return nil, err
 	}
 	return resultAZs.AvailabilityZones, nil
 }
 
-func GetZoneName(azID string, azDescriptions []*ec2.AvailabilityZone) (string, error) {
+func GetZoneName(azID string, azDescriptions []ec2types.AvailabilityZone) (string, error) {
 	idx := slices.IndexFunc(azDescriptions,
-		func(azDescription *ec2.AvailabilityZone) bool {
+		func(azDescription ec2types.AvailabilityZone) bool {
 			return azID == *azDescription.ZoneId
 		})
 	if idx == -1 {

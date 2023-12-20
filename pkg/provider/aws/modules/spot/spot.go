@@ -1,6 +1,7 @@
 package spot
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 	"time"
@@ -9,10 +10,11 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ec2"
-	awsEC2 "github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"golang.org/x/exp/slices"
 )
@@ -59,7 +61,7 @@ type spotOptionInfo struct {
 	AvailabilityZone string
 	AVGPrice         float64
 	MaxPrice         float64
-	Score            int64
+	Score            int32
 }
 
 type spotOptionResult struct {
@@ -96,20 +98,20 @@ func bestSpotOptionInfo(productDescription string, instaceTypes []string, amiNam
 // This function returns placement scores for the instances types across all the target regions
 // the list is ordered from max to min by score
 func placementScores(regions, instanceTypes []string,
-	capacity int64) ([]*awsEC2.SpotPlacementScore, error) {
-	sess, err := session.NewSession()
+	capacity int32) ([]ec2Types.SpotPlacementScore, error) {
+	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		return nil, err
 	}
-	svc := awsEC2.New(sess)
-
-	sps, err := svc.GetSpotPlacementScores(
-		&awsEC2.GetSpotPlacementScoresInput{
+	client := ec2.NewFromConfig(cfg)
+	sps, err := client.GetSpotPlacementScores(
+		context.Background(),
+		&ec2.GetSpotPlacementScoresInput{
 			SingleAvailabilityZone: aws.Bool(true),
-			InstanceTypes:          aws.StringSlice(instanceTypes),
-			RegionNames:            aws.StringSlice(regions),
-			TargetCapacity:         aws.Int64(capacity),
-			MaxResults:             aws.Int64(maxSpotPlacementScoreResults),
+			InstanceTypes:          instanceTypes,
+			RegionNames:            regions,
+			TargetCapacity:         aws.Int32(capacity),
+			MaxResults:             aws.Int32(maxSpotPlacementScoreResults),
 		})
 	if err != nil {
 		return nil, err
@@ -118,7 +120,7 @@ func placementScores(regions, instanceTypes []string,
 		return nil, fmt.Errorf("non available scores")
 	}
 	slices.SortFunc(sps.SpotPlacementScores,
-		func(a, b *awsEC2.SpotPlacementScore) int {
+		func(a, b ec2Types.SpotPlacementScore) int {
 			return int(*a.Score - *b.Score)
 		})
 	return sps.SpotPlacementScores, nil
@@ -156,21 +158,28 @@ func spotOptionAsync(instanceTypes []string, productDescription, region string, 
 func spotOption(instanceTypes []string,
 	productDescription, region string) (
 	pricesGroup []spotOptionInfo, err error) {
-	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String(region)})
+	var cfgOpts config.LoadOptionsFunc
+	if len(region) > 0 {
+		cfgOpts = config.WithRegion(region)
+	}
+	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
 	if err != nil {
 		return nil, err
 	}
-	svc := awsEC2.New(sess)
+	client := ec2.NewFromConfig(cfg)
 	starTime := time.Now().Add(-1 * time.Hour)
 	endTime := time.Now()
-	history, err := svc.DescribeSpotPriceHistory(
-		&awsEC2.DescribeSpotPriceHistoryInput{
-			InstanceTypes: aws.StringSlice(instanceTypes),
-			Filters: []*awsEC2.Filter{
+	history, err := client.DescribeSpotPriceHistory(
+		context.Background(),
+		&ec2.DescribeSpotPriceHistoryInput{
+			InstanceTypes: util.ArrayConvert(instanceTypes,
+				func(i string) ec2Types.InstanceType {
+					return ec2Types.InstanceType(i)
+				}),
+			Filters: []ec2Types.Filter{
 				{
 					Name:   aws.String(spotQueryFilterProductDescription),
-					Values: []*string{&productDescription},
+					Values: []string{productDescription},
 				},
 			},
 			StartTime: &starTime,
@@ -179,14 +188,14 @@ func spotOption(instanceTypes []string,
 	if err != nil {
 		return nil, err
 	}
-	spotPriceGroups := util.SplitSlice(history.SpotPriceHistory, func(priceData *awsEC2.SpotPrice) spotOptionInfo {
+	spotPriceGroups := util.SplitSlice(history.SpotPriceHistory, func(priceData ec2Types.SpotPrice) spotOptionInfo {
 		return spotOptionInfo{
 			AvailabilityZone: *priceData.AvailabilityZone,
 		}
 	})
 	logging.Debugf("grouped prices %v", spotPriceGroups)
 	for groupInfo, pricesHistory := range spotPriceGroups {
-		prices := util.ArrayConvert(pricesHistory, func(priceHisotry *awsEC2.SpotPrice) float64 {
+		prices := util.ArrayConvert(pricesHistory, func(priceHisotry ec2Types.SpotPrice) float64 {
 			price, err := strconv.ParseFloat(*priceHisotry.SpotPrice, 64)
 			if err != nil {
 				// Overcost
@@ -210,16 +219,16 @@ func spotOption(instanceTypes []string,
 //
 // first option matching the requirements will be returned
 func checkBestOption(amiName, amiArch string, source []spotOptionInfo,
-	sps []*ec2.SpotPlacementScore,
-	availabilityZones []*ec2.AvailabilityZone) *spotOptionInfo {
+	sps []ec2Types.SpotPlacementScore,
+	availabilityZones []ec2Types.AvailabilityZone) *spotOptionInfo {
 	slices.SortFunc(source,
 		func(a, b spotOptionInfo) int {
 			return int(a.AVGPrice - b.AVGPrice)
 		})
-	var score int64 = spsMaxScore
+	var score int32 = spsMaxScore
 	for score > 3 {
 		for _, price := range source {
-			idx := slices.IndexFunc(sps, func(item *ec2.SpotPlacementScore) bool {
+			idx := slices.IndexFunc(sps, func(item ec2Types.SpotPlacementScore) bool {
 				// Need transform
 				spsZoneName, err := data.GetZoneName(*item.AvailabilityZoneId, availabilityZones)
 				if err != nil {
@@ -259,8 +268,8 @@ func checkBestOption(amiName, amiArch string, source []spotOptionInfo,
 // user 1 Name: us-west-1a ID: us-west-11, Name: us-west-1b ID: us-west-12
 // user 2 Name: us-west-1a ID: us-west-12, Name: us-west-1b ID: us-west-11
 // This allowsa a better distribution among users
-func describeAvailabilityZones(regions []string) []*ec2.AvailabilityZone {
-	allAvailabilityZones := []*ec2.AvailabilityZone{}
+func describeAvailabilityZones(regions []string) []ec2Types.AvailabilityZone {
+	allAvailabilityZones := []ec2Types.AvailabilityZone{}
 	c := make(chan data.AvailabilityZonesResult)
 	for _, region := range regions {
 		go data.DescribeAvailabilityZonesAsync(region, c)
