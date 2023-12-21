@@ -113,6 +113,8 @@ func Create(r *Request) error {
 			AMISourceArch:   nil,
 			AMITargetRegion: &r.region,
 			AMIKeepCopy:     r.AMIKeepCopy,
+			FastLaunch:      amiFastLaunch,
+			MaxParallel:     int32(amiFastLaunchMaxParallel),
 		}
 		if err := acr.Create(); err != nil {
 			return err
