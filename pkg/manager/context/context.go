@@ -37,7 +37,7 @@ func Init(instanceID, backedURL, resultsOutput string, tags map[string]string) {
 		tags:          tags,
 	}
 	addCommonTags()
-	logging.Debugf("context initialized for %s", c.id)
+	logging.Debugf("Context initialized for %s", c.id)
 }
 
 func InitBase(instanceID, backedURL string) {

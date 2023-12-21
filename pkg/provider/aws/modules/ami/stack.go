@@ -22,6 +22,9 @@ type CopyAMIRequest struct {
 	AMITargetRegion *string
 	// if set to true it will keep the AMI on destroy
 	AMIKeepCopy bool
+	// Only avai for windows images, this will create fast laucn
+	FastLaunch  bool
+	MaxParallel int32 // number of snapshost to support fast enable
 }
 
 // Create wil get the information for the best spot choice it is backed
@@ -92,7 +95,7 @@ func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 	// if target region is the same region as the source we do not copy
 	// mostly for covering use case on copy to all regions (all except the source)
 	if amiInfo.Region != r.AMITargetRegion {
-		_, err = ec2.NewAmiCopy(ctx,
+		ami, err := ec2.NewAmiCopy(ctx,
 			*r.AMISourceName,
 			&ec2.AmiCopyArgs{
 				Description: pulumi.String(
@@ -105,6 +108,14 @@ func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 			pulumi.RetainOnDelete(r.AMIKeepCopy))
 		if err != nil {
 			return err
+		}
+		if r.FastLaunch {
+			_ = ami.ID().ApplyT(func(amiID string) error {
+				return amiSVC.EnableFastLaunch(
+					r.AMITargetRegion,
+					&amiID,
+					&r.MaxParallel)
+			})
 		}
 	}
 	return nil

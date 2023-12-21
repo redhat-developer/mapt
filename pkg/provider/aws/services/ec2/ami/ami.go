@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"sync"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -131,4 +133,50 @@ func FindAMI(amiName, amiArch *string) (*ImageInfo, error) {
 	case <-e:
 		return nil, fmt.Errorf("not AMI find with name %s on any region", *amiName)
 	}
+}
+
+// Enable Fast Launchon AMI, it will only work with Windows instances
+func EnableFastLaunch(region *string, amiID *string, maxParallel *int32) error {
+	logging.Debugf("Enabling fast launch for ami %s", *amiID)
+	var cfgOpts config.LoadOptionsFunc
+	if len(*region) > 0 {
+		cfgOpts = config.WithRegion(*region)
+	}
+	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
+	if err != nil {
+		return err
+	}
+	client := awsEC2.NewFromConfig(cfg)
+	o, err := client.EnableFastLaunch(context.Background(),
+		&awsEC2.EnableFastLaunchInput{
+			ImageId:             amiID,
+			MaxParallelLaunches: maxParallel,
+		})
+	if err != nil {
+		return nil
+	}
+	fastLaunchState := o.State
+	for fastLaunchState != awsEC2Types.FastLaunchStateCodeEnabled {
+		dfl, err := client.DescribeFastLaunchImages(
+			context.Background(),
+			&awsEC2.DescribeFastLaunchImagesInput{
+				ImageIds: []string{*amiID},
+			})
+		if err != nil {
+			return nil
+		}
+		if len(dfl.FastLaunchImages) != 1 {
+			return fmt.Errorf("unexpected result enabling fast launch for AMI %s on region %s", *amiID, *region)
+		}
+		fastLaunchState = dfl.FastLaunchImages[0].State
+		if fastLaunchState == awsEC2Types.FastLaunchStateCodeEnabledFailed {
+			return fmt.Errorf("error enabling fast launch on AMI %s", *amiID)
+		}
+		if !slices.Contains([]awsEC2Types.FastLaunchStateCode{
+			awsEC2Types.FastLaunchStateCodeEnabling,
+			awsEC2Types.FastLaunchStateCodeEnabled}, fastLaunchState) {
+			return fmt.Errorf("unexpected state while enabling fast launch on AMI %s", *amiID)
+		}
+	}
+	return nil
 }

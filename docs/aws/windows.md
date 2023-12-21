@@ -15,9 +15,13 @@ Some of the customizations this image includes:
 
 ## Ami replication
 
-Also the action is expecting the image exists with the name: `Windows_Server-2019-English-Full-HyperV-RHQE` at least on one region. If `--spot` option is enable and the image is not offered / created on the chosen region it will copy the AMI as part of the stack (As so it will delete it on destroy).
+Also the action is expecting the image exists with the name: `Windows_Server-2022-English-Full-HyperV-RHQE` at least on one region (this AMI can be created using the helper side project [qenvs-builder](https://github.com/adrianriobo/qenvs-builder)). If `--spot` option is enable and the image is not offered / created on the chosen region it will copy the AMI as part of the stack (As so it will delete it on destroy).
 
 This process (replicate the ami) increase the overall time for spinning the machine, and can be avoided by running the replication cmd on the image to pre replicate the image on all regions.
+
+Also there is a special flag enabling the AMI to keep beyon the destroy operation `--ami-keep-copy`. In addition we are using the [fast launch](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/win-ami-config-fast-launch.html) feature for the AMI to reduce the amount of time for spinning up the machines.
+
+Disclaimer in case of use the `--ami-keep-copy` it will keep the ami and the six snapshots required to enable the fast launch. 
 
 ## Create
 
@@ -30,7 +34,9 @@ Usage:
 
 Flags:
       --airgap                       if this flag is set the host will be created as airgap machine. Access will done through a bastion
-      --ami-name string              name for the custom ami to be used within windows machine. Check README on how to build it (default "Windows_Server-2019-English-Full-HyperV-RHQE")
+      --ami-keep-copy                in case the ami needs to be copied to a target region (i.e due to spot) if ami-keep-copy flag is present the destroy operation will not remove the AMI (this is intended for speed it up on coming provisionings)
+      --ami-lang string              language for the ami possible values (eng, non-eng). This param is used when no ami-name is set and the action uses the default custom ami (default "eng")
+      --ami-name string              name for the custom ami to be used within windows machine. Check README on how to build it (default "Windows_Server-2022-English-Full-HyperV-RHQE")
       --ami-owner string             alias name for the owner of the custom AMI (default "self")
       --ami-username string          name for de default user on the custom AMI (default "ec2-user")
       --conn-details-output string   path to export host connection information (host, username and privateKey)
