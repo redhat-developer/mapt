@@ -120,15 +120,8 @@ func (r *Request) createMachine() error {
 		DeployFunc: r.deploy,
 	}
 
-	csResult, err := manager.UpStack(cs)
-	if err != nil {
-		return err
-	}
-	err = r.manageResults(csResult)
-	if err != nil {
-		return err
-	}
-	return nil
+	sr, _ := manager.UpStack(cs)
+	return r.manageResults(sr)
 }
 
 // Abstract this with a stackAirgapHandle receives a fn (connectivty on / off) err executes

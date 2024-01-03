@@ -46,11 +46,8 @@ func Create(r *WindowsRequest) (err error) {
 		ProviderCredentials: azure.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
-	csResult, err := manager.UpStack(cs)
-	if err != nil {
-		return err
-	}
-	return r.manageResults(csResult)
+	sr, _ := manager.UpStack(cs)
+	return r.manageResults(sr)
 }
 
 func Destroy() error {
