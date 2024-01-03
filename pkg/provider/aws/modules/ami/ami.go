@@ -80,9 +80,11 @@ func (r ReplicatedRequest) runStack(backedURL, region, operation string) error {
 
 	var err error
 	if operation == "create" {
-		_, err = manager.UpStack(stack)
+		_, err = manager.UpStack(stack,
+			manager.ManagerOptions{Baground: true})
 	} else {
-		err = manager.DestroyStack(stack)
+		err = manager.DestroyStack(stack,
+			manager.ManagerOptions{Baground: true})
 	}
 
 	if err != nil {

@@ -2,6 +2,7 @@ package manager
 
 import (
 	"context"
+	"os"
 
 	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
@@ -19,7 +20,13 @@ type Stack struct {
 	ProviderCredentials credentials.ProviderCredentials
 }
 
-func UpStack(targetStack Stack) (auto.UpResult, error) {
+type ManagerOptions struct {
+	// This option informs the manager the actions will be run on background
+	// through a routine so in that case we can not return exit but an error
+	Baground bool
+}
+
+func UpStack(targetStack Stack, opts ...ManagerOptions) (auto.UpResult, error) {
 	logging.Debugf("Creating stack %s", targetStack.StackName)
 	ctx := context.Background()
 	objectStack := getStack(ctx, targetStack)
@@ -27,21 +34,36 @@ func UpStack(targetStack Stack) (auto.UpResult, error) {
 	w := logging.GetWritter()
 	defer w.Close()
 	stdoutStreamer := optup.ProgressStreams(w)
-	return objectStack.Up(ctx, stdoutStreamer)
+	r, err := objectStack.Up(ctx, stdoutStreamer)
+	if err != nil {
+		logging.Error(err)
+		if len(opts) == 1 && opts[0].Baground {
+			return auto.UpResult{}, err
+		}
+		os.Exit(1)
+	}
+	return r, nil
 }
 
-func DestroyStack(targetStack Stack) (err error) {
+func DestroyStack(targetStack Stack, opts ...ManagerOptions) (err error) {
 	logging.Debugf("Destroying stack %s", targetStack.StackName)
 	ctx := context.Background()
 	objectStack := getStack(ctx, targetStack)
 	w := logging.GetWritter()
 	defer w.Close()
 	stdoutStreamer := optdestroy.ProgressStreams(w)
-	if _, err = objectStack.Destroy(ctx, stdoutStreamer); err != nil {
-		return
+	if _, err := objectStack.Destroy(ctx, stdoutStreamer); err != nil {
+		logging.Error(err)
+		os.Exit(1)
 	}
-	err = objectStack.Workspace().RemoveStack(ctx, targetStack.StackName)
-	return
+	if err := objectStack.Workspace().RemoveStack(ctx, targetStack.StackName); err != nil {
+		logging.Error(err)
+		if len(opts) == 1 && opts[0].Baground {
+			return err
+		}
+		os.Exit(1)
+	}
+	return nil
 }
 
 func CheckStack(target Stack) (*auto.Stack, error) {

@@ -58,15 +58,8 @@ func (r *MacRequest) createMacMachine() error {
 				aws.CONFIG_AWS_REGION: region}),
 		DeployFunc: r.deployerMachine,
 	}
-	csResult, err := manager.UpStack(cs)
-	if err != nil {
-		return err
-	}
-	err = r.manageResultsMachine(csResult)
-	if err != nil {
-		return err
-	}
-	return nil
+	sr, _ := manager.UpStack(cs)
+	return r.manageResultsMachine(sr)
 }
 
 // this creates the stack for the mac machine
