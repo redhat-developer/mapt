@@ -73,7 +73,7 @@ spec:
 
       # Remove lock
       if [[ $(params.remove-lock) == "true" ]]; then
-          rm -rf ${workspace_path}/.pulumi/locks/*
+        rm -rf ${workspace_path}/.pulumi/locks/*
       fi
 
       # Run qenvs
@@ -87,7 +87,7 @@ spec:
         cmd="$cmd --vmsize $(params.vmsize) "
         if [[ $(params.spot) == "true" ]]; then
           cmd="$cmd --spot "
-        if
+        fi
       fi
       eval "${cmd}"
 
