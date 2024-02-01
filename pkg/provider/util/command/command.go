@@ -14,7 +14,8 @@ const (
 	// https://www.pulumi.com/docs/intro/concepts/resources/options/customtimeouts/
 	RemoteTimeout string = "40m"
 
-	CommandCloudInitWait string = "sudo cloud-init status --wait"
+	// https://bugs.launchpad.net/ubuntu/+source/cloud-init/+bug/2048522
+	CommandCloudInitWait string = "sudo cloud-init status --long --wait || [[ $? -eq 2 || $? -eq 0 ]]"
 	CommandPing          string = "echo ping"
 
 	defaultSSHPort int = 22
