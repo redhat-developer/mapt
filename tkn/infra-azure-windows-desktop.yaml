@@ -55,9 +55,6 @@ spec:
   - name: provisioner
     image: quay.io/rhqp/qenvs:v0.7.0-dev
     imagePullPolicy: Always
-    volumeMounts:
-    - mountPath: /opt/credentials/
-      name: credentials
     script: |
       #!/bin/sh
 
@@ -116,7 +113,7 @@ spec:
         
   workspaces:
   - name: pipelines-data
-    description: volume to store outputs to connect within the target machine + state file for the infrastructure 
+    description: workspace to store outputs to connect within the target machine + state file for the infrastructure 
   - name: az-credentials
     description: |
       ocp secret holding the azure credentials. Secret should be accessible to this task.
