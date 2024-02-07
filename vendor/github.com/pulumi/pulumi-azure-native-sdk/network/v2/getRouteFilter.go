@@ -14,7 +14,7 @@ import (
 // Gets the specified route filter.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
 func LookupRouteFilter(ctx *pulumi.Context, args *LookupRouteFilterArgs, opts ...pulumi.InvokeOption) (*LookupRouteFilterResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRouteFilterResult

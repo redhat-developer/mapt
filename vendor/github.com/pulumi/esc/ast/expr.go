@@ -54,14 +54,14 @@ func (x *exprNode) Syntax() syntax.Node {
 
 // ExprError creates an error-level diagnostic associated with the given expression. If the expression is non-nil and
 // has an underlying syntax node, the error will cover the underlying textual range.
-func ExprError(expr Expr, summary, detail string) *syntax.Diagnostic {
+func ExprError(expr Expr, summary string) *syntax.Diagnostic {
 	var rng *hcl.Range
 	if expr != nil {
 		if syntax := expr.Syntax(); syntax != nil {
 			rng = syntax.Syntax().Range()
 		}
 	}
-	return syntax.Error(rng, summary, detail)
+	return syntax.Error(rng, summary, expr.Syntax().Syntax().Path())
 }
 
 // A NullExpr represents a null literal.
@@ -180,7 +180,7 @@ func InterpolateSyntax(node *syntax.StringNode) (*InterpolateExpr, syntax.Diagno
 
 	for _, part := range parts {
 		if part.Value != nil && len(part.Value.Accessors) == 0 {
-			diags.Extend(syntax.NodeError(node, "Property access expressions cannot be empty", ""))
+			diags.Extend(syntax.NodeError(node, "Property access expressions cannot be empty"))
 		}
 	}
 
@@ -345,7 +345,7 @@ func ParseExpr(node syntax.Node) (Expr, syntax.Diagnostics) {
 
 			k, ok := kx.(*StringExpr)
 			if !ok {
-				diags.Extend(syntax.NodeError(kvp.Key, "object keys must be strings", ""))
+				diags.Extend(syntax.NodeError(kvp.Key, "object keys must be strings"))
 			}
 
 			v, vdiags := ParseExpr(kvp.Value)
@@ -355,7 +355,7 @@ func ParseExpr(node syntax.Node) (Expr, syntax.Diagnostics) {
 		}
 		return ObjectSyntax(node, kvps...), diags
 	default:
-		return nil, syntax.Diagnostics{syntax.NodeError(node, fmt.Sprintf("unexpected syntax node of type %T", node), "")}
+		return nil, syntax.Diagnostics{syntax.NodeError(node, fmt.Sprintf("unexpected syntax node of type %T", node))}
 	}
 }
 
@@ -507,22 +507,40 @@ func Join(delimiter Expr, values *ArrayExpr) *JoinExpr {
 type SecretExpr struct {
 	builtinNode
 
-	Value Expr
+	Plaintext  *StringExpr
+	Ciphertext *StringExpr
 }
 
-func SecretSyntax(node *syntax.ObjectNode, name *StringExpr, value Expr) *SecretExpr {
+func PlaintextSyntax(node *syntax.ObjectNode, name, value *StringExpr) *SecretExpr {
 	return &SecretExpr{
 		builtinNode: builtin(node, name, value),
-		Value:       value,
+		Plaintext:   value,
 	}
 }
 
-func Secret(value Expr) *SecretExpr {
+func Plaintext(value *StringExpr) *SecretExpr {
 	name := String("fn::secret")
 
 	return &SecretExpr{
 		builtinNode: builtin(nil, name, value),
-		Value:       value,
+		Plaintext:   value,
+	}
+}
+
+func CiphertextSyntax(node *syntax.ObjectNode, name *StringExpr, args *ObjectExpr, value *StringExpr) *SecretExpr {
+	return &SecretExpr{
+		builtinNode: builtin(node, name, args),
+		Ciphertext:  value,
+	}
+}
+
+func Ciphertext(value *StringExpr) *SecretExpr {
+	name := String("fn::secret")
+	arg := Object(ObjectProperty{Key: String("ciphertext"), Value: value})
+
+	return &SecretExpr{
+		builtinNode: builtin(nil, name, arg),
+		Ciphertext:  value,
 	}
 }
 
@@ -591,10 +609,9 @@ func tryParseFunction(node *syntax.ObjectNode) (Expr, syntax.Diagnostics, bool) 
 		}
 
 		if strings.HasPrefix(strings.ToLower(kvp.Key.Value()), "fn::") {
-			diags = append(diags, syntax.Warning(kvp.Key.Syntax().Range(),
+			diags = append(diags, syntax.Error(kvp.Key.Syntax().Range(),
 				"'fn::' is a reserved prefix",
-				fmt.Sprintf("If you need to use the raw key '%s',"+
-					" please open an issue at https://github.com/pulumi/pulumi-yaml/issues", kvp.Key.Value())))
+				node.Syntax().Path()))
 		}
 		return nil, diags, false
 	}
@@ -621,7 +638,7 @@ func tryParseFunction(node *syntax.ObjectNode) (Expr, syntax.Diagnostics, bool) 
 func parseOpen(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr, syntax.Diagnostics) {
 	obj, ok := args.(*ObjectExpr)
 	if !ok {
-		return nil, syntax.Diagnostics{ExprError(args, "the argument to fn::open must be an object containing 'provider' and 'inputs'", "")}
+		return nil, syntax.Diagnostics{ExprError(args, "the argument to fn::open must be an object containing 'provider' and 'inputs'")}
 	}
 
 	var providerExpr, inputs Expr
@@ -641,14 +658,14 @@ func parseOpen(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr, synt
 	provider, ok := providerExpr.(*StringExpr)
 	if !ok {
 		if providerExpr == nil {
-			diags.Extend(ExprError(obj, "missing provider name ('provider')", ""))
+			diags.Extend(ExprError(obj, "missing provider name ('provider')"))
 		} else {
-			diags.Extend(ExprError(providerExpr, "provider name must be a string literal", ""))
+			diags.Extend(ExprError(providerExpr, "provider name must be a string literal"))
 		}
 	}
 
 	if inputs == nil {
-		diags.Extend(ExprError(obj, "missing provider inputs ('inputs')", ""))
+		diags.Extend(ExprError(obj, "missing provider inputs ('inputs')"))
 	}
 
 	if diags.HasErrors() {
@@ -662,7 +679,7 @@ func parseShortOpen(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr,
 	kvp := node.Index(0)
 	provider := strings.TrimPrefix(kvp.Key.Value(), "fn::open::")
 	if args == nil {
-		return nil, syntax.Diagnostics{ExprError(name, "missing provider inputs", "")}
+		return nil, syntax.Diagnostics{ExprError(name, "missing provider inputs")}
 	}
 	p := name.Syntax().(*syntax.StringNode)
 
@@ -672,7 +689,7 @@ func parseShortOpen(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr,
 func parseJoin(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr, syntax.Diagnostics) {
 	list, ok := args.(*ArrayExpr)
 	if !ok || len(list.Elements) != 2 {
-		return nil, syntax.Diagnostics{ExprError(args, "the argument to fn::join must be a two-valued list", "")}
+		return nil, syntax.Diagnostics{ExprError(args, "the argument to fn::join must be a two-valued list")}
 	}
 
 	return JoinSyntax(node, name, list, list.Elements[0], list.Elements[1]), nil
@@ -699,5 +716,18 @@ func parseFromBase64(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr
 }
 
 func parseSecret(node *syntax.ObjectNode, name *StringExpr, value Expr) (Expr, syntax.Diagnostics) {
-	return SecretSyntax(node, name, value), nil
+	if arg, ok := value.(*ObjectExpr); ok && len(arg.Entries) == 1 {
+		kvp := arg.Entries[0]
+		if kvp.Key.Value == "ciphertext" {
+			if str, ok := kvp.Value.(*StringExpr); ok {
+				return CiphertextSyntax(node, name, arg, str), nil
+			}
+		}
+	}
+
+	str, ok := value.(*StringExpr)
+	if !ok {
+		return nil, syntax.Diagnostics{ExprError(value, "secret values must be string literals")}
+	}
+	return PlaintextSyntax(node, name, str), nil
 }

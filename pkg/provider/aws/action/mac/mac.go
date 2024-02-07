@@ -3,166 +3,174 @@ package mac
 import (
 	_ "embed"
 	"fmt"
-	"os"
+	"strings"
 
-	"github.com/adrianriobo/qenvs/pkg/manager"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/tag"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
+
+	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
-type MacRequest struct {
-	Prefix           string
-	Architecture     string
-	Version          string
-	HostID           string
-	OnlyHost         bool
-	OnlyMachine      bool
-	FixedLocation    bool
-	Region           string
-	AvailabilityZone string
-	Airgap           bool
-	// For airgap scenario there is an orchestation of
-	// a phase with connectivity on the machine (allowing bootstraping)
-	// a pahase with connectivyt off where the subnet for the target lost the nat gateway
-	airgapPhaseConnectivity network.Connectivity
+// Request could be interpreted as a general way to create / release
+//
+// Some project will request a mac machine
+// based on tags it will check if there is any existing mac machine (based on labels + arch + MaxPoolSize)
+//
+// if dh machine exists and max pool size has been reached:
+//
+// if it exists it will check if it is locked
+// if no locked it will replace based on version TODO think how this would afferct airgap / proxy mechanism
+// it locked it will (wait or return an error)
+//
+// if dh does not exist or max pool size has not been reched
+// create the machine
+//
+//	...
+func Request(r *MacRequest) error {
+	// Get list of dedicated host ordered by allocation time
+	his, err := getMatchingHostsInformation(r.Architecture)
+	if err != nil {
+		return err
+	}
+	// If no machines we will create one
+	if len(his) == 0 {
+		return create(r, nil)
+	}
+	// Pick the most suited to be offered to the requester
+	// and replcae (create fresh env)
+	// If for whatever reason the mac has no been created
+	// stack does nt exist pick will require create not replace
+	hi, err := pickHost(r.Prefix, his)
+	if err != nil {
+		if hi == nil {
+			return err
+		}
+		return create(r, hi)
+	}
+	err = r.replaceMachine(hi)
+	if err != nil {
+		return err
+	}
+	// We update the runID on the dedicated host
+	return tag.Update(qenvsContext.TagKeyRunID,
+		qenvsContext.RunID(),
+		*hi.Region,
+		*hi.Host.HostId)
 }
 
-// this function orchestrate the two stacks related to mac machine
-// * the underlaying dedicated host
-// * the mac machine
-func Create(r *MacRequest) (err error) {
-	if len(r.HostID) == 0 {
-		// Check if instance type is available on current location
-		// region is only needed for dedicated host mac machine got the region from the az
-		// of the dedicated host or the request if it creates both at once
-		region, err := getRegion(r)
-		if err != nil {
-			return err
-		}
-		r.Region = *region
-		az, err := getAZ(r)
-		if err != nil {
-			return err
-		}
-		r.AvailabilityZone = *az
-		// No host id means need to create dedicated host
-		dhID, dhAZ, err := r.createDedicatedHost()
-		if err != nil {
-			return err
-		}
-		r.HostID = *dhID
-		r.AvailabilityZone = *dhAZ
+// Release will use dedicated host ID as identifier
+//
+// It will get the info for the dedicated host
+// get backedURL (tag on the dh)
+// get projectName (tag on the dh)
+// load machine stack based on those params
+// run release update on it
+func Release(prefix string, hostID string) error {
+	host, err := data.GetDedicatedHost(hostID)
+	if err != nil {
+		return err
 	}
-	if !r.OnlyHost {
-		// if not only host the mac machine will be created
-		if !r.Airgap {
-			return r.createMacMachine()
-		}
-		// Airgap scneario requires orchestration
-		return r.createAirgapMacMachine()
+	hi := getHostInformation(*host)
+	// Set context based on info from dedicated host to be released
+	qenvsContext.InitBase(
+		*hi.ProjectName,
+		*hi.BackedURL)
+	// Set a default request
+	r := &MacRequest{
+		Prefix:       prefix,
+		Architecture: archDefault,
+		Version:      osVersionDefault,
 	}
+	return r.releaseLock(hi)
+}
+
+// Initial scenario consider 1 machine
+// If we request destroy mac machine it will look for any machine
+// and check if it is locked if not locked it will destroy it
+func Destroy(prefix, hostID string) error {
+	host, err := data.GetDedicatedHost(hostID)
+	if err != nil {
+		return err
+	}
+	hi := getHostInformation(*host)
+	// Set context based on info from dedicated host to be released
+	qenvsContext.InitBase(
+		*hi.ProjectName,
+		*hi.BackedURL)
+	// Check if dh is available and it has no instance on it
+	// otherwise we can not release it
+	if hi.Host.State == ec2Types.AllocationStateAvailable &&
+		len(host.Instances) == 0 {
+		return aws.DestroyStack(aws.DestroyStackRequest{
+			Stackname: stackDedicatedHost,
+			// TODO check if needed to add region for backedURL
+			Region:    *hi.Region,
+			BackedURL: *hi.BackedURL,
+		})
+	}
+	// Dedicated host is not on a valid state to be deleted
+	// With same backedURL check if machine is locked
+	machineLocked, err := isMachineLocked(prefix, hi)
+	if err != nil {
+		return err
+	}
+	if !machineLocked {
+		return aws.DestroyStack(aws.DestroyStackRequest{
+			Stackname: stackMacMachine,
+			Region:    *hi.Region,
+			BackedURL: *hi.BackedURL,
+		})
+	}
+	logging.Debug("nothing to be destroyed")
 	return nil
 }
 
-// TODO add loop until state with target state and timeout?
-func CheckState(hostID string) (*string, error) {
-	return data.GetDedicatedHostState(hostID)
-}
+// Create function will create the dedicated host
+// it will add several tags to it
+//
+// * backedURL will be used to create the mac machine stack
+// * arch will be used to match new requests for specific arch
+// * origin fixed qenvs value
+// * instaceTagName id for the qenvs execution
+// * (customs) any tag passed as --tags param on the create operation
+//
+// It will also create a mac machine based on the arch and version setup
+// and will set a lock on it
 
-// Will destroy resources related to machine
-func Destroy(r *MacRequest) (err error) {
-	var region *string
-	if !r.OnlyHost {
-		region, err = r.getRegionFromStack(stackMacMachine)
+func create(r *MacRequest, dh *HostInformation) (err error) {
+	if dh == nil {
+		dh, err = r.createDedicatedHost()
 		if err != nil {
-			return
-		}
-		if err = aws.DestroyStackByRegion(*region, stackMacMachine); err != nil {
-			return
+			return err
 		}
 	}
-	if !r.OnlyMachine {
-		// We need to get dedicated host region to set on stack
-		if region == nil {
-			region, err = r.getRegionFromStack(stackDedicatedHost)
-			if err != nil {
-				return
+	// Setup the topology and install the mac machine
+	if !r.Airgap {
+		return r.createMacMachine(dh)
+	}
+	return r.createAirgapMacMachine(dh)
+}
+
+// We will get a list of hosts from the pool ordered by allocation time
+// We will apply several rules on them to pick the right one
+// - TODO Remove those with allocation time > 24 h as they may destroyed
+// - if none left use them again
+// - if more available pick in order the first without lock
+func pickHost(prefix string, his []*HostInformation) (*HostInformation, error) {
+	for _, h := range his {
+		isLocked, err := isMachineLocked(prefix, h)
+		if err != nil {
+			logging.Errorf("error checking if machine %s is locked", *h.Host.HostId)
+			if strings.Contains(err.Error(), "no stack") {
+				return h, err
 			}
 		}
-		return aws.DestroyStackByRegion(*region, stackDedicatedHost)
-	}
-	return nil
-}
-
-// checks if the machine can be created on the current location (machine type is available on the region)
-// if it available it returns the region name
-// if not offered and machine should be created on the region it will return an error
-// if not offered and machine could be created anywhere it will get a region offering the machine and return its name
-func getRegion(r *MacRequest) (*string, error) {
-	logging.Debugf("checking if %s is offered at %s",
-		r.Architecture,
-		os.Getenv("AWS_DEFAULT_REGION"))
-	isOffered, err := data.IsInstanceTypeOfferedByRegion(
-		macTypesByArch[r.Architecture],
-		os.Getenv("AWS_DEFAULT_REGION"))
-	if err != nil {
-		return nil, err
-	}
-	if isOffered {
-		region := os.Getenv("AWS_DEFAULT_REGION")
-		return &region, nil
-	}
-	if !isOffered && r.FixedLocation {
-		return nil, fmt.Errorf("the requested mac %s is not available at the current region %s and the fixed-location flag has been set",
-			r.Architecture,
-			os.Getenv("AWS_DEFAULT_REGION"))
-	}
-	// We look for a region offering the type of instance
-	return data.LokupRegionOfferingInstanceType(
-		macTypesByArch[r.Architecture])
-}
-
-// Get a random AZ from the requested region, it ensures the az offers the instance type
-func getAZ(r *MacRequest) (az *string, err error) {
-	isOffered := false
-	var excludedAZs []string
-	for !isOffered {
-		az, err = data.GetRandomAvailabilityZone(r.Region, excludedAZs)
-		if err != nil {
-			return nil, err
-		}
-		isOffered, err = data.IsInstanceTypeOfferedByAZ(r.Region, macTypesByArch[r.Architecture], *az)
-		if err != nil {
-			return nil, err
-		}
-		if !isOffered {
-			excludedAZs = append(excludedAZs, *az)
+		if !isLocked {
+			return h, nil
 		}
 	}
-	return
-}
-
-// Mac machine can be dinamically moved across regions as it is
-// tied to the dedicated host we save the region on the stack to setu[
-// the AWS session
-func (r *MacRequest) getRegionFromStack(stackName string) (*string, error) {
-	stack, err := manager.CheckStack(manager.Stack{
-		ProjectName: qenvsContext.GetInstanceName(),
-		StackName:   qenvsContext.GetStackInstanceName(stackName),
-		BackedURL:   qenvsContext.GetBackedURL()})
-	if err != nil {
-		return nil, err
-	}
-	outputs, err := manager.GetOutputs(stack)
-	if err != nil {
-		return nil, err
-	}
-	region, ok := outputs[fmt.Sprintf("%s-%s", r.Prefix, outputRegion)].Value.(string)
-	if ok {
-		return &region, nil
-	}
-	return nil, fmt.Errorf("%s not found", fmt.Sprintf("%s-%s", r.Prefix, outputRegion))
+	return nil, fmt.Errorf("all hosts are locked at the moment")
 }

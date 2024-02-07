@@ -1,6 +1,16 @@
 #!/bin/sh
 
+# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-mac-instances.html
+# Internal disk will be accessible on workspace dir 
+# mkdir -p "/Users/{{.Username}}/workspace"
+echo 'if [[ ! -d /Volumes/InternalDisk ]]; then' | tee -a "/Users/{{.Username}}/.zshrc"
+echo 'APFSVolumeName="InternalDisk" ; SSDContainer=$(diskutil list | grep "Physical Store disk0" -B 3 | grep "/dev/disk" | awk {'"'"'print $1'"'"'} ) ; diskutil apfs addVolume $SSDContainer APFS $APFSVolumeName' | tee -a "/Users/{{.Username}}/.zshrc"
+echo 'sudo chown {{.Username}}:staff "/Volumes/InternalDisk"' | tee -a "/Users/{{.Username}}/.zshrc"
+echo 'sudo chmod 0750 "/Volumes/InternalDisk"' | tee -a "/Users/{{.Username}}/.zshrc"
+echo 'fi' | tee -a "/Users/{{.Username}}/.zshrc"
+
 # Allow run x86 binaries on arm64 
+# TODO review if still required for CrC
 sudo softwareupdate --install-rosetta --agree-to-license
 
 # Enable remote control (vnc)
@@ -18,6 +28,11 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser "{{
 
 sudo defaults write /Library/Preferences/.GlobalPreferences.plist com.apple.securitypref.logoutvalue -int 0
 sudo defaults write /Library/Preferences/.GlobalPreferences.plist com.apple.autologout.AutoLogOutDelay -int 0
+sudo sysadminctl -screenLock off -password "{{.Password}}"
+
+# Override authorized key
+mkdir /Users/{{.Username}}/.ssh
+echo "{{.AuthorizedKey}}" | tee /Users/{{.Username}}/.ssh/authorized_keys
 
 # autologin to take effect
 # run reboot on background to successfully finish the remote exec of the script

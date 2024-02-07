@@ -35,9 +35,9 @@ type SpotOptionResult struct {
 // If stack does not exists it will create it
 func (r SpotOptionRequest) Create() (*SpotOptionResult, error) {
 	stack, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.GetStackInstanceName("spotOption"),
-		ProjectName: qenvsContext.GetInstanceName(),
-		BackedURL:   qenvsContext.GetBackedURL()})
+		StackName:   qenvsContext.StackNameByProject("spotOption"),
+		ProjectName: qenvsContext.ProjectName(),
+		BackedURL:   qenvsContext.BackedURL()})
 	if err != nil {
 		return r.createStack()
 	} else {
@@ -48,18 +48,18 @@ func (r SpotOptionRequest) Create() (*SpotOptionResult, error) {
 // Check if spot option stack was created on the backed url
 func Exist() bool {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.GetStackInstanceName("spotOption"),
-		ProjectName: qenvsContext.GetInstanceName(),
-		BackedURL:   qenvsContext.GetBackedURL()})
+		StackName:   qenvsContext.StackNameByProject("spotOption"),
+		ProjectName: qenvsContext.ProjectName(),
+		BackedURL:   qenvsContext.BackedURL()})
 	return err == nil && s != nil
 }
 
 // Destroy the stack
 func Destroy() (err error) {
 	stack := manager.Stack{
-		StackName:           qenvsContext.GetStackInstanceName("spotOption"),
-		ProjectName:         qenvsContext.GetInstanceName(),
-		BackedURL:           qenvsContext.GetBackedURL(),
+		StackName:           qenvsContext.StackNameByProject("spotOption"),
+		ProjectName:         qenvsContext.ProjectName(),
+		BackedURL:           qenvsContext.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials}
 	return manager.DestroyStack(stack)
 }
@@ -67,9 +67,9 @@ func Destroy() (err error) {
 // function to create the stack
 func (r SpotOptionRequest) createStack() (*SpotOptionResult, error) {
 	stack := manager.Stack{
-		StackName:           qenvsContext.GetStackInstanceName("spotOption"),
-		ProjectName:         qenvsContext.GetInstanceName(),
-		BackedURL:           qenvsContext.GetBackedURL(),
+		StackName:           qenvsContext.StackNameByProject("spotOption"),
+		ProjectName:         qenvsContext.ProjectName(),
+		BackedURL:           qenvsContext.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}

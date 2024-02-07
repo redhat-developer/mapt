@@ -89,7 +89,7 @@ func attachMiddleware(names []string, cmd *cobra.Command) {
 
 func executeWithLogging(fullCmd string, input func(cmd *cobra.Command, args []string) error) func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		logging.Debugf("Running '%s'", fullCmd)
+		logging.Debugf("running '%s'", fullCmd)
 		return input(cmd, args)
 	}
 }

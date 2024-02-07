@@ -15,7 +15,7 @@ import (
 // disk access resource.
 // Azure REST API version: 2022-07-02. Prior API version in Azure Native 1.x: 2020-12-01.
 //
-// Other available API versions: 2023-01-02, 2023-04-02.
+// Other available API versions: 2023-01-02, 2023-04-02, 2023-10-02.
 type DiskAccess struct {
 	pulumi.CustomResourceState
 
@@ -80,6 +80,9 @@ func NewDiskAccess(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20230402:DiskAccess"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20231002:DiskAccess"),
 		},
 	})
 	opts = append(opts, aliases)

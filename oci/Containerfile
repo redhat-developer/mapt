@@ -33,11 +33,11 @@ ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.13.3
+ARG PULUMI_AWS_VERSION=v6.18.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
 ARG PULUMI_AWSX_VERSION=v2.3.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v2.21.0
+ARG PULUMI_AZURE_NATIVE_VERSION=v2.25.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v0.9.2
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls

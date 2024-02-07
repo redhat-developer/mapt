@@ -42,7 +42,7 @@ type ProviderLoader interface {
 // An EnvironmentLoader provides the environment evaluator the capability to load imported environment definitions.
 type EnvironmentLoader interface {
 	// LoadEnvironment loads the definition for the environment with the given name.
-	LoadEnvironment(ctx context.Context, name string) ([]byte, error)
+	LoadEnvironment(ctx context.Context, name string) ([]byte, Decrypter, error)
 }
 
 // LoadYAML decodes a YAML template from an io.Reader.
@@ -78,10 +78,11 @@ func EvalEnvironment(
 	ctx context.Context,
 	name string,
 	env *ast.EnvironmentDecl,
+	decrypter Decrypter,
 	providers ProviderLoader,
 	environments EnvironmentLoader,
 ) (*esc.Environment, syntax.Diagnostics) {
-	return evalEnvironment(ctx, false, name, env, providers, environments)
+	return evalEnvironment(ctx, false, name, env, decrypter, providers, environments)
 }
 
 // CheckEnvironment symbolically evaluates the given environment. Calls to fn::open are not invoked, and instead
@@ -93,7 +94,7 @@ func CheckEnvironment(
 	providers ProviderLoader,
 	environments EnvironmentLoader,
 ) (*esc.Environment, syntax.Diagnostics) {
-	return evalEnvironment(ctx, true, name, env, providers, environments)
+	return evalEnvironment(ctx, true, name, env, nil, providers, environments)
 }
 
 // evalEnvironment evaluates an environment and exports the result of evaluation.
@@ -102,6 +103,7 @@ func evalEnvironment(
 	validating bool,
 	name string,
 	env *ast.EnvironmentDecl,
+	decrypter Decrypter,
 	providers ProviderLoader,
 	envs EnvironmentLoader,
 ) (*esc.Environment, syntax.Diagnostics) {
@@ -109,7 +111,7 @@ func evalEnvironment(
 		return nil, nil
 	}
 
-	ec := newEvalContext(ctx, validating, name, env, providers, envs, map[string]*value{})
+	ec := newEvalContext(ctx, validating, name, env, decrypter, providers, envs, map[string]*imported{})
 	v, diags := ec.evaluate()
 
 	s := schema.Never().Schema()
@@ -129,15 +131,21 @@ func evalEnvironment(
 	}, diags
 }
 
+type imported struct {
+	evaluating bool
+	value      *value
+}
+
 // An evalContext carries the state necessary to evaluate an environment.
 type evalContext struct {
 	ctx          context.Context      // the cancellation context for evaluation
 	validating   bool                 // true if we are only checking the environment
 	name         string               // the name of the environment
 	env          *ast.EnvironmentDecl // the root of the environment AST
+	decrypter    Decrypter            // the decrypter to use for the environment
 	providers    ProviderLoader       // the provider loader to use
 	environments EnvironmentLoader    // the environment loader to use
-	imports      map[string]*value    // the shared set of imported environments
+	imports      map[string]*imported // the shared set of imported environments
 
 	myImports *value // directly-imported environments
 	root      *expr  // the root expression
@@ -151,15 +159,17 @@ func newEvalContext(
 	validating bool,
 	name string,
 	env *ast.EnvironmentDecl,
+	decrypter Decrypter,
 	providers ProviderLoader,
 	environments EnvironmentLoader,
-	imports map[string]*value,
+	imports map[string]*imported,
 ) *evalContext {
 	return &evalContext{
 		ctx:          ctx,
 		validating:   validating,
 		name:         name,
 		env:          env,
+		decrypter:    decrypter,
 		providers:    providers,
 		environments: environments,
 		imports:      imports,
@@ -168,11 +178,11 @@ func newEvalContext(
 
 // error records an evaluation error associated with an expression.
 func (e *evalContext) error(expr ast.Expr, summary string) {
-	diag := ast.ExprError(expr, summary, "")
+	diag := ast.ExprError(expr, summary)
 	e.diags.Extend(diag)
 }
 
-// errorf is like errror, but accepts a format string and arguments (ala fmt.Sprintf)
+// errorf is like error, but accepts a format string and arguments (ala fmt.Sprintf)
 func (e *evalContext) errorf(expr ast.Expr, format string, a ...any) {
 	e.error(expr, fmt.Sprintf(format, a...))
 }
@@ -248,9 +258,14 @@ func (e *evalContext) declare(path string, x ast.Expr, base *value) *expr {
 		}
 		return newExpr(path, repr, schema.Always().Schema(), base)
 	case *ast.SecretExpr:
-		repr := &secretExpr{node: x, value: e.declare("", x.Value, nil)}
-		repr.value.secret = true
-		return newExpr(path, repr, repr.value.schema, base)
+		if x.Plaintext != nil {
+			repr := &secretExpr{node: x, plaintext: e.declare("", x.Plaintext, nil)}
+			repr.plaintext.secret = true
+			return newExpr(path, repr, schema.String().Schema(), base)
+		}
+		repr := &secretExpr{node: x, ciphertext: e.declare("", x.Ciphertext, nil)}
+		repr.ciphertext.secret = true
+		return newExpr(path, repr, schema.String().Schema(), base)
 	case *ast.ToBase64Expr:
 		repr := &toBase64Expr{node: x, value: e.declare("", x.Value, nil)}
 		return newExpr(path, repr, schema.String().Schema(), base)
@@ -327,8 +342,12 @@ func (e *evalContext) evaluate() (*value, syntax.Diagnostics) {
 	return v, e.diags
 }
 
-// evaluateImports evalutes an environment's imports.
+// evaluateImports evaluates an environment's imports.
 func (e *evalContext) evaluateImports() {
+	mine := &imported{evaluating: true}
+	defer func() { mine.evaluating = false }()
+	e.imports[e.name] = mine
+
 	myImports := map[string]*value{}
 	for _, entry := range e.env.Imports.GetElements() {
 		e.evaluateImport(myImports, entry)
@@ -364,9 +383,15 @@ func (e *evalContext) evaluateImport(myImports map[string]*value, decl *ast.Impo
 		merge = decl.Meta.Merge.Value
 	}
 
-	val, ok := e.imports[name]
-	if !ok {
-		bytes, err := e.environments.LoadEnvironment(e.ctx, name)
+	var val *value
+	if imported, ok := e.imports[name]; ok {
+		if imported.evaluating {
+			e.diags.Extend(syntax.Error(decl.Syntax().Syntax().Range(), fmt.Sprintf("cyclic import of %v", name), decl.Syntax().Syntax().Path()))
+			return
+		}
+		val = imported.value
+	} else {
+		bytes, dec, err := e.environments.LoadEnvironment(e.ctx, name)
 		if err != nil {
 			e.errorf(decl.Environment, "%s", err.Error())
 			return
@@ -379,12 +404,12 @@ func (e *evalContext) evaluateImport(myImports map[string]*value, decl *ast.Impo
 			return
 		}
 
-		imp := newEvalContext(e.ctx, e.validating, name, env, e.providers, e.environments, e.imports)
+		imp := newEvalContext(e.ctx, e.validating, name, env, dec, e.providers, e.environments, e.imports)
 		v, diags := imp.evaluate()
 		e.diags.Extend(diags...)
 
 		val = v
-		e.imports[name] = val
+		e.imports[name].value = val
 	}
 
 	myImports[name] = val
@@ -442,7 +467,7 @@ func (e *evalContext) evaluateExpr(x *expr) *value {
 	case *openExpr:
 		val = e.evaluateBuiltinOpen(x, repr)
 	case *secretExpr:
-		val = e.evaluateExpr(repr.value)
+		val = e.evaluateBuiltinSecret(x, repr)
 	case *toBase64Expr:
 		val = e.evaluateBuiltinToBase64(x, repr)
 	case *toJSONExpr:
@@ -484,8 +509,6 @@ func (e *evalContext) evaluateArray(x *expr, repr *arrayExpr) *value {
 	array, items := make([]*value, len(repr.elements)), make([]schema.Builder, len(repr.elements))
 	for i, elem := range repr.elements {
 		ev := e.evaluateExpr(elem)
-		v.combine(ev)
-
 		array[i], items[i] = ev, ev.schema
 	}
 
@@ -506,8 +529,6 @@ func (e *evalContext) evaluateObject(x *expr, repr *objectExpr) *value {
 	object, properties := make(map[string]*value, len(keys)), make(map[string]schema.Builder, len(keys))
 	for _, k := range keys {
 		pv := e.evaluateExpr(repr.properties[k])
-		v.combine(pv)
-
 		object[k], properties[k] = pv, pv.schema
 	}
 
@@ -526,7 +547,7 @@ func (e *evalContext) evaluateInterpolate(x *expr, repr *interpolateExpr) *value
 		if i.value != nil {
 			pv := e.evaluatePropertyAccess(x, i.value.accessors)
 			s, unknown, secret := pv.toString()
-			v.unknown, v.secret = v.unknown || unknown, v.secret || secret
+			v.unknown, v.secret = v.containsUnknowns() || unknown, v.containsSecrets() || secret
 			if !unknown {
 				b.WriteString(s)
 			}
@@ -541,7 +562,7 @@ func (e *evalContext) evaluateInterpolate(x *expr, repr *interpolateExpr) *value
 	return v
 }
 
-// evalutePropertyAccess evaluates a property access.
+// evaluatePropertyAccess evaluates a property access.
 func (e *evalContext) evaluatePropertyAccess(x *expr, accessors []*propertyAccessor) *value {
 	// We make a copy of the resolved value here because evaluateExpr will merge it with its base, which mutates the
 	// value. We also stamp over the def with the provided expression in order to maintain proper error reporting.
@@ -550,7 +571,7 @@ func (e *evalContext) evaluatePropertyAccess(x *expr, accessors []*propertyAcces
 	return v
 }
 
-// evaluteExprAccess is the primary entrypoint for access evaluation, and begins with the assumption that the receiver
+// evaluateExprAccess is the primary entrypoint for access evaluation, and begins with the assumption that the receiver
 // is an expression. If the receiver is a list, object, or secret  expression, it is _not evaluated_. If the receiver
 // is any other type of expression, it is evaluated and the result is passed to evaluateValueAccess. Once all accessors
 // have been processed, the resolved expression is evaluated.
@@ -592,7 +613,7 @@ func (e *evalContext) evaluateExprAccess(x *expr, accessors []*propertyAccessor)
 			receiver = prop
 		case *secretExpr:
 			// Secret expressions are transparent to accessors.
-			receiver = repr.value
+			receiver = repr.plaintext
 			continue
 		default:
 			return e.evaluateValueAccess(x.repr.syntax(), e.evaluateExpr(receiver), accessors)
@@ -610,7 +631,7 @@ func (e *evalContext) evaluateExprAccess(x *expr, accessors []*propertyAccessor)
 	return e.evaluateExpr(receiver)
 }
 
-// evaluateValueAccess evalutes a list of accessors relative to a value receiver.
+// evaluateValueAccess evaluates a list of accessors relative to a value receiver.
 func (e *evalContext) evaluateValueAccess(syntax ast.Expr, receiver *value, accessors []*propertyAccessor) *value {
 	for len(accessors) > 0 {
 		accessor := accessors[0]
@@ -655,7 +676,7 @@ func (e *evalContext) evaluateValueAccess(syntax ast.Expr, receiver *value, acce
 	return receiver
 }
 
-// evaluateValueAccess evalutes a list of accessors relative to an unknown value receiver. Unknown values are
+// evaluateValueAccess evaluates a list of accessors relative to an unknown value receiver. Unknown values are
 // synthesized for each receiver.
 func (e *evalContext) evaluateUnknownAccess(syntax ast.Expr, receiver *schema.Schema, accessors []*propertyAccessor) *value {
 	var val *value
@@ -759,6 +780,38 @@ func (e *evalContext) objectKey(expr ast.Expr, accessor ast.PropertyAccessor, mu
 	}
 }
 
+// evaluateBuiltinSecret evaluates a call to the fn::secret builtin. Plaintext secrets evaluate to the
+// plaintext value. Ciphertext secrets evaluate to unknown during validation and to their plaintext
+// during evaluation.
+func (e *evalContext) evaluateBuiltinSecret(x *expr, repr *secretExpr) *value {
+	if repr.plaintext != nil {
+		return e.evaluateExpr(repr.plaintext)
+	}
+
+	v := &value{def: x, schema: x.schema, secret: true}
+
+	ciphertext, err := decodeCiphertext(repr.node.Ciphertext.Value)
+	if err != nil {
+		e.errorf(repr.syntax(), "invalid ciphertext: %v", err)
+		v.unknown = true
+		return v
+	}
+	if e.validating {
+		v.unknown = true
+		return v
+	}
+
+	plaintext, err := e.decrypter.Decrypt(e.ctx, ciphertext)
+	if err != nil {
+		e.errorf(repr.syntax(), "decrypting: %v", err)
+		v.unknown = true
+		return v
+	}
+
+	v.repr = string(plaintext)
+	return v
+}
+
 // evaluateBuiltinOpen evaluates a call to the fn::open builtin. This involves loading the provider, fetching its
 // schemata, evaluating the inputs, and when not validating, opening the provider with the given inputs. During
 // validation, the result is an unknown value with the output schema.
@@ -785,7 +838,7 @@ func (e *evalContext) evaluateBuiltinOpen(x *expr, repr *openExpr) *value {
 	v.schema = x.schema
 
 	inputs, ok := e.evaluateTypedExpr(repr.inputs, repr.inputSchema)
-	if !ok || inputs.unknown || e.validating || err != nil {
+	if !ok || inputs.containsUnknowns() || e.validating || err != nil {
 		v.unknown = true
 		return v
 	}
@@ -866,7 +919,7 @@ func (e *evalContext) evaluateBuiltinFromJSON(x *expr, repr *fromJSONExpr) *valu
 			return v
 		}
 
-		ev, err := esc.FromJSON(jv)
+		ev, err := esc.FromJSON(jv, v.secret)
 		if err != nil {
 			e.errorf(repr.syntax(), "internal error: decoding JSON value: %v", err)
 			v.unknown = true

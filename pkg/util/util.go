@@ -1,6 +1,8 @@
 package util
 
 import (
+	cRand "crypto/rand"
+	"fmt"
 	"math/rand"
 	"strings"
 )
@@ -10,6 +12,16 @@ func If[T any](cond bool, vtrue, vfalse T) T {
 		return vtrue
 	}
 	return vfalse
+}
+
+func ArrayFilter[T any](source []T, filter func(item T) bool) []T {
+	var result []T
+	for _, item := range source {
+		if filter(item) {
+			result = append(result, item)
+		}
+	}
+	return result
 }
 
 func ArrayCast[T any](source []interface{}) []T {
@@ -72,4 +84,10 @@ func Random(max, min int) int {
 
 func RandomItemFromArray[X any](source []X) X {
 	return source[Random(len(source)-1, 0)]
+}
+
+func RandomID(name string) string {
+	b := make([]byte, 4)
+	_, _ = cRand.Read(b)
+	return fmt.Sprintf("%s%x", name, b)
 }

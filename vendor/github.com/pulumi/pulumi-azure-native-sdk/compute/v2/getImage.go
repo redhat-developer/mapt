@@ -14,7 +14,7 @@ import (
 // Gets an image.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01.
+// Other available API versions: 2023-07-01, 2023-09-01.
 func LookupImage(ctx *pulumi.Context, args *LookupImageArgs, opts ...pulumi.InvokeOption) (*LookupImageResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupImageResult

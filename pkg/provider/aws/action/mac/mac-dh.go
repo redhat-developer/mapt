@@ -6,6 +6,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/manager"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
@@ -14,44 +15,71 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Idea move away from multi file creation a set outputs as an unified yaml file
+// type macdh struct {
+// 	ID          string `yaml:"id"`
+// 	AZ          string `yaml:"az"`
+// 	BackedURL   string `yaml:"backedurl"`
+// 	ProjectName string `yaml:"projectname"`
+// }
+
 // this creates the stack for the dedicated host
-func (r *MacRequest) createDedicatedHost() (*string, *string, error) {
-	logging.Debugf("creating dedicated host for mac machine %s", r.Architecture)
+func (r *MacRequest) createDedicatedHost() (dhi *HostInformation, err error) {
+	// Get data required for create a dh
+	backedURL := getBackedURL()
+	r.Region, err = getRegion(r)
+	if err != nil {
+		return nil, err
+	}
+	r.AvailabilityZone, err = getAZ(r)
+	if err != nil {
+		return nil, err
+	}
+	logging.Debugf("creating a mac %s dedicated host state will be stored at %s",
+		r.Architecture, backedURL)
 	cs := manager.Stack{
-		StackName:   qenvsContext.GetStackInstanceName(stackDedicatedHost),
-		ProjectName: qenvsContext.GetInstanceName(),
-		BackedURL:   qenvsContext.GetBackedURL(),
+		StackName:   qenvsContext.StackNameByProject(stackDedicatedHost),
+		ProjectName: qenvsContext.ProjectName(),
+		BackedURL:   backedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
-				aws.CONFIG_AWS_REGION: r.Region}),
+				aws.CONFIG_AWS_REGION: *r.Region}),
 		DeployFunc: r.deployerDedicatedHost,
 	}
 	sr, _ := manager.UpStack(cs)
-	dhID, dhAZ, err := r.manageResultsDedicatedHost(sr)
+	dhID, _, err := r.manageResultsDedicatedHost(sr)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	logging.Debugf("dedicated host with host id %s has been created successfully", *dhID)
-	return dhID, dhAZ, nil
+	logging.Debugf("mac dedicated host with host id %s has been created successfully", *dhID)
+	host, err := data.GetDedicatedHost(*dhID)
+	if err != nil {
+		return nil, err
+	}
+	i := getHostInformation(*host)
+	dhi = i
+	return
 }
 
 // this function will create the dedicated host resource
 func (r *MacRequest) deployerDedicatedHost(ctx *pulumi.Context) (err error) {
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputRegion), pulumi.String(r.Region))
-	// az, err := data.GetRandomAvailabilityZone(r.Region)
-	// if err != nil {
-	// 	return
-	// }
+	backedURL := getBackedURL()
+	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputRegion), pulumi.String(*r.Region))
 	dh, err := ec2.NewDedicatedHost(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "dh"),
 		&ec2.DedicatedHostArgs{
 			AutoPlacement:    pulumi.String("off"),
-			AvailabilityZone: pulumi.String(r.AvailabilityZone),
+			AvailabilityZone: pulumi.String(*r.AvailabilityZone),
 			InstanceType:     pulumi.String(macTypesByArch[r.Architecture]),
-			Tags:             qenvsContext.ResourceTags(),
+			Tags: qenvsContext.ResourceTagsWithCustom(
+				map[string]string{
+					tagKeyBackedURL:          backedURL,
+					tagKeyArch:               r.Architecture,
+					qenvsContext.TagKeyRunID: qenvsContext.RunID(),
+				}),
 		})
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID), dh.ID())
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostAZ), pulumi.String(r.AvailabilityZone))
+	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostAZ), pulumi.String(*r.AvailabilityZone))
 	if err != nil {
 		return err
 	}
@@ -62,7 +90,7 @@ func (r *MacRequest) deployerDedicatedHost(ctx *pulumi.Context) (err error) {
 // also write results to files on the target folder
 func (r *MacRequest) manageResultsDedicatedHost(stackResult auto.UpResult) (*string, *string, error) {
 	if err := output.Write(stackResult, qenvsContext.GetResultsOutputPath(), map[string]string{
-		fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID): "dedicatedHostID",
+		fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID): "dedicated_host_id",
 	}); err != nil {
 		return nil, nil, err
 	}

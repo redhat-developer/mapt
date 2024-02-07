@@ -7,6 +7,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
+	"github.com/pulumi/pulumi/sdk/v3/go/auto/debug"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optdestroy"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optup"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -27,14 +28,26 @@ type ManagerOptions struct {
 }
 
 func UpStack(targetStack Stack, opts ...ManagerOptions) (auto.UpResult, error) {
-	logging.Debugf("Creating stack %s", targetStack.StackName)
+	return UpStackTargets(targetStack, nil, opts...)
+}
+
+func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptions) (auto.UpResult, error) {
+	logging.Debugf("managing stack %s", targetStack.StackName)
 	ctx := context.Background()
 	objectStack := getStack(ctx, targetStack)
 	// TODO add when loglevel debug control in place
 	w := logging.GetWritter()
 	defer w.Close()
-	stdoutStreamer := optup.ProgressStreams(w)
-	r, err := objectStack.Up(ctx, stdoutStreamer)
+	var logLevel uint = 10
+	mOpts := []optup.Option{
+		optup.ProgressStreams(w),
+		optup.DebugLogging(
+			debug.LoggingOptions{LogLevel: &logLevel}),
+	}
+	if len(targetURNs) > 0 {
+		mOpts = append(mOpts, optup.Target(targetURNs))
+	}
+	r, err := objectStack.Up(ctx, mOpts...)
 	if err != nil {
 		logging.Error(err)
 		if len(opts) == 1 && opts[0].Baground {
@@ -46,7 +59,7 @@ func UpStack(targetStack Stack, opts ...ManagerOptions) (auto.UpResult, error) {
 }
 
 func DestroyStack(targetStack Stack, opts ...ManagerOptions) (err error) {
-	logging.Debugf("Destroying stack %s", targetStack.StackName)
+	logging.Debugf("destroying stack %s", targetStack.StackName)
 	ctx := context.Background()
 	objectStack := getStack(ctx, targetStack)
 	w := logging.GetWritter()
@@ -67,7 +80,7 @@ func DestroyStack(targetStack Stack, opts ...ManagerOptions) (err error) {
 }
 
 func CheckStack(target Stack) (*auto.Stack, error) {
-	logging.Debugf("Checking stack %s", target.StackName)
+	logging.Debugf("checking stack %s", target.StackName)
 	stack, err := auto.SelectStackInlineSource(context.Background(), target.StackName,
 		target.ProjectName, target.DeployFunc, getOpts(target)...)
 	if err != nil {

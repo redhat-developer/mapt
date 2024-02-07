@@ -15,7 +15,7 @@ import (
 // The network manager connectivity configuration resource
 // Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2021-02-01-preview.
 //
-// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
 type ConnectivityConfiguration struct {
 	pulumi.CustomResourceState
 
@@ -103,6 +103,9 @@ func NewConnectivityConfiguration(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230601:ConnectivityConfiguration"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230901:ConnectivityConfiguration"),
 		},
 	})
 	opts = append(opts, aliases)

@@ -20,6 +20,7 @@ import (
 
 type Syntax interface {
 	Range() *hcl.Range
+	Path() string
 }
 
 var NoSyntax = noSyntax(0)
@@ -30,10 +31,52 @@ func (noSyntax) Range() *hcl.Range {
 	return nil
 }
 
+func (noSyntax) Path() string {
+	return ""
+}
+
 type Trivia interface {
 	Syntax
 
 	HeadComment() string
 	LineComment() string
 	FootComment() string
+}
+
+type triviaSyntax struct {
+	headComment string
+	lineComment string
+	footComment string
+}
+
+func (s triviaSyntax) Range() *hcl.Range {
+	return nil
+}
+
+func (s triviaSyntax) Path() string {
+	return ""
+}
+
+func (s triviaSyntax) HeadComment() string {
+	return s.headComment
+}
+
+func (s triviaSyntax) LineComment() string {
+	return s.lineComment
+}
+
+func (s triviaSyntax) FootComment() string {
+	return s.footComment
+}
+
+func CopyTrivia(s Syntax) Syntax {
+	trivia, ok := s.(Trivia)
+	if !ok {
+		return NoSyntax
+	}
+	return triviaSyntax{
+		headComment: trivia.HeadComment(),
+		lineComment: trivia.LineComment(),
+		footComment: trivia.FootComment(),
+	}
 }

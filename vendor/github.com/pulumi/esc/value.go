@@ -69,15 +69,17 @@ type Trace struct {
 
 func (v *Value) UnmarshalJSON(data []byte) error {
 	var raw struct {
-		Value  json.RawMessage `json:"value,omitempty"`
-		Secret bool            `json:"secret,omitempty"`
-		Trace  Trace           `json:"trace"`
+		Value   json.RawMessage `json:"value,omitempty"`
+		Secret  bool            `json:"secret,omitempty"`
+		Unknown bool            `json:"unknown,omitempty"`
+		Trace   Trace           `json:"trace"`
 	}
 	if err := json.Unmarshal(data, &raw); err != nil {
 		return err
 	}
 
 	v.Secret = raw.Secret
+	v.Unknown = raw.Unknown
 	v.Trace = raw.Trace
 
 	if len(raw.Value) != 0 {
@@ -110,28 +112,40 @@ func (v *Value) UnmarshalJSON(data []byte) error {
 
 // FromJSON converts a plain-old-JSON value (i.e. a value of type nil, bool, json.Number, string, []any, or
 // map[string]any) into a Value.
-func FromJSON(v any) (Value, error) {
-	return fromJSON("", v)
+func FromJSON(v any, secret bool) (Value, error) {
+	return fromJSON("", v, secret)
 }
 
-func fromJSON(path string, v any) (Value, error) {
+func fromJSON(path string, v any, secret bool) (Value, error) {
 	switch v := v.(type) {
 	case nil:
 		return Value{}, nil
 	case bool:
+		if secret {
+			return NewSecret(v), nil
+		}
 		return NewValue(v), nil
 	case json.Number:
+		if secret {
+			return NewSecret(v), nil
+		}
 		return NewValue(v), nil
 	case string:
+		if secret {
+			return NewSecret(v), nil
+		}
 		return NewValue(v), nil
 	case []any:
 		vs := make([]Value, len(v))
 		for i, v := range v {
-			vv, err := fromJSON(fmt.Sprintf("[%v]", i), v)
+			vv, err := fromJSON(fmt.Sprintf("[%v]", i), v, secret)
 			if err != nil {
 				return Value{}, err
 			}
 			vs[i] = vv
+		}
+		if secret {
+			return NewSecret(vs), nil
 		}
 		return NewValue(vs), nil
 	case map[string]any:
@@ -139,11 +153,14 @@ func fromJSON(path string, v any) (Value, error) {
 		sort.Strings(keys)
 		vs := make(map[string]Value, len(keys))
 		for _, k := range keys {
-			vv, err := fromJSON(util.JoinKey(path, k), v[k])
+			vv, err := fromJSON(util.JoinKey(path, k), v[k], secret)
 			if err != nil {
 				return Value{}, err
 			}
 			vs[k] = vv
+		}
+		if secret {
+			return NewSecret(vs), nil
 		}
 		return NewValue(vs), nil
 	default:
@@ -154,11 +171,11 @@ func fromJSON(path string, v any) (Value, error) {
 // ToJSON converts a Value into a plain-old-JSON value (i.e. a value of type nil, bool, json.Number, string, []any, or
 // map[string]any). If redact is true, secrets are replaced with [secret].
 func (v Value) ToJSON(redact bool) any {
-	if v.Unknown {
-		return "[unknown]"
-	}
 	if v.Secret && redact {
 		return "[secret]"
+	}
+	if v.Unknown {
+		return "[unknown]"
 	}
 
 	switch pv := v.Value.(type) {
@@ -181,11 +198,11 @@ func (v Value) ToJSON(redact bool) any {
 
 // ToString returns the string representation of this value. If redact is true, secrets are replaced with [secret].
 func (v Value) ToString(redact bool) string {
-	if v.Unknown {
-		return "[unknown]"
-	}
 	if v.Secret && redact {
 		return "[secret]"
+	}
+	if v.Unknown {
+		return "[unknown]"
 	}
 
 	switch pv := v.Value.(type) {

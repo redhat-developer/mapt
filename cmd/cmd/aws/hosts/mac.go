@@ -1,8 +1,6 @@
 package hosts
 
 import (
-	"fmt"
-
 	params "github.com/adrianriobo/qenvs/cmd/cmd/constants"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/action/mac"
@@ -13,23 +11,21 @@ import (
 )
 
 const (
-	cmdMac            = "mac"
-	cmdMacDesc        = "manage mac instances"
-	checkStateCmd     = "check-state"
-	checkStateCmdDesc = "check the state for a dedicated mac machine"
+	cmdMac         = "mac"
+	cmdMacDesc     = "manage mac instances"
+	requestCmd     = "request"
+	requestCmdDesc = "request mac machine"
+	releaseCmd     = "release"
+	releaseCmdDesc = "release mac machine"
 
+	dhID              string = "dedicated-host-id"
+	dhIDDesc          string = "id for the dedicated host"
 	arch              string = "arch"
 	archDesc          string = "mac architecture allowed values x86, m1, m2"
 	archDefault       string = "m2"
 	osVersion         string = "version"
 	osVersionDesc     string = "macos operating system vestion 11, 12 on x86 and m1/m2; 13, 14 on all archs"
 	osDefault         string = "14"
-	hostID            string = "host-id"
-	hostIDDesc        string = "host id to create the mac instance. If the param is not pass the dedicated host will be created"
-	onlyHost          string = "only-host"
-	onlyHostDesc      string = "if this flag is set only the host will be created / destroyed"
-	onlyMachine       string = "only-machine"
-	onlyMachineDesc   string = "if this flag is set only the machine will be destroyed"
 	fixedLocation     string = "fixed-location"
 	fixedLocationDesc string = "if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)"
 )
@@ -45,40 +41,14 @@ func GetMacCmd() *cobra.Command {
 			return nil
 		},
 	}
-	c.AddCommand(getMacCreate(), getMacDestroy(), getMacCheckState())
+	c.AddCommand(getMacRequest(), getMacRelease(), getMacDestroy())
 	return c
 }
 
-func getMacCheckState() *cobra.Command {
+func getMacRequest() *cobra.Command {
 	c := &cobra.Command{
-		Use:   checkStateCmd,
-		Short: checkStateCmdDesc,
-		RunE: func(cmd *cobra.Command, args []string) error {
-			if err := viper.BindPFlags(cmd.Flags()); err != nil {
-				return err
-			}
-			state, err := mac.CheckState(viper.GetString(hostID))
-			if err != nil {
-				logging.Error(err)
-				return err
-			}
-			fmt.Printf("%s", *state)
-			return nil
-		},
-	}
-	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
-	flagSet.StringP(hostID, "", "", hostIDDesc)
-	c.PersistentFlags().AddFlagSet(flagSet)
-	if err := c.MarkPersistentFlagRequired(hostID); err != nil {
-		logging.Error(err)
-	}
-	return c
-}
-
-func getMacCreate() *cobra.Command {
-	c := &cobra.Command{
-		Use:   params.CreateCmdName,
-		Short: params.CreateCmdName,
+		Use:   requestCmd,
+		Short: requestCmd,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
@@ -92,14 +62,11 @@ func getMacCreate() *cobra.Command {
 				viper.GetStringMapString(params.Tags))
 
 			// Run create
-			if err := mac.Create(
+			if err := mac.Request(
 				&mac.MacRequest{
 					Prefix:        "main",
 					Architecture:  viper.GetString(arch),
 					Version:       viper.GetString(osVersion),
-					HostID:        viper.GetString(hostID),
-					OnlyHost:      viper.IsSet(onlyHost),
-					OnlyMachine:   viper.IsSet(onlyMachine),
 					FixedLocation: viper.IsSet(fixedLocation),
 					Airgap:        viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
@@ -107,17 +74,52 @@ func getMacCreate() *cobra.Command {
 			return nil
 		},
 	}
-	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
+	flagSet := pflag.NewFlagSet(requestCmd, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(arch, "", archDefault, archDesc)
 	flagSet.StringP(osVersion, "", osDefault, osVersionDesc)
-	flagSet.StringP(hostID, "", "", hostIDDesc)
-	flagSet.Bool(onlyHost, false, onlyHostDesc)
-	flagSet.Bool(onlyMachine, false, onlyMachineDesc)
 	flagSet.Bool(fixedLocation, false, fixedLocationDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
+	err := c.MarkPersistentFlagRequired(arch)
+	if err != nil {
+		logging.Error(err)
+	}
+	err = c.MarkPersistentFlagRequired(osVersion)
+	if err != nil {
+		logging.Error(err)
+	}
+	return c
+}
+
+// Required dedicatedHostID as mandatory
+func getMacRelease() *cobra.Command {
+	c := &cobra.Command{
+		Use:   releaseCmd,
+		Short: releaseCmd,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := viper.BindPFlags(cmd.Flags()); err != nil {
+				return err
+			}
+
+			// Run create
+			if err := mac.Release(
+				"main",
+				viper.GetString(dhID)); err != nil {
+				logging.Error(err)
+			}
+			return nil
+		},
+	}
+	flagSet := pflag.NewFlagSet(releaseCmd, pflag.ExitOnError)
+	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	flagSet.StringP(dhID, "", "", dhIDDesc)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	err := c.MarkPersistentFlagRequired(dhID)
+	if err != nil {
+		logging.Error(err)
+	}
 	return c
 }
 
@@ -130,23 +132,21 @@ func getMacDestroy() *cobra.Command {
 				return err
 			}
 
-			qenvsContext.InitBase(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL))
-
 			if err := mac.Destroy(
-				&mac.MacRequest{
-					Prefix:      "main",
-					OnlyHost:    viper.IsSet(onlyHost),
-					OnlyMachine: viper.IsSet(onlyMachine)}); err != nil {
+				"main",
+				viper.GetString(dhID)); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
-	flagSet.Bool(onlyHost, false, onlyHostDesc)
-	flagSet.Bool(onlyMachine, false, onlyMachineDesc)
+	flagSet.StringP(dhID, "", "", dhIDDesc)
+	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
+	err := c.MarkPersistentFlagRequired(dhID)
+	if err != nil {
+		logging.Error(err)
+	}
 	return c
 }

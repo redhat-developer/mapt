@@ -40,9 +40,9 @@ type WindowsRequest struct {
 func Create(r *WindowsRequest) (err error) {
 	logging.Debug("Creating Windows Desktop")
 	cs := manager.Stack{
-		StackName:           qenvsContext.GetStackInstanceName(stackCreateWindowsDesktop),
-		ProjectName:         qenvsContext.GetInstanceName(),
-		BackedURL:           qenvsContext.GetBackedURL(),
+		StackName:           qenvsContext.StackNameByProject(stackCreateWindowsDesktop),
+		ProjectName:         qenvsContext.ProjectName(),
+		BackedURL:           qenvsContext.BackedURL(),
 		ProviderCredentials: azure.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
@@ -52,15 +52,15 @@ func Create(r *WindowsRequest) (err error) {
 
 func Destroy() error {
 	if err := azure.Destroy(
-		qenvsContext.GetInstanceName(),
-		qenvsContext.GetBackedURL(),
-		qenvsContext.GetStackInstanceName(stackCreateWindowsDesktop)); err != nil {
+		qenvsContext.ProjectName(),
+		qenvsContext.BackedURL(),
+		qenvsContext.StackNameByProject(stackCreateWindowsDesktop)); err != nil {
 		return err
 	}
 	return azure.Destroy(
-		qenvsContext.GetInstanceName(),
-		qenvsContext.GetBackedURL(),
-		qenvsContext.GetStackInstanceName(stackSyncWindowsDesktop))
+		qenvsContext.ProjectName(),
+		qenvsContext.BackedURL(),
+		qenvsContext.StackNameByProject(stackSyncWindowsDesktop))
 }
 
 // Main function to deploy all requried resources to azure
@@ -73,7 +73,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "rg"),
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(*location),
-			ResourceGroupName: pulumi.String(qenvsContext.GetID()),
+			ResourceGroupName: pulumi.String(qenvsContext.RunID()),
 			Tags:              qenvsContext.ResourceTags(),
 		})
 	if err != nil {
@@ -153,7 +153,7 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername), pulumi.String(r.AdminUsername))
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), adminPasswd.Result)
 	vmArgs := &compute.VirtualMachineArgs{
-		VmName:            pulumi.String(qenvsContext.GetID()),
+		VmName:            pulumi.String(qenvsContext.RunID()),
 		Location:          pulumi.String(location),
 		ResourceGroupName: rg.Name,
 		NetworkProfile: compute.NetworkProfileArgs{
@@ -174,7 +174,7 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 				Version:   pulumi.String("latest"),
 			},
 			OsDisk: compute.OSDiskArgs{
-				Name:         pulumi.String(qenvsContext.GetID()),
+				Name:         pulumi.String(qenvsContext.RunID()),
 				CreateOption: pulumi.String("FromImage"),
 				Caching:      compute.CachingTypesReadWrite,
 				ManagedDisk: compute.ManagedDiskParametersArgs{
@@ -185,7 +185,7 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 		OsProfile: compute.OSProfileArgs{
 			AdminUsername: pulumi.String(r.AdminUsername),
 			AdminPassword: adminPasswd.Result,
-			ComputerName:  pulumi.String(qenvsContext.GetID()),
+			ComputerName:  pulumi.String(qenvsContext.RunID()),
 		},
 		Tags: qenvsContext.ResourceTags(),
 	}
@@ -208,7 +208,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 	vn, err := network.NewVirtualNetwork(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "vn"),
 		&network.VirtualNetworkArgs{
-			VirtualNetworkName: pulumi.String(qenvsContext.GetID()),
+			VirtualNetworkName: pulumi.String(qenvsContext.RunID()),
 			AddressSpace: network.AddressSpaceArgs{
 				AddressPrefixes: pulumi.StringArray{
 					pulumi.String(cidrVN),
@@ -224,7 +224,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 	sn, err := network.NewSubnet(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "sn"),
 		&network.SubnetArgs{
-			SubnetName:         pulumi.String(qenvsContext.GetID()),
+			SubnetName:         pulumi.String(qenvsContext.RunID()),
 			ResourceGroupName:  rg.Name,
 			VirtualNetworkName: vn.Name,
 			AddressPrefixes: pulumi.StringArray{
@@ -238,7 +238,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pip"),
 		&network.PublicIPAddressArgs{
 			Location:                 pulumi.String(location),
-			PublicIpAddressName:      pulumi.String(qenvsContext.GetID()),
+			PublicIpAddressName:      pulumi.String(qenvsContext.RunID()),
 			PublicIPAllocationMethod: pulumi.String("Static"),
 			ResourceGroupName:        rg.Name,
 			Tags:                     qenvsContext.ResourceTags(),
@@ -253,12 +253,12 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 	ni, err := network.NewNetworkInterface(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "ni"),
 		&network.NetworkInterfaceArgs{
-			NetworkInterfaceName: pulumi.String(qenvsContext.GetID()),
+			NetworkInterfaceName: pulumi.String(qenvsContext.RunID()),
 			Location:             pulumi.String(location),
 			ResourceGroupName:    rg.Name,
 			IpConfigurations: network.NetworkInterfaceIPConfigurationArray{
 				&network.NetworkInterfaceIPConfigurationArgs{
-					Name:                      pulumi.String(qenvsContext.GetID()),
+					Name:                      pulumi.String(qenvsContext.RunID()),
 					PrivateIPAllocationMethod: pulumi.String("Dynamic"),
 					PublicIPAddress: network.PublicIPAddressTypeArgs{
 						Id: publicIP.ID(),
@@ -347,7 +347,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	sa, err := storage.NewStorageAccount(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "sa"),
 		&storage.StorageAccountArgs{
-			AccountName:           pulumi.String(qenvsContext.GetID()),
+			AccountName:           pulumi.String(qenvsContext.RunID()),
 			Kind:                  pulumi.String("BlockBlobStorage"),
 			ResourceGroupName:     rg.Name,
 			Location:              pulumi.String(location),
@@ -363,7 +363,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	c, err := storage.NewBlobContainer(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "co"),
 		&storage.BlobContainerArgs{
-			ContainerName:     pulumi.String(qenvsContext.GetID()),
+			ContainerName:     pulumi.String(qenvsContext.RunID()),
 			AccountName:       sa.Name,
 			ResourceGroupName: rg.Name,
 			PublicAccess:      storage.PublicAccessBlob,
