@@ -1,9 +1,9 @@
 package context
 
 import (
-	"crypto/rand"
 	"fmt"
 
+	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	utilMaps "github.com/adrianriobo/qenvs/pkg/util/maps"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -11,40 +11,52 @@ import (
 )
 
 const (
-	originTagName  = "origin"
-	originTagValue = "qenvs"
-	instaceTagName = "instanceID"
+	tagKeyOrigin      = "origin"
+	origin            = "qenvs"
+	TagKeyProjectName = "projectName"
+	TagKeyRunID       = "runid"
 )
 
 // store details for the current execution
 type context struct {
-	id                    string
-	instanceID            string
+	runID                 string
+	projectName           string
 	backedURL             string
 	resultsOutput         string
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
 }
 
-var c context
+var c *context
 
-func Init(instanceID, backedURL, resultsOutput string, tags map[string]string) {
-	c = context{
-		instanceID:    instanceID,
-		id:            randomID(originTagValue),
+func Init(projectName, backedURL, resultsOutput string, tags map[string]string) {
+	c = &context{
+		runID:         CreateRunID(),
+		projectName:   projectName,
 		backedURL:     backedURL,
 		resultsOutput: resultsOutput,
 		tags:          tags,
 	}
 	addCommonTags()
-	logging.Debugf("Context initialized for %s", c.id)
+	logging.Debugf("context initialized for %s", c.runID)
 }
 
-func InitBase(instanceID, backedURL string) {
-	c = context{
-		instanceID: instanceID,
-		backedURL:  backedURL,
+func InitBase(projectName, backedURL string) {
+	c = &context{
+		projectName: projectName,
+		backedURL:   backedURL,
 	}
+}
+
+// It will create a runID
+// if context has been intialized it will set it as the runID for the context
+// otherwise it will return the value (one time value)
+func CreateRunID() string {
+	runID := util.RandomID(origin)
+	if c != nil {
+		c.runID = runID
+	}
+	return runID
 }
 
 func GetTags() map[string]string {
@@ -72,15 +84,15 @@ func ResourceTagsWithCustom(customTags map[string]string) pulumi.StringMap {
 	return c.tagsAsPulumiStringMap
 }
 
-func GetID() string {
-	return c.id
+func RunID() string {
+	return c.runID
 }
 
-func GetInstanceName() string {
-	return c.instanceID
+func ProjectName() string {
+	return c.projectName
 }
 
-func GetBackedURL() string {
+func BackedURL() string {
 	return c.backedURL
 }
 
@@ -88,17 +100,11 @@ func GetResultsOutputPath() string {
 	return c.resultsOutput
 }
 
-func GetStackInstanceName(stackName string) string {
-	return fmt.Sprintf("%s-%s", stackName, c.instanceID)
+func StackNameByProject(stackName string) string {
+	return fmt.Sprintf("%s-%s", stackName, c.projectName)
 }
 
 func addCommonTags() {
-	c.tags[originTagName] = originTagValue
-	c.tags[instaceTagName] = c.instanceID
-}
-
-func randomID(name string) string {
-	b := make([]byte, 4)
-	_, _ = rand.Read(b)
-	return fmt.Sprintf("%s%x", name, b)
+	c.tags[tagKeyOrigin] = origin
+	c.tags[TagKeyProjectName] = c.projectName
 }

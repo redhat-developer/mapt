@@ -6,6 +6,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/manager"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/provider/aws"
+	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
 	amiSVC "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -37,9 +38,9 @@ type CopyAMIRequest struct {
 // If stack does not exists it will create it
 func (r CopyAMIRequest) Create() error {
 	_, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.GetStackInstanceName("copyAMI"),
-		ProjectName: qenvsContext.GetInstanceName(),
-		BackedURL:   qenvsContext.GetBackedURL()})
+		StackName:   qenvsContext.StackNameByProject("copyAMI"),
+		ProjectName: qenvsContext.ProjectName(),
+		BackedURL:   qenvsContext.BackedURL()})
 	if err != nil {
 		return r.createStack()
 	}
@@ -49,18 +50,18 @@ func (r CopyAMIRequest) Create() error {
 // Check if spot option stack was created on the backed url
 func Exist() bool {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.GetStackInstanceName("copyAMI"),
-		ProjectName: qenvsContext.GetInstanceName(),
-		BackedURL:   qenvsContext.GetBackedURL()})
+		StackName:   qenvsContext.StackNameByProject("copyAMI"),
+		ProjectName: qenvsContext.ProjectName(),
+		BackedURL:   qenvsContext.BackedURL()})
 	return err == nil && s != nil
 }
 
 // Destroy the stack
 func Destroy() (err error) {
 	stack := manager.Stack{
-		StackName:           qenvsContext.GetStackInstanceName("copyAMI"),
-		ProjectName:         qenvsContext.GetInstanceName(),
-		BackedURL:           qenvsContext.GetBackedURL(),
+		StackName:           qenvsContext.StackNameByProject("copyAMI"),
+		ProjectName:         qenvsContext.ProjectName(),
+		BackedURL:           qenvsContext.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials}
 	return manager.DestroyStack(stack)
 }
@@ -74,9 +75,9 @@ func (r CopyAMIRequest) createStack() error {
 		})
 	}
 	stack := manager.Stack{
-		StackName:           qenvsContext.GetStackInstanceName("copyAMI"),
-		ProjectName:         qenvsContext.GetInstanceName(),
-		BackedURL:           qenvsContext.GetBackedURL(),
+		StackName:           qenvsContext.StackNameByProject("copyAMI"),
+		ProjectName:         qenvsContext.ProjectName(),
+		BackedURL:           qenvsContext.BackedURL(),
 		ProviderCredentials: credentials,
 		DeployFunc:          r.deployer,
 	}
@@ -88,7 +89,7 @@ func (r CopyAMIRequest) createStack() error {
 // and it will export the data from the best spot option to the stack state
 func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 	// find were the ami is
-	amiInfo, err := amiSVC.FindAMI(r.AMISourceName, r.AMISourceArch)
+	amiInfo, err := data.FindAMI(r.AMISourceName, r.AMISourceArch)
 	if err != nil {
 		return err
 	}

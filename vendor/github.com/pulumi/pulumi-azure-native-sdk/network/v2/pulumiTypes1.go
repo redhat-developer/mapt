@@ -4563,6 +4563,242 @@ type RedirectConfiguration struct {
 	RedirectType *string `pulumi:"redirectType"`
 }
 
+// RedirectConfigurationInput is an input type that accepts RedirectConfigurationArgs and RedirectConfigurationOutput values.
+// You can construct a concrete instance of `RedirectConfigurationInput` via:
+//
+//	RedirectConfigurationArgs{...}
+type RedirectConfigurationInput interface {
+	pulumi.Input
+
+	ToRedirectConfigurationOutput() RedirectConfigurationOutput
+	ToRedirectConfigurationOutputWithContext(context.Context) RedirectConfigurationOutput
+}
+
+// Describes Redirect Route.
+type RedirectConfigurationArgs struct {
+	// Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.
+	CustomFragment pulumi.StringPtrInput `pulumi:"customFragment"`
+	// Host to redirect. Leave empty to use the incoming host as the destination host.
+	CustomHost pulumi.StringPtrInput `pulumi:"customHost"`
+	// The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path.
+	CustomPath pulumi.StringPtrInput `pulumi:"customPath"`
+	// The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &.
+	CustomQueryString pulumi.StringPtrInput `pulumi:"customQueryString"`
+	// Expected value is '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'.
+	OdataType pulumi.StringInput `pulumi:"odataType"`
+	// The protocol of the destination to where the traffic is redirected
+	RedirectProtocol pulumi.StringPtrInput `pulumi:"redirectProtocol"`
+	// The redirect type the rule will use when redirecting traffic.
+	RedirectType pulumi.StringPtrInput `pulumi:"redirectType"`
+}
+
+func (RedirectConfigurationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*RedirectConfiguration)(nil)).Elem()
+}
+
+func (i RedirectConfigurationArgs) ToRedirectConfigurationOutput() RedirectConfigurationOutput {
+	return i.ToRedirectConfigurationOutputWithContext(context.Background())
+}
+
+func (i RedirectConfigurationArgs) ToRedirectConfigurationOutputWithContext(ctx context.Context) RedirectConfigurationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RedirectConfigurationOutput)
+}
+
+func (i RedirectConfigurationArgs) ToRedirectConfigurationPtrOutput() RedirectConfigurationPtrOutput {
+	return i.ToRedirectConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i RedirectConfigurationArgs) ToRedirectConfigurationPtrOutputWithContext(ctx context.Context) RedirectConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RedirectConfigurationOutput).ToRedirectConfigurationPtrOutputWithContext(ctx)
+}
+
+// RedirectConfigurationPtrInput is an input type that accepts RedirectConfigurationArgs, RedirectConfigurationPtr and RedirectConfigurationPtrOutput values.
+// You can construct a concrete instance of `RedirectConfigurationPtrInput` via:
+//
+//	        RedirectConfigurationArgs{...}
+//
+//	or:
+//
+//	        nil
+type RedirectConfigurationPtrInput interface {
+	pulumi.Input
+
+	ToRedirectConfigurationPtrOutput() RedirectConfigurationPtrOutput
+	ToRedirectConfigurationPtrOutputWithContext(context.Context) RedirectConfigurationPtrOutput
+}
+
+type redirectConfigurationPtrType RedirectConfigurationArgs
+
+func RedirectConfigurationPtr(v *RedirectConfigurationArgs) RedirectConfigurationPtrInput {
+	return (*redirectConfigurationPtrType)(v)
+}
+
+func (*redirectConfigurationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**RedirectConfiguration)(nil)).Elem()
+}
+
+func (i *redirectConfigurationPtrType) ToRedirectConfigurationPtrOutput() RedirectConfigurationPtrOutput {
+	return i.ToRedirectConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i *redirectConfigurationPtrType) ToRedirectConfigurationPtrOutputWithContext(ctx context.Context) RedirectConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RedirectConfigurationPtrOutput)
+}
+
+// Describes Redirect Route.
+type RedirectConfigurationOutput struct{ *pulumi.OutputState }
+
+func (RedirectConfigurationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RedirectConfiguration)(nil)).Elem()
+}
+
+func (o RedirectConfigurationOutput) ToRedirectConfigurationOutput() RedirectConfigurationOutput {
+	return o
+}
+
+func (o RedirectConfigurationOutput) ToRedirectConfigurationOutputWithContext(ctx context.Context) RedirectConfigurationOutput {
+	return o
+}
+
+func (o RedirectConfigurationOutput) ToRedirectConfigurationPtrOutput() RedirectConfigurationPtrOutput {
+	return o.ToRedirectConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (o RedirectConfigurationOutput) ToRedirectConfigurationPtrOutputWithContext(ctx context.Context) RedirectConfigurationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v RedirectConfiguration) *RedirectConfiguration {
+		return &v
+	}).(RedirectConfigurationPtrOutput)
+}
+
+// Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.
+func (o RedirectConfigurationOutput) CustomFragment() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfiguration) *string { return v.CustomFragment }).(pulumi.StringPtrOutput)
+}
+
+// Host to redirect. Leave empty to use the incoming host as the destination host.
+func (o RedirectConfigurationOutput) CustomHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfiguration) *string { return v.CustomHost }).(pulumi.StringPtrOutput)
+}
+
+// The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path.
+func (o RedirectConfigurationOutput) CustomPath() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfiguration) *string { return v.CustomPath }).(pulumi.StringPtrOutput)
+}
+
+// The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &.
+func (o RedirectConfigurationOutput) CustomQueryString() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfiguration) *string { return v.CustomQueryString }).(pulumi.StringPtrOutput)
+}
+
+// Expected value is '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'.
+func (o RedirectConfigurationOutput) OdataType() pulumi.StringOutput {
+	return o.ApplyT(func(v RedirectConfiguration) string { return v.OdataType }).(pulumi.StringOutput)
+}
+
+// The protocol of the destination to where the traffic is redirected
+func (o RedirectConfigurationOutput) RedirectProtocol() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfiguration) *string { return v.RedirectProtocol }).(pulumi.StringPtrOutput)
+}
+
+// The redirect type the rule will use when redirecting traffic.
+func (o RedirectConfigurationOutput) RedirectType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfiguration) *string { return v.RedirectType }).(pulumi.StringPtrOutput)
+}
+
+type RedirectConfigurationPtrOutput struct{ *pulumi.OutputState }
+
+func (RedirectConfigurationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RedirectConfiguration)(nil)).Elem()
+}
+
+func (o RedirectConfigurationPtrOutput) ToRedirectConfigurationPtrOutput() RedirectConfigurationPtrOutput {
+	return o
+}
+
+func (o RedirectConfigurationPtrOutput) ToRedirectConfigurationPtrOutputWithContext(ctx context.Context) RedirectConfigurationPtrOutput {
+	return o
+}
+
+func (o RedirectConfigurationPtrOutput) Elem() RedirectConfigurationOutput {
+	return o.ApplyT(func(v *RedirectConfiguration) RedirectConfiguration {
+		if v != nil {
+			return *v
+		}
+		var ret RedirectConfiguration
+		return ret
+	}).(RedirectConfigurationOutput)
+}
+
+// Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.
+func (o RedirectConfigurationPtrOutput) CustomFragment() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomFragment
+	}).(pulumi.StringPtrOutput)
+}
+
+// Host to redirect. Leave empty to use the incoming host as the destination host.
+func (o RedirectConfigurationPtrOutput) CustomHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomHost
+	}).(pulumi.StringPtrOutput)
+}
+
+// The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path.
+func (o RedirectConfigurationPtrOutput) CustomPath() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomPath
+	}).(pulumi.StringPtrOutput)
+}
+
+// The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &.
+func (o RedirectConfigurationPtrOutput) CustomQueryString() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomQueryString
+	}).(pulumi.StringPtrOutput)
+}
+
+// Expected value is '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'.
+func (o RedirectConfigurationPtrOutput) OdataType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.OdataType
+	}).(pulumi.StringPtrOutput)
+}
+
+// The protocol of the destination to where the traffic is redirected
+func (o RedirectConfigurationPtrOutput) RedirectProtocol() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.RedirectProtocol
+	}).(pulumi.StringPtrOutput)
+}
+
+// The redirect type the rule will use when redirecting traffic.
+func (o RedirectConfigurationPtrOutput) RedirectType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.RedirectType
+	}).(pulumi.StringPtrOutput)
+}
+
 // Describes Redirect Route.
 type RedirectConfigurationResponse struct {
 	// Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.
@@ -4579,6 +4815,150 @@ type RedirectConfigurationResponse struct {
 	RedirectProtocol *string `pulumi:"redirectProtocol"`
 	// The redirect type the rule will use when redirecting traffic.
 	RedirectType *string `pulumi:"redirectType"`
+}
+
+// Describes Redirect Route.
+type RedirectConfigurationResponseOutput struct{ *pulumi.OutputState }
+
+func (RedirectConfigurationResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RedirectConfigurationResponse)(nil)).Elem()
+}
+
+func (o RedirectConfigurationResponseOutput) ToRedirectConfigurationResponseOutput() RedirectConfigurationResponseOutput {
+	return o
+}
+
+func (o RedirectConfigurationResponseOutput) ToRedirectConfigurationResponseOutputWithContext(ctx context.Context) RedirectConfigurationResponseOutput {
+	return o
+}
+
+// Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.
+func (o RedirectConfigurationResponseOutput) CustomFragment() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfigurationResponse) *string { return v.CustomFragment }).(pulumi.StringPtrOutput)
+}
+
+// Host to redirect. Leave empty to use the incoming host as the destination host.
+func (o RedirectConfigurationResponseOutput) CustomHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfigurationResponse) *string { return v.CustomHost }).(pulumi.StringPtrOutput)
+}
+
+// The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path.
+func (o RedirectConfigurationResponseOutput) CustomPath() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfigurationResponse) *string { return v.CustomPath }).(pulumi.StringPtrOutput)
+}
+
+// The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &.
+func (o RedirectConfigurationResponseOutput) CustomQueryString() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfigurationResponse) *string { return v.CustomQueryString }).(pulumi.StringPtrOutput)
+}
+
+// Expected value is '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'.
+func (o RedirectConfigurationResponseOutput) OdataType() pulumi.StringOutput {
+	return o.ApplyT(func(v RedirectConfigurationResponse) string { return v.OdataType }).(pulumi.StringOutput)
+}
+
+// The protocol of the destination to where the traffic is redirected
+func (o RedirectConfigurationResponseOutput) RedirectProtocol() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfigurationResponse) *string { return v.RedirectProtocol }).(pulumi.StringPtrOutput)
+}
+
+// The redirect type the rule will use when redirecting traffic.
+func (o RedirectConfigurationResponseOutput) RedirectType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RedirectConfigurationResponse) *string { return v.RedirectType }).(pulumi.StringPtrOutput)
+}
+
+type RedirectConfigurationResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (RedirectConfigurationResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RedirectConfigurationResponse)(nil)).Elem()
+}
+
+func (o RedirectConfigurationResponsePtrOutput) ToRedirectConfigurationResponsePtrOutput() RedirectConfigurationResponsePtrOutput {
+	return o
+}
+
+func (o RedirectConfigurationResponsePtrOutput) ToRedirectConfigurationResponsePtrOutputWithContext(ctx context.Context) RedirectConfigurationResponsePtrOutput {
+	return o
+}
+
+func (o RedirectConfigurationResponsePtrOutput) Elem() RedirectConfigurationResponseOutput {
+	return o.ApplyT(func(v *RedirectConfigurationResponse) RedirectConfigurationResponse {
+		if v != nil {
+			return *v
+		}
+		var ret RedirectConfigurationResponse
+		return ret
+	}).(RedirectConfigurationResponseOutput)
+}
+
+// Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.
+func (o RedirectConfigurationResponsePtrOutput) CustomFragment() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfigurationResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomFragment
+	}).(pulumi.StringPtrOutput)
+}
+
+// Host to redirect. Leave empty to use the incoming host as the destination host.
+func (o RedirectConfigurationResponsePtrOutput) CustomHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfigurationResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomHost
+	}).(pulumi.StringPtrOutput)
+}
+
+// The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path.
+func (o RedirectConfigurationResponsePtrOutput) CustomPath() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfigurationResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomPath
+	}).(pulumi.StringPtrOutput)
+}
+
+// The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &.
+func (o RedirectConfigurationResponsePtrOutput) CustomQueryString() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfigurationResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomQueryString
+	}).(pulumi.StringPtrOutput)
+}
+
+// Expected value is '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'.
+func (o RedirectConfigurationResponsePtrOutput) OdataType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfigurationResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.OdataType
+	}).(pulumi.StringPtrOutput)
+}
+
+// The protocol of the destination to where the traffic is redirected
+func (o RedirectConfigurationResponsePtrOutput) RedirectProtocol() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfigurationResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.RedirectProtocol
+	}).(pulumi.StringPtrOutput)
+}
+
+// The redirect type the rule will use when redirecting traffic.
+func (o RedirectConfigurationResponsePtrOutput) RedirectType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RedirectConfigurationResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.RedirectType
+	}).(pulumi.StringPtrOutput)
 }
 
 // Reference to a public IP address.
@@ -24253,6 +24633,10 @@ func init() {
 	pulumi.RegisterOutputType(RadiusServerResponseArrayOutput{})
 	pulumi.RegisterOutputType(RecordSetResponseOutput{})
 	pulumi.RegisterOutputType(RecordSetResponseArrayOutput{})
+	pulumi.RegisterOutputType(RedirectConfigurationOutput{})
+	pulumi.RegisterOutputType(RedirectConfigurationPtrOutput{})
+	pulumi.RegisterOutputType(RedirectConfigurationResponseOutput{})
+	pulumi.RegisterOutputType(RedirectConfigurationResponsePtrOutput{})
 	pulumi.RegisterOutputType(ReferencedPublicIpAddressResponseOutput{})
 	pulumi.RegisterOutputType(ReferencedPublicIpAddressResponseArrayOutput{})
 	pulumi.RegisterOutputType(ResourceNavigationLinkOutput{})

@@ -15,7 +15,7 @@ import (
 // Describes a Virtual Machine run command.
 // Azure REST API version: 2023-03-01. Prior API version in Azure Native 1.x: 2021-03-01.
 //
-// Other available API versions: 2023-07-01.
+// Other available API versions: 2023-07-01, 2023-09-01.
 type VirtualMachineScaleSetVMRunCommand struct {
 	pulumi.CustomResourceState
 
@@ -112,6 +112,9 @@ func NewVirtualMachineScaleSetVMRunCommand(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20230701:VirtualMachineScaleSetVMRunCommand"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20230901:VirtualMachineScaleSetVMRunCommand"),
 		},
 	})
 	opts = append(opts, aliases)

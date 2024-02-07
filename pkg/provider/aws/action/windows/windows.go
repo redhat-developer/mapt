@@ -100,7 +100,10 @@ func Create(r *Request) error {
 		}
 		r.az = *az
 	}
-	isAMIOffered, _, err := amiSVC.IsAMIOffered(&r.AMIName, nil, &r.region)
+	isAMIOffered, _, err := data.IsAMIOffered(
+		data.ImageRequest{
+			Name:   &r.AMIName,
+			Region: &r.region})
 	if err != nil {
 		return err
 	}
@@ -130,9 +133,11 @@ func Create(r *Request) error {
 
 // Will destroy resources related to machine
 func Destroy() (err error) {
-	err = aws.DestroyStack(stackName)
-	if err != nil {
-		return
+	if err := aws.DestroyStack(
+		aws.DestroyStackRequest{
+			Stackname: stackName,
+		}); err != nil {
+		return err
 	}
 	if amiCopy.Exist() {
 		err = amiCopy.Destroy()
@@ -148,9 +153,9 @@ func Destroy() (err error) {
 
 func (r *Request) createMachine() error {
 	cs := manager.Stack{
-		StackName:   qenvsContext.GetStackInstanceName(stackName),
-		ProjectName: qenvsContext.GetInstanceName(),
-		BackedURL:   qenvsContext.GetBackedURL(),
+		StackName:   qenvsContext.StackNameByProject(stackName),
+		ProjectName: qenvsContext.ProjectName(),
+		BackedURL:   qenvsContext.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				aws.CONFIG_AWS_REGION: r.region}),

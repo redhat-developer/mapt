@@ -14,7 +14,7 @@ import (
 // Gets information about the specified express route circuit.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2015-05-01-preview, 2018-12-01, 2019-06-01, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2015-05-01-preview, 2018-12-01, 2019-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
 func LookupExpressRouteCircuit(ctx *pulumi.Context, args *LookupExpressRouteCircuitArgs, opts ...pulumi.InvokeOption) (*LookupExpressRouteCircuitResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupExpressRouteCircuitResult

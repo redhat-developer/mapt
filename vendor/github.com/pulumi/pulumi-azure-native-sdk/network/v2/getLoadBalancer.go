@@ -14,7 +14,7 @@ import (
 // Gets the specified load balancer.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2015-05-01-preview, 2018-06-01, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2015-05-01-preview, 2018-06-01, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
 func LookupLoadBalancer(ctx *pulumi.Context, args *LookupLoadBalancerArgs, opts ...pulumi.InvokeOption) (*LookupLoadBalancerResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupLoadBalancerResult

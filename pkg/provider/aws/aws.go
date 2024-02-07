@@ -2,11 +2,13 @@ package aws
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/adrianriobo/qenvs/pkg/manager"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
+	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/adrianriobo/qenvs/pkg/util/maps"
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -53,19 +55,27 @@ func SetAWSCredentials(ctx context.Context, stack auto.Stack, customCredentials 
 	return nil
 }
 
-func DestroyStackByRegion(region, stackname string) error {
-	stack := manager.Stack{
-		StackName:   qenvsContext.GetStackInstanceName(stackname),
-		ProjectName: qenvsContext.GetInstanceName(),
-		BackedURL:   qenvsContext.GetBackedURL(),
-		ProviderCredentials: GetClouProviderCredentials(
-			map[string]string{
-				CONFIG_AWS_REGION: region})}
-	return manager.DestroyStack(stack)
+type DestroyStackRequest struct {
+	Region    string
+	BackedURL string
+	Stackname string
 }
 
-func DestroyStack(stackname string) error {
-	return DestroyStackByRegion(os.Getenv("AWS_DEFAULT_REGION"), stackname)
+func DestroyStack(s DestroyStackRequest) error {
+	if len(s.Stackname) == 0 {
+		return fmt.Errorf("stackname is required")
+	}
+	return manager.DestroyStack(manager.Stack{
+		StackName:   qenvsContext.StackNameByProject(s.Stackname),
+		ProjectName: qenvsContext.ProjectName(),
+		BackedURL: util.If(len(s.BackedURL) > 0,
+			s.BackedURL,
+			qenvsContext.BackedURL()),
+		ProviderCredentials: GetClouProviderCredentials(
+			map[string]string{
+				CONFIG_AWS_REGION: util.If(len(s.Region) > 0,
+					s.Region,
+					os.Getenv("AWS_DEFAULT_REGION"))})})
 }
 
 // Create a list of filters for tags based on the tags added by qenvs

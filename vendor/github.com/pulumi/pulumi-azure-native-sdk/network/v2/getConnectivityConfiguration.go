@@ -14,7 +14,7 @@ import (
 // Gets a Network Connectivity Configuration, specified by the resource group, network manager name, and connectivity Configuration name
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
 func LookupConnectivityConfiguration(ctx *pulumi.Context, args *LookupConnectivityConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupConnectivityConfigurationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupConnectivityConfigurationResult

@@ -23,7 +23,8 @@ func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
 		&tls.PrivateKeyArgs{
 			Algorithm: pulumi.String("RSA"),
 			RsaBits:   pulumi.Int(4096),
-		})
+		},
+		pulumi.ReplaceOnChanges([]string{"name"}))
 	if err != nil {
 		return nil, err
 	}

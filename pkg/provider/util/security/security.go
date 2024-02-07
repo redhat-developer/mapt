@@ -14,5 +14,6 @@ func CreatePassword(ctx *pulumi.Context, name string) (*random.RandomPassword, e
 			Length:          pulumi.Int(16),
 			Special:         pulumi.Bool(true),
 			OverrideSpecial: pulumi.String(passwordOverrideSpecial),
-		})
+		},
+		pulumi.ReplaceOnChanges([]string{"name"}))
 }

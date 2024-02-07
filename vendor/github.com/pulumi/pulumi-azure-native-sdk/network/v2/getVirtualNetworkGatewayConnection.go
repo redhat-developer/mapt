@@ -14,7 +14,7 @@ import (
 // Gets the specified virtual network gateway connection by resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2016-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2016-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
 func LookupVirtualNetworkGatewayConnection(ctx *pulumi.Context, args *LookupVirtualNetworkGatewayConnectionArgs, opts ...pulumi.InvokeOption) (*LookupVirtualNetworkGatewayConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualNetworkGatewayConnectionResult

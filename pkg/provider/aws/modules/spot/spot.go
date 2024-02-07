@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -239,7 +238,11 @@ func checkBestOption(amiName, amiArch string, source []spotOptionInfo,
 				// Check for AMI is optional, i.e if we will use custom AMIs which can be replicated
 				// we want the best option and the we will take care for replicate the AMI
 				if result && len(amiName) > 0 {
-					result, _, err = ami.IsAMIOffered(&amiName, &amiArch, &price.Region)
+					result, _, err = data.IsAMIOffered(
+						data.ImageRequest{
+							Name:   &amiName,
+							Arch:   &amiArch,
+							Region: &price.Region})
 					if err != nil {
 						return false
 					}

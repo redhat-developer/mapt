@@ -14,7 +14,7 @@ import (
 // Gets the specified custom IP prefix in a specified resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-03-01, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2021-03-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
 func LookupCustomIPPrefix(ctx *pulumi.Context, args *LookupCustomIPPrefixArgs, opts ...pulumi.InvokeOption) (*LookupCustomIPPrefixResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupCustomIPPrefixResult

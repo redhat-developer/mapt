@@ -15,7 +15,7 @@ import (
 // Specifies information about the capacity reservation.
 // Azure REST API version: 2023-03-01. Prior API version in Azure Native 1.x: 2021-04-01.
 //
-// Other available API versions: 2023-07-01.
+// Other available API versions: 2023-07-01, 2023-09-01.
 type CapacityReservation struct {
 	pulumi.CustomResourceState
 
@@ -87,6 +87,9 @@ func NewCapacityReservation(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20230701:CapacityReservation"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20230901:CapacityReservation"),
 		},
 	})
 	opts = append(opts, aliases)

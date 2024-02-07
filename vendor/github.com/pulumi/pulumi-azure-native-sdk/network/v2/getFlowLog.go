@@ -14,7 +14,7 @@ import (
 // Gets a flow log resource by name.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
 func LookupFlowLog(ctx *pulumi.Context, args *LookupFlowLogArgs, opts ...pulumi.InvokeOption) (*LookupFlowLogResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFlowLogResult
