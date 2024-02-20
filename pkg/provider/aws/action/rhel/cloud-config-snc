@@ -3,7 +3,7 @@ rh_subscription:
   username: {{.SubscriptionUsername}}
   password: {{.SubscriptionPassword}}
   auto-attach: true
-package_upgrade: true
+# package_upgrade: true
 packages:
   - podman
   - qemu-kvm 
