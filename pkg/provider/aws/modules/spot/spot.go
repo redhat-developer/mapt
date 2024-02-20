@@ -205,6 +205,7 @@ func spotOption(instanceTypes []string,
 		groupInfo.AVGPrice = util.Average(prices)
 		slices.SortFunc(prices, func(a, b float64) int { return int(a - b) })
 		groupInfo.MaxPrice = prices[len(prices)-1]
+		groupInfo.Region = region
 		pricesGroup = append(pricesGroup, groupInfo)
 	}
 	return
