@@ -2,7 +2,9 @@ package data
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
@@ -16,13 +18,54 @@ var (
 	filternameInstanceType string = "instance-type"
 )
 
+func GetSimilarInstaceTypes(instanceType, region string) ([]string, error) {
+	var cfgOpts config.LoadOptionsFunc
+	if len(region) > 0 {
+		cfgOpts = config.WithRegion(region)
+	}
+	cfg, err := config.LoadDefaultConfig(
+		context.Background(), cfgOpts)
+	if err != nil {
+		return nil, err
+	}
+	client := ec2.NewFromConfig(cfg)
+	tit, err := client.DescribeInstanceTypes(
+		context.Background(),
+		&ec2.DescribeInstanceTypesInput{
+			InstanceTypes: []ec2Types.InstanceType{
+				ec2Types.InstanceType(instanceType)},
+		})
+	if err != nil {
+		return nil, err
+	}
+	if len(tit.InstanceTypes) != 1 {
+		return nil, fmt.Errorf("instance type %s not found on region %s", instanceType, region)
+	}
+	titi := tit.InstanceTypes[0]
+	ait, err := client.DescribeInstanceTypes(
+		context.Background(),
+		&ec2.DescribeInstanceTypesInput{})
+	if err != nil {
+		return nil, err
+	}
+	sit := util.ArrayFilter(ait.InstanceTypes,
+		func(i ec2Types.InstanceTypeInfo) bool {
+			return i.MemoryInfo.SizeInMiB == titi.MemoryInfo.SizeInMiB &&
+				i.VCpuInfo.DefaultCores == titi.VCpuInfo.DefaultCores &&
+				i.GpuInfo.TotalGpuMemoryInMiB == titi.GpuInfo.TotalGpuMemoryInMiB &&
+				*i.DedicatedHostsSupported == *titi.InstanceStorageSupported
+		})
+
+	return util.ArrayConvert(sit, func(i ec2Types.InstanceTypeInfo) string { return string(i.InstanceType) }), nil
+}
+
 // Get InstanceTypes offerings on current location
 func IsInstanceTypeOfferedByRegion(instanceType, region string) (bool, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(region) > 0 {
 		cfgOpts = config.WithRegion(region)
 	}
-	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
+	cfg, err := config.LoadDefaultConfig(context.Background(), cfgOpts)
 	if err != nil {
 		return false, err
 	}
