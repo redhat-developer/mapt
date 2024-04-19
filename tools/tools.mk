@@ -10,3 +10,6 @@ $(TOOLS_BINDIR)/tkn:
 	&& curl -LO "https://github.com/tektoncd/cli/releases/download/v${TKN_VERSION}/tkn_${TKN_VERSION}_Linux_x86_64.tar.gz" \
 	&& tar xvzf "tkn_${TKN_VERSION}_Linux_x86_64.tar.gz" tkn \
 	&& rm "tkn_${TKN_VERSION}_Linux_x86_64.tar.gz"
+
+$(TOOLS_BINDIR)/golangci-lint: $(TOOLS_DIR)/go.mod
+	cd $(TOOLS_DIR) && GOBIN="$(TOOLS_BINDIR)" go install github.com/golangci/golangci-lint/cmd/golangci-lint
