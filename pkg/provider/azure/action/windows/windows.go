@@ -3,6 +3,7 @@ package windows
 import (
 	_ "embed"
 	"fmt"
+	"strings"
 
 	"github.com/adrianriobo/qenvs/pkg/manager"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
@@ -11,6 +12,7 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/provider/util/security"
+	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/pulumi/pulumi-azure-native-sdk/compute/v2"
@@ -21,6 +23,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"golang.org/x/exp/slices"
 )
 
 //go:embed rhqp-ci-setup.ps1
@@ -35,6 +38,7 @@ type WindowsRequest struct {
 	Username      string
 	AdminUsername string
 	Spot          bool
+	Profiles      []string
 }
 
 func Create(r *WindowsRequest) (err error) {
@@ -144,6 +148,9 @@ func (r *WindowsRequest) manageResults(stackResult auto.UpResult) error {
 func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 	rg *resources.ResourceGroup, ni *network.NetworkInterface,
 	location string, spotPrice *float64) (*compute.VirtualMachine, error) {
+	if err := r.validateProfiles(); err != nil {
+		return nil, err
+	}
 	adminPasswd, err := security.CreatePassword(
 		ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-adminuser"))
@@ -312,12 +319,14 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 			authorizedKey := args[1].(string)
 			hostname := args[2].(*string)
 			return fmt.Sprintf(
-				"powershell -ExecutionPolicy Unrestricted -File %s -userPass \"%s\" -user %s -hostname %s -authorizedKey \"%s\"",
+				"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -authorizedKey \"%s\"",
 				scriptName,
+				r.profilesAsParams(),
 				password,
 				r.Username,
 				*hostname,
-				authorizedKey)
+				authorizedKey,
+			)
 		}).(pulumi.StringOutput)
 	// the post script will be executed as a extension
 	vme, err := compute.NewVirtualMachineExtension(
@@ -380,4 +389,24 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 			Source:            pulumi.NewStringAsset(string(RHQPCISetupScript)),
 			BlobName:          pulumi.String(scriptName),
 		})
+}
+
+// Check if profiles for the target hosts are supported
+func (r *WindowsRequest) validateProfiles() error {
+	for _, p := range r.Profiles {
+		if !slices.Contains(profiles, p) {
+			return fmt.Errorf("the profile %s is not supported", p)
+		}
+	}
+	return nil
+}
+
+// Check if a request contains a profile
+func (r *WindowsRequest) profilesAsParams() string {
+	pp := util.ArrayConvert(
+		r.Profiles,
+		func(p string) string {
+			return fmt.Sprintf("-%sProfile", p)
+		})
+	return strings.Join(pp, " ")
 }
