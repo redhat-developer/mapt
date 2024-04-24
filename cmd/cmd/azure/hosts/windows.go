@@ -34,6 +34,8 @@ const (
 	defaultAdminUsername   = "rhqpadmin"
 	paramSpot              = "spot"
 	paramSpotDesc          = "if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)"
+	paramProfile           = "profile"
+	paramProfileDesc       = "comma seperated list of profiles to apply on the target machine. Profiles available: crc"
 )
 
 func GetWindowsDesktopCmd() *cobra.Command {
@@ -75,6 +77,7 @@ func getCreate() *cobra.Command {
 					Feature:       viper.GetString(paramFeature),
 					Username:      viper.GetString(paramUsername),
 					AdminUsername: viper.GetString(paramAdminUsername),
+					Profiles:      viper.GetStringSlice(paramProfile),
 					Spot:          viper.IsSet(paramSpot)}); err != nil {
 				logging.Error(err)
 			}
@@ -90,6 +93,7 @@ func getCreate() *cobra.Command {
 	flagSet.StringP(paramFeature, "", defaultFeature, paramFeatureDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
 	flagSet.StringP(paramAdminUsername, "", defaultAdminUsername, paramAdminUsernameDesc)
+	flagSet.StringSliceP(paramProfile, "", []string{}, paramProfileDesc)
 	flagSet.Bool(paramSpot, false, paramSpotDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c

@@ -6,7 +6,8 @@ param(
     [Parameter(Mandatory,HelpMessage='hostname for the current machine')]
     $hostname,
     [Parameter(Mandatory,HelpMessage='authorizedkey for ssh private key for the user')]
-    $authorizedKey
+    $authorizedKey,
+    [switch]$crcProfile=$false
 )
 # Create local user
 $Password = ConvertTo-SecureString $userPass -AsPlainText -Force
@@ -68,8 +69,8 @@ New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp" -N
 
 # Install sshd
 # Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
-curl.exe -LO https://github.com/PowerShell/Win32-OpenSSH/releases/download/v9.2.0.0p1-Beta/OpenSSH-Win64-v9.2.0.0.msi
-Start-Process C:\Windows\System32\msiexec.exe -ArgumentList '/qb /i OpenSSH-Win64-v9.2.0.0.msi' -wait
+curl.exe -LO https://github.com/PowerShell/Win32-OpenSSH/releases/download/v9.5.0.0p1-Beta/OpenSSH-Win64-v9.5.0.0.msi
+Start-Process C:\Windows\System32\msiexec.exe -ArgumentList '/qb /i OpenSSH-Win64-v9.5.0.0.msi' -wait
 Set-Service -Name sshd -StartupType 'Manual'
 # This generate ssh certs + config file for us
 Start-Service sshd
@@ -103,8 +104,8 @@ If (!(Test-Path $onedrive)) {
 Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
 
 # Install powershellcore
-curl.exe -LO https://github.com/PowerShell/PowerShell/releases/download/v7.3.0/PowerShell-7.3.0-win-x64.msi
-Start-Process C:\Windows\System32\msiexec.exe -ArgumentList '/qb /i PowerShell-7.3.0-win-x64.msi ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1 ENABLE_MU=1 ADD_PATH=1' -wait
+curl.exe -LO https://github.com/PowerShell/PowerShell/releases/download/v7.4.2/PowerShell-7.4.2-win-x64.msi
+Start-Process C:\Windows\System32\msiexec.exe -ArgumentList '/qb /i PowerShell-7.4.2-win-x64.msi ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1 ENABLE_MU=1 ADD_PATH=1' -wait
 # Set powershell as default shell on openssh
 New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Program Files\PowerShell\7\pwsh.exe" -PropertyType String -Force
 
@@ -115,6 +116,14 @@ if (!(Test-Path -Path $profilePath)) {
 }
 Add-Content -Path $profilePath -Value "Remove-Item alias:curl"
 
+# Profiles it can have several profiles at once
+
+# crc profile; create crc-users and add the user
+# this is to avoid reboot requirement when installing crc
+if ($crcProfile) {
+    New-LocalGroup -Name "crc-users"
+    Add-LocalGroupMember -Group "crc-users" -Member $user
+}
 # Restart computer to have the ssh connection available with setup from this script
 Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"
 

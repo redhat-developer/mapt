@@ -19,4 +19,8 @@ const (
 	outputAdminUserPassword = "awdAdminUserPassword"
 
 	prioritySpot = "Spot"
+
+	ProfileCRC = "crc"
 )
+
+var profiles = []string{ProfileCRC}
