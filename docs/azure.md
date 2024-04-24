@@ -13,6 +13,16 @@ It creates / destroy a windows dekstop edition ready to be included within the C
 * Disable UAC  
 * Running ssh server as a startup process run by the worker user
 
+## Profiles
+
+It is possible to customize the initial setup for the target host based on profiles, a target host can created with several profiles:
+
+### crc profile
+
+This wil create the crc-users group and add the user to it, to avoid reboot during crc installation 
+
+Side note: the other requirements for reboot are done by default; hyper-v installation and add user to Admin group
+
 ### Operations
 
 #### Create
@@ -20,7 +30,7 @@ It creates / destroy a windows dekstop edition ready to be included within the C
 This will create a windows desktop accordig to params specificed:
 
 ```bash
-podman run -it --rm quay.io/rhqp/qenvs:v0.0.5 azure windows create -h
+podman run -it --rm quay.io/rhqp/qenvs:v0.7.0 azure windows create -h
 create
 
 Usage:
@@ -31,11 +41,12 @@ Flags:
       --conn-details-output string   path to export host connection information (host, username and privateKey)
   -h, --help                         help for create
       --location string              location for created resources within Windows desktop (default "West US")
+      --profile strings              comma seperated list of profiles to apply on the target machine. Profiles available: crc
       --spot                         if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)
       --tags stringToString          tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --username string              username for general user. SSH accessible + rdp with generated password (default "rhqp")
-      --vmsize string                size for the VM. Type requires to allow nested virtualization (default "Standard_D8a_v4")
-      --windows-featurepack string   windows feature pack (default "22h2-pro")
+      --vmsize string                size for the VM. Type requires to allow nested virtualization (default "Standard_D8s_v4")
+      --windows-featurepack string   windows feature pack (default "23h2-pro")
       --windows-version string       Major version for windows desktop 10 or 11 (default "11")
 
 Global Flags:
@@ -69,6 +80,7 @@ podman run -d --rm \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace" \
         --conn-details-output "/workspace" \
+        --profile crc \
         --spot
 ```
 
