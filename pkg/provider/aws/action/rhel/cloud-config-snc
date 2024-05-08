@@ -3,16 +3,9 @@ rh_subscription:
   username: {{.SubscriptionUsername}}
   password: {{.SubscriptionPassword}}
   auto-attach: true
-# package_upgrade: true
-packages:
-  - podman
-  - qemu-kvm 
-  - libvirt 
-  - virt-install 
-  - virt-viewer
-  - jq
-  - git
 runcmd:
+  - while fuser /var/lib/rpm/.rpm.lock > /dev/null 2>&1 ; do sleep 1 ; done
+  - dnf install -y podman qemu-kvm libvirt virt-install virt-viewer jq git
   # Debug libvirt
   #- echo 'log_filters="1:libvirt 1:util 1:qemu"' | tee -a /etc/libvirt/libvirtd.conf
   #- echo 'log_outputs="1:file:/var/log/libvirt/libvirtd.log"' | tee -a /etc/libvirt/libvirtd.conf
