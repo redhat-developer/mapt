@@ -5,7 +5,7 @@
     ":maintainLockFilesWeekly",
     ":enablePreCommit",
     "group:all",
-    "regexManagers:dockerfileVersions",
+    "customManagers:dockerfileVersions",
     "schedule:weekly",
     "docker:pinDigests",
     "workarounds:supportRedHatImageVersion"
