@@ -18,7 +18,9 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"unicode"
 
+	"github.com/hashicorp/hcl/v2"
 	"github.com/pulumi/esc/syntax"
 )
 
@@ -55,10 +57,13 @@ type PropertyAccessor interface {
 	isAccessor()
 
 	rootName() string
+
+	Range() *hcl.Range
 }
 
 type PropertyName struct {
-	Name string
+	Name          string
+	AccessorRange *hcl.Range
 }
 
 func (p *PropertyName) isAccessor() {}
@@ -67,14 +72,221 @@ func (p *PropertyName) rootName() string {
 	return p.Name
 }
 
+func (p *PropertyName) Range() *hcl.Range {
+	return p.AccessorRange
+}
+
 type PropertySubscript struct {
-	Index interface{}
+	Index         interface{}
+	AccessorRange *hcl.Range
 }
 
 func (p *PropertySubscript) isAccessor() {}
 
 func (p *PropertySubscript) rootName() string {
 	return p.Index.(string)
+}
+
+func (p *PropertySubscript) Range() *hcl.Range {
+	return p.AccessorRange
+}
+
+type propertyAccessParser struct {
+	parent    syntax.Node
+	getRange  func(start, end int) *hcl.Range
+	offset    int
+	text      string
+	accessors []PropertyAccessor
+	diags     syntax.Diagnostics
+}
+
+func (p *propertyAccessParser) error(start int, msg string) {
+	rng := p.rangeFrom(start)
+	if rng != nil {
+		p.diags.Extend(syntax.Error(rng, msg, p.parent.Syntax().Path()))
+	} else {
+		p.diags.Extend(syntax.NodeError(p.parent, msg))
+	}
+}
+
+// Returns a document range starting at start and ending at the current offset.
+func (p *propertyAccessParser) rangeFrom(start int) *hcl.Range {
+	return p.getRange(start, p.offset)
+}
+
+// Returns true if the given byte terminates a property name. Also used during error recovery for
+// unterminated numeric subscipts.
+func (p *propertyAccessParser) terminatesName(c byte) bool {
+	return c == '.' || c == '[' || c == '}' || unicode.IsSpace(rune(c))
+}
+
+// Appends a property accessor.
+func (p *propertyAccessParser) append(accessor PropertyAccessor) {
+	p.accessors = append(p.accessors, accessor)
+}
+
+// Consumes a byte of input. Use peek() prior to next() to determine what the byte is if one is
+// available. Returns the offset of the consumed  byte.
+func (p *propertyAccessParser) next() int {
+	at := p.offset
+	p.text, p.offset = p.text[1:], p.offset+1
+	return at
+}
+
+// Returns (but does not consume) the next byte of input, if any.
+func (p *propertyAccessParser) peek() (byte, bool) {
+	if len(p.text) == 0 {
+		return 0, false
+	}
+	return p.text[0], true
+}
+
+// Parses a property access. See the comment on parsePropertyAccess for the grammar and examples.
+func (p *propertyAccessParser) parse() (int, string, *PropertyAccess, syntax.Diagnostics) {
+	for {
+		c, ok := p.peek()
+		if !ok {
+			p.error(p.offset, "missing closing brace '}' in interpolation")
+			return p.finish(p.offset)
+		}
+
+		switch c {
+		case '}':
+			return p.finish(p.next())
+		case '.':
+			p.append(p.parseName(p.next()))
+		case '[':
+			p.append(p.parseSubscript(p.next()))
+		default:
+			if unicode.IsSpace(rune(c)) {
+				p.error(p.offset, "missing closing brace '}' in interpolation")
+				return p.finish(p.offset)
+			}
+
+			start := p.offset
+			p.append(p.parseName(start))
+		}
+	}
+}
+
+// Terminates parsing. If there are no accessors (e.g. `${` or `${}`), appends an empty property name
+// accessor. Returns the rest of the string, the access, and any diagnostics.
+func (p *propertyAccessParser) finish(start int) (int, string, *PropertyAccess, syntax.Diagnostics) {
+	if len(p.accessors) == 0 {
+		p.append(&PropertyName{Name: "", AccessorRange: p.rangeFrom(start)})
+	}
+
+	end := p.offset
+	rest := p.text
+	access := &PropertyAccess{Accessors: p.accessors}
+	return end, rest, access, p.diags
+}
+
+// Parses a property name (e.g. `foo`).
+func (p *propertyAccessParser) parseName(start int) *PropertyName {
+	var b strings.Builder
+	for {
+		c, ok := p.peek()
+		if !ok || p.terminatesName(c) {
+			break
+		}
+		p.next()
+		b.WriteByte(c)
+	}
+	if b.Len() == 0 {
+		p.error(start, "property name must not be empty")
+	}
+	return &PropertyName{Name: b.String(), AccessorRange: p.rangeFrom(start)}
+}
+
+// Parses a subscript accessor (e.g. `["foo"]` or `[1]`).
+//
+// At this point we are already past the opening `[`. Consumes the terminating `]`, if any.
+func (p *propertyAccessParser) parseSubscript(start int) *PropertySubscript {
+	c, ok := p.peek()
+	if !ok {
+		p.error(start, "subscript is missing closing bracket ']'")
+		return &PropertySubscript{Index: "", AccessorRange: p.rangeFrom(start)}
+	}
+
+	var index any
+	if c == '"' {
+		p.next()
+		index = p.parseStringSubscript(start)
+	} else {
+		index = p.parseIndexSubscript(start)
+	}
+
+	c, ok = p.peek()
+	if !ok || c != ']' {
+		p.error(start, "subscript is missing closing bracket ']'")
+	} else {
+		p.next()
+	}
+	return &PropertySubscript{Index: index, AccessorRange: p.rangeFrom(start)}
+}
+
+// Parses a string subscript.
+//
+// At this point we are already past the opening `["`. Ends on EOF or an unescaped `"`. Consumes
+// the terminating `"` if any.
+func (p *propertyAccessParser) parseStringSubscript(start int) string {
+	var propertyKey strings.Builder
+	for {
+		c, ok := p.peek()
+		if !ok {
+			// skip the opening brace when reporting the error.
+			p.error(start+1, "key subscript is missing closing quote '\"'")
+			return propertyKey.String()
+		}
+		p.next()
+
+		if c == '"' {
+			if propertyKey.Len() == 0 {
+				// skip the opening brace when reporting the error.
+				p.error(start+1, "key subscript must not be empty")
+			}
+			return propertyKey.String()
+		}
+
+		if c == '\\' {
+			if n, ok := p.peek(); ok && n == '"' {
+				p.next()
+				c = n
+			}
+		}
+		propertyKey.WriteByte(c)
+	}
+}
+
+// Parses an index subscript.
+//
+// At this point we are already past the opening `[`. Ends on EOF, `]`, or a name terminator.
+// Does not consume the terminator.
+func (p *propertyAccessParser) parseIndexSubscript(start int) any {
+	var index strings.Builder
+	for {
+		c, ok := p.peek()
+		if !ok || c == ']' || p.terminatesName(c) {
+			break
+		}
+
+		p.next()
+		index.WriteByte(c)
+	}
+
+	indexStr := index.String()
+	num, err := strconv.ParseInt(indexStr, 10, 0)
+	if err != nil {
+		// skip the opening brace when reporting the error.
+		p.error(start+1, "numeric subscript must be a positive base-10 integer")
+		return indexStr
+	}
+
+	if len(p.accessors) == 0 {
+		p.error(start, "the first accessor must be a property name or key subscript, not a numeric subscript")
+	}
+	return int(num)
 }
 
 // parsePropertyAccess parses a property access into a PropertyAccess value.
@@ -107,82 +319,20 @@ func (p *PropertySubscript) rootName() string {
 // - root["key with a ."]
 // - ["root key with \"escaped\" quotes"].nested
 // - ["root key with a ."][100]
-func parsePropertyAccess(node syntax.Node, access string) (string, *PropertyAccess, syntax.Diagnostics) {
+func parsePropertyAccess(node syntax.Node, start int, access string) (int, string, *PropertyAccess, syntax.Diagnostics) {
+
 	// TODO: diagnostic ranges
 
-	// We interpret the grammar above a little loosely in order to keep things simple. Specifically, we will accept
-	// something close to the following:
-	// pathElement := { '.' } ( '[' ( [0-9]+ | '"' ('\' '"' | [^"] )+ '"' ']' | [a-zA-Z_$][a-zA-Z0-9_$] )
-	// path := { pathElement }
-	var accessors []PropertyAccessor
-	for len(access) > 0 {
-		switch access[0] {
-		case '}':
-			// interpolation terminator
-			return access[1:], &PropertyAccess{Accessors: accessors}, nil
-		case '.':
-			if len(accessors) == 0 {
-				return "", nil, syntax.Diagnostics{syntax.NodeError(node, "the root property must be a string subscript or a name")}
-			}
-			access = access[1:]
-		case '[':
-			// If the character following the '[' is a '"', parse a string key.
-			var indexNode interface{}
-			if len(access) > 1 && access[1] == '"' {
-				var propertyKey []byte
-				var i int
-				for i = 2; ; {
-					if i >= len(access) {
-						return "", nil, syntax.Diagnostics{syntax.NodeError(node, "missing closing quote in property name")}
-					} else if access[i] == '"' {
-						i++
-						break
-					} else if access[i] == '\\' && i+1 < len(access) && access[i+1] == '"' {
-						propertyKey = append(propertyKey, '"')
-						i += 2
-					} else {
-						propertyKey = append(propertyKey, access[i])
-						i++
-					}
-				}
-				if i >= len(access) || access[i] != ']' {
-					return "", nil, syntax.Diagnostics{syntax.NodeError(node, "missing closing bracket in property access")}
-				}
-				indexNode, access = string(propertyKey), access[i:]
-			} else {
-				// Look for a closing ']'
-				rbracket := strings.IndexRune(access, ']')
-				if rbracket == -1 {
-					return "", nil, syntax.Diagnostics{syntax.NodeError(node, "missing closing bracket in list index")}
-				}
-
-				index, err := strconv.ParseInt(access[1:rbracket], 10, 0)
-				if err != nil {
-					return "", nil, syntax.Diagnostics{syntax.NodeError(node, "invalid list index")}
-				}
-
-				if len(accessors) == 0 {
-					return "", nil, syntax.Diagnostics{syntax.NodeError(node, "the root property must be a string subscript or a name")}
-				}
-
-				indexNode, access = int(index), access[rbracket:]
-			}
-			accessors, access = append(accessors, &PropertySubscript{Index: indexNode}), access[1:]
-		default:
-			for i := 0; ; i++ {
-				if i == len(access) || access[i] == '.' || access[i] == '[' || access[i] == '}' {
-					propertyName := access[:i]
-					// Ensure the root property is not an integer
-					if len(accessors) == 0 {
-						if _, err := strconv.ParseInt(propertyName, 10, 0); err == nil {
-							return "", nil, syntax.Diagnostics{syntax.NodeError(node, "the root property must be a string subscript or a name")}
-						}
-					}
-					accessors, access = append(accessors, &PropertyName{Name: propertyName}), access[i:]
-					break
-				}
-			}
-		}
+	getRange := func(start, end int) *hcl.Range { return nil }
+	if scalar, ok := node.Syntax().(syntax.Scalar); ok {
+		getRange = scalar.ScalarRange
 	}
-	return "", nil, syntax.Diagnostics{syntax.NodeError(node, "unterminated interpolation")}
+
+	p := &propertyAccessParser{
+		parent:   node,
+		getRange: getRange,
+		offset:   start,
+		text:     access,
+	}
+	return p.parse()
 }

@@ -14,7 +14,7 @@ import (
 // Display information about a virtual machine scale set.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2015-06-15, 2016-04-30-preview, 2023-07-01, 2023-09-01.
+// Other available API versions: 2015-06-15, 2016-04-30-preview, 2023-07-01, 2023-09-01, 2024-03-01.
 func LookupVirtualMachineScaleSet(ctx *pulumi.Context, args *LookupVirtualMachineScaleSetArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineScaleSetResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineScaleSetResult

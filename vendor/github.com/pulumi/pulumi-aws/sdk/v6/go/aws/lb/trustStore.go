@@ -15,57 +15,13 @@ import (
 // Provides a ELBv2 Trust Store for use with Application Load Balancer Listener resources.
 //
 // ## Example Usage
-// ### Trust Store Load Balancer Listener
-//
-// ```go
-// package main
-//
-// import (
-//
-//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb"
-//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-//
-// )
-//
-//	func main() {
-//		pulumi.Run(func(ctx *pulumi.Context) error {
-//			test, err := lb.NewTrustStore(ctx, "test", &lb.TrustStoreArgs{
-//				CaCertificatesBundleS3Bucket: pulumi.String("..."),
-//				CaCertificatesBundleS3Key:    pulumi.String("..."),
-//			})
-//			if err != nil {
-//				return err
-//			}
-//			_, err = lb.NewListener(ctx, "example", &lb.ListenerArgs{
-//				LoadBalancerArn: pulumi.Any(aws_lb.Example.Id),
-//				DefaultActions: lb.ListenerDefaultActionArray{
-//					&lb.ListenerDefaultActionArgs{
-//						TargetGroupArn: pulumi.Any(aws_lb_target_group.Example.Id),
-//						Type:           pulumi.String("forward"),
-//					},
-//				},
-//				MutualAuthentication: &lb.ListenerMutualAuthenticationArgs{
-//					Mode:          pulumi.String("verify"),
-//					TrustStoreArn: test.Arn,
-//				},
-//			})
-//			if err != nil {
-//				return err
-//			}
-//			return nil
-//		})
-//	}
-//
-// ```
 //
 // ## Import
 //
 // Using `pulumi import`, import Target Groups using their ARN. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:lb/trustStore:TrustStore example arn:aws:elasticloadbalancing:us-west-2:187416307283:truststore/my-trust-store/20cfe21448b66314
-//
+// $ pulumi import aws:lb/trustStore:TrustStore example arn:aws:elasticloadbalancing:us-west-2:187416307283:truststore/my-trust-store/20cfe21448b66314
 // ```
 type TrustStore struct {
 	pulumi.CustomResourceState
@@ -76,7 +32,7 @@ type TrustStore struct {
 	ArnSuffix pulumi.StringOutput `pulumi:"arnSuffix"`
 	// S3 Bucket name holding the client certificate CA bundle.
 	CaCertificatesBundleS3Bucket pulumi.StringOutput `pulumi:"caCertificatesBundleS3Bucket"`
-	// S3 Bucket name holding the client certificate CA bundle.
+	// S3 object key holding the client certificate CA bundle.
 	CaCertificatesBundleS3Key pulumi.StringOutput `pulumi:"caCertificatesBundleS3Key"`
 	// Version Id of CA bundle S3 bucket object, if versioned, defaults to latest if omitted.
 	CaCertificatesBundleS3ObjectVersion pulumi.StringPtrOutput `pulumi:"caCertificatesBundleS3ObjectVersion"`
@@ -105,10 +61,6 @@ func NewTrustStore(ctx *pulumi.Context,
 	if args.CaCertificatesBundleS3Key == nil {
 		return nil, errors.New("invalid value for required argument 'CaCertificatesBundleS3Key'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource TrustStore
 	err := ctx.RegisterResource("aws:lb/trustStore:TrustStore", name, args, &resource, opts...)
@@ -138,7 +90,7 @@ type trustStoreState struct {
 	ArnSuffix *string `pulumi:"arnSuffix"`
 	// S3 Bucket name holding the client certificate CA bundle.
 	CaCertificatesBundleS3Bucket *string `pulumi:"caCertificatesBundleS3Bucket"`
-	// S3 Bucket name holding the client certificate CA bundle.
+	// S3 object key holding the client certificate CA bundle.
 	CaCertificatesBundleS3Key *string `pulumi:"caCertificatesBundleS3Key"`
 	// Version Id of CA bundle S3 bucket object, if versioned, defaults to latest if omitted.
 	CaCertificatesBundleS3ObjectVersion *string `pulumi:"caCertificatesBundleS3ObjectVersion"`
@@ -161,7 +113,7 @@ type TrustStoreState struct {
 	ArnSuffix pulumi.StringPtrInput
 	// S3 Bucket name holding the client certificate CA bundle.
 	CaCertificatesBundleS3Bucket pulumi.StringPtrInput
-	// S3 Bucket name holding the client certificate CA bundle.
+	// S3 object key holding the client certificate CA bundle.
 	CaCertificatesBundleS3Key pulumi.StringPtrInput
 	// Version Id of CA bundle S3 bucket object, if versioned, defaults to latest if omitted.
 	CaCertificatesBundleS3ObjectVersion pulumi.StringPtrInput
@@ -184,7 +136,7 @@ func (TrustStoreState) ElementType() reflect.Type {
 type trustStoreArgs struct {
 	// S3 Bucket name holding the client certificate CA bundle.
 	CaCertificatesBundleS3Bucket string `pulumi:"caCertificatesBundleS3Bucket"`
-	// S3 Bucket name holding the client certificate CA bundle.
+	// S3 object key holding the client certificate CA bundle.
 	CaCertificatesBundleS3Key string `pulumi:"caCertificatesBundleS3Key"`
 	// Version Id of CA bundle S3 bucket object, if versioned, defaults to latest if omitted.
 	CaCertificatesBundleS3ObjectVersion *string `pulumi:"caCertificatesBundleS3ObjectVersion"`
@@ -200,7 +152,7 @@ type trustStoreArgs struct {
 type TrustStoreArgs struct {
 	// S3 Bucket name holding the client certificate CA bundle.
 	CaCertificatesBundleS3Bucket pulumi.StringInput
-	// S3 Bucket name holding the client certificate CA bundle.
+	// S3 object key holding the client certificate CA bundle.
 	CaCertificatesBundleS3Key pulumi.StringInput
 	// Version Id of CA bundle S3 bucket object, if versioned, defaults to latest if omitted.
 	CaCertificatesBundleS3ObjectVersion pulumi.StringPtrInput
@@ -314,7 +266,7 @@ func (o TrustStoreOutput) CaCertificatesBundleS3Bucket() pulumi.StringOutput {
 	return o.ApplyT(func(v *TrustStore) pulumi.StringOutput { return v.CaCertificatesBundleS3Bucket }).(pulumi.StringOutput)
 }
 
-// S3 Bucket name holding the client certificate CA bundle.
+// S3 object key holding the client certificate CA bundle.
 func (o TrustStoreOutput) CaCertificatesBundleS3Key() pulumi.StringOutput {
 	return o.ApplyT(func(v *TrustStore) pulumi.StringOutput { return v.CaCertificatesBundleS3Key }).(pulumi.StringOutput)
 }

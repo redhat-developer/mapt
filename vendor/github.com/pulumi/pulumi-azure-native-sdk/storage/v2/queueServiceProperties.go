@@ -15,7 +15,7 @@ import (
 // The properties of a storage account’s Queue service.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01.
 //
-// Other available API versions: 2023-01-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
 type QueueServiceProperties struct {
 	pulumi.CustomResourceState
 
@@ -73,6 +73,12 @@ func NewQueueServiceProperties(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:storage/v20230101:QueueServiceProperties"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20230401:QueueServiceProperties"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20230501:QueueServiceProperties"),
 		},
 	})
 	opts = append(opts, aliases)

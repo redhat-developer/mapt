@@ -18,6 +18,7 @@ import (
 // > **Note:** Do not use `networkInterface` to associate the EIP to `lb.LoadBalancer` or `ec2.NatGateway` resources. Instead use the `allocationId` available in those resources to allow AWS to manage the association, otherwise you will see `AuthFailure` errors.
 //
 // ## Example Usage
+//
 // ### Single EIP associated with an instance
 //
 // ```go
@@ -33,7 +34,7 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewEip(ctx, "lb", &ec2.EipArgs{
-//				Instance: pulumi.Any(aws_instance.Web.Id),
+//				Instance: pulumi.Any(web.Id),
 //				Domain:   pulumi.String("vpc"),
 //			})
 //			if err != nil {
@@ -44,6 +45,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Multiple EIPs associated with a single network interface
 //
 // ```go
@@ -59,7 +61,7 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewNetworkInterface(ctx, "multi-ip", &ec2.NetworkInterfaceArgs{
-//				SubnetId: pulumi.Any(aws_subnet.Main.Id),
+//				SubnetId: pulumi.Any(main.Id),
 //				PrivateIps: pulumi.StringArray{
 //					pulumi.String("10.0.0.10"),
 //					pulumi.String("10.0.0.11"),
@@ -89,6 +91,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Attaching an EIP to an Instance with a pre-assigned private ip (VPC Only)
 //
 // ```go
@@ -116,7 +119,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			myTestSubnet, err := ec2.NewSubnet(ctx, "myTestSubnet", &ec2.SubnetArgs{
+//			myTestSubnet, err := ec2.NewSubnet(ctx, "my_test_subnet", &ec2.SubnetArgs{
 //				VpcId:               _default.ID(),
 //				CidrBlock:           pulumi.String("10.0.0.0/24"),
 //				MapPublicIpOnLaunch: pulumi.Bool(true),
@@ -128,7 +131,7 @@ import (
 //			}
 //			foo, err := ec2.NewInstance(ctx, "foo", &ec2.InstanceArgs{
 //				Ami:          pulumi.String("ami-5189a661"),
-//				InstanceType: pulumi.String("t2.micro"),
+//				InstanceType: pulumi.String(ec2.InstanceType_T2_Micro),
 //				PrivateIp:    pulumi.String("10.0.0.12"),
 //				SubnetId:     myTestSubnet.ID(),
 //			})
@@ -150,6 +153,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Allocating EIP from the BYOIP pool
 //
 // ```go
@@ -182,9 +186,7 @@ import (
 // Using `pulumi import`, import EIPs in a VPC using their Allocation ID. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/eip:Eip bar eipalloc-00a10e96
-//
+// $ pulumi import aws:ec2/eip:Eip bar eipalloc-00a10e96
 // ```
 type Eip struct {
 	pulumi.CustomResourceState
@@ -193,6 +195,7 @@ type Eip struct {
 	Address pulumi.StringPtrOutput `pulumi:"address"`
 	// ID that AWS assigns to represent the allocation of the Elastic IP address for use with instances in a VPC.
 	AllocationId pulumi.StringOutput `pulumi:"allocationId"`
+	Arn          pulumi.StringOutput `pulumi:"arn"`
 	// User-specified primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
 	AssociateWithPrivateIp pulumi.StringPtrOutput `pulumi:"associateWithPrivateIp"`
 	// ID representing the association of the address with an instance in a VPC.
@@ -215,6 +218,8 @@ type Eip struct {
 	PrivateDns pulumi.StringOutput `pulumi:"privateDns"`
 	// Contains the private IP address (if in VPC).
 	PrivateIp pulumi.StringOutput `pulumi:"privateIp"`
+	// The DNS pointer (PTR) record for the IP address.
+	PtrRecord pulumi.StringOutput `pulumi:"ptrRecord"`
 	// Public DNS associated with the Elastic IP address.
 	PublicDns pulumi.StringOutput `pulumi:"publicDns"`
 	// Contains the public IP address.
@@ -247,10 +252,6 @@ func NewEip(ctx *pulumi.Context,
 		args = &EipArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Eip
 	err := ctx.RegisterResource("aws:ec2/eip:Eip", name, args, &resource, opts...)
@@ -278,6 +279,7 @@ type eipState struct {
 	Address *string `pulumi:"address"`
 	// ID that AWS assigns to represent the allocation of the Elastic IP address for use with instances in a VPC.
 	AllocationId *string `pulumi:"allocationId"`
+	Arn          *string `pulumi:"arn"`
 	// User-specified primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
 	AssociateWithPrivateIp *string `pulumi:"associateWithPrivateIp"`
 	// ID representing the association of the address with an instance in a VPC.
@@ -300,6 +302,8 @@ type eipState struct {
 	PrivateDns *string `pulumi:"privateDns"`
 	// Contains the private IP address (if in VPC).
 	PrivateIp *string `pulumi:"privateIp"`
+	// The DNS pointer (PTR) record for the IP address.
+	PtrRecord *string `pulumi:"ptrRecord"`
 	// Public DNS associated with the Elastic IP address.
 	PublicDns *string `pulumi:"publicDns"`
 	// Contains the public IP address.
@@ -330,6 +334,7 @@ type EipState struct {
 	Address pulumi.StringPtrInput
 	// ID that AWS assigns to represent the allocation of the Elastic IP address for use with instances in a VPC.
 	AllocationId pulumi.StringPtrInput
+	Arn          pulumi.StringPtrInput
 	// User-specified primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
 	AssociateWithPrivateIp pulumi.StringPtrInput
 	// ID representing the association of the address with an instance in a VPC.
@@ -352,6 +357,8 @@ type EipState struct {
 	PrivateDns pulumi.StringPtrInput
 	// Contains the private IP address (if in VPC).
 	PrivateIp pulumi.StringPtrInput
+	// The DNS pointer (PTR) record for the IP address.
+	PtrRecord pulumi.StringPtrInput
 	// Public DNS associated with the Elastic IP address.
 	PublicDns pulumi.StringPtrInput
 	// Contains the public IP address.
@@ -543,6 +550,10 @@ func (o EipOutput) AllocationId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Eip) pulumi.StringOutput { return v.AllocationId }).(pulumi.StringOutput)
 }
 
+func (o EipOutput) Arn() pulumi.StringOutput {
+	return o.ApplyT(func(v *Eip) pulumi.StringOutput { return v.Arn }).(pulumi.StringOutput)
+}
+
 // User-specified primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
 func (o EipOutput) AssociateWithPrivateIp() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Eip) pulumi.StringPtrOutput { return v.AssociateWithPrivateIp }).(pulumi.StringPtrOutput)
@@ -596,6 +607,11 @@ func (o EipOutput) PrivateDns() pulumi.StringOutput {
 // Contains the private IP address (if in VPC).
 func (o EipOutput) PrivateIp() pulumi.StringOutput {
 	return o.ApplyT(func(v *Eip) pulumi.StringOutput { return v.PrivateIp }).(pulumi.StringOutput)
+}
+
+// The DNS pointer (PTR) record for the IP address.
+func (o EipOutput) PtrRecord() pulumi.StringOutput {
+	return o.ApplyT(func(v *Eip) pulumi.StringOutput { return v.PtrRecord }).(pulumi.StringOutput)
 }
 
 // Public DNS associated with the Elastic IP address.

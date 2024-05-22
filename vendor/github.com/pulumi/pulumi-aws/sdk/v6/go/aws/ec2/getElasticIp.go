@@ -14,6 +14,7 @@ import (
 // `ec2.Eip` provides details about a specific Elastic IP.
 //
 // ## Example Usage
+//
 // ### Search By Allocation ID (VPC only)
 //
 // ```go
@@ -39,6 +40,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Search By Filters (EC2-Classic or VPC)
 //
 // ```go
@@ -71,6 +73,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Search By Public IP (EC2-Classic or VPC)
 //
 // ```go
@@ -96,6 +99,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Search By Tags (EC2-Classic or VPC)
 //
 // ```go
@@ -147,6 +151,7 @@ type GetElasticIpArgs struct {
 
 // A collection of values returned by getElasticIp.
 type GetElasticIpResult struct {
+	Arn string `pulumi:"arn"`
 	// ID representing the association of the address with an instance in a VPC.
 	AssociationId string `pulumi:"associationId"`
 	// Carrier IP address.
@@ -170,6 +175,8 @@ type GetElasticIpResult struct {
 	PrivateDns string `pulumi:"privateDns"`
 	// Private IP address associated with the Elastic IP address.
 	PrivateIp string `pulumi:"privateIp"`
+	// The DNS pointer (PTR) record for the IP address.
+	PtrRecord string `pulumi:"ptrRecord"`
 	// Public DNS associated with the Elastic IP address.
 	PublicDns string `pulumi:"publicDns"`
 	// Public IP address of Elastic IP.
@@ -222,6 +229,10 @@ func (o GetElasticIpResultOutput) ToGetElasticIpResultOutput() GetElasticIpResul
 
 func (o GetElasticIpResultOutput) ToGetElasticIpResultOutputWithContext(ctx context.Context) GetElasticIpResultOutput {
 	return o
+}
+
+func (o GetElasticIpResultOutput) Arn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetElasticIpResult) string { return v.Arn }).(pulumi.StringOutput)
 }
 
 // ID representing the association of the address with an instance in a VPC.
@@ -281,6 +292,11 @@ func (o GetElasticIpResultOutput) PrivateDns() pulumi.StringOutput {
 // Private IP address associated with the Elastic IP address.
 func (o GetElasticIpResultOutput) PrivateIp() pulumi.StringOutput {
 	return o.ApplyT(func(v GetElasticIpResult) string { return v.PrivateIp }).(pulumi.StringOutput)
+}
+
+// The DNS pointer (PTR) record for the IP address.
+func (o GetElasticIpResultOutput) PtrRecord() pulumi.StringOutput {
+	return o.ApplyT(func(v GetElasticIpResult) string { return v.PtrRecord }).(pulumi.StringOutput)
 }
 
 // Public DNS associated with the Elastic IP address.

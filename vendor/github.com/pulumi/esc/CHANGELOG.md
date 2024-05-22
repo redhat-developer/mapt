@@ -1,6 +1,64 @@
 CHANGELOG
 =========
 
+## 0.8.3
+
+### Improvements
+
+- Propagate current and root env name to providers.
+  [#264](https://github.com/pulumi/esc/pull/264)
+
+### Bug Fixes
+
+- Specify pulumi access token per command run.
+  [#263](https://github.com/pulumi/esc/pull/263)
+
+## 0.8.2
+
+### Improvements
+
+- Document the CLI's REST API client.
+  [#257](https://github.com/pulumi/esc/pull/257)
+
+## 0.8.1
+
+### Improvements
+
+- Handle anonymous environments when injecting it to the context
+  [#250](https://github.com/pulumi/esc/pull/250)
+
+- Export context schema for editor autocompletion
+  [#252](https://github.com/pulumi/esc/pull/252)
+
+## 0.8.0
+
+### Improvements
+
+- Allow evaluation of environments with parse errors.
+  [#222](https://github.com/pulumi/esc/pull/222)
+
+- Return a properly-merged root schema from environment evaluation.
+  [#229](https://github.com/pulumi/esc/pull/229)
+
+- Improve property accessor diagnostics.
+  [#230](https://github.com/pulumi/esc/pull/230)
+
+- Populate source positions for property accessors in single-line flow scalars.
+  [#231](https://github.com/pulumi/esc/pull/231)
+
+- Provide more accurate accessor diagnostic positions.
+  [#238](https://github.com/pulumi/esc/pull/238)
+
+- Add support for execution context interpolation.
+  [#239](https://github.com/pulumi/esc/pull/239)
+  
+## 0.7.0
+
+### Bug Fixes
+
+- Fix merging of already-merged values.
+  [#213](https://github.com/pulumi/esc/pull/213)
+
 ## 0.6.2
 
 ### Bug Fixes

@@ -41,14 +41,14 @@ import (
 //				return err
 //			}
 //			target, err := ec2.NewTrafficMirrorTarget(ctx, "target", &ec2.TrafficMirrorTargetArgs{
-//				NetworkLoadBalancerArn: pulumi.Any(aws_lb.Lb.Arn),
+//				NetworkLoadBalancerArn: pulumi.Any(lb.Arn),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = ec2.NewTrafficMirrorSession(ctx, "session", &ec2.TrafficMirrorSessionArgs{
 //				Description:           pulumi.String("traffic mirror session - example"),
-//				NetworkInterfaceId:    pulumi.Any(aws_instance.Test.Primary_network_interface_id),
+//				NetworkInterfaceId:    pulumi.Any(test.PrimaryNetworkInterfaceId),
 //				SessionNumber:         pulumi.Int(1),
 //				TrafficMirrorFilterId: filter.ID(),
 //				TrafficMirrorTargetId: target.ID(),
@@ -67,9 +67,7 @@ import (
 // Using `pulumi import`, import traffic mirror sessions using the `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/trafficMirrorSession:TrafficMirrorSession session tms-0d8aa3ca35897b82e
-//
+// $ pulumi import aws:ec2/trafficMirrorSession:TrafficMirrorSession session tms-0d8aa3ca35897b82e
 // ```
 type TrafficMirrorSession struct {
 	pulumi.CustomResourceState
@@ -119,10 +117,6 @@ func NewTrafficMirrorSession(ctx *pulumi.Context,
 	if args.TrafficMirrorTargetId == nil {
 		return nil, errors.New("invalid value for required argument 'TrafficMirrorTargetId'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource TrafficMirrorSession
 	err := ctx.RegisterResource("aws:ec2/trafficMirrorSession:TrafficMirrorSession", name, args, &resource, opts...)

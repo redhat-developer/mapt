@@ -14,7 +14,7 @@ import (
 // Gets properties of a specified share.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
 func LookupFileShare(ctx *pulumi.Context, args *LookupFileShareArgs, opts ...pulumi.InvokeOption) (*LookupFileShareResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFileShareResult

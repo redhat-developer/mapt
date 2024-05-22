@@ -31,6 +31,8 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// The following example shows how to generate a random priority
+//			// between 1 and 50000 for a aws_alb_listener_rule resource:
 //			priority, err := random.NewRandomInteger(ctx, "priority", &random.RandomIntegerArgs{
 //				Min: pulumi.Int(1),
 //				Max: pulumi.Int(50000),
@@ -64,12 +66,16 @@ import (
 //
 // ## Import
 //
-// Random integers can be imported using the result, min, and max, with an optional seed. This can be used to replace a config value with a value interpolated from the random provider without experiencing diffs. Example (values are separated by a ,)
+// Random integers can be imported using the result, min, and max, with an
+//
+//	optional seed. This can be used to replace a config value with a value
+//
+//	interpolated from the random provider without experiencing diffs.
+//
+//	Example (values are separated by a ,):
 //
 // ```sh
-//
-//	$ pulumi import random:index/randomInteger:RandomInteger priority 15390,1,50000
-//
+// $ pulumi import random:index/randomInteger:RandomInteger priority 15390,1,50000
 // ```
 type RandomInteger struct {
 	pulumi.CustomResourceState

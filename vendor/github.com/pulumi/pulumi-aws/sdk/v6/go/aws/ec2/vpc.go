@@ -90,32 +90,32 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			testVpcIpam, err := ec2.NewVpcIpam(ctx, "testVpcIpam", &ec2.VpcIpamArgs{
+//			test, err := ec2.NewVpcIpam(ctx, "test", &ec2.VpcIpamArgs{
 //				OperatingRegions: ec2.VpcIpamOperatingRegionArray{
 //					&ec2.VpcIpamOperatingRegionArgs{
-//						RegionName: *pulumi.String(current.Name),
+//						RegionName: pulumi.String(current.Name),
 //					},
 //				},
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			testVpcIpamPool, err := ec2.NewVpcIpamPool(ctx, "testVpcIpamPool", &ec2.VpcIpamPoolArgs{
+//			testVpcIpamPool, err := ec2.NewVpcIpamPool(ctx, "test", &ec2.VpcIpamPoolArgs{
 //				AddressFamily: pulumi.String("ipv4"),
-//				IpamScopeId:   testVpcIpam.PrivateDefaultScopeId,
-//				Locale:        *pulumi.String(current.Name),
+//				IpamScopeId:   test.PrivateDefaultScopeId,
+//				Locale:        pulumi.String(current.Name),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			testVpcIpamPoolCidr, err := ec2.NewVpcIpamPoolCidr(ctx, "testVpcIpamPoolCidr", &ec2.VpcIpamPoolCidrArgs{
+//			testVpcIpamPoolCidr, err := ec2.NewVpcIpamPoolCidr(ctx, "test", &ec2.VpcIpamPoolCidrArgs{
 //				IpamPoolId: testVpcIpamPool.ID(),
 //				Cidr:       pulumi.String("172.20.0.0/16"),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewVpc(ctx, "testVpc", &ec2.VpcArgs{
+//			_, err = ec2.NewVpc(ctx, "test", &ec2.VpcArgs{
 //				Ipv4IpamPoolId:    testVpcIpamPool.ID(),
 //				Ipv4NetmaskLength: pulumi.Int(28),
 //			}, pulumi.DependsOn([]pulumi.Resource{
@@ -135,9 +135,7 @@ import (
 // Using `pulumi import`, import VPCs using the VPC `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/vpc:Vpc test_vpc vpc-a01106c2
-//
+// $ pulumi import aws:ec2/vpc:Vpc test_vpc vpc-a01106c2
 // ```
 type Vpc struct {
 	pulumi.CustomResourceState
@@ -154,7 +152,8 @@ type Vpc struct {
 	DefaultRouteTableId pulumi.StringOutput `pulumi:"defaultRouteTableId"`
 	// The ID of the security group created by default on VPC creation
 	DefaultSecurityGroupId pulumi.StringOutput `pulumi:"defaultSecurityGroupId"`
-	DhcpOptionsId          pulumi.StringOutput `pulumi:"dhcpOptionsId"`
+	// DHCP options id of the desired VPC.
+	DhcpOptionsId pulumi.StringOutput `pulumi:"dhcpOptionsId"`
 	// A boolean flag to enable/disable DNS hostnames in the VPC. Defaults false.
 	EnableDnsHostnames pulumi.BoolOutput `pulumi:"enableDnsHostnames"`
 	// A boolean flag to enable/disable DNS support in the VPC. Defaults to true.
@@ -198,10 +197,6 @@ func NewVpc(ctx *pulumi.Context,
 		args = &VpcArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Vpc
 	err := ctx.RegisterResource("aws:ec2/vpc:Vpc", name, args, &resource, opts...)
@@ -237,7 +232,8 @@ type vpcState struct {
 	DefaultRouteTableId *string `pulumi:"defaultRouteTableId"`
 	// The ID of the security group created by default on VPC creation
 	DefaultSecurityGroupId *string `pulumi:"defaultSecurityGroupId"`
-	DhcpOptionsId          *string `pulumi:"dhcpOptionsId"`
+	// DHCP options id of the desired VPC.
+	DhcpOptionsId *string `pulumi:"dhcpOptionsId"`
 	// A boolean flag to enable/disable DNS hostnames in the VPC. Defaults false.
 	EnableDnsHostnames *bool `pulumi:"enableDnsHostnames"`
 	// A boolean flag to enable/disable DNS support in the VPC. Defaults to true.
@@ -287,7 +283,8 @@ type VpcState struct {
 	DefaultRouteTableId pulumi.StringPtrInput
 	// The ID of the security group created by default on VPC creation
 	DefaultSecurityGroupId pulumi.StringPtrInput
-	DhcpOptionsId          pulumi.StringPtrInput
+	// DHCP options id of the desired VPC.
+	DhcpOptionsId pulumi.StringPtrInput
 	// A boolean flag to enable/disable DNS hostnames in the VPC. Defaults false.
 	EnableDnsHostnames pulumi.BoolPtrInput
 	// A boolean flag to enable/disable DNS support in the VPC. Defaults to true.
@@ -504,6 +501,7 @@ func (o VpcOutput) DefaultSecurityGroupId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Vpc) pulumi.StringOutput { return v.DefaultSecurityGroupId }).(pulumi.StringOutput)
 }
 
+// DHCP options id of the desired VPC.
 func (o VpcOutput) DhcpOptionsId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Vpc) pulumi.StringOutput { return v.DhcpOptionsId }).(pulumi.StringOutput)
 }

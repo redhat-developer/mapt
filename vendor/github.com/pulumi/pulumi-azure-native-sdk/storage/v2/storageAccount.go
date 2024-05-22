@@ -15,7 +15,7 @@ import (
 // The storage account.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01.
 //
-// Other available API versions: 2015-05-01-preview, 2015-06-15, 2018-11-01, 2023-01-01.
+// Other available API versions: 2015-05-01-preview, 2015-06-15, 2018-11-01, 2023-01-01, 2023-04-01, 2023-05-01.
 type StorageAccount struct {
 	pulumi.CustomResourceState
 
@@ -207,6 +207,12 @@ func NewStorageAccount(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:storage/v20230101:StorageAccount"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20230401:StorageAccount"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20230501:StorageAccount"),
 		},
 	})
 	opts = append(opts, aliases)

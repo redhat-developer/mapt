@@ -44,6 +44,8 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// The following example shows how to generate a unique name for an AWS EC2
+//			// instance that changes each time a new AMI id is selected.
 //			serverRandomId, err := random.NewRandomId(ctx, "serverRandomId", &random.RandomIdArgs{
 //				Keepers: pulumi.StringMap{
 //					"ami_id": pulumi.Any(_var.Ami_id),
@@ -74,20 +76,22 @@ import (
 //
 // ## Import
 //
-// Random IDs can be imported using the b64_url with an optional prefix. This can be used to replace a config value with a value interpolated from the random provider without experiencing diffs. Example with no prefix
+// Random IDs can be imported using the b64_url with an optional prefix. This
+//
+//	can be used to replace a config value with a value interpolated from the
+//
+//	random provider without experiencing diffs.
+//
+//	Example with no prefix:
 //
 // ```sh
-//
-//	$ pulumi import random:index/randomId:RandomId server p-9hUg
-//
+// $ pulumi import random:index/randomId:RandomId server p-9hUg
 // ```
 //
-//	Example with prefix (prefix is separated by a ,)
+//	Example with prefix (prefix is separated by a ,):
 //
 // ```sh
-//
-//	$ pulumi import random:index/randomId:RandomId server my-prefix-,p-9hUg
-//
+// $ pulumi import random:index/randomId:RandomId server my-prefix-,p-9hUg
 // ```
 type RandomId struct {
 	pulumi.CustomResourceState

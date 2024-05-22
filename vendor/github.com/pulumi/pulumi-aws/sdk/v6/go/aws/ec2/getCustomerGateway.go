@@ -41,7 +41,7 @@ import (
 //				return err
 //			}
 //			main, err := ec2.NewVpnGateway(ctx, "main", &ec2.VpnGatewayArgs{
-//				VpcId:         pulumi.Any(aws_vpc.Main.Id),
+//				VpcId:         pulumi.Any(mainAwsVpc.Id),
 //				AmazonSideAsn: pulumi.String("7224"),
 //			})
 //			if err != nil {
@@ -49,8 +49,8 @@ import (
 //			}
 //			_, err = ec2.NewVpnConnection(ctx, "transit", &ec2.VpnConnectionArgs{
 //				VpnGatewayId:      main.ID(),
-//				CustomerGatewayId: *pulumi.String(foo.Id),
-//				Type:              *pulumi.String(foo.Type),
+//				CustomerGatewayId: pulumi.String(foo.Id),
+//				Type:              pulumi.String(foo.Type),
 //				StaticRoutesOnly:  pulumi.Bool(false),
 //			})
 //			if err != nil {

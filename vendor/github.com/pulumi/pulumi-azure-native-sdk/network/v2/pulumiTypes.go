@@ -34877,8 +34877,10 @@ func (o FirewallPolicyInsightsResponsePtrOutput) RetentionDays() pulumi.IntPtrOu
 type FirewallPolicyIntrusionDetection struct {
 	// Intrusion detection configuration properties.
 	Configuration *FirewallPolicyIntrusionDetectionConfiguration `pulumi:"configuration"`
-	// Intrusion detection general state.
+	// Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two.
 	Mode *string `pulumi:"mode"`
+	// IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy.
+	Profile *string `pulumi:"profile"`
 }
 
 // FirewallPolicyIntrusionDetectionInput is an input type that accepts FirewallPolicyIntrusionDetectionArgs and FirewallPolicyIntrusionDetectionOutput values.
@@ -34896,8 +34898,10 @@ type FirewallPolicyIntrusionDetectionInput interface {
 type FirewallPolicyIntrusionDetectionArgs struct {
 	// Intrusion detection configuration properties.
 	Configuration FirewallPolicyIntrusionDetectionConfigurationPtrInput `pulumi:"configuration"`
-	// Intrusion detection general state.
+	// Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two.
 	Mode pulumi.StringPtrInput `pulumi:"mode"`
+	// IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy.
+	Profile pulumi.StringPtrInput `pulumi:"profile"`
 }
 
 func (FirewallPolicyIntrusionDetectionArgs) ElementType() reflect.Type {
@@ -34985,9 +34989,14 @@ func (o FirewallPolicyIntrusionDetectionOutput) Configuration() FirewallPolicyIn
 	}).(FirewallPolicyIntrusionDetectionConfigurationPtrOutput)
 }
 
-// Intrusion detection general state.
+// Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two.
 func (o FirewallPolicyIntrusionDetectionOutput) Mode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v FirewallPolicyIntrusionDetection) *string { return v.Mode }).(pulumi.StringPtrOutput)
+}
+
+// IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy.
+func (o FirewallPolicyIntrusionDetectionOutput) Profile() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FirewallPolicyIntrusionDetection) *string { return v.Profile }).(pulumi.StringPtrOutput)
 }
 
 type FirewallPolicyIntrusionDetectionPtrOutput struct{ *pulumi.OutputState }
@@ -35024,13 +35033,23 @@ func (o FirewallPolicyIntrusionDetectionPtrOutput) Configuration() FirewallPolic
 	}).(FirewallPolicyIntrusionDetectionConfigurationPtrOutput)
 }
 
-// Intrusion detection general state.
+// Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two.
 func (o FirewallPolicyIntrusionDetectionPtrOutput) Mode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FirewallPolicyIntrusionDetection) *string {
 		if v == nil {
 			return nil
 		}
 		return v.Mode
+	}).(pulumi.StringPtrOutput)
+}
+
+// IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy.
+func (o FirewallPolicyIntrusionDetectionPtrOutput) Profile() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FirewallPolicyIntrusionDetection) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Profile
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -35594,8 +35613,10 @@ func (o FirewallPolicyIntrusionDetectionConfigurationResponsePtrOutput) Signatur
 type FirewallPolicyIntrusionDetectionResponse struct {
 	// Intrusion detection configuration properties.
 	Configuration *FirewallPolicyIntrusionDetectionConfigurationResponse `pulumi:"configuration"`
-	// Intrusion detection general state.
+	// Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two.
 	Mode *string `pulumi:"mode"`
+	// IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy.
+	Profile *string `pulumi:"profile"`
 }
 
 // Configuration for intrusion detection mode and rules.
@@ -35620,9 +35641,14 @@ func (o FirewallPolicyIntrusionDetectionResponseOutput) Configuration() Firewall
 	}).(FirewallPolicyIntrusionDetectionConfigurationResponsePtrOutput)
 }
 
-// Intrusion detection general state.
+// Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two.
 func (o FirewallPolicyIntrusionDetectionResponseOutput) Mode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v FirewallPolicyIntrusionDetectionResponse) *string { return v.Mode }).(pulumi.StringPtrOutput)
+}
+
+// IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy.
+func (o FirewallPolicyIntrusionDetectionResponseOutput) Profile() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v FirewallPolicyIntrusionDetectionResponse) *string { return v.Profile }).(pulumi.StringPtrOutput)
 }
 
 type FirewallPolicyIntrusionDetectionResponsePtrOutput struct{ *pulumi.OutputState }
@@ -35659,13 +35685,23 @@ func (o FirewallPolicyIntrusionDetectionResponsePtrOutput) Configuration() Firew
 	}).(FirewallPolicyIntrusionDetectionConfigurationResponsePtrOutput)
 }
 
-// Intrusion detection general state.
+// Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two.
 func (o FirewallPolicyIntrusionDetectionResponsePtrOutput) Mode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FirewallPolicyIntrusionDetectionResponse) *string {
 		if v == nil {
 			return nil
 		}
 		return v.Mode
+	}).(pulumi.StringPtrOutput)
+}
+
+// IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy.
+func (o FirewallPolicyIntrusionDetectionResponsePtrOutput) Profile() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FirewallPolicyIntrusionDetectionResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Profile
 	}).(pulumi.StringPtrOutput)
 }
 

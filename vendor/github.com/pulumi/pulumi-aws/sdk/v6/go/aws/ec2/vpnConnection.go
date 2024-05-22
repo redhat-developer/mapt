@@ -19,6 +19,7 @@ import (
 // [Read more about this in the AWS documentation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_VpnTunnelOptionsSpecification.html).
 //
 // ## Example Usage
+//
 // ### EC2 Transit Gateway
 //
 // ```go
@@ -34,11 +35,11 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			exampleTransitGateway, err := ec2transitgateway.NewTransitGateway(ctx, "exampleTransitGateway", nil)
+//			example, err := ec2transitgateway.NewTransitGateway(ctx, "example", nil)
 //			if err != nil {
 //				return err
 //			}
-//			exampleCustomerGateway, err := ec2.NewCustomerGateway(ctx, "exampleCustomerGateway", &ec2.CustomerGatewayArgs{
+//			exampleCustomerGateway, err := ec2.NewCustomerGateway(ctx, "example", &ec2.CustomerGatewayArgs{
 //				BgpAsn:    pulumi.String("65000"),
 //				IpAddress: pulumi.String("172.0.0.1"),
 //				Type:      pulumi.String("ipsec.1"),
@@ -46,9 +47,9 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewVpnConnection(ctx, "exampleVpnConnection", &ec2.VpnConnectionArgs{
+//			_, err = ec2.NewVpnConnection(ctx, "example", &ec2.VpnConnectionArgs{
 //				CustomerGatewayId: exampleCustomerGateway.ID(),
-//				TransitGatewayId:  exampleTransitGateway.ID(),
+//				TransitGatewayId:  example.ID(),
 //				Type:              exampleCustomerGateway.Type,
 //			})
 //			if err != nil {
@@ -59,6 +60,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Virtual Private Gateway
 //
 // ```go
@@ -79,13 +81,13 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			vpnGateway, err := ec2.NewVpnGateway(ctx, "vpnGateway", &ec2.VpnGatewayArgs{
+//			vpnGateway, err := ec2.NewVpnGateway(ctx, "vpn_gateway", &ec2.VpnGatewayArgs{
 //				VpcId: vpc.ID(),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			customerGateway, err := ec2.NewCustomerGateway(ctx, "customerGateway", &ec2.CustomerGatewayArgs{
+//			customerGateway, err := ec2.NewCustomerGateway(ctx, "customer_gateway", &ec2.CustomerGatewayArgs{
 //				BgpAsn:    pulumi.String("65000"),
 //				IpAddress: pulumi.String("172.0.0.1"),
 //				Type:      pulumi.String("ipsec.1"),
@@ -107,6 +109,7 @@ import (
 //	}
 //
 // ```
+//
 // ### AWS Site to Site Private VPN
 //
 // ```go
@@ -123,13 +126,14 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			exampleGateway, err := directconnect.NewGateway(ctx, "exampleGateway", &directconnect.GatewayArgs{
+//			exampleGateway, err := directconnect.NewGateway(ctx, "example", &directconnect.GatewayArgs{
+//				Name:          pulumi.String("example_ipsec_vpn_example"),
 //				AmazonSideAsn: pulumi.String("64512"),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			exampleTransitGateway, err := ec2transitgateway.NewTransitGateway(ctx, "exampleTransitGateway", &ec2transitgateway.TransitGatewayArgs{
+//			exampleTransitGateway, err := ec2transitgateway.NewTransitGateway(ctx, "example", &ec2transitgateway.TransitGatewayArgs{
 //				AmazonSideAsn: pulumi.Int(64513),
 //				Description:   pulumi.String("example_ipsec_vpn_example"),
 //				TransitGatewayCidrBlocks: pulumi.StringArray{
@@ -139,7 +143,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			exampleCustomerGateway, err := ec2.NewCustomerGateway(ctx, "exampleCustomerGateway", &ec2.CustomerGatewayArgs{
+//			exampleCustomerGateway, err := ec2.NewCustomerGateway(ctx, "example", &ec2.CustomerGatewayArgs{
 //				BgpAsn:    pulumi.String("64514"),
 //				IpAddress: pulumi.String("10.0.0.1"),
 //				Type:      pulumi.String("ipsec.1"),
@@ -150,7 +154,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = directconnect.NewGatewayAssociation(ctx, "exampleGatewayAssociation", &directconnect.GatewayAssociationArgs{
+//			_, err = directconnect.NewGatewayAssociation(ctx, "example", &directconnect.GatewayAssociationArgs{
 //				DxGatewayId:         exampleGateway.ID(),
 //				AssociatedGatewayId: exampleTransitGateway.ID(),
 //				AllowedPrefixes: pulumi.StringArray{
@@ -160,16 +164,16 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			exampleDirectConnectGatewayAttachment := ec2transitgateway.GetDirectConnectGatewayAttachmentOutput(ctx, ec2transitgateway.GetDirectConnectGatewayAttachmentOutputArgs{
+//			example := ec2transitgateway.GetDirectConnectGatewayAttachmentOutput(ctx, ec2transitgateway.GetDirectConnectGatewayAttachmentOutputArgs{
 //				TransitGatewayId: exampleTransitGateway.ID(),
 //				DxGatewayId:      exampleGateway.ID(),
 //			}, nil)
-//			_, err = ec2.NewVpnConnection(ctx, "exampleVpnConnection", &ec2.VpnConnectionArgs{
+//			_, err = ec2.NewVpnConnection(ctx, "example", &ec2.VpnConnectionArgs{
 //				CustomerGatewayId:    exampleCustomerGateway.ID(),
 //				OutsideIpAddressType: pulumi.String("PrivateIpv4"),
 //				TransitGatewayId:     exampleTransitGateway.ID(),
-//				TransportTransitGatewayAttachmentId: exampleDirectConnectGatewayAttachment.ApplyT(func(exampleDirectConnectGatewayAttachment ec2transitgateway.GetDirectConnectGatewayAttachmentResult) (*string, error) {
-//					return &exampleDirectConnectGatewayAttachment.Id, nil
+//				TransportTransitGatewayAttachmentId: example.ApplyT(func(example ec2transitgateway.GetDirectConnectGatewayAttachmentResult) (*string, error) {
+//					return &example.Id, nil
 //				}).(pulumi.StringPtrOutput),
 //				Type: pulumi.String("ipsec.1"),
 //				Tags: pulumi.StringMap{
@@ -190,9 +194,7 @@ import (
 // Using `pulumi import`, import VPN Connections using the VPN connection `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/vpnConnection:VpnConnection testvpnconnection vpn-40f41529
-//
+// $ pulumi import aws:ec2/vpnConnection:VpnConnection testvpnconnection vpn-40f41529
 // ```
 type VpnConnection struct {
 	pulumi.CustomResourceState
@@ -217,7 +219,7 @@ type VpnConnection struct {
 	OutsideIpAddressType pulumi.StringOutput `pulumi:"outsideIpAddressType"`
 	// The IPv4 CIDR on the AWS side of the VPN connection.
 	RemoteIpv4NetworkCidr pulumi.StringOutput `pulumi:"remoteIpv4NetworkCidr"`
-	// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
+	// The IPv6 CIDR on the AWS side of the VPN connection.
 	RemoteIpv6NetworkCidr pulumi.StringOutput `pulumi:"remoteIpv6NetworkCidr"`
 	// The static routes associated with the VPN connection. Detailed below.
 	Routes VpnConnectionRouteTypeArrayOutput `pulumi:"routes"`
@@ -366,7 +368,6 @@ func NewVpnConnection(ctx *pulumi.Context,
 	}
 	secrets := pulumi.AdditionalSecretOutputs([]string{
 		"customerGatewayConfiguration",
-		"tagsAll",
 		"tunnel1PresharedKey",
 		"tunnel2PresharedKey",
 	})
@@ -414,7 +415,7 @@ type vpnConnectionState struct {
 	OutsideIpAddressType *string `pulumi:"outsideIpAddressType"`
 	// The IPv4 CIDR on the AWS side of the VPN connection.
 	RemoteIpv4NetworkCidr *string `pulumi:"remoteIpv4NetworkCidr"`
-	// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
+	// The IPv6 CIDR on the AWS side of the VPN connection.
 	RemoteIpv6NetworkCidr *string `pulumi:"remoteIpv6NetworkCidr"`
 	// The static routes associated with the VPN connection. Detailed below.
 	Routes []VpnConnectionRouteType `pulumi:"routes"`
@@ -563,7 +564,7 @@ type VpnConnectionState struct {
 	OutsideIpAddressType pulumi.StringPtrInput
 	// The IPv4 CIDR on the AWS side of the VPN connection.
 	RemoteIpv4NetworkCidr pulumi.StringPtrInput
-	// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
+	// The IPv6 CIDR on the AWS side of the VPN connection.
 	RemoteIpv6NetworkCidr pulumi.StringPtrInput
 	// The static routes associated with the VPN connection. Detailed below.
 	Routes VpnConnectionRouteTypeArrayInput
@@ -708,7 +709,7 @@ type vpnConnectionArgs struct {
 	OutsideIpAddressType *string `pulumi:"outsideIpAddressType"`
 	// The IPv4 CIDR on the AWS side of the VPN connection.
 	RemoteIpv4NetworkCidr *string `pulumi:"remoteIpv4NetworkCidr"`
-	// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
+	// The IPv6 CIDR on the AWS side of the VPN connection.
 	RemoteIpv6NetworkCidr *string `pulumi:"remoteIpv6NetworkCidr"`
 	// Whether the VPN connection uses static routes exclusively. Static routes must be used for devices that don't support BGP.
 	StaticRoutesOnly *bool `pulumi:"staticRoutesOnly"`
@@ -820,7 +821,7 @@ type VpnConnectionArgs struct {
 	OutsideIpAddressType pulumi.StringPtrInput
 	// The IPv4 CIDR on the AWS side of the VPN connection.
 	RemoteIpv4NetworkCidr pulumi.StringPtrInput
-	// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
+	// The IPv6 CIDR on the AWS side of the VPN connection.
 	RemoteIpv6NetworkCidr pulumi.StringPtrInput
 	// Whether the VPN connection uses static routes exclusively. Static routes must be used for devices that don't support BGP.
 	StaticRoutesOnly pulumi.BoolPtrInput
@@ -1055,7 +1056,7 @@ func (o VpnConnectionOutput) RemoteIpv4NetworkCidr() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringOutput { return v.RemoteIpv4NetworkCidr }).(pulumi.StringOutput)
 }
 
-// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection.
+// The IPv6 CIDR on the AWS side of the VPN connection.
 func (o VpnConnectionOutput) RemoteIpv6NetworkCidr() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringOutput { return v.RemoteIpv6NetworkCidr }).(pulumi.StringOutput)
 }

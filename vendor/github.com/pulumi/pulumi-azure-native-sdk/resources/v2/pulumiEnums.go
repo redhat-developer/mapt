@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'.
@@ -177,12 +176,6 @@ func (in *cleanupOptionsPtr) ToCleanupOptionsPtrOutput() CleanupOptionsPtrOutput
 
 func (in *cleanupOptionsPtr) ToCleanupOptionsPtrOutputWithContext(ctx context.Context) CleanupOptionsPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(CleanupOptionsPtrOutput)
-}
-
-func (in *cleanupOptionsPtr) ToOutput(ctx context.Context) pulumix.Output[*CleanupOptions] {
-	return pulumix.Output[*CleanupOptions]{
-		OutputState: in.ToCleanupOptionsPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // denySettings Mode.
@@ -356,12 +349,6 @@ func (in *denySettingsModePtr) ToDenySettingsModePtrOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, in).(DenySettingsModePtrOutput)
 }
 
-func (in *denySettingsModePtr) ToOutput(ctx context.Context) pulumix.Output[*DenySettingsMode] {
-	return pulumix.Output[*DenySettingsMode]{
-		OutputState: in.ToDenySettingsModePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.
 type DeploymentMode string
 
@@ -528,12 +515,6 @@ func (in *deploymentModePtr) ToDeploymentModePtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(DeploymentModePtrOutput)
 }
 
-func (in *deploymentModePtr) ToOutput(ctx context.Context) pulumix.Output[*DeploymentMode] {
-	return pulumix.Output[*DeploymentMode]{
-		OutputState: in.ToDeploymentModePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Specifies the action that should be taken on the resource when the deployment stack is deleted. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
 type DeploymentStacksDeleteDetachEnum string
 
@@ -698,12 +679,6 @@ func (in *deploymentStacksDeleteDetachEnumPtr) ToDeploymentStacksDeleteDetachEnu
 
 func (in *deploymentStacksDeleteDetachEnumPtr) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(DeploymentStacksDeleteDetachEnumPtrOutput)
-}
-
-func (in *deploymentStacksDeleteDetachEnumPtr) ToOutput(ctx context.Context) pulumix.Output[*DeploymentStacksDeleteDetachEnum] {
-	return pulumix.Output[*DeploymentStacksDeleteDetachEnum]{
-		OutputState: in.ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The scope to be used for evaluation of parameters, variables and functions in a nested template.
@@ -874,12 +849,6 @@ func (in *expressionEvaluationOptionsScopeTypePtr) ToExpressionEvaluationOptions
 	return pulumi.ToOutputWithContext(ctx, in).(ExpressionEvaluationOptionsScopeTypePtrOutput)
 }
 
-func (in *expressionEvaluationOptionsScopeTypePtr) ToOutput(ctx context.Context) pulumix.Output[*ExpressionEvaluationOptionsScopeType] {
-	return pulumix.Output[*ExpressionEvaluationOptionsScopeType]{
-		OutputState: in.ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The extended location type.
 type ExtendedLocationType string
 
@@ -1042,12 +1011,6 @@ func (in *extendedLocationTypePtr) ToExtendedLocationTypePtrOutput() ExtendedLoc
 
 func (in *extendedLocationTypePtr) ToExtendedLocationTypePtrOutputWithContext(ctx context.Context) ExtendedLocationTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ExtendedLocationTypePtrOutput)
-}
-
-func (in *extendedLocationTypePtr) ToOutput(ctx context.Context) pulumix.Output[*ExtendedLocationType] {
-	return pulumix.Output[*ExtendedLocationType]{
-		OutputState: in.ToExtendedLocationTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // Type of the managed identity.
@@ -1214,12 +1177,6 @@ func (in *managedServiceIdentityTypePtr) ToManagedServiceIdentityTypePtrOutputWi
 	return pulumi.ToOutputWithContext(ctx, in).(ManagedServiceIdentityTypePtrOutput)
 }
 
-func (in *managedServiceIdentityTypePtr) ToOutput(ctx context.Context) pulumix.Output[*ManagedServiceIdentityType] {
-	return pulumix.Output[*ManagedServiceIdentityType]{
-		OutputState: in.ToManagedServiceIdentityTypePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
 type OnErrorDeploymentType string
 
@@ -1384,12 +1341,6 @@ func (in *onErrorDeploymentTypePtr) ToOnErrorDeploymentTypePtrOutput() OnErrorDe
 
 func (in *onErrorDeploymentTypePtr) ToOnErrorDeploymentTypePtrOutputWithContext(ctx context.Context) OnErrorDeploymentTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(OnErrorDeploymentTypePtrOutput)
-}
-
-func (in *onErrorDeploymentTypePtr) ToOutput(ctx context.Context) pulumix.Output[*OnErrorDeploymentType] {
-	return pulumix.Output[*OnErrorDeploymentType]{
-		OutputState: in.ToOnErrorDeploymentTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The identity type.
@@ -1560,12 +1511,6 @@ func (in *resourceIdentityTypePtr) ToResourceIdentityTypePtrOutput() ResourceIde
 
 func (in *resourceIdentityTypePtr) ToResourceIdentityTypePtrOutputWithContext(ctx context.Context) ResourceIdentityTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ResourceIdentityTypePtrOutput)
-}
-
-func (in *resourceIdentityTypePtr) ToOutput(ctx context.Context) pulumix.Output[*ResourceIdentityType] {
-	return pulumix.Output[*ResourceIdentityType]{
-		OutputState: in.ToResourceIdentityTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // Type of the script.

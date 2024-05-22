@@ -13,6 +13,8 @@ import (
 
 // Gets a Deployment Stack with a given name.
 // Azure REST API version: 2022-08-01-preview.
+//
+// Other available API versions: 2024-03-01.
 func LookupDeploymentStackAtManagementGroup(ctx *pulumi.Context, args *LookupDeploymentStackAtManagementGroupArgs, opts ...pulumi.InvokeOption) (*LookupDeploymentStackAtManagementGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDeploymentStackAtManagementGroupResult

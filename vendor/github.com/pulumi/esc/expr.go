@@ -15,6 +15,8 @@
 package esc
 
 import (
+	"fmt"
+
 	"github.com/pulumi/esc/schema"
 )
 
@@ -73,6 +75,9 @@ type Accessor struct {
 
 	// The key of the property to access. Mutually exclusive with Index.
 	Key *string `json:"key,omitempty"`
+
+	// The range of the accessor.
+	Range Range `json:"range,omitempty"`
 }
 
 // A PropertyAccessor is a single accessor that is associated with a resolved value.
@@ -112,6 +117,10 @@ type Range struct {
 	End Pos `json:"end"`
 }
 
+func (r Range) String() string {
+	return fmt.Sprintf("%v:[%v,%v]", r.Environment, r.Begin, r.End)
+}
+
 // Contains returns true if the range contains the given position.
 func (r Range) Contains(pos Pos) bool {
 	if pos.Byte >= r.Begin.Byte && pos.Byte < r.End.Byte {
@@ -138,4 +147,8 @@ type Pos struct {
 
 	// Byte is the byte offset into the file where the indicated position begins.
 	Byte int `json:"byte"`
+}
+
+func (p Pos) String() string {
+	return fmt.Sprintf("%v:%v", p.Line, p.Column)
 }

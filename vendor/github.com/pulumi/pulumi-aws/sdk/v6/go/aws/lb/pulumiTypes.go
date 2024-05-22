@@ -3566,7 +3566,6 @@ func (o ListenerRuleConditionArrayOutput) Index(i pulumi.IntInput) ListenerRuleC
 }
 
 type ListenerRuleConditionHostHeader struct {
-	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 	Values []string `pulumi:"values"`
 }
 
@@ -3582,7 +3581,6 @@ type ListenerRuleConditionHostHeaderInput interface {
 }
 
 type ListenerRuleConditionHostHeaderArgs struct {
-	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -3663,7 +3661,6 @@ func (o ListenerRuleConditionHostHeaderOutput) ToListenerRuleConditionHostHeader
 	}).(ListenerRuleConditionHostHeaderPtrOutput)
 }
 
-// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 func (o ListenerRuleConditionHostHeaderOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ListenerRuleConditionHostHeader) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -3692,7 +3689,6 @@ func (o ListenerRuleConditionHostHeaderPtrOutput) Elem() ListenerRuleConditionHo
 	}).(ListenerRuleConditionHostHeaderOutput)
 }
 
-// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 func (o ListenerRuleConditionHostHeaderPtrOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionHostHeader) []string {
 		if v == nil {
@@ -3859,7 +3855,6 @@ func (o ListenerRuleConditionHttpHeaderPtrOutput) Values() pulumi.StringArrayOut
 }
 
 type ListenerRuleConditionHttpRequestMethod struct {
-	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 	Values []string `pulumi:"values"`
 }
 
@@ -3875,7 +3870,6 @@ type ListenerRuleConditionHttpRequestMethodInput interface {
 }
 
 type ListenerRuleConditionHttpRequestMethodArgs struct {
-	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -3956,7 +3950,6 @@ func (o ListenerRuleConditionHttpRequestMethodOutput) ToListenerRuleConditionHtt
 	}).(ListenerRuleConditionHttpRequestMethodPtrOutput)
 }
 
-// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 func (o ListenerRuleConditionHttpRequestMethodOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ListenerRuleConditionHttpRequestMethod) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -3985,7 +3978,6 @@ func (o ListenerRuleConditionHttpRequestMethodPtrOutput) Elem() ListenerRuleCond
 	}).(ListenerRuleConditionHttpRequestMethodOutput)
 }
 
-// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 func (o ListenerRuleConditionHttpRequestMethodPtrOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionHttpRequestMethod) []string {
 		if v == nil {
@@ -3996,7 +3988,6 @@ func (o ListenerRuleConditionHttpRequestMethodPtrOutput) Values() pulumi.StringA
 }
 
 type ListenerRuleConditionPathPattern struct {
-	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 	Values []string `pulumi:"values"`
 }
 
@@ -4012,7 +4003,6 @@ type ListenerRuleConditionPathPatternInput interface {
 }
 
 type ListenerRuleConditionPathPatternArgs struct {
-	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -4093,7 +4083,6 @@ func (o ListenerRuleConditionPathPatternOutput) ToListenerRuleConditionPathPatte
 	}).(ListenerRuleConditionPathPatternPtrOutput)
 }
 
-// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 func (o ListenerRuleConditionPathPatternOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ListenerRuleConditionPathPattern) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -4122,7 +4111,6 @@ func (o ListenerRuleConditionPathPatternPtrOutput) Elem() ListenerRuleConditionP
 	}).(ListenerRuleConditionPathPatternOutput)
 }
 
-// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 func (o ListenerRuleConditionPathPatternPtrOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionPathPattern) []string {
 		if v == nil {
@@ -4239,7 +4227,6 @@ func (o ListenerRuleConditionQueryStringArrayOutput) Index(i pulumi.IntInput) Li
 }
 
 type ListenerRuleConditionSourceIp struct {
-	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 	Values []string `pulumi:"values"`
 }
 
@@ -4255,7 +4242,6 @@ type ListenerRuleConditionSourceIpInput interface {
 }
 
 type ListenerRuleConditionSourceIpArgs struct {
-	// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -4336,7 +4322,6 @@ func (o ListenerRuleConditionSourceIpOutput) ToListenerRuleConditionSourceIpPtrO
 	}).(ListenerRuleConditionSourceIpPtrOutput)
 }
 
-// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 func (o ListenerRuleConditionSourceIpOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ListenerRuleConditionSourceIp) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -4365,7 +4350,6 @@ func (o ListenerRuleConditionSourceIpPtrOutput) Elem() ListenerRuleConditionSour
 	}).(ListenerRuleConditionSourceIpOutput)
 }
 
-// List of header value patterns to match. Maximum size of each pattern is 128 characters. Comparison is case insensitive. Wildcard characters supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request they will be searched in order until a match is found. Only one pattern needs to match for the condition to be satisfied. To require that all of the strings are a match, create one condition block per string.
 func (o ListenerRuleConditionSourceIpPtrOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ListenerRuleConditionSourceIp) []string {
 		if v == nil {
@@ -4376,11 +4360,11 @@ func (o ListenerRuleConditionSourceIpPtrOutput) Values() pulumi.StringArrayOutpu
 }
 
 type LoadBalancerAccessLogs struct {
-	// The S3 bucket name to store the logs in.
+	// S3 bucket name to store the logs in.
 	Bucket string `pulumi:"bucket"`
 	// Boolean to enable / disable `accessLogs`. Defaults to `false`, even when `bucket` is specified.
 	Enabled *bool `pulumi:"enabled"`
-	// The S3 bucket prefix. Logs are stored in the root if not configured.
+	// S3 bucket prefix. Logs are stored in the root if not configured.
 	Prefix *string `pulumi:"prefix"`
 }
 
@@ -4396,11 +4380,11 @@ type LoadBalancerAccessLogsInput interface {
 }
 
 type LoadBalancerAccessLogsArgs struct {
-	// The S3 bucket name to store the logs in.
+	// S3 bucket name to store the logs in.
 	Bucket pulumi.StringInput `pulumi:"bucket"`
 	// Boolean to enable / disable `accessLogs`. Defaults to `false`, even when `bucket` is specified.
 	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
-	// The S3 bucket prefix. Logs are stored in the root if not configured.
+	// S3 bucket prefix. Logs are stored in the root if not configured.
 	Prefix pulumi.StringPtrInput `pulumi:"prefix"`
 }
 
@@ -4481,7 +4465,7 @@ func (o LoadBalancerAccessLogsOutput) ToLoadBalancerAccessLogsPtrOutputWithConte
 	}).(LoadBalancerAccessLogsPtrOutput)
 }
 
-// The S3 bucket name to store the logs in.
+// S3 bucket name to store the logs in.
 func (o LoadBalancerAccessLogsOutput) Bucket() pulumi.StringOutput {
 	return o.ApplyT(func(v LoadBalancerAccessLogs) string { return v.Bucket }).(pulumi.StringOutput)
 }
@@ -4491,7 +4475,7 @@ func (o LoadBalancerAccessLogsOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v LoadBalancerAccessLogs) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
 }
 
-// The S3 bucket prefix. Logs are stored in the root if not configured.
+// S3 bucket prefix. Logs are stored in the root if not configured.
 func (o LoadBalancerAccessLogsOutput) Prefix() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LoadBalancerAccessLogs) *string { return v.Prefix }).(pulumi.StringPtrOutput)
 }
@@ -4520,7 +4504,7 @@ func (o LoadBalancerAccessLogsPtrOutput) Elem() LoadBalancerAccessLogsOutput {
 	}).(LoadBalancerAccessLogsOutput)
 }
 
-// The S3 bucket name to store the logs in.
+// S3 bucket name to store the logs in.
 func (o LoadBalancerAccessLogsPtrOutput) Bucket() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LoadBalancerAccessLogs) *string {
 		if v == nil {
@@ -4540,7 +4524,7 @@ func (o LoadBalancerAccessLogsPtrOutput) Enabled() pulumi.BoolPtrOutput {
 	}).(pulumi.BoolPtrOutput)
 }
 
-// The S3 bucket prefix. Logs are stored in the root if not configured.
+// S3 bucket prefix. Logs are stored in the root if not configured.
 func (o LoadBalancerAccessLogsPtrOutput) Prefix() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LoadBalancerAccessLogs) *string {
 		if v == nil {
@@ -4551,11 +4535,11 @@ func (o LoadBalancerAccessLogsPtrOutput) Prefix() pulumi.StringPtrOutput {
 }
 
 type LoadBalancerConnectionLogs struct {
-	// The S3 bucket name to store the logs in.
+	// S3 bucket name to store the logs in.
 	Bucket string `pulumi:"bucket"`
 	// Boolean to enable / disable `connectionLogs`. Defaults to `false`, even when `bucket` is specified.
 	Enabled *bool `pulumi:"enabled"`
-	// The S3 bucket prefix. Logs are stored in the root if not configured.
+	// S3 bucket prefix. Logs are stored in the root if not configured.
 	Prefix *string `pulumi:"prefix"`
 }
 
@@ -4571,11 +4555,11 @@ type LoadBalancerConnectionLogsInput interface {
 }
 
 type LoadBalancerConnectionLogsArgs struct {
-	// The S3 bucket name to store the logs in.
+	// S3 bucket name to store the logs in.
 	Bucket pulumi.StringInput `pulumi:"bucket"`
 	// Boolean to enable / disable `connectionLogs`. Defaults to `false`, even when `bucket` is specified.
 	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
-	// The S3 bucket prefix. Logs are stored in the root if not configured.
+	// S3 bucket prefix. Logs are stored in the root if not configured.
 	Prefix pulumi.StringPtrInput `pulumi:"prefix"`
 }
 
@@ -4656,7 +4640,7 @@ func (o LoadBalancerConnectionLogsOutput) ToLoadBalancerConnectionLogsPtrOutputW
 	}).(LoadBalancerConnectionLogsPtrOutput)
 }
 
-// The S3 bucket name to store the logs in.
+// S3 bucket name to store the logs in.
 func (o LoadBalancerConnectionLogsOutput) Bucket() pulumi.StringOutput {
 	return o.ApplyT(func(v LoadBalancerConnectionLogs) string { return v.Bucket }).(pulumi.StringOutput)
 }
@@ -4666,7 +4650,7 @@ func (o LoadBalancerConnectionLogsOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v LoadBalancerConnectionLogs) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
 }
 
-// The S3 bucket prefix. Logs are stored in the root if not configured.
+// S3 bucket prefix. Logs are stored in the root if not configured.
 func (o LoadBalancerConnectionLogsOutput) Prefix() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LoadBalancerConnectionLogs) *string { return v.Prefix }).(pulumi.StringPtrOutput)
 }
@@ -4695,7 +4679,7 @@ func (o LoadBalancerConnectionLogsPtrOutput) Elem() LoadBalancerConnectionLogsOu
 	}).(LoadBalancerConnectionLogsOutput)
 }
 
-// The S3 bucket name to store the logs in.
+// S3 bucket name to store the logs in.
 func (o LoadBalancerConnectionLogsPtrOutput) Bucket() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LoadBalancerConnectionLogs) *string {
 		if v == nil {
@@ -4715,7 +4699,7 @@ func (o LoadBalancerConnectionLogsPtrOutput) Enabled() pulumi.BoolPtrOutput {
 	}).(pulumi.BoolPtrOutput)
 }
 
-// The S3 bucket prefix. Logs are stored in the root if not configured.
+// S3 bucket prefix. Logs are stored in the root if not configured.
 func (o LoadBalancerConnectionLogsPtrOutput) Prefix() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LoadBalancerConnectionLogs) *string {
 		if v == nil {
@@ -4726,12 +4710,12 @@ func (o LoadBalancerConnectionLogsPtrOutput) Prefix() pulumi.StringPtrOutput {
 }
 
 type LoadBalancerSubnetMapping struct {
-	// The allocation ID of the Elastic IP address for an internet-facing load balancer.
+	// Allocation ID of the Elastic IP address for an internet-facing load balancer.
 	AllocationId *string `pulumi:"allocationId"`
-	// The IPv6 address. You associate IPv6 CIDR blocks with your VPC and choose the subnets where you launch both internet-facing and internal Application Load Balancers or Network Load Balancers.
+	// IPv6 address. You associate IPv6 CIDR blocks with your VPC and choose the subnets where you launch both internet-facing and internal Application Load Balancers or Network Load Balancers.
 	Ipv6Address *string `pulumi:"ipv6Address"`
 	OutpostId   *string `pulumi:"outpostId"`
-	// The private IPv4 address for an internal load balancer.
+	// Private IPv4 address for an internal load balancer.
 	PrivateIpv4Address *string `pulumi:"privateIpv4Address"`
 	// ID of the subnet of which to attach to the load balancer. You can specify only one subnet per Availability Zone.
 	SubnetId string `pulumi:"subnetId"`
@@ -4749,12 +4733,12 @@ type LoadBalancerSubnetMappingInput interface {
 }
 
 type LoadBalancerSubnetMappingArgs struct {
-	// The allocation ID of the Elastic IP address for an internet-facing load balancer.
+	// Allocation ID of the Elastic IP address for an internet-facing load balancer.
 	AllocationId pulumi.StringPtrInput `pulumi:"allocationId"`
-	// The IPv6 address. You associate IPv6 CIDR blocks with your VPC and choose the subnets where you launch both internet-facing and internal Application Load Balancers or Network Load Balancers.
+	// IPv6 address. You associate IPv6 CIDR blocks with your VPC and choose the subnets where you launch both internet-facing and internal Application Load Balancers or Network Load Balancers.
 	Ipv6Address pulumi.StringPtrInput `pulumi:"ipv6Address"`
 	OutpostId   pulumi.StringPtrInput `pulumi:"outpostId"`
-	// The private IPv4 address for an internal load balancer.
+	// Private IPv4 address for an internal load balancer.
 	PrivateIpv4Address pulumi.StringPtrInput `pulumi:"privateIpv4Address"`
 	// ID of the subnet of which to attach to the load balancer. You can specify only one subnet per Availability Zone.
 	SubnetId pulumi.StringInput `pulumi:"subnetId"`
@@ -4811,12 +4795,12 @@ func (o LoadBalancerSubnetMappingOutput) ToLoadBalancerSubnetMappingOutputWithCo
 	return o
 }
 
-// The allocation ID of the Elastic IP address for an internet-facing load balancer.
+// Allocation ID of the Elastic IP address for an internet-facing load balancer.
 func (o LoadBalancerSubnetMappingOutput) AllocationId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LoadBalancerSubnetMapping) *string { return v.AllocationId }).(pulumi.StringPtrOutput)
 }
 
-// The IPv6 address. You associate IPv6 CIDR blocks with your VPC and choose the subnets where you launch both internet-facing and internal Application Load Balancers or Network Load Balancers.
+// IPv6 address. You associate IPv6 CIDR blocks with your VPC and choose the subnets where you launch both internet-facing and internal Application Load Balancers or Network Load Balancers.
 func (o LoadBalancerSubnetMappingOutput) Ipv6Address() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LoadBalancerSubnetMapping) *string { return v.Ipv6Address }).(pulumi.StringPtrOutput)
 }
@@ -4825,7 +4809,7 @@ func (o LoadBalancerSubnetMappingOutput) OutpostId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LoadBalancerSubnetMapping) *string { return v.OutpostId }).(pulumi.StringPtrOutput)
 }
 
-// The private IPv4 address for an internal load balancer.
+// Private IPv4 address for an internal load balancer.
 func (o LoadBalancerSubnetMappingOutput) PrivateIpv4Address() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LoadBalancerSubnetMapping) *string { return v.PrivateIpv4Address }).(pulumi.StringPtrOutput)
 }

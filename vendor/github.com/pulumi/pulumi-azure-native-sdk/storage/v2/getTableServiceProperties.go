@@ -14,7 +14,7 @@ import (
 // Gets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
 func LookupTableServiceProperties(ctx *pulumi.Context, args *LookupTableServicePropertiesArgs, opts ...pulumi.InvokeOption) (*LookupTableServicePropertiesResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupTableServicePropertiesResult

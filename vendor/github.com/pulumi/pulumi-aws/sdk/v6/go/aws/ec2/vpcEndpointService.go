@@ -22,6 +22,7 @@ import (
 // and will overwrite the association.
 //
 // ## Example Usage
+//
 // ### Network Load Balancers
 //
 // ```go
@@ -39,7 +40,7 @@ import (
 //			_, err := ec2.NewVpcEndpointService(ctx, "example", &ec2.VpcEndpointServiceArgs{
 //				AcceptanceRequired: pulumi.Bool(false),
 //				NetworkLoadBalancerArns: pulumi.StringArray{
-//					aws_lb.Example.Arn,
+//					exampleAwsLb.Arn,
 //				},
 //			})
 //			if err != nil {
@@ -50,6 +51,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Gateway Load Balancers
 //
 // ```go
@@ -67,7 +69,7 @@ import (
 //			_, err := ec2.NewVpcEndpointService(ctx, "example", &ec2.VpcEndpointServiceArgs{
 //				AcceptanceRequired: pulumi.Bool(false),
 //				GatewayLoadBalancerArns: pulumi.StringArray{
-//					aws_lb.Example.Arn,
+//					exampleAwsLb.Arn,
 //				},
 //			})
 //			if err != nil {
@@ -84,9 +86,7 @@ import (
 // Using `pulumi import`, import VPC Endpoint Services using the VPC endpoint service `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/vpcEndpointService:VpcEndpointService foo vpce-svc-0f97a19d3fa8220bc
-//
+// $ pulumi import aws:ec2/vpcEndpointService:VpcEndpointService foo vpce-svc-0f97a19d3fa8220bc
 // ```
 type VpcEndpointService struct {
 	pulumi.CustomResourceState
@@ -137,10 +137,6 @@ func NewVpcEndpointService(ctx *pulumi.Context,
 	if args.AcceptanceRequired == nil {
 		return nil, errors.New("invalid value for required argument 'AcceptanceRequired'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcEndpointService
 	err := ctx.RegisterResource("aws:ec2/vpcEndpointService:VpcEndpointService", name, args, &resource, opts...)

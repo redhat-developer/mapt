@@ -32,21 +32,21 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewTrafficMirrorTarget(ctx, "nlb", &ec2.TrafficMirrorTargetArgs{
 //				Description:            pulumi.String("NLB target"),
-//				NetworkLoadBalancerArn: pulumi.Any(aws_lb.Lb.Arn),
+//				NetworkLoadBalancerArn: pulumi.Any(lb.Arn),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = ec2.NewTrafficMirrorTarget(ctx, "eni", &ec2.TrafficMirrorTargetArgs{
 //				Description:        pulumi.String("ENI target"),
-//				NetworkInterfaceId: pulumi.Any(aws_instance.Test.Primary_network_interface_id),
+//				NetworkInterfaceId: pulumi.Any(test.PrimaryNetworkInterfaceId),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = ec2.NewTrafficMirrorTarget(ctx, "gwlb", &ec2.TrafficMirrorTargetArgs{
 //				Description:                   pulumi.String("GWLB target"),
-//				GatewayLoadBalancerEndpointId: pulumi.Any(aws_vpc_endpoint.Example.Id),
+//				GatewayLoadBalancerEndpointId: pulumi.Any(example.Id),
 //			})
 //			if err != nil {
 //				return err
@@ -62,9 +62,7 @@ import (
 // Using `pulumi import`, import traffic mirror targets using the `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/trafficMirrorTarget:TrafficMirrorTarget target tmt-0c13a005422b86606
-//
+// $ pulumi import aws:ec2/trafficMirrorTarget:TrafficMirrorTarget target tmt-0c13a005422b86606
 // ```
 type TrafficMirrorTarget struct {
 	pulumi.CustomResourceState
@@ -98,10 +96,6 @@ func NewTrafficMirrorTarget(ctx *pulumi.Context,
 		args = &TrafficMirrorTargetArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource TrafficMirrorTarget
 	err := ctx.RegisterResource("aws:ec2/trafficMirrorTarget:TrafficMirrorTarget", name, args, &resource, opts...)

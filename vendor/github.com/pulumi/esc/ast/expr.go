@@ -17,6 +17,7 @@ package ast
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"strings"
 
 	"github.com/hashicorp/hcl/v2"
@@ -52,16 +53,32 @@ func (x *exprNode) Syntax() syntax.Node {
 	return x.syntax
 }
 
+func exprPosition(expr Expr) (*hcl.Range, string) {
+	inner := reflect.ValueOf(expr)
+	if inner.IsValid() && !inner.IsZero() {
+		if syntax := expr.Syntax(); syntax != nil {
+			return syntax.Syntax().Range(), syntax.Syntax().Path()
+		}
+	}
+	return nil, ""
+}
+
 // ExprError creates an error-level diagnostic associated with the given expression. If the expression is non-nil and
 // has an underlying syntax node, the error will cover the underlying textual range.
 func ExprError(expr Expr, summary string) *syntax.Diagnostic {
-	var rng *hcl.Range
-	if expr != nil {
-		if syntax := expr.Syntax(); syntax != nil {
-			rng = syntax.Syntax().Range()
-		}
+	rng, path := exprPosition(expr)
+	return syntax.Error(rng, summary, path)
+}
+
+// AccessorError creates an error-level diagnostic associated with the given expression and accessor. If the accessor
+// has range information, the error will cover its textual range. Otherwise, the error will cover the textual range of
+// the parent expression.
+func AccessorError(parent Expr, accessor PropertyAccessor, summary string) *syntax.Diagnostic {
+	rng, path := exprPosition(parent)
+	if r := accessor.Range(); r != nil {
+		rng = r
 	}
-	return syntax.Error(rng, summary, expr.Syntax().Syntax().Path())
+	return syntax.Error(rng, summary, path)
 }
 
 // A NullExpr represents a null literal.
@@ -140,7 +157,7 @@ func StringSyntaxValue(node *syntax.StringNode, value string) *StringExpr {
 
 // String creates a new string literal expression with the given value.
 func String(value string) *StringExpr {
-	return &StringExpr{Value: value}
+	return &StringExpr{exprNode: expr(syntax.String(value)), Value: value}
 }
 
 // An InterpolateExpr represents an interpolated string.
@@ -174,10 +191,6 @@ func (n *InterpolateExpr) String() string {
 // string literal.
 func InterpolateSyntax(node *syntax.StringNode) (*InterpolateExpr, syntax.Diagnostics) {
 	parts, diags := parseInterpolate(node, node.Value())
-	if diags.HasErrors() {
-		return nil, diags
-	}
-
 	for _, part := range parts {
 		if part.Value != nil && len(part.Value.Accessors) == 0 {
 			diags.Extend(syntax.NodeError(node, "Property access expressions cannot be empty"))
@@ -487,7 +500,7 @@ type JoinExpr struct {
 	Values    Expr
 }
 
-func JoinSyntax(node *syntax.ObjectNode, name *StringExpr, args *ArrayExpr, delimiter Expr, values Expr) *JoinExpr {
+func JoinSyntax(node *syntax.ObjectNode, name *StringExpr, args, delimiter, values Expr) *JoinExpr {
 	return &JoinExpr{
 		builtinNode: builtin(node, name, args),
 		Delimiter:   delimiter,
@@ -638,7 +651,8 @@ func tryParseFunction(node *syntax.ObjectNode) (Expr, syntax.Diagnostics, bool) 
 func parseOpen(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr, syntax.Diagnostics) {
 	obj, ok := args.(*ObjectExpr)
 	if !ok {
-		return nil, syntax.Diagnostics{ExprError(args, "the argument to fn::open must be an object containing 'provider' and 'inputs'")}
+		diags := syntax.Diagnostics{ExprError(args, "the argument to fn::open must be an object containing 'provider' and 'inputs'")}
+		return OpenSyntax(node, name, args, nil, nil), diags
 	}
 
 	var providerExpr, inputs Expr
@@ -668,28 +682,25 @@ func parseOpen(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr, synt
 		diags.Extend(ExprError(obj, "missing provider inputs ('inputs')"))
 	}
 
-	if diags.HasErrors() {
-		return nil, diags
-	}
-
 	return OpenSyntax(node, name, obj, provider, inputs), diags
 }
 
 func parseShortOpen(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr, syntax.Diagnostics) {
 	kvp := node.Index(0)
-	provider := strings.TrimPrefix(kvp.Key.Value(), "fn::open::")
+	provider := StringSyntaxValue(name.Syntax().(*syntax.StringNode), strings.TrimPrefix(kvp.Key.Value(), "fn::open::"))
 	if args == nil {
-		return nil, syntax.Diagnostics{ExprError(name, "missing provider inputs")}
+		diags := syntax.Diagnostics{ExprError(name, "missing provider inputs")}
+		return OpenSyntax(node, name, args, provider, nil), diags
 	}
-	p := name.Syntax().(*syntax.StringNode)
 
-	return OpenSyntax(node, name, args, StringSyntaxValue(p, provider), args), nil
+	return OpenSyntax(node, name, args, provider, args), nil
 }
 
 func parseJoin(node *syntax.ObjectNode, name *StringExpr, args Expr) (Expr, syntax.Diagnostics) {
 	list, ok := args.(*ArrayExpr)
 	if !ok || len(list.Elements) != 2 {
-		return nil, syntax.Diagnostics{ExprError(args, "the argument to fn::join must be a two-valued list")}
+		diags := syntax.Diagnostics{ExprError(args, "the argument to fn::join must be a two-valued list")}
+		return JoinSyntax(node, name, args, nil, nil), diags
 	}
 
 	return JoinSyntax(node, name, list, list.Elements[0], list.Elements[1]), nil
@@ -725,9 +736,11 @@ func parseSecret(node *syntax.ObjectNode, name *StringExpr, value Expr) (Expr, s
 		}
 	}
 
+	var diags syntax.Diagnostics
 	str, ok := value.(*StringExpr)
 	if !ok {
-		return nil, syntax.Diagnostics{ExprError(value, "secret values must be string literals")}
+		str = String("")
+		diags = syntax.Diagnostics{ExprError(value, "secret values must be string literals")}
 	}
-	return PlaintextSyntax(node, name, str), nil
+	return PlaintextSyntax(node, name, str), diags
 }
