@@ -18,6 +18,7 @@ import (
 //
 // ## Example Usage
 //
+// <!--Start PulumiCodeChooser -->
 // ```go
 // package main
 //
@@ -40,7 +41,7 @@ import (
 //				return err
 //			}
 //			_, err = rds.NewInstance(ctx, "example", &rds.InstanceArgs{
-//				InstanceClass:    pulumi.String("db.t3.micro"),
+//				InstanceClass:    pulumi.String(rds.InstanceType_T3_Micro),
 //				AllocatedStorage: pulumi.Int(64),
 //				Engine:           pulumi.String("mysql"),
 //				Username:         pulumi.String("someone"),
@@ -54,18 +55,11 @@ import (
 //	}
 //
 // ```
+// <!--End PulumiCodeChooser -->
 //
 // ## Import
 //
 // You can import external passwords into your Pulumi programs as follows:
-//
-// ```sh
-//
-//	$ import random:index/randomPassword:RandomPassword newPassword supersecret
-//
-// ```
-//
-// This command will encode the `supersecret` token in Pulumi state and generate a code suggestion to include a new RandomPassword resource in your Pulumi program. Include the suggested code and do a `pulumi up`. Your secret password is now securely stored in Pulumi, and you can reference it in your Pulumi program as `newPassword.result`.
 type RandomPassword struct {
 	pulumi.CustomResourceState
 
@@ -85,11 +79,11 @@ type RandomPassword struct {
 	MinSpecial pulumi.IntOutput `pulumi:"minSpecial"`
 	// Minimum number of uppercase alphabet characters in the result. Default value is `0`.
 	MinUpper pulumi.IntOutput `pulumi:"minUpper"`
-	// Include numeric characters in the result. Default value is `true`. **NOTE**: This is deprecated, use `numeric` instead.
+	// Include numeric characters in the result. Default value is `true`. If `number`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`. **NOTE**: This is deprecated, use `numeric` instead.
 	//
 	// Deprecated: **NOTE**: This is deprecated, use `numeric` instead.
 	Number pulumi.BoolOutput `pulumi:"number"`
-	// Include numeric characters in the result. Default value is `true`.
+	// Include numeric characters in the result. Default value is `true`. If `numeric`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`.
 	Numeric pulumi.BoolOutput `pulumi:"numeric"`
 	// Supply your own list of special characters to use for string generation.  This overrides the default character list in the special argument.  The `special` argument must still be set to true for any overwritten characters to be used in generation.
 	OverrideSpecial pulumi.StringPtrOutput `pulumi:"overrideSpecial"`
@@ -155,11 +149,11 @@ type randomPasswordState struct {
 	MinSpecial *int `pulumi:"minSpecial"`
 	// Minimum number of uppercase alphabet characters in the result. Default value is `0`.
 	MinUpper *int `pulumi:"minUpper"`
-	// Include numeric characters in the result. Default value is `true`. **NOTE**: This is deprecated, use `numeric` instead.
+	// Include numeric characters in the result. Default value is `true`. If `number`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`. **NOTE**: This is deprecated, use `numeric` instead.
 	//
 	// Deprecated: **NOTE**: This is deprecated, use `numeric` instead.
 	Number *bool `pulumi:"number"`
-	// Include numeric characters in the result. Default value is `true`.
+	// Include numeric characters in the result. Default value is `true`. If `numeric`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`.
 	Numeric *bool `pulumi:"numeric"`
 	// Supply your own list of special characters to use for string generation.  This overrides the default character list in the special argument.  The `special` argument must still be set to true for any overwritten characters to be used in generation.
 	OverrideSpecial *string `pulumi:"overrideSpecial"`
@@ -188,11 +182,11 @@ type RandomPasswordState struct {
 	MinSpecial pulumi.IntPtrInput
 	// Minimum number of uppercase alphabet characters in the result. Default value is `0`.
 	MinUpper pulumi.IntPtrInput
-	// Include numeric characters in the result. Default value is `true`. **NOTE**: This is deprecated, use `numeric` instead.
+	// Include numeric characters in the result. Default value is `true`. If `number`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`. **NOTE**: This is deprecated, use `numeric` instead.
 	//
 	// Deprecated: **NOTE**: This is deprecated, use `numeric` instead.
 	Number pulumi.BoolPtrInput
-	// Include numeric characters in the result. Default value is `true`.
+	// Include numeric characters in the result. Default value is `true`. If `numeric`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`.
 	Numeric pulumi.BoolPtrInput
 	// Supply your own list of special characters to use for string generation.  This overrides the default character list in the special argument.  The `special` argument must still be set to true for any overwritten characters to be used in generation.
 	OverrideSpecial pulumi.StringPtrInput
@@ -223,11 +217,11 @@ type randomPasswordArgs struct {
 	MinSpecial *int `pulumi:"minSpecial"`
 	// Minimum number of uppercase alphabet characters in the result. Default value is `0`.
 	MinUpper *int `pulumi:"minUpper"`
-	// Include numeric characters in the result. Default value is `true`. **NOTE**: This is deprecated, use `numeric` instead.
+	// Include numeric characters in the result. Default value is `true`. If `number`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`. **NOTE**: This is deprecated, use `numeric` instead.
 	//
 	// Deprecated: **NOTE**: This is deprecated, use `numeric` instead.
 	Number *bool `pulumi:"number"`
-	// Include numeric characters in the result. Default value is `true`.
+	// Include numeric characters in the result. Default value is `true`. If `numeric`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`.
 	Numeric *bool `pulumi:"numeric"`
 	// Supply your own list of special characters to use for string generation.  This overrides the default character list in the special argument.  The `special` argument must still be set to true for any overwritten characters to be used in generation.
 	OverrideSpecial *string `pulumi:"overrideSpecial"`
@@ -253,11 +247,11 @@ type RandomPasswordArgs struct {
 	MinSpecial pulumi.IntPtrInput
 	// Minimum number of uppercase alphabet characters in the result. Default value is `0`.
 	MinUpper pulumi.IntPtrInput
-	// Include numeric characters in the result. Default value is `true`. **NOTE**: This is deprecated, use `numeric` instead.
+	// Include numeric characters in the result. Default value is `true`. If `number`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`. **NOTE**: This is deprecated, use `numeric` instead.
 	//
 	// Deprecated: **NOTE**: This is deprecated, use `numeric` instead.
 	Number pulumi.BoolPtrInput
-	// Include numeric characters in the result. Default value is `true`.
+	// Include numeric characters in the result. Default value is `true`. If `numeric`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`.
 	Numeric pulumi.BoolPtrInput
 	// Supply your own list of special characters to use for string generation.  This overrides the default character list in the special argument.  The `special` argument must still be set to true for any overwritten characters to be used in generation.
 	OverrideSpecial pulumi.StringPtrInput
@@ -394,14 +388,14 @@ func (o RandomPasswordOutput) MinUpper() pulumi.IntOutput {
 	return o.ApplyT(func(v *RandomPassword) pulumi.IntOutput { return v.MinUpper }).(pulumi.IntOutput)
 }
 
-// Include numeric characters in the result. Default value is `true`. **NOTE**: This is deprecated, use `numeric` instead.
+// Include numeric characters in the result. Default value is `true`. If `number`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`. **NOTE**: This is deprecated, use `numeric` instead.
 //
 // Deprecated: **NOTE**: This is deprecated, use `numeric` instead.
 func (o RandomPasswordOutput) Number() pulumi.BoolOutput {
 	return o.ApplyT(func(v *RandomPassword) pulumi.BoolOutput { return v.Number }).(pulumi.BoolOutput)
 }
 
-// Include numeric characters in the result. Default value is `true`.
+// Include numeric characters in the result. Default value is `true`. If `numeric`, `upper`, `lower`, and `special` are all configured, at least one of them must be set to `true`.
 func (o RandomPasswordOutput) Numeric() pulumi.BoolOutput {
 	return o.ApplyT(func(v *RandomPassword) pulumi.BoolOutput { return v.Numeric }).(pulumi.BoolOutput)
 }

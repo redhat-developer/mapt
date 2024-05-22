@@ -19,25 +19,22 @@ import (
 //
 // import (
 //
-//	"os"
-//
+//	"github.com/pulumi/pulumi-std/sdk/go/std"
 //	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 //
 // )
 //
-//	func readFileOrPanic(path string) pulumi.StringPtrInput {
-//		data, err := os.ReadFile(path)
-//		if err != nil {
-//			panic(err.Error())
-//		}
-//		return pulumi.String(string(data))
-//	}
-//
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := tls.NewCertRequest(ctx, "example", &tls.CertRequestArgs{
-//				PrivateKeyPem: readFileOrPanic("private_key.pem"),
+//			invokeFile, err := std.File(ctx, &std.FileArgs{
+//				Input: "private_key.pem",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			_, err = tls.NewCertRequest(ctx, "example", &tls.CertRequestArgs{
+//				PrivateKeyPem: invokeFile.Result,
 //				Subject: &tls.CertRequestSubjectArgs{
 //					CommonName:   pulumi.String("example.com"),
 //					Organization: pulumi.String("ACME Examples, Inc"),
