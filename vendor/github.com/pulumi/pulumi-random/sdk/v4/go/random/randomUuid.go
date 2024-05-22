@@ -11,10 +11,6 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-// The resource `RandomUuid` generates a random uuid string that is intended to be used as a unique identifier for other resources.
-//
-// This resource uses [hashicorp/go-uuid](https://github.com/hashicorp/go-uuid) to generate a UUID-formatted string for use with services needing a unique string identifier.
-//
 // ## Example Usage
 //
 // ```go
@@ -48,12 +44,14 @@ import (
 //
 // ## Import
 //
-// Random UUID's can be imported. This can be used to replace a config value with a value interpolated from the random provider without experiencing diffs.
+// Random UUID's can be imported. This can be used to replace a config
+//
+//	value with a value interpolated from the random provider without
+//
+//	experiencing diffs.
 //
 // ```sh
-//
-//	$ pulumi import random:index/randomUuid:RandomUuid main aabbccdd-eeff-0011-2233-445566778899
-//
+// $ pulumi import random:index/randomUuid:RandomUuid main aabbccdd-eeff-0011-2233-445566778899
 // ```
 type RandomUuid struct {
 	pulumi.CustomResourceState

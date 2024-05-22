@@ -37,6 +37,7 @@ import (
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/status"
 
+	"github.com/pulumi/pulumi/sdk/v3/go/common/apitype"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/cmdutil"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
@@ -145,6 +146,7 @@ func dialPlugin(portNum int, bin, prefix string, dialOptions []grpc.DialOption) 
 				// We have an error; see if it's a known status and, if so, react appropriately.
 				status, ok := status.FromError(err)
 				if ok {
+					//nolint:exhaustive // we have a default case for other statuses
 					switch status.Code() {
 					case codes.Unavailable:
 						// The server is unavailable.  This is the Linux bug.  Wait a little and retry.
@@ -170,7 +172,7 @@ func dialPlugin(portNum int, bin, prefix string, dialOptions []grpc.DialOption) 
 	return conn, nil
 }
 
-func newPlugin(ctx *Context, pwd, bin, prefix string, kind workspace.PluginKind,
+func newPlugin(ctx *Context, pwd, bin, prefix string, kind apitype.PluginKind,
 	args, env []string, dialOptions []grpc.DialOption,
 ) (*plugin, error) {
 	if logging.V(9) {
@@ -310,7 +312,7 @@ func newPlugin(ctx *Context, pwd, bin, prefix string, kind workspace.PluginKind,
 }
 
 // execPlugin starts the plugin executable.
-func execPlugin(ctx *Context, bin, prefix string, kind workspace.PluginKind,
+func execPlugin(ctx *Context, bin, prefix string, kind apitype.PluginKind,
 	pluginArgs []string, pwd string, env []string,
 ) (*plugin, error) {
 	args := buildPluginArguments(pluginArgumentOptions{
@@ -327,13 +329,13 @@ func execPlugin(ctx *Context, bin, prefix string, kind workspace.PluginKind,
 		pluginDir := filepath.Dir(bin)
 
 		var runtimeInfo workspace.ProjectRuntimeInfo
-		if kind == workspace.ResourcePlugin || kind == workspace.ConverterPlugin {
+		if kind == apitype.ResourcePlugin || kind == apitype.ConverterPlugin {
 			proj, err := workspace.LoadPluginProject(filepath.Join(pluginDir, "PulumiPlugin.yaml"))
 			if err != nil {
 				return nil, fmt.Errorf("loading PulumiPlugin.yaml: %w", err)
 			}
 			runtimeInfo = proj.Runtime
-		} else if kind == workspace.AnalyzerPlugin {
+		} else if kind == apitype.AnalyzerPlugin {
 			proj, err := workspace.LoadPluginProject(filepath.Join(pluginDir, "PulumiPolicy.yaml"))
 			if err != nil {
 				return nil, fmt.Errorf("loading PulumiPolicy.yaml: %w", err)
@@ -345,16 +347,17 @@ func execPlugin(ctx *Context, bin, prefix string, kind workspace.PluginKind,
 
 		logging.V(9).Infof("Launching plugin '%v' from '%v' via runtime '%s'", prefix, pluginDir, runtimeInfo.Name())
 
-		runtime, err := ctx.Host.LanguageRuntime(pluginDir, pluginDir, runtimeInfo.Name(), runtimeInfo.Options())
+		info := NewProgramInfo(pluginDir, pluginDir, ".", runtimeInfo.Options())
+		runtime, err := ctx.Host.LanguageRuntime(runtimeInfo.Name(), info)
 		if err != nil {
 			return nil, fmt.Errorf("loading runtime: %w", err)
 		}
 
 		stdout, stderr, kill, err := runtime.RunPlugin(RunPluginInfo{
-			Pwd:     pwd,
-			Program: pluginDir,
-			Args:    pluginArgs,
-			Env:     env,
+			Info:             info,
+			WorkingDirectory: ctx.Pwd,
+			Args:             pluginArgs,
+			Env:              env,
 		})
 		if err != nil {
 			return nil, err

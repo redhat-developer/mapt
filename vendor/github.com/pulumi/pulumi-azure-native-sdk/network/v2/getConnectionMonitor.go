@@ -14,7 +14,7 @@ import (
 // Gets a connection monitor by name.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-09-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
+// Other available API versions: 2019-09-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
 func LookupConnectionMonitor(ctx *pulumi.Context, args *LookupConnectionMonitorArgs, opts ...pulumi.InvokeOption) (*LookupConnectionMonitorResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupConnectionMonitorResult

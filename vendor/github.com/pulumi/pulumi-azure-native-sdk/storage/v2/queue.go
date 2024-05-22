@@ -14,7 +14,7 @@ import (
 
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01.
 //
-// Other available API versions: 2023-01-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
 type Queue struct {
 	pulumi.CustomResourceState
 
@@ -74,6 +74,12 @@ func NewQueue(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:storage/v20230101:Queue"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20230401:Queue"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20230501:Queue"),
 		},
 	})
 	opts = append(opts, aliases)

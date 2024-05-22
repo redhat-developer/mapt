@@ -32,6 +32,11 @@ import (
 //				ExecutableUsers: []string{
 //					"self",
 //				},
+//				MostRecent: pulumi.BoolRef(true),
+//				NameRegex:  pulumi.StringRef("^myami-\\d{3}"),
+//				Owners: []string{
+//					"self",
+//				},
 //				Filters: []ec2.GetAmiFilter{
 //					{
 //						Name: "name",
@@ -51,11 +56,6 @@ import (
 //							"hvm",
 //						},
 //					},
-//				},
-//				MostRecent: pulumi.BoolRef(true),
-//				NameRegex:  pulumi.StringRef("^myami-\\d{3}"),
-//				Owners: []string{
-//					"self",
 //				},
 //			}, nil)
 //			if err != nil {
@@ -182,8 +182,6 @@ type LookupAmiResult struct {
 	// is successfully registered and can be used to launch an instance.
 	State string `pulumi:"state"`
 	// Describes a state change. Fields are `UNSET` if not available.
-	// * `state_reason.code` - The reason code for the state change.
-	// * `state_reason.message` - The message for the state change.
 	StateReason map[string]string `pulumi:"stateReason"`
 	// Any tags assigned to the image.
 	// * `tags.#.key` - Key name of the tag.
@@ -436,8 +434,6 @@ func (o LookupAmiResultOutput) State() pulumi.StringOutput {
 }
 
 // Describes a state change. Fields are `UNSET` if not available.
-// * `state_reason.code` - The reason code for the state change.
-// * `state_reason.message` - The message for the state change.
 func (o LookupAmiResultOutput) StateReason() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupAmiResult) map[string]string { return v.StateReason }).(pulumi.StringMapOutput)
 }

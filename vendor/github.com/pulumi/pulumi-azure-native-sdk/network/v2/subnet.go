@@ -15,7 +15,7 @@ import (
 // Subnet in a virtual network resource.
 // Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01.
 //
-// Other available API versions: 2015-05-01-preview, 2016-03-30, 2019-02-01, 2019-06-01, 2019-08-01, 2020-06-01, 2022-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
+// Other available API versions: 2015-05-01-preview, 2016-03-30, 2019-02-01, 2019-06-01, 2019-08-01, 2020-06-01, 2022-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
 type Subnet struct {
 	pulumi.CustomResourceState
 
@@ -234,6 +234,9 @@ func NewSubnet(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230901:Subnet"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20231101:Subnet"),
 		},
 	})
 	opts = append(opts, aliases)

@@ -15,6 +15,7 @@ import (
 // interface, subnet, or VPC. Logs are sent to a CloudWatch Log Group, a S3 Bucket, or Amazon Kinesis Data Firehose
 //
 // ## Example Usage
+//
 // ### CloudWatch Logging
 //
 // ```go
@@ -31,7 +32,9 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			exampleLogGroup, err := cloudwatch.NewLogGroup(ctx, "exampleLogGroup", nil)
+//			exampleLogGroup, err := cloudwatch.NewLogGroup(ctx, "example", &cloudwatch.LogGroupArgs{
+//				Name: pulumi.String("example"),
+//			})
 //			if err != nil {
 //				return err
 //			}
@@ -56,22 +59,23 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			exampleRole, err := iam.NewRole(ctx, "exampleRole", &iam.RoleArgs{
-//				AssumeRolePolicy: *pulumi.String(assumeRole.Json),
+//			exampleRole, err := iam.NewRole(ctx, "example", &iam.RoleArgs{
+//				Name:             pulumi.String("example"),
+//				AssumeRolePolicy: pulumi.String(assumeRole.Json),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewFlowLog(ctx, "exampleFlowLog", &ec2.FlowLogArgs{
+//			_, err = ec2.NewFlowLog(ctx, "example", &ec2.FlowLogArgs{
 //				IamRoleArn:     exampleRole.Arn,
 //				LogDestination: exampleLogGroup.Arn,
 //				TrafficType:    pulumi.String("ALL"),
-//				VpcId:          pulumi.Any(aws_vpc.Example.Id),
+//				VpcId:          pulumi.Any(exampleAwsVpc.Id),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			examplePolicyDocument, err := iam.GetPolicyDocument(ctx, &iam.GetPolicyDocumentArgs{
+//			example, err := iam.GetPolicyDocument(ctx, &iam.GetPolicyDocumentArgs{
 //				Statements: []iam.GetPolicyDocumentStatement{
 //					{
 //						Effect: pulumi.StringRef("Allow"),
@@ -91,9 +95,10 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = iam.NewRolePolicy(ctx, "exampleRolePolicy", &iam.RolePolicyArgs{
+//			_, err = iam.NewRolePolicy(ctx, "example", &iam.RolePolicyArgs{
+//				Name:   pulumi.String("example"),
 //				Role:   exampleRole.ID(),
-//				Policy: *pulumi.String(examplePolicyDocument.Json),
+//				Policy: pulumi.String(example.Json),
 //			})
 //			if err != nil {
 //				return err
@@ -103,6 +108,7 @@ import (
 //	}
 //
 // ```
+//
 // ### S3 Logging
 //
 // ```go
@@ -118,15 +124,17 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			exampleBucketV2, err := s3.NewBucketV2(ctx, "exampleBucketV2", nil)
+//			exampleBucketV2, err := s3.NewBucketV2(ctx, "example", &s3.BucketV2Args{
+//				Bucket: pulumi.String("example"),
+//			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewFlowLog(ctx, "exampleFlowLog", &ec2.FlowLogArgs{
+//			_, err = ec2.NewFlowLog(ctx, "example", &ec2.FlowLogArgs{
 //				LogDestination:     exampleBucketV2.Arn,
 //				LogDestinationType: pulumi.String("s3"),
 //				TrafficType:        pulumi.String("ALL"),
-//				VpcId:              pulumi.Any(aws_vpc.Example.Id),
+//				VpcId:              pulumi.Any(exampleAwsVpc.Id),
 //			})
 //			if err != nil {
 //				return err
@@ -136,6 +144,7 @@ import (
 //	}
 //
 // ```
+//
 // ### S3 Logging in Apache Parquet format with per-hour partitions
 //
 // ```go
@@ -151,15 +160,17 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			exampleBucketV2, err := s3.NewBucketV2(ctx, "exampleBucketV2", nil)
+//			exampleBucketV2, err := s3.NewBucketV2(ctx, "example", &s3.BucketV2Args{
+//				Bucket: pulumi.String("example"),
+//			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewFlowLog(ctx, "exampleFlowLog", &ec2.FlowLogArgs{
+//			_, err = ec2.NewFlowLog(ctx, "example", &ec2.FlowLogArgs{
 //				LogDestination:     exampleBucketV2.Arn,
 //				LogDestinationType: pulumi.String("s3"),
 //				TrafficType:        pulumi.String("ALL"),
-//				VpcId:              pulumi.Any(aws_vpc.Example.Id),
+//				VpcId:              pulumi.Any(exampleAwsVpc.Id),
 //				DestinationOptions: &ec2.FlowLogDestinationOptionsArgs{
 //					FileFormat:       pulumi.String("parquet"),
 //					PerHourPartition: pulumi.Bool(true),
@@ -179,9 +190,7 @@ import (
 // Using `pulumi import`, import Flow Logs using the `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/flowLog:FlowLog test_flow_log fl-1a2b3c4d
-//
+// $ pulumi import aws:ec2/flowLog:FlowLog test_flow_log fl-1a2b3c4d
 // ```
 type FlowLog struct {
 	pulumi.CustomResourceState
@@ -200,7 +209,7 @@ type FlowLog struct {
 	LogDestination pulumi.StringOutput `pulumi:"logDestination"`
 	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrOutput `pulumi:"logDestinationType"`
-	// The fields to include in the flow log record, in the order in which they should appear.
+	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat pulumi.StringOutput `pulumi:"logFormat"`
 	// **Deprecated:** Use `logDestination` instead. The name of the CloudWatch log group. Either `logGroupName` or `logDestination` must be set.
 	//
@@ -236,10 +245,6 @@ func NewFlowLog(ctx *pulumi.Context,
 		args = &FlowLogArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource FlowLog
 	err := ctx.RegisterResource("aws:ec2/flowLog:FlowLog", name, args, &resource, opts...)
@@ -277,7 +282,7 @@ type flowLogState struct {
 	LogDestination *string `pulumi:"logDestination"`
 	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType *string `pulumi:"logDestinationType"`
-	// The fields to include in the flow log record, in the order in which they should appear.
+	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat *string `pulumi:"logFormat"`
 	// **Deprecated:** Use `logDestination` instead. The name of the CloudWatch log group. Either `logGroupName` or `logDestination` must be set.
 	//
@@ -321,7 +326,7 @@ type FlowLogState struct {
 	LogDestination pulumi.StringPtrInput
 	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrInput
-	// The fields to include in the flow log record, in the order in which they should appear.
+	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat pulumi.StringPtrInput
 	// **Deprecated:** Use `logDestination` instead. The name of the CloudWatch log group. Either `logGroupName` or `logDestination` must be set.
 	//
@@ -367,7 +372,7 @@ type flowLogArgs struct {
 	LogDestination *string `pulumi:"logDestination"`
 	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType *string `pulumi:"logDestinationType"`
-	// The fields to include in the flow log record, in the order in which they should appear.
+	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat *string `pulumi:"logFormat"`
 	// **Deprecated:** Use `logDestination` instead. The name of the CloudWatch log group. Either `logGroupName` or `logDestination` must be set.
 	//
@@ -406,7 +411,7 @@ type FlowLogArgs struct {
 	LogDestination pulumi.StringPtrInput
 	// The type of the logging destination. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrInput
-	// The fields to include in the flow log record, in the order in which they should appear.
+	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat pulumi.StringPtrInput
 	// **Deprecated:** Use `logDestination` instead. The name of the CloudWatch log group. Either `logGroupName` or `logDestination` must be set.
 	//
@@ -553,7 +558,7 @@ func (o FlowLogOutput) LogDestinationType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringPtrOutput { return v.LogDestinationType }).(pulumi.StringPtrOutput)
 }
 
-// The fields to include in the flow log record, in the order in which they should appear.
+// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 func (o FlowLogOutput) LogFormat() pulumi.StringOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringOutput { return v.LogFormat }).(pulumi.StringOutput)
 }

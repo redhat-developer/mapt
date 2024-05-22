@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type.
@@ -179,12 +178,6 @@ func (in *accessTierPtr) ToAccessTierPtrOutputWithContext(ctx context.Context) A
 	return pulumi.ToOutputWithContext(ctx, in).(AccessTierPtrOutput)
 }
 
-func (in *accessTierPtr) ToOutput(ctx context.Context) pulumix.Output[*AccessTier] {
-	return pulumix.Output[*AccessTier]{
-		OutputState: in.ToAccessTierPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted.
 type AccountImmutabilityPolicyState string
 
@@ -353,12 +346,6 @@ func (in *accountImmutabilityPolicyStatePtr) ToAccountImmutabilityPolicyStatePtr
 	return pulumi.ToOutputWithContext(ctx, in).(AccountImmutabilityPolicyStatePtrOutput)
 }
 
-func (in *accountImmutabilityPolicyStatePtr) ToOutput(ctx context.Context) pulumix.Output[*AccountImmutabilityPolicyState] {
-	return pulumix.Output[*AccountImmutabilityPolicyState]{
-		OutputState: in.ToAccountImmutabilityPolicyStatePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Specifies the Active Directory account type for Azure Storage.
 type AccountType string
 
@@ -525,12 +512,6 @@ func (in *accountTypePtr) ToAccountTypePtrOutputWithContext(ctx context.Context)
 	return pulumi.ToOutputWithContext(ctx, in).(AccountTypePtrOutput)
 }
 
-func (in *accountTypePtr) ToOutput(ctx context.Context) pulumix.Output[*AccountType] {
-	return pulumix.Output[*AccountType]{
-		OutputState: in.ToAccountTypePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The action of virtual network rule.
 type Action string
 
@@ -693,12 +674,6 @@ func (in *actionPtr) ToActionPtrOutput() ActionPtrOutput {
 
 func (in *actionPtr) ToActionPtrOutputWithContext(ctx context.Context) ActionPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ActionPtrOutput)
-}
-
-func (in *actionPtr) ToOutput(ctx context.Context) pulumix.Output[*Action] {
-	return pulumix.Output[*Action]{
-		OutputState: in.ToActionPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
@@ -865,12 +840,6 @@ func (in *allowedCopyScopePtr) ToAllowedCopyScopePtrOutput() AllowedCopyScopePtr
 
 func (in *allowedCopyScopePtr) ToAllowedCopyScopePtrOutputWithContext(ctx context.Context) AllowedCopyScopePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(AllowedCopyScopePtrOutput)
-}
-
-func (in *allowedCopyScopePtr) ToOutput(ctx context.Context) pulumix.Output[*AllowedCopyScope] {
-	return pulumix.Output[*AllowedCopyScope]{
-		OutputState: in.ToAllowedCopyScopePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 type AllowedMethods string
@@ -1050,12 +1019,6 @@ func (in *allowedMethodsPtr) ToAllowedMethodsPtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(AllowedMethodsPtrOutput)
 }
 
-func (in *allowedMethodsPtr) ToOutput(ctx context.Context) pulumix.Output[*AllowedMethods] {
-	return pulumix.Output[*AllowedMethods]{
-		OutputState: in.ToAllowedMethodsPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The access tier of a storage blob.
 type BlobAccessTier string
 
@@ -1227,12 +1190,6 @@ func (in *blobAccessTierPtr) ToBlobAccessTierPtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(BlobAccessTierPtrOutput)
 }
 
-func (in *blobAccessTierPtr) ToOutput(ctx context.Context) pulumix.Output[*BlobAccessTier] {
-	return pulumix.Output[*BlobAccessTier]{
-		OutputState: in.ToBlobAccessTierPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The type of a storage blob to be created.
 type BlobType string
 
@@ -1399,12 +1356,6 @@ func (in *blobTypePtr) ToBlobTypePtrOutput() BlobTypePtrOutput {
 
 func (in *blobTypePtr) ToBlobTypePtrOutputWithContext(ctx context.Context) BlobTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(BlobTypePtrOutput)
-}
-
-func (in *blobTypePtr) ToOutput(ctx context.Context) pulumix.Output[*BlobType] {
-	return pulumix.Output[*BlobType]{
-		OutputState: in.ToBlobTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
@@ -1577,12 +1528,6 @@ func (in *bypassPtr) ToBypassPtrOutputWithContext(ctx context.Context) BypassPtr
 	return pulumi.ToOutputWithContext(ctx, in).(BypassPtrOutput)
 }
 
-func (in *bypassPtr) ToOutput(ctx context.Context) pulumix.Output[*Bypass] {
-	return pulumix.Output[*Bypass]{
-		OutputState: in.ToBypassPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Specifies the default action of allow or deny when no other rules match.
 type DefaultAction string
 
@@ -1747,12 +1692,6 @@ func (in *defaultActionPtr) ToDefaultActionPtrOutput() DefaultActionPtrOutput {
 
 func (in *defaultActionPtr) ToDefaultActionPtrOutputWithContext(ctx context.Context) DefaultActionPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(DefaultActionPtrOutput)
-}
-
-func (in *defaultActionPtr) ToOutput(ctx context.Context) pulumix.Output[*DefaultAction] {
-	return pulumix.Output[*DefaultAction]{
-		OutputState: in.ToDefaultActionPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // Default share permission for users using Kerberos authentication if RBAC role is not assigned.
@@ -1925,12 +1864,6 @@ func (in *defaultSharePermissionPtr) ToDefaultSharePermissionPtrOutputWithContex
 	return pulumi.ToOutputWithContext(ctx, in).(DefaultSharePermissionPtrOutput)
 }
 
-func (in *defaultSharePermissionPtr) ToOutput(ctx context.Context) pulumix.Output[*DefaultSharePermission] {
-	return pulumix.Output[*DefaultSharePermission]{
-		OutputState: in.ToDefaultSharePermissionPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Indicates the directory service used. Note that this enum may be extended in the future.
 type DirectoryServiceOptions string
 
@@ -2101,12 +2034,6 @@ func (in *directoryServiceOptionsPtr) ToDirectoryServiceOptionsPtrOutputWithCont
 	return pulumi.ToOutputWithContext(ctx, in).(DirectoryServiceOptionsPtrOutput)
 }
 
-func (in *directoryServiceOptionsPtr) ToOutput(ctx context.Context) pulumix.Output[*DirectoryServiceOptions] {
-	return pulumix.Output[*DirectoryServiceOptions]{
-		OutputState: in.ToDirectoryServiceOptionsPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier.
 type DnsEndpointType string
 
@@ -2271,12 +2198,6 @@ func (in *dnsEndpointTypePtr) ToDnsEndpointTypePtrOutput() DnsEndpointTypePtrOut
 
 func (in *dnsEndpointTypePtr) ToDnsEndpointTypePtrOutputWithContext(ctx context.Context) DnsEndpointTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(DnsEndpointTypePtrOutput)
-}
-
-func (in *dnsEndpointTypePtr) ToOutput(ctx context.Context) pulumix.Output[*DnsEndpointType] {
-	return pulumix.Output[*DnsEndpointType]{
-		OutputState: in.ToDnsEndpointTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The authentication protocol that is used for the file share. Can only be specified when creating a share.
@@ -2445,12 +2366,6 @@ func (in *enabledProtocolsPtr) ToEnabledProtocolsPtrOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, in).(EnabledProtocolsPtrOutput)
 }
 
-func (in *enabledProtocolsPtr) ToOutput(ctx context.Context) pulumix.Output[*EnabledProtocols] {
-	return pulumix.Output[*EnabledProtocols]{
-		OutputState: in.ToEnabledProtocolsPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The provider for the encryption scope. Possible values (case-insensitive):  Microsoft.Storage, Microsoft.KeyVault.
 type EncryptionScopeSource string
 
@@ -2615,12 +2530,6 @@ func (in *encryptionScopeSourcePtr) ToEncryptionScopeSourcePtrOutput() Encryptio
 
 func (in *encryptionScopeSourcePtr) ToEncryptionScopeSourcePtrOutputWithContext(ctx context.Context) EncryptionScopeSourcePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(EncryptionScopeSourcePtrOutput)
-}
-
-func (in *encryptionScopeSourcePtr) ToOutput(ctx context.Context) pulumix.Output[*EncryptionScopeSource] {
-	return pulumix.Output[*EncryptionScopeSource]{
-		OutputState: in.ToEncryptionScopeSourcePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The state of the encryption scope. Possible values (case-insensitive):  Enabled, Disabled.
@@ -2789,12 +2698,6 @@ func (in *encryptionScopeStateEnumPtr) ToEncryptionScopeStateEnumPtrOutputWithCo
 	return pulumi.ToOutputWithContext(ctx, in).(EncryptionScopeStateEnumPtrOutput)
 }
 
-func (in *encryptionScopeStateEnumPtr) ToOutput(ctx context.Context) pulumix.Output[*EncryptionScopeStateEnum] {
-	return pulumix.Output[*EncryptionScopeStateEnum]{
-		OutputState: in.ToEncryptionScopeStateEnumPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The SAS expiration action. Can only be Log.
 type ExpirationAction string
 
@@ -2959,12 +2862,6 @@ func (in *expirationActionPtr) ToExpirationActionPtrOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, in).(ExpirationActionPtrOutput)
 }
 
-func (in *expirationActionPtr) ToOutput(ctx context.Context) pulumix.Output[*ExpirationAction] {
-	return pulumix.Output[*ExpirationAction]{
-		OutputState: in.ToExpirationActionPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The type of the extended location.
 type ExtendedLocationTypes string
 
@@ -3127,12 +3024,6 @@ func (in *extendedLocationTypesPtr) ToExtendedLocationTypesPtrOutput() ExtendedL
 
 func (in *extendedLocationTypesPtr) ToExtendedLocationTypesPtrOutputWithContext(ctx context.Context) ExtendedLocationTypesPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ExtendedLocationTypesPtrOutput)
-}
-
-func (in *extendedLocationTypesPtr) ToOutput(ctx context.Context) pulumix.Output[*ExtendedLocationTypes] {
-	return pulumix.Output[*ExtendedLocationTypes]{
-		OutputState: in.ToExtendedLocationTypesPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // This is a required field, it specifies the format for the inventory files.
@@ -3301,12 +3192,6 @@ func (in *formatPtr) ToFormatPtrOutputWithContext(ctx context.Context) FormatPtr
 	return pulumi.ToOutputWithContext(ctx, in).(FormatPtrOutput)
 }
 
-func (in *formatPtr) ToOutput(ctx context.Context) pulumix.Output[*Format] {
-	return pulumix.Output[*Format]{
-		OutputState: in.ToFormatPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The protocol permitted for a request made with the account SAS.
 type HttpProtocol string
 
@@ -3471,12 +3356,6 @@ func (in *httpProtocolPtr) ToHttpProtocolPtrOutput() HttpProtocolPtrOutput {
 
 func (in *httpProtocolPtr) ToHttpProtocolPtrOutputWithContext(ctx context.Context) HttpProtocolPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(HttpProtocolPtrOutput)
-}
-
-func (in *httpProtocolPtr) ToOutput(ctx context.Context) pulumix.Output[*HttpProtocol] {
-	return pulumix.Output[*HttpProtocol]{
-		OutputState: in.ToHttpProtocolPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The identity type.
@@ -3649,10 +3528,168 @@ func (in *identityTypePtr) ToIdentityTypePtrOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, in).(IdentityTypePtrOutput)
 }
 
-func (in *identityTypePtr) ToOutput(ctx context.Context) pulumix.Output[*IdentityType] {
-	return pulumix.Output[*IdentityType]{
-		OutputState: in.ToIdentityTypePtrOutputWithContext(ctx).OutputState,
-	}
+// Run interval unit of task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
+type IntervalUnit string
+
+const (
+	IntervalUnitDays = IntervalUnit("Days")
+)
+
+func (IntervalUnit) ElementType() reflect.Type {
+	return reflect.TypeOf((*IntervalUnit)(nil)).Elem()
+}
+
+func (e IntervalUnit) ToIntervalUnitOutput() IntervalUnitOutput {
+	return pulumi.ToOutput(e).(IntervalUnitOutput)
+}
+
+func (e IntervalUnit) ToIntervalUnitOutputWithContext(ctx context.Context) IntervalUnitOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(IntervalUnitOutput)
+}
+
+func (e IntervalUnit) ToIntervalUnitPtrOutput() IntervalUnitPtrOutput {
+	return e.ToIntervalUnitPtrOutputWithContext(context.Background())
+}
+
+func (e IntervalUnit) ToIntervalUnitPtrOutputWithContext(ctx context.Context) IntervalUnitPtrOutput {
+	return IntervalUnit(e).ToIntervalUnitOutputWithContext(ctx).ToIntervalUnitPtrOutputWithContext(ctx)
+}
+
+func (e IntervalUnit) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e IntervalUnit) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e IntervalUnit) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e IntervalUnit) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type IntervalUnitOutput struct{ *pulumi.OutputState }
+
+func (IntervalUnitOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IntervalUnit)(nil)).Elem()
+}
+
+func (o IntervalUnitOutput) ToIntervalUnitOutput() IntervalUnitOutput {
+	return o
+}
+
+func (o IntervalUnitOutput) ToIntervalUnitOutputWithContext(ctx context.Context) IntervalUnitOutput {
+	return o
+}
+
+func (o IntervalUnitOutput) ToIntervalUnitPtrOutput() IntervalUnitPtrOutput {
+	return o.ToIntervalUnitPtrOutputWithContext(context.Background())
+}
+
+func (o IntervalUnitOutput) ToIntervalUnitPtrOutputWithContext(ctx context.Context) IntervalUnitPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IntervalUnit) *IntervalUnit {
+		return &v
+	}).(IntervalUnitPtrOutput)
+}
+
+func (o IntervalUnitOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o IntervalUnitOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e IntervalUnit) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o IntervalUnitOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o IntervalUnitOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e IntervalUnit) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type IntervalUnitPtrOutput struct{ *pulumi.OutputState }
+
+func (IntervalUnitPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IntervalUnit)(nil)).Elem()
+}
+
+func (o IntervalUnitPtrOutput) ToIntervalUnitPtrOutput() IntervalUnitPtrOutput {
+	return o
+}
+
+func (o IntervalUnitPtrOutput) ToIntervalUnitPtrOutputWithContext(ctx context.Context) IntervalUnitPtrOutput {
+	return o
+}
+
+func (o IntervalUnitPtrOutput) Elem() IntervalUnitOutput {
+	return o.ApplyT(func(v *IntervalUnit) IntervalUnit {
+		if v != nil {
+			return *v
+		}
+		var ret IntervalUnit
+		return ret
+	}).(IntervalUnitOutput)
+}
+
+func (o IntervalUnitPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o IntervalUnitPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *IntervalUnit) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// IntervalUnitInput is an input type that accepts values of the IntervalUnit enum
+// A concrete instance of `IntervalUnitInput` can be one of the following:
+//
+//	IntervalUnitDays
+type IntervalUnitInput interface {
+	pulumi.Input
+
+	ToIntervalUnitOutput() IntervalUnitOutput
+	ToIntervalUnitOutputWithContext(context.Context) IntervalUnitOutput
+}
+
+var intervalUnitPtrType = reflect.TypeOf((**IntervalUnit)(nil)).Elem()
+
+type IntervalUnitPtrInput interface {
+	pulumi.Input
+
+	ToIntervalUnitPtrOutput() IntervalUnitPtrOutput
+	ToIntervalUnitPtrOutputWithContext(context.Context) IntervalUnitPtrOutput
+}
+
+type intervalUnitPtr string
+
+func IntervalUnitPtr(v string) IntervalUnitPtrInput {
+	return (*intervalUnitPtr)(&v)
+}
+
+func (*intervalUnitPtr) ElementType() reflect.Type {
+	return intervalUnitPtrType
+}
+
+func (in *intervalUnitPtr) ToIntervalUnitPtrOutput() IntervalUnitPtrOutput {
+	return pulumi.ToOutput(in).(IntervalUnitPtrOutput)
+}
+
+func (in *intervalUnitPtr) ToIntervalUnitPtrOutputWithContext(ctx context.Context) IntervalUnitPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(IntervalUnitPtrOutput)
 }
 
 // The valid value is Inventory
@@ -3817,12 +3854,6 @@ func (in *inventoryRuleTypePtr) ToInventoryRuleTypePtrOutput() InventoryRuleType
 
 func (in *inventoryRuleTypePtr) ToInventoryRuleTypePtrOutputWithContext(ctx context.Context) InventoryRuleTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(InventoryRuleTypePtrOutput)
-}
-
-func (in *inventoryRuleTypePtr) ToOutput(ctx context.Context) pulumix.Output[*InventoryRuleType] {
-	return pulumix.Output[*InventoryRuleType]{
-		OutputState: in.ToInventoryRuleTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage, Microsoft.Keyvault
@@ -3991,12 +4022,6 @@ func (in *keySourcePtr) ToKeySourcePtrOutputWithContext(ctx context.Context) Key
 	return pulumi.ToOutputWithContext(ctx, in).(KeySourcePtrOutput)
 }
 
-func (in *keySourcePtr) ToOutput(ctx context.Context) pulumix.Output[*KeySource] {
-	return pulumix.Output[*KeySource]{
-		OutputState: in.ToKeySourcePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption key will be used. 'Service' key type implies that a default service key is used.
 type KeyType string
 
@@ -4161,12 +4186,6 @@ func (in *keyTypePtr) ToKeyTypePtrOutput() KeyTypePtrOutput {
 
 func (in *keyTypePtr) ToKeyTypePtrOutputWithContext(ctx context.Context) KeyTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(KeyTypePtrOutput)
-}
-
-func (in *keyTypePtr) ToOutput(ctx context.Context) pulumix.Output[*KeyType] {
-	return pulumix.Output[*KeyType]{
-		OutputState: in.ToKeyTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // Required. Indicates the type of storage account.
@@ -4341,12 +4360,6 @@ func (in *kindPtr) ToKindPtrOutputWithContext(ctx context.Context) KindPtrOutput
 	return pulumi.ToOutputWithContext(ctx, in).(KindPtrOutput)
 }
 
-func (in *kindPtr) ToOutput(ctx context.Context) pulumix.Output[*Kind] {
-	return pulumix.Output[*Kind]{
-		OutputState: in.ToKindPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
 type LargeFileSharesState string
 
@@ -4511,12 +4524,6 @@ func (in *largeFileSharesStatePtr) ToLargeFileSharesStatePtrOutput() LargeFileSh
 
 func (in *largeFileSharesStatePtr) ToLargeFileSharesStatePtrOutputWithContext(ctx context.Context) LargeFileSharesStatePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(LargeFileSharesStatePtrOutput)
-}
-
-func (in *largeFileSharesStatePtr) ToOutput(ctx context.Context) pulumix.Output[*LargeFileSharesState] {
-	return pulumix.Output[*LargeFileSharesState]{
-		OutputState: in.ToLargeFileSharesStatePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
@@ -4687,12 +4694,6 @@ func (in *minimumTlsVersionPtr) ToMinimumTlsVersionPtrOutputWithContext(ctx cont
 	return pulumi.ToOutputWithContext(ctx, in).(MinimumTlsVersionPtrOutput)
 }
 
-func (in *minimumTlsVersionPtr) ToOutput(ctx context.Context) pulumix.Output[*MinimumTlsVersion] {
-	return pulumix.Output[*MinimumTlsVersion]{
-		OutputState: in.ToMinimumTlsVersionPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
 type Name string
 
@@ -4855,12 +4856,6 @@ func (in *namePtr) ToNamePtrOutput() NamePtrOutput {
 
 func (in *namePtr) ToNamePtrOutputWithContext(ctx context.Context) NamePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(NamePtrOutput)
-}
-
-func (in *namePtr) ToOutput(ctx context.Context) pulumix.Output[*Name] {
-	return pulumix.Output[*Name]{
-		OutputState: in.ToNamePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // This is a required field. This field specifies the scope of the inventory created either at the blob or container level.
@@ -5027,12 +5022,6 @@ func (in *objectTypePtr) ToObjectTypePtrOutput() ObjectTypePtrOutput {
 
 func (in *objectTypePtr) ToObjectTypePtrOutputWithContext(ctx context.Context) ObjectTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ObjectTypePtrOutput)
-}
-
-func (in *objectTypePtr) ToOutput(ctx context.Context) pulumix.Output[*ObjectType] {
-	return pulumix.Output[*ObjectType]{
-		OutputState: in.ToObjectTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The signed permissions for the service SAS. Possible values include: Read (r), Write (w), Delete (d), List (l), Add (a), Create (c), Update (u) and Process (p).
@@ -5213,12 +5202,6 @@ func (in *permissionsPtr) ToPermissionsPtrOutputWithContext(ctx context.Context)
 	return pulumi.ToOutputWithContext(ctx, in).(PermissionsPtrOutput)
 }
 
-func (in *permissionsPtr) ToOutput(ctx context.Context) pulumix.Output[*Permissions] {
-	return pulumix.Output[*Permissions]{
-		OutputState: in.ToPermissionsPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
 type PrivateEndpointServiceConnectionStatus string
 
@@ -5385,12 +5368,6 @@ func (in *privateEndpointServiceConnectionStatusPtr) ToPrivateEndpointServiceCon
 
 func (in *privateEndpointServiceConnectionStatusPtr) ToPrivateEndpointServiceConnectionStatusPtrOutputWithContext(ctx context.Context) PrivateEndpointServiceConnectionStatusPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(PrivateEndpointServiceConnectionStatusPtrOutput)
-}
-
-func (in *privateEndpointServiceConnectionStatusPtr) ToOutput(ctx context.Context) pulumix.Output[*PrivateEndpointServiceConnectionStatus] {
-	return pulumix.Output[*PrivateEndpointServiceConnectionStatus]{
-		OutputState: in.ToPrivateEndpointServiceConnectionStatusPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // Specifies whether data in the container may be accessed publicly and the level of access.
@@ -5561,12 +5538,6 @@ func (in *publicAccessPtr) ToPublicAccessPtrOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, in).(PublicAccessPtrOutput)
 }
 
-func (in *publicAccessPtr) ToOutput(ctx context.Context) pulumix.Output[*PublicAccess] {
-	return pulumix.Output[*PublicAccess]{
-		OutputState: in.ToPublicAccessPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'.
 type PublicNetworkAccess string
 
@@ -5731,12 +5702,6 @@ func (in *publicNetworkAccessPtr) ToPublicNetworkAccessPtrOutput() PublicNetwork
 
 func (in *publicNetworkAccessPtr) ToPublicNetworkAccessPtrOutputWithContext(ctx context.Context) PublicNetworkAccessPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(PublicNetworkAccessPtrOutput)
-}
-
-func (in *publicNetworkAccessPtr) ToOutput(ctx context.Context) pulumix.Output[*PublicNetworkAccess] {
-	return pulumix.Output[*PublicNetworkAccess]{
-		OutputState: in.ToPublicNetworkAccessPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The property is for NFS share only. The default is NoRootSquash.
@@ -5907,12 +5872,6 @@ func (in *rootSquashTypePtr) ToRootSquashTypePtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(RootSquashTypePtrOutput)
 }
 
-func (in *rootSquashTypePtr) ToOutput(ctx context.Context) pulumix.Output[*RootSquashType] {
-	return pulumix.Output[*RootSquashType]{
-		OutputState: in.ToRootSquashTypePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Routing Choice defines the kind of network routing opted by the user.
 type RoutingChoice string
 
@@ -6079,12 +6038,6 @@ func (in *routingChoicePtr) ToRoutingChoicePtrOutputWithContext(ctx context.Cont
 	return pulumi.ToOutputWithContext(ctx, in).(RoutingChoicePtrOutput)
 }
 
-func (in *routingChoicePtr) ToOutput(ctx context.Context) pulumix.Output[*RoutingChoice] {
-	return pulumix.Output[*RoutingChoice]{
-		OutputState: in.ToRoutingChoicePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The valid value is Lifecycle
 type RuleType string
 
@@ -6247,12 +6200,6 @@ func (in *ruleTypePtr) ToRuleTypePtrOutput() RuleTypePtrOutput {
 
 func (in *ruleTypePtr) ToRuleTypePtrOutputWithContext(ctx context.Context) RuleTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(RuleTypePtrOutput)
-}
-
-func (in *ruleTypePtr) ToOutput(ctx context.Context) pulumix.Output[*RuleType] {
-	return pulumix.Output[*RuleType]{
-		OutputState: in.ToRuleTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // This is a required field. This field is used to schedule an inventory formation.
@@ -6419,12 +6366,6 @@ func (in *schedulePtr) ToSchedulePtrOutput() SchedulePtrOutput {
 
 func (in *schedulePtr) ToSchedulePtrOutputWithContext(ctx context.Context) SchedulePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(SchedulePtrOutput)
-}
-
-func (in *schedulePtr) ToOutput(ctx context.Context) pulumix.Output[*Schedule] {
-	return pulumix.Output[*Schedule]{
-		OutputState: in.ToSchedulePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The signed services accessible with the account SAS. Possible values include: Blob (b), Queue (q), Table (t), File (f).
@@ -6597,12 +6538,6 @@ func (in *servicesPtr) ToServicesPtrOutputWithContext(ctx context.Context) Servi
 	return pulumi.ToOutputWithContext(ctx, in).(ServicesPtrOutput)
 }
 
-func (in *servicesPtr) ToOutput(ctx context.Context) pulumix.Output[*Services] {
-	return pulumix.Output[*Services]{
-		OutputState: in.ToServicesPtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.
 type ShareAccessTier string
 
@@ -6771,12 +6706,6 @@ func (in *shareAccessTierPtr) ToShareAccessTierPtrOutput() ShareAccessTierPtrOut
 
 func (in *shareAccessTierPtr) ToShareAccessTierPtrOutputWithContext(ctx context.Context) ShareAccessTierPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ShareAccessTierPtrOutput)
-}
-
-func (in *shareAccessTierPtr) ToOutput(ctx context.Context) pulumix.Output[*ShareAccessTier] {
-	return pulumix.Output[*ShareAccessTier]{
-		OutputState: in.ToShareAccessTierPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The signed services accessible with the service SAS. Possible values include: Blob (b), Container (c), File (f), Share (s).
@@ -6949,12 +6878,6 @@ func (in *signedResourcePtr) ToSignedResourcePtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(SignedResourcePtrOutput)
 }
 
-func (in *signedResourcePtr) ToOutput(ctx context.Context) pulumix.Output[*SignedResource] {
-	return pulumix.Output[*SignedResource]{
-		OutputState: in.ToSignedResourcePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // The signed resource types that are accessible with the account SAS. Service (s): Access to service-level APIs; Container (c): Access to container-level APIs; Object (o): Access to object-level APIs for blobs, queue messages, table entities, and files.
 type SignedResourceTypes string
 
@@ -7121,12 +7044,6 @@ func (in *signedResourceTypesPtr) ToSignedResourceTypesPtrOutput() SignedResourc
 
 func (in *signedResourceTypesPtr) ToSignedResourceTypesPtrOutputWithContext(ctx context.Context) SignedResourceTypesPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(SignedResourceTypesPtrOutput)
-}
-
-func (in *signedResourceTypesPtr) ToOutput(ctx context.Context) pulumix.Output[*SignedResourceTypes] {
-	return pulumix.Output[*SignedResourceTypes]{
-		OutputState: in.ToSignedResourceTypesPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
@@ -7307,12 +7224,6 @@ func (in *skuNamePtr) ToSkuNamePtrOutputWithContext(ctx context.Context) SkuName
 	return pulumi.ToOutputWithContext(ctx, in).(SkuNamePtrOutput)
 }
 
-func (in *skuNamePtr) ToOutput(ctx context.Context) pulumix.Output[*SkuName] {
-	return pulumix.Output[*SkuName]{
-		OutputState: in.ToSkuNamePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Gets the state of virtual network rule.
 type State string
 
@@ -7485,10 +7396,170 @@ func (in *statePtr) ToStatePtrOutputWithContext(ctx context.Context) StatePtrOut
 	return pulumi.ToOutputWithContext(ctx, in).(StatePtrOutput)
 }
 
-func (in *statePtr) ToOutput(ctx context.Context) pulumix.Output[*State] {
-	return pulumix.Output[*State]{
-		OutputState: in.ToStatePtrOutputWithContext(ctx).OutputState,
-	}
+// The trigger type of the storage task assignment execution
+type TriggerType string
+
+const (
+	TriggerTypeRunOnce    = TriggerType("RunOnce")
+	TriggerTypeOnSchedule = TriggerType("OnSchedule")
+)
+
+func (TriggerType) ElementType() reflect.Type {
+	return reflect.TypeOf((*TriggerType)(nil)).Elem()
+}
+
+func (e TriggerType) ToTriggerTypeOutput() TriggerTypeOutput {
+	return pulumi.ToOutput(e).(TriggerTypeOutput)
+}
+
+func (e TriggerType) ToTriggerTypeOutputWithContext(ctx context.Context) TriggerTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(TriggerTypeOutput)
+}
+
+func (e TriggerType) ToTriggerTypePtrOutput() TriggerTypePtrOutput {
+	return e.ToTriggerTypePtrOutputWithContext(context.Background())
+}
+
+func (e TriggerType) ToTriggerTypePtrOutputWithContext(ctx context.Context) TriggerTypePtrOutput {
+	return TriggerType(e).ToTriggerTypeOutputWithContext(ctx).ToTriggerTypePtrOutputWithContext(ctx)
+}
+
+func (e TriggerType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e TriggerType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e TriggerType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e TriggerType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type TriggerTypeOutput struct{ *pulumi.OutputState }
+
+func (TriggerTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*TriggerType)(nil)).Elem()
+}
+
+func (o TriggerTypeOutput) ToTriggerTypeOutput() TriggerTypeOutput {
+	return o
+}
+
+func (o TriggerTypeOutput) ToTriggerTypeOutputWithContext(ctx context.Context) TriggerTypeOutput {
+	return o
+}
+
+func (o TriggerTypeOutput) ToTriggerTypePtrOutput() TriggerTypePtrOutput {
+	return o.ToTriggerTypePtrOutputWithContext(context.Background())
+}
+
+func (o TriggerTypeOutput) ToTriggerTypePtrOutputWithContext(ctx context.Context) TriggerTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v TriggerType) *TriggerType {
+		return &v
+	}).(TriggerTypePtrOutput)
+}
+
+func (o TriggerTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o TriggerTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e TriggerType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o TriggerTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o TriggerTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e TriggerType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type TriggerTypePtrOutput struct{ *pulumi.OutputState }
+
+func (TriggerTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**TriggerType)(nil)).Elem()
+}
+
+func (o TriggerTypePtrOutput) ToTriggerTypePtrOutput() TriggerTypePtrOutput {
+	return o
+}
+
+func (o TriggerTypePtrOutput) ToTriggerTypePtrOutputWithContext(ctx context.Context) TriggerTypePtrOutput {
+	return o
+}
+
+func (o TriggerTypePtrOutput) Elem() TriggerTypeOutput {
+	return o.ApplyT(func(v *TriggerType) TriggerType {
+		if v != nil {
+			return *v
+		}
+		var ret TriggerType
+		return ret
+	}).(TriggerTypeOutput)
+}
+
+func (o TriggerTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o TriggerTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *TriggerType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// TriggerTypeInput is an input type that accepts values of the TriggerType enum
+// A concrete instance of `TriggerTypeInput` can be one of the following:
+//
+//	TriggerTypeRunOnce
+//	TriggerTypeOnSchedule
+type TriggerTypeInput interface {
+	pulumi.Input
+
+	ToTriggerTypeOutput() TriggerTypeOutput
+	ToTriggerTypeOutputWithContext(context.Context) TriggerTypeOutput
+}
+
+var triggerTypePtrType = reflect.TypeOf((**TriggerType)(nil)).Elem()
+
+type TriggerTypePtrInput interface {
+	pulumi.Input
+
+	ToTriggerTypePtrOutput() TriggerTypePtrOutput
+	ToTriggerTypePtrOutputWithContext(context.Context) TriggerTypePtrOutput
+}
+
+type triggerTypePtr string
+
+func TriggerTypePtr(v string) TriggerTypePtrInput {
+	return (*triggerTypePtr)(&v)
+}
+
+func (*triggerTypePtr) ElementType() reflect.Type {
+	return triggerTypePtrType
+}
+
+func (in *triggerTypePtr) ToTriggerTypePtrOutput() TriggerTypePtrOutput {
+	return pulumi.ToOutput(in).(TriggerTypePtrOutput)
+}
+
+func (in *triggerTypePtr) ToTriggerTypePtrOutputWithContext(ctx context.Context) TriggerTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(TriggerTypePtrOutput)
 }
 
 func init() {
@@ -7534,6 +7605,8 @@ func init() {
 	pulumi.RegisterOutputType(HttpProtocolPtrOutput{})
 	pulumi.RegisterOutputType(IdentityTypeOutput{})
 	pulumi.RegisterOutputType(IdentityTypePtrOutput{})
+	pulumi.RegisterOutputType(IntervalUnitOutput{})
+	pulumi.RegisterOutputType(IntervalUnitPtrOutput{})
 	pulumi.RegisterOutputType(InventoryRuleTypeOutput{})
 	pulumi.RegisterOutputType(InventoryRuleTypePtrOutput{})
 	pulumi.RegisterOutputType(KeySourceOutput{})
@@ -7578,4 +7651,6 @@ func init() {
 	pulumi.RegisterOutputType(SkuNamePtrOutput{})
 	pulumi.RegisterOutputType(StateOutput{})
 	pulumi.RegisterOutputType(StatePtrOutput{})
+	pulumi.RegisterOutputType(TriggerTypeOutput{})
+	pulumi.RegisterOutputType(TriggerTypePtrOutput{})
 }

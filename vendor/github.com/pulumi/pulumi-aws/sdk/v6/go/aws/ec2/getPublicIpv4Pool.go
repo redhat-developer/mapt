@@ -14,6 +14,7 @@ import (
 // Provides details about a specific AWS EC2 Public IPv4 Pool.
 //
 // ## Example Usage
+//
 // ### Basic Usage
 //
 // ```go

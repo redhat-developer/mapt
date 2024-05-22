@@ -14,7 +14,7 @@ import (
 // List all effective security admin rules applied on a virtual network.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-05-01-preview, 2022-02-01-preview, 2022-04-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
+// Other available API versions: 2021-05-01-preview, 2022-02-01-preview, 2022-04-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
 func ListNetworkManagerEffectiveSecurityAdminRules(ctx *pulumi.Context, args *ListNetworkManagerEffectiveSecurityAdminRulesArgs, opts ...pulumi.InvokeOption) (*ListNetworkManagerEffectiveSecurityAdminRulesResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListNetworkManagerEffectiveSecurityAdminRulesResult

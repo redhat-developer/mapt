@@ -108,10 +108,12 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 
-	pbempty "github.com/golang/protobuf/ptypes/empty"
+	"github.com/blang/semver"
 	"github.com/nxadm/tail"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/debug"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/events"
@@ -142,9 +144,10 @@ type Stack struct {
 // FullyQualifiedStackName returns a stack name formatted with the greatest possible specificity:
 // org/project/stack or user/project/stack
 // Using this format avoids ambiguity in stack identity guards creating or selecting the wrong stack.
-// Note that filestate backends (local file, S3, Azure Blob) do not support stack names in this
+// Note that legacy diy backends (local file, S3, Azure Blob) do not support stack names in this
 // format, and instead only use the stack name without an org/user or project to qualify it.
-// See: https://github.com/pulumi/pulumi/issues/2522
+// See: https://github.com/pulumi/pulumi/issues/2522.
+// Non-legacy diy backends do support the org/project/stack format but org must be set to "organization".
 func FullyQualifiedStackName(org, project, stack string) string {
 	return fmt.Sprintf("%s/%s/%s", org, project, stack)
 }
@@ -262,6 +265,18 @@ func (s *Stack) Preview(ctx context.Context, opts ...optpreview.Option) (Preview
 	}
 	if preOpts.Plan != "" {
 		sharedArgs = append(sharedArgs, "--save-plan="+preOpts.Plan)
+	}
+	if preOpts.Refresh {
+		sharedArgs = append(sharedArgs, "--refresh")
+	}
+	if preOpts.SuppressOutputs {
+		sharedArgs = append(sharedArgs, "--suppress-outputs")
+	}
+	if preOpts.SuppressProgress {
+		sharedArgs = append(sharedArgs, "--suppress-progress")
+	}
+	if preOpts.ImportFile != "" {
+		sharedArgs = append(sharedArgs, "--import-file="+preOpts.ImportFile)
 	}
 
 	// Apply the remote args, if needed.
@@ -385,6 +400,18 @@ func (s *Stack) Up(ctx context.Context, opts ...optup.Option) (UpResult, error) 
 	if upOpts.Plan != "" {
 		sharedArgs = append(sharedArgs, "--plan="+upOpts.Plan)
 	}
+	if upOpts.Refresh {
+		sharedArgs = append(sharedArgs, "--refresh")
+	}
+	if upOpts.SuppressOutputs {
+		sharedArgs = append(sharedArgs, "--suppress-outputs")
+	}
+	if upOpts.SuppressProgress {
+		sharedArgs = append(sharedArgs, "--suppress-progress")
+	}
+	if upOpts.ContinueOnError {
+		sharedArgs = append(sharedArgs, "--continue-on-error")
+	}
 
 	// Apply the remote args, if needed.
 	sharedArgs = append(sharedArgs, s.remoteArgs()...)
@@ -449,6 +476,77 @@ func (s *Stack) Up(ctx context.Context, opts ...optup.Option) (UpResult, error) 
 	return res, nil
 }
 
+func (s *Stack) PreviewRefresh(ctx context.Context, opts ...optrefresh.Option) (PreviewResult, error) {
+	var res PreviewResult
+
+	// 3.105.0 added this flag (https://github.com/pulumi/pulumi/releases/tag/v3.105.0)
+	if s.Workspace().PulumiCommand().Version().LT(semver.Version{Major: 3, Minor: 105}) {
+		return res, errors.New("PreviewRefresh requires Pulumi CLI version >= 3.105.0")
+	}
+
+	refreshOpts := &optrefresh.Options{}
+	for _, o := range opts {
+		o.ApplyOption(refreshOpts)
+	}
+
+	args := refreshOptsToCmd(refreshOpts, s, true /*isPreview*/)
+
+	var summaryEvents []apitype.SummaryEvent
+	eventChannel := make(chan events.EngineEvent)
+	eventsDone := make(chan bool)
+	go func() {
+		for {
+			event, ok := <-eventChannel
+			if !ok {
+				close(eventsDone)
+				return
+			}
+			if event.SummaryEvent != nil {
+				summaryEvents = append(summaryEvents, *event.SummaryEvent)
+			}
+		}
+	}()
+
+	eventChannels := []chan<- events.EngineEvent{eventChannel}
+	eventChannels = append(eventChannels, refreshOpts.EventStreams...)
+
+	t, err := tailLogs("refresh", eventChannels)
+	if err != nil {
+		return res, fmt.Errorf("failed to tail logs: %w", err)
+	}
+	defer t.Close()
+	args = append(args, "--event-log", t.Filename)
+
+	stdout, stderr, code, err := s.runPulumiCmdSync(
+		ctx,
+		refreshOpts.ProgressStreams,      /* additionalOutputs */
+		refreshOpts.ErrorProgressStreams, /* additionalErrorOutputs */
+		args...,
+	)
+	if err != nil {
+		return res, newAutoError(fmt.Errorf("failed to preview refresh: %w", err), stdout, stderr, code)
+	}
+
+	// Close the file watcher wait for all events to send
+	t.Close()
+	<-eventsDone
+
+	if len(summaryEvents) == 0 {
+		return res, newAutoError(errors.New("failed to get preview refresh summary"), stdout, stderr, code)
+	}
+	if len(summaryEvents) > 1 {
+		return res, newAutoError(errors.New("got multiple preview refresh summaries"), stdout, stderr, code)
+	}
+
+	res = PreviewResult{
+		ChangeSummary: summaryEvents[0].ResourceChanges,
+		StdOut:        stdout,
+		StdErr:        stderr,
+	}
+
+	return res, nil
+}
+
 // Refresh compares the current stack’s resource state with the state known to exist in the actual
 // cloud provider. Any such changes are adopted into the current stack.
 func (s *Stack) Refresh(ctx context.Context, opts ...optrefresh.Option) (RefreshResult, error) {
@@ -459,33 +557,7 @@ func (s *Stack) Refresh(ctx context.Context, opts ...optrefresh.Option) (Refresh
 		o.ApplyOption(refreshOpts)
 	}
 
-	args := slice.Prealloc[string](len(refreshOpts.Target))
-
-	args = debug.AddArgs(&refreshOpts.DebugLogOpts, args)
-	args = append(args, "refresh", "--yes", "--skip-preview")
-	if refreshOpts.Message != "" {
-		args = append(args, fmt.Sprintf("--message=%q", refreshOpts.Message))
-	}
-	if refreshOpts.ExpectNoChanges {
-		args = append(args, "--expect-no-changes")
-	}
-	for _, tURN := range refreshOpts.Target {
-		args = append(args, "--target="+tURN)
-	}
-	if refreshOpts.Parallel > 0 {
-		args = append(args, fmt.Sprintf("--parallel=%d", refreshOpts.Parallel))
-	}
-	if refreshOpts.UserAgent != "" {
-		args = append(args, "--exec-agent="+refreshOpts.UserAgent)
-	}
-	if refreshOpts.Color != "" {
-		args = append(args, "--color="+refreshOpts.Color)
-	}
-	execKind := constant.ExecKindAutoLocal
-	if s.Workspace().Program() != nil {
-		execKind = constant.ExecKindAutoInline
-	}
-	args = append(args, "--exec-kind="+execKind)
+	args := refreshOptsToCmd(refreshOpts, s, false /*isPreview*/)
 
 	if len(refreshOpts.EventStreams) > 0 {
 		eventChannels := refreshOpts.EventStreams
@@ -496,9 +568,6 @@ func (s *Stack) Refresh(ctx context.Context, opts ...optrefresh.Option) (Refresh
 		defer t.Close()
 		args = append(args, "--event-log", t.Filename)
 	}
-
-	// Apply the remote args, if needed.
-	args = append(args, s.remoteArgs()...)
 
 	stdout, stderr, code, err := s.runPulumiCmdSync(
 		ctx,
@@ -538,6 +607,53 @@ func (s *Stack) Refresh(ctx context.Context, opts ...optrefresh.Option) (Refresh
 	return res, nil
 }
 
+func refreshOptsToCmd(o *optrefresh.Options, s *Stack, isPreview bool) []string {
+	args := slice.Prealloc[string](len(o.Target))
+
+	args = debug.AddArgs(&o.DebugLogOpts, args)
+	args = append(args, "refresh")
+	if isPreview {
+		args = append(args, "--preview-only")
+	} else {
+		args = append(args, "--yes", "--skip-preview")
+	}
+	if o.Message != "" {
+		args = append(args, fmt.Sprintf("--message=%q", o.Message))
+	}
+	if o.ExpectNoChanges {
+		args = append(args, "--expect-no-changes")
+	}
+	for _, tURN := range o.Target {
+		args = append(args, "--target="+tURN)
+	}
+	if o.Parallel > 0 {
+		args = append(args, fmt.Sprintf("--parallel=%d", o.Parallel))
+	}
+	if o.UserAgent != "" {
+		args = append(args, "--exec-agent="+o.UserAgent)
+	}
+	if o.Color != "" {
+		args = append(args, "--color="+o.Color)
+	}
+	if o.SuppressOutputs {
+		args = append(args, "--suppress-outputs")
+	}
+	if o.SuppressProgress {
+		args = append(args, "--suppress-progress")
+	}
+
+	// Apply the remote args, if needed.
+	args = append(args, s.remoteArgs()...)
+
+	execKind := constant.ExecKindAutoLocal
+	if s.Workspace().Program() != nil {
+		execKind = constant.ExecKindAutoInline
+	}
+	args = append(args, "--exec-kind="+execKind)
+
+	return args
+}
+
 // Destroy deletes all resources in a stack, leaving all history and configuration intact.
 func (s *Stack) Destroy(ctx context.Context, opts ...optdestroy.Option) (DestroyResult, error) {
 	var res DestroyResult
@@ -569,6 +685,19 @@ func (s *Stack) Destroy(ctx context.Context, opts ...optdestroy.Option) (Destroy
 	if destroyOpts.Color != "" {
 		args = append(args, "--color="+destroyOpts.Color)
 	}
+	if destroyOpts.Refresh {
+		args = append(args, "--refresh")
+	}
+	if destroyOpts.SuppressOutputs {
+		args = append(args, "--suppress-outputs")
+	}
+	if destroyOpts.SuppressProgress {
+		args = append(args, "--suppress-progress")
+	}
+	if destroyOpts.ContinueOnError {
+		args = append(args, "--continue-on-error")
+	}
+
 	execKind := constant.ExecKindAutoLocal
 	if s.Workspace().Program() != nil {
 		execKind = constant.ExecKindAutoInline
@@ -795,7 +924,7 @@ func (s *Stack) Info(ctx context.Context) (StackSummary, error) {
 // Cancel stops a stack's currently running update. It returns an error if no update is currently running.
 // Note that this operation is _very dangerous_, and may leave the stack in an inconsistent state
 // if a resource operation was pending when the update was canceled.
-// This command is not supported for local backends.
+// This command is not supported for diy backends.
 func (s *Stack) Cancel(ctx context.Context) error {
 	stdout, stderr, errCode, err := s.runPulumiCmdSync(
 		ctx,
@@ -860,7 +989,7 @@ func (ur *UpResult) GetPermalink() (string, error) {
 var ErrParsePermalinkFailed = errors.New("failed to get permalink")
 
 // GetPermalink returns the permalink URL in the Pulumi Console for the update
-// or refresh operation. This will error for alternate, local backends.
+// or refresh operation. This will error for alternate, diy backends.
 func GetPermalink(stdout string) (string, error) {
 	const permalinkSearchStr = `View Live: |View in Browser: |View in Browser \(Ctrl\+O\): |Permalink: `
 	startRegex := regexp.MustCompile(permalinkSearchStr)
@@ -988,7 +1117,7 @@ func (s *Stack) runPulumiCmdSync(
 	args = append(args, additionalArgs...)
 	args = append(args, "--stack", s.Name())
 
-	stdout, stderr, errCode, err := runPulumiCommandSync(
+	stdout, stderr, errCode, err := s.workspace.PulumiCommand().Run(
 		ctx,
 		s.Workspace().WorkDir(),
 		nil,
@@ -1020,13 +1149,17 @@ func (s *Stack) remoteArgs() []string {
 	var repo *GitRepo
 	var preRunCommands []string
 	var envvars map[string]EnvVarValue
+	var executorImage *ExecutorImage
 	var skipInstallDependencies bool
+	var inheritSettings bool
 	if lws, isLocalWorkspace := s.Workspace().(*LocalWorkspace); isLocalWorkspace {
 		remote = lws.remote
 		repo = lws.repo
 		preRunCommands = lws.preRunCommands
 		envvars = lws.remoteEnvVars
 		skipInstallDependencies = lws.remoteSkipInstallDependencies
+		executorImage = lws.remoteExecutorImage
+		inheritSettings = lws.remoteInheritSettings
 	}
 	if !remote {
 		return nil
@@ -1079,8 +1212,24 @@ func (s *Stack) remoteArgs() []string {
 		args = append(args, "--remote-pre-run-command="+command)
 	}
 
+	if executorImage != nil {
+		args = append(args, "--remote-executor-image="+executorImage.Image)
+		if executorImage.Credentials != nil {
+			if executorImage.Credentials.Username != "" {
+				args = append(args, "--remote-executor-image-username="+executorImage.Credentials.Username)
+			}
+			if executorImage.Credentials.Password != "" {
+				args = append(args, "--remote-executor-image-password="+executorImage.Credentials.Password)
+			}
+		}
+	}
+
 	if skipInstallDependencies {
 		args = append(args, "--remote-skip-install-dependencies")
+	}
+
+	if inheritSettings {
+		args = append(args, "--remote-inherit-settings")
 	}
 
 	return args
@@ -1236,7 +1385,7 @@ func (s *languageRuntimeServer) Run(ctx context.Context, req *pulumirpc.RunReque
 	return &pulumirpc.RunResponse{}, nil
 }
 
-func (s *languageRuntimeServer) GetPluginInfo(ctx context.Context, req *pbempty.Empty) (*pulumirpc.PluginInfo, error) {
+func (s *languageRuntimeServer) GetPluginInfo(ctx context.Context, req *emptypb.Empty) (*pulumirpc.PluginInfo, error) {
 	return &pulumirpc.PluginInfo{
 		Version: "1.0.0",
 	}, nil
@@ -1258,9 +1407,10 @@ type fileWatcher struct {
 
 func watchFile(path string, receivers []chan<- events.EngineEvent) (*fileWatcher, error) {
 	t, err := tail.TailFile(path, tail.Config{
-		Follow: true,
-		Poll:   runtime.GOOS == "windows", // on Windows poll for file changes instead of using the default inotify
-		Logger: tail.DiscardingLogger,
+		Follow:        true,
+		Poll:          runtime.GOOS == "windows", // on Windows poll for file changes instead of using the default inotify
+		Logger:        tail.DiscardingLogger,
+		CompleteLines: true,
 	})
 	if err != nil {
 		return nil, err
@@ -1320,6 +1470,24 @@ func (fw *fileWatcher) Close() {
 	}
 
 	// Tell the watcher to end on next EoF, wait for the done event, then cleanup.
+
+	// The tail library we're using is racy when shutting down.
+	// If it gets the shutdown signal before reading the data, it
+	// will just shut down before finding the EoF.  This problem
+	// is exacerbated on Windows, where we use the poller, which
+	// polls for changes every 250ms.  Sleep a little bit longer
+	// than that to ensure the tail library had a chance to read
+	// the whole file.  On OSs that don't use the poller we still
+	// want to try to avoid the problem so we sleep for a short
+	// amount of time.
+	//
+	// TODO: remove this once https://github.com/nxadm/tail/issues/67
+	// is fixed and we can upgrade nxadm/tail.
+	if runtime.GOOS == "windows" {
+		time.Sleep(300 * time.Millisecond)
+	} else {
+		time.Sleep(50 * time.Millisecond)
+	}
 
 	//nolint:errcheck
 	fw.tail.StopAtEOF()

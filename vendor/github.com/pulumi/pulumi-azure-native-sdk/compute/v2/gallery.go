@@ -15,7 +15,7 @@ import (
 // Specifies information about the Shared Image Gallery that you want to create or update.
 // Azure REST API version: 2022-03-03. Prior API version in Azure Native 1.x: 2020-09-30.
 //
-// Other available API versions: 2022-08-03.
+// Other available API versions: 2022-08-03, 2023-07-03.
 type Gallery struct {
 	pulumi.CustomResourceState
 
@@ -81,6 +81,9 @@ func NewGallery(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20220803:Gallery"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20230703:Gallery"),
 		},
 	})
 	opts = append(opts, aliases)

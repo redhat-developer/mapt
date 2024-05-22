@@ -52,6 +52,11 @@ func newExpr(path string, repr exprRepr, s *schema.Schema, base *value) *expr {
 	return &expr{path: path, repr: repr, schema: s, base: base}
 }
 
+// newMissingExpr creates a new missing expression. Used in the case of parse errors.
+func newMissingExpr(path string, base *value) *expr {
+	return newExpr(path, &missingExpr{node: ast.Null()}, schema.Always(), base)
+}
+
 // convertRange converts an HCL2 range to an ESC range.
 func convertRange(r *hcl.Range, environment string) esc.Range {
 	rng := esc.Range{Environment: environment}
@@ -69,16 +74,16 @@ func (x *expr) defRange(environment string) esc.Range {
 	return convertRange(x.repr.syntax().Syntax().Syntax().Range(), environment)
 }
 
-func exportAccessor(accessor ast.PropertyAccessor) esc.Accessor {
+func exportAccessor(accessor ast.PropertyAccessor, environment string) esc.Accessor {
 	switch a := accessor.(type) {
 	case *ast.PropertyName:
-		return esc.Accessor{Key: &a.Name}
+		return esc.Accessor{Key: &a.Name, Range: convertRange(accessor.Range(), environment)}
 	case *ast.PropertySubscript:
 		switch index := a.Index.(type) {
 		case string:
-			return esc.Accessor{Key: &index}
+			return esc.Accessor{Key: &index, Range: convertRange(accessor.Range(), environment)}
 		case int:
-			return esc.Accessor{Index: &index}
+			return esc.Accessor{Index: &index, Range: convertRange(accessor.Range(), environment)}
 		}
 	}
 	panic(fmt.Errorf("invalid property accessor %#v", accessor))
@@ -99,6 +104,8 @@ func (x *expr) export(environment string) esc.Expr {
 	}
 
 	switch repr := x.repr.(type) {
+	case *missingExpr:
+		// nothing to do
 	case *literalExpr:
 		switch syntax := x.repr.syntax().(type) {
 		case *ast.BooleanExpr:
@@ -116,7 +123,7 @@ func (x *expr) export(environment string) esc.Expr {
 				value = make([]esc.PropertyAccessor, len(p.value.accessors))
 				for i, a := range p.value.accessors {
 					value[i] = esc.PropertyAccessor{
-						Accessor: exportAccessor(a.accessor),
+						Accessor: exportAccessor(a.accessor, environment),
 						Value:    a.value.def.defRange(environment),
 					}
 				}
@@ -131,13 +138,13 @@ func (x *expr) export(environment string) esc.Expr {
 		value := make([]esc.PropertyAccessor, len(repr.property.accessors))
 		for i, a := range repr.property.accessors {
 			value[i] = esc.PropertyAccessor{
-				Accessor: exportAccessor(a.accessor),
+				Accessor: exportAccessor(a.accessor, environment),
 				Value:    a.value.def.defRange(environment),
 			}
 		}
 		ex.Symbol = value
 	case *accessExpr:
-		accessor := exportAccessor(repr.accessor)
+		accessor := exportAccessor(repr.accessor, environment)
 		if _, ok := repr.receiver.def.repr.(*accessExpr); ok {
 			ex = repr.receiver.def.export(environment)
 			ex.Access.Accessors = append(ex.Access.Accessors, accessor)
@@ -274,6 +281,15 @@ type interpolation struct {
 
 type exprRepr interface {
 	syntax() ast.Expr
+}
+
+// missingExpr represents a missing value.
+type missingExpr struct {
+	node ast.Expr
+}
+
+func (x *missingExpr) syntax() ast.Expr {
+	return x.node
 }
 
 // literalExpr represents a literal value.

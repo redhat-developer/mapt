@@ -16,9 +16,150 @@ package esc
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 
 	"github.com/pulumi/esc/schema"
 )
+
+const AnonymousEnvironmentName = "<yaml>"
+
+type EnvExecContext interface {
+	// Returns the current execution context values
+	Values() map[string]Value
+
+	// Returns the root evaluated environment.
+	// For anonymous environments, it resolves to the "rootest" non anonymous environment.
+	GetRootEnvironmentName() string
+
+	// Returns the current environment being evaluated.
+	GetCurrentEnvironmentName() string
+}
+
+type ExecContext struct {
+	rootEnvironment    string
+	currentEnvironment string
+	values             map[string]Value
+}
+
+func (ec *ExecContext) CopyForEnv(envName string) *ExecContext {
+	values := copyContext(ec.values)
+	values["currentEnvironment"] = NewValue(map[string]Value{
+		"name": NewValue(envName),
+	})
+
+	root := ec.rootEnvironment
+	if ec.rootEnvironment == AnonymousEnvironmentName || ec.rootEnvironment == "" {
+		root = envName
+	}
+
+	values["rootEnvironment"] = NewValue(map[string]Value{
+		"name": NewValue(root),
+	})
+
+	return &ExecContext{
+		values:             values,
+		rootEnvironment:    root,
+		currentEnvironment: envName,
+	}
+}
+
+func (ec *ExecContext) Values() map[string]Value {
+	return ec.values
+}
+
+func (ec *ExecContext) GetRootEnvironmentName() string {
+	return ec.rootEnvironment
+}
+
+func (ec *ExecContext) GetCurrentEnvironmentName() string {
+	return ec.currentEnvironment
+}
+
+type copier struct {
+	memo map[*Value]*Value
+}
+
+func newCopier() copier {
+	return copier{memo: map[*Value]*Value{}}
+}
+
+func (c copier) copy(v *Value) *Value {
+	if v == nil {
+		return nil
+	}
+
+	if copy, ok := c.memo[v]; ok {
+		return copy
+	}
+
+	copy := &Value{}
+	c.memo[v] = copy
+
+	var nv any
+	switch vr := v.Value.(type) {
+	case []*Value:
+		a := make([]*Value, len(vr))
+		for i, v := range vr {
+			a[i] = c.copy(v)
+		}
+		nv = a
+	case map[string]*Value:
+		m := make(map[string]*Value, len(vr))
+		for k, v := range vr {
+			m[k] = c.copy(v)
+		}
+		nv = m
+	default:
+		nv = vr
+	}
+
+	*copy = Value{
+		Value: nv,
+	}
+	return copy
+}
+
+func copyContext(context map[string]Value) map[string]Value {
+	newContext := make(map[string]Value)
+	for key, v := range context {
+		value := v
+		copy := newCopier().copy(&value)
+		newContext[key] = *copy
+	}
+	return newContext
+}
+
+var ErrReservedContextkey = errors.New("reserved context key")
+
+func validateContextVariable(context map[string]Value, key string) error {
+	if _, ok := context[key]; ok {
+		return fmt.Errorf("%w: %q", ErrReservedContextkey, key)
+	}
+	return nil
+}
+
+func NewExecContext(values map[string]Value) (*ExecContext, error) {
+	if err := validateContextVariable(values, "currentEnvironment"); err != nil {
+		return nil, err
+	}
+
+	if err := validateContextVariable(values, "rootEnvironment"); err != nil {
+		return nil, err
+	}
+
+	return &ExecContext{
+		values: values,
+	}, nil
+}
+
+type EvaluatedExecutionContext struct {
+	// Properties contains the detailed values produced by the execution context.
+	Properties map[string]Value `json:"properties,omitempty"`
+
+	// Schema contains the schema for Properties.
+	Schema *schema.Schema `json:"schema,omitempty"`
+}
 
 // An Environment contains the result of evaluating an environment definition.
 type Environment struct {
@@ -30,6 +171,9 @@ type Environment struct {
 
 	// Schema contains the schema for Properties.
 	Schema *schema.Schema `json:"schema,omitempty"`
+
+	// ExecutionContext contains the values + schema for the execution context passed to the root environment.
+	ExecutionContext *EvaluatedExecutionContext `json:"executionContext,omitempty"`
 }
 
 // GetEnvironmentVariables returns any environment variables defined by the environment.

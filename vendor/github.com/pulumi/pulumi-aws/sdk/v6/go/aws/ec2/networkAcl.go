@@ -40,7 +40,7 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewNetworkAcl(ctx, "main", &ec2.NetworkAclArgs{
-//				VpcId: pulumi.Any(aws_vpc.Main.Id),
+//				VpcId: pulumi.Any(mainAwsVpc.Id),
 //				Egress: ec2.NetworkAclEgressArray{
 //					&ec2.NetworkAclEgressArgs{
 //						Protocol:  pulumi.String("tcp"),
@@ -79,9 +79,7 @@ import (
 // Using `pulumi import`, import Network ACLs using the `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/networkAcl:NetworkAcl main acl-7aaabd18
-//
+// $ pulumi import aws:ec2/networkAcl:NetworkAcl main acl-7aaabd18
 // ```
 type NetworkAcl struct {
 	pulumi.CustomResourceState
@@ -116,10 +114,6 @@ func NewNetworkAcl(ctx *pulumi.Context,
 	if args.VpcId == nil {
 		return nil, errors.New("invalid value for required argument 'VpcId'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource NetworkAcl
 	err := ctx.RegisterResource("aws:ec2/networkAcl:NetworkAcl", name, args, &resource, opts...)

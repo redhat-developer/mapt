@@ -14,7 +14,7 @@ import (
 // Gets the specified Virtual Router Peering.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
 func LookupVirtualRouterPeering(ctx *pulumi.Context, args *LookupVirtualRouterPeeringArgs, opts ...pulumi.InvokeOption) (*LookupVirtualRouterPeeringResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualRouterPeeringResult

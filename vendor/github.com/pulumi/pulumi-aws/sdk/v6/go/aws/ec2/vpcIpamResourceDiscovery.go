@@ -39,7 +39,7 @@ import (
 //				Description: pulumi.String("My IPAM Resource Discovery"),
 //				OperatingRegions: ec2.VpcIpamResourceDiscoveryOperatingRegionArray{
 //					&ec2.VpcIpamResourceDiscoveryOperatingRegionArgs{
-//						RegionName: *pulumi.String(current.Name),
+//						RegionName: pulumi.String(current.Name),
 //					},
 //				},
 //				Tags: pulumi.StringMap{
@@ -60,9 +60,7 @@ import (
 // Using `pulumi import`, import IPAMs using the IPAM resource discovery `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/vpcIpamResourceDiscovery:VpcIpamResourceDiscovery example ipam-res-disco-0178368ad2146a492
-//
+// $ pulumi import aws:ec2/vpcIpamResourceDiscovery:VpcIpamResourceDiscovery example ipam-res-disco-0178368ad2146a492
 // ```
 type VpcIpamResourceDiscovery struct {
 	pulumi.CustomResourceState
@@ -97,10 +95,6 @@ func NewVpcIpamResourceDiscovery(ctx *pulumi.Context,
 	if args.OperatingRegions == nil {
 		return nil, errors.New("invalid value for required argument 'OperatingRegions'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcIpamResourceDiscovery
 	err := ctx.RegisterResource("aws:ec2/vpcIpamResourceDiscovery:VpcIpamResourceDiscovery", name, args, &resource, opts...)

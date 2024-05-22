@@ -81,8 +81,12 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ExpressRoutePortAuthorization{}
 	case "azure-native:network:FirewallPolicy":
 		r = &FirewallPolicy{}
+	case "azure-native:network:FirewallPolicyDraft":
+		r = &FirewallPolicyDraft{}
 	case "azure-native:network:FirewallPolicyRuleCollectionGroup":
 		r = &FirewallPolicyRuleCollectionGroup{}
+	case "azure-native:network:FirewallPolicyRuleCollectionGroupDraft":
+		r = &FirewallPolicyRuleCollectionGroupDraft{}
 	case "azure-native:network:FirewallPolicyRuleGroup":
 		r = &FirewallPolicyRuleGroup{}
 	case "azure-native:network:FlowLog":

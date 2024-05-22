@@ -45,6 +45,7 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewAmiFromInstance(ctx, "example", &ec2.AmiFromInstanceArgs{
+//				Name:             pulumi.String("example"),
 //				SourceInstanceId: pulumi.String("i-xxxxxxxx"),
 //			})
 //			if err != nil {
@@ -133,10 +134,6 @@ func NewAmiFromInstance(ctx *pulumi.Context,
 	if args.SourceInstanceId == nil {
 		return nil, errors.New("invalid value for required argument 'SourceInstanceId'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource AmiFromInstance
 	err := ctx.RegisterResource("aws:ec2/amiFromInstance:AmiFromInstance", name, args, &resource, opts...)

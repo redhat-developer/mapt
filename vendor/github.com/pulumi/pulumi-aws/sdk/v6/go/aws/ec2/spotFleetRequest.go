@@ -19,6 +19,7 @@ import (
 // We recommend using the EC2 Fleet or Auto Scaling Group resources instead.
 //
 // ## Example Usage
+//
 // ### Using launch specifications
 //
 // ```go
@@ -33,7 +34,8 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := ec2.NewSpotFleetRequest(ctx, "cheapCompute", &ec2.SpotFleetRequestArgs{
+//			// Request a Spot fleet
+//			_, err := ec2.NewSpotFleetRequest(ctx, "cheap_compute", &ec2.SpotFleetRequestArgs{
 //				IamFleetRole:       pulumi.String("arn:aws:iam::12345678:role/spot-fleet"),
 //				SpotPrice:          pulumi.String("0.03"),
 //				AllocationStrategy: pulumi.String("diversified"),
@@ -45,14 +47,14 @@ import (
 //						Ami:                   pulumi.String("ami-1234"),
 //						SpotPrice:             pulumi.String("2.793"),
 //						PlacementTenancy:      pulumi.String("dedicated"),
-//						IamInstanceProfileArn: pulumi.Any(aws_iam_instance_profile.Example.Arn),
+//						IamInstanceProfileArn: pulumi.Any(example.Arn),
 //					},
 //					&ec2.SpotFleetRequestLaunchSpecificationArgs{
 //						InstanceType:          pulumi.String("m4.4xlarge"),
 //						Ami:                   pulumi.String("ami-5678"),
 //						KeyName:               pulumi.String("my-key"),
 //						SpotPrice:             pulumi.String("1.117"),
-//						IamInstanceProfileArn: pulumi.Any(aws_iam_instance_profile.Example.Arn),
+//						IamInstanceProfileArn: pulumi.Any(example.Arn),
 //						AvailabilityZone:      pulumi.String("us-west-1a"),
 //						SubnetId:              pulumi.String("subnet-1234"),
 //						WeightedCapacity:      pulumi.String("35"),
@@ -76,6 +78,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Using launch templates
 //
 // ```go
@@ -90,7 +93,8 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			fooLaunchTemplate, err := ec2.NewLaunchTemplate(ctx, "fooLaunchTemplate", &ec2.LaunchTemplateArgs{
+//			foo, err := ec2.NewLaunchTemplate(ctx, "foo", &ec2.LaunchTemplateArgs{
+//				Name:         pulumi.String("launch-template"),
 //				ImageId:      pulumi.String("ami-516b9131"),
 //				InstanceType: pulumi.String("m1.small"),
 //				KeyName:      pulumi.String("some-key"),
@@ -98,7 +102,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewSpotFleetRequest(ctx, "fooSpotFleetRequest", &ec2.SpotFleetRequestArgs{
+//			_, err = ec2.NewSpotFleetRequest(ctx, "foo", &ec2.SpotFleetRequestArgs{
 //				IamFleetRole:   pulumi.String("arn:aws:iam::12345678:role/spot-fleet"),
 //				SpotPrice:      pulumi.String("0.005"),
 //				TargetCapacity: pulumi.Int(2),
@@ -106,13 +110,13 @@ import (
 //				LaunchTemplateConfigs: ec2.SpotFleetRequestLaunchTemplateConfigArray{
 //					&ec2.SpotFleetRequestLaunchTemplateConfigArgs{
 //						LaunchTemplateSpecification: &ec2.SpotFleetRequestLaunchTemplateConfigLaunchTemplateSpecificationArgs{
-//							Id:      fooLaunchTemplate.ID(),
-//							Version: fooLaunchTemplate.LatestVersion,
+//							Id:      foo.ID(),
+//							Version: foo.LatestVersion,
 //						},
 //					},
 //				},
 //			}, pulumi.DependsOn([]pulumi.Resource{
-//				aws_iam_policy_attachment.TestAttach,
+//				test_attach,
 //			}))
 //			if err != nil {
 //				return err
@@ -125,6 +129,52 @@ import (
 //
 // > **NOTE:** This provider does not support the functionality where multiple `subnetId` or `availabilityZone` parameters can be specified in the same
 // launch configuration block. If you want to specify multiple values, then separate launch configuration blocks should be used or launch template overrides should be configured, one per subnet:
+//
+// ### Using multiple launch specifications
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := ec2.NewSpotFleetRequest(ctx, "foo", &ec2.SpotFleetRequestArgs{
+//				IamFleetRole:   pulumi.String("arn:aws:iam::12345678:role/spot-fleet"),
+//				SpotPrice:      pulumi.String("0.005"),
+//				TargetCapacity: pulumi.Int(2),
+//				ValidUntil:     pulumi.String("2019-11-04T20:44:20Z"),
+//				LaunchSpecifications: ec2.SpotFleetRequestLaunchSpecificationArray{
+//					&ec2.SpotFleetRequestLaunchSpecificationArgs{
+//						InstanceType:     pulumi.String("m1.small"),
+//						Ami:              pulumi.String("ami-d06a90b0"),
+//						KeyName:          pulumi.String("my-key"),
+//						AvailabilityZone: pulumi.String("us-west-2a"),
+//					},
+//					&ec2.SpotFleetRequestLaunchSpecificationArgs{
+//						InstanceType:     pulumi.String("m5.large"),
+//						Ami:              pulumi.String("ami-d06a90b0"),
+//						KeyName:          pulumi.String("my-key"),
+//						AvailabilityZone: pulumi.String("us-west-2a"),
+//					},
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// > In this example, we use a `dynamic` block to define zero or more `launchSpecification` blocks, producing one for each element in the list of subnet ids.
+//
 // ### Using multiple launch configurations
 //
 // ```go
@@ -143,7 +193,7 @@ import (
 // {
 // Name: "vpc-id",
 // Values: interface{}{
-// _var.Vpc_id,
+// vpcId,
 // },
 // },
 // },
@@ -151,7 +201,8 @@ import (
 // if err != nil {
 // return err
 // }
-// fooLaunchTemplate, err := ec2.NewLaunchTemplate(ctx, "fooLaunchTemplate", &ec2.LaunchTemplateArgs{
+// foo, err := ec2.NewLaunchTemplate(ctx, "foo", &ec2.LaunchTemplateArgs{
+// Name: pulumi.String("launch-template"),
 // ImageId: pulumi.String("ami-516b9131"),
 // InstanceType: pulumi.String("m1.small"),
 // KeyName: pulumi.String("some-key"),
@@ -159,7 +210,7 @@ import (
 // if err != nil {
 // return err
 // }
-// _, err = ec2.NewSpotFleetRequest(ctx, "fooSpotFleetRequest", &ec2.SpotFleetRequestArgs{
+// _, err = ec2.NewSpotFleetRequest(ctx, "foo", &ec2.SpotFleetRequestArgs{
 // IamFleetRole: pulumi.String("arn:aws:iam::12345678:role/spot-fleet"),
 // SpotPrice: pulumi.String("0.005"),
 // TargetCapacity: pulumi.Int(2),
@@ -167,24 +218,24 @@ import (
 // LaunchTemplateConfigs: ec2.SpotFleetRequestLaunchTemplateConfigArray{
 // &ec2.SpotFleetRequestLaunchTemplateConfigArgs{
 // LaunchTemplateSpecification: &ec2.SpotFleetRequestLaunchTemplateConfigLaunchTemplateSpecificationArgs{
-// Id: fooLaunchTemplate.ID(),
-// Version: fooLaunchTemplate.LatestVersion,
+// Id: foo.ID(),
+// Version: foo.LatestVersion,
 // },
 // Overrides: ec2.SpotFleetRequestLaunchTemplateConfigOverrideArray{
 // &ec2.SpotFleetRequestLaunchTemplateConfigOverrideArgs{
-// SubnetId: *pulumi.String(example.Ids[0]),
+// SubnetId: pulumi.String(example.Ids[0]),
 // },
 // &ec2.SpotFleetRequestLaunchTemplateConfigOverrideArgs{
-// SubnetId: *pulumi.String(example.Ids[1]),
+// SubnetId: pulumi.String(example.Ids[1]),
 // },
 // &ec2.SpotFleetRequestLaunchTemplateConfigOverrideArgs{
-// SubnetId: *pulumi.String(example.Ids[2]),
+// SubnetId: pulumi.String(example.Ids[2]),
 // },
 // },
 // },
 // },
 // }, pulumi.DependsOn([]pulumi.Resource{
-// aws_iam_policy_attachment.TestAttach,
+// test_attach,
 // }))
 // if err != nil {
 // return err
@@ -199,9 +250,7 @@ import (
 // Using `pulumi import`, import Spot Fleet Requests using `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/spotFleetRequest:SpotFleetRequest fleet sfr-005e9ec8-5546-4c31-b317-31a62325411e
-//
+// $ pulumi import aws:ec2/spotFleetRequest:SpotFleetRequest fleet sfr-005e9ec8-5546-4c31-b317-31a62325411e
 // ```
 type SpotFleetRequest struct {
 	pulumi.CustomResourceState
@@ -306,10 +355,6 @@ func NewSpotFleetRequest(ctx *pulumi.Context,
 	if args.TargetCapacity == nil {
 		return nil, errors.New("invalid value for required argument 'TargetCapacity'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource SpotFleetRequest
 	err := ctx.RegisterResource("aws:ec2/spotFleetRequest:SpotFleetRequest", name, args, &resource, opts...)

@@ -57,6 +57,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &Eip{}
 	case "aws:ec2/eipAssociation:EipAssociation":
 		r = &EipAssociation{}
+	case "aws:ec2/eipDomainName:EipDomainName":
+		r = &EipDomainName{}
 	case "aws:ec2/fleet:Fleet":
 		r = &Fleet{}
 	case "aws:ec2/flowLog:FlowLog":
@@ -65,6 +67,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ImageBlockPublicAccess{}
 	case "aws:ec2/instance:Instance":
 		r = &Instance{}
+	case "aws:ec2/instanceMetadataDefaults:InstanceMetadataDefaults":
+		r = &InstanceMetadataDefaults{}
 	case "aws:ec2/internetGateway:InternetGateway":
 		r = &InternetGateway{}
 	case "aws:ec2/internetGatewayAttachment:InternetGatewayAttachment":
@@ -312,6 +316,11 @@ func init() {
 	)
 	pulumi.RegisterResourceModule(
 		"aws",
+		"ec2/eipDomainName",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"aws",
 		"ec2/fleet",
 		&module{version},
 	)
@@ -328,6 +337,11 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"aws",
 		"ec2/instance",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"aws",
+		"ec2/instanceMetadataDefaults",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(

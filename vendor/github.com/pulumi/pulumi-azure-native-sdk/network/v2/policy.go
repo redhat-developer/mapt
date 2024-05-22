@@ -15,7 +15,7 @@ import (
 // Defines web application firewall policy.
 // Azure REST API version: 2022-05-01. Prior API version in Azure Native 1.x: 2020-11-01.
 //
-// Other available API versions: 2021-06-01.
+// Other available API versions: 2021-06-01, 2024-02-01.
 type Policy struct {
 	pulumi.CustomResourceState
 
@@ -76,6 +76,9 @@ func NewPolicy(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20220501:Policy"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240201:Policy"),
 		},
 	})
 	opts = append(opts, aliases)

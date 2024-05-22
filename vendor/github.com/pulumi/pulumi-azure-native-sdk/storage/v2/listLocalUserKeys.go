@@ -14,7 +14,7 @@ import (
 // List SSH authorized keys and shared key of the local user.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
 func ListLocalUserKeys(ctx *pulumi.Context, args *ListLocalUserKeysArgs, opts ...pulumi.InvokeOption) (*ListLocalUserKeysResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListLocalUserKeysResult

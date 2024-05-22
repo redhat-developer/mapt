@@ -35,6 +35,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/config"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
 	"github.com/santhosh-tekuri/jsonschema/v5"
 	"golang.org/x/exp/maps"
 	"gopkg.in/yaml.v3"
@@ -92,7 +93,13 @@ type ProjectTemplateConfigValue struct {
 	Secret bool `json:"secret,omitempty" yaml:"secret,omitempty"`
 }
 
-// ProjectBackend is a configuration for backend used by project
+// ProjectBackend is the configuration for where the backend state is stored. If unset, will use the
+// system's currently logged-in backend.
+//
+// Use the same URL format that is passed to "pulumi login", see
+// https://www.pulumi.com/docs/cli/commands/pulumi_login/
+//
+// To explicitly use the Pulumi Cloud backend, use URL "https://api.pulumi.com"
 type ProjectBackend struct {
 	// URL is optional field to explicitly set backend url
 	URL string `json:"url,omitempty" yaml:"url,omitempty"`
@@ -512,18 +519,14 @@ func (proj *Project) Validate() error {
 	return nil
 }
 
-// TrustResourceDependencies returns whether this project's runtime can be trusted to accurately report
-// dependencies. All languages supported by Pulumi today do this correctly. This option remains useful when bringing
-// up new Pulumi languages.
-func (proj *Project) TrustResourceDependencies() bool {
-	return true
-}
-
 // Save writes a project definition to a file.
 func (proj *Project) Save(path string) error {
 	contract.Requiref(path != "", "path", "must not be empty")
 	contract.Requiref(proj != nil, "proj", "must not be nil")
-	contract.Requiref(proj.Validate() == nil, "proj", "Validate()")
+
+	err := proj.Validate()
+	contract.Requiref(err == nil, "proj", "Validate(): %v", err)
+
 	return save(path, proj, false /*mkDirAll*/)
 }
 
@@ -751,6 +754,8 @@ func (e *Environment) Remove(env string) *Environment {
 								match = n.Value == env
 							case yaml.MappingNode:
 								match = len(n.Content) == 2 && n.Content[0].Value == env
+							case yaml.SequenceNode, yaml.AliasNode, yaml.DocumentNode:
+								// These nodes never match, so we can ignore them here.
 							}
 							if match {
 								value.Content = append(value.Content[:j], value.Content[j+1:]...)
@@ -964,4 +969,33 @@ func save(path string, value interface{}, mkDirAll bool) error {
 
 	//nolint:gosec
 	return os.WriteFile(path, b, 0o644)
+}
+
+// To mitigate an import cycle, we define this here.
+const PulumiTagsConfigKey = "pulumi:tags"
+
+// AddConfigStackTags sets the project tags config to the given map of tags.
+func (proj *Project) AddConfigStackTags(tags map[string]string) {
+	if proj.Config == nil {
+		proj.Config = map[string]ProjectConfigType{}
+	}
+	configTags, has := proj.Config["pulumi:tags"]
+	if !has {
+		configTags = ProjectConfigType{
+			Value: map[string]string{},
+		}
+	}
+	if configTags.Value == nil {
+		configTags.Value = map[string]string{}
+	}
+
+	tagMap, ok := configTags.Value.(map[string]string)
+	if !ok {
+		logging.Warningf("overwriting non-object `%s` project config", "pulumi:tags")
+		tagMap = map[string]string{}
+	}
+	for k, v := range tags {
+		tagMap[k] = v
+	}
+	proj.Config["pulumi:tags"] = configTags
 }

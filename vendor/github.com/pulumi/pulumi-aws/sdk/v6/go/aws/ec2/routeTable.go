@@ -34,6 +34,7 @@ import (
 // the separate resource.
 //
 // ## Example Usage
+//
 // ### Basic example
 //
 // ```go
@@ -49,15 +50,15 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewRouteTable(ctx, "example", &ec2.RouteTableArgs{
-//				VpcId: pulumi.Any(aws_vpc.Example.Id),
+//				VpcId: pulumi.Any(exampleAwsVpc.Id),
 //				Routes: ec2.RouteTableRouteArray{
 //					&ec2.RouteTableRouteArgs{
 //						CidrBlock: pulumi.String("10.0.1.0/24"),
-//						GatewayId: pulumi.Any(aws_internet_gateway.Example.Id),
+//						GatewayId: pulumi.Any(exampleAwsInternetGateway.Id),
 //					},
 //					&ec2.RouteTableRouteArgs{
 //						Ipv6CidrBlock:       pulumi.String("::/0"),
-//						EgressOnlyGatewayId: pulumi.Any(aws_egress_only_internet_gateway.Example.Id),
+//						EgressOnlyGatewayId: pulumi.Any(exampleAwsEgressOnlyInternetGateway.Id),
 //					},
 //				},
 //				Tags: pulumi.StringMap{
@@ -88,7 +89,7 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewRouteTable(ctx, "example", &ec2.RouteTableArgs{
-//				VpcId:  pulumi.Any(aws_vpc.Example.Id),
+//				VpcId:  pulumi.Any(exampleAwsVpc.Id),
 //				Routes: ec2.RouteTableRouteArray{},
 //				Tags: pulumi.StringMap{
 //					"Name": pulumi.String("example"),
@@ -102,6 +103,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Adopting an existing local route
 //
 // AWS creates certain routes that the AWS provider mostly ignores. You can manage them by importing or adopting them. See Import below for information on importing. This example shows adopting a route and then updating its target.
@@ -120,14 +122,14 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			testVpc, err := ec2.NewVpc(ctx, "testVpc", &ec2.VpcArgs{
+//			test, err := ec2.NewVpc(ctx, "test", &ec2.VpcArgs{
 //				CidrBlock: pulumi.String("10.1.0.0/16"),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewRouteTable(ctx, "testRouteTable", &ec2.RouteTableArgs{
-//				VpcId: testVpc.ID(),
+//			_, err = ec2.NewRouteTable(ctx, "test", &ec2.RouteTableArgs{
+//				VpcId: test.ID(),
 //				Routes: ec2.RouteTableRouteArray{
 //					&ec2.RouteTableRouteArgs{
 //						CidrBlock: pulumi.String("10.1.0.0/16"),
@@ -158,30 +160,30 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			testVpc, err := ec2.NewVpc(ctx, "testVpc", &ec2.VpcArgs{
+//			test, err := ec2.NewVpc(ctx, "test", &ec2.VpcArgs{
 //				CidrBlock: pulumi.String("10.1.0.0/16"),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			testSubnet, err := ec2.NewSubnet(ctx, "testSubnet", &ec2.SubnetArgs{
+//			testSubnet, err := ec2.NewSubnet(ctx, "test", &ec2.SubnetArgs{
 //				CidrBlock: pulumi.String("10.1.1.0/24"),
-//				VpcId:     testVpc.ID(),
+//				VpcId:     test.ID(),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			testNetworkInterface, err := ec2.NewNetworkInterface(ctx, "testNetworkInterface", &ec2.NetworkInterfaceArgs{
+//			testNetworkInterface, err := ec2.NewNetworkInterface(ctx, "test", &ec2.NetworkInterfaceArgs{
 //				SubnetId: testSubnet.ID(),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewRouteTable(ctx, "testRouteTable", &ec2.RouteTableArgs{
-//				VpcId: testVpc.ID(),
+//			_, err = ec2.NewRouteTable(ctx, "test", &ec2.RouteTableArgs{
+//				VpcId: test.ID(),
 //				Routes: ec2.RouteTableRouteArray{
 //					&ec2.RouteTableRouteArgs{
-//						CidrBlock:          testVpc.CidrBlock,
+//						CidrBlock:          test.CidrBlock,
 //						NetworkInterfaceId: testNetworkInterface.ID(),
 //					},
 //				},
@@ -202,9 +204,7 @@ import (
 // Using `pulumi import`, import Route Tables using the route table `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/routeTable:RouteTable public_rt rtb-4e616f6d69
-//
+// $ pulumi import aws:ec2/routeTable:RouteTable public_rt rtb-4e616f6d69
 // ```
 type RouteTable struct {
 	pulumi.CustomResourceState
@@ -238,10 +238,6 @@ func NewRouteTable(ctx *pulumi.Context,
 	if args.VpcId == nil {
 		return nil, errors.New("invalid value for required argument 'VpcId'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource RouteTable
 	err := ctx.RegisterResource("aws:ec2/routeTable:RouteTable", name, args, &resource, opts...)

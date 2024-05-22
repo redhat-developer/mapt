@@ -15,6 +15,7 @@ import (
 // customer-managed prefix list in the current region.
 //
 // ## Example Usage
+//
 // ### Find the regional DynamoDB prefix list
 //
 // ```go
@@ -47,6 +48,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Find a managed prefix list using filters
 //
 // ```go

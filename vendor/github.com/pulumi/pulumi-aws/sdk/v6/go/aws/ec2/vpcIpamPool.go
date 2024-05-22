@@ -35,20 +35,20 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			exampleVpcIpam, err := ec2.NewVpcIpam(ctx, "exampleVpcIpam", &ec2.VpcIpamArgs{
+//			example, err := ec2.NewVpcIpam(ctx, "example", &ec2.VpcIpamArgs{
 //				OperatingRegions: ec2.VpcIpamOperatingRegionArray{
 //					&ec2.VpcIpamOperatingRegionArgs{
-//						RegionName: *pulumi.String(current.Name),
+//						RegionName: pulumi.String(current.Name),
 //					},
 //				},
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewVpcIpamPool(ctx, "exampleVpcIpamPool", &ec2.VpcIpamPoolArgs{
+//			_, err = ec2.NewVpcIpamPool(ctx, "example", &ec2.VpcIpamPoolArgs{
 //				AddressFamily: pulumi.String("ipv4"),
-//				IpamScopeId:   exampleVpcIpam.PrivateDefaultScopeId,
-//				Locale:        *pulumi.String(current.Name),
+//				IpamScopeId:   example.PrivateDefaultScopeId,
+//				Locale:        pulumi.String(current.Name),
 //			})
 //			if err != nil {
 //				return err
@@ -81,7 +81,7 @@ import (
 //			example, err := ec2.NewVpcIpam(ctx, "example", &ec2.VpcIpamArgs{
 //				OperatingRegions: ec2.VpcIpamOperatingRegionArray{
 //					&ec2.VpcIpamOperatingRegionArgs{
-//						RegionName: *pulumi.String(current.Name),
+//						RegionName: pulumi.String(current.Name),
 //					},
 //				},
 //			})
@@ -95,7 +95,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewVpcIpamPoolCidr(ctx, "parentTest", &ec2.VpcIpamPoolCidrArgs{
+//			_, err = ec2.NewVpcIpamPoolCidr(ctx, "parent_test", &ec2.VpcIpamPoolCidrArgs{
 //				IpamPoolId: parent.ID(),
 //				Cidr:       pulumi.String("172.20.0.0/16"),
 //			})
@@ -105,13 +105,13 @@ import (
 //			child, err := ec2.NewVpcIpamPool(ctx, "child", &ec2.VpcIpamPoolArgs{
 //				AddressFamily:    pulumi.String("ipv4"),
 //				IpamScopeId:      example.PrivateDefaultScopeId,
-//				Locale:           *pulumi.String(current.Name),
+//				Locale:           pulumi.String(current.Name),
 //				SourceIpamPoolId: parent.ID(),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewVpcIpamPoolCidr(ctx, "childTest", &ec2.VpcIpamPoolCidrArgs{
+//			_, err = ec2.NewVpcIpamPoolCidr(ctx, "child_test", &ec2.VpcIpamPoolCidrArgs{
 //				IpamPoolId: child.ID(),
 //				Cidr:       pulumi.String("172.20.0.0/24"),
 //			})
@@ -129,9 +129,7 @@ import (
 // Using `pulumi import`, import IPAMs using the IPAM pool `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/vpcIpamPool:VpcIpamPool example ipam-pool-0958f95207d978e1e
-//
+// $ pulumi import aws:ec2/vpcIpamPool:VpcIpamPool example ipam-pool-0958f95207d978e1e
 // ```
 type VpcIpamPool struct {
 	pulumi.CustomResourceState
@@ -153,6 +151,8 @@ type VpcIpamPool struct {
 	AutoImport pulumi.BoolPtrOutput `pulumi:"autoImport"`
 	// Limits which AWS service the pool can be used in. Only useable on public scopes. Valid Values: `ec2`.
 	AwsService pulumi.StringPtrOutput `pulumi:"awsService"`
+	// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools.
+	Cascade pulumi.BoolPtrOutput `pulumi:"cascade"`
 	// A description for the IPAM pool.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
 	// The ID of the scope in which you would like to create the IPAM pool.
@@ -190,10 +190,6 @@ func NewVpcIpamPool(ctx *pulumi.Context,
 	if args.IpamScopeId == nil {
 		return nil, errors.New("invalid value for required argument 'IpamScopeId'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcIpamPool
 	err := ctx.RegisterResource("aws:ec2/vpcIpamPool:VpcIpamPool", name, args, &resource, opts...)
@@ -234,6 +230,8 @@ type vpcIpamPoolState struct {
 	AutoImport *bool `pulumi:"autoImport"`
 	// Limits which AWS service the pool can be used in. Only useable on public scopes. Valid Values: `ec2`.
 	AwsService *string `pulumi:"awsService"`
+	// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools.
+	Cascade *bool `pulumi:"cascade"`
 	// A description for the IPAM pool.
 	Description *string `pulumi:"description"`
 	// The ID of the scope in which you would like to create the IPAM pool.
@@ -276,6 +274,8 @@ type VpcIpamPoolState struct {
 	AutoImport pulumi.BoolPtrInput
 	// Limits which AWS service the pool can be used in. Only useable on public scopes. Valid Values: `ec2`.
 	AwsService pulumi.StringPtrInput
+	// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools.
+	Cascade pulumi.BoolPtrInput
 	// A description for the IPAM pool.
 	Description pulumi.StringPtrInput
 	// The ID of the scope in which you would like to create the IPAM pool.
@@ -320,6 +320,8 @@ type vpcIpamPoolArgs struct {
 	AutoImport *bool `pulumi:"autoImport"`
 	// Limits which AWS service the pool can be used in. Only useable on public scopes. Valid Values: `ec2`.
 	AwsService *string `pulumi:"awsService"`
+	// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools.
+	Cascade *bool `pulumi:"cascade"`
 	// A description for the IPAM pool.
 	Description *string `pulumi:"description"`
 	// The ID of the scope in which you would like to create the IPAM pool.
@@ -353,6 +355,8 @@ type VpcIpamPoolArgs struct {
 	AutoImport pulumi.BoolPtrInput
 	// Limits which AWS service the pool can be used in. Only useable on public scopes. Valid Values: `ec2`.
 	AwsService pulumi.StringPtrInput
+	// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools.
+	Cascade pulumi.BoolPtrInput
 	// A description for the IPAM pool.
 	Description pulumi.StringPtrInput
 	// The ID of the scope in which you would like to create the IPAM pool.
@@ -495,6 +499,11 @@ func (o VpcIpamPoolOutput) AutoImport() pulumi.BoolPtrOutput {
 // Limits which AWS service the pool can be used in. Only useable on public scopes. Valid Values: `ec2`.
 func (o VpcIpamPoolOutput) AwsService() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VpcIpamPool) pulumi.StringPtrOutput { return v.AwsService }).(pulumi.StringPtrOutput)
+}
+
+// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools.
+func (o VpcIpamPoolOutput) Cascade() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *VpcIpamPool) pulumi.BoolPtrOutput { return v.Cascade }).(pulumi.BoolPtrOutput)
 }
 
 // A description for the IPAM pool.

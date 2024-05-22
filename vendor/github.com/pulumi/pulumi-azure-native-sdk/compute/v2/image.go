@@ -15,7 +15,7 @@ import (
 // The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
 // Azure REST API version: 2023-03-01. Prior API version in Azure Native 1.x: 2020-12-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
 type Image struct {
 	pulumi.CustomResourceState
 
@@ -112,6 +112,9 @@ func NewImage(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20230901:Image"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20240301:Image"),
 		},
 	})
 	opts = append(opts, aliases)
