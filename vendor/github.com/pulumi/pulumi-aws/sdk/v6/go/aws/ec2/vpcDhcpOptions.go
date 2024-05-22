@@ -29,7 +29,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := ec2.NewVpcDhcpOptions(ctx, "dnsResolver", &ec2.VpcDhcpOptionsArgs{
+//			_, err := ec2.NewVpcDhcpOptions(ctx, "dns_resolver", &ec2.VpcDhcpOptionsArgs{
 //				DomainNameServers: pulumi.StringArray{
 //					pulumi.String("8.8.8.8"),
 //					pulumi.String("8.8.4.4"),
@@ -64,13 +64,14 @@ import (
 //					pulumi.String("127.0.0.1"),
 //					pulumi.String("10.0.0.2"),
 //				},
+//				Ipv6AddressPreferredLeaseTime: pulumi.String("1440"),
+//				NtpServers: pulumi.StringArray{
+//					pulumi.String("127.0.0.1"),
+//				},
 //				NetbiosNameServers: pulumi.StringArray{
 //					pulumi.String("127.0.0.1"),
 //				},
 //				NetbiosNodeType: pulumi.String("2"),
-//				NtpServers: pulumi.StringArray{
-//					pulumi.String("127.0.0.1"),
-//				},
 //				Tags: pulumi.StringMap{
 //					"Name": pulumi.String("foo-name"),
 //				},
@@ -83,6 +84,7 @@ import (
 //	}
 //
 // ```
+//
 // ## Remarks
 //
 // * Notice that all arguments are optional but you have to specify at least one argument.
@@ -96,9 +98,7 @@ import (
 // Using `pulumi import`, import VPC DHCP Options using the DHCP Options `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/vpcDhcpOptions:VpcDhcpOptions my_options dopt-d9070ebb
-//
+// $ pulumi import aws:ec2/vpcDhcpOptions:VpcDhcpOptions my_options dopt-d9070ebb
 // ```
 type VpcDhcpOptions struct {
 	pulumi.CustomResourceState
@@ -109,6 +109,8 @@ type VpcDhcpOptions struct {
 	DomainName pulumi.StringPtrOutput `pulumi:"domainName"`
 	// List of name servers to configure in `/etc/resolv.conf`. If you want to use the default AWS nameservers you should set this to `AmazonProvidedDNS`.
 	DomainNameServers pulumi.StringArrayOutput `pulumi:"domainNameServers"`
+	// How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal. Acceptable values are between 140 and 2147483647 (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
+	Ipv6AddressPreferredLeaseTime pulumi.StringPtrOutput `pulumi:"ipv6AddressPreferredLeaseTime"`
 	// List of NETBIOS name servers.
 	NetbiosNameServers pulumi.StringArrayOutput `pulumi:"netbiosNameServers"`
 	// The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -132,10 +134,6 @@ func NewVpcDhcpOptions(ctx *pulumi.Context,
 		args = &VpcDhcpOptionsArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource VpcDhcpOptions
 	err := ctx.RegisterResource("aws:ec2/vpcDhcpOptions:VpcDhcpOptions", name, args, &resource, opts...)
@@ -165,6 +163,8 @@ type vpcDhcpOptionsState struct {
 	DomainName *string `pulumi:"domainName"`
 	// List of name servers to configure in `/etc/resolv.conf`. If you want to use the default AWS nameservers you should set this to `AmazonProvidedDNS`.
 	DomainNameServers []string `pulumi:"domainNameServers"`
+	// How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal. Acceptable values are between 140 and 2147483647 (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
+	Ipv6AddressPreferredLeaseTime *string `pulumi:"ipv6AddressPreferredLeaseTime"`
 	// List of NETBIOS name servers.
 	NetbiosNameServers []string `pulumi:"netbiosNameServers"`
 	// The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -188,6 +188,8 @@ type VpcDhcpOptionsState struct {
 	DomainName pulumi.StringPtrInput
 	// List of name servers to configure in `/etc/resolv.conf`. If you want to use the default AWS nameservers you should set this to `AmazonProvidedDNS`.
 	DomainNameServers pulumi.StringArrayInput
+	// How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal. Acceptable values are between 140 and 2147483647 (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
+	Ipv6AddressPreferredLeaseTime pulumi.StringPtrInput
 	// List of NETBIOS name servers.
 	NetbiosNameServers pulumi.StringArrayInput
 	// The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -213,6 +215,8 @@ type vpcDhcpOptionsArgs struct {
 	DomainName *string `pulumi:"domainName"`
 	// List of name servers to configure in `/etc/resolv.conf`. If you want to use the default AWS nameservers you should set this to `AmazonProvidedDNS`.
 	DomainNameServers []string `pulumi:"domainNameServers"`
+	// How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal. Acceptable values are between 140 and 2147483647 (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
+	Ipv6AddressPreferredLeaseTime *string `pulumi:"ipv6AddressPreferredLeaseTime"`
 	// List of NETBIOS name servers.
 	NetbiosNameServers []string `pulumi:"netbiosNameServers"`
 	// The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -229,6 +233,8 @@ type VpcDhcpOptionsArgs struct {
 	DomainName pulumi.StringPtrInput
 	// List of name servers to configure in `/etc/resolv.conf`. If you want to use the default AWS nameservers you should set this to `AmazonProvidedDNS`.
 	DomainNameServers pulumi.StringArrayInput
+	// How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal. Acceptable values are between 140 and 2147483647 (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
+	Ipv6AddressPreferredLeaseTime pulumi.StringPtrInput
 	// List of NETBIOS name servers.
 	NetbiosNameServers pulumi.StringArrayInput
 	// The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -339,6 +345,11 @@ func (o VpcDhcpOptionsOutput) DomainName() pulumi.StringPtrOutput {
 // List of name servers to configure in `/etc/resolv.conf`. If you want to use the default AWS nameservers you should set this to `AmazonProvidedDNS`.
 func (o VpcDhcpOptionsOutput) DomainNameServers() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *VpcDhcpOptions) pulumi.StringArrayOutput { return v.DomainNameServers }).(pulumi.StringArrayOutput)
+}
+
+// How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal. Acceptable values are between 140 and 2147483647 (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
+func (o VpcDhcpOptionsOutput) Ipv6AddressPreferredLeaseTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VpcDhcpOptions) pulumi.StringPtrOutput { return v.Ipv6AddressPreferredLeaseTime }).(pulumi.StringPtrOutput)
 }
 
 // List of NETBIOS name servers.

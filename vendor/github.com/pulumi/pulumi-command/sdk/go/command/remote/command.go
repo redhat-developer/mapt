@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-command/sdk/go/command/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // A command to run on a remote host.
@@ -27,7 +26,14 @@ type Command struct {
 	// Command resource from previous create or update steps.
 	Delete pulumi.StringPtrOutput `pulumi:"delete"`
 	// Additional environment variables available to the command's process.
+	// Note that this only works if the SSH server is configured to accept these variables via AcceptEnv.
+	// Alternatively, if a Bash-like shell runs the command on the remote host, you could prefix the command itself
+	// with the variables in the form 'VAR=value command'.
 	Environment pulumi.StringMapOutput `pulumi:"environment"`
+	// If the command's stdout and stderr should be logged. This doesn't affect the capturing of
+	// stdout and stderr as outputs. If there might be secrets in the output, you can disable logging here and mark the
+	// outputs as secret via 'additionalSecretOutputs'. Defaults to logging both stdout and stderr.
+	Logging LoggingPtrOutput `pulumi:"logging"`
 	// The standard error of the command's process
 	Stderr pulumi.StringOutput `pulumi:"stderr"`
 	// Pass a string to the command's process as standard in
@@ -107,7 +113,14 @@ type commandArgs struct {
 	// Command resource from previous create or update steps.
 	Delete *string `pulumi:"delete"`
 	// Additional environment variables available to the command's process.
+	// Note that this only works if the SSH server is configured to accept these variables via AcceptEnv.
+	// Alternatively, if a Bash-like shell runs the command on the remote host, you could prefix the command itself
+	// with the variables in the form 'VAR=value command'.
 	Environment map[string]string `pulumi:"environment"`
+	// If the command's stdout and stderr should be logged. This doesn't affect the capturing of
+	// stdout and stderr as outputs. If there might be secrets in the output, you can disable logging here and mark the
+	// outputs as secret via 'additionalSecretOutputs'. Defaults to logging both stdout and stderr.
+	Logging *Logging `pulumi:"logging"`
 	// Pass a string to the command's process as standard in
 	Stdin *string `pulumi:"stdin"`
 	// Trigger replacements on changes to this input.
@@ -130,7 +143,14 @@ type CommandArgs struct {
 	// Command resource from previous create or update steps.
 	Delete pulumi.StringPtrInput
 	// Additional environment variables available to the command's process.
+	// Note that this only works if the SSH server is configured to accept these variables via AcceptEnv.
+	// Alternatively, if a Bash-like shell runs the command on the remote host, you could prefix the command itself
+	// with the variables in the form 'VAR=value command'.
 	Environment pulumi.StringMapInput
+	// If the command's stdout and stderr should be logged. This doesn't affect the capturing of
+	// stdout and stderr as outputs. If there might be secrets in the output, you can disable logging here and mark the
+	// outputs as secret via 'additionalSecretOutputs'. Defaults to logging both stdout and stderr.
+	Logging LoggingPtrInput
 	// Pass a string to the command's process as standard in
 	Stdin pulumi.StringPtrInput
 	// Trigger replacements on changes to this input.
@@ -165,12 +185,6 @@ func (i *Command) ToCommandOutputWithContext(ctx context.Context) CommandOutput 
 	return pulumi.ToOutputWithContext(ctx, i).(CommandOutput)
 }
 
-func (i *Command) ToOutput(ctx context.Context) pulumix.Output[*Command] {
-	return pulumix.Output[*Command]{
-		OutputState: i.ToCommandOutputWithContext(ctx).OutputState,
-	}
-}
-
 // CommandArrayInput is an input type that accepts CommandArray and CommandArrayOutput values.
 // You can construct a concrete instance of `CommandArrayInput` via:
 //
@@ -194,12 +208,6 @@ func (i CommandArray) ToCommandArrayOutput() CommandArrayOutput {
 
 func (i CommandArray) ToCommandArrayOutputWithContext(ctx context.Context) CommandArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(CommandArrayOutput)
-}
-
-func (i CommandArray) ToOutput(ctx context.Context) pulumix.Output[[]*Command] {
-	return pulumix.Output[[]*Command]{
-		OutputState: i.ToCommandArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // CommandMapInput is an input type that accepts CommandMap and CommandMapOutput values.
@@ -227,12 +235,6 @@ func (i CommandMap) ToCommandMapOutputWithContext(ctx context.Context) CommandMa
 	return pulumi.ToOutputWithContext(ctx, i).(CommandMapOutput)
 }
 
-func (i CommandMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Command] {
-	return pulumix.Output[map[string]*Command]{
-		OutputState: i.ToCommandMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type CommandOutput struct{ *pulumi.OutputState }
 
 func (CommandOutput) ElementType() reflect.Type {
@@ -245,12 +247,6 @@ func (o CommandOutput) ToCommandOutput() CommandOutput {
 
 func (o CommandOutput) ToCommandOutputWithContext(ctx context.Context) CommandOutput {
 	return o
-}
-
-func (o CommandOutput) ToOutput(ctx context.Context) pulumix.Output[*Command] {
-	return pulumix.Output[*Command]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The parameters with which to connect to the remote host.
@@ -271,8 +267,18 @@ func (o CommandOutput) Delete() pulumi.StringPtrOutput {
 }
 
 // Additional environment variables available to the command's process.
+// Note that this only works if the SSH server is configured to accept these variables via AcceptEnv.
+// Alternatively, if a Bash-like shell runs the command on the remote host, you could prefix the command itself
+// with the variables in the form 'VAR=value command'.
 func (o CommandOutput) Environment() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Command) pulumi.StringMapOutput { return v.Environment }).(pulumi.StringMapOutput)
+}
+
+// If the command's stdout and stderr should be logged. This doesn't affect the capturing of
+// stdout and stderr as outputs. If there might be secrets in the output, you can disable logging here and mark the
+// outputs as secret via 'additionalSecretOutputs'. Defaults to logging both stdout and stderr.
+func (o CommandOutput) Logging() LoggingPtrOutput {
+	return o.ApplyT(func(v *Command) LoggingPtrOutput { return v.Logging }).(LoggingPtrOutput)
 }
 
 // The standard error of the command's process
@@ -317,12 +323,6 @@ func (o CommandArrayOutput) ToCommandArrayOutputWithContext(ctx context.Context)
 	return o
 }
 
-func (o CommandArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Command] {
-	return pulumix.Output[[]*Command]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o CommandArrayOutput) Index(i pulumi.IntInput) CommandOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Command {
 		return vs[0].([]*Command)[vs[1].(int)]
@@ -341,12 +341,6 @@ func (o CommandMapOutput) ToCommandMapOutput() CommandMapOutput {
 
 func (o CommandMapOutput) ToCommandMapOutputWithContext(ctx context.Context) CommandMapOutput {
 	return o
-}
-
-func (o CommandMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Command] {
-	return pulumix.Output[map[string]*Command]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o CommandMapOutput) MapIndex(k pulumi.StringInput) CommandOutput {

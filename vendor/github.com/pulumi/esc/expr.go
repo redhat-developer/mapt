@@ -15,6 +15,8 @@
 package esc
 
 import (
+	"fmt"
+
 	"github.com/pulumi/esc/schema"
 )
 
@@ -29,22 +31,25 @@ type Expr struct {
 	// The expression that defined this expression's base value, if any.
 	Base *Expr `json:"base,omitempty"`
 
+	// Ranges for the object's keys, if this is an object expression.
+	KeyRanges map[string]Range `json:"keyRanges,omitempty"`
+
 	// The fields below act as a discriminated union. Only one must be non-nil at any given time. If all fields are nil,
 	// then this Expr is a null literal expression.
 
 	// The literal value, if this is a literal expression (nil, bool, json.Number, or string)
 	Literal any `json:"literal,omitempty"`
 
-	// The interpolations, if this is a a string interpolation expression
+	// The interpolations, if this is a string interpolation expression.
 	Interpolate []Interpolation `json:"interpolate,omitempty"`
 
-	// The property accessors, if this is a a symbol expression
+	// The property accessors, if this is a symbol expression.
 	Symbol []PropertyAccessor `json:"symbol,omitempty"`
 
-	// The access, if this is an access expression
+	// The access, if this is an access expression.
 	Access *AccessExpr `json:"access,omitempty"`
 
-	// The list elements, if this is a list expression
+	// The list elements, if this is a list expression.
 	List []Expr `json:"list,omitempty"`
 
 	// The object properties, if this is an object expression.
@@ -70,6 +75,9 @@ type Accessor struct {
 
 	// The key of the property to access. Mutually exclusive with Index.
 	Key *string `json:"key,omitempty"`
+
+	// The range of the accessor.
+	Range Range `json:"range,omitempty"`
 }
 
 // A PropertyAccessor is a single accessor that is associated with a resolved value.
@@ -92,6 +100,7 @@ type AccessExpr struct {
 // A BuiltinExpr is a call to a builtin function.
 type BuiltinExpr struct {
 	Name      string         `json:"name"`
+	NameRange Range          `json:"nameRange"`
 	ArgSchema *schema.Schema `json:"argSchema"`
 	Arg       Expr           `json:"arg"`
 }
@@ -106,6 +115,10 @@ type Range struct {
 
 	// The end of the range.
 	End Pos `json:"end"`
+}
+
+func (r Range) String() string {
+	return fmt.Sprintf("%v:[%v,%v]", r.Environment, r.Begin, r.End)
 }
 
 // Contains returns true if the range contains the given position.
@@ -134,4 +147,8 @@ type Pos struct {
 
 	// Byte is the byte offset into the file where the indicated position begins.
 	Byte int `json:"byte"`
+}
+
+func (p Pos) String() string {
+	return fmt.Sprintf("%v:%v", p.Line, p.Column)
 }

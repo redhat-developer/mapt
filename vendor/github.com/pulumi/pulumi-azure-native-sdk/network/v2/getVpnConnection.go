@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a vpn connection.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2018-04-01, 2018-07-01, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2018-04-01, 2018-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
 func LookupVpnConnection(ctx *pulumi.Context, args *LookupVpnConnectionArgs, opts ...pulumi.InvokeOption) (*LookupVpnConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVpnConnectionResult

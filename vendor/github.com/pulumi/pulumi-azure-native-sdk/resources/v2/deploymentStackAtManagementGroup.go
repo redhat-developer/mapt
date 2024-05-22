@@ -14,6 +14,8 @@ import (
 
 // Deployment stack object.
 // Azure REST API version: 2022-08-01-preview.
+//
+// Other available API versions: 2024-03-01.
 type DeploymentStackAtManagementGroup struct {
 	pulumi.CustomResourceState
 
@@ -80,6 +82,9 @@ func NewDeploymentStackAtManagementGroup(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:resources/v20220801preview:DeploymentStackAtManagementGroup"),
+		},
+		{
+			Type: pulumi.String("azure-native:resources/v20240301:DeploymentStackAtManagementGroup"),
 		},
 	})
 	opts = append(opts, aliases)

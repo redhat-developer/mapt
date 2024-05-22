@@ -13,131 +13,17 @@ import (
 
 // Provides an EC2 launch template resource. Can be used to create instances or auto scaling groups.
 //
-// ## Example Usage
-//
-// ```go
-// package main
-//
-// import (
-//
-//	"encoding/base64"
-//	"fmt"
-//	"os"
-//
-//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
-//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-//
-// )
-//
-//	func filebase64OrPanic(path string) pulumi.StringPtrInput {
-//		if fileData, err := os.ReadFile(path); err == nil {
-//			return pulumi.String(base64.StdEncoding.EncodeToString(fileData[:]))
-//		} else {
-//			panic(err.Error())
-//		}
-//	}
-//
-//	func main() {
-//		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := ec2.NewLaunchTemplate(ctx, "foo", &ec2.LaunchTemplateArgs{
-//				BlockDeviceMappings: ec2.LaunchTemplateBlockDeviceMappingArray{
-//					&ec2.LaunchTemplateBlockDeviceMappingArgs{
-//						DeviceName: pulumi.String("/dev/sdf"),
-//						Ebs: &ec2.LaunchTemplateBlockDeviceMappingEbsArgs{
-//							VolumeSize: pulumi.Int(20),
-//						},
-//					},
-//				},
-//				CapacityReservationSpecification: &ec2.LaunchTemplateCapacityReservationSpecificationArgs{
-//					CapacityReservationPreference: pulumi.String("open"),
-//				},
-//				CpuOptions: &ec2.LaunchTemplateCpuOptionsArgs{
-//					CoreCount:      pulumi.Int(4),
-//					ThreadsPerCore: pulumi.Int(2),
-//				},
-//				CreditSpecification: &ec2.LaunchTemplateCreditSpecificationArgs{
-//					CpuCredits: pulumi.String("standard"),
-//				},
-//				DisableApiStop:        pulumi.Bool(true),
-//				DisableApiTermination: pulumi.Bool(true),
-//				EbsOptimized:          pulumi.String("true"),
-//				ElasticGpuSpecifications: ec2.LaunchTemplateElasticGpuSpecificationArray{
-//					&ec2.LaunchTemplateElasticGpuSpecificationArgs{
-//						Type: pulumi.String("test"),
-//					},
-//				},
-//				ElasticInferenceAccelerator: &ec2.LaunchTemplateElasticInferenceAcceleratorArgs{
-//					Type: pulumi.String("eia1.medium"),
-//				},
-//				IamInstanceProfile: &ec2.LaunchTemplateIamInstanceProfileArgs{
-//					Name: pulumi.String("test"),
-//				},
-//				ImageId:                           pulumi.String("ami-test"),
-//				InstanceInitiatedShutdownBehavior: pulumi.String("terminate"),
-//				InstanceMarketOptions: &ec2.LaunchTemplateInstanceMarketOptionsArgs{
-//					MarketType: pulumi.String("spot"),
-//				},
-//				InstanceType: pulumi.String("t2.micro"),
-//				KernelId:     pulumi.String("test"),
-//				KeyName:      pulumi.String("test"),
-//				LicenseSpecifications: ec2.LaunchTemplateLicenseSpecificationArray{
-//					&ec2.LaunchTemplateLicenseSpecificationArgs{
-//						LicenseConfigurationArn: pulumi.String("arn:aws:license-manager:eu-west-1:123456789012:license-configuration:lic-0123456789abcdef0123456789abcdef"),
-//					},
-//				},
-//				MetadataOptions: &ec2.LaunchTemplateMetadataOptionsArgs{
-//					HttpEndpoint:            pulumi.String("enabled"),
-//					HttpTokens:              pulumi.String("required"),
-//					HttpPutResponseHopLimit: pulumi.Int(1),
-//					InstanceMetadataTags:    pulumi.String("enabled"),
-//				},
-//				Monitoring: &ec2.LaunchTemplateMonitoringArgs{
-//					Enabled: pulumi.Bool(true),
-//				},
-//				NetworkInterfaces: ec2.LaunchTemplateNetworkInterfaceArray{
-//					&ec2.LaunchTemplateNetworkInterfaceArgs{
-//						AssociatePublicIpAddress: pulumi.String("true"),
-//					},
-//				},
-//				Placement: &ec2.LaunchTemplatePlacementArgs{
-//					AvailabilityZone: pulumi.String("us-west-2a"),
-//				},
-//				RamDiskId: pulumi.String("test"),
-//				VpcSecurityGroupIds: pulumi.StringArray{
-//					pulumi.String("sg-12345678"),
-//				},
-//				TagSpecifications: ec2.LaunchTemplateTagSpecificationArray{
-//					&ec2.LaunchTemplateTagSpecificationArgs{
-//						ResourceType: pulumi.String("instance"),
-//						Tags: pulumi.StringMap{
-//							"Name": pulumi.String("test"),
-//						},
-//					},
-//				},
-//				UserData: filebase64OrPanic(fmt.Sprintf("%v/example.sh", path.Module)),
-//			})
-//			if err != nil {
-//				return err
-//			}
-//			return nil
-//		})
-//	}
-//
-// ```
-//
 // ## Import
 //
 // Using `pulumi import`, import Launch Templates using the `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/launchTemplate:LaunchTemplate web lt-12345678
-//
+// $ pulumi import aws:ec2/launchTemplate:LaunchTemplate web lt-12345678
 // ```
 type LaunchTemplate struct {
 	pulumi.CustomResourceState
 
-	// The Amazon Resource Name (ARN) of the instance profile. Conflicts with `name`.
+	// Amazon Resource Name (ARN) of the launch template.
 	Arn pulumi.StringOutput `pulumi:"arn"`
 	// Specify volumes to attach to the instance besides the volumes specified by the AMI.
 	// See Block Devices below for details.
@@ -214,7 +100,7 @@ type LaunchTemplate struct {
 	// A list of security group names to associate with. If you are creating Instances in a VPC, use
 	// `vpcSecurityGroupIds` instead.
 	SecurityGroupNames pulumi.StringArrayOutput `pulumi:"securityGroupNames"`
-	// The tags to apply to the resources during launch. See Tag Specifications below for more details.
+	// The tags to apply to the resources during launch. See Tag Specifications below for more details. Default tags are currently not propagated to ASG created resources so you may wish to inject your default tags into this variable against the relevant child resource types created.
 	TagSpecifications LaunchTemplateTagSpecificationArrayOutput `pulumi:"tagSpecifications"`
 	// A map of tags to assign to the launch template. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
@@ -237,10 +123,6 @@ func NewLaunchTemplate(ctx *pulumi.Context,
 		args = &LaunchTemplateArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource LaunchTemplate
 	err := ctx.RegisterResource("aws:ec2/launchTemplate:LaunchTemplate", name, args, &resource, opts...)
@@ -264,7 +146,7 @@ func GetLaunchTemplate(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering LaunchTemplate resources.
 type launchTemplateState struct {
-	// The Amazon Resource Name (ARN) of the instance profile. Conflicts with `name`.
+	// Amazon Resource Name (ARN) of the launch template.
 	Arn *string `pulumi:"arn"`
 	// Specify volumes to attach to the instance besides the volumes specified by the AMI.
 	// See Block Devices below for details.
@@ -341,7 +223,7 @@ type launchTemplateState struct {
 	// A list of security group names to associate with. If you are creating Instances in a VPC, use
 	// `vpcSecurityGroupIds` instead.
 	SecurityGroupNames []string `pulumi:"securityGroupNames"`
-	// The tags to apply to the resources during launch. See Tag Specifications below for more details.
+	// The tags to apply to the resources during launch. See Tag Specifications below for more details. Default tags are currently not propagated to ASG created resources so you may wish to inject your default tags into this variable against the relevant child resource types created.
 	TagSpecifications []LaunchTemplateTagSpecification `pulumi:"tagSpecifications"`
 	// A map of tags to assign to the launch template. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
@@ -358,7 +240,7 @@ type launchTemplateState struct {
 }
 
 type LaunchTemplateState struct {
-	// The Amazon Resource Name (ARN) of the instance profile. Conflicts with `name`.
+	// Amazon Resource Name (ARN) of the launch template.
 	Arn pulumi.StringPtrInput
 	// Specify volumes to attach to the instance besides the volumes specified by the AMI.
 	// See Block Devices below for details.
@@ -435,7 +317,7 @@ type LaunchTemplateState struct {
 	// A list of security group names to associate with. If you are creating Instances in a VPC, use
 	// `vpcSecurityGroupIds` instead.
 	SecurityGroupNames pulumi.StringArrayInput
-	// The tags to apply to the resources during launch. See Tag Specifications below for more details.
+	// The tags to apply to the resources during launch. See Tag Specifications below for more details. Default tags are currently not propagated to ASG created resources so you may wish to inject your default tags into this variable against the relevant child resource types created.
 	TagSpecifications LaunchTemplateTagSpecificationArrayInput
 	// A map of tags to assign to the launch template. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
@@ -529,7 +411,7 @@ type launchTemplateArgs struct {
 	// A list of security group names to associate with. If you are creating Instances in a VPC, use
 	// `vpcSecurityGroupIds` instead.
 	SecurityGroupNames []string `pulumi:"securityGroupNames"`
-	// The tags to apply to the resources during launch. See Tag Specifications below for more details.
+	// The tags to apply to the resources during launch. See Tag Specifications below for more details. Default tags are currently not propagated to ASG created resources so you may wish to inject your default tags into this variable against the relevant child resource types created.
 	TagSpecifications []LaunchTemplateTagSpecification `pulumi:"tagSpecifications"`
 	// A map of tags to assign to the launch template. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
@@ -616,7 +498,7 @@ type LaunchTemplateArgs struct {
 	// A list of security group names to associate with. If you are creating Instances in a VPC, use
 	// `vpcSecurityGroupIds` instead.
 	SecurityGroupNames pulumi.StringArrayInput
-	// The tags to apply to the resources during launch. See Tag Specifications below for more details.
+	// The tags to apply to the resources during launch. See Tag Specifications below for more details. Default tags are currently not propagated to ASG created resources so you may wish to inject your default tags into this variable against the relevant child resource types created.
 	TagSpecifications LaunchTemplateTagSpecificationArrayInput
 	// A map of tags to assign to the launch template. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
@@ -715,7 +597,7 @@ func (o LaunchTemplateOutput) ToLaunchTemplateOutputWithContext(ctx context.Cont
 	return o
 }
 
-// The Amazon Resource Name (ARN) of the instance profile. Conflicts with `name`.
+// Amazon Resource Name (ARN) of the launch template.
 func (o LaunchTemplateOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v *LaunchTemplate) pulumi.StringOutput { return v.Arn }).(pulumi.StringOutput)
 }
@@ -900,7 +782,7 @@ func (o LaunchTemplateOutput) SecurityGroupNames() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *LaunchTemplate) pulumi.StringArrayOutput { return v.SecurityGroupNames }).(pulumi.StringArrayOutput)
 }
 
-// The tags to apply to the resources during launch. See Tag Specifications below for more details.
+// The tags to apply to the resources during launch. See Tag Specifications below for more details. Default tags are currently not propagated to ASG created resources so you may wish to inject your default tags into this variable against the relevant child resource types created.
 func (o LaunchTemplateOutput) TagSpecifications() LaunchTemplateTagSpecificationArrayOutput {
 	return o.ApplyT(func(v *LaunchTemplate) LaunchTemplateTagSpecificationArrayOutput { return v.TagSpecifications }).(LaunchTemplateTagSpecificationArrayOutput)
 }

@@ -34,7 +34,14 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// Create an AMI that will start a machine whose root device is backed by
+//			// an EBS volume populated from a snapshot. We assume that such a snapshot
+//			// already exists with the id "snap-xxxxxxxx".
 //			_, err := ec2.NewAmi(ctx, "example", &ec2.AmiArgs{
+//				Name:               pulumi.String("example"),
+//				VirtualizationType: pulumi.String("hvm"),
+//				RootDeviceName:     pulumi.String("/dev/xvda"),
+//				ImdsSupport:        pulumi.String("v2.0"),
 //				EbsBlockDevices: ec2.AmiEbsBlockDeviceArray{
 //					&ec2.AmiEbsBlockDeviceArgs{
 //						DeviceName: pulumi.String("/dev/xvda"),
@@ -42,9 +49,6 @@ import (
 //						VolumeSize: pulumi.Int(8),
 //					},
 //				},
-//				ImdsSupport:        pulumi.String("v2.0"),
-//				RootDeviceName:     pulumi.String("/dev/xvda"),
-//				VirtualizationType: pulumi.String("hvm"),
 //			})
 //			if err != nil {
 //				return err
@@ -60,9 +64,7 @@ import (
 // Using `pulumi import`, import `aws_ami` using the ID of the AMI. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/ami:Ami example ami-12345678
-//
+// $ pulumi import aws:ec2/ami:Ami example ami-12345678
 // ```
 type Ami struct {
 	pulumi.CustomResourceState
@@ -86,18 +88,14 @@ type Ami struct {
 	// should be attached to created instances. The structure of this block is described below.
 	EphemeralBlockDevices AmiEphemeralBlockDeviceArrayOutput `pulumi:"ephemeralBlockDevices"`
 	// Hypervisor type of the image.
-	Hypervisor pulumi.StringOutput `pulumi:"hypervisor"`
-	// Path to an S3 object containing an image manifest, e.g., created
-	// by the `ec2-upload-bundle` command in the EC2 command line tools.
+	Hypervisor    pulumi.StringOutput `pulumi:"hypervisor"`
 	ImageLocation pulumi.StringOutput `pulumi:"imageLocation"`
 	// AWS account alias (for example, amazon, self) or the AWS account ID of the AMI owner.
 	ImageOwnerAlias pulumi.StringOutput `pulumi:"imageOwnerAlias"`
 	// Type of image.
 	ImageType pulumi.StringOutput `pulumi:"imageType"`
 	// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
-	ImdsSupport pulumi.StringPtrOutput `pulumi:"imdsSupport"`
-	// ID of the kernel image (AKI) that will be used as the paravirtual
-	// kernel in created instances.
+	ImdsSupport        pulumi.StringPtrOutput `pulumi:"imdsSupport"`
 	KernelId           pulumi.StringPtrOutput `pulumi:"kernelId"`
 	ManageEbsSnapshots pulumi.BoolOutput      `pulumi:"manageEbsSnapshots"`
 	// Region-unique name for the AMI.
@@ -109,16 +107,12 @@ type Ami struct {
 	// Platform details associated with the billing code of the AMI.
 	PlatformDetails pulumi.StringOutput `pulumi:"platformDetails"`
 	// Whether the image has public launch permissions.
-	Public pulumi.BoolOutput `pulumi:"public"`
-	// ID of an initrd image (ARI) that will be used when booting the
-	// created instances.
+	Public    pulumi.BoolOutput      `pulumi:"public"`
 	RamdiskId pulumi.StringPtrOutput `pulumi:"ramdiskId"`
 	// Name of the root device (for example, `/dev/sda1`, or `/dev/xvda`).
 	RootDeviceName pulumi.StringPtrOutput `pulumi:"rootDeviceName"`
 	// Snapshot ID for the root volume (for EBS-backed AMIs)
-	RootSnapshotId pulumi.StringOutput `pulumi:"rootSnapshotId"`
-	// When set to "simple" (the default), enables enhanced networking
-	// for created instances. No other value is supported at this time.
+	RootSnapshotId  pulumi.StringOutput    `pulumi:"rootSnapshotId"`
 	SriovNetSupport pulumi.StringPtrOutput `pulumi:"sriovNetSupport"`
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
@@ -143,10 +137,6 @@ func NewAmi(ctx *pulumi.Context,
 		args = &AmiArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Ami
 	err := ctx.RegisterResource("aws:ec2/ami:Ami", name, args, &resource, opts...)
@@ -189,18 +179,14 @@ type amiState struct {
 	// should be attached to created instances. The structure of this block is described below.
 	EphemeralBlockDevices []AmiEphemeralBlockDevice `pulumi:"ephemeralBlockDevices"`
 	// Hypervisor type of the image.
-	Hypervisor *string `pulumi:"hypervisor"`
-	// Path to an S3 object containing an image manifest, e.g., created
-	// by the `ec2-upload-bundle` command in the EC2 command line tools.
+	Hypervisor    *string `pulumi:"hypervisor"`
 	ImageLocation *string `pulumi:"imageLocation"`
 	// AWS account alias (for example, amazon, self) or the AWS account ID of the AMI owner.
 	ImageOwnerAlias *string `pulumi:"imageOwnerAlias"`
 	// Type of image.
 	ImageType *string `pulumi:"imageType"`
 	// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
-	ImdsSupport *string `pulumi:"imdsSupport"`
-	// ID of the kernel image (AKI) that will be used as the paravirtual
-	// kernel in created instances.
+	ImdsSupport        *string `pulumi:"imdsSupport"`
 	KernelId           *string `pulumi:"kernelId"`
 	ManageEbsSnapshots *bool   `pulumi:"manageEbsSnapshots"`
 	// Region-unique name for the AMI.
@@ -212,16 +198,12 @@ type amiState struct {
 	// Platform details associated with the billing code of the AMI.
 	PlatformDetails *string `pulumi:"platformDetails"`
 	// Whether the image has public launch permissions.
-	Public *bool `pulumi:"public"`
-	// ID of an initrd image (ARI) that will be used when booting the
-	// created instances.
+	Public    *bool   `pulumi:"public"`
 	RamdiskId *string `pulumi:"ramdiskId"`
 	// Name of the root device (for example, `/dev/sda1`, or `/dev/xvda`).
 	RootDeviceName *string `pulumi:"rootDeviceName"`
 	// Snapshot ID for the root volume (for EBS-backed AMIs)
-	RootSnapshotId *string `pulumi:"rootSnapshotId"`
-	// When set to "simple" (the default), enables enhanced networking
-	// for created instances. No other value is supported at this time.
+	RootSnapshotId  *string `pulumi:"rootSnapshotId"`
 	SriovNetSupport *string `pulumi:"sriovNetSupport"`
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
@@ -259,18 +241,14 @@ type AmiState struct {
 	// should be attached to created instances. The structure of this block is described below.
 	EphemeralBlockDevices AmiEphemeralBlockDeviceArrayInput
 	// Hypervisor type of the image.
-	Hypervisor pulumi.StringPtrInput
-	// Path to an S3 object containing an image manifest, e.g., created
-	// by the `ec2-upload-bundle` command in the EC2 command line tools.
+	Hypervisor    pulumi.StringPtrInput
 	ImageLocation pulumi.StringPtrInput
 	// AWS account alias (for example, amazon, self) or the AWS account ID of the AMI owner.
 	ImageOwnerAlias pulumi.StringPtrInput
 	// Type of image.
 	ImageType pulumi.StringPtrInput
 	// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
-	ImdsSupport pulumi.StringPtrInput
-	// ID of the kernel image (AKI) that will be used as the paravirtual
-	// kernel in created instances.
+	ImdsSupport        pulumi.StringPtrInput
 	KernelId           pulumi.StringPtrInput
 	ManageEbsSnapshots pulumi.BoolPtrInput
 	// Region-unique name for the AMI.
@@ -282,16 +260,12 @@ type AmiState struct {
 	// Platform details associated with the billing code of the AMI.
 	PlatformDetails pulumi.StringPtrInput
 	// Whether the image has public launch permissions.
-	Public pulumi.BoolPtrInput
-	// ID of an initrd image (ARI) that will be used when booting the
-	// created instances.
+	Public    pulumi.BoolPtrInput
 	RamdiskId pulumi.StringPtrInput
 	// Name of the root device (for example, `/dev/sda1`, or `/dev/xvda`).
 	RootDeviceName pulumi.StringPtrInput
 	// Snapshot ID for the root volume (for EBS-backed AMIs)
-	RootSnapshotId pulumi.StringPtrInput
-	// When set to "simple" (the default), enables enhanced networking
-	// for created instances. No other value is supported at this time.
+	RootSnapshotId  pulumi.StringPtrInput
 	SriovNetSupport pulumi.StringPtrInput
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
@@ -330,23 +304,15 @@ type amiArgs struct {
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
 	EphemeralBlockDevices []AmiEphemeralBlockDevice `pulumi:"ephemeralBlockDevices"`
-	// Path to an S3 object containing an image manifest, e.g., created
-	// by the `ec2-upload-bundle` command in the EC2 command line tools.
-	ImageLocation *string `pulumi:"imageLocation"`
+	ImageLocation         *string                   `pulumi:"imageLocation"`
 	// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
 	ImdsSupport *string `pulumi:"imdsSupport"`
-	// ID of the kernel image (AKI) that will be used as the paravirtual
-	// kernel in created instances.
-	KernelId *string `pulumi:"kernelId"`
+	KernelId    *string `pulumi:"kernelId"`
 	// Region-unique name for the AMI.
-	Name *string `pulumi:"name"`
-	// ID of an initrd image (ARI) that will be used when booting the
-	// created instances.
+	Name      *string `pulumi:"name"`
 	RamdiskId *string `pulumi:"ramdiskId"`
 	// Name of the root device (for example, `/dev/sda1`, or `/dev/xvda`).
-	RootDeviceName *string `pulumi:"rootDeviceName"`
-	// When set to "simple" (the default), enables enhanced networking
-	// for created instances. No other value is supported at this time.
+	RootDeviceName  *string `pulumi:"rootDeviceName"`
 	SriovNetSupport *string `pulumi:"sriovNetSupport"`
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
@@ -376,23 +342,15 @@ type AmiArgs struct {
 	// Nested block describing an ephemeral block device that
 	// should be attached to created instances. The structure of this block is described below.
 	EphemeralBlockDevices AmiEphemeralBlockDeviceArrayInput
-	// Path to an S3 object containing an image manifest, e.g., created
-	// by the `ec2-upload-bundle` command in the EC2 command line tools.
-	ImageLocation pulumi.StringPtrInput
+	ImageLocation         pulumi.StringPtrInput
 	// If EC2 instances started from this image should require the use of the Instance Metadata Service V2 (IMDSv2), set this argument to `v2.0`. For more information, see [Configure instance metadata options for new instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration).
 	ImdsSupport pulumi.StringPtrInput
-	// ID of the kernel image (AKI) that will be used as the paravirtual
-	// kernel in created instances.
-	KernelId pulumi.StringPtrInput
+	KernelId    pulumi.StringPtrInput
 	// Region-unique name for the AMI.
-	Name pulumi.StringPtrInput
-	// ID of an initrd image (ARI) that will be used when booting the
-	// created instances.
+	Name      pulumi.StringPtrInput
 	RamdiskId pulumi.StringPtrInput
 	// Name of the root device (for example, `/dev/sda1`, or `/dev/xvda`).
-	RootDeviceName pulumi.StringPtrInput
-	// When set to "simple" (the default), enables enhanced networking
-	// for created instances. No other value is supported at this time.
+	RootDeviceName  pulumi.StringPtrInput
 	SriovNetSupport pulumi.StringPtrInput
 	// Map of tags to assign to the resource. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
@@ -538,8 +496,6 @@ func (o AmiOutput) Hypervisor() pulumi.StringOutput {
 	return o.ApplyT(func(v *Ami) pulumi.StringOutput { return v.Hypervisor }).(pulumi.StringOutput)
 }
 
-// Path to an S3 object containing an image manifest, e.g., created
-// by the `ec2-upload-bundle` command in the EC2 command line tools.
 func (o AmiOutput) ImageLocation() pulumi.StringOutput {
 	return o.ApplyT(func(v *Ami) pulumi.StringOutput { return v.ImageLocation }).(pulumi.StringOutput)
 }
@@ -559,8 +515,6 @@ func (o AmiOutput) ImdsSupport() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Ami) pulumi.StringPtrOutput { return v.ImdsSupport }).(pulumi.StringPtrOutput)
 }
 
-// ID of the kernel image (AKI) that will be used as the paravirtual
-// kernel in created instances.
 func (o AmiOutput) KernelId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Ami) pulumi.StringPtrOutput { return v.KernelId }).(pulumi.StringPtrOutput)
 }
@@ -594,8 +548,6 @@ func (o AmiOutput) Public() pulumi.BoolOutput {
 	return o.ApplyT(func(v *Ami) pulumi.BoolOutput { return v.Public }).(pulumi.BoolOutput)
 }
 
-// ID of an initrd image (ARI) that will be used when booting the
-// created instances.
 func (o AmiOutput) RamdiskId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Ami) pulumi.StringPtrOutput { return v.RamdiskId }).(pulumi.StringPtrOutput)
 }
@@ -610,8 +562,6 @@ func (o AmiOutput) RootSnapshotId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Ami) pulumi.StringOutput { return v.RootSnapshotId }).(pulumi.StringOutput)
 }
 
-// When set to "simple" (the default), enables enhanced networking
-// for created instances. No other value is supported at this time.
 func (o AmiOutput) SriovNetSupport() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Ami) pulumi.StringPtrOutput { return v.SriovNetSupport }).(pulumi.StringPtrOutput)
 }

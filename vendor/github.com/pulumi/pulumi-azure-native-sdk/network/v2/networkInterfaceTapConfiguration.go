@@ -15,7 +15,7 @@ import (
 // Tap configuration in a Network Interface.
 // Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
 type NetworkInterfaceTapConfiguration struct {
 	pulumi.CustomResourceState
 
@@ -143,6 +143,12 @@ func NewNetworkInterfaceTapConfiguration(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230601:NetworkInterfaceTapConfiguration"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230901:NetworkInterfaceTapConfiguration"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20231101:NetworkInterfaceTapConfiguration"),
 		},
 	})
 	opts = append(opts, aliases)

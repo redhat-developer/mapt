@@ -57,17 +57,16 @@ import (
 // Using `pulumi import`, import VPC DHCP Options using the DHCP Options `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/defaultVpcDhcpOptions:DefaultVpcDhcpOptions default_options dopt-d9070ebb
-//
+// $ pulumi import aws:ec2/defaultVpcDhcpOptions:DefaultVpcDhcpOptions default_options dopt-d9070ebb
 // ```
 type DefaultVpcDhcpOptions struct {
 	pulumi.CustomResourceState
 
 	// The ARN of the DHCP Options Set.
-	Arn               pulumi.StringOutput `pulumi:"arn"`
-	DomainName        pulumi.StringOutput `pulumi:"domainName"`
-	DomainNameServers pulumi.StringOutput `pulumi:"domainNameServers"`
+	Arn                           pulumi.StringOutput `pulumi:"arn"`
+	DomainName                    pulumi.StringOutput `pulumi:"domainName"`
+	DomainNameServers             pulumi.StringOutput `pulumi:"domainNameServers"`
+	Ipv6AddressPreferredLeaseTime pulumi.StringOutput `pulumi:"ipv6AddressPreferredLeaseTime"`
 	// List of NETBIOS name servers.
 	NetbiosNameServers pulumi.StringOutput `pulumi:"netbiosNameServers"`
 	// The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -88,10 +87,6 @@ func NewDefaultVpcDhcpOptions(ctx *pulumi.Context,
 		args = &DefaultVpcDhcpOptionsArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource DefaultVpcDhcpOptions
 	err := ctx.RegisterResource("aws:ec2/defaultVpcDhcpOptions:DefaultVpcDhcpOptions", name, args, &resource, opts...)
@@ -116,9 +111,10 @@ func GetDefaultVpcDhcpOptions(ctx *pulumi.Context,
 // Input properties used for looking up and filtering DefaultVpcDhcpOptions resources.
 type defaultVpcDhcpOptionsState struct {
 	// The ARN of the DHCP Options Set.
-	Arn               *string `pulumi:"arn"`
-	DomainName        *string `pulumi:"domainName"`
-	DomainNameServers *string `pulumi:"domainNameServers"`
+	Arn                           *string `pulumi:"arn"`
+	DomainName                    *string `pulumi:"domainName"`
+	DomainNameServers             *string `pulumi:"domainNameServers"`
+	Ipv6AddressPreferredLeaseTime *string `pulumi:"ipv6AddressPreferredLeaseTime"`
 	// List of NETBIOS name servers.
 	NetbiosNameServers *string `pulumi:"netbiosNameServers"`
 	// The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -134,9 +130,10 @@ type defaultVpcDhcpOptionsState struct {
 
 type DefaultVpcDhcpOptionsState struct {
 	// The ARN of the DHCP Options Set.
-	Arn               pulumi.StringPtrInput
-	DomainName        pulumi.StringPtrInput
-	DomainNameServers pulumi.StringPtrInput
+	Arn                           pulumi.StringPtrInput
+	DomainName                    pulumi.StringPtrInput
+	DomainNameServers             pulumi.StringPtrInput
+	Ipv6AddressPreferredLeaseTime pulumi.StringPtrInput
 	// List of NETBIOS name servers.
 	NetbiosNameServers pulumi.StringPtrInput
 	// The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -267,6 +264,10 @@ func (o DefaultVpcDhcpOptionsOutput) DomainName() pulumi.StringOutput {
 
 func (o DefaultVpcDhcpOptionsOutput) DomainNameServers() pulumi.StringOutput {
 	return o.ApplyT(func(v *DefaultVpcDhcpOptions) pulumi.StringOutput { return v.DomainNameServers }).(pulumi.StringOutput)
+}
+
+func (o DefaultVpcDhcpOptionsOutput) Ipv6AddressPreferredLeaseTime() pulumi.StringOutput {
+	return o.ApplyT(func(v *DefaultVpcDhcpOptions) pulumi.StringOutput { return v.Ipv6AddressPreferredLeaseTime }).(pulumi.StringOutput)
 }
 
 // List of NETBIOS name servers.

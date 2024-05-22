@@ -15,7 +15,7 @@ import (
 // Deployment information.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-01-01.
 //
-// Other available API versions: 2023-07-01.
+// Other available API versions: 2023-07-01, 2024-03-01.
 type DeploymentAtSubscriptionScope struct {
 	pulumi.CustomResourceState
 
@@ -83,6 +83,9 @@ func NewDeploymentAtSubscriptionScope(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:resources/v20230701:DeploymentAtSubscriptionScope"),
+		},
+		{
+			Type: pulumi.String("azure-native:resources/v20240301:DeploymentAtSubscriptionScope"),
 		},
 	})
 	opts = append(opts, aliases)

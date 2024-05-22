@@ -15,6 +15,10 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+import (
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/internals"
+)
+
 type envParser func(v string) interface{}
 
 func ParseEnvBool(v string) interface{} {
@@ -90,11 +94,78 @@ func IsZero(v interface{}) bool {
 	return reflect.ValueOf(v).IsZero()
 }
 
+func CallPlain(
+	ctx *pulumi.Context,
+	tok string,
+	args pulumi.Input,
+	output pulumi.Output,
+	self pulumi.Resource,
+	property string,
+	resultPtr reflect.Value,
+	errorPtr *error,
+	opts ...pulumi.InvokeOption,
+) {
+	res, err := callPlainInner(ctx, tok, args, output, self, opts...)
+	if err != nil {
+		*errorPtr = err
+		return
+	}
+
+	v := reflect.ValueOf(res)
+
+	// extract res.property field if asked to do so
+	if property != "" {
+		v = v.FieldByName("Res")
+	}
+
+	// return by setting the result pointer; this style of returns shortens the generated code without generics
+	resultPtr.Elem().Set(v)
+}
+
+func callPlainInner(
+	ctx *pulumi.Context,
+	tok string,
+	args pulumi.Input,
+	output pulumi.Output,
+	self pulumi.Resource,
+	opts ...pulumi.InvokeOption,
+) (any, error) {
+	o, err := ctx.Call(tok, args, output, self, opts...)
+	if err != nil {
+		return nil, err
+	}
+
+	outputData, err := internals.UnsafeAwaitOutput(ctx.Context(), o)
+	if err != nil {
+		return nil, err
+	}
+
+	// Ingoring deps silently. They are typically non-empty, r.f() calls include r as a dependency.
+	known := outputData.Known
+	value := outputData.Value
+	secret := outputData.Secret
+
+	problem := ""
+	if !known {
+		problem = "an unknown value"
+	} else if secret {
+		problem = "a secret value"
+	}
+
+	if problem != "" {
+		return nil, fmt.Errorf("Plain resource method %q incorrectly returned %s. "+
+			"This is an error in the provider, please report this to the provider developer.",
+			tok, problem)
+	}
+
+	return value, nil
+}
+
 // PkgResourceDefaultOpts provides package level defaults to pulumi.OptionResource.
 func PkgResourceDefaultOpts(opts []pulumi.ResourceOption) []pulumi.ResourceOption {
 	defaults := []pulumi.ResourceOption{}
 
-	version := SdkVersion
+	version := semver.MustParse("6.37.0")
 	if !version.Equals(semver.Version{}) {
 		defaults = append(defaults, pulumi.Version(version.String()))
 	}
@@ -105,7 +176,7 @@ func PkgResourceDefaultOpts(opts []pulumi.ResourceOption) []pulumi.ResourceOptio
 func PkgInvokeDefaultOpts(opts []pulumi.InvokeOption) []pulumi.InvokeOption {
 	defaults := []pulumi.InvokeOption{}
 
-	version := SdkVersion
+	version := semver.MustParse("6.37.0")
 	if !version.Equals(semver.Version{}) {
 		defaults = append(defaults, pulumi.Version(version.String()))
 	}

@@ -41,9 +41,9 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewVpcEndpointServiceAllowedPrinciple(ctx, "allowMeToFoo", &ec2.VpcEndpointServiceAllowedPrincipleArgs{
-//				VpcEndpointServiceId: pulumi.Any(aws_vpc_endpoint_service.Foo.Id),
-//				PrincipalArn:         *pulumi.String(current.Arn),
+//			_, err = ec2.NewVpcEndpointServiceAllowedPrinciple(ctx, "allow_me_to_foo", &ec2.VpcEndpointServiceAllowedPrincipleArgs{
+//				VpcEndpointServiceId: pulumi.Any(foo.Id),
+//				PrincipalArn:         pulumi.String(current.Arn),
 //			})
 //			if err != nil {
 //				return err

@@ -27,6 +27,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &BlobContainer{}
 	case "azure-native:storage:BlobContainerImmutabilityPolicy":
 		r = &BlobContainerImmutabilityPolicy{}
+	case "azure-native:storage:BlobContainerLegalHold":
+		r = &BlobContainerLegalHold{}
 	case "azure-native:storage:BlobInventoryPolicy":
 		r = &BlobInventoryPolicy{}
 	case "azure-native:storage:BlobServiceProperties":
@@ -53,6 +55,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &StorageAccount{}
 	case "azure-native:storage:StorageAccountStaticWebsite":
 		r = &StorageAccountStaticWebsite{}
+	case "azure-native:storage:StorageTaskAssignment":
+		r = &StorageTaskAssignment{}
 	case "azure-native:storage:Table":
 		r = &Table{}
 	case "azure-native:storage:TableServiceProperties":

@@ -14,6 +14,7 @@ import (
 // Retrieve information about an EC2 DHCP Options configuration.
 //
 // ## Example Usage
+//
 // ### Lookup by DHCP Options ID
 //
 // ```go
@@ -39,6 +40,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Lookup by Filter
 //
 // ```go
@@ -110,6 +112,8 @@ type LookupVpcDhcpOptionsResult struct {
 	Filters           []GetVpcDhcpOptionsFilter `pulumi:"filters"`
 	// The provider-assigned unique ID for this managed resource.
 	Id string `pulumi:"id"`
+	// How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal.
+	Ipv6AddressPreferredLeaseTime string `pulumi:"ipv6AddressPreferredLeaseTime"`
 	// List of NETBIOS name servers.
 	NetbiosNameServers []string `pulumi:"netbiosNameServers"`
 	// NetBIOS node type (1, 2, 4, or 8). For more information about these node types, see [RFC 2132](http://www.ietf.org/rfc/rfc2132.txt).
@@ -191,6 +195,11 @@ func (o LookupVpcDhcpOptionsResultOutput) Filters() GetVpcDhcpOptionsFilterArray
 // The provider-assigned unique ID for this managed resource.
 func (o LookupVpcDhcpOptionsResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVpcDhcpOptionsResult) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal.
+func (o LookupVpcDhcpOptionsResultOutput) Ipv6AddressPreferredLeaseTime() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupVpcDhcpOptionsResult) string { return v.Ipv6AddressPreferredLeaseTime }).(pulumi.StringOutput)
 }
 
 // List of NETBIOS name servers.

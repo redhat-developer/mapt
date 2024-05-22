@@ -15,7 +15,7 @@ import (
 // Specifies information about the proximity placement group.
 // Azure REST API version: 2023-03-01. Prior API version in Azure Native 1.x: 2020-12-01.
 //
-// Other available API versions: 2019-03-01, 2023-07-01.
+// Other available API versions: 2019-03-01, 2023-07-01, 2023-09-01, 2024-03-01.
 type ProximityPlacementGroup struct {
 	pulumi.CustomResourceState
 
@@ -104,6 +104,12 @@ func NewProximityPlacementGroup(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20230701:ProximityPlacementGroup"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20230901:ProximityPlacementGroup"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20240301:ProximityPlacementGroup"),
 		},
 	})
 	opts = append(opts, aliases)

@@ -14,7 +14,7 @@ import (
 // Fetches the details of a ExpressRoute gateway in a resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-03-01, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2021-03-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
 func LookupExpressRouteGateway(ctx *pulumi.Context, args *LookupExpressRouteGatewayArgs, opts ...pulumi.InvokeOption) (*LookupExpressRouteGatewayResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupExpressRouteGatewayResult

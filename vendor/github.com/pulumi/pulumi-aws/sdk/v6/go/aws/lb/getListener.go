@@ -40,6 +40,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
+//			// get listener from load_balancer_arn and port
 //			selected, err := lb.LookupLoadBalancer(ctx, &lb.LookupLoadBalancerArgs{
 //				Name: pulumi.StringRef("default-public"),
 //			}, nil)
@@ -86,12 +87,13 @@ type LookupListenerResult struct {
 	CertificateArn string                     `pulumi:"certificateArn"`
 	DefaultActions []GetListenerDefaultAction `pulumi:"defaultActions"`
 	// The provider-assigned unique ID for this managed resource.
-	Id              string            `pulumi:"id"`
-	LoadBalancerArn string            `pulumi:"loadBalancerArn"`
-	Port            int               `pulumi:"port"`
-	Protocol        string            `pulumi:"protocol"`
-	SslPolicy       string            `pulumi:"sslPolicy"`
-	Tags            map[string]string `pulumi:"tags"`
+	Id                    string                            `pulumi:"id"`
+	LoadBalancerArn       string                            `pulumi:"loadBalancerArn"`
+	MutualAuthentications []GetListenerMutualAuthentication `pulumi:"mutualAuthentications"`
+	Port                  int                               `pulumi:"port"`
+	Protocol              string                            `pulumi:"protocol"`
+	SslPolicy             string                            `pulumi:"sslPolicy"`
+	Tags                  map[string]string                 `pulumi:"tags"`
 }
 
 func LookupListenerOutput(ctx *pulumi.Context, args LookupListenerOutputArgs, opts ...pulumi.InvokeOption) LookupListenerResultOutput {
@@ -160,6 +162,10 @@ func (o LookupListenerResultOutput) Id() pulumi.StringOutput {
 
 func (o LookupListenerResultOutput) LoadBalancerArn() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupListenerResult) string { return v.LoadBalancerArn }).(pulumi.StringOutput)
+}
+
+func (o LookupListenerResultOutput) MutualAuthentications() GetListenerMutualAuthenticationArrayOutput {
+	return o.ApplyT(func(v LookupListenerResult) []GetListenerMutualAuthentication { return v.MutualAuthentications }).(GetListenerMutualAuthenticationArrayOutput)
 }
 
 func (o LookupListenerResultOutput) Port() pulumi.IntOutput {

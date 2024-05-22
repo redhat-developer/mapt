@@ -15,6 +15,7 @@ import (
 // Adds a launch permission to an Amazon Machine Image (AMI).
 //
 // ## Example Usage
+//
 // ### AWS Account ID
 //
 // ```go
@@ -30,8 +31,8 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewAmiLaunchPermission(ctx, "example", &ec2.AmiLaunchPermissionArgs{
-//				AccountId: pulumi.String("123456789012"),
 //				ImageId:   pulumi.String("ami-12345678"),
+//				AccountId: pulumi.String("123456789012"),
 //			})
 //			if err != nil {
 //				return err
@@ -41,6 +42,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Public Access
 //
 // ```go
@@ -56,8 +58,8 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewAmiLaunchPermission(ctx, "example", &ec2.AmiLaunchPermissionArgs{
-//				Group:   pulumi.String("all"),
 //				ImageId: pulumi.String("ami-12345678"),
+//				Group:   pulumi.String("all"),
 //			})
 //			if err != nil {
 //				return err
@@ -67,6 +69,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Organization Access
 //
 // ```go
@@ -88,7 +91,7 @@ import (
 //			}
 //			_, err = ec2.NewAmiLaunchPermission(ctx, "example", &ec2.AmiLaunchPermissionArgs{
 //				ImageId:         pulumi.String("ami-12345678"),
-//				OrganizationArn: *pulumi.String(current.Arn),
+//				OrganizationArn: pulumi.String(current.Arn),
 //			})
 //			if err != nil {
 //				return err
@@ -104,9 +107,7 @@ import (
 // Using `pulumi import`, import AMI Launch Permissions using `[ACCOUNT-ID|GROUP-NAME|ORGANIZATION-ARN|ORGANIZATIONAL-UNIT-ARN]/IMAGE-ID`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/amiLaunchPermission:AmiLaunchPermission example 123456789012/ami-12345678
-//
+// $ pulumi import aws:ec2/amiLaunchPermission:AmiLaunchPermission example 123456789012/ami-12345678
 // ```
 type AmiLaunchPermission struct {
 	pulumi.CustomResourceState

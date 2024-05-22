@@ -29,7 +29,7 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := ec2.NewCarrierGateway(ctx, "example", &ec2.CarrierGatewayArgs{
-//				VpcId: pulumi.Any(aws_vpc.Example.Id),
+//				VpcId: pulumi.Any(exampleAwsVpc.Id),
 //				Tags: pulumi.StringMap{
 //					"Name": pulumi.String("example-carrier-gateway"),
 //				},
@@ -48,9 +48,7 @@ import (
 // Using `pulumi import`, import `aws_ec2_carrier_gateway` using the carrier gateway's ID. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/carrierGateway:CarrierGateway example cgw-12345
-//
+// $ pulumi import aws:ec2/carrierGateway:CarrierGateway example cgw-12345
 // ```
 type CarrierGateway struct {
 	pulumi.CustomResourceState
@@ -79,10 +77,6 @@ func NewCarrierGateway(ctx *pulumi.Context,
 	if args.VpcId == nil {
 		return nil, errors.New("invalid value for required argument 'VpcId'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource CarrierGateway
 	err := ctx.RegisterResource("aws:ec2/carrierGateway:CarrierGateway", name, args, &resource, opts...)

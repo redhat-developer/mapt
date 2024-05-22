@@ -13,6 +13,8 @@ import (
 
 // Retrieves information about a gallery Application Definition.
 // Azure REST API version: 2022-03-03.
+//
+// Other available API versions: 2022-08-03, 2023-07-03.
 func LookupGalleryApplication(ctx *pulumi.Context, args *LookupGalleryApplicationArgs, opts ...pulumi.InvokeOption) (*LookupGalleryApplicationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupGalleryApplicationResult

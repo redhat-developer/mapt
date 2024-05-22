@@ -72,6 +72,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Example Config To Deny All Egress Traffic, Allowing Ingress
 //
 // The following denies all Egress traffic by omitting any `egress` rules, while including the default `ingress` rule to allow all traffic.
@@ -113,6 +114,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Removing `ec2.DefaultSecurityGroup` From Your Configuration
 //
 // Removing this resource from your configuration will remove it from your statefile and management, but will not destroy the Security Group. All ingress or egress rules will be left as they are at the time of removal. You can resume managing them via the AWS Console.
@@ -122,16 +124,14 @@ import (
 // Using `pulumi import`, import Security Groups using the security group `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/defaultSecurityGroup:DefaultSecurityGroup default_sg sg-903004f8
-//
+// $ pulumi import aws:ec2/defaultSecurityGroup:DefaultSecurityGroup default_sg sg-903004f8
 // ```
 type DefaultSecurityGroup struct {
 	pulumi.CustomResourceState
 
 	// ARN of the security group.
 	Arn pulumi.StringOutput `pulumi:"arn"`
-	// Description of this rule.
+	// Description of the security group.
 	Description pulumi.StringOutput `pulumi:"description"`
 	// Configuration block. Detailed below.
 	Egress DefaultSecurityGroupEgressArrayOutput `pulumi:"egress"`
@@ -160,10 +160,6 @@ func NewDefaultSecurityGroup(ctx *pulumi.Context,
 		args = &DefaultSecurityGroupArgs{}
 	}
 
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource DefaultSecurityGroup
 	err := ctx.RegisterResource("aws:ec2/defaultSecurityGroup:DefaultSecurityGroup", name, args, &resource, opts...)
@@ -189,7 +185,7 @@ func GetDefaultSecurityGroup(ctx *pulumi.Context,
 type defaultSecurityGroupState struct {
 	// ARN of the security group.
 	Arn *string `pulumi:"arn"`
-	// Description of this rule.
+	// Description of the security group.
 	Description *string `pulumi:"description"`
 	// Configuration block. Detailed below.
 	Egress []DefaultSecurityGroupEgress `pulumi:"egress"`
@@ -214,7 +210,7 @@ type defaultSecurityGroupState struct {
 type DefaultSecurityGroupState struct {
 	// ARN of the security group.
 	Arn pulumi.StringPtrInput
-	// Description of this rule.
+	// Description of the security group.
 	Description pulumi.StringPtrInput
 	// Configuration block. Detailed below.
 	Egress DefaultSecurityGroupEgressArrayInput
@@ -357,7 +353,7 @@ func (o DefaultSecurityGroupOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v *DefaultSecurityGroup) pulumi.StringOutput { return v.Arn }).(pulumi.StringOutput)
 }
 
-// Description of this rule.
+// Description of the security group.
 func (o DefaultSecurityGroupOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v *DefaultSecurityGroup) pulumi.StringOutput { return v.Description }).(pulumi.StringOutput)
 }

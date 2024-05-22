@@ -129,7 +129,16 @@ func createConfigValue(rawValue interface{}) (config.Value, error) {
 }
 
 func envConfigValue(v esc.Value) config.Plaintext {
+	if v.Unknown {
+		if v.Secret {
+			return config.NewSecurePlaintext("[unknown]")
+		}
+		return config.NewPlaintext("[unknown]")
+	}
+
 	switch repr := v.Value.(type) {
+	case nil:
+		return config.Plaintext{}
 	case bool:
 		return config.NewPlaintext(repr)
 	case json.Number:
@@ -164,6 +173,7 @@ func envConfigValue(v esc.Value) config.Plaintext {
 }
 
 func mergeConfig(
+	ctx context.Context,
 	stackName string,
 	project *Project,
 	stackEnv esc.Value,
@@ -189,7 +199,7 @@ func mergeConfig(
 				return err
 			}
 
-			envValue, err := envConfigValue(value).Encrypt(context.TODO(), encrypter)
+			envValue, err := envConfigValue(value).Encrypt(ctx, encrypter)
 			if err != nil {
 				return err
 			}
@@ -281,6 +291,7 @@ func mergeConfig(
 }
 
 func ValidateStackConfigAndApplyProjectConfig(
+	ctx context.Context,
 	stackName string,
 	project *Project,
 	stackEnv esc.Value,
@@ -288,7 +299,7 @@ func ValidateStackConfigAndApplyProjectConfig(
 	encrypter config.Encrypter,
 	decrypter config.Decrypter,
 ) error {
-	return mergeConfig(stackName, project, stackEnv, stackConfig, encrypter, decrypter, true)
+	return mergeConfig(ctx, stackName, project, stackEnv, stackConfig, encrypter, decrypter, true)
 }
 
 // ApplyConfigDefaults applies the default values for the project configuration onto the stack configuration
@@ -296,11 +307,12 @@ func ValidateStackConfigAndApplyProjectConfig(
 // This is because sometimes during pulumi config ls and pulumi config get, if users are
 // using PassphraseDecrypter, we don't want to always prompt for the values when not necessary
 func ApplyProjectConfig(
+	ctx context.Context,
 	stackName string,
 	project *Project,
 	stackEnv esc.Value,
 	stackConfig config.Map,
 	encrypter config.Encrypter,
 ) error {
-	return mergeConfig(stackName, project, stackEnv, stackConfig, encrypter, nil, false)
+	return mergeConfig(ctx, stackName, project, stackEnv, stackConfig, encrypter, nil, false)
 }

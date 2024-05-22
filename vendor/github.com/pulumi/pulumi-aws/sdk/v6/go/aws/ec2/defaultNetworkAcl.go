@@ -23,6 +23,7 @@ import (
 // For more information about Network ACLs, see the AWS Documentation on [Network ACLs][aws-network-acls].
 //
 // ## Example Usage
+//
 // ### Basic Example
 //
 // The following config gives the Default Network ACL the same rules that AWS includes but pulls the resource under management by this provider. This means that any ACL rules added or changed will be detected as drift.
@@ -76,6 +77,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Example: Deny All Egress Traffic, Allow Ingress
 //
 // The following denies all Egress traffic by omitting any `egress` rules, while including the default `ingress` rule to allow all traffic.
@@ -105,7 +107,7 @@ import (
 //						Protocol:  pulumi.String("-1"),
 //						RuleNo:    pulumi.Int(100),
 //						Action:    pulumi.String("allow"),
-//						CidrBlock: pulumi.Any(aws_default_vpc.Mainvpc.Cidr_block),
+//						CidrBlock: pulumi.Any(mainvpcAwsDefaultVpc.CidrBlock),
 //						FromPort:  pulumi.Int(0),
 //						ToPort:    pulumi.Int(0),
 //					},
@@ -119,6 +121,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Example: Deny All Traffic To Any Subnet In The Default Network ACL
 //
 // This config denies all traffic in the Default ACL. This can be useful if you want to lock down the VPC to force all resources to assign a non-default ACL.
@@ -152,6 +155,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Managing Subnets In A Default Network ACL
 //
 // Within a VPC, all Subnets must be associated with a Network ACL. In order to "delete" the association between a Subnet and a non-default Network ACL, the association is destroyed by replacing it with an association between the Subnet and the Default ACL instead.
@@ -183,6 +187,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Removing `ec2.DefaultNetworkAcl` From Your Configuration
 //
 // Each AWS VPC comes with a Default Network ACL that cannot be deleted. The `ec2.DefaultNetworkAcl` allows you to manage this Network ACL, but the provider cannot destroy it. Removing this resource from your configuration will remove it from your statefile and management, **but will not destroy the Network ACL.** All Subnets associations and ingress or egress rules will be left as they are at the time of removal. You can resume managing them via the AWS Console.
@@ -192,9 +197,7 @@ import (
 // Using `pulumi import`, import Default Network ACLs using the `id`. For example:
 //
 // ```sh
-//
-//	$ pulumi import aws:ec2/defaultNetworkAcl:DefaultNetworkAcl sample acl-7aaabd18
-//
+// $ pulumi import aws:ec2/defaultNetworkAcl:DefaultNetworkAcl sample acl-7aaabd18
 // ```
 type DefaultNetworkAcl struct {
 	pulumi.CustomResourceState
@@ -233,10 +236,6 @@ func NewDefaultNetworkAcl(ctx *pulumi.Context,
 	if args.DefaultNetworkAclId == nil {
 		return nil, errors.New("invalid value for required argument 'DefaultNetworkAclId'")
 	}
-	secrets := pulumi.AdditionalSecretOutputs([]string{
-		"tagsAll",
-	})
-	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource DefaultNetworkAcl
 	err := ctx.RegisterResource("aws:ec2/defaultNetworkAcl:DefaultNetworkAcl", name, args, &resource, opts...)

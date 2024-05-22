@@ -14,6 +14,8 @@ import (
 
 // Specifies information about the gallery image definition that you want to create or update.
 // Azure REST API version: 2022-03-03. Prior API version in Azure Native 1.x: 2020-09-30.
+//
+// Other available API versions: 2022-08-03, 2023-07-03.
 type GalleryImage struct {
 	pulumi.CustomResourceState
 
@@ -106,6 +108,12 @@ func NewGalleryImage(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20220303:GalleryImage"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20220803:GalleryImage"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20230703:GalleryImage"),
 		},
 	})
 	opts = append(opts, aliases)

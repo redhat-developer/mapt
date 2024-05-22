@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'.
@@ -19,6 +18,165 @@ const (
 	CleanupOptionsOnSuccess    = CleanupOptions("OnSuccess")
 	CleanupOptionsOnExpiration = CleanupOptions("OnExpiration")
 )
+
+func (CleanupOptions) ElementType() reflect.Type {
+	return reflect.TypeOf((*CleanupOptions)(nil)).Elem()
+}
+
+func (e CleanupOptions) ToCleanupOptionsOutput() CleanupOptionsOutput {
+	return pulumi.ToOutput(e).(CleanupOptionsOutput)
+}
+
+func (e CleanupOptions) ToCleanupOptionsOutputWithContext(ctx context.Context) CleanupOptionsOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(CleanupOptionsOutput)
+}
+
+func (e CleanupOptions) ToCleanupOptionsPtrOutput() CleanupOptionsPtrOutput {
+	return e.ToCleanupOptionsPtrOutputWithContext(context.Background())
+}
+
+func (e CleanupOptions) ToCleanupOptionsPtrOutputWithContext(ctx context.Context) CleanupOptionsPtrOutput {
+	return CleanupOptions(e).ToCleanupOptionsOutputWithContext(ctx).ToCleanupOptionsPtrOutputWithContext(ctx)
+}
+
+func (e CleanupOptions) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e CleanupOptions) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e CleanupOptions) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e CleanupOptions) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type CleanupOptionsOutput struct{ *pulumi.OutputState }
+
+func (CleanupOptionsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*CleanupOptions)(nil)).Elem()
+}
+
+func (o CleanupOptionsOutput) ToCleanupOptionsOutput() CleanupOptionsOutput {
+	return o
+}
+
+func (o CleanupOptionsOutput) ToCleanupOptionsOutputWithContext(ctx context.Context) CleanupOptionsOutput {
+	return o
+}
+
+func (o CleanupOptionsOutput) ToCleanupOptionsPtrOutput() CleanupOptionsPtrOutput {
+	return o.ToCleanupOptionsPtrOutputWithContext(context.Background())
+}
+
+func (o CleanupOptionsOutput) ToCleanupOptionsPtrOutputWithContext(ctx context.Context) CleanupOptionsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v CleanupOptions) *CleanupOptions {
+		return &v
+	}).(CleanupOptionsPtrOutput)
+}
+
+func (o CleanupOptionsOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o CleanupOptionsOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e CleanupOptions) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o CleanupOptionsOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o CleanupOptionsOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e CleanupOptions) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type CleanupOptionsPtrOutput struct{ *pulumi.OutputState }
+
+func (CleanupOptionsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**CleanupOptions)(nil)).Elem()
+}
+
+func (o CleanupOptionsPtrOutput) ToCleanupOptionsPtrOutput() CleanupOptionsPtrOutput {
+	return o
+}
+
+func (o CleanupOptionsPtrOutput) ToCleanupOptionsPtrOutputWithContext(ctx context.Context) CleanupOptionsPtrOutput {
+	return o
+}
+
+func (o CleanupOptionsPtrOutput) Elem() CleanupOptionsOutput {
+	return o.ApplyT(func(v *CleanupOptions) CleanupOptions {
+		if v != nil {
+			return *v
+		}
+		var ret CleanupOptions
+		return ret
+	}).(CleanupOptionsOutput)
+}
+
+func (o CleanupOptionsPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o CleanupOptionsPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *CleanupOptions) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// CleanupOptionsInput is an input type that accepts values of the CleanupOptions enum
+// A concrete instance of `CleanupOptionsInput` can be one of the following:
+//
+//	CleanupOptionsAlways
+//	CleanupOptionsOnSuccess
+//	CleanupOptionsOnExpiration
+type CleanupOptionsInput interface {
+	pulumi.Input
+
+	ToCleanupOptionsOutput() CleanupOptionsOutput
+	ToCleanupOptionsOutputWithContext(context.Context) CleanupOptionsOutput
+}
+
+var cleanupOptionsPtrType = reflect.TypeOf((**CleanupOptions)(nil)).Elem()
+
+type CleanupOptionsPtrInput interface {
+	pulumi.Input
+
+	ToCleanupOptionsPtrOutput() CleanupOptionsPtrOutput
+	ToCleanupOptionsPtrOutputWithContext(context.Context) CleanupOptionsPtrOutput
+}
+
+type cleanupOptionsPtr string
+
+func CleanupOptionsPtr(v string) CleanupOptionsPtrInput {
+	return (*cleanupOptionsPtr)(&v)
+}
+
+func (*cleanupOptionsPtr) ElementType() reflect.Type {
+	return cleanupOptionsPtrType
+}
+
+func (in *cleanupOptionsPtr) ToCleanupOptionsPtrOutput() CleanupOptionsPtrOutput {
+	return pulumi.ToOutput(in).(CleanupOptionsPtrOutput)
+}
+
+func (in *cleanupOptionsPtr) ToCleanupOptionsPtrOutputWithContext(ctx context.Context) CleanupOptionsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(CleanupOptionsPtrOutput)
+}
 
 // denySettings Mode.
 type DenySettingsMode string
@@ -31,6 +189,165 @@ const (
 	// No denyAssignments have been applied.
 	DenySettingsModeNone = DenySettingsMode("none")
 )
+
+func (DenySettingsMode) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenySettingsMode)(nil)).Elem()
+}
+
+func (e DenySettingsMode) ToDenySettingsModeOutput() DenySettingsModeOutput {
+	return pulumi.ToOutput(e).(DenySettingsModeOutput)
+}
+
+func (e DenySettingsMode) ToDenySettingsModeOutputWithContext(ctx context.Context) DenySettingsModeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(DenySettingsModeOutput)
+}
+
+func (e DenySettingsMode) ToDenySettingsModePtrOutput() DenySettingsModePtrOutput {
+	return e.ToDenySettingsModePtrOutputWithContext(context.Background())
+}
+
+func (e DenySettingsMode) ToDenySettingsModePtrOutputWithContext(ctx context.Context) DenySettingsModePtrOutput {
+	return DenySettingsMode(e).ToDenySettingsModeOutputWithContext(ctx).ToDenySettingsModePtrOutputWithContext(ctx)
+}
+
+func (e DenySettingsMode) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DenySettingsMode) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DenySettingsMode) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e DenySettingsMode) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type DenySettingsModeOutput struct{ *pulumi.OutputState }
+
+func (DenySettingsModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenySettingsMode)(nil)).Elem()
+}
+
+func (o DenySettingsModeOutput) ToDenySettingsModeOutput() DenySettingsModeOutput {
+	return o
+}
+
+func (o DenySettingsModeOutput) ToDenySettingsModeOutputWithContext(ctx context.Context) DenySettingsModeOutput {
+	return o
+}
+
+func (o DenySettingsModeOutput) ToDenySettingsModePtrOutput() DenySettingsModePtrOutput {
+	return o.ToDenySettingsModePtrOutputWithContext(context.Background())
+}
+
+func (o DenySettingsModeOutput) ToDenySettingsModePtrOutputWithContext(ctx context.Context) DenySettingsModePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v DenySettingsMode) *DenySettingsMode {
+		return &v
+	}).(DenySettingsModePtrOutput)
+}
+
+func (o DenySettingsModeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o DenySettingsModeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DenySettingsMode) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o DenySettingsModeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DenySettingsModeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DenySettingsMode) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type DenySettingsModePtrOutput struct{ *pulumi.OutputState }
+
+func (DenySettingsModePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**DenySettingsMode)(nil)).Elem()
+}
+
+func (o DenySettingsModePtrOutput) ToDenySettingsModePtrOutput() DenySettingsModePtrOutput {
+	return o
+}
+
+func (o DenySettingsModePtrOutput) ToDenySettingsModePtrOutputWithContext(ctx context.Context) DenySettingsModePtrOutput {
+	return o
+}
+
+func (o DenySettingsModePtrOutput) Elem() DenySettingsModeOutput {
+	return o.ApplyT(func(v *DenySettingsMode) DenySettingsMode {
+		if v != nil {
+			return *v
+		}
+		var ret DenySettingsMode
+		return ret
+	}).(DenySettingsModeOutput)
+}
+
+func (o DenySettingsModePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DenySettingsModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *DenySettingsMode) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// DenySettingsModeInput is an input type that accepts values of the DenySettingsMode enum
+// A concrete instance of `DenySettingsModeInput` can be one of the following:
+//
+//	DenySettingsModeDenyDelete
+//	DenySettingsModeDenyWriteAndDelete
+//	DenySettingsModeNone
+type DenySettingsModeInput interface {
+	pulumi.Input
+
+	ToDenySettingsModeOutput() DenySettingsModeOutput
+	ToDenySettingsModeOutputWithContext(context.Context) DenySettingsModeOutput
+}
+
+var denySettingsModePtrType = reflect.TypeOf((**DenySettingsMode)(nil)).Elem()
+
+type DenySettingsModePtrInput interface {
+	pulumi.Input
+
+	ToDenySettingsModePtrOutput() DenySettingsModePtrOutput
+	ToDenySettingsModePtrOutputWithContext(context.Context) DenySettingsModePtrOutput
+}
+
+type denySettingsModePtr string
+
+func DenySettingsModePtr(v string) DenySettingsModePtrInput {
+	return (*denySettingsModePtr)(&v)
+}
+
+func (*denySettingsModePtr) ElementType() reflect.Type {
+	return denySettingsModePtrType
+}
+
+func (in *denySettingsModePtr) ToDenySettingsModePtrOutput() DenySettingsModePtrOutput {
+	return pulumi.ToOutput(in).(DenySettingsModePtrOutput)
+}
+
+func (in *denySettingsModePtr) ToDenySettingsModePtrOutputWithContext(ctx context.Context) DenySettingsModePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(DenySettingsModePtrOutput)
+}
 
 // The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.
 type DeploymentMode string
@@ -159,10 +476,11 @@ func (o DeploymentModePtrOutput) ToStringPtrOutputWithContext(ctx context.Contex
 	}).(pulumi.StringPtrOutput)
 }
 
-// DeploymentModeInput is an input type that accepts DeploymentModeArgs and DeploymentModeOutput values.
-// You can construct a concrete instance of `DeploymentModeInput` via:
+// DeploymentModeInput is an input type that accepts values of the DeploymentMode enum
+// A concrete instance of `DeploymentModeInput` can be one of the following:
 //
-//	DeploymentModeArgs{...}
+//	DeploymentModeIncremental
+//	DeploymentModeComplete
 type DeploymentModeInput interface {
 	pulumi.Input
 
@@ -197,12 +515,6 @@ func (in *deploymentModePtr) ToDeploymentModePtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(DeploymentModePtrOutput)
 }
 
-func (in *deploymentModePtr) ToOutput(ctx context.Context) pulumix.Output[*DeploymentMode] {
-	return pulumix.Output[*DeploymentMode]{
-		OutputState: in.ToDeploymentModePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Specifies the action that should be taken on the resource when the deployment stack is deleted. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
 type DeploymentStacksDeleteDetachEnum string
 
@@ -210,6 +522,164 @@ const (
 	DeploymentStacksDeleteDetachEnumDelete = DeploymentStacksDeleteDetachEnum("delete")
 	DeploymentStacksDeleteDetachEnumDetach = DeploymentStacksDeleteDetachEnum("detach")
 )
+
+func (DeploymentStacksDeleteDetachEnum) ElementType() reflect.Type {
+	return reflect.TypeOf((*DeploymentStacksDeleteDetachEnum)(nil)).Elem()
+}
+
+func (e DeploymentStacksDeleteDetachEnum) ToDeploymentStacksDeleteDetachEnumOutput() DeploymentStacksDeleteDetachEnumOutput {
+	return pulumi.ToOutput(e).(DeploymentStacksDeleteDetachEnumOutput)
+}
+
+func (e DeploymentStacksDeleteDetachEnum) ToDeploymentStacksDeleteDetachEnumOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(DeploymentStacksDeleteDetachEnumOutput)
+}
+
+func (e DeploymentStacksDeleteDetachEnum) ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput {
+	return e.ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(context.Background())
+}
+
+func (e DeploymentStacksDeleteDetachEnum) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
+	return DeploymentStacksDeleteDetachEnum(e).ToDeploymentStacksDeleteDetachEnumOutputWithContext(ctx).ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx)
+}
+
+func (e DeploymentStacksDeleteDetachEnum) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DeploymentStacksDeleteDetachEnum) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DeploymentStacksDeleteDetachEnum) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e DeploymentStacksDeleteDetachEnum) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type DeploymentStacksDeleteDetachEnumOutput struct{ *pulumi.OutputState }
+
+func (DeploymentStacksDeleteDetachEnumOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DeploymentStacksDeleteDetachEnum)(nil)).Elem()
+}
+
+func (o DeploymentStacksDeleteDetachEnumOutput) ToDeploymentStacksDeleteDetachEnumOutput() DeploymentStacksDeleteDetachEnumOutput {
+	return o
+}
+
+func (o DeploymentStacksDeleteDetachEnumOutput) ToDeploymentStacksDeleteDetachEnumOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumOutput {
+	return o
+}
+
+func (o DeploymentStacksDeleteDetachEnumOutput) ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput {
+	return o.ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentStacksDeleteDetachEnumOutput) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v DeploymentStacksDeleteDetachEnum) *DeploymentStacksDeleteDetachEnum {
+		return &v
+	}).(DeploymentStacksDeleteDetachEnumPtrOutput)
+}
+
+func (o DeploymentStacksDeleteDetachEnumOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o DeploymentStacksDeleteDetachEnumOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentStacksDeleteDetachEnum) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o DeploymentStacksDeleteDetachEnumOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentStacksDeleteDetachEnumOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentStacksDeleteDetachEnum) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type DeploymentStacksDeleteDetachEnumPtrOutput struct{ *pulumi.OutputState }
+
+func (DeploymentStacksDeleteDetachEnumPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**DeploymentStacksDeleteDetachEnum)(nil)).Elem()
+}
+
+func (o DeploymentStacksDeleteDetachEnumPtrOutput) ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput {
+	return o
+}
+
+func (o DeploymentStacksDeleteDetachEnumPtrOutput) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
+	return o
+}
+
+func (o DeploymentStacksDeleteDetachEnumPtrOutput) Elem() DeploymentStacksDeleteDetachEnumOutput {
+	return o.ApplyT(func(v *DeploymentStacksDeleteDetachEnum) DeploymentStacksDeleteDetachEnum {
+		if v != nil {
+			return *v
+		}
+		var ret DeploymentStacksDeleteDetachEnum
+		return ret
+	}).(DeploymentStacksDeleteDetachEnumOutput)
+}
+
+func (o DeploymentStacksDeleteDetachEnumPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentStacksDeleteDetachEnumPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *DeploymentStacksDeleteDetachEnum) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// DeploymentStacksDeleteDetachEnumInput is an input type that accepts values of the DeploymentStacksDeleteDetachEnum enum
+// A concrete instance of `DeploymentStacksDeleteDetachEnumInput` can be one of the following:
+//
+//	DeploymentStacksDeleteDetachEnumDelete
+//	DeploymentStacksDeleteDetachEnumDetach
+type DeploymentStacksDeleteDetachEnumInput interface {
+	pulumi.Input
+
+	ToDeploymentStacksDeleteDetachEnumOutput() DeploymentStacksDeleteDetachEnumOutput
+	ToDeploymentStacksDeleteDetachEnumOutputWithContext(context.Context) DeploymentStacksDeleteDetachEnumOutput
+}
+
+var deploymentStacksDeleteDetachEnumPtrType = reflect.TypeOf((**DeploymentStacksDeleteDetachEnum)(nil)).Elem()
+
+type DeploymentStacksDeleteDetachEnumPtrInput interface {
+	pulumi.Input
+
+	ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput
+	ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(context.Context) DeploymentStacksDeleteDetachEnumPtrOutput
+}
+
+type deploymentStacksDeleteDetachEnumPtr string
+
+func DeploymentStacksDeleteDetachEnumPtr(v string) DeploymentStacksDeleteDetachEnumPtrInput {
+	return (*deploymentStacksDeleteDetachEnumPtr)(&v)
+}
+
+func (*deploymentStacksDeleteDetachEnumPtr) ElementType() reflect.Type {
+	return deploymentStacksDeleteDetachEnumPtrType
+}
+
+func (in *deploymentStacksDeleteDetachEnumPtr) ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput {
+	return pulumi.ToOutput(in).(DeploymentStacksDeleteDetachEnumPtrOutput)
+}
+
+func (in *deploymentStacksDeleteDetachEnumPtr) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(DeploymentStacksDeleteDetachEnumPtrOutput)
+}
 
 // The scope to be used for evaluation of parameters, variables and functions in a nested template.
 type ExpressionEvaluationOptionsScopeType string
@@ -220,6 +690,165 @@ const (
 	ExpressionEvaluationOptionsScopeTypeInner        = ExpressionEvaluationOptionsScopeType("Inner")
 )
 
+func (ExpressionEvaluationOptionsScopeType) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExpressionEvaluationOptionsScopeType)(nil)).Elem()
+}
+
+func (e ExpressionEvaluationOptionsScopeType) ToExpressionEvaluationOptionsScopeTypeOutput() ExpressionEvaluationOptionsScopeTypeOutput {
+	return pulumi.ToOutput(e).(ExpressionEvaluationOptionsScopeTypeOutput)
+}
+
+func (e ExpressionEvaluationOptionsScopeType) ToExpressionEvaluationOptionsScopeTypeOutputWithContext(ctx context.Context) ExpressionEvaluationOptionsScopeTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ExpressionEvaluationOptionsScopeTypeOutput)
+}
+
+func (e ExpressionEvaluationOptionsScopeType) ToExpressionEvaluationOptionsScopeTypePtrOutput() ExpressionEvaluationOptionsScopeTypePtrOutput {
+	return e.ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(context.Background())
+}
+
+func (e ExpressionEvaluationOptionsScopeType) ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(ctx context.Context) ExpressionEvaluationOptionsScopeTypePtrOutput {
+	return ExpressionEvaluationOptionsScopeType(e).ToExpressionEvaluationOptionsScopeTypeOutputWithContext(ctx).ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(ctx)
+}
+
+func (e ExpressionEvaluationOptionsScopeType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ExpressionEvaluationOptionsScopeType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ExpressionEvaluationOptionsScopeType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ExpressionEvaluationOptionsScopeType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ExpressionEvaluationOptionsScopeTypeOutput struct{ *pulumi.OutputState }
+
+func (ExpressionEvaluationOptionsScopeTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExpressionEvaluationOptionsScopeType)(nil)).Elem()
+}
+
+func (o ExpressionEvaluationOptionsScopeTypeOutput) ToExpressionEvaluationOptionsScopeTypeOutput() ExpressionEvaluationOptionsScopeTypeOutput {
+	return o
+}
+
+func (o ExpressionEvaluationOptionsScopeTypeOutput) ToExpressionEvaluationOptionsScopeTypeOutputWithContext(ctx context.Context) ExpressionEvaluationOptionsScopeTypeOutput {
+	return o
+}
+
+func (o ExpressionEvaluationOptionsScopeTypeOutput) ToExpressionEvaluationOptionsScopeTypePtrOutput() ExpressionEvaluationOptionsScopeTypePtrOutput {
+	return o.ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(context.Background())
+}
+
+func (o ExpressionEvaluationOptionsScopeTypeOutput) ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(ctx context.Context) ExpressionEvaluationOptionsScopeTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ExpressionEvaluationOptionsScopeType) *ExpressionEvaluationOptionsScopeType {
+		return &v
+	}).(ExpressionEvaluationOptionsScopeTypePtrOutput)
+}
+
+func (o ExpressionEvaluationOptionsScopeTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ExpressionEvaluationOptionsScopeTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ExpressionEvaluationOptionsScopeType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ExpressionEvaluationOptionsScopeTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ExpressionEvaluationOptionsScopeTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ExpressionEvaluationOptionsScopeType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ExpressionEvaluationOptionsScopeTypePtrOutput struct{ *pulumi.OutputState }
+
+func (ExpressionEvaluationOptionsScopeTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ExpressionEvaluationOptionsScopeType)(nil)).Elem()
+}
+
+func (o ExpressionEvaluationOptionsScopeTypePtrOutput) ToExpressionEvaluationOptionsScopeTypePtrOutput() ExpressionEvaluationOptionsScopeTypePtrOutput {
+	return o
+}
+
+func (o ExpressionEvaluationOptionsScopeTypePtrOutput) ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(ctx context.Context) ExpressionEvaluationOptionsScopeTypePtrOutput {
+	return o
+}
+
+func (o ExpressionEvaluationOptionsScopeTypePtrOutput) Elem() ExpressionEvaluationOptionsScopeTypeOutput {
+	return o.ApplyT(func(v *ExpressionEvaluationOptionsScopeType) ExpressionEvaluationOptionsScopeType {
+		if v != nil {
+			return *v
+		}
+		var ret ExpressionEvaluationOptionsScopeType
+		return ret
+	}).(ExpressionEvaluationOptionsScopeTypeOutput)
+}
+
+func (o ExpressionEvaluationOptionsScopeTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ExpressionEvaluationOptionsScopeTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ExpressionEvaluationOptionsScopeType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ExpressionEvaluationOptionsScopeTypeInput is an input type that accepts values of the ExpressionEvaluationOptionsScopeType enum
+// A concrete instance of `ExpressionEvaluationOptionsScopeTypeInput` can be one of the following:
+//
+//	ExpressionEvaluationOptionsScopeTypeNotSpecified
+//	ExpressionEvaluationOptionsScopeTypeOuter
+//	ExpressionEvaluationOptionsScopeTypeInner
+type ExpressionEvaluationOptionsScopeTypeInput interface {
+	pulumi.Input
+
+	ToExpressionEvaluationOptionsScopeTypeOutput() ExpressionEvaluationOptionsScopeTypeOutput
+	ToExpressionEvaluationOptionsScopeTypeOutputWithContext(context.Context) ExpressionEvaluationOptionsScopeTypeOutput
+}
+
+var expressionEvaluationOptionsScopeTypePtrType = reflect.TypeOf((**ExpressionEvaluationOptionsScopeType)(nil)).Elem()
+
+type ExpressionEvaluationOptionsScopeTypePtrInput interface {
+	pulumi.Input
+
+	ToExpressionEvaluationOptionsScopeTypePtrOutput() ExpressionEvaluationOptionsScopeTypePtrOutput
+	ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(context.Context) ExpressionEvaluationOptionsScopeTypePtrOutput
+}
+
+type expressionEvaluationOptionsScopeTypePtr string
+
+func ExpressionEvaluationOptionsScopeTypePtr(v string) ExpressionEvaluationOptionsScopeTypePtrInput {
+	return (*expressionEvaluationOptionsScopeTypePtr)(&v)
+}
+
+func (*expressionEvaluationOptionsScopeTypePtr) ElementType() reflect.Type {
+	return expressionEvaluationOptionsScopeTypePtrType
+}
+
+func (in *expressionEvaluationOptionsScopeTypePtr) ToExpressionEvaluationOptionsScopeTypePtrOutput() ExpressionEvaluationOptionsScopeTypePtrOutput {
+	return pulumi.ToOutput(in).(ExpressionEvaluationOptionsScopeTypePtrOutput)
+}
+
+func (in *expressionEvaluationOptionsScopeTypePtr) ToExpressionEvaluationOptionsScopeTypePtrOutputWithContext(ctx context.Context) ExpressionEvaluationOptionsScopeTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ExpressionEvaluationOptionsScopeTypePtrOutput)
+}
+
 // The extended location type.
 type ExtendedLocationType string
 
@@ -227,12 +856,326 @@ const (
 	ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
 )
 
+func (ExtendedLocationType) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExtendedLocationType)(nil)).Elem()
+}
+
+func (e ExtendedLocationType) ToExtendedLocationTypeOutput() ExtendedLocationTypeOutput {
+	return pulumi.ToOutput(e).(ExtendedLocationTypeOutput)
+}
+
+func (e ExtendedLocationType) ToExtendedLocationTypeOutputWithContext(ctx context.Context) ExtendedLocationTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ExtendedLocationTypeOutput)
+}
+
+func (e ExtendedLocationType) ToExtendedLocationTypePtrOutput() ExtendedLocationTypePtrOutput {
+	return e.ToExtendedLocationTypePtrOutputWithContext(context.Background())
+}
+
+func (e ExtendedLocationType) ToExtendedLocationTypePtrOutputWithContext(ctx context.Context) ExtendedLocationTypePtrOutput {
+	return ExtendedLocationType(e).ToExtendedLocationTypeOutputWithContext(ctx).ToExtendedLocationTypePtrOutputWithContext(ctx)
+}
+
+func (e ExtendedLocationType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ExtendedLocationType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ExtendedLocationType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ExtendedLocationType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ExtendedLocationTypeOutput struct{ *pulumi.OutputState }
+
+func (ExtendedLocationTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExtendedLocationType)(nil)).Elem()
+}
+
+func (o ExtendedLocationTypeOutput) ToExtendedLocationTypeOutput() ExtendedLocationTypeOutput {
+	return o
+}
+
+func (o ExtendedLocationTypeOutput) ToExtendedLocationTypeOutputWithContext(ctx context.Context) ExtendedLocationTypeOutput {
+	return o
+}
+
+func (o ExtendedLocationTypeOutput) ToExtendedLocationTypePtrOutput() ExtendedLocationTypePtrOutput {
+	return o.ToExtendedLocationTypePtrOutputWithContext(context.Background())
+}
+
+func (o ExtendedLocationTypeOutput) ToExtendedLocationTypePtrOutputWithContext(ctx context.Context) ExtendedLocationTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ExtendedLocationType) *ExtendedLocationType {
+		return &v
+	}).(ExtendedLocationTypePtrOutput)
+}
+
+func (o ExtendedLocationTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ExtendedLocationTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ExtendedLocationType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ExtendedLocationTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ExtendedLocationTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ExtendedLocationType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ExtendedLocationTypePtrOutput struct{ *pulumi.OutputState }
+
+func (ExtendedLocationTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ExtendedLocationType)(nil)).Elem()
+}
+
+func (o ExtendedLocationTypePtrOutput) ToExtendedLocationTypePtrOutput() ExtendedLocationTypePtrOutput {
+	return o
+}
+
+func (o ExtendedLocationTypePtrOutput) ToExtendedLocationTypePtrOutputWithContext(ctx context.Context) ExtendedLocationTypePtrOutput {
+	return o
+}
+
+func (o ExtendedLocationTypePtrOutput) Elem() ExtendedLocationTypeOutput {
+	return o.ApplyT(func(v *ExtendedLocationType) ExtendedLocationType {
+		if v != nil {
+			return *v
+		}
+		var ret ExtendedLocationType
+		return ret
+	}).(ExtendedLocationTypeOutput)
+}
+
+func (o ExtendedLocationTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ExtendedLocationTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ExtendedLocationType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ExtendedLocationTypeInput is an input type that accepts values of the ExtendedLocationType enum
+// A concrete instance of `ExtendedLocationTypeInput` can be one of the following:
+//
+//	ExtendedLocationTypeEdgeZone
+type ExtendedLocationTypeInput interface {
+	pulumi.Input
+
+	ToExtendedLocationTypeOutput() ExtendedLocationTypeOutput
+	ToExtendedLocationTypeOutputWithContext(context.Context) ExtendedLocationTypeOutput
+}
+
+var extendedLocationTypePtrType = reflect.TypeOf((**ExtendedLocationType)(nil)).Elem()
+
+type ExtendedLocationTypePtrInput interface {
+	pulumi.Input
+
+	ToExtendedLocationTypePtrOutput() ExtendedLocationTypePtrOutput
+	ToExtendedLocationTypePtrOutputWithContext(context.Context) ExtendedLocationTypePtrOutput
+}
+
+type extendedLocationTypePtr string
+
+func ExtendedLocationTypePtr(v string) ExtendedLocationTypePtrInput {
+	return (*extendedLocationTypePtr)(&v)
+}
+
+func (*extendedLocationTypePtr) ElementType() reflect.Type {
+	return extendedLocationTypePtrType
+}
+
+func (in *extendedLocationTypePtr) ToExtendedLocationTypePtrOutput() ExtendedLocationTypePtrOutput {
+	return pulumi.ToOutput(in).(ExtendedLocationTypePtrOutput)
+}
+
+func (in *extendedLocationTypePtr) ToExtendedLocationTypePtrOutputWithContext(ctx context.Context) ExtendedLocationTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ExtendedLocationTypePtrOutput)
+}
+
 // Type of the managed identity.
 type ManagedServiceIdentityType string
 
 const (
 	ManagedServiceIdentityTypeUserAssigned = ManagedServiceIdentityType("UserAssigned")
 )
+
+func (ManagedServiceIdentityType) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedServiceIdentityType)(nil)).Elem()
+}
+
+func (e ManagedServiceIdentityType) ToManagedServiceIdentityTypeOutput() ManagedServiceIdentityTypeOutput {
+	return pulumi.ToOutput(e).(ManagedServiceIdentityTypeOutput)
+}
+
+func (e ManagedServiceIdentityType) ToManagedServiceIdentityTypeOutputWithContext(ctx context.Context) ManagedServiceIdentityTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ManagedServiceIdentityTypeOutput)
+}
+
+func (e ManagedServiceIdentityType) ToManagedServiceIdentityTypePtrOutput() ManagedServiceIdentityTypePtrOutput {
+	return e.ToManagedServiceIdentityTypePtrOutputWithContext(context.Background())
+}
+
+func (e ManagedServiceIdentityType) ToManagedServiceIdentityTypePtrOutputWithContext(ctx context.Context) ManagedServiceIdentityTypePtrOutput {
+	return ManagedServiceIdentityType(e).ToManagedServiceIdentityTypeOutputWithContext(ctx).ToManagedServiceIdentityTypePtrOutputWithContext(ctx)
+}
+
+func (e ManagedServiceIdentityType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ManagedServiceIdentityType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ManagedServiceIdentityType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ManagedServiceIdentityType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ManagedServiceIdentityTypeOutput struct{ *pulumi.OutputState }
+
+func (ManagedServiceIdentityTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedServiceIdentityType)(nil)).Elem()
+}
+
+func (o ManagedServiceIdentityTypeOutput) ToManagedServiceIdentityTypeOutput() ManagedServiceIdentityTypeOutput {
+	return o
+}
+
+func (o ManagedServiceIdentityTypeOutput) ToManagedServiceIdentityTypeOutputWithContext(ctx context.Context) ManagedServiceIdentityTypeOutput {
+	return o
+}
+
+func (o ManagedServiceIdentityTypeOutput) ToManagedServiceIdentityTypePtrOutput() ManagedServiceIdentityTypePtrOutput {
+	return o.ToManagedServiceIdentityTypePtrOutputWithContext(context.Background())
+}
+
+func (o ManagedServiceIdentityTypeOutput) ToManagedServiceIdentityTypePtrOutputWithContext(ctx context.Context) ManagedServiceIdentityTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ManagedServiceIdentityType) *ManagedServiceIdentityType {
+		return &v
+	}).(ManagedServiceIdentityTypePtrOutput)
+}
+
+func (o ManagedServiceIdentityTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ManagedServiceIdentityTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ManagedServiceIdentityType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ManagedServiceIdentityTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ManagedServiceIdentityTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ManagedServiceIdentityType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ManagedServiceIdentityTypePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedServiceIdentityTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedServiceIdentityType)(nil)).Elem()
+}
+
+func (o ManagedServiceIdentityTypePtrOutput) ToManagedServiceIdentityTypePtrOutput() ManagedServiceIdentityTypePtrOutput {
+	return o
+}
+
+func (o ManagedServiceIdentityTypePtrOutput) ToManagedServiceIdentityTypePtrOutputWithContext(ctx context.Context) ManagedServiceIdentityTypePtrOutput {
+	return o
+}
+
+func (o ManagedServiceIdentityTypePtrOutput) Elem() ManagedServiceIdentityTypeOutput {
+	return o.ApplyT(func(v *ManagedServiceIdentityType) ManagedServiceIdentityType {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedServiceIdentityType
+		return ret
+	}).(ManagedServiceIdentityTypeOutput)
+}
+
+func (o ManagedServiceIdentityTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ManagedServiceIdentityTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ManagedServiceIdentityType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ManagedServiceIdentityTypeInput is an input type that accepts values of the ManagedServiceIdentityType enum
+// A concrete instance of `ManagedServiceIdentityTypeInput` can be one of the following:
+//
+//	ManagedServiceIdentityTypeUserAssigned
+type ManagedServiceIdentityTypeInput interface {
+	pulumi.Input
+
+	ToManagedServiceIdentityTypeOutput() ManagedServiceIdentityTypeOutput
+	ToManagedServiceIdentityTypeOutputWithContext(context.Context) ManagedServiceIdentityTypeOutput
+}
+
+var managedServiceIdentityTypePtrType = reflect.TypeOf((**ManagedServiceIdentityType)(nil)).Elem()
+
+type ManagedServiceIdentityTypePtrInput interface {
+	pulumi.Input
+
+	ToManagedServiceIdentityTypePtrOutput() ManagedServiceIdentityTypePtrOutput
+	ToManagedServiceIdentityTypePtrOutputWithContext(context.Context) ManagedServiceIdentityTypePtrOutput
+}
+
+type managedServiceIdentityTypePtr string
+
+func ManagedServiceIdentityTypePtr(v string) ManagedServiceIdentityTypePtrInput {
+	return (*managedServiceIdentityTypePtr)(&v)
+}
+
+func (*managedServiceIdentityTypePtr) ElementType() reflect.Type {
+	return managedServiceIdentityTypePtrType
+}
+
+func (in *managedServiceIdentityTypePtr) ToManagedServiceIdentityTypePtrOutput() ManagedServiceIdentityTypePtrOutput {
+	return pulumi.ToOutput(in).(ManagedServiceIdentityTypePtrOutput)
+}
+
+func (in *managedServiceIdentityTypePtr) ToManagedServiceIdentityTypePtrOutputWithContext(ctx context.Context) ManagedServiceIdentityTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ManagedServiceIdentityTypePtrOutput)
+}
 
 // The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment.
 type OnErrorDeploymentType string
@@ -361,10 +1304,11 @@ func (o OnErrorDeploymentTypePtrOutput) ToStringPtrOutputWithContext(ctx context
 	}).(pulumi.StringPtrOutput)
 }
 
-// OnErrorDeploymentTypeInput is an input type that accepts OnErrorDeploymentTypeArgs and OnErrorDeploymentTypeOutput values.
-// You can construct a concrete instance of `OnErrorDeploymentTypeInput` via:
+// OnErrorDeploymentTypeInput is an input type that accepts values of the OnErrorDeploymentType enum
+// A concrete instance of `OnErrorDeploymentTypeInput` can be one of the following:
 //
-//	OnErrorDeploymentTypeArgs{...}
+//	OnErrorDeploymentTypeLastSuccessful
+//	OnErrorDeploymentTypeSpecificDeployment
 type OnErrorDeploymentTypeInput interface {
 	pulumi.Input
 
@@ -397,12 +1341,6 @@ func (in *onErrorDeploymentTypePtr) ToOnErrorDeploymentTypePtrOutput() OnErrorDe
 
 func (in *onErrorDeploymentTypePtr) ToOnErrorDeploymentTypePtrOutputWithContext(ctx context.Context) OnErrorDeploymentTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(OnErrorDeploymentTypePtrOutput)
-}
-
-func (in *onErrorDeploymentTypePtr) ToOutput(ctx context.Context) pulumix.Output[*OnErrorDeploymentType] {
-	return pulumix.Output[*OnErrorDeploymentType]{
-		OutputState: in.ToOnErrorDeploymentTypePtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 // The identity type.
@@ -534,10 +1472,13 @@ func (o ResourceIdentityTypePtrOutput) ToStringPtrOutputWithContext(ctx context.
 	}).(pulumi.StringPtrOutput)
 }
 
-// ResourceIdentityTypeInput is an input type that accepts ResourceIdentityTypeArgs and ResourceIdentityTypeOutput values.
-// You can construct a concrete instance of `ResourceIdentityTypeInput` via:
+// ResourceIdentityTypeInput is an input type that accepts values of the ResourceIdentityType enum
+// A concrete instance of `ResourceIdentityTypeInput` can be one of the following:
 //
-//	ResourceIdentityTypeArgs{...}
+//	ResourceIdentityTypeSystemAssigned
+//	ResourceIdentityTypeUserAssigned
+//	ResourceIdentityType_SystemAssigned_UserAssigned
+//	ResourceIdentityTypeNone
 type ResourceIdentityTypeInput interface {
 	pulumi.Input
 
@@ -572,12 +1513,6 @@ func (in *resourceIdentityTypePtr) ToResourceIdentityTypePtrOutputWithContext(ct
 	return pulumi.ToOutputWithContext(ctx, in).(ResourceIdentityTypePtrOutput)
 }
 
-func (in *resourceIdentityTypePtr) ToOutput(ctx context.Context) pulumix.Output[*ResourceIdentityType] {
-	return pulumix.Output[*ResourceIdentityType]{
-		OutputState: in.ToResourceIdentityTypePtrOutputWithContext(ctx).OutputState,
-	}
-}
-
 // Type of the script.
 type ScriptType string
 
@@ -587,8 +1522,20 @@ const (
 )
 
 func init() {
+	pulumi.RegisterOutputType(CleanupOptionsOutput{})
+	pulumi.RegisterOutputType(CleanupOptionsPtrOutput{})
+	pulumi.RegisterOutputType(DenySettingsModeOutput{})
+	pulumi.RegisterOutputType(DenySettingsModePtrOutput{})
 	pulumi.RegisterOutputType(DeploymentModeOutput{})
 	pulumi.RegisterOutputType(DeploymentModePtrOutput{})
+	pulumi.RegisterOutputType(DeploymentStacksDeleteDetachEnumOutput{})
+	pulumi.RegisterOutputType(DeploymentStacksDeleteDetachEnumPtrOutput{})
+	pulumi.RegisterOutputType(ExpressionEvaluationOptionsScopeTypeOutput{})
+	pulumi.RegisterOutputType(ExpressionEvaluationOptionsScopeTypePtrOutput{})
+	pulumi.RegisterOutputType(ExtendedLocationTypeOutput{})
+	pulumi.RegisterOutputType(ExtendedLocationTypePtrOutput{})
+	pulumi.RegisterOutputType(ManagedServiceIdentityTypeOutput{})
+	pulumi.RegisterOutputType(ManagedServiceIdentityTypePtrOutput{})
 	pulumi.RegisterOutputType(OnErrorDeploymentTypeOutput{})
 	pulumi.RegisterOutputType(OnErrorDeploymentTypePtrOutput{})
 	pulumi.RegisterOutputType(ResourceIdentityTypeOutput{})

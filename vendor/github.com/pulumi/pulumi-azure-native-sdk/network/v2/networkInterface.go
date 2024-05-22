@@ -15,7 +15,7 @@ import (
 // A network interface in a resource group.
 // Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01.
 //
-// Other available API versions: 2015-05-01-preview, 2018-07-01, 2019-02-01, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01.
+// Other available API versions: 2015-05-01-preview, 2018-07-01, 2019-02-01, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
 type NetworkInterface struct {
 	pulumi.CustomResourceState
 
@@ -234,6 +234,12 @@ func NewNetworkInterface(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20230601:NetworkInterface"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230901:NetworkInterface"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20231101:NetworkInterface"),
 		},
 	})
 	opts = append(opts, aliases)
