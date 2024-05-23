@@ -20,7 +20,6 @@ import (
 //
 // ## Example Usage
 //
-// <!--Start PulumiCodeChooser -->
 // ```go
 // package main
 //
@@ -35,8 +34,8 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			_, err := random.NewRandomString(ctx, "random", &random.RandomStringArgs{
 //				Length:          pulumi.Int(16),
-//				OverrideSpecial: pulumi.String("/@£$"),
 //				Special:         pulumi.Bool(true),
+//				OverrideSpecial: pulumi.String("/@£$"),
 //			})
 //			if err != nil {
 //				return err
@@ -46,7 +45,6 @@ import (
 //	}
 //
 // ```
-// <!--End PulumiCodeChooser -->
 //
 // ## Import
 //

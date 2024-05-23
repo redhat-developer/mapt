@@ -452,7 +452,7 @@ github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
 ## explicit; go 1.21
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
-# github.com/pulumi/pulumi-random/sdk/v4 v4.16.1
+# github.com/pulumi/pulumi-random/sdk/v4 v4.16.2
 ## explicit; go 1.21
 github.com/pulumi/pulumi-random/sdk/v4/go/random
 github.com/pulumi/pulumi-random/sdk/v4/go/random/internal

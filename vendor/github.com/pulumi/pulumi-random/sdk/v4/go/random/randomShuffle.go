@@ -16,13 +16,12 @@ import (
 //
 // ## Example Usage
 //
-// <!--Start PulumiCodeChooser -->
 // ```go
 // package main
 //
 // import (
 //
-//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/elb"
+//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/elb"
 //	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 //
@@ -53,7 +52,6 @@ import (
 //	}
 //
 // ```
-// <!--End PulumiCodeChooser -->
 type RandomShuffle struct {
 	pulumi.CustomResourceState
 
@@ -63,7 +61,7 @@ type RandomShuffle struct {
 	Keepers pulumi.StringMapOutput `pulumi:"keepers"`
 	// The number of results to return. Defaults to the number of items in the `input` list. If fewer items are requested, some elements will be excluded from the result. If more items are requested, items will be repeated in the result but not more frequently than the number of items in the input list.
 	ResultCount pulumi.IntPtrOutput `pulumi:"resultCount"`
-	// Random permutation of the list of strings given in `input`. The number of elements is determined by `result_count` if
+	// Random permutation of the list of strings given in `input`. The number of elements is determined by `resultCount` if
 	// set, or the number of elements in `input`.
 	Results pulumi.StringArrayOutput `pulumi:"results"`
 	// Arbitrary string with which to seed the random number generator, in order to produce less-volatile permutations of the list.
@@ -109,7 +107,7 @@ type randomShuffleState struct {
 	Keepers map[string]string `pulumi:"keepers"`
 	// The number of results to return. Defaults to the number of items in the `input` list. If fewer items are requested, some elements will be excluded from the result. If more items are requested, items will be repeated in the result but not more frequently than the number of items in the input list.
 	ResultCount *int `pulumi:"resultCount"`
-	// Random permutation of the list of strings given in `input`. The number of elements is determined by `result_count` if
+	// Random permutation of the list of strings given in `input`. The number of elements is determined by `resultCount` if
 	// set, or the number of elements in `input`.
 	Results []string `pulumi:"results"`
 	// Arbitrary string with which to seed the random number generator, in order to produce less-volatile permutations of the list.
@@ -123,7 +121,7 @@ type RandomShuffleState struct {
 	Keepers pulumi.StringMapInput
 	// The number of results to return. Defaults to the number of items in the `input` list. If fewer items are requested, some elements will be excluded from the result. If more items are requested, items will be repeated in the result but not more frequently than the number of items in the input list.
 	ResultCount pulumi.IntPtrInput
-	// Random permutation of the list of strings given in `input`. The number of elements is determined by `result_count` if
+	// Random permutation of the list of strings given in `input`. The number of elements is determined by `resultCount` if
 	// set, or the number of elements in `input`.
 	Results pulumi.StringArrayInput
 	// Arbitrary string with which to seed the random number generator, in order to produce less-volatile permutations of the list.
@@ -259,7 +257,7 @@ func (o RandomShuffleOutput) ResultCount() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *RandomShuffle) pulumi.IntPtrOutput { return v.ResultCount }).(pulumi.IntPtrOutput)
 }
 
-// Random permutation of the list of strings given in `input`. The number of elements is determined by `result_count` if
+// Random permutation of the list of strings given in `input`. The number of elements is determined by `resultCount` if
 // set, or the number of elements in `input`.
 func (o RandomShuffleOutput) Results() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *RandomShuffle) pulumi.StringArrayOutput { return v.Results }).(pulumi.StringArrayOutput)
