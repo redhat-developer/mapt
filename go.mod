@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v0.11.1
-	github.com/pulumi/pulumi-random/sdk/v4 v4.16.1
+	github.com/pulumi/pulumi-random/sdk/v4 v4.16.2
 	github.com/pulumi/pulumi/sdk/v3 v3.116.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.0

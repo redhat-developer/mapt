@@ -43,7 +43,7 @@ ARG PULUMI_COMMAND_VERSION=v0.11.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
 ARG PULUMI_TLS_VERSION=v5.0.3
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
-ARG PULUMI_RANDOM_VERSION=v4.16.1
+ARG PULUMI_RANDOM_VERSION=v4.16.2
 
 RUN curl ${AWS_CLI_URL} -o awscliv2.zip \
     && dnf install -y unzip \
