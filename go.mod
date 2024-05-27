@@ -19,7 +19,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.24.0
 	github.com/aws/aws-sdk-go-v2/config v1.15.15
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.142.0
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.37.0
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.37.1
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.42.1
 	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.42.1
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.42.1
