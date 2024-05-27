@@ -45,6 +45,7 @@ ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
 <<<<<<< HEAD
+<<<<<<< HEAD
 ARG PULUMI_AWS_VERSION=v6.12.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
 ARG PULUMI_AWSX_VERSION=v2.3.0
@@ -52,6 +53,9 @@ ARG PULUMI_AWSX_VERSION=v2.3.0
 ARG PULUMI_AZURE_NATIVE_VERSION=v2.20.0
 =======
 ARG PULUMI_AWS_VERSION=v6.37.0
+=======
+ARG PULUMI_AWS_VERSION=v6.37.1
+>>>>>>> bf4b70f (fix(deps): update patch updates to v6.37.1)
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
 ARG PULUMI_AWSX_VERSION=v2.3.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native

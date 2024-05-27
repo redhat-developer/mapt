@@ -196,8 +196,8 @@ github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 h1:vkHw5I/plNdTr435
 github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231/go.mod h1:murToZ2N9hNJzewjHBgfFdXhZKjY3z5cYC1VXk+lbFE=
 github.com/pulumi/esc v0.8.3 h1:myeDL6dD/mz34zZjCL8s7d/tWHBJYxfMxDCL11MHoqc=
 github.com/pulumi/esc v0.8.3/go.mod h1:v5VAPxYDa9DRwvubbzKt4ZYf5y0esWC2ccSp/AT923I=
-github.com/pulumi/pulumi-aws/sdk/v6 v6.37.0 h1:Y3YMHkgUpSq3P0yyMhkuzlc9jXRWvvTMaIUf0fMnajI=
-github.com/pulumi/pulumi-aws/sdk/v6 v6.37.0/go.mod h1:YV0L5IIlJX1ADzPNOUy1aLyC7dmVMCpakJqxwxWJTAE=
+github.com/pulumi/pulumi-aws/sdk/v6 v6.37.1 h1:U0Z6dagxFsOhV9J16aAjIfEZJf7NU+L9l9aGABQyrNs=
+github.com/pulumi/pulumi-aws/sdk/v6 v6.37.1/go.mod h1:OQXIshEv/eVOYyBPMHADSaLG+qDJKQqP8p9lBy7tkOA=
 github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.42.1 h1:TkBjR0eoL+tZMDsAMFyxGW3CRWA+fEfNcGEoE4zwkNc=
 github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.42.1/go.mod h1:PgajQXVwJD5xHhd2FsvueIjItNso/hXSjo5BrYk+6wM=
 github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.42.1 h1:JqGwoMhZFTNpGkK+FI8H5m4rNbytWAXZ2fz7CNVVkLI=
