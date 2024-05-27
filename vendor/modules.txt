@@ -474,7 +474,7 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
-# github.com/pulumi/pulumi-aws/sdk/v6 v6.37.0
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.37.1
 ## explicit; go 1.21
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2
