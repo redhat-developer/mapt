@@ -330,7 +330,10 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				authorizedKey,
 			)
 		}).(pulumi.StringOutput)
-	// the post script will be executed as a extension
+	// the post script will be executed as a extension,
+	// this resource is retain on delete b/c it does not create a real resource on the provider
+	// and also if vm where it has been executed is stopped (i.e. deallocated spot instance) it can
+	// not be deleted leading to break all destroy operation on the resources.
 	vme, err := compute.NewVirtualMachineExtension(
 		ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "ext"),
@@ -348,7 +351,8 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				"commandToExecute": setupCommand,
 			},
 			Tags: qenvsContext.ResourceTags(),
-		})
+		},
+		pulumi.RetainOnDelete(true))
 	return privateKey, vme, err
 }
 
