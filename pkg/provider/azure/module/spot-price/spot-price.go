@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph"
+	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"golang.org/x/exp/maps"
 )
@@ -195,15 +196,23 @@ func getBestSpotChoice(s []priceHistory, e []evictionRate, currentERT EvictionRa
 	for _, ev := range e {
 		evm[fmt.Sprintf("%s%s", ev.Location, ev.VMType)] = ev.EvictionRate
 	}
+	var spotChoices []*BestSpotChoiceResponse
 	for _, sv := range s {
 		er, ok := evm[fmt.Sprintf("%s%s", sv.Location, sv.VMType)]
+		// If there are multiple choices we added them to a slice
+		// and pick one randomly to improve distribution of instances
+		// across locations
 		if ok && er == getEvictionRateValue(currentERT) {
-			return &BestSpotChoiceResponse{
-				VMType:   sv.VMType,
-				Location: sv.Location,
-				Price:    sv.Price,
-			}, nil
+			spotChoices = append(spotChoices,
+				&BestSpotChoiceResponse{
+					VMType:   sv.VMType,
+					Location: sv.Location,
+					Price:    sv.Price,
+				})
 		}
+	}
+	if len(spotChoices) > 0 {
+		return util.RandomItemFromArray(spotChoices), nil
 	}
 	// If current is equal to max tolerance we can not give any spot
 	if currentERT == maxERT {
