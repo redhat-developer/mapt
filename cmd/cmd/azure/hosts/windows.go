@@ -1,9 +1,12 @@
 package hosts
 
 import (
+	"fmt"
+
 	params "github.com/adrianriobo/qenvs/cmd/cmd/constants"
 	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	azureWindows "github.com/adrianriobo/qenvs/pkg/provider/azure/action/windows"
+	spotprice "github.com/adrianriobo/qenvs/pkg/provider/azure/module/spot-price"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -19,7 +22,7 @@ const (
 	defaultLocation        = "West US"
 	paramVMSize            = "vmsize"
 	paramVMSizeDesc        = "size for the VM. Type requires to allow nested virtualization"
-	defaultVMSize          = "Standard_D8s_v4"
+	defaultVMSize          = "Standard_D8s_v5"
 	paramVersion           = "windows-version"
 	paramVersionDesc       = "Major version for windows desktop 10 or 11"
 	defaultVersion         = "11"
@@ -34,6 +37,9 @@ const (
 	defaultAdminUsername   = "rhqpadmin"
 	paramSpot              = "spot"
 	paramSpotDesc          = "if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)"
+	paramSpotTolerance     = "spot-eviction-tolerance"
+	paramSpotToleranceDesc = "if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest"
+	defaultSpotTolerance   = "lowest"
 	paramProfile           = "profile"
 	paramProfileDesc       = "comma seperated list of profiles to apply on the target machine. Profiles available: crc"
 )
@@ -68,6 +74,16 @@ func getCreate() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags))
 
+			var spotToleranceValue = spotprice.DefaultEvictionRate
+			if viper.IsSet(paramSpotTolerance) {
+				var ok bool
+				spotToleranceValue, ok = spotprice.ParseEvictionRate(
+					viper.GetString(paramSpotTolerance))
+				if !ok {
+					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(paramSpotTolerance))
+				}
+			}
+			// ParseEvictionRate
 			if err := azureWindows.Create(
 				&azureWindows.WindowsRequest{
 					Prefix:        "",
@@ -78,7 +94,8 @@ func getCreate() *cobra.Command {
 					Username:      viper.GetString(paramUsername),
 					AdminUsername: viper.GetString(paramAdminUsername),
 					Profiles:      viper.GetStringSlice(paramProfile),
-					Spot:          viper.IsSet(paramSpot)}); err != nil {
+					Spot:          viper.IsSet(paramSpot),
+					SpotTolerance: spotToleranceValue}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -95,6 +112,7 @@ func getCreate() *cobra.Command {
 	flagSet.StringP(paramAdminUsername, "", defaultAdminUsername, paramAdminUsernameDesc)
 	flagSet.StringSliceP(paramProfile, "", []string{}, paramProfileDesc)
 	flagSet.Bool(paramSpot, false, paramSpotDesc)
+	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

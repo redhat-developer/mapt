@@ -37,17 +37,18 @@ Usage:
   qenvs azure windows create [flags]
 
 Flags:
-      --admin-username string        username for admin user. Only rdp accessible within generated password (default "rhqpadmin")
-      --conn-details-output string   path to export host connection information (host, username and privateKey)
-  -h, --help                         help for create
-      --location string              location for created resources within Windows desktop (default "West US")
-      --profile strings              comma seperated list of profiles to apply on the target machine. Profiles available: crc
-      --spot                         if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)
-      --tags stringToString          tags to add on each resource (--tags name1=value1,name2=value2) (default [])
-      --username string              username for general user. SSH accessible + rdp with generated password (default "rhqp")
-      --vmsize string                size for the VM. Type requires to allow nested virtualization (default "Standard_D8s_v4")
-      --windows-featurepack string   windows feature pack (default "23h2-pro")
-      --windows-version string       Major version for windows desktop 10 or 11 (default "11")
+      --admin-username string            username for admin user. Only rdp accessible within generated password (default "rhqpadmin")
+      --conn-details-output string       path to export host connection information (host, username and privateKey)
+  -h, --help                             help for create
+      --location string                  location for created resources within Windows desktop (default "West US")
+      --profile strings                  comma seperated list of profiles to apply on the target machine. Profiles available: crc
+      --spot                             if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)
+      --spot-eviction-tolerance string   if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest (default "lowest")
+      --tags stringToString              tags to add on each resource (--tags name1=value1,name2=value2) (default [])
+      --username string                  username for general user. SSH accessible + rdp with generated password (default "rhqp")
+      --vmsize string                    size for the VM. Type requires to allow nested virtualization (default "Standard_D8s_v5")
+      --windows-featurepack string       windows feature pack (default "23h2-pro")
+      --windows-version string           Major version for windows desktop 10 or 11 (default "11")
 
 Global Flags:
       --backed-url string     backed for stack state. Can be a local path with format file:///path/subpath or s3 s3://existing-bucket

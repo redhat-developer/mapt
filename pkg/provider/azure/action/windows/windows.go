@@ -38,6 +38,7 @@ type WindowsRequest struct {
 	Username      string
 	AdminUsername string
 	Spot          bool
+	SpotTolerance spotprice.EvictionRate
 	Profiles      []string
 }
 
@@ -72,7 +73,7 @@ func Destroy() error {
 
 // Main function to deploy all requried resources to azure
 func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
-	location, spotPrice, err := r.valuesWetherSpot()
+	location, spotPrice, err := r.valuesCheckingSpot()
 	if err != nil {
 		return err
 	}
@@ -118,12 +119,13 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	return err
 }
 
-func (r *WindowsRequest) valuesWetherSpot() (*string, *float64, error) {
+func (r *WindowsRequest) valuesCheckingSpot() (*string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
 			spotprice.GetBestSpotChoice(spotprice.BestSpotChoiceRequest{
-				VMTypes: []string{r.VMSize},
-				OSType:  "windows",
+				VMTypes:              []string{r.VMSize},
+				OSType:               "windows",
+				EvictioRateTolerance: r.SpotTolerance,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
