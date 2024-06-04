@@ -20,6 +20,12 @@ spec:
   params: 
   - name: project-name
     description: identifier for project.   
+  - name: backed-url
+    description: |
+      If we want to backed resources externally we can use az storage setting this param(i.e azblob://existing-storage). 
+
+      If default will be store on storage workspace at path set by param ws-output-path.
+    default: "''"
   - name: operation 
     description: operation to execute within the infrastructure. Current values (create, destroy)
     default: create   
@@ -66,6 +72,12 @@ spec:
       export ARM_SUBSCRIPTION_ID=$(cat /opt/credentials/subscription_id)
       export ARM_CLIENT_ID=$(cat /opt/credentials/client_id)
       export ARM_CLIENT_SECRET=$(cat /opt/credentials/client_secret)
+      if ! [ -f /opt/credentials/storage_account ]; then
+        export AZURE_STORAGE_ACCOUNT=$(cat /opt/credentials/storage_account)
+      fi
+      if ! [ -f /opt/credentials/storage_key ]; then
+        export AZURE_STORAGE_KEY=$(cat /opt/credentials/storage_key)
+      fi
       
       # Output folder
       workspace_path=$(workspaces.pipelines-data.path)/$(params.workspace-resources-path)
@@ -79,7 +91,11 @@ spec:
       # Run qenvs
       cmd="qenvs azure windows $(params.operation) "
       cmd="$cmd --project-name $(params.project-name) "
-      cmd="$cmd --backed-url file://${workspace_path} "
+      if [[ $(params.backed-url) != "" ]]; then
+        cmd="$cmd --backed-url $(params.backed-url) "
+      else
+        cmd="$cmd --backed-url file://${workspace_path} "
+      fi
       if [[ $(params.operation) == "create" ]]; then
         cmd="$cmd --conn-details-output ${workspace_path} "
         cmd="$cmd --windows-featurepack $(params.windows-featurepack) "
@@ -123,5 +139,7 @@ spec:
       * subscription_id
       * client_id
       * client_secret
+      * storage_account (optional if we use remote az storage)
+      * storage_key (optional if we use remote az storage)
     mountPath: /opt/credentials
       
