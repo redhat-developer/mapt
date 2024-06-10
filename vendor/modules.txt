@@ -477,9 +477,18 @@ github.com/pulumi/esc/syntax/encoding
 # github.com/pulumi/pulumi-aws/sdk/v6 v6.37.1
 ## explicit; go 1.21
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/cloudwatch
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ecs
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/s3
+# github.com/pulumi/pulumi-awsx/sdk/v2 v2.3.0
+## explicit; go 1.21
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/awsx
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/internal
 # github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.42.1
 ## explicit; go 1.18
 github.com/pulumi/pulumi-azure-native-sdk/compute/v2
@@ -499,6 +508,10 @@ github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
 ## explicit; go 1.21
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
+# github.com/pulumi/pulumi-docker/sdk/v4 v4.4.3
+## explicit; go 1.21
+github.com/pulumi/pulumi-docker/sdk/v4/go/docker
+github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 # github.com/pulumi/pulumi-random/sdk/v4 v4.16.2
 ## explicit; go 1.21
 github.com/pulumi/pulumi-random/sdk/v4/go/random

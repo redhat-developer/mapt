@@ -20,6 +20,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.15.15
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.142.0
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.37.1
+	github.com/pulumi/pulumi-awsx/sdk/v2 v2.3.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.42.1
 	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.42.1
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.42.1
@@ -77,6 +78,7 @@ require (
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.8.3 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.42.1 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.4.3 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect

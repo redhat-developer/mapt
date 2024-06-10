@@ -10,7 +10,10 @@ import (
 	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
 	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/cloudwatch"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	awsECS "github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ecs"
+	"github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -103,4 +106,58 @@ func (r *MacRequest) manageResultsDedicatedHost(stackResult auto.UpResult) (*str
 		return nil, nil, fmt.Errorf("error getting dedicated host AZ")
 	}
 	return &dhID, &dhAZ, nil
+}
+
+func (r *MacRequest) ScheduleDestroy(ctx *pulumi.Context) error {
+	// https://medium.com/@nilangav/set-up-scheduled-tasks-with-aws-fargate-using-cloudformation-templates-b7bd2f7db46b
+	// Cluster is not deleted as it is required to run the self prune container
+	clusterName := resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "mac-dh-event-destroy")
+	cluster, err := awsECS.NewCluster(ctx,
+		clusterName,
+		&awsECS.ClusterArgs{
+			Tags: qenvsContext.ResourceTags(),
+			Name: pulumi.String(clusterName),
+		},
+		pulumi.RetainOnDelete(true))
+	if err != nil {
+		return err
+	}
+
+	destroyCmd := []string{"aws", "destroy", "mac"}
+	fs, err := ecs.NewFargateService(ctx,
+		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "fg"),
+		&ecs.FargateServiceArgs{
+			Cluster: cluster.Arn,
+			TaskDefinitionArgs: &ecs.FargateServiceTaskDefinitionArgs{
+				Container: &ecs.TaskDefinitionContainerDefinitionArgs{
+					Command: pulumi.ToStringArray(destroyCmd),
+					Image:   pulumi.String(""),
+				},
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	cloudwatch.NewEventRule(ctx,
+		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "mac-dh-event-destroy"),
+		&cloudwatch.EventRuleArgs{
+			Description: pulumi.String("Destroy event for mac dedicated host"),
+			Name: pulumi.String(resourcesUtil.GetResourceName(r.Prefix,
+				awsMacMachineID, "mac-dh-event-desotry")),
+
+			// ScheduleExpression: ,
+		},
+	)
+
+	cloudwatch.NewEventTarget(ctx,
+		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "mac-dh-event-destroy"),
+		&cloudwatch.EventTargetArgs{
+			EcsTarget: cloudwatch.EventTargetEcsTargetArgs{
+				TaskCount:         pulumi.IntPtr(1),
+				TaskDefinitionArn: fs.TaskDefinition.Arn(),
+			},
+		})
+
+	return fmt.Errorf("not implemented yet")
 }
