@@ -6,14 +6,14 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.116.1
+ENV PULUMI_VERSION 3.119.0
 ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
 
 RUN make build \
     && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
     && tar -xzvf pulumicli.tar.gz 
 
-FROM registry.access.redhat.com/ubi9/ubi
+FROM registry.access.redhat.com/ubi9/ubi@sha256:d31d3e5e92c0c47277c5011c0326b285ab7ae627eff036133be1dccc4208004d
 
 LABEL org.opencontainers.image.authors="Adrian Riobo<ariobolo@redhat.com>"
 
@@ -33,11 +33,11 @@ ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.37.1
+ARG PULUMI_AWS_VERSION=v6.39.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWSX_VERSION=v2.3.0
+ARG PULUMI_AWSX_VERSION=v6.39.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v2.42.1
+ARG PULUMI_AZURE_NATIVE_VERSION=v2.45.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v0.11.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
