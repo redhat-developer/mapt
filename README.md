@@ -1,17 +1,19 @@
-# qenvs
+# mapt
 
-automation for qe environments using pulumi
+This is a Multi Architecture Provisionig Tool
 
-![code check](https://github.com/adrianriobo/qenvs/actions/workflows/build-go.yaml/badge.svg)
-![oci builds](https://github.com/adrianriobo/qenvs/actions/workflows/build-oci.yaml/badge.svg)
+It allows to spin multiple target environments across multiple cloud providers implementing multiple optimizations like cross data for spot price and eviction rates, or pre create snapshost to improve boot times, ...among others.
+
+![code check](https://github.com/redhat-developer/mapt/actions/workflows/build-go.yaml/badge.svg)
+![oci builds](https://github.com/redhat-developer/mapt/actions/workflows/build-oci.yaml/badge.svg)
 
 ## Overview
 
 This project is intended to easily spin environments and plug them in on any CI/CD system through ssh. 
 
-Qenvs create the target machine and return the information and credentials required to connect within the target marchine (host + username + private key)
+mapt create the target machine and return the information and credentials required to connect within the target marchine (host + username + private key)
 
-Also Qenvs offers a set of features wich are transversal to each type of target machine as so they can be applied to any of them (airgap, proxyed, vpn,...)
+Also mapt offers a set of features wich are transversal to each type of target machine as so they can be applied to any of them (airgap, proxyed, vpn,...)
 
 
 ## Supported environments

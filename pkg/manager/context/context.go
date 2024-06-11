@@ -3,16 +3,16 @@ package context
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	utilMaps "github.com/adrianriobo/qenvs/pkg/util/maps"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
+	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
 	"golang.org/x/exp/maps"
 )
 
 const (
 	tagKeyOrigin      = "origin"
-	origin            = "qenvs"
+	origin            = "mapt"
 	TagKeyProjectName = "projectName"
 	TagKeyRunID       = "runid"
 )

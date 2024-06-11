@@ -3,11 +3,11 @@ package standard
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
 
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 func Create(projectName, backedURL, cidr string,

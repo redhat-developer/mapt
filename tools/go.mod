@@ -1,4 +1,4 @@
-module github.com/adrianriobo/qenvs/tools
+module github.com/redhat-developer/mapt/tools
 
 go 1.21
 

@@ -41,6 +41,9 @@ spec:
   - name: spot
     description: in case spot is set to true it will check for best spot price and create the VM on the target region
     default: 'true'
+  - name: spot-eviction-tolerance
+    description: 'if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest'
+    default: 'lowest'
   - name: workspace-resources-path
     description: path on workspace where to store ephemeral assets related with the provisioning
   - name: remove-lock
@@ -59,7 +62,7 @@ spec:
 
   steps:
   - name: provisioner
-    image: quay.io/rhqp/qenvs:v0.7.0-dev
+    image: quay.io/redhat-developer/mapt:v0.7.0-dev
     imagePullPolicy: Always
     script: |
       #!/bin/sh
@@ -88,8 +91,8 @@ spec:
         rm -rf ${workspace_path}/.pulumi/locks/*
       fi
 
-      # Run qenvs
-      cmd="qenvs azure windows $(params.operation) "
+      # Run mapt
+      cmd="mapt azure windows $(params.operation) "
       cmd="$cmd --project-name $(params.project-name) "
       if [[ $(params.backed-url) != "" ]]; then
         cmd="$cmd --backed-url $(params.backed-url) "
@@ -103,6 +106,7 @@ spec:
         cmd="$cmd --vmsize $(params.vmsize) "
         if [[ $(params.spot) == "true" ]]; then
           cmd="$cmd --spot "
+          cmd="$cmd --spot-eviction-tolerance $(params.spot-eviction-tolerance) "
         fi
       fi
       eval "${cmd}"

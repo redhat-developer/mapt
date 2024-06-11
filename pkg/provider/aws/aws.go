@@ -5,15 +5,15 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
-	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	"github.com/adrianriobo/qenvs/pkg/util/maps"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsEC2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/manager/credentials"
+	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
+	"github.com/redhat-developer/mapt/pkg/util/maps"
 )
 
 const (
@@ -66,11 +66,11 @@ func DestroyStack(s DestroyStackRequest) error {
 		return fmt.Errorf("stackname is required")
 	}
 	return manager.DestroyStack(manager.Stack{
-		StackName:   qenvsContext.StackNameByProject(s.Stackname),
-		ProjectName: qenvsContext.ProjectName(),
+		StackName:   maptContext.StackNameByProject(s.Stackname),
+		ProjectName: maptContext.ProjectName(),
 		BackedURL: util.If(len(s.BackedURL) > 0,
 			s.BackedURL,
-			qenvsContext.BackedURL()),
+			maptContext.BackedURL()),
 		ProviderCredentials: GetClouProviderCredentials(
 			map[string]string{
 				CONFIG_AWS_REGION: util.If(len(s.Region) > 0,
@@ -78,9 +78,9 @@ func DestroyStack(s DestroyStackRequest) error {
 					os.Getenv("AWS_DEFAULT_REGION"))})})
 }
 
-// Create a list of filters for tags based on the tags added by qenvs
+// Create a list of filters for tags based on the tags added by mapt
 func GetTagsAsFilters() (filters []*awsEC2Types.Filter) {
-	filterMap := maps.Convert(qenvsContext.GetTags(),
+	filterMap := maps.Convert(maptContext.GetTags(),
 		func(name string) *string { return aws.String("tag:" + name) },
 		func(value string) []string { return []string{value} })
 	for k, v := range filterMap {

@@ -9,8 +9,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build-qenvs:
-    name: build-qenvs
+  build-mapt:
+    name: build-mapt
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code

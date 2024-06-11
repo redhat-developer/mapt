@@ -17,9 +17,9 @@ FROM registry.access.redhat.com/ubi9/ubi
 
 LABEL org.opencontainers.image.authors="Adrian Riobo<ariobolo@redhat.com>"
 
-COPY --from=builder /workspace/out/qenvs /workspace/pulumi/pulumi /usr/local/bin/
+COPY --from=builder /workspace/out/mapt /workspace/pulumi/pulumi /usr/local/bin/
 
-ENV INTERNAL_OUTPUT=/tmp/qenvs \
+ENV INTERNAL_OUTPUT=/tmp/mapt \
     PULUMI_CONFIG_PASSPHRASE="passphrase" \
     AWS_SDK_LOAD_CONFIG=1
 
@@ -65,7 +65,7 @@ RUN curl ${AWS_CLI_URL} -o awscliv2.zip \
 # TODO review permissions on sharing mounting volume from host
 # USER 65532:65532
 
-ENTRYPOINT ["qenvs"]
+ENTRYPOINT ["mapt"]
 # Default to show help
 CMD ["-h"]
 

@@ -3,13 +3,13 @@ package ami
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	amiSVC "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	amiSVC "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
 )
 
 type CopyAMIRequest struct {
@@ -38,9 +38,9 @@ type CopyAMIRequest struct {
 // If stack does not exists it will create it
 func (r CopyAMIRequest) Create() error {
 	_, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.StackNameByProject("copyAMI"),
-		ProjectName: qenvsContext.ProjectName(),
-		BackedURL:   qenvsContext.BackedURL()})
+		StackName:   maptContext.StackNameByProject("copyAMI"),
+		ProjectName: maptContext.ProjectName(),
+		BackedURL:   maptContext.BackedURL()})
 	if err != nil {
 		return r.createStack()
 	}
@@ -50,18 +50,18 @@ func (r CopyAMIRequest) Create() error {
 // Check if spot option stack was created on the backed url
 func Exist() bool {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.StackNameByProject("copyAMI"),
-		ProjectName: qenvsContext.ProjectName(),
-		BackedURL:   qenvsContext.BackedURL()})
+		StackName:   maptContext.StackNameByProject("copyAMI"),
+		ProjectName: maptContext.ProjectName(),
+		BackedURL:   maptContext.BackedURL()})
 	return err == nil && s != nil
 }
 
 // Destroy the stack
 func Destroy() (err error) {
 	stack := manager.Stack{
-		StackName:           qenvsContext.StackNameByProject("copyAMI"),
-		ProjectName:         qenvsContext.ProjectName(),
-		BackedURL:           qenvsContext.BackedURL(),
+		StackName:           maptContext.StackNameByProject("copyAMI"),
+		ProjectName:         maptContext.ProjectName(),
+		BackedURL:           maptContext.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials}
 	return manager.DestroyStack(stack)
 }
@@ -75,9 +75,9 @@ func (r CopyAMIRequest) createStack() error {
 		})
 	}
 	stack := manager.Stack{
-		StackName:           qenvsContext.StackNameByProject("copyAMI"),
-		ProjectName:         qenvsContext.ProjectName(),
-		BackedURL:           qenvsContext.BackedURL(),
+		StackName:           maptContext.StackNameByProject("copyAMI"),
+		ProjectName:         maptContext.ProjectName(),
+		BackedURL:           maptContext.BackedURL(),
 		ProviderCredentials: credentials,
 		DeployFunc:          r.deployer,
 	}
@@ -103,7 +103,7 @@ func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 					fmt.Sprintf("Replica of %s from %s", *amiInfo.Image.ImageId, *amiInfo.Region)),
 				SourceAmiId:     pulumi.String(*amiInfo.Image.ImageId),
 				SourceAmiRegion: pulumi.String(*amiInfo.Region),
-				Tags: qenvsContext.ResourceTagsWithCustom(
+				Tags: maptContext.ResourceTagsWithCustom(
 					map[string]string{"Name": *r.AMISourceName}),
 			},
 			pulumi.RetainOnDelete(r.AMIKeepCopy))

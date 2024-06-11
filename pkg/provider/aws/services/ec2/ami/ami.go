@@ -6,12 +6,12 @@ import (
 
 	"golang.org/x/exp/slices"
 
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/aws/aws-sdk-go-v2/config"
 	awsEC2 "github.com/aws/aws-sdk-go-v2/service/ec2"
 	awsEC2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 const (

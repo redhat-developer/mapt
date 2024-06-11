@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"golang.org/x/exp/maps"
 )
 

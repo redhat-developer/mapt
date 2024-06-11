@@ -4,18 +4,18 @@ import (
 	"fmt"
 	"strconv"
 
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/bastion"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/keypair"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
-	"github.com/adrianriobo/qenvs/pkg/util"
-	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
+	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	"github.com/redhat-developer/mapt/pkg/util"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 const (
@@ -84,7 +84,7 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: qenvsContext.ResourceTags(),
+		Tags: maptContext.ResourceTags(),
 	}
 	if r.UserDataAsBase64 != nil {
 		args.UserData = r.UserDataAsBase64
@@ -118,7 +118,7 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 				},
 			},
 		},
-		Tags: qenvsContext.ResourceTags(),
+		Tags: maptContext.ResourceTags(),
 	}
 	if r.UserDataAsBase64 != nil {
 		args.UserData = r.UserDataAsBase64

@@ -3,10 +3,10 @@ package subnet
 import (
 	"fmt"
 
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	infra "github.com/adrianriobo/qenvs/pkg/provider"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
 )
 
 type PublicSubnetRequest struct {
@@ -34,7 +34,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 			VpcId:            r.VPC.ID(),
 			CidrBlock:        pulumi.String(r.CIDR),
 			AvailabilityZone: pulumi.String(r.AvailabilityZone),
-			Tags:             qenvsContext.ResourceTags(),
+			Tags:             maptContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 			&ec2.NatGatewayArgs{
 				AllocationId: eip.ID(),
 				SubnetId:     sn.ID(),
-				Tags:         qenvsContext.ResourceTags(),
+				Tags:         maptContext.ResourceTags(),
 			})
 		if err != nil {
 			return nil, err
@@ -73,7 +73,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 					GatewayId: r.InternetGateway.ID(),
 				},
 			},
-			Tags: qenvsContext.ResourceTags(),
+			Tags: maptContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err

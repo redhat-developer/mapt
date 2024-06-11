@@ -1,12 +1,12 @@
 package spot
 
 import (
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws"
-	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 type SpotOptionRequest struct {
@@ -35,9 +35,9 @@ type SpotOptionResult struct {
 // If stack does not exists it will create it
 func (r SpotOptionRequest) Create() (*SpotOptionResult, error) {
 	stack, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.StackNameByProject("spotOption"),
-		ProjectName: qenvsContext.ProjectName(),
-		BackedURL:   qenvsContext.BackedURL()})
+		StackName:   maptContext.StackNameByProject("spotOption"),
+		ProjectName: maptContext.ProjectName(),
+		BackedURL:   maptContext.BackedURL()})
 	if err != nil {
 		return r.createStack()
 	} else {
@@ -48,18 +48,18 @@ func (r SpotOptionRequest) Create() (*SpotOptionResult, error) {
 // Check if spot option stack was created on the backed url
 func Exist() bool {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.StackNameByProject("spotOption"),
-		ProjectName: qenvsContext.ProjectName(),
-		BackedURL:   qenvsContext.BackedURL()})
+		StackName:   maptContext.StackNameByProject("spotOption"),
+		ProjectName: maptContext.ProjectName(),
+		BackedURL:   maptContext.BackedURL()})
 	return err == nil && s != nil
 }
 
 // Destroy the stack
 func Destroy() (err error) {
 	stack := manager.Stack{
-		StackName:           qenvsContext.StackNameByProject("spotOption"),
-		ProjectName:         qenvsContext.ProjectName(),
-		BackedURL:           qenvsContext.BackedURL(),
+		StackName:           maptContext.StackNameByProject("spotOption"),
+		ProjectName:         maptContext.ProjectName(),
+		BackedURL:           maptContext.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials}
 	return manager.DestroyStack(stack)
 }
@@ -67,9 +67,9 @@ func Destroy() (err error) {
 // function to create the stack
 func (r SpotOptionRequest) createStack() (*SpotOptionResult, error) {
 	stack := manager.Stack{
-		StackName:           qenvsContext.StackNameByProject("spotOption"),
-		ProjectName:         qenvsContext.ProjectName(),
-		BackedURL:           qenvsContext.BackedURL(),
+		StackName:           maptContext.StackNameByProject("spotOption"),
+		ProjectName:         maptContext.ProjectName(),
+		BackedURL:           maptContext.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}

@@ -1,8 +1,8 @@
 package azure
 
 import (
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 )
 
 func GetClouProviderCredentials(fixedCredentials map[string]string) credentials.ProviderCredentials {

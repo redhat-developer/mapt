@@ -1,8 +1,8 @@
 VERSION ?= 0.7.0-dev
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
-IMG ?= quay.io/rhqp/qenvs:v${VERSION}
-TKN_IMG ?= quay.io/rhqp/qenvs-tkn:v${VERSION}
+IMG ?= quay.io/redhat-developer/mapt:v${VERSION}
+TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
@@ -35,11 +35,11 @@ check: build test lint
 install: $(SOURCES)
 	go install -ldflags="$(LDFLAGS)" $(GO_EXTRA_BUILDFLAGS) ./cmd
 
-$(BUILD_DIR)/qenvs: $(SOURCES)
-	GOOS=linux GOARCH=amd64 go build -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/qenvs $(GO_EXTRA_BUILDFLAGS) ./cmd
+$(BUILD_DIR)/mapt: $(SOURCES)
+	GOOS=linux GOARCH=amd64 go build -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/mapt $(GO_EXTRA_BUILDFLAGS) ./cmd
  
 .PHONY: build 
-build: $(BUILD_DIR)/qenvs
+build: $(BUILD_DIR)/mapt
 
 .PHONY: test
 test:
@@ -48,7 +48,7 @@ test:
 .PHONY: clean ## Remove all build artifacts
 clean:
 	rm -rf $(BUILD_DIR)
-	rm -f $(GOPATH)/bin/qenvs
+	rm -f $(GOPATH)/bin/mapt
 
 .PHONY: fmt
 fmt:

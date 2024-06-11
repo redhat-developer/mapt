@@ -5,11 +5,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
+	"github.com/redhat-developer/mapt/pkg/manager/credentials"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 // this function gets our stack ready for update/destroy by prepping the workspace, init/selecting the stack

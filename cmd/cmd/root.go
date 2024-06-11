@@ -7,16 +7,16 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/adrianriobo/qenvs/cmd/cmd/aws"
-	"github.com/adrianriobo/qenvs/cmd/cmd/azure"
-	params "github.com/adrianriobo/qenvs/cmd/cmd/constants"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	"github.com/redhat-developer/mapt/cmd/cmd/aws"
+	"github.com/redhat-developer/mapt/cmd/cmd/azure"
+	params "github.com/redhat-developer/mapt/cmd/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )
 
 const (
-	commandName      = "qenvs"
+	commandName      = "mapt"
 	descriptionShort = "PoC for pulumi"
 	descriptionLong  = "PoC for pulumi"
 
@@ -24,8 +24,8 @@ const (
 )
 
 var (
-	baseDir = filepath.Join(os.Getenv("HOME"), ".qenvs")
-	logFile = "qenvs.log"
+	baseDir = filepath.Join(os.Getenv("HOME"), ".mapt")
+	logFile = "mapt.log"
 )
 
 var rootCmd = &cobra.Command{

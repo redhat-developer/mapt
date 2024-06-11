@@ -3,7 +3,7 @@ package data
 import (
 	"context"
 
-	"github.com/adrianriobo/qenvs/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"

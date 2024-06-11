@@ -1,10 +1,10 @@
 package hosts
 
 import (
-	params "github.com/adrianriobo/qenvs/cmd/cmd/constants"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/action/fedora"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	params "github.com/redhat-developer/mapt/cmd/cmd/constants"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/action/fedora"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -44,7 +44,7 @@ func getFedoraCreate() *cobra.Command {
 			}
 
 			// Initialize context
-			qenvsContext.Init(
+			maptContext.Init(
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
@@ -81,7 +81,7 @@ func getFedoraDestroy() *cobra.Command {
 				return err
 			}
 
-			qenvsContext.InitBase(
+			maptContext.InitBase(
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL))
 

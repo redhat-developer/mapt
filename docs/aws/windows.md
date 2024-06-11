@@ -2,7 +2,7 @@
 
 This actions will handle provision Windows Server machines on dedicated hosts. This is a requisite to run nested virtualization on AWS.
 
-Due to how qenvs checks the healthy state for the machine and due to some specific characteristics this action is intended for using within a [custom ami](https://github.com/adrianriobo/qenvs-builder). 
+Due to how mapt checks the healthy state for the machine and due to some specific characteristics this action is intended for using within a [custom ami](https://github.com/redhat-developer/mapt-builder). 
 
 Some of the customizations this image includes:
 
@@ -15,7 +15,7 @@ Some of the customizations this image includes:
 
 ## Ami replication
 
-Also the action is expecting the image exists with the name: `Windows_Server-2022-English-Full-HyperV-RHQE` at least on one region (this AMI can be created using the helper side project [qenvs-builder](https://github.com/adrianriobo/qenvs-builder)). If `--spot` option is enable and the image is not offered / created on the chosen region it will copy the AMI as part of the stack (As so it will delete it on destroy).
+Also the action is expecting the image exists with the name: `Windows_Server-2022-English-Full-HyperV-RHQE` at least on one region (this AMI can be created using the helper side project [mapt-builder](https://github.com/redhat-developer/mapt-builder)). If `--spot` option is enable and the image is not offered / created on the chosen region it will copy the AMI as part of the stack (As so it will delete it on destroy).
 
 This process (replicate the ami) increase the overall time for spinning the machine, and can be avoided by running the replication cmd on the image to pre replicate the image on all regions.
 
@@ -26,11 +26,11 @@ Disclaimer in case of use the `--ami-keep-copy` it will keep the ami and the six
 ## Create
 
 ```bash
-qenvs aws windows create -h
+mapt aws windows create -h
 create
 
 Usage:
-  qenvs aws windows create [flags]
+  mapt aws windows create [flags]
 
 Flags:
       --airgap                       if this flag is set the host will be created as airgap machine. Access will done through a bastion
@@ -67,13 +67,13 @@ Global Flags:
 When running the container image it is required to pass the authetication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
 
 ```bash
-podman run -d --name qenvs-rhel \
+podman run -d --name mapt-rhel \
         -v ${PWD}:/workspace:z \
         -e AWS_ACCESS_KEY_ID=XXX \
         -e AWS_SECRET_ACCESS_KEY=XXX \
         -e AWS_DEFAULT_REGION=us-east-1 \
-        quay.io/rhqp/qenvs:0.0.6-dev aws windows create \
-            --project-name qenvs-windows \
+        quay.io/redhat-developer/mapt:0.7.0-dev aws windows create \
+            --project-name mapt-windows \
             --backed-url file:///workspace \
             --conn-details-output /workspace
 ```
