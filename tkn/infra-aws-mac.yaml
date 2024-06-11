@@ -18,7 +18,7 @@ spec:
     The machine will offer nested virtualizataion capabilities as so it should be spin on a dedicated (baremetal) machine
   
   params:
-  # Qenvs params 
+  # mapt params 
   - name: project-name
     description: identifier for project. 
   - name: backed-url
@@ -96,7 +96,7 @@ spec:
 
   steps:
   - name: provisioner
-    image: quay.io/rhqp/qenvs:v0.7.0-dev
+    image: quay.io/redhat-developer/mapt:v0.7.0-dev
     imagePullPolicy: Always
     script: |
       #!/bin/sh
@@ -120,8 +120,8 @@ spec:
           rm -rf ${workspace_path}/.pulumi/locks/*
       fi
 
-      # Run qenvs
-      cmd="qenvs aws mac $(params.operation) "
+      # Run mapt
+      cmd="mapt aws mac $(params.operation) "
       cmd="$cmd --project-name $(params.project-name) "
       # Set the backed url
       if [[ $(params.backed-url) != "" ]]; then

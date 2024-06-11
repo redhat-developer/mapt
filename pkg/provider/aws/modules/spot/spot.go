@@ -6,13 +6,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"golang.org/x/exp/slices"

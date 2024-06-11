@@ -3,16 +3,16 @@ package mac
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 // Idea move away from multi file creation a set outputs as an unified yaml file
@@ -38,8 +38,8 @@ func (r *MacRequest) createDedicatedHost() (dhi *HostInformation, err error) {
 	logging.Debugf("creating a mac %s dedicated host state will be stored at %s",
 		r.Architecture, backedURL)
 	cs := manager.Stack{
-		StackName:   qenvsContext.StackNameByProject(stackDedicatedHost),
-		ProjectName: qenvsContext.ProjectName(),
+		StackName:   maptContext.StackNameByProject(stackDedicatedHost),
+		ProjectName: maptContext.ProjectName(),
 		BackedURL:   backedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
@@ -71,11 +71,11 @@ func (r *MacRequest) deployerDedicatedHost(ctx *pulumi.Context) (err error) {
 			AutoPlacement:    pulumi.String("off"),
 			AvailabilityZone: pulumi.String(*r.AvailabilityZone),
 			InstanceType:     pulumi.String(macTypesByArch[r.Architecture]),
-			Tags: qenvsContext.ResourceTagsWithCustom(
+			Tags: maptContext.ResourceTagsWithCustom(
 				map[string]string{
-					tagKeyBackedURL:          backedURL,
-					tagKeyArch:               r.Architecture,
-					qenvsContext.TagKeyRunID: qenvsContext.RunID(),
+					tagKeyBackedURL:         backedURL,
+					tagKeyArch:              r.Architecture,
+					maptContext.TagKeyRunID: maptContext.RunID(),
 				}),
 		})
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID), dh.ID())
@@ -89,7 +89,7 @@ func (r *MacRequest) deployerDedicatedHost(ctx *pulumi.Context) (err error) {
 // results for dedicated host it will return dedicatedhost ID and dedicatedhost AZ
 // also write results to files on the target folder
 func (r *MacRequest) manageResultsDedicatedHost(stackResult auto.UpResult) (*string, *string, error) {
-	if err := output.Write(stackResult, qenvsContext.GetResultsOutputPath(), map[string]string{
+	if err := output.Write(stackResult, maptContext.GetResultsOutputPath(), map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID): "dedicated_host_id",
 	}); err != nil {
 		return nil, nil, err

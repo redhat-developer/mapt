@@ -4,7 +4,7 @@ Create a composable environment with different qe target machines aggregated on 
 
 ## Hosts
 
-Current available features allow to create supported hosts on AWS using cmd `qenvs host create` current supported hosts:
+Current available features allow to create supported hosts on AWS using cmd `mapt host create` current supported hosts:
 
 * RHEL (host id `ol-rhel`)
 * Fedora (host id `ol-fedora`)
@@ -24,7 +24,7 @@ This module allows to check for best bid price on all regions, to request instan
 
 to check those requisites the module make use of spot placement scores based on machine requirements. Then best scores are crossed with lowers price from spot price history to pick the most valuable option.
 
-Current use case is working on one machine but it will be exteded to analyze any required environment offered by qenvs (checking with all the machines included on a specific environment).
+Current use case is working on one machine but it will be exteded to analyze any required environment offered by mapt (checking with all the machines included on a specific environment).
 
 Current information about supported machines can be checked at [support-matrix](./../pkg/infra/aws/support-matrix/matrix.go)
 
@@ -33,11 +33,11 @@ Current information about supported machines can be checked at [support-matrix](
 It creates / destroy supported hosts ready to be included within the CI/CD system. Features included within the offering:
 
 ```bash
-podman run -it --rm quay.io/rhqp/qenvs:0.0.5 aws host create -h
+podman run -it --rm quay.io/redhat-developer/mapt:0.7.0-dev aws host create -h
 create
 
 Usage:
-  qenvs aws host create [flags]
+  mapt aws host create [flags]
 
 Flags:
       --conn-details-output string        path to export host connection information (host, username and privateKey)
@@ -66,14 +66,14 @@ When running the container image it is required to pass the authetication inform
 ```bash
 # Create rhel host
 # Recommended this region us-east-1
-# https://github.com/adrianriobo/qenvs/issues/24
-podman run -d --name qenvs-rhel \
+# https://github.com/redhat-developer/mapt/issues/24
+podman run -d --name mapt-rhel \
         -v ${PWD}:/workspace:z \
         -e AWS_ACCESS_KEY_ID=XXX \
         -e AWS_SECRET_ACCESS_KEY=XXX \
         -e AWS_DEFAULT_REGION=us-east-1 \
-        quay.io/rhqp/qenvs:0.0.5 aws host create \
-            --project-name qenvs-rhel \
+        quay.io/redhat-developer/mapt:0.7.0-dev aws host create \
+            --project-name mapt-rhel \
             --backed-url file:///workspace \
             --conn-details-output /workspace \
             --host-id ol-rhel \
@@ -86,13 +86,13 @@ The following is a snipped on how to destroy the resources:
 ```bash
 # Create rhel host
 # Recommended this region us-east-1
-# https://github.com/adrianriobo/qenvs/issues/24
-podman run -d --name qenvs-rhel \
+# https://github.com/redhat-developer/mapt/issues/24
+podman run -d --name mapt-rhel \
         -v ${PWD}:/workspace:z \
         -e AWS_ACCESS_KEY_ID=XXX \
         -e AWS_SECRET_ACCESS_KEY=XXX \
         -e AWS_DEFAULT_REGION=us-east-1 \
-        quay.io/rhqp/qenvs:0.0.5 aws host destroy \
-            --project-name qenvs-rhel \
+        quay.io/redhat-developer/mapt:0.7.0-dev aws host destroy \
+            --project-name mapt-rhel \
             --backed-url file:///workspace 
 ```

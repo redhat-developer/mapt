@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/adrianriobo/qenvs/pkg/util"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"golang.org/x/exp/maps"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2"

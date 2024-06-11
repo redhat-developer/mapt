@@ -3,11 +3,11 @@ package standard
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/subnet"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/vpc/vpc"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/vpc/subnet"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/vpc/vpc"
 )
 
 const (

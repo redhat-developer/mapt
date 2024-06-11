@@ -1,10 +1,10 @@
 package securitygroup
 
 import (
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	infra "github.com/adrianriobo/qenvs/pkg/provider"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
 )
 
 type IngressRules struct {
@@ -35,7 +35,7 @@ func (r SGRequest) Create(ctx *pulumi.Context) (*SGResources, error) {
 			VpcId:       r.VPC.ID(),
 			Ingress:     getSecurityGroupIngressArray(r.IngressRules),
 			Egress:      ec2.SecurityGroupEgressArray{egressAll},
-			Tags:        qenvsContext.ResourceTags(),
+			Tags:        maptContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err

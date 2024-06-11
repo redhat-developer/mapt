@@ -3,18 +3,18 @@ package bastion
 import (
 	"fmt"
 
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	infra "github.com/adrianriobo/qenvs/pkg/provider"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/keypair"
-	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
-	"github.com/adrianriobo/qenvs/pkg/util"
-	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
+	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/pkg/util"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 const (
@@ -126,7 +126,7 @@ func (r *BastionRequest) instance(ctx *pulumi.Context,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: qenvsContext.ResourceTags(),
+		Tags: maptContext.ResourceTags(),
 	}
 	i, err := ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, bastionMachineID, "instance"),

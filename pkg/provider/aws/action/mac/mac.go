@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"strings"
 
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/tag"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
@@ -55,8 +55,8 @@ func Request(r *MacRequest) error {
 		return err
 	}
 	// We update the runID on the dedicated host
-	return tag.Update(qenvsContext.TagKeyRunID,
-		qenvsContext.RunID(),
+	return tag.Update(maptContext.TagKeyRunID,
+		maptContext.RunID(),
 		*hi.Region,
 		*hi.Host.HostId)
 }
@@ -75,7 +75,7 @@ func Release(prefix string, hostID string) error {
 	}
 	hi := getHostInformation(*host)
 	// Set context based on info from dedicated host to be released
-	qenvsContext.InitBase(
+	maptContext.InitBase(
 		*hi.ProjectName,
 		*hi.BackedURL)
 	// Set a default request
@@ -97,7 +97,7 @@ func Destroy(prefix, hostID string) error {
 	}
 	hi := getHostInformation(*host)
 	// Set context based on info from dedicated host to be released
-	qenvsContext.InitBase(
+	maptContext.InitBase(
 		*hi.ProjectName,
 		*hi.BackedURL)
 	// Check if dh is available and it has no instance on it
@@ -133,8 +133,8 @@ func Destroy(prefix, hostID string) error {
 //
 // * backedURL will be used to create the mac machine stack
 // * arch will be used to match new requests for specific arch
-// * origin fixed qenvs value
-// * instaceTagName id for the qenvs execution
+// * origin fixed mapt value
+// * instaceTagName id for the mapt execution
 // * (customs) any tag passed as --tags param on the create operation
 //
 // It will also create a mac machine based on the arch and version setup

@@ -1,8 +1,8 @@
 package mac
 
 import (
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 )
 
 type MacRequest struct {

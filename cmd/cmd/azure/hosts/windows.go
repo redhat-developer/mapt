@@ -3,11 +3,11 @@ package hosts
 import (
 	"fmt"
 
-	params "github.com/adrianriobo/qenvs/cmd/cmd/constants"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	azureWindows "github.com/adrianriobo/qenvs/pkg/provider/azure/action/windows"
-	spotprice "github.com/adrianriobo/qenvs/pkg/provider/azure/module/spot-price"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	params "github.com/redhat-developer/mapt/cmd/cmd/constants"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
+	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -68,7 +68,7 @@ func getCreate() *cobra.Command {
 				return err
 			}
 			// Initialize context
-			qenvsContext.Init(
+			maptContext.Init(
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
@@ -126,7 +126,7 @@ func getDestroy() *cobra.Command {
 				return err
 			}
 			// Initialize context
-			qenvsContext.Init(
+			maptContext.Init(
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),

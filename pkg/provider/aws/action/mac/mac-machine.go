@@ -4,23 +4,23 @@ import (
 	_ "embed"
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	infra "github.com/adrianriobo/qenvs/pkg/provider"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/bastion"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
-	qEC2 "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/compute"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/keypair"
-	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/security"
-	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/adrianriobo/qenvs/pkg/util/file"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
+	qEC2 "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/compute"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
+	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/pkg/provider/util/security"
+	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/file"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
@@ -47,8 +47,8 @@ type locked struct {
 
 func isMachineLocked(prefix string, h *HostInformation) (bool, error) {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   qenvsContext.StackNameByProject(stackMacMachine),
-		ProjectName: qenvsContext.ProjectName(),
+		StackName:   maptContext.StackNameByProject(stackMacMachine),
+		ProjectName: maptContext.ProjectName(),
 		BackedURL:   *h.BackedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
@@ -104,8 +104,8 @@ func (r *MacRequest) replaceMachine(h *HostInformation) error {
 func (r *MacRequest) releaseLock(h *HostInformation) error {
 	r.lock = false
 	lockURN := fmt.Sprintf("urn:pulumi:%s::%s::%s::%s",
-		qenvsContext.StackNameByProject(stackMacMachine),
-		qenvsContext.ProjectName(),
+		maptContext.StackNameByProject(stackMacMachine),
+		maptContext.ProjectName(),
 		customResourceTypeLock,
 		resourcesUtil.GetResourceName(
 			r.Prefix, awsMacMachineID, "mac-lock"))
@@ -254,12 +254,12 @@ func (r *MacRequest) manageResultsMachine(stackResult auto.UpResult) error {
 		fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID):   "dedicated_host_id",
 	}
 	if r.Airgap {
-		err := bastion.WriteOutputs(stackResult, r.Prefix, qenvsContext.GetResultsOutputPath())
+		err := bastion.WriteOutputs(stackResult, r.Prefix, maptContext.GetResultsOutputPath())
 		if err != nil {
 			return err
 		}
 	}
-	return output.Write(stackResult, qenvsContext.GetResultsOutputPath(), results)
+	return output.Write(stackResult, maptContext.GetResultsOutputPath(), results)
 }
 
 // security group for mac machine with ingress rules for ssh and vnc
@@ -313,7 +313,7 @@ func (r *MacRequest) instance(ctx *pulumi.Context,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: qenvsContext.ResourceTags(),
+		Tags: maptContext.ResourceTags(),
 	}
 	if r.Airgap {
 		instanceArgs.AssociatePublicIpAddress = pulumi.Bool(false)
@@ -364,7 +364,7 @@ func (r *MacRequest) getBootstrapScript(ctx *pulumi.Context) (
 	error) {
 	name := *r.dedicatedHost.RunID
 	if r.replace {
-		name = qenvsContext.CreateRunID()
+		name = maptContext.CreateRunID()
 	}
 	password, err := security.CreatePassword(ctx,
 		name)

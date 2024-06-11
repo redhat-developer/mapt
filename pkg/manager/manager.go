@@ -4,13 +4,13 @@ import (
 	"context"
 	"os"
 
-	"github.com/adrianriobo/qenvs/pkg/manager/credentials"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/debug"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optdestroy"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optup"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager/credentials"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 type Stack struct {

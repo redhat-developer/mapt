@@ -1,9 +1,9 @@
 package replica
 
 import (
-	params "github.com/adrianriobo/qenvs/cmd/cmd/constants"
-	amireplication "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/ami"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
+	params "github.com/redhat-developer/mapt/cmd/cmd/constants"
+	amireplication "github.com/redhat-developer/mapt/pkg/provider/aws/modules/ami"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"

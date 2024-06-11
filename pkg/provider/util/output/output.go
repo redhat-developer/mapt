@@ -4,8 +4,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 func Write(stackResult auto.UpResult, destinationFolder string, results map[string]string) (err error) {

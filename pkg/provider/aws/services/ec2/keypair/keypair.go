@@ -1,10 +1,10 @@
 package keypair
 
 import (
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 )
 
 type KeyPairRequest struct {
@@ -32,7 +32,7 @@ func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
 		r.Name,
 		&ec2.KeyPairArgs{
 			PublicKey: privateKey.PublicKeyOpenssh,
-			Tags:      qenvsContext.ResourceTags()})
+			Tags:      maptContext.ResourceTags()})
 	if err != nil {
 		return nil, err
 	}

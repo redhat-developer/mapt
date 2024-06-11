@@ -3,13 +3,13 @@ package network
 import (
 	"fmt"
 
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/bastion"
-	na "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network/airgap"
-	ns "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network/standard"
-	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
+	na "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/airgap"
+	ns "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 const (

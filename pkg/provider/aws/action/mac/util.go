@@ -5,10 +5,10 @@ import (
 	"os"
 	"strings"
 
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"golang.org/x/exp/slices"
 )
 
@@ -20,8 +20,8 @@ func getHostInformation(h ec2Types.Host) *HostInformation {
 	return &HostInformation{
 		Arch:        &archValue,
 		BackedURL:   getTagValue(h.Tags, tagKeyBackedURL),
-		ProjectName: getTagValue(h.Tags, qenvsContext.TagKeyProjectName),
-		RunID:       getTagValue(h.Tags, qenvsContext.TagKeyRunID),
+		ProjectName: getTagValue(h.Tags, maptContext.TagKeyProjectName),
+		RunID:       getTagValue(h.Tags, maptContext.TagKeyRunID),
 		Region:      &region,
 		Host:        &h,
 	}
@@ -38,10 +38,10 @@ func getTagValue(tags []ec2Types.Tag, tagKey string) *string {
 // format for remote backed url when creating the dedicated host
 // the backed url from param is used as base and the ID is appended as sub path
 func getBackedURL() string {
-	if strings.Contains(qenvsContext.BackedURL(), "file://") {
-		return qenvsContext.BackedURL()
+	if strings.Contains(maptContext.BackedURL(), "file://") {
+		return maptContext.BackedURL()
 	}
-	return fmt.Sprintf("%s/%s", qenvsContext.BackedURL(), qenvsContext.RunID())
+	return fmt.Sprintf("%s/%s", maptContext.BackedURL(), maptContext.RunID())
 }
 
 // Get all dedicated hosts matching the tags + arch
@@ -59,7 +59,7 @@ func getMatchingHostsInformation(arch string) ([]*HostInformation, error) {
 
 // Get all dedicated hosts by tag and state
 func getMatchingHostsInStateInformation(arch string, state *ec2Types.AllocationState) ([]*HostInformation, error) {
-	matchingTags := qenvsContext.GetTags()
+	matchingTags := maptContext.GetTags()
 	matchingTags[tagKeyArch] = arch
 	hosts, err := data.GetDedicatedHosts(data.DedicatedHostResquest{
 		Tags: matchingTags,

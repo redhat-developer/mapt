@@ -1,7 +1,7 @@
 package aws
 
 import (
-	"github.com/adrianriobo/qenvs/cmd/cmd/aws/hosts"
+	"github.com/redhat-developer/mapt/cmd/cmd/aws/hosts"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

@@ -6,29 +6,29 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	infra "github.com/adrianriobo/qenvs/pkg/provider"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/data"
-	amiCopy "github.com/adrianriobo/qenvs/pkg/provider/aws/modules/ami"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/bastion"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/ec2/compute"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/network"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/modules/spot"
-	amiSVC "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/ami"
-	"github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/keypair"
-	securityGroup "github.com/adrianriobo/qenvs/pkg/provider/aws/services/ec2/security-group"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/security"
-	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/adrianriobo/qenvs/pkg/util/file"
-	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	amiCopy "github.com/redhat-developer/mapt/pkg/provider/aws/modules/ami"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/ec2/compute"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
+	amiSVC "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
+	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/pkg/provider/util/security"
+	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/file"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 // add proxy https://github.com/ptcodes/proxy-server-with-terraform/blob/master/main.tf
@@ -153,9 +153,9 @@ func Destroy() (err error) {
 
 func (r *Request) createMachine() error {
 	cs := manager.Stack{
-		StackName:   qenvsContext.StackNameByProject(stackName),
-		ProjectName: qenvsContext.ProjectName(),
-		BackedURL:   qenvsContext.BackedURL(),
+		StackName:   maptContext.StackNameByProject(stackName),
+		ProjectName: maptContext.ProjectName(),
+		BackedURL:   maptContext.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				aws.CONFIG_AWS_REGION: r.region}),
@@ -269,12 +269,12 @@ func (r *Request) manageResults(stackResult auto.UpResult) error {
 		fmt.Sprintf("%s-%s", r.Prefix, outputHost):           "host",
 	}
 	if r.Airgap {
-		err := bastion.WriteOutputs(stackResult, r.Prefix, qenvsContext.GetResultsOutputPath())
+		err := bastion.WriteOutputs(stackResult, r.Prefix, maptContext.GetResultsOutputPath())
 		if err != nil {
 			return err
 		}
 	}
-	return output.Write(stackResult, qenvsContext.GetResultsOutputPath(), results)
+	return output.Write(stackResult, maptContext.GetResultsOutputPath(), results)
 }
 
 // security group for mac machine with ingress rules for ssh and vnc

@@ -6,13 +6,13 @@ This actions will handle provision for Mac instances on AWS. Some key considerat
 * There is no spot market for mac machines
 * Machine (dedicated host) should be provisioned at least for 24 hours
 
-qenvs will take care of:
+mapt will take care of:
 
-* Try to honor the AWS_DEFAULT_REGION to spin the mac machine and look for a random AZ on it to launch it. In case the machine is no offered on the region as long as flag for `--fixed-location` is not set qenvs will move the Machine to a region were it is offered.
+* Try to honor the AWS_DEFAULT_REGION to spin the mac machine and look for a random AZ on it to launch it. In case the machine is no offered on the region as long as flag for `--fixed-location` is not set mapt will move the Machine to a region were it is offered.
 
 * Previous graph also applies when there is no capacity on an specific region. It could happen that a region offers the machine but there is no capacity under that circumstance it will dinamically move it to other region.
 
-* As the machine will be active for 24 hours, qenvs will allow to spin multiple machines (only once at a time) during that period (i.e different OS versions, or setups like airgap or vpn connected machine).
+* As the machine will be active for 24 hours, mapt will allow to spin multiple machines (only once at a time) during that period (i.e different OS versions, or setups like airgap or vpn connected machine).
 
 * (Future) Create a scheduled task to remove the machine after 24 hours to avoid missing resources. This will require using s3 as backed URL.
 
@@ -21,11 +21,11 @@ qenvs will take care of:
 ## Create
 
 ```bash
-qenvs aws mac create -h 
+mapt aws mac create -h 
 create
 
 Usage:
-  qenvs aws mac create [flags]
+  mapt aws mac create [flags]
 
 Flags:
       --airgap                       if this flag is set the host will be created as airgap machine. Access will done through a bastion
@@ -64,13 +64,13 @@ Global Flags:
 When running the container image it is required to pass the authetication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
 
 ```bash
-podman run -d --name qenvs-rhel \
+podman run -d --name mapt-rhel \
         -v ${PWD}:/workspace:z \
         -e AWS_ACCESS_KEY_ID=XXX \
         -e AWS_SECRET_ACCESS_KEY=XXX \
         -e AWS_DEFAULT_REGION=us-east-1 \
-        quay.io/rhqp/qenvs:0.0.6-dev aws mac create \
-            --project-name qenvs-mac \
+        quay.io/redhat-developer/mapt:0.7.0-dev aws mac create \
+            --project-name mapt-mac \
             --backed-url file:///workspace \
             --conn-details-output /workspace
 ```

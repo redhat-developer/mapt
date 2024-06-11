@@ -8,11 +8,11 @@ As a special case it offers the `profileSNC` option if that flag is set the inst
 ## Create
 
 ```bash
-qenvs aws rhel create -h
+mapt aws rhel create -h
 create
 
 Usage:
-  qenvs aws rhel create [flags]
+  mapt aws rhel create [flags]
 
 Flags:
       --airgap                            if this flag is set the host will be created as airgap machine. Access will done through a bastion
@@ -48,13 +48,13 @@ Global Flags:
 When running the container image it is required to pass the authetication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
 
 ```bash
-podman run -d --name qenvs-rhel \
+podman run -d --name mapt-rhel \
         -v ${PWD}:/workspace:z \
         -e AWS_ACCESS_KEY_ID=XXX \
         -e AWS_SECRET_ACCESS_KEY=XXX \
         -e AWS_DEFAULT_REGION=us-east-1 \
-        quay.io/rhqp/qenvs:0.6.0 aws rhel create \
-            --project-name qenvs-rhel \
+        quay.io/redhat-developer/mapt:0.7.0-dev aws rhel create \
+            --project-name mapt-rhel \
             --backed-url file:///workspace \
             --rh-subscription-password XXXX \
             --rh-subscription-username XXXXX \

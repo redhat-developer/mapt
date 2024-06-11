@@ -1,6 +1,6 @@
 package main
 
-import "github.com/adrianriobo/qenvs/cmd/cmd"
+import "github.com/redhat-developer/mapt/cmd/cmd"
 
 func main() {
 	cmd.Execute()

@@ -5,16 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/adrianriobo/qenvs/pkg/manager"
-	qenvsContext "github.com/adrianriobo/qenvs/pkg/manager/context"
-	"github.com/adrianriobo/qenvs/pkg/provider/azure"
-	spotprice "github.com/adrianriobo/qenvs/pkg/provider/azure/module/spot-price"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/command"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/output"
-	"github.com/adrianriobo/qenvs/pkg/provider/util/security"
-	"github.com/adrianriobo/qenvs/pkg/util"
-	"github.com/adrianriobo/qenvs/pkg/util/logging"
-	resourcesUtil "github.com/adrianriobo/qenvs/pkg/util/resources"
 	"github.com/pulumi/pulumi-azure-native-sdk/compute/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/network/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
@@ -23,6 +13,16 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/azure"
+	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
+	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/pkg/provider/util/security"
+	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 	"golang.org/x/exp/slices"
 )
 
@@ -45,9 +45,9 @@ type WindowsRequest struct {
 func Create(r *WindowsRequest) (err error) {
 	logging.Debug("Creating Windows Desktop")
 	cs := manager.Stack{
-		StackName:           qenvsContext.StackNameByProject(stackCreateWindowsDesktop),
-		ProjectName:         qenvsContext.ProjectName(),
-		BackedURL:           qenvsContext.BackedURL(),
+		StackName:           maptContext.StackNameByProject(stackCreateWindowsDesktop),
+		ProjectName:         maptContext.ProjectName(),
+		BackedURL:           maptContext.BackedURL(),
 		ProviderCredentials: azure.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
@@ -57,15 +57,15 @@ func Create(r *WindowsRequest) (err error) {
 
 func Destroy() error {
 	if err := azure.Destroy(
-		qenvsContext.ProjectName(),
-		qenvsContext.BackedURL(),
-		qenvsContext.StackNameByProject(stackCreateWindowsDesktop)); err != nil {
+		maptContext.ProjectName(),
+		maptContext.BackedURL(),
+		maptContext.StackNameByProject(stackCreateWindowsDesktop)); err != nil {
 		return err
 	}
 	return azure.Destroy(
-		qenvsContext.ProjectName(),
-		qenvsContext.BackedURL(),
-		qenvsContext.StackNameByProject(stackSyncWindowsDesktop))
+		maptContext.ProjectName(),
+		maptContext.BackedURL(),
+		maptContext.StackNameByProject(stackSyncWindowsDesktop))
 }
 
 // Main function to deploy all requried resources to azure
@@ -78,8 +78,8 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "rg"),
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(*location),
-			ResourceGroupName: pulumi.String(qenvsContext.RunID()),
-			Tags:              qenvsContext.ResourceTags(),
+			ResourceGroupName: pulumi.String(maptContext.RunID()),
+			Tags:              maptContext.ResourceTags(),
 		})
 	if err != nil {
 		return err
@@ -135,7 +135,7 @@ func (r *WindowsRequest) valuesCheckingSpot() (*string, *float64, error) {
 
 // Write exported values in context to files o a selected target folder
 func (r *WindowsRequest) manageResults(stackResult auto.UpResult) error {
-	return output.Write(stackResult, qenvsContext.GetResultsOutputPath(), map[string]string{
+	return output.Write(stackResult, maptContext.GetResultsOutputPath(), map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername):     "adminusername",
 		fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword): "adminuserpassword",
 		fmt.Sprintf("%s-%s", r.Prefix, outputUsername):          "username",
@@ -162,7 +162,7 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername), pulumi.String(r.AdminUsername))
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), adminPasswd.Result)
 	vmArgs := &compute.VirtualMachineArgs{
-		VmName:            pulumi.String(qenvsContext.RunID()),
+		VmName:            pulumi.String(maptContext.RunID()),
 		Location:          pulumi.String(location),
 		ResourceGroupName: rg.Name,
 		NetworkProfile: compute.NetworkProfileArgs{
@@ -183,7 +183,7 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 				Version:   pulumi.String("latest"),
 			},
 			OsDisk: compute.OSDiskArgs{
-				Name:         pulumi.String(qenvsContext.RunID()),
+				Name:         pulumi.String(maptContext.RunID()),
 				CreateOption: pulumi.String("FromImage"),
 				Caching:      compute.CachingTypesReadWrite,
 				ManagedDisk: compute.ManagedDiskParametersArgs{
@@ -194,9 +194,9 @@ func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
 		OsProfile: compute.OSProfileArgs{
 			AdminUsername: pulumi.String(r.AdminUsername),
 			AdminPassword: adminPasswd.Result,
-			ComputerName:  pulumi.String(qenvsContext.RunID()),
+			ComputerName:  pulumi.String(maptContext.RunID()),
 		},
-		Tags: qenvsContext.ResourceTags(),
+		Tags: maptContext.ResourceTags(),
 	}
 	if spotPrice != nil {
 		vmArgs.Priority = pulumi.String(prioritySpot)
@@ -217,7 +217,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 	vn, err := network.NewVirtualNetwork(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "vn"),
 		&network.VirtualNetworkArgs{
-			VirtualNetworkName: pulumi.String(qenvsContext.RunID()),
+			VirtualNetworkName: pulumi.String(maptContext.RunID()),
 			AddressSpace: network.AddressSpaceArgs{
 				AddressPrefixes: pulumi.StringArray{
 					pulumi.String(cidrVN),
@@ -225,7 +225,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 			},
 			ResourceGroupName: rg.Name,
 			Location:          pulumi.String(location),
-			Tags:              qenvsContext.ResourceTags(),
+			Tags:              maptContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, nil, err
@@ -233,7 +233,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 	sn, err := network.NewSubnet(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "sn"),
 		&network.SubnetArgs{
-			SubnetName:         pulumi.String(qenvsContext.RunID()),
+			SubnetName:         pulumi.String(maptContext.RunID()),
 			ResourceGroupName:  rg.Name,
 			VirtualNetworkName: vn.Name,
 			AddressPrefixes: pulumi.StringArray{
@@ -247,12 +247,12 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pip"),
 		&network.PublicIPAddressArgs{
 			Location:                 pulumi.String(location),
-			PublicIpAddressName:      pulumi.String(qenvsContext.RunID()),
+			PublicIpAddressName:      pulumi.String(maptContext.RunID()),
 			PublicIPAllocationMethod: pulumi.String("Static"),
 			ResourceGroupName:        rg.Name,
-			Tags:                     qenvsContext.ResourceTags(),
+			Tags:                     maptContext.ResourceTags(),
 			// DnsSettings: network.PublicIPAddressDnsSettingsArgs{
-			// 	DomainNameLabel: pulumi.String("qenvs"),
+			// 	DomainNameLabel: pulumi.String("mapt"),
 			// },
 		})
 	if err != nil {
@@ -262,12 +262,12 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 	ni, err := network.NewNetworkInterface(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "ni"),
 		&network.NetworkInterfaceArgs{
-			NetworkInterfaceName: pulumi.String(qenvsContext.RunID()),
+			NetworkInterfaceName: pulumi.String(maptContext.RunID()),
 			Location:             pulumi.String(location),
 			ResourceGroupName:    rg.Name,
 			IpConfigurations: network.NetworkInterfaceIPConfigurationArray{
 				&network.NetworkInterfaceIPConfigurationArgs{
-					Name:                      pulumi.String(qenvsContext.RunID()),
+					Name:                      pulumi.String(maptContext.RunID()),
 					PrivateIPAllocationMethod: pulumi.String("Dynamic"),
 					PublicIPAddress: network.PublicIPAddressTypeArgs{
 						Id: publicIP.ID(),
@@ -277,7 +277,7 @@ func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
 					},
 				},
 			},
-			Tags: qenvsContext.ResourceTags(),
+			Tags: maptContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, nil, err
@@ -350,7 +350,7 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				},
 				"commandToExecute": setupCommand,
 			},
-			Tags: qenvsContext.ResourceTags(),
+			Tags: maptContext.ResourceTags(),
 		},
 		pulumi.RetainOnDelete(true))
 	return privateKey, vme, err
@@ -362,7 +362,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	sa, err := storage.NewStorageAccount(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "sa"),
 		&storage.StorageAccountArgs{
-			AccountName:           pulumi.String(qenvsContext.RunID()),
+			AccountName:           pulumi.String(maptContext.RunID()),
 			Kind:                  pulumi.String("BlockBlobStorage"),
 			ResourceGroupName:     rg.Name,
 			Location:              pulumi.String(location),
@@ -370,7 +370,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 			Sku: &storage.SkuArgs{
 				Name: pulumi.String("Premium_LRS"),
 			},
-			Tags: qenvsContext.ResourceTags(),
+			Tags: maptContext.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -378,7 +378,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	c, err := storage.NewBlobContainer(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "co"),
 		&storage.BlobContainerArgs{
-			ContainerName:     pulumi.String(qenvsContext.RunID()),
+			ContainerName:     pulumi.String(maptContext.RunID()),
 			AccountName:       sa.Name,
 			ResourceGroupName: rg.Name,
 			PublicAccess:      storage.PublicAccessBlob,

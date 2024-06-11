@@ -1,6 +1,6 @@
 # Overview
 
-qenvs offers several operations to manage environments within azure:
+mapt offers several operations to manage environments within azure:
 
 ## Windows
 
@@ -30,11 +30,11 @@ Side note: the other requirements for reboot are done by default; hyper-v instal
 This will create a windows desktop accordig to params specificed:
 
 ```bash
-podman run -it --rm quay.io/rhqp/qenvs:v0.7.0 azure windows create -h
+podman run -it --rm quay.io/redhat-developer/mapt:0.7.0-dev azure windows create -h
 create
 
 Usage:
-  qenvs azure windows create [flags]
+  mapt azure windows create [flags]
 
 Flags:
       --admin-username string            username for admin user. Only rdp accessible within generated password (default "rhqpadmin")
@@ -76,7 +76,7 @@ podman run -d --rm \
     -e ARM_SUBSCRIPTION_ID=${asi_value} \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
-    quay.io/rhqp/qenvs:v0.0.5 azure \
+    quay.io/redhat-developer/mapt:0.7.0-dev azure \
         windows create \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace" \
@@ -94,7 +94,7 @@ podman run -d --rm \
     -e ARM_SUBSCRIPTION_ID=${asi_value} \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
-    quay.io/rhqp/qenvs:v0.0.5 azure \
+    quay.io/redhat-developer/mapt:0.7.0-dev azure \
         windows destroy \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace"
