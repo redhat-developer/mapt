@@ -90,6 +90,18 @@ github.com/ProtonMail/go-crypto/openpgp/internal/ecc
 github.com/ProtonMail/go-crypto/openpgp/internal/encoding
 github.com/ProtonMail/go-crypto/openpgp/packet
 github.com/ProtonMail/go-crypto/openpgp/s2k
+# github.com/adrianriobo/qenvs v0.6.5
+## explicit; go 1.21
+github.com/adrianriobo/qenvs/pkg/manager
+github.com/adrianriobo/qenvs/pkg/manager/context
+github.com/adrianriobo/qenvs/pkg/manager/credentials
+github.com/adrianriobo/qenvs/pkg/provider/aws
+github.com/adrianriobo/qenvs/pkg/provider/aws/data
+github.com/adrianriobo/qenvs/pkg/provider/util/output
+github.com/adrianriobo/qenvs/pkg/util
+github.com/adrianriobo/qenvs/pkg/util/logging
+github.com/adrianriobo/qenvs/pkg/util/maps
+github.com/adrianriobo/qenvs/pkg/util/resources
 # github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da
 ## explicit
 github.com/aead/chacha20/chacha
@@ -105,6 +117,52 @@ github.com/apparentlymart/go-textseg/v15/textseg
 # github.com/atotto/clipboard v0.1.4
 ## explicit
 github.com/atotto/clipboard
+# github.com/aws/aws-sdk-go v1.48.9
+## explicit; go 1.19
+github.com/aws/aws-sdk-go/aws
+github.com/aws/aws-sdk-go/aws/auth/bearer
+github.com/aws/aws-sdk-go/aws/awserr
+github.com/aws/aws-sdk-go/aws/awsutil
+github.com/aws/aws-sdk-go/aws/client
+github.com/aws/aws-sdk-go/aws/client/metadata
+github.com/aws/aws-sdk-go/aws/corehandlers
+github.com/aws/aws-sdk-go/aws/credentials
+github.com/aws/aws-sdk-go/aws/credentials/ec2rolecreds
+github.com/aws/aws-sdk-go/aws/credentials/endpointcreds
+github.com/aws/aws-sdk-go/aws/credentials/processcreds
+github.com/aws/aws-sdk-go/aws/credentials/ssocreds
+github.com/aws/aws-sdk-go/aws/credentials/stscreds
+github.com/aws/aws-sdk-go/aws/csm
+github.com/aws/aws-sdk-go/aws/defaults
+github.com/aws/aws-sdk-go/aws/ec2metadata
+github.com/aws/aws-sdk-go/aws/endpoints
+github.com/aws/aws-sdk-go/aws/request
+github.com/aws/aws-sdk-go/aws/session
+github.com/aws/aws-sdk-go/aws/signer/v4
+github.com/aws/aws-sdk-go/internal/context
+github.com/aws/aws-sdk-go/internal/ini
+github.com/aws/aws-sdk-go/internal/sdkio
+github.com/aws/aws-sdk-go/internal/sdkmath
+github.com/aws/aws-sdk-go/internal/sdkrand
+github.com/aws/aws-sdk-go/internal/sdkuri
+github.com/aws/aws-sdk-go/internal/shareddefaults
+github.com/aws/aws-sdk-go/internal/strings
+github.com/aws/aws-sdk-go/internal/sync/singleflight
+github.com/aws/aws-sdk-go/private/protocol
+github.com/aws/aws-sdk-go/private/protocol/ec2query
+github.com/aws/aws-sdk-go/private/protocol/json/jsonutil
+github.com/aws/aws-sdk-go/private/protocol/jsonrpc
+github.com/aws/aws-sdk-go/private/protocol/query
+github.com/aws/aws-sdk-go/private/protocol/query/queryutil
+github.com/aws/aws-sdk-go/private/protocol/rest
+github.com/aws/aws-sdk-go/private/protocol/restjson
+github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil
+github.com/aws/aws-sdk-go/service/ec2
+github.com/aws/aws-sdk-go/service/sso
+github.com/aws/aws-sdk-go/service/sso/ssoiface
+github.com/aws/aws-sdk-go/service/ssooidc
+github.com/aws/aws-sdk-go/service/sts
+github.com/aws/aws-sdk-go/service/sts/stsiface
 # github.com/aws/aws-sdk-go-v2 v1.24.0
 ## explicit; go 1.19
 github.com/aws/aws-sdk-go-v2
@@ -477,9 +535,18 @@ github.com/pulumi/esc/syntax/encoding
 # github.com/pulumi/pulumi-aws/sdk/v6 v6.37.1
 ## explicit; go 1.21
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/cloudwatch
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ecs
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/s3
+# github.com/pulumi/pulumi-awsx/sdk/v2 v2.3.0
+## explicit; go 1.21
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/awsx
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/internal
 # github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.42.1
 ## explicit; go 1.18
 github.com/pulumi/pulumi-azure-native-sdk/compute/v2
@@ -499,6 +566,10 @@ github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
 ## explicit; go 1.21
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
+# github.com/pulumi/pulumi-docker/sdk/v4 v4.4.3
+## explicit; go 1.21
+github.com/pulumi/pulumi-docker/sdk/v4/go/docker
+github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 # github.com/pulumi/pulumi-random/sdk/v4 v4.16.2
 ## explicit; go 1.21
 github.com/pulumi/pulumi-random/sdk/v4/go/random

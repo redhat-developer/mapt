@@ -16,10 +16,12 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.5.2
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.9.0
+	github.com/adrianriobo/qenvs v0.6.5
 	github.com/aws/aws-sdk-go-v2 v1.24.0
 	github.com/aws/aws-sdk-go-v2/config v1.15.15
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.142.0
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.37.1
+	github.com/pulumi/pulumi-awsx/sdk/v2 v2.3.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.42.1
 	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.42.1
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.42.1
@@ -35,6 +37,7 @@ require (
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
+	github.com/aws/aws-sdk-go v1.48.9 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.12.10 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.9 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.2.9 // indirect
@@ -77,6 +80,7 @@ require (
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.8.3 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.42.1 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.4.3 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect
