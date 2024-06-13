@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/redhat-developer/mapt/cmd/cmd/aws"
-	"github.com/redhat-developer/mapt/cmd/cmd/azure"
-	params "github.com/redhat-developer/mapt/cmd/cmd/constants"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure"
+	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -17,8 +17,8 @@ import (
 
 const (
 	commandName      = "mapt"
-	descriptionShort = "PoC for pulumi"
-	descriptionLong  = "PoC for pulumi"
+	descriptionShort = "Multi Architecture Provisioning Tool"
+	descriptionLong  = "MAPT is a tool for creating pre-configured machines (baremetal or VMs) on cloud providers"
 
 	defaultErrorExitCode = 1
 )
