@@ -7,11 +7,12 @@ TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
 BUILD_DIR ?= out
-SOURCE_DIRS = cmd pkg test
+SOURCE_DIRS = cmd pkg
+SOURCES := $(shell find . -name "*.go" -not -path "./vendor/*")
 # https://golang.org/cmd/link/
 # LDFLAGS := $(VERSION_VARIABLES) -extldflags='-static' ${GO_EXTRA_LDFLAGS}
 LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
-GCFLAGS := all=-N -l 
+GCFLAGS := all=-N -l
 
 TOOLS_DIR := tools
 include tools/tools.mk
