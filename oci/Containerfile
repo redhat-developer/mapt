@@ -25,7 +25,7 @@ ENV INTERNAL_OUTPUT=/tmp/mapt \
 
 VOLUME [ "${INTERNAL_OUTPUT}" ]
 
-ENV AWS_CLI_VERSION 2.15.55
+ENV AWS_CLI_VERSION 2.16.7
 ENV AWS_CLI_URL https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
 
 ENV AZ_CLI_VERSION 2.61.0
