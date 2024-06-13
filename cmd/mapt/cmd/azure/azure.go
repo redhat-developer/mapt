@@ -1,7 +1,7 @@
 package azure
 
 import (
-	"github.com/redhat-developer/mapt/cmd/cmd/azure/hosts"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/hosts"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

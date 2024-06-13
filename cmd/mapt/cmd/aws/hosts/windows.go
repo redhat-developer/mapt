@@ -1,7 +1,7 @@
 package hosts
 
 import (
-	params "github.com/redhat-developer/mapt/cmd/cmd/constants"
+	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/windows"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
