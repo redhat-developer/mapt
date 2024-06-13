@@ -3,7 +3,7 @@ package hosts
 import (
 	"fmt"
 
-	params "github.com/redhat-developer/mapt/cmd/cmd/constants"
+	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
 	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
