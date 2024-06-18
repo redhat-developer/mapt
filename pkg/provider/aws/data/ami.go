@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -24,6 +25,8 @@ type ImageRequest struct {
 	Region            *string
 	BlockDeviceType   *string
 }
+
+const ERROR_NO_AMI = "no AMI"
 
 // GetAMI based on params defined by request
 // In case multiple AMIs it will return the newest
@@ -67,7 +70,7 @@ func GetAMI(r ImageRequest) (*ImageInfo, error) {
 	}
 	if result == nil || len(result.Images) == 0 {
 		logging.Debugf("result len 0 checking %s in %s", *r.Name, *r.Region)
-		return nil, fmt.Errorf("no AMI %s in %s", *r.Name, *r.Region)
+		return nil, fmt.Errorf("%s %s in %s", ERROR_NO_AMI, *r.Name, *r.Region)
 	}
 	logging.Debugf("len %d checking %s in %s", len(result.Images), *r.Name, *r.Region)
 	if err != nil {
@@ -95,6 +98,10 @@ func GetAMI(r ImageRequest) (*ImageInfo, error) {
 // IsAMIOffered checks if an ami based on its Name is offered on a specific region
 func IsAMIOffered(r ImageRequest) (bool, *ImageInfo, error) {
 	ami, err := GetAMI(r)
+	if err != nil && strings.Contains(err.Error(), ERROR_NO_AMI) {
+		// If there is no AMI for this function this is not considered an error
+		return false, nil, nil
+	}
 	return ami != nil, ami, err
 }
 
