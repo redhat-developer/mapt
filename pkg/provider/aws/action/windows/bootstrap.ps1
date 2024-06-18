@@ -19,6 +19,11 @@ Invoke-Command -ScriptBlock { New-Item -Path C:\Users\{{.Username}}\.ssh -Name "
 # Set back disable unnecrypted communications
 Set-Item .\allowunencrypted $false
 
+# Install github-actions-runner if needed
+{{ if .InstallActionsRunner }}$ghToken = {{ .RunnerToken }}
+    {{- .ActionsRunnerSnippet }}
+{{ end }}
+
 netsh advfirewall firewall add rule name="Open SSH Port 22" dir=in action=allow protocol=TCP localport=22 remoteip=any
 # Restart computer to have the ssh connection available with setup from this script
 Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"

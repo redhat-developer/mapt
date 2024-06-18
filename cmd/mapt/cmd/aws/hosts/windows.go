@@ -4,6 +4,7 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/windows"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -61,17 +62,29 @@ func getWindowsCreate() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags))
 
+			// Initialize gh actions runner if needed
+			if viper.IsSet(params.InstallGHActionsRunner) {
+				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
+					viper.GetString(params.GHActionsRunnerName),
+					viper.GetString(params.GHActionsRunnerRepo))
+				if err != nil {
+					logging.Error(err)
+				}
+			}
+
 			// Run create
 			if err := windows.Create(
 				&windows.Request{
-					Prefix:      "main",
-					AMIName:     viper.GetString(amiName),
-					AMIUser:     viper.GetString(amiUsername),
-					AMIOwner:    viper.GetString(amiOwner),
-					AMILang:     viper.GetString(amiLang),
-					AMIKeepCopy: viper.IsSet(amiKeepCopy),
-					Spot:        viper.IsSet(spot),
-					Airgap:      viper.IsSet(airgap)}); err != nil {
+					Prefix:               "main",
+					AMIName:              viper.GetString(amiName),
+					AMIUser:              viper.GetString(amiUsername),
+					AMIOwner:             viper.GetString(amiOwner),
+					AMILang:              viper.GetString(amiLang),
+					AMIKeepCopy:          viper.IsSet(amiKeepCopy),
+					Spot:                 viper.IsSet(spot),
+					Airgap:               viper.IsSet(airgap),
+					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -87,6 +100,7 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
+	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

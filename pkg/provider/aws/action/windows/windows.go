@@ -28,6 +28,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -44,6 +45,8 @@ type Request struct {
 	// Features
 	Spot   bool
 	Airgap bool
+	// setup as github actions runner
+	SetupGHActionsRunner bool
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -56,9 +59,12 @@ type Request struct {
 }
 
 type userDataValues struct {
-	Username      string
-	Password      string
-	AuthorizedKey string
+	Username             string
+	Password             string
+	AuthorizedKey        string
+	InstallActionsRunner bool
+	ActionsRunnerSnippet string
+	RunnerToken          string
 }
 
 //go:embed bootstrap.ps1
@@ -318,14 +324,16 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
-			userdata, err := file.Template(
-				userDataValues{
-					r.AMIUser,
-					password,
-					authorizedKey},
-				resourcesUtil.GetResourceName(
-					r.Prefix, awsWindowsDedicatedID, "userdatas"),
-				string(BootstrapScript[:]))
+			tmplName := resourcesUtil.GetResourceName(r.Prefix, awsWindowsDedicatedID, "userdatas")
+			udv := userDataValues{
+				r.AMIUser,
+				password,
+				authorizedKey,
+				r.SetupGHActionsRunner,
+				ghactions.GetActionRunnerSnippetWin(),
+				ghactions.GetToken(),
+			}
+			userdata, err := file.Template(udv, tmplName, string(BootstrapScript[:]))
 			if err != nil {
 				return "", err
 			}
