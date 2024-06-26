@@ -19,7 +19,8 @@ Invoke-Command -ScriptBlock { New-Item -Path C:\Users\{{.Username}}\.ssh -Name "
 # Set back disable unnecrypted communications
 Set-Item .\allowunencrypted $false
 
-# Restart computer to have the ssh connection available with setup from this script
-# Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"
 netsh advfirewall firewall add rule name="Open SSH Port 22" dir=in action=allow protocol=TCP localport=22 remoteip=any
+# Restart computer to have the ssh connection available with setup from this script
+Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"
+
 </powershell>
