@@ -66,6 +66,8 @@ const kubernetesProviderType = "pulumi:providers:kubernetes"
 
 // provider reflects a resource plugin, loaded dynamically for a single package.
 type provider struct {
+	NotForwardCompatibleProvider
+
 	ctx                    *Context                         // a plugin context for caching, etc.
 	pkg                    tokens.Package                   // the Pulumi package containing this provider's resources.
 	plug                   *plugin                          // the actual plugin process wrapper.
@@ -303,10 +305,62 @@ func isDiffCheckConfigLogicallyUnimplemented(err *rpcerror.Error, providerType t
 	return false
 }
 
+func (p *provider) Parameterize(ctx context.Context, request ParameterizeRequest) (ParameterizeResponse, error) {
+	var params pulumirpc.ParameterizeRequest
+	switch p := request.Parameters.(type) {
+	case ParameterizeArgs:
+		params.Parameters = &pulumirpc.ParameterizeRequest_Args{
+			Args: &pulumirpc.ParameterizeRequest_ParametersArgs{
+				Args: p.Args,
+			},
+		}
+	case ParameterizeValue:
+		var version string
+		if p.Version != nil {
+			version = p.Version.String()
+		}
+		value, err := structpb.NewValue(p.Value)
+		if err != nil {
+			return ParameterizeResponse{}, err
+		}
+		params.Parameters = &pulumirpc.ParameterizeRequest_Value{
+			Value: &pulumirpc.ParameterizeRequest_ParametersValue{
+				Name:    p.Name,
+				Version: version,
+				Value:   value,
+			},
+		}
+	case nil:
+		// No args present. That should be Ok.
+	default:
+		panic(fmt.Sprintf("Impossible - type is constrained to ParameterizeArgs or ParameterizeValue, found %T", p))
+	}
+	resp, err := p.clientRaw.Parameterize(p.requestContext(), &params)
+	if err != nil {
+		return ParameterizeResponse{}, err
+	}
+	var version *semver.Version
+	if resp.Version != "" {
+		v, err := semver.Parse(resp.Version)
+		if err != nil {
+			return ParameterizeResponse{}, err
+		}
+		version = &v
+	}
+	return ParameterizeResponse{Name: resp.Name, Version: version}, err
+}
+
 // GetSchema fetches the schema for this resource provider, if any.
-func (p *provider) GetSchema(version int) ([]byte, error) {
+func (p *provider) GetSchema(request GetSchemaRequest) ([]byte, error) {
+	var subpackageVersion string
+	if request.SubpackageVersion != nil {
+		subpackageVersion = request.SubpackageVersion.String()
+	}
+
 	resp, err := p.clientRaw.GetSchema(p.requestContext(), &pulumirpc.GetSchemaRequest{
-		Version: int32(version),
+		Version:           int32(request.Version),
+		SubpackageName:    request.SubpackageName,
+		SubpackageVersion: subpackageVersion,
 	})
 	if err != nil {
 		return nil, err

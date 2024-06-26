@@ -54,7 +54,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/retry"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/version"
 	"github.com/pulumi/pulumi/sdk/v3/nodejs/npm"
-	"github.com/pulumi/pulumi/sdk/v3/python"
+	"github.com/pulumi/pulumi/sdk/v3/python/toolchain"
 )
 
 const (
@@ -871,11 +871,6 @@ func (info *PluginInfo) SetFileMetadata(path string) error {
 
 func (spec PluginSpec) GetSource() (PluginSource, error) {
 	baseSource, err := func() (PluginSource, error) {
-		// If the plugin name matches an override, download the plugin from the override URL.
-		if url, ok := pluginDownloadURLOverridesParsed.get(spec.Name); ok {
-			return newHTTPSource(spec.Name, spec.Kind, urlMustParse(url)), nil
-		}
-
 		// The plugin has a set URL use that.
 		if spec.PluginDownloadURL != "" {
 			// Support schematised URLS if the URL has a "schema" part we recognize
@@ -894,6 +889,11 @@ func (spec PluginSpec) GetSource() (PluginSource, error) {
 			default:
 				return nil, fmt.Errorf("unknown plugin source scheme: %s", url.Scheme)
 			}
+		}
+
+		// If the plugin name matches an override, download the plugin from the override URL.
+		if url, ok := pluginDownloadURLOverridesParsed.get(spec.Name); ok {
+			return newHTTPSource(spec.Name, spec.Kind, urlMustParse(url)), nil
 		}
 
 		// Use our default fallback behaviour of github then get.pulumi.com
@@ -1463,7 +1463,16 @@ func (spec PluginSpec) InstallWithContext(ctx context.Context, content PluginCon
 				return fmt.Errorf("installing plugin dependencies: %w", err)
 			}
 		case "python":
-			if err := python.InstallDependencies(ctx, finalDir, "venv", false /*showOutput*/); err != nil {
+			// TODO[pulumi/pulumi/issues/16287]: Support toolchain options for installing plugins.
+			tc, err := toolchain.ResolveToolchain(toolchain.PythonOptions{
+				Toolchain:  toolchain.Pip,
+				Root:       finalDir,
+				Virtualenv: "venv",
+			})
+			if err != nil {
+				return fmt.Errorf("getting python toolchain: %w", err)
+			}
+			if err := tc.InstallDependencies(ctx, finalDir, false /*showOutput*/, os.Stdout, os.Stderr); err != nil {
 				return fmt.Errorf("installing plugin dependencies: %w", err)
 			}
 		}

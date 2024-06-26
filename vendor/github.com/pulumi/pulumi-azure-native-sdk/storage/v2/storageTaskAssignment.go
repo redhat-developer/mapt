@@ -21,8 +21,6 @@ type StorageTaskAssignment struct {
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Properties of the storage task assignment.
 	Properties StorageTaskAssignmentPropertiesResponseOutput `pulumi:"properties"`
-	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -36,6 +34,9 @@ func NewStorageTaskAssignment(ctx *pulumi.Context,
 
 	if args.AccountName == nil {
 		return nil, errors.New("invalid value for required argument 'AccountName'")
+	}
+	if args.Properties == nil {
+		return nil, errors.New("invalid value for required argument 'Properties'")
 	}
 	if args.ResourceGroupName == nil {
 		return nil, errors.New("invalid value for required argument 'ResourceGroupName'")
@@ -82,7 +83,7 @@ type storageTaskAssignmentArgs struct {
 	// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
 	AccountName string `pulumi:"accountName"`
 	// Properties of the storage task assignment.
-	Properties *StorageTaskAssignmentProperties `pulumi:"properties"`
+	Properties StorageTaskAssignmentProperties `pulumi:"properties"`
 	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the storage task assignment within the specified resource group. Storage task assignment names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
@@ -94,7 +95,7 @@ type StorageTaskAssignmentArgs struct {
 	// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
 	AccountName pulumi.StringInput
 	// Properties of the storage task assignment.
-	Properties StorageTaskAssignmentPropertiesPtrInput
+	Properties StorageTaskAssignmentPropertiesInput
 	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// The name of the storage task assignment within the specified resource group. Storage task assignment names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
@@ -146,11 +147,6 @@ func (o StorageTaskAssignmentOutput) Name() pulumi.StringOutput {
 // Properties of the storage task assignment.
 func (o StorageTaskAssignmentOutput) Properties() StorageTaskAssignmentPropertiesResponseOutput {
 	return o.ApplyT(func(v *StorageTaskAssignment) StorageTaskAssignmentPropertiesResponseOutput { return v.Properties }).(StorageTaskAssignmentPropertiesResponseOutput)
-}
-
-// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o StorageTaskAssignmentOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *StorageTaskAssignment) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

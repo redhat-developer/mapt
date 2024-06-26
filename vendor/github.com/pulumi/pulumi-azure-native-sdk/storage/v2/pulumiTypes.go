@@ -5513,6 +5513,50 @@ func (o ExecutionTargetResponseOutput) Prefix() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ExecutionTargetResponse) []string { return v.Prefix }).(pulumi.StringArrayOutput)
 }
 
+type ExecutionTargetResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ExecutionTargetResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ExecutionTargetResponse)(nil)).Elem()
+}
+
+func (o ExecutionTargetResponsePtrOutput) ToExecutionTargetResponsePtrOutput() ExecutionTargetResponsePtrOutput {
+	return o
+}
+
+func (o ExecutionTargetResponsePtrOutput) ToExecutionTargetResponsePtrOutputWithContext(ctx context.Context) ExecutionTargetResponsePtrOutput {
+	return o
+}
+
+func (o ExecutionTargetResponsePtrOutput) Elem() ExecutionTargetResponseOutput {
+	return o.ApplyT(func(v *ExecutionTargetResponse) ExecutionTargetResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ExecutionTargetResponse
+		return ret
+	}).(ExecutionTargetResponseOutput)
+}
+
+// List of object prefixes to be excluded from task execution. If there is a conflict between include and exclude prefixes, the exclude prefix will be the determining factor
+func (o ExecutionTargetResponsePtrOutput) ExcludePrefix() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ExecutionTargetResponse) []string {
+		if v == nil {
+			return nil
+		}
+		return v.ExcludePrefix
+	}).(pulumi.StringArrayOutput)
+}
+
+// Required list of object prefixes to be included for task execution
+func (o ExecutionTargetResponsePtrOutput) Prefix() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ExecutionTargetResponse) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Prefix
+	}).(pulumi.StringArrayOutput)
+}
+
 // Execution trigger for storage task assignment
 type ExecutionTrigger struct {
 	// The trigger parameters of the storage task assignment execution
@@ -5552,47 +5596,6 @@ func (i ExecutionTriggerArgs) ToExecutionTriggerOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, i).(ExecutionTriggerOutput)
 }
 
-func (i ExecutionTriggerArgs) ToExecutionTriggerPtrOutput() ExecutionTriggerPtrOutput {
-	return i.ToExecutionTriggerPtrOutputWithContext(context.Background())
-}
-
-func (i ExecutionTriggerArgs) ToExecutionTriggerPtrOutputWithContext(ctx context.Context) ExecutionTriggerPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ExecutionTriggerOutput).ToExecutionTriggerPtrOutputWithContext(ctx)
-}
-
-// ExecutionTriggerPtrInput is an input type that accepts ExecutionTriggerArgs, ExecutionTriggerPtr and ExecutionTriggerPtrOutput values.
-// You can construct a concrete instance of `ExecutionTriggerPtrInput` via:
-//
-//	        ExecutionTriggerArgs{...}
-//
-//	or:
-//
-//	        nil
-type ExecutionTriggerPtrInput interface {
-	pulumi.Input
-
-	ToExecutionTriggerPtrOutput() ExecutionTriggerPtrOutput
-	ToExecutionTriggerPtrOutputWithContext(context.Context) ExecutionTriggerPtrOutput
-}
-
-type executionTriggerPtrType ExecutionTriggerArgs
-
-func ExecutionTriggerPtr(v *ExecutionTriggerArgs) ExecutionTriggerPtrInput {
-	return (*executionTriggerPtrType)(v)
-}
-
-func (*executionTriggerPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**ExecutionTrigger)(nil)).Elem()
-}
-
-func (i *executionTriggerPtrType) ToExecutionTriggerPtrOutput() ExecutionTriggerPtrOutput {
-	return i.ToExecutionTriggerPtrOutputWithContext(context.Background())
-}
-
-func (i *executionTriggerPtrType) ToExecutionTriggerPtrOutputWithContext(ctx context.Context) ExecutionTriggerPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ExecutionTriggerPtrOutput)
-}
-
 // Execution trigger for storage task assignment
 type ExecutionTriggerOutput struct{ *pulumi.OutputState }
 
@@ -5608,16 +5611,6 @@ func (o ExecutionTriggerOutput) ToExecutionTriggerOutputWithContext(ctx context.
 	return o
 }
 
-func (o ExecutionTriggerOutput) ToExecutionTriggerPtrOutput() ExecutionTriggerPtrOutput {
-	return o.ToExecutionTriggerPtrOutputWithContext(context.Background())
-}
-
-func (o ExecutionTriggerOutput) ToExecutionTriggerPtrOutputWithContext(ctx context.Context) ExecutionTriggerPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v ExecutionTrigger) *ExecutionTrigger {
-		return &v
-	}).(ExecutionTriggerPtrOutput)
-}
-
 // The trigger parameters of the storage task assignment execution
 func (o ExecutionTriggerOutput) Parameters() TriggerParametersOutput {
 	return o.ApplyT(func(v ExecutionTrigger) TriggerParameters { return v.Parameters }).(TriggerParametersOutput)
@@ -5626,50 +5619,6 @@ func (o ExecutionTriggerOutput) Parameters() TriggerParametersOutput {
 // The trigger type of the storage task assignment execution
 func (o ExecutionTriggerOutput) Type() TriggerTypeOutput {
 	return o.ApplyT(func(v ExecutionTrigger) TriggerType { return v.Type }).(TriggerTypeOutput)
-}
-
-type ExecutionTriggerPtrOutput struct{ *pulumi.OutputState }
-
-func (ExecutionTriggerPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**ExecutionTrigger)(nil)).Elem()
-}
-
-func (o ExecutionTriggerPtrOutput) ToExecutionTriggerPtrOutput() ExecutionTriggerPtrOutput {
-	return o
-}
-
-func (o ExecutionTriggerPtrOutput) ToExecutionTriggerPtrOutputWithContext(ctx context.Context) ExecutionTriggerPtrOutput {
-	return o
-}
-
-func (o ExecutionTriggerPtrOutput) Elem() ExecutionTriggerOutput {
-	return o.ApplyT(func(v *ExecutionTrigger) ExecutionTrigger {
-		if v != nil {
-			return *v
-		}
-		var ret ExecutionTrigger
-		return ret
-	}).(ExecutionTriggerOutput)
-}
-
-// The trigger parameters of the storage task assignment execution
-func (o ExecutionTriggerPtrOutput) Parameters() TriggerParametersPtrOutput {
-	return o.ApplyT(func(v *ExecutionTrigger) *TriggerParameters {
-		if v == nil {
-			return nil
-		}
-		return &v.Parameters
-	}).(TriggerParametersPtrOutput)
-}
-
-// The trigger type of the storage task assignment execution
-func (o ExecutionTriggerPtrOutput) Type() TriggerTypePtrOutput {
-	return o.ApplyT(func(v *ExecutionTrigger) *TriggerType {
-		if v == nil {
-			return nil
-		}
-		return &v.Type
-	}).(TriggerTypePtrOutput)
 }
 
 // Execution trigger for storage task assignment
@@ -13442,7 +13391,7 @@ func (o StorageAccountSkuConversionStatusResponsePtrOutput) TargetSkuName() pulu
 // Execution context of the storage task assignment.
 type StorageTaskAssignmentExecutionContext struct {
 	// Execution target of the storage task assignment
-	Target ExecutionTarget `pulumi:"target"`
+	Target *ExecutionTarget `pulumi:"target"`
 	// Execution trigger of the storage task assignment
 	Trigger ExecutionTrigger `pulumi:"trigger"`
 }
@@ -13461,7 +13410,7 @@ type StorageTaskAssignmentExecutionContextInput interface {
 // Execution context of the storage task assignment.
 type StorageTaskAssignmentExecutionContextArgs struct {
 	// Execution target of the storage task assignment
-	Target ExecutionTargetInput `pulumi:"target"`
+	Target ExecutionTargetPtrInput `pulumi:"target"`
 	// Execution trigger of the storage task assignment
 	Trigger ExecutionTriggerInput `pulumi:"trigger"`
 }
@@ -13476,47 +13425,6 @@ func (i StorageTaskAssignmentExecutionContextArgs) ToStorageTaskAssignmentExecut
 
 func (i StorageTaskAssignmentExecutionContextArgs) ToStorageTaskAssignmentExecutionContextOutputWithContext(ctx context.Context) StorageTaskAssignmentExecutionContextOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentExecutionContextOutput)
-}
-
-func (i StorageTaskAssignmentExecutionContextArgs) ToStorageTaskAssignmentExecutionContextPtrOutput() StorageTaskAssignmentExecutionContextPtrOutput {
-	return i.ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(context.Background())
-}
-
-func (i StorageTaskAssignmentExecutionContextArgs) ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentExecutionContextPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentExecutionContextOutput).ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(ctx)
-}
-
-// StorageTaskAssignmentExecutionContextPtrInput is an input type that accepts StorageTaskAssignmentExecutionContextArgs, StorageTaskAssignmentExecutionContextPtr and StorageTaskAssignmentExecutionContextPtrOutput values.
-// You can construct a concrete instance of `StorageTaskAssignmentExecutionContextPtrInput` via:
-//
-//	        StorageTaskAssignmentExecutionContextArgs{...}
-//
-//	or:
-//
-//	        nil
-type StorageTaskAssignmentExecutionContextPtrInput interface {
-	pulumi.Input
-
-	ToStorageTaskAssignmentExecutionContextPtrOutput() StorageTaskAssignmentExecutionContextPtrOutput
-	ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(context.Context) StorageTaskAssignmentExecutionContextPtrOutput
-}
-
-type storageTaskAssignmentExecutionContextPtrType StorageTaskAssignmentExecutionContextArgs
-
-func StorageTaskAssignmentExecutionContextPtr(v *StorageTaskAssignmentExecutionContextArgs) StorageTaskAssignmentExecutionContextPtrInput {
-	return (*storageTaskAssignmentExecutionContextPtrType)(v)
-}
-
-func (*storageTaskAssignmentExecutionContextPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**StorageTaskAssignmentExecutionContext)(nil)).Elem()
-}
-
-func (i *storageTaskAssignmentExecutionContextPtrType) ToStorageTaskAssignmentExecutionContextPtrOutput() StorageTaskAssignmentExecutionContextPtrOutput {
-	return i.ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(context.Background())
-}
-
-func (i *storageTaskAssignmentExecutionContextPtrType) ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentExecutionContextPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentExecutionContextPtrOutput)
 }
 
 // Execution context of the storage task assignment.
@@ -13534,19 +13442,9 @@ func (o StorageTaskAssignmentExecutionContextOutput) ToStorageTaskAssignmentExec
 	return o
 }
 
-func (o StorageTaskAssignmentExecutionContextOutput) ToStorageTaskAssignmentExecutionContextPtrOutput() StorageTaskAssignmentExecutionContextPtrOutput {
-	return o.ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(context.Background())
-}
-
-func (o StorageTaskAssignmentExecutionContextOutput) ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentExecutionContextPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v StorageTaskAssignmentExecutionContext) *StorageTaskAssignmentExecutionContext {
-		return &v
-	}).(StorageTaskAssignmentExecutionContextPtrOutput)
-}
-
 // Execution target of the storage task assignment
-func (o StorageTaskAssignmentExecutionContextOutput) Target() ExecutionTargetOutput {
-	return o.ApplyT(func(v StorageTaskAssignmentExecutionContext) ExecutionTarget { return v.Target }).(ExecutionTargetOutput)
+func (o StorageTaskAssignmentExecutionContextOutput) Target() ExecutionTargetPtrOutput {
+	return o.ApplyT(func(v StorageTaskAssignmentExecutionContext) *ExecutionTarget { return v.Target }).(ExecutionTargetPtrOutput)
 }
 
 // Execution trigger of the storage task assignment
@@ -13554,54 +13452,10 @@ func (o StorageTaskAssignmentExecutionContextOutput) Trigger() ExecutionTriggerO
 	return o.ApplyT(func(v StorageTaskAssignmentExecutionContext) ExecutionTrigger { return v.Trigger }).(ExecutionTriggerOutput)
 }
 
-type StorageTaskAssignmentExecutionContextPtrOutput struct{ *pulumi.OutputState }
-
-func (StorageTaskAssignmentExecutionContextPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**StorageTaskAssignmentExecutionContext)(nil)).Elem()
-}
-
-func (o StorageTaskAssignmentExecutionContextPtrOutput) ToStorageTaskAssignmentExecutionContextPtrOutput() StorageTaskAssignmentExecutionContextPtrOutput {
-	return o
-}
-
-func (o StorageTaskAssignmentExecutionContextPtrOutput) ToStorageTaskAssignmentExecutionContextPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentExecutionContextPtrOutput {
-	return o
-}
-
-func (o StorageTaskAssignmentExecutionContextPtrOutput) Elem() StorageTaskAssignmentExecutionContextOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentExecutionContext) StorageTaskAssignmentExecutionContext {
-		if v != nil {
-			return *v
-		}
-		var ret StorageTaskAssignmentExecutionContext
-		return ret
-	}).(StorageTaskAssignmentExecutionContextOutput)
-}
-
-// Execution target of the storage task assignment
-func (o StorageTaskAssignmentExecutionContextPtrOutput) Target() ExecutionTargetPtrOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentExecutionContext) *ExecutionTarget {
-		if v == nil {
-			return nil
-		}
-		return &v.Target
-	}).(ExecutionTargetPtrOutput)
-}
-
-// Execution trigger of the storage task assignment
-func (o StorageTaskAssignmentExecutionContextPtrOutput) Trigger() ExecutionTriggerPtrOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentExecutionContext) *ExecutionTrigger {
-		if v == nil {
-			return nil
-		}
-		return &v.Trigger
-	}).(ExecutionTriggerPtrOutput)
-}
-
 // Execution context of the storage task assignment.
 type StorageTaskAssignmentExecutionContextResponse struct {
 	// Execution target of the storage task assignment
-	Target ExecutionTargetResponse `pulumi:"target"`
+	Target *ExecutionTargetResponse `pulumi:"target"`
 	// Execution trigger of the storage task assignment
 	Trigger ExecutionTriggerResponse `pulumi:"trigger"`
 }
@@ -13622,8 +13476,8 @@ func (o StorageTaskAssignmentExecutionContextResponseOutput) ToStorageTaskAssign
 }
 
 // Execution target of the storage task assignment
-func (o StorageTaskAssignmentExecutionContextResponseOutput) Target() ExecutionTargetResponseOutput {
-	return o.ApplyT(func(v StorageTaskAssignmentExecutionContextResponse) ExecutionTargetResponse { return v.Target }).(ExecutionTargetResponseOutput)
+func (o StorageTaskAssignmentExecutionContextResponseOutput) Target() ExecutionTargetResponsePtrOutput {
+	return o.ApplyT(func(v StorageTaskAssignmentExecutionContextResponse) *ExecutionTargetResponse { return v.Target }).(ExecutionTargetResponsePtrOutput)
 }
 
 // Execution trigger of the storage task assignment
@@ -13682,47 +13536,6 @@ func (i StorageTaskAssignmentPropertiesArgs) ToStorageTaskAssignmentPropertiesOu
 	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentPropertiesOutput)
 }
 
-func (i StorageTaskAssignmentPropertiesArgs) ToStorageTaskAssignmentPropertiesPtrOutput() StorageTaskAssignmentPropertiesPtrOutput {
-	return i.ToStorageTaskAssignmentPropertiesPtrOutputWithContext(context.Background())
-}
-
-func (i StorageTaskAssignmentPropertiesArgs) ToStorageTaskAssignmentPropertiesPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentPropertiesPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentPropertiesOutput).ToStorageTaskAssignmentPropertiesPtrOutputWithContext(ctx)
-}
-
-// StorageTaskAssignmentPropertiesPtrInput is an input type that accepts StorageTaskAssignmentPropertiesArgs, StorageTaskAssignmentPropertiesPtr and StorageTaskAssignmentPropertiesPtrOutput values.
-// You can construct a concrete instance of `StorageTaskAssignmentPropertiesPtrInput` via:
-//
-//	        StorageTaskAssignmentPropertiesArgs{...}
-//
-//	or:
-//
-//	        nil
-type StorageTaskAssignmentPropertiesPtrInput interface {
-	pulumi.Input
-
-	ToStorageTaskAssignmentPropertiesPtrOutput() StorageTaskAssignmentPropertiesPtrOutput
-	ToStorageTaskAssignmentPropertiesPtrOutputWithContext(context.Context) StorageTaskAssignmentPropertiesPtrOutput
-}
-
-type storageTaskAssignmentPropertiesPtrType StorageTaskAssignmentPropertiesArgs
-
-func StorageTaskAssignmentPropertiesPtr(v *StorageTaskAssignmentPropertiesArgs) StorageTaskAssignmentPropertiesPtrInput {
-	return (*storageTaskAssignmentPropertiesPtrType)(v)
-}
-
-func (*storageTaskAssignmentPropertiesPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**StorageTaskAssignmentProperties)(nil)).Elem()
-}
-
-func (i *storageTaskAssignmentPropertiesPtrType) ToStorageTaskAssignmentPropertiesPtrOutput() StorageTaskAssignmentPropertiesPtrOutput {
-	return i.ToStorageTaskAssignmentPropertiesPtrOutputWithContext(context.Background())
-}
-
-func (i *storageTaskAssignmentPropertiesPtrType) ToStorageTaskAssignmentPropertiesPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentPropertiesPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentPropertiesPtrOutput)
-}
-
 // Properties of the storage task assignment.
 type StorageTaskAssignmentPropertiesOutput struct{ *pulumi.OutputState }
 
@@ -13736,16 +13549,6 @@ func (o StorageTaskAssignmentPropertiesOutput) ToStorageTaskAssignmentProperties
 
 func (o StorageTaskAssignmentPropertiesOutput) ToStorageTaskAssignmentPropertiesOutputWithContext(ctx context.Context) StorageTaskAssignmentPropertiesOutput {
 	return o
-}
-
-func (o StorageTaskAssignmentPropertiesOutput) ToStorageTaskAssignmentPropertiesPtrOutput() StorageTaskAssignmentPropertiesPtrOutput {
-	return o.ToStorageTaskAssignmentPropertiesPtrOutputWithContext(context.Background())
-}
-
-func (o StorageTaskAssignmentPropertiesOutput) ToStorageTaskAssignmentPropertiesPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentPropertiesPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v StorageTaskAssignmentProperties) *StorageTaskAssignmentProperties {
-		return &v
-	}).(StorageTaskAssignmentPropertiesPtrOutput)
 }
 
 // Text that describes the purpose of the storage task assignment
@@ -13773,80 +13576,6 @@ func (o StorageTaskAssignmentPropertiesOutput) Report() StorageTaskAssignmentRep
 // Id of the corresponding storage task
 func (o StorageTaskAssignmentPropertiesOutput) TaskId() pulumi.StringOutput {
 	return o.ApplyT(func(v StorageTaskAssignmentProperties) string { return v.TaskId }).(pulumi.StringOutput)
-}
-
-type StorageTaskAssignmentPropertiesPtrOutput struct{ *pulumi.OutputState }
-
-func (StorageTaskAssignmentPropertiesPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**StorageTaskAssignmentProperties)(nil)).Elem()
-}
-
-func (o StorageTaskAssignmentPropertiesPtrOutput) ToStorageTaskAssignmentPropertiesPtrOutput() StorageTaskAssignmentPropertiesPtrOutput {
-	return o
-}
-
-func (o StorageTaskAssignmentPropertiesPtrOutput) ToStorageTaskAssignmentPropertiesPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentPropertiesPtrOutput {
-	return o
-}
-
-func (o StorageTaskAssignmentPropertiesPtrOutput) Elem() StorageTaskAssignmentPropertiesOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentProperties) StorageTaskAssignmentProperties {
-		if v != nil {
-			return *v
-		}
-		var ret StorageTaskAssignmentProperties
-		return ret
-	}).(StorageTaskAssignmentPropertiesOutput)
-}
-
-// Text that describes the purpose of the storage task assignment
-func (o StorageTaskAssignmentPropertiesPtrOutput) Description() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentProperties) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Description
-	}).(pulumi.StringPtrOutput)
-}
-
-// Whether the storage task assignment is enabled or not
-func (o StorageTaskAssignmentPropertiesPtrOutput) Enabled() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentProperties) *bool {
-		if v == nil {
-			return nil
-		}
-		return &v.Enabled
-	}).(pulumi.BoolPtrOutput)
-}
-
-// The storage task assignment execution context
-func (o StorageTaskAssignmentPropertiesPtrOutput) ExecutionContext() StorageTaskAssignmentExecutionContextPtrOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentProperties) *StorageTaskAssignmentExecutionContext {
-		if v == nil {
-			return nil
-		}
-		return &v.ExecutionContext
-	}).(StorageTaskAssignmentExecutionContextPtrOutput)
-}
-
-// The storage task assignment report
-func (o StorageTaskAssignmentPropertiesPtrOutput) Report() StorageTaskAssignmentReportPtrOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentProperties) *StorageTaskAssignmentReport {
-		if v == nil {
-			return nil
-		}
-		return &v.Report
-	}).(StorageTaskAssignmentReportPtrOutput)
-}
-
-// Id of the corresponding storage task
-func (o StorageTaskAssignmentPropertiesPtrOutput) TaskId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentProperties) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.TaskId
-	}).(pulumi.StringPtrOutput)
 }
 
 // Properties of the storage task assignment.
@@ -13956,47 +13685,6 @@ func (i StorageTaskAssignmentReportArgs) ToStorageTaskAssignmentReportOutputWith
 	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentReportOutput)
 }
 
-func (i StorageTaskAssignmentReportArgs) ToStorageTaskAssignmentReportPtrOutput() StorageTaskAssignmentReportPtrOutput {
-	return i.ToStorageTaskAssignmentReportPtrOutputWithContext(context.Background())
-}
-
-func (i StorageTaskAssignmentReportArgs) ToStorageTaskAssignmentReportPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentReportPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentReportOutput).ToStorageTaskAssignmentReportPtrOutputWithContext(ctx)
-}
-
-// StorageTaskAssignmentReportPtrInput is an input type that accepts StorageTaskAssignmentReportArgs, StorageTaskAssignmentReportPtr and StorageTaskAssignmentReportPtrOutput values.
-// You can construct a concrete instance of `StorageTaskAssignmentReportPtrInput` via:
-//
-//	        StorageTaskAssignmentReportArgs{...}
-//
-//	or:
-//
-//	        nil
-type StorageTaskAssignmentReportPtrInput interface {
-	pulumi.Input
-
-	ToStorageTaskAssignmentReportPtrOutput() StorageTaskAssignmentReportPtrOutput
-	ToStorageTaskAssignmentReportPtrOutputWithContext(context.Context) StorageTaskAssignmentReportPtrOutput
-}
-
-type storageTaskAssignmentReportPtrType StorageTaskAssignmentReportArgs
-
-func StorageTaskAssignmentReportPtr(v *StorageTaskAssignmentReportArgs) StorageTaskAssignmentReportPtrInput {
-	return (*storageTaskAssignmentReportPtrType)(v)
-}
-
-func (*storageTaskAssignmentReportPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**StorageTaskAssignmentReport)(nil)).Elem()
-}
-
-func (i *storageTaskAssignmentReportPtrType) ToStorageTaskAssignmentReportPtrOutput() StorageTaskAssignmentReportPtrOutput {
-	return i.ToStorageTaskAssignmentReportPtrOutputWithContext(context.Background())
-}
-
-func (i *storageTaskAssignmentReportPtrType) ToStorageTaskAssignmentReportPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentReportPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(StorageTaskAssignmentReportPtrOutput)
-}
-
 // The storage task assignment report
 type StorageTaskAssignmentReportOutput struct{ *pulumi.OutputState }
 
@@ -14012,53 +13700,9 @@ func (o StorageTaskAssignmentReportOutput) ToStorageTaskAssignmentReportOutputWi
 	return o
 }
 
-func (o StorageTaskAssignmentReportOutput) ToStorageTaskAssignmentReportPtrOutput() StorageTaskAssignmentReportPtrOutput {
-	return o.ToStorageTaskAssignmentReportPtrOutputWithContext(context.Background())
-}
-
-func (o StorageTaskAssignmentReportOutput) ToStorageTaskAssignmentReportPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentReportPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v StorageTaskAssignmentReport) *StorageTaskAssignmentReport {
-		return &v
-	}).(StorageTaskAssignmentReportPtrOutput)
-}
-
 // The container prefix for the location of storage task assignment report
 func (o StorageTaskAssignmentReportOutput) Prefix() pulumi.StringOutput {
 	return o.ApplyT(func(v StorageTaskAssignmentReport) string { return v.Prefix }).(pulumi.StringOutput)
-}
-
-type StorageTaskAssignmentReportPtrOutput struct{ *pulumi.OutputState }
-
-func (StorageTaskAssignmentReportPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**StorageTaskAssignmentReport)(nil)).Elem()
-}
-
-func (o StorageTaskAssignmentReportPtrOutput) ToStorageTaskAssignmentReportPtrOutput() StorageTaskAssignmentReportPtrOutput {
-	return o
-}
-
-func (o StorageTaskAssignmentReportPtrOutput) ToStorageTaskAssignmentReportPtrOutputWithContext(ctx context.Context) StorageTaskAssignmentReportPtrOutput {
-	return o
-}
-
-func (o StorageTaskAssignmentReportPtrOutput) Elem() StorageTaskAssignmentReportOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentReport) StorageTaskAssignmentReport {
-		if v != nil {
-			return *v
-		}
-		var ret StorageTaskAssignmentReport
-		return ret
-	}).(StorageTaskAssignmentReportOutput)
-}
-
-// The container prefix for the location of storage task assignment report
-func (o StorageTaskAssignmentReportPtrOutput) Prefix() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *StorageTaskAssignmentReport) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Prefix
-	}).(pulumi.StringPtrOutput)
 }
 
 // The storage task assignment report
@@ -15166,47 +14810,6 @@ func (i TriggerParametersArgs) ToTriggerParametersOutputWithContext(ctx context.
 	return pulumi.ToOutputWithContext(ctx, i).(TriggerParametersOutput)
 }
 
-func (i TriggerParametersArgs) ToTriggerParametersPtrOutput() TriggerParametersPtrOutput {
-	return i.ToTriggerParametersPtrOutputWithContext(context.Background())
-}
-
-func (i TriggerParametersArgs) ToTriggerParametersPtrOutputWithContext(ctx context.Context) TriggerParametersPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(TriggerParametersOutput).ToTriggerParametersPtrOutputWithContext(ctx)
-}
-
-// TriggerParametersPtrInput is an input type that accepts TriggerParametersArgs, TriggerParametersPtr and TriggerParametersPtrOutput values.
-// You can construct a concrete instance of `TriggerParametersPtrInput` via:
-//
-//	        TriggerParametersArgs{...}
-//
-//	or:
-//
-//	        nil
-type TriggerParametersPtrInput interface {
-	pulumi.Input
-
-	ToTriggerParametersPtrOutput() TriggerParametersPtrOutput
-	ToTriggerParametersPtrOutputWithContext(context.Context) TriggerParametersPtrOutput
-}
-
-type triggerParametersPtrType TriggerParametersArgs
-
-func TriggerParametersPtr(v *TriggerParametersArgs) TriggerParametersPtrInput {
-	return (*triggerParametersPtrType)(v)
-}
-
-func (*triggerParametersPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**TriggerParameters)(nil)).Elem()
-}
-
-func (i *triggerParametersPtrType) ToTriggerParametersPtrOutput() TriggerParametersPtrOutput {
-	return i.ToTriggerParametersPtrOutputWithContext(context.Background())
-}
-
-func (i *triggerParametersPtrType) ToTriggerParametersPtrOutputWithContext(ctx context.Context) TriggerParametersPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(TriggerParametersPtrOutput)
-}
-
 // The trigger parameters update for the storage task assignment execution
 type TriggerParametersOutput struct{ *pulumi.OutputState }
 
@@ -15220,16 +14823,6 @@ func (o TriggerParametersOutput) ToTriggerParametersOutput() TriggerParametersOu
 
 func (o TriggerParametersOutput) ToTriggerParametersOutputWithContext(ctx context.Context) TriggerParametersOutput {
 	return o
-}
-
-func (o TriggerParametersOutput) ToTriggerParametersPtrOutput() TriggerParametersPtrOutput {
-	return o.ToTriggerParametersPtrOutputWithContext(context.Background())
-}
-
-func (o TriggerParametersOutput) ToTriggerParametersPtrOutputWithContext(ctx context.Context) TriggerParametersPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v TriggerParameters) *TriggerParameters {
-		return &v
-	}).(TriggerParametersPtrOutput)
 }
 
 // When to end task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
@@ -15255,80 +14848,6 @@ func (o TriggerParametersOutput) StartFrom() pulumi.StringPtrOutput {
 // When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
 func (o TriggerParametersOutput) StartOn() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v TriggerParameters) *string { return v.StartOn }).(pulumi.StringPtrOutput)
-}
-
-type TriggerParametersPtrOutput struct{ *pulumi.OutputState }
-
-func (TriggerParametersPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**TriggerParameters)(nil)).Elem()
-}
-
-func (o TriggerParametersPtrOutput) ToTriggerParametersPtrOutput() TriggerParametersPtrOutput {
-	return o
-}
-
-func (o TriggerParametersPtrOutput) ToTriggerParametersPtrOutputWithContext(ctx context.Context) TriggerParametersPtrOutput {
-	return o
-}
-
-func (o TriggerParametersPtrOutput) Elem() TriggerParametersOutput {
-	return o.ApplyT(func(v *TriggerParameters) TriggerParameters {
-		if v != nil {
-			return *v
-		}
-		var ret TriggerParameters
-		return ret
-	}).(TriggerParametersOutput)
-}
-
-// When to end task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
-func (o TriggerParametersPtrOutput) EndBy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *TriggerParameters) *string {
-		if v == nil {
-			return nil
-		}
-		return v.EndBy
-	}).(pulumi.StringPtrOutput)
-}
-
-// Run interval of task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
-func (o TriggerParametersPtrOutput) Interval() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *TriggerParameters) *int {
-		if v == nil {
-			return nil
-		}
-		return v.Interval
-	}).(pulumi.IntPtrOutput)
-}
-
-// Run interval unit of task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
-func (o TriggerParametersPtrOutput) IntervalUnit() IntervalUnitPtrOutput {
-	return o.ApplyT(func(v *TriggerParameters) *IntervalUnit {
-		if v == nil {
-			return nil
-		}
-		return v.IntervalUnit
-	}).(IntervalUnitPtrOutput)
-}
-
-// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
-func (o TriggerParametersPtrOutput) StartFrom() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *TriggerParameters) *string {
-		if v == nil {
-			return nil
-		}
-		return v.StartFrom
-	}).(pulumi.StringPtrOutput)
-}
-
-// When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
-func (o TriggerParametersPtrOutput) StartOn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *TriggerParameters) *string {
-		if v == nil {
-			return nil
-		}
-		return v.StartOn
-	}).(pulumi.StringPtrOutput)
 }
 
 // The trigger parameters update for the storage task assignment execution
@@ -15831,8 +15350,8 @@ func init() {
 	pulumi.RegisterOutputType(ExecutionTargetOutput{})
 	pulumi.RegisterOutputType(ExecutionTargetPtrOutput{})
 	pulumi.RegisterOutputType(ExecutionTargetResponseOutput{})
+	pulumi.RegisterOutputType(ExecutionTargetResponsePtrOutput{})
 	pulumi.RegisterOutputType(ExecutionTriggerOutput{})
-	pulumi.RegisterOutputType(ExecutionTriggerPtrOutput{})
 	pulumi.RegisterOutputType(ExecutionTriggerResponseOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationPtrOutput{})
@@ -15964,13 +15483,10 @@ func init() {
 	pulumi.RegisterOutputType(StorageAccountSkuConversionStatusResponseOutput{})
 	pulumi.RegisterOutputType(StorageAccountSkuConversionStatusResponsePtrOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentExecutionContextOutput{})
-	pulumi.RegisterOutputType(StorageTaskAssignmentExecutionContextPtrOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentExecutionContextResponseOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentPropertiesOutput{})
-	pulumi.RegisterOutputType(StorageTaskAssignmentPropertiesPtrOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentReportOutput{})
-	pulumi.RegisterOutputType(StorageTaskAssignmentReportPtrOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentReportResponseOutput{})
 	pulumi.RegisterOutputType(StorageTaskReportPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(StorageTaskReportPropertiesResponsePtrOutput{})
@@ -15990,7 +15506,6 @@ func init() {
 	pulumi.RegisterOutputType(TagPropertyResponseOutput{})
 	pulumi.RegisterOutputType(TagPropertyResponseArrayOutput{})
 	pulumi.RegisterOutputType(TriggerParametersOutput{})
-	pulumi.RegisterOutputType(TriggerParametersPtrOutput{})
 	pulumi.RegisterOutputType(TriggerParametersResponseOutput{})
 	pulumi.RegisterOutputType(UpdateHistoryPropertyResponseOutput{})
 	pulumi.RegisterOutputType(UpdateHistoryPropertyResponseArrayOutput{})
