@@ -1,6 +1,4 @@
 ### Improvements
 
-
-
 ### Bug Fixes
 

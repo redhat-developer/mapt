@@ -15,15 +15,64 @@
 package plugin
 
 import (
+	"context"
 	"errors"
 	"io"
 
+	"github.com/blang/semver"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/config"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
 )
+
+type GetSchemaRequest struct {
+	// Version is the version of the schema to return. If omitted, the latest version of the schema should be returned.
+	Version int
+	// Subpackage name to get the schema for.
+	SubpackageName string
+	// Subpackage version to get the schema for.
+	SubpackageVersion *semver.Version
+}
+
+type ParameterizeParameters interface {
+	isParameterizeParameters()
+}
+
+type (
+	ParameterizeArgs struct {
+		Args []string
+	}
+
+	ParameterizeValue struct {
+		Name    string
+		Version *semver.Version
+		// Value must be one of:
+		// - nil
+		// - bool
+		// - int, int32, int64
+		// - uint, uint32, uint64
+		// - float32, float64
+		// - string
+		// - []byte
+		// - map[string]interface{}
+		// - []interface{}
+		Value any
+	}
+)
+
+func (ParameterizeArgs) isParameterizeParameters()  {}
+func (ParameterizeValue) isParameterizeParameters() {}
+
+type ParameterizeRequest struct {
+	Parameters ParameterizeParameters
+}
+
+type ParameterizeResponse struct {
+	Name    string
+	Version *semver.Version
+}
 
 // Provider presents a simple interface for orchestrating resource create, read, update, and delete operations.  Each
 // provider understands how to handle all of the resource types within a single package.
@@ -36,13 +85,26 @@ import (
 // best effort to ensure catastrophes do not occur.  The errors returned from mutating operations indicate both the
 // underlying error condition in addition to a bit indicating whether the operation was successfully rolled back.
 type Provider interface {
+	// When adding new methods:
+	//
+	// To ensure maximum backwards compatibility, each method should be of the form:
+	//
+	//	MyMethod(ctx context.Context, request MyMethodRequest) (MyMethodResponse, error)
+	//
+	// This intentionally mimics the style of gRPC methods and is required to ensure that adding a new input or
+	// output field doesn't break existing call sites.
+
 	// Closer closes any underlying OS resources associated with this provider (like processes, RPC channels, etc).
 	io.Closer
+
 	// Pkg fetches this provider's package.
 	Pkg() tokens.Package
 
+	// Parameterize adds a sub-package to this provider instance.
+	Parameterize(ctx context.Context, request ParameterizeRequest) (ParameterizeResponse, error)
+
 	// GetSchema returns the schema for the provider.
-	GetSchema(version int) ([]byte, error)
+	GetSchema(request GetSchemaRequest) ([]byte, error)
 
 	// CheckConfig validates the configuration for this resource provider.
 	CheckConfig(urn resource.URN, olds, news resource.PropertyMap,
@@ -110,6 +172,13 @@ type Provider interface {
 	// error) if it doesn't have any mappings for the given key.
 	// If a provider implements this method GetMapping will be called using the results from this method.
 	GetMappings(key string) ([]string, error)
+
+	// mustEmbed *requires* that implementers make an explicit choice about forward compatibility.
+	//
+	// If [UnimplementedProvider] is embedded, then the struct will be forward compatible.
+	//
+	// If [NotForwardCompatibleProvider] is embedded, then the struct *will not* be forward compatible.
+	mustEmbedAForwardCompatibilityOption(UnimplementedProvider, NotForwardCompatibleProvider)
 }
 
 type GrpcProvider interface {
