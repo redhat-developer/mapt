@@ -34,14 +34,12 @@ type LookupStorageTaskAssignmentArgs struct {
 
 // The storage task assignment.
 type LookupStorageTaskAssignmentResult struct {
-	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The name of the resource
 	Name string `pulumi:"name"`
 	// Properties of the storage task assignment.
 	Properties StorageTaskAssignmentPropertiesResponse `pulumi:"properties"`
-	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
@@ -87,7 +85,7 @@ func (o LookupStorageTaskAssignmentResultOutput) ToLookupStorageTaskAssignmentRe
 	return o
 }
 
-// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupStorageTaskAssignmentResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupStorageTaskAssignmentResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -100,11 +98,6 @@ func (o LookupStorageTaskAssignmentResultOutput) Name() pulumi.StringOutput {
 // Properties of the storage task assignment.
 func (o LookupStorageTaskAssignmentResultOutput) Properties() StorageTaskAssignmentPropertiesResponseOutput {
 	return o.ApplyT(func(v LookupStorageTaskAssignmentResult) StorageTaskAssignmentPropertiesResponse { return v.Properties }).(StorageTaskAssignmentPropertiesResponseOutput)
-}
-
-// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupStorageTaskAssignmentResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupStorageTaskAssignmentResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

@@ -23,6 +23,7 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
+	"github.com/blang/semver"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/config"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
@@ -129,10 +130,59 @@ func (p *providerServer) marshalDiff(diff DiffResult) (*pulumirpc.DiffResponse, 
 	}, nil
 }
 
+func (p *providerServer) Parameterize(
+	ctx context.Context, req *pulumirpc.ParameterizeRequest,
+) (*pulumirpc.ParameterizeResponse, error) {
+	var params ParameterizeParameters
+	switch p := req.Parameters.(type) {
+	case *pulumirpc.ParameterizeRequest_Args:
+		params = ParameterizeArgs{Args: p.Args.GetArgs()}
+	case *pulumirpc.ParameterizeRequest_Value:
+		var version *semver.Version
+		if v := p.Value.GetVersion(); v != "" {
+			pV, err := semver.Parse(v)
+			if err != nil {
+				return nil, err
+			}
+			version = &pV
+		}
+		params = ParameterizeValue{
+			Name:    p.Value.GetName(),
+			Version: version,
+			Value:   nil,
+		}
+	}
+	resp, err := p.provider.Parameterize(ctx, ParameterizeRequest{Parameters: params})
+	if err != nil {
+		return nil, err
+	}
+	var v string
+	if resp.Version != nil {
+		v = resp.Version.String()
+	}
+	return &pulumirpc.ParameterizeResponse{
+		Name:    resp.Name,
+		Version: v,
+	}, nil
+}
+
 func (p *providerServer) GetSchema(ctx context.Context,
 	req *pulumirpc.GetSchemaRequest,
 ) (*pulumirpc.GetSchemaResponse, error) {
-	schema, err := p.provider.GetSchema(int(req.GetVersion()))
+	var subpackageVersion *semver.Version
+	if req.SubpackageVersion != "" {
+		v, err := semver.ParseTolerant(req.SubpackageVersion)
+		if err != nil {
+			return nil, err
+		}
+		subpackageVersion = &v
+	}
+
+	schema, err := p.provider.GetSchema(GetSchemaRequest{
+		Version:           int(req.Version),
+		SubpackageName:    req.SubpackageName,
+		SubpackageVersion: subpackageVersion,
+	})
 	if err != nil {
 		return nil, err
 	}
