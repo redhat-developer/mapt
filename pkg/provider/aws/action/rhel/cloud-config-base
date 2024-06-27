@@ -3,6 +3,6 @@ rh_subscription:
   username: {{.SubscriptionUsername}}
   password: {{.SubscriptionPassword}}
   auto-attach: true
-packages:
+runcmd:
   - while fuser /var/lib/rpm/.rpm.lock > /dev/null 2>&1 ; do sleep 1 ; done
-  - podman
+  - dnf install -y podman
