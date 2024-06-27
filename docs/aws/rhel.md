@@ -16,6 +16,7 @@ Usage:
 
 Flags:
       --airgap                            if this flag is set the host will be created as airgap machine. Access will done through a bastion
+      --arch string                       architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
       --conn-details-output string        path to export host connection information (host, username and privateKey)
   -h, --help                              help for create
       --rh-subscription-password string   password to register the subscription
@@ -23,7 +24,7 @@ Flags:
       --snc                               if this flag is set the RHEL will be setup with SNC profile. Setting up all requirements to run https://github.com/crc-org/snc
       --spot                              if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)
       --tags stringToString               tags to add on each resource (--tags name1=value1,name2=value2) (default [])
-      --version string                    version for the RHEL OS (default "9.3")
+      --version string                    version for the RHEL OS (default "9.4")
 
 Global Flags:
       --backed-url string     backed for stack state. Can be a local path with format file:///path/subpath or s3 s3://existing-bucket
@@ -48,6 +49,7 @@ Global Flags:
 When running the container image it is required to pass the authetication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
 
 ```bash
+# x86_64
 podman run -d --name mapt-rhel \
         -v ${PWD}:/workspace:z \
         -e AWS_ACCESS_KEY_ID=XXX \
@@ -55,6 +57,20 @@ podman run -d --name mapt-rhel \
         -e AWS_DEFAULT_REGION=us-east-1 \
         quay.io/redhat-developer/mapt:0.7.0-dev aws rhel create \
             --project-name mapt-rhel \
+            --backed-url file:///workspace \
+            --rh-subscription-password XXXX \
+            --rh-subscription-username XXXXX \
+            --conn-details-output /workspace
+
+# arm64
+podman run -d --name mapt-rhel \
+        -v ${PWD}:/workspace:z \
+        -e AWS_ACCESS_KEY_ID=XXX \
+        -e AWS_SECRET_ACCESS_KEY=XXX \
+        -e AWS_DEFAULT_REGION=us-east-1 \
+        quay.io/redhat-developer/mapt:0.7.0-dev aws rhel create \
+            --project-name mapt-rhel \
+            --arch arm64 \
             --backed-url file:///workspace \
             --rh-subscription-password XXXX \
             --rh-subscription-username XXXXX \
