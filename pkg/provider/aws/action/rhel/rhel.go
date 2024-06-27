@@ -32,6 +32,7 @@ type Request struct {
 	Prefix string
 	// Basic info to setup on cloud-init
 	Version      string
+	Arch         string
 	SubsUsername string
 	SubsUserpass string
 	// if profile SNC is enabled machine is setup to
@@ -68,10 +69,10 @@ func Create(r *Request) error {
 	if r.Spot {
 		sr := spot.SpotOptionRequest{
 			Prefix:             r.Prefix,
-			ProductDescription: "Red Hat Enterprise Linux",
-			InstaceTypes:       requiredInstanceTypes,
-			AMIName:            fmt.Sprintf(amiRegex, r.Version),
-			AMIArch:            "x86_64",
+			ProductDescription: amiProductDescription,
+			InstaceTypes:       supportedInstanceTypes[r.Arch],
+			AMIName:            fmt.Sprintf(amiRegex, r.Version, r.Arch),
+			AMIArch:            r.Arch,
 		}
 		so, err := sr.Create()
 		if err != nil {
@@ -148,10 +149,10 @@ func (r *Request) createAirgapMachine() error {
 func (r *Request) deploy(ctx *pulumi.Context) error {
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
-		fmt.Sprintf(amiRegex, r.Version),
+		fmt.Sprintf(amiRegex, r.Version, r.Arch),
 		"",
 		map[string]string{
-			"architecture": "x86_64"})
+			"architecture": r.Arch})
 	if err != nil {
 		return err
 	}
@@ -199,7 +200,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		UserDataAsBase64: userDataB64,
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
-		InstaceTypes:     requiredInstanceTypes,
+		InstaceTypes:     supportedInstanceTypes[r.Arch],
 		DiskSize:         &diskSize,
 		Airgap:           r.Airgap,
 		LB:               lb,
