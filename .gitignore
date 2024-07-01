@@ -3,3 +3,4 @@ out/
 .run*
 manifest.json
 ami-id
+Pulumi*.yaml
