@@ -48,7 +48,10 @@ func InitLogrus(basePath, fileName string) {
 	// logrus.SetOutput(io.MultiWriter(logfile, os.Stdout))
 	logrus.SetOutput(io.MultiWriter(os.Stdout))
 	logrus.SetLevel(logrus.DebugLevel)
-	logrus.SetFormatter(&logrus.JSONFormatter{})
+	logrus.SetFormatter(&logrus.TextFormatter{
+		ForceColors:      true,
+		DisableTimestamp: true,
+	})
 
 	for k, v := range logrus.StandardLogger().Hooks {
 		originalHooks[k] = v
