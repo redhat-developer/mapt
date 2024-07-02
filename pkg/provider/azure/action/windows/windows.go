@@ -21,6 +21,8 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/file"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 	"golang.org/x/exp/slices"
@@ -40,6 +42,13 @@ type WindowsRequest struct {
 	Spot          bool
 	SpotTolerance spotprice.EvictionRate
 	Profiles      []string
+	// setup as github actions runner
+	SetupGHActionsRunner bool
+}
+
+type ghActionsRunnerData struct {
+	InstallActionsRunner bool
+	ActionsRunnerSnippet string
 }
 
 func Create(r *WindowsRequest) (err error) {
@@ -315,18 +324,20 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 		return nil, nil, err
 	}
 	// the post script command will be generated based on generated data as parameters
-	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName()).ApplyT(
+	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName(), ghactions.GetToken()).ApplyT(
 		func(args []interface{}) string {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
 			hostname := args[2].(*string)
+			token := args[3].(string)
 			return fmt.Sprintf(
-				"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -authorizedKey \"%s\"",
+				"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -authorizedKey \"%s\"",
 				scriptName,
 				r.profilesAsParams(),
 				password,
 				r.Username,
 				*hostname,
+				token,
 				authorizedKey,
 			)
 		}).(pulumi.StringOutput)
@@ -386,13 +397,23 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	data := ghActionsRunnerData{
+		r.SetupGHActionsRunner,
+		ghactions.GetActionRunnerSnippetWin(),
+	}
+	ciSetupScript, err := file.Template(data, "ciSetupScript", string(RHQPCISetupScript))
+	if err != nil {
+		return nil, err
+	}
+
 	return storage.NewBlob(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "bl"),
 		&storage.BlobArgs{
 			AccountName:       sa.Name,
 			ContainerName:     c.Name,
 			ResourceGroupName: rg.Name,
-			Source:            pulumi.NewStringAsset(string(RHQPCISetupScript)),
+			Source:            pulumi.NewStringAsset(ciSetupScript),
 			BlobName:          pulumi.String(scriptName),
 		})
 }
