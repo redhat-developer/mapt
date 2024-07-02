@@ -7,6 +7,8 @@ param(
     $hostname,
     [Parameter(Mandatory,HelpMessage='authorizedkey for ssh private key for the user')]
     $authorizedKey,
+    [Parameter(HelpMessage='token for the github actions runner')]
+    $ghToken,
     [switch]$crcProfile=$false
 )
 # Create local user
@@ -124,6 +126,12 @@ if ($crcProfile) {
     New-LocalGroup -Name "crc-users"
     Add-LocalGroupMember -Group "crc-users" -Member $user
 }
+
+# Install github-actions-runner if needed
+{{ if .InstallActionsRunner }}
+    {{- .ActionsRunnerSnippet }}
+{{ end }}
+
 # Restart computer to have the ssh connection available with setup from this script
 Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"
 
