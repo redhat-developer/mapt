@@ -7,6 +7,7 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
 	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -74,6 +75,7 @@ func getCreate() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags))
 
+			// ParseEvictionRate
 			var spotToleranceValue = spotprice.DefaultEvictionRate
 			if viper.IsSet(paramSpotTolerance) {
 				var ok bool
@@ -83,19 +85,30 @@ func getCreate() *cobra.Command {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(paramSpotTolerance))
 				}
 			}
-			// ParseEvictionRate
+
+			// Initialize gh actions runner if needed
+			if viper.IsSet(params.InstallGHActionsRunner) {
+				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
+					viper.GetString(params.GHActionsRunnerName),
+					viper.GetString(params.GHActionsRunnerRepo))
+				if err != nil {
+					logging.Error(err)
+				}
+			}
+
 			if err := azureWindows.Create(
 				&azureWindows.WindowsRequest{
-					Prefix:        "",
-					Location:      viper.GetString(paramLocation),
-					VMSize:        viper.GetString(paramVMSize),
-					Version:       viper.GetString(paramVersion),
-					Feature:       viper.GetString(paramFeature),
-					Username:      viper.GetString(paramUsername),
-					AdminUsername: viper.GetString(paramAdminUsername),
-					Profiles:      viper.GetStringSlice(paramProfile),
-					Spot:          viper.IsSet(paramSpot),
-					SpotTolerance: spotToleranceValue}); err != nil {
+					Prefix:               "",
+					Location:             viper.GetString(paramLocation),
+					VMSize:               viper.GetString(paramVMSize),
+					Version:              viper.GetString(paramVersion),
+					Feature:              viper.GetString(paramFeature),
+					Username:             viper.GetString(paramUsername),
+					AdminUsername:        viper.GetString(paramAdminUsername),
+					Profiles:             viper.GetStringSlice(paramProfile),
+					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
+					Spot:                 viper.IsSet(paramSpot),
+					SpotTolerance:        spotToleranceValue}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -113,6 +126,7 @@ func getCreate() *cobra.Command {
 	flagSet.StringSliceP(paramProfile, "", []string{}, paramProfileDesc)
 	flagSet.Bool(paramSpot, false, paramSpotDesc)
 	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
+	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
