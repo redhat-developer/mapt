@@ -33,6 +33,9 @@ spec:
   # RHEL params
   - name: operation 
     description: operation to execute within the infrastructure. Current values (create, destroy)
+  - name: arch
+    description: architecture for the target machine. Allowed x86_64 or arm64 (default "x86_64")
+    default: 'x86_64'
   - name: version
     description: this task will spin a RHEL image. This param will set the version for it. Default 9.3.
     default: '9.3'
@@ -117,6 +120,7 @@ spec:
       if [[ $(params.operation) == "create" ]]; then
         cmd="$cmd --conn-details-output ${workspace_path} " 
         cmd="$cmd --version $(params.version) "
+        cmd="$cmd --arch $(params.arch) "
         cmd="$cmd --rh-subscription-username $(cat /opt/rh-account-secret/user) "  
         cmd="$cmd --rh-subscription-password $(cat /opt/rh-account-secret/password) "  
         if [[ $(params.spot) == "true" ]]; then
