@@ -33,6 +33,7 @@ type Request struct {
 	// Basic info to setup on cloud-init
 	Version      string
 	Arch         string
+	VMType       []string
 	SubsUsername string
 	SubsUserpass string
 	// if profile SNC is enabled machine is setup to
@@ -70,9 +71,11 @@ func Create(r *Request) error {
 		sr := spot.SpotOptionRequest{
 			Prefix:             r.Prefix,
 			ProductDescription: amiProductDescription,
-			InstaceTypes:       supportedInstanceTypes[r.Arch],
-			AMIName:            fmt.Sprintf(amiRegex, r.Version, r.Arch),
-			AMIArch:            r.Arch,
+			InstaceTypes: util.If(len(r.VMType) > 0,
+				r.VMType,
+				supportedInstanceTypes[r.Arch]),
+			AMIName: fmt.Sprintf(amiRegex, r.Version, r.Arch),
+			AMIArch: r.Arch,
 		}
 		so, err := sr.Create()
 		if err != nil {
@@ -200,12 +203,14 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		UserDataAsBase64: userDataB64,
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
-		InstaceTypes:     supportedInstanceTypes[r.Arch],
-		DiskSize:         &diskSize,
-		Airgap:           r.Airgap,
-		LB:               lb,
-		LBTargetGroups:   []int{22},
-		Spot:             r.Spot}
+		InstaceTypes: util.If(len(r.VMType) > 0,
+			r.VMType,
+			supportedInstanceTypes[r.Arch]),
+		DiskSize:       &diskSize,
+		Airgap:         r.Airgap,
+		LB:             lb,
+		LBTargetGroups: []int{22},
+		Spot:           r.Spot}
 	c, err := cr.NewCompute(ctx)
 	if err != nil {
 		return err
