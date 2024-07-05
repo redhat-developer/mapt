@@ -20,6 +20,8 @@ const (
 	rhelArch           string = "arch"
 	rhelArchDesc       string = "architecture for the machine. Allowed x86_64 or arm64"
 	rhelArchDefault    string = "x86_64"
+	vmTypes            string = "vm-types"
+	vmTypesDescription string = "set an specific set of vm-types. Note vm-type should match requested arch. Also if --spot flag is used set at least 3 types."
 	subsUsername       string = "rh-subscription-username"
 	subsUsernameDesc   string = "username to register the subscription"
 	subsUserpass       string = "rh-subscription-password"
@@ -65,6 +67,7 @@ func getRHELCreate() *cobra.Command {
 					Prefix:       "main",
 					Version:      viper.GetString(rhelVersion),
 					Arch:         viper.GetString(rhelArch),
+					VMType:       viper.GetStringSlice(vmTypes),
 					SubsUsername: viper.GetString(subsUsername),
 					SubsUserpass: viper.GetString(subsUserpass),
 					ProfileSNC:   viper.IsSet(profileSNC),
@@ -80,6 +83,7 @@ func getRHELCreate() *cobra.Command {
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(rhelVersion, "", rhelVersionDefault, rhelVersionDesc)
 	flagSet.StringP(rhelArch, "", rhelArchDefault, rhelArchDesc)
+	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.StringP(subsUsername, "", "", subsUsernameDesc)
 	flagSet.StringP(subsUserpass, "", "", subsUserpassDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
