@@ -98,7 +98,7 @@ func getCreate() *cobra.Command {
 
 			if err := azureWindows.Create(
 				&azureWindows.WindowsRequest{
-					Prefix:               "",
+					Prefix:               viper.GetString(params.ProjectName),
 					Location:             viper.GetString(paramLocation),
 					VMSize:               viper.GetString(paramVMSize),
 					Version:              viper.GetString(paramVersion),
