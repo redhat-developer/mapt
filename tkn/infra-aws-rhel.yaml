@@ -36,6 +36,9 @@ spec:
   - name: arch
     description: architecture for the target machine. Allowed x86_64 or arm64 (default "x86_64")
     default: 'x86_64'
+  - name: vm-types
+    description: "Specific set of vm-types. Note vm-type should match requested arch. Also if --spot flag is used set at least 3 types comma separated and without spaces."
+    default: "''"  
   - name: version
     description: this task will spin a RHEL image. This param will set the version for it. Default 9.3.
     default: '9.3'
@@ -121,6 +124,9 @@ spec:
         cmd="$cmd --conn-details-output ${workspace_path} " 
         cmd="$cmd --version $(params.version) "
         cmd="$cmd --arch $(params.arch) "
+        if [[ $(params.vm-types) != "" ]]; then
+          cmd="$cmd --vm-types $(params.vm-types) "
+        fi
         cmd="$cmd --rh-subscription-username $(cat /opt/rh-account-secret/user) "  
         cmd="$cmd --rh-subscription-password $(cat /opt/rh-account-secret/password) "  
         if [[ $(params.spot) == "true" ]]; then
