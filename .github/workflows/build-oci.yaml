@@ -16,7 +16,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Build image for PR
+      if: ${{ github.event_name == 'pull_request' }}
+      shell: bash
+      run: |
+        IMG=ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }} make oci-build
+        podman save -o mapt.tar ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}     
+
+    - name: Save image for PR
+      uses: actions/upload-artifact@v4
+      with:
+        name: mapt-pr-${{ github.event.number }}
+        path: mapt.tar
+
     - name: Build image
+      if: ${{ github.event_name != 'pull_request' }}
       shell: bash
       run: make oci-build
 
