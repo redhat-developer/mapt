@@ -25,6 +25,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -41,6 +42,8 @@ type Request struct {
 	ProfileSNC bool
 	Spot       bool
 	Airgap     bool
+	// setup as github actions runner
+	SetupGHActionsRunner bool
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -56,6 +59,8 @@ type userDataValues struct {
 	SubscriptionUsername string
 	SubscriptionPassword string
 	Username             string
+	InstallActionsRunner bool
+	ActionsRunnerSnippet string
 }
 
 //go:embed cloud-config-base
@@ -274,7 +279,9 @@ func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
 		userDataValues{
 			r.SubsUsername,
 			r.SubsUserpass,
-			amiUserDefault},
+			amiUserDefault,
+			r.SetupGHActionsRunner,
+			ghactions.GetActionRunnerSnippetLinux()},
 		resourcesUtil.GetResourceName(
 			r.Prefix, awsRHELDedicatedID, "userdata"),
 		templateConfig)
