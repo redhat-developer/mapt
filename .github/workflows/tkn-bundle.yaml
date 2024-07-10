@@ -1,15 +1,35 @@
-name: tkn-build
+name: tkn-bundle
 
 on:
   push:
     branches: [ main ]
     tags:        
       - '*'
+  pull_request:
+    branches: [ main ]
 
 jobs:
+  tkn-check:
+    name: tkn-check
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Create k8s Kind Cluster
+      uses: helm/kind-action@v1
+
+      # https://docs.openshift.com/pipelines/1.15/about/op-release-notes.html
+    - name: Deploy min supported tekton version
+      run: kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.44.5/release.yaml
+
+    - name: Deploy tasks
+      run: kubectl apply -f tkn
   
   tkn-build:
+    if: ${{ github.event_name != 'pull_request' }}
     name: tkn-build
+    needs: tkn-check
     runs-on: ubuntu-24.04
     steps:
     - name: Checkout code
@@ -22,7 +42,7 @@ jobs:
         username: ${{ secrets.QUAY_IO_USERNAME }}
         password: ${{ secrets.QUAY_IO_PASSWORD }}
 
-    - name: Push task
+    - name: Push tasks
       shell: bash
       run: make tkn-push
         
