@@ -21,6 +21,7 @@ jobs:
       run: make oci-build
 
     - name: Log in to quay.io Registry
+      if: ${{ github.event_name != 'pull_request' }}
       uses: redhat-actions/podman-login@v1
       with:
         registry: quay.io
@@ -28,6 +29,7 @@ jobs:
         password: ${{ secrets.QUAY_IO_PASSWORD }}
 
     - name: Push image
+      if: ${{ github.event_name != 'pull_request' }}
       shell: bash
       run: make oci-push
       
