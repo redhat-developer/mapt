@@ -21,7 +21,7 @@ runcmd:
   - systemctl mask libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tls.socket libvirtd-tcp.socket
   - systemctl enable libvirtd 
   - systemctl start --no-block libvirtd  
-  - usermod -a -G libvirt ${username}
+  - usermod -a -G libvirt {{ .Username }}
   - echo "user.max_user_namespaces=28633" | tee -a /etc/sysctl.d/userns.conf
   - sysctl -p /etc/sysctl.d/userns.conf
   - dnf upgrade -y curl openssl
