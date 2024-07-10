@@ -55,6 +55,7 @@ type Request struct {
 type userDataValues struct {
 	SubscriptionUsername string
 	SubscriptionPassword string
+	Username             string
 }
 
 //go:embed cloud-config-base
@@ -272,7 +273,8 @@ func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
 	userdata, err := file.Template(
 		userDataValues{
 			r.SubsUsername,
-			r.SubsUserpass},
+			r.SubsUserpass,
+			amiUserDefault},
 		resourcesUtil.GetResourceName(
 			r.Prefix, awsRHELDedicatedID, "userdata"),
 		templateConfig)
