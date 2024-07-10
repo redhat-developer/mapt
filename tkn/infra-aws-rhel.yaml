@@ -17,45 +17,6 @@ spec:
 
     The machine will offer nested virtualizataion capabilities as so it should be spin on a dedicated (baremetal) machine
   
-  workspaces:
-  - name: storage
-    description: volume to store outputs to connect within the target machine + state file for the infrastructure 
-    mountPath: /opt/storage
-  - name: aws-credentials
-    description: |
-      ocp secret holding the aws credentials. Secret should be accessible to this task.
-
-      ---
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: aws-${name}
-        labels:
-          app.kubernetes.io/component: ${name}
-          app.kubernetes.io/part-of: qe-platform
-      type: Opaque
-      data:
-        access-key: ${access_key}
-        secret-key: ${secret_key}
-        region: ${region}
-    mountPath: /opt/aws-credentials
-  - name: rh-account-secret
-    optional: true
-    description: |
-      ocp secret holding the credentials for a valid rh user to subscribe VM. Secret should be accessible to this task.
-
-      Sample format for valid Secret
-      ---
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: credentials-${configname}
-      type: Opaque
-      data:
-        user: ${user}
-        password: ${password}
-    mountPath: /opt/rh-account-secret
-
   params: 
   # mapt params 
   - name: project-name
@@ -75,9 +36,6 @@ spec:
   - name: arch
     description: architecture for the target machine. Allowed x86_64 or arm64 (default "x86_64")
     default: 'x86_64'
-  - name: vm-types
-	  description: "Specific set of vm-types. Note vm-type should match requested arch. Also if --spot flag is used set at least 3 types comma separated and without spaces."
-    default: "''"
   - name: version
     description: this task will spin a RHEL image. This param will set the version for it. Default 9.3.
     default: '9.3'
@@ -163,9 +121,6 @@ spec:
         cmd="$cmd --conn-details-output ${workspace_path} " 
         cmd="$cmd --version $(params.version) "
         cmd="$cmd --arch $(params.arch) "
-        if [[ $(params.vm-types) != "" ]]; then
-          cmd="$cmd --vm-types $(params.vm-types) "
-        fi
         cmd="$cmd --rh-subscription-username $(cat /opt/rh-account-secret/user) "  
         cmd="$cmd --rh-subscription-password $(cat /opt/rh-account-secret/password) "  
         if [[ $(params.spot) == "true" ]]; then
@@ -216,3 +171,45 @@ spec:
       limits:
         memory: "600Mi"
         cpu: "300m"
+
+  workspaces:
+  - name: storage
+    description: volume to store outputs to connect within the target machine + state file for the infrastructure 
+    mountPath: /opt/storage
+  - name: aws-credentials
+    description: |
+      ocp secret holding the aws credentials. Secret should be accessible to this task.
+
+      ---
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: aws-${name}
+        labels:
+          app.kubernetes.io/component: ${name}
+          app.kubernetes.io/part-of: qe-platform
+      type: Opaque
+      data:
+        access-key: ${access_key}
+        secret-key: ${secret_key}
+        region: ${region}
+    mountPath: /opt/aws-credentials
+  - name: rh-account-secret
+    optional: true
+    description: |
+      ocp secret holding the credentials for a valid rh user to subscribe VM. Secret should be accessible to this task.
+
+      Sample format for valid Secret
+      ---
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: credentials-${configname}
+      type: Opaque
+      data:
+        user: ${user}
+        password: ${password}
+    mountPath: /opt/rh-account-secret
+  
+  
+       
