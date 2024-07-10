@@ -6,3 +6,11 @@ rh_subscription:
 runcmd:
   - while fuser /var/lib/rpm/.rpm.lock > /dev/null 2>&1 ; do sleep 1 ; done
   - dnf install -y podman
+{{ if .InstallActionsRunner }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh{{ end }}
+{{ if .InstallActionsRunner }}write_files:
+  # Github actions runner installation
+  - content: |
+    {{ .ActionsRunnerSnippet }}
+    path: /opt/install-ghrunner.sh
+    permissions: '0755'
+{{ end }}

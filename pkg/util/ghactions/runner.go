@@ -42,9 +42,28 @@ if((Get-FileHash -Path actions-runner-win-x64-2.317.0.zip -Algorithm SHA256).Has
 [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD\actions-runner-win-x64-2.317.0.zip", "$PWD")
 ./config.cmd --token $ghToken --url %s --name %s --unattended --runasservice --replace`
 
+// whitespace at the start is required since this is expanded in a cloud-init yaml file
+// to start as service need to relable the runsvc.sh file on rhel: https://github.com/actions/runner/issues/3222
+const LinuxActionsRunnerInstallSnippet string = `  mkdir ~/actions-runner && cd ~/actions-runner` + "\n" +
+	`      curl -o actions-runner-linux-x64-2.317.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.317.0/actions-runner-linux-x64-2.317.0.tar.gz` + "\n" +
+	`      echo "9e883d210df8c6028aff475475a457d380353f9d01877d51cc01a17b2a91161d  actions-runner-linux-x64-2.317.0.tar.gz" | sha256sum -c` + "\n" +
+	`      tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz` + "\n" +
+	`      sudo ./bin/installdependencies.sh` + "\n" +
+	`      ./config.sh --token %s --url %s --name %s --unattended --replace` + "\n" +
+	`      sudo ./svc.sh install` + "\n" +
+	`      chcon system_u:object_r:usr_t:s0 $(pwd)/runsvc.sh` + "\n" +
+	`      sudo ./svc.sh start`
+
 func GetActionRunnerSnippetWin() string {
 	if (args == &RunnerArgs{}) {
 		return ""
 	}
 	return fmt.Sprintf(WindowsActionsRunnerInstallSnippet, args.RepoURL, args.Name)
+}
+
+func GetActionRunnerSnippetLinux() string {
+	if (args == &RunnerArgs{}) {
+		return ""
+	}
+	return fmt.Sprintf(LinuxActionsRunnerInstallSnippet, args.Token, args.RepoURL, args.Name)
 }

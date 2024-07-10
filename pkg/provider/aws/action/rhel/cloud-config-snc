@@ -25,3 +25,11 @@ runcmd:
   - echo "user.max_user_namespaces=28633" | tee -a /etc/sysctl.d/userns.conf
   - sysctl -p /etc/sysctl.d/userns.conf
   - dnf upgrade -y curl openssl
+{{ if .InstallActionsRunner }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh {{ end }}
+{{ if .InstallActionsRunner }}write_files:
+  # Github actions runner installation
+  - content: |
+    {{ .ActionsRunnerSnippet }}
+    path: /opt/install-ghrunner.sh
+    permissions: '0755'
+{{ end }}

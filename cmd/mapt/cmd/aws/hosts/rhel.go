@@ -4,6 +4,7 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -61,18 +62,30 @@ func getRHELCreate() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags))
 
+			// Initialize gh actions runner if needed
+			if viper.IsSet(params.InstallGHActionsRunner) {
+				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
+					viper.GetString(params.GHActionsRunnerName),
+					viper.GetString(params.GHActionsRunnerRepo))
+				if err != nil {
+					logging.Error(err)
+				}
+			}
+
 			// Run create
 			if err := rhel.Create(
 				&rhel.Request{
-					Prefix:       "main",
-					Version:      viper.GetString(rhelVersion),
-					Arch:         viper.GetString(rhelArch),
-					VMType:       viper.GetStringSlice(vmTypes),
-					SubsUsername: viper.GetString(subsUsername),
-					SubsUserpass: viper.GetString(subsUserpass),
-					ProfileSNC:   viper.IsSet(profileSNC),
-					Spot:         viper.IsSet(spot),
-					Airgap:       viper.IsSet(airgap)}); err != nil {
+					Prefix:               "main",
+					Version:              viper.GetString(rhelVersion),
+					Arch:                 viper.GetString(rhelArch),
+					VMType:               viper.GetStringSlice(vmTypes),
+					SubsUsername:         viper.GetString(subsUsername),
+					SubsUserpass:         viper.GetString(subsUserpass),
+					ProfileSNC:           viper.IsSet(profileSNC),
+					Spot:                 viper.IsSet(spot),
+					Airgap:               viper.IsSet(airgap),
+					SetupGHActionsRunner: viper.GetBool(params.InstallGHActionsRunner),
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -89,6 +102,7 @@ func getRHELCreate() *cobra.Command {
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
 	flagSet.Bool(profileSNC, false, profileSNCDesc)
+	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	// if err := c.MarkFlagRequired(subsUsername); err != nil {
 	// 	logging.Error(err)
