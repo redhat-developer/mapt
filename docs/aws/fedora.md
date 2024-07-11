@@ -48,7 +48,7 @@ podman run -d --name mapt-rhel \
         -e AWS_ACCESS_KEY_ID=XXX \
         -e AWS_SECRET_ACCESS_KEY=XXX \
         -e AWS_DEFAULT_REGION=us-east-1 \
-        quay.io/redhat-developer/mapt:0.6.7 aws fedora create \
+        quay.io/redhat-developer/mapt:0.6.8 aws fedora create \
             --project-name mapt-fedora \
             --backed-url file:///workspace \
             --conn-details-output /workspace
