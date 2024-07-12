@@ -1,5 +1,6 @@
 
-FROM registry.access.redhat.com/ubi9/go-toolset:1.21.9-1.1717085562@sha256:d1911ff6e8b3d17175dafe00aa466e83c3ceec45903b01a7cc18e9e417781263 as builder
+# go 1.21.11-2
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:b6d157c56a7348a2790fb94fe44eb336027c1e2bb722c7901b30d2e7c38d9554 as builder 
 
 USER root
 WORKDIR /workspace
@@ -13,7 +14,8 @@ RUN make build \
     && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
     && tar -xzvf pulumicli.tar.gz 
 
-FROM registry.access.redhat.com/ubi9/ubi
+# ubi 9.4-1123.1719560047
+FROM registry.access.redhat.com/ubi9@sha256:081c96d1b1c7cd1855722d01f1ca53360510443737b1eb33284c6c4c330e537c  
 
 LABEL org.opencontainers.image.authors="Adrian Riobo<ariobolo@redhat.com>"
 
