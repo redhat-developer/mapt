@@ -17,7 +17,7 @@ RUN make build \
 # ubi 9.4-1123.1719560047
 FROM registry.access.redhat.com/ubi9@sha256:081c96d1b1c7cd1855722d01f1ca53360510443737b1eb33284c6c4c330e537c  
 
-LABEL org.opencontainers.image.authors="Adrian Riobo<ariobolo@redhat.com>"
+LABEL org.opencontainers.image.authors="Redhat Developer"
 
 COPY --from=builder /workspace/out/mapt /workspace/pulumi/pulumi /usr/local/bin/
 
