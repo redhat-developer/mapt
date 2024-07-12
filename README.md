@@ -32,3 +32,18 @@ Features:
 * s spot
 * p proxy
 * v vpn
+
+## Github Self hosted runner
+
+`mapt` can setup a deployed machine as a Self Hosted runner on most of the Platform and Provider combinations
+it supports.
+
+Use the following flags with `mapt <provider> <platform> create` command:
+
+```
+--install-ghactions-runner <bool>   Install and setup Github Actions runner in the instance
+--ghactions-runner-name <string>    Name for the Github Actions Runner
+--ghactions-runner-repo <string>    Full URL of the repository where the Github Actions Runner should be registered
+--ghactions-runner-token <string>   Token needed for registering the Github Actions Runner token
+```
+
