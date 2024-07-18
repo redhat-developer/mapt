@@ -14,6 +14,22 @@ func If[T any](cond bool, vtrue, vfalse T) T {
 	return vfalse
 }
 
+// In case vtrue value depends on a variable checked on condition which could be nil
+// as params are evaluated within the If function invokation it will produce a panic error
+// in that case we will pass the vtrue as a function which will be evaluated only if condition is met
+//
+// i.e. If(foo != nil, foo.bar, "") In this case if foo is nill this will error with panic as the evaluation will try access foo which is nil
+//
+// so, in this case we will use IfNillable:
+// bar = func() { return foo.bar}
+// IfNillable(foo != nil, bar, "")
+func IfNillable[T any](cond bool, vtrueNillable func() T, vfalse T) T {
+	if cond {
+		return vtrueNillable()
+	}
+	return vfalse
+}
+
 func ArrayFilter[T any](source []T, filter func(item T) bool) []T {
 	var result []T
 	for _, item := range source {
