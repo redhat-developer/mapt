@@ -84,7 +84,7 @@ func getRHELCreate() *cobra.Command {
 					ProfileSNC:           viper.IsSet(profileSNC),
 					Spot:                 viper.IsSet(spot),
 					Airgap:               viper.IsSet(airgap),
-					SetupGHActionsRunner: viper.GetBool(params.InstallGHActionsRunner),
+					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
 				}); err != nil {
 				logging.Error(err)
 			}
