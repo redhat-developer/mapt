@@ -28,6 +28,8 @@ import (
 type Request struct {
 	Prefix  string
 	Version string
+	Arch    string
+	VMType  []string
 	Spot    bool
 	Airgap  bool
 	// internal management
@@ -49,9 +51,11 @@ func Create(r *Request) error {
 		sr := spot.SpotOptionRequest{
 			Prefix:             r.Prefix,
 			ProductDescription: "Linux/UNIX",
-			InstaceTypes:       requiredInstanceTypes,
-			AMIName:            fmt.Sprintf(amiRegex, r.Version),
-			AMIArch:            "x86_64",
+			InstaceTypes: util.If(len(r.VMType) > 0,
+				r.VMType,
+				supportedInstanceTypes[r.Arch]),
+			AMIName: fmt.Sprintf(amiRegex[r.Arch], r.Version),
+			AMIArch: r.Arch,
 		}
 		so, err := sr.Create()
 		if err != nil {
@@ -128,10 +132,10 @@ func (r *Request) createAirgapMachine() error {
 func (r *Request) deploy(ctx *pulumi.Context) error {
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
-		fmt.Sprintf(amiRegex, r.Version),
+		fmt.Sprintf(amiRegex[r.Arch], r.Version),
 		amiOwner,
 		map[string]string{
-			"architecture": "x86_64"})
+			"architecture": r.Arch})
 	if err != nil {
 		return err
 	}
@@ -173,7 +177,9 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		AMI:            ami,
 		KeyResources:   keyResources,
 		SecurityGroups: securityGroups,
-		InstaceTypes:   requiredInstanceTypes,
+		InstaceTypes: util.If(len(r.VMType) > 0,
+			r.VMType,
+			supportedInstanceTypes[r.Arch]),
 		DiskSize:       &diskSize,
 		Airgap:         r.Airgap,
 		LB:             lb,
