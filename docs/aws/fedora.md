@@ -14,11 +14,13 @@ Usage:
 
 Flags:
       --airgap                       if this flag is set the host will be created as airgap machine. Access will done through a bastion
+      --arch string                  architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
       --conn-details-output string   path to export host connection information (host, username and privateKey)
   -h, --help                         help for create
       --spot                         if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)
       --tags stringToString          tags to add on each resource (--tags name1=value1,name2=value2) (default [])
-      --version string               version for the Fedora Cloud OS (default "39")
+      --version string               version for the Fedora Cloud OS (default "40")
+      --vm-types strings             set an specific set of vm-types. Note vm-type should match requested arch. Also if --spot flag is used set at least 3 types
 
 Global Flags:
       --backed-url string     backed for stack state. Can be a local path with format file:///path/subpath or s3 s3://existing-bucket

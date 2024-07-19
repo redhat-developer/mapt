@@ -16,7 +16,7 @@ const (
 
 	fedoraVersion        string = "version"
 	fedoraVersionDesc    string = "version for the Fedora Cloud OS"
-	fedoraVersionDefault string = "39"
+	fedoraVersionDefault string = "40"
 )
 
 func GetFedoraCmd() *cobra.Command {
@@ -55,6 +55,8 @@ func getFedoraCreate() *cobra.Command {
 				&fedora.Request{
 					Prefix:  "main",
 					Version: viper.GetString(rhelVersion),
+					Arch:    viper.GetString(linuxArch),
+					VMType:  viper.GetStringSlice(vmTypes),
 					Spot:    viper.IsSet(spot),
 					Airgap:  viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
@@ -66,6 +68,8 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(fedoraVersion, "", fedoraVersionDefault, fedoraVersionDesc)
+	flagSet.StringP(linuxArch, "", linuxArchDefault, linuxArchDesc)
+	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
