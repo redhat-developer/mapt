@@ -31,6 +31,9 @@ type MacRequest struct {
 	replace bool
 	lock    bool
 
+	// setup as github actions runner
+	SetupGHActionsRunner bool
+
 	// This value wil be used to dynamically expand the pool size
 	// MaxPoolSize *int
 
