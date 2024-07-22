@@ -4,6 +4,7 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -61,14 +62,25 @@ func getMacRequest() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags))
 
+			// Initialize gh actions runner if needed
+			if viper.IsSet(params.InstallGHActionsRunner) {
+				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
+					viper.GetString(params.GHActionsRunnerName),
+					viper.GetString(params.GHActionsRunnerRepo))
+				if err != nil {
+					logging.Error(err)
+				}
+			}
+
 			// Run create
 			if err := mac.Request(
 				&mac.MacRequest{
-					Prefix:        "main",
-					Architecture:  viper.GetString(arch),
-					Version:       viper.GetString(osVersion),
-					FixedLocation: viper.IsSet(fixedLocation),
-					Airgap:        viper.IsSet(airgap)}); err != nil {
+					Prefix:               "main",
+					Architecture:         viper.GetString(arch),
+					Version:              viper.GetString(osVersion),
+					FixedLocation:        viper.IsSet(fixedLocation),
+					SetupGHActionsRunner: viper.GetBool(params.InstallGHActionsRunner),
+					Airgap:               viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -81,6 +93,7 @@ func getMacRequest() *cobra.Command {
 	flagSet.StringP(osVersion, "", osDefault, osVersionDesc)
 	flagSet.Bool(fixedLocation, false, fixedLocationDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
+	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	err := c.MarkPersistentFlagRequired(arch)
 	if err != nil {

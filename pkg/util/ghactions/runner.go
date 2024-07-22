@@ -18,6 +18,7 @@ const (
 
 	runnerBaseURLWin   = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-win-x64-%[1]s.zip"
 	runnerBaseURLLinux = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-linux-x64-%[1]s.tar.gz"
+	runnerBaseURLMacos = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-osx-x64-%[1]s.tar.gz"
 
 	// $ghToken needs to be set externally before use; it is defined in the platform specific setup scripts
 	// for aws this is defined in the script and for azure it is passed as an arg to the setup script
@@ -37,6 +38,16 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem ;
 		`      sudo ./svc.sh install` + "\n" +
 		`      chcon system_u:object_r:usr_t:s0 $(pwd)/runsvc.sh` + "\n" +
 		`      sudo ./svc.sh start`
+
+	installActionRunnerSnippetMacos string = `mkdir ~/actions-runner && cd ~/actions-runner
+curl -o actions-runner-osx.tar.gz -L %s
+tar xzf ./actions-runner-osx.tar.gz
+./config.sh --token %s --url %s --name %s --unattended --replace
+./svc.sh install
+plistName=$(basename $(./svc.sh status | grep "plist$"))
+mkdir -p ~/Library/LaunchDaemons
+mv ~/Library/LaunchAgents/"${plistName}" ~/Library/LaunchDaemons/"${plistName}"
+launchctl load ~/Library/LaunchDaemons/"${plistName}"`
 )
 
 var args *RunnerArgs
@@ -74,4 +85,12 @@ func GetActionRunnerSnippetLinux() string {
 			fmt.Sprintf(runnerBaseURLLinux, runnerVersion), args.Token, args.RepoURL, args.Name)
 	}
 	return util.IfNillable(args != nil, snippetLinux, "")
+}
+
+func GetActionRunnerSnippetMacos() string {
+	var snippetMacos = func() string {
+		return fmt.Sprintf(installActionRunnerSnippetMacos,
+			fmt.Sprintf(runnerBaseURLMacos, runnerVersion), args.Token, args.RepoURL, args.Name)
+	}
+	return util.IfNillable(args != nil, snippetMacos, "")
 }

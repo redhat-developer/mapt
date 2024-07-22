@@ -34,6 +34,11 @@ sudo sysadminctl -screenLock off -password "{{.Password}}"
 mkdir /Users/{{.Username}}/.ssh
 echo "{{.AuthorizedKey}}" | tee /Users/{{.Username}}/.ssh/authorized_keys
 
+# Install github-actions-runner if needed
+{{ if .InstallActionsRunner }}
+    {{- .ActionsRunnerSnippet }}
+{{ end }}
+
 # autologin to take effect
 # run reboot on background to successfully finish the remote exec of the script
 (sleep 2 && sudo reboot)&
