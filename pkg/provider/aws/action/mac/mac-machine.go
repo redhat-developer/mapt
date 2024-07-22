@@ -19,6 +19,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 
@@ -35,9 +36,11 @@ var BootstrapScript []byte
 
 // Need to extend this to also pass the key to be set up on each / create or replace
 type userDataValues struct {
-	Username      string
-	Password      string
-	AuthorizedKey string
+	Username             string
+	Password             string
+	AuthorizedKey        string
+	InstallActionsRunner bool
+	ActionsRunnerSnippet string
 }
 
 type locked struct {
@@ -385,7 +388,9 @@ func (r *MacRequest) getBootstrapScript(ctx *pulumi.Context) (
 				userDataValues{
 					defaultUsername,
 					password,
-					authorizedKey},
+					authorizedKey,
+					r.SetupGHActionsRunner,
+					ghactions.GetActionRunnerSnippetMacos()},
 				resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "mac-bootstrap"),
 				string(BootstrapScript[:]))
 		}).(pulumi.StringOutput)
