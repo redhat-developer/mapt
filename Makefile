@@ -13,6 +13,8 @@ SOURCES := $(shell find . -name "*.go" -not -path "./vendor/*")
 # LDFLAGS := $(VERSION_VARIABLES) -extldflags='-static' ${GO_EXTRA_LDFLAGS}
 LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
 GCFLAGS := all=-N -l
+GOOS := $(shell go env GOOS)
+GOARCH := $(shell go env GOARCH)
 
 TOOLS_DIR := tools
 include tools/tools.mk
@@ -37,7 +39,7 @@ install: $(SOURCES)
 	go install -ldflags="$(LDFLAGS)" $(GO_EXTRA_BUILDFLAGS) ./cmd/mapt
 
 $(BUILD_DIR)/mapt: $(SOURCES)
-	GOOS=linux GOARCH=amd64 go build -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/mapt $(GO_EXTRA_BUILDFLAGS) ./cmd/mapt
+	GOOS="$(GOOS)" GOARCH=$(GOARCH) go build -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/mapt $(GO_EXTRA_BUILDFLAGS) ./cmd/mapt
  
 .PHONY: build
 build: $(BUILD_DIR)/mapt
