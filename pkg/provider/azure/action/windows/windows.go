@@ -111,6 +111,12 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	if err := r.validateProfiles(); err != nil {
 		return err
 	}
+	adminPasswd, err := security.CreatePassword(
+		ctx,
+		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-adminuser"))
+	if err != nil {
+		return err
+	}
 	vmr := virtualmachine.VirtualMachineRequest{
 		Prefix:          r.Prefix,
 		ComponentID:     azureWindowsDesktopID,
@@ -120,8 +126,8 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		Publisher:       "MicrosoftWindowsDesktop",
 		Offer:           fmt.Sprintf("windows-%s", r.Version),
 		Sku:             fmt.Sprintf("win%s-%s", r.Version, r.Feature),
-		Version:         r.Version,
 		AdminUsername:   r.AdminUsername,
+		AdminPasswd:     adminPasswd,
 		SpotPrice:       spotPrice,
 	}
 	vm, err := vmr.Create(ctx)
@@ -129,9 +135,9 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername), pulumi.String(r.AdminUsername))
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), vm.AdminPassword.Result)
+	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), adminPasswd.Result)
 	// Setup machine on post init (may move too to virtual-machine pkg)
-	pk, vme, err := r.postInitSetup(ctx, rg, vm.VM, *location)
+	pk, vme, err := r.postInitSetup(ctx, rg, vm, *location)
 	if err != nil {
 		return err
 	}
