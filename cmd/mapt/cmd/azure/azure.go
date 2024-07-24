@@ -23,6 +23,7 @@ func GetCmd() *cobra.Command {
 		},
 	}
 
-	c.AddCommand(hosts.GetWindowsDesktopCmd())
+	c.AddCommand(hosts.GetWindowsDesktopCmd(),
+		hosts.GetUbuntuCmd())
 	return c
 }

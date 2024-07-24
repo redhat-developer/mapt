@@ -1,13 +1,15 @@
 package virtualmachine
 
 import (
+	"fmt"
+
 	"github.com/pulumi/pulumi-azure-native-sdk/compute/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/network/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
+	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
-	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -22,25 +24,17 @@ type VirtualMachineRequest struct {
 	Publisher       string
 	Offer           string
 	Sku             string
-	Version         string
-	AdminUsername   string
 	SpotPrice       *float64
-}
-
-type VirtualMachine struct {
-	VM            *compute.VirtualMachine
-	AdminPassword *random.RandomPassword
+	// Windows required
+	AdminUsername string
+	// Linux required
+	PrivateKey  *tls.PrivateKey
+	AdminPasswd *random.RandomPassword
 }
 
 // Create virtual machine based on request + export to context
 // adminusername and adminuserpassword
-func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*VirtualMachine, error) {
-	adminPasswd, err := security.CreatePassword(
-		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "pswd-adminuser"))
-	if err != nil {
-		return nil, err
-	}
+func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMachine, error) {
 	vmArgs := &compute.VirtualMachineArgs{
 		VmName:            pulumi.String(maptContext.RunID()),
 		Location:          r.ResourceGroup.Location,
@@ -71,11 +65,8 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*VirtualMachine, er
 				},
 			},
 		},
-		OsProfile: compute.OSProfileArgs{
-			AdminUsername: pulumi.String(r.AdminUsername),
-			AdminPassword: adminPasswd.Result,
-			ComputerName:  pulumi.String(maptContext.RunID()),
-		},
+		OsProfile: r.osProfile(),
+
 		Tags: maptContext.ResourceTags(),
 	}
 	if r.SpotPrice != nil {
@@ -84,14 +75,31 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*VirtualMachine, er
 			MaxPrice: pulumi.Float64(*r.SpotPrice),
 		}
 	}
-	vm, err := compute.NewVirtualMachine(ctx,
+	return compute.NewVirtualMachine(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "vm"),
 		vmArgs)
-	if err != nil {
-		return nil, err
+}
+
+func (r *VirtualMachineRequest) osProfile() compute.OSProfileArgs {
+	osProfile := compute.OSProfileArgs{
+		AdminUsername: pulumi.String(r.AdminUsername),
+		ComputerName:  pulumi.String(maptContext.RunID()),
 	}
-	return &VirtualMachine{
-		VM:            vm,
-		AdminPassword: adminPasswd,
-	}, nil
+	if r.AdminPasswd != nil {
+		osProfile.AdminPassword = r.AdminPasswd.Result
+	}
+	if r.PrivateKey != nil {
+		osProfile.LinuxConfiguration = &compute.LinuxConfigurationArgs{
+			DisablePasswordAuthentication: pulumi.Bool(true),
+			Ssh: &compute.SshConfigurationArgs{
+				PublicKeys: compute.SshPublicKeyTypeArray{
+					&compute.SshPublicKeyTypeArgs{
+						KeyData: r.PrivateKey.PublicKeyOpenssh,
+						Path:    pulumi.String(fmt.Sprintf("/home/%s/.ssh/authorized_keys", r.AdminUsername)),
+					},
+				},
+			},
+		}
+	}
+	return osProfile
 }
