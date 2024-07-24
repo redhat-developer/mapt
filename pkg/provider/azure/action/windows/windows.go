@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/pulumi/pulumi-azure-native-sdk/compute/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/network/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/storage/v2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
@@ -16,7 +15,9 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
 	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
+	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
@@ -79,6 +80,7 @@ func Destroy() error {
 
 // Main function to deploy all requried resources to azure
 func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
+	// Get values for spot machine
 	location, spotPrice, err := r.valuesCheckingSpot()
 	if err != nil {
 		return err
@@ -93,14 +95,48 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	ni, pi, err := r.createNetworking(ctx, rg, *location)
+	// Networking
+	nr := network.NetworkRequest{
+		Prefix:        r.Prefix,
+		ComponentID:   azureWindowsDesktopID,
+		ResourceGroup: rg,
+	}
+	n, err := nr.Create(ctx)
 	if err != nil {
 		return err
 	}
-	vm, err := r.createVirtualMachine(ctx, rg, ni, *location, spotPrice)
+	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputHost), n.PublicIP.IpAddress)
+	// Virutal machine
+	// TODO check if validation should be moved to the top of the func?
+	if err := r.validateProfiles(); err != nil {
+		return err
+	}
+	adminPasswd, err := security.CreatePassword(
+		ctx,
+		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-adminuser"))
 	if err != nil {
 		return err
 	}
+	vmr := virtualmachine.VirtualMachineRequest{
+		Prefix:          r.Prefix,
+		ComponentID:     azureWindowsDesktopID,
+		ResourceGroup:   rg,
+		NetworkInteface: n.NetworkInterface,
+		VMSize:          r.VMSize,
+		Publisher:       "MicrosoftWindowsDesktop",
+		Offer:           fmt.Sprintf("windows-%s", r.Version),
+		Sku:             fmt.Sprintf("win%s-%s", r.Version, r.Feature),
+		AdminUsername:   r.AdminUsername,
+		AdminPasswd:     adminPasswd,
+		SpotPrice:       spotPrice,
+	}
+	vm, err := vmr.Create(ctx)
+	if err != nil {
+		return err
+	}
+	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername), pulumi.String(r.AdminUsername))
+	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), adminPasswd.Result)
+	// Setup machine on post init (may move too to virtual-machine pkg)
 	pk, vme, err := r.postInitSetup(ctx, rg, vm, *location)
 	if err != nil {
 		return err
@@ -109,7 +145,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "cmd"),
 		&remote.CommandArgs{
 			Connection: remote.ConnectionArgs{
-				Host:           pi.IpAddress.Elem(),
+				Host:           n.PublicIP.IpAddress.Elem(),
 				PrivateKey:     pk.PrivateKeyOpenssh,
 				User:           pulumi.String(r.Username),
 				DialErrorLimit: pulumi.Int(-1),
@@ -152,146 +188,6 @@ func (r *WindowsRequest) manageResults(stackResult auto.UpResult) error {
 		fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey):    "id_rsa",
 		fmt.Sprintf("%s-%s", r.Prefix, outputHost):              "host",
 	})
-}
-
-// Create virtual machine based on request + export to context
-// adminusername and adminuserpassword
-func (r *WindowsRequest) createVirtualMachine(ctx *pulumi.Context,
-	rg *resources.ResourceGroup, ni *network.NetworkInterface,
-	location string, spotPrice *float64) (*compute.VirtualMachine, error) {
-	if err := r.validateProfiles(); err != nil {
-		return nil, err
-	}
-	adminPasswd, err := security.CreatePassword(
-		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-adminuser"))
-	if err != nil {
-		return nil, err
-	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername), pulumi.String(r.AdminUsername))
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), adminPasswd.Result)
-	vmArgs := &compute.VirtualMachineArgs{
-		VmName:            pulumi.String(maptContext.RunID()),
-		Location:          pulumi.String(location),
-		ResourceGroupName: rg.Name,
-		NetworkProfile: compute.NetworkProfileArgs{
-			NetworkInterfaces: compute.NetworkInterfaceReferenceArray{
-				compute.NetworkInterfaceReferenceArgs{
-					Id: ni.ID(),
-				},
-			},
-		},
-		HardwareProfile: compute.HardwareProfileArgs{
-			VmSize: pulumi.String(r.VMSize),
-		},
-		StorageProfile: compute.StorageProfileArgs{
-			ImageReference: compute.ImageReferenceArgs{
-				Publisher: pulumi.String("MicrosoftWindowsDesktop"),
-				Offer:     pulumi.String(fmt.Sprintf("windows-%s", r.Version)),
-				Sku:       pulumi.String(fmt.Sprintf("win%s-%s", r.Version, r.Feature)),
-				Version:   pulumi.String("latest"),
-			},
-			OsDisk: compute.OSDiskArgs{
-				Name:         pulumi.String(maptContext.RunID()),
-				CreateOption: pulumi.String("FromImage"),
-				Caching:      compute.CachingTypesReadWrite,
-				ManagedDisk: compute.ManagedDiskParametersArgs{
-					StorageAccountType: pulumi.String("Standard_LRS"),
-				},
-			},
-		},
-		OsProfile: compute.OSProfileArgs{
-			AdminUsername: pulumi.String(r.AdminUsername),
-			AdminPassword: adminPasswd.Result,
-			ComputerName:  pulumi.String(maptContext.RunID()),
-		},
-		Tags: maptContext.ResourceTags(),
-	}
-	if spotPrice != nil {
-		vmArgs.Priority = pulumi.String(prioritySpot)
-		vmArgs.BillingProfile = compute.BillingProfileArgs{
-			MaxPrice: pulumi.Float64(*spotPrice),
-		}
-	}
-
-	return compute.NewVirtualMachine(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "vm"),
-		vmArgs)
-}
-
-// Create networking resource required for spin the VM
-func (r *WindowsRequest) createNetworking(ctx *pulumi.Context,
-	rg *resources.ResourceGroup, location string) (*network.NetworkInterface,
-	*network.PublicIPAddress, error) {
-	vn, err := network.NewVirtualNetwork(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "vn"),
-		&network.VirtualNetworkArgs{
-			VirtualNetworkName: pulumi.String(maptContext.RunID()),
-			AddressSpace: network.AddressSpaceArgs{
-				AddressPrefixes: pulumi.StringArray{
-					pulumi.String(cidrVN),
-				},
-			},
-			ResourceGroupName: rg.Name,
-			Location:          pulumi.String(location),
-			Tags:              maptContext.ResourceTags(),
-		})
-	if err != nil {
-		return nil, nil, err
-	}
-	sn, err := network.NewSubnet(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "sn"),
-		&network.SubnetArgs{
-			SubnetName:         pulumi.String(maptContext.RunID()),
-			ResourceGroupName:  rg.Name,
-			VirtualNetworkName: vn.Name,
-			AddressPrefixes: pulumi.StringArray{
-				pulumi.String(cidrSN),
-			},
-		})
-	if err != nil {
-		return nil, nil, err
-	}
-	publicIP, err := network.NewPublicIPAddress(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pip"),
-		&network.PublicIPAddressArgs{
-			Location:                 pulumi.String(location),
-			PublicIpAddressName:      pulumi.String(maptContext.RunID()),
-			PublicIPAllocationMethod: pulumi.String("Static"),
-			ResourceGroupName:        rg.Name,
-			Tags:                     maptContext.ResourceTags(),
-			// DnsSettings: network.PublicIPAddressDnsSettingsArgs{
-			// 	DomainNameLabel: pulumi.String("mapt"),
-			// },
-		})
-	if err != nil {
-		return nil, nil, err
-	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputHost), publicIP.IpAddress)
-	ni, err := network.NewNetworkInterface(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "ni"),
-		&network.NetworkInterfaceArgs{
-			NetworkInterfaceName: pulumi.String(maptContext.RunID()),
-			Location:             pulumi.String(location),
-			ResourceGroupName:    rg.Name,
-			IpConfigurations: network.NetworkInterfaceIPConfigurationArray{
-				&network.NetworkInterfaceIPConfigurationArgs{
-					Name:                      pulumi.String(maptContext.RunID()),
-					PrivateIPAllocationMethod: pulumi.String("Dynamic"),
-					PublicIPAddress: network.PublicIPAddressTypeArgs{
-						Id: publicIP.ID(),
-					},
-					Subnet: network.SubnetTypeArgs{
-						Id: sn.ID(),
-					},
-				},
-			},
-			Tags: maptContext.ResourceTags(),
-		})
-	if err != nil {
-		return nil, nil, err
-	}
-	return ni, publicIP, nil
 }
 
 // run a post script to setup the machine as expected according to rhqp-ci-setup.ps1
