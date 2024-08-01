@@ -1,4 +1,4 @@
-package spot
+package aws
 
 import (
 	"context"
@@ -14,7 +14,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"golang.org/x/exp/slices"
 )
 
@@ -25,46 +24,23 @@ const (
 	spotQueryFilterProductDescription = "product-description"
 )
 
-type bestSpotOption struct {
-	pulumi.ResourceState
-	Option *spotOptionInfo
-}
-
-func NewBestSpotOption(ctx *pulumi.Context, name string,
-	productDescription string, instaceTypes []string,
-	amiName, amiArch string, opts ...pulumi.ResourceOption) (*spotOptionInfo, error) {
-	spotOption, err := bestSpotOptionInfo(productDescription, instaceTypes, amiName, amiArch)
-	if err != nil {
-		return nil, err
-	}
-	err = ctx.RegisterComponentResource("rh:qe:aws:bso",
-		name,
-		&bestSpotOption{
-			Option: spotOption,
-		},
-		opts...)
-	if err != nil {
-		return nil, err
-	}
-	return spotOption, nil
-}
-
 // func GetBestSpotOption(ctx *pulumi.Context, name string, id pulumi.IDInput, opts ...pulumi.ResourceOption) (*spotOptionInfo, error) {
 // 	var bso bestSpotOption
 // 	err := ctx.ReadResource("bso", name, id, nil, &bso, opts...)
 // 	return bso.Option, err
 // }
 
-type spotOptionInfo struct {
+type SpotOptionInfo struct {
 	Region           string
 	AvailabilityZone string
 	AVGPrice         float64
 	MaxPrice         float64
 	Score            int32
+	InstanceType     string
 }
 
-type spotOptionResult struct {
-	Prices []spotOptionInfo
+type SpotOptionResult struct {
+	Prices []SpotOptionInfo
 	Err    error
 }
 
@@ -75,7 +51,7 @@ type spotOptionResult struct {
 // * instanceTypes types of machines able to execute the workload
 // * amiName ensures the ami is available on the spot option
 // the output is the information realted to the best spot option for the target machine
-func bestSpotOptionInfo(productDescription string, instaceTypes []string, amiName, amiArch string) (*spotOptionInfo, error) {
+func BestSpotOptionInfo(productDescription string, instaceTypes []string, amiName, amiArch string) (*SpotOptionInfo, error) {
 	regions, err := data.GetRegions()
 	if err != nil {
 		return nil, err
@@ -126,9 +102,9 @@ func placementScores(regions, instanceTypes []string,
 }
 
 func spotOptionWorlwide(productDescription string,
-	regions, instanceTypes []string) []spotOptionInfo {
-	worldwidePrices := []spotOptionInfo{}
-	c := make(chan spotOptionResult)
+	regions, instanceTypes []string) []SpotOptionInfo {
+	worldwidePrices := []SpotOptionInfo{}
+	c := make(chan SpotOptionResult)
 	for _, region := range regions {
 		var lRegion = region
 		go spotOptionAsync(
@@ -147,16 +123,16 @@ func spotOptionWorlwide(productDescription string,
 	return worldwidePrices
 }
 
-func spotOptionAsync(instanceTypes []string, productDescription, region string, c chan spotOptionResult) {
+func spotOptionAsync(instanceTypes []string, productDescription, region string, c chan SpotOptionResult) {
 	data, err := spotOption(instanceTypes, productDescription, region)
-	c <- spotOptionResult{
+	c <- SpotOptionResult{
 		Prices: data,
 		Err:    err}
 }
 
 func spotOption(instanceTypes []string,
 	productDescription, region string) (
-	pricesGroup []spotOptionInfo, err error) {
+	pricesGroup []SpotOptionInfo, err error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(region) > 0 {
 		cfgOpts = config.WithRegion(region)
@@ -187,9 +163,10 @@ func spotOption(instanceTypes []string,
 	if err != nil {
 		return nil, err
 	}
-	spotPriceGroups := util.SplitSlice(history.SpotPriceHistory, func(priceData ec2Types.SpotPrice) spotOptionInfo {
-		return spotOptionInfo{
+	spotPriceGroups := util.SplitSlice(history.SpotPriceHistory, func(priceData ec2Types.SpotPrice) SpotOptionInfo {
+		return SpotOptionInfo{
 			AvailabilityZone: *priceData.AvailabilityZone,
+			InstanceType:     string(priceData.InstanceType),
 		}
 	})
 	logging.Debugf("grouped prices %v", spotPriceGroups)
@@ -218,11 +195,11 @@ func spotOption(instanceTypes []string,
 // # Also function take cares to transfrom from AzID to AZName
 //
 // first option matching the requirements will be returned
-func checkBestOption(amiName, amiArch string, source []spotOptionInfo,
+func checkBestOption(amiName, amiArch string, source []SpotOptionInfo,
 	sps []ec2Types.SpotPlacementScore,
-	availabilityZones []ec2Types.AvailabilityZone) *spotOptionInfo {
+	availabilityZones []ec2Types.AvailabilityZone) *SpotOptionInfo {
 	slices.SortFunc(source,
-		func(a, b spotOptionInfo) int {
+		func(a, b SpotOptionInfo) int {
 			return int(a.AVGPrice - b.AVGPrice)
 		})
 	var score int32 = spsMaxScore

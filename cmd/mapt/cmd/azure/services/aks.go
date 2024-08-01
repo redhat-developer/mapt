@@ -7,7 +7,7 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureAKS "github.com/redhat-developer/mapt/pkg/provider/azure/action/aks"
-	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
+	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -57,10 +57,10 @@ func getCreateAKS() *cobra.Command {
 				viper.GetStringMapString(params.Tags))
 
 			// ParseEvictionRate
-			var spotToleranceValue = spotprice.DefaultEvictionRate
+			var spotToleranceValue = spotAzure.DefaultEvictionRate
 			if viper.IsSet(azparams.ParamSpotTolerance) {
 				var ok bool
-				spotToleranceValue, ok = spotprice.ParseEvictionRate(
+				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
 					viper.GetString(azparams.ParamSpotTolerance))
 				if !ok {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))

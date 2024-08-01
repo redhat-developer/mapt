@@ -14,8 +14,8 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
-	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -28,7 +28,7 @@ type AKSRequest struct {
 	KubernetesVersion string
 	OnlySystemPool    bool
 	Spot              bool
-	SpotTolerance     spotprice.EvictionRate
+	SpotTolerance     spotAzure.EvictionRate
 }
 
 func Create(r *AKSRequest) (err error) {
@@ -197,7 +197,7 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 func (r *AKSRequest) valuesCheckingSpot() (*string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
-			spotprice.GetBestSpotChoice(spotprice.BestSpotChoiceRequest{
+			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
 				VMTypes:              []string{r.VMSize},
 				OSType:               "linux",
 				EvictioRateTolerance: r.SpotTolerance,

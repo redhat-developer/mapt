@@ -16,12 +16,12 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
-	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
+	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/ghactions"
@@ -43,7 +43,7 @@ type WindowsRequest struct {
 	Username           string
 	AdminUsername      string
 	Spot               bool
-	SpotTolerance      spotprice.EvictionRate
+	SpotTolerance      spotAzure.EvictionRate
 	Profiles           []string
 	// setup as github actions runner
 	SetupGHActionsRunner bool
@@ -169,7 +169,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 func (r *WindowsRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
-			spotprice.GetBestSpotChoice(spotprice.BestSpotChoiceRequest{
+			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
 				VMTypes:              util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
 				OSType:               "windows",
 				EvictioRateTolerance: r.SpotTolerance,
