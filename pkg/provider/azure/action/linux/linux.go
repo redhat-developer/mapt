@@ -12,12 +12,12 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
-	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
+	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -43,7 +43,17 @@ type LinuxRequest struct {
 	Version         string
 	Username        string
 	Spot            bool
-	SpotTolerance   spotprice.EvictionRate
+	SpotTolerance   spotAzure.EvictionRate
+}
+
+type UbuntuRequest struct {
+	Prefix        string
+	Location      string
+	VMSize        string
+	Version       string
+	Username      string
+	Spot          bool
+	SpotTolerance spotAzure.EvictionRate
 }
 
 func Create(r *LinuxRequest) (err error) {
@@ -161,7 +171,7 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 func (r *LinuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
-			spotprice.GetBestSpotChoice(spotprice.BestSpotChoiceRequest{
+			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
 				VMTypes:              util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
 				OSType:               "linux",
 				EvictioRateTolerance: r.SpotTolerance,

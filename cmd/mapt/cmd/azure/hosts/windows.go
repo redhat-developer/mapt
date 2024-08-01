@@ -7,8 +7,8 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
-	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
+	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
@@ -65,11 +65,11 @@ func getCreateWindowsDesktop() *cobra.Command {
 				viper.GetStringMapString(params.Tags))
 
 			// ParseEvictionRate
-			var spotToleranceValue = spotprice.DefaultEvictionRate
-			if viper.IsSet(azparams.ParamSpotTolerance) {
+			var spotToleranceValue = spotAzure.DefaultEvictionRate
+			if viper.IsSet(paramSpotTolerance) {
 				var ok bool
-				spotToleranceValue, ok = spotprice.ParseEvictionRate(
-					viper.GetString(azparams.ParamSpotTolerance))
+				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
+					viper.GetString(paramSpotTolerance))
 				if !ok {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
