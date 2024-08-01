@@ -10,7 +10,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/util"
 
-	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
+	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -69,11 +69,11 @@ func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Co
 				viper.GetStringMapString(params.Tags))
 
 			// ParseEvictionRate
-			var spotToleranceValue = spotprice.DefaultEvictionRate
-			if viper.IsSet(azparams.ParamSpotTolerance) {
+			var spotToleranceValue = spotAzure.DefaultEvictionRate
+			if viper.IsSet(paramSpotTolerance) {
 				var ok bool
-				spotToleranceValue, ok = spotprice.ParseEvictionRate(
-					viper.GetString(azparams.ParamSpotTolerance))
+				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
+					viper.GetString(paramSpotTolerance))
 				if !ok {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}

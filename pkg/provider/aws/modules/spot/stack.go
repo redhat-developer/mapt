@@ -6,6 +6,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	awsSpot "github.com/redhat-developer/mapt/pkg/spot/aws"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -23,6 +24,30 @@ type SpotOptionResult struct {
 	AVGPrice         float64
 	MaxPrice         float64
 	Score            int64
+}
+
+type bestSpotOption struct {
+	pulumi.ResourceState
+	Option *awsSpot.SpotOptionInfo
+}
+
+func NewBestSpotOption(ctx *pulumi.Context, name string,
+	productDescription string, instaceTypes []string,
+	amiName, amiArch string, opts ...pulumi.ResourceOption) (*awsSpot.SpotOptionInfo, error) {
+	spotOption, err := awsSpot.BestSpotOptionInfo(productDescription, instaceTypes, amiName, amiArch)
+	if err != nil {
+		return nil, err
+	}
+	err = ctx.RegisterComponentResource("rh:qe:aws:bso",
+		name,
+		&bestSpotOption{
+			Option: spotOption,
+		},
+		opts...)
+	if err != nil {
+		return nil, err
+	}
+	return spotOption, nil
 }
 
 // Create wil get the information for the best spot choice it is backed
