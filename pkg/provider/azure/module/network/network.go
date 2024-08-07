@@ -14,13 +14,13 @@ type NetworkRequest struct {
 	ResourceGroup *resources.ResourceGroup
 }
 
-type Netowork struct {
+type Network struct {
 	NetworkInterface *network.NetworkInterface
 	PublicIP         *network.PublicIPAddress
 }
 
 // Create networking resource required for spin the VM
-func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Netowork, error) {
+func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Network, error) {
 	vn, err := network.NewVirtualNetwork(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "vn"),
 		&network.VirtualNetworkArgs{
@@ -88,7 +88,7 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Netowork, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Netowork{
+	return &Network{
 		NetworkInterface: ni,
 		PublicIP:         publicIP,
 	}, nil
