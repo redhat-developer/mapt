@@ -5,10 +5,9 @@ import (
 
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
-	azureUbuntu "github.com/redhat-developer/mapt/pkg/provider/azure/action/ubuntu"
+	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 
 	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -16,18 +15,29 @@ import (
 )
 
 const (
-	cmdUbunutu    = "ubuntu"
+	cmdUbuntu     = "ubuntu"
 	cmdUbuntuDesc = "ubuntu operations"
+	cmdRHEL       = "rhel"
+	cmdRHELDesc   = "ubuntu operations"
 
-	paramUbuntuVersion     = "version"
-	paramUbuntuVersionDesc = "ubunutu version. Tore info at https://documentation.ubuntu.com/azure/en/latest/azure-how-to/instances/find-ubuntu-images"
-	defaultUbuntuVersion   = "24_04"
+	paramLinuxVersion     = "version"
+	paramLinuxVersionDesc = "linux version. Version should be formmated as X.Y (Major.minor)"
+	defaultUbuntuVersion  = "24.04"
+	defaultRHELVersion    = "9.4"
 )
 
 func GetUbuntuCmd() *cobra.Command {
+	return getLinuxCmd(cmdUbuntu, cmdUbuntuDesc, azureLinux.Ubuntu, defaultUbuntuVersion)
+}
+
+func GetRHELCmd() *cobra.Command {
+	return getLinuxCmd(cmdRHEL, cmdRHELDesc, azureLinux.RHEL, defaultRHELVersion)
+}
+
+func getLinuxCmd(cmd, cmdDesc string, ostype azureLinux.OSType, defaultOSVersion string) *cobra.Command {
 	c := &cobra.Command{
-		Use:   cmdUbunutu,
-		Short: cmdUbuntuDesc,
+		Use:   cmd,
+		Short: cmdDesc,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
@@ -35,11 +45,11 @@ func GetUbuntuCmd() *cobra.Command {
 			return nil
 		},
 	}
-	c.AddCommand(getCreateUbuntu(), getDestroyUbuntu())
+	c.AddCommand(getCreateLinux(ostype, defaultOSVersion), getDestroyLinux())
 	return c
 }
 
-func getCreateUbuntu() *cobra.Command {
+func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Command {
 	c := &cobra.Command{
 		Use:   params.CreateCmdName,
 		Short: params.CreateCmdName,
@@ -64,23 +74,13 @@ func getCreateUbuntu() *cobra.Command {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(paramSpotTolerance))
 				}
 			}
-
-			// Initialize gh actions runner if needed
-			if viper.IsSet(params.InstallGHActionsRunner) {
-				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
-					viper.GetString(params.GHActionsRunnerName),
-					viper.GetString(params.GHActionsRunnerRepo))
-				if err != nil {
-					logging.Error(err)
-				}
-			}
-
-			if err := azureUbuntu.Create(
-				&azureUbuntu.UbuntuRequest{
+			if err := azureLinux.Create(
+				&azureLinux.LinuxRequest{
 					Prefix:        viper.GetString(params.ProjectName),
 					Location:      viper.GetString(paramLocation),
 					VMSize:        viper.GetString(paramVMSize),
-					Version:       viper.GetString(paramUbuntuVersion),
+					Version:       viper.GetString(paramLinuxVersion),
+					OSType:        ostype,
 					Username:      viper.GetString(paramUsername),
 					Spot:          viper.IsSet(paramSpot),
 					SpotTolerance: spotToleranceValue}); err != nil {
@@ -94,7 +94,7 @@ func getCreateUbuntu() *cobra.Command {
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
 	flagSet.StringP(paramVMSize, "", defaultVMSize, paramVMSizeDesc)
-	flagSet.StringP(paramUbuntuVersion, "", defaultUbuntuVersion, paramUbuntuVersionDesc)
+	flagSet.StringP(paramLinuxVersion, "", defaultOSVersion, paramLinuxVersionDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
 	flagSet.Bool(paramSpot, false, paramSpotDesc)
 	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
@@ -102,7 +102,7 @@ func getCreateUbuntu() *cobra.Command {
 	return c
 }
 
-func getDestroyUbuntu() *cobra.Command {
+func getDestroyLinux() *cobra.Command {
 	return &cobra.Command{
 		Use:   params.DestroyCmdName,
 		Short: params.DestroyCmdName,
@@ -116,7 +116,7 @@ func getDestroyUbuntu() *cobra.Command {
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags))
-			if err := azureUbuntu.Destroy(); err != nil {
+			if err := azureLinux.Destroy(); err != nil {
 				logging.Error(err)
 			}
 			return nil
