@@ -40,8 +40,8 @@ spec:
     description: "Specific set of vm-types. Note vm-type should match requested arch. Also if --spot flag is used set at least 3 types comma separated and without spaces."
     default: "''"  
   - name: version
-    description: this task will spin a RHEL image. This param will set the version for it. Default 9.3.
-    default: '9.3'
+    description: this task will spin a RHEL image. This param will set the version for it. Default 9.4.
+    default: '9.4'
   - name: profile-snc
     description: |
       This param will setup RHEL with SNC profile. Setting up all requirements to run https://github.com/crc-org/snc
