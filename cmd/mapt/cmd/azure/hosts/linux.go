@@ -80,6 +80,7 @@ func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Co
 					Location:      viper.GetString(paramLocation),
 					VMSize:        viper.GetString(paramVMSize),
 					Version:       viper.GetString(paramLinuxVersion),
+					Arch:          viper.GetString(params.LinuxArch),
 					OSType:        ostype,
 					Username:      viper.GetString(paramUsername),
 					Spot:          viper.IsSet(paramSpot),
@@ -93,6 +94,7 @@ func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Co
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
+	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(paramVMSize, "", defaultVMSize, paramVMSizeDesc)
 	flagSet.StringP(paramLinuxVersion, "", defaultOSVersion, paramLinuxVersionDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
