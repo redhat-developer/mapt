@@ -1,4 +1,4 @@
-package ubuntu
+package linux
 
 import (
 	"fmt"
@@ -20,20 +20,31 @@ import (
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-type UbuntuRequest struct {
+const (
+	stackAzureLinux = "stackAzureLinux"
+
+	azureLinuxID = "als"
+
+	outputHost           = "alsHost"
+	outputUsername       = "alsUsername"
+	outputUserPrivateKey = "alsUserPrivatekey"
+)
+
+type LinuxRequest struct {
 	Prefix        string
 	Location      string
 	VMSize        string
+	OSType        OSType
 	Version       string
 	Username      string
 	Spot          bool
 	SpotTolerance spotprice.EvictionRate
 }
 
-func Create(r *UbuntuRequest) (err error) {
-	logging.Debug("Creating Ubuntu Server")
+func Create(r *LinuxRequest) (err error) {
+	logging.Debug("Creating Linux Server")
 	cs := manager.Stack{
-		StackName:           maptContext.StackNameByProject(stackAzureUbuntu),
+		StackName:           maptContext.StackNameByProject(stackAzureLinux),
 		ProjectName:         maptContext.ProjectName(),
 		BackedURL:           maptContext.BackedURL(),
 		ProviderCredentials: azure.DefaultCredentials,
@@ -47,18 +58,18 @@ func Destroy() error {
 	return azure.Destroy(
 		maptContext.ProjectName(),
 		maptContext.BackedURL(),
-		maptContext.StackNameByProject(stackAzureUbuntu))
+		maptContext.StackNameByProject(stackAzureLinux))
 }
 
 // Main function to deploy all requried resources to azure
-func (r *UbuntuRequest) deployer(ctx *pulumi.Context) error {
+func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	// Get values for spot machine
 	location, spotPrice, err := r.valuesCheckingSpot()
 	if err != nil {
 		return err
 	}
 	rg, err := resources.NewResourceGroup(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureUbuntuID, "rg"),
+		resourcesUtil.GetResourceName(r.Prefix, azureLinuxID, "rg"),
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(*location),
 			ResourceGroupName: pulumi.String(maptContext.RunID()),
@@ -70,7 +81,7 @@ func (r *UbuntuRequest) deployer(ctx *pulumi.Context) error {
 	// Networking
 	nr := network.NetworkRequest{
 		Prefix:        r.Prefix,
-		ComponentID:   azureUbuntuID,
+		ComponentID:   azureLinuxID,
 		ResourceGroup: rg,
 	}
 	n, err := nr.Create(ctx)
@@ -81,7 +92,7 @@ func (r *UbuntuRequest) deployer(ctx *pulumi.Context) error {
 	// Virutal machine
 	privateKey, err := tls.NewPrivateKey(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureUbuntuID, "privatekey-user"),
+		resourcesUtil.GetResourceName(r.Prefix, azureLinuxID, "privatekey-user"),
 		&tls.PrivateKeyArgs{
 			Algorithm: pulumi.String("RSA"),
 			RsaBits:   pulumi.Int(4096),
@@ -90,15 +101,20 @@ func (r *UbuntuRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
+	// Image refence info
+	ir, err := getImageRef(r.OSType, "x86_64", r.Version)
+	if err != nil {
+		return err
+	}
 	vmr := virtualmachine.VirtualMachineRequest{
 		Prefix:          r.Prefix,
-		ComponentID:     azureUbuntuID,
+		ComponentID:     azureLinuxID,
 		ResourceGroup:   rg,
 		NetworkInteface: n.NetworkInterface,
 		VMSize:          r.VMSize,
-		Publisher:       "Canonical",
-		Offer:           fmt.Sprintf("ubuntu-%s-lts-daily", r.Version),
-		Sku:             "server",
+		Publisher:       ir.publisher,
+		Offer:           ir.offer,
+		Sku:             ir.sku,
 		AdminUsername:   r.Username,
 		PrivateKey:      privateKey,
 		SpotPrice:       spotPrice,
@@ -109,7 +125,7 @@ func (r *UbuntuRequest) deployer(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUsername), pulumi.String(r.Username))
 	_, err = remote.NewCommand(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureUbuntuID, "cmd"),
+		resourcesUtil.GetResourceName(r.Prefix, azureLinuxID, "cmd"),
 		&remote.CommandArgs{
 			Connection: remote.ConnectionArgs{
 				Host:           n.PublicIP.IpAddress.Elem(),
@@ -128,7 +144,7 @@ func (r *UbuntuRequest) deployer(ctx *pulumi.Context) error {
 	return err
 }
 
-func (r *UbuntuRequest) valuesCheckingSpot() (*string, *float64, error) {
+func (r *LinuxRequest) valuesCheckingSpot() (*string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
 			spotprice.GetBestSpotChoice(spotprice.BestSpotChoiceRequest{
@@ -146,7 +162,7 @@ func (r *UbuntuRequest) valuesCheckingSpot() (*string, *float64, error) {
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *UbuntuRequest) manageResults(stackResult auto.UpResult) error {
+func (r *LinuxRequest) manageResults(stackResult auto.UpResult) error {
 	return output.Write(stackResult, maptContext.GetResultsOutputPath(), map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputUsername):       "username",
 		fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey): "id_rsa",
