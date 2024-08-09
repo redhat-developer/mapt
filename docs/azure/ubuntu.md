@@ -4,7 +4,7 @@ mapt offers several operations to manage environments within azure:
 
 ## Ubuntu
 
-It creates / destroy a windows dekstop edition ready to be included within the CI/CD system. Features included within the offering:
+It creates / destroy a Ubuntu machine ready to be included within the CI/CD system. Features included within the offering:
 
 * Creates an admin user with a self generated passwd (only accessible within rdp)
 * Creates an user acting as adminuser
