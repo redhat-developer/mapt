@@ -80,4 +80,5 @@ tkn-push: install-out-of-tree-tools
 		-f tkn/infra-aws-mac.yaml \
 		-f tkn/infra-aws-rhel.yaml \
 		-f tkn/infra-aws-windows-server.yaml \
+		-f tkn/infra-azure-rhel.yaml \
 		-f tkn/infra-azure-windows-desktop.yaml
