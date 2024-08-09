@@ -34,6 +34,7 @@ type LinuxRequest struct {
 	Prefix        string
 	Location      string
 	VMSize        string
+	Arch          string
 	OSType        OSType
 	Version       string
 	Username      string
@@ -102,7 +103,7 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
 	// Image refence info
-	ir, err := getImageRef(r.OSType, "x86_64", r.Version)
+	ir, err := getImageRef(r.OSType, r.Arch, r.Version)
 	if err != nil {
 		return err
 	}
