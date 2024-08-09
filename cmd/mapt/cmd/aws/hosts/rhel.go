@@ -72,7 +72,7 @@ func getRHELCreate() *cobra.Command {
 				&rhel.Request{
 					Prefix:               "main",
 					Version:              viper.GetString(rhelVersion),
-					Arch:                 viper.GetString(linuxArch),
+					Arch:                 viper.GetString(params.LinuxArch),
 					VMType:               viper.GetStringSlice(vmTypes),
 					SubsUsername:         viper.GetString(subsUsername),
 					SubsUserpass:         viper.GetString(subsUserpass),
@@ -90,7 +90,7 @@ func getRHELCreate() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(rhelVersion, "", rhelVersionDefault, rhelVersionDesc)
-	flagSet.StringP(linuxArch, "", linuxArchDefault, linuxArchDesc)
+	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.StringP(subsUsername, "", "", subsUsernameDesc)
 	flagSet.StringP(subsUserpass, "", "", subsUserpassDesc)
