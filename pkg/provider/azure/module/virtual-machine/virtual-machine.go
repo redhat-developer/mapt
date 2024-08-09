@@ -13,7 +13,10 @@ import (
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-const prioritySpot = "Spot"
+const (
+	prioritySpot     = "Spot"
+	diskSize     int = 200
+)
 
 type VirtualMachineRequest struct {
 	Prefix          string
@@ -58,6 +61,7 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 			},
 			OsDisk: compute.OSDiskArgs{
 				Name:         pulumi.String(maptContext.RunID()),
+				DiskSizeGB:   pulumi.Int(diskSize),
 				CreateOption: pulumi.String("FromImage"),
 				Caching:      compute.CachingTypesReadWrite,
 				ManagedDisk: compute.ManagedDiskParametersArgs{

@@ -55,7 +55,7 @@ func getFedoraCreate() *cobra.Command {
 				&fedora.Request{
 					Prefix:  "main",
 					Version: viper.GetString(rhelVersion),
-					Arch:    viper.GetString(linuxArch),
+					Arch:    viper.GetString(params.LinuxArch),
 					VMType:  viper.GetStringSlice(vmTypes),
 					Spot:    viper.IsSet(spot),
 					Airgap:  viper.IsSet(airgap)}); err != nil {
@@ -68,7 +68,7 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(fedoraVersion, "", fedoraVersionDefault, fedoraVersionDesc)
-	flagSet.StringP(linuxArch, "", linuxArchDefault, linuxArchDesc)
+	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
