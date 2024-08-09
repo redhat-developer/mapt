@@ -15,6 +15,8 @@ type NetworkRequest struct {
 }
 
 type Network struct {
+	Network          *network.VirtualNetwork
+	PublicSubnet     *network.Subnet
 	NetworkInterface *network.NetworkInterface
 	PublicIP         *network.PublicIPAddress
 }
@@ -91,5 +93,7 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Network, error) {
 	return &Network{
 		NetworkInterface: ni,
 		PublicIP:         publicIP,
+		Network:          vn,
+		PublicSubnet:     sn,
 	}, nil
 }

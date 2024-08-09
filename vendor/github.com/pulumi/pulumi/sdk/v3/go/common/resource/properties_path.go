@@ -424,14 +424,22 @@ func (p PropertyPath) reset(old, new PropertyValue, oldIsSecret, newIsSecret boo
 					return true
 				} else if new.IsArray() {
 					if old.IsArray() {
-						for i := range old.ArrayValue() {
-							v := old.ArrayValue()[i]
+						oldArray := old.ArrayValue()
+						newArray := new.ArrayValue()
+						// If arrays are of different length then this is a path failure because we can't
+						// synchronise the two values.
+						if len(oldArray) != len(newArray) {
+							return false
+						}
+
+						for i := range oldArray {
+							v := oldArray[i]
 							// If this was a secret value in old, but new isn't currently a secret context then we need
 							// to mark this reset value as secret.
 							if oldIsSecret && !newIsSecret {
 								v = MakeSecret(v)
 							}
-							new.ArrayValue()[i] = v
+							newArray[i] = v
 						}
 					}
 					return true
@@ -459,6 +467,11 @@ func (p PropertyPath) reset(old, new PropertyValue, oldIsSecret, newIsSecret boo
 			} else if old.IsArray() && new.IsArray() {
 				oldArray := old.ArrayValue()
 				newArray := new.ArrayValue()
+				// If arrays are of different length then this is a path failure because we can't
+				// continue the search of this path down each PropertyValue.
+				if len(oldArray) != len(newArray) {
+					return false
+				}
 
 				for i := range oldArray {
 					if !p[1:].reset(oldArray[i], newArray[i], oldIsSecret, newIsSecret) {
