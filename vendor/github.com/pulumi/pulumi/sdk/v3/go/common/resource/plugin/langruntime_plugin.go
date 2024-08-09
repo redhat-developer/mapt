@@ -28,6 +28,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/apitype"
@@ -336,9 +337,49 @@ func (h *langhost) InstallDependencies(info ProgramInfo) error {
 	return nil
 }
 
-func (h *langhost) About() (AboutInfo, error) {
+func (h *langhost) RuntimeOptionsPrompts(info ProgramInfo) ([]RuntimeOptionPrompt, error) {
+	logging.V(7).Infof("langhost[%v].RuntimeOptionsPrompts() executing", h.runtime)
+
+	minfo, err := info.Marshal()
+	if err != nil {
+		return []RuntimeOptionPrompt{}, err
+	}
+
+	resp, err := h.client.RuntimeOptionsPrompts(h.ctx.Request(), &pulumirpc.RuntimeOptionsRequest{
+		Info: minfo,
+	})
+	if err != nil {
+		if status.Code(err) == codes.Unimplemented {
+			logging.V(7).Infof("langhost[%v].RuntimeOptionsPrompts() not implemented, returning no prompts", h.runtime)
+			return []RuntimeOptionPrompt{}, nil
+		}
+		rpcError := rpcerror.Convert(err)
+		logging.V(7).Infof("langhost[%v].RuntimeOptionsPrompts() failed: err=%v", h.runtime, rpcError)
+		return []RuntimeOptionPrompt{}, rpcError
+	}
+
+	prompts := []RuntimeOptionPrompt{}
+	for _, prompt := range resp.Prompts {
+		newPrompt, err := UnmarshallRuntimeOptionPrompt(prompt)
+		if err != nil {
+			return []RuntimeOptionPrompt{}, err
+		}
+		prompts = append(prompts, newPrompt)
+	}
+
+	logging.V(7).Infof("langhost[%v].RuntimeOptionsPrompts() success", h.runtime)
+	return prompts, nil
+}
+
+func (h *langhost) About(info ProgramInfo) (AboutInfo, error) {
 	logging.V(7).Infof("langhost[%v].About() executing", h.runtime)
-	resp, err := h.client.About(h.ctx.Request(), &emptypb.Empty{})
+	minfo, err := info.Marshal()
+	if err != nil {
+		return AboutInfo{}, err
+	}
+	resp, err := h.client.About(h.ctx.Request(), &pulumirpc.AboutRequest{
+		Info: minfo,
+	})
 	if err != nil {
 		rpcError := rpcerror.Convert(err)
 		logging.V(7).Infof("langhost[%v].About() failed: err=%v", h.runtime, rpcError)
@@ -504,12 +545,13 @@ func (h *langhost) GeneratePackage(
 	return diags, nil
 }
 
-func (h *langhost) GenerateProgram(program map[string]string, loaderTarget string,
+func (h *langhost) GenerateProgram(program map[string]string, loaderTarget string, strict bool,
 ) (map[string][]byte, hcl.Diagnostics, error) {
 	logging.V(7).Infof("langhost[%v].GenerateProgram() executing", h.runtime)
 	resp, err := h.client.GenerateProgram(h.ctx.Request(), &pulumirpc.GenerateProgramRequest{
 		Source:       program,
 		LoaderTarget: loaderTarget,
+		Strict:       strict,
 	})
 	if err != nil {
 		rpcError := rpcerror.Convert(err)

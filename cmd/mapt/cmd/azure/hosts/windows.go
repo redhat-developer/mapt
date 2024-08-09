@@ -3,6 +3,7 @@ package hosts
 import (
 	"fmt"
 
+	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
@@ -64,12 +65,12 @@ func getCreateWindowsDesktop() *cobra.Command {
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotprice.DefaultEvictionRate
-			if viper.IsSet(paramSpotTolerance) {
+			if viper.IsSet(azparams.ParamSpotTolerance) {
 				var ok bool
 				spotToleranceValue, ok = spotprice.ParseEvictionRate(
-					viper.GetString(paramSpotTolerance))
+					viper.GetString(azparams.ParamSpotTolerance))
 				if !ok {
-					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(paramSpotTolerance))
+					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
 			}
 
@@ -86,15 +87,15 @@ func getCreateWindowsDesktop() *cobra.Command {
 			if err := azureWindows.Create(
 				&azureWindows.WindowsRequest{
 					Prefix:               viper.GetString(params.ProjectName),
-					Location:             viper.GetString(paramLocation),
-					VMSize:               viper.GetString(paramVMSize),
+					Location:             viper.GetString(azparams.ParamLocation),
+					VMSize:               viper.GetString(azparams.ParamVMSize),
 					Version:              viper.GetString(paramWindowsVersion),
 					Feature:              viper.GetString(paramFeature),
 					Username:             viper.GetString(paramUsername),
 					AdminUsername:        viper.GetString(paramAdminUsername),
 					Profiles:             viper.GetStringSlice(paramProfile),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
-					Spot:                 viper.IsSet(paramSpot),
+					Spot:                 viper.IsSet(azparams.ParamSpot),
 					SpotTolerance:        spotToleranceValue}); err != nil {
 				logging.Error(err)
 			}
@@ -104,15 +105,15 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
-	flagSet.StringP(paramVMSize, "", defaultVMSize, paramVMSizeDesc)
+	flagSet.StringP(azparams.ParamLocation, "", azparams.DefaultLocation, azparams.ParamLocationDesc)
+	flagSet.StringP(azparams.ParamVMSize, "", azparams.DefaultVMSize, azparams.ParamVMSizeDesc)
 	flagSet.StringP(paramWindowsVersion, "", defaultWindowsVersion, paramWindowsVersionDesc)
 	flagSet.StringP(paramFeature, "", defaultFeature, paramFeatureDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
 	flagSet.StringP(paramAdminUsername, "", defaultAdminUsername, paramAdminUsernameDesc)
 	flagSet.StringSliceP(paramProfile, "", []string{}, paramProfileDesc)
-	flagSet.Bool(paramSpot, false, paramSpotDesc)
-	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
+	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
+	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c

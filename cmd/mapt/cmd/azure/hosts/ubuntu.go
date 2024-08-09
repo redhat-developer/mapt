@@ -3,6 +3,7 @@ package hosts
 import (
 	"fmt"
 
+	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureUbuntu "github.com/redhat-developer/mapt/pkg/provider/azure/action/ubuntu"
@@ -56,12 +57,12 @@ func getCreateUbuntu() *cobra.Command {
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotprice.DefaultEvictionRate
-			if viper.IsSet(paramSpotTolerance) {
+			if viper.IsSet(azparams.ParamSpotTolerance) {
 				var ok bool
 				spotToleranceValue, ok = spotprice.ParseEvictionRate(
-					viper.GetString(paramSpotTolerance))
+					viper.GetString(azparams.ParamSpotTolerance))
 				if !ok {
-					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(paramSpotTolerance))
+					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
 			}
 
@@ -78,11 +79,11 @@ func getCreateUbuntu() *cobra.Command {
 			if err := azureUbuntu.Create(
 				&azureUbuntu.UbuntuRequest{
 					Prefix:        viper.GetString(params.ProjectName),
-					Location:      viper.GetString(paramLocation),
-					VMSize:        viper.GetString(paramVMSize),
+					Location:      viper.GetString(azparams.ParamLocation),
+					VMSize:        viper.GetString(azparams.ParamVMSize),
 					Version:       viper.GetString(paramUbuntuVersion),
 					Username:      viper.GetString(paramUsername),
-					Spot:          viper.IsSet(paramSpot),
+					Spot:          viper.IsSet(azparams.ParamSpot),
 					SpotTolerance: spotToleranceValue}); err != nil {
 				logging.Error(err)
 			}
@@ -92,12 +93,12 @@ func getCreateUbuntu() *cobra.Command {
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
-	flagSet.StringP(paramVMSize, "", defaultVMSize, paramVMSizeDesc)
+	flagSet.StringP(azparams.ParamLocation, "", azparams.DefaultLocation, azparams.ParamLocationDesc)
+	flagSet.StringP(azparams.ParamVMSize, "", azparams.DefaultVMSize, azparams.ParamVMSizeDesc)
 	flagSet.StringP(paramUbuntuVersion, "", defaultUbuntuVersion, paramUbuntuVersionDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
-	flagSet.Bool(paramSpot, false, paramSpotDesc)
-	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
+	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
+	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
