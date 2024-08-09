@@ -2,7 +2,7 @@ package hosts
 
 const (
 	paramLocation          = "location"
-	paramLocationDesc      = "location for created resources within Windows desktop"
+	paramLocationDesc      = "If spot is passed location will be calculated based on spot results. Otherwise localtion will be used to create resources."
 	defaultLocation        = "West US"
 	paramVMSize            = "vmsize"
 	paramVMSizeDesc        = "size for the VM. Type requires to allow nested virtualization"
