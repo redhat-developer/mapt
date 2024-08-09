@@ -40,7 +40,7 @@ Flags:
       --admin-username string            username for admin user. Only rdp accessible within generated password (default "rhqpadmin")
       --conn-details-output string       path to export host connection information (host, username and privateKey)
   -h, --help                             help for create
-      --location string                  location for created resources within Windows desktop (default "West US")
+      --location string                  If spot is passed location will be calculated based on spot results. Otherwise localtion will be used to create resources. (default "West US")
       --profile strings                  comma seperated list of profiles to apply on the target machine. Profiles available: crc
       --spot                             if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)
       --spot-eviction-tolerance string   if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest (default "lowest")

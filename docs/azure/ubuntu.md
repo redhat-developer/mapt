@@ -4,7 +4,7 @@ mapt offers several operations to manage environments within azure:
 
 ## Ubuntu
 
-It creates / destroy a windows dekstop edition ready to be included within the CI/CD system. Features included within the offering:
+It creates / destroy a Ubuntu machine ready to be included within the CI/CD system. Features included within the offering:
 
 * Creates an admin user with a self generated passwd (only accessible within rdp)
 * Creates an user acting as adminuser
@@ -26,7 +26,7 @@ Usage:
 Flags:
       --conn-details-output string       path to export host connection information (host, username and privateKey)
   -h, --help                             help for create
-      --location string                  location for created resources within Windows desktop (default "West US")
+      --location string                  If spot is passed location will be calculated based on spot results. Otherwise localtion will be used to create resources. (default "West US")
       --spot                             if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)
       --spot-eviction-tolerance string   if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest (default "lowest")
       --tags stringToString              tags to add on each resource (--tags name1=value1,name2=value2) (default [])
