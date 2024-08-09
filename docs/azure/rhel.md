@@ -2,9 +2,9 @@
 
 mapt offers several operations to manage environments within azure:
 
-## Ubuntu
+## RHEL
 
-It creates / destroy a windows dekstop edition ready to be included within the CI/CD system. Features included within the offering:
+It creates / destroy a rhel ready to be included within the CI/CD system. Features included within the offering:
 
 * Creates an admin user with a self generated passwd (only accessible within rdp)
 * Creates an user acting as adminuser
@@ -14,24 +14,25 @@ It creates / destroy a windows dekstop edition ready to be included within the C
 
 #### Create
 
-This will create a windows desktop accordig to params specificed:
+This will create a RHEL accordig to params specificed:
 
 ```bash
-podman run -it --rm quay.io/redhat-developer/mapt:0.7.0-dev azure ubuntu create -h
+podman run -it --rm quay.io/redhat-developer/mapt:0.7.0-dev azure rhel create -h
 create
 
 Usage:
-  mapt azure ubuntu create [flags]
+  mapt azure rhel create [flags]
 
 Flags:
+      --arch string                      architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
       --conn-details-output string       path to export host connection information (host, username and privateKey)
   -h, --help                             help for create
-      --location string                  location for created resources within Windows desktop (default "West US")
+      --location string                  If spot is passed location will be calculated based on spot results. Otherwise localtion will be used to create resources. (default "West US")
       --spot                             if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)
       --spot-eviction-tolerance string   if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest (default "lowest")
       --tags stringToString              tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --username string                  username for general user. SSH accessible + rdp with generated password (default "rhqp")
-      --version string                   ubunutu version. Tore info at https://documentation.ubuntu.com/azure/en/latest/azure-how-to/instances/find-ubuntu-images (default "24_04")
+      --version string                   linux version. Version should be formmated as X.Y (Major.minor) (default "9.4")
       --vmsize string                    size for the VM. Type requires to allow nested virtualization (default "Standard_D8as_v5")
 
 Global Flags:
@@ -39,7 +40,7 @@ Global Flags:
       --project-name string   project name to identify the instance of the stack
 ```
 
-It will crete a windows desktop instance and will give as result several files located at path defined by `--conn-details-output`:
+It will crete a RHEL instance and will give as result several files located at path defined by `--conn-details-output`:
 
 
 * username: file containing the username for worker user
@@ -59,8 +60,8 @@ podman run -d --rm \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
     quay.io/redhat-developer/mapt:0.7.0-dev azure \
-        ubuntu create \
-        --project-name "ubuntu-24" \
+        rhel create \
+        --project-name "rhel-94" \
         --backed-url "file:///workspace" \
         --conn-details-output "/workspace" \
         --spot
@@ -76,7 +77,7 @@ podman run -d --rm \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
     quay.io/redhat-developer/mapt:0.7.0-dev azure \
-        ubuntu destroy \
-        --project-name "ubuntu-24" \
+        rhel destroy \
+        --project-name "rhel-94" \
         --backed-url "file:///workspace"
 ```
