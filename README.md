@@ -24,7 +24,7 @@ Also mapt offers a set of features wich are transversal to each type of target m
 | Windows Server | x86           | AWS           | Baremetal     | [info](docs/aws/windows.md)  | [task](tkn/infra-aws-windows-server.yaml)    | a,s      |
 | Windows Desktop| x86           | Azure         | Virtualized   | [info](docs/azure/windows.md)| [task](tkn/infra-azure-windows-desktop.yaml) | s        |
 | RHEL           | x86, arm64    | AWS           | Customizable  | [info](docs/aws/rhel.md)     | [task](tkn/infra-aws-rhel.yaml)              | a,s      |
-| RHEL           | x86, arm64    | Azure         | Virtualized   | [info](docs/azure/rhel.md)   | -                                            | s        |
+| RHEL           | x86, arm64    | Azure         | Virtualized   | [info](docs/azure/rhel.md)   | [task](tkn/infra-azure-rhel.yaml)            | s        |
 | Fedora         | x86, arm64    | AWS           | Customizable  | [info](docs/aws/fedora.md)   | [task](tkn/infra-aws-fedora.yaml)            | a,s      |
 | Ubuntu         | x86           | Azure         | Virtualized   | [info](docs/azure/ubuntu.md) | -                                            | s        |
 
