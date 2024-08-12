@@ -19,6 +19,7 @@ import (
 	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -33,16 +34,17 @@ import (
 var RHQPCISetupScript []byte
 
 type WindowsRequest struct {
-	Prefix        string
-	Location      string
-	VMSize        string
-	Version       string
-	Feature       string
-	Username      string
-	AdminUsername string
-	Spot          bool
-	SpotTolerance spotprice.EvictionRate
-	Profiles      []string
+	Prefix             string
+	Location           string
+	VMSizes            []string
+	InstaceTypeRequest instancetypes.InstanceRequest
+	Version            string
+	Feature            string
+	Username           string
+	AdminUsername      string
+	Spot               bool
+	SpotTolerance      spotprice.EvictionRate
+	Profiles           []string
 	// setup as github actions runner
 	SetupGHActionsRunner bool
 }
@@ -53,7 +55,15 @@ type ghActionsRunnerData struct {
 }
 
 func Create(r *WindowsRequest) (err error) {
-	logging.Debug("Creating Windows Desktop")
+	if len(r.VMSizes) == 0 {
+		vmSizes, err := r.InstaceTypeRequest.GetMachineTypes()
+		if err != nil {
+			logging.Debugf("Failed to get instance types: %v", err)
+		}
+		if len(vmSizes) > 0 {
+			r.VMSizes = append(r.VMSizes, vmSizes...)
+		}
+	}
 	cs := manager.Stack{
 		StackName:           maptContext.StackNameByProject(stackCreateWindowsDesktop),
 		ProjectName:         maptContext.ProjectName(),
@@ -80,8 +90,9 @@ func Destroy() error {
 
 // Main function to deploy all requried resources to azure
 func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
+	logging.Debugf("Using these VM types for Spot price query: %v", r.VMSizes)
 	// Get values for spot machine
-	location, spotPrice, err := r.valuesCheckingSpot()
+	location, vmType, spotPrice, err := r.valuesCheckingSpot()
 	if err != nil {
 		return err
 	}
@@ -122,7 +133,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		ComponentID:     azureWindowsDesktopID,
 		ResourceGroup:   rg,
 		NetworkInteface: n.NetworkInterface,
-		VMSize:          r.VMSize,
+		VMSize:          vmType,
 		Publisher:       "MicrosoftWindowsDesktop",
 		Offer:           fmt.Sprintf("windows-%s", r.Version),
 		Sku:             fmt.Sprintf("win%s-%s", r.Version, r.Feature),
@@ -161,21 +172,21 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	return err
 }
 
-func (r *WindowsRequest) valuesCheckingSpot() (*string, *float64, error) {
+func (r *WindowsRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
 			spotprice.GetBestSpotChoice(spotprice.BestSpotChoiceRequest{
-				VMTypes:              []string{r.VMSize},
+				VMTypes:              util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
 				OSType:               "windows",
 				EvictioRateTolerance: r.SpotTolerance,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
-			return nil, nil, err
+			return nil, "", nil, err
 		}
-		return &bsc.Location, &bsc.Price, nil
+		return &bsc.Location, bsc.VMType, &bsc.Price, nil
 	}
-	return &r.Location, nil, nil
+	return &r.Location, "", nil, nil
 }
 
 // Write exported values in context to files o a selected target folder

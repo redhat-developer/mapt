@@ -1,17 +1,19 @@
 package spotprice
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
 	"slices"
 	"sort"
 	"strings"
+	"text/template"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph"
+	maptAzIdentity "github.com/redhat-developer/mapt/pkg/provider/azure/module/identity"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"golang.org/x/exp/maps"
@@ -19,13 +21,13 @@ import (
 
 const (
 	querySpotPrice = "SpotResources | where type =~ 'microsoft.compute/skuspotpricehistory/ostype/location' " +
-		"and sku.name in~ (%s) and properties.osType =~ '%s'" +
+		"and sku.name in~ ({{range $index, $v := .VMTypes}}{{if $index}},{{end}}'{{$v}}'{{end}}) and properties.osType =~ '{{.OSType}}'" +
 		"| project skuName=tostring(sku.name),osType=tostring(properties.osType)," +
 		"location,latestSpotPriceUSD=todouble(properties.spotPrices[0].priceUSD)" +
 		"| order by latestSpotPriceUSD asc"
 
 	queryEvictionRate = "SpotResources | where type =~ 'microsoft.compute/skuspotevictionrate/location' " +
-		"and sku.name in~ (%s)" +
+		"and sku.name in~ ({{range $index, $v := .VMTypes}}{{if $index}},{{end}}'{{$v}}'{{end}})" +
 		"| project skuName=tostring(sku.name),location,spotEvictionRate=tostring(properties.evictionRate) "
 
 	Lowest EvictionRate = iota
@@ -71,22 +73,13 @@ type evictionRate struct {
 	EvictionRate string `json:"spotEvictionRate"`
 }
 
-var (
-	azIdentityEnvs = []string{
-		"AZURE_TENANT_ID",
-		"AZURE_SUBSCRIPTION_ID",
-		"AZURE_CLIENT_ID",
-		"AZURE_CLIENT_SECRET",
-	}
-
-	evictionRates = map[string]evictionRateSpec{
-		"lowest":  {Lowest, "lowest", 0, "0-5"},
-		"low":     {Low, "low", 1, "5-10"},
-		"medium":  {Medium, "medium", 2, "10-15"},
-		"high":    {High, "high", 3, "15-20"},
-		"highest": {Highest, "highest", 4, "20+"},
-	}
-)
+var evictionRates = map[string]evictionRateSpec{
+	"lowest":  {Lowest, "lowest", 0, "0-5"},
+	"low":     {Low, "low", 1, "5-10"},
+	"medium":  {Medium, "medium", 2, "10-15"},
+	"high":    {High, "high", 3, "15-20"},
+	"highest": {Highest, "highest", 4, "20+"},
+}
 
 // This function will return the best spot option
 func GetBestSpotChoice(r BestSpotChoiceRequest) (*BestSpotChoiceResponse, error) {
@@ -115,7 +108,7 @@ func GetBestSpotChoice(r BestSpotChoiceRequest) (*BestSpotChoiceResponse, error)
 
 func getGraphClient() (*armresourcegraph.Client, error) {
 	// Auth identity
-	setAZIdentityEnvs()
+	maptAzIdentity.SetAZIdentityEnvs()
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, fmt.Errorf("error getting the best spot price choice: %v", err)
@@ -124,22 +117,27 @@ func getGraphClient() (*armresourcegraph.Client, error) {
 	return armresourcegraph.NewClient(cred, nil)
 }
 
-// Envs required for auth with go sdk
-// https://learn.microsoft.com/es-es/azure/developer/go/azure-sdk-authentication?tabs=bash#service-principal-with-a-secret
-// do not match standard envs for pulumi envs for auth with native sdk
-// https://www.pulumi.com/registry/packages/azure-native/installation-configuration/#set-configuration-using-environment-variables
-func setAZIdentityEnvs() {
-	for _, e := range azIdentityEnvs {
-		os.Setenv(e,
-			os.Getenv(strings.ReplaceAll(e, "AZURE", "ARM")))
-	}
-}
-
 func getPriceHistory(ctx context.Context, client *armresourcegraph.Client,
 	r BestSpotChoiceRequest) ([]priceHistory, error) {
-	spr := fmt.Sprintf(querySpotPrice,
-		fmt.Sprintf("'%s'", strings.Join(r.VMTypes, ",")),
-		r.OSType)
+	data := struct {
+		VMTypes []string
+		OSType  string
+	}{
+		VMTypes: r.VMTypes,
+		OSType:  r.OSType,
+	}
+	tmpl, err := template.New("graphQuery").Parse(querySpotPrice)
+	if err != nil {
+		return nil, err
+	}
+	buffer := new(bytes.Buffer)
+	err = tmpl.Execute(buffer, data)
+	if err != nil {
+		return nil, err
+	}
+	spr := string(buffer.Bytes())
+	logging.Debug(spr)
+
 	qr, err := client.Resources(ctx,
 		armresourcegraph.QueryRequest{
 			Query: to.Ptr(spr),
@@ -166,8 +164,23 @@ func getPriceHistory(ctx context.Context, client *armresourcegraph.Client,
 
 func getEvictionRateInfoByVMTypes(ctx context.Context, client *armresourcegraph.Client,
 	vmTypes []string) ([]evictionRate, error) {
-	evrr := fmt.Sprintf(queryEvictionRate,
-		fmt.Sprintf("'%s'", strings.Join(vmTypes, ",")))
+	data := struct {
+		VMTypes []string
+	}{
+		VMTypes: vmTypes,
+	}
+	tmpl, err := template.New("graphQuery").Parse(queryEvictionRate)
+	if err != nil {
+		return nil, err
+	}
+	buffer := new(bytes.Buffer)
+	err = tmpl.Execute(buffer, data)
+	if err != nil {
+		return nil, err
+	}
+	evrr := string(buffer.Bytes())
+	logging.Debug(evrr)
+
 	qr, err := client.Resources(ctx,
 		armresourcegraph.QueryRequest{
 			Query: to.Ptr(evrr),

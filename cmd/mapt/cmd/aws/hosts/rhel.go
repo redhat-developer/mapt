@@ -4,6 +4,8 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel"
+	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
@@ -67,12 +69,20 @@ func getRHELCreate() *cobra.Command {
 				}
 			}
 
+			instanceRequest := &instancetypes.AwsInstanceRequest{
+				CPUs:       viper.GetInt32(params.CPUs),
+				MemoryGib:  viper.GetInt32(params.Memory),
+				Arch:       util.If(viper.GetString(params.LinuxArch) == "arm64", instancetypes.Arm64, instancetypes.Amd64),
+				NestedVirt: viper.GetBool(profileSNC) || viper.GetBool(params.NestedVirt),
+			}
+
 			// Run create
 			if err := rhel.Create(
 				&rhel.Request{
 					Prefix:               "main",
 					Version:              viper.GetString(rhelVersion),
 					Arch:                 viper.GetString(params.LinuxArch),
+					InstanceRequest:      instanceRequest,
 					VMType:               viper.GetStringSlice(vmTypes),
 					SubsUsername:         viper.GetString(subsUsername),
 					SubsUserpass:         viper.GetString(subsUserpass),
@@ -98,6 +108,7 @@ func getRHELCreate() *cobra.Command {
 	flagSet.Bool(spot, false, spotDesc)
 	flagSet.Bool(profileSNC, false, profileSNCDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	// if err := c.MarkFlagRequired(subsUsername); err != nil {
 	// 	logging.Error(err)

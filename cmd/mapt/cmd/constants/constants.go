@@ -1,6 +1,8 @@
 package constants
 
-import "github.com/spf13/pflag"
+import (
+	"github.com/spf13/pflag"
+)
 
 const (
 	ProjectName                 string = "project-name"
@@ -38,6 +40,12 @@ const (
 	GHActionsRunnerTokenDesc    string = "Token needed for registering the Github Actions Runner token"
 	GHActionsRunnerNameDesc     string = "Name for the Github Actions Runner"
 	GHActionsRunnerRepoDesc     string = "Full URL of the repository where the Github Actions Runner should be registered"
+	Memory                      string = "memory"
+	MemoryDesc                  string = "Amount of RAM for the cloud instance in GiB"
+	CPUs                        string = "cpus"
+	CPUsDesc                    string = "Number of CPUs for the cloud instance"
+	NestedVirt                  string = "nested-virt"
+	NestedVirtDesc              string = "Use cloud instance that has nested virtualization support"
 
 	CreateCmdName  string = "create"
 	DestroyCmdName string = "destroy"
@@ -54,5 +62,13 @@ func GetGHActionsFlagset() *pflag.FlagSet {
 	flagSet.StringP(GHActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
 	flagSet.StringP(GHActionsRunnerName, "", "", GHActionsRunnerNameDesc)
 	flagSet.StringP(GHActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
+	return flagSet
+}
+
+func GetCpusAndMemoryFlagset() *pflag.FlagSet {
+	flagSet := pflag.NewFlagSet(CreateCmdName, pflag.ExitOnError)
+	flagSet.Int32P(CPUs, "", 0, CPUsDesc)
+	flagSet.Int32P(Memory, "", 0, MemoryDesc)
+	flagSet.BoolP(NestedVirt, "", false, NestedVirtDesc)
 	return flagSet
 }

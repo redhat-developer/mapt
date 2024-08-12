@@ -6,6 +6,8 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
+	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
+	"github.com/redhat-developer/mapt/pkg/util"
 
 	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -19,6 +21,7 @@ const (
 	cmdUbuntuDesc = "ubuntu operations"
 	cmdRHEL       = "rhel"
 	cmdRHELDesc   = "ubuntu operations"
+	defaultVMSize = "Standard_D8as_v5"
 
 	paramLinuxVersion     = "version"
 	paramLinuxVersionDesc = "linux version. Version should be formmated as X.Y (Major.minor)"
@@ -74,17 +77,25 @@ func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Co
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(paramSpotTolerance))
 				}
 			}
+			instanceRequest := &instancetypes.AzureInstanceRequest{
+				CPUs:       viper.GetInt32(params.CPUs),
+				MemoryGib:  viper.GetInt32(params.Memory),
+				Arch:       util.If(viper.GetString(params.LinuxArch) == "arm64", instancetypes.Arm64, instancetypes.Amd64),
+				NestedVirt: viper.GetBool(params.NestedVirt),
+			}
+
 			if err := azureLinux.Create(
 				&azureLinux.LinuxRequest{
-					Prefix:        viper.GetString(params.ProjectName),
-					Location:      viper.GetString(paramLocation),
-					VMSize:        viper.GetString(paramVMSize),
-					Version:       viper.GetString(paramLinuxVersion),
-					Arch:          viper.GetString(params.LinuxArch),
-					OSType:        ostype,
-					Username:      viper.GetString(paramUsername),
-					Spot:          viper.IsSet(paramSpot),
-					SpotTolerance: spotToleranceValue}); err != nil {
+					Prefix:          viper.GetString(params.ProjectName),
+					Location:        viper.GetString(paramLocation),
+					VMSizes:         viper.GetStringSlice(paramVMSize),
+					InstanceRequest: instanceRequest,
+					Version:         viper.GetString(paramLinuxVersion),
+					Arch:            viper.GetString(params.LinuxArch),
+					OSType:          ostype,
+					Username:        viper.GetString(paramUsername),
+					Spot:            viper.IsSet(paramSpot),
+					SpotTolerance:   spotToleranceValue}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -95,11 +106,12 @@ func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Co
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
-	flagSet.StringP(paramVMSize, "", defaultVMSize, paramVMSizeDesc)
+	flagSet.StringSliceP(paramVMSize, "", []string{}, paramVMSizeDesc)
 	flagSet.StringP(paramLinuxVersion, "", defaultOSVersion, paramLinuxVersionDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
 	flagSet.Bool(paramSpot, false, paramSpotDesc)
 	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
+	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
