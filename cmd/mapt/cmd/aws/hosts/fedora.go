@@ -4,6 +4,8 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/fedora"
+	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
@@ -60,6 +62,11 @@ func getFedoraCreate() *cobra.Command {
 					logging.Error(err)
 				}
 			}
+			instanceRequest := &instancetypes.AwsInstanceRequest{
+				CPUs:      viper.GetInt32(params.CPUs),
+				MemoryGib: viper.GetInt32(params.Memory),
+				Arch:      util.If(viper.GetString(params.LinuxArch) == "arm64", instancetypes.Arm64, instancetypes.Amd64),
+			}
 
 			// Run create
 			if err := fedora.Create(
@@ -68,6 +75,7 @@ func getFedoraCreate() *cobra.Command {
 					Version:              viper.GetString(rhelVersion),
 					Arch:                 viper.GetString(params.LinuxArch),
 					VMType:               viper.GetStringSlice(vmTypes),
+					InstanceRequest:      instanceRequest,
 					Spot:                 viper.IsSet(spot),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
 					Airgap:               viper.IsSet(airgap)}); err != nil {
@@ -85,6 +93,7 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

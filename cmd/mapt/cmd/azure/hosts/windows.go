@@ -7,6 +7,7 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
 	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
+	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
@@ -83,11 +84,19 @@ func getCreateWindowsDesktop() *cobra.Command {
 				}
 			}
 
+			instanceRequest := &instancetypes.AzureInstanceRequest{
+				CPUs:       viper.GetInt32(params.CPUs),
+				MemoryGib:  viper.GetInt32(params.Memory),
+				Arch:       instancetypes.Amd64,
+				NestedVirt: viper.GetBool(params.NestedVirt),
+			}
+
 			if err := azureWindows.Create(
 				&azureWindows.WindowsRequest{
 					Prefix:               viper.GetString(params.ProjectName),
 					Location:             viper.GetString(paramLocation),
-					VMSize:               viper.GetString(paramVMSize),
+					VMSizes:              viper.GetStringSlice(paramVMSize),
+					InstaceTypeRequest:   instanceRequest,
 					Version:              viper.GetString(paramWindowsVersion),
 					Feature:              viper.GetString(paramFeature),
 					Username:             viper.GetString(paramUsername),
@@ -105,7 +114,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
-	flagSet.StringP(paramVMSize, "", defaultVMSize, paramVMSizeDesc)
+	flagSet.StringSliceP(paramVMSize, "", []string{}, paramVMSizeDesc)
 	flagSet.StringP(paramWindowsVersion, "", defaultWindowsVersion, paramWindowsVersionDesc)
 	flagSet.StringP(paramFeature, "", defaultFeature, paramFeatureDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
@@ -114,6 +123,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet.Bool(paramSpot, false, paramSpotDesc)
 	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
