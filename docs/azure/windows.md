@@ -30,7 +30,7 @@ Side note: the other requirements for reboot are done by default; hyper-v instal
 This will create a windows desktop accordig to params specificed:
 
 ```bash
-podman run -it --rm quay.io/redhat-developer/mapt:0.6.8 azure windows create -h
+podman run -it --rm quay.io/redhat-developer/mapt:0.6.9 azure windows create -h
 create
 
 Usage:
@@ -76,7 +76,7 @@ podman run -d --rm \
     -e ARM_SUBSCRIPTION_ID=${asi_value} \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
-    quay.io/redhat-developer/mapt:0.6.8 azure \
+    quay.io/redhat-developer/mapt:0.6.9 azure \
         windows create \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace" \
@@ -94,7 +94,7 @@ podman run -d --rm \
     -e ARM_SUBSCRIPTION_ID=${asi_value} \
     -e ARM_CLIENT_ID=${aci_value} \
     -e ARM_CLIENT_SECRET=${acs_lue} \
-    quay.io/redhat-developer/mapt:0.6.8 azure \
+    quay.io/redhat-developer/mapt:0.6.9 azure \
         windows destroy \
         --project-name "win-desk-11" \
         --backed-url "file:///workspace"

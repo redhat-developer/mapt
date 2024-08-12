@@ -33,7 +33,7 @@ Current information about supported machines can be checked at [support-matrix](
 It creates / destroy supported hosts ready to be included within the CI/CD system. Features included within the offering:
 
 ```bash
-podman run -it --rm quay.io/redhat-developer/mapt:0.6.8 aws host create -h
+podman run -it --rm quay.io/redhat-developer/mapt:0.6.9 aws host create -h
 create
 
 Usage:
@@ -72,7 +72,7 @@ podman run -d --name mapt-rhel \
         -e AWS_ACCESS_KEY_ID=XXX \
         -e AWS_SECRET_ACCESS_KEY=XXX \
         -e AWS_DEFAULT_REGION=us-east-1 \
-        quay.io/redhat-developer/mapt:0.6.8 aws host create \
+        quay.io/redhat-developer/mapt:0.6.9 aws host create \
             --project-name mapt-rhel \
             --backed-url file:///workspace \
             --conn-details-output /workspace \
@@ -92,7 +92,7 @@ podman run -d --name mapt-rhel \
         -e AWS_ACCESS_KEY_ID=XXX \
         -e AWS_SECRET_ACCESS_KEY=XXX \
         -e AWS_DEFAULT_REGION=us-east-1 \
-        quay.io/redhat-developer/mapt:0.6.8 aws host destroy \
+        quay.io/redhat-developer/mapt:0.6.9 aws host destroy \
             --project-name mapt-rhel \
             --backed-url file:///workspace 
 ```

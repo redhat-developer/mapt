@@ -1,4 +1,4 @@
-VERSION ?= 0.6.8
+VERSION ?= 0.6.9
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/redhat-developer/mapt:v${VERSION}
