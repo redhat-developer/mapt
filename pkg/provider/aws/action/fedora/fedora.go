@@ -22,20 +22,23 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/ghactions"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 type Request struct {
-	Prefix  string
-	Version string
-	Arch    string
-	VMType  []string
-	Spot    bool
-	Airgap  bool
+	Prefix          string
+	Version         string
+	Arch            string
+	InstanceRequest instancetypes.InstanceRequest
+	VMType          []string
+	Spot            bool
+	Airgap          bool
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -62,6 +65,15 @@ var CloudConfigBase []byte
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
 func Create(r *Request) error {
+	if len(r.VMType) == 0 {
+		vmTypes, err := r.InstanceRequest.GetMachineTypes()
+		if err != nil {
+			logging.Debugf("Unable to fetch desire instance types: %v", err)
+		}
+		if len(vmTypes) > 0 {
+			r.VMType = append(r.VMType, vmTypes...)
+		}
+	}
 	if r.Spot {
 		sr := spot.SpotOptionRequest{
 			Prefix:             r.Prefix,

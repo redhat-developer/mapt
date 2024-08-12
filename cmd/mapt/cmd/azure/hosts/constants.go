@@ -6,7 +6,6 @@ const (
 	defaultLocation        = "West US"
 	paramVMSize            = "vmsize"
 	paramVMSizeDesc        = "size for the VM. Type requires to allow nested virtualization"
-	defaultVMSize          = "Standard_D8as_v5"
 	paramUsername          = "username"
 	paramUsernameDesc      = "username for general user. SSH accessible + rdp with generated password"
 	defaultUsername        = "rhqp"

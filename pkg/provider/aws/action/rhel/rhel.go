@@ -22,21 +22,26 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/ghactions"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 type Request struct {
 	Prefix string
 	// Basic info to setup on cloud-init
-	Version      string
-	Arch         string
-	VMType       []string
-	SubsUsername string
-	SubsUserpass string
+	Version         string
+	Arch            string
+	CPUs            int32
+	Memory          int32
+	VMType          []string
+	InstanceRequest instancetypes.InstanceRequest
+	SubsUsername    string
+	SubsUserpass    string
 	// if profile SNC is enabled machine is setup to
 	// be used as SNC runner
 	ProfileSNC bool
@@ -73,6 +78,15 @@ var CloudConfigSNC []byte
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
 func Create(r *Request) error {
+	if len(r.VMType) == 0 {
+		vmTypes, err := r.InstanceRequest.GetMachineTypes()
+		if err != nil {
+			logging.Debugf("Unable to fetch required instance types: %v", err)
+		}
+		if len(vmTypes) > 0 {
+			r.VMType = append(r.VMType, vmTypes...)
+		}
+	}
 	if r.Spot {
 		sr := spot.SpotOptionRequest{
 			Prefix:             r.Prefix,

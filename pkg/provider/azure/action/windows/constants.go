@@ -14,6 +14,7 @@ const (
 	outputUserPrivateKey    = "awdUserPrivatekey"
 	outputAdminUsername     = "awdAdminUsername"
 	outputAdminUserPassword = "awdAdminUserPassword"
+	defaultVMSize           = "Standard_D8as_v5"
 
 	ProfileCRC = "crc"
 )

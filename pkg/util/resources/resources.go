@@ -1,6 +1,8 @@
 package resources
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Returns the unique name to identify a resoruces within
 // pulumi context

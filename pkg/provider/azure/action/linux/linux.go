@@ -15,7 +15,9 @@ import (
 	spotprice "github.com/redhat-developer/mapt/pkg/provider/azure/module/spot-price"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -28,21 +30,32 @@ const (
 	outputHost           = "alsHost"
 	outputUsername       = "alsUsername"
 	outputUserPrivateKey = "alsUserPrivatekey"
+	defaultVMSize        = "Standard_D8as_v5"
 )
 
 type LinuxRequest struct {
-	Prefix        string
-	Location      string
-	VMSize        string
-	Arch          string
-	OSType        OSType
-	Version       string
-	Username      string
-	Spot          bool
-	SpotTolerance spotprice.EvictionRate
+	Prefix          string
+	Location        string
+	VMSizes         []string
+	Arch            string
+	InstanceRequest instancetypes.InstanceRequest
+	OSType          OSType
+	Version         string
+	Username        string
+	Spot            bool
+	SpotTolerance   spotprice.EvictionRate
 }
 
 func Create(r *LinuxRequest) (err error) {
+	if len(r.VMSizes) == 0 {
+		vmSizes, err := r.InstanceRequest.GetMachineTypes()
+		if err != nil {
+			logging.Debugf("Unable to fetch desired instance type: %v", err)
+		}
+		if len(vmSizes) > 0 {
+			r.VMSizes = append(r.VMSizes, vmSizes...)
+		}
+	}
 	logging.Debug("Creating Linux Server")
 	cs := manager.Stack{
 		StackName:           maptContext.StackNameByProject(stackAzureLinux),
@@ -65,7 +78,7 @@ func Destroy() error {
 // Main function to deploy all requried resources to azure
 func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	// Get values for spot machine
-	location, spotPrice, err := r.valuesCheckingSpot()
+	location, vmType, spotPrice, err := r.valuesCheckingSpot()
 	if err != nil {
 		return err
 	}
@@ -112,7 +125,7 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 		ComponentID:     azureLinuxID,
 		ResourceGroup:   rg,
 		NetworkInteface: n.NetworkInterface,
-		VMSize:          r.VMSize,
+		VMSize:          vmType,
 		Publisher:       ir.publisher,
 		Offer:           ir.offer,
 		Sku:             ir.sku,
@@ -145,21 +158,21 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	return err
 }
 
-func (r *LinuxRequest) valuesCheckingSpot() (*string, *float64, error) {
+func (r *LinuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
 			spotprice.GetBestSpotChoice(spotprice.BestSpotChoiceRequest{
-				VMTypes:              []string{r.VMSize},
+				VMTypes:              util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
 				OSType:               "linux",
 				EvictioRateTolerance: r.SpotTolerance,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
-			return nil, nil, err
+			return nil, "", nil, err
 		}
-		return &bsc.Location, &bsc.Price, nil
+		return &bsc.Location, bsc.VMType, &bsc.Price, nil
 	}
-	return &r.Location, nil, nil
+	return &r.Location, "", nil, nil
 }
 
 // Write exported values in context to files o a selected target folder
