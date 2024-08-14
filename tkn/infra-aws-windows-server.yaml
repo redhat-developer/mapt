@@ -57,6 +57,9 @@ spec:
 
         To access the target machine we need to go through the bastion
     default: 'false'
+  - name: tags
+    description: tags for the resources created on the providers
+    default: "''"
 
   # Control params
   - name: remove-lock
@@ -130,6 +133,9 @@ spec:
         fi
         if [[ $(params.airgap) == "true" ]]; then
           cmd="$cmd --airgap "
+        fi
+        if [[ $(params.tags) != "" ]]; then
+          cmd="$cmd --tags $(params.tags) "
         fi
       fi
       eval "${cmd}"

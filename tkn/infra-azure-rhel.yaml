@@ -49,6 +49,9 @@ spec:
   - name: remove-lock
     description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
     default: 'true'
+  - name: tags
+    description: tags for the resources created on the providers
+    default: "''"
 
   results:
   - name: host
@@ -105,6 +108,9 @@ spec:
         if [[ $(params.spot) == "true" ]]; then
           cmd="$cmd --spot "
           cmd="$cmd --spot-eviction-tolerance $(params.spot-eviction-tolerance) "
+        fi
+        if [[ $(params.tags) != "" ]]; then
+          cmd="$cmd --tags $(params.tags) "
         fi
       fi
       eval "${cmd}"
