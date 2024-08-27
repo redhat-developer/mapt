@@ -1,6 +1,8 @@
 package fedora
 
 import (
+	_ "embed"
+	"encoding/base64"
 	"fmt"
 	"os"
 
@@ -22,6 +24,8 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/file"
+	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -37,11 +41,22 @@ type Request struct {
 	// a phase with connectivity on the machine (allowing bootstraping)
 	// a pahase with connectivyt off where the subnet for the target lost the nat gateway
 	airgapPhaseConnectivity network.Connectivity
+	// setup as github actions runner
+	SetupGHActionsRunner bool
 	// location and price (if Spot is enable)
 	region    string
 	az        string
 	spotPrice float64
 }
+
+type userDataValues struct {
+	Username             string
+	InstallActionsRunner bool
+	ActionsRunnerSnippet string
+}
+
+//go:embed cloud-config-base
+var CloudConfigBase []byte
 
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
@@ -169,14 +184,19 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	userDataB64, err := r.getUserdata()
+	if err != nil {
+		return err
+	}
 	cr := compute.ComputeRequest{
-		Prefix:         r.Prefix,
-		ID:             awsFedoraDedicatedID,
-		VPC:            vpc,
-		Subnet:         targetSubnet,
-		AMI:            ami,
-		KeyResources:   keyResources,
-		SecurityGroups: securityGroups,
+		Prefix:           r.Prefix,
+		ID:               awsFedoraDedicatedID,
+		VPC:              vpc,
+		Subnet:           targetSubnet,
+		AMI:              ami,
+		KeyResources:     keyResources,
+		UserDataAsBase64: userDataB64,
+		SecurityGroups:   securityGroups,
 		InstaceTypes: util.If(len(r.VMType) > 0,
 			r.VMType,
 			supportedInstanceTypes[r.Arch]),
@@ -236,4 +256,17 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 			return sg.ID()
 		})
 	return pulumi.StringArray(sgs[:]), nil
+}
+
+func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
+	templateConfig := string(CloudConfigBase[:])
+	userdata, err := file.Template(
+		userDataValues{
+			amiUserDefault,
+			r.SetupGHActionsRunner,
+			ghactions.GetActionRunnerSnippetLinux()},
+		resourcesUtil.GetResourceName(
+			r.Prefix, awsFedoraDedicatedID, "userdata"),
+		templateConfig)
+	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
 }
