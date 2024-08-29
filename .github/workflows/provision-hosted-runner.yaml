@@ -1,0 +1,62 @@
+name: provision-hosted-runner
+
+on:
+  workflow_call:
+    inputs:
+      operating_system:
+        required: true
+        type: string
+      runner_repo:
+        required: true
+        type: string
+
+jobs:
+  provision_runner:
+    name: provision-runner
+    runs-on: ubuntu-24.04
+    steps:
+      - name: fetch token from API
+        id: fetch_token
+        run: |
+          curl -s -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{secrets.GH_PAT_TOKEN}}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{github.repository}}/actions/runners/registration-token > token
+          token=$(cat token | jq .token)
+          echo "::add-mask::$token"
+          echo "runner_token=$token" >> "$GITHUB_OUTPUT"
+
+      - name: Download mapt image from artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: mapt
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Import mapt image
+        run: |
+          podman load -i mapt.tar
+          podman images
+
+      - name: Run mapt
+        run: |
+          MAPT_IMAGE=$(cat mapt-image)
+          podman run --name mapt-create --rm \
+            -v ${PWD}:/workspace:z \
+            -e ARM_CLIENT_ID=${{secrets.ARM_CLIENT_ID}} \
+            -e ARM_CLIENT_SECRET=${{secrets.ARM_CLIENT_SECRET}} \
+            -e ARM_TENANT_ID=${{secrets.ARM_TENANT_ID}} \
+            -e ARM_SUBSCRIPTION_ID=${{secrets.ARM_SUBSCRIPTION_ID}} \
+            -e AZURE_STORAGE_ACCOUNT=${{secrets.AZURE_STORAGE_ACCOUNT}} \
+            -e AZURE_STORAGE_KEY=${{secrets.AZURE_STORAGE_KEY}} \
+            ${MAPT_IMAGE} azure ${{inputs.operating_system}} create \
+              --spot --project-name "az-ghrunner" --conn-details-output /workspace \
+              --backed-url "azblob://mapt-gh-runner-mapt-state/${{ github.repository }}-${{ github.run_id }}" \
+              --install-ghactions-runner --ghactions-runner-name "az-runner-${{inputs.operating_system}}-${{github.event.workflow_run.id}}" \
+              --ghactions-runner-repo "${{inputs.runner_repo}}" --ghactions-runner-token ${{steps.fetch_token.outputs.runner_token}}
+
+      - name: wait for runner to start accepting jobs
+        run: sleep 120
+
