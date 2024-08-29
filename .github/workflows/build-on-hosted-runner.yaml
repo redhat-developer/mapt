@@ -1,0 +1,42 @@
+name: build-on-hosted-runner
+
+on:
+  workflow_run:
+    workflows:
+      - oci-builds
+    types:
+      - completed
+
+jobs:
+  hosted_runner_provision:
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request'
+    uses: ./.github/workflows/provision-hosted-runner.yaml
+    with:
+      runner_repo: "https://github.com/${{github.repository}}"
+      operating_system: windows
+    secrets: inherit
+
+  test_run_selfhosted_runner:
+    runs-on: [self-hosted, x64, Windows]
+    needs: hosted_runner_provision
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+      - name: Test
+        run: go test -v ./...
+
+  destroy_hosted_runner:
+    needs:
+      - test_run_selfhosted_runner
+      - hosted_runner_provision
+    if: always() && !contains(needs.*.result, 'skipped') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/destroy-hosted-runner.yaml
+    with:
+      operating_system: windows
+    secrets: inherit
