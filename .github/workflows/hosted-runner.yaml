@@ -1,0 +1,82 @@
+name: hosted-runner
+
+on:
+  workflow_run:
+    workflows:
+      - oci-builds
+    branches:
+      - ghc-selfhosted
+    types:
+      - completed
+
+jobs:
+  provision_runner:
+    name: provision-runner
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Download oci-builds artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: mapt-pr-${{ github.event.number }}
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ github.token }}
+    - name: Import downloaded mapt image
+      run: podman load -i mapt.tar
+    - name: Podman images
+      run: podman images
+    # - name: Code checkout
+    #   uses: actions/checkout@v4
+    # - name: Set up Go
+    #   uses: actions/setup-go@v5
+    #   with:
+    #     go-version: '1.21'
+    # - name: Build
+    #   run: make build
+    # - name: Test
+    #   run: go test -v ./...
+    # - name: Run mapt
+    #   run: |
+    #       export ARM_CLIENT_ID=${{ secrets.arm_client_id }}
+    #       export ARM_CLIENT_SECRET=${{ secrets.arm_client_secret }}
+    #       export ARM_TENANT_ID=${{ secrets.arm_tenant_id }}
+    #       export ARM_SUBSCRIPTION_ID=${{ secrets.arm_subscription_id }}
+    #       mkdir $HOME/workspace
+    #       ./out/mapt create azure ${{ inputs.operating_system }} create --spot --project-name "az-ghrunner" \
+    #         --backed-url "file://$HOME/workspace" --install-ghactions-runner --ghactions-runner-name "az-runner-${{ inputs.operating_system }}" \
+    #         --ghactions-runner-repo ${{ inputs.repository }} --ghactions-runner-token ${{ secrets.runner_registration_token }}
+
+  # test_run_selfhosted_runner:
+  #   runs-on: az-runner-${{ inputs.operating_system }}
+  #   needs: provision_runner
+  #   steps:
+  #   - name: Code checkout
+  #     uses: actions/checkout@v4
+  #   - name: Set up Go
+  #     uses: actions/setup-go@v5
+  #     with:
+  #       go-version: '1.21'
+  #   - name: Build
+  #     run: make build
+  #   - name: Test
+  #     run: go test -v ./...
+  #
+  # remove_cloud_instance:
+  #   runs-on: ubuntu-24.04
+  #   steps:
+  #   - name: Code checkout
+  #     uses: actions/checkout@v4
+  #   - name: Set up Go
+  #     uses: actions/setup-go@v5
+  #     with:
+  #       go-version: '1.21'
+  #   - name: Build
+  #     run: make build
+  #   - name: Destroy instance
+  #     run: |
+  #         export ARM_CLIENT_ID=${{ secrets.arm_client_id }}
+  #         export ARM_CLIENT_SECRET=${{ secrets.arm_client_secret }}
+  #         export ARM_TENANT_ID=${{ secrets.arm_tenant_id }}
+  #         export ARM_SUBSCRIPTION_ID=${{ secrets.arm_subscription_id }}
+  #         ./out/mapt create azure ${{ inputs.operating_system }} destroy --project-name "az-ghrunner" \
+  #           --backed-url "file://$HOME/workspace"
+  #
