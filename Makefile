@@ -19,6 +19,16 @@ GOARCH := $(shell go env GOARCH)
 TOOLS_DIR := tools
 include tools/tools.mk
 
+define tkn_update
+	rm tkn/*.yaml 
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-fedora.yaml > tkn/infra-aws-fedora.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-mac.yaml > tkn/infra-aws-mac.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-rhel.yaml > tkn/infra-aws-rhel.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-windows-server.yaml > tkn/infra-aws-windows-server.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-rhel.yaml > tkn/infra-azure-rhel.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-windows-desktop.yaml > tkn/infra-azure-windows-desktop.yaml
+endef
+
 # Add default target
 .PHONY: default
 default: install
@@ -71,7 +81,12 @@ oci-build: clean
 .PHONY: oci-push
 oci-push:
 	${CONTAINER_MANAGER} push ${IMG}
-	
+
+# Update tekton with new version
+.PHONY: tkn-update
+tkn-update:
+	$(call tkn_update,$(IMG),$(VERSION))
+
 # Create tekton task bundle
 .PHONY: tkn-push
 tkn-push: install-out-of-tree-tools
