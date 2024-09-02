@@ -1,0 +1,226 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-aws-mac
+  labels:
+    app.kubernetes.io/version: "<VERSION>"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.24.x"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, aws, mac
+    tekton.dev/displayName: "aws manager"
+    tekton.dev/platforms: "linux/amd64"
+spec:
+  description: |
+    Task provision a mac dedicated host on AWS, and handle mac machines on top of it
+
+    The machine will offer nested virtualizataion capabilities as so it should be spin on a dedicated (baremetal) machine
+  
+  params:
+  # mapt params 
+  - name: project-name
+    description: identifier for project. 
+  - name: backed-url
+    description: |
+      If we want to backed resources externally we can use s3 setting this param(i.e s3://existing-bucket). 
+
+      If default will be store on storage workspace at path set by param ws-output-path.
+    default: "''"
+  - name: ws-output-path
+    description: path on workspace where to store ephemeral assets related with the provisioning
+
+  # Mac params
+  - name: operation 
+    description: operation to execute within the infrastructure. Current values (create, destroy)
+  # Dedicated Host
+  - name: arch
+    description: This param is used within the host provisioning phase and it identifies the arch for the dedicated host. Allowed values x86, m1, m2. Default m2
+    default: 'm2'
+  - name: only-host
+    description: if this flag is set only the host will be created / destroyed.
+    default: 'false'
+  # Mac Machine
+  - name: version
+    description: mac os version to sping the mac machine. This param will set the version for it. Default 14.
+    default: '14'
+  - name: host-id
+    description: host id to create the mac instance. If the param is not pass the dedicated host will be created
+    default: "''"
+  - name: only-machine
+    description: if this flag is set only the machine will be destroyed.
+    default: 'false'
+  - name: fixed-location
+    description: if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION).
+    default: 'false'
+  - name: spot
+    description: Check best spot option to spin the machine and will create resources on that region.
+    default: 'true'
+  - name: airgap
+    description: |
+        Set the machine on an airgap scenario. 
+
+        If airgap is set an extra VM is created acting as bastion, information to access bastion is also
+        added to the output folder.
+
+        To access the target machine we need to go through the bastion.
+    default: 'false'
+  - name: tags
+    description: tags for the resources created on the providers
+    default: "''"
+
+  # Control params
+  - name: remove-lock
+    description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
+    default: 'true'
+  - name: debug
+    description: |
+      Warning setting this param to true expose credentials 
+      
+      The parameter is intended to add verbosity on the task execution and also print credentials on stdout
+      to easily access to remote machice
+    default: 'false'
+
+  results:
+  - name: host-id
+    description: id for the dedicated host. It will be used as input when use this task to create new mac machines on the dedicated host
+  - name: host
+    description: ip to connect to the provisioned machine
+  - name: username
+    description: username to connect to the provisioned machine
+  - name: key
+    description: filename for the private key. The key is located at workspace-resources-path
+  - name: bastion-host
+    description: if airgap is set we get the bastion host as result
+  - name: bastion-username
+    description: if airgap is set we get the bastion username to connect as result
+  - name: bastion-key
+    description: if airgap is set we get the bastion filename for the private key. The key is located at workspace-resources-path
+
+  steps:
+  - name: provisioner
+    image: <IMAGE>
+    imagePullPolicy: Always
+    script: |
+      #!/bin/sh
+
+      # If debug add verbosity
+      if [[ $(params.debug) == "true" ]]; then
+        set -xuo   
+      fi
+
+      # Credentials
+      export AWS_ACCESS_KEY_ID=$(cat /opt/aws-credentials/access-key)
+      export AWS_SECRET_ACCESS_KEY=$(cat /opt/aws-credentials/secret-key)
+      export AWS_DEFAULT_REGION=$(cat /opt/aws-credentials/region)
+
+      # Output folder
+      workspace_path=/opt/storage/$(params.ws-output-path)
+      mkdir -p ${workspace_path}
+
+      # Remove lock
+      if [[ $(params.remove-lock) == "true" ]]; then
+          rm -rf ${workspace_path}/.pulumi/locks/*
+      fi
+
+      # Run mapt
+      cmd="mapt aws mac $(params.operation) "
+      cmd="$cmd --project-name $(params.project-name) "
+      # Set the backed url
+      if [[ $(params.backed-url) != "" ]]; then
+        cmd="$cmd --backed-url $(params.backed-url) "
+      else
+        cmd="$cmd --backed-url file://${workspace_path} "
+      fi
+      if [[ $(params.only-host) == "true" ]]; then
+        cmd="$cmd --only-host "
+      fi
+      if [[ $(params.only-machine) == "true" ]]; then
+        cmd="$cmd --only-machine "
+      fi
+      if [[ $(params.operation) == "create" ]]; then
+        if [[ $(params.fixed-location) == "true" ]]; then
+          cmd="$cmd --fixed-location "
+        fi
+        # Host params
+        cmd="$cmd --arch $(params.arch) " 
+        if [[ $(params.host-id) != "" ]]; then
+          cmd="$cmd --host-id $(params.host-id) " 
+        fi
+        # Mac machine params
+        cmd="$cmd --version $(params.version) "
+        cmd="$cmd --conn-details-output ${workspace_path} "
+        if [[ $(params.spot) == "true" ]]; then
+          cmd="$cmd --spot "
+        fi
+        if [[ $(params.airgap) == "true" ]]; then
+          cmd="$cmd --airgap "
+        fi
+        if [[ $(params.tags) != "" ]]; then
+          cmd="$cmd --tags $(params.tags) "
+        fi
+        
+      fi
+      eval "${cmd}"
+      
+      create_exit_code=$?
+     
+      # set task results
+      cat "${workspace_path}/dedicatedHostID" | tee $(results.host-id.path)
+      cat "${workspace_path}/host" | tee $(results.host.path)
+      cat "${workspace_path}/username" | tee $(results.username.path)   
+      echo -n "id_rsa" | tee $(results.key.path)   
+      if [[ $(params.airgap) == "true" ]]; then
+        cat "${workspace_path}/bastion_host" | tee $(results.bastion-host.path)
+        cat "${workspace_path}/bastion_username" | tee $(results.bastion-username.path)   
+        echo -n "bastion_id_rsa" | tee $(results.bastion-key.path)   
+      fi
+
+      # If debug print credentials
+      if [[ $(params.debug) == "true" ]]; then
+        echo "Credentials to access target machine \n"
+        cat "${workspace_path}/host"
+        cat "${workspace_path}/username"
+        cat "${workspace_path}/id_rsa"
+        if [[ $(params.airgap) == "true" ]]; then
+          cat "${workspace_path}/bastion_host"
+          cat "${workspace_path}/bastion_username"
+          cat "${workspace_path}/bastion_id_rsa"
+        fi
+      fi
+
+      if [[ ${create_exit_code} -ne 0 ]]; then 
+        exit 1
+      fi
+
+    resources:      
+      requests:
+        memory: "200Mi"
+        cpu: "100m"
+      limits:
+        memory: "600Mi"
+        cpu: "300m"
+
+  workspaces:
+  - name: storage
+    description: volume to store outputs to connect within the target machine + state file for the infrastructure 
+    mountPath: /opt/storage
+  - name: aws-credentials
+    description: |
+      ocp secret holding the aws credentials. Secret should be accessible to this task.
+
+      ---
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: aws-${name}
+        labels:
+          app.kubernetes.io/component: ${name}
+          app.kubernetes.io/part-of: qe-platform
+      type: Opaque
+      data:
+        access-key: ${access_key}
+        secret-key: ${secret_key}
+        region: ${region}
+    mountPath: /opt/aws-credentials
+  
