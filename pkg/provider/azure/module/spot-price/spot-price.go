@@ -135,7 +135,7 @@ func getPriceHistory(ctx context.Context, client *armresourcegraph.Client,
 	if err != nil {
 		return nil, err
 	}
-	spr := string(buffer.Bytes())
+	spr := buffer.String()
 	logging.Debug(spr)
 
 	qr, err := client.Resources(ctx,
@@ -178,7 +178,7 @@ func getEvictionRateInfoByVMTypes(ctx context.Context, client *armresourcegraph.
 	if err != nil {
 		return nil, err
 	}
-	evrr := string(buffer.Bytes())
+	evrr := buffer.String()
 	logging.Debug(evrr)
 
 	qr, err := client.Resources(ctx,

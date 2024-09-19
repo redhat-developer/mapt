@@ -81,17 +81,8 @@ func (vm *virtualMachine) nestedVirtSupported() bool {
 	}
 
 	fSeries := regexp.MustCompile(fSeriesPattern)
-	if fSeries.Match([]byte(vm.Family)) {
-		return true
-	}
-	return false
-}
 
-func (vm *virtualMachine) getCPUCores() int32 {
-	if vm.VCPUsPerCore > 0 {
-		return (vm.VCPUs / vm.VCPUsPerCore)
-	}
-	return vm.VCPUs
+	return fSeries.Match([]byte(vm.Family))
 }
 
 func (vm *virtualMachine) hypervGen2Supported() bool {
@@ -250,6 +241,7 @@ func FilterVMs(skus armcompute.ResourceSKUsClientListResponse, filter filterFunc
 				return vmTypes
 			}
 		case <-c:
+			cancelFn()
 			return vmTypes
 		}
 	}
