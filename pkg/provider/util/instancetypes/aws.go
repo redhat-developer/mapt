@@ -53,7 +53,7 @@ func (r *AwsInstanceRequest) GetMachineTypes() ([]string, error) {
 		MaxResults:      &maxResults,
 		BareMetal:       &r.NestedVirt,
 	}
-
+	//nolint:staticcheck // following method is deprecated but no replacement yet
 	instanceTypesSlice, err := instanceSelector.Filter(ctx, filters)
 	if err != nil {
 		return nil, err
