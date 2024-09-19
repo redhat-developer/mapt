@@ -3,6 +3,7 @@ package hosts
 import (
 	"fmt"
 
+	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
@@ -65,12 +66,12 @@ func getCreateWindowsDesktop() *cobra.Command {
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotprice.DefaultEvictionRate
-			if viper.IsSet(paramSpotTolerance) {
+			if viper.IsSet(azparams.ParamSpotTolerance) {
 				var ok bool
 				spotToleranceValue, ok = spotprice.ParseEvictionRate(
-					viper.GetString(paramSpotTolerance))
+					viper.GetString(azparams.ParamSpotTolerance))
 				if !ok {
-					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(paramSpotTolerance))
+					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
 			}
 
@@ -103,7 +104,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 					AdminUsername:        viper.GetString(paramAdminUsername),
 					Profiles:             viper.GetStringSlice(paramProfile),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
-					Spot:                 viper.IsSet(paramSpot),
+					Spot:                 viper.IsSet(azparams.ParamSpot),
 					SpotTolerance:        spotToleranceValue}); err != nil {
 				logging.Error(err)
 			}
@@ -120,8 +121,8 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
 	flagSet.StringP(paramAdminUsername, "", defaultAdminUsername, paramAdminUsernameDesc)
 	flagSet.StringSliceP(paramProfile, "", []string{}, paramProfileDesc)
-	flagSet.Bool(paramSpot, false, paramSpotDesc)
-	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
+	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
+	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)

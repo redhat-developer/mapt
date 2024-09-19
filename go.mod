@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v0.11.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.16.2
-	github.com/pulumi/pulumi/sdk/v3 v3.119.0
+	github.com/pulumi/pulumi/sdk/v3 v3.128.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.0
 	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8
@@ -22,7 +22,9 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.18
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.142.0
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.39.0
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.53.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.45.0
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.53.0
 	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.45.0
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.45.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.45.0
@@ -30,6 +32,7 @@ require (
 )
 
 require (
+	github.com/BurntSushi/toml v1.2.1 // indirect
 	github.com/aws/aws-sdk-go v1.45.6 // indirect
 	github.com/aws/aws-sdk-go-v2/service/pricing v1.21.6 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
@@ -94,7 +97,7 @@ require (
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.9.1 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.45.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.53.0 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect
@@ -138,6 +141,7 @@ require (
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/pkg/term v1.1.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2 v2.53.0
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect

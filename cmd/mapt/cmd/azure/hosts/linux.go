@@ -3,6 +3,7 @@ package hosts
 import (
 	"fmt"
 
+	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
@@ -69,12 +70,12 @@ func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Co
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotprice.DefaultEvictionRate
-			if viper.IsSet(paramSpotTolerance) {
+			if viper.IsSet(azparams.ParamSpotTolerance) {
 				var ok bool
 				spotToleranceValue, ok = spotprice.ParseEvictionRate(
-					viper.GetString(paramSpotTolerance))
+					viper.GetString(azparams.ParamSpotTolerance))
 				if !ok {
-					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(paramSpotTolerance))
+					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
 			}
 			instanceRequest := &instancetypes.AzureInstanceRequest{

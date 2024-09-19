@@ -28,6 +28,7 @@ import (
 	"strings"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/fsutil"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
 )
 
@@ -114,9 +115,6 @@ func (p *pip) ModuleCommand(ctx context.Context, module string, args ...string) 
 
 func (p *pip) About(ctx context.Context) (Info, error) {
 	var cmd *exec.Cmd
-	// if CommandPath has an error, then so will Command. The error can
-	// therefore be ignored as redundant.
-	pyexe, _, _ := CommandPath()
 	cmd, err := p.Command(ctx, "--version")
 	if err != nil {
 		return Info{}, err
@@ -128,7 +126,7 @@ func (p *pip) About(ctx context.Context) (Info, error) {
 	version := strings.TrimSpace(strings.TrimPrefix(string(out), "Python "))
 
 	return Info{
-		Executable: pyexe,
+		Executable: cmd.Path,
 		Version:    version,
 	}, nil
 }
@@ -137,6 +135,44 @@ func (p *pip) ValidateVenv(ctx context.Context) error {
 	if p.virtualenvOption != "" && !IsVirtualEnv(p.virtualenvPath) {
 		return NewVirtualEnvError(p.virtualenvOption, p.virtualenvPath)
 	}
+	return nil
+}
+
+func (p *pip) EnsureVenv(ctx context.Context, cwd string, showOutput bool, infoWriter, errorWriter io.Writer) error {
+	// If we are using global/ambient Python, do nothing.
+	if p.virtualenvOption == "" {
+		return nil
+	}
+
+	if IsVirtualEnv(p.virtualenvPath) {
+		return nil
+	}
+
+	var createVirtualEnv bool
+	info, err := os.Stat(p.virtualenvPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			createVirtualEnv = true
+		} else {
+			return err
+		}
+	} else if !info.IsDir() {
+		return fmt.Errorf("the 'virtualenv' option in Pulumi.yaml is set to %q but it is not a directory", p.virtualenvPath)
+	}
+
+	// If the virtual environment directory exists, but is empty, it needs to be created.
+	if !createVirtualEnv {
+		empty, err := fsutil.IsDirEmpty(p.virtualenvPath)
+		if err != nil {
+			return err
+		}
+		createVirtualEnv = empty
+	}
+
+	if createVirtualEnv {
+		return p.InstallDependencies(ctx, cwd, showOutput, infoWriter, errorWriter)
+	}
+
 	return nil
 }
 
@@ -295,8 +331,8 @@ func NewVirtualEnvError(dir, fullPath string) error {
 
 // ActivateVirtualEnv takes an array of environment variables (same format as os.Environ()) and path to
 // a virtual environment directory, and returns a new "activated" array with the virtual environment's
-// "bin" dir ("Scripts" on Windows) prepended to the `PATH` environment variable and `PYTHONHOME` variable
-// removed.
+// "bin" dir ("Scripts" on Windows) prepended to the `PATH` environment variable, the `VIRTUAL_ENV`
+// variable set to the path, and the `PYTHONHOME` variable removed.
 func ActivateVirtualEnv(environ []string, virtualEnvDir string) []string {
 	virtualEnvBin := filepath.Join(virtualEnvDir, virtualEnvBinDirName())
 	var hasPath bool
@@ -315,6 +351,8 @@ func ActivateVirtualEnv(environ []string, virtualEnvDir string) []string {
 			result = append(result, path)
 		} else if strings.EqualFold(key, "PYTHONHOME") {
 			// Skip PYTHONHOME to "unset" this value.
+		} else if strings.EqualFold(key, "VIRTUAL_ENV") {
+			// Skip VIRTUAL_ENV, we always set this to `virtualEnvDir`
 		} else {
 			result = append(result, env)
 		}
@@ -323,6 +361,8 @@ func ActivateVirtualEnv(environ []string, virtualEnvDir string) []string {
 		path := "PATH=" + virtualEnvBin
 		result = append(result, path)
 	}
+	virtualEnv := "VIRTUAL_ENV=" + virtualEnvDir
+	result = append(result, virtualEnv)
 	return result
 }
 
