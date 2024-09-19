@@ -76,16 +76,10 @@ func Create(r *WindowsRequest) (err error) {
 }
 
 func Destroy() error {
-	if err := azure.Destroy(
-		maptContext.ProjectName(),
-		maptContext.BackedURL(),
-		maptContext.StackNameByProject(stackCreateWindowsDesktop)); err != nil {
-		return err
-	}
 	return azure.Destroy(
 		maptContext.ProjectName(),
 		maptContext.BackedURL(),
-		maptContext.StackNameByProject(stackSyncWindowsDesktop))
+		maptContext.StackNameByProject(stackCreateWindowsDesktop))
 }
 
 // Main function to deploy all requried resources to azure

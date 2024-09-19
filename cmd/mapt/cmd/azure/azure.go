@@ -2,6 +2,7 @@ package azure
 
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/hosts"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/services"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -26,6 +27,7 @@ func GetCmd() *cobra.Command {
 	c.AddCommand(
 		hosts.GetWindowsDesktopCmd(),
 		hosts.GetUbuntuCmd(),
-		hosts.GetRHELCmd())
+		hosts.GetRHELCmd(),
+		services.GetAKSCmd())
 	return c
 }
