@@ -2,7 +2,6 @@ package windows
 
 const (
 	stackCreateWindowsDesktop = "stackCreateWindowsDesktop"
-	stackSyncWindowsDesktop   = "stackSyncWindowsDesktop"
 
 	azureWindowsDesktopID = "awd"
 

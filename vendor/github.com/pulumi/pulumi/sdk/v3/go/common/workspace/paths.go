@@ -60,6 +60,8 @@ const (
 
 	// ProjectFile is the base name of a project file.
 	ProjectFile = "Pulumi"
+	// DeploymentSuffix is the base suffix for deployment settings files (e.g. "Pulumi.<stack>.deploy.yaml").
+	DeploymentSuffix = "deploy"
 	// RepoFile is the name of the file that holds information specific to the entire repository.
 	RepoFile = "settings.json"
 	// WorkspaceFile is the name of the file that holds workspace information.
@@ -108,6 +110,21 @@ func DetectProjectStackPath(stackName tokens.QName) (*Project, string, error) {
 	return proj, filepath.Join(filepath.Dir(projPath), fileName), nil
 }
 
+func DetectProjectStackDeploymentPath(stackName tokens.QName) (string, error) {
+	proj, projPath, err := DetectProjectAndPath()
+	if err != nil {
+		return "", err
+	}
+
+	fileName := fmt.Sprintf("%s.%s.%s%s", ProjectFile, qnameFileName(stackName), DeploymentSuffix, filepath.Ext(projPath))
+
+	if proj.StackConfigDir != "" {
+		return filepath.Join(filepath.Dir(projPath), proj.StackConfigDir, fileName), nil
+	}
+
+	return filepath.Join(filepath.Dir(projPath), fileName), nil
+}
+
 var ErrProjectNotFound = errors.New("no project file found")
 
 // DetectProjectPathFrom locates the closest project from the given path, searching "upwards" in the directory
@@ -147,6 +164,26 @@ func DetectPolicyPackPathFrom(path string) (string, error) {
 	})
 }
 
+// DetectPolicyPackPathAt locates the PulumiPolicy file at the given path. If no project is found, an empty path is
+// returned. Unlike DetectPolicyPackPathFrom, this function does not search upwards in the directory hierarchy.
+func DetectPolicyPackPathAt(path string) (string, error) {
+	for _, ext := range encoding.Exts {
+		packPath := filepath.Join(path, PolicyPackFile+ext)
+		info, err := os.Stat(packPath)
+		if err != nil {
+			if errors.Is(err, fs.ErrNotExist) {
+				continue
+			}
+			return "", err
+		}
+		if info.IsDir() {
+			return "", nil
+		}
+		return packPath, nil
+	}
+	return "", nil
+}
+
 // DetectProject loads the closest project from the current working directory, or an error if not found.
 func DetectProject() (*Project, error) {
 	proj, _, err := DetectProjectAndPath()
@@ -160,6 +197,15 @@ func DetectProjectStack(stackName tokens.QName) (*ProjectStack, error) {
 	}
 
 	return LoadProjectStack(project, path)
+}
+
+func DetectProjectStackDeployment(stackName tokens.QName) (*ProjectStackDeployment, error) {
+	path, err := DetectProjectStackDeploymentPath(stackName)
+	if err != nil {
+		return nil, err
+	}
+
+	return LoadProjectStackDeployment(path)
 }
 
 // DetectProjectAndPath loads the closest package from the current working directory, or an error if not found.  It
@@ -194,6 +240,15 @@ func SaveProjectStack(stackName tokens.QName, stack *ProjectStack) error {
 	}
 
 	return stack.Save(path)
+}
+
+func SaveProjectStackDeployment(stackName tokens.QName, deployment *ProjectStackDeployment) error {
+	path, err := DetectProjectStackDeploymentPath(stackName)
+	if err != nil {
+		return err
+	}
+
+	return deployment.Save(path)
 }
 
 // isProject returns true if the path references what appears to be a valid project.  If problems are detected -- like
