@@ -67,8 +67,8 @@ func GetGHActionsFlagset() *pflag.FlagSet {
 
 func GetCpusAndMemoryFlagset() *pflag.FlagSet {
 	flagSet := pflag.NewFlagSet(CreateCmdName, pflag.ExitOnError)
-	flagSet.Int32P(CPUs, "", 0, CPUsDesc)
-	flagSet.Int32P(Memory, "", 0, MemoryDesc)
+	flagSet.Int32P(CPUs, "", 8, CPUsDesc)
+	flagSet.Int32P(Memory, "", 64, MemoryDesc)
 	flagSet.BoolP(NestedVirt, "", false, NestedVirtDesc)
 	return flagSet
 }
