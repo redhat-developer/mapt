@@ -101,7 +101,6 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.Bool(spot, false, spotDesc)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
