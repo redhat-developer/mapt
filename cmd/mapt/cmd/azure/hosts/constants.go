@@ -5,7 +5,7 @@ const (
 	paramLocationDesc      = "If spot is passed location will be calculated based on spot results. Otherwise localtion will be used to create resources."
 	defaultLocation        = "West US"
 	paramVMSize            = "vmsize"
-	paramVMSizeDesc        = "size for the VM. Type requires to allow nested virtualization"
+	paramVMSizeDesc        = "set specific size for the VM and ignore any CPUs, Memory and Arch parameters set. Type requires to allow nested virtualization"
 	paramUsername          = "username"
 	paramUsernameDesc      = "username for general user. SSH accessible + rdp with generated password"
 	defaultUsername        = "rhqp"
