@@ -16,8 +16,8 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
-	"github.com/redhat-developer/mapt/pkg/util"
 	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -120,6 +120,7 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+
 	vmr := virtualmachine.VirtualMachineRequest{
 		Prefix:          r.Prefix,
 		ComponentID:     azureLinuxID,
@@ -129,6 +130,7 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 		Publisher:       ir.publisher,
 		Offer:           ir.offer,
 		Sku:             ir.sku,
+		ImageID:         ir.id,
 		AdminUsername:   r.Username,
 		PrivateKey:      privateKey,
 		SpotPrice:       spotPrice,

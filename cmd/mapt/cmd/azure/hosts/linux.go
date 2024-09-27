@@ -21,13 +21,16 @@ const (
 	cmdUbuntu     = "ubuntu"
 	cmdUbuntuDesc = "ubuntu operations"
 	cmdRHEL       = "rhel"
-	cmdRHELDesc   = "ubuntu operations"
+	cmdRHELDesc   = "RHEL operations"
+	cmdFedora     = "fedora"
+	cmdFedoraDesc = "fedora operations"
 	defaultVMSize = "Standard_D8as_v5"
 
 	paramLinuxVersion     = "version"
-	paramLinuxVersionDesc = "linux version. Version should be formmated as X.Y (Major.minor)"
+	paramLinuxVersionDesc = "linux version. Version should be formated as X.Y (Major.minor)"
 	defaultUbuntuVersion  = "24.04"
 	defaultRHELVersion    = "9.4"
+	defaultFedoraVersion  = "40.0"
 )
 
 func GetUbuntuCmd() *cobra.Command {
@@ -36,6 +39,10 @@ func GetUbuntuCmd() *cobra.Command {
 
 func GetRHELCmd() *cobra.Command {
 	return getLinuxCmd(cmdRHEL, cmdRHELDesc, azureLinux.RHEL, defaultRHELVersion)
+}
+
+func GetFedoraCmd() *cobra.Command {
+	return getLinuxCmd(cmdFedora, cmdFedoraDesc, azureLinux.Fedora, defaultFedoraVersion)
 }
 
 func getLinuxCmd(cmd, cmdDesc string, ostype azureLinux.OSType, defaultOSVersion string) *cobra.Command {
