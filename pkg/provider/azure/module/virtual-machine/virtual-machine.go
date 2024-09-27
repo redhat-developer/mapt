@@ -28,6 +28,8 @@ type VirtualMachineRequest struct {
 	Offer           string
 	Sku             string
 	SpotPrice       *float64
+	// community galary image ID
+	ImageID string
 	// Windows required
 	AdminUsername string
 	// Linux required
@@ -38,6 +40,18 @@ type VirtualMachineRequest struct {
 // Create virtual machine based on request + export to context
 // adminusername and adminuserpassword
 func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMachine, error) {
+	var imageReferenceArgs compute.ImageReferenceArgs
+	if len(r.ImageID) > 0 {
+		imageReferenceArgs = compute.ImageReferenceArgs{
+			CommunityGalleryImageId: pulumi.String(r.ImageID)}
+	} else {
+		imageReferenceArgs = compute.ImageReferenceArgs{
+			Publisher: pulumi.String(r.Publisher),
+			Offer:     pulumi.String(r.Offer),
+			Sku:       pulumi.String(r.Sku),
+			Version:   pulumi.String("latest"),
+		}
+	}
 	vmArgs := &compute.VirtualMachineArgs{
 		VmName:            pulumi.String(maptContext.RunID()),
 		Location:          r.ResourceGroup.Location,
@@ -53,12 +67,7 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 			VmSize: pulumi.String(r.VMSize),
 		},
 		StorageProfile: compute.StorageProfileArgs{
-			ImageReference: compute.ImageReferenceArgs{
-				Publisher: pulumi.String(r.Publisher),
-				Offer:     pulumi.String(r.Offer),
-				Sku:       pulumi.String(r.Sku),
-				Version:   pulumi.String("latest"),
-			},
+			ImageReference: imageReferenceArgs,
 			OsDisk: compute.OSDiskArgs{
 				Name:         pulumi.String(maptContext.RunID()),
 				DiskSizeGB:   pulumi.Int(diskSize),
