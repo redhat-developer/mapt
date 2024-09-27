@@ -46,16 +46,6 @@ type LinuxRequest struct {
 	SpotTolerance   spotAzure.EvictionRate
 }
 
-type UbuntuRequest struct {
-	Prefix        string
-	Location      string
-	VMSize        string
-	Version       string
-	Username      string
-	Spot          bool
-	SpotTolerance spotAzure.EvictionRate
-}
-
 func Create(r *LinuxRequest) (err error) {
 	if len(r.VMSizes) == 0 {
 		vmSizes, err := r.InstanceRequest.GetMachineTypes()
