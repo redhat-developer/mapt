@@ -14,7 +14,7 @@ import (
 // Gets the specified Bastion Host.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupBastionHost(ctx *pulumi.Context, args *LookupBastionHostArgs, opts ...pulumi.InvokeOption) (*LookupBastionHostResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupBastionHostResult
@@ -105,14 +105,20 @@ func (val *LookupBastionHostResult) Defaults() *LookupBastionHostResult {
 
 func LookupBastionHostOutput(ctx *pulumi.Context, args LookupBastionHostOutputArgs, opts ...pulumi.InvokeOption) LookupBastionHostResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupBastionHostResult, error) {
+		ApplyT(func(v interface{}) (LookupBastionHostResultOutput, error) {
 			args := v.(LookupBastionHostArgs)
-			r, err := LookupBastionHost(ctx, &args, opts...)
-			var s LookupBastionHostResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupBastionHostResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getBastionHost", args, &rv, "", opts...)
+			if err != nil {
+				return LookupBastionHostResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupBastionHostResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupBastionHostResultOutput), nil
+			}
+			return output, nil
 		}).(LookupBastionHostResultOutput)
 }
 

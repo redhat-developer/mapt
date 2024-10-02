@@ -13,6 +13,8 @@ import (
 
 // Gets properties of a forwarding rule in a DNS forwarding ruleset.
 // Azure REST API version: 2022-07-01.
+//
+// Other available API versions: 2023-07-01-preview.
 func LookupForwardingRule(ctx *pulumi.Context, args *LookupForwardingRuleArgs, opts ...pulumi.InvokeOption) (*LookupForwardingRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupForwardingRuleResult
@@ -58,14 +60,20 @@ type LookupForwardingRuleResult struct {
 
 func LookupForwardingRuleOutput(ctx *pulumi.Context, args LookupForwardingRuleOutputArgs, opts ...pulumi.InvokeOption) LookupForwardingRuleResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupForwardingRuleResult, error) {
+		ApplyT(func(v interface{}) (LookupForwardingRuleResultOutput, error) {
 			args := v.(LookupForwardingRuleArgs)
-			r, err := LookupForwardingRule(ctx, &args, opts...)
-			var s LookupForwardingRuleResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupForwardingRuleResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getForwardingRule", args, &rv, "", opts...)
+			if err != nil {
+				return LookupForwardingRuleResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupForwardingRuleResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupForwardingRuleResultOutput), nil
+			}
+			return output, nil
 		}).(LookupForwardingRuleResultOutput)
 }
 

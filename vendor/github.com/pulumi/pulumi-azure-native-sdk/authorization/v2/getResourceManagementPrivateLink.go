@@ -44,14 +44,20 @@ type LookupResourceManagementPrivateLinkResult struct {
 
 func LookupResourceManagementPrivateLinkOutput(ctx *pulumi.Context, args LookupResourceManagementPrivateLinkOutputArgs, opts ...pulumi.InvokeOption) LookupResourceManagementPrivateLinkResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupResourceManagementPrivateLinkResult, error) {
+		ApplyT(func(v interface{}) (LookupResourceManagementPrivateLinkResultOutput, error) {
 			args := v.(LookupResourceManagementPrivateLinkArgs)
-			r, err := LookupResourceManagementPrivateLink(ctx, &args, opts...)
-			var s LookupResourceManagementPrivateLinkResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupResourceManagementPrivateLinkResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getResourceManagementPrivateLink", args, &rv, "", opts...)
+			if err != nil {
+				return LookupResourceManagementPrivateLinkResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupResourceManagementPrivateLinkResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupResourceManagementPrivateLinkResultOutput), nil
+			}
+			return output, nil
 		}).(LookupResourceManagementPrivateLinkResultOutput)
 }
 

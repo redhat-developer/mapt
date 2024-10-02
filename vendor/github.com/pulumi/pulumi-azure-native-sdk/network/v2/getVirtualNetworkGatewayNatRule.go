@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a nat rule.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualNetworkGatewayNatRule(ctx *pulumi.Context, args *LookupVirtualNetworkGatewayNatRuleArgs, opts ...pulumi.InvokeOption) (*LookupVirtualNetworkGatewayNatRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualNetworkGatewayNatRuleResult
@@ -58,14 +58,20 @@ type LookupVirtualNetworkGatewayNatRuleResult struct {
 
 func LookupVirtualNetworkGatewayNatRuleOutput(ctx *pulumi.Context, args LookupVirtualNetworkGatewayNatRuleOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkGatewayNatRuleResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualNetworkGatewayNatRuleResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualNetworkGatewayNatRuleResultOutput, error) {
 			args := v.(LookupVirtualNetworkGatewayNatRuleArgs)
-			r, err := LookupVirtualNetworkGatewayNatRule(ctx, &args, opts...)
-			var s LookupVirtualNetworkGatewayNatRuleResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualNetworkGatewayNatRuleResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayNatRule", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualNetworkGatewayNatRuleResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualNetworkGatewayNatRuleResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualNetworkGatewayNatRuleResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualNetworkGatewayNatRuleResultOutput)
 }
 

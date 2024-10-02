@@ -13,6 +13,8 @@ import (
 
 // Get a draft Firewall Policy.
 // Azure REST API version: 2023-11-01.
+//
+// Other available API versions: 2024-01-01, 2024-03-01.
 func LookupFirewallPolicyDraft(ctx *pulumi.Context, args *LookupFirewallPolicyDraftArgs, opts ...pulumi.InvokeOption) (*LookupFirewallPolicyDraftResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFirewallPolicyDraftResult
@@ -64,14 +66,20 @@ type LookupFirewallPolicyDraftResult struct {
 
 func LookupFirewallPolicyDraftOutput(ctx *pulumi.Context, args LookupFirewallPolicyDraftOutputArgs, opts ...pulumi.InvokeOption) LookupFirewallPolicyDraftResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupFirewallPolicyDraftResult, error) {
+		ApplyT(func(v interface{}) (LookupFirewallPolicyDraftResultOutput, error) {
 			args := v.(LookupFirewallPolicyDraftArgs)
-			r, err := LookupFirewallPolicyDraft(ctx, &args, opts...)
-			var s LookupFirewallPolicyDraftResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupFirewallPolicyDraftResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getFirewallPolicyDraft", args, &rv, "", opts...)
+			if err != nil {
+				return LookupFirewallPolicyDraftResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupFirewallPolicyDraftResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupFirewallPolicyDraftResultOutput), nil
+			}
+			return output, nil
 		}).(LookupFirewallPolicyDraftResultOutput)
 }
 

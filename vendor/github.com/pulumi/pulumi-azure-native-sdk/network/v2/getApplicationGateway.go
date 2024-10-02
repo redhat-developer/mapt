@@ -14,7 +14,7 @@ import (
 // Gets the specified application gateway.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2015-05-01-preview, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2015-05-01-preview, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupApplicationGateway(ctx *pulumi.Context, args *LookupApplicationGatewayArgs, opts ...pulumi.InvokeOption) (*LookupApplicationGatewayResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupApplicationGatewayResult
@@ -126,14 +126,20 @@ type LookupApplicationGatewayResult struct {
 
 func LookupApplicationGatewayOutput(ctx *pulumi.Context, args LookupApplicationGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupApplicationGatewayResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupApplicationGatewayResult, error) {
+		ApplyT(func(v interface{}) (LookupApplicationGatewayResultOutput, error) {
 			args := v.(LookupApplicationGatewayArgs)
-			r, err := LookupApplicationGateway(ctx, &args, opts...)
-			var s LookupApplicationGatewayResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupApplicationGatewayResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getApplicationGateway", args, &rv, "", opts...)
+			if err != nil {
+				return LookupApplicationGatewayResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupApplicationGatewayResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupApplicationGatewayResultOutput), nil
+			}
+			return output, nil
 		}).(LookupApplicationGatewayResultOutput)
 }
 

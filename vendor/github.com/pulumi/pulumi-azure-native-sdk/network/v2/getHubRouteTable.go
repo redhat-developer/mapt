@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a RouteTable.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupHubRouteTable(ctx *pulumi.Context, args *LookupHubRouteTableArgs, opts ...pulumi.InvokeOption) (*LookupHubRouteTableResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupHubRouteTableResult
@@ -58,14 +58,20 @@ type LookupHubRouteTableResult struct {
 
 func LookupHubRouteTableOutput(ctx *pulumi.Context, args LookupHubRouteTableOutputArgs, opts ...pulumi.InvokeOption) LookupHubRouteTableResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupHubRouteTableResult, error) {
+		ApplyT(func(v interface{}) (LookupHubRouteTableResultOutput, error) {
 			args := v.(LookupHubRouteTableArgs)
-			r, err := LookupHubRouteTable(ctx, &args, opts...)
-			var s LookupHubRouteTableResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupHubRouteTableResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getHubRouteTable", args, &rv, "", opts...)
+			if err != nil {
+				return LookupHubRouteTableResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupHubRouteTableResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupHubRouteTableResultOutput), nil
+			}
+			return output, nil
 		}).(LookupHubRouteTableResultOutput)
 }
 

@@ -19,10 +19,9 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"os/user"
 	"path/filepath"
 	"strings"
-
-	user "github.com/tweekmonster/luser"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/encoding"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
@@ -135,11 +134,8 @@ func DetectProjectPathFrom(dir string) (string, error) {
 	})
 	// We special case permission errors to cause ErrProjectNotFound to return from this function. This is so
 	// users can run pulumi with unreadable root directories.
-	var perr *fs.PathError
-	if errors.As(err, &perr) {
-		if errors.Is(perr.Err, fs.ErrPermission) {
-			err = nil
-		}
+	if errors.Is(err, fs.ErrPermission) {
+		err = nil
 	}
 
 	if err != nil {
@@ -309,11 +305,11 @@ func GetPulumiHomeDir() (string, error) {
 		return "", fmt.Errorf("getting current user: %w", err)
 	}
 
-	if user == nil || user.User == nil || user.User.HomeDir == "" {
+	if user == nil || user.HomeDir == "" {
 		return "", fmt.Errorf("could not find user home directory, set %s", PulumiHomeEnvVar)
 	}
 
-	return filepath.Join(user.User.HomeDir, BookkeepingDir), nil
+	return filepath.Join(user.HomeDir, BookkeepingDir), nil
 }
 
 // GetPulumiPath returns the path to a file or directory under the '.pulumi' folder. It joins the path of

@@ -14,7 +14,7 @@ import (
 // Gets load balancer backend address pool.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupLoadBalancerBackendAddressPool(ctx *pulumi.Context, args *LookupLoadBalancerBackendAddressPoolArgs, opts ...pulumi.InvokeOption) (*LookupLoadBalancerBackendAddressPoolResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupLoadBalancerBackendAddressPoolResult
@@ -70,14 +70,20 @@ type LookupLoadBalancerBackendAddressPoolResult struct {
 
 func LookupLoadBalancerBackendAddressPoolOutput(ctx *pulumi.Context, args LookupLoadBalancerBackendAddressPoolOutputArgs, opts ...pulumi.InvokeOption) LookupLoadBalancerBackendAddressPoolResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupLoadBalancerBackendAddressPoolResult, error) {
+		ApplyT(func(v interface{}) (LookupLoadBalancerBackendAddressPoolResultOutput, error) {
 			args := v.(LookupLoadBalancerBackendAddressPoolArgs)
-			r, err := LookupLoadBalancerBackendAddressPool(ctx, &args, opts...)
-			var s LookupLoadBalancerBackendAddressPoolResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupLoadBalancerBackendAddressPoolResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getLoadBalancerBackendAddressPool", args, &rv, "", opts...)
+			if err != nil {
+				return LookupLoadBalancerBackendAddressPoolResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupLoadBalancerBackendAddressPoolResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupLoadBalancerBackendAddressPoolResultOutput), nil
+			}
+			return output, nil
 		}).(LookupLoadBalancerBackendAddressPoolResultOutput)
 }
 

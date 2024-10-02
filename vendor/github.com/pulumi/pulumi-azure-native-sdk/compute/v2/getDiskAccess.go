@@ -14,7 +14,7 @@ import (
 // Gets information about a disk access resource.
 // Azure REST API version: 2022-07-02.
 //
-// Other available API versions: 2023-01-02, 2023-04-02, 2023-10-02.
+// Other available API versions: 2023-01-02, 2023-04-02, 2023-10-02, 2024-03-02.
 func LookupDiskAccess(ctx *pulumi.Context, args *LookupDiskAccessArgs, opts ...pulumi.InvokeOption) (*LookupDiskAccessResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDiskAccessResult
@@ -56,14 +56,20 @@ type LookupDiskAccessResult struct {
 
 func LookupDiskAccessOutput(ctx *pulumi.Context, args LookupDiskAccessOutputArgs, opts ...pulumi.InvokeOption) LookupDiskAccessResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupDiskAccessResult, error) {
+		ApplyT(func(v interface{}) (LookupDiskAccessResultOutput, error) {
 			args := v.(LookupDiskAccessArgs)
-			r, err := LookupDiskAccess(ctx, &args, opts...)
-			var s LookupDiskAccessResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupDiskAccessResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getDiskAccess", args, &rv, "", opts...)
+			if err != nil {
+				return LookupDiskAccessResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupDiskAccessResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupDiskAccessResultOutput), nil
+			}
+			return output, nil
 		}).(LookupDiskAccessResultOutput)
 }
 

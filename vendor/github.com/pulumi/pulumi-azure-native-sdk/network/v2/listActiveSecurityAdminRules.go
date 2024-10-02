@@ -14,7 +14,7 @@ import (
 // Lists active security admin rules in a network manager.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func ListActiveSecurityAdminRules(ctx *pulumi.Context, args *ListActiveSecurityAdminRulesArgs, opts ...pulumi.InvokeOption) (*ListActiveSecurityAdminRulesResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListActiveSecurityAdminRulesResult
@@ -48,14 +48,20 @@ type ListActiveSecurityAdminRulesResult struct {
 
 func ListActiveSecurityAdminRulesOutput(ctx *pulumi.Context, args ListActiveSecurityAdminRulesOutputArgs, opts ...pulumi.InvokeOption) ListActiveSecurityAdminRulesResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListActiveSecurityAdminRulesResult, error) {
+		ApplyT(func(v interface{}) (ListActiveSecurityAdminRulesResultOutput, error) {
 			args := v.(ListActiveSecurityAdminRulesArgs)
-			r, err := ListActiveSecurityAdminRules(ctx, &args, opts...)
-			var s ListActiveSecurityAdminRulesResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListActiveSecurityAdminRulesResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:listActiveSecurityAdminRules", args, &rv, "", opts...)
+			if err != nil {
+				return ListActiveSecurityAdminRulesResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListActiveSecurityAdminRulesResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListActiveSecurityAdminRulesResultOutput), nil
+			}
+			return output, nil
 		}).(ListActiveSecurityAdminRulesResultOutput)
 }
 

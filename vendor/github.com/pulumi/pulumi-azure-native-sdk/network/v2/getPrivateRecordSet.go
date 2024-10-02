@@ -13,6 +13,8 @@ import (
 
 // Gets a record set.
 // Azure REST API version: 2020-06-01.
+//
+// Other available API versions: 2024-06-01.
 func LookupPrivateRecordSet(ctx *pulumi.Context, args *LookupPrivateRecordSetArgs, opts ...pulumi.InvokeOption) (*LookupPrivateRecordSetResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPrivateRecordSetResult
@@ -72,14 +74,20 @@ type LookupPrivateRecordSetResult struct {
 
 func LookupPrivateRecordSetOutput(ctx *pulumi.Context, args LookupPrivateRecordSetOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateRecordSetResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPrivateRecordSetResult, error) {
+		ApplyT(func(v interface{}) (LookupPrivateRecordSetResultOutput, error) {
 			args := v.(LookupPrivateRecordSetArgs)
-			r, err := LookupPrivateRecordSet(ctx, &args, opts...)
-			var s LookupPrivateRecordSetResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPrivateRecordSetResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getPrivateRecordSet", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPrivateRecordSetResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPrivateRecordSetResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPrivateRecordSetResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPrivateRecordSetResultOutput)
 }
 

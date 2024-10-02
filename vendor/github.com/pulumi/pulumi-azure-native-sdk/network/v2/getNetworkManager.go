@@ -14,7 +14,7 @@ import (
 // Gets the specified Network Manager.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-01-01-preview, 2024-03-01.
 func LookupNetworkManager(ctx *pulumi.Context, args *LookupNetworkManagerArgs, opts ...pulumi.InvokeOption) (*LookupNetworkManagerResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkManagerResult
@@ -62,14 +62,20 @@ type LookupNetworkManagerResult struct {
 
 func LookupNetworkManagerOutput(ctx *pulumi.Context, args LookupNetworkManagerOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkManagerResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupNetworkManagerResult, error) {
+		ApplyT(func(v interface{}) (LookupNetworkManagerResultOutput, error) {
 			args := v.(LookupNetworkManagerArgs)
-			r, err := LookupNetworkManager(ctx, &args, opts...)
-			var s LookupNetworkManagerResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupNetworkManagerResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getNetworkManager", args, &rv, "", opts...)
+			if err != nil {
+				return LookupNetworkManagerResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupNetworkManagerResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupNetworkManagerResultOutput), nil
+			}
+			return output, nil
 		}).(LookupNetworkManagerResultOutput)
 }
 

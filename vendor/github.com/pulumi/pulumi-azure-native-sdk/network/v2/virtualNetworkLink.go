@@ -14,6 +14,8 @@ import (
 
 // Describes a link to virtual network for a Private DNS zone.
 // Azure REST API version: 2020-06-01. Prior API version in Azure Native 1.x: 2020-06-01.
+//
+// Other available API versions: 2024-06-01.
 type VirtualNetworkLink struct {
 	pulumi.CustomResourceState
 
@@ -59,6 +61,9 @@ func NewVirtualNetworkLink(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20200601:VirtualNetworkLink"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240601:VirtualNetworkLink"),
 		},
 	})
 	opts = append(opts, aliases)

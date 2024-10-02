@@ -14,7 +14,7 @@ import (
 // Gets a network manager security admin configuration rule collection.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-01-01-preview, 2024-03-01.
 func LookupAdminRuleCollection(ctx *pulumi.Context, args *LookupAdminRuleCollectionArgs, opts ...pulumi.InvokeOption) (*LookupAdminRuleCollectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupAdminRuleCollectionResult
@@ -60,14 +60,20 @@ type LookupAdminRuleCollectionResult struct {
 
 func LookupAdminRuleCollectionOutput(ctx *pulumi.Context, args LookupAdminRuleCollectionOutputArgs, opts ...pulumi.InvokeOption) LookupAdminRuleCollectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupAdminRuleCollectionResult, error) {
+		ApplyT(func(v interface{}) (LookupAdminRuleCollectionResultOutput, error) {
 			args := v.(LookupAdminRuleCollectionArgs)
-			r, err := LookupAdminRuleCollection(ctx, &args, opts...)
-			var s LookupAdminRuleCollectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupAdminRuleCollectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getAdminRuleCollection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupAdminRuleCollectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupAdminRuleCollectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupAdminRuleCollectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupAdminRuleCollectionResultOutput)
 }
 

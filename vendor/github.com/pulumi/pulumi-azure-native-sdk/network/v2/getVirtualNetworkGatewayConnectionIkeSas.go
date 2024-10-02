@@ -14,7 +14,7 @@ import (
 // Lists IKE Security Associations for the virtual network gateway connection in the specified resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func GetVirtualNetworkGatewayConnectionIkeSas(ctx *pulumi.Context, args *GetVirtualNetworkGatewayConnectionIkeSasArgs, opts ...pulumi.InvokeOption) (*GetVirtualNetworkGatewayConnectionIkeSasResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetVirtualNetworkGatewayConnectionIkeSasResult
@@ -38,14 +38,20 @@ type GetVirtualNetworkGatewayConnectionIkeSasResult struct {
 
 func GetVirtualNetworkGatewayConnectionIkeSasOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayConnectionIkeSasOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayConnectionIkeSasResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayConnectionIkeSasResult, error) {
+		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayConnectionIkeSasResultOutput, error) {
 			args := v.(GetVirtualNetworkGatewayConnectionIkeSasArgs)
-			r, err := GetVirtualNetworkGatewayConnectionIkeSas(ctx, &args, opts...)
-			var s GetVirtualNetworkGatewayConnectionIkeSasResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetVirtualNetworkGatewayConnectionIkeSasResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayConnectionIkeSas", args, &rv, "", opts...)
+			if err != nil {
+				return GetVirtualNetworkGatewayConnectionIkeSasResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetVirtualNetworkGatewayConnectionIkeSasResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetVirtualNetworkGatewayConnectionIkeSasResultOutput), nil
+			}
+			return output, nil
 		}).(GetVirtualNetworkGatewayConnectionIkeSasResultOutput)
 }
 

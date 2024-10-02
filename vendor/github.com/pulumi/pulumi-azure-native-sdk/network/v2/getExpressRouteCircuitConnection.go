@@ -14,7 +14,7 @@ import (
 // Gets the specified Express Route Circuit Connection from the specified express route circuit.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupExpressRouteCircuitConnection(ctx *pulumi.Context, args *LookupExpressRouteCircuitConnectionArgs, opts ...pulumi.InvokeOption) (*LookupExpressRouteCircuitConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupExpressRouteCircuitConnectionResult
@@ -64,14 +64,20 @@ type LookupExpressRouteCircuitConnectionResult struct {
 
 func LookupExpressRouteCircuitConnectionOutput(ctx *pulumi.Context, args LookupExpressRouteCircuitConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteCircuitConnectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupExpressRouteCircuitConnectionResult, error) {
+		ApplyT(func(v interface{}) (LookupExpressRouteCircuitConnectionResultOutput, error) {
 			args := v.(LookupExpressRouteCircuitConnectionArgs)
-			r, err := LookupExpressRouteCircuitConnection(ctx, &args, opts...)
-			var s LookupExpressRouteCircuitConnectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupExpressRouteCircuitConnectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getExpressRouteCircuitConnection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupExpressRouteCircuitConnectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupExpressRouteCircuitConnectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupExpressRouteCircuitConnectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupExpressRouteCircuitConnectionResultOutput)
 }
 

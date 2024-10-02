@@ -14,7 +14,7 @@ import (
 // Gets a connection monitor by name.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-09-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-09-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupConnectionMonitor(ctx *pulumi.Context, args *LookupConnectionMonitorArgs, opts ...pulumi.InvokeOption) (*LookupConnectionMonitorResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupConnectionMonitorResult
@@ -95,14 +95,20 @@ func (val *LookupConnectionMonitorResult) Defaults() *LookupConnectionMonitorRes
 
 func LookupConnectionMonitorOutput(ctx *pulumi.Context, args LookupConnectionMonitorOutputArgs, opts ...pulumi.InvokeOption) LookupConnectionMonitorResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupConnectionMonitorResult, error) {
+		ApplyT(func(v interface{}) (LookupConnectionMonitorResultOutput, error) {
 			args := v.(LookupConnectionMonitorArgs)
-			r, err := LookupConnectionMonitor(ctx, &args, opts...)
-			var s LookupConnectionMonitorResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupConnectionMonitorResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getConnectionMonitor", args, &rv, "", opts...)
+			if err != nil {
+				return LookupConnectionMonitorResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupConnectionMonitorResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupConnectionMonitorResultOutput), nil
+			}
+			return output, nil
 		}).(LookupConnectionMonitorResultOutput)
 }
 

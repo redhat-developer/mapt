@@ -14,7 +14,7 @@ import (
 // The operation to get the restore point collection.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupRestorePointCollection(ctx *pulumi.Context, args *LookupRestorePointCollectionArgs, opts ...pulumi.InvokeOption) (*LookupRestorePointCollectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRestorePointCollectionResult
@@ -58,14 +58,20 @@ type LookupRestorePointCollectionResult struct {
 
 func LookupRestorePointCollectionOutput(ctx *pulumi.Context, args LookupRestorePointCollectionOutputArgs, opts ...pulumi.InvokeOption) LookupRestorePointCollectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupRestorePointCollectionResult, error) {
+		ApplyT(func(v interface{}) (LookupRestorePointCollectionResultOutput, error) {
 			args := v.(LookupRestorePointCollectionArgs)
-			r, err := LookupRestorePointCollection(ctx, &args, opts...)
-			var s LookupRestorePointCollectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupRestorePointCollectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getRestorePointCollection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupRestorePointCollectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupRestorePointCollectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupRestorePointCollectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupRestorePointCollectionResultOutput)
 }
 

@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a ConfigurationPolicyGroup.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupConfigurationPolicyGroup(ctx *pulumi.Context, args *LookupConfigurationPolicyGroupArgs, opts ...pulumi.InvokeOption) (*LookupConfigurationPolicyGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupConfigurationPolicyGroupResult
@@ -58,14 +58,20 @@ type LookupConfigurationPolicyGroupResult struct {
 
 func LookupConfigurationPolicyGroupOutput(ctx *pulumi.Context, args LookupConfigurationPolicyGroupOutputArgs, opts ...pulumi.InvokeOption) LookupConfigurationPolicyGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupConfigurationPolicyGroupResult, error) {
+		ApplyT(func(v interface{}) (LookupConfigurationPolicyGroupResultOutput, error) {
 			args := v.(LookupConfigurationPolicyGroupArgs)
-			r, err := LookupConfigurationPolicyGroup(ctx, &args, opts...)
-			var s LookupConfigurationPolicyGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupConfigurationPolicyGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getConfigurationPolicyGroup", args, &rv, "", opts...)
+			if err != nil {
+				return LookupConfigurationPolicyGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupConfigurationPolicyGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupConfigurationPolicyGroupResultOutput), nil
+			}
+			return output, nil
 		}).(LookupConfigurationPolicyGroupResultOutput)
 }
 

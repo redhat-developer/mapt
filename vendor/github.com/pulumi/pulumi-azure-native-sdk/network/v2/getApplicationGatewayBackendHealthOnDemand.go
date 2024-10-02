@@ -14,7 +14,7 @@ import (
 // Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func GetApplicationGatewayBackendHealthOnDemand(ctx *pulumi.Context, args *GetApplicationGatewayBackendHealthOnDemandArgs, opts ...pulumi.InvokeOption) (*GetApplicationGatewayBackendHealthOnDemandResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetApplicationGatewayBackendHealthOnDemandResult
@@ -60,14 +60,20 @@ type GetApplicationGatewayBackendHealthOnDemandResult struct {
 
 func GetApplicationGatewayBackendHealthOnDemandOutput(ctx *pulumi.Context, args GetApplicationGatewayBackendHealthOnDemandOutputArgs, opts ...pulumi.InvokeOption) GetApplicationGatewayBackendHealthOnDemandResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetApplicationGatewayBackendHealthOnDemandResult, error) {
+		ApplyT(func(v interface{}) (GetApplicationGatewayBackendHealthOnDemandResultOutput, error) {
 			args := v.(GetApplicationGatewayBackendHealthOnDemandArgs)
-			r, err := GetApplicationGatewayBackendHealthOnDemand(ctx, &args, opts...)
-			var s GetApplicationGatewayBackendHealthOnDemandResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetApplicationGatewayBackendHealthOnDemandResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getApplicationGatewayBackendHealthOnDemand", args, &rv, "", opts...)
+			if err != nil {
+				return GetApplicationGatewayBackendHealthOnDemandResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetApplicationGatewayBackendHealthOnDemandResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetApplicationGatewayBackendHealthOnDemandResultOutput), nil
+			}
+			return output, nil
 		}).(GetApplicationGatewayBackendHealthOnDemandResultOutput)
 }
 

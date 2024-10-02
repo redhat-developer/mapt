@@ -143,7 +143,7 @@ type frontDoorArgs struct {
 	// Name of the Resource group within the Azure subscription.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Routing rules associated with this Front Door.
-	RoutingRules []RoutingRule `pulumi:"routingRules"`
+	RoutingRules []RoutingRuleType `pulumi:"routingRules"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 }
@@ -171,7 +171,7 @@ type FrontDoorArgs struct {
 	// Name of the Resource group within the Azure subscription.
 	ResourceGroupName pulumi.StringInput
 	// Routing rules associated with this Front Door.
-	RoutingRules RoutingRuleArrayInput
+	RoutingRules RoutingRuleTypeArrayInput
 	// Resource tags.
 	Tags pulumi.StringMapInput
 }

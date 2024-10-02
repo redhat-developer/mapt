@@ -14,7 +14,7 @@ import (
 // Retrieves information about an SSH public key.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupSshPublicKey(ctx *pulumi.Context, args *LookupSshPublicKeyArgs, opts ...pulumi.InvokeOption) (*LookupSshPublicKeyResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupSshPublicKeyResult
@@ -50,14 +50,20 @@ type LookupSshPublicKeyResult struct {
 
 func LookupSshPublicKeyOutput(ctx *pulumi.Context, args LookupSshPublicKeyOutputArgs, opts ...pulumi.InvokeOption) LookupSshPublicKeyResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupSshPublicKeyResult, error) {
+		ApplyT(func(v interface{}) (LookupSshPublicKeyResultOutput, error) {
 			args := v.(LookupSshPublicKeyArgs)
-			r, err := LookupSshPublicKey(ctx, &args, opts...)
-			var s LookupSshPublicKeyResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupSshPublicKeyResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getSshPublicKey", args, &rv, "", opts...)
+			if err != nil {
+				return LookupSshPublicKeyResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupSshPublicKeyResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupSshPublicKeyResultOutput), nil
+			}
+			return output, nil
 		}).(LookupSshPublicKeyResultOutput)
 }
 

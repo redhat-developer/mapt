@@ -62,14 +62,20 @@ type LookupTemplateSpecVersionResult struct {
 
 func LookupTemplateSpecVersionOutput(ctx *pulumi.Context, args LookupTemplateSpecVersionOutputArgs, opts ...pulumi.InvokeOption) LookupTemplateSpecVersionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupTemplateSpecVersionResult, error) {
+		ApplyT(func(v interface{}) (LookupTemplateSpecVersionResultOutput, error) {
 			args := v.(LookupTemplateSpecVersionArgs)
-			r, err := LookupTemplateSpecVersion(ctx, &args, opts...)
-			var s LookupTemplateSpecVersionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupTemplateSpecVersionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:resources:getTemplateSpecVersion", args, &rv, "", opts...)
+			if err != nil {
+				return LookupTemplateSpecVersionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupTemplateSpecVersionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupTemplateSpecVersionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupTemplateSpecVersionResultOutput)
 }
 

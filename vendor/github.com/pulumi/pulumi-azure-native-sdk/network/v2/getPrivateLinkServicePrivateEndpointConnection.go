@@ -14,7 +14,7 @@ import (
 // Get the specific private end point connection by specific private link service in the resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupPrivateLinkServicePrivateEndpointConnection(ctx *pulumi.Context, args *LookupPrivateLinkServicePrivateEndpointConnectionArgs, opts ...pulumi.InvokeOption) (*LookupPrivateLinkServicePrivateEndpointConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPrivateLinkServicePrivateEndpointConnectionResult
@@ -71,14 +71,20 @@ func (val *LookupPrivateLinkServicePrivateEndpointConnectionResult) Defaults() *
 
 func LookupPrivateLinkServicePrivateEndpointConnectionOutput(ctx *pulumi.Context, args LookupPrivateLinkServicePrivateEndpointConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateLinkServicePrivateEndpointConnectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPrivateLinkServicePrivateEndpointConnectionResult, error) {
+		ApplyT(func(v interface{}) (LookupPrivateLinkServicePrivateEndpointConnectionResultOutput, error) {
 			args := v.(LookupPrivateLinkServicePrivateEndpointConnectionArgs)
-			r, err := LookupPrivateLinkServicePrivateEndpointConnection(ctx, &args, opts...)
-			var s LookupPrivateLinkServicePrivateEndpointConnectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPrivateLinkServicePrivateEndpointConnectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getPrivateLinkServicePrivateEndpointConnection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPrivateLinkServicePrivateEndpointConnectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPrivateLinkServicePrivateEndpointConnectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPrivateLinkServicePrivateEndpointConnectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPrivateLinkServicePrivateEndpointConnectionResultOutput)
 }
 

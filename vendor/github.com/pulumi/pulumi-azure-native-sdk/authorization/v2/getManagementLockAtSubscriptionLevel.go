@@ -48,14 +48,20 @@ type LookupManagementLockAtSubscriptionLevelResult struct {
 
 func LookupManagementLockAtSubscriptionLevelOutput(ctx *pulumi.Context, args LookupManagementLockAtSubscriptionLevelOutputArgs, opts ...pulumi.InvokeOption) LookupManagementLockAtSubscriptionLevelResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupManagementLockAtSubscriptionLevelResult, error) {
+		ApplyT(func(v interface{}) (LookupManagementLockAtSubscriptionLevelResultOutput, error) {
 			args := v.(LookupManagementLockAtSubscriptionLevelArgs)
-			r, err := LookupManagementLockAtSubscriptionLevel(ctx, &args, opts...)
-			var s LookupManagementLockAtSubscriptionLevelResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupManagementLockAtSubscriptionLevelResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getManagementLockAtSubscriptionLevel", args, &rv, "", opts...)
+			if err != nil {
+				return LookupManagementLockAtSubscriptionLevelResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupManagementLockAtSubscriptionLevelResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupManagementLockAtSubscriptionLevelResultOutput), nil
+			}
+			return output, nil
 		}).(LookupManagementLockAtSubscriptionLevelResultOutput)
 }
 

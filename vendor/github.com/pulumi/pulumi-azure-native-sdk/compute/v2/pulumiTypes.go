@@ -42771,7 +42771,7 @@ func (o VirtualMachineScaleSetPublicIPAddressConfigurationResponsePtrOutput) Sku
 type VirtualMachineScaleSetStorageProfile struct {
 	// Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
 	DataDisks          []VirtualMachineScaleSetDataDisk `pulumi:"dataDisks"`
-	DiskControllerType []string                         `pulumi:"diskControllerType"`
+	DiskControllerType *string                          `pulumi:"diskControllerType"`
 	// Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
 	ImageReference *ImageReference `pulumi:"imageReference"`
 	// Specifies information about the operating system disk used by the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
@@ -42793,7 +42793,7 @@ type VirtualMachineScaleSetStorageProfileInput interface {
 type VirtualMachineScaleSetStorageProfileArgs struct {
 	// Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
 	DataDisks          VirtualMachineScaleSetDataDiskArrayInput `pulumi:"dataDisks"`
-	DiskControllerType pulumi.StringArrayInput                  `pulumi:"diskControllerType"`
+	DiskControllerType pulumi.StringPtrInput                    `pulumi:"diskControllerType"`
 	// Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
 	ImageReference ImageReferencePtrInput `pulumi:"imageReference"`
 	// Specifies information about the operating system disk used by the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
@@ -42883,8 +42883,8 @@ func (o VirtualMachineScaleSetStorageProfileOutput) DataDisks() VirtualMachineSc
 	return o.ApplyT(func(v VirtualMachineScaleSetStorageProfile) []VirtualMachineScaleSetDataDisk { return v.DataDisks }).(VirtualMachineScaleSetDataDiskArrayOutput)
 }
 
-func (o VirtualMachineScaleSetStorageProfileOutput) DiskControllerType() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v VirtualMachineScaleSetStorageProfile) []string { return v.DiskControllerType }).(pulumi.StringArrayOutput)
+func (o VirtualMachineScaleSetStorageProfileOutput) DiskControllerType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualMachineScaleSetStorageProfile) *string { return v.DiskControllerType }).(pulumi.StringPtrOutput)
 }
 
 // Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
@@ -42931,13 +42931,13 @@ func (o VirtualMachineScaleSetStorageProfilePtrOutput) DataDisks() VirtualMachin
 	}).(VirtualMachineScaleSetDataDiskArrayOutput)
 }
 
-func (o VirtualMachineScaleSetStorageProfilePtrOutput) DiskControllerType() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *VirtualMachineScaleSetStorageProfile) []string {
+func (o VirtualMachineScaleSetStorageProfilePtrOutput) DiskControllerType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualMachineScaleSetStorageProfile) *string {
 		if v == nil {
 			return nil
 		}
 		return v.DiskControllerType
-	}).(pulumi.StringArrayOutput)
+	}).(pulumi.StringPtrOutput)
 }
 
 // Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
@@ -42964,7 +42964,7 @@ func (o VirtualMachineScaleSetStorageProfilePtrOutput) OsDisk() VirtualMachineSc
 type VirtualMachineScaleSetStorageProfileResponse struct {
 	// Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
 	DataDisks          []VirtualMachineScaleSetDataDiskResponse `pulumi:"dataDisks"`
-	DiskControllerType []string                                 `pulumi:"diskControllerType"`
+	DiskControllerType *string                                  `pulumi:"diskControllerType"`
 	// Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
 	ImageReference *ImageReferenceResponse `pulumi:"imageReference"`
 	// Specifies information about the operating system disk used by the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
@@ -42993,8 +42993,8 @@ func (o VirtualMachineScaleSetStorageProfileResponseOutput) DataDisks() VirtualM
 	}).(VirtualMachineScaleSetDataDiskResponseArrayOutput)
 }
 
-func (o VirtualMachineScaleSetStorageProfileResponseOutput) DiskControllerType() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v VirtualMachineScaleSetStorageProfileResponse) []string { return v.DiskControllerType }).(pulumi.StringArrayOutput)
+func (o VirtualMachineScaleSetStorageProfileResponseOutput) DiskControllerType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualMachineScaleSetStorageProfileResponse) *string { return v.DiskControllerType }).(pulumi.StringPtrOutput)
 }
 
 // Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
@@ -43043,13 +43043,13 @@ func (o VirtualMachineScaleSetStorageProfileResponsePtrOutput) DataDisks() Virtu
 	}).(VirtualMachineScaleSetDataDiskResponseArrayOutput)
 }
 
-func (o VirtualMachineScaleSetStorageProfileResponsePtrOutput) DiskControllerType() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *VirtualMachineScaleSetStorageProfileResponse) []string {
+func (o VirtualMachineScaleSetStorageProfileResponsePtrOutput) DiskControllerType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualMachineScaleSetStorageProfileResponse) *string {
 		if v == nil {
 			return nil
 		}
 		return v.DiskControllerType
-	}).(pulumi.StringArrayOutput)
+	}).(pulumi.StringPtrOutput)
 }
 
 // Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.

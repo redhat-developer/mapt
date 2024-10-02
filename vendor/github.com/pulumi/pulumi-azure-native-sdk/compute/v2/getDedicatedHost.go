@@ -14,7 +14,7 @@ import (
 // Retrieves information about a dedicated host.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupDedicatedHost(ctx *pulumi.Context, args *LookupDedicatedHostArgs, opts ...pulumi.InvokeOption) (*LookupDedicatedHostResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDedicatedHostResult
@@ -72,14 +72,20 @@ type LookupDedicatedHostResult struct {
 
 func LookupDedicatedHostOutput(ctx *pulumi.Context, args LookupDedicatedHostOutputArgs, opts ...pulumi.InvokeOption) LookupDedicatedHostResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupDedicatedHostResult, error) {
+		ApplyT(func(v interface{}) (LookupDedicatedHostResultOutput, error) {
 			args := v.(LookupDedicatedHostArgs)
-			r, err := LookupDedicatedHost(ctx, &args, opts...)
-			var s LookupDedicatedHostResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupDedicatedHostResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getDedicatedHost", args, &rv, "", opts...)
+			if err != nil {
+				return LookupDedicatedHostResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupDedicatedHostResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupDedicatedHostResultOutput), nil
+			}
+			return output, nil
 		}).(LookupDedicatedHostResultOutput)
 }
 

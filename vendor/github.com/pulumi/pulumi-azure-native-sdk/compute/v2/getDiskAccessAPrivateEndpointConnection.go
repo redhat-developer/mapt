@@ -14,7 +14,7 @@ import (
 // Gets information about a private endpoint connection under a disk access resource.
 // Azure REST API version: 2022-07-02.
 //
-// Other available API versions: 2023-01-02, 2023-04-02, 2023-10-02.
+// Other available API versions: 2023-01-02, 2023-04-02, 2023-10-02, 2024-03-02.
 func LookupDiskAccessAPrivateEndpointConnection(ctx *pulumi.Context, args *LookupDiskAccessAPrivateEndpointConnectionArgs, opts ...pulumi.InvokeOption) (*LookupDiskAccessAPrivateEndpointConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDiskAccessAPrivateEndpointConnectionResult
@@ -52,14 +52,20 @@ type LookupDiskAccessAPrivateEndpointConnectionResult struct {
 
 func LookupDiskAccessAPrivateEndpointConnectionOutput(ctx *pulumi.Context, args LookupDiskAccessAPrivateEndpointConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupDiskAccessAPrivateEndpointConnectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupDiskAccessAPrivateEndpointConnectionResult, error) {
+		ApplyT(func(v interface{}) (LookupDiskAccessAPrivateEndpointConnectionResultOutput, error) {
 			args := v.(LookupDiskAccessAPrivateEndpointConnectionArgs)
-			r, err := LookupDiskAccessAPrivateEndpointConnection(ctx, &args, opts...)
-			var s LookupDiskAccessAPrivateEndpointConnectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupDiskAccessAPrivateEndpointConnectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getDiskAccessAPrivateEndpointConnection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupDiskAccessAPrivateEndpointConnectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupDiskAccessAPrivateEndpointConnectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupDiskAccessAPrivateEndpointConnectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupDiskAccessAPrivateEndpointConnectionResultOutput)
 }
 

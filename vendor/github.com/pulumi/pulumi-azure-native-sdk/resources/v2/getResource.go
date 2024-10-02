@@ -14,7 +14,7 @@ import (
 // Gets a resource.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2015-11-01, 2023-07-01, 2024-03-01.
+// Other available API versions: 2015-11-01, 2023-07-01, 2024-03-01, 2024-07-01.
 func LookupResource(ctx *pulumi.Context, args *LookupResourceArgs, opts ...pulumi.InvokeOption) (*LookupResourceResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupResourceResult
@@ -68,14 +68,20 @@ type LookupResourceResult struct {
 
 func LookupResourceOutput(ctx *pulumi.Context, args LookupResourceOutputArgs, opts ...pulumi.InvokeOption) LookupResourceResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupResourceResult, error) {
+		ApplyT(func(v interface{}) (LookupResourceResultOutput, error) {
 			args := v.(LookupResourceArgs)
-			r, err := LookupResource(ctx, &args, opts...)
-			var s LookupResourceResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupResourceResult
+			secret, err := ctx.InvokePackageRaw("azure-native:resources:getResource", args, &rv, "", opts...)
+			if err != nil {
+				return LookupResourceResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupResourceResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupResourceResultOutput), nil
+			}
+			return output, nil
 		}).(LookupResourceResultOutput)
 }
 

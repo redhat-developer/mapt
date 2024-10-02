@@ -14,7 +14,7 @@ import (
 // Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func GetVpnLinkConnectionIkeSas(ctx *pulumi.Context, args *GetVpnLinkConnectionIkeSasArgs, opts ...pulumi.InvokeOption) (*GetVpnLinkConnectionIkeSasResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetVpnLinkConnectionIkeSasResult
@@ -42,14 +42,20 @@ type GetVpnLinkConnectionIkeSasResult struct {
 
 func GetVpnLinkConnectionIkeSasOutput(ctx *pulumi.Context, args GetVpnLinkConnectionIkeSasOutputArgs, opts ...pulumi.InvokeOption) GetVpnLinkConnectionIkeSasResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetVpnLinkConnectionIkeSasResult, error) {
+		ApplyT(func(v interface{}) (GetVpnLinkConnectionIkeSasResultOutput, error) {
 			args := v.(GetVpnLinkConnectionIkeSasArgs)
-			r, err := GetVpnLinkConnectionIkeSas(ctx, &args, opts...)
-			var s GetVpnLinkConnectionIkeSasResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetVpnLinkConnectionIkeSasResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVpnLinkConnectionIkeSas", args, &rv, "", opts...)
+			if err != nil {
+				return GetVpnLinkConnectionIkeSasResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetVpnLinkConnectionIkeSasResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetVpnLinkConnectionIkeSasResultOutput), nil
+			}
+			return output, nil
 		}).(GetVpnLinkConnectionIkeSasResultOutput)
 }
 

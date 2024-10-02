@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a RoutingIntent.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupRoutingIntent(ctx *pulumi.Context, args *LookupRoutingIntentArgs, opts ...pulumi.InvokeOption) (*LookupRoutingIntentResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRoutingIntentResult
@@ -52,14 +52,20 @@ type LookupRoutingIntentResult struct {
 
 func LookupRoutingIntentOutput(ctx *pulumi.Context, args LookupRoutingIntentOutputArgs, opts ...pulumi.InvokeOption) LookupRoutingIntentResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupRoutingIntentResult, error) {
+		ApplyT(func(v interface{}) (LookupRoutingIntentResultOutput, error) {
 			args := v.(LookupRoutingIntentArgs)
-			r, err := LookupRoutingIntent(ctx, &args, opts...)
-			var s LookupRoutingIntentResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupRoutingIntentResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getRoutingIntent", args, &rv, "", opts...)
+			if err != nil {
+				return LookupRoutingIntentResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupRoutingIntentResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupRoutingIntentResultOutput), nil
+			}
+			return output, nil
 		}).(LookupRoutingIntentResultOutput)
 }
 

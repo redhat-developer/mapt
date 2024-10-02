@@ -14,7 +14,7 @@ import (
 // The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func GetVirtualNetworkGatewayVpnclientIpsecParameters(ctx *pulumi.Context, args *GetVirtualNetworkGatewayVpnclientIpsecParametersArgs, opts ...pulumi.InvokeOption) (*GetVirtualNetworkGatewayVpnclientIpsecParametersResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetVirtualNetworkGatewayVpnclientIpsecParametersResult
@@ -54,14 +54,20 @@ type GetVirtualNetworkGatewayVpnclientIpsecParametersResult struct {
 
 func GetVirtualNetworkGatewayVpnclientIpsecParametersOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayVpnclientIpsecParametersOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayVpnclientIpsecParametersResult, error) {
+		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput, error) {
 			args := v.(GetVirtualNetworkGatewayVpnclientIpsecParametersArgs)
-			r, err := GetVirtualNetworkGatewayVpnclientIpsecParameters(ctx, &args, opts...)
-			var s GetVirtualNetworkGatewayVpnclientIpsecParametersResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetVirtualNetworkGatewayVpnclientIpsecParametersResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayVpnclientIpsecParameters", args, &rv, "", opts...)
+			if err != nil {
+				return GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput), nil
+			}
+			return output, nil
 		}).(GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput)
 }
 

@@ -85,14 +85,20 @@ func (val *LookupPolicyAssignmentResult) Defaults() *LookupPolicyAssignmentResul
 
 func LookupPolicyAssignmentOutput(ctx *pulumi.Context, args LookupPolicyAssignmentOutputArgs, opts ...pulumi.InvokeOption) LookupPolicyAssignmentResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPolicyAssignmentResult, error) {
+		ApplyT(func(v interface{}) (LookupPolicyAssignmentResultOutput, error) {
 			args := v.(LookupPolicyAssignmentArgs)
-			r, err := LookupPolicyAssignment(ctx, &args, opts...)
-			var s LookupPolicyAssignmentResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPolicyAssignmentResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getPolicyAssignment", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPolicyAssignmentResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPolicyAssignmentResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPolicyAssignmentResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPolicyAssignmentResultOutput)
 }
 

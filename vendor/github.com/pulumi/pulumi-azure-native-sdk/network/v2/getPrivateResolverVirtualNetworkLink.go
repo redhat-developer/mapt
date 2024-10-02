@@ -14,7 +14,7 @@ import (
 // Gets properties of a virtual network link to a DNS forwarding ruleset.
 // Azure REST API version: 2022-07-01.
 //
-// Other available API versions: 2020-04-01-preview.
+// Other available API versions: 2020-04-01-preview, 2023-07-01-preview.
 func LookupPrivateResolverVirtualNetworkLink(ctx *pulumi.Context, args *LookupPrivateResolverVirtualNetworkLinkArgs, opts ...pulumi.InvokeOption) (*LookupPrivateResolverVirtualNetworkLinkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPrivateResolverVirtualNetworkLinkResult
@@ -56,14 +56,20 @@ type LookupPrivateResolverVirtualNetworkLinkResult struct {
 
 func LookupPrivateResolverVirtualNetworkLinkOutput(ctx *pulumi.Context, args LookupPrivateResolverVirtualNetworkLinkOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateResolverVirtualNetworkLinkResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPrivateResolverVirtualNetworkLinkResult, error) {
+		ApplyT(func(v interface{}) (LookupPrivateResolverVirtualNetworkLinkResultOutput, error) {
 			args := v.(LookupPrivateResolverVirtualNetworkLinkArgs)
-			r, err := LookupPrivateResolverVirtualNetworkLink(ctx, &args, opts...)
-			var s LookupPrivateResolverVirtualNetworkLinkResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPrivateResolverVirtualNetworkLinkResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getPrivateResolverVirtualNetworkLink", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPrivateResolverVirtualNetworkLinkResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPrivateResolverVirtualNetworkLinkResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPrivateResolverVirtualNetworkLinkResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPrivateResolverVirtualNetworkLinkResultOutput)
 }
 

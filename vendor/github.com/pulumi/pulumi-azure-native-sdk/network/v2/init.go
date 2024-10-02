@@ -55,6 +55,14 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &DnsForwardingRuleset{}
 	case "azure-native:network:DnsResolver":
 		r = &DnsResolver{}
+	case "azure-native:network:DnsResolverDomainList":
+		r = &DnsResolverDomainList{}
+	case "azure-native:network:DnsResolverPolicy":
+		r = &DnsResolverPolicy{}
+	case "azure-native:network:DnsResolverPolicyVirtualNetworkLink":
+		r = &DnsResolverPolicyVirtualNetworkLink{}
+	case "azure-native:network:DnsSecurityRule":
+		r = &DnsSecurityRule{}
 	case "azure-native:network:DscpConfiguration":
 		r = &DscpConfiguration{}
 	case "azure-native:network:Endpoint":
@@ -109,6 +117,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &IpAllocation{}
 	case "azure-native:network:IpGroup":
 		r = &IpGroup{}
+	case "azure-native:network:IpamPool":
+		r = &IpamPool{}
 	case "azure-native:network:LoadBalancer":
 		r = &LoadBalancer{}
 	case "azure-native:network:LoadBalancerBackendAddressPool":
@@ -131,6 +141,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &NetworkInterfaceTapConfiguration{}
 	case "azure-native:network:NetworkManager":
 		r = &NetworkManager{}
+	case "azure-native:network:NetworkManagerRoutingConfiguration":
+		r = &NetworkManagerRoutingConfiguration{}
 	case "azure-native:network:NetworkProfile":
 		r = &NetworkProfile{}
 	case "azure-native:network:NetworkSecurityGroup":
@@ -179,6 +191,10 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &PublicIPAddress{}
 	case "azure-native:network:PublicIPPrefix":
 		r = &PublicIPPrefix{}
+	case "azure-native:network:ReachabilityAnalysisIntent":
+		r = &ReachabilityAnalysisIntent{}
+	case "azure-native:network:ReachabilityAnalysisRun":
+		r = &ReachabilityAnalysisRun{}
 	case "azure-native:network:RecordSet":
 		r = &RecordSet{}
 	case "azure-native:network:Route":
@@ -193,6 +209,10 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &RouteTable{}
 	case "azure-native:network:RoutingIntent":
 		r = &RoutingIntent{}
+	case "azure-native:network:RoutingRule":
+		r = &RoutingRule{}
+	case "azure-native:network:RoutingRuleCollection":
+		r = &RoutingRuleCollection{}
 	case "azure-native:network:RulesEngine":
 		r = &RulesEngine{}
 	case "azure-native:network:ScopeConnection":
@@ -205,10 +225,16 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &SecurityRule{}
 	case "azure-native:network:SecurityUserConfiguration":
 		r = &SecurityUserConfiguration{}
+	case "azure-native:network:SecurityUserRule":
+		r = &SecurityUserRule{}
+	case "azure-native:network:SecurityUserRuleCollection":
+		r = &SecurityUserRuleCollection{}
 	case "azure-native:network:ServiceEndpointPolicy":
 		r = &ServiceEndpointPolicy{}
 	case "azure-native:network:ServiceEndpointPolicyDefinition":
 		r = &ServiceEndpointPolicyDefinition{}
+	case "azure-native:network:StaticCidr":
+		r = &StaticCidr{}
 	case "azure-native:network:StaticMember":
 		r = &StaticMember{}
 	case "azure-native:network:Subnet":
@@ -221,6 +247,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &UserRule{}
 	case "azure-native:network:UserRuleCollection":
 		r = &UserRuleCollection{}
+	case "azure-native:network:VerifierWorkspace":
+		r = &VerifierWorkspace{}
 	case "azure-native:network:VirtualApplianceSite":
 		r = &VirtualApplianceSite{}
 	case "azure-native:network:VirtualHub":

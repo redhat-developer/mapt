@@ -14,7 +14,7 @@ import (
 // Gets a packet capture session by name.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2018-01-01, 2020-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2018-01-01, 2020-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupPacketCapture(ctx *pulumi.Context, args *LookupPacketCaptureArgs, opts ...pulumi.InvokeOption) (*LookupPacketCaptureResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPacketCaptureResult
@@ -85,14 +85,20 @@ func (val *LookupPacketCaptureResult) Defaults() *LookupPacketCaptureResult {
 
 func LookupPacketCaptureOutput(ctx *pulumi.Context, args LookupPacketCaptureOutputArgs, opts ...pulumi.InvokeOption) LookupPacketCaptureResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPacketCaptureResult, error) {
+		ApplyT(func(v interface{}) (LookupPacketCaptureResultOutput, error) {
 			args := v.(LookupPacketCaptureArgs)
-			r, err := LookupPacketCapture(ctx, &args, opts...)
-			var s LookupPacketCaptureResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPacketCaptureResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getPacketCapture", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPacketCaptureResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPacketCaptureResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPacketCaptureResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPacketCaptureResultOutput)
 }
 

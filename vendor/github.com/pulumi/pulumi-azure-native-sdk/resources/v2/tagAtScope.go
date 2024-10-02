@@ -15,7 +15,7 @@ import (
 // Wrapper resource for tags API requests and responses.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2019-10-01.
 //
-// Other available API versions: 2023-07-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2024-03-01, 2024-07-01.
 type TagAtScope struct {
 	pulumi.CustomResourceState
 
@@ -67,6 +67,9 @@ func NewTagAtScope(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:resources/v20240301:TagAtScope"),
+		},
+		{
+			Type: pulumi.String("azure-native:resources/v20240701:TagAtScope"),
 		},
 	})
 	opts = append(opts, aliases)

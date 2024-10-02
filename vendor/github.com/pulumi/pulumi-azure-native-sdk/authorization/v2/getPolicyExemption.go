@@ -75,14 +75,20 @@ func (val *LookupPolicyExemptionResult) Defaults() *LookupPolicyExemptionResult 
 
 func LookupPolicyExemptionOutput(ctx *pulumi.Context, args LookupPolicyExemptionOutputArgs, opts ...pulumi.InvokeOption) LookupPolicyExemptionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPolicyExemptionResult, error) {
+		ApplyT(func(v interface{}) (LookupPolicyExemptionResultOutput, error) {
 			args := v.(LookupPolicyExemptionArgs)
-			r, err := LookupPolicyExemption(ctx, &args, opts...)
-			var s LookupPolicyExemptionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPolicyExemptionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getPolicyExemption", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPolicyExemptionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPolicyExemptionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPolicyExemptionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPolicyExemptionResultOutput)
 }
 

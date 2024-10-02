@@ -14,7 +14,7 @@ import (
 // Gets the specified Security Partner Provider.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupSecurityPartnerProvider(ctx *pulumi.Context, args *LookupSecurityPartnerProviderArgs, opts ...pulumi.InvokeOption) (*LookupSecurityPartnerProviderResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupSecurityPartnerProviderResult
@@ -58,14 +58,20 @@ type LookupSecurityPartnerProviderResult struct {
 
 func LookupSecurityPartnerProviderOutput(ctx *pulumi.Context, args LookupSecurityPartnerProviderOutputArgs, opts ...pulumi.InvokeOption) LookupSecurityPartnerProviderResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupSecurityPartnerProviderResult, error) {
+		ApplyT(func(v interface{}) (LookupSecurityPartnerProviderResultOutput, error) {
 			args := v.(LookupSecurityPartnerProviderArgs)
-			r, err := LookupSecurityPartnerProvider(ctx, &args, opts...)
-			var s LookupSecurityPartnerProviderResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupSecurityPartnerProviderResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getSecurityPartnerProvider", args, &rv, "", opts...)
+			if err != nil {
+				return LookupSecurityPartnerProviderResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupSecurityPartnerProviderResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupSecurityPartnerProviderResultOutput), nil
+			}
+			return output, nil
 		}).(LookupSecurityPartnerProviderResultOutput)
 }
 

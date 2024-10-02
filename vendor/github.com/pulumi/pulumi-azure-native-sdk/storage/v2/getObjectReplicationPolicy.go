@@ -56,14 +56,20 @@ type LookupObjectReplicationPolicyResult struct {
 
 func LookupObjectReplicationPolicyOutput(ctx *pulumi.Context, args LookupObjectReplicationPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupObjectReplicationPolicyResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupObjectReplicationPolicyResult, error) {
+		ApplyT(func(v interface{}) (LookupObjectReplicationPolicyResultOutput, error) {
 			args := v.(LookupObjectReplicationPolicyArgs)
-			r, err := LookupObjectReplicationPolicy(ctx, &args, opts...)
-			var s LookupObjectReplicationPolicyResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupObjectReplicationPolicyResult
+			secret, err := ctx.InvokePackageRaw("azure-native:storage:getObjectReplicationPolicy", args, &rv, "", opts...)
+			if err != nil {
+				return LookupObjectReplicationPolicyResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupObjectReplicationPolicyResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupObjectReplicationPolicyResultOutput), nil
+			}
+			return output, nil
 		}).(LookupObjectReplicationPolicyResultOutput)
 }
 

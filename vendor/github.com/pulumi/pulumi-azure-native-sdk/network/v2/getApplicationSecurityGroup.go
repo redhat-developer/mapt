@@ -14,7 +14,7 @@ import (
 // Gets information about the specified application security group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupApplicationSecurityGroup(ctx *pulumi.Context, args *LookupApplicationSecurityGroupArgs, opts ...pulumi.InvokeOption) (*LookupApplicationSecurityGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupApplicationSecurityGroupResult
@@ -54,14 +54,20 @@ type LookupApplicationSecurityGroupResult struct {
 
 func LookupApplicationSecurityGroupOutput(ctx *pulumi.Context, args LookupApplicationSecurityGroupOutputArgs, opts ...pulumi.InvokeOption) LookupApplicationSecurityGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupApplicationSecurityGroupResult, error) {
+		ApplyT(func(v interface{}) (LookupApplicationSecurityGroupResultOutput, error) {
 			args := v.(LookupApplicationSecurityGroupArgs)
-			r, err := LookupApplicationSecurityGroup(ctx, &args, opts...)
-			var s LookupApplicationSecurityGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupApplicationSecurityGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getApplicationSecurityGroup", args, &rv, "", opts...)
+			if err != nil {
+				return LookupApplicationSecurityGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupApplicationSecurityGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupApplicationSecurityGroupResultOutput), nil
+			}
+			return output, nil
 		}).(LookupApplicationSecurityGroupResultOutput)
 }
 

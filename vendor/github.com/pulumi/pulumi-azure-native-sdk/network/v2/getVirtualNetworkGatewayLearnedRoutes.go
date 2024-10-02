@@ -14,7 +14,7 @@ import (
 // This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2016-09-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2016-09-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func GetVirtualNetworkGatewayLearnedRoutes(ctx *pulumi.Context, args *GetVirtualNetworkGatewayLearnedRoutesArgs, opts ...pulumi.InvokeOption) (*GetVirtualNetworkGatewayLearnedRoutesResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetVirtualNetworkGatewayLearnedRoutesResult
@@ -40,14 +40,20 @@ type GetVirtualNetworkGatewayLearnedRoutesResult struct {
 
 func GetVirtualNetworkGatewayLearnedRoutesOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayLearnedRoutesOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayLearnedRoutesResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayLearnedRoutesResult, error) {
+		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayLearnedRoutesResultOutput, error) {
 			args := v.(GetVirtualNetworkGatewayLearnedRoutesArgs)
-			r, err := GetVirtualNetworkGatewayLearnedRoutes(ctx, &args, opts...)
-			var s GetVirtualNetworkGatewayLearnedRoutesResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetVirtualNetworkGatewayLearnedRoutesResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayLearnedRoutes", args, &rv, "", opts...)
+			if err != nil {
+				return GetVirtualNetworkGatewayLearnedRoutesResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetVirtualNetworkGatewayLearnedRoutesResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetVirtualNetworkGatewayLearnedRoutesResultOutput), nil
+			}
+			return output, nil
 		}).(GetVirtualNetworkGatewayLearnedRoutesResultOutput)
 }
 
