@@ -15,7 +15,7 @@ import (
 // Defines the security user configuration
 // Azure REST API version: 2022-04-01-preview. Prior API version in Azure Native 1.x: 2021-02-01-preview.
 //
-// Other available API versions: 2021-05-01-preview.
+// Other available API versions: 2021-05-01-preview, 2024-03-01.
 type SecurityUserConfiguration struct {
 	pulumi.CustomResourceState
 
@@ -60,6 +60,9 @@ func NewSecurityUserConfiguration(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20220401preview:SecurityUserConfiguration"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240301:SecurityUserConfiguration"),
 		},
 	})
 	opts = append(opts, aliases)

@@ -346,6 +346,9 @@ type githubSource struct {
 	kind         apitype.PluginKind
 
 	token string
+
+	// If true we explicitly disabled the token due to 401 errors and won't try it again
+	tokenDisabled bool
 }
 
 // Creates a new github source adding authentication data in the environment, if it exists
@@ -433,8 +436,12 @@ func (source *githubSource) newHTTPRequest(url, accept string) (*http.Request, e
 
 func (source *githubSource) getHTTPResponse(
 	getHTTPResponse func(*http.Request) (io.ReadCloser, int64, error),
-	req *http.Request,
+	url, accept string,
 ) (io.ReadCloser, int64, error) {
+	req, err := source.newHTTPRequest(url, accept)
+	if err != nil {
+		return nil, -1, err
+	}
 	resp, length, err := getHTTPResponse(req)
 	if err == nil {
 		return resp, length, nil
@@ -443,6 +450,12 @@ func (source *githubSource) getHTTPResponse(
 	// Wrap 403 rate limit errors with a more helpful message.
 	var downErr *downloadError
 	if !errors.As(err, &downErr) || downErr.code != 403 {
+		// If we see a 401 error and were using a token we'll disable that token and try again
+		if downErr != nil && downErr.code == 401 && source.token != "" {
+			source.token = ""
+			source.tokenDisabled = true
+			return source.getHTTPResponse(getHTTPResponse, url, accept)
+		}
 		return nil, -1, err
 	}
 
@@ -460,7 +473,12 @@ func (source *githubSource) getHTTPResponse(
 
 	addAuth := ""
 	if source.token == "" {
-		addAuth = " You can set GITHUB_TOKEN to make an authenticated request with a higher rate limit."
+		if source.tokenDisabled {
+			addAuth = " Your current GITHUB_TOKEN doesn't allow access to the repository, so we disabled it for this request." +
+				" You can set GITHUB_TOKEN to a different token to make a request with a higher rate limit."
+		} else {
+			addAuth = " You can set GITHUB_TOKEN to make an authenticated request with a higher rate limit."
+		}
 	}
 
 	logging.Errorf("GitHub rate limit exceeded for %s%s%s", req.URL, tryAgain, addAuth)
@@ -474,11 +492,7 @@ func (source *githubSource) GetLatestVersion(
 		"https://%s/repos/%s/%s/releases/latest",
 		source.host, source.organization, source.repository)
 	logging.V(9).Infof("plugin GitHub releases url: %s", releaseURL)
-	req, err := source.newHTTPRequest(releaseURL, "application/json")
-	if err != nil {
-		return nil, err
-	}
-	resp, length, err := source.getHTTPResponse(getHTTPResponse, req)
+	resp, length, err := source.getHTTPResponse(getHTTPResponse, releaseURL, "application/json")
 	if err != nil {
 		return nil, err
 	}
@@ -506,12 +520,7 @@ func (source *githubSource) Download(
 		"https://%s/repos/%s/%s/releases/tags/v%s",
 		source.host, source.organization, source.repository, version)
 	logging.V(9).Infof("plugin GitHub releases url: %s", releaseURL)
-
-	req, err := source.newHTTPRequest(releaseURL, "application/json")
-	if err != nil {
-		return nil, -1, err
-	}
-	resp, length, err := source.getHTTPResponse(getHTTPResponse, req)
+	resp, length, err := source.getHTTPResponse(getHTTPResponse, releaseURL, "application/json")
 	if err != nil {
 		return nil, -1, err
 	}
@@ -541,12 +550,7 @@ func (source *githubSource) Download(
 	}
 
 	logging.V(1).Infof("%s downloading from %s", source.name, assetURL)
-
-	req, err = source.newHTTPRequest(assetURL, "application/octet-stream")
-	if err != nil {
-		return nil, -1, err
-	}
-	return source.getHTTPResponse(getHTTPResponse, req)
+	return source.getHTTPResponse(getHTTPResponse, assetURL, "application/octet-stream")
 }
 
 func (source *githubSource) URL() string {
@@ -774,6 +778,28 @@ func (pp ProjectPlugin) Spec() PluginSpec {
 	}
 }
 
+// A PackageDescriptor specifies a package: the source PluginSpec that provides it, and any parameterization
+// that must be applied to that plugin in order to produce the package.
+type PackageDescriptor struct {
+	// A specification for the plugin that provides the package.
+	PluginSpec
+
+	// An optional parameterization to apply to the providing plugin to produce
+	// the package.
+	Parameterization *Parameterization
+}
+
+// A Parameterization may be applied to a supporting plugin to yield a package.
+type Parameterization struct {
+	// The name of the package that will be produced by the parameterization.
+	Name string
+	// The version of the package that will be produced by the parameterization.
+	Version semver.Version
+	// A plugin-dependent bytestring representing the value of the parameter to be
+	// passed to the plugin.
+	Value []byte
+}
+
 // PluginSpec provides basic specification for a plugin.
 type PluginSpec struct {
 	Name              string             // the simple name of the plugin.
@@ -901,7 +927,7 @@ func (info *PluginInfo) SetFileMetadata(path string) error {
 		logging.V(6).Infof("unable to get plugin dir size for %s: %v", path, err)
 	}
 
-	// Next get the access times from the plugin binary itself.
+	// Next get the access times from the plugin folder.
 	tinfo := times.Get(file)
 
 	if tinfo.HasChangeTime() {
@@ -1536,7 +1562,8 @@ func (spec PluginSpec) InstallWithContext(ctx context.Context, content PluginCon
 			if err != nil {
 				return fmt.Errorf("getting python toolchain: %w", err)
 			}
-			if err := tc.InstallDependencies(ctx, finalDir, false /*showOutput*/, os.Stdout, os.Stderr); err != nil {
+			if err := tc.InstallDependencies(ctx, finalDir, false, /*useLanguageVersionTools */
+				false /*showOutput*/, os.Stdout, os.Stderr); err != nil {
 				return fmt.Errorf("installing plugin dependencies: %w", err)
 			}
 		}
@@ -1842,15 +1869,15 @@ func getPluginInfoAndPath(
 			Name:    spec.Name,
 			Kind:    spec.Kind,
 			Version: spec.Version,
-			Path:    plugin.Path,
+			Path:    filepath.Clean(plugin.Path),
 		}
-		path := getPluginPath(info)
 		// computing plugin sizes can be very expensive (nested node_modules)
-		if !skipMetadata && path != "" {
-			if err := info.SetFileMetadata(path); err != nil {
+		if !skipMetadata {
+			if err := info.SetFileMetadata(info.Path); err != nil {
 				return nil, "", err
 			}
 		}
+		path := getPluginPath(info)
 		return info, path, nil
 	}
 
@@ -1914,11 +1941,18 @@ func getPluginInfoAndPath(
 		pluginPath = ambientPath
 	}
 	if pluginPath != "" {
-		return &PluginInfo{
+		info := &PluginInfo{
 			Kind: kind,
 			Name: name,
 			Path: filepath.Dir(pluginPath),
-		}, pluginPath, nil
+		}
+		// computing plugin sizes can be very expensive (nested node_modules)
+		if !skipMetadata {
+			if err := info.SetFileMetadata(info.Path); err != nil {
+				return nil, "", err
+			}
+		}
+		return info, pluginPath, nil
 	}
 
 	// Wasn't ambient, and wasn't bundled, so now check the plugin cache.

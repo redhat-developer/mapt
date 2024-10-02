@@ -52,14 +52,20 @@ type LookupCloudServiceResult struct {
 
 func LookupCloudServiceOutput(ctx *pulumi.Context, args LookupCloudServiceOutputArgs, opts ...pulumi.InvokeOption) LookupCloudServiceResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupCloudServiceResult, error) {
+		ApplyT(func(v interface{}) (LookupCloudServiceResultOutput, error) {
 			args := v.(LookupCloudServiceArgs)
-			r, err := LookupCloudService(ctx, &args, opts...)
-			var s LookupCloudServiceResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupCloudServiceResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getCloudService", args, &rv, "", opts...)
+			if err != nil {
+				return LookupCloudServiceResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupCloudServiceResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupCloudServiceResultOutput), nil
+			}
+			return output, nil
 		}).(LookupCloudServiceResultOutput)
 }
 

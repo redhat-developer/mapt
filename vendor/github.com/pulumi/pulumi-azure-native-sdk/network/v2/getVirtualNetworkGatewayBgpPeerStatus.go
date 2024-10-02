@@ -14,7 +14,7 @@ import (
 // The GetBgpPeerStatus operation retrieves the status of all BGP peers.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2016-09-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2016-09-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func GetVirtualNetworkGatewayBgpPeerStatus(ctx *pulumi.Context, args *GetVirtualNetworkGatewayBgpPeerStatusArgs, opts ...pulumi.InvokeOption) (*GetVirtualNetworkGatewayBgpPeerStatusResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetVirtualNetworkGatewayBgpPeerStatusResult
@@ -42,14 +42,20 @@ type GetVirtualNetworkGatewayBgpPeerStatusResult struct {
 
 func GetVirtualNetworkGatewayBgpPeerStatusOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayBgpPeerStatusOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayBgpPeerStatusResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayBgpPeerStatusResult, error) {
+		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayBgpPeerStatusResultOutput, error) {
 			args := v.(GetVirtualNetworkGatewayBgpPeerStatusArgs)
-			r, err := GetVirtualNetworkGatewayBgpPeerStatus(ctx, &args, opts...)
-			var s GetVirtualNetworkGatewayBgpPeerStatusResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetVirtualNetworkGatewayBgpPeerStatusResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayBgpPeerStatus", args, &rv, "", opts...)
+			if err != nil {
+				return GetVirtualNetworkGatewayBgpPeerStatusResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetVirtualNetworkGatewayBgpPeerStatusResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetVirtualNetworkGatewayBgpPeerStatusResultOutput), nil
+			}
+			return output, nil
 		}).(GetVirtualNetworkGatewayBgpPeerStatusResultOutput)
 }
 

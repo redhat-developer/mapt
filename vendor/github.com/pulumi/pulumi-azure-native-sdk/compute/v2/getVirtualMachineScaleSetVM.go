@@ -14,7 +14,7 @@ import (
 // Gets a virtual machine from a VM scale set.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupVirtualMachineScaleSetVM(ctx *pulumi.Context, args *LookupVirtualMachineScaleSetVMArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineScaleSetVMResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineScaleSetVMResult
@@ -98,14 +98,20 @@ type LookupVirtualMachineScaleSetVMResult struct {
 
 func LookupVirtualMachineScaleSetVMOutput(ctx *pulumi.Context, args LookupVirtualMachineScaleSetVMOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineScaleSetVMResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualMachineScaleSetVMResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualMachineScaleSetVMResultOutput, error) {
 			args := v.(LookupVirtualMachineScaleSetVMArgs)
-			r, err := LookupVirtualMachineScaleSetVM(ctx, &args, opts...)
-			var s LookupVirtualMachineScaleSetVMResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualMachineScaleSetVMResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachineScaleSetVM", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualMachineScaleSetVMResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualMachineScaleSetVMResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualMachineScaleSetVMResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualMachineScaleSetVMResultOutput)
 }
 

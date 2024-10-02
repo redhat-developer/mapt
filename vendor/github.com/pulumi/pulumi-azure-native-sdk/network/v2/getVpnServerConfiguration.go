@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a VpnServerConfiguration.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVpnServerConfiguration(ctx *pulumi.Context, args *LookupVpnServerConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupVpnServerConfigurationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVpnServerConfigurationResult
@@ -78,14 +78,20 @@ type LookupVpnServerConfigurationResult struct {
 
 func LookupVpnServerConfigurationOutput(ctx *pulumi.Context, args LookupVpnServerConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupVpnServerConfigurationResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVpnServerConfigurationResult, error) {
+		ApplyT(func(v interface{}) (LookupVpnServerConfigurationResultOutput, error) {
 			args := v.(LookupVpnServerConfigurationArgs)
-			r, err := LookupVpnServerConfiguration(ctx, &args, opts...)
-			var s LookupVpnServerConfigurationResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVpnServerConfigurationResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVpnServerConfiguration", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVpnServerConfigurationResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVpnServerConfigurationResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVpnServerConfigurationResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVpnServerConfigurationResultOutput)
 }
 

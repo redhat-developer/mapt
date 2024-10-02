@@ -40,14 +40,20 @@ type ListPolicySetDefinitionVersionAllAtManagementGroupResult struct {
 
 func ListPolicySetDefinitionVersionAllAtManagementGroupOutput(ctx *pulumi.Context, args ListPolicySetDefinitionVersionAllAtManagementGroupOutputArgs, opts ...pulumi.InvokeOption) ListPolicySetDefinitionVersionAllAtManagementGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListPolicySetDefinitionVersionAllAtManagementGroupResult, error) {
+		ApplyT(func(v interface{}) (ListPolicySetDefinitionVersionAllAtManagementGroupResultOutput, error) {
 			args := v.(ListPolicySetDefinitionVersionAllAtManagementGroupArgs)
-			r, err := ListPolicySetDefinitionVersionAllAtManagementGroup(ctx, &args, opts...)
-			var s ListPolicySetDefinitionVersionAllAtManagementGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListPolicySetDefinitionVersionAllAtManagementGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:listPolicySetDefinitionVersionAllAtManagementGroup", args, &rv, "", opts...)
+			if err != nil {
+				return ListPolicySetDefinitionVersionAllAtManagementGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListPolicySetDefinitionVersionAllAtManagementGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListPolicySetDefinitionVersionAllAtManagementGroupResultOutput), nil
+			}
+			return output, nil
 		}).(ListPolicySetDefinitionVersionAllAtManagementGroupResultOutput)
 }
 

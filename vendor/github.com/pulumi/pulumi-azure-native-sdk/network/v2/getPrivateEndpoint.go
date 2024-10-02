@@ -14,7 +14,7 @@ import (
 // Gets the specified private endpoint by resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-02-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-02-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupPrivateEndpoint(ctx *pulumi.Context, args *LookupPrivateEndpointArgs, opts ...pulumi.InvokeOption) (*LookupPrivateEndpointResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPrivateEndpointResult
@@ -83,14 +83,20 @@ func (val *LookupPrivateEndpointResult) Defaults() *LookupPrivateEndpointResult 
 
 func LookupPrivateEndpointOutput(ctx *pulumi.Context, args LookupPrivateEndpointOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateEndpointResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPrivateEndpointResult, error) {
+		ApplyT(func(v interface{}) (LookupPrivateEndpointResultOutput, error) {
 			args := v.(LookupPrivateEndpointArgs)
-			r, err := LookupPrivateEndpoint(ctx, &args, opts...)
-			var s LookupPrivateEndpointResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPrivateEndpointResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getPrivateEndpoint", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPrivateEndpointResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPrivateEndpointResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPrivateEndpointResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPrivateEndpointResultOutput)
 }
 

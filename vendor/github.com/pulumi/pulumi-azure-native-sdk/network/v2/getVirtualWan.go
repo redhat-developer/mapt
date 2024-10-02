@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a VirtualWAN.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualWan(ctx *pulumi.Context, args *LookupVirtualWanArgs, opts ...pulumi.InvokeOption) (*LookupVirtualWanResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualWanResult
@@ -64,14 +64,20 @@ type LookupVirtualWanResult struct {
 
 func LookupVirtualWanOutput(ctx *pulumi.Context, args LookupVirtualWanOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualWanResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualWanResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualWanResultOutput, error) {
 			args := v.(LookupVirtualWanArgs)
-			r, err := LookupVirtualWan(ctx, &args, opts...)
-			var s LookupVirtualWanResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualWanResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualWan", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualWanResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualWanResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualWanResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualWanResultOutput)
 }
 

@@ -54,14 +54,20 @@ type LookupNspProfileResult struct {
 
 func LookupNspProfileOutput(ctx *pulumi.Context, args LookupNspProfileOutputArgs, opts ...pulumi.InvokeOption) LookupNspProfileResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupNspProfileResult, error) {
+		ApplyT(func(v interface{}) (LookupNspProfileResultOutput, error) {
 			args := v.(LookupNspProfileArgs)
-			r, err := LookupNspProfile(ctx, &args, opts...)
-			var s LookupNspProfileResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupNspProfileResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getNspProfile", args, &rv, "", opts...)
+			if err != nil {
+				return LookupNspProfileResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupNspProfileResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupNspProfileResultOutput), nil
+			}
+			return output, nil
 		}).(LookupNspProfileResultOutput)
 }
 

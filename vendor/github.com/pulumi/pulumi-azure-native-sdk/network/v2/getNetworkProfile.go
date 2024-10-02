@@ -14,7 +14,7 @@ import (
 // Gets the specified network profile in a specified resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupNetworkProfile(ctx *pulumi.Context, args *LookupNetworkProfileArgs, opts ...pulumi.InvokeOption) (*LookupNetworkProfileResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkProfileResult
@@ -60,14 +60,20 @@ type LookupNetworkProfileResult struct {
 
 func LookupNetworkProfileOutput(ctx *pulumi.Context, args LookupNetworkProfileOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkProfileResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupNetworkProfileResult, error) {
+		ApplyT(func(v interface{}) (LookupNetworkProfileResultOutput, error) {
 			args := v.(LookupNetworkProfileArgs)
-			r, err := LookupNetworkProfile(ctx, &args, opts...)
-			var s LookupNetworkProfileResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupNetworkProfileResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getNetworkProfile", args, &rv, "", opts...)
+			if err != nil {
+				return LookupNetworkProfileResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupNetworkProfileResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupNetworkProfileResultOutput), nil
+			}
+			return output, nil
 		}).(LookupNetworkProfileResultOutput)
 }
 

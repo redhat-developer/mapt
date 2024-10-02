@@ -1,3 +1,17 @@
+// Copyright 2024, Pulumi Corporation.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package toolchain
 
 import (
@@ -82,22 +96,46 @@ func validateVersion(versionOut string) error {
 }
 
 func (p *poetry) InstallDependencies(ctx context.Context,
-	root string, showOutput bool, infoWriter, errorWriter io.Writer,
+	root string, useLanguageVersionTools, showOutput bool, infoWriter, errorWriter io.Writer,
 ) error {
-	// If pyproject.toml does not exist, but we have a requirements.txt,
-	// generate a new pyproject.toml.
-	pyprojectToml := filepath.Join(root, "pyproject.toml")
-	if _, err := os.Stat(pyprojectToml); err != nil && errors.Is(err, os.ErrNotExist) {
-		requirementsTxt := filepath.Join(root, "requirements.txt")
-		if _, err := os.Stat(requirementsTxt); err != nil && errors.Is(err, os.ErrNotExist) {
+	if _, err := searchup(root, "pyproject.toml"); err != nil {
+		if !errors.Is(err, os.ErrNotExist) {
+			return fmt.Errorf("error while looking for pyproject.toml in %s: %w", root, err)
+		}
+		// If pyproject.toml does not exist, look for a requirements.txt file and use
+		// it to generate a new pyproject.toml.
+		requirementsTxtDir, err := searchup(root, "requirements.txt")
+		if err != nil {
+			if !errors.Is(err, os.ErrNotExist) {
+				return fmt.Errorf("error while looking for requirements.txt in %s: %w", root, err)
+			}
 			return fmt.Errorf("could not find pyproject.toml or requirements.txt in %s", root)
 		}
+		requirementsTxt := filepath.Join(requirementsTxtDir, "requirements.txt")
+		pyprojectToml := filepath.Join(requirementsTxtDir, "pyproject.toml")
 		if err := p.convertRequirementsTxt(requirementsTxt, pyprojectToml); err != nil {
 			return err
 		}
 	}
 
+	if useLanguageVersionTools {
+		if err := installPython(ctx, root, showOutput, infoWriter, errorWriter); err != nil {
+			return err
+		}
+	}
+
 	poetryCmd := exec.Command(p.poetryExecutable, "install", "--no-ansi") //nolint:gosec
+	if useLanguageVersionTools {
+		// For poetry to work nicely with pyenv, we need to make poetry use the active python,
+		// otherwise poetry will use the python version used to run poetry itself.
+		use, _, _, err := usePyenv(root)
+		if err != nil {
+			return fmt.Errorf("checking for pyenv: %w", err)
+		}
+		if use {
+			poetryCmd.Env = append(os.Environ(), "POETRY_VIRTUALENVS_PREFER_ACTIVE_PYTHON=true")
+		}
+	}
 	poetryCmd.Dir = p.directory
 	poetryCmd.Stdout = infoWriter
 	poetryCmd.Stderr = errorWriter
@@ -186,11 +224,13 @@ func (p *poetry) ValidateVenv(ctx context.Context) error {
 	return nil
 }
 
-func (p *poetry) EnsureVenv(ctx context.Context, cwd string, showOutput bool, infoWriter, errorWriter io.Writer) error {
+func (p *poetry) EnsureVenv(ctx context.Context, cwd string, useLanguageVersionTools,
+	showOutput bool, infoWriter, errorWriter io.Writer,
+) error {
 	_, err := p.virtualenvPath(ctx)
 	if err != nil {
 		// Couldn't get the virtualenv path, this means it does not exist. Let's create it.
-		return p.InstallDependencies(ctx, cwd, showOutput, infoWriter, errorWriter)
+		return p.InstallDependencies(ctx, cwd, useLanguageVersionTools, showOutput, infoWriter, errorWriter)
 	}
 	return nil
 }
@@ -313,4 +353,18 @@ func dependenciesFromRequirementsTxt(r io.Reader) (map[string]string, error) {
 	}
 
 	return deps, nil
+}
+
+func searchup(currentDir, fileToFind string) (string, error) {
+	if _, err := os.Stat(filepath.Join(currentDir, fileToFind)); err == nil {
+		return currentDir, nil
+	} else if !errors.Is(err, os.ErrNotExist) {
+		return "", err
+	}
+	parentDir := filepath.Dir(currentDir)
+	if currentDir == parentDir {
+		// Reached the root directory, file not found
+		return "", os.ErrNotExist
+	}
+	return searchup(parentDir, fileToFind)
 }

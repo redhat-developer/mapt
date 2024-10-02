@@ -14,7 +14,7 @@ import (
 // Gets the specified ExpressRouteConnection.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupExpressRouteConnection(ctx *pulumi.Context, args *LookupExpressRouteConnectionArgs, opts ...pulumi.InvokeOption) (*LookupExpressRouteConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupExpressRouteConnectionResult
@@ -60,14 +60,20 @@ type LookupExpressRouteConnectionResult struct {
 
 func LookupExpressRouteConnectionOutput(ctx *pulumi.Context, args LookupExpressRouteConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteConnectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupExpressRouteConnectionResult, error) {
+		ApplyT(func(v interface{}) (LookupExpressRouteConnectionResultOutput, error) {
 			args := v.(LookupExpressRouteConnectionArgs)
-			r, err := LookupExpressRouteConnection(ctx, &args, opts...)
-			var s LookupExpressRouteConnectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupExpressRouteConnectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getExpressRouteConnection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupExpressRouteConnectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupExpressRouteConnectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupExpressRouteConnectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupExpressRouteConnectionResultOutput)
 }
 

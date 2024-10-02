@@ -15,7 +15,7 @@ import (
 // Describes an outbound endpoint for a DNS resolver.
 // Azure REST API version: 2022-07-01. Prior API version in Azure Native 1.x: 2020-04-01-preview.
 //
-// Other available API versions: 2020-04-01-preview.
+// Other available API versions: 2020-04-01-preview, 2023-07-01-preview.
 type OutboundEndpoint struct {
 	pulumi.CustomResourceState
 
@@ -61,6 +61,9 @@ func NewOutboundEndpoint(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20220701:OutboundEndpoint"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230701preview:OutboundEndpoint"),
 		},
 	})
 	opts = append(opts, aliases)

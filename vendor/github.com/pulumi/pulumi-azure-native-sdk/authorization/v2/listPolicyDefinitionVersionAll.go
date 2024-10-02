@@ -38,14 +38,20 @@ type ListPolicyDefinitionVersionAllResult struct {
 
 func ListPolicyDefinitionVersionAllOutput(ctx *pulumi.Context, args ListPolicyDefinitionVersionAllOutputArgs, opts ...pulumi.InvokeOption) ListPolicyDefinitionVersionAllResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListPolicyDefinitionVersionAllResult, error) {
+		ApplyT(func(v interface{}) (ListPolicyDefinitionVersionAllResultOutput, error) {
 			args := v.(ListPolicyDefinitionVersionAllArgs)
-			r, err := ListPolicyDefinitionVersionAll(ctx, &args, opts...)
-			var s ListPolicyDefinitionVersionAllResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListPolicyDefinitionVersionAllResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:listPolicyDefinitionVersionAll", args, &rv, "", opts...)
+			if err != nil {
+				return ListPolicyDefinitionVersionAllResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListPolicyDefinitionVersionAllResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListPolicyDefinitionVersionAllResultOutput), nil
+			}
+			return output, nil
 		}).(ListPolicyDefinitionVersionAllResultOutput)
 }
 

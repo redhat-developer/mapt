@@ -56,14 +56,20 @@ type ListStorageAccountSASResult struct {
 
 func ListStorageAccountSASOutput(ctx *pulumi.Context, args ListStorageAccountSASOutputArgs, opts ...pulumi.InvokeOption) ListStorageAccountSASResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListStorageAccountSASResult, error) {
+		ApplyT(func(v interface{}) (ListStorageAccountSASResultOutput, error) {
 			args := v.(ListStorageAccountSASArgs)
-			r, err := ListStorageAccountSAS(ctx, &args, opts...)
-			var s ListStorageAccountSASResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListStorageAccountSASResult
+			secret, err := ctx.InvokePackageRaw("azure-native:storage:listStorageAccountSAS", args, &rv, "", opts...)
+			if err != nil {
+				return ListStorageAccountSASResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListStorageAccountSASResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListStorageAccountSASResultOutput), nil
+			}
+			return output, nil
 		}).(ListStorageAccountSASResultOutput)
 }
 

@@ -14,7 +14,7 @@ import (
 // Gets a flow log resource by name.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupFlowLog(ctx *pulumi.Context, args *LookupFlowLogArgs, opts ...pulumi.InvokeOption) (*LookupFlowLogResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFlowLogResult
@@ -81,14 +81,20 @@ func (val *LookupFlowLogResult) Defaults() *LookupFlowLogResult {
 
 func LookupFlowLogOutput(ctx *pulumi.Context, args LookupFlowLogOutputArgs, opts ...pulumi.InvokeOption) LookupFlowLogResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupFlowLogResult, error) {
+		ApplyT(func(v interface{}) (LookupFlowLogResultOutput, error) {
 			args := v.(LookupFlowLogArgs)
-			r, err := LookupFlowLog(ctx, &args, opts...)
-			var s LookupFlowLogResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupFlowLogResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getFlowLog", args, &rv, "", opts...)
+			if err != nil {
+				return LookupFlowLogResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupFlowLogResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupFlowLogResultOutput), nil
+			}
+			return output, nil
 		}).(LookupFlowLogResultOutput)
 }
 

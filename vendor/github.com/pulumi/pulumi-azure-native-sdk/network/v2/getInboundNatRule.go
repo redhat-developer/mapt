@@ -14,7 +14,7 @@ import (
 // Gets the specified load balancer inbound NAT rule.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupInboundNatRule(ctx *pulumi.Context, args *LookupInboundNatRuleArgs, opts ...pulumi.InvokeOption) (*LookupInboundNatRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupInboundNatRuleResult
@@ -85,14 +85,20 @@ func (val *LookupInboundNatRuleResult) Defaults() *LookupInboundNatRuleResult {
 
 func LookupInboundNatRuleOutput(ctx *pulumi.Context, args LookupInboundNatRuleOutputArgs, opts ...pulumi.InvokeOption) LookupInboundNatRuleResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupInboundNatRuleResult, error) {
+		ApplyT(func(v interface{}) (LookupInboundNatRuleResultOutput, error) {
 			args := v.(LookupInboundNatRuleArgs)
-			r, err := LookupInboundNatRule(ctx, &args, opts...)
-			var s LookupInboundNatRuleResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupInboundNatRuleResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getInboundNatRule", args, &rv, "", opts...)
+			if err != nil {
+				return LookupInboundNatRuleResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupInboundNatRuleResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupInboundNatRuleResultOutput), nil
+			}
+			return output, nil
 		}).(LookupInboundNatRuleResultOutput)
 }
 

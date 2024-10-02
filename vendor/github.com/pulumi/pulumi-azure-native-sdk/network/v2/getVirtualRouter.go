@@ -14,7 +14,7 @@ import (
 // Gets the specified Virtual Router.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualRouter(ctx *pulumi.Context, args *LookupVirtualRouterArgs, opts ...pulumi.InvokeOption) (*LookupVirtualRouterResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualRouterResult
@@ -64,14 +64,20 @@ type LookupVirtualRouterResult struct {
 
 func LookupVirtualRouterOutput(ctx *pulumi.Context, args LookupVirtualRouterOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualRouterResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualRouterResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualRouterResultOutput, error) {
 			args := v.(LookupVirtualRouterArgs)
-			r, err := LookupVirtualRouter(ctx, &args, opts...)
-			var s LookupVirtualRouterResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualRouterResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualRouter", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualRouterResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualRouterResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualRouterResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualRouterResultOutput)
 }
 

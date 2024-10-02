@@ -14,7 +14,7 @@ import (
 // Gets the specified public IP address in a specified resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2016-03-30, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2016-03-30, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupPublicIPAddress(ctx *pulumi.Context, args *LookupPublicIPAddressArgs, opts ...pulumi.InvokeOption) (*LookupPublicIPAddressResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPublicIPAddressResult
@@ -105,14 +105,20 @@ func (val *LookupPublicIPAddressResult) Defaults() *LookupPublicIPAddressResult 
 
 func LookupPublicIPAddressOutput(ctx *pulumi.Context, args LookupPublicIPAddressOutputArgs, opts ...pulumi.InvokeOption) LookupPublicIPAddressResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPublicIPAddressResult, error) {
+		ApplyT(func(v interface{}) (LookupPublicIPAddressResultOutput, error) {
 			args := v.(LookupPublicIPAddressArgs)
-			r, err := LookupPublicIPAddress(ctx, &args, opts...)
-			var s LookupPublicIPAddressResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPublicIPAddressResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getPublicIPAddress", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPublicIPAddressResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPublicIPAddressResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPublicIPAddressResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPublicIPAddressResultOutput)
 }
 

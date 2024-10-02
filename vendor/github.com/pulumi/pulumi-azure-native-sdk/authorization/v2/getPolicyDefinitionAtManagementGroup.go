@@ -73,14 +73,20 @@ func (val *LookupPolicyDefinitionAtManagementGroupResult) Defaults() *LookupPoli
 
 func LookupPolicyDefinitionAtManagementGroupOutput(ctx *pulumi.Context, args LookupPolicyDefinitionAtManagementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupPolicyDefinitionAtManagementGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPolicyDefinitionAtManagementGroupResult, error) {
+		ApplyT(func(v interface{}) (LookupPolicyDefinitionAtManagementGroupResultOutput, error) {
 			args := v.(LookupPolicyDefinitionAtManagementGroupArgs)
-			r, err := LookupPolicyDefinitionAtManagementGroup(ctx, &args, opts...)
-			var s LookupPolicyDefinitionAtManagementGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPolicyDefinitionAtManagementGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getPolicyDefinitionAtManagementGroup", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPolicyDefinitionAtManagementGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPolicyDefinitionAtManagementGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPolicyDefinitionAtManagementGroupResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPolicyDefinitionAtManagementGroupResultOutput)
 }
 

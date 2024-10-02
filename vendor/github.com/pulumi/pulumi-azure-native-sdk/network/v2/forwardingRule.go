@@ -14,6 +14,8 @@ import (
 
 // Describes a forwarding rule within a DNS forwarding ruleset.
 // Azure REST API version: 2022-07-01. Prior API version in Azure Native 1.x: 2020-04-01-preview.
+//
+// Other available API versions: 2023-07-01-preview.
 type ForwardingRule struct {
 	pulumi.CustomResourceState
 
@@ -62,6 +64,9 @@ func NewForwardingRule(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20220701:ForwardingRule"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230701preview:ForwardingRule"),
 		},
 	})
 	opts = append(opts, aliases)

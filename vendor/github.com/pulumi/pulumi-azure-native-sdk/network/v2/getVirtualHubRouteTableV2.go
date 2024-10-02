@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a VirtualHubRouteTableV2.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualHubRouteTableV2(ctx *pulumi.Context, args *LookupVirtualHubRouteTableV2Args, opts ...pulumi.InvokeOption) (*LookupVirtualHubRouteTableV2Result, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualHubRouteTableV2Result
@@ -52,14 +52,20 @@ type LookupVirtualHubRouteTableV2Result struct {
 
 func LookupVirtualHubRouteTableV2Output(ctx *pulumi.Context, args LookupVirtualHubRouteTableV2OutputArgs, opts ...pulumi.InvokeOption) LookupVirtualHubRouteTableV2ResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualHubRouteTableV2Result, error) {
+		ApplyT(func(v interface{}) (LookupVirtualHubRouteTableV2ResultOutput, error) {
 			args := v.(LookupVirtualHubRouteTableV2Args)
-			r, err := LookupVirtualHubRouteTableV2(ctx, &args, opts...)
-			var s LookupVirtualHubRouteTableV2Result
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualHubRouteTableV2Result
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualHubRouteTableV2", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualHubRouteTableV2ResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualHubRouteTableV2ResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualHubRouteTableV2ResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualHubRouteTableV2ResultOutput)
 }
 

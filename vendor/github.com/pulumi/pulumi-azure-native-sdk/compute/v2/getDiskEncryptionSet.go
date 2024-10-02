@@ -14,7 +14,7 @@ import (
 // Gets information about a disk encryption set.
 // Azure REST API version: 2022-07-02.
 //
-// Other available API versions: 2020-06-30, 2023-01-02, 2023-04-02, 2023-10-02.
+// Other available API versions: 2020-06-30, 2023-01-02, 2023-04-02, 2023-10-02, 2024-03-02.
 func LookupDiskEncryptionSet(ctx *pulumi.Context, args *LookupDiskEncryptionSetArgs, opts ...pulumi.InvokeOption) (*LookupDiskEncryptionSetResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDiskEncryptionSetResult
@@ -66,14 +66,20 @@ type LookupDiskEncryptionSetResult struct {
 
 func LookupDiskEncryptionSetOutput(ctx *pulumi.Context, args LookupDiskEncryptionSetOutputArgs, opts ...pulumi.InvokeOption) LookupDiskEncryptionSetResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupDiskEncryptionSetResult, error) {
+		ApplyT(func(v interface{}) (LookupDiskEncryptionSetResultOutput, error) {
 			args := v.(LookupDiskEncryptionSetArgs)
-			r, err := LookupDiskEncryptionSet(ctx, &args, opts...)
-			var s LookupDiskEncryptionSetResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupDiskEncryptionSetResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getDiskEncryptionSet", args, &rv, "", opts...)
+			if err != nil {
+				return LookupDiskEncryptionSetResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupDiskEncryptionSetResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupDiskEncryptionSetResultOutput), nil
+			}
+			return output, nil
 		}).(LookupDiskEncryptionSetResultOutput)
 }
 

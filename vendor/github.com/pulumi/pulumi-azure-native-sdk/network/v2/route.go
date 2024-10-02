@@ -15,7 +15,7 @@ import (
 // Route resource.
 // Azure REST API version: 2023-02-01. Prior API version in Azure Native 1.x: 2020-11-01.
 //
-// Other available API versions: 2019-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 type Route struct {
 	pulumi.CustomResourceState
 
@@ -24,7 +24,7 @@ type Route struct {
 	// A unique read-only string that changes whenever the resource is updated.
 	Etag pulumi.StringOutput `pulumi:"etag"`
 	// A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-	HasBgpOverride pulumi.BoolPtrOutput `pulumi:"hasBgpOverride"`
+	HasBgpOverride pulumi.BoolOutput `pulumi:"hasBgpOverride"`
 	// The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name pulumi.StringPtrOutput `pulumi:"name"`
 	// The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.
@@ -207,6 +207,12 @@ func NewRoute(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:network/v20231101:Route"),
 		},
+		{
+			Type: pulumi.String("azure-native:network/v20240101:Route"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240301:Route"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)
@@ -244,8 +250,6 @@ func (RouteState) ElementType() reflect.Type {
 type routeArgs struct {
 	// The destination CIDR to which the route applies.
 	AddressPrefix *string `pulumi:"addressPrefix"`
-	// A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-	HasBgpOverride *bool `pulumi:"hasBgpOverride"`
 	// Resource ID.
 	Id *string `pulumi:"id"`
 	// The name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -268,8 +272,6 @@ type routeArgs struct {
 type RouteArgs struct {
 	// The destination CIDR to which the route applies.
 	AddressPrefix pulumi.StringPtrInput
-	// A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-	HasBgpOverride pulumi.BoolPtrInput
 	// Resource ID.
 	Id pulumi.StringPtrInput
 	// The name of the resource that is unique within a resource group. This name can be used to access the resource.
@@ -336,8 +338,8 @@ func (o RouteOutput) Etag() pulumi.StringOutput {
 }
 
 // A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-func (o RouteOutput) HasBgpOverride() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *Route) pulumi.BoolPtrOutput { return v.HasBgpOverride }).(pulumi.BoolPtrOutput)
+func (o RouteOutput) HasBgpOverride() pulumi.BoolOutput {
+	return o.ApplyT(func(v *Route) pulumi.BoolOutput { return v.HasBgpOverride }).(pulumi.BoolOutput)
 }
 
 // The name of the resource that is unique within a resource group. This name can be used to access the resource.

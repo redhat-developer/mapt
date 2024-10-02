@@ -14,6 +14,8 @@ import (
 
 // Describes a DNS record set (a collection of DNS records with the same name and type) in a Private DNS zone.
 // Azure REST API version: 2020-06-01. Prior API version in Azure Native 1.x: 2020-06-01.
+//
+// Other available API versions: 2024-06-01.
 type PrivateRecordSet struct {
 	pulumi.CustomResourceState
 
@@ -74,6 +76,9 @@ func NewPrivateRecordSet(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20200601:PrivateRecordSet"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240601:PrivateRecordSet"),
 		},
 	})
 	opts = append(opts, aliases)

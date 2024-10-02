@@ -14,7 +14,7 @@ import (
 // Gets the specified rule from a route filter.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2017-03-01, 2017-10-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2017-03-01, 2017-10-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupRouteFilterRule(ctx *pulumi.Context, args *LookupRouteFilterRuleArgs, opts ...pulumi.InvokeOption) (*LookupRouteFilterRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRouteFilterRuleResult
@@ -56,14 +56,20 @@ type LookupRouteFilterRuleResult struct {
 
 func LookupRouteFilterRuleOutput(ctx *pulumi.Context, args LookupRouteFilterRuleOutputArgs, opts ...pulumi.InvokeOption) LookupRouteFilterRuleResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupRouteFilterRuleResult, error) {
+		ApplyT(func(v interface{}) (LookupRouteFilterRuleResultOutput, error) {
 			args := v.(LookupRouteFilterRuleArgs)
-			r, err := LookupRouteFilterRule(ctx, &args, opts...)
-			var s LookupRouteFilterRuleResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupRouteFilterRuleResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getRouteFilterRule", args, &rv, "", opts...)
+			if err != nil {
+				return LookupRouteFilterRuleResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupRouteFilterRuleResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupRouteFilterRuleResultOutput), nil
+			}
+			return output, nil
 		}).(LookupRouteFilterRuleResultOutput)
 }
 

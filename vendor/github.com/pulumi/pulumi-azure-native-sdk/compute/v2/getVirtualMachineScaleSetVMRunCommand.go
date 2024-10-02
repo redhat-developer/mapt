@@ -14,7 +14,7 @@ import (
 // The operation to get the VMSS VM run command.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupVirtualMachineScaleSetVMRunCommand(ctx *pulumi.Context, args *LookupVirtualMachineScaleSetVMRunCommandArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineScaleSetVMRunCommandResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineScaleSetVMRunCommandResult
@@ -99,14 +99,20 @@ func (val *LookupVirtualMachineScaleSetVMRunCommandResult) Defaults() *LookupVir
 
 func LookupVirtualMachineScaleSetVMRunCommandOutput(ctx *pulumi.Context, args LookupVirtualMachineScaleSetVMRunCommandOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineScaleSetVMRunCommandResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualMachineScaleSetVMRunCommandResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualMachineScaleSetVMRunCommandResultOutput, error) {
 			args := v.(LookupVirtualMachineScaleSetVMRunCommandArgs)
-			r, err := LookupVirtualMachineScaleSetVMRunCommand(ctx, &args, opts...)
-			var s LookupVirtualMachineScaleSetVMRunCommandResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualMachineScaleSetVMRunCommandResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachineScaleSetVMRunCommand", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualMachineScaleSetVMRunCommandResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualMachineScaleSetVMRunCommandResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualMachineScaleSetVMRunCommandResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualMachineScaleSetVMRunCommandResultOutput)
 }
 

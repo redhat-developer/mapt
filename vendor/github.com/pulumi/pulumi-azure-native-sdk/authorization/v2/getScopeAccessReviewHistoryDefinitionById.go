@@ -74,14 +74,20 @@ type LookupScopeAccessReviewHistoryDefinitionByIdResult struct {
 
 func LookupScopeAccessReviewHistoryDefinitionByIdOutput(ctx *pulumi.Context, args LookupScopeAccessReviewHistoryDefinitionByIdOutputArgs, opts ...pulumi.InvokeOption) LookupScopeAccessReviewHistoryDefinitionByIdResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupScopeAccessReviewHistoryDefinitionByIdResult, error) {
+		ApplyT(func(v interface{}) (LookupScopeAccessReviewHistoryDefinitionByIdResultOutput, error) {
 			args := v.(LookupScopeAccessReviewHistoryDefinitionByIdArgs)
-			r, err := LookupScopeAccessReviewHistoryDefinitionById(ctx, &args, opts...)
-			var s LookupScopeAccessReviewHistoryDefinitionByIdResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupScopeAccessReviewHistoryDefinitionByIdResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getScopeAccessReviewHistoryDefinitionById", args, &rv, "", opts...)
+			if err != nil {
+				return LookupScopeAccessReviewHistoryDefinitionByIdResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupScopeAccessReviewHistoryDefinitionByIdResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupScopeAccessReviewHistoryDefinitionByIdResultOutput), nil
+			}
+			return output, nil
 		}).(LookupScopeAccessReviewHistoryDefinitionByIdResultOutput)
 }
 

@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a RouteMap.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupRouteMap(ctx *pulumi.Context, args *LookupRouteMapArgs, opts ...pulumi.InvokeOption) (*LookupRouteMapResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRouteMapResult
@@ -56,14 +56,20 @@ type LookupRouteMapResult struct {
 
 func LookupRouteMapOutput(ctx *pulumi.Context, args LookupRouteMapOutputArgs, opts ...pulumi.InvokeOption) LookupRouteMapResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupRouteMapResult, error) {
+		ApplyT(func(v interface{}) (LookupRouteMapResultOutput, error) {
 			args := v.(LookupRouteMapArgs)
-			r, err := LookupRouteMap(ctx, &args, opts...)
-			var s LookupRouteMapResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupRouteMapResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getRouteMap", args, &rv, "", opts...)
+			if err != nil {
+				return LookupRouteMapResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupRouteMapResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupRouteMapResultOutput), nil
+			}
+			return output, nil
 		}).(LookupRouteMapResultOutput)
 }
 

@@ -14,7 +14,7 @@ import (
 // Gets the specified Network Virtual Appliance.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2020-04-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2020-04-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupNetworkVirtualAppliance(ctx *pulumi.Context, args *LookupNetworkVirtualApplianceArgs, opts ...pulumi.InvokeOption) (*LookupNetworkVirtualApplianceResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkVirtualApplianceResult
@@ -86,14 +86,20 @@ type LookupNetworkVirtualApplianceResult struct {
 
 func LookupNetworkVirtualApplianceOutput(ctx *pulumi.Context, args LookupNetworkVirtualApplianceOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkVirtualApplianceResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupNetworkVirtualApplianceResult, error) {
+		ApplyT(func(v interface{}) (LookupNetworkVirtualApplianceResultOutput, error) {
 			args := v.(LookupNetworkVirtualApplianceArgs)
-			r, err := LookupNetworkVirtualAppliance(ctx, &args, opts...)
-			var s LookupNetworkVirtualApplianceResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupNetworkVirtualApplianceResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getNetworkVirtualAppliance", args, &rv, "", opts...)
+			if err != nil {
+				return LookupNetworkVirtualApplianceResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupNetworkVirtualApplianceResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupNetworkVirtualApplianceResultOutput), nil
+			}
+			return output, nil
 		}).(LookupNetworkVirtualApplianceResultOutput)
 }
 

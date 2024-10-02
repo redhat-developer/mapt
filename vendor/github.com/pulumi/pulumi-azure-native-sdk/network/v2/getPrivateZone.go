@@ -13,6 +13,8 @@ import (
 
 // Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
 // Azure REST API version: 2020-06-01.
+//
+// Other available API versions: 2024-06-01.
 func LookupPrivateZone(ctx *pulumi.Context, args *LookupPrivateZoneArgs, opts ...pulumi.InvokeOption) (*LookupPrivateZoneResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPrivateZoneResult
@@ -64,14 +66,20 @@ type LookupPrivateZoneResult struct {
 
 func LookupPrivateZoneOutput(ctx *pulumi.Context, args LookupPrivateZoneOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateZoneResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPrivateZoneResult, error) {
+		ApplyT(func(v interface{}) (LookupPrivateZoneResultOutput, error) {
 			args := v.(LookupPrivateZoneArgs)
-			r, err := LookupPrivateZone(ctx, &args, opts...)
-			var s LookupPrivateZoneResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPrivateZoneResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getPrivateZone", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPrivateZoneResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPrivateZoneResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPrivateZoneResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPrivateZoneResultOutput)
 }
 

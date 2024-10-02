@@ -537,29 +537,29 @@ github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb
-# github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.53.0
-## explicit; go 1.18
+# github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.64.2
+## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/authorization/v2
-# github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.45.0
-## explicit; go 1.18
+# github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.64.2
+## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/compute/v2
-# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.53.0
-## explicit; go 1.18
-github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2
+# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.64.2
+## explicit; go 1.21
+github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2/v20240801
 # github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2 v2.53.0
 ## explicit; go 1.18
 github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2
-# github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.45.0
-## explicit; go 1.18
+# github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.64.2
+## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/network/v2
-# github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.45.0
-## explicit; go 1.18
+# github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.64.2
+## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/resources/v2
-# github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.45.0
-## explicit; go 1.18
+# github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.64.2
+## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/storage/v2
-# github.com/pulumi/pulumi-azure-native-sdk/v2 v2.53.0
-## explicit; go 1.18
+# github.com/pulumi/pulumi-azure-native-sdk/v2 v2.64.2
+## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
 # github.com/pulumi/pulumi-command/sdk v0.11.1
 ## explicit; go 1.21
@@ -573,8 +573,8 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.21
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.128.0
-## explicit; go 1.18
+# github.com/pulumi/pulumi/sdk/v3 v3.135.0
+## explicit; go 1.21
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
 github.com/pulumi/pulumi/sdk/v3/go/auto/debug
@@ -704,9 +704,6 @@ github.com/subosito/gotenv
 # github.com/texttheater/golang-levenshtein v1.0.1
 ## explicit; go 1.13
 github.com/texttheater/golang-levenshtein/levenshtein
-# github.com/tweekmonster/luser v0.0.0-20161003172636-3fa38070dbd7
-## explicit
-github.com/tweekmonster/luser
 # github.com/uber/jaeger-client-go v2.30.0+incompatible
 ## explicit
 github.com/uber/jaeger-client-go

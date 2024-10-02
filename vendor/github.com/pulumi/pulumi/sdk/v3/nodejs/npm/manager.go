@@ -1,3 +1,17 @@
+// Copyright 2023-2024, Pulumi Corporation.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//	http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package npm
 
 import (
@@ -5,7 +19,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/cmdutil"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
@@ -68,17 +81,12 @@ func Install(ctx context.Context, packagemanager PackageManagerType, dir string,
 	}
 
 	// Ensure the "node_modules" directory exists.
-	// NB: This is only appropriate for certain package managers.
-	//     Yarn with Plug'n'Play enabled won't produce a node_modules directory,
-	//     either for Yarn Classic or Yarn Berry.
-	nodeModulesPath := filepath.Join(dir, "node_modules")
-	if _, err := os.Stat(nodeModulesPath); err != nil {
-		if os.IsNotExist(err) {
-			return name, fmt.Errorf("%s install reported success, but node_modules directory is missing", name)
+	nodeModulesPath, err := searchup(dir, "node_modules")
+	if nodeModulesPath == "" {
+		if err != nil {
+			return name, fmt.Errorf("error while looking for 'node_modules': %w", err)
 		}
-		// If the node_modules dir exists but we can't stat it, we might be able to proceed
-		// without issue, but it's bizarre enough that we should warn.
-		logging.Warningf("failed to read node_modules metadata: %v", err)
+		return name, fmt.Errorf("%s install reported success, but node_modules directory is missing", name)
 	}
 
 	return name, nil

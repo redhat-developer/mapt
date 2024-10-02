@@ -14,7 +14,7 @@ import (
 // Gets properties of an outbound endpoint for a DNS resolver.
 // Azure REST API version: 2022-07-01.
 //
-// Other available API versions: 2020-04-01-preview.
+// Other available API versions: 2020-04-01-preview, 2023-07-01-preview.
 func LookupOutboundEndpoint(ctx *pulumi.Context, args *LookupOutboundEndpointArgs, opts ...pulumi.InvokeOption) (*LookupOutboundEndpointResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupOutboundEndpointResult
@@ -60,14 +60,20 @@ type LookupOutboundEndpointResult struct {
 
 func LookupOutboundEndpointOutput(ctx *pulumi.Context, args LookupOutboundEndpointOutputArgs, opts ...pulumi.InvokeOption) LookupOutboundEndpointResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupOutboundEndpointResult, error) {
+		ApplyT(func(v interface{}) (LookupOutboundEndpointResultOutput, error) {
 			args := v.(LookupOutboundEndpointArgs)
-			r, err := LookupOutboundEndpoint(ctx, &args, opts...)
-			var s LookupOutboundEndpointResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupOutboundEndpointResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getOutboundEndpoint", args, &rv, "", opts...)
+			if err != nil {
+				return LookupOutboundEndpointResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupOutboundEndpointResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupOutboundEndpointResultOutput), nil
+			}
+			return output, nil
 		}).(LookupOutboundEndpointResultOutput)
 }
 

@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a HubVirtualNetworkConnection.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupHubVirtualNetworkConnection(ctx *pulumi.Context, args *LookupHubVirtualNetworkConnectionArgs, opts ...pulumi.InvokeOption) (*LookupHubVirtualNetworkConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupHubVirtualNetworkConnectionResult
@@ -58,14 +58,20 @@ type LookupHubVirtualNetworkConnectionResult struct {
 
 func LookupHubVirtualNetworkConnectionOutput(ctx *pulumi.Context, args LookupHubVirtualNetworkConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupHubVirtualNetworkConnectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupHubVirtualNetworkConnectionResult, error) {
+		ApplyT(func(v interface{}) (LookupHubVirtualNetworkConnectionResultOutput, error) {
 			args := v.(LookupHubVirtualNetworkConnectionArgs)
-			r, err := LookupHubVirtualNetworkConnection(ctx, &args, opts...)
-			var s LookupHubVirtualNetworkConnectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupHubVirtualNetworkConnectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getHubVirtualNetworkConnection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupHubVirtualNetworkConnectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupHubVirtualNetworkConnectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupHubVirtualNetworkConnectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupHubVirtualNetworkConnectionResultOutput)
 }
 

@@ -14,6 +14,8 @@ import (
 
 // Describes a Private DNS zone.
 // Azure REST API version: 2020-06-01. Prior API version in Azure Native 1.x: 2020-06-01.
+//
+// Other available API versions: 2024-06-01.
 type PrivateZone struct {
 	pulumi.CustomResourceState
 
@@ -64,6 +66,9 @@ func NewPrivateZone(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20200601:PrivateZone"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240601:PrivateZone"),
 		},
 	})
 	opts = append(opts, aliases)

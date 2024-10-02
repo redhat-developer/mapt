@@ -280,6 +280,9 @@ func (s *Stack) Preview(ctx context.Context, opts ...optpreview.Option) (Preview
 	if preOpts.ImportFile != "" {
 		sharedArgs = append(sharedArgs, "--import-file="+preOpts.ImportFile)
 	}
+	if preOpts.AttachDebugger {
+		sharedArgs = append(sharedArgs, "--attach-debugger")
+	}
 
 	// Apply the remote args, if needed.
 	sharedArgs = append(sharedArgs, s.remoteArgs()...)
@@ -413,6 +416,9 @@ func (s *Stack) Up(ctx context.Context, opts ...optup.Option) (UpResult, error) 
 	}
 	if upOpts.ContinueOnError {
 		sharedArgs = append(sharedArgs, "--continue-on-error")
+	}
+	if upOpts.AttachDebugger {
+		sharedArgs = append(sharedArgs, "--attach-debugger")
 	}
 
 	// Apply the remote args, if needed.
@@ -1345,6 +1351,7 @@ func (s *Stack) remoteArgs() []string {
 	var preRunCommands []string
 	var envvars map[string]EnvVarValue
 	var executorImage *ExecutorImage
+	var remoteAgentPoolID string
 	var skipInstallDependencies bool
 	var inheritSettings bool
 	if lws, isLocalWorkspace := s.Workspace().(*LocalWorkspace); isLocalWorkspace {
@@ -1354,6 +1361,7 @@ func (s *Stack) remoteArgs() []string {
 		envvars = lws.remoteEnvVars
 		skipInstallDependencies = lws.remoteSkipInstallDependencies
 		executorImage = lws.remoteExecutorImage
+		remoteAgentPoolID = lws.remoteAgentPoolID
 		inheritSettings = lws.remoteInheritSettings
 	}
 	if !remote {
@@ -1417,6 +1425,10 @@ func (s *Stack) remoteArgs() []string {
 				args = append(args, "--remote-executor-image-password="+executorImage.Credentials.Password)
 			}
 		}
+	}
+
+	if remoteAgentPoolID != "" {
+		args = append(args, "--remote-agent-pool-id="+remoteAgentPoolID)
 	}
 
 	if skipInstallDependencies {
@@ -1550,7 +1562,7 @@ func (s *languageRuntimeServer) Run(ctx context.Context, req *pulumirpc.RunReque
 		ConfigSecretKeys: req.GetConfigSecretKeys(),
 		Project:          req.GetProject(),
 		Stack:            req.GetStack(),
-		Parallel:         int(req.GetParallel()),
+		Parallel:         req.GetParallel(),
 		DryRun:           req.GetDryRun(),
 		Organization:     req.GetOrganization(),
 	}
@@ -1567,7 +1579,7 @@ func (s *languageRuntimeServer) Run(ctx context.Context, req *pulumirpc.RunReque
 				if pErr, ok := r.(error); ok {
 					err = fmt.Errorf("go inline source runtime error, an unhandled error occurred: %w", pErr)
 				} else {
-					err = errors.New("go inline source runtime error, an unhandled error occurred: unknown error")
+					err = fmt.Errorf("go inline source runtime error, an unhandled panic occurred: %v", r)
 				}
 			}
 		}()

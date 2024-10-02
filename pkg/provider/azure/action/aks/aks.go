@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2"
+	containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2/v20240801"
 	"github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
@@ -27,6 +27,7 @@ type AKSRequest struct {
 	// "1.26.3"
 	KubernetesVersion string
 	OnlySystemPool    bool
+	EnableAppRouting  bool
 	Spot              bool
 	SpotTolerance     spotAzure.EvictionRate
 }
@@ -133,35 +134,43 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 				SpotMaxPrice:     pulumi.Float64(*spotPrice)},
 		)
 	}
-	cluster, err := containerservice.NewManagedCluster(
-		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureAKSID, "cluster"),
-		&containerservice.ManagedClusterArgs{
-			ResourceGroupName: rg.Name,
-			Location:          rg.Location,
-			Identity: &containerservice.ManagedClusterIdentityArgs{
-				Type: containerservice.ResourceIdentityTypeUserAssigned,
-				UserAssignedIdentities: pulumi.StringArray{
-					identity.ID(),
-				},
+	managedClusterArgs := &containerservice.ManagedClusterArgs{
+		ResourceGroupName: rg.Name,
+		Location:          rg.Location,
+		Identity: &containerservice.ManagedClusterIdentityArgs{
+			Type: containerservice.ResourceIdentityTypeUserAssigned,
+			UserAssignedIdentities: pulumi.StringArray{
+				identity.ID(),
 			},
-			KubernetesVersion: pulumi.String(r.KubernetesVersion),
-			DnsPrefix:         pulumi.String("mapt"),
-			EnableRBAC:        pulumi.Bool(true),
-			AgentPoolProfiles: agentPoolProfiles,
-			LinuxProfile: &containerservice.ContainerServiceLinuxProfileArgs{
-				AdminUsername: pulumi.String("aksuser"),
-				Ssh: &containerservice.ContainerServiceSshConfigurationArgs{
-					PublicKeys: containerservice.ContainerServiceSshPublicKeyArray{
-						&containerservice.ContainerServiceSshPublicKeyArgs{
-							KeyData: privateKey.PublicKeyOpenssh,
-						},
+		},
+		KubernetesVersion: pulumi.String(r.KubernetesVersion),
+		DnsPrefix:         pulumi.String("mapt"),
+		EnableRBAC:        pulumi.Bool(true),
+		AgentPoolProfiles: agentPoolProfiles,
+		LinuxProfile: &containerservice.ContainerServiceLinuxProfileArgs{
+			AdminUsername: pulumi.String("aksuser"),
+			Ssh: &containerservice.ContainerServiceSshConfigurationArgs{
+				PublicKeys: containerservice.ContainerServiceSshPublicKeyArray{
+					&containerservice.ContainerServiceSshPublicKeyArgs{
+						KeyData: privateKey.PublicKeyOpenssh,
 					},
 				},
 			},
-			Tags: maptContext.ResourceTags(),
-		})
-
+		},
+		Tags: maptContext.ResourceTags(),
+	}
+	// Enable app routing if required
+	if r.EnableAppRouting {
+		managedClusterArgs.IngressProfile = containerservice.ManagedClusterIngressProfileArgs{
+			WebAppRouting: containerservice.ManagedClusterIngressProfileWebAppRoutingArgs{
+				Enabled: pulumi.Bool(true),
+			},
+		}
+	}
+	cluster, err := containerservice.NewManagedCluster(
+		ctx,
+		resourcesUtil.GetResourceName(r.Prefix, azureAKSID, "cluster"),
+		managedClusterArgs)
 	if err != nil {
 		return err
 	}

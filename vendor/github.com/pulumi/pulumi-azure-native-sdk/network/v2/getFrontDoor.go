@@ -85,14 +85,20 @@ func (val *LookupFrontDoorResult) Defaults() *LookupFrontDoorResult {
 
 func LookupFrontDoorOutput(ctx *pulumi.Context, args LookupFrontDoorOutputArgs, opts ...pulumi.InvokeOption) LookupFrontDoorResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupFrontDoorResult, error) {
+		ApplyT(func(v interface{}) (LookupFrontDoorResultOutput, error) {
 			args := v.(LookupFrontDoorArgs)
-			r, err := LookupFrontDoor(ctx, &args, opts...)
-			var s LookupFrontDoorResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupFrontDoorResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getFrontDoor", args, &rv, "", opts...)
+			if err != nil {
+				return LookupFrontDoorResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupFrontDoorResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupFrontDoorResultOutput), nil
+			}
+			return output, nil
 		}).(LookupFrontDoorResultOutput)
 }
 

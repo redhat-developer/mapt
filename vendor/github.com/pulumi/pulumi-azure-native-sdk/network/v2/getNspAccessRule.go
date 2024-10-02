@@ -68,14 +68,20 @@ type LookupNspAccessRuleResult struct {
 
 func LookupNspAccessRuleOutput(ctx *pulumi.Context, args LookupNspAccessRuleOutputArgs, opts ...pulumi.InvokeOption) LookupNspAccessRuleResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupNspAccessRuleResult, error) {
+		ApplyT(func(v interface{}) (LookupNspAccessRuleResultOutput, error) {
 			args := v.(LookupNspAccessRuleArgs)
-			r, err := LookupNspAccessRule(ctx, &args, opts...)
-			var s LookupNspAccessRuleResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupNspAccessRuleResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getNspAccessRule", args, &rv, "", opts...)
+			if err != nil {
+				return LookupNspAccessRuleResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupNspAccessRuleResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupNspAccessRuleResultOutput), nil
+			}
+			return output, nil
 		}).(LookupNspAccessRuleResultOutput)
 }
 

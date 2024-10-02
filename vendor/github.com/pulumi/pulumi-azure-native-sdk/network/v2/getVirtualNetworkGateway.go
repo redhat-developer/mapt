@@ -14,7 +14,7 @@ import (
 // Gets the specified virtual network gateway by resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2016-06-01, 2016-09-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2016-06-01, 2016-09-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualNetworkGateway(ctx *pulumi.Context, args *LookupVirtualNetworkGatewayArgs, opts ...pulumi.InvokeOption) (*LookupVirtualNetworkGatewayResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualNetworkGatewayResult
@@ -100,14 +100,20 @@ type LookupVirtualNetworkGatewayResult struct {
 
 func LookupVirtualNetworkGatewayOutput(ctx *pulumi.Context, args LookupVirtualNetworkGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkGatewayResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualNetworkGatewayResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualNetworkGatewayResultOutput, error) {
 			args := v.(LookupVirtualNetworkGatewayArgs)
-			r, err := LookupVirtualNetworkGateway(ctx, &args, opts...)
-			var s LookupVirtualNetworkGatewayResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualNetworkGatewayResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGateway", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualNetworkGatewayResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualNetworkGatewayResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualNetworkGatewayResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualNetworkGatewayResultOutput)
 }
 

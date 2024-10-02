@@ -14,7 +14,7 @@ import (
 // Gets the specified ipGroups.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupIpGroup(ctx *pulumi.Context, args *LookupIpGroupArgs, opts ...pulumi.InvokeOption) (*LookupIpGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupIpGroupResult
@@ -60,14 +60,20 @@ type LookupIpGroupResult struct {
 
 func LookupIpGroupOutput(ctx *pulumi.Context, args LookupIpGroupOutputArgs, opts ...pulumi.InvokeOption) LookupIpGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupIpGroupResult, error) {
+		ApplyT(func(v interface{}) (LookupIpGroupResultOutput, error) {
 			args := v.(LookupIpGroupArgs)
-			r, err := LookupIpGroup(ctx, &args, opts...)
-			var s LookupIpGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupIpGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getIpGroup", args, &rv, "", opts...)
+			if err != nil {
+				return LookupIpGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupIpGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupIpGroupResultOutput), nil
+			}
+			return output, nil
 		}).(LookupIpGroupResultOutput)
 }
 

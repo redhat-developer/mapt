@@ -14,7 +14,7 @@ import (
 // Retrieves information about an availability set.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2016-04-30-preview, 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2016-04-30-preview, 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupAvailabilitySet(ctx *pulumi.Context, args *LookupAvailabilitySetArgs, opts ...pulumi.InvokeOption) (*LookupAvailabilitySetResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupAvailabilitySetResult
@@ -60,14 +60,20 @@ type LookupAvailabilitySetResult struct {
 
 func LookupAvailabilitySetOutput(ctx *pulumi.Context, args LookupAvailabilitySetOutputArgs, opts ...pulumi.InvokeOption) LookupAvailabilitySetResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupAvailabilitySetResult, error) {
+		ApplyT(func(v interface{}) (LookupAvailabilitySetResultOutput, error) {
 			args := v.(LookupAvailabilitySetArgs)
-			r, err := LookupAvailabilitySet(ctx, &args, opts...)
-			var s LookupAvailabilitySetResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupAvailabilitySetResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getAvailabilitySet", args, &rv, "", opts...)
+			if err != nil {
+				return LookupAvailabilitySetResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupAvailabilitySetResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupAvailabilitySetResultOutput), nil
+			}
+			return output, nil
 		}).(LookupAvailabilitySetResultOutput)
 }
 

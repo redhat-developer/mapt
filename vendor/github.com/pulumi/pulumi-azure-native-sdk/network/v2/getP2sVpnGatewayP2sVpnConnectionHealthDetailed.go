@@ -14,7 +14,7 @@ import (
 // Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func GetP2sVpnGatewayP2sVpnConnectionHealthDetailed(ctx *pulumi.Context, args *GetP2sVpnGatewayP2sVpnConnectionHealthDetailedArgs, opts ...pulumi.InvokeOption) (*GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResult
@@ -44,14 +44,20 @@ type GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResult struct {
 
 func GetP2sVpnGatewayP2sVpnConnectionHealthDetailedOutput(ctx *pulumi.Context, args GetP2sVpnGatewayP2sVpnConnectionHealthDetailedOutputArgs, opts ...pulumi.InvokeOption) GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResult, error) {
+		ApplyT(func(v interface{}) (GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput, error) {
 			args := v.(GetP2sVpnGatewayP2sVpnConnectionHealthDetailedArgs)
-			r, err := GetP2sVpnGatewayP2sVpnConnectionHealthDetailed(ctx, &args, opts...)
-			var s GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getP2sVpnGatewayP2sVpnConnectionHealthDetailed", args, &rv, "", opts...)
+			if err != nil {
+				return GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput), nil
+			}
+			return output, nil
 		}).(GetP2sVpnGatewayP2sVpnConnectionHealthDetailedResultOutput)
 }
 

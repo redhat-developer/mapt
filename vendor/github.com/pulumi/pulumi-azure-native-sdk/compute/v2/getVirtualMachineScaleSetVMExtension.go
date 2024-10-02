@@ -14,7 +14,7 @@ import (
 // The operation to get the VMSS VM extension.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2019-12-01, 2021-11-01, 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2019-12-01, 2021-11-01, 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupVirtualMachineScaleSetVMExtension(ctx *pulumi.Context, args *LookupVirtualMachineScaleSetVMExtensionArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineScaleSetVMExtensionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineScaleSetVMExtensionResult
@@ -76,14 +76,20 @@ type LookupVirtualMachineScaleSetVMExtensionResult struct {
 
 func LookupVirtualMachineScaleSetVMExtensionOutput(ctx *pulumi.Context, args LookupVirtualMachineScaleSetVMExtensionOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineScaleSetVMExtensionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualMachineScaleSetVMExtensionResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualMachineScaleSetVMExtensionResultOutput, error) {
 			args := v.(LookupVirtualMachineScaleSetVMExtensionArgs)
-			r, err := LookupVirtualMachineScaleSetVMExtension(ctx, &args, opts...)
-			var s LookupVirtualMachineScaleSetVMExtensionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualMachineScaleSetVMExtensionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachineScaleSetVMExtension", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualMachineScaleSetVMExtensionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualMachineScaleSetVMExtensionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualMachineScaleSetVMExtensionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualMachineScaleSetVMExtensionResultOutput)
 }
 

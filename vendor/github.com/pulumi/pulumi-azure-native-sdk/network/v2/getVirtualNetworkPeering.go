@@ -14,7 +14,7 @@ import (
 // Gets the specified virtual network peering.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-06-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualNetworkPeering(ctx *pulumi.Context, args *LookupVirtualNetworkPeeringArgs, opts ...pulumi.InvokeOption) (*LookupVirtualNetworkPeeringResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualNetworkPeeringResult
@@ -76,14 +76,20 @@ type LookupVirtualNetworkPeeringResult struct {
 
 func LookupVirtualNetworkPeeringOutput(ctx *pulumi.Context, args LookupVirtualNetworkPeeringOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkPeeringResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualNetworkPeeringResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualNetworkPeeringResultOutput, error) {
 			args := v.(LookupVirtualNetworkPeeringArgs)
-			r, err := LookupVirtualNetworkPeering(ctx, &args, opts...)
-			var s LookupVirtualNetworkPeeringResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualNetworkPeeringResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkPeering", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualNetworkPeeringResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualNetworkPeeringResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualNetworkPeeringResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualNetworkPeeringResultOutput)
 }
 

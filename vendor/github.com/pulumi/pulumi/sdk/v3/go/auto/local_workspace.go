@@ -60,6 +60,7 @@ type LocalWorkspace struct {
 	remoteInheritSettings         bool
 	pulumiCommand                 PulumiCommand
 	remoteExecutorImage           *ExecutorImage
+	remoteAgentPoolID             string
 }
 
 var settingsExtensions = []string{".yaml", ".yml", ".json"}
@@ -778,7 +779,24 @@ func (l *LocalWorkspace) Install(ctx context.Context, opts *InstallOptions) erro
 	if opts != nil && opts.Stderr != nil {
 		stderrWriters = append(stderrWriters, opts.Stderr)
 	}
-	stdout, stderr, errCode, err := l.runPulumiInputCmdSync(ctx, nil, stdoutWriters, stderrWriters, "install")
+	args := []string{"install"}
+	if opts != nil && opts.UseLanguageVersionTools {
+		// Pulumi 3.130.0 introduced the `--use-language-version-tools` flag.
+		if l.pulumiCommand.Version().LT(semver.Version{Major: 3, Minor: 130}) {
+			return errors.New("UseLanguageVersionTools requires Pulumi CLI version >= 3.130.0")
+		}
+		args = append(args, "--use-language-version-tools")
+	}
+	if opts != nil && opts.NoPlugins {
+		args = append(args, "--no-plugins")
+	}
+	if opts != nil && opts.NoDependencies {
+		args = append(args, "--no-dependencies")
+	}
+	if opts != nil && opts.Reinstall {
+		args = append(args, "--reinstall")
+	}
+	stdout, stderr, errCode, err := l.runPulumiInputCmdSync(ctx, nil, stdoutWriters, stderrWriters, args...)
 	if err != nil {
 		return newAutoError(fmt.Errorf("could not install dependencies: %w", err), stdout, stderr, errCode)
 	}
@@ -903,6 +921,7 @@ func NewLocalWorkspace(ctx context.Context, opts ...LocalWorkspaceOption) (Works
 		remoteEnvVars:                 lwOpts.RemoteEnvVars,
 		remoteSkipInstallDependencies: lwOpts.RemoteSkipInstallDependencies,
 		remoteExecutorImage:           lwOpts.RemoteExecutorImage,
+		remoteAgentPoolID:             lwOpts.RemoteAgentPoolID,
 		remoteInheritSettings:         lwOpts.RemoteInheritSettings,
 		repo:                          lwOpts.Repo,
 		pulumiCommand:                 pulumiCommand,
@@ -1000,6 +1019,8 @@ type localWorkspaceOptions struct {
 	RemoteSkipInstallDependencies bool
 	// RemoteExecutorImage is the image to use for the remote Pulumi operation.
 	RemoteExecutorImage *ExecutorImage
+	// RemoteAgentPoolID is the agent pool (also called deployment runner pool) to use for the remote Pulumi operation.
+	RemoteAgentPoolID string
 	// RemoteInheritSettings sets whether to inherit settings from the remote workspace.
 	RemoteInheritSettings bool
 }
@@ -1164,6 +1185,12 @@ func remoteSkipInstallDependencies(skipInstallDependencies bool) LocalWorkspaceO
 func remoteExecutorImage(image *ExecutorImage) LocalWorkspaceOption {
 	return localWorkspaceOption(func(lo *localWorkspaceOptions) {
 		lo.RemoteExecutorImage = image
+	})
+}
+
+func remoteAgentPoolID(agentPoolID string) LocalWorkspaceOption {
+	return localWorkspaceOption(func(lo *localWorkspaceOptions) {
+		lo.RemoteAgentPoolID = agentPoolID
 	})
 }
 
