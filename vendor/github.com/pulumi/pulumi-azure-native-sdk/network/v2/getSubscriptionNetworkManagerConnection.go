@@ -14,7 +14,7 @@ import (
 // Get a specified connection created by this subscription.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupSubscriptionNetworkManagerConnection(ctx *pulumi.Context, args *LookupSubscriptionNetworkManagerConnectionArgs, opts ...pulumi.InvokeOption) (*LookupSubscriptionNetworkManagerConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupSubscriptionNetworkManagerConnectionResult
@@ -50,14 +50,20 @@ type LookupSubscriptionNetworkManagerConnectionResult struct {
 
 func LookupSubscriptionNetworkManagerConnectionOutput(ctx *pulumi.Context, args LookupSubscriptionNetworkManagerConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupSubscriptionNetworkManagerConnectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupSubscriptionNetworkManagerConnectionResult, error) {
+		ApplyT(func(v interface{}) (LookupSubscriptionNetworkManagerConnectionResultOutput, error) {
 			args := v.(LookupSubscriptionNetworkManagerConnectionArgs)
-			r, err := LookupSubscriptionNetworkManagerConnection(ctx, &args, opts...)
-			var s LookupSubscriptionNetworkManagerConnectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupSubscriptionNetworkManagerConnectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getSubscriptionNetworkManagerConnection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupSubscriptionNetworkManagerConnectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupSubscriptionNetworkManagerConnectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupSubscriptionNetworkManagerConnectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupSubscriptionNetworkManagerConnectionResultOutput)
 }
 

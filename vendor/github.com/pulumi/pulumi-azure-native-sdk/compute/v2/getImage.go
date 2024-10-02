@@ -14,7 +14,7 @@ import (
 // Gets an image.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupImage(ctx *pulumi.Context, args *LookupImageArgs, opts ...pulumi.InvokeOption) (*LookupImageResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupImageResult
@@ -60,14 +60,20 @@ type LookupImageResult struct {
 
 func LookupImageOutput(ctx *pulumi.Context, args LookupImageOutputArgs, opts ...pulumi.InvokeOption) LookupImageResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupImageResult, error) {
+		ApplyT(func(v interface{}) (LookupImageResultOutput, error) {
 			args := v.(LookupImageArgs)
-			r, err := LookupImage(ctx, &args, opts...)
-			var s LookupImageResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupImageResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getImage", args, &rv, "", opts...)
+			if err != nil {
+				return LookupImageResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupImageResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupImageResultOutput), nil
+			}
+			return output, nil
 		}).(LookupImageResultOutput)
 }
 

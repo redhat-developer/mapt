@@ -14,7 +14,7 @@ import (
 // Post to List of Network Manager Deployment Status.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-01-01-preview, 2024-03-01.
 func ListNetworkManagerDeploymentStatus(ctx *pulumi.Context, args *ListNetworkManagerDeploymentStatusArgs, opts ...pulumi.InvokeOption) (*ListNetworkManagerDeploymentStatusResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListNetworkManagerDeploymentStatusResult
@@ -50,14 +50,20 @@ type ListNetworkManagerDeploymentStatusResult struct {
 
 func ListNetworkManagerDeploymentStatusOutput(ctx *pulumi.Context, args ListNetworkManagerDeploymentStatusOutputArgs, opts ...pulumi.InvokeOption) ListNetworkManagerDeploymentStatusResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListNetworkManagerDeploymentStatusResult, error) {
+		ApplyT(func(v interface{}) (ListNetworkManagerDeploymentStatusResultOutput, error) {
 			args := v.(ListNetworkManagerDeploymentStatusArgs)
-			r, err := ListNetworkManagerDeploymentStatus(ctx, &args, opts...)
-			var s ListNetworkManagerDeploymentStatusResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListNetworkManagerDeploymentStatusResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:listNetworkManagerDeploymentStatus", args, &rv, "", opts...)
+			if err != nil {
+				return ListNetworkManagerDeploymentStatusResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListNetworkManagerDeploymentStatusResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListNetworkManagerDeploymentStatusResultOutput), nil
+			}
+			return output, nil
 		}).(ListNetworkManagerDeploymentStatusResultOutput)
 }
 

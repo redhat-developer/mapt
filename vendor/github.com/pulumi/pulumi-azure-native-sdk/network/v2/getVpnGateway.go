@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a virtual wan vpn gateway.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2018-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2018-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVpnGateway(ctx *pulumi.Context, args *LookupVpnGatewayArgs, opts ...pulumi.InvokeOption) (*LookupVpnGatewayResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVpnGatewayResult
@@ -68,14 +68,20 @@ type LookupVpnGatewayResult struct {
 
 func LookupVpnGatewayOutput(ctx *pulumi.Context, args LookupVpnGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupVpnGatewayResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVpnGatewayResult, error) {
+		ApplyT(func(v interface{}) (LookupVpnGatewayResultOutput, error) {
 			args := v.(LookupVpnGatewayArgs)
-			r, err := LookupVpnGateway(ctx, &args, opts...)
-			var s LookupVpnGatewayResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVpnGatewayResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVpnGateway", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVpnGatewayResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVpnGatewayResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVpnGatewayResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVpnGatewayResultOutput)
 }
 

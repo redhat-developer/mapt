@@ -14,7 +14,7 @@ import (
 // Gets a DSCP Configuration.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupDscpConfiguration(ctx *pulumi.Context, args *LookupDscpConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupDscpConfigurationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDscpConfigurationResult
@@ -72,14 +72,20 @@ type LookupDscpConfigurationResult struct {
 
 func LookupDscpConfigurationOutput(ctx *pulumi.Context, args LookupDscpConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupDscpConfigurationResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupDscpConfigurationResult, error) {
+		ApplyT(func(v interface{}) (LookupDscpConfigurationResultOutput, error) {
 			args := v.(LookupDscpConfigurationArgs)
-			r, err := LookupDscpConfiguration(ctx, &args, opts...)
-			var s LookupDscpConfigurationResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupDscpConfigurationResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getDscpConfiguration", args, &rv, "", opts...)
+			if err != nil {
+				return LookupDscpConfigurationResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupDscpConfigurationResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupDscpConfigurationResultOutput), nil
+			}
+			return output, nil
 		}).(LookupDscpConfigurationResultOutput)
 }
 

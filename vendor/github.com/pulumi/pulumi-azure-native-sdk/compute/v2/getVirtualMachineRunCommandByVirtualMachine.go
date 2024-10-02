@@ -14,7 +14,7 @@ import (
 // The operation to get the run command.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupVirtualMachineRunCommandByVirtualMachine(ctx *pulumi.Context, args *LookupVirtualMachineRunCommandByVirtualMachineArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineRunCommandByVirtualMachineResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineRunCommandByVirtualMachineResult
@@ -97,14 +97,20 @@ func (val *LookupVirtualMachineRunCommandByVirtualMachineResult) Defaults() *Loo
 
 func LookupVirtualMachineRunCommandByVirtualMachineOutput(ctx *pulumi.Context, args LookupVirtualMachineRunCommandByVirtualMachineOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineRunCommandByVirtualMachineResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualMachineRunCommandByVirtualMachineResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualMachineRunCommandByVirtualMachineResultOutput, error) {
 			args := v.(LookupVirtualMachineRunCommandByVirtualMachineArgs)
-			r, err := LookupVirtualMachineRunCommandByVirtualMachine(ctx, &args, opts...)
-			var s LookupVirtualMachineRunCommandByVirtualMachineResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualMachineRunCommandByVirtualMachineResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachineRunCommandByVirtualMachine", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualMachineRunCommandByVirtualMachineResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualMachineRunCommandByVirtualMachineResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualMachineRunCommandByVirtualMachineResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualMachineRunCommandByVirtualMachineResultOutput)
 }
 

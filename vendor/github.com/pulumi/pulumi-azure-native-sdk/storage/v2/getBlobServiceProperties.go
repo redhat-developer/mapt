@@ -66,14 +66,20 @@ type LookupBlobServicePropertiesResult struct {
 
 func LookupBlobServicePropertiesOutput(ctx *pulumi.Context, args LookupBlobServicePropertiesOutputArgs, opts ...pulumi.InvokeOption) LookupBlobServicePropertiesResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupBlobServicePropertiesResult, error) {
+		ApplyT(func(v interface{}) (LookupBlobServicePropertiesResultOutput, error) {
 			args := v.(LookupBlobServicePropertiesArgs)
-			r, err := LookupBlobServiceProperties(ctx, &args, opts...)
-			var s LookupBlobServicePropertiesResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupBlobServicePropertiesResult
+			secret, err := ctx.InvokePackageRaw("azure-native:storage:getBlobServiceProperties", args, &rv, "", opts...)
+			if err != nil {
+				return LookupBlobServicePropertiesResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupBlobServicePropertiesResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupBlobServicePropertiesResultOutput), nil
+			}
+			return output, nil
 		}).(LookupBlobServicePropertiesResultOutput)
 }
 

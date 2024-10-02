@@ -14,7 +14,7 @@ import (
 // Gets the specified Virtual Appliance Site.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualApplianceSite(ctx *pulumi.Context, args *LookupVirtualApplianceSiteArgs, opts ...pulumi.InvokeOption) (*LookupVirtualApplianceSiteResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualApplianceSiteResult
@@ -54,14 +54,20 @@ type LookupVirtualApplianceSiteResult struct {
 
 func LookupVirtualApplianceSiteOutput(ctx *pulumi.Context, args LookupVirtualApplianceSiteOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualApplianceSiteResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualApplianceSiteResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualApplianceSiteResultOutput, error) {
 			args := v.(LookupVirtualApplianceSiteArgs)
-			r, err := LookupVirtualApplianceSite(ctx, &args, opts...)
-			var s LookupVirtualApplianceSiteResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualApplianceSiteResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualApplianceSite", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualApplianceSiteResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualApplianceSiteResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualApplianceSiteResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualApplianceSiteResultOutput)
 }
 

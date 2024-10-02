@@ -14,6 +14,8 @@ import (
 
 // Describes a DNS resolver.
 // Azure REST API version: 2022-07-01. Prior API version in Azure Native 1.x: 2020-04-01-preview.
+//
+// Other available API versions: 2023-07-01-preview.
 type DnsResolver struct {
 	pulumi.CustomResourceState
 
@@ -58,6 +60,9 @@ func NewDnsResolver(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20220701:DnsResolver"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230701preview:DnsResolver"),
 		},
 	})
 	opts = append(opts, aliases)

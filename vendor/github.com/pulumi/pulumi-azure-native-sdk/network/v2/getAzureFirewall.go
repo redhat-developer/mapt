@@ -14,7 +14,7 @@ import (
 // Gets the specified Azure Firewall.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2020-04-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2020-04-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupAzureFirewall(ctx *pulumi.Context, args *LookupAzureFirewallArgs, opts ...pulumi.InvokeOption) (*LookupAzureFirewallResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupAzureFirewallResult
@@ -78,14 +78,20 @@ type LookupAzureFirewallResult struct {
 
 func LookupAzureFirewallOutput(ctx *pulumi.Context, args LookupAzureFirewallOutputArgs, opts ...pulumi.InvokeOption) LookupAzureFirewallResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupAzureFirewallResult, error) {
+		ApplyT(func(v interface{}) (LookupAzureFirewallResultOutput, error) {
 			args := v.(LookupAzureFirewallArgs)
-			r, err := LookupAzureFirewall(ctx, &args, opts...)
-			var s LookupAzureFirewallResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupAzureFirewallResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getAzureFirewall", args, &rv, "", opts...)
+			if err != nil {
+				return LookupAzureFirewallResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupAzureFirewallResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupAzureFirewallResultOutput), nil
+			}
+			return output, nil
 		}).(LookupAzureFirewallResultOutput)
 }
 

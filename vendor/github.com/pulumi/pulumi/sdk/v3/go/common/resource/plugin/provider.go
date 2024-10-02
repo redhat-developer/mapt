@@ -29,7 +29,7 @@ import (
 
 type GetSchemaRequest struct {
 	// Version is the version of the schema to return. If omitted, the latest version of the schema should be returned.
-	Version int
+	Version int32
 	// Subpackage name to get the schema for.
 	SubpackageName string
 	// Subpackage version to get the schema for.
@@ -70,6 +70,8 @@ type GetSchemaResponse struct {
 
 type CheckConfigRequest struct {
 	URN           resource.URN
+	Name          string
+	Type          tokens.Type
 	Olds, News    resource.PropertyMap
 	AllowUnknowns bool
 }
@@ -81,6 +83,8 @@ type CheckConfigResponse struct {
 
 type DiffConfigRequest struct {
 	URN                              resource.URN
+	Name                             string
+	Type                             tokens.Type
 	OldInputs, OldOutputs, NewInputs resource.PropertyMap
 	AllowUnknowns                    bool
 	IgnoreChanges                    []string
@@ -95,7 +99,9 @@ type ConfigureRequest struct {
 type ConfigureResponse struct{}
 
 type CheckRequest struct {
-	URN resource.URN
+	URN  resource.URN
+	Name string
+	Type tokens.Type
 	// TODO Change to (State, Input)
 	Olds, News    resource.PropertyMap
 	AllowUnknowns bool
@@ -108,8 +114,10 @@ type CheckResponse struct {
 }
 
 type DiffRequest struct {
-	URN resource.URN
-	ID  resource.ID
+	URN  resource.URN
+	Name string
+	Type tokens.Type
+	ID   resource.ID
 	// TODO Change to (OldInputs, OldState, NewInputs)
 	OldInputs, OldOutputs, NewInputs resource.PropertyMap
 	AllowUnknowns                    bool
@@ -120,6 +128,8 @@ type DiffResponse = DiffResult
 
 type CreateRequest struct {
 	URN        resource.URN
+	Name       string
+	Type       tokens.Type
 	Properties resource.PropertyMap
 	Timeout    float64
 	Preview    bool
@@ -133,6 +143,8 @@ type CreateResponse struct {
 
 type ReadRequest struct {
 	URN           resource.URN
+	Name          string
+	Type          tokens.Type
 	ID            resource.ID
 	Inputs, State resource.PropertyMap
 }
@@ -144,6 +156,8 @@ type ReadResponse struct {
 
 type UpdateRequest struct {
 	URN                              resource.URN
+	Name                             string
+	Type                             tokens.Type
 	ID                               resource.ID
 	OldInputs, OldOutputs, NewInputs resource.PropertyMap
 	Timeout                          float64
@@ -158,6 +172,8 @@ type UpdateResponse struct {
 
 type DeleteRequest struct {
 	URN             resource.URN
+	Name            string
+	Type            tokens.Type
 	ID              resource.ID
 	Inputs, Outputs resource.PropertyMap
 	Timeout         float64
@@ -606,7 +622,7 @@ type ConstructInfo struct {
 	Config           map[config.Key]string // the configuration variables to apply before running.
 	ConfigSecretKeys []config.Key          // the configuration keys that have secret values.
 	DryRun           bool                  // true if we are performing a dry-run (preview).
-	Parallel         int                   // the degree of parallelism for resource operations (<=1 for serial).
+	Parallel         int32                 // the degree of parallelism for resource operations (<=1 for serial).
 	MonitorAddress   string                // the RPC address to the host resource monitor.
 }
 
@@ -679,7 +695,7 @@ type CallInfo struct {
 	Stack          string                // the stack name being evaluated.
 	Config         map[config.Key]string // the configuration variables to apply before running.
 	DryRun         bool                  // true if we are performing a dry-run (preview).
-	Parallel       int                   // the degree of parallelism for resource operations (<=1 for serial).
+	Parallel       int32                 // the degree of parallelism for resource operations (<=1 for serial).
 	MonitorAddress string                // the RPC address to the host resource monitor.
 }
 

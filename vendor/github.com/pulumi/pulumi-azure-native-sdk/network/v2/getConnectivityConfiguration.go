@@ -14,7 +14,7 @@ import (
 // Gets a Network Connectivity Configuration, specified by the resource group, network manager name, and connectivity Configuration name
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-02-01-preview, 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupConnectivityConfiguration(ctx *pulumi.Context, args *LookupConnectivityConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupConnectivityConfigurationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupConnectivityConfigurationResult
@@ -66,14 +66,20 @@ type LookupConnectivityConfigurationResult struct {
 
 func LookupConnectivityConfigurationOutput(ctx *pulumi.Context, args LookupConnectivityConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupConnectivityConfigurationResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupConnectivityConfigurationResult, error) {
+		ApplyT(func(v interface{}) (LookupConnectivityConfigurationResultOutput, error) {
 			args := v.(LookupConnectivityConfigurationArgs)
-			r, err := LookupConnectivityConfiguration(ctx, &args, opts...)
-			var s LookupConnectivityConfigurationResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupConnectivityConfigurationResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getConnectivityConfiguration", args, &rv, "", opts...)
+			if err != nil {
+				return LookupConnectivityConfigurationResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupConnectivityConfigurationResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupConnectivityConfigurationResultOutput), nil
+			}
+			return output, nil
 		}).(LookupConnectivityConfigurationResultOutput)
 }
 

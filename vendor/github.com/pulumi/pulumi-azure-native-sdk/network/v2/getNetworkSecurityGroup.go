@@ -14,7 +14,7 @@ import (
 // Gets the specified network security group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2015-05-01-preview, 2016-03-30, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2015-05-01-preview, 2016-03-30, 2019-06-01, 2019-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupNetworkSecurityGroup(ctx *pulumi.Context, args *LookupNetworkSecurityGroupArgs, opts ...pulumi.InvokeOption) (*LookupNetworkSecurityGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkSecurityGroupResult
@@ -68,14 +68,20 @@ type LookupNetworkSecurityGroupResult struct {
 
 func LookupNetworkSecurityGroupOutput(ctx *pulumi.Context, args LookupNetworkSecurityGroupOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkSecurityGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupNetworkSecurityGroupResult, error) {
+		ApplyT(func(v interface{}) (LookupNetworkSecurityGroupResultOutput, error) {
 			args := v.(LookupNetworkSecurityGroupArgs)
-			r, err := LookupNetworkSecurityGroup(ctx, &args, opts...)
-			var s LookupNetworkSecurityGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupNetworkSecurityGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getNetworkSecurityGroup", args, &rv, "", opts...)
+			if err != nil {
+				return LookupNetworkSecurityGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupNetworkSecurityGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupNetworkSecurityGroupResultOutput), nil
+			}
+			return output, nil
 		}).(LookupNetworkSecurityGroupResultOutput)
 }
 

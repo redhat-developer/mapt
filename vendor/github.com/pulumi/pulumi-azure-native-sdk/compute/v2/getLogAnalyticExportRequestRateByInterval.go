@@ -14,7 +14,7 @@ import (
 // Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2017-12-01, 2018-04-01, 2018-06-01, 2018-10-01, 2019-03-01, 2019-07-01, 2019-12-01, 2020-06-01, 2020-12-01, 2021-03-01, 2021-04-01, 2021-07-01, 2021-11-01, 2022-03-01, 2022-08-01, 2022-11-01, 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2017-12-01, 2018-04-01, 2018-06-01, 2018-10-01, 2019-03-01, 2019-07-01, 2019-12-01, 2020-06-01, 2020-12-01, 2021-03-01, 2021-04-01, 2021-07-01, 2021-11-01, 2022-03-01, 2022-08-01, 2022-11-01, 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func GetLogAnalyticExportRequestRateByInterval(ctx *pulumi.Context, args *GetLogAnalyticExportRequestRateByIntervalArgs, opts ...pulumi.InvokeOption) (*GetLogAnalyticExportRequestRateByIntervalResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetLogAnalyticExportRequestRateByIntervalResult
@@ -56,14 +56,20 @@ type GetLogAnalyticExportRequestRateByIntervalResult struct {
 
 func GetLogAnalyticExportRequestRateByIntervalOutput(ctx *pulumi.Context, args GetLogAnalyticExportRequestRateByIntervalOutputArgs, opts ...pulumi.InvokeOption) GetLogAnalyticExportRequestRateByIntervalResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetLogAnalyticExportRequestRateByIntervalResult, error) {
+		ApplyT(func(v interface{}) (GetLogAnalyticExportRequestRateByIntervalResultOutput, error) {
 			args := v.(GetLogAnalyticExportRequestRateByIntervalArgs)
-			r, err := GetLogAnalyticExportRequestRateByInterval(ctx, &args, opts...)
-			var s GetLogAnalyticExportRequestRateByIntervalResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetLogAnalyticExportRequestRateByIntervalResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getLogAnalyticExportRequestRateByInterval", args, &rv, "", opts...)
+			if err != nil {
+				return GetLogAnalyticExportRequestRateByIntervalResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetLogAnalyticExportRequestRateByIntervalResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetLogAnalyticExportRequestRateByIntervalResultOutput), nil
+			}
+			return output, nil
 		}).(GetLogAnalyticExportRequestRateByIntervalResultOutput)
 }
 

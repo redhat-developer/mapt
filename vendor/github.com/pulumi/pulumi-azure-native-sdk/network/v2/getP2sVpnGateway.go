@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a virtual wan p2s vpn gateway.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupP2sVpnGateway(ctx *pulumi.Context, args *LookupP2sVpnGatewayArgs, opts ...pulumi.InvokeOption) (*LookupP2sVpnGatewayResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupP2sVpnGatewayResult
@@ -66,14 +66,20 @@ type LookupP2sVpnGatewayResult struct {
 
 func LookupP2sVpnGatewayOutput(ctx *pulumi.Context, args LookupP2sVpnGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupP2sVpnGatewayResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupP2sVpnGatewayResult, error) {
+		ApplyT(func(v interface{}) (LookupP2sVpnGatewayResultOutput, error) {
 			args := v.(LookupP2sVpnGatewayArgs)
-			r, err := LookupP2sVpnGateway(ctx, &args, opts...)
-			var s LookupP2sVpnGatewayResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupP2sVpnGatewayResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getP2sVpnGateway", args, &rv, "", opts...)
+			if err != nil {
+				return LookupP2sVpnGatewayResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupP2sVpnGatewayResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupP2sVpnGatewayResultOutput), nil
+			}
+			return output, nil
 		}).(LookupP2sVpnGatewayResultOutput)
 }
 

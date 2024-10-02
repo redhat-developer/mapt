@@ -13,6 +13,8 @@ import (
 
 // Get Rule Collection Group Draft.
 // Azure REST API version: 2023-11-01.
+//
+// Other available API versions: 2024-01-01, 2024-03-01.
 func LookupFirewallPolicyRuleCollectionGroupDraft(ctx *pulumi.Context, args *LookupFirewallPolicyRuleCollectionGroupDraftArgs, opts ...pulumi.InvokeOption) (*LookupFirewallPolicyRuleCollectionGroupDraftResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFirewallPolicyRuleCollectionGroupDraftResult
@@ -50,14 +52,20 @@ type LookupFirewallPolicyRuleCollectionGroupDraftResult struct {
 
 func LookupFirewallPolicyRuleCollectionGroupDraftOutput(ctx *pulumi.Context, args LookupFirewallPolicyRuleCollectionGroupDraftOutputArgs, opts ...pulumi.InvokeOption) LookupFirewallPolicyRuleCollectionGroupDraftResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupFirewallPolicyRuleCollectionGroupDraftResult, error) {
+		ApplyT(func(v interface{}) (LookupFirewallPolicyRuleCollectionGroupDraftResultOutput, error) {
 			args := v.(LookupFirewallPolicyRuleCollectionGroupDraftArgs)
-			r, err := LookupFirewallPolicyRuleCollectionGroupDraft(ctx, &args, opts...)
-			var s LookupFirewallPolicyRuleCollectionGroupDraftResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupFirewallPolicyRuleCollectionGroupDraftResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getFirewallPolicyRuleCollectionGroupDraft", args, &rv, "", opts...)
+			if err != nil {
+				return LookupFirewallPolicyRuleCollectionGroupDraftResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupFirewallPolicyRuleCollectionGroupDraftResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupFirewallPolicyRuleCollectionGroupDraftResultOutput), nil
+			}
+			return output, nil
 		}).(LookupFirewallPolicyRuleCollectionGroupDraftResultOutput)
 }
 

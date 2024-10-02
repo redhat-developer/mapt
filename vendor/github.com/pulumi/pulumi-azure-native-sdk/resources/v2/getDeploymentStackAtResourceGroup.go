@@ -82,14 +82,20 @@ type LookupDeploymentStackAtResourceGroupResult struct {
 
 func LookupDeploymentStackAtResourceGroupOutput(ctx *pulumi.Context, args LookupDeploymentStackAtResourceGroupOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentStackAtResourceGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentStackAtResourceGroupResult, error) {
+		ApplyT(func(v interface{}) (LookupDeploymentStackAtResourceGroupResultOutput, error) {
 			args := v.(LookupDeploymentStackAtResourceGroupArgs)
-			r, err := LookupDeploymentStackAtResourceGroup(ctx, &args, opts...)
-			var s LookupDeploymentStackAtResourceGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupDeploymentStackAtResourceGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:resources:getDeploymentStackAtResourceGroup", args, &rv, "", opts...)
+			if err != nil {
+				return LookupDeploymentStackAtResourceGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupDeploymentStackAtResourceGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupDeploymentStackAtResourceGroupResultOutput), nil
+			}
+			return output, nil
 		}).(LookupDeploymentStackAtResourceGroupResultOutput)
 }
 

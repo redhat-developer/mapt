@@ -62,14 +62,20 @@ type LookupLocalUserResult struct {
 
 func LookupLocalUserOutput(ctx *pulumi.Context, args LookupLocalUserOutputArgs, opts ...pulumi.InvokeOption) LookupLocalUserResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupLocalUserResult, error) {
+		ApplyT(func(v interface{}) (LookupLocalUserResultOutput, error) {
 			args := v.(LookupLocalUserArgs)
-			r, err := LookupLocalUser(ctx, &args, opts...)
-			var s LookupLocalUserResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupLocalUserResult
+			secret, err := ctx.InvokePackageRaw("azure-native:storage:getLocalUser", args, &rv, "", opts...)
+			if err != nil {
+				return LookupLocalUserResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupLocalUserResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupLocalUserResultOutput), nil
+			}
+			return output, nil
 		}).(LookupLocalUserResultOutput)
 }
 

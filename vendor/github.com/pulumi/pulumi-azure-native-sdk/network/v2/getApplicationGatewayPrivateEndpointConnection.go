@@ -14,7 +14,7 @@ import (
 // Gets the specified private endpoint connection on application gateway.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupApplicationGatewayPrivateEndpointConnection(ctx *pulumi.Context, args *LookupApplicationGatewayPrivateEndpointConnectionArgs, opts ...pulumi.InvokeOption) (*LookupApplicationGatewayPrivateEndpointConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupApplicationGatewayPrivateEndpointConnectionResult
@@ -67,14 +67,20 @@ func (val *LookupApplicationGatewayPrivateEndpointConnectionResult) Defaults() *
 
 func LookupApplicationGatewayPrivateEndpointConnectionOutput(ctx *pulumi.Context, args LookupApplicationGatewayPrivateEndpointConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupApplicationGatewayPrivateEndpointConnectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupApplicationGatewayPrivateEndpointConnectionResult, error) {
+		ApplyT(func(v interface{}) (LookupApplicationGatewayPrivateEndpointConnectionResultOutput, error) {
 			args := v.(LookupApplicationGatewayPrivateEndpointConnectionArgs)
-			r, err := LookupApplicationGatewayPrivateEndpointConnection(ctx, &args, opts...)
-			var s LookupApplicationGatewayPrivateEndpointConnectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupApplicationGatewayPrivateEndpointConnectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getApplicationGatewayPrivateEndpointConnection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupApplicationGatewayPrivateEndpointConnectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupApplicationGatewayPrivateEndpointConnectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupApplicationGatewayPrivateEndpointConnectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupApplicationGatewayPrivateEndpointConnectionResultOutput)
 }
 

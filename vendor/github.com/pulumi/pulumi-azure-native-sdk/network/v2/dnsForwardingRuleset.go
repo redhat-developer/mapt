@@ -15,7 +15,7 @@ import (
 // Describes a DNS forwarding ruleset.
 // Azure REST API version: 2022-07-01. Prior API version in Azure Native 1.x: 2020-04-01-preview.
 //
-// Other available API versions: 2020-04-01-preview.
+// Other available API versions: 2020-04-01-preview, 2023-07-01-preview.
 type DnsForwardingRuleset struct {
 	pulumi.CustomResourceState
 
@@ -58,6 +58,9 @@ func NewDnsForwardingRuleset(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20220701:DnsForwardingRuleset"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230701preview:DnsForwardingRuleset"),
 		},
 	})
 	opts = append(opts, aliases)

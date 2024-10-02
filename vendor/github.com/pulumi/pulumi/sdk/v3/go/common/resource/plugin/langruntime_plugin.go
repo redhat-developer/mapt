@@ -24,7 +24,6 @@ import (
 
 	"github.com/blang/semver"
 	"github.com/hashicorp/hcl/v2"
-	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
@@ -168,12 +167,12 @@ func (h *langhost) GetRequiredPlugins(info ProgramInfo) ([]workspace.PluginSpec,
 		if v := info.GetVersion(); v != "" {
 			sv, err := semver.ParseTolerant(v)
 			if err != nil {
-				return nil, errors.Wrapf(err, "illegal semver returned by language host: %s@%s", info.GetName(), v)
+				return nil, fmt.Errorf("illegal semver returned by language host: %s@%s: %w", info.GetName(), v, err)
 			}
 			version = &sv
 		}
 		if !apitype.IsPluginKind(info.Kind) {
-			return nil, errors.Errorf("unrecognized plugin kind: %s", info.Kind)
+			return nil, fmt.Errorf("unrecognized plugin kind: %s", info.Kind)
 		}
 		results = append(results, workspace.PluginSpec{
 			Name:              info.Name,
@@ -227,9 +226,11 @@ func (h *langhost) Run(info RunInfo) (string, bool, error) {
 		ConfigPropertyMap: configPropertyMap,
 		DryRun:            info.DryRun,
 		QueryMode:         info.QueryMode,
-		Parallel:          int32(info.Parallel),
+		Parallel:          info.Parallel,
 		Organization:      info.Organization,
 		Info:              minfo,
+		LoaderTarget:      info.LoaderAddress,
+		AttachDebugger:    info.AttachDebugger,
 	})
 	if err != nil {
 		rpcError := rpcerror.Convert(err)
@@ -254,7 +255,9 @@ func (h *langhost) GetPluginInfo() (workspace.PluginInfo, error) {
 		Kind: apitype.LanguagePlugin,
 	}
 
-	plugInfo.Path = h.plug.Bin
+	if h.plug != nil {
+		plugInfo.Path = h.plug.Bin
+	}
 
 	resp, err := h.client.GetPluginInfo(h.ctx.Request(), &emptypb.Empty{})
 	if err != nil {
@@ -283,24 +286,25 @@ func (h *langhost) Close() error {
 	return nil
 }
 
-func (h *langhost) InstallDependencies(info ProgramInfo) error {
+func (h *langhost) InstallDependencies(request InstallDependenciesRequest) error {
 	logging.V(7).Infof("langhost[%v].InstallDependencies(%s) executing",
-		h.runtime, info)
+		h.runtime, request)
 
-	minfo, err := info.Marshal()
+	minfo, err := request.Info.Marshal()
 	if err != nil {
 		return err
 	}
 
 	resp, err := h.client.InstallDependencies(h.ctx.Request(), &pulumirpc.InstallDependenciesRequest{
-		Directory:  info.ProgramDirectory(),
-		IsTerminal: cmdutil.GetGlobalColorization() != colors.Never,
-		Info:       minfo,
+		Directory:               request.Info.ProgramDirectory(),
+		IsTerminal:              cmdutil.GetGlobalColorization() != colors.Never,
+		Info:                    minfo,
+		UseLanguageVersionTools: request.UseLanguageVersionTools,
 	})
 	if err != nil {
 		rpcError := rpcerror.Convert(err)
 		logging.V(7).Infof("langhost[%v].InstallDependencies(%s) failed: err=%v",
-			h.runtime, info, rpcError)
+			h.runtime, request, rpcError)
 
 		// It's possible this is just an older language host, prior to the emergence of the InstallDependencies
 		// method.  In such cases, we will silently error (with the above log left behind).
@@ -319,7 +323,7 @@ func (h *langhost) InstallDependencies(info ProgramInfo) error {
 			}
 			rpcError := rpcerror.Convert(err)
 			logging.V(7).Infof("langhost[%v].InstallDependencies(%s) failed: err=%v",
-				h.runtime, info, rpcError)
+				h.runtime, request, rpcError)
 			return rpcError
 		}
 
@@ -333,7 +337,7 @@ func (h *langhost) InstallDependencies(info ProgramInfo) error {
 	}
 
 	logging.V(7).Infof("langhost[%v].InstallDependencies(%s) success",
-		h.runtime, info)
+		h.runtime, request)
 	return nil
 }
 
@@ -519,6 +523,7 @@ func (h *langhost) GenerateProject(
 func (h *langhost) GeneratePackage(
 	directory string, schema string, extraFiles map[string][]byte,
 	loaderTarget string, localDependencies map[string]string,
+	local bool,
 ) (hcl.Diagnostics, error) {
 	logging.V(7).Infof("langhost[%v].GeneratePackage() executing", h.runtime)
 	resp, err := h.client.GeneratePackage(h.ctx.Request(), &pulumirpc.GeneratePackageRequest{
@@ -527,6 +532,7 @@ func (h *langhost) GeneratePackage(
 		ExtraFiles:        extraFiles,
 		LoaderTarget:      loaderTarget,
 		LocalDependencies: localDependencies,
+		Local:             local,
 	})
 	if err != nil {
 		rpcError := rpcerror.Convert(err)

@@ -14,7 +14,7 @@ import (
 // Lists DNS resolver resource IDs linked to a virtual network.
 // Azure REST API version: 2022-07-01.
 //
-// Other available API versions: 2020-04-01-preview.
+// Other available API versions: 2020-04-01-preview, 2023-07-01-preview.
 func ListDnsResolverByVirtualNetwork(ctx *pulumi.Context, args *ListDnsResolverByVirtualNetworkArgs, opts ...pulumi.InvokeOption) (*ListDnsResolverByVirtualNetworkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListDnsResolverByVirtualNetworkResult
@@ -44,14 +44,20 @@ type ListDnsResolverByVirtualNetworkResult struct {
 
 func ListDnsResolverByVirtualNetworkOutput(ctx *pulumi.Context, args ListDnsResolverByVirtualNetworkOutputArgs, opts ...pulumi.InvokeOption) ListDnsResolverByVirtualNetworkResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListDnsResolverByVirtualNetworkResult, error) {
+		ApplyT(func(v interface{}) (ListDnsResolverByVirtualNetworkResultOutput, error) {
 			args := v.(ListDnsResolverByVirtualNetworkArgs)
-			r, err := ListDnsResolverByVirtualNetwork(ctx, &args, opts...)
-			var s ListDnsResolverByVirtualNetworkResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListDnsResolverByVirtualNetworkResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:listDnsResolverByVirtualNetwork", args, &rv, "", opts...)
+			if err != nil {
+				return ListDnsResolverByVirtualNetworkResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListDnsResolverByVirtualNetworkResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListDnsResolverByVirtualNetworkResultOutput), nil
+			}
+			return output, nil
 		}).(ListDnsResolverByVirtualNetworkResultOutput)
 }
 

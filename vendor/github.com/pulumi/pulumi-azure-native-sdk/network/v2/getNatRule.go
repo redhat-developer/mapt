@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a nat ruleGet.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupNatRule(ctx *pulumi.Context, args *LookupNatRuleArgs, opts ...pulumi.InvokeOption) (*LookupNatRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNatRuleResult
@@ -62,14 +62,20 @@ type LookupNatRuleResult struct {
 
 func LookupNatRuleOutput(ctx *pulumi.Context, args LookupNatRuleOutputArgs, opts ...pulumi.InvokeOption) LookupNatRuleResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupNatRuleResult, error) {
+		ApplyT(func(v interface{}) (LookupNatRuleResultOutput, error) {
 			args := v.(LookupNatRuleArgs)
-			r, err := LookupNatRule(ctx, &args, opts...)
-			var s LookupNatRuleResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupNatRuleResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getNatRule", args, &rv, "", opts...)
+			if err != nil {
+				return LookupNatRuleResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupNatRuleResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupNatRuleResultOutput), nil
+			}
+			return output, nil
 		}).(LookupNatRuleResultOutput)
 }
 

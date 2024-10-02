@@ -14,7 +14,7 @@ import (
 // Retrieves a network manager security admin configuration.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-05-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-01-01-preview, 2024-03-01.
 func LookupSecurityAdminConfiguration(ctx *pulumi.Context, args *LookupSecurityAdminConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupSecurityAdminConfigurationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupSecurityAdminConfigurationResult
@@ -58,14 +58,20 @@ type LookupSecurityAdminConfigurationResult struct {
 
 func LookupSecurityAdminConfigurationOutput(ctx *pulumi.Context, args LookupSecurityAdminConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupSecurityAdminConfigurationResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupSecurityAdminConfigurationResult, error) {
+		ApplyT(func(v interface{}) (LookupSecurityAdminConfigurationResultOutput, error) {
 			args := v.(LookupSecurityAdminConfigurationArgs)
-			r, err := LookupSecurityAdminConfiguration(ctx, &args, opts...)
-			var s LookupSecurityAdminConfigurationResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupSecurityAdminConfigurationResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getSecurityAdminConfiguration", args, &rv, "", opts...)
+			if err != nil {
+				return LookupSecurityAdminConfigurationResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupSecurityAdminConfigurationResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupSecurityAdminConfigurationResultOutput), nil
+			}
+			return output, nil
 		}).(LookupSecurityAdminConfigurationResultOutput)
 }
 

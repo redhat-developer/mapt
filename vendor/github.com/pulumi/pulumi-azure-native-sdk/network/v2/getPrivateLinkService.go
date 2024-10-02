@@ -14,7 +14,7 @@ import (
 // Gets the specified private link service by resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2019-08-01, 2021-02-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2019-08-01, 2021-02-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupPrivateLinkService(ctx *pulumi.Context, args *LookupPrivateLinkServiceArgs, opts ...pulumi.InvokeOption) (*LookupPrivateLinkServiceResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPrivateLinkServiceResult
@@ -74,14 +74,20 @@ type LookupPrivateLinkServiceResult struct {
 
 func LookupPrivateLinkServiceOutput(ctx *pulumi.Context, args LookupPrivateLinkServiceOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateLinkServiceResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPrivateLinkServiceResult, error) {
+		ApplyT(func(v interface{}) (LookupPrivateLinkServiceResultOutput, error) {
 			args := v.(LookupPrivateLinkServiceArgs)
-			r, err := LookupPrivateLinkService(ctx, &args, opts...)
-			var s LookupPrivateLinkServiceResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPrivateLinkServiceResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getPrivateLinkService", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPrivateLinkServiceResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPrivateLinkServiceResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPrivateLinkServiceResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPrivateLinkServiceResultOutput)
 }
 

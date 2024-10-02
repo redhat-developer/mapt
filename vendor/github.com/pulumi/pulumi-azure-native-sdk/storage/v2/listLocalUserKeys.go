@@ -44,14 +44,20 @@ type ListLocalUserKeysResult struct {
 
 func ListLocalUserKeysOutput(ctx *pulumi.Context, args ListLocalUserKeysOutputArgs, opts ...pulumi.InvokeOption) ListLocalUserKeysResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListLocalUserKeysResult, error) {
+		ApplyT(func(v interface{}) (ListLocalUserKeysResultOutput, error) {
 			args := v.(ListLocalUserKeysArgs)
-			r, err := ListLocalUserKeys(ctx, &args, opts...)
-			var s ListLocalUserKeysResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListLocalUserKeysResult
+			secret, err := ctx.InvokePackageRaw("azure-native:storage:listLocalUserKeys", args, &rv, "", opts...)
+			if err != nil {
+				return ListLocalUserKeysResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListLocalUserKeysResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListLocalUserKeysResultOutput), nil
+			}
+			return output, nil
 		}).(ListLocalUserKeysResultOutput)
 }
 

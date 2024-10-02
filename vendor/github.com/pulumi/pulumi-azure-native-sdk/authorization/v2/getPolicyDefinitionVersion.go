@@ -75,14 +75,20 @@ func (val *LookupPolicyDefinitionVersionResult) Defaults() *LookupPolicyDefiniti
 
 func LookupPolicyDefinitionVersionOutput(ctx *pulumi.Context, args LookupPolicyDefinitionVersionOutputArgs, opts ...pulumi.InvokeOption) LookupPolicyDefinitionVersionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPolicyDefinitionVersionResult, error) {
+		ApplyT(func(v interface{}) (LookupPolicyDefinitionVersionResultOutput, error) {
 			args := v.(LookupPolicyDefinitionVersionArgs)
-			r, err := LookupPolicyDefinitionVersion(ctx, &args, opts...)
-			var s LookupPolicyDefinitionVersionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPolicyDefinitionVersionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getPolicyDefinitionVersion", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPolicyDefinitionVersionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPolicyDefinitionVersionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPolicyDefinitionVersionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPolicyDefinitionVersionResultOutput)
 }
 

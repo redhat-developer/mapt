@@ -58,14 +58,20 @@ type LookupBlobContainerImmutabilityPolicyResult struct {
 
 func LookupBlobContainerImmutabilityPolicyOutput(ctx *pulumi.Context, args LookupBlobContainerImmutabilityPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupBlobContainerImmutabilityPolicyResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupBlobContainerImmutabilityPolicyResult, error) {
+		ApplyT(func(v interface{}) (LookupBlobContainerImmutabilityPolicyResultOutput, error) {
 			args := v.(LookupBlobContainerImmutabilityPolicyArgs)
-			r, err := LookupBlobContainerImmutabilityPolicy(ctx, &args, opts...)
-			var s LookupBlobContainerImmutabilityPolicyResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupBlobContainerImmutabilityPolicyResult
+			secret, err := ctx.InvokePackageRaw("azure-native:storage:getBlobContainerImmutabilityPolicy", args, &rv, "", opts...)
+			if err != nil {
+				return LookupBlobContainerImmutabilityPolicyResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupBlobContainerImmutabilityPolicyResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupBlobContainerImmutabilityPolicyResultOutput), nil
+			}
+			return output, nil
 		}).(LookupBlobContainerImmutabilityPolicyResultOutput)
 }
 

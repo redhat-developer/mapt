@@ -14,7 +14,7 @@ import (
 // List all effective security admin rules applied on a virtual network.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-05-01-preview, 2022-02-01-preview, 2022-04-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-05-01-preview, 2022-02-01-preview, 2022-04-01-preview, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func ListNetworkManagerEffectiveSecurityAdminRules(ctx *pulumi.Context, args *ListNetworkManagerEffectiveSecurityAdminRulesArgs, opts ...pulumi.InvokeOption) (*ListNetworkManagerEffectiveSecurityAdminRulesResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListNetworkManagerEffectiveSecurityAdminRulesResult
@@ -46,14 +46,20 @@ type ListNetworkManagerEffectiveSecurityAdminRulesResult struct {
 
 func ListNetworkManagerEffectiveSecurityAdminRulesOutput(ctx *pulumi.Context, args ListNetworkManagerEffectiveSecurityAdminRulesOutputArgs, opts ...pulumi.InvokeOption) ListNetworkManagerEffectiveSecurityAdminRulesResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListNetworkManagerEffectiveSecurityAdminRulesResult, error) {
+		ApplyT(func(v interface{}) (ListNetworkManagerEffectiveSecurityAdminRulesResultOutput, error) {
 			args := v.(ListNetworkManagerEffectiveSecurityAdminRulesArgs)
-			r, err := ListNetworkManagerEffectiveSecurityAdminRules(ctx, &args, opts...)
-			var s ListNetworkManagerEffectiveSecurityAdminRulesResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListNetworkManagerEffectiveSecurityAdminRulesResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:listNetworkManagerEffectiveSecurityAdminRules", args, &rv, "", opts...)
+			if err != nil {
+				return ListNetworkManagerEffectiveSecurityAdminRulesResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListNetworkManagerEffectiveSecurityAdminRulesResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListNetworkManagerEffectiveSecurityAdminRulesResultOutput), nil
+			}
+			return output, nil
 		}).(ListNetworkManagerEffectiveSecurityAdminRulesResultOutput)
 }
 

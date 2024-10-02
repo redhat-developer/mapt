@@ -14,7 +14,7 @@ import (
 // Fetches the details of a ExpressRoute gateway in a resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-03-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-03-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupExpressRouteGateway(ctx *pulumi.Context, args *LookupExpressRouteGatewayArgs, opts ...pulumi.InvokeOption) (*LookupExpressRouteGatewayResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupExpressRouteGatewayResult
@@ -60,14 +60,20 @@ type LookupExpressRouteGatewayResult struct {
 
 func LookupExpressRouteGatewayOutput(ctx *pulumi.Context, args LookupExpressRouteGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteGatewayResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupExpressRouteGatewayResult, error) {
+		ApplyT(func(v interface{}) (LookupExpressRouteGatewayResultOutput, error) {
 			args := v.(LookupExpressRouteGatewayArgs)
-			r, err := LookupExpressRouteGateway(ctx, &args, opts...)
-			var s LookupExpressRouteGatewayResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupExpressRouteGatewayResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getExpressRouteGateway", args, &rv, "", opts...)
+			if err != nil {
+				return LookupExpressRouteGatewayResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupExpressRouteGatewayResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupExpressRouteGatewayResultOutput), nil
+			}
+			return output, nil
 		}).(LookupExpressRouteGatewayResultOutput)
 }
 

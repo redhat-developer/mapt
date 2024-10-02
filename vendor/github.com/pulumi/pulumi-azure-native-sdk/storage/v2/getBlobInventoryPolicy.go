@@ -52,14 +52,20 @@ type LookupBlobInventoryPolicyResult struct {
 
 func LookupBlobInventoryPolicyOutput(ctx *pulumi.Context, args LookupBlobInventoryPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupBlobInventoryPolicyResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupBlobInventoryPolicyResult, error) {
+		ApplyT(func(v interface{}) (LookupBlobInventoryPolicyResultOutput, error) {
 			args := v.(LookupBlobInventoryPolicyArgs)
-			r, err := LookupBlobInventoryPolicy(ctx, &args, opts...)
-			var s LookupBlobInventoryPolicyResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupBlobInventoryPolicyResult
+			secret, err := ctx.InvokePackageRaw("azure-native:storage:getBlobInventoryPolicy", args, &rv, "", opts...)
+			if err != nil {
+				return LookupBlobInventoryPolicyResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupBlobInventoryPolicyResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupBlobInventoryPolicyResultOutput), nil
+			}
+			return output, nil
 		}).(LookupBlobInventoryPolicyResultOutput)
 }
 

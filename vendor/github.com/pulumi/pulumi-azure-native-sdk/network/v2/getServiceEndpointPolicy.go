@@ -14,7 +14,7 @@ import (
 // Gets the specified service Endpoint Policies in a specified resource group.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2018-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2018-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupServiceEndpointPolicy(ctx *pulumi.Context, args *LookupServiceEndpointPolicyArgs, opts ...pulumi.InvokeOption) (*LookupServiceEndpointPolicyResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupServiceEndpointPolicyResult
@@ -66,14 +66,20 @@ type LookupServiceEndpointPolicyResult struct {
 
 func LookupServiceEndpointPolicyOutput(ctx *pulumi.Context, args LookupServiceEndpointPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupServiceEndpointPolicyResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupServiceEndpointPolicyResult, error) {
+		ApplyT(func(v interface{}) (LookupServiceEndpointPolicyResultOutput, error) {
 			args := v.(LookupServiceEndpointPolicyArgs)
-			r, err := LookupServiceEndpointPolicy(ctx, &args, opts...)
-			var s LookupServiceEndpointPolicyResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupServiceEndpointPolicyResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getServiceEndpointPolicy", args, &rv, "", opts...)
+			if err != nil {
+				return LookupServiceEndpointPolicyResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupServiceEndpointPolicyResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupServiceEndpointPolicyResultOutput), nil
+			}
+			return output, nil
 		}).(LookupServiceEndpointPolicyResultOutput)
 }
 

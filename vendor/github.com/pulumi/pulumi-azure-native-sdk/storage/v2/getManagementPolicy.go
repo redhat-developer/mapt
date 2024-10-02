@@ -50,14 +50,20 @@ type LookupManagementPolicyResult struct {
 
 func LookupManagementPolicyOutput(ctx *pulumi.Context, args LookupManagementPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupManagementPolicyResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupManagementPolicyResult, error) {
+		ApplyT(func(v interface{}) (LookupManagementPolicyResultOutput, error) {
 			args := v.(LookupManagementPolicyArgs)
-			r, err := LookupManagementPolicy(ctx, &args, opts...)
-			var s LookupManagementPolicyResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupManagementPolicyResult
+			secret, err := ctx.InvokePackageRaw("azure-native:storage:getManagementPolicy", args, &rv, "", opts...)
+			if err != nil {
+				return LookupManagementPolicyResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupManagementPolicyResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupManagementPolicyResultOutput), nil
+			}
+			return output, nil
 		}).(LookupManagementPolicyResultOutput)
 }
 

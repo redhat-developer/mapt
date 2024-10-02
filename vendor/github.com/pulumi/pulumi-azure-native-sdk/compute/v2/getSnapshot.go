@@ -14,7 +14,7 @@ import (
 // Gets information about a snapshot.
 // Azure REST API version: 2022-07-02.
 //
-// Other available API versions: 2016-04-30-preview, 2017-03-30, 2018-06-01, 2023-01-02, 2023-04-02, 2023-10-02.
+// Other available API versions: 2016-04-30-preview, 2017-03-30, 2018-06-01, 2023-01-02, 2023-04-02, 2023-10-02, 2024-03-02.
 func LookupSnapshot(ctx *pulumi.Context, args *LookupSnapshotArgs, opts ...pulumi.InvokeOption) (*LookupSnapshotResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupSnapshotResult
@@ -100,14 +100,20 @@ type LookupSnapshotResult struct {
 
 func LookupSnapshotOutput(ctx *pulumi.Context, args LookupSnapshotOutputArgs, opts ...pulumi.InvokeOption) LookupSnapshotResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupSnapshotResult, error) {
+		ApplyT(func(v interface{}) (LookupSnapshotResultOutput, error) {
 			args := v.(LookupSnapshotArgs)
-			r, err := LookupSnapshot(ctx, &args, opts...)
-			var s LookupSnapshotResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupSnapshotResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getSnapshot", args, &rv, "", opts...)
+			if err != nil {
+				return LookupSnapshotResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupSnapshotResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupSnapshotResultOutput), nil
+			}
+			return output, nil
 		}).(LookupSnapshotResultOutput)
 }
 

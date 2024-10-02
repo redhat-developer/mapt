@@ -14,7 +14,7 @@ import (
 // Lists DNS forwarding ruleset resource IDs attached to a virtual network.
 // Azure REST API version: 2022-07-01.
 //
-// Other available API versions: 2020-04-01-preview.
+// Other available API versions: 2020-04-01-preview, 2023-07-01-preview.
 func ListDnsForwardingRulesetByVirtualNetwork(ctx *pulumi.Context, args *ListDnsForwardingRulesetByVirtualNetworkArgs, opts ...pulumi.InvokeOption) (*ListDnsForwardingRulesetByVirtualNetworkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListDnsForwardingRulesetByVirtualNetworkResult
@@ -44,14 +44,20 @@ type ListDnsForwardingRulesetByVirtualNetworkResult struct {
 
 func ListDnsForwardingRulesetByVirtualNetworkOutput(ctx *pulumi.Context, args ListDnsForwardingRulesetByVirtualNetworkOutputArgs, opts ...pulumi.InvokeOption) ListDnsForwardingRulesetByVirtualNetworkResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListDnsForwardingRulesetByVirtualNetworkResult, error) {
+		ApplyT(func(v interface{}) (ListDnsForwardingRulesetByVirtualNetworkResultOutput, error) {
 			args := v.(ListDnsForwardingRulesetByVirtualNetworkArgs)
-			r, err := ListDnsForwardingRulesetByVirtualNetwork(ctx, &args, opts...)
-			var s ListDnsForwardingRulesetByVirtualNetworkResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListDnsForwardingRulesetByVirtualNetworkResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:listDnsForwardingRulesetByVirtualNetwork", args, &rv, "", opts...)
+			if err != nil {
+				return ListDnsForwardingRulesetByVirtualNetworkResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListDnsForwardingRulesetByVirtualNetworkResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListDnsForwardingRulesetByVirtualNetworkResultOutput), nil
+			}
+			return output, nil
 		}).(ListDnsForwardingRulesetByVirtualNetworkResultOutput)
 }
 

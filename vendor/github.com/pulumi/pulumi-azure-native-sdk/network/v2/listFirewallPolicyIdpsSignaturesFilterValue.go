@@ -14,7 +14,7 @@ import (
 // Retrieves the current filter values for the signatures overrides
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2021-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2021-08-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func ListFirewallPolicyIdpsSignaturesFilterValue(ctx *pulumi.Context, args *ListFirewallPolicyIdpsSignaturesFilterValueArgs, opts ...pulumi.InvokeOption) (*ListFirewallPolicyIdpsSignaturesFilterValueResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListFirewallPolicyIdpsSignaturesFilterValueResult
@@ -42,14 +42,20 @@ type ListFirewallPolicyIdpsSignaturesFilterValueResult struct {
 
 func ListFirewallPolicyIdpsSignaturesFilterValueOutput(ctx *pulumi.Context, args ListFirewallPolicyIdpsSignaturesFilterValueOutputArgs, opts ...pulumi.InvokeOption) ListFirewallPolicyIdpsSignaturesFilterValueResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListFirewallPolicyIdpsSignaturesFilterValueResult, error) {
+		ApplyT(func(v interface{}) (ListFirewallPolicyIdpsSignaturesFilterValueResultOutput, error) {
 			args := v.(ListFirewallPolicyIdpsSignaturesFilterValueArgs)
-			r, err := ListFirewallPolicyIdpsSignaturesFilterValue(ctx, &args, opts...)
-			var s ListFirewallPolicyIdpsSignaturesFilterValueResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListFirewallPolicyIdpsSignaturesFilterValueResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:listFirewallPolicyIdpsSignaturesFilterValue", args, &rv, "", opts...)
+			if err != nil {
+				return ListFirewallPolicyIdpsSignaturesFilterValueResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput), nil
+			}
+			return output, nil
 		}).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput)
 }
 

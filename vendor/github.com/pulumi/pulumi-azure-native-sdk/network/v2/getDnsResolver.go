@@ -13,6 +13,8 @@ import (
 
 // Gets properties of a DNS resolver.
 // Azure REST API version: 2022-07-01.
+//
+// Other available API versions: 2023-07-01-preview.
 func LookupDnsResolver(ctx *pulumi.Context, args *LookupDnsResolverArgs, opts ...pulumi.InvokeOption) (*LookupDnsResolverResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDnsResolverResult
@@ -58,14 +60,20 @@ type LookupDnsResolverResult struct {
 
 func LookupDnsResolverOutput(ctx *pulumi.Context, args LookupDnsResolverOutputArgs, opts ...pulumi.InvokeOption) LookupDnsResolverResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupDnsResolverResult, error) {
+		ApplyT(func(v interface{}) (LookupDnsResolverResultOutput, error) {
 			args := v.(LookupDnsResolverArgs)
-			r, err := LookupDnsResolver(ctx, &args, opts...)
-			var s LookupDnsResolverResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupDnsResolverResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getDnsResolver", args, &rv, "", opts...)
+			if err != nil {
+				return LookupDnsResolverResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupDnsResolverResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupDnsResolverResultOutput), nil
+			}
+			return output, nil
 		}).(LookupDnsResolverResultOutput)
 }
 

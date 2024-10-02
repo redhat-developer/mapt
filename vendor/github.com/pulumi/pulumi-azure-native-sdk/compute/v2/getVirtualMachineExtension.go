@@ -14,7 +14,7 @@ import (
 // The operation to get the extension.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2021-11-01, 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2021-11-01, 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupVirtualMachineExtension(ctx *pulumi.Context, args *LookupVirtualMachineExtensionArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineExtensionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineExtensionResult
@@ -76,14 +76,20 @@ type LookupVirtualMachineExtensionResult struct {
 
 func LookupVirtualMachineExtensionOutput(ctx *pulumi.Context, args LookupVirtualMachineExtensionOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineExtensionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualMachineExtensionResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualMachineExtensionResultOutput, error) {
 			args := v.(LookupVirtualMachineExtensionArgs)
-			r, err := LookupVirtualMachineExtension(ctx, &args, opts...)
-			var s LookupVirtualMachineExtensionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualMachineExtensionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachineExtension", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualMachineExtensionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualMachineExtensionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualMachineExtensionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualMachineExtensionResultOutput)
 }
 

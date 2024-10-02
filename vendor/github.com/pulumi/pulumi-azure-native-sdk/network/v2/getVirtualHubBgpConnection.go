@@ -14,7 +14,7 @@ import (
 // Retrieves the details of a Virtual Hub Bgp Connection.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualHubBgpConnection(ctx *pulumi.Context, args *LookupVirtualHubBgpConnectionArgs, opts ...pulumi.InvokeOption) (*LookupVirtualHubBgpConnectionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualHubBgpConnectionResult
@@ -58,14 +58,20 @@ type LookupVirtualHubBgpConnectionResult struct {
 
 func LookupVirtualHubBgpConnectionOutput(ctx *pulumi.Context, args LookupVirtualHubBgpConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualHubBgpConnectionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualHubBgpConnectionResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualHubBgpConnectionResultOutput, error) {
 			args := v.(LookupVirtualHubBgpConnectionArgs)
-			r, err := LookupVirtualHubBgpConnection(ctx, &args, opts...)
-			var s LookupVirtualHubBgpConnectionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualHubBgpConnectionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualHubBgpConnection", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualHubBgpConnectionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualHubBgpConnectionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualHubBgpConnectionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualHubBgpConnectionResultOutput)
 }
 

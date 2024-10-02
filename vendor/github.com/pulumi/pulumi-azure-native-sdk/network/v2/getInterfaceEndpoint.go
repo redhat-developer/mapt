@@ -73,14 +73,20 @@ func (val *LookupInterfaceEndpointResult) Defaults() *LookupInterfaceEndpointRes
 
 func LookupInterfaceEndpointOutput(ctx *pulumi.Context, args LookupInterfaceEndpointOutputArgs, opts ...pulumi.InvokeOption) LookupInterfaceEndpointResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupInterfaceEndpointResult, error) {
+		ApplyT(func(v interface{}) (LookupInterfaceEndpointResultOutput, error) {
 			args := v.(LookupInterfaceEndpointArgs)
-			r, err := LookupInterfaceEndpoint(ctx, &args, opts...)
-			var s LookupInterfaceEndpointResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupInterfaceEndpointResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getInterfaceEndpoint", args, &rv, "", opts...)
+			if err != nil {
+				return LookupInterfaceEndpointResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupInterfaceEndpointResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupInterfaceEndpointResultOutput), nil
+			}
+			return output, nil
 		}).(LookupInterfaceEndpointResultOutput)
 }
 

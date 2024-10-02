@@ -44,14 +44,20 @@ type ListEffectiveVirtualNetworkByNetworkGroupResult struct {
 
 func ListEffectiveVirtualNetworkByNetworkGroupOutput(ctx *pulumi.Context, args ListEffectiveVirtualNetworkByNetworkGroupOutputArgs, opts ...pulumi.InvokeOption) ListEffectiveVirtualNetworkByNetworkGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListEffectiveVirtualNetworkByNetworkGroupResult, error) {
+		ApplyT(func(v interface{}) (ListEffectiveVirtualNetworkByNetworkGroupResultOutput, error) {
 			args := v.(ListEffectiveVirtualNetworkByNetworkGroupArgs)
-			r, err := ListEffectiveVirtualNetworkByNetworkGroup(ctx, &args, opts...)
-			var s ListEffectiveVirtualNetworkByNetworkGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv ListEffectiveVirtualNetworkByNetworkGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:listEffectiveVirtualNetworkByNetworkGroup", args, &rv, "", opts...)
+			if err != nil {
+				return ListEffectiveVirtualNetworkByNetworkGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(ListEffectiveVirtualNetworkByNetworkGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(ListEffectiveVirtualNetworkByNetworkGroupResultOutput), nil
+			}
+			return output, nil
 		}).(ListEffectiveVirtualNetworkByNetworkGroupResultOutput)
 }
 

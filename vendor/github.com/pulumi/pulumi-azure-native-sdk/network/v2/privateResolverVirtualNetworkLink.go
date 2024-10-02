@@ -15,7 +15,7 @@ import (
 // Describes a virtual network link.
 // Azure REST API version: 2022-07-01.
 //
-// Other available API versions: 2020-04-01-preview.
+// Other available API versions: 2020-04-01-preview, 2023-07-01-preview.
 type PrivateResolverVirtualNetworkLink struct {
 	pulumi.CustomResourceState
 
@@ -57,6 +57,9 @@ func NewPrivateResolverVirtualNetworkLink(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20220701:PrivateResolverVirtualNetworkLink"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20230701preview:PrivateResolverVirtualNetworkLink"),
 		},
 	})
 	opts = append(opts, aliases)

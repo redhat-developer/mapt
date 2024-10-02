@@ -21,6 +21,7 @@ Usage:
 
 Flags:
       --conn-details-output string       path to export host connection information (host, username and privateKey)
+      --enable-app-routing               enable application routing add-on with NGINX
   -h, --help                             help for create
       --location string                  location for created resources in case spot flag (if available) is not passed (default "West US")
       --only-system-pool                 if we do not need bunch of resources we can run only the systempool. More info https://learn.microsoft.com/es-es/azure/aks/use-system-pools?tabs=azure-cli#system-and-user-node-pools
@@ -52,6 +53,7 @@ podman run -d --rm \
         --project-name "aks" \
         --backed-url "file:///workspace" \
         --conn-details-output "/workspace" \
+        --enable-app-routing \
         --spot
 ```
 

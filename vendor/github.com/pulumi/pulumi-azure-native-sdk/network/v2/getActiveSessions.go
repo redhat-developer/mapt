@@ -14,7 +14,7 @@ import (
 // Returns the list of currently active sessions on the Bastion.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func GetActiveSessions(ctx *pulumi.Context, args *GetActiveSessionsArgs, opts ...pulumi.InvokeOption) (*GetActiveSessionsResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetActiveSessionsResult
@@ -42,14 +42,20 @@ type GetActiveSessionsResult struct {
 
 func GetActiveSessionsOutput(ctx *pulumi.Context, args GetActiveSessionsOutputArgs, opts ...pulumi.InvokeOption) GetActiveSessionsResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetActiveSessionsResult, error) {
+		ApplyT(func(v interface{}) (GetActiveSessionsResultOutput, error) {
 			args := v.(GetActiveSessionsArgs)
-			r, err := GetActiveSessions(ctx, &args, opts...)
-			var s GetActiveSessionsResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv GetActiveSessionsResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getActiveSessions", args, &rv, "", opts...)
+			if err != nil {
+				return GetActiveSessionsResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetActiveSessionsResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetActiveSessionsResultOutput), nil
+			}
+			return output, nil
 		}).(GetActiveSessionsResultOutput)
 }
 

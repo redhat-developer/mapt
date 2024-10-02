@@ -60,14 +60,20 @@ type LookupPolicySetDefinitionAtManagementGroupResult struct {
 
 func LookupPolicySetDefinitionAtManagementGroupOutput(ctx *pulumi.Context, args LookupPolicySetDefinitionAtManagementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupPolicySetDefinitionAtManagementGroupResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPolicySetDefinitionAtManagementGroupResult, error) {
+		ApplyT(func(v interface{}) (LookupPolicySetDefinitionAtManagementGroupResultOutput, error) {
 			args := v.(LookupPolicySetDefinitionAtManagementGroupArgs)
-			r, err := LookupPolicySetDefinitionAtManagementGroup(ctx, &args, opts...)
-			var s LookupPolicySetDefinitionAtManagementGroupResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupPolicySetDefinitionAtManagementGroupResult
+			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getPolicySetDefinitionAtManagementGroup", args, &rv, "", opts...)
+			if err != nil {
+				return LookupPolicySetDefinitionAtManagementGroupResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupPolicySetDefinitionAtManagementGroupResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupPolicySetDefinitionAtManagementGroupResultOutput), nil
+			}
+			return output, nil
 		}).(LookupPolicySetDefinitionAtManagementGroupResultOutput)
 }
 

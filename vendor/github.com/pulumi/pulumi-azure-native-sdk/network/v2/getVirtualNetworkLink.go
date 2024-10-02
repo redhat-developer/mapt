@@ -13,6 +13,8 @@ import (
 
 // Gets a virtual network link to the specified Private DNS zone.
 // Azure REST API version: 2020-06-01.
+//
+// Other available API versions: 2024-06-01.
 func LookupVirtualNetworkLink(ctx *pulumi.Context, args *LookupVirtualNetworkLinkArgs, opts ...pulumi.InvokeOption) (*LookupVirtualNetworkLinkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualNetworkLinkResult
@@ -58,14 +60,20 @@ type LookupVirtualNetworkLinkResult struct {
 
 func LookupVirtualNetworkLinkOutput(ctx *pulumi.Context, args LookupVirtualNetworkLinkOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkLinkResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualNetworkLinkResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualNetworkLinkResultOutput, error) {
 			args := v.(LookupVirtualNetworkLinkArgs)
-			r, err := LookupVirtualNetworkLink(ctx, &args, opts...)
-			var s LookupVirtualNetworkLinkResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualNetworkLinkResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkLink", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualNetworkLinkResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualNetworkLinkResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualNetworkLinkResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualNetworkLinkResultOutput)
 }
 

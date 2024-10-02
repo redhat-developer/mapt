@@ -14,7 +14,7 @@ import (
 // Get the specified service endpoint policy definitions from service endpoint policy.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2018-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2018-07-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupServiceEndpointPolicyDefinition(ctx *pulumi.Context, args *LookupServiceEndpointPolicyDefinitionArgs, opts ...pulumi.InvokeOption) (*LookupServiceEndpointPolicyDefinitionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupServiceEndpointPolicyDefinitionResult
@@ -56,14 +56,20 @@ type LookupServiceEndpointPolicyDefinitionResult struct {
 
 func LookupServiceEndpointPolicyDefinitionOutput(ctx *pulumi.Context, args LookupServiceEndpointPolicyDefinitionOutputArgs, opts ...pulumi.InvokeOption) LookupServiceEndpointPolicyDefinitionResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupServiceEndpointPolicyDefinitionResult, error) {
+		ApplyT(func(v interface{}) (LookupServiceEndpointPolicyDefinitionResultOutput, error) {
 			args := v.(LookupServiceEndpointPolicyDefinitionArgs)
-			r, err := LookupServiceEndpointPolicyDefinition(ctx, &args, opts...)
-			var s LookupServiceEndpointPolicyDefinitionResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupServiceEndpointPolicyDefinitionResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getServiceEndpointPolicyDefinition", args, &rv, "", opts...)
+			if err != nil {
+				return LookupServiceEndpointPolicyDefinitionResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupServiceEndpointPolicyDefinitionResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupServiceEndpointPolicyDefinitionResultOutput), nil
+			}
+			return output, nil
 		}).(LookupServiceEndpointPolicyDefinitionResultOutput)
 }
 

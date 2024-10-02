@@ -14,7 +14,7 @@ import (
 // The operation that retrieves information about the capacity reservation.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupCapacityReservation(ctx *pulumi.Context, args *LookupCapacityReservationArgs, opts ...pulumi.InvokeOption) (*LookupCapacityReservationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupCapacityReservationResult
@@ -70,14 +70,20 @@ type LookupCapacityReservationResult struct {
 
 func LookupCapacityReservationOutput(ctx *pulumi.Context, args LookupCapacityReservationOutputArgs, opts ...pulumi.InvokeOption) LookupCapacityReservationResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupCapacityReservationResult, error) {
+		ApplyT(func(v interface{}) (LookupCapacityReservationResultOutput, error) {
 			args := v.(LookupCapacityReservationArgs)
-			r, err := LookupCapacityReservation(ctx, &args, opts...)
-			var s LookupCapacityReservationResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupCapacityReservationResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getCapacityReservation", args, &rv, "", opts...)
+			if err != nil {
+				return LookupCapacityReservationResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupCapacityReservationResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupCapacityReservationResultOutput), nil
+			}
+			return output, nil
 		}).(LookupCapacityReservationResultOutput)
 }
 

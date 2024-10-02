@@ -14,7 +14,7 @@ import (
 // Gets information about the specified virtual network tap.
 // Azure REST API version: 2023-02-01.
 //
-// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01.
+// Other available API versions: 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01.
 func LookupVirtualNetworkTap(ctx *pulumi.Context, args *LookupVirtualNetworkTapArgs, opts ...pulumi.InvokeOption) (*LookupVirtualNetworkTapResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualNetworkTapResult
@@ -75,14 +75,20 @@ func (val *LookupVirtualNetworkTapResult) Defaults() *LookupVirtualNetworkTapRes
 
 func LookupVirtualNetworkTapOutput(ctx *pulumi.Context, args LookupVirtualNetworkTapOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkTapResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualNetworkTapResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualNetworkTapResultOutput, error) {
 			args := v.(LookupVirtualNetworkTapArgs)
-			r, err := LookupVirtualNetworkTap(ctx, &args, opts...)
-			var s LookupVirtualNetworkTapResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualNetworkTapResult
+			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkTap", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualNetworkTapResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualNetworkTapResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualNetworkTapResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualNetworkTapResultOutput)
 }
 

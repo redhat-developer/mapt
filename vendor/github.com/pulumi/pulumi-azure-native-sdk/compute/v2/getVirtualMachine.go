@@ -14,7 +14,7 @@ import (
 // Retrieves information about the model view or the instance view of a virtual machine.
 // Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01.
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
 func LookupVirtualMachine(ctx *pulumi.Context, args *LookupVirtualMachineArgs, opts ...pulumi.InvokeOption) (*LookupVirtualMachineResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualMachineResult
@@ -112,14 +112,20 @@ type LookupVirtualMachineResult struct {
 
 func LookupVirtualMachineOutput(ctx *pulumi.Context, args LookupVirtualMachineOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVirtualMachineResult, error) {
+		ApplyT(func(v interface{}) (LookupVirtualMachineResultOutput, error) {
 			args := v.(LookupVirtualMachineArgs)
-			r, err := LookupVirtualMachine(ctx, &args, opts...)
-			var s LookupVirtualMachineResult
-			if r != nil {
-				s = *r
+			opts = utilities.PkgInvokeDefaultOpts(opts)
+			var rv LookupVirtualMachineResult
+			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachine", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVirtualMachineResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVirtualMachineResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVirtualMachineResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVirtualMachineResultOutput)
 }
 
