@@ -17,136 +17,160 @@ spec:
 
     The output will give required information to connect within the remote provisioned host
 
+  workspaces:
+    - name: pipelines-data
+      description: workspace to store outputs to connect within the target machine + state file for the infrastructure 
+    - name: az-credentials
+      description: |
+        ocp secret holding the azure credentials. Secret should be accessible to this task.
+
+        To be a valid secret it should contains the following fields:
+        * tenant_id
+        * subscription_id
+        * client_id
+        * client_secret
+        * storage_account (optional if we use remote az storage)
+        * storage_key (optional if we use remote az storage)
+      mountPath: /opt/credentials
+      
   params: 
-  - name: project-name
-    description: identifier for project.   
-  - name: backed-url
-    description: |
-      If we want to backed resources externally we can use az storage setting this param(i.e azblob://existing-storage). 
+    # mapt params 
+    - name: project-name
+      description: identifier for project.   
+    - name: backed-url
+      description: |
+        If we want to backed resources externally we can use az storage setting this param(i.e azblob://existing-storage). 
 
-      If default will be store on storage workspace at path set by param ws-output-path.
-    default: "''"
-  - name: operation 
-    description: operation to execute within the infrastructure. Current values (create, destroy)
-    default: create   
-  - name: arch
-    description: architecture for the target machine. Allowed x86_64 or arm64 (default "x86_64")
-    default: 'x86_64'
-  - name: version
-    description: this task will spin a RHEL image. This param will set the version for it. Default 9.4.
-    default: '9.4'
-  - name: vmsize
-    description: size for the machine
-    default: Standard_D8s_v4
-  - name: spot
-    description: in case spot is set to true it will check for best spot price and create the VM on the target region
-    default: 'true'
-  - name: spot-eviction-tolerance
-    description: 'if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest'
-    default: 'lowest'
-  - name: workspace-resources-path
-    description: path on workspace where to store ephemeral assets related with the provisioning
-  - name: remove-lock
-    description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
-    default: 'true'
-  - name: tags
-    description: tags for the resources created on the providers
-    default: "''"
+        If default will be store on storage workspace at path set by param ws-output-path.
+      default: "''"
+    - name: ws-output-path
+      description: path on workspace where to store ephemeral assets related with the provisioning
+    - name: operation 
+      description: operation to execute within the infrastructure. Current values (create, destroy)
+      default: create   
 
+    # VM type params
+    - name: arch
+      description: Architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
+      default: 'x86_64'
+    - name: cpus 
+      description: Number of CPUs for the cloud instance (default 8)
+      default: '8'
+    - name: memory
+      description: Amount of RAM for the cloud instance in GiB (default 64)
+      default: '64'
+    - name: nested-virt
+      description: Use cloud instance that has nested virtualization support
+      default: 'false'
+    - name: vmsize
+      description: size for the machine
+      default: "''"
+    - name: spot
+      description: in case spot is set to true it will check for best spot price and create the VM on the target region
+      default: 'true'
+    - name: spot-eviction-tolerance
+      description: 'if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest'
+      default: 'lowest'
+
+    # RHEL params
+    - name: version
+      description: this task will spin a RHEL image. This param will set the version for it. Default 9.4.
+      default: '9.4'
+    
+    # Metadata params
+    - name: tags
+      description: tags for the resources created on the providers
+      default: "''"
+    
+    # Control params
+    - name: remove-lock
+      description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
+      default: 'true'
+  
   results:
   - name: host
     description: ip to connect to the provisioned machine
   - name: username
     description: username to connect to the provisioned machine
   - name: key
-    description: filename for the private key. The key is located at workspace-resources-path
+    description: filename for the private key. The key is located at ws-output-path
 
   steps:
-  - name: provisioner
-    image: quay.io/redhat-developer/mapt:v0.7.0-dev
-    imagePullPolicy: Always
-    script: |
-      #!/bin/sh
+    - name: provisioner
+      image: quay.io/redhat-developer/mapt:v0.7.0-dev
+      imagePullPolicy: Always
+      script: |
+        #!/bin/sh
 
-      # Added verbosity
-      set -xuo
-      
-      # Credentials
-      export ARM_TENANT_ID=$(cat /opt/credentials/tenant_id)
-      export ARM_SUBSCRIPTION_ID=$(cat /opt/credentials/subscription_id)
-      export ARM_CLIENT_ID=$(cat /opt/credentials/client_id)
-      export ARM_CLIENT_SECRET=$(cat /opt/credentials/client_secret)
-      if ! [ -f /opt/credentials/storage_account ]; then
-        export AZURE_STORAGE_ACCOUNT=$(cat /opt/credentials/storage_account)
-      fi
-      if ! [ -f /opt/credentials/storage_key ]; then
-        export AZURE_STORAGE_KEY=$(cat /opt/credentials/storage_key)
-      fi
-      
-      # Output folder
-      workspace_path=$(workspaces.pipelines-data.path)/$(params.workspace-resources-path)
-      mkdir -p ${workspace_path}
-
-      # Remove lock
-      if [[ $(params.remove-lock) == "true" ]]; then
-        rm -rf ${workspace_path}/.pulumi/locks/*
-      fi
-
-      # Run mapt
-      cmd="mapt azure rhel $(params.operation) "
-      cmd="$cmd --project-name $(params.project-name) "
-      if [[ $(params.backed-url) != "" ]]; then
-        cmd="$cmd --backed-url $(params.backed-url) "
-      else
-        cmd="$cmd --backed-url file://${workspace_path} "
-      fi
-      if [[ $(params.operation) == "create" ]]; then
-        cmd="$cmd --conn-details-output ${workspace_path} "
-        cmd="$cmd --arch $(params.arch) "
-        cmd="$cmd --version $(params.version) "
-        cmd="$cmd --vmsize $(params.vmsize) "
-        if [[ $(params.spot) == "true" ]]; then
-          cmd="$cmd --spot "
-          cmd="$cmd --spot-eviction-tolerance $(params.spot-eviction-tolerance) "
-        fi
-        if [[ $(params.tags) != "" ]]; then
-          cmd="$cmd --tags $(params.tags) "
-        fi
-      fi
-      eval "${cmd}"
-
-      create_exit_code=$?
-     
-      # set task results
-      cat "${workspace_path}/host" | tee $(results.host.path)
-      cat "${workspace_path}/username" | tee $(results.username.path)   
-      echo -n "id_rsa" | tee $(results.key.path)
-
-      if [[ ${create_exit_code} -ne 0 ]]; then 
-        exit 1
-      fi
-      
-    resources:      
-      requests:
-        memory: "200Mi"
-        cpu: "100m"
-      limits:
-        memory: "600Mi"
-        cpu: "300m"
+        # Added verbosity
+        set -xuo
         
-  workspaces:
-  - name: pipelines-data
-    description: workspace to store outputs to connect within the target machine + state file for the infrastructure 
-  - name: az-credentials
-    description: |
-      ocp secret holding the azure credentials. Secret should be accessible to this task.
+        # Credentials
+        export ARM_TENANT_ID=$(cat /opt/credentials/tenant_id)
+        export ARM_SUBSCRIPTION_ID=$(cat /opt/credentials/subscription_id)
+        export ARM_CLIENT_ID=$(cat /opt/credentials/client_id)
+        export ARM_CLIENT_SECRET=$(cat /opt/credentials/client_secret)
+        if ! [ -f /opt/credentials/storage_account ]; then
+          export AZURE_STORAGE_ACCOUNT=$(cat /opt/credentials/storage_account)
+        fi
+        if ! [ -f /opt/credentials/storage_key ]; then
+          export AZURE_STORAGE_KEY=$(cat /opt/credentials/storage_key)
+        fi
+        
+        # Output folder
+        workspace_path=$(workspaces.pipelines-data.path)/$(params.ws-output-path)
+        mkdir -p ${workspace_path}
 
-      To be a valid secret it should contains the following fields:
-      * tenant_id
-      * subscription_id
-      * client_id
-      * client_secret
-      * storage_account (optional if we use remote az storage)
-      * storage_key (optional if we use remote az storage)
-    mountPath: /opt/credentials
+        # Remove lock
+        if [[ $(params.remove-lock) == "true" ]]; then
+          rm -rf ${workspace_path}/.pulumi/locks/*
+        fi
+
+        # Run mapt
+        cmd="mapt azure rhel $(params.operation) "
+        cmd="$cmd --project-name $(params.project-name) "
+        if [[ $(params.backed-url) != "" ]]; then
+          cmd="$cmd --backed-url $(params.backed-url) "
+        else
+          cmd="$cmd --backed-url file://${workspace_path} "
+        fi
+        if [[ $(params.operation) == "create" ]]; then
+          cmd="$cmd --conn-details-output ${workspace_path} "
+          cmd="$cmd --arch $(params.arch) "
+          cmd="$cmd --cpus $(params.cpus) "
+          cmd="$cmd --memory $(params.memory) "
+          if [[ $(params.nested-virt) == "true" ]]; then
+            cmd="$cmd --nested-virt "
+          fi
+          if [[ $(params.vmsize) != "" ]]; then
+            cmd="$cmd --vmsize $(params.vmsize) "
+          fi
+          cmd="$cmd --version $(params.version) "
+          if [[ $(params.spot) == "true" ]]; then
+            cmd="$cmd --spot "
+            cmd="$cmd --spot-eviction-tolerance $(params.spot-eviction-tolerance) "
+          fi
+          if [[ $(params.tags) != "" ]]; then
+            cmd="$cmd --tags $(params.tags) "
+          fi
+        fi
+        eval "${cmd}"
+
+        create_exit_code=$?
       
+        # set task results
+        cat "${workspace_path}/host" | tee $(results.host.path)
+        cat "${workspace_path}/username" | tee $(results.username.path)   
+        echo -n "id_rsa" | tee $(results.key.path)
+
+        if [[ ${create_exit_code} -ne 0 ]]; then 
+          exit 1
+        fi
+        
+      resources:      
+        requests:
+          memory: "200Mi"
+          cpu: "100m"
+        limits:
+          memory: "600Mi"
+          cpu: "300m"
