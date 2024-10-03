@@ -1,42 +1,50 @@
-# mapt
+# mapt (Multi Architecture Provisionig Tool)
 
-This is a Multi Architecture Provisionig Tool
+Mapt is a swiss army knife for provisioning environments, it could be used across multiple CI/CD systems:
 
-It allows to spin multiple target environments across multiple cloud providers implementing multiple optimizations like cross data for spot price and eviction rates, or pre create snapshost to improve boot times, ...among others.
+* Github Actions: It is possible to spin the target machines as self hosted runners on your github repo to make use of them within actions.
+* Tekton: Each target environemnt offered has its own tekton task spec which could be used as a extenal spec on tekton (with git resolver or even as a bunde)
+* Run from anywhere: mapt funcionallity is offered as an OCI image, as so it allows to create environment from almost everywhere as long as you have a container runtime.
+
+Also it includes out of the box some optimizations around provisioning:
+
+* Spot price option which allows to find the best option for the target machine on any location across the target provider.
+* Implement optimization around boot time to reduce the amount of time required to spin the machines (i.e. pre created snapshots or change root volumes)
+
+About the target environments offered it is not limited to a single machine or service but it takes care of the full infra allowing to requrest complex topologies:
+
+* Airgap 
+* Proxy (Coming...)
+* VPN emulation (Coming... )
+* Domain Controller integration (Coming... )
 
 ![code check](https://github.com/redhat-developer/mapt/actions/workflows/build-go.yaml/badge.svg)
 ![oci builds](https://github.com/redhat-developer/mapt/actions/workflows/build-oci.yaml/badge.svg)
 
-## Overview
-
-This project is intended to easily spin environments and plug them in on any CI/CD system through ssh. 
-
-mapt create the target machine and return the information and credentials required to connect within the target marchine (host + username + private key)
-
-Also mapt offers a set of features wich are transversal to each type of target machine as so they can be applied to any of them (airgap, proxyed, vpn,...)
-
-
 ## Supported environments
 
-| Platform       | Archs         | Provider      | Type          | Information                  | Tekton                                       | Features |
-| -------------- | ------------- | ------------- | ------------- | ---------------------------- | -------------------------------------------- | -------- |
-| Mac            | x86, M1, M2   | AWS           | Baremetal     | [info](docs/aws/mac.md)      | [task](tkn/infra-aws-mac.yaml)               | a        | 
-| Windows Server | x86           | AWS           | Baremetal     | [info](docs/aws/windows.md)  | [task](tkn/infra-aws-windows-server.yaml)    | a,s      |
-| Windows Desktop| x86           | Azure         | Virtualized   | [info](docs/azure/windows.md)| [task](tkn/infra-azure-windows-desktop.yaml) | s        |
-| RHEL           | x86, arm64    | AWS           | Customizable  | [info](docs/aws/rhel.md)     | [task](tkn/infra-aws-rhel.yaml)              | a,s      |
-| RHEL           | x86, arm64    | Azure         | Virtualized   | [info](docs/azure/rhel.md)   | [task](tkn/infra-azure-rhel.yaml)            | s        |
-| Fedora         | x86, arm64    | AWS           | Customizable  | [info](docs/aws/fedora.md)   | [task](tkn/infra-aws-fedora.yaml)            | a,s      |
-| Fedora         | x86, arm64    | Azure         | Customizable  | [info](docs/azure/fedora.md) | [task](tkn/infra-azure-fedora.yaml)          | a,s      |
-| Ubuntu         | x86           | Azure         | Virtualized   | [info](docs/azure/ubuntu.md) | -                                            | s        |
+### Virtual Machines
 
-Features:
+| Platform       | Archs         | Provider      | Type          | Information                  | Tekton                                       
+| -------------- | ------------- | ------------- | ------------- | ---------------------------- | -------------------------------------------- 
+| Mac            | x86, M1, M2   | AWS           | Baremetal     | [info](docs/aws/mac.md)      | [task](tkn/infra-aws-mac.yaml)               
+| Windows Server | x86           | AWS           | Baremetal     | [info](docs/aws/windows.md)  | [task](tkn/infra-aws-windows-server.yaml)    
+| Windows Desktop| x86           | Azure         | Virtualized   | [info](docs/azure/windows.md)| [task](tkn/infra-azure-windows-desktop.yaml) 
+| RHEL           | x86, arm64    | AWS           | Customizable  | [info](docs/aws/rhel.md)     | [task](tkn/infra-aws-rhel.yaml)              
+| RHEL           | x86, arm64    | Azure         | Virtualized   | [info](docs/azure/rhel.md)   | [task](tkn/infra-azure-rhel.yaml)            
+| Fedora         | x86, arm64    | AWS           | Customizable  | [info](docs/aws/fedora.md)   | [task](tkn/infra-aws-fedora.yaml)            
+| Fedora         | x86, arm64    | Azure         | Customizable  | [info](docs/azure/fedora.md) | [task](tkn/infra-azure-fedora.yaml)          
+| Ubuntu         | x86           | Azure         | Virtualized   | [info](docs/azure/ubuntu.md) | -                                            
 
-* a airgap
-* s spot
-* p proxy
-* v vpn
+### Services
 
-## Github Self hosted runner
+| Service        | Provider      | Information                  | Tekton                         
+| -------------- | ------------- | -------------                | ---------------------------- | 
+| AKS            | Azure         | [info](docs/azure/aks.md)    | [task](tkn/infra-azure-aks.yaml) 
+
+## CI/CD integrations
+
+### Github Self hosted runner
 
 `mapt` can setup a deployed machine as a Self Hosted runner on most of the Platform and Provider combinations
 it supports.
