@@ -16,62 +16,85 @@ spec:
     Task provision a windows server dedicated on host on AWS
 
     The machine will offer nested virtualizataion capabilities as so it should be spin on a dedicated (baremetal) machine
-  
+
+  workspaces:
+    - name: storage
+      description: volume to store outputs to connect within the target machine + state file for the infrastructure 
+      mountPath: /opt/storage
+    - name: aws-credentials
+      description: |
+        ocp secret holding the aws credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: aws-${name}
+          labels:
+            app.kubernetes.io/component: ${name}
+            app.kubernetes.io/part-of: qe-platform
+        type: Opaque
+        data:
+          access-key: ${access_key}
+          secret-key: ${secret_key}
+          region: ${region}
+      mountPath: /opt/aws-credentials
+
   params:
-  # mapt params 
-  - name: project-name
-    description: identifier for project. 
-  - name: backed-url
-    description: |
-      If we want to backed resources externally we can use s3 setting this param(i.e s3://existing-bucket). 
+    # mapt params 
+    - name: project-name
+      description: identifier for project. 
+    - name: backed-url
+      description: |
+        If we want to backed resources externally we can use s3 setting this param(i.e s3://existing-bucket). 
 
-      If default will be store on storage workspace at path set by param ws-output-path.
-    default: "''"
-  - name: ws-output-path
-    description: path on workspace where to store ephemeral assets related with the provisioning
+        If default will be store on storage workspace at path set by param ws-output-path.
+      default: "''"
+    - name: ws-output-path
+      description: path on workspace where to store ephemeral assets related with the provisioning
+    - name: operation 
+      description: operation to execute within the infrastructure. Current values (create, destroy)
 
-  # Windows params
-  - name: operation 
-    description: operation to execute within the infrastructure. Current values (create, destroy)
-  - name: ami-name
-    description: name for the custom ami to be used within windows machine. Check README on how to build it
-    default: 'Windows_Server-2019-English-Full-HyperV-RHQE'
-  - name: ami-username
-    description: name for de default user on the custom AMI
-    default: 'ec2-user'
-  - name: ami-owner
-    description: alias name for the owner of the custom AMI
-    default: 'self'
-  - name: ami-lang
-    description: language for the ami possible values (eng, non-eng). This param is used when no ami-name is set and the action uses the default custom ami
-    default: 'eng'
-  - name: spot
-    description: Check best spot option to spin the machine and will create resources on that region.
-    default: 'true'
-  - name: airgap
-    description: |
-        Set the machine on an airgap scenario. 
+    # Windows params
+    - name: ami-name
+      description: name for the custom ami to be used within windows machine. Check README on how to build it
+      default: 'Windows_Server-2019-English-Full-HyperV-RHQE'
+    - name: ami-username
+      description: name for de default user on the custom AMI
+      default: 'ec2-user'
+    - name: ami-owner
+      description: alias name for the owner of the custom AMI
+      default: 'self'
+    - name: ami-lang
+      description: language for the ami possible values (eng, non-eng). This param is used when no ami-name is set and the action uses the default custom ami
+      default: 'eng'
+    - name: spot
+      description: Check best spot option to spin the machine and will create resources on that region.
+      default: 'true'
+    - name: airgap
+      description: |
+          Set the machine on an airgap scenario. 
 
-        If airgap is set an extra VM is created acting as bastion, information to access bastion is also
-        added to the output folder.
+          If airgap is set an extra VM is created acting as bastion, information to access bastion is also
+          added to the output folder.
 
-        To access the target machine we need to go through the bastion
-    default: 'false'
-  - name: tags
-    description: tags for the resources created on the providers
-    default: "''"
+          To access the target machine we need to go through the bastion
+      default: 'false'
+    - name: tags
+      description: tags for the resources created on the providers
+      default: "''"
 
-  # Control params
-  - name: remove-lock
-    description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
-    default: 'true'
-  - name: debug
-    description: |
-      Warning setting this param to true expose credentials 
-      
-      The parameter is intended to add verbosity on the task execution and also print credentials on stdout
-      to easily access to remote machice
-    default: 'false'
+    # Control params
+    - name: remove-lock
+      description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
+      default: 'true'
+    - name: debug
+      description: |
+        Warning setting this param to true expose credentials 
+        
+        The parameter is intended to add verbosity on the task execution and also print credentials on stdout
+        to easily access to remote machice
+      default: 'false'
 
   results:
   - name: host
@@ -177,26 +200,4 @@ spec:
         memory: "600Mi"
         cpu: "300m"
 
-  workspaces:
-  - name: storage
-    description: volume to store outputs to connect within the target machine + state file for the infrastructure 
-    mountPath: /opt/storage
-  - name: aws-credentials
-    description: |
-      ocp secret holding the aws credentials. Secret should be accessible to this task.
-
-      ---
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: aws-${name}
-        labels:
-          app.kubernetes.io/component: ${name}
-          app.kubernetes.io/part-of: qe-platform
-      type: Opaque
-      data:
-        access-key: ${access_key}
-        secret-key: ${secret_key}
-        region: ${region}
-    mountPath: /opt/aws-credentials
   
