@@ -22,12 +22,13 @@ jobs:
       run: |
         IMG=ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }} make oci-build
         podman save -o mapt.tar ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}     
+        echo "ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}" > mapt-image
 
     - name: Save image for PR
       uses: actions/upload-artifact@v4
       with:
-        name: mapt-pr-${{ github.event.number }}
-        path: mapt.tar
+        name: mapt
+        path: mapt*
 
     - name: Build image
       if: ${{ github.event_name != 'pull_request' }}
