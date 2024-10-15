@@ -277,8 +277,6 @@ func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
 			amiUserDefault,
 			r.SetupGHActionsRunner,
 			ghactions.GetActionRunnerSnippetLinux()},
-		resourcesUtil.GetResourceName(
-			r.Prefix, awsFedoraDedicatedID, "userdata"),
 		templateConfig)
 	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
 }

@@ -3,7 +3,6 @@ package windows
 import (
 	_ "embed"
 	"encoding/base64"
-	"fmt"
 
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
@@ -37,7 +36,6 @@ func GetUserdata(ctx *pulumi.Context, resourceID string,
 					password,
 					authorizedKey,
 					hostname},
-				fmt.Sprintf("%s-%s", "windows-userdata", resourceID),
 				string(userdataTemplate[:]))
 			if err != nil {
 				return "", err

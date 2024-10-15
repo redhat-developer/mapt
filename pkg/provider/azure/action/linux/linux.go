@@ -34,16 +34,18 @@ const (
 )
 
 type LinuxRequest struct {
-	Prefix          string
-	Location        string
-	VMSizes         []string
-	Arch            string
-	InstanceRequest instancetypes.InstanceRequest
-	OSType          OSType
-	Version         string
-	Username        string
-	Spot            bool
-	SpotTolerance   spotAzure.EvictionRate
+	Prefix           string
+	Location         string
+	VMSizes          []string
+	Arch             string
+	InstanceRequest  instancetypes.InstanceRequest
+	OSType           OSType
+	Version          string
+	Username         string
+	Spot             bool
+	SpotTolerance    spotAzure.EvictionRate
+	Userdata         string
+	ReadinessCommand string
 }
 
 func Create(r *LinuxRequest) (err error) {
@@ -149,8 +151,14 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 				User:           pulumi.String(r.Username),
 				DialErrorLimit: pulumi.Int(-1),
 			},
-			Create: pulumi.String(command.CommandPing),
-			Update: pulumi.String(command.CommandPing),
+			Create: pulumi.String(util.If(
+				len(r.ReadinessCommand) == 0,
+				command.CommandPing,
+				r.ReadinessCommand)),
+			Update: pulumi.String(util.If(
+				len(r.ReadinessCommand) == 0,
+				command.CommandPing,
+				r.ReadinessCommand)),
 		},
 		pulumi.Timeouts(
 			&pulumi.CustomTimeouts{
