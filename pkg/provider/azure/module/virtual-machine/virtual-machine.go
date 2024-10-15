@@ -35,6 +35,8 @@ type VirtualMachineRequest struct {
 	// Linux required
 	PrivateKey  *tls.PrivateKey
 	AdminPasswd *random.RandomPassword
+	// Linux optional
+	Userdata string
 }
 
 // Create virtual machine based on request + export to context
@@ -79,14 +81,16 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 			},
 		},
 		OsProfile: r.osProfile(),
-
-		Tags: maptContext.ResourceTags(),
+		Tags:      maptContext.ResourceTags(),
 	}
 	if r.SpotPrice != nil {
 		vmArgs.Priority = pulumi.String(prioritySpot)
 		vmArgs.BillingProfile = compute.BillingProfileArgs{
 			MaxPrice: pulumi.Float64(*r.SpotPrice),
 		}
+	}
+	if len(r.Userdata) > 0 {
+		vmArgs.UserData = pulumi.String(r.Userdata)
 	}
 	return compute.NewVirtualMachine(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "vm"),
@@ -103,6 +107,7 @@ func (r *VirtualMachineRequest) osProfile() compute.OSProfileArgs {
 	}
 	if r.PrivateKey != nil {
 		osProfile.LinuxConfiguration = &compute.LinuxConfigurationArgs{
+			PatchSettings:                 compute.LinuxPatchSettingsArgs{},
 			DisablePasswordAuthentication: pulumi.Bool(true),
 			Ssh: &compute.SshConfigurationArgs{
 				PublicKeys: compute.SshPublicKeyTypeArray{
