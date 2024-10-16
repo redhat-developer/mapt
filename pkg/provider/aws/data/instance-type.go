@@ -16,15 +16,20 @@ var (
 	filternameInstanceType string = "instance-type"
 )
 
-// Get InstanceTypes offerings on current location
 func IsInstanceTypeOfferedByRegion(instanceType, region string) (bool, error) {
+	offerings, err := FilterInstaceTypesOfferedByRegion([]string{instanceType}, region)
+	return len(offerings) == 1, err
+}
+
+// Get InstanceTypes offerings on current location
+func FilterInstaceTypesOfferedByRegion(instanceTypes []string, region string) ([]string, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(region) > 0 {
 		cfgOpts = config.WithRegion(region)
 	}
 	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 	client := ec2.NewFromConfig(cfg)
 	o, err := client.DescribeInstanceTypeOfferings(
@@ -37,12 +42,16 @@ func IsInstanceTypeOfferedByRegion(instanceType, region string) (bool, error) {
 					Values: []string{region}},
 				{
 					Name:   &filternameInstanceType,
-					Values: []string{instanceType}},
+					Values: instanceTypes},
 			}})
 	if err != nil {
-		return false, err
+		return nil, err
 	}
-	return len(o.InstanceTypeOfferings) == 1, nil
+	var offerings []string
+	for _, o := range o.InstanceTypeOfferings {
+		offerings = append(offerings, string(o.InstanceType))
+	}
+	return offerings, nil
 }
 
 func IsInstanceTypeOfferedByAZ(region, instanceType, az string) (bool, error) {
