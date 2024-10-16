@@ -116,18 +116,19 @@ func (r *NetworkRequest) manageAirgapNetworking(ctx *pulumi.Context) (
 
 func (r *NetworkRequest) createLoadBalancer(ctx *pulumi.Context,
 	subnet *ec2.Subnet) (*lb.LoadBalancer, error) {
+	lbArgs := &lb.LoadBalancerArgs{
+		LoadBalancerType: pulumi.String("network"),
+	}
 	snMapping := &lb.LoadBalancerSubnetMappingArgs{
 		SubnetId: subnet.ID()}
+	lbArgs.SubnetMappings = lb.LoadBalancerSubnetMappingArray{
+		snMapping,
+	}
 	// If airgap the load balancer is internal facing
 	if r.Airgap {
 		snMapping.PrivateIpv4Address = pulumi.String(internalLBIp)
+		lbArgs.Internal = pulumi.Bool(true)
 	}
 	return lb.NewLoadBalancer(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ID, "lb"),
-		&lb.LoadBalancerArgs{
-			LoadBalancerType: pulumi.String("network"),
-			SubnetMappings: lb.LoadBalancerSubnetMappingArray{
-				snMapping,
-			},
-		})
+		resourcesUtil.GetResourceName(r.Prefix, r.ID, "lb"), lbArgs)
 }
