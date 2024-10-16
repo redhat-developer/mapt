@@ -104,6 +104,10 @@ func Create(r *Request) error {
 		r.region = so.Region
 		r.az = so.AvailabilityZone
 		r.spotPrice = so.MaxPrice
+		r.VMType, err = data.FilterInstaceTypesOfferedByRegion(r.VMType, r.region)
+		if err != nil {
+			return err
+		}
 	} else {
 		r.region = os.Getenv("AWS_DEFAULT_REGION")
 		az, err := data.GetRandomAvailabilityZone(r.region, nil)
