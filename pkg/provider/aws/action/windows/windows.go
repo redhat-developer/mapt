@@ -324,7 +324,6 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
-			tmplName := resourcesUtil.GetResourceName(r.Prefix, awsWindowsDedicatedID, "userdatas")
 			udv := userDataValues{
 				r.AMIUser,
 				password,
@@ -333,7 +332,7 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 				ghactions.GetActionRunnerSnippetWin(),
 				ghactions.GetToken(),
 			}
-			userdata, err := file.Template(udv, tmplName, string(BootstrapScript[:]))
+			userdata, err := file.Template(udv, string(BootstrapScript[:]))
 			if err != nil {
 				return "", err
 			}

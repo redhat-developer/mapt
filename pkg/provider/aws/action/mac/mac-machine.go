@@ -391,7 +391,6 @@ func (r *MacRequest) getBootstrapScript(ctx *pulumi.Context) (
 					authorizedKey,
 					r.SetupGHActionsRunner,
 					ghactions.GetActionRunnerSnippetMacos()},
-				resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "mac-bootstrap"),
 				string(BootstrapScript[:]))
 		}).(pulumi.StringOutput)
 	return postscript, password, ukp, nil

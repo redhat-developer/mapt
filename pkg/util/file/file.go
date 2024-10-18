@@ -18,8 +18,8 @@ func WriteTempFile(content string) (string, error) {
 	return tmpFile.Name(), err
 }
 
-func Template(data any, templateName, templateContent string) (string, error) {
-	tmpl, err := template.New(templateName).Parse(templateContent)
+func Template(data any, templateContent string) (string, error) {
+	tmpl, err := template.New("tpl").Parse(templateContent)
 	if err != nil {
 		return "", err
 	}
