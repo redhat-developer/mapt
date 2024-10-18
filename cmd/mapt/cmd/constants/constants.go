@@ -54,6 +54,17 @@ const (
 	GHActionsRunnerToken   string = "ghactions-runner-token"
 	GHActionsRunnerName    string = "ghactions-runner-name"
 	GHActionsRunnerRepo    string = "ghactions-runner-repo"
+
+	//RHEL
+	SubsUsername       string = "rh-subscription-username"
+	SubsUsernameDesc   string = "username to register the subscription"
+	SubsUserpass       string = "rh-subscription-password"
+	SubsUserpassDesc   string = "password to register the subscription"
+	ProfileSNC         string = "snc"
+	ProfileSNCDesc     string = "if this flag is set the RHEL will be setup with SNC profile. Setting up all requirements to run https://github.com/crc-org/snc"
+	RhelVersion        string = "version"
+	RhelVersionDesc    string = "version for the RHEL OS"
+	RhelVersionDefault string = "9.4"
 )
 
 func GetGHActionsFlagset() *pflag.FlagSet {
