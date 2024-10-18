@@ -50,7 +50,7 @@ install: $(SOURCES)
 	go install -ldflags="$(LDFLAGS)" $(GO_EXTRA_BUILDFLAGS) ./cmd/mapt
 
 $(BUILD_DIR)/mapt: $(SOURCES)
-	GOOS="$(GOOS)" GOARCH=$(GOARCH) go build -gcflags="$(GCFLAGS)" -ldflags="$(LDFLAGS)" -o $(BUILD_DIR)/mapt $(GO_EXTRA_BUILDFLAGS) ./cmd/mapt
+	GOOS="$(GOOS)" GOARCH=$(GOARCH) go build -x -o $(BUILD_DIR)/mapt $(GO_EXTRA_BUILDFLAGS) ./cmd/mapt
  
 .PHONY: build
 build: $(BUILD_DIR)/mapt
@@ -76,7 +76,7 @@ lint: $(TOOLS_BINDIR)/golangci-lint
 # Build the container image
 .PHONY: oci-build
 oci-build: clean
-	${CONTAINER_MANAGER} build -t ${IMG} -f oci/Containerfile .
+	${CONTAINER_MANAGER} build --platform linux/arm64 --build-arg=SARCH=arm64 --build-arg=LARCH=aarch64 -t ${IMG} -f oci/Containerfile .
 
 # Push the docker image
 .PHONY: oci-push

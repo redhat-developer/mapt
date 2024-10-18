@@ -1,6 +1,11 @@
 
 # go 1.21.11-2
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:b6d157c56a7348a2790fb94fe44eb336027c1e2bb722c7901b30d2e7c38d9554 as builder 
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:fd41c001abc243076cc28b63c409ae6d9cbcad401c8124fb67d20fe57a2aa63a as builder
+# FROM registry.access.redhat.com/ubi9/go-toolset@sha256:b03f78d00ca116ffc0e025028ee063305d0f92a1cfcff3ba9e14e4a680cdcb35 as builder 
+# FROM registry.access.redhat.com/ubi9/go-toolset:1.21.13 as builder 
+
+ARG SARCH \
+    LARCH
 
 USER root
 WORKDIR /workspace
@@ -8,14 +13,18 @@ COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
 ENV PULUMI_VERSION 3.135.0
-ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz
+ENV PULUMI_URL https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-${SARCH}.tar.gz
 
 RUN make build \
     && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
     && tar -xzvf pulumicli.tar.gz 
 
 # ubi 9.4-1123.1719560047
-FROM registry.access.redhat.com/ubi9@sha256:081c96d1b1c7cd1855722d01f1ca53360510443737b1eb33284c6c4c330e537c  
+# FROM registry.access.redhat.com/ubi9@sha256:081c96d1b1c7cd1855722d01f1ca53360510443737b1eb33284c6c4c330e537c  
+FROM registry.access.redhat.com/ubi9/ubi@sha256:b00d5990a00937bd1ef7f44547af6c7fd36e3fd410e2c89b5d2dfc1aff69fe99
+
+ARG SARCH \
+    LARCH
 
 LABEL org.opencontainers.image.authors="Redhat Developer"
 
@@ -28,10 +37,10 @@ ENV INTERNAL_OUTPUT=/tmp/mapt \
 VOLUME [ "${INTERNAL_OUTPUT}" ]
 
 ENV AWS_CLI_VERSION 2.16.7
-ENV AWS_CLI_URL https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
+ENV AWS_CLI_URL https://awscli.amazonaws.com/awscli-exe-linux-${LARCH}-${AWS_CLI_VERSION}.zip
 
 ENV AZ_CLI_VERSION 2.61.0
-ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli-${AZ_CLI_VERSION}-1.el9.x86_64.rpm
+ENV AZ_CLI_RPM https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli-${AZ_CLI_VERSION}-1.el9.${LARCH}.rpm
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
