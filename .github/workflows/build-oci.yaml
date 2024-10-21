@@ -13,9 +13,15 @@ jobs:
     name: build-mapt
     runs-on: ubuntu-24.04
     steps:
+    - name: Prepare runner
+      shell: bash
+      run: |
+        sudo apt-get install -y qemu-user-static
+
     - name: Checkout code
       uses: actions/checkout@v4
 
+<<<<<<< HEAD
     - name: Build image
       shell: bash
       run: make oci-build
@@ -31,3 +37,32 @@ jobs:
       shell: bash
       run: make oci-push
       
+=======
+    - name: Build image for PR
+      if: ${{ github.event_name == 'pull_request' }}
+      env:
+        IMG: ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}
+      shell: bash
+      run: |
+        make oci-build
+        make oci-save    
+        echo ${IMG} > mapt-image
+
+
+    - name: Build image for Release
+      if: ${{ github.event_name == 'push' }}
+      run: |
+        make oci-build
+        make oci-save
+
+    - name: Create image metadata
+      run: |
+        echo ${{ github.event_name }} > mapt-event
+
+    - name: Upload crc-builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: mapt
+        path: mapt*
+    
+>>>>>>> da8c9e0f (enable multi-arch build)
