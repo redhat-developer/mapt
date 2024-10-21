@@ -13,38 +13,38 @@ jobs:
     name: build-mapt
     runs-on: ubuntu-24.04
     steps:
+    - name: Prepare runner
+      shell: bash
+      run: |
+        sudo apt-get install -y qemu-user-static
+
     - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Build image for PR
       if: ${{ github.event_name == 'pull_request' }}
+      env:
+        IMG: ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}
       shell: bash
       run: |
-        IMG=ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }} make oci-build
-        podman save -o mapt.tar ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}     
-        echo "ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}" > mapt-image
+        make oci-build
+        make oci-save    
+        echo ${IMG} > mapt-image
 
-    - name: Save image for PR
+
+    - name: Build image for Release
+      if: ${{ github.event_name == 'push' }}
+      run: |
+        make oci-build
+        make oci-save
+
+    - name: Create image metadata
+      run: |
+        echo ${{ github.event_name }} > mapt-event
+
+    - name: Upload crc-builder
       uses: actions/upload-artifact@v4
       with:
         name: mapt
         path: mapt*
-
-    - name: Build image
-      if: ${{ github.event_name != 'pull_request' }}
-      shell: bash
-      run: make oci-build
-
-    - name: Log in to quay.io Registry
-      if: ${{ github.event_name != 'pull_request' }}
-      uses: redhat-actions/podman-login@v1
-      with:
-        registry: quay.io
-        username: ${{ secrets.QUAY_IO_USERNAME }}
-        password: ${{ secrets.QUAY_IO_PASSWORD }}
-
-    - name: Push image
-      if: ${{ github.event_name != 'pull_request' }}
-      shell: bash
-      run: make oci-push
-      
+    

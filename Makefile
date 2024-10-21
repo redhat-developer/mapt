@@ -76,12 +76,30 @@ lint: $(TOOLS_BINDIR)/golangci-lint
 # Build the container image
 .PHONY: oci-build
 oci-build: clean
-	${CONTAINER_MANAGER} build -t ${IMG} -f oci/Containerfile .
+	${CONTAINER_MANAGER} build --platform linux/amd64 --manifest $(IMG)-linux-amd64 -f oci/Containerfile .
+	${CONTAINER_MANAGER} build --platform linux/arm64 --manifest $(IMG)-linux-arm64 -f oci/Containerfile .
+
+MAPT_SAVE ?= mapt
+.PHONY: oci-save 
+oci-save: ARM64D=$(shell ${CONTAINER_MANAGER} manifest inspect ${IMG}-linux-arm64 | jq '.manifests[0].digest')
+oci-save: 
+	${CONTAINER_MANAGER} manifest annotate --arch amd64 $(IMG)-linux-arm64 $(ARM64D)
+	${CONTAINER_MANAGER} save -m -o $(MAPT_SAVE)-linux-amd64.tar $(IMG)-linux-amd64
+	${CONTAINER_MANAGER} save -m -o $(MAPT_SAVE)-linux-arm64.tar $(IMG)-linux-arm64
+
+oci-load:
+	${CONTAINER_MANAGER} load -i $(MAPT_SAVE)-linux-arm64.tar 
+	${CONTAINER_MANAGER} load -i $(MAPT_SAVE)-linux-amd64.tar 
 
 # Push the docker image
 .PHONY: oci-push
 oci-push:
-	${CONTAINER_MANAGER} push ${IMG}
+	${CONTAINER_MANAGER} push $(IMG)-linux-arm64
+	${CONTAINER_MANAGER} push $(IMG)-linux-amd64
+	${CONTAINER_MANAGER} manifest create $(IMG)-linux
+	${CONTAINER_MANAGER} manifest add $(IMG)-linux docker://$(IMG)-linux-arm64
+	${CONTAINER_MANAGER} manifest add $(IMG)-linux docker://$(IMG)-linux-amd64
+	${CONTAINER_MANAGER} manifest push --all $(IMG)-linux
 
 # Update tekton with new version
 .PHONY: tkn-update
