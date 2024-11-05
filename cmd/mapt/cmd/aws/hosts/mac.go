@@ -68,7 +68,7 @@ func getMacRequest() *cobra.Command {
 					viper.GetString(params.GHActionsRunnerName),
 					viper.GetString(params.GHActionsRunnerRepo))
 				if err != nil {
-					logging.Error(err)
+					logging.Fatal(err)
 				}
 			}
 
