@@ -79,7 +79,8 @@ func getCreateWindowsDesktop() *cobra.Command {
 			if viper.IsSet(params.InstallGHActionsRunner) {
 				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
 					viper.GetString(params.GHActionsRunnerName),
-					viper.GetString(params.GHActionsRunnerRepo))
+					viper.GetString(params.GHActionsRunnerRepo),
+					viper.GetStringSlice(params.GHActionsRunnerLabels))
 				if err != nil {
 					logging.Fatal(err)
 				}

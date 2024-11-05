@@ -55,4 +55,5 @@ To deploy a Windows runner on the Azure provider, we can use the following comma
     --backed-url file:///Users/tester/workspace \
     --conn-details-output /Users/tester/workspace/conn-details
 ```
+> *NOTE:* additional _labels_ can be added to the runner using the flag `--ghactions-runner-labels`, e.g `--ghactions-runner-lables="azure,mapt,windows"`
 
