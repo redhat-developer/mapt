@@ -40,6 +40,7 @@ const (
 	GHActionsRunnerTokenDesc    string = "Token needed for registering the Github Actions Runner token"
 	GHActionsRunnerNameDesc     string = "Name for the Github Actions Runner"
 	GHActionsRunnerRepoDesc     string = "Full URL of the repository where the Github Actions Runner should be registered"
+	GHActionsRunnerLabelsDesc   string = "List of labels separated by comma to be added to the self-hosted runner"
 	Memory                      string = "memory"
 	MemoryDesc                  string = "Amount of RAM for the cloud instance in GiB"
 	CPUs                        string = "cpus"
@@ -54,6 +55,7 @@ const (
 	GHActionsRunnerToken   string = "ghactions-runner-token"
 	GHActionsRunnerName    string = "ghactions-runner-name"
 	GHActionsRunnerRepo    string = "ghactions-runner-repo"
+	GHActionsRunnerLabels  string = "ghactions-runner-labels"
 )
 
 func GetGHActionsFlagset() *pflag.FlagSet {
@@ -62,6 +64,7 @@ func GetGHActionsFlagset() *pflag.FlagSet {
 	flagSet.StringP(GHActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
 	flagSet.StringP(GHActionsRunnerName, "", "", GHActionsRunnerNameDesc)
 	flagSet.StringP(GHActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
+	flagSet.StringSlice(GHActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)
 	return flagSet
 }
 
