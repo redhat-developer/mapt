@@ -2,6 +2,7 @@ package ghactions
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -11,6 +12,7 @@ type RunnerArgs struct {
 	Token   string
 	RepoURL string
 	Name    string
+	Labels  []string
 }
 
 const (
@@ -26,7 +28,7 @@ const (
 Invoke-WebRequest -Uri %s -OutFile actions-runner-win.zip
 Add-Type -AssemblyName System.IO.Compression.FileSystem ;
 [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD\actions-runner-win.zip", "$PWD")
-./config.cmd --token $ghToken --url %s --name %s --unattended --runasservice --replace`
+./config.cmd --token $ghToken --url %s --name %s --unattended --runasservice --replace %s`
 
 	// whitespace at the start is required since this is expanded in a cloud-init yaml file
 	// to start as service need to relable the runsvc.sh file on rhel: https://github.com/actions/runner/issues/3222
@@ -34,7 +36,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem ;
 		`      curl -o actions-runner-linux.tar.gz -L %s` + "\n" +
 		`      tar xzf ./actions-runner-linux.tar.gz` + "\n" +
 		`      sudo ./bin/installdependencies.sh` + "\n" +
-		`      ./config.sh --token %s --url %s --name %s --unattended --replace` + "\n" +
+		`      ./config.sh --token %s --url %s --name %s --unattended --replace %s` + "\n" +
 		`      sudo ./svc.sh install` + "\n" +
 		`      chcon system_u:object_r:usr_t:s0 $(pwd)/runsvc.sh` + "\n" +
 		`      sudo ./svc.sh start`
@@ -42,7 +44,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem ;
 	installActionRunnerSnippetMacos string = `mkdir ~/actions-runner && cd ~/actions-runner
 curl -o actions-runner-osx.tar.gz -L %s
 tar xzf ./actions-runner-osx.tar.gz
-./config.sh --token %s --url %s --name %s --unattended --replace
+./config.sh --token %s --url %s --name %s --unattended --replace %s
 ./svc.sh install
 plistName=$(basename $(./svc.sh status | grep "plist$"))
 mkdir -p ~/Library/LaunchDaemons
@@ -52,7 +54,7 @@ launchctl load ~/Library/LaunchDaemons/"${plistName}"`
 
 var args *RunnerArgs
 
-func InitGHRunnerArgs(token, name, repoURL string) error {
+func InitGHRunnerArgs(token, name, repoURL string, labels []string) error {
 	if token == "" || name == "" || repoURL == "" {
 		return errors.New("All args are required and must have non-empty values")
 	}
@@ -60,6 +62,10 @@ func InitGHRunnerArgs(token, name, repoURL string) error {
 		Token:   token,
 		RepoURL: repoURL,
 		Name:    name,
+	}
+
+	if len(labels) > 0 {
+		args.Labels = labels
 	}
 	return nil
 }
@@ -71,10 +77,20 @@ func GetToken() string {
 	return util.IfNillable(args != nil, token, "")
 }
 
+func GetLabels() string {
+	var labels = func() string {
+		if len(args.Labels) > 0 {
+			return fmt.Sprintf("--labels %s", strings.Join(args.Labels, ","))
+		}
+		return ""
+	}
+	return util.IfNillable(args != nil, labels, "")
+}
+
 func GetActionRunnerSnippetWin() string {
 	var snippetWindows = func() string {
 		return fmt.Sprintf(installActionRunnerSnippetWindows,
-			fmt.Sprintf(runnerBaseURLWin, runnerVersion), args.RepoURL, args.Name)
+			fmt.Sprintf(runnerBaseURLWin, runnerVersion), args.RepoURL, args.Name, GetLabels())
 	}
 	return util.IfNillable(args != nil, snippetWindows, "")
 }
@@ -82,7 +98,7 @@ func GetActionRunnerSnippetWin() string {
 func GetActionRunnerSnippetLinux() string {
 	var snippetLinux = func() string {
 		return fmt.Sprintf(installActionRunnerSnippetLinux,
-			fmt.Sprintf(runnerBaseURLLinux, runnerVersion), args.Token, args.RepoURL, args.Name)
+			fmt.Sprintf(runnerBaseURLLinux, runnerVersion), args.Token, args.RepoURL, args.Name, GetLabels())
 	}
 	return util.IfNillable(args != nil, snippetLinux, "")
 }
@@ -90,7 +106,7 @@ func GetActionRunnerSnippetLinux() string {
 func GetActionRunnerSnippetMacos() string {
 	var snippetMacos = func() string {
 		return fmt.Sprintf(installActionRunnerSnippetMacos,
-			fmt.Sprintf(runnerBaseURLMacos, runnerVersion), args.Token, args.RepoURL, args.Name)
+			fmt.Sprintf(runnerBaseURLMacos, runnerVersion), args.Token, args.RepoURL, args.Name, GetLabels())
 	}
 	return util.IfNillable(args != nil, snippetMacos, "")
 }
