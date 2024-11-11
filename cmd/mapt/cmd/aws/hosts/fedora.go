@@ -67,14 +67,14 @@ func getFedoraCreate() *cobra.Command {
 				CPUs:       viper.GetInt32(params.CPUs),
 				MemoryGib:  viper.GetInt32(params.Memory),
 				Arch:       util.If(viper.GetString(params.LinuxArch) == "arm64", instancetypes.Arm64, instancetypes.Amd64),
-				NestedVirt: viper.GetBool(profileSNC) || viper.GetBool(params.NestedVirt),
+				NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
 			}
 
 			// Run create
 			if err := fedora.Create(
 				&fedora.Request{
 					Prefix:               "main",
-					Version:              viper.GetString(rhelVersion),
+					Version:              viper.GetString(fedoraVersion),
 					Arch:                 viper.GetString(params.LinuxArch),
 					VMType:               viper.GetStringSlice(vmTypes),
 					InstanceRequest:      instanceRequest,
