@@ -14,4 +14,9 @@ const (
 	paramSpotTolerance     = "spot-eviction-tolerance"
 	paramSpotToleranceDesc = "if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest"
 	defaultSpotTolerance   = "lowest"
+	paramLinuxVersion      = "version"
+	paramLinuxVersionDesc  = "linux version. Version should be formated as X.Y (Major.minor)"
+	defaultUbuntuVersion   = "24.04"
+	defaultRHELVersion     = "9.4"
+	defaultFedoraVersion   = "40.0"
 )

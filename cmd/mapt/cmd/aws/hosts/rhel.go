@@ -16,16 +16,6 @@ import (
 const (
 	cmdRHEL     = "rhel"
 	cmdRHELDesc = "manage rhel dedicated host"
-
-	rhelVersion        string = "version"
-	rhelVersionDesc    string = "version for the RHEL OS"
-	rhelVersionDefault string = "9.4"
-	subsUsername       string = "rh-subscription-username"
-	subsUsernameDesc   string = "username to register the subscription"
-	subsUserpass       string = "rh-subscription-password"
-	subsUserpassDesc   string = "password to register the subscription"
-	profileSNC         string = "snc"
-	profileSNCDesc     string = "if this flag is set the RHEL will be setup with SNC profile. Setting up all requirements to run https://github.com/crc-org/snc"
 )
 
 func GetRHELCmd() *cobra.Command {
@@ -74,20 +64,20 @@ func getRHELCreate() *cobra.Command {
 				CPUs:       viper.GetInt32(params.CPUs),
 				MemoryGib:  viper.GetInt32(params.Memory),
 				Arch:       util.If(viper.GetString(params.LinuxArch) == "arm64", instancetypes.Arm64, instancetypes.Amd64),
-				NestedVirt: viper.GetBool(profileSNC) || viper.GetBool(params.NestedVirt),
+				NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
 			}
 
 			// Run create
 			if err := rhel.Create(
 				&rhel.Request{
 					Prefix:               "main",
-					Version:              viper.GetString(rhelVersion),
+					Version:              viper.GetString(params.RhelVersion),
 					Arch:                 viper.GetString(params.LinuxArch),
 					InstanceRequest:      instanceRequest,
 					VMType:               viper.GetStringSlice(vmTypes),
-					SubsUsername:         viper.GetString(subsUsername),
-					SubsUserpass:         viper.GetString(subsUserpass),
-					ProfileSNC:           viper.IsSet(profileSNC),
+					SubsUsername:         viper.GetString(params.SubsUsername),
+					SubsUserpass:         viper.GetString(params.SubsUserpass),
+					ProfileSNC:           viper.IsSet(params.ProfileSNC),
 					Spot:                 viper.IsSet(spot),
 					Airgap:               viper.IsSet(airgap),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
@@ -100,14 +90,14 @@ func getRHELCreate() *cobra.Command {
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.StringP(rhelVersion, "", rhelVersionDefault, rhelVersionDesc)
+	flagSet.StringP(params.RhelVersion, "", params.RhelVersionDefault, params.RhelVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
-	flagSet.StringP(subsUsername, "", "", subsUsernameDesc)
-	flagSet.StringP(subsUserpass, "", "", subsUserpassDesc)
+	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)
+	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
-	flagSet.Bool(profileSNC, false, profileSNCDesc)
+	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
