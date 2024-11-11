@@ -1,6 +1,8 @@
 package spot
 
 import (
+	"errors"
+
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -132,6 +134,9 @@ func getOutputs(stack *auto.Stack) (*SpotOptionResult, error) {
 	outputs, err := manager.GetOutputs(stack)
 	if err != nil {
 		return nil, err
+	}
+	if len(outputs) == 0 {
+		return nil, errors.New("Stack outputs are empty please destroy and re-create")
 	}
 	return &SpotOptionResult{
 		Region:           outputs["region"].Value.(string),
