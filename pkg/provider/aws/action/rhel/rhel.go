@@ -1,8 +1,6 @@
 package rhel
 
 import (
-	_ "embed"
-	"encoding/base64"
 	"fmt"
 	"os"
 
@@ -24,9 +22,8 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	targetRHEL "github.com/redhat-developer/mapt/pkg/targets/rhel"
 	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/file"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -59,20 +56,6 @@ type Request struct {
 	az        string
 	spotPrice float64
 }
-
-type userDataValues struct {
-	SubscriptionUsername string
-	SubscriptionPassword string
-	Username             string
-	InstallActionsRunner bool
-	ActionsRunnerSnippet string
-}
-
-//go:embed cloud-config-base
-var CloudConfigBase []byte
-
-//go:embed cloud-config-snc
-var CloudConfigSNC []byte
 
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
@@ -214,7 +197,9 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Compute
-	userDataB64, err := r.getUserdata()
+	userDataB64, err := targetRHEL.GetUserdata(r.ProfileSNC,
+		r.SubsUsername, r.SubsUserpass, amiUserDefault,
+		r.SetupGHActionsRunner)
 	if err != nil {
 		return err
 	}
@@ -224,7 +209,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		VPC:              vpc,
 		Subnet:           targetSubnet,
 		AMI:              ami,
-		UserDataAsBase64: userDataB64,
+		UserDataAsBase64: pulumi.String(userDataB64),
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
 		InstaceTypes: util.If(len(r.VMType) > 0,
@@ -286,22 +271,4 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 			return sg.ID()
 		})
 	return pulumi.StringArray(sgs[:]), nil
-}
-
-func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
-	templateConfig := string(CloudConfigBase[:])
-	if r.ProfileSNC {
-		templateConfig = string(CloudConfigSNC[:])
-	}
-	userdata, err := file.Template(
-		userDataValues{
-			r.SubsUsername,
-			r.SubsUserpass,
-			amiUserDefault,
-			r.SetupGHActionsRunner,
-			ghactions.GetActionRunnerSnippetLinux()},
-		resourcesUtil.GetResourceName(
-			r.Prefix, awsRHELDedicatedID, "userdata"),
-		templateConfig)
-	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
 }
