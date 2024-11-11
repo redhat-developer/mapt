@@ -303,7 +303,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 		r.SetupGHActionsRunner,
 		ghactions.GetActionRunnerSnippetWin(),
 	}
-	ciSetupScript, err := file.Template(data, "ciSetupScript", string(RHQPCISetupScript))
+	ciSetupScript, err := file.Template(data, string(RHQPCISetupScript))
 	if err != nil {
 		return nil, err
 	}

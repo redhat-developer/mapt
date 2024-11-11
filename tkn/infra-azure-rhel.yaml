@@ -32,6 +32,22 @@ spec:
         * storage_account (optional if we use remote az storage)
         * storage_key (optional if we use remote az storage)
       mountPath: /opt/credentials
+    - name: rh-account-secret
+      optional: true
+      description: |
+        ocp secret holding the credentials for a valid rh user to subscribe VM. Secret should be accessible to this task.
+
+        Sample format for valid Secret
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: credentials-${configname}
+        type: Opaque
+        data:
+          user: ${user}
+          password: ${password}
+      mountPath: /opt/rh-account-secret
       
   params: 
     # mapt params 
@@ -76,6 +92,10 @@ spec:
     - name: version
       description: this task will spin a RHEL image. This param will set the version for it. Default 9.4.
       default: '9.4'
+    - name: profile-snc
+      description: |
+        This param will setup RHEL with SNC profile. Setting up all requirements to run https://github.com/crc-org/snc
+      default: 'false'
     
     # Metadata params
     - name: tags
@@ -149,6 +169,11 @@ spec:
           if [[ $(params.spot) == "true" ]]; then
             cmd="$cmd --spot "
             cmd="$cmd --spot-eviction-tolerance $(params.spot-eviction-tolerance) "
+          fi
+          cmd="$cmd --rh-subscription-username $(cat /opt/rh-account-secret/user) "  
+          cmd="$cmd --rh-subscription-password $(cat /opt/rh-account-secret/password) "  
+          if [[ $(params.profile-snc) == "true" ]]; then
+            cmd="$cmd --snc "
           fi
           if [[ $(params.tags) != "" ]]; then
             cmd="$cmd --tags $(params.tags) "
