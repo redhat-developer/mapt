@@ -37,7 +37,7 @@ jobs:
 
       - name: Import mapt image
         run: |
-          podman load -i mapt.tar
+          podman load -i mapt-amd64.tar
           podman images
 
       - name: Run mapt
