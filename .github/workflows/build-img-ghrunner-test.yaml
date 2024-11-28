@@ -1,0 +1,43 @@
+name: build-img-ghrunner-test
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'pkg/util/ghactions/*.go'
+      - '.github/workflows/build-img-ghrunner-test.yaml'
+
+jobs:
+  build-mapt:
+    name: build-mapt
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Prepare runner
+      shell: bash
+      run: |
+        sudo apt-get update && sudo apt-get install -y qemu-user-static
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build image for PR
+      if: ${{ github.event_name == 'pull_request' }}
+      env:
+        IMG: ghcr.io/redhat-developer/mapt-img-ghrunner-test:pr-${{ github.event.number }}
+      shell: bash
+      run: |
+        make oci-build
+        make oci-save
+        echo ${IMG} > mapt-image
+
+    - name: Create image metadata
+      run: |
+        echo ${{ github.event_name }} > mapt-event
+        cat ./mapt-event
+
+    - name: Upload crc-builder
+      uses: actions/upload-artifact@v4
+      with:
+        name: mapt
+        path: mapt*
+
