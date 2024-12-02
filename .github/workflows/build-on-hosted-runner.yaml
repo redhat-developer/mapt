@@ -3,7 +3,7 @@ name: build-on-hosted-runner
 on:
   workflow_run:
     workflows:
-      - oci-builds
+      - build-img-ghrunner-test
     types:
       - completed
 
