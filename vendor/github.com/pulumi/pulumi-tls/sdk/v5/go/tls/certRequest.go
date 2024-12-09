@@ -34,7 +34,7 @@ import (
 //				return err
 //			}
 //			_, err = tls.NewCertRequest(ctx, "example", &tls.CertRequestArgs{
-//				PrivateKeyPem: invokeFile.Result,
+//				PrivateKeyPem: pulumi.String(invokeFile.Result),
 //				Subject: &tls.CertRequestSubjectArgs{
 //					CommonName:   pulumi.String("example.com"),
 //					Organization: pulumi.String("ACME Examples, Inc"),
@@ -51,7 +51,7 @@ import (
 type CertRequest struct {
 	pulumi.CustomResourceState
 
-	// The certificate request data in PEM (RFC 1421).
+	// The certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 	CertRequestPem pulumi.StringOutput `pulumi:"certRequestPem"`
 	// List of DNS names for which a certificate is being requested (i.e. certificate subjects).
 	DnsNames pulumi.StringArrayOutput `pulumi:"dnsNames"`
@@ -59,7 +59,7 @@ type CertRequest struct {
 	IpAddresses pulumi.StringArrayOutput `pulumi:"ipAddresses"`
 	// Name of the algorithm used when generating the private key provided in `privateKeyPem`.
 	KeyAlgorithm pulumi.StringOutput `pulumi:"keyAlgorithm"`
-	// Private key in PEM (RFC 1421) interpolation function.
+	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to. This can be read from a separate file using the `file` interpolation function.
 	PrivateKeyPem pulumi.StringOutput `pulumi:"privateKeyPem"`
 	// The subject for which a certificate is being requested. The acceptable arguments are all optional and their naming is based upon [Issuer Distinguished Names (RFC5280)](https://tools.ietf.org/html/rfc5280#section-4.1.2.4) section.
 	Subject CertRequestSubjectPtrOutput `pulumi:"subject"`
@@ -107,7 +107,7 @@ func GetCertRequest(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering CertRequest resources.
 type certRequestState struct {
-	// The certificate request data in PEM (RFC 1421).
+	// The certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 	CertRequestPem *string `pulumi:"certRequestPem"`
 	// List of DNS names for which a certificate is being requested (i.e. certificate subjects).
 	DnsNames []string `pulumi:"dnsNames"`
@@ -115,7 +115,7 @@ type certRequestState struct {
 	IpAddresses []string `pulumi:"ipAddresses"`
 	// Name of the algorithm used when generating the private key provided in `privateKeyPem`.
 	KeyAlgorithm *string `pulumi:"keyAlgorithm"`
-	// Private key in PEM (RFC 1421) interpolation function.
+	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to. This can be read from a separate file using the `file` interpolation function.
 	PrivateKeyPem *string `pulumi:"privateKeyPem"`
 	// The subject for which a certificate is being requested. The acceptable arguments are all optional and their naming is based upon [Issuer Distinguished Names (RFC5280)](https://tools.ietf.org/html/rfc5280#section-4.1.2.4) section.
 	Subject *CertRequestSubject `pulumi:"subject"`
@@ -124,7 +124,7 @@ type certRequestState struct {
 }
 
 type CertRequestState struct {
-	// The certificate request data in PEM (RFC 1421).
+	// The certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 	CertRequestPem pulumi.StringPtrInput
 	// List of DNS names for which a certificate is being requested (i.e. certificate subjects).
 	DnsNames pulumi.StringArrayInput
@@ -132,7 +132,7 @@ type CertRequestState struct {
 	IpAddresses pulumi.StringArrayInput
 	// Name of the algorithm used when generating the private key provided in `privateKeyPem`.
 	KeyAlgorithm pulumi.StringPtrInput
-	// Private key in PEM (RFC 1421) interpolation function.
+	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to. This can be read from a separate file using the `file` interpolation function.
 	PrivateKeyPem pulumi.StringPtrInput
 	// The subject for which a certificate is being requested. The acceptable arguments are all optional and their naming is based upon [Issuer Distinguished Names (RFC5280)](https://tools.ietf.org/html/rfc5280#section-4.1.2.4) section.
 	Subject CertRequestSubjectPtrInput
@@ -149,7 +149,7 @@ type certRequestArgs struct {
 	DnsNames []string `pulumi:"dnsNames"`
 	// List of IP addresses for which a certificate is being requested (i.e. certificate subjects).
 	IpAddresses []string `pulumi:"ipAddresses"`
-	// Private key in PEM (RFC 1421) interpolation function.
+	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to. This can be read from a separate file using the `file` interpolation function.
 	PrivateKeyPem string `pulumi:"privateKeyPem"`
 	// The subject for which a certificate is being requested. The acceptable arguments are all optional and their naming is based upon [Issuer Distinguished Names (RFC5280)](https://tools.ietf.org/html/rfc5280#section-4.1.2.4) section.
 	Subject *CertRequestSubject `pulumi:"subject"`
@@ -163,7 +163,7 @@ type CertRequestArgs struct {
 	DnsNames pulumi.StringArrayInput
 	// List of IP addresses for which a certificate is being requested (i.e. certificate subjects).
 	IpAddresses pulumi.StringArrayInput
-	// Private key in PEM (RFC 1421) interpolation function.
+	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to. This can be read from a separate file using the `file` interpolation function.
 	PrivateKeyPem pulumi.StringInput
 	// The subject for which a certificate is being requested. The acceptable arguments are all optional and their naming is based upon [Issuer Distinguished Names (RFC5280)](https://tools.ietf.org/html/rfc5280#section-4.1.2.4) section.
 	Subject CertRequestSubjectPtrInput
@@ -258,7 +258,7 @@ func (o CertRequestOutput) ToCertRequestOutputWithContext(ctx context.Context) C
 	return o
 }
 
-// The certificate request data in PEM (RFC 1421).
+// The certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 func (o CertRequestOutput) CertRequestPem() pulumi.StringOutput {
 	return o.ApplyT(func(v *CertRequest) pulumi.StringOutput { return v.CertRequestPem }).(pulumi.StringOutput)
 }
@@ -278,7 +278,7 @@ func (o CertRequestOutput) KeyAlgorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v *CertRequest) pulumi.StringOutput { return v.KeyAlgorithm }).(pulumi.StringOutput)
 }
 
-// Private key in PEM (RFC 1421) interpolation function.
+// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to. This can be read from a separate file using the `file` interpolation function.
 func (o CertRequestOutput) PrivateKeyPem() pulumi.StringOutput {
 	return o.ApplyT(func(v *CertRequest) pulumi.StringOutput { return v.PrivateKeyPem }).(pulumi.StringOutput)
 }

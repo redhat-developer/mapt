@@ -30,7 +30,7 @@ import (
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			// Returns all public IPv4 pools.
-//			_, err := ec2.GetPublicIpv4Pools(ctx, nil, nil)
+//			_, err := ec2.GetPublicIpv4Pools(ctx, &ec2.GetPublicIpv4PoolsArgs{}, nil)
 //			if err != nil {
 //				return err
 //			}
@@ -105,14 +105,20 @@ type GetPublicIpv4PoolsResult struct {
 
 func GetPublicIpv4PoolsOutput(ctx *pulumi.Context, args GetPublicIpv4PoolsOutputArgs, opts ...pulumi.InvokeOption) GetPublicIpv4PoolsResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetPublicIpv4PoolsResult, error) {
+		ApplyT(func(v interface{}) (GetPublicIpv4PoolsResultOutput, error) {
 			args := v.(GetPublicIpv4PoolsArgs)
-			r, err := GetPublicIpv4Pools(ctx, &args, opts...)
-			var s GetPublicIpv4PoolsResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv GetPublicIpv4PoolsResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getPublicIpv4Pools:getPublicIpv4Pools", args, &rv, "", opts...)
+			if err != nil {
+				return GetPublicIpv4PoolsResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetPublicIpv4PoolsResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetPublicIpv4PoolsResultOutput), nil
+			}
+			return output, nil
 		}).(GetPublicIpv4PoolsResultOutput)
 }
 

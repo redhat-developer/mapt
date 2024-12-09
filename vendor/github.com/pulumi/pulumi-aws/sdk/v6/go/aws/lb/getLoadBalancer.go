@@ -95,6 +95,7 @@ type LookupLoadBalancerResult struct {
 	EnableTlsVersionAndCipherSuiteHeaders                bool                           `pulumi:"enableTlsVersionAndCipherSuiteHeaders"`
 	EnableWafFailOpen                                    bool                           `pulumi:"enableWafFailOpen"`
 	EnableXffClientPort                                  bool                           `pulumi:"enableXffClientPort"`
+	EnableZonalShift                                     bool                           `pulumi:"enableZonalShift"`
 	EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic string                         `pulumi:"enforceSecurityGroupInboundRulesOnPrivateLinkTraffic"`
 	// The provider-assigned unique ID for this managed resource.
 	Id                      string                         `pulumi:"id"`
@@ -115,14 +116,20 @@ type LookupLoadBalancerResult struct {
 
 func LookupLoadBalancerOutput(ctx *pulumi.Context, args LookupLoadBalancerOutputArgs, opts ...pulumi.InvokeOption) LookupLoadBalancerResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupLoadBalancerResult, error) {
+		ApplyT(func(v interface{}) (LookupLoadBalancerResultOutput, error) {
 			args := v.(LookupLoadBalancerArgs)
-			r, err := LookupLoadBalancer(ctx, &args, opts...)
-			var s LookupLoadBalancerResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv LookupLoadBalancerResult
+			secret, err := ctx.InvokePackageRaw("aws:lb/getLoadBalancer:getLoadBalancer", args, &rv, "", opts...)
+			if err != nil {
+				return LookupLoadBalancerResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupLoadBalancerResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupLoadBalancerResultOutput), nil
+			}
+			return output, nil
 		}).(LookupLoadBalancerResultOutput)
 }
 
@@ -219,6 +226,10 @@ func (o LookupLoadBalancerResultOutput) EnableWafFailOpen() pulumi.BoolOutput {
 
 func (o LookupLoadBalancerResultOutput) EnableXffClientPort() pulumi.BoolOutput {
 	return o.ApplyT(func(v LookupLoadBalancerResult) bool { return v.EnableXffClientPort }).(pulumi.BoolOutput)
+}
+
+func (o LookupLoadBalancerResultOutput) EnableZonalShift() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupLoadBalancerResult) bool { return v.EnableZonalShift }).(pulumi.BoolOutput)
 }
 
 func (o LookupLoadBalancerResultOutput) EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic() pulumi.StringOutput {

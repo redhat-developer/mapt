@@ -14,6 +14,8 @@ import (
 
 // Defines the security user rule collection.
 // Azure REST API version: 2024-03-01.
+//
+// Other available API versions: 2024-05-01.
 type SecurityUserRuleCollection struct {
 	pulumi.CustomResourceState
 
@@ -69,6 +71,9 @@ func NewSecurityUserRuleCollection(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20240301:SecurityUserRuleCollection"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:SecurityUserRuleCollection"),
 		},
 	})
 	opts = append(opts, aliases)

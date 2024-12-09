@@ -14,7 +14,7 @@ import (
 // This operation lists all the built-in policy definition versions for all built-in policy definitions.
 // Azure REST API version: 2023-04-01.
 //
-// Other available API versions: 2024-05-01.
+// Other available API versions: 2024-05-01, 2025-01-01.
 func ListPolicyDefinitionVersionAllBuiltins(ctx *pulumi.Context, args *ListPolicyDefinitionVersionAllBuiltinsArgs, opts ...pulumi.InvokeOption) (*ListPolicyDefinitionVersionAllBuiltinsResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListPolicyDefinitionVersionAllBuiltinsResult

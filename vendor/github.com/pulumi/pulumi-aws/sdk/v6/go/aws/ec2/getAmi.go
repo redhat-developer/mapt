@@ -33,7 +33,7 @@ import (
 //					"self",
 //				},
 //				MostRecent: pulumi.BoolRef(true),
-//				NameRegex:  pulumi.StringRef("^myami-\\d{3}"),
+//				NameRegex:  pulumi.StringRef("^myami-[0-9]{3}"),
 //				Owners: []string{
 //					"self",
 //				},
@@ -198,14 +198,20 @@ type LookupAmiResult struct {
 
 func LookupAmiOutput(ctx *pulumi.Context, args LookupAmiOutputArgs, opts ...pulumi.InvokeOption) LookupAmiResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupAmiResult, error) {
+		ApplyT(func(v interface{}) (LookupAmiResultOutput, error) {
 			args := v.(LookupAmiArgs)
-			r, err := LookupAmi(ctx, &args, opts...)
-			var s LookupAmiResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv LookupAmiResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getAmi:getAmi", args, &rv, "", opts...)
+			if err != nil {
+				return LookupAmiResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupAmiResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupAmiResultOutput), nil
+			}
+			return output, nil
 		}).(LookupAmiResultOutput)
 }
 

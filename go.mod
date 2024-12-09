@@ -1,12 +1,14 @@
 module github.com/redhat-developer/mapt
 
-go 1.21
+go 1.21.12
+
+toolchain go1.22.9
 
 require (
 	github.com/coocood/freecache v1.2.4
-	github.com/pulumi/pulumi-command/sdk v0.11.1
-	github.com/pulumi/pulumi-random/sdk/v4 v4.16.2
-	github.com/pulumi/pulumi/sdk/v3 v3.135.0
+	github.com/pulumi/pulumi-command/sdk v1.0.1
+	github.com/pulumi/pulumi-random/sdk/v4 v4.16.7
+	github.com/pulumi/pulumi/sdk/v3 v3.142.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.0
 	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8
@@ -21,14 +23,14 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.27.2
 	github.com/aws/aws-sdk-go-v2/config v1.27.18
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.142.0
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.39.0
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.64.2
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.64.2
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.64.2
-	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.64.2
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.64.2
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.64.2
-	github.com/pulumi/pulumi-tls/sdk/v5 v5.0.3
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.64.0
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.76.0
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.76.0
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.76.0
+	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.76.0
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.76.0
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.76.0
+	github.com/pulumi/pulumi-tls/sdk/v5 v5.0.9
 )
 
 require (
@@ -97,7 +99,7 @@ require (
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.9.1 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.64.2 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.76.0 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.0.0 // indirect

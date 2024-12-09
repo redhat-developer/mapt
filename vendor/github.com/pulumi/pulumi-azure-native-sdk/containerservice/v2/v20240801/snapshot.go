@@ -229,6 +229,12 @@ func NewSnapshot(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:containerservice/v20240702preview:Snapshot"),
 		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20240901:Snapshot"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20240902preview:Snapshot"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)

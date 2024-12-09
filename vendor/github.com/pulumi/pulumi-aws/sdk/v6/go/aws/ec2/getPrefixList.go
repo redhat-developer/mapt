@@ -57,9 +57,9 @@ import (
 //				Egress:       pulumi.Bool(false),
 //				Protocol:     pulumi.String("tcp"),
 //				RuleAction:   pulumi.String("allow"),
-//				CidrBlock: privateS3.ApplyT(func(privateS3 ec2.GetPrefixListResult) (*string, error) {
+//				CidrBlock: pulumi.String(privateS3.ApplyT(func(privateS3 ec2.GetPrefixListResult) (*string, error) {
 //					return &privateS3.CidrBlocks[0], nil
-//				}).(pulumi.StringPtrOutput),
+//				}).(pulumi.StringPtrOutput)),
 //				FromPort: pulumi.Int(443),
 //				ToPort:   pulumi.Int(443),
 //			})
@@ -138,14 +138,20 @@ type GetPrefixListResult struct {
 
 func GetPrefixListOutput(ctx *pulumi.Context, args GetPrefixListOutputArgs, opts ...pulumi.InvokeOption) GetPrefixListResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetPrefixListResult, error) {
+		ApplyT(func(v interface{}) (GetPrefixListResultOutput, error) {
 			args := v.(GetPrefixListArgs)
-			r, err := GetPrefixList(ctx, &args, opts...)
-			var s GetPrefixListResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv GetPrefixListResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getPrefixList:getPrefixList", args, &rv, "", opts...)
+			if err != nil {
+				return GetPrefixListResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetPrefixListResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetPrefixListResultOutput), nil
+			}
+			return output, nil
 		}).(GetPrefixListResultOutput)
 }
 

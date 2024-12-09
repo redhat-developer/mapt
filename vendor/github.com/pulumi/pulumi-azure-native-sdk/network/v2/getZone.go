@@ -14,7 +14,7 @@ import (
 // Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
 // Azure REST API version: 2018-05-01.
 //
-// Other available API versions: 2015-05-04-preview, 2016-04-01, 2023-07-01-preview.
+// Other available API versions: 2023-07-01-preview.
 func LookupZone(ctx *pulumi.Context, args *LookupZoneArgs, opts ...pulumi.InvokeOption) (*LookupZoneResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupZoneResult

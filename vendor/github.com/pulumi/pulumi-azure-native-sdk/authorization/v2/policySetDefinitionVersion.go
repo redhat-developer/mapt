@@ -15,7 +15,7 @@ import (
 // The policy set definition version.
 // Azure REST API version: 2023-04-01.
 //
-// Other available API versions: 2024-05-01.
+// Other available API versions: 2024-05-01, 2025-01-01.
 type PolicySetDefinitionVersion struct {
 	pulumi.CustomResourceState
 
@@ -62,6 +62,9 @@ func NewPolicySetDefinitionVersion(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:authorization/v20240501:PolicySetDefinitionVersion"),
+		},
+		{
+			Type: pulumi.String("azure-native:authorization/v20250101:PolicySetDefinitionVersion"),
 		},
 	})
 	opts = append(opts, aliases)

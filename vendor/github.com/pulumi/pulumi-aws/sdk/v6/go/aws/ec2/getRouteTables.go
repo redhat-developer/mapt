@@ -46,11 +46,11 @@ import (
 //				return err
 //			}
 //			var r []*ec2.Route
-//			for index := 0; index < len(rts.Ids); index++ {
+//			for index := 0; index < int(len(rts.Ids)); index++ {
 //				key0 := index
 //				val0 := index
 //				__res, err := ec2.NewRoute(ctx, fmt.Sprintf("r-%v", key0), &ec2.RouteArgs{
-//					RouteTableId:           rts.Ids[val0],
+//					RouteTableId:           pulumi.String(rts.Ids[val0]),
 //					DestinationCidrBlock:   pulumi.String("10.0.0.0/22"),
 //					VpcPeeringConnectionId: pulumi.String("pcx-0e9a7a9ecd137dc54"),
 //				})
@@ -101,14 +101,20 @@ type GetRouteTablesResult struct {
 
 func GetRouteTablesOutput(ctx *pulumi.Context, args GetRouteTablesOutputArgs, opts ...pulumi.InvokeOption) GetRouteTablesResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetRouteTablesResult, error) {
+		ApplyT(func(v interface{}) (GetRouteTablesResultOutput, error) {
 			args := v.(GetRouteTablesArgs)
-			r, err := GetRouteTables(ctx, &args, opts...)
-			var s GetRouteTablesResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv GetRouteTablesResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getRouteTables:getRouteTables", args, &rv, "", opts...)
+			if err != nil {
+				return GetRouteTablesResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetRouteTablesResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetRouteTablesResultOutput), nil
+			}
+			return output, nil
 		}).(GetRouteTablesResultOutput)
 }
 

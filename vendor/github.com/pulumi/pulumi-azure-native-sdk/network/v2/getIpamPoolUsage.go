@@ -13,6 +13,8 @@ import (
 
 // IpamPool usage information.
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 func GetIpamPoolUsage(ctx *pulumi.Context, args *GetIpamPoolUsageArgs, opts ...pulumi.InvokeOption) (*GetIpamPoolUsageResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetIpamPoolUsageResult

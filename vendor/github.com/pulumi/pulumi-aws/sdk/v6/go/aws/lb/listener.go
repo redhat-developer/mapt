@@ -80,6 +80,7 @@ import (
 //				LoadBalancerArn: pulumi.Any(frontEndAwsLb.Arn),
 //				Port:            pulumi.Int(443),
 //				Protocol:        pulumi.String("TLS"),
+//				SslPolicy:       pulumi.String("ELBSecurityPolicy-2016-08"),
 //				CertificateArn:  pulumi.String("arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"),
 //				AlpnPolicy:      pulumi.String("HTTP2Preferred"),
 //				DefaultActions: lb.ListenerDefaultActionArray{
@@ -417,28 +418,28 @@ type Listener struct {
 	Arn pulumi.StringOutput `pulumi:"arn"`
 	// ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS. For adding additional SSL certificates, see the `lb.ListenerCertificate` resource.
 	CertificateArn pulumi.StringPtrOutput `pulumi:"certificateArn"`
-	// Configuration block for default actions. Detailed below.
+	// Configuration block for default actions. See below.
 	DefaultActions ListenerDefaultActionArrayOutput `pulumi:"defaultActions"`
 	// ARN of the load balancer.
 	//
 	// The following arguments are optional:
 	LoadBalancerArn pulumi.StringOutput `pulumi:"loadBalancerArn"`
-	// The mutual authentication configuration information. Detailed below.
+	// The mutual authentication configuration information. See below.
 	MutualAuthentication ListenerMutualAuthenticationOutput `pulumi:"mutualAuthentication"`
 	// Port on which the load balancer is listening. Not valid for Gateway Load Balancers.
 	Port pulumi.IntPtrOutput `pulumi:"port"`
 	// Protocol for connections from clients to the load balancer. For Application Load Balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For Network Load Balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for Gateway Load Balancers.
 	Protocol pulumi.StringOutput `pulumi:"protocol"`
-	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`.
+	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`. Default is `ELBSecurityPolicy-2016-08`.
 	SslPolicy pulumi.StringOutput `pulumi:"sslPolicy"`
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	//
-	// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	//
 	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
+	// TCP idle timeout value in seconds. Can only be set if protocol is `TCP` on Network Load Balancer, or with a Gateway Load Balancer. Not supported for Application Load Balancers. Valid values are between `60` and `6000` inclusive. Default: `350`.
+	TcpIdleTimeoutSeconds pulumi.IntOutput `pulumi:"tcpIdleTimeoutSeconds"`
 }
 
 // NewListener registers a new resource with the given unique name, arguments, and options.
@@ -489,28 +490,28 @@ type listenerState struct {
 	Arn *string `pulumi:"arn"`
 	// ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS. For adding additional SSL certificates, see the `lb.ListenerCertificate` resource.
 	CertificateArn *string `pulumi:"certificateArn"`
-	// Configuration block for default actions. Detailed below.
+	// Configuration block for default actions. See below.
 	DefaultActions []ListenerDefaultAction `pulumi:"defaultActions"`
 	// ARN of the load balancer.
 	//
 	// The following arguments are optional:
 	LoadBalancerArn *string `pulumi:"loadBalancerArn"`
-	// The mutual authentication configuration information. Detailed below.
+	// The mutual authentication configuration information. See below.
 	MutualAuthentication *ListenerMutualAuthentication `pulumi:"mutualAuthentication"`
 	// Port on which the load balancer is listening. Not valid for Gateway Load Balancers.
 	Port *int `pulumi:"port"`
 	// Protocol for connections from clients to the load balancer. For Application Load Balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For Network Load Balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for Gateway Load Balancers.
 	Protocol *string `pulumi:"protocol"`
-	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`.
+	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`. Default is `ELBSecurityPolicy-2016-08`.
 	SslPolicy *string `pulumi:"sslPolicy"`
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	//
-	// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	//
 	// Deprecated: Please use `tags` instead.
 	TagsAll map[string]string `pulumi:"tagsAll"`
+	// TCP idle timeout value in seconds. Can only be set if protocol is `TCP` on Network Load Balancer, or with a Gateway Load Balancer. Not supported for Application Load Balancers. Valid values are between `60` and `6000` inclusive. Default: `350`.
+	TcpIdleTimeoutSeconds *int `pulumi:"tcpIdleTimeoutSeconds"`
 }
 
 type ListenerState struct {
@@ -520,28 +521,28 @@ type ListenerState struct {
 	Arn pulumi.StringPtrInput
 	// ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS. For adding additional SSL certificates, see the `lb.ListenerCertificate` resource.
 	CertificateArn pulumi.StringPtrInput
-	// Configuration block for default actions. Detailed below.
+	// Configuration block for default actions. See below.
 	DefaultActions ListenerDefaultActionArrayInput
 	// ARN of the load balancer.
 	//
 	// The following arguments are optional:
 	LoadBalancerArn pulumi.StringPtrInput
-	// The mutual authentication configuration information. Detailed below.
+	// The mutual authentication configuration information. See below.
 	MutualAuthentication ListenerMutualAuthenticationPtrInput
 	// Port on which the load balancer is listening. Not valid for Gateway Load Balancers.
 	Port pulumi.IntPtrInput
 	// Protocol for connections from clients to the load balancer. For Application Load Balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For Network Load Balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for Gateway Load Balancers.
 	Protocol pulumi.StringPtrInput
-	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`.
+	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`. Default is `ELBSecurityPolicy-2016-08`.
 	SslPolicy pulumi.StringPtrInput
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	//
-	// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	//
 	// Deprecated: Please use `tags` instead.
 	TagsAll pulumi.StringMapInput
+	// TCP idle timeout value in seconds. Can only be set if protocol is `TCP` on Network Load Balancer, or with a Gateway Load Balancer. Not supported for Application Load Balancers. Valid values are between `60` and `6000` inclusive. Default: `350`.
+	TcpIdleTimeoutSeconds pulumi.IntPtrInput
 }
 
 func (ListenerState) ElementType() reflect.Type {
@@ -553,24 +554,24 @@ type listenerArgs struct {
 	AlpnPolicy *string `pulumi:"alpnPolicy"`
 	// ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS. For adding additional SSL certificates, see the `lb.ListenerCertificate` resource.
 	CertificateArn *string `pulumi:"certificateArn"`
-	// Configuration block for default actions. Detailed below.
+	// Configuration block for default actions. See below.
 	DefaultActions []ListenerDefaultAction `pulumi:"defaultActions"`
 	// ARN of the load balancer.
 	//
 	// The following arguments are optional:
 	LoadBalancerArn string `pulumi:"loadBalancerArn"`
-	// The mutual authentication configuration information. Detailed below.
+	// The mutual authentication configuration information. See below.
 	MutualAuthentication *ListenerMutualAuthentication `pulumi:"mutualAuthentication"`
 	// Port on which the load balancer is listening. Not valid for Gateway Load Balancers.
 	Port *int `pulumi:"port"`
 	// Protocol for connections from clients to the load balancer. For Application Load Balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For Network Load Balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for Gateway Load Balancers.
 	Protocol *string `pulumi:"protocol"`
-	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`.
+	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`. Default is `ELBSecurityPolicy-2016-08`.
 	SslPolicy *string `pulumi:"sslPolicy"`
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	//
-	// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 	Tags map[string]string `pulumi:"tags"`
+	// TCP idle timeout value in seconds. Can only be set if protocol is `TCP` on Network Load Balancer, or with a Gateway Load Balancer. Not supported for Application Load Balancers. Valid values are between `60` and `6000` inclusive. Default: `350`.
+	TcpIdleTimeoutSeconds *int `pulumi:"tcpIdleTimeoutSeconds"`
 }
 
 // The set of arguments for constructing a Listener resource.
@@ -579,24 +580,24 @@ type ListenerArgs struct {
 	AlpnPolicy pulumi.StringPtrInput
 	// ARN of the default SSL server certificate. Exactly one certificate is required if the protocol is HTTPS. For adding additional SSL certificates, see the `lb.ListenerCertificate` resource.
 	CertificateArn pulumi.StringPtrInput
-	// Configuration block for default actions. Detailed below.
+	// Configuration block for default actions. See below.
 	DefaultActions ListenerDefaultActionArrayInput
 	// ARN of the load balancer.
 	//
 	// The following arguments are optional:
 	LoadBalancerArn pulumi.StringInput
-	// The mutual authentication configuration information. Detailed below.
+	// The mutual authentication configuration information. See below.
 	MutualAuthentication ListenerMutualAuthenticationPtrInput
 	// Port on which the load balancer is listening. Not valid for Gateway Load Balancers.
 	Port pulumi.IntPtrInput
 	// Protocol for connections from clients to the load balancer. For Application Load Balancers, valid values are `HTTP` and `HTTPS`, with a default of `HTTP`. For Network Load Balancers, valid values are `TCP`, `TLS`, `UDP`, and `TCP_UDP`. Not valid to use `UDP` or `TCP_UDP` if dual-stack mode is enabled. Not valid for Gateway Load Balancers.
 	Protocol pulumi.StringPtrInput
-	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`.
+	// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`. Default is `ELBSecurityPolicy-2016-08`.
 	SslPolicy pulumi.StringPtrInput
 	// A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-	//
-	// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 	Tags pulumi.StringMapInput
+	// TCP idle timeout value in seconds. Can only be set if protocol is `TCP` on Network Load Balancer, or with a Gateway Load Balancer. Not supported for Application Load Balancers. Valid values are between `60` and `6000` inclusive. Default: `350`.
+	TcpIdleTimeoutSeconds pulumi.IntPtrInput
 }
 
 func (ListenerArgs) ElementType() reflect.Type {
@@ -701,7 +702,7 @@ func (o ListenerOutput) CertificateArn() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Listener) pulumi.StringPtrOutput { return v.CertificateArn }).(pulumi.StringPtrOutput)
 }
 
-// Configuration block for default actions. Detailed below.
+// Configuration block for default actions. See below.
 func (o ListenerOutput) DefaultActions() ListenerDefaultActionArrayOutput {
 	return o.ApplyT(func(v *Listener) ListenerDefaultActionArrayOutput { return v.DefaultActions }).(ListenerDefaultActionArrayOutput)
 }
@@ -713,7 +714,7 @@ func (o ListenerOutput) LoadBalancerArn() pulumi.StringOutput {
 	return o.ApplyT(func(v *Listener) pulumi.StringOutput { return v.LoadBalancerArn }).(pulumi.StringOutput)
 }
 
-// The mutual authentication configuration information. Detailed below.
+// The mutual authentication configuration information. See below.
 func (o ListenerOutput) MutualAuthentication() ListenerMutualAuthenticationOutput {
 	return o.ApplyT(func(v *Listener) ListenerMutualAuthenticationOutput { return v.MutualAuthentication }).(ListenerMutualAuthenticationOutput)
 }
@@ -728,14 +729,12 @@ func (o ListenerOutput) Protocol() pulumi.StringOutput {
 	return o.ApplyT(func(v *Listener) pulumi.StringOutput { return v.Protocol }).(pulumi.StringOutput)
 }
 
-// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`.
+// Name of the SSL Policy for the listener. Required if `protocol` is `HTTPS` or `TLS`. Default is `ELBSecurityPolicy-2016-08`.
 func (o ListenerOutput) SslPolicy() pulumi.StringOutput {
 	return o.ApplyT(func(v *Listener) pulumi.StringOutput { return v.SslPolicy }).(pulumi.StringOutput)
 }
 
 // A map of tags to assign to the resource. .If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
-//
-// > **NOTE::** Please note that listeners that are attached to Application Load Balancers must use either `HTTP` or `HTTPS` protocols while listeners that are attached to Network Load Balancers must use the `TCP` protocol.
 func (o ListenerOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Listener) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -745,6 +744,11 @@ func (o ListenerOutput) Tags() pulumi.StringMapOutput {
 // Deprecated: Please use `tags` instead.
 func (o ListenerOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Listener) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
+}
+
+// TCP idle timeout value in seconds. Can only be set if protocol is `TCP` on Network Load Balancer, or with a Gateway Load Balancer. Not supported for Application Load Balancers. Valid values are between `60` and `6000` inclusive. Default: `350`.
+func (o ListenerOutput) TcpIdleTimeoutSeconds() pulumi.IntOutput {
+	return o.ApplyT(func(v *Listener) pulumi.IntOutput { return v.TcpIdleTimeoutSeconds }).(pulumi.IntOutput)
 }
 
 type ListenerArrayOutput struct{ *pulumi.OutputState }

@@ -13,6 +13,8 @@ import (
 
 // Instance of Pool resource.
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 func LookupIpamPool(ctx *pulumi.Context, args *LookupIpamPoolArgs, opts ...pulumi.InvokeOption) (*LookupIpamPoolResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupIpamPoolResult
