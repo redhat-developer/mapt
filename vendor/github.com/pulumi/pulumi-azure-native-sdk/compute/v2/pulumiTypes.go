@@ -13,6 +13,1028 @@ import (
 
 var _ = utilities.GetEnvOrDefault
 
+// This is the Access Control Rules specification for an inVMAccessControlProfile version.
+type AccessControlRules struct {
+	// A list of identities.
+	Identities []AccessControlRulesIdentity `pulumi:"identities"`
+	// A list of privileges.
+	Privileges []AccessControlRulesPrivilege `pulumi:"privileges"`
+	// A list of role assignments.
+	RoleAssignments []AccessControlRulesRoleAssignment `pulumi:"roleAssignments"`
+	// A list of roles.
+	Roles []AccessControlRulesRole `pulumi:"roles"`
+}
+
+// AccessControlRulesInput is an input type that accepts AccessControlRulesArgs and AccessControlRulesOutput values.
+// You can construct a concrete instance of `AccessControlRulesInput` via:
+//
+//	AccessControlRulesArgs{...}
+type AccessControlRulesInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesOutput() AccessControlRulesOutput
+	ToAccessControlRulesOutputWithContext(context.Context) AccessControlRulesOutput
+}
+
+// This is the Access Control Rules specification for an inVMAccessControlProfile version.
+type AccessControlRulesArgs struct {
+	// A list of identities.
+	Identities AccessControlRulesIdentityArrayInput `pulumi:"identities"`
+	// A list of privileges.
+	Privileges AccessControlRulesPrivilegeArrayInput `pulumi:"privileges"`
+	// A list of role assignments.
+	RoleAssignments AccessControlRulesRoleAssignmentArrayInput `pulumi:"roleAssignments"`
+	// A list of roles.
+	Roles AccessControlRulesRoleArrayInput `pulumi:"roles"`
+}
+
+func (AccessControlRulesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRules)(nil)).Elem()
+}
+
+func (i AccessControlRulesArgs) ToAccessControlRulesOutput() AccessControlRulesOutput {
+	return i.ToAccessControlRulesOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesArgs) ToAccessControlRulesOutputWithContext(ctx context.Context) AccessControlRulesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesOutput)
+}
+
+func (i AccessControlRulesArgs) ToAccessControlRulesPtrOutput() AccessControlRulesPtrOutput {
+	return i.ToAccessControlRulesPtrOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesArgs) ToAccessControlRulesPtrOutputWithContext(ctx context.Context) AccessControlRulesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesOutput).ToAccessControlRulesPtrOutputWithContext(ctx)
+}
+
+// AccessControlRulesPtrInput is an input type that accepts AccessControlRulesArgs, AccessControlRulesPtr and AccessControlRulesPtrOutput values.
+// You can construct a concrete instance of `AccessControlRulesPtrInput` via:
+//
+//	        AccessControlRulesArgs{...}
+//
+//	or:
+//
+//	        nil
+type AccessControlRulesPtrInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesPtrOutput() AccessControlRulesPtrOutput
+	ToAccessControlRulesPtrOutputWithContext(context.Context) AccessControlRulesPtrOutput
+}
+
+type accessControlRulesPtrType AccessControlRulesArgs
+
+func AccessControlRulesPtr(v *AccessControlRulesArgs) AccessControlRulesPtrInput {
+	return (*accessControlRulesPtrType)(v)
+}
+
+func (*accessControlRulesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**AccessControlRules)(nil)).Elem()
+}
+
+func (i *accessControlRulesPtrType) ToAccessControlRulesPtrOutput() AccessControlRulesPtrOutput {
+	return i.ToAccessControlRulesPtrOutputWithContext(context.Background())
+}
+
+func (i *accessControlRulesPtrType) ToAccessControlRulesPtrOutputWithContext(ctx context.Context) AccessControlRulesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesPtrOutput)
+}
+
+// This is the Access Control Rules specification for an inVMAccessControlProfile version.
+type AccessControlRulesOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRules)(nil)).Elem()
+}
+
+func (o AccessControlRulesOutput) ToAccessControlRulesOutput() AccessControlRulesOutput {
+	return o
+}
+
+func (o AccessControlRulesOutput) ToAccessControlRulesOutputWithContext(ctx context.Context) AccessControlRulesOutput {
+	return o
+}
+
+func (o AccessControlRulesOutput) ToAccessControlRulesPtrOutput() AccessControlRulesPtrOutput {
+	return o.ToAccessControlRulesPtrOutputWithContext(context.Background())
+}
+
+func (o AccessControlRulesOutput) ToAccessControlRulesPtrOutputWithContext(ctx context.Context) AccessControlRulesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v AccessControlRules) *AccessControlRules {
+		return &v
+	}).(AccessControlRulesPtrOutput)
+}
+
+// A list of identities.
+func (o AccessControlRulesOutput) Identities() AccessControlRulesIdentityArrayOutput {
+	return o.ApplyT(func(v AccessControlRules) []AccessControlRulesIdentity { return v.Identities }).(AccessControlRulesIdentityArrayOutput)
+}
+
+// A list of privileges.
+func (o AccessControlRulesOutput) Privileges() AccessControlRulesPrivilegeArrayOutput {
+	return o.ApplyT(func(v AccessControlRules) []AccessControlRulesPrivilege { return v.Privileges }).(AccessControlRulesPrivilegeArrayOutput)
+}
+
+// A list of role assignments.
+func (o AccessControlRulesOutput) RoleAssignments() AccessControlRulesRoleAssignmentArrayOutput {
+	return o.ApplyT(func(v AccessControlRules) []AccessControlRulesRoleAssignment { return v.RoleAssignments }).(AccessControlRulesRoleAssignmentArrayOutput)
+}
+
+// A list of roles.
+func (o AccessControlRulesOutput) Roles() AccessControlRulesRoleArrayOutput {
+	return o.ApplyT(func(v AccessControlRules) []AccessControlRulesRole { return v.Roles }).(AccessControlRulesRoleArrayOutput)
+}
+
+type AccessControlRulesPtrOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AccessControlRules)(nil)).Elem()
+}
+
+func (o AccessControlRulesPtrOutput) ToAccessControlRulesPtrOutput() AccessControlRulesPtrOutput {
+	return o
+}
+
+func (o AccessControlRulesPtrOutput) ToAccessControlRulesPtrOutputWithContext(ctx context.Context) AccessControlRulesPtrOutput {
+	return o
+}
+
+func (o AccessControlRulesPtrOutput) Elem() AccessControlRulesOutput {
+	return o.ApplyT(func(v *AccessControlRules) AccessControlRules {
+		if v != nil {
+			return *v
+		}
+		var ret AccessControlRules
+		return ret
+	}).(AccessControlRulesOutput)
+}
+
+// A list of identities.
+func (o AccessControlRulesPtrOutput) Identities() AccessControlRulesIdentityArrayOutput {
+	return o.ApplyT(func(v *AccessControlRules) []AccessControlRulesIdentity {
+		if v == nil {
+			return nil
+		}
+		return v.Identities
+	}).(AccessControlRulesIdentityArrayOutput)
+}
+
+// A list of privileges.
+func (o AccessControlRulesPtrOutput) Privileges() AccessControlRulesPrivilegeArrayOutput {
+	return o.ApplyT(func(v *AccessControlRules) []AccessControlRulesPrivilege {
+		if v == nil {
+			return nil
+		}
+		return v.Privileges
+	}).(AccessControlRulesPrivilegeArrayOutput)
+}
+
+// A list of role assignments.
+func (o AccessControlRulesPtrOutput) RoleAssignments() AccessControlRulesRoleAssignmentArrayOutput {
+	return o.ApplyT(func(v *AccessControlRules) []AccessControlRulesRoleAssignment {
+		if v == nil {
+			return nil
+		}
+		return v.RoleAssignments
+	}).(AccessControlRulesRoleAssignmentArrayOutput)
+}
+
+// A list of roles.
+func (o AccessControlRulesPtrOutput) Roles() AccessControlRulesRoleArrayOutput {
+	return o.ApplyT(func(v *AccessControlRules) []AccessControlRulesRole {
+		if v == nil {
+			return nil
+		}
+		return v.Roles
+	}).(AccessControlRulesRoleArrayOutput)
+}
+
+// The properties of an Access Control Rule Identity.
+type AccessControlRulesIdentity struct {
+	// The path to the executable.
+	ExePath *string `pulumi:"exePath"`
+	// The groupName corresponding to this identity.
+	GroupName *string `pulumi:"groupName"`
+	// The name of the identity.
+	Name string `pulumi:"name"`
+	// The process name of the executable.
+	ProcessName *string `pulumi:"processName"`
+	// The username corresponding to this identity.
+	UserName *string `pulumi:"userName"`
+}
+
+// AccessControlRulesIdentityInput is an input type that accepts AccessControlRulesIdentityArgs and AccessControlRulesIdentityOutput values.
+// You can construct a concrete instance of `AccessControlRulesIdentityInput` via:
+//
+//	AccessControlRulesIdentityArgs{...}
+type AccessControlRulesIdentityInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesIdentityOutput() AccessControlRulesIdentityOutput
+	ToAccessControlRulesIdentityOutputWithContext(context.Context) AccessControlRulesIdentityOutput
+}
+
+// The properties of an Access Control Rule Identity.
+type AccessControlRulesIdentityArgs struct {
+	// The path to the executable.
+	ExePath pulumi.StringPtrInput `pulumi:"exePath"`
+	// The groupName corresponding to this identity.
+	GroupName pulumi.StringPtrInput `pulumi:"groupName"`
+	// The name of the identity.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The process name of the executable.
+	ProcessName pulumi.StringPtrInput `pulumi:"processName"`
+	// The username corresponding to this identity.
+	UserName pulumi.StringPtrInput `pulumi:"userName"`
+}
+
+func (AccessControlRulesIdentityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesIdentity)(nil)).Elem()
+}
+
+func (i AccessControlRulesIdentityArgs) ToAccessControlRulesIdentityOutput() AccessControlRulesIdentityOutput {
+	return i.ToAccessControlRulesIdentityOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesIdentityArgs) ToAccessControlRulesIdentityOutputWithContext(ctx context.Context) AccessControlRulesIdentityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesIdentityOutput)
+}
+
+// AccessControlRulesIdentityArrayInput is an input type that accepts AccessControlRulesIdentityArray and AccessControlRulesIdentityArrayOutput values.
+// You can construct a concrete instance of `AccessControlRulesIdentityArrayInput` via:
+//
+//	AccessControlRulesIdentityArray{ AccessControlRulesIdentityArgs{...} }
+type AccessControlRulesIdentityArrayInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesIdentityArrayOutput() AccessControlRulesIdentityArrayOutput
+	ToAccessControlRulesIdentityArrayOutputWithContext(context.Context) AccessControlRulesIdentityArrayOutput
+}
+
+type AccessControlRulesIdentityArray []AccessControlRulesIdentityInput
+
+func (AccessControlRulesIdentityArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesIdentity)(nil)).Elem()
+}
+
+func (i AccessControlRulesIdentityArray) ToAccessControlRulesIdentityArrayOutput() AccessControlRulesIdentityArrayOutput {
+	return i.ToAccessControlRulesIdentityArrayOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesIdentityArray) ToAccessControlRulesIdentityArrayOutputWithContext(ctx context.Context) AccessControlRulesIdentityArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesIdentityArrayOutput)
+}
+
+// The properties of an Access Control Rule Identity.
+type AccessControlRulesIdentityOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesIdentityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesIdentity)(nil)).Elem()
+}
+
+func (o AccessControlRulesIdentityOutput) ToAccessControlRulesIdentityOutput() AccessControlRulesIdentityOutput {
+	return o
+}
+
+func (o AccessControlRulesIdentityOutput) ToAccessControlRulesIdentityOutputWithContext(ctx context.Context) AccessControlRulesIdentityOutput {
+	return o
+}
+
+// The path to the executable.
+func (o AccessControlRulesIdentityOutput) ExePath() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentity) *string { return v.ExePath }).(pulumi.StringPtrOutput)
+}
+
+// The groupName corresponding to this identity.
+func (o AccessControlRulesIdentityOutput) GroupName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentity) *string { return v.GroupName }).(pulumi.StringPtrOutput)
+}
+
+// The name of the identity.
+func (o AccessControlRulesIdentityOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentity) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The process name of the executable.
+func (o AccessControlRulesIdentityOutput) ProcessName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentity) *string { return v.ProcessName }).(pulumi.StringPtrOutput)
+}
+
+// The username corresponding to this identity.
+func (o AccessControlRulesIdentityOutput) UserName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentity) *string { return v.UserName }).(pulumi.StringPtrOutput)
+}
+
+type AccessControlRulesIdentityArrayOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesIdentityArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesIdentity)(nil)).Elem()
+}
+
+func (o AccessControlRulesIdentityArrayOutput) ToAccessControlRulesIdentityArrayOutput() AccessControlRulesIdentityArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesIdentityArrayOutput) ToAccessControlRulesIdentityArrayOutputWithContext(ctx context.Context) AccessControlRulesIdentityArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesIdentityArrayOutput) Index(i pulumi.IntInput) AccessControlRulesIdentityOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AccessControlRulesIdentity {
+		return vs[0].([]AccessControlRulesIdentity)[vs[1].(int)]
+	}).(AccessControlRulesIdentityOutput)
+}
+
+// The properties of an Access Control Rule Identity.
+type AccessControlRulesIdentityResponse struct {
+	// The path to the executable.
+	ExePath *string `pulumi:"exePath"`
+	// The groupName corresponding to this identity.
+	GroupName *string `pulumi:"groupName"`
+	// The name of the identity.
+	Name string `pulumi:"name"`
+	// The process name of the executable.
+	ProcessName *string `pulumi:"processName"`
+	// The username corresponding to this identity.
+	UserName *string `pulumi:"userName"`
+}
+
+// The properties of an Access Control Rule Identity.
+type AccessControlRulesIdentityResponseOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesIdentityResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesIdentityResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesIdentityResponseOutput) ToAccessControlRulesIdentityResponseOutput() AccessControlRulesIdentityResponseOutput {
+	return o
+}
+
+func (o AccessControlRulesIdentityResponseOutput) ToAccessControlRulesIdentityResponseOutputWithContext(ctx context.Context) AccessControlRulesIdentityResponseOutput {
+	return o
+}
+
+// The path to the executable.
+func (o AccessControlRulesIdentityResponseOutput) ExePath() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentityResponse) *string { return v.ExePath }).(pulumi.StringPtrOutput)
+}
+
+// The groupName corresponding to this identity.
+func (o AccessControlRulesIdentityResponseOutput) GroupName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentityResponse) *string { return v.GroupName }).(pulumi.StringPtrOutput)
+}
+
+// The name of the identity.
+func (o AccessControlRulesIdentityResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentityResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The process name of the executable.
+func (o AccessControlRulesIdentityResponseOutput) ProcessName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentityResponse) *string { return v.ProcessName }).(pulumi.StringPtrOutput)
+}
+
+// The username corresponding to this identity.
+func (o AccessControlRulesIdentityResponseOutput) UserName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AccessControlRulesIdentityResponse) *string { return v.UserName }).(pulumi.StringPtrOutput)
+}
+
+type AccessControlRulesIdentityResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesIdentityResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesIdentityResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesIdentityResponseArrayOutput) ToAccessControlRulesIdentityResponseArrayOutput() AccessControlRulesIdentityResponseArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesIdentityResponseArrayOutput) ToAccessControlRulesIdentityResponseArrayOutputWithContext(ctx context.Context) AccessControlRulesIdentityResponseArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesIdentityResponseArrayOutput) Index(i pulumi.IntInput) AccessControlRulesIdentityResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AccessControlRulesIdentityResponse {
+		return vs[0].([]AccessControlRulesIdentityResponse)[vs[1].(int)]
+	}).(AccessControlRulesIdentityResponseOutput)
+}
+
+// The properties of an Access Control Rule Privilege.
+type AccessControlRulesPrivilege struct {
+	// The name of the privilege.
+	Name string `pulumi:"name"`
+	// The HTTP path corresponding to the privilege.
+	Path string `pulumi:"path"`
+	// The query parameters to match in the path.
+	QueryParameters map[string]string `pulumi:"queryParameters"`
+}
+
+// AccessControlRulesPrivilegeInput is an input type that accepts AccessControlRulesPrivilegeArgs and AccessControlRulesPrivilegeOutput values.
+// You can construct a concrete instance of `AccessControlRulesPrivilegeInput` via:
+//
+//	AccessControlRulesPrivilegeArgs{...}
+type AccessControlRulesPrivilegeInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesPrivilegeOutput() AccessControlRulesPrivilegeOutput
+	ToAccessControlRulesPrivilegeOutputWithContext(context.Context) AccessControlRulesPrivilegeOutput
+}
+
+// The properties of an Access Control Rule Privilege.
+type AccessControlRulesPrivilegeArgs struct {
+	// The name of the privilege.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The HTTP path corresponding to the privilege.
+	Path pulumi.StringInput `pulumi:"path"`
+	// The query parameters to match in the path.
+	QueryParameters pulumi.StringMapInput `pulumi:"queryParameters"`
+}
+
+func (AccessControlRulesPrivilegeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesPrivilege)(nil)).Elem()
+}
+
+func (i AccessControlRulesPrivilegeArgs) ToAccessControlRulesPrivilegeOutput() AccessControlRulesPrivilegeOutput {
+	return i.ToAccessControlRulesPrivilegeOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesPrivilegeArgs) ToAccessControlRulesPrivilegeOutputWithContext(ctx context.Context) AccessControlRulesPrivilegeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesPrivilegeOutput)
+}
+
+// AccessControlRulesPrivilegeArrayInput is an input type that accepts AccessControlRulesPrivilegeArray and AccessControlRulesPrivilegeArrayOutput values.
+// You can construct a concrete instance of `AccessControlRulesPrivilegeArrayInput` via:
+//
+//	AccessControlRulesPrivilegeArray{ AccessControlRulesPrivilegeArgs{...} }
+type AccessControlRulesPrivilegeArrayInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesPrivilegeArrayOutput() AccessControlRulesPrivilegeArrayOutput
+	ToAccessControlRulesPrivilegeArrayOutputWithContext(context.Context) AccessControlRulesPrivilegeArrayOutput
+}
+
+type AccessControlRulesPrivilegeArray []AccessControlRulesPrivilegeInput
+
+func (AccessControlRulesPrivilegeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesPrivilege)(nil)).Elem()
+}
+
+func (i AccessControlRulesPrivilegeArray) ToAccessControlRulesPrivilegeArrayOutput() AccessControlRulesPrivilegeArrayOutput {
+	return i.ToAccessControlRulesPrivilegeArrayOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesPrivilegeArray) ToAccessControlRulesPrivilegeArrayOutputWithContext(ctx context.Context) AccessControlRulesPrivilegeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesPrivilegeArrayOutput)
+}
+
+// The properties of an Access Control Rule Privilege.
+type AccessControlRulesPrivilegeOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesPrivilegeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesPrivilege)(nil)).Elem()
+}
+
+func (o AccessControlRulesPrivilegeOutput) ToAccessControlRulesPrivilegeOutput() AccessControlRulesPrivilegeOutput {
+	return o
+}
+
+func (o AccessControlRulesPrivilegeOutput) ToAccessControlRulesPrivilegeOutputWithContext(ctx context.Context) AccessControlRulesPrivilegeOutput {
+	return o
+}
+
+// The name of the privilege.
+func (o AccessControlRulesPrivilegeOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesPrivilege) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The HTTP path corresponding to the privilege.
+func (o AccessControlRulesPrivilegeOutput) Path() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesPrivilege) string { return v.Path }).(pulumi.StringOutput)
+}
+
+// The query parameters to match in the path.
+func (o AccessControlRulesPrivilegeOutput) QueryParameters() pulumi.StringMapOutput {
+	return o.ApplyT(func(v AccessControlRulesPrivilege) map[string]string { return v.QueryParameters }).(pulumi.StringMapOutput)
+}
+
+type AccessControlRulesPrivilegeArrayOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesPrivilegeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesPrivilege)(nil)).Elem()
+}
+
+func (o AccessControlRulesPrivilegeArrayOutput) ToAccessControlRulesPrivilegeArrayOutput() AccessControlRulesPrivilegeArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesPrivilegeArrayOutput) ToAccessControlRulesPrivilegeArrayOutputWithContext(ctx context.Context) AccessControlRulesPrivilegeArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesPrivilegeArrayOutput) Index(i pulumi.IntInput) AccessControlRulesPrivilegeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AccessControlRulesPrivilege {
+		return vs[0].([]AccessControlRulesPrivilege)[vs[1].(int)]
+	}).(AccessControlRulesPrivilegeOutput)
+}
+
+// The properties of an Access Control Rule Privilege.
+type AccessControlRulesPrivilegeResponse struct {
+	// The name of the privilege.
+	Name string `pulumi:"name"`
+	// The HTTP path corresponding to the privilege.
+	Path string `pulumi:"path"`
+	// The query parameters to match in the path.
+	QueryParameters map[string]string `pulumi:"queryParameters"`
+}
+
+// The properties of an Access Control Rule Privilege.
+type AccessControlRulesPrivilegeResponseOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesPrivilegeResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesPrivilegeResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesPrivilegeResponseOutput) ToAccessControlRulesPrivilegeResponseOutput() AccessControlRulesPrivilegeResponseOutput {
+	return o
+}
+
+func (o AccessControlRulesPrivilegeResponseOutput) ToAccessControlRulesPrivilegeResponseOutputWithContext(ctx context.Context) AccessControlRulesPrivilegeResponseOutput {
+	return o
+}
+
+// The name of the privilege.
+func (o AccessControlRulesPrivilegeResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesPrivilegeResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The HTTP path corresponding to the privilege.
+func (o AccessControlRulesPrivilegeResponseOutput) Path() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesPrivilegeResponse) string { return v.Path }).(pulumi.StringOutput)
+}
+
+// The query parameters to match in the path.
+func (o AccessControlRulesPrivilegeResponseOutput) QueryParameters() pulumi.StringMapOutput {
+	return o.ApplyT(func(v AccessControlRulesPrivilegeResponse) map[string]string { return v.QueryParameters }).(pulumi.StringMapOutput)
+}
+
+type AccessControlRulesPrivilegeResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesPrivilegeResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesPrivilegeResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesPrivilegeResponseArrayOutput) ToAccessControlRulesPrivilegeResponseArrayOutput() AccessControlRulesPrivilegeResponseArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesPrivilegeResponseArrayOutput) ToAccessControlRulesPrivilegeResponseArrayOutputWithContext(ctx context.Context) AccessControlRulesPrivilegeResponseArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesPrivilegeResponseArrayOutput) Index(i pulumi.IntInput) AccessControlRulesPrivilegeResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AccessControlRulesPrivilegeResponse {
+		return vs[0].([]AccessControlRulesPrivilegeResponse)[vs[1].(int)]
+	}).(AccessControlRulesPrivilegeResponseOutput)
+}
+
+// This is the Access Control Rules specification for an inVMAccessControlProfile version.
+type AccessControlRulesResponse struct {
+	// A list of identities.
+	Identities []AccessControlRulesIdentityResponse `pulumi:"identities"`
+	// A list of privileges.
+	Privileges []AccessControlRulesPrivilegeResponse `pulumi:"privileges"`
+	// A list of role assignments.
+	RoleAssignments []AccessControlRulesRoleAssignmentResponse `pulumi:"roleAssignments"`
+	// A list of roles.
+	Roles []AccessControlRulesRoleResponse `pulumi:"roles"`
+}
+
+// This is the Access Control Rules specification for an inVMAccessControlProfile version.
+type AccessControlRulesResponseOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesResponseOutput) ToAccessControlRulesResponseOutput() AccessControlRulesResponseOutput {
+	return o
+}
+
+func (o AccessControlRulesResponseOutput) ToAccessControlRulesResponseOutputWithContext(ctx context.Context) AccessControlRulesResponseOutput {
+	return o
+}
+
+// A list of identities.
+func (o AccessControlRulesResponseOutput) Identities() AccessControlRulesIdentityResponseArrayOutput {
+	return o.ApplyT(func(v AccessControlRulesResponse) []AccessControlRulesIdentityResponse { return v.Identities }).(AccessControlRulesIdentityResponseArrayOutput)
+}
+
+// A list of privileges.
+func (o AccessControlRulesResponseOutput) Privileges() AccessControlRulesPrivilegeResponseArrayOutput {
+	return o.ApplyT(func(v AccessControlRulesResponse) []AccessControlRulesPrivilegeResponse { return v.Privileges }).(AccessControlRulesPrivilegeResponseArrayOutput)
+}
+
+// A list of role assignments.
+func (o AccessControlRulesResponseOutput) RoleAssignments() AccessControlRulesRoleAssignmentResponseArrayOutput {
+	return o.ApplyT(func(v AccessControlRulesResponse) []AccessControlRulesRoleAssignmentResponse {
+		return v.RoleAssignments
+	}).(AccessControlRulesRoleAssignmentResponseArrayOutput)
+}
+
+// A list of roles.
+func (o AccessControlRulesResponseOutput) Roles() AccessControlRulesRoleResponseArrayOutput {
+	return o.ApplyT(func(v AccessControlRulesResponse) []AccessControlRulesRoleResponse { return v.Roles }).(AccessControlRulesRoleResponseArrayOutput)
+}
+
+type AccessControlRulesResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AccessControlRulesResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesResponsePtrOutput) ToAccessControlRulesResponsePtrOutput() AccessControlRulesResponsePtrOutput {
+	return o
+}
+
+func (o AccessControlRulesResponsePtrOutput) ToAccessControlRulesResponsePtrOutputWithContext(ctx context.Context) AccessControlRulesResponsePtrOutput {
+	return o
+}
+
+func (o AccessControlRulesResponsePtrOutput) Elem() AccessControlRulesResponseOutput {
+	return o.ApplyT(func(v *AccessControlRulesResponse) AccessControlRulesResponse {
+		if v != nil {
+			return *v
+		}
+		var ret AccessControlRulesResponse
+		return ret
+	}).(AccessControlRulesResponseOutput)
+}
+
+// A list of identities.
+func (o AccessControlRulesResponsePtrOutput) Identities() AccessControlRulesIdentityResponseArrayOutput {
+	return o.ApplyT(func(v *AccessControlRulesResponse) []AccessControlRulesIdentityResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Identities
+	}).(AccessControlRulesIdentityResponseArrayOutput)
+}
+
+// A list of privileges.
+func (o AccessControlRulesResponsePtrOutput) Privileges() AccessControlRulesPrivilegeResponseArrayOutput {
+	return o.ApplyT(func(v *AccessControlRulesResponse) []AccessControlRulesPrivilegeResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Privileges
+	}).(AccessControlRulesPrivilegeResponseArrayOutput)
+}
+
+// A list of role assignments.
+func (o AccessControlRulesResponsePtrOutput) RoleAssignments() AccessControlRulesRoleAssignmentResponseArrayOutput {
+	return o.ApplyT(func(v *AccessControlRulesResponse) []AccessControlRulesRoleAssignmentResponse {
+		if v == nil {
+			return nil
+		}
+		return v.RoleAssignments
+	}).(AccessControlRulesRoleAssignmentResponseArrayOutput)
+}
+
+// A list of roles.
+func (o AccessControlRulesResponsePtrOutput) Roles() AccessControlRulesRoleResponseArrayOutput {
+	return o.ApplyT(func(v *AccessControlRulesResponse) []AccessControlRulesRoleResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Roles
+	}).(AccessControlRulesRoleResponseArrayOutput)
+}
+
+// The properties of an Access Control Rule Role.
+type AccessControlRulesRole struct {
+	// The name of the role.
+	Name string `pulumi:"name"`
+	// A list of privileges needed by this role.
+	Privileges []string `pulumi:"privileges"`
+}
+
+// AccessControlRulesRoleInput is an input type that accepts AccessControlRulesRoleArgs and AccessControlRulesRoleOutput values.
+// You can construct a concrete instance of `AccessControlRulesRoleInput` via:
+//
+//	AccessControlRulesRoleArgs{...}
+type AccessControlRulesRoleInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesRoleOutput() AccessControlRulesRoleOutput
+	ToAccessControlRulesRoleOutputWithContext(context.Context) AccessControlRulesRoleOutput
+}
+
+// The properties of an Access Control Rule Role.
+type AccessControlRulesRoleArgs struct {
+	// The name of the role.
+	Name pulumi.StringInput `pulumi:"name"`
+	// A list of privileges needed by this role.
+	Privileges pulumi.StringArrayInput `pulumi:"privileges"`
+}
+
+func (AccessControlRulesRoleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesRole)(nil)).Elem()
+}
+
+func (i AccessControlRulesRoleArgs) ToAccessControlRulesRoleOutput() AccessControlRulesRoleOutput {
+	return i.ToAccessControlRulesRoleOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesRoleArgs) ToAccessControlRulesRoleOutputWithContext(ctx context.Context) AccessControlRulesRoleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesRoleOutput)
+}
+
+// AccessControlRulesRoleArrayInput is an input type that accepts AccessControlRulesRoleArray and AccessControlRulesRoleArrayOutput values.
+// You can construct a concrete instance of `AccessControlRulesRoleArrayInput` via:
+//
+//	AccessControlRulesRoleArray{ AccessControlRulesRoleArgs{...} }
+type AccessControlRulesRoleArrayInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesRoleArrayOutput() AccessControlRulesRoleArrayOutput
+	ToAccessControlRulesRoleArrayOutputWithContext(context.Context) AccessControlRulesRoleArrayOutput
+}
+
+type AccessControlRulesRoleArray []AccessControlRulesRoleInput
+
+func (AccessControlRulesRoleArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesRole)(nil)).Elem()
+}
+
+func (i AccessControlRulesRoleArray) ToAccessControlRulesRoleArrayOutput() AccessControlRulesRoleArrayOutput {
+	return i.ToAccessControlRulesRoleArrayOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesRoleArray) ToAccessControlRulesRoleArrayOutputWithContext(ctx context.Context) AccessControlRulesRoleArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesRoleArrayOutput)
+}
+
+// The properties of an Access Control Rule Role.
+type AccessControlRulesRoleOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesRoleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesRole)(nil)).Elem()
+}
+
+func (o AccessControlRulesRoleOutput) ToAccessControlRulesRoleOutput() AccessControlRulesRoleOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleOutput) ToAccessControlRulesRoleOutputWithContext(ctx context.Context) AccessControlRulesRoleOutput {
+	return o
+}
+
+// The name of the role.
+func (o AccessControlRulesRoleOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesRole) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// A list of privileges needed by this role.
+func (o AccessControlRulesRoleOutput) Privileges() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v AccessControlRulesRole) []string { return v.Privileges }).(pulumi.StringArrayOutput)
+}
+
+type AccessControlRulesRoleArrayOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesRoleArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesRole)(nil)).Elem()
+}
+
+func (o AccessControlRulesRoleArrayOutput) ToAccessControlRulesRoleArrayOutput() AccessControlRulesRoleArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleArrayOutput) ToAccessControlRulesRoleArrayOutputWithContext(ctx context.Context) AccessControlRulesRoleArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleArrayOutput) Index(i pulumi.IntInput) AccessControlRulesRoleOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AccessControlRulesRole {
+		return vs[0].([]AccessControlRulesRole)[vs[1].(int)]
+	}).(AccessControlRulesRoleOutput)
+}
+
+// The properties of an Access Control Rule RoleAssignment.
+type AccessControlRulesRoleAssignment struct {
+	// A list of identities that can access the privileges defined by the role.
+	Identities []string `pulumi:"identities"`
+	// The name of the role.
+	Role string `pulumi:"role"`
+}
+
+// AccessControlRulesRoleAssignmentInput is an input type that accepts AccessControlRulesRoleAssignmentArgs and AccessControlRulesRoleAssignmentOutput values.
+// You can construct a concrete instance of `AccessControlRulesRoleAssignmentInput` via:
+//
+//	AccessControlRulesRoleAssignmentArgs{...}
+type AccessControlRulesRoleAssignmentInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesRoleAssignmentOutput() AccessControlRulesRoleAssignmentOutput
+	ToAccessControlRulesRoleAssignmentOutputWithContext(context.Context) AccessControlRulesRoleAssignmentOutput
+}
+
+// The properties of an Access Control Rule RoleAssignment.
+type AccessControlRulesRoleAssignmentArgs struct {
+	// A list of identities that can access the privileges defined by the role.
+	Identities pulumi.StringArrayInput `pulumi:"identities"`
+	// The name of the role.
+	Role pulumi.StringInput `pulumi:"role"`
+}
+
+func (AccessControlRulesRoleAssignmentArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesRoleAssignment)(nil)).Elem()
+}
+
+func (i AccessControlRulesRoleAssignmentArgs) ToAccessControlRulesRoleAssignmentOutput() AccessControlRulesRoleAssignmentOutput {
+	return i.ToAccessControlRulesRoleAssignmentOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesRoleAssignmentArgs) ToAccessControlRulesRoleAssignmentOutputWithContext(ctx context.Context) AccessControlRulesRoleAssignmentOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesRoleAssignmentOutput)
+}
+
+// AccessControlRulesRoleAssignmentArrayInput is an input type that accepts AccessControlRulesRoleAssignmentArray and AccessControlRulesRoleAssignmentArrayOutput values.
+// You can construct a concrete instance of `AccessControlRulesRoleAssignmentArrayInput` via:
+//
+//	AccessControlRulesRoleAssignmentArray{ AccessControlRulesRoleAssignmentArgs{...} }
+type AccessControlRulesRoleAssignmentArrayInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesRoleAssignmentArrayOutput() AccessControlRulesRoleAssignmentArrayOutput
+	ToAccessControlRulesRoleAssignmentArrayOutputWithContext(context.Context) AccessControlRulesRoleAssignmentArrayOutput
+}
+
+type AccessControlRulesRoleAssignmentArray []AccessControlRulesRoleAssignmentInput
+
+func (AccessControlRulesRoleAssignmentArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesRoleAssignment)(nil)).Elem()
+}
+
+func (i AccessControlRulesRoleAssignmentArray) ToAccessControlRulesRoleAssignmentArrayOutput() AccessControlRulesRoleAssignmentArrayOutput {
+	return i.ToAccessControlRulesRoleAssignmentArrayOutputWithContext(context.Background())
+}
+
+func (i AccessControlRulesRoleAssignmentArray) ToAccessControlRulesRoleAssignmentArrayOutputWithContext(ctx context.Context) AccessControlRulesRoleAssignmentArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccessControlRulesRoleAssignmentArrayOutput)
+}
+
+// The properties of an Access Control Rule RoleAssignment.
+type AccessControlRulesRoleAssignmentOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesRoleAssignmentOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesRoleAssignment)(nil)).Elem()
+}
+
+func (o AccessControlRulesRoleAssignmentOutput) ToAccessControlRulesRoleAssignmentOutput() AccessControlRulesRoleAssignmentOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleAssignmentOutput) ToAccessControlRulesRoleAssignmentOutputWithContext(ctx context.Context) AccessControlRulesRoleAssignmentOutput {
+	return o
+}
+
+// A list of identities that can access the privileges defined by the role.
+func (o AccessControlRulesRoleAssignmentOutput) Identities() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v AccessControlRulesRoleAssignment) []string { return v.Identities }).(pulumi.StringArrayOutput)
+}
+
+// The name of the role.
+func (o AccessControlRulesRoleAssignmentOutput) Role() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesRoleAssignment) string { return v.Role }).(pulumi.StringOutput)
+}
+
+type AccessControlRulesRoleAssignmentArrayOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesRoleAssignmentArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesRoleAssignment)(nil)).Elem()
+}
+
+func (o AccessControlRulesRoleAssignmentArrayOutput) ToAccessControlRulesRoleAssignmentArrayOutput() AccessControlRulesRoleAssignmentArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleAssignmentArrayOutput) ToAccessControlRulesRoleAssignmentArrayOutputWithContext(ctx context.Context) AccessControlRulesRoleAssignmentArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleAssignmentArrayOutput) Index(i pulumi.IntInput) AccessControlRulesRoleAssignmentOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AccessControlRulesRoleAssignment {
+		return vs[0].([]AccessControlRulesRoleAssignment)[vs[1].(int)]
+	}).(AccessControlRulesRoleAssignmentOutput)
+}
+
+// The properties of an Access Control Rule RoleAssignment.
+type AccessControlRulesRoleAssignmentResponse struct {
+	// A list of identities that can access the privileges defined by the role.
+	Identities []string `pulumi:"identities"`
+	// The name of the role.
+	Role string `pulumi:"role"`
+}
+
+// The properties of an Access Control Rule RoleAssignment.
+type AccessControlRulesRoleAssignmentResponseOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesRoleAssignmentResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesRoleAssignmentResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesRoleAssignmentResponseOutput) ToAccessControlRulesRoleAssignmentResponseOutput() AccessControlRulesRoleAssignmentResponseOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleAssignmentResponseOutput) ToAccessControlRulesRoleAssignmentResponseOutputWithContext(ctx context.Context) AccessControlRulesRoleAssignmentResponseOutput {
+	return o
+}
+
+// A list of identities that can access the privileges defined by the role.
+func (o AccessControlRulesRoleAssignmentResponseOutput) Identities() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v AccessControlRulesRoleAssignmentResponse) []string { return v.Identities }).(pulumi.StringArrayOutput)
+}
+
+// The name of the role.
+func (o AccessControlRulesRoleAssignmentResponseOutput) Role() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesRoleAssignmentResponse) string { return v.Role }).(pulumi.StringOutput)
+}
+
+type AccessControlRulesRoleAssignmentResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesRoleAssignmentResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesRoleAssignmentResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesRoleAssignmentResponseArrayOutput) ToAccessControlRulesRoleAssignmentResponseArrayOutput() AccessControlRulesRoleAssignmentResponseArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleAssignmentResponseArrayOutput) ToAccessControlRulesRoleAssignmentResponseArrayOutputWithContext(ctx context.Context) AccessControlRulesRoleAssignmentResponseArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleAssignmentResponseArrayOutput) Index(i pulumi.IntInput) AccessControlRulesRoleAssignmentResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AccessControlRulesRoleAssignmentResponse {
+		return vs[0].([]AccessControlRulesRoleAssignmentResponse)[vs[1].(int)]
+	}).(AccessControlRulesRoleAssignmentResponseOutput)
+}
+
+// The properties of an Access Control Rule Role.
+type AccessControlRulesRoleResponse struct {
+	// The name of the role.
+	Name string `pulumi:"name"`
+	// A list of privileges needed by this role.
+	Privileges []string `pulumi:"privileges"`
+}
+
+// The properties of an Access Control Rule Role.
+type AccessControlRulesRoleResponseOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesRoleResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesRoleResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesRoleResponseOutput) ToAccessControlRulesRoleResponseOutput() AccessControlRulesRoleResponseOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleResponseOutput) ToAccessControlRulesRoleResponseOutputWithContext(ctx context.Context) AccessControlRulesRoleResponseOutput {
+	return o
+}
+
+// The name of the role.
+func (o AccessControlRulesRoleResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v AccessControlRulesRoleResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// A list of privileges needed by this role.
+func (o AccessControlRulesRoleResponseOutput) Privileges() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v AccessControlRulesRoleResponse) []string { return v.Privileges }).(pulumi.StringArrayOutput)
+}
+
+type AccessControlRulesRoleResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesRoleResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AccessControlRulesRoleResponse)(nil)).Elem()
+}
+
+func (o AccessControlRulesRoleResponseArrayOutput) ToAccessControlRulesRoleResponseArrayOutput() AccessControlRulesRoleResponseArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleResponseArrayOutput) ToAccessControlRulesRoleResponseArrayOutputWithContext(ctx context.Context) AccessControlRulesRoleResponseArrayOutput {
+	return o
+}
+
+func (o AccessControlRulesRoleResponseArrayOutput) Index(i pulumi.IntInput) AccessControlRulesRoleResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AccessControlRulesRoleResponse {
+		return vs[0].([]AccessControlRulesRoleResponse)[vs[1].(int)]
+	}).(AccessControlRulesRoleResponseOutput)
+}
+
 // Enables or disables a capability on the virtual machine or virtual machine scale set.
 type AdditionalCapabilities struct {
 	// The flag that enables or disables hibernation capability on the VM.
@@ -247,6 +1269,168 @@ func (o AdditionalCapabilitiesResponsePtrOutput) UltraSSDEnabled() pulumi.BoolPt
 		}
 		return v.UltraSSDEnabled
 	}).(pulumi.BoolPtrOutput)
+}
+
+// Describes the additional replica set information.
+type AdditionalReplicaSet struct {
+	// The number of direct drive replicas of the Image Version to be created.This Property is updatable
+	RegionalReplicaCount *int `pulumi:"regionalReplicaCount"`
+	// Specifies the storage account type to be used to create the direct drive replicas
+	StorageAccountType *string `pulumi:"storageAccountType"`
+}
+
+// AdditionalReplicaSetInput is an input type that accepts AdditionalReplicaSetArgs and AdditionalReplicaSetOutput values.
+// You can construct a concrete instance of `AdditionalReplicaSetInput` via:
+//
+//	AdditionalReplicaSetArgs{...}
+type AdditionalReplicaSetInput interface {
+	pulumi.Input
+
+	ToAdditionalReplicaSetOutput() AdditionalReplicaSetOutput
+	ToAdditionalReplicaSetOutputWithContext(context.Context) AdditionalReplicaSetOutput
+}
+
+// Describes the additional replica set information.
+type AdditionalReplicaSetArgs struct {
+	// The number of direct drive replicas of the Image Version to be created.This Property is updatable
+	RegionalReplicaCount pulumi.IntPtrInput `pulumi:"regionalReplicaCount"`
+	// Specifies the storage account type to be used to create the direct drive replicas
+	StorageAccountType pulumi.StringPtrInput `pulumi:"storageAccountType"`
+}
+
+func (AdditionalReplicaSetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*AdditionalReplicaSet)(nil)).Elem()
+}
+
+func (i AdditionalReplicaSetArgs) ToAdditionalReplicaSetOutput() AdditionalReplicaSetOutput {
+	return i.ToAdditionalReplicaSetOutputWithContext(context.Background())
+}
+
+func (i AdditionalReplicaSetArgs) ToAdditionalReplicaSetOutputWithContext(ctx context.Context) AdditionalReplicaSetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AdditionalReplicaSetOutput)
+}
+
+// AdditionalReplicaSetArrayInput is an input type that accepts AdditionalReplicaSetArray and AdditionalReplicaSetArrayOutput values.
+// You can construct a concrete instance of `AdditionalReplicaSetArrayInput` via:
+//
+//	AdditionalReplicaSetArray{ AdditionalReplicaSetArgs{...} }
+type AdditionalReplicaSetArrayInput interface {
+	pulumi.Input
+
+	ToAdditionalReplicaSetArrayOutput() AdditionalReplicaSetArrayOutput
+	ToAdditionalReplicaSetArrayOutputWithContext(context.Context) AdditionalReplicaSetArrayOutput
+}
+
+type AdditionalReplicaSetArray []AdditionalReplicaSetInput
+
+func (AdditionalReplicaSetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AdditionalReplicaSet)(nil)).Elem()
+}
+
+func (i AdditionalReplicaSetArray) ToAdditionalReplicaSetArrayOutput() AdditionalReplicaSetArrayOutput {
+	return i.ToAdditionalReplicaSetArrayOutputWithContext(context.Background())
+}
+
+func (i AdditionalReplicaSetArray) ToAdditionalReplicaSetArrayOutputWithContext(ctx context.Context) AdditionalReplicaSetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AdditionalReplicaSetArrayOutput)
+}
+
+// Describes the additional replica set information.
+type AdditionalReplicaSetOutput struct{ *pulumi.OutputState }
+
+func (AdditionalReplicaSetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AdditionalReplicaSet)(nil)).Elem()
+}
+
+func (o AdditionalReplicaSetOutput) ToAdditionalReplicaSetOutput() AdditionalReplicaSetOutput {
+	return o
+}
+
+func (o AdditionalReplicaSetOutput) ToAdditionalReplicaSetOutputWithContext(ctx context.Context) AdditionalReplicaSetOutput {
+	return o
+}
+
+// The number of direct drive replicas of the Image Version to be created.This Property is updatable
+func (o AdditionalReplicaSetOutput) RegionalReplicaCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v AdditionalReplicaSet) *int { return v.RegionalReplicaCount }).(pulumi.IntPtrOutput)
+}
+
+// Specifies the storage account type to be used to create the direct drive replicas
+func (o AdditionalReplicaSetOutput) StorageAccountType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AdditionalReplicaSet) *string { return v.StorageAccountType }).(pulumi.StringPtrOutput)
+}
+
+type AdditionalReplicaSetArrayOutput struct{ *pulumi.OutputState }
+
+func (AdditionalReplicaSetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AdditionalReplicaSet)(nil)).Elem()
+}
+
+func (o AdditionalReplicaSetArrayOutput) ToAdditionalReplicaSetArrayOutput() AdditionalReplicaSetArrayOutput {
+	return o
+}
+
+func (o AdditionalReplicaSetArrayOutput) ToAdditionalReplicaSetArrayOutputWithContext(ctx context.Context) AdditionalReplicaSetArrayOutput {
+	return o
+}
+
+func (o AdditionalReplicaSetArrayOutput) Index(i pulumi.IntInput) AdditionalReplicaSetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AdditionalReplicaSet {
+		return vs[0].([]AdditionalReplicaSet)[vs[1].(int)]
+	}).(AdditionalReplicaSetOutput)
+}
+
+// Describes the additional replica set information.
+type AdditionalReplicaSetResponse struct {
+	// The number of direct drive replicas of the Image Version to be created.This Property is updatable
+	RegionalReplicaCount *int `pulumi:"regionalReplicaCount"`
+	// Specifies the storage account type to be used to create the direct drive replicas
+	StorageAccountType *string `pulumi:"storageAccountType"`
+}
+
+// Describes the additional replica set information.
+type AdditionalReplicaSetResponseOutput struct{ *pulumi.OutputState }
+
+func (AdditionalReplicaSetResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AdditionalReplicaSetResponse)(nil)).Elem()
+}
+
+func (o AdditionalReplicaSetResponseOutput) ToAdditionalReplicaSetResponseOutput() AdditionalReplicaSetResponseOutput {
+	return o
+}
+
+func (o AdditionalReplicaSetResponseOutput) ToAdditionalReplicaSetResponseOutputWithContext(ctx context.Context) AdditionalReplicaSetResponseOutput {
+	return o
+}
+
+// The number of direct drive replicas of the Image Version to be created.This Property is updatable
+func (o AdditionalReplicaSetResponseOutput) RegionalReplicaCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v AdditionalReplicaSetResponse) *int { return v.RegionalReplicaCount }).(pulumi.IntPtrOutput)
+}
+
+// Specifies the storage account type to be used to create the direct drive replicas
+func (o AdditionalReplicaSetResponseOutput) StorageAccountType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AdditionalReplicaSetResponse) *string { return v.StorageAccountType }).(pulumi.StringPtrOutput)
+}
+
+type AdditionalReplicaSetResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (AdditionalReplicaSetResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]AdditionalReplicaSetResponse)(nil)).Elem()
+}
+
+func (o AdditionalReplicaSetResponseArrayOutput) ToAdditionalReplicaSetResponseArrayOutput() AdditionalReplicaSetResponseArrayOutput {
+	return o
+}
+
+func (o AdditionalReplicaSetResponseArrayOutput) ToAdditionalReplicaSetResponseArrayOutputWithContext(ctx context.Context) AdditionalReplicaSetResponseArrayOutput {
+	return o
+}
+
+func (o AdditionalReplicaSetResponseArrayOutput) Index(i pulumi.IntInput) AdditionalReplicaSetResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) AdditionalReplicaSetResponse {
+		return vs[0].([]AdditionalReplicaSetResponse)[vs[1].(int)]
+	}).(AdditionalReplicaSetResponseOutput)
 }
 
 // Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
@@ -13922,6 +15106,231 @@ func (o GalleryImageVersionStorageProfileResponseOutput) Source() GalleryArtifac
 	return o.ApplyT(func(v GalleryImageVersionStorageProfileResponse) *GalleryArtifactVersionFullSourceResponse {
 		return v.Source
 	}).(GalleryArtifactVersionFullSourceResponsePtrOutput)
+}
+
+// Describes the properties of a gallery inVMAccessControlProfile.
+type GalleryInVMAccessControlProfileProperties struct {
+	// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'
+	ApplicableHostEndpoint EndpointTypes `pulumi:"applicableHostEndpoint"`
+	// The description of this gallery inVMAccessControlProfile resources. This property is updatable.
+	Description *string `pulumi:"description"`
+	// This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux'
+	OsType OperatingSystemTypes `pulumi:"osType"`
+}
+
+// GalleryInVMAccessControlProfilePropertiesInput is an input type that accepts GalleryInVMAccessControlProfilePropertiesArgs and GalleryInVMAccessControlProfilePropertiesOutput values.
+// You can construct a concrete instance of `GalleryInVMAccessControlProfilePropertiesInput` via:
+//
+//	GalleryInVMAccessControlProfilePropertiesArgs{...}
+type GalleryInVMAccessControlProfilePropertiesInput interface {
+	pulumi.Input
+
+	ToGalleryInVMAccessControlProfilePropertiesOutput() GalleryInVMAccessControlProfilePropertiesOutput
+	ToGalleryInVMAccessControlProfilePropertiesOutputWithContext(context.Context) GalleryInVMAccessControlProfilePropertiesOutput
+}
+
+// Describes the properties of a gallery inVMAccessControlProfile.
+type GalleryInVMAccessControlProfilePropertiesArgs struct {
+	// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'
+	ApplicableHostEndpoint EndpointTypesInput `pulumi:"applicableHostEndpoint"`
+	// The description of this gallery inVMAccessControlProfile resources. This property is updatable.
+	Description pulumi.StringPtrInput `pulumi:"description"`
+	// This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux'
+	OsType OperatingSystemTypesInput `pulumi:"osType"`
+}
+
+func (GalleryInVMAccessControlProfilePropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryInVMAccessControlProfileProperties)(nil)).Elem()
+}
+
+func (i GalleryInVMAccessControlProfilePropertiesArgs) ToGalleryInVMAccessControlProfilePropertiesOutput() GalleryInVMAccessControlProfilePropertiesOutput {
+	return i.ToGalleryInVMAccessControlProfilePropertiesOutputWithContext(context.Background())
+}
+
+func (i GalleryInVMAccessControlProfilePropertiesArgs) ToGalleryInVMAccessControlProfilePropertiesOutputWithContext(ctx context.Context) GalleryInVMAccessControlProfilePropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryInVMAccessControlProfilePropertiesOutput)
+}
+
+func (i GalleryInVMAccessControlProfilePropertiesArgs) ToGalleryInVMAccessControlProfilePropertiesPtrOutput() GalleryInVMAccessControlProfilePropertiesPtrOutput {
+	return i.ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i GalleryInVMAccessControlProfilePropertiesArgs) ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(ctx context.Context) GalleryInVMAccessControlProfilePropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryInVMAccessControlProfilePropertiesOutput).ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(ctx)
+}
+
+// GalleryInVMAccessControlProfilePropertiesPtrInput is an input type that accepts GalleryInVMAccessControlProfilePropertiesArgs, GalleryInVMAccessControlProfilePropertiesPtr and GalleryInVMAccessControlProfilePropertiesPtrOutput values.
+// You can construct a concrete instance of `GalleryInVMAccessControlProfilePropertiesPtrInput` via:
+//
+//	        GalleryInVMAccessControlProfilePropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type GalleryInVMAccessControlProfilePropertiesPtrInput interface {
+	pulumi.Input
+
+	ToGalleryInVMAccessControlProfilePropertiesPtrOutput() GalleryInVMAccessControlProfilePropertiesPtrOutput
+	ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(context.Context) GalleryInVMAccessControlProfilePropertiesPtrOutput
+}
+
+type galleryInVMAccessControlProfilePropertiesPtrType GalleryInVMAccessControlProfilePropertiesArgs
+
+func GalleryInVMAccessControlProfilePropertiesPtr(v *GalleryInVMAccessControlProfilePropertiesArgs) GalleryInVMAccessControlProfilePropertiesPtrInput {
+	return (*galleryInVMAccessControlProfilePropertiesPtrType)(v)
+}
+
+func (*galleryInVMAccessControlProfilePropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryInVMAccessControlProfileProperties)(nil)).Elem()
+}
+
+func (i *galleryInVMAccessControlProfilePropertiesPtrType) ToGalleryInVMAccessControlProfilePropertiesPtrOutput() GalleryInVMAccessControlProfilePropertiesPtrOutput {
+	return i.ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *galleryInVMAccessControlProfilePropertiesPtrType) ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(ctx context.Context) GalleryInVMAccessControlProfilePropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryInVMAccessControlProfilePropertiesPtrOutput)
+}
+
+// Describes the properties of a gallery inVMAccessControlProfile.
+type GalleryInVMAccessControlProfilePropertiesOutput struct{ *pulumi.OutputState }
+
+func (GalleryInVMAccessControlProfilePropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryInVMAccessControlProfileProperties)(nil)).Elem()
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesOutput) ToGalleryInVMAccessControlProfilePropertiesOutput() GalleryInVMAccessControlProfilePropertiesOutput {
+	return o
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesOutput) ToGalleryInVMAccessControlProfilePropertiesOutputWithContext(ctx context.Context) GalleryInVMAccessControlProfilePropertiesOutput {
+	return o
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesOutput) ToGalleryInVMAccessControlProfilePropertiesPtrOutput() GalleryInVMAccessControlProfilePropertiesPtrOutput {
+	return o.ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesOutput) ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(ctx context.Context) GalleryInVMAccessControlProfilePropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GalleryInVMAccessControlProfileProperties) *GalleryInVMAccessControlProfileProperties {
+		return &v
+	}).(GalleryInVMAccessControlProfilePropertiesPtrOutput)
+}
+
+// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'
+func (o GalleryInVMAccessControlProfilePropertiesOutput) ApplicableHostEndpoint() EndpointTypesOutput {
+	return o.ApplyT(func(v GalleryInVMAccessControlProfileProperties) EndpointTypes { return v.ApplicableHostEndpoint }).(EndpointTypesOutput)
+}
+
+// The description of this gallery inVMAccessControlProfile resources. This property is updatable.
+func (o GalleryInVMAccessControlProfilePropertiesOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryInVMAccessControlProfileProperties) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux'
+func (o GalleryInVMAccessControlProfilePropertiesOutput) OsType() OperatingSystemTypesOutput {
+	return o.ApplyT(func(v GalleryInVMAccessControlProfileProperties) OperatingSystemTypes { return v.OsType }).(OperatingSystemTypesOutput)
+}
+
+type GalleryInVMAccessControlProfilePropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (GalleryInVMAccessControlProfilePropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryInVMAccessControlProfileProperties)(nil)).Elem()
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesPtrOutput) ToGalleryInVMAccessControlProfilePropertiesPtrOutput() GalleryInVMAccessControlProfilePropertiesPtrOutput {
+	return o
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesPtrOutput) ToGalleryInVMAccessControlProfilePropertiesPtrOutputWithContext(ctx context.Context) GalleryInVMAccessControlProfilePropertiesPtrOutput {
+	return o
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesPtrOutput) Elem() GalleryInVMAccessControlProfilePropertiesOutput {
+	return o.ApplyT(func(v *GalleryInVMAccessControlProfileProperties) GalleryInVMAccessControlProfileProperties {
+		if v != nil {
+			return *v
+		}
+		var ret GalleryInVMAccessControlProfileProperties
+		return ret
+	}).(GalleryInVMAccessControlProfilePropertiesOutput)
+}
+
+// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'
+func (o GalleryInVMAccessControlProfilePropertiesPtrOutput) ApplicableHostEndpoint() EndpointTypesPtrOutput {
+	return o.ApplyT(func(v *GalleryInVMAccessControlProfileProperties) *EndpointTypes {
+		if v == nil {
+			return nil
+		}
+		return &v.ApplicableHostEndpoint
+	}).(EndpointTypesPtrOutput)
+}
+
+// The description of this gallery inVMAccessControlProfile resources. This property is updatable.
+func (o GalleryInVMAccessControlProfilePropertiesPtrOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryInVMAccessControlProfileProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Description
+	}).(pulumi.StringPtrOutput)
+}
+
+// This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux'
+func (o GalleryInVMAccessControlProfilePropertiesPtrOutput) OsType() OperatingSystemTypesPtrOutput {
+	return o.ApplyT(func(v *GalleryInVMAccessControlProfileProperties) *OperatingSystemTypes {
+		if v == nil {
+			return nil
+		}
+		return &v.OsType
+	}).(OperatingSystemTypesPtrOutput)
+}
+
+// Describes the properties of a gallery inVMAccessControlProfile.
+type GalleryInVMAccessControlProfilePropertiesResponse struct {
+	// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'
+	ApplicableHostEndpoint string `pulumi:"applicableHostEndpoint"`
+	// The description of this gallery inVMAccessControlProfile resources. This property is updatable.
+	Description *string `pulumi:"description"`
+	// This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux'
+	OsType string `pulumi:"osType"`
+	// The provisioning state, which only appears in the response.
+	ProvisioningState string `pulumi:"provisioningState"`
+}
+
+// Describes the properties of a gallery inVMAccessControlProfile.
+type GalleryInVMAccessControlProfilePropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (GalleryInVMAccessControlProfilePropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryInVMAccessControlProfilePropertiesResponse)(nil)).Elem()
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesResponseOutput) ToGalleryInVMAccessControlProfilePropertiesResponseOutput() GalleryInVMAccessControlProfilePropertiesResponseOutput {
+	return o
+}
+
+func (o GalleryInVMAccessControlProfilePropertiesResponseOutput) ToGalleryInVMAccessControlProfilePropertiesResponseOutputWithContext(ctx context.Context) GalleryInVMAccessControlProfilePropertiesResponseOutput {
+	return o
+}
+
+// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'
+func (o GalleryInVMAccessControlProfilePropertiesResponseOutput) ApplicableHostEndpoint() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryInVMAccessControlProfilePropertiesResponse) string { return v.ApplicableHostEndpoint }).(pulumi.StringOutput)
+}
+
+// The description of this gallery inVMAccessControlProfile resources. This property is updatable.
+func (o GalleryInVMAccessControlProfilePropertiesResponseOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryInVMAccessControlProfilePropertiesResponse) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux'
+func (o GalleryInVMAccessControlProfilePropertiesResponseOutput) OsType() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryInVMAccessControlProfilePropertiesResponse) string { return v.OsType }).(pulumi.StringOutput)
+}
+
+// The provisioning state, which only appears in the response.
+func (o GalleryInVMAccessControlProfilePropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryInVMAccessControlProfilePropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
 }
 
 // This is the OS disk image.
@@ -31901,6 +33310,8 @@ func (o SystemDataResponsePtrOutput) LastModifiedAt() pulumi.StringPtrOutput {
 
 // Describes the target region information.
 type TargetRegion struct {
+	// List of storage sku with replica count to create direct drive replicas.
+	AdditionalReplicaSets []AdditionalReplicaSet `pulumi:"additionalReplicaSets"`
 	// Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
 	Encryption *EncryptionImages `pulumi:"encryption"`
 	// Contains the flag setting to hide an image when users specify version='latest'
@@ -31926,6 +33337,8 @@ type TargetRegionInput interface {
 
 // Describes the target region information.
 type TargetRegionArgs struct {
+	// List of storage sku with replica count to create direct drive replicas.
+	AdditionalReplicaSets AdditionalReplicaSetArrayInput `pulumi:"additionalReplicaSets"`
 	// Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
 	Encryption EncryptionImagesPtrInput `pulumi:"encryption"`
 	// Contains the flag setting to hide an image when users specify version='latest'
@@ -31990,6 +33403,11 @@ func (o TargetRegionOutput) ToTargetRegionOutputWithContext(ctx context.Context)
 	return o
 }
 
+// List of storage sku with replica count to create direct drive replicas.
+func (o TargetRegionOutput) AdditionalReplicaSets() AdditionalReplicaSetArrayOutput {
+	return o.ApplyT(func(v TargetRegion) []AdditionalReplicaSet { return v.AdditionalReplicaSets }).(AdditionalReplicaSetArrayOutput)
+}
+
 // Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
 func (o TargetRegionOutput) Encryption() EncryptionImagesPtrOutput {
 	return o.ApplyT(func(v TargetRegion) *EncryptionImages { return v.Encryption }).(EncryptionImagesPtrOutput)
@@ -32037,6 +33455,8 @@ func (o TargetRegionArrayOutput) Index(i pulumi.IntInput) TargetRegionOutput {
 
 // Describes the target region information.
 type TargetRegionResponse struct {
+	// List of storage sku with replica count to create direct drive replicas.
+	AdditionalReplicaSets []AdditionalReplicaSetResponse `pulumi:"additionalReplicaSets"`
 	// Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
 	Encryption *EncryptionImagesResponse `pulumi:"encryption"`
 	// Contains the flag setting to hide an image when users specify version='latest'
@@ -32062,6 +33482,11 @@ func (o TargetRegionResponseOutput) ToTargetRegionResponseOutput() TargetRegionR
 
 func (o TargetRegionResponseOutput) ToTargetRegionResponseOutputWithContext(ctx context.Context) TargetRegionResponseOutput {
 	return o
+}
+
+// List of storage sku with replica count to create direct drive replicas.
+func (o TargetRegionResponseOutput) AdditionalReplicaSets() AdditionalReplicaSetResponseArrayOutput {
+	return o.ApplyT(func(v TargetRegionResponse) []AdditionalReplicaSetResponse { return v.AdditionalReplicaSets }).(AdditionalReplicaSetResponseArrayOutput)
 }
 
 // Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
@@ -45476,10 +46901,34 @@ func (o WindowsVMGuestPatchAutomaticByPlatformSettingsResponsePtrOutput) RebootS
 }
 
 func init() {
+	pulumi.RegisterOutputType(AccessControlRulesOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesPtrOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesIdentityOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesIdentityArrayOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesIdentityResponseOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesIdentityResponseArrayOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesPrivilegeOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesPrivilegeArrayOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesPrivilegeResponseOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesPrivilegeResponseArrayOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesResponseOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesResponsePtrOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesRoleOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesRoleArrayOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesRoleAssignmentOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesRoleAssignmentArrayOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesRoleAssignmentResponseOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesRoleAssignmentResponseArrayOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesRoleResponseOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesRoleResponseArrayOutput{})
 	pulumi.RegisterOutputType(AdditionalCapabilitiesOutput{})
 	pulumi.RegisterOutputType(AdditionalCapabilitiesPtrOutput{})
 	pulumi.RegisterOutputType(AdditionalCapabilitiesResponseOutput{})
 	pulumi.RegisterOutputType(AdditionalCapabilitiesResponsePtrOutput{})
+	pulumi.RegisterOutputType(AdditionalReplicaSetOutput{})
+	pulumi.RegisterOutputType(AdditionalReplicaSetArrayOutput{})
+	pulumi.RegisterOutputType(AdditionalReplicaSetResponseOutput{})
+	pulumi.RegisterOutputType(AdditionalReplicaSetResponseArrayOutput{})
 	pulumi.RegisterOutputType(AdditionalUnattendContentOutput{})
 	pulumi.RegisterOutputType(AdditionalUnattendContentArrayOutput{})
 	pulumi.RegisterOutputType(AdditionalUnattendContentResponseOutput{})
@@ -45716,6 +47165,9 @@ func init() {
 	pulumi.RegisterOutputType(GalleryImageVersionSafetyProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(GalleryImageVersionStorageProfileOutput{})
 	pulumi.RegisterOutputType(GalleryImageVersionStorageProfileResponseOutput{})
+	pulumi.RegisterOutputType(GalleryInVMAccessControlProfilePropertiesOutput{})
+	pulumi.RegisterOutputType(GalleryInVMAccessControlProfilePropertiesPtrOutput{})
+	pulumi.RegisterOutputType(GalleryInVMAccessControlProfilePropertiesResponseOutput{})
 	pulumi.RegisterOutputType(GalleryOSDiskImageOutput{})
 	pulumi.RegisterOutputType(GalleryOSDiskImagePtrOutput{})
 	pulumi.RegisterOutputType(GalleryOSDiskImageResponseOutput{})

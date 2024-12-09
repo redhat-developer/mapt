@@ -121,12 +121,15 @@ func dialPlugin(portNum int, bin, prefix string, dialOptions []grpc.DialOption) 
 	port := strconv.Itoa(portNum)
 
 	// Now that we have the port, go ahead and create a gRPC client connection to it.
-	conn, err := grpc.Dial("127.0.0.1:"+port, dialOptions...)
+	conn, err := grpc.NewClient("127.0.0.1:"+port, dialOptions...)
 	if err != nil {
 		return nil, fmt.Errorf("could not dial plugin [%v] over RPC: %w", bin, err)
 	}
 
-	// Now wait for the gRPC connection to the plugin to become ready.
+	// We want to wait for the gRPC connection to the plugin to become ready before we proceed. To this end, we'll
+	// manually kick off a Connect() call and then wait until the state of the connection becomes Ready.
+	conn.Connect()
+
 	// TODO[pulumi/pulumi#337]: in theory, this should be unnecessary.  gRPC's default WaitForReady behavior
 	//     should auto-retry appropriately.  On Linux, however, we are observing different behavior.  In the meantime
 	//     while this bug exists, we'll simply do a bit of waiting of our own up front.
@@ -283,17 +286,13 @@ func newPlugin(ctx *Context, pwd, bin, prefix string, kind apitype.PluginKind,
 		}
 		portString += string(b[:n])
 	}
-	// Trim any whitespace from the first line (this is to handle things like windows that will write
-	// "1234\r\n", or slightly odd providers that might add whitespace like "1234 ")
-	portString = strings.TrimSpace(portString)
-
-	// Parse the output line (minus the '\n') to ensure it's a numeric port.
+	// Parse the output line to ensure it's a numeric port.
 	var port int
-	if port, err = strconv.Atoi(portString); err != nil {
+	if port, err = parsePort(portString); err != nil {
 		killerr := plug.Kill()
 		contract.IgnoreError(killerr) // ignoring the error because the existing one trumps it.
 		return nil, fmt.Errorf(
-			"%v plugin [%v] wrote a non-numeric port to stdout ('%v'): %w", prefix, bin, port, err)
+			"%v plugin [%v] wrote an invalid port to stdout: %w", prefix, bin, err)
 	}
 
 	// After reading the port number, set up a tracer on stdout just so other output doesn't disappear.
@@ -309,6 +308,32 @@ func newPlugin(ctx *Context, pwd, bin, prefix string, kind apitype.PluginKind,
 	// Done; store the connection and return the plugin info.
 	plug.Conn = conn
 	return plug, nil
+}
+
+func parsePort(portString string) (int, error) {
+	// Workaround for https://github.com/dotnet/sdk/issues/44610
+	// In .NET 9.0 `dotnet run` will print progress indicators to the terminal,
+	// even though it should not do this when the output is redirected.
+	// We strip the control characters here to ensure that the port number is parsed correctly.
+	//nolint:lll
+	// https://github.com/dotnet/sdk/pull/42240/files#diff-6860155f1838e13335d417fc2fed7b13ac5ddf3b95d3548c6646618bc59e89e7R11
+	portString = strings.ReplaceAll(portString, "\x1b]9;4;3;\x1b\\", "")
+	portString = strings.ReplaceAll(portString, "\x1b]9;4;0;\x1b\\", "")
+
+	// Trim any whitespace from the first line (this is to handle things like windows that will write
+	// "1234\r\n", or slightly odd providers that might add whitespace like "1234 ")
+	portString = strings.TrimSpace(portString)
+
+	// Parse the output line to ensure it's a numeric port.
+	port, err := strconv.Atoi(portString)
+	if err != nil {
+		// strconv.Atoi already includes the string we tried to parse
+		return 0, fmt.Errorf("could not parse port: %w", err)
+	}
+	if port <= 0 || port > 65535 {
+		return 0, fmt.Errorf("invalid port number: %v", port)
+	}
+	return port, nil
 }
 
 // execPlugin starts the plugin executable.
@@ -362,7 +387,7 @@ func execPlugin(ctx *Context, bin, prefix string, kind apitype.PluginKind,
 		stdout, stderr, kill, err := runtime.RunPlugin(RunPluginInfo{
 			Info:             info,
 			WorkingDirectory: ctx.Pwd,
-			Args:             pluginArgs,
+			Args:             args,
 			Env:              env,
 		})
 		if err != nil {
@@ -401,7 +426,6 @@ func execPlugin(ctx *Context, bin, prefix string, kind apitype.PluginKind,
 			if ok && syscallErr == syscall.ENOENT {
 				return nil, errPluginNotFound
 			}
-
 		}
 		return nil, err
 	}

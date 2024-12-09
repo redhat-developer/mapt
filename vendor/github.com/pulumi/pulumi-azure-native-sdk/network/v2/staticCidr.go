@@ -14,6 +14,8 @@ import (
 
 // Instance of StaticCidr resource.
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 type StaticCidr struct {
 	pulumi.CustomResourceState
 
@@ -46,6 +48,9 @@ func NewStaticCidr(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:network/v20240101preview:StaticCidr"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:StaticCidr"),
 		},
 	})
 	opts = append(opts, aliases)

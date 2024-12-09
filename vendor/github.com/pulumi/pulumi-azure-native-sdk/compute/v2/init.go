@@ -51,6 +51,10 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &GalleryImage{}
 	case "azure-native:compute:GalleryImageVersion":
 		r = &GalleryImageVersion{}
+	case "azure-native:compute:GalleryInVMAccessControlProfile":
+		r = &GalleryInVMAccessControlProfile{}
+	case "azure-native:compute:GalleryInVMAccessControlProfileVersion":
+		r = &GalleryInVMAccessControlProfileVersion{}
 	case "azure-native:compute:Image":
 		r = &Image{}
 	case "azure-native:compute:ProximityPlacementGroup":

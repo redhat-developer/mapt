@@ -31,6 +31,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &AmiLaunchPermission{}
 	case "aws:ec2/availabilityZoneGroup:AvailabilityZoneGroup":
 		r = &AvailabilityZoneGroup{}
+	case "aws:ec2/capacityBlockReservation:CapacityBlockReservation":
+		r = &CapacityBlockReservation{}
 	case "aws:ec2/capacityReservation:CapacityReservation":
 		r = &CapacityReservation{}
 	case "aws:ec2/carrierGateway:CarrierGateway":
@@ -153,6 +155,10 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &VolumeAttachment{}
 	case "aws:ec2/vpc:Vpc":
 		r = &Vpc{}
+	case "aws:ec2/vpcBlockPublicAccessExclusion:VpcBlockPublicAccessExclusion":
+		r = &VpcBlockPublicAccessExclusion{}
+	case "aws:ec2/vpcBlockPublicAccessOptions:VpcBlockPublicAccessOptions":
+		r = &VpcBlockPublicAccessOptions{}
 	case "aws:ec2/vpcDhcpOptions:VpcDhcpOptions":
 		r = &VpcDhcpOptions{}
 	case "aws:ec2/vpcDhcpOptionsAssociation:VpcDhcpOptionsAssociation":
@@ -247,6 +253,11 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"aws",
 		"ec2/availabilityZoneGroup",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"aws",
+		"ec2/capacityBlockReservation",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(
@@ -552,6 +563,16 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"aws",
 		"ec2/vpc",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"aws",
+		"ec2/vpcBlockPublicAccessExclusion",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"aws",
+		"ec2/vpcBlockPublicAccessOptions",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(

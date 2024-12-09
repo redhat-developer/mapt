@@ -14,6 +14,8 @@ import (
 
 // Configuration information for analysis run.
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 type ReachabilityAnalysisRun struct {
 	pulumi.CustomResourceState
 
@@ -49,6 +51,9 @@ func NewReachabilityAnalysisRun(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:network/v20240101preview:ReachabilityAnalysisRun"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:ReachabilityAnalysisRun"),
 		},
 	})
 	opts = append(opts, aliases)

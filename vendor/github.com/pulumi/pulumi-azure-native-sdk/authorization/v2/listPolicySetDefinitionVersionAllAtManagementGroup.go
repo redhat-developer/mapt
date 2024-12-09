@@ -14,7 +14,7 @@ import (
 // This operation lists all the policy set definition versions for all policy set definitions at the management group scope.
 // Azure REST API version: 2023-04-01.
 //
-// Other available API versions: 2024-05-01.
+// Other available API versions: 2024-05-01, 2025-01-01.
 func ListPolicySetDefinitionVersionAllAtManagementGroup(ctx *pulumi.Context, args *ListPolicySetDefinitionVersionAllAtManagementGroupArgs, opts ...pulumi.InvokeOption) (*ListPolicySetDefinitionVersionAllAtManagementGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListPolicySetDefinitionVersionAllAtManagementGroupResult

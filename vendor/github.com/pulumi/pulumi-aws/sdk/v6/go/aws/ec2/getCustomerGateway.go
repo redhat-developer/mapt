@@ -89,6 +89,8 @@ type LookupCustomerGatewayResult struct {
 	Arn string `pulumi:"arn"`
 	// Gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
 	BgpAsn int `pulumi:"bgpAsn"`
+	// Gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
+	BgpAsnExtended int `pulumi:"bgpAsnExtended"`
 	// ARN for the customer gateway certificate.
 	CertificateArn string `pulumi:"certificateArn"`
 	// Name for the customer gateway device.
@@ -105,14 +107,20 @@ type LookupCustomerGatewayResult struct {
 
 func LookupCustomerGatewayOutput(ctx *pulumi.Context, args LookupCustomerGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupCustomerGatewayResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupCustomerGatewayResult, error) {
+		ApplyT(func(v interface{}) (LookupCustomerGatewayResultOutput, error) {
 			args := v.(LookupCustomerGatewayArgs)
-			r, err := LookupCustomerGateway(ctx, &args, opts...)
-			var s LookupCustomerGatewayResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv LookupCustomerGatewayResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getCustomerGateway:getCustomerGateway", args, &rv, "", opts...)
+			if err != nil {
+				return LookupCustomerGatewayResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupCustomerGatewayResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupCustomerGatewayResultOutput), nil
+			}
+			return output, nil
 		}).(LookupCustomerGatewayResultOutput)
 }
 
@@ -155,6 +163,11 @@ func (o LookupCustomerGatewayResultOutput) Arn() pulumi.StringOutput {
 // Gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
 func (o LookupCustomerGatewayResultOutput) BgpAsn() pulumi.IntOutput {
 	return o.ApplyT(func(v LookupCustomerGatewayResult) int { return v.BgpAsn }).(pulumi.IntOutput)
+}
+
+// Gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
+func (o LookupCustomerGatewayResultOutput) BgpAsnExtended() pulumi.IntOutput {
+	return o.ApplyT(func(v LookupCustomerGatewayResult) int { return v.BgpAsnExtended }).(pulumi.IntOutput)
 }
 
 // ARN for the customer gateway certificate.

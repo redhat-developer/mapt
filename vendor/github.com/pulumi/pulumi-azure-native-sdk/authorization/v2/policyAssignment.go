@@ -15,7 +15,7 @@ import (
 // The policy assignment.
 // Azure REST API version: 2022-06-01. Prior API version in Azure Native 1.x: 2020-09-01.
 //
-// Other available API versions: 2016-04-01, 2016-12-01, 2019-06-01, 2020-03-01, 2023-04-01, 2024-04-01, 2024-05-01.
+// Other available API versions: 2019-06-01, 2020-03-01, 2023-04-01, 2024-04-01, 2024-05-01, 2025-01-01.
 type PolicyAssignment struct {
 	pulumi.CustomResourceState
 
@@ -114,6 +114,9 @@ func NewPolicyAssignment(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:authorization/v20240501:PolicyAssignment"),
+		},
+		{
+			Type: pulumi.String("azure-native:authorization/v20250101:PolicyAssignment"),
 		},
 	})
 	opts = append(opts, aliases)

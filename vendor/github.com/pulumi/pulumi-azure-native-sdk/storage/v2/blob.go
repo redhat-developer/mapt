@@ -92,7 +92,7 @@ type blobArgs struct {
 	BlobName *string `pulumi:"blobName"`
 	// The name of the storage container in which this blob should be created.
 	ContainerName string `pulumi:"containerName"`
-	// The MD5 sum of the blob contents. Cannot be defined if blob type is Append.
+	// The MD5 sum of the blob contents, base64-encoded. Cannot be defined if blob type is Append.
 	ContentMd5 *string `pulumi:"contentMd5"`
 	// The content type of the storage blob. Defaults to `application/octet-stream`.
 	ContentType *string `pulumi:"contentType"`
@@ -116,7 +116,7 @@ type BlobArgs struct {
 	BlobName pulumi.StringPtrInput
 	// The name of the storage container in which this blob should be created.
 	ContainerName pulumi.StringInput
-	// The MD5 sum of the blob contents. Cannot be defined if blob type is Append.
+	// The MD5 sum of the blob contents, base64-encoded. Cannot be defined if blob type is Append.
 	ContentMd5 pulumi.StringPtrInput
 	// The content type of the storage blob. Defaults to `application/octet-stream`.
 	ContentType pulumi.StringPtrInput

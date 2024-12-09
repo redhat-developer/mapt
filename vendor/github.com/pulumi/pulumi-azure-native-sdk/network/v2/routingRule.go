@@ -14,6 +14,8 @@ import (
 
 // Network routing rule.
 // Azure REST API version: 2024-03-01.
+//
+// Other available API versions: 2024-05-01.
 type RoutingRule struct {
 	pulumi.CustomResourceState
 
@@ -65,6 +67,9 @@ func NewRoutingRule(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:network/v20240301:RoutingRule"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:RoutingRule"),
 		},
 	})
 	opts = append(opts, aliases)

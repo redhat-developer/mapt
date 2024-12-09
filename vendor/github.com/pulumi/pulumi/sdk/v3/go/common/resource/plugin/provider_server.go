@@ -27,6 +27,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/config"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/rpcutil/rpcerror"
 	pulumirpc "github.com/pulumi/pulumi/sdk/v3/proto/go"
 )
 
@@ -732,7 +733,7 @@ func (p *providerServer) Construct(ctx context.Context,
 		Options: options,
 	})
 	if err != nil {
-		return nil, err
+		return nil, rpcerror.WrapDetailedError(err)
 	}
 
 	opts := p.marshalOptions("outputs")
@@ -864,6 +865,7 @@ func (p *providerServer) Call(ctx context.Context, req *pulumirpc.CallRequest) (
 		Options: options,
 	})
 	if err != nil {
+		err = rpcerror.WrapDetailedError(err)
 		return nil, err
 	}
 

@@ -531,49 +531,49 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
-# github.com/pulumi/pulumi-aws/sdk/v6 v6.39.0
-## explicit; go 1.21
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.64.0
+## explicit; go 1.21.12
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb
-# github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.64.2
+# github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.76.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/authorization/v2
-# github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.64.2
+# github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.76.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/compute/v2
-# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.64.2
+# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.76.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2/v20240801
 # github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2 v2.53.0
 ## explicit; go 1.18
 github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2
-# github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.64.2
+# github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.76.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/network/v2
-# github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.64.2
+# github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.76.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/resources/v2
-# github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.64.2
+# github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.76.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/storage/v2
-# github.com/pulumi/pulumi-azure-native-sdk/v2 v2.64.2
+# github.com/pulumi/pulumi-azure-native-sdk/v2 v2.76.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
-# github.com/pulumi/pulumi-command/sdk v0.11.1
+# github.com/pulumi/pulumi-command/sdk v1.0.1
 ## explicit; go 1.21
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
-# github.com/pulumi/pulumi-random/sdk/v4 v4.16.2
+# github.com/pulumi/pulumi-random/sdk/v4 v4.16.7
 ## explicit; go 1.21
 github.com/pulumi/pulumi-random/sdk/v4/go/random
 github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
-# github.com/pulumi/pulumi-tls/sdk/v5 v5.0.3
+# github.com/pulumi/pulumi-tls/sdk/v5 v5.0.9
 ## explicit; go 1.21
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.135.0
+# github.com/pulumi/pulumi/sdk/v3 v3.142.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -627,6 +627,7 @@ github.com/pulumi/pulumi/sdk/v3/go/common/workspace
 github.com/pulumi/pulumi/sdk/v3/go/internal
 github.com/pulumi/pulumi/sdk/v3/go/property
 github.com/pulumi/pulumi/sdk/v3/go/pulumi
+github.com/pulumi/pulumi/sdk/v3/go/pulumi/errors
 github.com/pulumi/pulumi/sdk/v3/go/pulumi/internals
 github.com/pulumi/pulumi/sdk/v3/go/pulumix
 github.com/pulumi/pulumi/sdk/v3/nodejs/npm

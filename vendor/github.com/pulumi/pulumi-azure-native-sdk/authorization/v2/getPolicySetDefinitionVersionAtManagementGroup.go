@@ -14,7 +14,7 @@ import (
 // This operation retrieves the policy set definition version in the given management group with the given name and version.
 // Azure REST API version: 2023-04-01.
 //
-// Other available API versions: 2024-05-01.
+// Other available API versions: 2024-05-01, 2025-01-01.
 func LookupPolicySetDefinitionVersionAtManagementGroup(ctx *pulumi.Context, args *LookupPolicySetDefinitionVersionAtManagementGroupArgs, opts ...pulumi.InvokeOption) (*LookupPolicySetDefinitionVersionAtManagementGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPolicySetDefinitionVersionAtManagementGroupResult
@@ -26,6 +26,8 @@ func LookupPolicySetDefinitionVersionAtManagementGroup(ctx *pulumi.Context, args
 }
 
 type LookupPolicySetDefinitionVersionAtManagementGroupArgs struct {
+	// Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'.
+	Expand *string `pulumi:"expand"`
 	// The name of the management group. The name is case insensitive.
 	ManagementGroupName string `pulumi:"managementGroupName"`
 	// The policy set definition version.  The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number
@@ -82,6 +84,8 @@ func LookupPolicySetDefinitionVersionAtManagementGroupOutput(ctx *pulumi.Context
 }
 
 type LookupPolicySetDefinitionVersionAtManagementGroupOutputArgs struct {
+	// Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'.
+	Expand pulumi.StringPtrInput `pulumi:"expand"`
 	// The name of the management group. The name is case insensitive.
 	ManagementGroupName pulumi.StringInput `pulumi:"managementGroupName"`
 	// The policy set definition version.  The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number

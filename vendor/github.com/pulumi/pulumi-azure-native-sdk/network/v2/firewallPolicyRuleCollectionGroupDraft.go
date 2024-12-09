@@ -15,7 +15,7 @@ import (
 // Rule Collection Group resource.
 // Azure REST API version: 2023-11-01.
 //
-// Other available API versions: 2024-01-01, 2024-03-01.
+// Other available API versions: 2024-01-01, 2024-03-01, 2024-05-01.
 type FirewallPolicyRuleCollectionGroupDraft struct {
 	pulumi.CustomResourceState
 
@@ -56,6 +56,9 @@ func NewFirewallPolicyRuleCollectionGroupDraft(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20240301:FirewallPolicyRuleCollectionGroupDraft"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:FirewallPolicyRuleCollectionGroupDraft"),
 		},
 	})
 	opts = append(opts, aliases)

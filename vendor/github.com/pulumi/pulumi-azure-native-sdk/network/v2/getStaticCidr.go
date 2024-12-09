@@ -13,6 +13,8 @@ import (
 
 // Instance of StaticCidr resource.
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 func LookupStaticCidr(ctx *pulumi.Context, args *LookupStaticCidrArgs, opts ...pulumi.InvokeOption) (*LookupStaticCidrResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupStaticCidrResult

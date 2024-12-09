@@ -70,6 +70,9 @@ func NewUserRuleCollection(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:network/v20240301:UserRuleCollection"),
 		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:UserRuleCollection"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)

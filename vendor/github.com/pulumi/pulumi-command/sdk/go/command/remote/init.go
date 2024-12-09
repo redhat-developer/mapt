@@ -25,6 +25,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &Command{}
 	case "command:remote:CopyFile":
 		r = &CopyFile{}
+	case "command:remote:CopyToRemote":
+		r = &CopyToRemote{}
 	default:
 		return nil, fmt.Errorf("unknown resource type: %s", typ)
 	}
