@@ -13,6 +13,8 @@ import (
 
 // Retrieves a network manager routing configuration.
 // Azure REST API version: 2024-03-01.
+//
+// Other available API versions: 2024-05-01.
 func LookupNetworkManagerRoutingConfiguration(ctx *pulumi.Context, args *LookupNetworkManagerRoutingConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupNetworkManagerRoutingConfigurationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkManagerRoutingConfigurationResult

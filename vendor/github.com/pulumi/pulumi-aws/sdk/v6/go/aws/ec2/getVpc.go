@@ -56,7 +56,7 @@ import (
 //			_, err = ec2.NewSubnet(ctx, "example", &ec2.SubnetArgs{
 //				VpcId:            pulumi.String(selected.Id),
 //				AvailabilityZone: pulumi.String("us-west-2a"),
-//				CidrBlock:        invokeCidrsubnet.Result,
+//				CidrBlock:        pulumi.String(invokeCidrsubnet.Result),
 //			})
 //			if err != nil {
 //				return err
@@ -135,14 +135,20 @@ type LookupVpcResult struct {
 
 func LookupVpcOutput(ctx *pulumi.Context, args LookupVpcOutputArgs, opts ...pulumi.InvokeOption) LookupVpcResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVpcResult, error) {
+		ApplyT(func(v interface{}) (LookupVpcResultOutput, error) {
 			args := v.(LookupVpcArgs)
-			r, err := LookupVpc(ctx, &args, opts...)
-			var s LookupVpcResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv LookupVpcResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getVpc:getVpc", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVpcResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVpcResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVpcResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVpcResultOutput)
 }
 

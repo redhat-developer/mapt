@@ -26,9 +26,10 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/slice"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/rpcutil/rpcerror"
 	"github.com/pulumi/pulumi/sdk/v3/go/internal"
-
 	pulumirpc "github.com/pulumi/pulumi/sdk/v3/proto/go"
+
 	"google.golang.org/grpc"
 )
 
@@ -138,7 +139,7 @@ func construct(ctx context.Context, req *pulumirpc.ConstructRequest, engineConn 
 
 	urn, state, err := constructF(pulumiCtx, req.GetType(), req.GetName(), inputs, opts)
 	if err != nil {
-		return nil, err
+		return nil, rpcerror.WrapDetailedError(err)
 	}
 
 	rpcURN, _, _, err := urn.ToURNOutput().awaitURN(ctx)
@@ -800,6 +801,7 @@ func call(ctx context.Context, req *pulumirpc.CallRequest, engineConn *grpc.Clie
 
 	result, failures, err := callF(pulumiCtx, req.GetTok(), args)
 	if err != nil {
+		err = rpcerror.WrapDetailedError(err)
 		return nil, err
 	}
 

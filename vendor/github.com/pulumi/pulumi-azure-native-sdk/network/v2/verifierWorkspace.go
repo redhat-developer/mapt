@@ -14,6 +14,8 @@ import (
 
 // Instance of Verifier Workspace.
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 type VerifierWorkspace struct {
 	pulumi.CustomResourceState
 
@@ -47,6 +49,9 @@ func NewVerifierWorkspace(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:network/v20240101preview:VerifierWorkspace"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:VerifierWorkspace"),
 		},
 	})
 	opts = append(opts, aliases)

@@ -283,6 +283,9 @@ func (s *Stack) Preview(ctx context.Context, opts ...optpreview.Option) (Preview
 	if preOpts.AttachDebugger {
 		sharedArgs = append(sharedArgs, "--attach-debugger")
 	}
+	if preOpts.ConfigFile != "" {
+		sharedArgs = append(sharedArgs, "--config-file="+preOpts.ConfigFile)
+	}
 
 	// Apply the remote args, if needed.
 	sharedArgs = append(sharedArgs, s.remoteArgs()...)
@@ -419,6 +422,9 @@ func (s *Stack) Up(ctx context.Context, opts ...optup.Option) (UpResult, error) 
 	}
 	if upOpts.AttachDebugger {
 		sharedArgs = append(sharedArgs, "--attach-debugger")
+	}
+	if upOpts.ConfigFile != "" {
+		sharedArgs = append(sharedArgs, "--config-file="+upOpts.ConfigFile)
 	}
 
 	// Apply the remote args, if needed.
@@ -746,6 +752,9 @@ func refreshOptsToCmd(o *optrefresh.Options, s *Stack, isPreview bool) []string 
 	if o.SuppressProgress {
 		args = append(args, "--suppress-progress")
 	}
+	if o.ConfigFile != "" {
+		args = append(args, "--config-file="+o.ConfigFile)
+	}
 
 	// Apply the remote args, if needed.
 	args = append(args, s.remoteArgs()...)
@@ -935,6 +944,9 @@ func destroyOptsToCmd(destroyOpts *optdestroy.Options, s *Stack) []string {
 	if destroyOpts.ContinueOnError {
 		args = append(args, "--continue-on-error")
 	}
+	if destroyOpts.ConfigFile != "" {
+		args = append(args, "--config-file="+destroyOpts.ConfigFile)
+	}
 
 	execKind := constant.ExecKindAutoLocal
 	if s.Workspace().Program() != nil {
@@ -1117,7 +1129,6 @@ func (s *Stack) Info(ctx context.Context) (StackSummary, error) {
 // Cancel stops a stack's currently running update. It returns an error if no update is currently running.
 // Note that this operation is _very dangerous_, and may leave the stack in an inconsistent state
 // if a resource operation was pending when the update was canceled.
-// This command is not supported for diy backends.
 func (s *Stack) Cancel(ctx context.Context) error {
 	stdout, stderr, errCode, err := s.runPulumiCmdSync(
 		ctx,
@@ -1693,7 +1704,7 @@ func (fw *fileWatcher) Close() {
 	if runtime.GOOS == "windows" {
 		time.Sleep(300 * time.Millisecond)
 	} else {
-		time.Sleep(50 * time.Millisecond)
+		time.Sleep(150 * time.Millisecond)
 	}
 
 	//nolint:errcheck

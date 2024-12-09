@@ -29,7 +29,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			example, err := ec2.GetTransitGatewayRouteTables(ctx, nil, nil)
+//			example, err := ec2.GetTransitGatewayRouteTables(ctx, &ec2.GetTransitGatewayRouteTablesArgs{}, nil)
 //			if err != nil {
 //				return err
 //			}
@@ -73,14 +73,20 @@ type GetTransitGatewayRouteTablesResult struct {
 
 func GetTransitGatewayRouteTablesOutput(ctx *pulumi.Context, args GetTransitGatewayRouteTablesOutputArgs, opts ...pulumi.InvokeOption) GetTransitGatewayRouteTablesResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetTransitGatewayRouteTablesResult, error) {
+		ApplyT(func(v interface{}) (GetTransitGatewayRouteTablesResultOutput, error) {
 			args := v.(GetTransitGatewayRouteTablesArgs)
-			r, err := GetTransitGatewayRouteTables(ctx, &args, opts...)
-			var s GetTransitGatewayRouteTablesResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv GetTransitGatewayRouteTablesResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getTransitGatewayRouteTables:getTransitGatewayRouteTables", args, &rv, "", opts...)
+			if err != nil {
+				return GetTransitGatewayRouteTablesResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetTransitGatewayRouteTablesResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetTransitGatewayRouteTablesResultOutput), nil
+			}
+			return output, nil
 		}).(GetTransitGatewayRouteTablesResultOutput)
 }
 

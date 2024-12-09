@@ -13,6 +13,8 @@ import (
 
 // Gets the value of the shared key of VpnLink connection specified.
 // Azure REST API version: 2024-03-01.
+//
+// Other available API versions: 2024-05-01.
 func ListVpnLinkConnectionDefaultSharedKey(ctx *pulumi.Context, args *ListVpnLinkConnectionDefaultSharedKeyArgs, opts ...pulumi.InvokeOption) (*ListVpnLinkConnectionDefaultSharedKeyResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListVpnLinkConnectionDefaultSharedKeyResult

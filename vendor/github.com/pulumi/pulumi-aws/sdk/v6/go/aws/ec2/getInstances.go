@@ -54,11 +54,11 @@ import (
 //				return err
 //			}
 //			var testEip []*ec2.Eip
-//			for index := 0; index < len(test.Ids); index++ {
+//			for index := 0; index < int(len(test.Ids)); index++ {
 //				key0 := index
 //				val0 := index
 //				__res, err := ec2.NewEip(ctx, fmt.Sprintf("test-%v", key0), &ec2.EipArgs{
-//					Instance: test.Ids[val0],
+//					Instance: pulumi.String(test.Ids[val0]),
 //				})
 //				if err != nil {
 //					return err
@@ -112,14 +112,20 @@ type GetInstancesResult struct {
 
 func GetInstancesOutput(ctx *pulumi.Context, args GetInstancesOutputArgs, opts ...pulumi.InvokeOption) GetInstancesResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetInstancesResult, error) {
+		ApplyT(func(v interface{}) (GetInstancesResultOutput, error) {
 			args := v.(GetInstancesArgs)
-			r, err := GetInstances(ctx, &args, opts...)
-			var s GetInstancesResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv GetInstancesResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getInstances:getInstances", args, &rv, "", opts...)
+			if err != nil {
+				return GetInstancesResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetInstancesResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetInstancesResultOutput), nil
+			}
+			return output, nil
 		}).(GetInstancesResultOutput)
 }
 

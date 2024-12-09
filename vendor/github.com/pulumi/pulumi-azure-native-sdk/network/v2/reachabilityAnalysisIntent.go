@@ -14,6 +14,8 @@ import (
 
 // Configuration information or intent on which to do the analysis on.
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 type ReachabilityAnalysisIntent struct {
 	pulumi.CustomResourceState
 
@@ -49,6 +51,9 @@ func NewReachabilityAnalysisIntent(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:network/v20240101preview:ReachabilityAnalysisIntent"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:ReachabilityAnalysisIntent"),
 		},
 	})
 	opts = append(opts, aliases)

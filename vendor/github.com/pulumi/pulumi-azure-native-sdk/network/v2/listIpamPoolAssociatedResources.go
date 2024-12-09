@@ -13,6 +13,8 @@ import (
 
 // List of PoolAssociation
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 func ListIpamPoolAssociatedResources(ctx *pulumi.Context, args *ListIpamPoolAssociatedResourcesArgs, opts ...pulumi.InvokeOption) (*ListIpamPoolAssociatedResourcesResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListIpamPoolAssociatedResourcesResult

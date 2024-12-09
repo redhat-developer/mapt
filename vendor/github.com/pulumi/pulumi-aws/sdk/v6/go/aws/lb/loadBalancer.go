@@ -133,13 +133,15 @@ type LoadBalancer struct {
 	EnableWafFailOpen pulumi.BoolPtrOutput `pulumi:"enableWafFailOpen"`
 	// Whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer in `application` load balancers. Defaults to `false`.
 	EnableXffClientPort pulumi.BoolPtrOutput `pulumi:"enableXffClientPort"`
+	// Whether zonal shift is enabled. Defaults to `false`.
+	EnableZonalShift pulumi.BoolPtrOutput `pulumi:"enableZonalShift"`
 	// Whether inbound security group rules are enforced for traffic originating from a PrivateLink. Only valid for Load Balancers of type `network`. The possible values are `on` and `off`.
 	EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic pulumi.StringOutput `pulumi:"enforceSecurityGroupInboundRulesOnPrivateLinkTraffic"`
 	// Time in seconds that the connection is allowed to be idle. Only valid for Load Balancers of type `application`. Default: 60.
 	IdleTimeout pulumi.IntPtrOutput `pulumi:"idleTimeout"`
 	// If true, the LB will be internal. Defaults to `false`.
 	Internal pulumi.BoolOutput `pulumi:"internal"`
-	// Type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
+	// Type of IP addresses used by the subnets for your load balancer. The possible values depend upon the load balancer type: `ipv4` (all load balancer types), `dualstack` (all load balancer types), and `dualstack-without-public-ipv4` (type `application` only).
 	IpAddressType pulumi.StringOutput `pulumi:"ipAddressType"`
 	// Type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType pulumi.StringPtrOutput `pulumi:"loadBalancerType"`
@@ -236,13 +238,15 @@ type loadBalancerState struct {
 	EnableWafFailOpen *bool `pulumi:"enableWafFailOpen"`
 	// Whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer in `application` load balancers. Defaults to `false`.
 	EnableXffClientPort *bool `pulumi:"enableXffClientPort"`
+	// Whether zonal shift is enabled. Defaults to `false`.
+	EnableZonalShift *bool `pulumi:"enableZonalShift"`
 	// Whether inbound security group rules are enforced for traffic originating from a PrivateLink. Only valid for Load Balancers of type `network`. The possible values are `on` and `off`.
 	EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic *string `pulumi:"enforceSecurityGroupInboundRulesOnPrivateLinkTraffic"`
 	// Time in seconds that the connection is allowed to be idle. Only valid for Load Balancers of type `application`. Default: 60.
 	IdleTimeout *int `pulumi:"idleTimeout"`
 	// If true, the LB will be internal. Defaults to `false`.
 	Internal *bool `pulumi:"internal"`
-	// Type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
+	// Type of IP addresses used by the subnets for your load balancer. The possible values depend upon the load balancer type: `ipv4` (all load balancer types), `dualstack` (all load balancer types), and `dualstack-without-public-ipv4` (type `application` only).
 	IpAddressType *string `pulumi:"ipAddressType"`
 	// Type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType *string `pulumi:"loadBalancerType"`
@@ -304,13 +308,15 @@ type LoadBalancerState struct {
 	EnableWafFailOpen pulumi.BoolPtrInput
 	// Whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer in `application` load balancers. Defaults to `false`.
 	EnableXffClientPort pulumi.BoolPtrInput
+	// Whether zonal shift is enabled. Defaults to `false`.
+	EnableZonalShift pulumi.BoolPtrInput
 	// Whether inbound security group rules are enforced for traffic originating from a PrivateLink. Only valid for Load Balancers of type `network`. The possible values are `on` and `off`.
 	EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic pulumi.StringPtrInput
 	// Time in seconds that the connection is allowed to be idle. Only valid for Load Balancers of type `application`. Default: 60.
 	IdleTimeout pulumi.IntPtrInput
 	// If true, the LB will be internal. Defaults to `false`.
 	Internal pulumi.BoolPtrInput
-	// Type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
+	// Type of IP addresses used by the subnets for your load balancer. The possible values depend upon the load balancer type: `ipv4` (all load balancer types), `dualstack` (all load balancer types), and `dualstack-without-public-ipv4` (type `application` only).
 	IpAddressType pulumi.StringPtrInput
 	// Type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType pulumi.StringPtrInput
@@ -370,13 +376,15 @@ type loadBalancerArgs struct {
 	EnableWafFailOpen *bool `pulumi:"enableWafFailOpen"`
 	// Whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer in `application` load balancers. Defaults to `false`.
 	EnableXffClientPort *bool `pulumi:"enableXffClientPort"`
+	// Whether zonal shift is enabled. Defaults to `false`.
+	EnableZonalShift *bool `pulumi:"enableZonalShift"`
 	// Whether inbound security group rules are enforced for traffic originating from a PrivateLink. Only valid for Load Balancers of type `network`. The possible values are `on` and `off`.
 	EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic *string `pulumi:"enforceSecurityGroupInboundRulesOnPrivateLinkTraffic"`
 	// Time in seconds that the connection is allowed to be idle. Only valid for Load Balancers of type `application`. Default: 60.
 	IdleTimeout *int `pulumi:"idleTimeout"`
 	// If true, the LB will be internal. Defaults to `false`.
 	Internal *bool `pulumi:"internal"`
-	// Type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
+	// Type of IP addresses used by the subnets for your load balancer. The possible values depend upon the load balancer type: `ipv4` (all load balancer types), `dualstack` (all load balancer types), and `dualstack-without-public-ipv4` (type `application` only).
 	IpAddressType *string `pulumi:"ipAddressType"`
 	// Type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType *string `pulumi:"loadBalancerType"`
@@ -426,13 +434,15 @@ type LoadBalancerArgs struct {
 	EnableWafFailOpen pulumi.BoolPtrInput
 	// Whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer in `application` load balancers. Defaults to `false`.
 	EnableXffClientPort pulumi.BoolPtrInput
+	// Whether zonal shift is enabled. Defaults to `false`.
+	EnableZonalShift pulumi.BoolPtrInput
 	// Whether inbound security group rules are enforced for traffic originating from a PrivateLink. Only valid for Load Balancers of type `network`. The possible values are `on` and `off`.
 	EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic pulumi.StringPtrInput
 	// Time in seconds that the connection is allowed to be idle. Only valid for Load Balancers of type `application`. Default: 60.
 	IdleTimeout pulumi.IntPtrInput
 	// If true, the LB will be internal. Defaults to `false`.
 	Internal pulumi.BoolPtrInput
-	// Type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
+	// Type of IP addresses used by the subnets for your load balancer. The possible values depend upon the load balancer type: `ipv4` (all load balancer types), `dualstack` (all load balancer types), and `dualstack-without-public-ipv4` (type `application` only).
 	IpAddressType pulumi.StringPtrInput
 	// Type of load balancer to create. Possible values are `application`, `gateway`, or `network`. The default value is `application`.
 	LoadBalancerType pulumi.StringPtrInput
@@ -621,6 +631,11 @@ func (o LoadBalancerOutput) EnableXffClientPort() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.BoolPtrOutput { return v.EnableXffClientPort }).(pulumi.BoolPtrOutput)
 }
 
+// Whether zonal shift is enabled. Defaults to `false`.
+func (o LoadBalancerOutput) EnableZonalShift() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *LoadBalancer) pulumi.BoolPtrOutput { return v.EnableZonalShift }).(pulumi.BoolPtrOutput)
+}
+
 // Whether inbound security group rules are enforced for traffic originating from a PrivateLink. Only valid for Load Balancers of type `network`. The possible values are `on` and `off`.
 func (o LoadBalancerOutput) EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic() pulumi.StringOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.StringOutput {
@@ -638,7 +653,7 @@ func (o LoadBalancerOutput) Internal() pulumi.BoolOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.BoolOutput { return v.Internal }).(pulumi.BoolOutput)
 }
 
-// Type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` and `dualstack`.
+// Type of IP addresses used by the subnets for your load balancer. The possible values depend upon the load balancer type: `ipv4` (all load balancer types), `dualstack` (all load balancer types), and `dualstack-without-public-ipv4` (type `application` only).
 func (o LoadBalancerOutput) IpAddressType() pulumi.StringOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.StringOutput { return v.IpAddressType }).(pulumi.StringOutput)
 }

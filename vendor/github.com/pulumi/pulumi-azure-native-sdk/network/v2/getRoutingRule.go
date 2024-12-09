@@ -13,6 +13,8 @@ import (
 
 // Gets a network manager routing configuration routing rule.
 // Azure REST API version: 2024-03-01.
+//
+// Other available API versions: 2024-05-01.
 func LookupRoutingRule(ctx *pulumi.Context, args *LookupRoutingRuleArgs, opts ...pulumi.InvokeOption) (*LookupRoutingRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRoutingRuleResult
