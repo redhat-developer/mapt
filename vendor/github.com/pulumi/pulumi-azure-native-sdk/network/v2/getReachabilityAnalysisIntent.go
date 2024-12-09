@@ -13,6 +13,8 @@ import (
 
 // Configuration information or intent on which to do the analysis on.
 // Azure REST API version: 2024-01-01-preview.
+//
+// Other available API versions: 2024-05-01.
 func LookupReachabilityAnalysisIntent(ctx *pulumi.Context, args *LookupReachabilityAnalysisIntentArgs, opts ...pulumi.InvokeOption) (*LookupReachabilityAnalysisIntentResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupReachabilityAnalysisIntentResult

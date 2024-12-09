@@ -14,7 +14,7 @@ import (
 // Retrieves information about a Shared Image Gallery.
 // Azure REST API version: 2022-03-03.
 //
-// Other available API versions: 2022-08-03, 2023-07-03.
+// Other available API versions: 2022-08-03, 2023-07-03, 2024-03-03.
 func LookupGallery(ctx *pulumi.Context, args *LookupGalleryArgs, opts ...pulumi.InvokeOption) (*LookupGalleryResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupGalleryResult

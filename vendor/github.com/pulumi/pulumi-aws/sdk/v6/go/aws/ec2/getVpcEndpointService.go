@@ -161,8 +161,10 @@ type LookupVpcEndpointServiceResult struct {
 	// AWS account ID of the service owner or `amazon`.
 	Owner string `pulumi:"owner"`
 	// Private DNS name for the service.
-	PrivateDnsName string  `pulumi:"privateDnsName"`
-	Service        *string `pulumi:"service"`
+	PrivateDnsName string `pulumi:"privateDnsName"`
+	// Private DNS names assigned to the VPC endpoint service.
+	PrivateDnsNames []string `pulumi:"privateDnsNames"`
+	Service         *string  `pulumi:"service"`
 	// ID of the endpoint service.
 	ServiceId   string `pulumi:"serviceId"`
 	ServiceName string `pulumi:"serviceName"`
@@ -177,14 +179,20 @@ type LookupVpcEndpointServiceResult struct {
 
 func LookupVpcEndpointServiceOutput(ctx *pulumi.Context, args LookupVpcEndpointServiceOutputArgs, opts ...pulumi.InvokeOption) LookupVpcEndpointServiceResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupVpcEndpointServiceResult, error) {
+		ApplyT(func(v interface{}) (LookupVpcEndpointServiceResultOutput, error) {
 			args := v.(LookupVpcEndpointServiceArgs)
-			r, err := LookupVpcEndpointService(ctx, &args, opts...)
-			var s LookupVpcEndpointServiceResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv LookupVpcEndpointServiceResult
+			secret, err := ctx.InvokePackageRaw("aws:ec2/getVpcEndpointService:getVpcEndpointService", args, &rv, "", opts...)
+			if err != nil {
+				return LookupVpcEndpointServiceResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(LookupVpcEndpointServiceResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(LookupVpcEndpointServiceResultOutput), nil
+			}
+			return output, nil
 		}).(LookupVpcEndpointServiceResultOutput)
 }
 
@@ -265,6 +273,11 @@ func (o LookupVpcEndpointServiceResultOutput) Owner() pulumi.StringOutput {
 // Private DNS name for the service.
 func (o LookupVpcEndpointServiceResultOutput) PrivateDnsName() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVpcEndpointServiceResult) string { return v.PrivateDnsName }).(pulumi.StringOutput)
+}
+
+// Private DNS names assigned to the VPC endpoint service.
+func (o LookupVpcEndpointServiceResultOutput) PrivateDnsNames() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LookupVpcEndpointServiceResult) []string { return v.PrivateDnsNames }).(pulumi.StringArrayOutput)
 }
 
 func (o LookupVpcEndpointServiceResultOutput) Service() pulumi.StringPtrOutput {

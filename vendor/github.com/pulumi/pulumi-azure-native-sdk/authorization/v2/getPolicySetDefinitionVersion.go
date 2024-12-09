@@ -14,7 +14,7 @@ import (
 // This operation retrieves the policy set definition version in the given subscription with the given name and version.
 // Azure REST API version: 2023-04-01.
 //
-// Other available API versions: 2024-05-01.
+// Other available API versions: 2024-05-01, 2025-01-01.
 func LookupPolicySetDefinitionVersion(ctx *pulumi.Context, args *LookupPolicySetDefinitionVersionArgs, opts ...pulumi.InvokeOption) (*LookupPolicySetDefinitionVersionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPolicySetDefinitionVersionResult
@@ -26,6 +26,8 @@ func LookupPolicySetDefinitionVersion(ctx *pulumi.Context, args *LookupPolicySet
 }
 
 type LookupPolicySetDefinitionVersionArgs struct {
+	// Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'.
+	Expand *string `pulumi:"expand"`
 	// The policy set definition version.  The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number
 	PolicyDefinitionVersion string `pulumi:"policyDefinitionVersion"`
 	// The name of the policy set definition.
@@ -80,6 +82,8 @@ func LookupPolicySetDefinitionVersionOutput(ctx *pulumi.Context, args LookupPoli
 }
 
 type LookupPolicySetDefinitionVersionOutputArgs struct {
+	// Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'.
+	Expand pulumi.StringPtrInput `pulumi:"expand"`
 	// The policy set definition version.  The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number
 	PolicyDefinitionVersion pulumi.StringInput `pulumi:"policyDefinitionVersion"`
 	// The name of the policy set definition.

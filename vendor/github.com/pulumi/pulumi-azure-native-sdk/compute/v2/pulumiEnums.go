@@ -10,6 +10,174 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'.
+type AccessControlRulesMode string
+
+const (
+	AccessControlRulesModeAudit    = AccessControlRulesMode("Audit")
+	AccessControlRulesModeEnforce  = AccessControlRulesMode("Enforce")
+	AccessControlRulesModeDisabled = AccessControlRulesMode("Disabled")
+)
+
+func (AccessControlRulesMode) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesMode)(nil)).Elem()
+}
+
+func (e AccessControlRulesMode) ToAccessControlRulesModeOutput() AccessControlRulesModeOutput {
+	return pulumi.ToOutput(e).(AccessControlRulesModeOutput)
+}
+
+func (e AccessControlRulesMode) ToAccessControlRulesModeOutputWithContext(ctx context.Context) AccessControlRulesModeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(AccessControlRulesModeOutput)
+}
+
+func (e AccessControlRulesMode) ToAccessControlRulesModePtrOutput() AccessControlRulesModePtrOutput {
+	return e.ToAccessControlRulesModePtrOutputWithContext(context.Background())
+}
+
+func (e AccessControlRulesMode) ToAccessControlRulesModePtrOutputWithContext(ctx context.Context) AccessControlRulesModePtrOutput {
+	return AccessControlRulesMode(e).ToAccessControlRulesModeOutputWithContext(ctx).ToAccessControlRulesModePtrOutputWithContext(ctx)
+}
+
+func (e AccessControlRulesMode) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e AccessControlRulesMode) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e AccessControlRulesMode) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e AccessControlRulesMode) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type AccessControlRulesModeOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AccessControlRulesMode)(nil)).Elem()
+}
+
+func (o AccessControlRulesModeOutput) ToAccessControlRulesModeOutput() AccessControlRulesModeOutput {
+	return o
+}
+
+func (o AccessControlRulesModeOutput) ToAccessControlRulesModeOutputWithContext(ctx context.Context) AccessControlRulesModeOutput {
+	return o
+}
+
+func (o AccessControlRulesModeOutput) ToAccessControlRulesModePtrOutput() AccessControlRulesModePtrOutput {
+	return o.ToAccessControlRulesModePtrOutputWithContext(context.Background())
+}
+
+func (o AccessControlRulesModeOutput) ToAccessControlRulesModePtrOutputWithContext(ctx context.Context) AccessControlRulesModePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v AccessControlRulesMode) *AccessControlRulesMode {
+		return &v
+	}).(AccessControlRulesModePtrOutput)
+}
+
+func (o AccessControlRulesModeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o AccessControlRulesModeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e AccessControlRulesMode) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o AccessControlRulesModeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o AccessControlRulesModeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e AccessControlRulesMode) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type AccessControlRulesModePtrOutput struct{ *pulumi.OutputState }
+
+func (AccessControlRulesModePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AccessControlRulesMode)(nil)).Elem()
+}
+
+func (o AccessControlRulesModePtrOutput) ToAccessControlRulesModePtrOutput() AccessControlRulesModePtrOutput {
+	return o
+}
+
+func (o AccessControlRulesModePtrOutput) ToAccessControlRulesModePtrOutputWithContext(ctx context.Context) AccessControlRulesModePtrOutput {
+	return o
+}
+
+func (o AccessControlRulesModePtrOutput) Elem() AccessControlRulesModeOutput {
+	return o.ApplyT(func(v *AccessControlRulesMode) AccessControlRulesMode {
+		if v != nil {
+			return *v
+		}
+		var ret AccessControlRulesMode
+		return ret
+	}).(AccessControlRulesModeOutput)
+}
+
+func (o AccessControlRulesModePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o AccessControlRulesModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *AccessControlRulesMode) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// AccessControlRulesModeInput is an input type that accepts values of the AccessControlRulesMode enum
+// A concrete instance of `AccessControlRulesModeInput` can be one of the following:
+//
+//	AccessControlRulesModeAudit
+//	AccessControlRulesModeEnforce
+//	AccessControlRulesModeDisabled
+type AccessControlRulesModeInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesModeOutput() AccessControlRulesModeOutput
+	ToAccessControlRulesModeOutputWithContext(context.Context) AccessControlRulesModeOutput
+}
+
+var accessControlRulesModePtrType = reflect.TypeOf((**AccessControlRulesMode)(nil)).Elem()
+
+type AccessControlRulesModePtrInput interface {
+	pulumi.Input
+
+	ToAccessControlRulesModePtrOutput() AccessControlRulesModePtrOutput
+	ToAccessControlRulesModePtrOutputWithContext(context.Context) AccessControlRulesModePtrOutput
+}
+
+type accessControlRulesModePtr string
+
+func AccessControlRulesModePtr(v string) AccessControlRulesModePtrInput {
+	return (*accessControlRulesModePtr)(&v)
+}
+
+func (*accessControlRulesModePtr) ElementType() reflect.Type {
+	return accessControlRulesModePtrType
+}
+
+func (in *accessControlRulesModePtr) ToAccessControlRulesModePtrOutput() AccessControlRulesModePtrOutput {
+	return pulumi.ToOutput(in).(AccessControlRulesModePtrOutput)
+}
+
+func (in *accessControlRulesModePtr) ToAccessControlRulesModePtrOutputWithContext(ctx context.Context) AccessControlRulesModePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(AccessControlRulesModePtrOutput)
+}
+
 // CPU architecture supported by an OS disk.
 type Architecture string
 
@@ -853,6 +1021,7 @@ const (
 	ConfidentialVMEncryptionTypeEncryptedVMGuestStateOnlyWithPmk = ConfidentialVMEncryptionType("EncryptedVMGuestStateOnlyWithPmk")
 	ConfidentialVMEncryptionTypeEncryptedWithPmk                 = ConfidentialVMEncryptionType("EncryptedWithPmk")
 	ConfidentialVMEncryptionTypeEncryptedWithCmk                 = ConfidentialVMEncryptionType("EncryptedWithCmk")
+	ConfidentialVMEncryptionTypeNonPersistedTPM                  = ConfidentialVMEncryptionType("NonPersistedTPM")
 )
 
 func (ConfidentialVMEncryptionType) ElementType() reflect.Type {
@@ -980,6 +1149,7 @@ func (o ConfidentialVMEncryptionTypePtrOutput) ToStringPtrOutputWithContext(ctx 
 //	ConfidentialVMEncryptionTypeEncryptedVMGuestStateOnlyWithPmk
 //	ConfidentialVMEncryptionTypeEncryptedWithPmk
 //	ConfidentialVMEncryptionTypeEncryptedWithCmk
+//	ConfidentialVMEncryptionTypeNonPersistedTPM
 type ConfidentialVMEncryptionTypeInput interface {
 	pulumi.Input
 
@@ -4072,6 +4242,338 @@ func (in *encryptionTypePtr) ToEncryptionTypePtrOutput() EncryptionTypePtrOutput
 
 func (in *encryptionTypePtr) ToEncryptionTypePtrOutputWithContext(ctx context.Context) EncryptionTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(EncryptionTypePtrOutput)
+}
+
+// This property allows you to specify if the requests will be allowed to access the host endpoints. Possible values are: 'Allow', 'Deny'.
+type EndpointAccess string
+
+const (
+	EndpointAccessAllow = EndpointAccess("Allow")
+	EndpointAccessDeny  = EndpointAccess("Deny")
+)
+
+func (EndpointAccess) ElementType() reflect.Type {
+	return reflect.TypeOf((*EndpointAccess)(nil)).Elem()
+}
+
+func (e EndpointAccess) ToEndpointAccessOutput() EndpointAccessOutput {
+	return pulumi.ToOutput(e).(EndpointAccessOutput)
+}
+
+func (e EndpointAccess) ToEndpointAccessOutputWithContext(ctx context.Context) EndpointAccessOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(EndpointAccessOutput)
+}
+
+func (e EndpointAccess) ToEndpointAccessPtrOutput() EndpointAccessPtrOutput {
+	return e.ToEndpointAccessPtrOutputWithContext(context.Background())
+}
+
+func (e EndpointAccess) ToEndpointAccessPtrOutputWithContext(ctx context.Context) EndpointAccessPtrOutput {
+	return EndpointAccess(e).ToEndpointAccessOutputWithContext(ctx).ToEndpointAccessPtrOutputWithContext(ctx)
+}
+
+func (e EndpointAccess) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e EndpointAccess) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e EndpointAccess) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e EndpointAccess) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type EndpointAccessOutput struct{ *pulumi.OutputState }
+
+func (EndpointAccessOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*EndpointAccess)(nil)).Elem()
+}
+
+func (o EndpointAccessOutput) ToEndpointAccessOutput() EndpointAccessOutput {
+	return o
+}
+
+func (o EndpointAccessOutput) ToEndpointAccessOutputWithContext(ctx context.Context) EndpointAccessOutput {
+	return o
+}
+
+func (o EndpointAccessOutput) ToEndpointAccessPtrOutput() EndpointAccessPtrOutput {
+	return o.ToEndpointAccessPtrOutputWithContext(context.Background())
+}
+
+func (o EndpointAccessOutput) ToEndpointAccessPtrOutputWithContext(ctx context.Context) EndpointAccessPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v EndpointAccess) *EndpointAccess {
+		return &v
+	}).(EndpointAccessPtrOutput)
+}
+
+func (o EndpointAccessOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o EndpointAccessOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e EndpointAccess) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o EndpointAccessOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o EndpointAccessOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e EndpointAccess) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type EndpointAccessPtrOutput struct{ *pulumi.OutputState }
+
+func (EndpointAccessPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**EndpointAccess)(nil)).Elem()
+}
+
+func (o EndpointAccessPtrOutput) ToEndpointAccessPtrOutput() EndpointAccessPtrOutput {
+	return o
+}
+
+func (o EndpointAccessPtrOutput) ToEndpointAccessPtrOutputWithContext(ctx context.Context) EndpointAccessPtrOutput {
+	return o
+}
+
+func (o EndpointAccessPtrOutput) Elem() EndpointAccessOutput {
+	return o.ApplyT(func(v *EndpointAccess) EndpointAccess {
+		if v != nil {
+			return *v
+		}
+		var ret EndpointAccess
+		return ret
+	}).(EndpointAccessOutput)
+}
+
+func (o EndpointAccessPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o EndpointAccessPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *EndpointAccess) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// EndpointAccessInput is an input type that accepts values of the EndpointAccess enum
+// A concrete instance of `EndpointAccessInput` can be one of the following:
+//
+//	EndpointAccessAllow
+//	EndpointAccessDeny
+type EndpointAccessInput interface {
+	pulumi.Input
+
+	ToEndpointAccessOutput() EndpointAccessOutput
+	ToEndpointAccessOutputWithContext(context.Context) EndpointAccessOutput
+}
+
+var endpointAccessPtrType = reflect.TypeOf((**EndpointAccess)(nil)).Elem()
+
+type EndpointAccessPtrInput interface {
+	pulumi.Input
+
+	ToEndpointAccessPtrOutput() EndpointAccessPtrOutput
+	ToEndpointAccessPtrOutputWithContext(context.Context) EndpointAccessPtrOutput
+}
+
+type endpointAccessPtr string
+
+func EndpointAccessPtr(v string) EndpointAccessPtrInput {
+	return (*endpointAccessPtr)(&v)
+}
+
+func (*endpointAccessPtr) ElementType() reflect.Type {
+	return endpointAccessPtrType
+}
+
+func (in *endpointAccessPtr) ToEndpointAccessPtrOutput() EndpointAccessPtrOutput {
+	return pulumi.ToOutput(in).(EndpointAccessPtrOutput)
+}
+
+func (in *endpointAccessPtr) ToEndpointAccessPtrOutputWithContext(ctx context.Context) EndpointAccessPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(EndpointAccessPtrOutput)
+}
+
+// This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS'
+type EndpointTypes string
+
+const (
+	EndpointTypesWireServer = EndpointTypes("WireServer")
+	EndpointTypesIMDS       = EndpointTypes("IMDS")
+)
+
+func (EndpointTypes) ElementType() reflect.Type {
+	return reflect.TypeOf((*EndpointTypes)(nil)).Elem()
+}
+
+func (e EndpointTypes) ToEndpointTypesOutput() EndpointTypesOutput {
+	return pulumi.ToOutput(e).(EndpointTypesOutput)
+}
+
+func (e EndpointTypes) ToEndpointTypesOutputWithContext(ctx context.Context) EndpointTypesOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(EndpointTypesOutput)
+}
+
+func (e EndpointTypes) ToEndpointTypesPtrOutput() EndpointTypesPtrOutput {
+	return e.ToEndpointTypesPtrOutputWithContext(context.Background())
+}
+
+func (e EndpointTypes) ToEndpointTypesPtrOutputWithContext(ctx context.Context) EndpointTypesPtrOutput {
+	return EndpointTypes(e).ToEndpointTypesOutputWithContext(ctx).ToEndpointTypesPtrOutputWithContext(ctx)
+}
+
+func (e EndpointTypes) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e EndpointTypes) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e EndpointTypes) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e EndpointTypes) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type EndpointTypesOutput struct{ *pulumi.OutputState }
+
+func (EndpointTypesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*EndpointTypes)(nil)).Elem()
+}
+
+func (o EndpointTypesOutput) ToEndpointTypesOutput() EndpointTypesOutput {
+	return o
+}
+
+func (o EndpointTypesOutput) ToEndpointTypesOutputWithContext(ctx context.Context) EndpointTypesOutput {
+	return o
+}
+
+func (o EndpointTypesOutput) ToEndpointTypesPtrOutput() EndpointTypesPtrOutput {
+	return o.ToEndpointTypesPtrOutputWithContext(context.Background())
+}
+
+func (o EndpointTypesOutput) ToEndpointTypesPtrOutputWithContext(ctx context.Context) EndpointTypesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v EndpointTypes) *EndpointTypes {
+		return &v
+	}).(EndpointTypesPtrOutput)
+}
+
+func (o EndpointTypesOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o EndpointTypesOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e EndpointTypes) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o EndpointTypesOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o EndpointTypesOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e EndpointTypes) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type EndpointTypesPtrOutput struct{ *pulumi.OutputState }
+
+func (EndpointTypesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**EndpointTypes)(nil)).Elem()
+}
+
+func (o EndpointTypesPtrOutput) ToEndpointTypesPtrOutput() EndpointTypesPtrOutput {
+	return o
+}
+
+func (o EndpointTypesPtrOutput) ToEndpointTypesPtrOutputWithContext(ctx context.Context) EndpointTypesPtrOutput {
+	return o
+}
+
+func (o EndpointTypesPtrOutput) Elem() EndpointTypesOutput {
+	return o.ApplyT(func(v *EndpointTypes) EndpointTypes {
+		if v != nil {
+			return *v
+		}
+		var ret EndpointTypes
+		return ret
+	}).(EndpointTypesOutput)
+}
+
+func (o EndpointTypesPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o EndpointTypesPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *EndpointTypes) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// EndpointTypesInput is an input type that accepts values of the EndpointTypes enum
+// A concrete instance of `EndpointTypesInput` can be one of the following:
+//
+//	EndpointTypesWireServer
+//	EndpointTypesIMDS
+type EndpointTypesInput interface {
+	pulumi.Input
+
+	ToEndpointTypesOutput() EndpointTypesOutput
+	ToEndpointTypesOutputWithContext(context.Context) EndpointTypesOutput
+}
+
+var endpointTypesPtrType = reflect.TypeOf((**EndpointTypes)(nil)).Elem()
+
+type EndpointTypesPtrInput interface {
+	pulumi.Input
+
+	ToEndpointTypesPtrOutput() EndpointTypesPtrOutput
+	ToEndpointTypesPtrOutputWithContext(context.Context) EndpointTypesPtrOutput
+}
+
+type endpointTypesPtr string
+
+func EndpointTypesPtr(v string) EndpointTypesPtrInput {
+	return (*endpointTypesPtr)(&v)
+}
+
+func (*endpointTypesPtr) ElementType() reflect.Type {
+	return endpointTypesPtrType
+}
+
+func (in *endpointTypesPtr) ToEndpointTypesPtrOutput() EndpointTypesPtrOutput {
+	return pulumi.ToOutput(in).(EndpointTypesPtrOutput)
+}
+
+func (in *endpointTypesPtr) ToEndpointTypesPtrOutputWithContext(ctx context.Context) EndpointTypesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(EndpointTypesPtrOutput)
 }
 
 // The type of the extended location.
@@ -9925,9 +10427,10 @@ func (in *statusLevelTypesPtr) ToStatusLevelTypesPtrOutputWithContext(ctx contex
 type StorageAccountType string
 
 const (
-	StorageAccountType_Standard_LRS = StorageAccountType("Standard_LRS")
-	StorageAccountType_Standard_ZRS = StorageAccountType("Standard_ZRS")
-	StorageAccountType_Premium_LRS  = StorageAccountType("Premium_LRS")
+	StorageAccountType_Standard_LRS  = StorageAccountType("Standard_LRS")
+	StorageAccountType_Standard_ZRS  = StorageAccountType("Standard_ZRS")
+	StorageAccountType_Premium_LRS   = StorageAccountType("Premium_LRS")
+	StorageAccountType_PremiumV2_LRS = StorageAccountType("PremiumV2_LRS")
 )
 
 func (StorageAccountType) ElementType() reflect.Type {
@@ -10055,6 +10558,7 @@ func (o StorageAccountTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Co
 //	StorageAccountType_Standard_LRS
 //	StorageAccountType_Standard_ZRS
 //	StorageAccountType_Premium_LRS
+//	StorageAccountType_PremiumV2_LRS
 type StorageAccountTypeInput interface {
 	pulumi.Input
 
@@ -11933,6 +12437,8 @@ func (in *windowsVMGuestPatchModePtr) ToWindowsVMGuestPatchModePtrOutputWithCont
 }
 
 func init() {
+	pulumi.RegisterOutputType(AccessControlRulesModeOutput{})
+	pulumi.RegisterOutputType(AccessControlRulesModePtrOutput{})
 	pulumi.RegisterOutputType(ArchitectureOutput{})
 	pulumi.RegisterOutputType(ArchitecturePtrOutput{})
 	pulumi.RegisterOutputType(CachingTypesOutput{})
@@ -11981,6 +12487,10 @@ func init() {
 	pulumi.RegisterOutputType(EdgeZoneStorageAccountTypePtrOutput{})
 	pulumi.RegisterOutputType(EncryptionTypeOutput{})
 	pulumi.RegisterOutputType(EncryptionTypePtrOutput{})
+	pulumi.RegisterOutputType(EndpointAccessOutput{})
+	pulumi.RegisterOutputType(EndpointAccessPtrOutput{})
+	pulumi.RegisterOutputType(EndpointTypesOutput{})
+	pulumi.RegisterOutputType(EndpointTypesPtrOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationTypesOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationTypesPtrOutput{})
 	pulumi.RegisterOutputType(GalleryApplicationCustomActionParameterTypeOutput{})

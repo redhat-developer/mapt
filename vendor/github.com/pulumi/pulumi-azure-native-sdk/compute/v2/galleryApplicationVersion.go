@@ -15,7 +15,7 @@ import (
 // Specifies information about the gallery Application Version that you want to create or update.
 // Azure REST API version: 2022-03-03. Prior API version in Azure Native 1.x: 2020-09-30.
 //
-// Other available API versions: 2022-08-03, 2023-07-03.
+// Other available API versions: 2022-08-03, 2023-07-03, 2024-03-03.
 type GalleryApplicationVersion struct {
 	pulumi.CustomResourceState
 
@@ -86,6 +86,9 @@ func NewGalleryApplicationVersion(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20230703:GalleryApplicationVersion"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20240303:GalleryApplicationVersion"),
 		},
 	})
 	opts = append(opts, aliases)

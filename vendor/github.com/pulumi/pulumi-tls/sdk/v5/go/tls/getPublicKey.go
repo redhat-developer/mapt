@@ -27,34 +27,32 @@ import (
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 //
 // )
-// func main() {
-// pulumi.Run(func(ctx *pulumi.Context) error {
-// _, err := tls.NewPrivateKey(ctx, "ed25519-example", &tls.PrivateKeyArgs{
-// Algorithm: pulumi.String("ED25519"),
-// })
-// if err != nil {
-// return err
-// }
-// // Public key loaded from a terraform-generated private key, using the PEM (RFC 1421) format
-// _ = tls.GetPublicKeyOutput(ctx, tls.GetPublicKeyOutputArgs{
-// PrivateKeyPem: ed25519_example.PrivateKeyPem,
-// }, nil);
-// // Public key loaded from filesystem, using the Open SSH (RFC 4716) format
-// _, err = tls.GetPublicKey(ctx, invokeFile, err := std.File(ctx, &std.FileArgs{
-// Input: "~/.ssh/id_rsa_rfc4716",
-// }, nil)
-// if err != nil {
-// return err
-// }
-// &tls.GetPublicKeyArgs{
-// PrivateKeyOpenssh: pulumi.StringRef(invokeFile.Result),
-// }, nil);
-// if err != nil {
-// return err
-// }
-// return nil
-// })
-// }
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := tls.NewPrivateKey(ctx, "ed25519-example", &tls.PrivateKeyArgs{
+//				Algorithm: pulumi.String("ED25519"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			// Public key loaded from a terraform-generated private key, using the PEM (RFC 1421) format
+//			_ = tls.GetPublicKeyOutput(ctx, tls.GetPublicKeyOutputArgs{
+//				PrivateKeyPem: ed25519_example.PrivateKeyPem,
+//			}, nil)
+//			// Public key loaded from filesystem, using the Open SSH (RFC 4716) format
+//			_, err = tls.GetPublicKey(ctx, &tls.GetPublicKeyArgs{
+//				PrivateKeyOpenssh: pulumi.StringRef(std.File(ctx, &std.FileArgs{
+//					Input: "~/.ssh/id_rsa_rfc4716",
+//				}, nil).Result),
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
 // ```
 func GetPublicKey(ctx *pulumi.Context, args *GetPublicKeyArgs, opts ...pulumi.InvokeOption) (*GetPublicKeyResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
@@ -88,22 +86,28 @@ type GetPublicKeyResult struct {
 	PublicKeyFingerprintMd5 string `pulumi:"publicKeyFingerprintMd5"`
 	// The fingerprint of the public key data in OpenSSH SHA256 hash format, e.g. `SHA256:...`. Only available if the selected private key format is compatible, as per the rules for `publicKeyOpenssh` and ECDSA P224 limitations.
 	PublicKeyFingerprintSha256 string `pulumi:"publicKeyFingerprintSha256"`
-	// The public key, in  OpenSSH PEM (RFC 4716).
+	// The public key, in  [OpenSSH PEM (RFC 4716)](https://datatracker.ietf.org/doc/html/rfc4716) format. This is also known as ['Authorized Keys'](https://www.ssh.com/academy/ssh/authorized_keys/openssh#format-of-the-authorized-keys-file) format. This is not populated for `ECDSA` with curve `P224`, as it is not supported. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 	PublicKeyOpenssh string `pulumi:"publicKeyOpenssh"`
-	// The public key, in PEM (RFC 1421).
+	// The public key, in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 	PublicKeyPem string `pulumi:"publicKeyPem"`
 }
 
 func GetPublicKeyOutput(ctx *pulumi.Context, args GetPublicKeyOutputArgs, opts ...pulumi.InvokeOption) GetPublicKeyResultOutput {
 	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetPublicKeyResult, error) {
+		ApplyT(func(v interface{}) (GetPublicKeyResultOutput, error) {
 			args := v.(GetPublicKeyArgs)
-			r, err := GetPublicKey(ctx, &args, opts...)
-			var s GetPublicKeyResult
-			if r != nil {
-				s = *r
+			opts = internal.PkgInvokeDefaultOpts(opts)
+			var rv GetPublicKeyResult
+			secret, err := ctx.InvokePackageRaw("tls:index/getPublicKey:getPublicKey", args, &rv, "", opts...)
+			if err != nil {
+				return GetPublicKeyResultOutput{}, err
 			}
-			return s, err
+
+			output := pulumi.ToOutput(rv).(GetPublicKeyResultOutput)
+			if secret {
+				return pulumi.ToSecret(output).(GetPublicKeyResultOutput), nil
+			}
+			return output, nil
 		}).(GetPublicKeyResultOutput)
 }
 
@@ -164,12 +168,12 @@ func (o GetPublicKeyResultOutput) PublicKeyFingerprintSha256() pulumi.StringOutp
 	return o.ApplyT(func(v GetPublicKeyResult) string { return v.PublicKeyFingerprintSha256 }).(pulumi.StringOutput)
 }
 
-// The public key, in  OpenSSH PEM (RFC 4716).
+// The public key, in  [OpenSSH PEM (RFC 4716)](https://datatracker.ietf.org/doc/html/rfc4716) format. This is also known as ['Authorized Keys'](https://www.ssh.com/academy/ssh/authorized_keys/openssh#format-of-the-authorized-keys-file) format. This is not populated for `ECDSA` with curve `P224`, as it is not supported. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 func (o GetPublicKeyResultOutput) PublicKeyOpenssh() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPublicKeyResult) string { return v.PublicKeyOpenssh }).(pulumi.StringOutput)
 }
 
-// The public key, in PEM (RFC 1421).
+// The public key, in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 func (o GetPublicKeyResultOutput) PublicKeyPem() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPublicKeyResult) string { return v.PublicKeyPem }).(pulumi.StringOutput)
 }

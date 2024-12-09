@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.135.0
+ENV PULUMI_VERSION 3.142.0
 RUN GOARCH=${TARGETARCH} make build \
     && if [ "$TARGETARCH" = "amd64" ]; then \
         export PULUMI_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz"; \
@@ -35,17 +35,17 @@ ENV AZ_CLI_VERSION 2.61.0
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.37.1
-# renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWSX_VERSION=v2.3.0
+ARG PULUMI_AWS_VERSION=v6.64.0
+# Install this
+# https://releases.hashicorp.com/terraform-provider-aws/5.75.1/terraform-provider-aws_5.75.1_linux_amd64.zip
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v2.64.2
+ARG PULUMI_AZURE_NATIVE_VERSION=v2.76.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
-ARG PULUMI_COMMAND_VERSION=v0.11.1
+ARG PULUMI_COMMAND_VERSION=v1.0.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
-ARG PULUMI_TLS_VERSION=v5.0.3
+ARG PULUMI_TLS_VERSION=v5.0.9
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
-ARG PULUMI_RANDOM_VERSION=v4.16.2
+ARG PULUMI_RANDOM_VERSION=v4.16.7
 
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         export ARCH_N=x86_64; \ 
@@ -66,7 +66,6 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
   	&& rm -rf /var/cache/yum \
     && mkdir -p "${INTERNAL_OUTPUT}" \
     && pulumi plugin install resource aws ${PULUMI_AWS_VERSION} \
-    && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
     && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
     && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \

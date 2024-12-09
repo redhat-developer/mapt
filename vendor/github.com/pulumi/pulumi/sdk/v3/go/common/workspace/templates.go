@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2024, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package workspace
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io/fs"
@@ -281,23 +282,25 @@ func isTemplateFileOrDirectory(templateNamePathOrURL string) bool {
 }
 
 // RetrieveTemplates retrieves a "template repository" based on the specified name, path, or URL.
-func RetrieveTemplates(templateNamePathOrURL string, offline bool,
+func RetrieveTemplates(ctx context.Context, templateNamePathOrURL string, offline bool,
 	templateKind TemplateKind,
 ) (TemplateRepository, error) {
 	if isZIPTemplateURL(templateNamePathOrURL) {
 		return retrieveZIPTemplates(templateNamePathOrURL)
 	}
 	if IsTemplateURL(templateNamePathOrURL) {
-		return retrieveURLTemplates(templateNamePathOrURL, offline, templateKind)
+		return retrieveURLTemplates(ctx, templateNamePathOrURL, offline, templateKind)
 	}
 	if isTemplateFileOrDirectory(templateNamePathOrURL) {
 		return retrieveFileTemplates(templateNamePathOrURL)
 	}
-	return retrievePulumiTemplates(templateNamePathOrURL, offline, templateKind)
+	return retrievePulumiTemplates(ctx, templateNamePathOrURL, offline, templateKind)
 }
 
 // retrieveURLTemplates retrieves the "template repository" at the specified URL.
-func retrieveURLTemplates(rawurl string, offline bool, templateKind TemplateKind) (TemplateRepository, error) {
+func retrieveURLTemplates(
+	ctx context.Context, rawurl string, offline bool, templateKind TemplateKind,
+) (TemplateRepository, error) {
 	if offline {
 		return TemplateRepository{}, fmt.Errorf("cannot use %s offline", rawurl)
 	}
@@ -311,7 +314,7 @@ func retrieveURLTemplates(rawurl string, offline bool, templateKind TemplateKind
 	}
 
 	var fullPath string
-	if fullPath, err = RetrieveGitFolder(rawurl, temp); err != nil {
+	if fullPath, err = RetrieveGitFolder(ctx, rawurl, temp); err != nil {
 		return TemplateRepository{}, fmt.Errorf("failed to retrieve git folder: %w", err)
 	}
 
@@ -334,7 +337,9 @@ func retrieveFileTemplates(path string) (TemplateRepository, error) {
 // retrievePulumiTemplates retrieves the "template repository" for Pulumi templates.
 // Instead of retrieving to a temporary directory, the Pulumi templates are managed from
 // ~/.pulumi/templates.
-func retrievePulumiTemplates(templateName string, offline bool, templateKind TemplateKind) (TemplateRepository, error) {
+func retrievePulumiTemplates(
+	ctx context.Context, templateName string, offline bool, templateKind TemplateKind,
+) (TemplateRepository, error) {
 	templateName = strings.ToLower(templateName)
 
 	// Cleanup the template directory.
@@ -361,7 +366,7 @@ func retrievePulumiTemplates(templateName string, offline bool, templateKind Tem
 			repo = pulumiPolicyTemplateGitRepository
 			branch = plumbing.NewBranchReferenceName(pulumiPolicyTemplateBranch)
 		}
-		err := gitutil.GitCloneOrPull(repo, branch, templateDir, false /*shallow*/)
+		err := gitutil.GitCloneOrPull(ctx, repo, branch, templateDir, false /*shallow*/)
 		if err != nil {
 			return TemplateRepository{}, fmt.Errorf("cloning templates repo: %w", err)
 		}
@@ -389,7 +394,7 @@ func retrievePulumiTemplates(templateName string, offline bool, templateKind Tem
 }
 
 // RetrieveGitFolder downloads the repo to path and returns the full path on disk.
-func RetrieveGitFolder(rawurl string, path string) (string, error) {
+func RetrieveGitFolder(ctx context.Context, rawurl string, path string) (string, error) {
 	url, urlPath, err := gitutil.ParseGitRepoURL(rawurl)
 	if err != nil {
 		return "", err
@@ -417,7 +422,7 @@ func RetrieveGitFolder(rawurl string, path string) (string, error) {
 		var cloneErr error
 		for _, ref := range refAttempts {
 			// Attempt the clone. If it succeeds, break
-			cloneErr = gitutil.GitCloneOrPull(url, ref, path, true /*shallow*/)
+			cloneErr = gitutil.GitCloneOrPull(ctx, url, ref, path, true /*shallow*/)
 			if cloneErr == nil {
 				break
 			}
@@ -425,9 +430,8 @@ func RetrieveGitFolder(rawurl string, path string) (string, error) {
 		if cloneErr != nil {
 			return "", fmt.Errorf("failed to clone ref '%s': %w", refAttempts[len(refAttempts)-1], cloneErr)
 		}
-
 	} else {
-		if cloneErr := gitutil.GitCloneAndCheckoutCommit(url, commit, path); cloneErr != nil {
+		if cloneErr := gitutil.GitCloneAndCheckoutCommit(ctx, url, commit, path); cloneErr != nil {
 			return "", fmt.Errorf("failed to clone and checkout %s(%s): %w", url, commit, cloneErr)
 		}
 	}
@@ -529,6 +533,14 @@ func CopyTemplateFiles(
 		func(entry os.DirEntry, source string, dest string) error {
 			if entry.IsDir() {
 				// Create the destination directory.
+				if force {
+					info, _ := os.Stat(dest)
+					if info != nil && !info.IsDir() {
+						os.Remove(dest)
+					}
+					// MkdirAll will not error out if dest is a directory that already exists
+					return os.MkdirAll(dest, 0o700)
+				}
 				return os.Mkdir(dest, 0o700)
 			}
 
@@ -554,7 +566,7 @@ func CopyTemplateFiles(
 			// Originally we just wrote in 0600 mode, but
 			// this does not preserve the executable bit.
 			// With the new logic below, we try to be at
-			// least as permissive as 0600 and whathever
+			// least as permissive as 0600 and whatever
 			// permissions the source file or symlink had.
 			var mode os.FileMode
 			sourceStat, err := os.Lstat(source)
@@ -735,6 +747,16 @@ func writeAllBytes(filename string, bytes []byte, overwrite bool, mode os.FileMo
 		flag = flag | os.O_TRUNC
 	} else {
 		flag = flag | os.O_EXCL
+	}
+
+	if overwrite {
+		info, _ := os.Stat(filename)
+		if info != nil && info.IsDir() {
+			err := os.RemoveAll(filename)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	f, err := os.OpenFile(filename, flag, mode)

@@ -93,6 +93,9 @@ func NewUserRule(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:network/v20240301:UserRule"),
 		},
+		{
+			Type: pulumi.String("azure-native:network/v20240501:UserRule"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)
