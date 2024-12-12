@@ -18,13 +18,22 @@ Flags:
       --airgap                            if this flag is set the host will be created as airgap machine. Access will done through a bastion
       --arch string                       architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
       --conn-details-output string        path to export host connection information (host, username and privateKey)
+      --cpus int32                        Number of CPUs for the cloud instance (default 8)
+      --ghactions-runner-labels strings   List of labels separated by comma to be added to the self-hosted runner
+      --ghactions-runner-name string      Name for the Github Actions Runner
+      --ghactions-runner-repo string      Full URL of the repository where the Github Actions Runner should be registered
+      --ghactions-runner-token string     Token needed for registering the Github Actions Runner token
   -h, --help                              help for create
+      --install-ghactions-runner          Install and setup Github Actions runner in the instance
+      --memory int32                      Amount of RAM for the cloud instance in GiB (default 64)
+      --nested-virt                       Use cloud instance that has nested virtualization support
       --rh-subscription-password string   password to register the subscription
       --rh-subscription-username string   username to register the subscription
       --snc                               if this flag is set the RHEL will be setup with SNC profile. Setting up all requirements to run https://github.com/crc-org/snc
       --spot                              if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)
       --tags stringToString               tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --version string                    version for the RHEL OS (default "9.4")
+      --vm-types strings                  set an specific set of vm-types and ignore any CPUs, Memory, Arch parameters set. Note vm-type should match requested arch. Also if --spot flag is used set at least 3 types.
 
 Global Flags:
       --backed-url string     backed for stack state. Can be a local path with format file:///path/subpath or s3 s3://existing-bucket

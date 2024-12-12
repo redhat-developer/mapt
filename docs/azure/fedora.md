@@ -33,7 +33,7 @@ Flags:
       --spot-eviction-tolerance string   if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest (default "lowest")
       --tags stringToString              tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --username string                  username for general user. SSH accessible + rdp with generated password (default "rhqp")
-      --version string                   linux version. Version should be formated as X.Y (Major.minor)
+      --version string                   linux version. Version should be formated as X.Y (Major.minor) (default "40.0")
       --vmsize strings                   set specific size for the VM and ignore any CPUs, Memory and Arch parameters set. Type requires to allow nested virtualization
 
 Global Flags:
