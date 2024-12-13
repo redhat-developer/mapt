@@ -83,38 +83,25 @@ func (r *MacRequest) replaceMachine(h *HostInformation) error {
 		return err
 	}
 	logging.Debugf("Replacing root volume for AMI %s", *ami.Image.ImageId)
-	_, err = qEC2.ReplaceRootVolume(
+	if _, err = qEC2.ReplaceRootVolume(
 		qEC2.ReplaceRootVolumeRequest{
 			Region:     *h.Region,
 			InstanceID: *h.Host.Instances[0].InstanceId,
 			// Needto lookup for AMI + check if copy is required
 			AMIID: *ami.Image.ImageId,
-		})
-	if err != nil {
+			Wait:  true,
+		}); err != nil {
 		return err
 	}
-	r.lock = true
-	if err := r.manageMacMachine(h); err != nil {
-		return err
-	}
-	// replace will run again the boostrap script to generate
-	// and set new keys to access the machine
-	r.replace = true
+	r.lock = false
 	return r.manageMacMachine(h)
 }
 
-// Release will set the lock as false
-func (r *MacRequest) releaseLock(h *HostInformation) error {
-	r.lock = false
-	lockURN := fmt.Sprintf("urn:pulumi:%s::%s::%s::%s",
-		maptContext.StackNameByProject(stackMacMachine),
-		maptContext.ProjectName(),
-		customResourceTypeLock,
-		resourcesUtil.GetResourceName(
-			r.Prefix, awsMacMachineID, "mac-lock"))
-
-	// rh:qe:aws:mac:lock main-amm-mac-lock
-	return r.manageMacMachineTargets(h, []string{lockURN})
+// Run the bootstrap script creating new access credentials for the user
+func (r *MacRequest) replaceUserAccess(h *HostInformation) error {
+	r.replace = true
+	r.lock = true
+	return r.manageMacMachine(h)
 }
 
 // Release will set the lock as false
@@ -236,14 +223,15 @@ func (r *MacRequest) deployerMachine(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPassword), userPassword.Result)
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey),
 		ukp.PrivateKey.PrivateKeyPem)
-	// Create a lock on the machine
-	if err := machineLock(ctx,
-		resourcesUtil.GetResourceName(
-			r.Prefix, awsMacMachineID, "mac-lock"), r.lock); err != nil {
+	readiness, err := r.readiness(ctx, i, ukp.PrivateKey, bastion, []pulumi.Resource{bc})
+	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputLock), pulumi.Bool(r.lock))
-	return r.readiness(ctx, i, ukp.PrivateKey, bastion, []pulumi.Resource{bc})
+	return machineLock(ctx,
+		resourcesUtil.GetResourceName(
+			r.Prefix, awsMacMachineID, "mac-lock"), r.lock,
+		pulumi.DependsOn([]pulumi.Resource{readiness}))
 }
 
 // Write exported values in context to files o a selected target folder
@@ -400,8 +388,8 @@ func (r *MacRequest) readiness(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
 	b *bastion.Bastion,
-	dependecies []pulumi.Resource) error {
-	_, err := remote.NewCommand(ctx,
+	dependecies []pulumi.Resource) (*remote.Command, error) {
+	return remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "readiness-cmd"),
 		&remote.CommandArgs{
 			Connection: remoteCommandArgs(m, mk, b),
@@ -412,7 +400,6 @@ func (r *MacRequest) readiness(ctx *pulumi.Context,
 				Create: remoteTimeout,
 				Update: remoteTimeout}),
 		pulumi.DependsOn(dependecies))
-	return err
 }
 
 // helper function to set the connection args
