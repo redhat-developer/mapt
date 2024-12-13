@@ -10,11 +10,9 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
-
-	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
-// Request could be interpreted as a general way to create / release
+// Request could be interpreted as a general way to create / get a machine
 //
 // Some project will request a mac machine
 // based on tags it will check if there is any existing mac machine (based on labels + arch + MaxPoolSize)
@@ -50,7 +48,7 @@ func Request(r *MacRequest) error {
 		}
 		return create(r, hi)
 	}
-	err = r.replaceMachine(hi)
+	err = r.replaceUserAccess(hi)
 	if err != nil {
 		return err
 	}
@@ -78,13 +76,14 @@ func Release(prefix string, hostID string) error {
 	maptContext.InitBase(
 		*hi.ProjectName,
 		*hi.BackedURL)
+
 	// Set a default request
 	r := &MacRequest{
 		Prefix:       prefix,
-		Architecture: archDefault,
-		Version:      osVersionDefault,
+		Architecture: DefaultArch,
+		Version:      DefaultOSVersion,
 	}
-	return r.releaseLock(hi)
+	return r.replaceMachine(hi)
 }
 
 // Initial scenario consider 1 machine
@@ -100,17 +99,6 @@ func Destroy(prefix, hostID string) error {
 	maptContext.InitBase(
 		*hi.ProjectName,
 		*hi.BackedURL)
-	// Check if dh is available and it has no instance on it
-	// otherwise we can not release it
-	if hi.Host.State == ec2Types.AllocationStateAvailable &&
-		len(host.Instances) == 0 {
-		return aws.DestroyStack(aws.DestroyStackRequest{
-			Stackname: stackDedicatedHost,
-			// TODO check if needed to add region for backedURL
-			Region:    *hi.Region,
-			BackedURL: *hi.BackedURL,
-		})
-	}
 	// Dedicated host is not on a valid state to be deleted
 	// With same backedURL check if machine is locked
 	machineLocked, err := isMachineLocked(prefix, hi)
@@ -118,8 +106,16 @@ func Destroy(prefix, hostID string) error {
 		return err
 	}
 	if !machineLocked {
-		return aws.DestroyStack(aws.DestroyStackRequest{
+		if err := aws.DestroyStack(aws.DestroyStackRequest{
 			Stackname: stackMacMachine,
+			Region:    *hi.Region,
+			BackedURL: *hi.BackedURL,
+		}); err != nil {
+			return err
+		}
+		return aws.DestroyStack(aws.DestroyStackRequest{
+			Stackname: stackDedicatedHost,
+			// TODO check if needed to add region for backedURL
 			Region:    *hi.Region,
 			BackedURL: *hi.BackedURL,
 		})

@@ -23,10 +23,10 @@ const (
 	dhIDDesc          string = "id for the dedicated host"
 	arch              string = "arch"
 	archDesc          string = "mac architecture allowed values x86, m1, m2"
-	archDefault       string = "m2"
+	archDefault       string = mac.DefaultArch
 	osVersion         string = "version"
 	osVersionDesc     string = "macos operating system vestion 11, 12 on x86 and m1/m2; 13, 14 on all archs"
-	osDefault         string = "14"
+	osDefault         string = mac.DefaultOSVersion
 	fixedLocation     string = "fixed-location"
 	fixedLocationDesc string = "if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)"
 )
@@ -96,14 +96,6 @@ func getMacRequest() *cobra.Command {
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
-	err := c.MarkPersistentFlagRequired(arch)
-	if err != nil {
-		logging.Error(err)
-	}
-	err = c.MarkPersistentFlagRequired(osVersion)
-	if err != nil {
-		logging.Error(err)
-	}
 	return c
 }
 
