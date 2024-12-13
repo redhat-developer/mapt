@@ -1,5 +1,5 @@
-# go toolset 1.21.13-2.1727893526
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:fd41c001abc243076cc28b63c409ae6d9cbcad401c8124fb67d20fe57a2aa63a as builder
+# go toolset 9.5-1733160835-1.22.7-1733160835
+FROM registry.access.redhat.com/ubi9/go-toolset:1.22.7-1733160835 as builder
 ARG TARGETARCH
 USER root
 WORKDIR /workspace
@@ -17,18 +17,15 @@ RUN GOARCH=${TARGETARCH} make build \
     && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
     && tar -xzvf pulumicli.tar.gz 
 
-# ubi 9.4-1214.1726694543 
-FROM registry.access.redhat.com/ubi9/ubi@sha256:b00d5990a00937bd1ef7f44547af6c7fd36e3fd410e2c89b5d2dfc1aff69fe99
+# ubi 9.5-1732804088
+FROM registry.access.redhat.com/ubi9/ubi:9.5-1732804088
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
 
 COPY --from=builder /workspace/out/mapt /workspace/pulumi/pulumi /usr/local/bin/
 
-ENV INTERNAL_OUTPUT=/tmp/mapt \
-    PULUMI_CONFIG_PASSPHRASE="passphrase" \
+ENV PULUMI_CONFIG_PASSPHRASE="passphrase" \
     AWS_SDK_LOAD_CONFIG=1
-
-VOLUME [ "${INTERNAL_OUTPUT}" ]
 
 ENV AWS_CLI_VERSION 2.16.7
 ENV AZ_CLI_VERSION 2.61.0
@@ -57,22 +54,22 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     && echo ${AWS_CLI_URL} ${AZ_CLI_RPM} \
     && curl ${AWS_CLI_URL} -o awscliv2.zip \
     && dnf install -y unzip \
-    && unzip awscliv2.zip \
+    && unzip -qq awscliv2.zip \
     && ./aws/install \
     && curl -L ${AZ_CLI_RPM} -o azure-cli.rpm \
     && dnf install -y azure-cli.rpm \
     && rm -rf aws awscliv2.zip azure-cli.rpm \
     && dnf clean all \
   	&& rm -rf /var/cache/yum \
-    && mkdir -p "${INTERNAL_OUTPUT}" \
+    && mkdir -p /opt/mapt/run \
+    && chmod -R 0777 /opt/mapt/run \
     && pulumi plugin install resource aws ${PULUMI_AWS_VERSION} \
     && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
     && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \
     && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION}
 
-# TODO review permissions on sharing mounting volume from host
-# USER 65532:65532
+WORKDIR /opt/mapt/run
 
 ENTRYPOINT ["mapt"]
 # Default to show help
