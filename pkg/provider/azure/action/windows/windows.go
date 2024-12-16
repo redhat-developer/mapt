@@ -90,10 +90,12 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	// Get location for creating Resource Group
+	rgLocation := azure.GetSuitableLocationForResourceGroup(*location)
 	rg, err := resources.NewResourceGroup(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "rg"),
 		&resources.ResourceGroupArgs{
-			Location:          pulumi.String(*location),
+			Location:          pulumi.String(rgLocation),
 			ResourceGroupName: pulumi.String(maptContext.RunID()),
 			Tags:              maptContext.ResourceTags(),
 		})

@@ -84,10 +84,13 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+
+	// Get location for creating the Resource Group
+	rgLocation := azure.GetSuitableLocationForResourceGroup(*location)
 	rg, err := resources.NewResourceGroup(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureLinuxID, "rg"),
 		&resources.ResourceGroupArgs{
-			Location:          pulumi.String(*location),
+			Location:          pulumi.String(rgLocation),
 			ResourceGroupName: pulumi.String(maptContext.RunID()),
 			Tags:              maptContext.ResourceTags(),
 		})
