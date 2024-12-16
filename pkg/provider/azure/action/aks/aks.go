@@ -59,10 +59,12 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	// Get location for creating Resouce Group
+	rgLocation := azure.GetSuitableLocationForResourceGroup(*location)
 	rg, err := resources.NewResourceGroup(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, azureAKSID, "rg"),
 		&resources.ResourceGroupArgs{
-			Location:          pulumi.String(*location),
+			Location:          pulumi.String(rgLocation),
 			ResourceGroupName: pulumi.String(maptContext.RunID()),
 			Tags:              maptContext.ResourceTags(),
 		})
