@@ -24,17 +24,15 @@ LABEL org.opencontainers.image.authors="Redhat Developer"
 
 COPY --from=builder /workspace/out/mapt /workspace/pulumi/pulumi /usr/local/bin/
 
-ENV PULUMI_CONFIG_PASSPHRASE="passphrase" \
-    AWS_SDK_LOAD_CONFIG=1
+ENV PULUMI_CONFIG_PASSPHRASE "passphrase" 
 
-ENV AWS_CLI_VERSION 2.16.7
-ENV AZ_CLI_VERSION 2.61.0
+ENV AWS_SDK_LOAD_CONFIG=1 \
+    AWS_CLI_VERSION=2.16.7 \
+    AZ_CLI_VERSION=2.61.0
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
 ARG PULUMI_AWS_VERSION=v6.64.0
-# Install this
-# https://releases.hashicorp.com/terraform-provider-aws/5.75.1/terraform-provider-aws_5.75.1_linux_amd64.zip
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
 ARG PULUMI_AZURE_NATIVE_VERSION=v2.76.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
@@ -44,7 +42,9 @@ ARG PULUMI_TLS_VERSION=v5.0.9
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.16.7
 
-RUN if [ "$TARGETARCH" = "amd64" ]; then \
+RUN mkdir -p /opt/mapt/run \
+    && chmod -R 0777 /opt/mapt/run \
+    && if [ "$TARGETARCH" = "amd64" ]; then \
         export ARCH_N=x86_64; \ 
     else \
         export ARCH_N=aarch64; \
@@ -61,15 +61,14 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     && rm -rf aws awscliv2.zip azure-cli.rpm \
     && dnf clean all \
   	&& rm -rf /var/cache/yum \
-    && mkdir -p /opt/mapt/run \
-    && chmod -R 0777 /opt/mapt/run \
     && pulumi plugin install resource aws ${PULUMI_AWS_VERSION} \
     && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
     && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \
     && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION}
 
-WORKDIR /opt/mapt/run
+ENV PULUMI_HOME "/opt/mapt/run" 
+WORKDIR ${PULUMI_HOME}
 
 ENTRYPOINT ["mapt"]
 # Default to show help
