@@ -21,23 +21,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-<<<<<<< HEAD
-    - name: Build image
-      shell: bash
-      run: make oci-build
-
-    - name: Log in to quay.io Registry
-      uses: redhat-actions/podman-login@v1
-      with:
-        registry: quay.io
-        username: ${{ secrets.QUAY_IO_USERNAME }}
-        password: ${{ secrets.QUAY_IO_PASSWORD }}
-
-    - name: Push image
-      shell: bash
-      run: make oci-push
-      
-=======
     - name: Build image for PR
       if: ${{ github.event_name == 'pull_request' }}
       env:
@@ -65,4 +48,3 @@ jobs:
         name: mapt
         path: mapt*
     
->>>>>>> da8c9e0f (enable multi-arch build)
