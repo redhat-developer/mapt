@@ -17,8 +17,6 @@ jobs:
       contents: read
       packages: write
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
 
     - name: Download mapt assets
       uses: actions/download-artifact@v4
@@ -28,11 +26,9 @@ jobs:
         github-token: ${{ github.token }}
     
     - name: Get mapt build informaiton
-      run: echo "source_event=$(cat mapt-event)" >> "$GITHUB_ENV"
-
-    - name: Get mapt image name
-      if: ${{ env.source_event == 'pull_request' }}
-      run: echo "IMG=$(cat mapt-image)" >> "$GITHUB_ENV"
+      run: |
+        echo "source_event=$(cat mapt-event)" >> "$GITHUB_ENV"
+        echo "image=$(cat mapt-image)" >> "$GITHUB_ENV"
 
     - name: Log in to ghcr.io
       if: ${{ env.source_event == 'pull_request' }}
@@ -52,6 +48,14 @@ jobs:
 
     - name: Push mapt
       run: |
-        make oci-load
-        make oci-push
-      
+        # Load images from build
+        podman load -i mapt-arm64.tar
+        podman load -i mapt-amd64.tar 
+        
+        # Push
+        podman push ${{ env.image }})-arm64
+        podman push ${{ env.image }})-amd64
+        podman manifest create ${{ env.image }})
+        podman manifest add ${{ env.image }}) docker://${{ env.image }})-arm64
+        podman manifest add ${{ env.image }}) docker://${{ env.image }})-amd64
+        podman manifest push --all ${{ env.image }})
