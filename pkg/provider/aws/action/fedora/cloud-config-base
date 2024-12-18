@@ -1,4 +1,11 @@
 #cloud-config
+ntp:
+  enabled: true
+  servers:
+    - 169.254.169.123
+  config:
+    service_name: chronyd.service
+    check_exe: chronyd
 runcmd:
   - dnf install -y podman
 {{ if .InstallActionsRunner }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh{{ end }}
