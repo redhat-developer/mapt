@@ -1,0 +1,52 @@
+name: oci-pr-push
+
+on:
+  workflow_run:
+    workflows: 
+    - oci-builds
+    types:
+      - completed
+  
+jobs:
+  push:
+    name: push
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Download mapt assets
+        uses: actions/download-artifact@v4
+        with:
+          name: mapt
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      
+      - name: Get mapt build informaiton
+        run: |
+          echo "image=$(cat mapt-image)" >> "$GITHUB_ENV"
+
+      - name: Log in to ghcr.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+    
+      - name: Push mapt
+        run: |
+          # Load images from build
+          podman load -i mapt-arm64.tar
+          podman load -i mapt-amd64.tar 
+          
+          # Push
+          podman push ${{ env.image }}-arm64
+          podman push ${{ env.image }}-amd64
+          podman manifest create ${{ env.image }}
+          podman manifest add ${{ env.image }} docker://${{ env.image }}-arm64
+          podman manifest add ${{ env.image }} docker://${{ env.image }}-amd64
+          podman manifest push --all ${{ env.image }}
