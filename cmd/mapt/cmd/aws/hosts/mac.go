@@ -60,7 +60,9 @@ func getMacRequest() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
@@ -112,7 +114,9 @@ func getMacRelease() *cobra.Command {
 			// Run create
 			if err := mac.Release(
 				"main",
-				viper.GetString(dhID)); err != nil {
+				viper.GetString(dhID),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel)); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -140,7 +144,9 @@ func getMacDestroy() *cobra.Command {
 
 			if err := mac.Destroy(
 				"main",
-				viper.GetString(dhID)); err != nil {
+				viper.GetString(dhID),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel)); err != nil {
 				logging.Error(err)
 			}
 			return nil

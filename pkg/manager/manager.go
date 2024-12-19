@@ -9,6 +9,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optdestroy"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optup"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -38,11 +39,17 @@ func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptio
 	// TODO add when loglevel debug control in place
 	w := logging.GetWritter()
 	defer w.Close()
-	var logLevel uint = 10
 	mOpts := []optup.Option{
 		optup.ProgressStreams(w),
-		optup.DebugLogging(
-			debug.LoggingOptions{LogLevel: &logLevel}),
+	}
+	if maptContext.Debug() {
+		dl := maptContext.DebugLevel()
+		mOpts = append(mOpts, optup.DebugLogging(
+			debug.LoggingOptions{
+				LogLevel:      &dl,
+				Debug:         true,
+				FlowToPlugins: true,
+				LogToStdErr:   true}))
 	}
 	if len(targetURNs) > 0 {
 		mOpts = append(mOpts, optup.Target(targetURNs))
@@ -64,8 +71,19 @@ func DestroyStack(targetStack Stack, opts ...ManagerOptions) (err error) {
 	objectStack := getStack(ctx, targetStack)
 	w := logging.GetWritter()
 	defer w.Close()
-	stdoutStreamer := optdestroy.ProgressStreams(w)
-	if _, err := objectStack.Destroy(ctx, stdoutStreamer); err != nil {
+	// stdoutStreamer := optdestroy.ProgressStreams(w)
+	mOpts := []optdestroy.Option{
+		optdestroy.ProgressStreams(w),
+	}
+	if maptContext.Debug() {
+		dl := maptContext.DebugLevel()
+		mOpts = append(mOpts, optdestroy.DebugLogging(
+			debug.LoggingOptions{
+				LogLevel:      &dl,
+				FlowToPlugins: true,
+				LogToStdErr:   true}))
+	}
+	if _, err := objectStack.Destroy(ctx, mOpts...); err != nil {
 		logging.Error(err)
 		os.Exit(1)
 	}

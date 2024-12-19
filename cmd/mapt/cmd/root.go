@@ -57,6 +57,8 @@ func init() {
 	flagSet := pflag.NewFlagSet(commandName, pflag.ExitOnError)
 	flagSet.StringP(params.ProjectName, "", "", params.ProjectNameDesc)
 	flagSet.StringP(params.BackedURL, "", "", params.BackedURLDesc)
+	flagSet.Bool(params.Debug, false, params.DebugDesc)
+	flagSet.Uint(params.DebugLevel, params.DebugLevelDefault, params.DebugLevelDesc)
 	rootCmd.PersistentFlags().AddFlagSet(flagSet)
 	// Subcommands
 	rootCmd.AddCommand(

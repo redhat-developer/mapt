@@ -23,28 +23,34 @@ type context struct {
 	projectName           string
 	backedURL             string
 	resultsOutput         string
+	debug                 bool
+	debugLevel            uint
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
 }
 
 var c *context
 
-func Init(projectName, backedURL, resultsOutput string, tags map[string]string) {
+func Init(projectName, backedURL, resultsOutput string, tags map[string]string, debug bool, debugLevel uint) {
 	c = &context{
 		runID:         CreateRunID(),
 		projectName:   projectName,
 		backedURL:     backedURL,
 		resultsOutput: resultsOutput,
+		debug:         debug,
+		debugLevel:    debugLevel,
 		tags:          tags,
 	}
 	addCommonTags()
 	logging.Debugf("context initialized for %s", c.runID)
 }
 
-func InitBase(projectName, backedURL string) {
+func InitBase(projectName, backedURL string, debug bool, debugLevel uint) {
 	c = &context{
 		projectName: projectName,
 		backedURL:   backedURL,
+		debug:       debug,
+		debugLevel:  debugLevel,
 	}
 }
 
@@ -102,6 +108,14 @@ func GetResultsOutputPath() string {
 
 func StackNameByProject(stackName string) string {
 	return fmt.Sprintf("%s-%s", stackName, c.projectName)
+}
+
+func Debug() bool {
+	return c.debug
+}
+
+func DebugLevel() uint {
+	return c.debugLevel
 }
 
 func addCommonTags() {
