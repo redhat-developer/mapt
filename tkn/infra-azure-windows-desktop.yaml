@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-azure-windows-desktop
   labels:
-    app.kubernetes.io/version: "0.7.2"
+    app.kubernetes.io/version: "0.7.3"
   annotations:
     tekton.dev/pipelines.minVersion: "0.24.x"
     tekton.dev/categories: infrastructure
@@ -98,7 +98,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v0.7.2
+      image: quay.io/redhat-developer/mapt:v0.7.3
       imagePullPolicy: Always
       script: |
         #!/bin/sh
