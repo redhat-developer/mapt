@@ -60,7 +60,9 @@ func getWindowsCreate() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
@@ -117,7 +119,9 @@ func getWindowsDestroy() *cobra.Command {
 
 			maptContext.InitBase(
 				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL))
+				viper.GetString(params.BackedURL),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 
 			if err := windows.Destroy(); err != nil {
 				logging.Error(err)

@@ -51,7 +51,9 @@ func getCreateRHEL() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
@@ -133,7 +135,9 @@ func getDestroyRHEL() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 			if err := azureRHEL.Destroy(); err != nil {
 				logging.Error(err)
 			}

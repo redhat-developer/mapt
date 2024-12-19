@@ -60,7 +60,9 @@ func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Co
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
@@ -124,7 +126,9 @@ func getDestroyLinux() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 			if err := azureLinux.Destroy(); err != nil {
 				logging.Error(err)
 			}
