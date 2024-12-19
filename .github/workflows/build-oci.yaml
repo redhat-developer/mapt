@@ -9,41 +9,66 @@ on:
     branches: [ main ]
 
 jobs:
-  build-mapt:
-    name: build-mapt
+  build:
+    name: build
     runs-on: ubuntu-24.04
     steps:
-    - name: Prepare runner
-      shell: bash
-      run: |
-        sudo apt-get update && sudo apt-get install -y qemu-user-static
+      - name: Prepare runner for build multi arch
+        shell: bash
+        run: |
+          sudo apt-get update && sudo apt-get install -y qemu-user-static
 
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Build image for PR
-      if: ${{ github.event_name == 'pull_request' }}
-      env:
-        IMG: ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}
-      shell: bash
-      run: |
-        make oci-build
-        make oci-save
-        echo ${IMG} > mapt-image
+      - name: Build image for PR
+        if: github.event_name == 'pull_request' 
+        env:
+          IMG: ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}
+        shell: bash
+        run: |
+          make oci-build
+          make oci-save
+          echo ${IMG} > mapt-image
 
-    - name: Build image for Release
-      if: ${{ github.event_name == 'push' }}
-      run: |
-        make oci-build
-        make oci-save
+      - name: Build and Push image for Release
+        if: github.event_name == 'push'
+        run: |
+          make oci-build
+          make oci-save
 
-    - name: Create image metadata
-      run: |
-        echo ${{ github.event_name }} > mapt-event
+      - name: Upload mapt artifacts for PR
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapt
+          path: mapt*
 
-    - name: Upload crc-builder
-      uses: actions/upload-artifact@v4
-      with:
-        name: mapt
-        path: mapt*
+  push:
+    name: push
+    if: github.event_name == 'push' 
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download mapt oci flatten images
+        uses: actions/download-artifact@v4
+        with:
+          name: mapt
+        
+      - name: Log in quay.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_IO_USERNAME }}
+          password: ${{ secrets.QUAY_IO_PASSWORD }}
+
+      - name: Push image for Release
+        if: github.event_name == 'push'
+        run: |
+          make oci-load
+          make oci-push
+
+      
 
