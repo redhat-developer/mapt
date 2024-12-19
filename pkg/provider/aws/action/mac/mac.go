@@ -66,7 +66,7 @@ func Request(r *MacRequest) error {
 // get projectName (tag on the dh)
 // load machine stack based on those params
 // run release update on it
-func Release(prefix string, hostID string) error {
+func Release(prefix string, hostID string, debug bool, debugLevel uint) error {
 	host, err := data.GetDedicatedHost(hostID)
 	if err != nil {
 		return err
@@ -75,7 +75,8 @@ func Release(prefix string, hostID string) error {
 	// Set context based on info from dedicated host to be released
 	maptContext.InitBase(
 		*hi.ProjectName,
-		*hi.BackedURL)
+		*hi.BackedURL,
+		debug, debugLevel)
 
 	// Set a default request
 	r := &MacRequest{
@@ -89,7 +90,7 @@ func Release(prefix string, hostID string) error {
 // Initial scenario consider 1 machine
 // If we request destroy mac machine it will look for any machine
 // and check if it is locked if not locked it will destroy it
-func Destroy(prefix, hostID string) error {
+func Destroy(prefix, hostID string, debug bool, debugLevel uint) error {
 	host, err := data.GetDedicatedHost(hostID)
 	if err != nil {
 		return err
@@ -98,7 +99,8 @@ func Destroy(prefix, hostID string) error {
 	// Set context based on info from dedicated host to be released
 	maptContext.InitBase(
 		*hi.ProjectName,
-		*hi.BackedURL)
+		*hi.BackedURL,
+		debug, debugLevel)
 	// Dedicated host is not on a valid state to be deleted
 	// With same backedURL check if machine is locked
 	machineLocked, err := isMachineLocked(prefix, hi)

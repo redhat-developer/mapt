@@ -62,7 +62,9 @@ func getCreateWindowsDesktop() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
@@ -143,7 +145,9 @@ func getDestroyWindowsDesktop() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 			if err := azureWindows.Destroy(); err != nil {
 				logging.Error(err)
 			}
