@@ -51,7 +51,9 @@ func getFedoraCreate() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags))
+				viper.GetStringMapString(params.Tags),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
@@ -111,7 +113,9 @@ func getFedoraDestroy() *cobra.Command {
 
 			maptContext.InitBase(
 				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL))
+				viper.GetString(params.BackedURL),
+				viper.IsSet(params.Debug),
+				viper.GetUint(params.DebugLevel))
 
 			if err := fedora.Destroy(); err != nil {
 				logging.Error(err)
