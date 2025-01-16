@@ -86,6 +86,7 @@ func getWindowsCreate() *cobra.Command {
 					AMIKeepCopy:          viper.IsSet(amiKeepCopy),
 					Spot:                 viper.IsSet(spot),
 					Airgap:               viper.IsSet(airgap),
+					Timeout:              viper.GetString(timeout),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
 				}); err != nil {
 				logging.Error(err)
@@ -102,6 +103,7 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.StringP(amiLang, "", amiLangDefault, amiLangDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
+	flagSet.StringP(timeout, "", "", timeout)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
@@ -123,11 +125,14 @@ func getWindowsDestroy() *cobra.Command {
 				viper.IsSet(params.Debug),
 				viper.GetUint(params.DebugLevel))
 
-			if err := windows.Destroy(); err != nil {
+			if err := windows.Destroy(viper.IsSet(serverless)); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
+	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
+	flagSet.Bool(serverless, false, serverlessDesc)
+	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

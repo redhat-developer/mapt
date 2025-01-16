@@ -19,7 +19,7 @@ const (
 
 	fedoraVersion        string = "version"
 	fedoraVersionDesc    string = "version for the Fedora Cloud OS"
-	fedoraVersionDefault string = "40"
+	fedoraVersionDefault string = "41"
 )
 
 func GetFedoraCmd() *cobra.Command {
@@ -81,6 +81,7 @@ func getFedoraCreate() *cobra.Command {
 					VMType:               viper.GetStringSlice(vmTypes),
 					InstanceRequest:      instanceRequest,
 					Spot:                 viper.IsSet(spot),
+					Timeout:              viper.GetString(timeout),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
 					Airgap:               viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
@@ -96,6 +97,7 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
+	flagSet.StringP(timeout, "", "", timeout)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
@@ -117,11 +119,16 @@ func getFedoraDestroy() *cobra.Command {
 				viper.IsSet(params.Debug),
 				viper.GetUint(params.DebugLevel))
 
-			if err := fedora.Destroy(); err != nil {
+			logging.Debug("Run fedora destroy")
+
+			if err := fedora.Destroy(viper.IsSet(serverless)); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
+	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
+	flagSet.Bool(serverless, false, serverlessDesc)
+	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

@@ -33,6 +33,8 @@ ENV AWS_SDK_LOAD_CONFIG=1 \
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
 ARG PULUMI_AWS_VERSION=v6.64.0
+# renovate: datasource=github-releases depName=pulumi/pulumi-awsx
+ARG PULUMI_AWSX_VERSION=v2.19.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
 ARG PULUMI_AZURE_NATIVE_VERSION=v2.76.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
@@ -65,11 +67,12 @@ RUN mkdir -p /opt/mapt/run \
     && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
     && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \
-    && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION}
+    && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION} \
+    && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION}
 
 ENV PULUMI_HOME "/opt/mapt/run" 
 WORKDIR ${PULUMI_HOME}
-
+    
 ENTRYPOINT ["mapt"]
 # Default to show help
 CMD ["-h"]
