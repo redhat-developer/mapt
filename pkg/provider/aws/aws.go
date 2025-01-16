@@ -11,22 +11,25 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
+	awsCredentials "github.com/redhat-developer/mapt/pkg/provider/aws/util/credentials"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/redhat-developer/mapt/pkg/util/maps"
 )
 
 const (
-	CONFIG_AWS_REGION     string = "aws:region"
-	CONFIG_AWS_ACCESS_KEY string = "aws:accessKey"
-	CONFIG_AWS_SECRET_KEY string = "aws:secretKey"
+	CONFIG_AWS_REGION        string = "aws:region"
+	CONFIG_AWS_NATIVE_REGION string = "aws-native:region"
+	CONFIG_AWS_ACCESS_KEY    string = "aws:accessKey"
+	CONFIG_AWS_SECRET_KEY    string = "aws:secretKey"
 )
 
 // pulumi config key : aws env credential
 var envCredentials = map[string]string{
-	CONFIG_AWS_REGION:     "AWS_DEFAULT_REGION",
-	CONFIG_AWS_ACCESS_KEY: "AWS_ACCESS_KEY_ID",
-	CONFIG_AWS_SECRET_KEY: "AWS_SECRET_ACCESS_KEY"}
+	CONFIG_AWS_REGION:        "AWS_DEFAULT_REGION",
+	CONFIG_AWS_NATIVE_REGION: "AWS_DEFAULT_REGION",
+	CONFIG_AWS_ACCESS_KEY:    "AWS_ACCESS_KEY_ID",
+	CONFIG_AWS_SECRET_KEY:    "AWS_SECRET_ACCESS_KEY"}
 
 var DefaultCredentials = GetClouProviderCredentials(nil)
 
@@ -56,14 +59,25 @@ func SetAWSCredentials(ctx context.Context, stack auto.Stack, customCredentials 
 }
 
 type DestroyStackRequest struct {
-	Region    string
-	BackedURL string
-	Stackname string
+	Serverless bool
+	Region     string
+	BackedURL  string
+	Stackname  string
 }
 
 func DestroyStack(s DestroyStackRequest) error {
 	if len(s.Stackname) == 0 {
 		return fmt.Errorf("stackname is required")
+	}
+	logging.Debug("Running destroy operation")
+	if s.Serverless {
+		logging.Debug("Running destroy operation in serverless mode")
+		// When running as serverless Credendials should be retrieved based on the role
+		// for the serverless task being executed as so we need to get them and set as Envs
+		// to continue with default behavior
+		if err := awsCredentials.SetCredentialsFromContainerRole(); err != nil {
+			return err
+		}
 	}
 	return manager.DestroyStack(manager.Stack{
 		StackName:   maptContext.StackNameByProject(s.Stackname),

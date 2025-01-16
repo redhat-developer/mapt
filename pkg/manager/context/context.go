@@ -10,6 +10,13 @@ import (
 	"golang.org/x/exp/maps"
 )
 
+var (
+	// mapt image to make self use. OCI image value is passed during building time
+	// this is intended for full build process, when building mapt binary we need to ensure
+	// OCI image already exists to make use of it
+	OCI = "quay.io/redhat-developer/mapt:v0.0.0-unset"
+)
+
 const (
 	tagKeyOrigin      = "origin"
 	origin            = "mapt"
