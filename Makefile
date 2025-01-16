@@ -2,6 +2,8 @@ VERSION ?= 0.8.0-dev
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/redhat-developer/mapt:v${VERSION}
+# IMG ?= quay.io/rhqp/mapt:serverless-10-amd64
+
 TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
 
 # Go and compilation related variables
@@ -9,6 +11,12 @@ GOPATH ?= $(shell go env GOPATH)
 BUILD_DIR ?= out
 SOURCE_DIRS = cmd pkg
 SOURCES := $(shell find . -name "*.go" -not -path "./vendor/*")
+# repo
+ORG := github.com/redhat-developer
+MODULEPATH = $(ORG)/mapt
+# Linker flags
+VERSION_VARIABLES := -X $(MODULEPATH)/pkg/manager/context.OCI=$(IMG)
+
 # https://golang.org/cmd/link/
 # LDFLAGS := $(VERSION_VARIABLES) -extldflags='-static' ${GO_EXTRA_LDFLAGS}
 LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
@@ -76,6 +84,7 @@ lint: $(TOOLS_BINDIR)/golangci-lint
 # Build the container image
 .PHONY: oci-build
 oci-build: clean
+	# ${CONTAINER_MANAGER} build -t $(IMG) -f oci/Containerfile .
 	${CONTAINER_MANAGER} build --platform linux/amd64 --manifest $(IMG)-amd64 -f oci/Containerfile .
 	${CONTAINER_MANAGER} build --platform linux/arm64 --manifest $(IMG)-arm64 -f oci/Containerfile .
 

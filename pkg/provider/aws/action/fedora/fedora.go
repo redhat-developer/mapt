@@ -17,6 +17,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
 	amiSVC "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
@@ -39,6 +40,8 @@ type Request struct {
 	VMType          []string
 	Spot            bool
 	Airgap          bool
+	// If timeout is set a severless scheduled task will be created to self destroy the resources
+	Timeout string
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -113,10 +116,11 @@ func Create(r *Request) error {
 }
 
 // Will destroy resources related to machine
-func Destroy() (err error) {
+func Destroy(serverless bool) (err error) {
 	if err := aws.DestroyStack(
 		aws.DestroyStackRequest{
-			Stackname: stackName,
+			Stackname:  stackName,
+			Serverless: serverless,
 		}); err != nil {
 		return err
 	}
@@ -133,7 +137,8 @@ func (r *Request) createMachine() error {
 		BackedURL:   maptContext.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
-				aws.CONFIG_AWS_REGION: r.region}),
+				aws.CONFIG_AWS_REGION:        r.region,
+				aws.CONFIG_AWS_NATIVE_REGION: r.region}),
 		DeployFunc: r.deploy,
 	}
 
@@ -229,6 +234,13 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		pulumi.String(amiUserDefault))
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputHost),
 		c.GetHostIP(!r.Airgap))
+	if len(r.Timeout) > 0 {
+		if err = serverless.CreateDestroyOperation(ctx,
+			r.region, r.Prefix, awsFedoraDedicatedID,
+			"fedora", r.Timeout); err != nil {
+			return err
+		}
+	}
 	return c.Readiness(ctx, command.CommandPing, r.Prefix, awsFedoraDedicatedID,
 		keyResources.PrivateKey, amiUserDefault, bastion, []pulumi.Resource{})
 }
