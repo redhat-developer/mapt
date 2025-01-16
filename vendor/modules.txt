@@ -121,16 +121,15 @@ github.com/aws/amazon-ec2-instance-selector/v2/pkg/instancetypes
 github.com/aws/amazon-ec2-instance-selector/v2/pkg/selector
 github.com/aws/amazon-ec2-instance-selector/v2/pkg/selector/outputs
 github.com/aws/amazon-ec2-instance-selector/v2/pkg/sorter
-# github.com/aws/aws-sdk-go v1.45.6
-## explicit; go 1.11
+# github.com/aws/aws-sdk-go v1.50.36
+## explicit; go 1.19
 github.com/aws/aws-sdk-go/aws/awserr
 github.com/aws/aws-sdk-go/aws/endpoints
-# github.com/aws/aws-sdk-go-v2 v1.27.2
-## explicit; go 1.20
+# github.com/aws/aws-sdk-go-v2 v1.32.7
+## explicit; go 1.21
 github.com/aws/aws-sdk-go-v2/aws
 github.com/aws/aws-sdk-go-v2/aws/defaults
 github.com/aws/aws-sdk-go-v2/aws/middleware
-github.com/aws/aws-sdk-go-v2/aws/middleware/private/metrics
 github.com/aws/aws-sdk-go-v2/aws/protocol/ec2query
 github.com/aws/aws-sdk-go-v2/aws/protocol/query
 github.com/aws/aws-sdk-go-v2/aws/protocol/restjson
@@ -169,11 +168,11 @@ github.com/aws/aws-sdk-go-v2/credentials/stscreds
 ## explicit; go 1.20
 github.com/aws/aws-sdk-go-v2/feature/ec2/imds
 github.com/aws/aws-sdk-go-v2/feature/ec2/imds/internal/config
-# github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.9
-## explicit; go 1.20
+# github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.26
+## explicit; go 1.21
 github.com/aws/aws-sdk-go-v2/internal/configsources
-# github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.9
-## explicit; go 1.20
+# github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.26
+## explicit; go 1.21
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2
 # github.com/aws/aws-sdk-go-v2/internal/ini v1.8.0
 ## explicit; go 1.20
@@ -183,6 +182,16 @@ github.com/aws/aws-sdk-go-v2/internal/ini
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ec2/types
+# github.com/aws/aws-sdk-go-v2/service/ecs v1.53.0
+## explicit; go 1.21
+github.com/aws/aws-sdk-go-v2/service/ecs
+github.com/aws/aws-sdk-go-v2/service/ecs/internal/endpoints
+github.com/aws/aws-sdk-go-v2/service/ecs/types
+# github.com/aws/aws-sdk-go-v2/service/iam v1.38.3
+## explicit; go 1.21
+github.com/aws/aws-sdk-go-v2/service/iam
+github.com/aws/aws-sdk-go-v2/service/iam/internal/endpoints
+github.com/aws/aws-sdk-go-v2/service/iam/types
 # github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.11.2
 ## explicit; go 1.20
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding
@@ -209,8 +218,8 @@ github.com/aws/aws-sdk-go-v2/service/ssooidc/types
 github.com/aws/aws-sdk-go-v2/service/sts
 github.com/aws/aws-sdk-go-v2/service/sts/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/sts/types
-# github.com/aws/smithy-go v1.20.2
-## explicit; go 1.20
+# github.com/aws/smithy-go v1.22.1
+## explicit; go 1.21
 github.com/aws/smithy-go
 github.com/aws/smithy-go/auth
 github.com/aws/smithy-go/auth/bearer
@@ -224,11 +233,13 @@ github.com/aws/smithy-go/endpoints
 github.com/aws/smithy-go/internal/sync/singleflight
 github.com/aws/smithy-go/io
 github.com/aws/smithy-go/logging
+github.com/aws/smithy-go/metrics
 github.com/aws/smithy-go/middleware
 github.com/aws/smithy-go/private/requestcompression
 github.com/aws/smithy-go/ptr
 github.com/aws/smithy-go/rand
 github.com/aws/smithy-go/time
+github.com/aws/smithy-go/tracing
 github.com/aws/smithy-go/transport/http
 github.com/aws/smithy-go/transport/http/internal/io
 github.com/aws/smithy-go/waiter
@@ -241,7 +252,7 @@ github.com/blang/semver
 # github.com/blang/semver/v4 v4.0.0
 ## explicit; go 1.14
 github.com/blang/semver/v4
-# github.com/cespare/xxhash/v2 v2.2.0
+# github.com/cespare/xxhash/v2 v2.3.0
 ## explicit; go 1.11
 github.com/cespare/xxhash/v2
 # github.com/charmbracelet/bubbles v0.16.1
@@ -373,7 +384,7 @@ github.com/gogo/protobuf/proto
 # github.com/golang-jwt/jwt/v5 v5.2.1
 ## explicit; go 1.18
 github.com/golang-jwt/jwt/v5
-# github.com/golang/glog v1.2.1
+# github.com/golang/glog v1.2.2
 ## explicit; go 1.19
 github.com/golang/glog
 github.com/golang/glog/internal/logsink
@@ -405,7 +416,7 @@ github.com/hashicorp/hcl/hcl/token
 github.com/hashicorp/hcl/json/parser
 github.com/hashicorp/hcl/json/scanner
 github.com/hashicorp/hcl/json/token
-# github.com/hashicorp/hcl/v2 v2.20.1
+# github.com/hashicorp/hcl/v2 v2.22.0
 ## explicit; go 1.18
 github.com/hashicorp/hcl/v2
 # github.com/imdario/mergo v0.3.16
@@ -521,8 +532,8 @@ github.com/pkg/term/termios
 github.com/pulumi/appdash
 github.com/pulumi/appdash/internal/wire
 github.com/pulumi/appdash/opentracing
-# github.com/pulumi/esc v0.9.1
-## explicit; go 1.20
+# github.com/pulumi/esc v0.10.0
+## explicit; go 1.21
 github.com/pulumi/esc
 github.com/pulumi/esc/ast
 github.com/pulumi/esc/diags
@@ -531,12 +542,26 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
+# github.com/pulumi/pulumi-aws-native/sdk v1.17.0
+## explicit; go 1.21
+github.com/pulumi/pulumi-aws-native/sdk/go/aws
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
 # github.com/pulumi/pulumi-aws/sdk/v6 v6.64.0
 ## explicit; go 1.21.12
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/cloudwatch
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ecs
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws/s3
+# github.com/pulumi/pulumi-awsx/sdk/v2 v2.19.0
+## explicit; go 1.21.12
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/awsx
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs
+github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/internal
 # github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.76.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi-azure-native-sdk/authorization/v2
@@ -565,6 +590,10 @@ github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
 ## explicit; go 1.21
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
+# github.com/pulumi/pulumi-docker/sdk/v4 v4.4.3
+## explicit; go 1.21
+github.com/pulumi/pulumi-docker/sdk/v4/go/docker
+github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 # github.com/pulumi/pulumi-random/sdk/v4 v4.16.7
 ## explicit; go 1.21
 github.com/pulumi/pulumi-random/sdk/v4/go/random
@@ -573,7 +602,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.21
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.142.0
+# github.com/pulumi/pulumi/sdk/v3 v3.143.0
 ## explicit; go 1.21
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -739,7 +768,7 @@ go.uber.org/atomic
 # go.uber.org/multierr v1.11.0
 ## explicit; go 1.19
 go.uber.org/multierr
-# golang.org/x/crypto v0.25.0
+# golang.org/x/crypto v0.31.0
 ## explicit; go 1.20
 golang.org/x/crypto/argon2
 golang.org/x/crypto/blake2b
@@ -769,7 +798,7 @@ golang.org/x/exp/slog/internal/buffer
 # golang.org/x/mod v0.18.0
 ## explicit; go 1.18
 golang.org/x/mod/semver
-# golang.org/x/net v0.27.0
+# golang.org/x/net v0.28.0
 ## explicit; go 1.18
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
@@ -780,10 +809,10 @@ golang.org/x/net/internal/socks
 golang.org/x/net/internal/timeseries
 golang.org/x/net/proxy
 golang.org/x/net/trace
-# golang.org/x/sync v0.7.0
+# golang.org/x/sync v0.10.0
 ## explicit; go 1.18
 golang.org/x/sync/errgroup
-# golang.org/x/sys v0.22.0
+# golang.org/x/sys v0.28.0
 ## explicit; go 1.18
 golang.org/x/sys/cpu
 golang.org/x/sys/execabs
@@ -791,10 +820,10 @@ golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 golang.org/x/sys/windows/registry
-# golang.org/x/term v0.22.0
+# golang.org/x/term v0.27.0
 ## explicit; go 1.18
 golang.org/x/term
-# golang.org/x/text v0.16.0
+# golang.org/x/text v0.21.0
 ## explicit; go 1.18
 golang.org/x/text/encoding
 golang.org/x/text/encoding/internal
@@ -826,17 +855,18 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/tokeninternal
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20240314234333-6e1732d8331c
-## explicit; go 1.19
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142
+## explicit; go 1.21
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.63.2
-## explicit; go 1.19
+# google.golang.org/grpc v1.67.1
+## explicit; go 1.21
 google.golang.org/grpc
 google.golang.org/grpc/attributes
 google.golang.org/grpc/backoff
 google.golang.org/grpc/balancer
 google.golang.org/grpc/balancer/base
 google.golang.org/grpc/balancer/grpclb/state
+google.golang.org/grpc/balancer/pickfirst
 google.golang.org/grpc/balancer/roundrobin
 google.golang.org/grpc/binarylog/grpc_binarylog_v1
 google.golang.org/grpc/channelz
@@ -846,7 +876,9 @@ google.golang.org/grpc/credentials
 google.golang.org/grpc/credentials/insecure
 google.golang.org/grpc/encoding
 google.golang.org/grpc/encoding/proto
+google.golang.org/grpc/experimental/stats
 google.golang.org/grpc/grpclog
+google.golang.org/grpc/grpclog/internal
 google.golang.org/grpc/health
 google.golang.org/grpc/health/grpc_health_v1
 google.golang.org/grpc/internal
@@ -859,7 +891,6 @@ google.golang.org/grpc/internal/channelz
 google.golang.org/grpc/internal/credentials
 google.golang.org/grpc/internal/envconfig
 google.golang.org/grpc/internal/grpclog
-google.golang.org/grpc/internal/grpcrand
 google.golang.org/grpc/internal/grpcsync
 google.golang.org/grpc/internal/grpcutil
 google.golang.org/grpc/internal/idle
@@ -871,24 +902,27 @@ google.golang.org/grpc/internal/resolver/dns/internal
 google.golang.org/grpc/internal/resolver/passthrough
 google.golang.org/grpc/internal/resolver/unix
 google.golang.org/grpc/internal/serviceconfig
+google.golang.org/grpc/internal/stats
 google.golang.org/grpc/internal/status
 google.golang.org/grpc/internal/syscall
 google.golang.org/grpc/internal/transport
 google.golang.org/grpc/internal/transport/networktype
 google.golang.org/grpc/keepalive
+google.golang.org/grpc/mem
 google.golang.org/grpc/metadata
 google.golang.org/grpc/peer
 google.golang.org/grpc/reflection
 google.golang.org/grpc/reflection/grpc_reflection_v1
 google.golang.org/grpc/reflection/grpc_reflection_v1alpha
+google.golang.org/grpc/reflection/internal
 google.golang.org/grpc/resolver
 google.golang.org/grpc/resolver/dns
 google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-# google.golang.org/protobuf v1.34.2
-## explicit; go 1.20
+# google.golang.org/protobuf v1.35.1
+## explicit; go 1.21
 google.golang.org/protobuf/encoding/protojson
 google.golang.org/protobuf/encoding/prototext
 google.golang.org/protobuf/encoding/protowire

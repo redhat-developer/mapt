@@ -1,6 +1,10 @@
 package data
 
 import (
+	"context"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"golang.org/x/exp/slices"
 )
@@ -16,4 +20,17 @@ func allTagsMatches(tags map[string]string, tTags []ec2Types.Tag) bool {
 		}
 	}
 	return count == len(tags)
+}
+
+func getGlobalConfig() (aws.Config, error) {
+	return getConfig("")
+}
+
+func getConfig(region string) (aws.Config, error) {
+	if len(region) > 0 {
+		return config.LoadDefaultConfig(
+			context.Background(),
+			config.WithRegion(region))
+	}
+	return config.LoadDefaultConfig(context.Background())
 }
