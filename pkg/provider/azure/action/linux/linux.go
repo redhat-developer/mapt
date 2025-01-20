@@ -175,11 +175,16 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 
 func (r *LinuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if r.Spot {
+		ir, err := data.GetImageRef(r.OSType, r.Arch, r.Version)
+		if err != nil {
+			return nil, "", nil, err
+		}
 		bsc, err :=
 			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
-				VMTypes:              util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
-				OSType:               "linux",
-				EvictioRateTolerance: r.SpotTolerance,
+				VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
+				OSType:                "linux",
+				EvictionRateTolerance: r.SpotTolerance,
+				ImageRef:              *ir,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {

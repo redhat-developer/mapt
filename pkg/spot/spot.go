@@ -126,9 +126,9 @@ func (sr *SpotRequest) GetAzureLowestPrice() (SpotPrice, error) {
 		return SpotPrice{}, nil
 	}
 	spr := azure.BestSpotChoiceRequest{
-		VMTypes:              vms,
-		OSType:               sr.getAzureOsType(),
-		EvictioRateTolerance: azure.EvictionRate(sr.EvictionRateTolerance),
+		VMTypes:               vms,
+		OSType:                sr.getAzureOsType(),
+		EvictionRateTolerance: azure.EvictionRate(sr.EvictionRateTolerance),
 	}
 
 	prices, err := azure.GetBestSpotChoice(spr)
