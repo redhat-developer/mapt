@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
@@ -53,7 +54,7 @@ func Create(r *Request) (err error) {
 			InstanceRequest: r.InstanceRequest,
 			Version:         r.Version,
 			Arch:            r.Arch,
-			OSType:          azureLinux.RHEL,
+			OSType:          data.RHEL,
 			Username:        r.Username,
 			Spot:            r.Spot,
 			SpotTolerance:   r.SpotTolerance,

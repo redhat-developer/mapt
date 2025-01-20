@@ -11,6 +11,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
@@ -39,7 +40,7 @@ type LinuxRequest struct {
 	VMSizes          []string
 	Arch             string
 	InstanceRequest  instancetypes.InstanceRequest
-	OSType           OSType
+	OSType           data.OSType
 	Version          string
 	Username         string
 	Spot             bool
@@ -121,7 +122,7 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
 	// Image refence info
-	ir, err := getImageRef(r.OSType, r.Arch, r.Version)
+	ir, err := data.GetImageRef(r.OSType, r.Arch, r.Version)
 	if err != nil {
 		return err
 	}
@@ -132,10 +133,10 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 		ResourceGroup:   rg,
 		NetworkInteface: n.NetworkInterface,
 		VMSize:          vmType,
-		Publisher:       ir.publisher,
-		Offer:           ir.offer,
-		Sku:             ir.sku,
-		ImageID:         ir.id,
+		Publisher:       ir.Publisher,
+		Offer:           ir.Offer,
+		Sku:             ir.Sku,
+		ImageID:         ir.ID,
 		AdminUsername:   r.Username,
 		PrivateKey:      privateKey,
 		SpotPrice:       spotPrice,
