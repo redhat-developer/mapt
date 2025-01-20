@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	maptAzIdentity "github.com/redhat-developer/mapt/pkg/provider/azure/module/identity"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -42,9 +43,10 @@ const (
 type EvictionRate int
 
 type BestSpotChoiceRequest struct {
-	VMTypes              []string
-	OSType               string
-	EvictioRateTolerance EvictionRate
+	VMTypes               []string
+	OSType                string
+	EvictionRateTolerance EvictionRate
+	ImageRef              data.ImageReference
 }
 
 type BestSpotChoiceResponse struct {
@@ -103,7 +105,7 @@ func GetBestSpotChoice(r BestSpotChoiceRequest) (*BestSpotChoiceResponse, error)
 		return nil, fmt.Errorf("error eviction rates are returning empty")
 	}
 	// Compare prices and evictions
-	return getBestSpotChoice(phr, evrr, Lowest, r.EvictioRateTolerance)
+	return getBestSpotChoice(phr, evrr, Lowest, r.EvictionRateTolerance, r.ImageRef.ID)
 }
 
 func getGraphClient() (*armresourcegraph.Client, error) {
@@ -204,7 +206,7 @@ func getEvictionRateInfoByVMTypes(ctx context.Context, client *armresourcegraph.
 	return results, nil
 }
 
-func getBestSpotChoice(s []priceHistory, e []evictionRate, currentERT EvictionRate, maxERT EvictionRate) (*BestSpotChoiceResponse, error) {
+func getBestSpotChoice(s []priceHistory, e []evictionRate, currentERT EvictionRate, maxERT EvictionRate, imageID string) (*BestSpotChoiceResponse, error) {
 	var evm map[string]string = make(map[string]string)
 	for _, ev := range e {
 		evm[fmt.Sprintf("%s%s", ev.Location, ev.VMType)] = ev.EvictionRate
@@ -216,12 +218,21 @@ func getBestSpotChoice(s []priceHistory, e []evictionRate, currentERT EvictionRa
 		// and pick one randomly to improve distribution of instances
 		// across locations
 		if ok && er == getEvictionRateValue(currentERT) {
-			spotChoices = append(spotChoices,
-				&BestSpotChoiceResponse{
-					VMType:   sv.VMType,
-					Location: sv.Location,
-					Price:    sv.Price,
-				})
+			ir := data.ImageRequest{
+				Region: sv.Location,
+				ImageReference: data.ImageReference{
+					ID: imageID,
+				},
+			}
+			if data.IsImageOffered(ir) {
+				spotChoices = append(spotChoices,
+					&BestSpotChoiceResponse{
+						VMType:   sv.VMType,
+						Location: sv.Location,
+						Price:    sv.Price,
+					})
+
+			}
 		}
 	}
 	if len(spotChoices) > 0 {
@@ -237,7 +248,7 @@ func getBestSpotChoice(s []priceHistory, e []evictionRate, currentERT EvictionRa
 	if !ok {
 		return nil, fmt.Errorf("could not find any spot")
 	}
-	return getBestSpotChoice(s, e, *higherERT, maxERT)
+	return getBestSpotChoice(s, e, *higherERT, maxERT, imageID)
 }
 
 // Get previous higher evicition rate for a giving eviction rate

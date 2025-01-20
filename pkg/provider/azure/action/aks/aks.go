@@ -209,9 +209,9 @@ func (r *AKSRequest) valuesCheckingSpot() (*string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
 			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
-				VMTypes:              []string{r.VMSize},
-				OSType:               "linux",
-				EvictioRateTolerance: r.SpotTolerance,
+				VMTypes:               []string{r.VMSize},
+				OSType:                "linux",
+				EvictionRateTolerance: r.SpotTolerance,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {

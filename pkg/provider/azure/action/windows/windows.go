@@ -172,9 +172,9 @@ func (r *WindowsRequest) valuesCheckingSpot() (*string, string, *float64, error)
 	if r.Spot {
 		bsc, err :=
 			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
-				VMTypes:              util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
-				OSType:               "windows",
-				EvictioRateTolerance: r.SpotTolerance,
+				VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
+				OSType:                "windows",
+				EvictionRateTolerance: r.SpotTolerance,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
