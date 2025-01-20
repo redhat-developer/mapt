@@ -7,6 +7,7 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/util"
 
@@ -25,14 +26,14 @@ const (
 )
 
 func GetUbuntuCmd() *cobra.Command {
-	return getLinuxCmd(cmdUbuntu, cmdUbuntuDesc, azureLinux.Ubuntu, defaultUbuntuVersion)
+	return getLinuxCmd(cmdUbuntu, cmdUbuntuDesc, data.Ubuntu, defaultUbuntuVersion)
 }
 
 func GetFedoraCmd() *cobra.Command {
-	return getLinuxCmd(cmdFedora, cmdFedoraDesc, azureLinux.Fedora, defaultFedoraVersion)
+	return getLinuxCmd(cmdFedora, cmdFedoraDesc, data.Fedora, defaultFedoraVersion)
 }
 
-func getLinuxCmd(cmd, cmdDesc string, ostype azureLinux.OSType, defaultOSVersion string) *cobra.Command {
+func getLinuxCmd(cmd, cmdDesc string, ostype data.OSType, defaultOSVersion string) *cobra.Command {
 	c := &cobra.Command{
 		Use:   cmd,
 		Short: cmdDesc,
@@ -47,7 +48,7 @@ func getLinuxCmd(cmd, cmdDesc string, ostype azureLinux.OSType, defaultOSVersion
 	return c
 }
 
-func getCreateLinux(ostype azureLinux.OSType, defaultOSVersion string) *cobra.Command {
+func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command {
 	c := &cobra.Command{
 		Use:   params.CreateCmdName,
 		Short: params.CreateCmdName,
