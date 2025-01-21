@@ -67,7 +67,10 @@ var CloudConfigBase []byte
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(r *Request) error {
+func Create(ctx *maptContext.ContextArgs, r *Request) error {
+	// Create mapt Context
+	maptContext.Init(ctx)
+
 	if len(r.VMType) == 0 {
 		vmTypes, err := r.InstanceRequest.GetMachineTypes()
 		if err != nil {
@@ -116,13 +119,20 @@ func Create(r *Request) error {
 }
 
 // Will destroy resources related to machine
-func Destroy() (err error) {
+func Destroy(ctx *maptContext.ContextArgs) (err error) {
+	logging.Debug("Run fedora destroy")
+	// Create mapt Context
+	maptContext.Init(ctx)
+
+	// Destroy fedora related resources
 	if err := aws.DestroyStack(
 		aws.DestroyStackRequest{
 			Stackname: stackName,
 		}); err != nil {
 		return err
 	}
+
+	// Destroy spot orchestrated stack
 	if spot.Exist() {
 		return spot.Destroy()
 	}

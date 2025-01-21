@@ -97,3 +97,13 @@ func GetCpusAndMemoryFlagset() *pflag.FlagSet {
 	flagSet.BoolP(NestedVirt, "", false, NestedVirtDesc)
 	return flagSet
 }
+
+func AddCommonFlags(fs *pflag.FlagSet) {
+	fs.StringP(ProjectName, "", "", ProjectNameDesc)
+	fs.StringP(BackedURL, "", "", BackedURLDesc)
+}
+
+func AddDebugFlags(fs *pflag.FlagSet) {
+	fs.Bool(Debug, false, DebugDesc)
+	fs.Uint(DebugLevel, DebugLevelDefault, DebugLevelDesc)
+}

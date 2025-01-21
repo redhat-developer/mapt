@@ -1,6 +1,8 @@
 package macpool
 
-import "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+import (
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+)
 
 const (
 	houseKeepingCommand            = "aws mac-pool house-keep --name %s --arch %s --version %s --offered-capacity %d --max-size %d --serverless "
@@ -9,7 +11,7 @@ const (
 	houseKeepingInterval = "15 minutes"
 )
 
-type RequestArgs struct {
+type MacPoolRequestArgs struct {
 	// Prefix for the resources related to mac
 	// this is relevant in case of an orchestration with multiple
 	// macs on the same stack
@@ -41,7 +43,6 @@ type RequestMachineArgs struct {
 }
 
 type ReleaseMachineArgs struct {
-	MachineID string
 }
 
 type pool struct {

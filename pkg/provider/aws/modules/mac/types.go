@@ -7,8 +7,6 @@ import (
 const (
 	StackDedicatedHost = "stackDedicatedHost"
 	StackMacMachine    = "stackMacMachine"
-
-	outputLock = "ammLock"
 )
 
 type HostInformation struct {

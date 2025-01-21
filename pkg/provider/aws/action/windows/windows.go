@@ -30,6 +30,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/ghactions"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -76,7 +77,10 @@ var BootstrapScript []byte
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(r *Request) error {
+func Create(ctx *maptContext.ContextArgs, r *Request) error {
+	// Create mapt Context
+	maptContext.Init(ctx)
+
 	if len(r.AMIName) == 0 {
 		r.AMIName = amiNameDefault
 		r.AMIUser = amiUserDefault
@@ -141,7 +145,11 @@ func Create(r *Request) error {
 }
 
 // Will destroy resources related to machine
-func Destroy() (err error) {
+func Destroy(ctx *maptContext.ContextArgs) (err error) {
+	logging.Debug("Run windows destroy")
+	// Create mapt Context
+	maptContext.Init(ctx)
+
 	if err := aws.DestroyStack(
 		aws.DestroyStackRequest{
 			Stackname: stackName,
