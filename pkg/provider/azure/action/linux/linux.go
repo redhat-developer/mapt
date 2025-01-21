@@ -49,7 +49,10 @@ type LinuxRequest struct {
 	ReadinessCommand string
 }
 
-func Create(r *LinuxRequest) (err error) {
+func Create(ctx *maptContext.ContextArgs, r *LinuxRequest) (err error) {
+	// Create mapt Context
+	maptContext.Init(ctx)
+
 	if len(r.VMSizes) == 0 {
 		vmSizes, err := r.InstanceRequest.GetMachineTypes()
 		if err != nil {
@@ -71,7 +74,10 @@ func Create(r *LinuxRequest) (err error) {
 	return r.manageResults(sr)
 }
 
-func Destroy() error {
+func Destroy(ctx *maptContext.ContextArgs) error {
+	// Create mapt Context
+	maptContext.Init(ctx)
+	// destroy
 	return azure.Destroy(
 		maptContext.ProjectName(),
 		maptContext.BackedURL(),

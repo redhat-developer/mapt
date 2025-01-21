@@ -1,6 +1,6 @@
 package mac
 
-type MacRequest struct {
+type MacRequestArgs struct {
 	// Prefix for the resources related to mac
 	// this is relevant in case of an orchestration with multiple
 	// macs on the same stack

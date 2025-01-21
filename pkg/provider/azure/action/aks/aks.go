@@ -32,8 +32,10 @@ type AKSRequest struct {
 	SpotTolerance     spotAzure.EvictionRate
 }
 
-func Create(r *AKSRequest) (err error) {
+func Create(ctx *maptContext.ContextArgs, r *AKSRequest) (err error) {
+	// Create mapt Context
 	logging.Debug("Creating AKS")
+	maptContext.Init(ctx)
 	cs := manager.Stack{
 		StackName:           maptContext.StackNameByProject(stackAKS),
 		ProjectName:         maptContext.ProjectName(),
@@ -45,7 +47,10 @@ func Create(r *AKSRequest) (err error) {
 	return r.manageResults(sr)
 }
 
-func Destroy() error {
+func Destroy(ctx *maptContext.ContextArgs) error {
+	// Create mapt Context
+	logging.Debug("Destroy AKS")
+	maptContext.Init(ctx)
 	return azure.Destroy(
 		maptContext.ProjectName(),
 		maptContext.BackedURL(),

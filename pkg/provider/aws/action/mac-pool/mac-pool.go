@@ -7,10 +7,10 @@ import (
 
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
-	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
+	macUtil "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/util"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -22,7 +22,10 @@ import (
 // release and request will not behave the same if the run as targer vs as selfhosted runner. In that case for release we do not
 // want it be added as selfhosted but only on request??
 
-func Create(r *RequestArgs) error {
+func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
+	// Create mapt Context
+	maptContext.Init(ctx)
+
 	// Initially create pool with number of machines matching available capacity
 	// this is the number of machines free to accept workloads
 	// if err := validateNoExistingPool(); err != nil {
@@ -40,8 +43,11 @@ func Create(r *RequestArgs) error {
 // House keeper is the function executed serverless to check if is there any
 // machine non locked which had been running more than 24h.
 // It should check if capacity allows to remove the machine
-func HouseKeeper(r *RequestArgs) error {
-	// First get full info on the pool
+func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
+	// Create mapt Context
+	maptContext.Init(ctx)
+
+	// Get full info on the pool
 	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
 	if err != nil {
 		return err
@@ -66,7 +72,7 @@ func HouseKeeper(r *RequestArgs) error {
 	return nil
 }
 
-func Request(r *RequestMachineArgs) error {
+func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	// First get full info on the pool and the next machine for request
 	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
 	if err != nil {
@@ -76,13 +82,21 @@ func Request(r *RequestMachineArgs) error {
 	if err != nil {
 		return err
 	}
+
+	// Create mapt Context
+	ctx.ProjectName = *hi.ProjectName
+	ctx.BackedURL = *hi.BackedURL
+	maptContext.Init(ctx)
+
 	mr := macMachine.Request{
 		Prefix:               *hi.Prefix,
 		Version:              *hi.OSVersion,
 		Architecture:         *hi.Arch,
 		SetupGHActionsRunner: r.SetupGHActionsRunner,
 	}
-	// mr := r.fillMacRequest()
+
+	// TODO here we would change based on the integration-mode requested
+	// possible values remote-shh, gh-selfhosted-runner, cirrus-persistent-worker
 	err = mr.ReplaceUserAccess(hi)
 	if err != nil {
 		return err
@@ -94,31 +108,11 @@ func Request(r *RequestMachineArgs) error {
 		*hi.Host.HostId)
 }
 
-func Release(r *ReleaseMachineArgs, debug bool, debugLevel uint) error {
-	host, err := data.GetDedicatedHost(r.MachineID)
-	if err != nil {
-		return err
-	}
-	hi := macHost.GetHostInformation(*host)
-	// Set context based on info from dedicated host to be released
-	maptContext.InitBase(
-		*hi.ProjectName,
-		*hi.BackedURL,
-		debug, debugLevel, false)
-	// Set a default request
-	mr := &macMachine.Request{
-		Prefix:       *hi.Prefix,
-		Architecture: *hi.Arch,
-		Version:      *hi.OSVersion,
-		// We do not want to enable join any ci/cd managed group
-		// this should be done on request
-		// TODO this should be extended to cirrus
-		SetupGHActionsRunner: false,
-	}
-	return mr.ReplaceMachine(hi)
+func Release(ctx *maptContext.ContextArgs, hostID string) error {
+	return macUtil.Release(ctx, hostID)
 }
 
-func (r *RequestArgs) addMachinesToPool(n int) error {
+func (r *MacPoolRequestArgs) addMachinesToPool(n int) error {
 	if err := validateBackedURL(); err != nil {
 		return err
 	}
@@ -137,7 +131,7 @@ func (r *RequestArgs) addMachinesToPool(n int) error {
 }
 
 // Run serverless operation for house keeping
-func (r *RequestArgs) scheduleHouseKeeper() error {
+func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
 	return serverless.CreateRepeatedlyAsStack(
 		getHouseKeepingCommand(
 			r.PoolName,
@@ -163,7 +157,7 @@ func getHouseKeepingCommand(poolName, arch, osVersion string,
 
 // If we need less or equal than the max allowed on the pool we create all of them
 // if need are more than allowed we can create just the allowed
-func (r *RequestArgs) addCapacity(p *pool) error {
+func (r *MacPoolRequestArgs) addCapacity(p *pool) error {
 	allowed := p.maxSize - p.offeredCapacity
 	needed := p.offeredCapacity - p.currentOfferedCapacity()
 	if needed <= allowed {
@@ -174,7 +168,7 @@ func (r *RequestArgs) addCapacity(p *pool) error {
 
 // If we need less or equal than the max allowed on the pool we create all of them
 // if need are more than allowed we can create just the allowed
-func (r *RequestArgs) destroyCapacity(p *pool) error {
+func (r *MacPoolRequestArgs) destroyCapacity(p *pool) error {
 	machinesToDestroy := p.currentOfferedCapacity() - p.offeredCapacity
 	for i := 0; i < machinesToDestroy; i++ {
 		m := p.destroyableMachines[i]
@@ -223,7 +217,7 @@ func getPool(poolName, arch, osVersion string) (p *pool, err error) {
 	// non-locked
 	p.currentOfferedMachines = util.ArrayFilter(p.machines,
 		func(h *mac.HostInformation) bool {
-			isLocked, err := mac.IsMachineLocked(h)
+			isLocked, err := macUtil.IsMachineLocked(h)
 			if err != nil {
 				logging.Errorf("error checking locking for machine %s", *h.Host.AssetId)
 				return false
@@ -254,7 +248,7 @@ func (p *pool) getNextMachineForRequest() (*mac.HostInformation, error) {
 
 // transform pool request to host request
 // need if we need to expand the pool
-func (r *RequestArgs) fillHostRequest() *macHost.PoolMacDedicatedHostRequestArgs {
+func (r *MacPoolRequestArgs) fillHostRequest() *macHost.PoolMacDedicatedHostRequestArgs {
 	return &macHost.PoolMacDedicatedHostRequestArgs{
 		MacDedicatedHost: &macHost.MacDedicatedHostRequestArgs{
 			Prefix:        r.Prefix,
@@ -274,7 +268,7 @@ func (r *RequestArgs) fillHostRequest() *macHost.PoolMacDedicatedHostRequestArgs
 
 // transform pool request to machine request
 // need if we need to expand the pool
-func (r *RequestArgs) fillMacRequest() *macMachine.Request {
+func (r *MacPoolRequestArgs) fillMacRequest() *macMachine.Request {
 	return &macMachine.Request{
 		Prefix:       r.Prefix,
 		Architecture: r.Architecture,

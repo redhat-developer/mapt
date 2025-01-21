@@ -56,18 +56,16 @@ func getCreateMacPool() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
 
 			if err := macpool.Create(
-				&macpool.RequestArgs{
+				&maptContext.ContextArgs{
+					ProjectName: viper.GetString(params.ProjectName),
+					BackedURL:   viper.GetString(params.BackedURL),
+					Debug:       viper.IsSet(params.Debug),
+					DebugLevel:  viper.GetUint(params.DebugLevel),
+					Tags:        viper.GetStringMapString(params.Tags),
+				},
+				&macpool.MacPoolRequestArgs{
 					Prefix:          "main",
 					PoolName:        viper.GetString(paramName),
 					Architecture:    viper.GetString(awsParams.MACArch),
@@ -81,15 +79,14 @@ func getCreateMacPool() *cobra.Command {
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
-	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
-	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	params.AddCommonFlags(flagSet)
 	flagSet.StringP(paramName, "", "", paramNameDesc)
 	flagSet.Int(paramOfferedCapacity, paramOfferedCapacityDefault, paramOfferedCapacityDesc)
 	flagSet.Int(paramMaxSize, paramMaxSizeDefault, paramMaxSizeDesc)
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
+	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.Bool(awsParams.MACFixedLocation, false, awsParams.MACFixedLocationDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -102,18 +99,17 @@ func getHouseKeepingMacPool() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				viper.IsSet(params.Serverless))
 
 			if err := macpool.HouseKeeper(
-				&macpool.RequestArgs{
+				&maptContext.ContextArgs{
+					ProjectName: viper.GetString(params.ProjectName),
+					BackedURL:   viper.GetString(params.BackedURL),
+					Serverless:  viper.IsSet(params.Serverless),
+					Debug:       viper.IsSet(params.Debug),
+					DebugLevel:  viper.GetUint(params.DebugLevel),
+					Tags:        viper.GetStringMapString(params.Tags),
+				},
+				&macpool.MacPoolRequestArgs{
 					Prefix:          "main",
 					PoolName:        viper.GetString(paramName),
 					Architecture:    viper.GetString(awsParams.MACArch),
@@ -127,7 +123,6 @@ func getHouseKeepingMacPool() *cobra.Command {
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
-	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramName, "", "", paramNameDesc)
 	flagSet.Int(paramOfferedCapacity, paramOfferedCapacityDefault, paramOfferedCapacityDesc)
@@ -160,17 +155,15 @@ func getRequest() *cobra.Command {
 				}
 			}
 
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				viper.IsSet(params.Serverless))
-
 			if err := macpool.Request(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&macpool.RequestMachineArgs{
 					PoolName:             viper.GetString(paramName),
 					Architecture:         viper.GetString(awsParams.MACArch),
@@ -200,21 +193,17 @@ func getRelease() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				viper.IsSet(params.Serverless))
 
 			if err := macpool.Release(
-				&macpool.ReleaseMachineArgs{
-					MachineID: viper.GetString(awsParams.MACDHID)},
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel)); err != nil {
+				&maptContext.ContextArgs{
+					ProjectName: viper.GetString(params.ProjectName),
+					BackedURL:   viper.GetString(params.BackedURL),
+					Serverless:  viper.IsSet(params.Serverless),
+					Debug:       viper.IsSet(params.Debug),
+					DebugLevel:  viper.GetUint(params.DebugLevel),
+					Tags:        viper.GetStringMapString(params.Tags),
+				},
+				viper.GetString(awsParams.MACDHID)); err != nil {
 				logging.Error(err)
 			}
 			return nil

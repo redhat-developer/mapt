@@ -57,15 +57,6 @@ func getCreateWindowsDesktop() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
@@ -97,6 +88,14 @@ func getCreateWindowsDesktop() *cobra.Command {
 			}
 
 			if err := azureWindows.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&azureWindows.WindowsRequest{
 					Prefix:               viper.GetString(params.ProjectName),
 					Location:             viper.GetString(paramLocation),
@@ -141,16 +140,13 @@ func getDestroyWindowsDesktop() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
-			if err := azureWindows.Destroy(); err != nil {
+			if err := azureWindows.Destroy(
+				&maptContext.ContextArgs{
+					ProjectName: viper.GetString(params.ProjectName),
+					BackedURL:   viper.GetString(params.BackedURL),
+					Debug:       viper.IsSet(params.Debug),
+					DebugLevel:  viper.GetUint(params.DebugLevel),
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil

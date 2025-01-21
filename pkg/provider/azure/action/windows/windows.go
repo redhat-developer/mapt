@@ -54,7 +54,10 @@ type ghActionsRunnerData struct {
 	ActionsRunnerSnippet string
 }
 
-func Create(r *WindowsRequest) (err error) {
+func Create(ctx *maptContext.ContextArgs, r *WindowsRequest) (err error) {
+	// Create mapt Context
+	maptContext.Init(ctx)
+
 	if len(r.VMSizes) == 0 {
 		vmSizes, err := r.InstaceTypeRequest.GetMachineTypes()
 		if err != nil {
@@ -75,7 +78,10 @@ func Create(r *WindowsRequest) (err error) {
 	return r.manageResults(sr)
 }
 
-func Destroy() error {
+func Destroy(ctx *maptContext.ContextArgs) error {
+	// Create mapt Context
+	maptContext.Init(ctx)
+	// destroy
 	return azure.Destroy(
 		maptContext.ProjectName(),
 		maptContext.BackedURL(),

@@ -3,6 +3,7 @@ package rhel
 import (
 	"fmt"
 
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
@@ -29,7 +30,7 @@ type Request struct {
 	SetupGHActionsRunner bool
 }
 
-func Create(r *Request) (err error) {
+func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
 	if len(r.VMSizes) == 0 {
 		vmSizes, err := r.InstanceRequest.GetMachineTypes()
 		if err != nil {
@@ -61,9 +62,9 @@ func Create(r *Request) (err error) {
 			Userdata:        userDataB64,
 			// As RHEL now is set with cloud init this is the ReadinessCommand to check
 			ReadinessCommand: command.CommandCloudInitWait}
-	return azureLinux.Create(azureLinuxRequest)
+	return azureLinux.Create(ctx, azureLinuxRequest)
 }
 
-func Destroy() error {
-	return azureLinux.Destroy()
+func Destroy(ctx *maptContext.ContextArgs) error {
+	return azureLinux.Destroy(ctx)
 }

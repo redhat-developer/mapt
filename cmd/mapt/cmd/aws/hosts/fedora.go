@@ -33,6 +33,11 @@ func GetFedoraCmd() *cobra.Command {
 			return nil
 		},
 	}
+
+	flagSet := pflag.NewFlagSet(cmdFedora, pflag.ExitOnError)
+	params.AddCommonFlags(flagSet)
+	c.PersistentFlags().AddFlagSet(flagSet)
+
 	c.AddCommand(getFedoraCreate(), getFedoraDestroy())
 	return c
 }
@@ -46,16 +51,6 @@ func getFedoraCreate() *cobra.Command {
 				return err
 			}
 
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
-
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
 				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
@@ -66,21 +61,29 @@ func getFedoraCreate() *cobra.Command {
 					logging.Fatal(err)
 				}
 			}
-			instanceRequest := &instancetypes.AwsInstanceRequest{
-				CPUs:       viper.GetInt32(params.CPUs),
-				MemoryGib:  viper.GetInt32(params.Memory),
-				Arch:       util.If(viper.GetString(params.LinuxArch) == "arm64", instancetypes.Arm64, instancetypes.Amd64),
-				NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
-			}
 
 			// Run create
 			if err := fedora.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&fedora.Request{
-					Prefix:               "main",
-					Version:              viper.GetString(fedoraVersion),
-					Arch:                 viper.GetString(params.LinuxArch),
-					VMType:               viper.GetStringSlice(vmTypes),
-					InstanceRequest:      instanceRequest,
+					Prefix:  "main",
+					Version: viper.GetString(fedoraVersion),
+					Arch:    viper.GetString(params.LinuxArch),
+					VMType:  viper.GetStringSlice(vmTypes),
+					InstanceRequest: &instancetypes.AwsInstanceRequest{
+						CPUs:      viper.GetInt32(params.CPUs),
+						MemoryGib: viper.GetInt32(params.Memory),
+						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
+							instancetypes.Arm64, instancetypes.Amd64),
+						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
+					},
 					Spot:                 viper.IsSet(spot),
 					Timeout:              viper.GetString(params.Timeout),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
@@ -114,16 +117,13 @@ func getFedoraDestroy() *cobra.Command {
 				return err
 			}
 
-			maptContext.InitBase(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				viper.IsSet(params.Serverless))
-
-			logging.Debug("Run fedora destroy")
-
-			if err := fedora.Destroy(); err != nil {
+			if err := fedora.Destroy(&maptContext.ContextArgs{
+				ProjectName: viper.GetString(params.ProjectName),
+				BackedURL:   viper.GetString(params.BackedURL),
+				Debug:       viper.IsSet(params.Debug),
+				DebugLevel:  viper.GetUint(params.DebugLevel),
+				Serverless:  viper.IsSet(params.Serverless),
+			}); err != nil {
 				logging.Error(err)
 			}
 			return nil

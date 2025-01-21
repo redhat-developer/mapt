@@ -46,15 +46,6 @@ func getCreateRHEL() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
@@ -65,12 +56,6 @@ func getCreateRHEL() *cobra.Command {
 				if !ok {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
-			}
-			instanceRequest := &instancetypes.AzureInstanceRequest{
-				CPUs:       viper.GetInt32(params.CPUs),
-				MemoryGib:  viper.GetInt32(params.Memory),
-				Arch:       util.If(viper.GetString(params.LinuxArch) == "arm64", instancetypes.Arm64, instancetypes.Amd64),
-				NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
 			}
 
 			// Initialize gh actions runner if needed
@@ -85,11 +70,24 @@ func getCreateRHEL() *cobra.Command {
 			}
 
 			if err := azureRHEL.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&azureRHEL.Request{
-					Prefix:               viper.GetString(params.ProjectName),
-					Location:             viper.GetString(paramLocation),
-					VMSizes:              viper.GetStringSlice(paramVMSize),
-					InstanceRequest:      instanceRequest,
+					Prefix:   viper.GetString(params.ProjectName),
+					Location: viper.GetString(paramLocation),
+					VMSizes:  viper.GetStringSlice(paramVMSize),
+					InstanceRequest: &instancetypes.AzureInstanceRequest{
+						CPUs:      viper.GetInt32(params.CPUs),
+						MemoryGib: viper.GetInt32(params.Memory),
+						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
+							instancetypes.Arm64, instancetypes.Amd64),
+						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt)},
 					Version:              viper.GetString(paramLinuxVersion),
 					Arch:                 viper.GetString(params.LinuxArch),
 					SubsUsername:         viper.GetString(params.SubsUsername),
@@ -131,16 +129,13 @@ func getDestroyRHEL() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
-			if err := azureRHEL.Destroy(); err != nil {
+			if err := azureRHEL.Destroy(
+				&maptContext.ContextArgs{
+					ProjectName: viper.GetString(params.ProjectName),
+					BackedURL:   viper.GetString(params.BackedURL),
+					Debug:       viper.IsSet(params.Debug),
+					DebugLevel:  viper.GetUint(params.DebugLevel),
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil
