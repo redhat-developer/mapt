@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"
@@ -12,23 +13,8 @@ import (
 )
 
 const (
-	cmdMac         = "mac"
-	cmdMacDesc     = "manage mac instances"
-	requestCmd     = "request"
-	requestCmdDesc = "request mac machine"
-	releaseCmd     = "release"
-	releaseCmdDesc = "release mac machine"
-
-	dhID              string = "dedicated-host-id"
-	dhIDDesc          string = "id for the dedicated host"
-	arch              string = "arch"
-	archDesc          string = "mac architecture allowed values x86, m1, m2"
-	archDefault       string = mac.DefaultArch
-	osVersion         string = "version"
-	osVersionDesc     string = "macos operating system vestion 11, 12 on x86 and m1/m2; 13, 14 on all archs"
-	osDefault         string = mac.DefaultOSVersion
-	fixedLocation     string = "fixed-location"
-	fixedLocationDesc string = "if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)"
+	cmdMac     = "mac"
+	cmdMacDesc = "manage mac instances"
 )
 
 func GetMacCmd() *cobra.Command {
@@ -48,8 +34,8 @@ func GetMacCmd() *cobra.Command {
 
 func getMacRequest() *cobra.Command {
 	c := &cobra.Command{
-		Use:   requestCmd,
-		Short: requestCmd,
+		Use:   awsParams.MACRequestCmd,
+		Short: awsParams.MACRequestCmd,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
@@ -62,7 +48,8 @@ func getMacRequest() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				false)
 
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
@@ -79,9 +66,9 @@ func getMacRequest() *cobra.Command {
 			if err := mac.Request(
 				&mac.MacRequest{
 					Prefix:               "main",
-					Architecture:         viper.GetString(arch),
-					Version:              viper.GetString(osVersion),
-					FixedLocation:        viper.IsSet(fixedLocation),
+					Architecture:         viper.GetString(awsParams.MACArch),
+					Version:              viper.GetString(awsParams.MACOSVersion),
+					FixedLocation:        viper.IsSet(awsParams.MACFixedLocation),
 					SetupGHActionsRunner: viper.GetBool(params.InstallGHActionsRunner),
 					Airgap:               viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
@@ -89,12 +76,12 @@ func getMacRequest() *cobra.Command {
 			return nil
 		},
 	}
-	flagSet := pflag.NewFlagSet(requestCmd, pflag.ExitOnError)
+	flagSet := pflag.NewFlagSet(awsParams.MACRequestCmd, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.StringP(arch, "", archDefault, archDesc)
-	flagSet.StringP(osVersion, "", osDefault, osVersionDesc)
-	flagSet.Bool(fixedLocation, false, fixedLocationDesc)
+	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
+	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
+	flagSet.Bool(awsParams.MACFixedLocation, false, awsParams.MACFixedLocationDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
@@ -104,8 +91,8 @@ func getMacRequest() *cobra.Command {
 // Required dedicatedHostID as mandatory
 func getMacRelease() *cobra.Command {
 	c := &cobra.Command{
-		Use:   releaseCmd,
-		Short: releaseCmd,
+		Use:   awsParams.MACReleaseCmd,
+		Short: awsParams.MACReleaseCmd,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
@@ -114,7 +101,7 @@ func getMacRelease() *cobra.Command {
 			// Run create
 			if err := mac.Release(
 				"main",
-				viper.GetString(dhID),
+				viper.GetString(awsParams.MACDHID),
 				viper.IsSet(params.Debug),
 				viper.GetUint(params.DebugLevel)); err != nil {
 				logging.Error(err)
@@ -122,11 +109,11 @@ func getMacRelease() *cobra.Command {
 			return nil
 		},
 	}
-	flagSet := pflag.NewFlagSet(releaseCmd, pflag.ExitOnError)
+	flagSet := pflag.NewFlagSet(awsParams.MACReleaseCmd, pflag.ExitOnError)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.StringP(dhID, "", "", dhIDDesc)
+	flagSet.StringP(awsParams.MACDHID, "", "", awsParams.MACDHIDDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
-	err := c.MarkPersistentFlagRequired(dhID)
+	err := c.MarkPersistentFlagRequired(awsParams.MACDHID)
 	if err != nil {
 		logging.Error(err)
 	}
@@ -144,7 +131,7 @@ func getMacDestroy() *cobra.Command {
 
 			if err := mac.Destroy(
 				"main",
-				viper.GetString(dhID),
+				viper.GetString(awsParams.MACDHID),
 				viper.IsSet(params.Debug),
 				viper.GetUint(params.DebugLevel)); err != nil {
 				logging.Error(err)
@@ -153,10 +140,10 @@ func getMacDestroy() *cobra.Command {
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
-	flagSet.StringP(dhID, "", "", dhIDDesc)
+	flagSet.StringP(awsParams.MACDHID, "", "", awsParams.MACDHIDDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
-	err := c.MarkPersistentFlagRequired(dhID)
+	err := c.MarkPersistentFlagRequired(awsParams.MACDHID)
 	if err != nil {
 		logging.Error(err)
 	}

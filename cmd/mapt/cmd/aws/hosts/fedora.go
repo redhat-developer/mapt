@@ -53,7 +53,8 @@ func getFedoraCreate() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				false)
 
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
@@ -81,7 +82,7 @@ func getFedoraCreate() *cobra.Command {
 					VMType:               viper.GetStringSlice(vmTypes),
 					InstanceRequest:      instanceRequest,
 					Spot:                 viper.IsSet(spot),
-					Timeout:              viper.GetString(timeout),
+					Timeout:              viper.GetString(params.Timeout),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
 					Airgap:               viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
@@ -97,7 +98,7 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
-	flagSet.StringP(timeout, "", "", timeout)
+	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
@@ -117,18 +118,19 @@ func getFedoraDestroy() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				viper.IsSet(params.Serverless))
 
 			logging.Debug("Run fedora destroy")
 
-			if err := fedora.Destroy(viper.IsSet(serverless)); err != nil {
+			if err := fedora.Destroy(); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
-	flagSet.Bool(serverless, false, serverlessDesc)
+	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
