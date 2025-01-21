@@ -35,18 +35,19 @@ const (
 )
 
 type LinuxRequest struct {
-	Prefix           string
-	Location         string
-	VMSizes          []string
-	Arch             string
-	InstanceRequest  instancetypes.InstanceRequest
-	OSType           data.OSType
-	Version          string
-	Username         string
-	Spot             bool
-	SpotTolerance    spotAzure.EvictionRate
-	Userdata         string
-	ReadinessCommand string
+	Prefix              string
+	Location            string
+	VMSizes             []string
+	Arch                string
+	InstanceRequest     instancetypes.InstanceRequest
+	OSType              data.OSType
+	Version             string
+	Username            string
+	Spot                bool
+	SpotTolerance       spotAzure.EvictionRate
+	SpotExcludedRegions []string
+	Userdata            string
+	ReadinessCommand    string
 }
 
 func Create(r *LinuxRequest) (err error) {
@@ -180,12 +181,14 @@ func (r *LinuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 			return nil, "", nil, err
 		}
 		bsc, err :=
-			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
-				VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
-				OSType:                "linux",
-				EvictionRateTolerance: r.SpotTolerance,
-				ImageRef:              *ir,
-			})
+			spotAzure.GetBestSpotChoice(
+				spotAzure.BestSpotChoiceRequest{
+					VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
+					OSType:                "linux",
+					EvictionRateTolerance: r.SpotTolerance,
+					ImageRef:              *ir,
+					ExcludedRegions:       r.SpotExcludedRegions,
+				})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
 			return nil, "", nil, err

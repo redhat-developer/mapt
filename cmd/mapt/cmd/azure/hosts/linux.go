@@ -67,10 +67,10 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
-			if viper.IsSet(paramSpotTolerance) {
+			if viper.IsSet(azparams.ParamSpotTolerance) {
 				var ok bool
 				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
-					viper.GetString(paramSpotTolerance))
+					viper.GetString(azparams.ParamSpotTolerance))
 				if !ok {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
@@ -84,16 +84,17 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 
 			if err := azureLinux.Create(
 				&azureLinux.LinuxRequest{
-					Prefix:          viper.GetString(params.ProjectName),
-					Location:        viper.GetString(paramLocation),
-					VMSizes:         viper.GetStringSlice(paramVMSize),
-					InstanceRequest: instanceRequest,
-					Version:         viper.GetString(paramLinuxVersion),
-					Arch:            viper.GetString(params.LinuxArch),
-					OSType:          ostype,
-					Username:        viper.GetString(paramUsername),
-					Spot:            viper.IsSet(paramSpot),
-					SpotTolerance:   spotToleranceValue}); err != nil {
+					Prefix:              viper.GetString(params.ProjectName),
+					Location:            viper.GetString(paramLocation),
+					VMSizes:             viper.GetStringSlice(paramVMSize),
+					InstanceRequest:     instanceRequest,
+					Version:             viper.GetString(paramLinuxVersion),
+					Arch:                viper.GetString(params.LinuxArch),
+					OSType:              ostype,
+					Username:            viper.GetString(paramUsername),
+					Spot:                viper.IsSet(azparams.ParamSpot),
+					SpotTolerance:       spotToleranceValue,
+					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -107,8 +108,9 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 	flagSet.StringSliceP(paramVMSize, "", []string{}, paramVMSizeDesc)
 	flagSet.StringP(paramLinuxVersion, "", defaultOSVersion, paramLinuxVersionDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
-	flagSet.Bool(paramSpot, false, paramSpotDesc)
-	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
+	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
+	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
+	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
