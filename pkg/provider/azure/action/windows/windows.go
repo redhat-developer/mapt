@@ -34,17 +34,18 @@ import (
 var RHQPCISetupScript []byte
 
 type WindowsRequest struct {
-	Prefix             string
-	Location           string
-	VMSizes            []string
-	InstaceTypeRequest instancetypes.InstanceRequest
-	Version            string
-	Feature            string
-	Username           string
-	AdminUsername      string
-	Spot               bool
-	SpotTolerance      spotAzure.EvictionRate
-	Profiles           []string
+	Prefix              string
+	Location            string
+	VMSizes             []string
+	InstaceTypeRequest  instancetypes.InstanceRequest
+	Version             string
+	Feature             string
+	Username            string
+	AdminUsername       string
+	Spot                bool
+	SpotTolerance       spotAzure.EvictionRate
+	SpotExcludedRegions []string
+	Profiles            []string
 	// setup as github actions runner
 	SetupGHActionsRunner bool
 }
@@ -175,6 +176,7 @@ func (r *WindowsRequest) valuesCheckingSpot() (*string, string, *float64, error)
 				VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
 				OSType:                "windows",
 				EvictionRateTolerance: r.SpotTolerance,
+				ExcludedRegions:       r.SpotExcludedRegions,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {

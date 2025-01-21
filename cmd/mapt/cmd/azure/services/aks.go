@@ -73,14 +73,15 @@ func getCreateAKS() *cobra.Command {
 
 			if err := azureAKS.Create(
 				&azureAKS.AKSRequest{
-					Prefix:            viper.GetString(params.ProjectName),
-					Location:          viper.GetString(azparams.ParamLocation),
-					KubernetesVersion: viper.GetString(paramVersion),
-					OnlySystemPool:    viper.IsSet(paramOnlySystemPool),
-					EnableAppRouting:  viper.IsSet(paramEnableAppRouting),
-					VMSize:            viper.GetString(azparams.ParamVMSize),
-					Spot:              viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:     spotToleranceValue}); err != nil {
+					Prefix:              viper.GetString(params.ProjectName),
+					Location:            viper.GetString(azparams.ParamLocation),
+					KubernetesVersion:   viper.GetString(paramVersion),
+					OnlySystemPool:      viper.IsSet(paramOnlySystemPool),
+					EnableAppRouting:    viper.IsSet(paramEnableAppRouting),
+					VMSize:              viper.GetString(azparams.ParamVMSize),
+					Spot:                viper.IsSet(azparams.ParamSpot),
+					SpotTolerance:       spotToleranceValue,
+					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -96,6 +97,7 @@ func getCreateAKS() *cobra.Command {
 	flagSet.Bool(paramOnlySystemPool, false, paramOnlySystemPoolDesc)
 	flagSet.Bool(paramEnableAppRouting, false, paramEnableAppRoutingDesc)
 	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
+	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
