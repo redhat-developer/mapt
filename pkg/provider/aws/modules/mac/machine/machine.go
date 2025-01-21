@@ -52,8 +52,8 @@ type locked struct {
 // This function will use the information from the
 // dedicated host holding the mac machine will check if stack exists
 // if exists will get the lock value from it
-func (r *Request) ReplaceMachine(h *mac.HostInformation) error {
-	aN := fmt.Sprintf(amiRegex, r.Version)
+func ReplaceMachine(h *mac.HostInformation) error {
+	aN := fmt.Sprintf(amiRegex, *h.OSVersion)
 	bdt := blockDeviceType
 	ami, err := data.GetAMI(
 		data.ImageRequest{
@@ -75,7 +75,13 @@ func (r *Request) ReplaceMachine(h *mac.HostInformation) error {
 		}); err != nil {
 		return err
 	}
-	r.lock = false
+	// Set a default request
+	r := &Request{
+		Prefix:       *h.Prefix,
+		Architecture: *h.Arch,
+		Version:      *h.OSVersion,
+		lock:         false,
+	}
 	return r.manageMacMachine(h)
 }
 

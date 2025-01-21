@@ -1,4 +1,4 @@
-package mac
+package util
 
 import (
 	"fmt"
@@ -7,7 +7,18 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
+	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+)
+
+const (
+	StackDedicatedHost = "stackDedicatedHost"
+	StackMacMachine    = "stackMacMachine"
+
+	outputLock = "ammLock"
 )
 
 // We will get a list of hosts from the pool ordered by allocation time
@@ -15,7 +26,7 @@ import (
 // - TODO Remove those with allocation time > 24 h as they may destroyed
 // - if none left use them again
 // - if more available pick in order the first without lock
-func PickHost(prefix string, his []*HostInformation) (*HostInformation, error) {
+func PickHost(prefix string, his []*mac.HostInformation) (*mac.HostInformation, error) {
 	for _, h := range his {
 		isLocked, err := IsMachineLocked(h)
 		if err != nil {
@@ -31,7 +42,7 @@ func PickHost(prefix string, his []*HostInformation) (*HostInformation, error) {
 	return nil, fmt.Errorf("all hosts are locked at the moment")
 }
 
-func IsMachineLocked(h *HostInformation) (bool, error) {
+func IsMachineLocked(h *mac.HostInformation) (bool, error) {
 	s, err := manager.CheckStack(manager.Stack{
 		StackName:   maptContext.StackNameByProject(StackMacMachine),
 		ProjectName: maptContext.ProjectName(),
@@ -48,4 +59,26 @@ func IsMachineLocked(h *HostInformation) (bool, error) {
 		return false, err
 	}
 	return outputs[fmt.Sprintf("%s-%s", *h.Prefix, outputLock)].Value.(bool), nil
+}
+
+// Release will use dedicated host ID as identifier
+//
+// It will get the info for the dedicated host
+// get backedURL (tag on the dh)
+// get projectName (tag on the dh)
+// load machine stack based on those params
+// run release update on it
+func Release(ctx *maptContext.ContextArgs, hostID string) error {
+	// Get host as context will be fullfilled with info coming from the tags on the host
+	host, err := data.GetDedicatedHost(hostID)
+	if err != nil {
+		return err
+	}
+	hi := macHost.GetHostInformation(*host)
+	// Create mapt Context
+	ctx.ProjectName = *hi.ProjectName
+	ctx.BackedURL = *hi.BackedURL
+	maptContext.Init(ctx)
+	// replace machine
+	return macMachine.ReplaceMachine(hi)
 }

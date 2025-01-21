@@ -51,15 +51,6 @@ func getCreateAKS() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
@@ -73,6 +64,14 @@ func getCreateAKS() *cobra.Command {
 			}
 
 			if err := azureAKS.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&azureAKS.AKSRequest{
 					Prefix:              viper.GetString(params.ProjectName),
 					Location:            viper.GetString(azparams.ParamLocation),
@@ -111,16 +110,13 @@ func getDestroyAKS() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
-			if err := azureAKS.Destroy(); err != nil {
+			if err := azureAKS.Destroy(
+				&maptContext.ContextArgs{
+					ProjectName: viper.GetString(params.ProjectName),
+					BackedURL:   viper.GetString(params.BackedURL),
+					Debug:       viper.IsSet(params.Debug),
+					DebugLevel:  viper.GetUint(params.DebugLevel),
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil

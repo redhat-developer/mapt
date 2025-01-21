@@ -7,6 +7,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
+	macUtil "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/util"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -26,7 +27,10 @@ import (
 // create the machine
 //
 //	...
-func Request(r *MacRequest) error {
+func Request(ctx *maptContext.ContextArgs, r *MacRequestArgs) error {
+	// Create mapt Context
+	maptContext.Init(ctx)
+
 	// Get list of dedicated host ordered by allocation time
 	his, err := macHost.GetMatchingHostsInformation(r.Architecture)
 	if err != nil {
@@ -40,7 +44,7 @@ func Request(r *MacRequest) error {
 	// and replcae (create fresh env)
 	// If for whatever reason the mac has no been created
 	// stack does nt exist pick will require create not replace
-	hi, err := mac.PickHost(r.Prefix, his)
+	hi, err := macUtil.PickHost(r.Prefix, his)
 	if err != nil {
 		if hi == nil {
 			return err
@@ -66,44 +70,37 @@ func Request(r *MacRequest) error {
 // get projectName (tag on the dh)
 // load machine stack based on those params
 // run release update on it
-func Release(prefix string, hostID string, debug bool, debugLevel uint) error {
+func Release(ctx *maptContext.ContextArgs, hostID string) error {
+	// Get host as context will be fullfilled with info coming from the tags on the host
 	host, err := data.GetDedicatedHost(hostID)
 	if err != nil {
 		return err
 	}
 	hi := macHost.GetHostInformation(*host)
-	// Set context based on info from dedicated host to be released
-	maptContext.InitBase(
-		*hi.ProjectName,
-		*hi.BackedURL,
-		debug, debugLevel, false)
-
-	// Set a default request
-	mr := &macMachine.Request{
-		Prefix:       prefix,
-		Architecture: DefaultArch,
-		Version:      DefaultOSVersion,
-	}
-	return mr.ReplaceMachine(hi)
+	// Create mapt Context
+	ctx.ProjectName = *hi.ProjectName
+	ctx.BackedURL = *hi.BackedURL
+	maptContext.Init(ctx)
+	// replace machine
+	return macMachine.ReplaceMachine(hi)
 }
 
 // Initial scenario consider 1 machine
 // If we request destroy mac machine it will look for any machine
 // and check if it is locked if not locked it will destroy it
-func Destroy(prefix, hostID string, debug bool, debugLevel uint) error {
+func Destroy(ctx *maptContext.ContextArgs, hostID string) error {
 	host, err := data.GetDedicatedHost(hostID)
 	if err != nil {
 		return err
 	}
 	hi := macHost.GetHostInformation(*host)
-	// Set context based on info from dedicated host to be released
-	maptContext.InitBase(
-		*hi.ProjectName,
-		*hi.BackedURL,
-		debug, debugLevel, false)
+	// Create mapt Context
+	ctx.ProjectName = *hi.ProjectName
+	ctx.BackedURL = *hi.BackedURL
+	maptContext.Init(ctx)
 	// Dedicated host is not on a valid state to be deleted
 	// With same backedURL check if machine is locked
-	machineLocked, err := mac.IsMachineLocked(hi)
+	machineLocked, err := macUtil.IsMachineLocked(hi)
 	if err != nil {
 		return err
 	}
@@ -138,7 +135,7 @@ func Destroy(prefix, hostID string, debug bool, debugLevel uint) error {
 // It will also create a mac machine based on the arch and version setup
 // and will set a lock on it
 
-func create(r *MacRequest, dh *mac.HostInformation) (err error) {
+func create(r *MacRequestArgs, dh *mac.HostInformation) (err error) {
 	if dh == nil {
 		hr := r.fillHostRequest()
 		// Get data required for create a dh
@@ -155,7 +152,7 @@ func create(r *MacRequest, dh *mac.HostInformation) (err error) {
 	return mr.CreateAirgapMacMachine(dh)
 }
 
-func (r *MacRequest) fillHostRequest() *macHost.MacDedicatedHostRequestArgs {
+func (r *MacRequestArgs) fillHostRequest() *macHost.MacDedicatedHostRequestArgs {
 	return &macHost.MacDedicatedHostRequestArgs{
 		Prefix:        r.Prefix,
 		Architecture:  r.Architecture,
@@ -163,7 +160,7 @@ func (r *MacRequest) fillHostRequest() *macHost.MacDedicatedHostRequestArgs {
 	}
 }
 
-func (r *MacRequest) fillMacRequest() *macMachine.Request {
+func (r *MacRequestArgs) fillMacRequest() *macMachine.Request {
 	return &macMachine.Request{
 		Prefix:               r.Prefix,
 		Architecture:         r.Architecture,

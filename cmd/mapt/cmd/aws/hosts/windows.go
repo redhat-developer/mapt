@@ -42,6 +42,9 @@ func GetWindowsCmd() *cobra.Command {
 			return nil
 		},
 	}
+	flagSet := pflag.NewFlagSet(cmdWindows, pflag.ExitOnError)
+	params.AddCommonFlags(flagSet)
+	c.PersistentFlags().AddFlagSet(flagSet)
 	c.AddCommand(getWindowsCreate(), getWindowsDestroy())
 	return c
 }
@@ -54,16 +57,6 @@ func getWindowsCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
 
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
@@ -78,6 +71,14 @@ func getWindowsCreate() *cobra.Command {
 
 			// Run create
 			if err := windows.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&windows.Request{
 					Prefix:               "main",
 					AMIName:              viper.GetString(amiName),
@@ -120,14 +121,13 @@ func getWindowsDestroy() *cobra.Command {
 				return err
 			}
 
-			maptContext.InitBase(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				viper.IsSet(params.Serverless))
-
-			if err := windows.Destroy(); err != nil {
+			if err := windows.Destroy(&maptContext.ContextArgs{
+				ProjectName: viper.GetString(params.ProjectName),
+				BackedURL:   viper.GetString(params.BackedURL),
+				Debug:       viper.IsSet(params.Debug),
+				DebugLevel:  viper.GetUint(params.DebugLevel),
+				Serverless:  viper.IsSet(params.Serverless),
+			}); err != nil {
 				logging.Error(err)
 			}
 			return nil

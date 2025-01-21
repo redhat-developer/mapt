@@ -24,75 +24,76 @@ const (
 	TagKeyRunID       = "runid"
 )
 
-// store details for the current execution
-type context struct {
-	runID string
+type ContextArgs struct {
+	ProjectName   string
+	BackedURL     string
+	ResultsOutput string
+	Debug         bool
+	DebugLevel    uint
+	Tags          map[string]string
 	// serverless here is used to set the credentials based on
 	// roles inherid by tasks as serverless
 	// see SetAWSCredentials function
 	// take into account that the name may change as the approach to get
 	// credentials from role is more general approach
-	serverless            bool
+	Serverless bool
+}
+
+type context struct {
+	runID                 string
 	projectName           string
 	backedURL             string
 	resultsOutput         string
 	debug                 bool
 	debugLevel            uint
+	serverless            bool
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
 }
 
-var c *context
+// mapt context
+var mc *context
 
-func Init(projectName, backedURL, resultsOutput string, tags map[string]string, debug bool, debugLevel uint, serverless bool) {
-	c = &context{
+func Init(ca *ContextArgs) {
+	mc = &context{
 		runID:         CreateRunID(),
-		serverless:    serverless,
-		projectName:   projectName,
-		backedURL:     backedURL,
-		resultsOutput: resultsOutput,
-		debug:         debug,
-		debugLevel:    debugLevel,
-		tags:          tags,
+		projectName:   ca.ProjectName,
+		backedURL:     ca.BackedURL,
+		resultsOutput: ca.ResultsOutput,
+		debug:         ca.Debug,
+		debugLevel:    ca.DebugLevel,
+		tags:          ca.Tags,
+		serverless:    ca.Serverless,
 	}
 	addCommonTags()
-	logging.Debugf("context initialized for %s", c.runID)
+	logging.Debugf("context initialized for %s", mc.runID)
 }
 
-func InitBase(projectName, backedURL string, debug bool, debugLevel uint, serverless bool) {
-	c = &context{
-		projectName: projectName,
-		backedURL:   backedURL,
-		debug:       debug,
-		debugLevel:  debugLevel,
-	}
-}
+func RunID() string { return mc.runID }
 
-func RunID() string { return c.runID }
+func ProjectName() string { return mc.projectName }
 
-func ProjectName() string { return c.projectName }
+func BackedURL() string { return mc.backedURL }
 
-func BackedURL() string { return c.backedURL }
+func GetResultsOutputPath() string { return mc.resultsOutput }
 
-func GetResultsOutputPath() string { return c.resultsOutput }
-
-func GetTags() map[string]string { return c.tags }
+func GetTags() map[string]string { return mc.tags }
 
 func ResourceTags() pulumi.StringMap { return ResourceTagsWithCustom(nil) }
 
-func Debug() bool { return c.debug }
+func Debug() bool { return mc.debug }
 
-func DebugLevel() uint { return c.debugLevel }
+func DebugLevel() uint { return mc.debugLevel }
 
-func IsServerless() bool { return c.serverless }
+func IsServerless() bool { return mc.serverless }
 
 // It will create a runID
 // if context has been intialized it will set it as the runID for the context
 // otherwise it will return the value (one time value)
 func CreateRunID() string {
 	runID := util.RandomID(origin)
-	if c != nil {
-		c.runID = runID
+	if mc != nil {
+		mc.runID = runID
 	}
 	return runID
 }
@@ -101,23 +102,23 @@ func CreateRunID() string {
 // in addition we cas set specific custom tags
 func ResourceTagsWithCustom(customTags map[string]string) pulumi.StringMap {
 	lTags := make(map[string]string)
-	maps.Copy(lTags, c.tags)
+	maps.Copy(lTags, mc.tags)
 	if customTags != nil {
 		maps.Copy(lTags, customTags)
 	}
-	if c.tagsAsPulumiStringMap == nil {
-		c.tagsAsPulumiStringMap = utilMaps.Convert(lTags,
+	if mc.tagsAsPulumiStringMap == nil {
+		mc.tagsAsPulumiStringMap = utilMaps.Convert(lTags,
 			func(name string) string { return name },
 			func(value string) pulumi.StringInput { return pulumi.String(value) })
 	}
-	return c.tagsAsPulumiStringMap
+	return mc.tagsAsPulumiStringMap
 }
 
 func StackNameByProject(stackName string) string {
-	return fmt.Sprintf("%s-%s", stackName, c.projectName)
+	return fmt.Sprintf("%s-%s", stackName, mc.projectName)
 }
 
 func addCommonTags() {
-	c.tags[tagKeyOrigin] = origin
-	c.tags[TagKeyProjectName] = c.projectName
+	mc.tags[tagKeyOrigin] = origin
+	mc.tags[TagKeyProjectName] = mc.projectName
 }

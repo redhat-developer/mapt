@@ -41,16 +41,6 @@ func getMacRequest() *cobra.Command {
 				return err
 			}
 
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
-
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
 				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
@@ -64,7 +54,15 @@ func getMacRequest() *cobra.Command {
 
 			// Run create
 			if err := mac.Request(
-				&mac.MacRequest{
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
+				&mac.MacRequestArgs{
 					Prefix:               "main",
 					Architecture:         viper.GetString(awsParams.MACArch),
 					Version:              viper.GetString(awsParams.MACOSVersion),
@@ -77,6 +75,7 @@ func getMacRequest() *cobra.Command {
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACRequestCmd, pflag.ExitOnError)
+	params.AddCommonFlags(flagSet)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
@@ -100,17 +99,17 @@ func getMacRelease() *cobra.Command {
 
 			// Run create
 			if err := mac.Release(
-				"main",
-				viper.GetString(awsParams.MACDHID),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel)); err != nil {
+				&maptContext.ContextArgs{
+					Debug:      viper.IsSet(params.Debug),
+					DebugLevel: viper.GetUint(params.DebugLevel),
+				},
+				viper.GetString(awsParams.MACDHID)); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACReleaseCmd, pflag.ExitOnError)
-	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(awsParams.MACDHID, "", "", awsParams.MACDHIDDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	err := c.MarkPersistentFlagRequired(awsParams.MACDHID)
@@ -130,10 +129,11 @@ func getMacDestroy() *cobra.Command {
 			}
 
 			if err := mac.Destroy(
-				"main",
-				viper.GetString(awsParams.MACDHID),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel)); err != nil {
+				&maptContext.ContextArgs{
+					Debug:      viper.IsSet(params.Debug),
+					DebugLevel: viper.GetUint(params.DebugLevel),
+				},
+				viper.GetString(awsParams.MACDHID)); err != nil {
 				logging.Error(err)
 			}
 			return nil

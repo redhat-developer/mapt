@@ -56,15 +56,6 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
@@ -76,26 +67,33 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
 			}
-			instanceRequest := &instancetypes.AzureInstanceRequest{
-				CPUs:       viper.GetInt32(params.CPUs),
-				MemoryGib:  viper.GetInt32(params.Memory),
-				Arch:       util.If(viper.GetString(params.LinuxArch) == "arm64", instancetypes.Arm64, instancetypes.Amd64),
-				NestedVirt: viper.GetBool(params.NestedVirt),
-			}
 
 			if err := azureLinux.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&azureLinux.LinuxRequest{
-					Prefix:              viper.GetString(params.ProjectName),
-					Location:            viper.GetString(paramLocation),
-					VMSizes:             viper.GetStringSlice(paramVMSize),
-					InstanceRequest:     instanceRequest,
-					Version:             viper.GetString(paramLinuxVersion),
-					Arch:                viper.GetString(params.LinuxArch),
-					OSType:              ostype,
-					Username:            viper.GetString(paramUsername),
-					Spot:                viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:       spotToleranceValue,
-					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
+					Prefix:   viper.GetString(params.ProjectName),
+					Location: viper.GetString(paramLocation),
+					VMSizes:  viper.GetStringSlice(paramVMSize),
+					InstanceRequest: &instancetypes.AzureInstanceRequest{
+						CPUs:      viper.GetInt32(params.CPUs),
+						MemoryGib: viper.GetInt32(params.Memory),
+						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
+							instancetypes.Arm64, instancetypes.Amd64),
+						NestedVirt: viper.GetBool(params.NestedVirt),
+					},
+					Version:       viper.GetString(paramLinuxVersion),
+					Arch:          viper.GetString(params.LinuxArch),
+					OSType:        ostype,
+					Username:      viper.GetString(paramUsername),
+					Spot:          viper.IsSet(azparams.ParamSpot),
+					SpotTolerance: spotToleranceValue}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -125,16 +123,13 @@ func getDestroyLinux() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize context
-			maptContext.Init(
-				viper.GetString(params.ProjectName),
-				viper.GetString(params.BackedURL),
-				viper.GetString(params.ConnectionDetailsOutput),
-				viper.GetStringMapString(params.Tags),
-				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel),
-				false)
-			if err := azureLinux.Destroy(); err != nil {
+			if err := azureLinux.Destroy(
+				&maptContext.ContextArgs{
+					ProjectName: viper.GetString(params.ProjectName),
+					BackedURL:   viper.GetString(params.BackedURL),
+					Debug:       viper.IsSet(params.Debug),
+					DebugLevel:  viper.GetUint(params.DebugLevel),
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil
