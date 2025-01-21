@@ -25,11 +25,12 @@ type AKSRequest struct {
 	Location string
 	VMSize   string
 	// "1.26.3"
-	KubernetesVersion string
-	OnlySystemPool    bool
-	EnableAppRouting  bool
-	Spot              bool
-	SpotTolerance     spotAzure.EvictionRate
+	KubernetesVersion   string
+	OnlySystemPool      bool
+	EnableAppRouting    bool
+	Spot                bool
+	SpotTolerance       spotAzure.EvictionRate
+	SpotExcludedRegions []string
 }
 
 func Create(r *AKSRequest) (err error) {
@@ -212,6 +213,7 @@ func (r *AKSRequest) valuesCheckingSpot() (*string, *float64, error) {
 				VMTypes:               []string{r.VMSize},
 				OSType:                "linux",
 				EvictionRateTolerance: r.SpotTolerance,
+				ExcludedRegions:       r.SpotExcludedRegions,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {

@@ -57,10 +57,10 @@ func getCreateRHEL() *cobra.Command {
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
-			if viper.IsSet(paramSpotTolerance) {
+			if viper.IsSet(azparams.ParamSpotTolerance) {
 				var ok bool
 				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
-					viper.GetString(paramSpotTolerance))
+					viper.GetString(azparams.ParamSpotTolerance))
 				if !ok {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
@@ -95,8 +95,9 @@ func getCreateRHEL() *cobra.Command {
 					SubsUserpass:         viper.GetString(params.SubsUserpass),
 					ProfileSNC:           viper.IsSet(params.ProfileSNC),
 					Username:             viper.GetString(paramUsername),
-					Spot:                 viper.IsSet(paramSpot),
+					Spot:                 viper.IsSet(azparams.ParamSpot),
 					SpotTolerance:        spotToleranceValue,
+					SpotExcludedRegions:  viper.GetStringSlice(azparams.ParamSpotExcludedRegions),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner)}); err != nil {
 				logging.Error(err)
 			}
@@ -114,8 +115,9 @@ func getCreateRHEL() *cobra.Command {
 	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)
 	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
 	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
-	flagSet.Bool(paramSpot, false, paramSpotDesc)
-	flagSet.StringP(paramSpotTolerance, "", defaultSpotTolerance, paramSpotToleranceDesc)
+	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
+	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
+	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
