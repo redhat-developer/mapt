@@ -1,4 +1,4 @@
-package mac
+package machine
 
 import (
 	_ "embed"
@@ -10,6 +10,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 	qEC2 "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
@@ -48,29 +49,10 @@ type locked struct {
 	Lock bool
 }
 
-func isMachineLocked(prefix string, h *HostInformation) (bool, error) {
-	s, err := manager.CheckStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject(stackMacMachine),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   *h.BackedURL,
-		ProviderCredentials: aws.GetClouProviderCredentials(
-			map[string]string{
-				aws.CONFIG_AWS_REGION: *h.Region}),
-	})
-	if err != nil {
-		return false, err
-	}
-	outputs, err := manager.GetOutputs(s)
-	if err != nil {
-		return false, err
-	}
-	return outputs[fmt.Sprintf("%s-%s", prefix, outputLock)].Value.(bool), nil
-}
-
 // This function will use the information from the
 // dedicated host holding the mac machine will check if stack exists
 // if exists will get the lock value from it
-func (r *MacRequest) replaceMachine(h *HostInformation) error {
+func (r *Request) ReplaceMachine(h *mac.HostInformation) error {
 	aN := fmt.Sprintf(amiRegex, r.Version)
 	bdt := blockDeviceType
 	ami, err := data.GetAMI(
@@ -98,33 +80,35 @@ func (r *MacRequest) replaceMachine(h *HostInformation) error {
 }
 
 // Run the bootstrap script creating new access credentials for the user
-func (r *MacRequest) replaceUserAccess(h *HostInformation) error {
+func (r *Request) ReplaceUserAccess(h *mac.HostInformation) error {
 	r.replace = true
 	r.lock = true
 	return r.manageMacMachine(h)
 }
 
 // Release will set the lock as false
-func (r *MacRequest) createMacMachine(h *HostInformation) error {
+func (r *Request) CreateMacMachine(h *mac.HostInformation) error {
 	r.lock = true
 	return r.manageMacMachine(h)
 }
 
 // this creates the stack for the mac machine
-func (r *MacRequest) manageMacMachine(h *HostInformation) error {
+func (r *Request) manageMacMachine(h *mac.HostInformation) error {
 	return r.manageMacMachineTargets(h, nil)
 }
 
 // this creates the stack for the mac machine
-func (r *MacRequest) manageMacMachineTargets(h *HostInformation, targetURNs []string) error {
+func (r *Request) manageMacMachineTargets(h *mac.HostInformation, targetURNs []string) error {
 	r.AvailabilityZone = h.Host.AvailabilityZone
 	r.dedicatedHost = h
 	r.Region = h.Region
 	cs := manager.Stack{
 		StackName: fmt.Sprintf("%s-%s",
-			stackMacMachine, *h.ProjectName),
+			mac.StackMacMachine, *h.ProjectName),
 		ProjectName: *h.ProjectName,
-		BackedURL:   *h.BackedURL,
+		// Backed url always should be set from request as it is picked from the
+		// backed url for the dedicated host (pick from the value add as a tag on the dedicated host resoruce)
+		BackedURL: *h.BackedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				aws.CONFIG_AWS_REGION: *h.Region}),
@@ -140,18 +124,18 @@ func (r *MacRequest) manageMacMachineTargets(h *HostInformation, targetURNs []st
 }
 
 // this creates the stack for the mac machine
-func (r *MacRequest) createAirgapMacMachine(h *HostInformation) error {
+func (r *Request) CreateAirgapMacMachine(h *mac.HostInformation) error {
 	r.airgapPhaseConnectivity = network.ON
-	err := r.createMacMachine(h)
+	err := r.CreateMacMachine(h)
 	if err != nil {
 		return nil
 	}
 	r.airgapPhaseConnectivity = network.OFF
-	return r.createMacMachine(h)
+	return r.CreateMacMachine(h)
 }
 
 // Main function to deploy all requried resources to azure
-func (r *MacRequest) deployerMachine(ctx *pulumi.Context) error {
+func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	// Export information
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputRegion), pulumi.String(*r.Region))
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID), pulumi.String(*r.dedicatedHost.Host.HostId))
@@ -235,7 +219,7 @@ func (r *MacRequest) deployerMachine(ctx *pulumi.Context) error {
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *MacRequest) manageResultsMachine(stackResult auto.UpResult) error {
+func (r *Request) manageResultsMachine(stackResult auto.UpResult) error {
 	results := map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputUsername):          "username",
 		fmt.Sprintf("%s-%s", r.Prefix, outputUserPassword):      "userpassword",
@@ -254,7 +238,7 @@ func (r *MacRequest) manageResultsMachine(stackResult auto.UpResult) error {
 }
 
 // security group for mac machine with ingress rules for ssh and vnc
-func (r *MacRequest) securityGroups(ctx *pulumi.Context,
+func (r *Request) securityGroups(ctx *pulumi.Context,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// ingress for ssh access from 0.0.0.0
 	sshIngressRule := securityGroup.SSH_TCP
@@ -287,7 +271,7 @@ func (r *MacRequest) securityGroups(ctx *pulumi.Context,
 }
 
 // Create the mac instance
-func (r *MacRequest) instance(ctx *pulumi.Context,
+func (r *Request) instance(ctx *pulumi.Context,
 	subnet *ec2.Subnet,
 	ami *data.ImageInfo,
 	keyResources *keypair.KeyPairResources,
@@ -297,7 +281,7 @@ func (r *MacRequest) instance(ctx *pulumi.Context,
 		HostId:                   pulumi.String(*r.dedicatedHost.Host.HostId),
 		SubnetId:                 subnet.ID(),
 		Ami:                      pulumi.String(*ami.Image.ImageId),
-		InstanceType:             pulumi.String(macTypesByArch[r.Architecture]),
+		InstanceType:             pulumi.String(mac.TypesByArch[r.Architecture]),
 		KeyName:                  keyResources.AWSKeyPair.KeyName,
 		AssociatePublicIpAddress: pulumi.Bool(true),
 		VpcSecurityGroupIds:      securityGroups,
@@ -312,12 +296,15 @@ func (r *MacRequest) instance(ctx *pulumi.Context,
 	return ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "instance"),
 		&instanceArgs,
+		// Retain on delete to speed destroy operation for the dedicated host,
+		// destroy is managed by replace root volume operation
+		pulumi.RetainOnDelete(true),
 		// All changes on the instance should be done through root volume replace
 		// as so we ignore Amis missmatch
 		pulumi.IgnoreChanges([]string{"ami"}))
 }
 
-func (r *MacRequest) bootstrapscript(ctx *pulumi.Context,
+func (r *Request) bootstrapscript(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
 	b *bastion.Bastion,
@@ -348,7 +335,7 @@ func (r *MacRequest) bootstrapscript(ctx *pulumi.Context,
 
 // fuction will return the bootstrap script which will be execute on the mac machine
 // during the start of the machine
-func (r *MacRequest) getBootstrapScript(ctx *pulumi.Context) (
+func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 	pulumi.StringPtrInput,
 	*random.RandomPassword,
 	*keypair.KeyPairResources,
@@ -384,7 +371,7 @@ func (r *MacRequest) getBootstrapScript(ctx *pulumi.Context) (
 	return postscript, password, ukp, nil
 }
 
-func (r *MacRequest) readiness(ctx *pulumi.Context,
+func (r *Request) readiness(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
 	b *bastion.Bastion,

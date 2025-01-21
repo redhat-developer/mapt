@@ -58,7 +58,8 @@ func getCreateAKS() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				false)
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
@@ -115,7 +116,8 @@ func getDestroyAKS() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				false)
 			if err := azureAKS.Destroy(); err != nil {
 				logging.Error(err)
 			}

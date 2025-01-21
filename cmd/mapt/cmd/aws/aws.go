@@ -2,6 +2,7 @@ package aws
 
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/hosts"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/services"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -27,6 +28,7 @@ func GetCmd() *cobra.Command {
 		hosts.GetMacCmd(),
 		hosts.GetWindowsCmd(),
 		hosts.GetRHELCmd(),
-		hosts.GetFedoraCmd())
+		hosts.GetFedoraCmd(),
+		services.GetMacPoolCmd())
 	return c
 }

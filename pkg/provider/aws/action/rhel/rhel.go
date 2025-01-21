@@ -112,11 +112,10 @@ func Create(r *Request) error {
 }
 
 // Will destroy resources related to machine
-func Destroy(serverless bool) error {
+func Destroy() error {
 	if err := aws.DestroyStack(
 		aws.DestroyStackRequest{
-			Stackname:  stackName,
-			Serverless: serverless,
+			Stackname: stackName,
 		}); err != nil {
 		return err
 	}

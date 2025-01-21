@@ -1,13 +1,12 @@
 package mac
 
 import (
-	_ "embed"
-	"fmt"
-	"strings"
-
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
+	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -29,7 +28,7 @@ import (
 //	...
 func Request(r *MacRequest) error {
 	// Get list of dedicated host ordered by allocation time
-	his, err := getMatchingHostsInformation(r.Architecture)
+	his, err := macHost.GetMatchingHostsInformation(r.Architecture)
 	if err != nil {
 		return err
 	}
@@ -41,14 +40,15 @@ func Request(r *MacRequest) error {
 	// and replcae (create fresh env)
 	// If for whatever reason the mac has no been created
 	// stack does nt exist pick will require create not replace
-	hi, err := pickHost(r.Prefix, his)
+	hi, err := mac.PickHost(r.Prefix, his)
 	if err != nil {
 		if hi == nil {
 			return err
 		}
 		return create(r, hi)
 	}
-	err = r.replaceUserAccess(hi)
+	mr := r.fillMacRequest()
+	err = mr.ReplaceUserAccess(hi)
 	if err != nil {
 		return err
 	}
@@ -71,20 +71,20 @@ func Release(prefix string, hostID string, debug bool, debugLevel uint) error {
 	if err != nil {
 		return err
 	}
-	hi := getHostInformation(*host)
+	hi := macHost.GetHostInformation(*host)
 	// Set context based on info from dedicated host to be released
 	maptContext.InitBase(
 		*hi.ProjectName,
 		*hi.BackedURL,
-		debug, debugLevel)
+		debug, debugLevel, false)
 
 	// Set a default request
-	r := &MacRequest{
+	mr := &macMachine.Request{
 		Prefix:       prefix,
 		Architecture: DefaultArch,
 		Version:      DefaultOSVersion,
 	}
-	return r.replaceMachine(hi)
+	return mr.ReplaceMachine(hi)
 }
 
 // Initial scenario consider 1 machine
@@ -95,28 +95,28 @@ func Destroy(prefix, hostID string, debug bool, debugLevel uint) error {
 	if err != nil {
 		return err
 	}
-	hi := getHostInformation(*host)
+	hi := macHost.GetHostInformation(*host)
 	// Set context based on info from dedicated host to be released
 	maptContext.InitBase(
 		*hi.ProjectName,
 		*hi.BackedURL,
-		debug, debugLevel)
+		debug, debugLevel, false)
 	// Dedicated host is not on a valid state to be deleted
 	// With same backedURL check if machine is locked
-	machineLocked, err := isMachineLocked(prefix, hi)
+	machineLocked, err := mac.IsMachineLocked(hi)
 	if err != nil {
 		return err
 	}
 	if !machineLocked {
 		if err := aws.DestroyStack(aws.DestroyStackRequest{
-			Stackname: stackMacMachine,
+			Stackname: mac.StackMacMachine,
 			Region:    *hi.Region,
 			BackedURL: *hi.BackedURL,
 		}); err != nil {
 			return err
 		}
 		return aws.DestroyStack(aws.DestroyStackRequest{
-			Stackname: stackDedicatedHost,
+			Stackname: mac.StackDedicatedHost,
 			// TODO check if needed to add region for backedURL
 			Region:    *hi.Region,
 			BackedURL: *hi.BackedURL,
@@ -138,37 +138,37 @@ func Destroy(prefix, hostID string, debug bool, debugLevel uint) error {
 // It will also create a mac machine based on the arch and version setup
 // and will set a lock on it
 
-func create(r *MacRequest, dh *HostInformation) (err error) {
+func create(r *MacRequest, dh *mac.HostInformation) (err error) {
 	if dh == nil {
-		dh, err = r.createDedicatedHost()
+		hr := r.fillHostRequest()
+		// Get data required for create a dh
+		dh, err = macHost.CreateDedicatedHost(hr)
 		if err != nil {
 			return err
 		}
 	}
+	mr := r.fillMacRequest()
 	// Setup the topology and install the mac machine
 	if !r.Airgap {
-		return r.createMacMachine(dh)
+		return mr.CreateMacMachine(dh)
 	}
-	return r.createAirgapMacMachine(dh)
+	return mr.CreateAirgapMacMachine(dh)
 }
 
-// We will get a list of hosts from the pool ordered by allocation time
-// We will apply several rules on them to pick the right one
-// - TODO Remove those with allocation time > 24 h as they may destroyed
-// - if none left use them again
-// - if more available pick in order the first without lock
-func pickHost(prefix string, his []*HostInformation) (*HostInformation, error) {
-	for _, h := range his {
-		isLocked, err := isMachineLocked(prefix, h)
-		if err != nil {
-			logging.Errorf("error checking if machine %s is locked", *h.Host.HostId)
-			if strings.Contains(err.Error(), "no stack") {
-				return h, err
-			}
-		}
-		if !isLocked {
-			return h, nil
-		}
+func (r *MacRequest) fillHostRequest() *macHost.MacDedicatedHostRequestArgs {
+	return &macHost.MacDedicatedHostRequestArgs{
+		Prefix:        r.Prefix,
+		Architecture:  r.Architecture,
+		FixedLocation: r.FixedLocation,
 	}
-	return nil, fmt.Errorf("all hosts are locked at the moment")
+}
+
+func (r *MacRequest) fillMacRequest() *macMachine.Request {
+	return &macMachine.Request{
+		Prefix:               r.Prefix,
+		Architecture:         r.Architecture,
+		Version:              r.Version,
+		SetupGHActionsRunner: r.SetupGHActionsRunner,
+		Airgap:               r.Airgap,
+	}
 }

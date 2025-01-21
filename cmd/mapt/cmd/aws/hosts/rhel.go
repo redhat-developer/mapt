@@ -49,7 +49,8 @@ func getRHELCreate() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				false)
 
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
@@ -81,7 +82,7 @@ func getRHELCreate() *cobra.Command {
 					SubsUserpass:         viper.GetString(params.SubsUserpass),
 					ProfileSNC:           viper.IsSet(params.ProfileSNC),
 					Spot:                 viper.IsSet(spot),
-					Timeout:              viper.GetString(timeout),
+					Timeout:              viper.GetString(params.Timeout),
 					Airgap:               viper.IsSet(airgap),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
 				}); err != nil {
@@ -100,7 +101,7 @@ func getRHELCreate() *cobra.Command {
 	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
-	flagSet.StringP(timeout, "", "", timeout)
+	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
@@ -121,16 +122,17 @@ func getRHELDestroy() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				viper.IsSet(params.Serverless))
 
-			if err := rhel.Destroy(viper.IsSet(serverless)); err != nil {
+			if err := rhel.Destroy(); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
-	flagSet.Bool(serverless, false, serverlessDesc)
+	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
