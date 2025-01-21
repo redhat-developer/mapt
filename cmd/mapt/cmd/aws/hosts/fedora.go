@@ -19,7 +19,7 @@ const (
 
 	fedoraVersion        string = "version"
 	fedoraVersionDesc    string = "version for the Fedora Cloud OS"
-	fedoraVersionDefault string = "40"
+	fedoraVersionDefault string = "41"
 )
 
 func GetFedoraCmd() *cobra.Command {
