@@ -13,18 +13,19 @@ import (
 )
 
 type Request struct {
-	Prefix          string
-	Location        string
-	VMSizes         []string
-	Arch            string
-	InstanceRequest instancetypes.InstanceRequest
-	Version         string
-	SubsUsername    string
-	SubsUserpass    string
-	ProfileSNC      bool
-	Username        string
-	Spot            bool
-	SpotTolerance   spotAzure.EvictionRate
+	Prefix              string
+	Location            string
+	VMSizes             []string
+	Arch                string
+	InstanceRequest     instancetypes.InstanceRequest
+	Version             string
+	SubsUsername        string
+	SubsUserpass        string
+	ProfileSNC          bool
+	Username            string
+	Spot                bool
+	SpotTolerance       spotAzure.EvictionRate
+	SpotExcludedRegions []string
 	// setup as github actions runner
 	SetupGHActionsRunner bool
 }

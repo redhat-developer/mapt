@@ -47,6 +47,7 @@ type BestSpotChoiceRequest struct {
 	OSType                string
 	EvictionRateTolerance EvictionRate
 	ImageRef              data.ImageReference
+	ExcludedRegions       []string
 }
 
 type BestSpotChoiceResponse struct {
@@ -99,7 +100,7 @@ func GetBestSpotChoice(r BestSpotChoiceRequest) (*BestSpotChoiceResponse, error)
 		return nil, fmt.Errorf("error getting the best spot price choice: %v", err)
 	}
 	// Run eviction rate request it will get all vm types with each eviction rate
-	evrr, err := getEvictionRateInfoByVMTypes(ctx, client, r.VMTypes)
+	evrr, err := getEvictionRateInfoByVMTypes(ctx, client, r.VMTypes, r.ExcludedRegions)
 	if err != nil {
 		return nil, fmt.Errorf("error getting the best spot price choice: %v", err)
 	}
@@ -152,7 +153,7 @@ func getPriceHistory(ctx context.Context, client *armresourcegraph.Client,
 	if err != nil {
 		return nil, fmt.Errorf("error getting spot price history: %v", err)
 	}
-	var results []priceHistory
+	var pha []priceHistory
 	for _, r := range qr.Data.([]interface{}) {
 		rJSON, err := json.Marshal(r)
 		if err != nil {
@@ -162,14 +163,21 @@ func getPriceHistory(ctx context.Context, client *armresourcegraph.Client,
 		if err := json.Unmarshal(rJSON, &rStruct); err != nil {
 			return nil, fmt.Errorf("error getting spot price history: %v", err)
 		}
-		results = append(results, rStruct)
+		pha = append(pha, rStruct)
+	}
+	results := pha
+	// Exclude results for excluded regions if any
+	if len(r.ExcludedRegions) > 0 {
+		results = util.ArrayFilter(pha, func(ph priceHistory) bool {
+			return !slices.Contains(r.ExcludedRegions, ph.Location)
+		})
 	}
 	logging.Debugf("spot prices history %v", results)
 	return results, nil
 }
 
 func getEvictionRateInfoByVMTypes(ctx context.Context, client *armresourcegraph.Client,
-	vmTypes []string) ([]evictionRate, error) {
+	vmTypes, excludedRegions []string) ([]evictionRate, error) {
 	data := struct {
 		VMTypes []string
 	}{
@@ -195,7 +203,7 @@ func getEvictionRateInfoByVMTypes(ctx context.Context, client *armresourcegraph.
 	if err != nil {
 		return nil, fmt.Errorf("error getting eviction rate: %v", err)
 	}
-	var results []evictionRate
+	var era []evictionRate
 	for _, r := range qr.Data.([]interface{}) {
 		rJSON, err := json.Marshal(r)
 		if err != nil {
@@ -205,7 +213,14 @@ func getEvictionRateInfoByVMTypes(ctx context.Context, client *armresourcegraph.
 		if err := json.Unmarshal(rJSON, &rStruct); err != nil {
 			return nil, fmt.Errorf("error getting eviction rate: %v", err)
 		}
-		results = append(results, rStruct)
+		era = append(era, rStruct)
+	}
+	results := era
+	// Exclude results for excluded regions if any
+	if len(excludedRegions) > 0 {
+		results = util.ArrayFilter(era, func(er evictionRate) bool {
+			return !slices.Contains(excludedRegions, er.Location)
+		})
 	}
 	return results, nil
 }

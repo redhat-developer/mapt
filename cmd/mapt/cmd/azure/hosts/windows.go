@@ -68,10 +68,10 @@ func getCreateWindowsDesktop() *cobra.Command {
 
 			// ParseEvictionRate
 			var spotToleranceValue = spotAzure.DefaultEvictionRate
-			if viper.IsSet(paramSpotTolerance) {
+			if viper.IsSet(azparams.ParamSpotTolerance) {
 				var ok bool
 				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
-					viper.GetString(paramSpotTolerance))
+					viper.GetString(azparams.ParamSpotTolerance))
 				if !ok {
 					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
 				}
@@ -108,7 +108,8 @@ func getCreateWindowsDesktop() *cobra.Command {
 					Profiles:             viper.GetStringSlice(paramProfile),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
 					Spot:                 viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:        spotToleranceValue}); err != nil {
+					SpotTolerance:        spotToleranceValue,
+					SpotExcludedRegions:  viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -126,6 +127,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet.StringSliceP(paramProfile, "", []string{}, paramProfileDesc)
 	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
 	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
+	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
