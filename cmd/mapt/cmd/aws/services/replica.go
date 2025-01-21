@@ -1,4 +1,4 @@
-package replica
+package services
 
 import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"

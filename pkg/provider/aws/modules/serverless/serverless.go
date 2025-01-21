@@ -21,24 +21,6 @@ import (
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-type ServerlessManager struct{}
-
-// Mapts requires the cluster to exist previously wit specific naming
-// check hacks/aws/serverless.sh to
-var (
-	MaptServerlessDefaultPrefix = "mapt-serverless-manager"
-)
-
-// https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size
-const (
-	LimitCPU    = "2048"
-	LimitMemory = "4096"
-)
-
-// func GetServerlessManager() *ServerlessManager {
-// 	return &ServerlessManager{}
-// }
-
 var (
 	ErrInvalidBackedURLForTimeout = fmt.Errorf("timeout can action can not be set due to backed url pointing to local file. Please use external storage or remote timeout option")
 )
@@ -50,13 +32,22 @@ func CreateDestroyOperation(ctx *pulumi.Context,
 	if err := checkBackedURLForServerless(); err != nil {
 		return err
 	}
-	destroyCommand := fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
-		target,
-		maptContext.ProjectName(),
-		maptContext.BackedURL())
-	return Create(ctx,
-		region, prefix, componentID,
-		destroyCommand, delay)
+	se, err := generateOneTimeScheduleExpression(region, delay)
+	if err != nil {
+		return err
+	}
+	r := &serverlessRequestArgs{
+		region: region,
+		command: fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
+			target,
+			maptContext.ProjectName(),
+			maptContext.BackedURL()),
+		scheduleExpression: se,
+		prefix:             prefix,
+		componentID:        componentID,
+	}
+
+	return r.deploy(ctx)
 }
 
 func checkBackedURLForServerless() error {
@@ -66,15 +57,18 @@ func checkBackedURLForServerless() error {
 		nil)
 }
 
-func Create(ctx *pulumi.Context,
-	region, prefix, componentID string,
-	command, delay string) error {
+func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 	// Get the pre configured cluster to handle serverless exectucions
-	clusterArn, err := getClusterArn(ctx, region, prefix, componentID)
+	clusterArn, err := getClusterArn(ctx,
+		a.region,
+		a.prefix,
+		a.componentID)
 	if err != nil {
 		return err
 	}
-	roleArn, err := getTaskRole(ctx, prefix, componentID)
+	roleArn, err := getTaskRole(ctx,
+		a.prefix,
+		a.componentID)
 	if err != nil {
 		return err
 	}
@@ -87,11 +81,11 @@ func Create(ctx *pulumi.Context,
 		return err
 	}
 	td, err := awsxecs.NewFargateTaskDefinition(ctx,
-		resourcesUtil.GetResourceName(prefix, componentID, "fg-task"),
+		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fg-task"),
 		&awsxecs.FargateTaskDefinitionArgs{
 			Container: &awsxecs.TaskDefinitionContainerDefinitionArgs{
 				Image:   pulumi.String(maptContext.OCI),
-				Command: pulumi.ToStringArray(strings.Fields(command)),
+				Command: pulumi.ToStringArray(strings.Fields(a.command)),
 				Cpu:     pulumi.Int(limitCPUasInt),
 				Memory:  pulumi.Int(limitMemoryasInt),
 			},
@@ -113,20 +107,18 @@ func Create(ctx *pulumi.Context,
 	if err != nil {
 		return err
 	}
-	sRole, err := createSchedulerRole(ctx, prefix, componentID)
+	sRole, err := createSchedulerRole(ctx,
+		a.prefix,
+		a.componentID)
 	if err != nil {
 		return err
 	}
-	se, err := generateOneTimeScheduleExpression(region, delay)
-	if err != nil {
-		return err
-	}
-	subnetID, err := data.GetRandomPublicSubnet(region)
+	subnetID, err := data.GetRandomPublicSubnet(a.region)
 	if err != nil {
 		return err
 	}
 	_, err = scheduler.NewSchedule(ctx,
-		resourcesUtil.GetResourceName(prefix, componentID, "fgs"),
+		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fgs"),
 		&scheduler.ScheduleArgs{
 			FlexibleTimeWindow: scheduler.ScheduleFlexibleTimeWindowArgs{
 				Mode:                   scheduler.ScheduleFlexibleTimeWindowModeFlexible,
@@ -149,8 +141,8 @@ func Create(ctx *pulumi.Context,
 				Arn:     clusterArn,
 				RoleArn: sRole.Arn,
 			},
-			ScheduleExpression:         pulumi.String(se),
-			ScheduleExpressionTimezone: pulumi.String(data.RegionTimezones[region]),
+			ScheduleExpression:         pulumi.String(a.scheduleExpression),
+			ScheduleExpressionTimezone: pulumi.String(data.RegionTimezones[a.region]),
 		})
 	if err != nil {
 		return err
@@ -161,7 +153,7 @@ func Create(ctx *pulumi.Context,
 // As part of the runtime for serverless invocation we need a fixed cluster spec on the region as so if
 // it exists it will pick the cluster otherwise it will create and will not be deleted
 func getClusterArn(ctx *pulumi.Context, region, prefix, componentID string) (*pulumi.StringOutput, error) {
-	clusterName := fmt.Sprintf("%s-%s", MaptServerlessDefaultPrefix, "cluster")
+	clusterName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "cluster")
 	clusterArn, err := data.GetCluster(clusterName, region)
 	if err != nil {
 		if err == data.ErrECSClusterNotFound {
@@ -187,7 +179,7 @@ func getClusterArn(ctx *pulumi.Context, region, prefix, componentID string) (*pu
 // As part of the runtime for serverless invocation we need a fixed role for task execution the region as so if
 // it exists it will pick the role otherwise it will create and will not be deleted
 func getTaskRole(ctx *pulumi.Context, prefix, componentID string) (*pulumi.StringOutput, error) {
-	roleName := fmt.Sprintf("%s-%s", MaptServerlessDefaultPrefix, "role")
+	roleName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "role")
 	roleArn, err := data.GetRole(roleName)
 	if err != nil {
 		if role, err := createTaskRole(ctx, roleName, prefix, componentID); err != nil {

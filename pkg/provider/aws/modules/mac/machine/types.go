@@ -1,9 +1,34 @@
-package mac
+package machine
+
+import (
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
+)
+
+type Request struct {
+	// Prefix for the resources related to mac
+	// this is relevant in case of an orchestration with multiple
+	// macs on the same stack
+	Prefix           string
+	Region           *string
+	AvailabilityZone *string
+	Version          string
+	Architecture     string
+	// setup as github actions runner
+	SetupGHActionsRunner bool
+	Airgap               bool
+	// For airgap scenario there is an orchestation of
+	// a phase with connectivity on the machine (allowing bootstraping)
+	// a pahase with connectivyt off where the subnet for the target lost the nat gateway
+	airgapPhaseConnectivity network.Connectivity
+	// dh linkage
+	dedicatedHost *mac.HostInformation
+	// operation control params
+	replace bool
+	lock    bool
+}
 
 const (
-	stackDedicatedHost = "stackDedicatedHost"
-	stackMacMachine    = "stackMacMachine"
-
 	awsMacMachineID = "amm"
 
 	customResourceTypeLock = "rh:qe:aws:mac:lock"
@@ -31,23 +56,9 @@ const (
 
 	// https://www.pulumi.com/docs/intro/concepts/resources/options/customtimeouts/
 	remoteTimeout string = "40m"
-
-	tagKeyBackedURL string = "backedURL"
-	tagKeyArch      string = "arch"
 )
-
-var macTypesByArch = map[string]string{
-	"x86": "mac1.metal",
-	"m1":  "mac2.metal",
-	"m2":  "mac2-m2pro.metal"}
 
 var awsArchIDbyArch = map[string]string{
 	"x86": "x86_64_mac",
 	"m1":  "arm64_mac",
 	"m2":  "arm64_mac"}
-
-// var macAMIs = map[string]string{
-// 	"arm64_mac-13":  "macos-arm64-13.6.1",
-// 	"arm64_mac-14":  "macos-arm64-14.1",
-// 	"x86_64_mac-12": "mac12_x86",
-// 	"x86_64_mac-13": "mac13_x86"}

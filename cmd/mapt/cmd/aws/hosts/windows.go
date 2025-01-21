@@ -62,7 +62,8 @@ func getWindowsCreate() *cobra.Command {
 				viper.GetString(params.ConnectionDetailsOutput),
 				viper.GetStringMapString(params.Tags),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				false)
 
 			// Initialize gh actions runner if needed
 			if viper.IsSet(params.InstallGHActionsRunner) {
@@ -86,7 +87,7 @@ func getWindowsCreate() *cobra.Command {
 					AMIKeepCopy:          viper.IsSet(amiKeepCopy),
 					Spot:                 viper.IsSet(spot),
 					Airgap:               viper.IsSet(airgap),
-					Timeout:              viper.GetString(timeout),
+					Timeout:              viper.GetString(params.Timeout),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
 				}); err != nil {
 				logging.Error(err)
@@ -103,7 +104,7 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.StringP(amiLang, "", amiLangDefault, amiLangDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(spot, false, spotDesc)
-	flagSet.StringP(timeout, "", "", timeout)
+	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
@@ -123,16 +124,17 @@ func getWindowsDestroy() *cobra.Command {
 				viper.GetString(params.ProjectName),
 				viper.GetString(params.BackedURL),
 				viper.IsSet(params.Debug),
-				viper.GetUint(params.DebugLevel))
+				viper.GetUint(params.DebugLevel),
+				viper.IsSet(params.Serverless))
 
-			if err := windows.Destroy(viper.IsSet(serverless)); err != nil {
+			if err := windows.Destroy(); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
-	flagSet.Bool(serverless, false, serverlessDesc)
+	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

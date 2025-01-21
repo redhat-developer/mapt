@@ -26,7 +26,13 @@ const (
 
 // store details for the current execution
 type context struct {
-	runID                 string
+	runID string
+	// serverless here is used to set the credentials based on
+	// roles inherid by tasks as serverless
+	// see SetAWSCredentials function
+	// take into account that the name may change as the approach to get
+	// credentials from role is more general approach
+	serverless            bool
 	projectName           string
 	backedURL             string
 	resultsOutput         string
@@ -38,9 +44,10 @@ type context struct {
 
 var c *context
 
-func Init(projectName, backedURL, resultsOutput string, tags map[string]string, debug bool, debugLevel uint) {
+func Init(projectName, backedURL, resultsOutput string, tags map[string]string, debug bool, debugLevel uint, serverless bool) {
 	c = &context{
 		runID:         CreateRunID(),
+		serverless:    serverless,
 		projectName:   projectName,
 		backedURL:     backedURL,
 		resultsOutput: resultsOutput,
@@ -52,7 +59,7 @@ func Init(projectName, backedURL, resultsOutput string, tags map[string]string, 
 	logging.Debugf("context initialized for %s", c.runID)
 }
 
-func InitBase(projectName, backedURL string, debug bool, debugLevel uint) {
+func InitBase(projectName, backedURL string, debug bool, debugLevel uint, serverless bool) {
 	c = &context{
 		projectName: projectName,
 		backedURL:   backedURL,
@@ -60,6 +67,24 @@ func InitBase(projectName, backedURL string, debug bool, debugLevel uint) {
 		debugLevel:  debugLevel,
 	}
 }
+
+func RunID() string { return c.runID }
+
+func ProjectName() string { return c.projectName }
+
+func BackedURL() string { return c.backedURL }
+
+func GetResultsOutputPath() string { return c.resultsOutput }
+
+func GetTags() map[string]string { return c.tags }
+
+func ResourceTags() pulumi.StringMap { return ResourceTagsWithCustom(nil) }
+
+func Debug() bool { return c.debug }
+
+func DebugLevel() uint { return c.debugLevel }
+
+func IsServerless() bool { return c.serverless }
 
 // It will create a runID
 // if context has been intialized it will set it as the runID for the context
@@ -70,15 +95,6 @@ func CreateRunID() string {
 		c.runID = runID
 	}
 	return runID
-}
-
-func GetTags() map[string]string {
-	return c.tags
-}
-
-// Get tags ready to be added to any pulumi resource
-func ResourceTags() pulumi.StringMap {
-	return ResourceTagsWithCustom(nil)
 }
 
 // Get tags ready to be added to any pulumi resource
@@ -97,32 +113,8 @@ func ResourceTagsWithCustom(customTags map[string]string) pulumi.StringMap {
 	return c.tagsAsPulumiStringMap
 }
 
-func RunID() string {
-	return c.runID
-}
-
-func ProjectName() string {
-	return c.projectName
-}
-
-func BackedURL() string {
-	return c.backedURL
-}
-
-func GetResultsOutputPath() string {
-	return c.resultsOutput
-}
-
 func StackNameByProject(stackName string) string {
 	return fmt.Sprintf("%s-%s", stackName, c.projectName)
-}
-
-func Debug() bool {
-	return c.debug
-}
-
-func DebugLevel() uint {
-	return c.debugLevel
 }
 
 func addCommonTags() {
