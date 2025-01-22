@@ -147,7 +147,8 @@ func create(r *MacRequestArgs, dh *mac.HostInformation) (err error) {
 	mr := r.fillMacRequest()
 	// Setup the topology and install the mac machine
 	if !r.Airgap {
-		return mr.CreateMacMachine(dh)
+
+		return mr.CreateAndLockMacMachine(dh)
 	}
 	return mr.CreateAirgapMacMachine(dh)
 }

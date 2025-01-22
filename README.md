@@ -41,6 +41,7 @@ About the target environments offered it is not limited to a single machine or s
 | Service        | Provider      | Information                  | Tekton                         
 | -------------- | ------------- | -------------                | ---------------------------- | 
 | AKS            | Azure         | [info](docs/azure/aks.md)    | [task](tkn/infra-azure-aks.yaml) 
+| Mac-pool       | AWS           | [info](docs/aws/mac-pool.md) | - 
 
 ## CI/CD integrations
 

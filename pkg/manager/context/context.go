@@ -119,6 +119,9 @@ func StackNameByProject(stackName string) string {
 }
 
 func addCommonTags() {
+	if mc.tags == nil {
+		mc.tags = make(map[string]string)
+	}
 	mc.tags[tagKeyOrigin] = origin
 	mc.tags[TagKeyProjectName] = mc.projectName
 }

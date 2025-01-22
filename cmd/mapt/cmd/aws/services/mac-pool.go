@@ -157,8 +157,6 @@ func getRequest() *cobra.Command {
 
 			if err := macpool.Request(
 				&maptContext.ContextArgs{
-					ProjectName:   viper.GetString(params.ProjectName),
-					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
@@ -196,12 +194,8 @@ func getRelease() *cobra.Command {
 
 			if err := macpool.Release(
 				&maptContext.ContextArgs{
-					ProjectName: viper.GetString(params.ProjectName),
-					BackedURL:   viper.GetString(params.BackedURL),
-					Serverless:  viper.IsSet(params.Serverless),
-					Debug:       viper.IsSet(params.Debug),
-					DebugLevel:  viper.GetUint(params.DebugLevel),
-					Tags:        viper.GetStringMapString(params.Tags),
+					Debug:      viper.IsSet(params.Debug),
+					DebugLevel: viper.GetUint(params.DebugLevel),
 				},
 				viper.GetString(awsParams.MACDHID)); err != nil {
 				logging.Error(err)

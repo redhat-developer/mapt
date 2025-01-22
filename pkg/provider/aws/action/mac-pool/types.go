@@ -8,7 +8,7 @@ const (
 	houseKeepingCommand            = "aws mac-pool house-keep --name %s --arch %s --version %s --offered-capacity %d --max-size %d --serverless "
 	houseKeepingFixedLocationParam = "--fixed-location "
 	// https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html#eb-rate-expressions
-	houseKeepingInterval = "15 minutes"
+	houseKeepingInterval = "27 minutes"
 )
 
 type MacPoolRequestArgs struct {
@@ -62,3 +62,17 @@ type pool struct {
 
 func (p *pool) currentOfferedCapacity() int { return len(p.currentOfferedMachines) }
 func (p *pool) currentPoolSize() int        { return len(p.machines) }
+
+// func (p *pool) currentOfferedCapacity() int {
+// 	return util.If(
+// 		p.currentOfferedMachines == nil,
+// 		0,
+// 		len(p.currentOfferedMachines))
+// }
+
+// func (p *pool) currentPoolSize() int {
+// 	return util.If(
+// 		p.machines == nil,
+// 		0,
+// 		len(p.machines))
+// }

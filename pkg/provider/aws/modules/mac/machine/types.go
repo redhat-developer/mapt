@@ -62,3 +62,5 @@ var awsArchIDbyArch = map[string]string{
 	"x86": "x86_64_mac",
 	"m1":  "arm64_mac",
 	"m2":  "arm64_mac"}
+
+func isAWSArchID(a string) bool { return a == "x86_64_mac" || a == "arm64_mac" }
