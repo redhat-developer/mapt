@@ -9,9 +9,11 @@ import (
 )
 
 func Write(stackResult auto.UpResult, destinationFolder string, results map[string]string) (err error) {
-	for k, v := range results {
-		if err = writeOutput(stackResult, k, destinationFolder, v); err != nil {
-			return err
+	if len(destinationFolder) > 0 {
+		for k, v := range results {
+			if err = writeOutput(stackResult, k, destinationFolder, v); err != nil {
+				return err
+			}
 		}
 	}
 	return

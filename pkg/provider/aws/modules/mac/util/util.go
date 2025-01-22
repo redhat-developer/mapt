@@ -44,8 +44,8 @@ func PickHost(prefix string, his []*mac.HostInformation) (*mac.HostInformation, 
 
 func IsMachineLocked(h *mac.HostInformation) (bool, error) {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject(StackMacMachine),
-		ProjectName: maptContext.ProjectName(),
+		StackName:   fmt.Sprintf("%s-%s", StackMacMachine, *h.ProjectName),
+		ProjectName: *h.ProjectName,
 		BackedURL:   *h.BackedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
