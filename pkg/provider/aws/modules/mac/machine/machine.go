@@ -92,9 +92,17 @@ func (r *Request) ReplaceUserAccess(h *mac.HostInformation) error {
 	return r.manageMacMachine(h)
 }
 
-// Release will set the lock as false
-func (r *Request) CreateMacMachine(h *mac.HostInformation) error {
+// This create the machine and set as locked....meaning that it will return a way
+// for it to be used (i.e mac action)
+func (r *Request) CreateAndLockMacMachine(h *mac.HostInformation) error {
 	r.lock = true
+	return r.manageMacMachine(h)
+}
+
+// This create the machine and set it as ready to be used (i.e when mac-pool action)
+// in this case machines are added to the pool as ready to be used by request
+func (r *Request) CreateAvailableMacMachine(h *mac.HostInformation) error {
+	r.lock = false
 	return r.manageMacMachine(h)
 }
 
@@ -132,12 +140,12 @@ func (r *Request) manageMacMachineTargets(h *mac.HostInformation, targetURNs []s
 // this creates the stack for the mac machine
 func (r *Request) CreateAirgapMacMachine(h *mac.HostInformation) error {
 	r.airgapPhaseConnectivity = network.ON
-	err := r.CreateMacMachine(h)
+	err := r.CreateAndLockMacMachine(h)
 	if err != nil {
 		return nil
 	}
 	r.airgapPhaseConnectivity = network.OFF
-	return r.CreateMacMachine(h)
+	return r.CreateAndLockMacMachine(h)
 }
 
 // Main function to deploy all requried resources to azure
@@ -148,7 +156,10 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	// Lookup AMI
 	aN := fmt.Sprintf(amiRegex, r.Version)
 	bdt := blockDeviceType
-	arch := awsArchIDbyArch[r.Architecture]
+	arch := util.If(
+		isAWSArchID(r.Architecture),
+		r.Architecture,
+		awsArchIDbyArch[r.Architecture])
 	ami, err := data.GetAMI(
 		data.ImageRequest{
 			Name:            &aN,

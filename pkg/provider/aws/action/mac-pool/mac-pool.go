@@ -17,20 +17,14 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
-// request and release (same approach as mac standard, but request never create machine underneath, this is handled by pool-capacity-keeper)
-// TODO Important
-// release and request will not behave the same if the run as targer vs as selfhosted runner. In that case for release we do not
-// want it be added as selfhosted but only on request??
+// Create works as an orchestrator for create n machines based on offered capacity
+// if pool already exists just change the params for the HouseKeeper
+// also the HouseKeep will take care of regulate the capacity
 
+// Even if we want to destroy the pool we will set params to max size 0
 func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	// Create mapt Context
 	maptContext.Init(ctx)
-
-	// Initially create pool with number of machines matching available capacity
-	// this is the number of machines free to accept workloads
-	// if err := validateNoExistingPool(); err != nil {
-	// 	return err
-	// }
 	if err := r.addMachinesToPool(r.OfferedCapacity); err != nil {
 		return err
 	}
@@ -53,21 +47,25 @@ func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 		return err
 	}
 	// Pool under expected offered capacity
-	if p.currentOfferedCapacity() < p.offeredCapacity {
-		if p.currentPoolSize() < p.maxSize {
+	if p.currentOfferedCapacity() < r.OfferedCapacity {
+		if p.currentPoolSize() < r.MaxSize {
+			logging.Debug("house keeper will try to add machines as offered capacity is lower than expected")
 			return r.addCapacity(p)
 		}
 		// if number of machines in the pool + to max machines
 		// we do nothing
+		logging.Debug("house keeper will not do any action as pool size is currently at max size")
 		return nil
 	}
 	// Pool over expected offered capacity need to destroy machines
-	if p.currentOfferedCapacity() > p.offeredCapacity {
+	if p.currentOfferedCapacity() > r.OfferedCapacity {
 		if len(p.destroyableMachines) > 0 {
+			logging.Debug("house keeper will try to destroy machines as offered capacity is higher than expected")
 			// Need to check if any offered can be destroy
 			return r.destroyCapacity(p)
 		}
 	}
+	logging.Debug("house keeper will not do any action as offered capacity is met by the pool")
 	// Otherwise nonLockedMachines meet Capacity so we do nothing
 	return nil
 }
@@ -123,7 +121,7 @@ func (r *MacPoolRequestArgs) addMachinesToPool(n int) error {
 			return err
 		}
 		mr := r.fillMacRequest()
-		if err = mr.CreateMacMachine(dh); err != nil {
+		if err = mr.CreateAvailableMacMachine(dh); err != nil {
 			return err
 		}
 	}
@@ -203,13 +201,15 @@ func validateBackedURL() error {
 // This function will fill information about machines in the pool
 // depending on their state and age full fill the struct to easily
 // manage them
-func getPool(poolName, arch, osVersion string) (p *pool, err error) {
+func getPool(poolName, arch, osVersion string) (*pool, error) {
 	// Get machines in the pool
 	poolID := &macHost.PoolID{
 		PoolName:  poolName,
 		Arch:      arch,
 		OSVersion: osVersion,
 	}
+	var p pool
+	var err error
 	p.machines, err = macHost.GetPoolDedicatedHostsInformation(poolID)
 	if err != nil {
 		return nil, err
@@ -232,7 +232,7 @@ func getPool(poolName, arch, osVersion string) (p *pool, err error) {
 			return h.Host.AllocationTime.UTC().Before(macAgeDestroyRequeriemnt)
 		})
 	p.name = poolName
-	return
+	return &p, nil
 }
 
 // This is a boilerplate function to pick the best machine for

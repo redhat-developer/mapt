@@ -2,8 +2,6 @@ VERSION ?= 0.8.0-dev
 CONTAINER_MANAGER ?= podman
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/redhat-developer/mapt:v${VERSION}
-# IMG ?= quay.io/rhqp/mapt:serverless-10-amd64
-
 TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
 
 # Go and compilation related variables
