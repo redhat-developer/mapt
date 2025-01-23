@@ -3,9 +3,9 @@ package services
 import (
 	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	macpool "github.com/redhat-developer/mapt/pkg/provider/aws/action/mac-pool"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -143,16 +143,20 @@ func getRequest() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			// Initialize gh actions runner if needed
+
+			ctx := &maptContext.ContextArgs{
+				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+				Debug:         viper.IsSet(params.Debug),
+				DebugLevel:    viper.GetUint(params.DebugLevel),
+				Tags:          viper.GetStringMapString(params.Tags),
+			}
+
 			if viper.IsSet(params.InstallGHActionsRunner) {
-				err := ghactions.InitGHRunnerArgs(
-					viper.GetString(params.GHActionsRunnerToken),
-					viper.GetString(params.GHActionsRunnerName),
-					viper.GetString(params.GHActionsRunnerRepo),
-					viper.GetStringSlice(params.GHActionsRunnerLabels))
-				if err != nil {
-					logging.Fatal(err)
-				}
+				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
+					Token:   viper.GetString(params.GHActionsRunnerToken),
+					RepoURL: viper.GetString(params.GHActionsRunnerName),
+					Name:    viper.GetString(params.GHActionsRunnerRepo),
+					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
 			}
 
 			if err := macpool.Request(

@@ -36,7 +36,9 @@ type AKSRequest struct {
 func Create(ctx *maptContext.ContextArgs, r *AKSRequest) (err error) {
 	// Create mapt Context
 	logging.Debug("Creating AKS")
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 	cs := manager.Stack{
 		StackName:           maptContext.StackNameByProject(stackAKS),
 		ProjectName:         maptContext.ProjectName(),
@@ -51,7 +53,9 @@ func Create(ctx *maptContext.ContextArgs, r *AKSRequest) (err error) {
 func Destroy(ctx *maptContext.ContextArgs) error {
 	// Create mapt Context
 	logging.Debug("Destroy AKS")
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 	return azure.Destroy(
 		maptContext.ProjectName(),
 		maptContext.BackedURL(),

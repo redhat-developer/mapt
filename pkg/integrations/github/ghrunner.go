@@ -1,4 +1,4 @@
-package ghactions
+package github
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 )
 
-type RunnerArgs struct {
+type GithubRunnerArgs struct {
 	Token   string
 	RepoURL string
 	Name    string
@@ -52,21 +52,13 @@ mv ~/Library/LaunchAgents/"${plistName}" ~/Library/LaunchDaemons/"${plistName}"
 launchctl load ~/Library/LaunchDaemons/"${plistName}"`
 )
 
-var args *RunnerArgs
+var args *GithubRunnerArgs
 
-func InitGHRunnerArgs(token, name, repoURL string, labels []string) error {
-	if token == "" || name == "" || repoURL == "" {
+func InitGHRunnerArgs(gra *GithubRunnerArgs) error {
+	if gra.Token == "" || gra.Name == "" || gra.RepoURL == "" {
 		return errors.New("All args are required and must have non-empty values")
 	}
-	args = &RunnerArgs{
-		Token:   token,
-		RepoURL: repoURL,
-		Name:    name,
-	}
-
-	if len(labels) > 0 {
-		args.Labels = labels
-	}
+	args = gra
 	return nil
 }
 

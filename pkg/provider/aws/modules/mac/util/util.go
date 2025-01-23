@@ -78,7 +78,9 @@ func Release(ctx *maptContext.ContextArgs, hostID string) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 	// replace machine
 	return macMachine.ReplaceMachine(hi)
 }

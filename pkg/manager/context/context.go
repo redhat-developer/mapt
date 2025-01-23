@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
@@ -37,6 +38,8 @@ type ContextArgs struct {
 	// take into account that the name may change as the approach to get
 	// credentials from role is more general approach
 	Serverless bool
+	// integrations
+	GHRunnerArgs *github.GithubRunnerArgs
 }
 
 type context struct {
@@ -54,7 +57,7 @@ type context struct {
 // mapt context
 var mc *context
 
-func Init(ca *ContextArgs) {
+func Init(ca *ContextArgs) error {
 	mc = &context{
 		runID:         CreateRunID(),
 		projectName:   ca.ProjectName,
@@ -66,7 +69,13 @@ func Init(ca *ContextArgs) {
 		serverless:    ca.Serverless,
 	}
 	addCommonTags()
+	if ca.GHRunnerArgs != nil {
+		if err := github.InitGHRunnerArgs(ca.GHRunnerArgs); err != nil {
+			return err
+		}
+	}
 	logging.Debugf("context initialized for %s", mc.runID)
+	return nil
 }
 
 func RunID() string { return mc.runID }

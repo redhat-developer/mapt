@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
@@ -24,7 +25,6 @@ import (
 	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 	"golang.org/x/exp/slices"
@@ -57,7 +57,9 @@ type ghActionsRunnerData struct {
 
 func Create(ctx *maptContext.ContextArgs, r *WindowsRequest) (err error) {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	if len(r.VMSizes) == 0 {
 		vmSizes, err := r.InstaceTypeRequest.GetMachineTypes()
@@ -81,7 +83,9 @@ func Create(ctx *maptContext.ContextArgs, r *WindowsRequest) (err error) {
 
 func Destroy(ctx *maptContext.ContextArgs) error {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 	// destroy
 	return azure.Destroy(
 		maptContext.ProjectName(),
@@ -235,7 +239,7 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 		return nil, nil, err
 	}
 	// the post script command will be generated based on generated data as parameters
-	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName(), ghactions.GetToken()).ApplyT(
+	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName(), github.GetToken()).ApplyT(
 		func(args []interface{}) string {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
@@ -311,7 +315,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 
 	data := ghActionsRunnerData{
 		r.SetupGHActionsRunner,
-		ghactions.GetActionRunnerSnippetWin(),
+		github.GetActionRunnerSnippetWin(),
 	}
 	ciSetupScript, err := file.Template(data, string(RHQPCISetupScript))
 	if err != nil {

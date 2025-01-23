@@ -24,7 +24,9 @@ import (
 // Even if we want to destroy the pool we will set params to max size 0
 func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 	if err := r.addMachinesToPool(r.OfferedCapacity); err != nil {
 		return err
 	}
@@ -39,7 +41,9 @@ func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 // It should check if capacity allows to remove the machine
 func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	// Get full info on the pool
 	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
@@ -84,7 +88,9 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	mr := macMachine.Request{
 		Prefix:               *hi.Prefix,

@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - 'pkg/util/ghactions/*.go'
+      - 'pkg/integrations/github/*.go'
       - '.github/workflows/build-img-ghrunner-test.yaml'
 
 jobs:
