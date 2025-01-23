@@ -5,11 +5,11 @@ import (
 
 	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -69,38 +69,35 @@ func getCreateWindowsDesktop() *cobra.Command {
 				}
 			}
 
-			// Initialize gh actions runner if needed
-			if viper.IsSet(params.InstallGHActionsRunner) {
-				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
-					viper.GetString(params.GHActionsRunnerName),
-					viper.GetString(params.GHActionsRunnerRepo),
-					viper.GetStringSlice(params.GHActionsRunnerLabels))
-				if err != nil {
-					logging.Fatal(err)
-				}
+			ctx := &maptContext.ContextArgs{
+				ProjectName:   viper.GetString(params.ProjectName),
+				BackedURL:     viper.GetString(params.BackedURL),
+				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+				Debug:         viper.IsSet(params.Debug),
+				DebugLevel:    viper.GetUint(params.DebugLevel),
+				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
-			instanceRequest := &instancetypes.AzureInstanceRequest{
-				CPUs:       viper.GetInt32(params.CPUs),
-				MemoryGib:  viper.GetInt32(params.Memory),
-				Arch:       instancetypes.Amd64,
-				NestedVirt: viper.GetBool(params.NestedVirt),
+			if viper.IsSet(params.InstallGHActionsRunner) {
+				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
+					Token:   viper.GetString(params.GHActionsRunnerToken),
+					RepoURL: viper.GetString(params.GHActionsRunnerName),
+					Name:    viper.GetString(params.GHActionsRunnerRepo),
+					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
 			}
 
 			if err := azureWindows.Create(
-				&maptContext.ContextArgs{
-					ProjectName:   viper.GetString(params.ProjectName),
-					BackedURL:     viper.GetString(params.BackedURL),
-					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-					Debug:         viper.IsSet(params.Debug),
-					DebugLevel:    viper.GetUint(params.DebugLevel),
-					Tags:          viper.GetStringMapString(params.Tags),
-				},
+				ctx,
 				&azureWindows.WindowsRequest{
-					Prefix:               viper.GetString(params.ProjectName),
-					Location:             viper.GetString(paramLocation),
-					VMSizes:              viper.GetStringSlice(paramVMSize),
-					InstaceTypeRequest:   instanceRequest,
+					Prefix:   viper.GetString(params.ProjectName),
+					Location: viper.GetString(paramLocation),
+					VMSizes:  viper.GetStringSlice(paramVMSize),
+					InstaceTypeRequest: &instancetypes.AzureInstanceRequest{
+						CPUs:       viper.GetInt32(params.CPUs),
+						MemoryGib:  viper.GetInt32(params.Memory),
+						Arch:       instancetypes.Amd64,
+						NestedVirt: viper.GetBool(params.NestedVirt),
+					},
 					Version:              viper.GetString(paramWindowsVersion),
 					Feature:              viper.GetString(paramFeature),
 					Username:             viper.GetString(paramUsername),

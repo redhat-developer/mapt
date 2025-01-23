@@ -52,7 +52,9 @@ type LinuxRequest struct {
 
 func Create(ctx *maptContext.ContextArgs, r *LinuxRequest) (err error) {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	if len(r.VMSizes) == 0 {
 		vmSizes, err := r.InstanceRequest.GetMachineTypes()
@@ -77,7 +79,9 @@ func Create(ctx *maptContext.ContextArgs, r *LinuxRequest) (err error) {
 
 func Destroy(ctx *maptContext.ContextArgs) error {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 	// destroy
 	return azure.Destroy(
 		maptContext.ProjectName(),

@@ -10,6 +10,7 @@ import (
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -29,7 +30,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -79,7 +79,9 @@ var BootstrapScript []byte
 // Then it will run the stack for windows dedicated host
 func Create(ctx *maptContext.ContextArgs, r *Request) error {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	if len(r.AMIName) == 0 {
 		r.AMIName = amiNameDefault
@@ -148,7 +150,9 @@ func Create(ctx *maptContext.ContextArgs, r *Request) error {
 func Destroy(ctx *maptContext.ContextArgs) (err error) {
 	logging.Debug("Run windows destroy")
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	if err := aws.DestroyStack(
 		aws.DestroyStackRequest{
@@ -347,8 +351,8 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 				password,
 				authorizedKey,
 				r.SetupGHActionsRunner,
-				ghactions.GetActionRunnerSnippetWin(),
-				ghactions.GetToken(),
+				github.GetActionRunnerSnippetWin(),
+				github.GetToken(),
 			}
 			userdata, err := file.Template(udv, string(BootstrapScript[:]))
 			if err != nil {

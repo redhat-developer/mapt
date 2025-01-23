@@ -4,8 +4,8 @@ import (
 	_ "embed"
 	"encoding/base64"
 
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util/file"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 )
 
 type userDataValues struct {
@@ -34,7 +34,7 @@ func GetUserdata(sncProfile bool, subsUsername, subsPassword string,
 			subsPassword,
 			username,
 			ghActionRunner,
-			ghactions.GetActionRunnerSnippetLinux()},
+			github.GetActionRunnerSnippetLinux()},
 		templateConfig)
 	// return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
 	return base64.StdEncoding.EncodeToString([]byte(userdata)), err

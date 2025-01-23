@@ -5,6 +5,7 @@ import (
 
 	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
@@ -68,15 +69,25 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 				}
 			}
 
+			ctx := &maptContext.ContextArgs{
+				ProjectName:   viper.GetString(params.ProjectName),
+				BackedURL:     viper.GetString(params.BackedURL),
+				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+				Debug:         viper.IsSet(params.Debug),
+				DebugLevel:    viper.GetUint(params.DebugLevel),
+				Tags:          viper.GetStringMapString(params.Tags),
+			}
+
+			if viper.IsSet(params.InstallGHActionsRunner) {
+				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
+					Token:   viper.GetString(params.GHActionsRunnerToken),
+					RepoURL: viper.GetString(params.GHActionsRunnerName),
+					Name:    viper.GetString(params.GHActionsRunnerRepo),
+					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
+			}
+
 			if err := azureLinux.Create(
-				&maptContext.ContextArgs{
-					ProjectName:   viper.GetString(params.ProjectName),
-					BackedURL:     viper.GetString(params.BackedURL),
-					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-					Debug:         viper.IsSet(params.Debug),
-					DebugLevel:    viper.GetUint(params.DebugLevel),
-					Tags:          viper.GetStringMapString(params.Tags),
-				},
+				ctx,
 				&azureLinux.LinuxRequest{
 					Prefix:   viper.GetString(params.ProjectName),
 					Location: viper.GetString(paramLocation),

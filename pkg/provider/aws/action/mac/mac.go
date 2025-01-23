@@ -29,7 +29,9 @@ import (
 //	...
 func Request(ctx *maptContext.ContextArgs, r *MacRequestArgs) error {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	// Get list of dedicated host ordered by allocation time
 	his, err := macHost.GetMatchingHostsInformation(r.Architecture)
@@ -80,7 +82,9 @@ func Release(ctx *maptContext.ContextArgs, hostID string) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 	// replace machine
 	return macMachine.ReplaceMachine(hi)
 }
@@ -97,7 +101,9 @@ func Destroy(ctx *maptContext.ContextArgs, hostID string) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 	// Dedicated host is not on a valid state to be deleted
 	// With same backedURL check if machine is locked
 	machineLocked, err := macUtil.IsMachineLocked(hi)

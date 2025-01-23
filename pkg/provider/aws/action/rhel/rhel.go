@@ -65,7 +65,9 @@ type Request struct {
 // Then it will run the stack for windows dedicated host
 func Create(ctx *maptContext.ContextArgs, r *Request) error {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	if len(r.VMType) == 0 {
 		vmTypes, err := r.InstanceRequest.GetMachineTypes()
@@ -118,7 +120,9 @@ func Create(ctx *maptContext.ContextArgs, r *Request) error {
 func Destroy(ctx *maptContext.ContextArgs) error {
 	logging.Debug("Run rhel destroy")
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	if err := aws.DestroyStack(
 		aws.DestroyStackRequest{

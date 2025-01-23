@@ -5,13 +5,13 @@ import (
 
 	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureRHEL "github.com/redhat-developer/mapt/pkg/provider/azure/action/rhel"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/util"
 
 	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -58,26 +58,25 @@ func getCreateRHEL() *cobra.Command {
 				}
 			}
 
-			// Initialize gh actions runner if needed
+			ctx := &maptContext.ContextArgs{
+				ProjectName:   viper.GetString(params.ProjectName),
+				BackedURL:     viper.GetString(params.BackedURL),
+				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+				Debug:         viper.IsSet(params.Debug),
+				DebugLevel:    viper.GetUint(params.DebugLevel),
+				Tags:          viper.GetStringMapString(params.Tags),
+			}
+
 			if viper.IsSet(params.InstallGHActionsRunner) {
-				err := ghactions.InitGHRunnerArgs(viper.GetString(params.GHActionsRunnerToken),
-					viper.GetString(params.GHActionsRunnerName),
-					viper.GetString(params.GHActionsRunnerRepo),
-					viper.GetStringSlice(params.GHActionsRunnerLabels))
-				if err != nil {
-					logging.Error(err)
-				}
+				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
+					Token:   viper.GetString(params.GHActionsRunnerToken),
+					RepoURL: viper.GetString(params.GHActionsRunnerName),
+					Name:    viper.GetString(params.GHActionsRunnerRepo),
+					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
 			}
 
 			if err := azureRHEL.Create(
-				&maptContext.ContextArgs{
-					ProjectName:   viper.GetString(params.ProjectName),
-					BackedURL:     viper.GetString(params.BackedURL),
-					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-					Debug:         viper.IsSet(params.Debug),
-					DebugLevel:    viper.GetUint(params.DebugLevel),
-					Tags:          viper.GetStringMapString(params.Tags),
-				},
+				ctx,
 				&azureRHEL.Request{
 					Prefix:   viper.GetString(params.ProjectName),
 					Location: viper.GetString(paramLocation),

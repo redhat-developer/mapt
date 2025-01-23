@@ -9,6 +9,7 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -27,7 +28,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -69,7 +69,9 @@ var CloudConfigBase []byte
 // Then it will run the stack for windows dedicated host
 func Create(ctx *maptContext.ContextArgs, r *Request) error {
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	if len(r.VMType) == 0 {
 		vmTypes, err := r.InstanceRequest.GetMachineTypes()
@@ -122,7 +124,9 @@ func Create(ctx *maptContext.ContextArgs, r *Request) error {
 func Destroy(ctx *maptContext.ContextArgs) (err error) {
 	logging.Debug("Run fedora destroy")
 	// Create mapt Context
-	maptContext.Init(ctx)
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
 
 	// Destroy fedora related resources
 	if err := aws.DestroyStack(
@@ -301,7 +305,7 @@ func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
 		userDataValues{
 			amiUserDefault,
 			r.SetupGHActionsRunner,
-			ghactions.GetActionRunnerSnippetLinux()},
+			github.GetActionRunnerSnippetLinux()},
 		templateConfig)
 	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
 }

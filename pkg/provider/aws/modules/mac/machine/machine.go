@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"fmt"
 
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -20,7 +21,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
-	"github.com/redhat-developer/mapt/pkg/util/ghactions"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 
@@ -382,7 +382,7 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 					password,
 					authorizedKey,
 					r.SetupGHActionsRunner,
-					ghactions.GetActionRunnerSnippetMacos()},
+					github.GetActionRunnerSnippetMacos()},
 				string(BootstrapScript[:]))
 		}).(pulumi.StringOutput)
 	return postscript, password, ukp, nil
