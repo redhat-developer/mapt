@@ -42,7 +42,7 @@ jobs:
 
       - name: Run mapt
         run: |
-          MAPT_IMAGE=$(cat mapt-image)
+          MAPT_IMAGE=$(cat mapt-image)-amd64
           podman run --name mapt-create --rm \
             -v ${PWD}:/workspace:z \
             -e ARM_CLIENT_ID=${{secrets.ARM_CLIENT_ID}} \
