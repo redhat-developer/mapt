@@ -83,6 +83,8 @@ var evictionRates = map[string]evictionRateSpec{
 	"highest": {Highest, "highest", 4, "20+"},
 }
 
+// var ErrEvictionRatesEmtpyData = fmt.Errorf("error eviction rates are returning empty")
+
 // This function will return the best spot option
 func GetBestSpotChoice(r BestSpotChoiceRequest) (*BestSpotChoiceResponse, error) {
 	client, err := getGraphClient()
@@ -102,7 +104,8 @@ func GetBestSpotChoice(r BestSpotChoiceRequest) (*BestSpotChoiceResponse, error)
 		return nil, fmt.Errorf("error getting the best spot price choice: %v", err)
 	}
 	if len(evrr) == 0 {
-		return nil, fmt.Errorf("error eviction rates are returning empty")
+		logging.Debugf("can not get information about eviction rates, we will continue only based on prices")
+		return getSpotChoiceByPrice(phr, r.ImageRef.ID)
 	}
 	// Compare prices and evictions
 	return getBestSpotChoice(phr, evrr, Lowest, r.EvictionRateTolerance, r.ImageRef.ID)
@@ -119,6 +122,7 @@ func getGraphClient() (*armresourcegraph.Client, error) {
 	return armresourcegraph.NewClient(cred, nil)
 }
 
+// This function will return a slice of values with price ordered from minor prices to major
 func getPriceHistory(ctx context.Context, client *armresourcegraph.Client,
 	r BestSpotChoiceRequest) ([]priceHistory, error) {
 	data := struct {
@@ -281,4 +285,34 @@ func getEvictionRateValue(er EvictionRate) string {
 func ParseEvictionRate(str string) (EvictionRate, bool) {
 	c, ok := evictionRates[strings.ToLower(str)]
 	return c.id, ok
+}
+
+// This is a fallback function in case we need to get an option only based in price
+// In order to add some type of distribution across the information we will 1/3 at beguining
+// 1/3 at the end and then randomly we will pick one of the remaining
+func getSpotChoiceByPrice(s []priceHistory, imageID string) (*BestSpotChoiceResponse, error) {
+	var spotChoices []*BestSpotChoiceResponse
+	for _, sv := range s {
+		ir := data.ImageRequest{
+			Region: sv.Location,
+			ImageReference: data.ImageReference{
+				ID: imageID,
+			},
+		}
+		if data.IsImageOffered(ir) {
+			spotChoices = append(spotChoices,
+				&BestSpotChoiceResponse{
+					VMType:   sv.VMType,
+					Location: sv.Location,
+					Price:    sv.Price,
+				})
+
+		}
+	}
+	if len(spotChoices) > 3 {
+		return util.RandomItemFromArray(
+				spotChoices[len(spotChoices)/3 : len(spotChoices)-len(spotChoices)/3]),
+			nil
+	}
+	return util.RandomItemFromArray(spotChoices), nil
 }
