@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-azure-rhel
   labels:
-    app.kubernetes.io/version: "0.7.4-dev"
+    app.kubernetes.io/version: "0.7.4"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -117,7 +117,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v0.7.4-dev
+      image: quay.io/redhat-developer/mapt:v0.7.4
       imagePullPolicy: Always
       script: |
         #!/bin/sh
