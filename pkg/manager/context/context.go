@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -40,6 +41,7 @@ type ContextArgs struct {
 	Serverless bool
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
+	CirrusPWArgs *cirrus.PersistentWorkerArgs
 }
 
 type context struct {
@@ -69,10 +71,15 @@ func Init(ca *ContextArgs) error {
 		serverless:    ca.Serverless,
 	}
 	addCommonTags()
+	// Manage integrations
 	if ca.GHRunnerArgs != nil {
 		if err := github.InitGHRunnerArgs(ca.GHRunnerArgs); err != nil {
 			return err
 		}
+	}
+	if ca.CirrusPWArgs != nil {
+		ca.CirrusPWArgs.Name = RunID()
+		cirrus.Init(ca.CirrusPWArgs)
 	}
 	logging.Debugf("context initialized for %s", mc.runID)
 	return nil

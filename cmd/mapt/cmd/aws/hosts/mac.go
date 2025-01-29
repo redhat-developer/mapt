@@ -140,7 +140,6 @@ func getMacDestroy() *cobra.Command {
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.StringP(awsParams.MACDHID, "", "", awsParams.MACDHIDDesc)
-	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	err := c.MarkPersistentFlagRequired(awsParams.MACDHID)
 	if err != nil {

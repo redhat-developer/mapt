@@ -80,6 +80,13 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 				},
 			},
 		},
+		// Try to improve provisioning time
+		DiagnosticsProfile: compute.DiagnosticsProfileArgs{
+			BootDiagnostics: compute.BootDiagnosticsArgs{
+				Enabled: pulumi.Bool(false),
+			},
+		},
+
 		OsProfile: r.osProfile(),
 		Tags:      maptContext.ResourceTags(),
 	}

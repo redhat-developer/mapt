@@ -53,8 +53,9 @@ func Request(ctx *maptContext.ContextArgs, r *MacRequestArgs) error {
 		}
 		return create(r, hi)
 	}
+	// Will change access for the machine (new user + cicd integrations)
 	mr := r.fillMacRequest()
-	err = mr.ReplaceUserAccess(hi)
+	err = mr.ManageRequest(hi)
 	if err != nil {
 		return err
 	}

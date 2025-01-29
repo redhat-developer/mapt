@@ -9,6 +9,8 @@ param(
     $authorizedKey,
     [Parameter(HelpMessage='token for the github actions runner')]
     $ghToken,
+    [Parameter(HelpMessage='token for the cirrus persistent worker')]
+    $cirrusToken,
     [switch]$crcProfile=$false
 )
 # Create local user
@@ -131,6 +133,8 @@ if ($crcProfile) {
 {{ if .InstallActionsRunner }}
     {{- .ActionsRunnerSnippet }}
 {{ end }}
+
+{{ .CirrusSnippet }}
 
 # Restart computer to have the ssh connection available with setup from this script
 Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"

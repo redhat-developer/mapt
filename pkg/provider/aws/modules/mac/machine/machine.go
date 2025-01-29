@@ -2,8 +2,10 @@ package machine
 
 import (
 	_ "embed"
+	"errors"
 	"fmt"
 
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
@@ -42,6 +44,7 @@ type userDataValues struct {
 	AuthorizedKey        string
 	InstallActionsRunner bool
 	ActionsRunnerSnippet string
+	CirrusSnippet        string
 }
 
 type locked struct {
@@ -77,18 +80,24 @@ func ReplaceMachine(h *mac.HostInformation) error {
 	}
 	// Set a default request
 	r := &Request{
-		Prefix:       *h.Prefix,
-		Architecture: *h.Arch,
-		Version:      *h.OSVersion,
-		lock:         false,
+		Prefix:             *h.Prefix,
+		Architecture:       *h.Arch,
+		Version:            *h.OSVersion,
+		lock:               false,
+		remoteTimeout:      releaseTimeout,
+		isRequestOperation: false,
 	}
 	return r.manageMacMachine(h)
 }
 
 // Run the bootstrap script creating new access credentials for the user
-func (r *Request) ReplaceUserAccess(h *mac.HostInformation) error {
-	r.replace = true
+// When the machine is requested it will have different user access
+// Wil include the code to join the cicd if any integration is set
+// Also machine will be in use from now on, so it will be locked
+func (r *Request) ManageRequest(h *mac.HostInformation) error {
 	r.lock = true
+	r.isRequestOperation = true
+	r.remoteTimeout = requestTimeout
 	return r.manageMacMachine(h)
 }
 
@@ -96,6 +105,7 @@ func (r *Request) ReplaceUserAccess(h *mac.HostInformation) error {
 // for it to be used (i.e mac action)
 func (r *Request) CreateAndLockMacMachine(h *mac.HostInformation) error {
 	r.lock = true
+	r.isRequestOperation = true
 	return r.manageMacMachine(h)
 }
 
@@ -103,6 +113,7 @@ func (r *Request) CreateAndLockMacMachine(h *mac.HostInformation) error {
 // in this case machines are added to the pool as ready to be used by request
 func (r *Request) CreateAvailableMacMachine(h *mac.HostInformation) error {
 	r.lock = false
+	r.isRequestOperation = false
 	return r.manageMacMachine(h)
 }
 
@@ -116,6 +127,11 @@ func (r *Request) manageMacMachineTargets(h *mac.HostInformation, targetURNs []s
 	r.AvailabilityZone = h.Host.AvailabilityZone
 	r.dedicatedHost = h
 	r.Region = h.Region
+	cpk, err := getCurrentPrivateKey(*h.ProjectName, *h.BackedURL, *h.Prefix)
+	if err != nil {
+		logging.Debugf("%v", err)
+	}
+	r.currentUserPrivateKey = cpk
 	cs := manager.Stack{
 		StackName: fmt.Sprintf("%s-%s",
 			mac.StackMacMachine, *h.ProjectName),
@@ -182,22 +198,23 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 		return err
 	}
 	// Create Keypair
-	kpr := keypair.KeyPairRequest{
+	machineKeyPair := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
 			r.Prefix, awsMacMachineID, "pk-machine")}
-	keyResources, err := kpr.Create(ctx)
+	machineKeyPairResources, err := machineKeyPair.Create(ctx)
 	if err != nil {
 		return err
 	}
+	// TODO Check Export it is this needed?
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputMachinePrivateKey),
-		keyResources.PrivateKey.PrivateKeyPem)
+		machineKeyPairResources.PrivateKey.PrivateKeyPem)
 	// Security groups
 	securityGroups, err := r.securityGroups(ctx, vpc)
 	if err != nil {
 		return err
 	}
 	// Create instance
-	i, err := r.instance(ctx, targetSubnet, ami, keyResources, securityGroups)
+	i, err := r.instance(ctx, targetSubnet, ami, machineKeyPairResources, securityGroups)
 	if err != nil {
 		return err
 	}
@@ -217,7 +234,7 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 			[]pulumi.Resource{bastion.Instance, targetRouteTableAssociation}...)
 	}
 	bc, userPassword, ukp, err := r.bootstrapscript(
-		ctx, i, keyResources.PrivateKey, bastion, bSDependecies)
+		ctx, i, machineKeyPairResources.PrivateKey, bastion, bSDependecies)
 	if err != nil {
 		return err
 	}
@@ -268,13 +285,29 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 		Protocol:    "tcp",
 		CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
 	}
+	ingressRules := []securityGroup.IngressRules{
+		sshIngressRule, vncIngressRule}
+	// Integration ports
+	cirrusPort, err := cirrus.CirrusPort()
+	if err != nil {
+		return nil, err
+	}
+	if cirrusPort != nil {
+		ingressRules = append(ingressRules,
+			securityGroup.IngressRules{
+				Description: fmt.Sprintf("Cirrus port for %s", awsMacMachineID),
+				FromPort:    *cirrusPort,
+				ToPort:      *cirrusPort,
+				Protocol:    "tcp",
+				CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
+			})
+	}
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
-		Name:        resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "sg"),
-		VPC:         vpc,
-		Description: fmt.Sprintf("sg for %s", awsMacMachineID),
-		IngressRules: []securityGroup.IngressRules{
-			sshIngressRule, vncIngressRule},
+		Name:         resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "sg"),
+		VPC:          vpc,
+		Description:  fmt.Sprintf("sg for %s", awsMacMachineID),
+		IngressRules: ingressRules,
 	}.Create(ctx)
 	if err != nil {
 		return nil, err
@@ -315,7 +348,7 @@ func (r *Request) instance(ctx *pulumi.Context,
 		&instanceArgs,
 		// Retain on delete to speed destroy operation for the dedicated host,
 		// destroy is managed by replace root volume operation
-		pulumi.RetainOnDelete(true),
+		// pulumi.RetainOnDelete(true),
 		// All changes on the instance should be done through root volume replace
 		// as so we ignore Amis missmatch
 		pulumi.IgnoreChanges([]string{"ami"}))
@@ -335,16 +368,21 @@ func (r *Request) bootstrapscript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, nil, nil, err
 	}
+	remoteKey := util.If[pulumi.StringPtrInput](
+		r.isRequestOperation,
+		r.currentUserPrivateKey,
+		mk.PrivateKeyOpenssh)
+	timeout := util.If(len(r.remoteTimeout) > 0, r.remoteTimeout, defaultTimeout)
 	rc, err := remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "bootstrap-cmd"),
 		&remote.CommandArgs{
-			Connection: remoteCommandArgs(m, mk, b),
+			Connection: remoteCommandArgs(m, remoteKey, b),
 			Create:     remoteCommand,
 			Update:     remoteCommand,
 		}, pulumi.Timeouts(
 			&pulumi.CustomTimeouts{
-				Create: remoteTimeout,
-				Update: remoteTimeout}),
+				Create: timeout,
+				Update: timeout}),
 		pulumi.DependsOn(append(dependecies, ukp.PrivateKey, ukp.AWSKeyPair)),
 		pulumi.DeleteBeforeReplace(true))
 	return rc, userPassword, ukp, err
@@ -357,18 +395,17 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 	*random.RandomPassword,
 	*keypair.KeyPairResources,
 	error) {
-	name := *r.dedicatedHost.RunID
-	if r.replace {
-		name = maptContext.CreateRunID()
-	}
-	password, err := security.CreatePassword(ctx,
-		name)
+
+	ukpr := keypair.KeyPairRequest{
+		Name: resourcesUtil.GetResourceName(
+			r.Prefix, awsMacMachineID, "pk-user")}
+	ukp, err := ukpr.CreateAlways(ctx)
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	ukpr := keypair.KeyPairRequest{
-		Name: name}
-	ukp, err := ukpr.Create(ctx)
+	password, err := security.CreatePasswordAlways(ctx,
+		resourcesUtil.GetResourceName(
+			r.Prefix, awsMacMachineID, "pass-user"))
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -376,13 +413,18 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
+			cirrusSnippet, err := cirrus.PersistentWorkerSnippet(defaultUsername)
+			if err != nil {
+				return "", err
+			}
 			return file.Template(
 				userDataValues{
 					defaultUsername,
 					password,
 					authorizedKey,
 					r.SetupGHActionsRunner,
-					github.GetActionRunnerSnippetMacos()},
+					github.GetActionRunnerSnippetMacos(),
+					*cirrusSnippet},
 				string(BootstrapScript[:]))
 		}).(pulumi.StringOutput)
 	return postscript, password, ukp, nil
@@ -393,16 +435,17 @@ func (r *Request) readiness(ctx *pulumi.Context,
 	mk *tls.PrivateKey,
 	b *bastion.Bastion,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
+	timeout := util.If(len(r.remoteTimeout) > 0, r.remoteTimeout, defaultTimeout)
 	return remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "readiness-cmd"),
 		&remote.CommandArgs{
-			Connection: remoteCommandArgs(m, mk, b),
+			Connection: remoteCommandArgs(m, mk.PrivateKeyOpenssh, b),
 			Create:     pulumi.String(command.CommandPing),
 			Update:     pulumi.String(command.CommandPing),
 		}, pulumi.Timeouts(
 			&pulumi.CustomTimeouts{
-				Create: remoteTimeout,
-				Update: remoteTimeout}),
+				Create: timeout,
+				Update: timeout}),
 		pulumi.DependsOn(dependecies))
 }
 
@@ -410,11 +453,11 @@ func (r *Request) readiness(ctx *pulumi.Context,
 // based on bastion or direct connection to target host
 func remoteCommandArgs(
 	m *ec2.Instance,
-	mk *tls.PrivateKey,
+	pk pulumi.StringPtrInput,
 	b *bastion.Bastion) remote.ConnectionArgs {
 	ca := remote.ConnectionArgs{
 		Host:           m.PublicIp,
-		PrivateKey:     mk.PrivateKeyOpenssh,
+		PrivateKey:     pk,
 		User:           pulumi.String(defaultUsername),
 		Port:           pulumi.Float64(defaultSSHPort),
 		DialErrorLimit: pulumi.Int(-1)}
@@ -451,4 +494,33 @@ func machineLock(ctx *pulumi.Context, name string, lockedValue bool, opts ...pul
 		return err
 	}
 	return nil
+}
+
+// In order to change the user credentials the old value for the user private key is required
+// this behavior is not offered by pulumi, but we can rely on inspecting previous state file
+func getCurrentPrivateKey(projecName, backedURL, prefix string) (pulumi.StringPtrInput, error) {
+	stack, err := manager.CheckStack(manager.Stack{
+		StackName: fmt.Sprintf("%s-%s",
+			mac.StackMacMachine, projecName),
+		ProjectName: projecName,
+		BackedURL:   backedURL})
+	if err != nil {
+		return nil, err
+	}
+	return getCurrentPKFromOutputs(stack, prefix)
+}
+
+// This function will pick the output value from the stack
+func getCurrentPKFromOutputs(stack *auto.Stack, prefix string) (pulumi.StringPtrInput, error) {
+	outputs, err := manager.GetOutputs(stack)
+	if err != nil {
+		return nil, err
+	}
+	if len(outputs) == 0 {
+		return nil, errors.New("stack outputs are empty please destroy and re-create")
+	}
+	if value, exists := outputs[fmt.Sprintf("%s-%s", prefix, outputUserPrivateKey)]; exists {
+		return pulumi.String(value.Value.(string)), nil
+	}
+	return nil, errors.New("stack outputs does not contain current user private key")
 }

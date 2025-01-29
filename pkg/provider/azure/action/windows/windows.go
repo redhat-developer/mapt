@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
@@ -53,6 +54,7 @@ type WindowsRequest struct {
 type ghActionsRunnerData struct {
 	InstallActionsRunner bool
 	ActionsRunnerSnippet string
+	CirrusSnippet        string
 }
 
 func Create(ctx *maptContext.ContextArgs, r *WindowsRequest) (err error) {
@@ -239,20 +241,20 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 		return nil, nil, err
 	}
 	// the post script command will be generated based on generated data as parameters
-	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName(), github.GetToken()).ApplyT(
+	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName()).ApplyT(
 		func(args []interface{}) string {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
 			hostname := args[2].(*string)
-			token := args[3].(string)
 			return fmt.Sprintf(
-				"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -authorizedKey \"%s\"",
+				"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -cirrusToken \"%s\" -authorizedKey \"%s\"",
 				scriptName,
 				r.profilesAsParams(),
 				password,
 				r.Username,
 				*hostname,
-				token,
+				github.GetToken(),
+				cirrus.GetToken(),
 				authorizedKey,
 			)
 		}).(pulumi.StringOutput)
@@ -312,12 +314,17 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
-
-	data := ghActionsRunnerData{
-		r.SetupGHActionsRunner,
-		github.GetActionRunnerSnippetWin(),
+	cirrusSnippet, err := cirrus.PersistentWorkerSnippet(r.Username)
+	if err != nil {
+		return nil, err
 	}
-	ciSetupScript, err := file.Template(data, string(RHQPCISetupScript))
+	ciSetupScript, err := file.Template(
+		ghActionsRunnerData{
+			r.SetupGHActionsRunner,
+			github.GetActionRunnerSnippetWin(),
+			*cirrusSnippet,
+		},
+		string(RHQPCISetupScript))
 	if err != nil {
 		return nil, err
 	}

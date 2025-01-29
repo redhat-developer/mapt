@@ -3,6 +3,7 @@ package services
 import (
 	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	macpool "github.com/redhat-developer/mapt/pkg/provider/aws/action/mac-pool"
@@ -159,13 +160,18 @@ func getRequest() *cobra.Command {
 					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
 			}
 
+			if viper.IsSet(params.CirrusPWToken) {
+				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
+					Token:    viper.GetString(params.CirrusPWToken),
+					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
+					Platform: &cirrus.Darwin,
+					Arch: awsParams.MACArchAsCirrusArch(
+						viper.GetString(awsParams.MACArch)),
+				}
+			}
+
 			if err := macpool.Request(
-				&maptContext.ContextArgs{
-					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-					Debug:         viper.IsSet(params.Debug),
-					DebugLevel:    viper.GetUint(params.DebugLevel),
-					Tags:          viper.GetStringMapString(params.Tags),
-				},
+				ctx,
 				&macpool.RequestMachineArgs{
 					PoolName:             viper.GetString(paramName),
 					Architecture:         viper.GetString(awsParams.MACArch),
@@ -183,6 +189,7 @@ func getRequest() *cobra.Command {
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

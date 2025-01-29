@@ -1,8 +1,13 @@
 VERSION ?= 0.8.0-dev
 CONTAINER_MANAGER ?= podman
+
 # Image URL to use all building/pushing image targets
 IMG ?= quay.io/redhat-developer/mapt:v${VERSION}
 TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
+
+# Integrations
+# renovate: datasource=github-releases depName=cirruslabs/cirrus-cli
+CIRRUS_CLI ?= v0.135.0
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
@@ -13,18 +18,20 @@ SOURCES := $(shell find . -name "*.go" -not -path "./vendor/*")
 ORG := github.com/redhat-developer
 MODULEPATH = $(ORG)/mapt
 # Linker flags
-VERSION_VARIABLES := -X $(MODULEPATH)/pkg/manager/context.OCI=$(IMG)
-
-# https://golang.org/cmd/link/
-# LDFLAGS := $(VERSION_VARIABLES) -extldflags='-static' ${GO_EXTRA_LDFLAGS}
+VERSION_VARIABLES := -X $(MODULEPATH)/pkg/manager/context.OCI=$(IMG) \
+	-X $(MODULEPATH)/pkg/integrations/cirrus.version=$(CIRRUS_CLI) 
 LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
 GCFLAGS := all=-N -l
 GOOS := $(shell go env GOOS)
 GOARCH := $(shell go env GOARCH)
 
+
+
+# Tools
 TOOLS_DIR := tools
 include tools/tools.mk
 
+# Functions
 define tkn_update
 	rm tkn/*.yaml 
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-fedora.yaml > tkn/infra-aws-fedora.yaml

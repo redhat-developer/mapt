@@ -23,8 +23,8 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
-	targetRHEL "github.com/redhat-developer/mapt/pkg/targets/rhel"
 	"github.com/redhat-developer/mapt/pkg/util"
+	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/util/cloud-config/rhel"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -211,9 +211,13 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Compute
-	userDataB64, err := targetRHEL.GetUserdata(r.ProfileSNC,
-		r.SubsUsername, r.SubsUserpass, amiUserDefault,
-		r.SetupGHActionsRunner)
+	rhelCloudConfig := &cloudConfigRHEL.RequestArgs{
+		SNCProfile:     r.ProfileSNC,
+		SubsUsername:   r.SubsUsername,
+		SubsPassword:   r.SubsUserpass,
+		Username:       amiUserDefault,
+		GHActionRunner: r.SetupGHActionsRunner}
+	userDataB64, err := rhelCloudConfig.GetAsUserdata()
 	if err != nil {
 		return err
 	}

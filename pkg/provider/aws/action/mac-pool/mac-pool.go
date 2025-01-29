@@ -101,7 +101,7 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 
 	// TODO here we would change based on the integration-mode requested
 	// possible values remote-shh, gh-selfhosted-runner, cirrus-persistent-worker
-	err = mr.ReplaceUserAccess(hi)
+	err = mr.ManageRequest(hi)
 	if err != nil {
 		return err
 	}

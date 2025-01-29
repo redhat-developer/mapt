@@ -31,13 +31,15 @@ sudo defaults write /Library/Preferences/.GlobalPreferences.plist com.apple.auto
 sudo sysadminctl -screenLock off -password "{{.Password}}"
 
 # Override authorized key
-mkdir /Users/{{.Username}}/.ssh
+mkdir -p /Users/{{.Username}}/.ssh
 echo "{{.AuthorizedKey}}" | tee /Users/{{.Username}}/.ssh/authorized_keys
 
 # Install github-actions-runner if needed
 {{ if .InstallActionsRunner }}
     {{- .ActionsRunnerSnippet }}
 {{ end }}
+
+{{ .CirrusSnippet }}
 
 # autologin to take effect
 # run reboot on background to successfully finish the remote exec of the script

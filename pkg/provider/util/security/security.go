@@ -8,6 +8,16 @@ import (
 const passwordOverrideSpecial = "!#%&*()-_=+[]{}.?"
 
 func CreatePassword(ctx *pulumi.Context, name string) (*random.RandomPassword, error) {
+	return createPassword(ctx, name, nil)
+}
+
+func CreatePasswordAlways(ctx *pulumi.Context, name string) (*random.RandomPassword, error) {
+	return createPassword(ctx, name,
+		[]pulumi.ResourceOption{pulumi.ReplaceOnChanges([]string{"name"})})
+}
+
+func createPassword(ctx *pulumi.Context, name string,
+	options []pulumi.ResourceOption) (*random.RandomPassword, error) {
 	return random.NewRandomPassword(ctx,
 		name,
 		&random.RandomPasswordArgs{
@@ -15,5 +25,5 @@ func CreatePassword(ctx *pulumi.Context, name string) (*random.RandomPassword, e
 			Special:         pulumi.Bool(true),
 			OverrideSpecial: pulumi.String(passwordOverrideSpecial),
 		},
-		pulumi.ReplaceOnChanges([]string{"name"}))
+		options...)
 }
