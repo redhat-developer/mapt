@@ -9,6 +9,7 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
@@ -59,6 +60,7 @@ type userDataValues struct {
 	Username             string
 	InstallActionsRunner bool
 	ActionsRunnerSnippet string
+	CirrusSnippet        string
 }
 
 //go:embed cloud-config-base
@@ -278,15 +280,32 @@ func (r *Request) manageResults(stackResult auto.UpResult) error {
 func (r *Request) securityGroups(ctx *pulumi.Context,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// ingress for ssh access from 0.0.0.0
+	var ingressRules []securityGroup.IngressRules
 	sshIngressRule := securityGroup.SSH_TCP
 	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	ingressRules = []securityGroup.IngressRules{sshIngressRule}
+	// Integration ports
+	cirrusPort, err := cirrus.CirrusPort()
+	if err != nil {
+		return nil, err
+	}
+	if cirrusPort != nil {
+		ingressRules = append(ingressRules,
+			securityGroup.IngressRules{
+				Description: fmt.Sprintf("Cirrus port for %s", awsFedoraDedicatedID),
+				FromPort:    *cirrusPort,
+				ToPort:      *cirrusPort,
+				Protocol:    "tcp",
+				CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
+			})
+	}
+
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
-		Name:        resourcesUtil.GetResourceName(r.Prefix, awsFedoraDedicatedID, "sg"),
-		VPC:         vpc,
-		Description: fmt.Sprintf("sg for %s", awsFedoraDedicatedID),
-		IngressRules: []securityGroup.IngressRules{
-			sshIngressRule},
+		Name:         resourcesUtil.GetResourceName(r.Prefix, awsFedoraDedicatedID, "sg"),
+		VPC:          vpc,
+		Description:  fmt.Sprintf("sg for %s", awsFedoraDedicatedID),
+		IngressRules: ingressRules,
 	}.Create(ctx)
 	if err != nil {
 		return nil, err
@@ -300,12 +319,17 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 }
 
 func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
+	cirrusSnippet, err := cirrus.PersistentWorkerSnippetAsCloudInitWritableFile(amiUserDefault)
+	if err != nil {
+		return nil, err
+	}
 	templateConfig := string(CloudConfigBase[:])
 	userdata, err := file.Template(
 		userDataValues{
 			amiUserDefault,
 			r.SetupGHActionsRunner,
-			github.GetActionRunnerSnippetLinux()},
+			github.GetActionRunnerSnippetLinux(),
+			*cirrusSnippet},
 		templateConfig)
 	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
 }

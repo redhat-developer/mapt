@@ -10,6 +10,7 @@ import (
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
@@ -69,6 +70,8 @@ type userDataValues struct {
 	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	RunnerToken          string
+	CirrusSnippet        string
+	CirrusToken          string
 }
 
 //go:embed bootstrap.ps1
@@ -346,6 +349,10 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
+			cirrusSnippet, err := cirrus.PersistentWorkerSnippet(r.AMIUser)
+			if err != nil {
+				return "", err
+			}
 			udv := userDataValues{
 				r.AMIUser,
 				password,
@@ -353,6 +360,8 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 				r.SetupGHActionsRunner,
 				github.GetActionRunnerSnippetWin(),
 				github.GetToken(),
+				*cirrusSnippet,
+				cirrus.GetToken(),
 			}
 			userdata, err := file.Template(udv, string(BootstrapScript[:]))
 			if err != nil {

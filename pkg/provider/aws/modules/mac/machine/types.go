@@ -1,6 +1,7 @@
 package machine
 
 import (
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 )
@@ -24,8 +25,10 @@ type Request struct {
 	// dh linkage
 	dedicatedHost *mac.HostInformation
 	// operation control params
-	replace bool
-	lock    bool
+	isRequestOperation    bool
+	lock                  bool
+	remoteTimeout         string
+	currentUserPrivateKey pulumi.StringPtrInput
 }
 
 const (
@@ -55,7 +58,9 @@ const (
 	defaultSSHPort  int    = 22
 
 	// https://www.pulumi.com/docs/intro/concepts/resources/options/customtimeouts/
-	remoteTimeout string = "40m"
+	defaultTimeout string = "30m"
+	releaseTimeout string = "25m"
+	requestTimeout string = "5m"
 )
 
 var awsArchIDbyArch = map[string]string{

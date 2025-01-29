@@ -17,6 +17,16 @@ type KeyPairResources struct {
 }
 
 func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
+	return r.create(ctx, nil)
+}
+
+// This will create the private on each update even when no changes are applied
+func (r KeyPairRequest) CreateAlways(ctx *pulumi.Context) (*KeyPairResources, error) {
+	return r.create(ctx, []pulumi.ResourceOption{pulumi.ReplaceOnChanges([]string{"*"})})
+}
+
+func (r KeyPairRequest) create(ctx *pulumi.Context,
+	options []pulumi.ResourceOption) (*KeyPairResources, error) {
 	privateKey, err := tls.NewPrivateKey(
 		ctx,
 		r.Name,
@@ -24,7 +34,7 @@ func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
 			Algorithm: pulumi.String("RSA"),
 			RsaBits:   pulumi.Int(4096),
 		},
-		pulumi.ReplaceOnChanges([]string{"name"}))
+		options...)
 	if err != nil {
 		return nil, err
 	}

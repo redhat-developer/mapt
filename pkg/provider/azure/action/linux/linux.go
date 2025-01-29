@@ -46,7 +46,7 @@ type LinuxRequest struct {
 	Spot                bool
 	SpotTolerance       spotAzure.EvictionRate
 	SpotExcludedRegions []string
-	Userdata            string
+	GetUserdata         func() (string, error)
 	ReadinessCommand    string
 }
 
@@ -137,7 +137,10 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-
+	userDataB64, err := r.GetUserdata()
+	if err != nil {
+		return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
+	}
 	vmr := virtualmachine.VirtualMachineRequest{
 		Prefix:          r.Prefix,
 		ComponentID:     azureLinuxID,
@@ -151,7 +154,7 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 		AdminUsername:   r.Username,
 		PrivateKey:      privateKey,
 		SpotPrice:       spotPrice,
-		Userdata:        r.Userdata,
+		Userdata:        userDataB64,
 	}
 	vm, err := vmr.Create(ctx)
 	if err != nil {

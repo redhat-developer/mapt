@@ -1,6 +1,7 @@
 package util
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -58,7 +59,10 @@ func IsMachineLocked(h *mac.HostInformation) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	return outputs[fmt.Sprintf("%s-%s", *h.Prefix, outputLock)].Value.(bool), nil
+	if value, exists := outputs[fmt.Sprintf("%s-%s", *h.Prefix, outputLock)]; exists {
+		return value.Value.(bool), nil
+	}
+	return false, errors.New("stack outputs does not contain value for lock so we assume is not locked")
 }
 
 // Release will use dedicated host ID as identifier

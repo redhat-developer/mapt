@@ -1,15 +1,13 @@
 package rhel
 
 import (
-	"fmt"
-
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
-	targetRHEL "github.com/redhat-developer/mapt/pkg/targets/rhel"
+	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/util/cloud-config/rhel"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
@@ -42,12 +40,12 @@ func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
 		}
 	}
 	logging.Debug("Creating RHEL Server")
-	userDataB64, err := targetRHEL.GetUserdata(r.ProfileSNC,
-		r.SubsUsername, r.SubsUserpass, r.Username,
-		r.SetupGHActionsRunner)
-	if err != nil {
-		return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
-	}
+	rhelCloudConfig := &cloudConfigRHEL.RequestArgs{
+		SNCProfile:     r.ProfileSNC,
+		SubsUsername:   r.SubsUsername,
+		SubsPassword:   r.SubsUserpass,
+		Username:       r.Username,
+		GHActionRunner: r.SetupGHActionsRunner}
 	azureLinuxRequest :=
 		&azureLinux.LinuxRequest{
 			Prefix:          r.Prefix,
@@ -60,7 +58,7 @@ func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
 			Username:        r.Username,
 			Spot:            r.Spot,
 			SpotTolerance:   r.SpotTolerance,
-			Userdata:        userDataB64,
+			GetUserdata:     rhelCloudConfig.GetAsUserdata,
 			// As RHEL now is set with cloud init this is the ReadinessCommand to check
 			ReadinessCommand: command.CommandCloudInitWait}
 	return azureLinux.Create(ctx, azureLinuxRequest)

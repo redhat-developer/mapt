@@ -5,6 +5,7 @@ import (
 
 	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
@@ -78,6 +79,16 @@ func getCreateWindowsDesktop() *cobra.Command {
 				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
+			if viper.IsSet(params.CirrusPWToken) {
+				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
+					Token:    viper.GetString(params.CirrusPWToken),
+					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
+					Platform: &cirrus.Windows,
+					// Currently we only provide amd64 support for windows
+					Arch: &cirrus.Amd64,
+				}
+			}
+
 			if viper.IsSet(params.InstallGHActionsRunner) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
 					Token:   viper.GetString(params.GHActionsRunnerToken),
@@ -126,6 +137,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
 	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddCirrusFlags(flagSet)
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c

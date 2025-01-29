@@ -1,6 +1,9 @@
 package constants
 
-import "github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"
+import (
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"
+)
 
 const (
 	MACRequestCmd      = "request"
@@ -19,3 +22,11 @@ const (
 	MACDHID              string = "dedicated-host-id"
 	MACDHIDDesc          string = "id for the dedicated host"
 )
+
+func MACArchAsCirrusArch(arch string) *cirrus.Arch {
+	switch arch {
+	case "x86":
+		return &cirrus.Amd64
+	}
+	return &cirrus.Arm64
+}

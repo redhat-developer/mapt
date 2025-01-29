@@ -2,6 +2,7 @@ package hosts
 
 import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/windows"
@@ -67,6 +68,16 @@ func getWindowsCreate() *cobra.Command {
 				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
+			if viper.IsSet(params.CirrusPWToken) {
+				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
+					Token:    viper.GetString(params.CirrusPWToken),
+					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
+					Platform: &cirrus.Windows,
+					// Currently we only provide amd64 support for windows
+					Arch: &cirrus.Amd64,
+				}
+			}
+
 			if viper.IsSet(params.InstallGHActionsRunner) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
 					Token:   viper.GetString(params.GHActionsRunnerToken),
@@ -107,6 +118,7 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

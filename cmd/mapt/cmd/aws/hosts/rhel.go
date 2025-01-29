@@ -2,6 +2,7 @@ package hosts
 
 import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel"
@@ -56,6 +57,16 @@ func getRHELCreate() *cobra.Command {
 				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
+			if viper.IsSet(params.CirrusPWToken) {
+				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
+					Token:    viper.GetString(params.CirrusPWToken),
+					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
+					Platform: &cirrus.Linux,
+					Arch: params.LinuxArchAsCirrusArch(
+						viper.GetString(params.LinuxArch)),
+				}
+			}
+
 			if viper.IsSet(params.InstallGHActionsRunner) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
 					Token:   viper.GetString(params.GHActionsRunnerToken),
@@ -105,6 +116,7 @@ func getRHELCreate() *cobra.Command {
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddCirrusFlags(flagSet)
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c

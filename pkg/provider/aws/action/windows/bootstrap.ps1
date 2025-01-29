@@ -24,6 +24,11 @@ Set-Item .\allowunencrypted $false
     {{- .ActionsRunnerSnippet }}
 {{ end }}
 
+{{ if .CirrusSnippet }}
+$cirrusToken = {{ .CirrusToken }}
+{{ .CirrusSnippet }}
+{{ end }}
+
 netsh advfirewall firewall add rule name="Open SSH Port 22" dir=in action=allow protocol=TCP localport=22 remoteip=any
 # Restart computer to have the ssh connection available with setup from this script
 Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"

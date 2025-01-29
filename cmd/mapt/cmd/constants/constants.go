@@ -1,6 +1,7 @@
 package constants
 
 import (
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/spf13/pflag"
 )
 
@@ -62,6 +63,11 @@ const (
 	GHActionsRunnerRepo    string = "ghactions-runner-repo"
 	GHActionsRunnerLabels  string = "ghactions-runner-labels"
 
+	CirrusPWToken      string = "it-cirrus-pw-token"
+	CirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
+	CirrusPWLabels     string = "it-cirrus-pw-labels"
+	CirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
+
 	//RHEL
 	SubsUsername       string = "rh-subscription-username"
 	SubsUsernameDesc   string = "username to register the subscription"
@@ -106,4 +112,17 @@ func AddCommonFlags(fs *pflag.FlagSet) {
 func AddDebugFlags(fs *pflag.FlagSet) {
 	fs.Bool(Debug, false, DebugDesc)
 	fs.Uint(DebugLevel, DebugLevelDefault, DebugLevelDesc)
+}
+
+func AddCirrusFlags(fs *pflag.FlagSet) {
+	fs.StringP(CirrusPWToken, "", "", CirrusPWTokenDesc)
+	fs.StringToStringP(CirrusPWLabels, "", nil, CirrusPWLabelsDesc)
+}
+
+func LinuxArchAsCirrusArch(arch string) *cirrus.Arch {
+	switch arch {
+	case "x86_64":
+		return &cirrus.Amd64
+	}
+	return &cirrus.Arm64
 }
