@@ -21,7 +21,7 @@ func CreateRepeatedlyAsStack(command, rateExpression string) error {
 	r := &serverlessRequestArgs{
 		region:             region,
 		command:            command,
-		scheduleExpression: fmt.Sprintf("rate( %s )", rateExpression),
+		scheduleExpression: fmt.Sprintf("rate(%s)", rateExpression),
 		// Being isolated stack these values
 		// do not care
 		prefix:      "mapt",

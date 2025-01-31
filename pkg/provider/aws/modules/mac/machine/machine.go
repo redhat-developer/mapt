@@ -32,6 +32,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 )
 
 //go:embed bootstrap.sh
@@ -141,7 +142,7 @@ func (r *Request) manageMacMachineTargets(h *mac.HostInformation, targetURNs []s
 		BackedURL: *h.BackedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
-				aws.CONFIG_AWS_REGION: *h.Region}),
+				awsConstants.CONFIG_AWS_REGION: *h.Region}),
 		DeployFunc: r.deployerMachine,
 	}
 	var sr auto.UpResult

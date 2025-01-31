@@ -8,6 +8,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
@@ -50,7 +51,7 @@ func IsMachineLocked(h *mac.HostInformation) (bool, error) {
 		BackedURL:   *h.BackedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
-				aws.CONFIG_AWS_REGION: *h.Region}),
+				awsConstants.CONFIG_AWS_REGION: *h.Region}),
 	})
 	if err != nil {
 		return false, err

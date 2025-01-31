@@ -2,10 +2,12 @@ package context
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
@@ -71,15 +73,13 @@ func Init(ca *ContextArgs) error {
 		serverless:    ca.Serverless,
 	}
 	addCommonTags()
-	// Manage integrations
-	if ca.GHRunnerArgs != nil {
-		if err := github.InitGHRunnerArgs(ca.GHRunnerArgs); err != nil {
-			return err
-		}
+	// Manage remote state requirements
+	if err := manageRemoteState(ca.BackedURL); err != nil {
+		return err
 	}
-	if ca.CirrusPWArgs != nil {
-		ca.CirrusPWArgs.Name = RunID()
-		cirrus.Init(ca.CirrusPWArgs)
+	// Manage integrations
+	if err := manageIntegration(ca); err != nil {
+		return err
 	}
 	logging.Debugf("context initialized for %s", mc.runID)
 	return nil
@@ -140,4 +140,39 @@ func addCommonTags() {
 	}
 	mc.tags[tagKeyOrigin] = origin
 	mc.tags[TagKeyProjectName] = mc.projectName
+}
+
+// Under some circumstances it is poosible we need to update Location initial configuration
+// due to usage of remote backed url. i.e. https://github.com/redhat-developer/mapt/issues/392
+
+// This function will check if backed url is remote and if so change initial values to be able to
+// use it.
+func manageRemoteState(backedURL string) error {
+	if data.ValidateS3Path(backedURL) {
+		awsRegion, err := data.GetBucketLocationFromS3Path(backedURL)
+		if err != nil {
+			return err
+		}
+		if err := os.Setenv("AWS_DEFAULT_REGION", *awsRegion); err != nil {
+			return err
+		}
+		if err := os.Setenv("AWS_REGION", *awsRegion); err != nil {
+			return err
+		}
+		return nil
+	}
+	return nil
+}
+
+func manageIntegration(ca *ContextArgs) error {
+	if ca.GHRunnerArgs != nil {
+		if err := github.InitGHRunnerArgs(ca.GHRunnerArgs); err != nil {
+			return err
+		}
+	}
+	if ca.CirrusPWArgs != nil {
+		ca.CirrusPWArgs.Name = RunID()
+		cirrus.Init(ca.CirrusPWArgs)
+	}
+	return nil
 }
