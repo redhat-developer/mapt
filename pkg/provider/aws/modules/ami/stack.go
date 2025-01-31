@@ -8,6 +8,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	amiSVC "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
 )
@@ -71,7 +72,7 @@ func (r CopyAMIRequest) createStack() error {
 	credentials := aws.DefaultCredentials
 	if r.AMITargetRegion != nil {
 		credentials = aws.GetClouProviderCredentials(map[string]string{
-			aws.CONFIG_AWS_REGION: *r.AMITargetRegion,
+			awsConstants.CONFIG_AWS_REGION: *r.AMITargetRegion,
 		})
 	}
 	stack := manager.Stack{

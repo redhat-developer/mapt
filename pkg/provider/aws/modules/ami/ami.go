@@ -8,6 +8,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -74,7 +75,7 @@ func (r ReplicatedRequest) runStack(backedURL, region, operation string) error {
 		ProjectName: r.ProjectName,
 		BackedURL:   backedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
-			map[string]string{aws.CONFIG_AWS_REGION: region}),
+			map[string]string{awsConstants.CONFIG_AWS_REGION: region}),
 		DeployFunc: r.deployer,
 	}
 

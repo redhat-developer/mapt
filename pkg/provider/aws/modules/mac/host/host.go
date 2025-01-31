@@ -10,6 +10,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
@@ -73,7 +74,7 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 		BackedURL:   backedURL,
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
-				aws.CONFIG_AWS_REGION: *dHArgs.region}),
+				awsConstants.CONFIG_AWS_REGION: *dHArgs.region}),
 		DeployFunc: dHArgs.deploy,
 	}
 	sr, _ := manager.UpStack(cs)

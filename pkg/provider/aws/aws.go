@@ -14,30 +14,18 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
+	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/redhat-developer/mapt/pkg/util/maps"
 )
 
-const (
-	CONFIG_AWS_REGION        string = "aws:region"
-	CONFIG_AWS_NATIVE_REGION string = "aws-native:region"
-	CONFIG_AWS_ACCESS_KEY    string = "aws:accessKey"
-	CONFIG_AWS_SECRET_KEY    string = "aws:secretKey"
-)
-
-const (
-	metadataBaseURL              = "http://169.254.170.2"
-	ecsCredentialsRelativeURIENV = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
-	defaultAWSRegion             = "us-east-1"
-)
-
 // pulumi config key : aws env credential
 var envCredentials = map[string]string{
-	CONFIG_AWS_REGION:        "AWS_DEFAULT_REGION",
-	CONFIG_AWS_NATIVE_REGION: "AWS_DEFAULT_REGION",
-	CONFIG_AWS_ACCESS_KEY:    "AWS_ACCESS_KEY_ID",
-	CONFIG_AWS_SECRET_KEY:    "AWS_SECRET_ACCESS_KEY"}
+	awsConstants.CONFIG_AWS_REGION:        "AWS_DEFAULT_REGION",
+	awsConstants.CONFIG_AWS_NATIVE_REGION: "AWS_DEFAULT_REGION",
+	awsConstants.CONFIG_AWS_ACCESS_KEY:    "AWS_ACCESS_KEY_ID",
+	awsConstants.CONFIG_AWS_SECRET_KEY:    "AWS_SECRET_ACCESS_KEY"}
 
 var DefaultCredentials = GetClouProviderCredentials(nil)
 
@@ -90,7 +78,7 @@ func DestroyStack(s DestroyStackRequest) error {
 			maptContext.BackedURL()),
 		ProviderCredentials: GetClouProviderCredentials(
 			map[string]string{
-				CONFIG_AWS_REGION: util.If(len(s.Region) > 0,
+				awsConstants.CONFIG_AWS_REGION: util.If(len(s.Region) > 0,
 					s.Region,
 					os.Getenv("AWS_DEFAULT_REGION"))})})
 }
@@ -115,11 +103,11 @@ func GetTagsAsFilters() (filters []*awsEC2Types.Filter) {
 // for the serverless task being executed as so we need to get them and set as Envs
 // to continue with default behavior
 func setCredentialsForServerless() error {
-	relativeURI := os.Getenv(ecsCredentialsRelativeURIENV)
+	relativeURI := os.Getenv(awsConstants.ECSCredentialsRelativeURIENV)
 	if relativeURI == "" {
 		return fmt.Errorf("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI not set. Are you running in an ECS container?")
 	}
-	resp, err := http.Get(fmt.Sprintf("%s/%s", metadataBaseURL, relativeURI))
+	resp, err := http.Get(fmt.Sprintf("%s/%s", awsConstants.MetadataBaseURL, relativeURI))
 	if err != nil {
 		return err
 	}
@@ -155,10 +143,10 @@ func setCredentialsForServerless() error {
 	if err := os.Setenv("AWS_SESSION_TOKEN", credentials.SessionToken); err != nil {
 		return err
 	}
-	if err := os.Setenv("AWS_DEFAULT_REGION", defaultAWSRegion); err != nil {
+	if err := os.Setenv("AWS_DEFAULT_REGION", awsConstants.DefaultAWSRegion); err != nil {
 		return err
 	}
-	if err := os.Setenv("AWS_REGION", defaultAWSRegion); err != nil {
+	if err := os.Setenv("AWS_REGION", awsConstants.DefaultAWSRegion); err != nil {
 		return err
 	}
 	return nil
