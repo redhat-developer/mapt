@@ -3,6 +3,7 @@ package host
 import (
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
@@ -59,8 +60,9 @@ func GetMatchingHostsInStateInformation(matchingTags map[string]string, state *e
 	}
 	// Order by allocation time, first newest
 	if len(r) > 1 {
-		slices.SortFunc(r, func(a, b *mac.HostInformation) int {
-			return b.Host.AllocationTime.Compare(*a.Host.AllocationTime)
+		// Sort the slice by time (ascending order)
+		sort.Slice(r, func(i, j int) bool {
+			return r[i].Host.AllocationTime.Before(*r[j].Host.AllocationTime)
 		})
 	}
 	return r, nil

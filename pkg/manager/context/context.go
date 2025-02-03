@@ -89,6 +89,8 @@ func RunID() string { return mc.runID }
 
 func ProjectName() string { return mc.projectName }
 
+func SetProjectName(projectName string) { mc.projectName = projectName }
+
 func BackedURL() string { return mc.backedURL }
 
 func GetResultsOutputPath() string { return mc.resultsOutput }

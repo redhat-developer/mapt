@@ -17,6 +17,9 @@ type serverlessRequestArgs struct {
 	region string
 	// command and scheduling to be used for it
 	command, scheduleExpression string
+	// optional if we want to set the name for the log group were logs are sent
+	// to facilitate find it out
+	logGroupName string
 	// optional params in case we create serverless inside a stack
 	prefix, componentID string
 }

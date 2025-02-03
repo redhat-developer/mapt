@@ -80,6 +80,14 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	lga := &awsx.DefaultLogGroupArgs{
+		Args: &awsx.LogGroupArgs{
+			SkipDestroy:     pulumi.Bool(true),
+			RetentionInDays: pulumi.Int(3)}}
+	if len(a.logGroupName) > 0 {
+		lga.Args.SkipDestroy = pulumi.Bool(false)
+		lga.Args.Name = pulumi.String(a.logGroupName)
+	}
 	td, err := awsxecs.NewFargateTaskDefinition(ctx,
 		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fg-task"),
 		&awsxecs.FargateTaskDefinitionArgs{
@@ -97,12 +105,7 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 			TaskRole: &awsx.DefaultRoleWithPolicyArgs{
 				RoleArn: roleArn,
 			},
-			LogGroup: &awsx.DefaultLogGroupArgs{
-				Args: &awsx.LogGroupArgs{
-					SkipDestroy:     pulumi.Bool(true),
-					RetentionInDays: pulumi.Int(3),
-				},
-			},
+			LogGroup: lga,
 		})
 	if err != nil {
 		return err
