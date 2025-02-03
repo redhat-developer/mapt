@@ -40,7 +40,8 @@ func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 // machine non locked which had been running more than 24h.
 // It should check if capacity allows to remove the machine
 func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
-	// Create mapt Context
+	// Create mapt Context, this is a special case where we need change the context
+	// based on the operation
 	if err := maptContext.Init(ctx); err != nil {
 		return err
 	}
@@ -54,6 +55,7 @@ func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	if p.currentOfferedCapacity() < r.OfferedCapacity {
 		if p.currentPoolSize() < r.MaxSize {
 			logging.Debug("house keeper will try to add machines as offered capacity is lower than expected")
+			maptContext.SetProjectName(r.PoolName)
 			return r.addCapacity(p)
 		}
 		// if number of machines in the pool + to max machines
@@ -144,7 +146,11 @@ func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
 			r.OfferedCapacity,
 			r.MaxSize,
 			r.FixedLocation),
-		houseKeepingInterval)
+		houseKeepingInterval,
+		fmt.Sprintf("%s-%s-%s",
+			r.PoolName,
+			r.Architecture,
+			r.OSVersion))
 }
 
 func getHouseKeepingCommand(poolName, arch, osVersion string,
@@ -172,10 +178,13 @@ func (r *MacPoolRequestArgs) addCapacity(p *pool) error {
 
 // If we need less or equal than the max allowed on the pool we create all of them
 // if need are more than allowed we can create just the allowed
+// TODO review allocation time is on the wrong order
 func (r *MacPoolRequestArgs) destroyCapacity(p *pool) error {
-	machinesToDestroy := p.currentOfferedCapacity() - p.offeredCapacity
+	machinesToDestroy := p.currentOfferedCapacity() - r.OfferedCapacity
 	for i := 0; i < machinesToDestroy; i++ {
 		m := p.destroyableMachines[i]
+		// TODO change this
+		maptContext.SetProjectName(*m.ProjectName)
 		if err := aws.DestroyStack(aws.DestroyStackRequest{
 			Stackname: mac.StackMacMachine,
 			Region:    *m.Region,
