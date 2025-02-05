@@ -1,7 +1,6 @@
 package machine
 
 import (
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 )
@@ -25,10 +24,14 @@ type Request struct {
 	// dh linkage
 	dedicatedHost *mac.HostInformation
 	// operation control params
-	isRequestOperation    bool
-	lock                  bool
-	remoteTimeout         string
-	currentUserPrivateKey pulumi.StringPtrInput
+	isRequestOperation bool
+	lock               bool
+	remoteTimeout      string
+	// values used to increase security on request operations
+	// currentPrivateKey pulumi.StringPtrInput
+	// currentPassword   pulumi.StringPtrInput
+	currentPrivateKey string
+	currentPassword   string
 }
 
 const (

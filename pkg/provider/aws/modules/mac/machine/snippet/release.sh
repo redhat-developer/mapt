@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-mac-instances.html
 # Internal disk will be accessible on workspace dir 
@@ -34,12 +34,9 @@ sudo sysadminctl -screenLock off -password "{{.Password}}"
 mkdir -p /Users/{{.Username}}/.ssh
 echo "{{.AuthorizedKey}}" | tee /Users/{{.Username}}/.ssh/authorized_keys
 
-# Install github-actions-runner if needed
-{{ if .InstallActionsRunner }}
-    {{- .ActionsRunnerSnippet }}
-{{ end }}
-
-{{ .CirrusSnippet }}
+# Install some utilites tools (mostly required for dev / test)
+export PATH=$PATH:/opt/homebrew/bin
+brew install go go-md2man coreutils pkg-config pstree gpgme
 
 # autologin to take effect
 # run reboot on background to successfully finish the remote exec of the script

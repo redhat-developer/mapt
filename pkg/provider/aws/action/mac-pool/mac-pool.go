@@ -1,12 +1,14 @@
 package macpool
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
 
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/iam"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
@@ -33,7 +35,19 @@ func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	if err := r.scheduleHouseKeeper(); err != nil {
 		return err
 	}
-	return nil
+	return r.requestReleaserAccount()
+}
+
+// TODO decide how to destroy machines in the pool as they may need to wait to reach 24 hours
+func Destroy(ctx *maptContext.ContextArgs) error {
+	// Create mapt Context
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
+	if err := iam.Destroy(); err != nil {
+		return err
+	}
+	return serverless.Destroy()
 }
 
 // House keeper is the function executed serverless to check if is there any
@@ -138,7 +152,7 @@ func (r *MacPoolRequestArgs) addMachinesToPool(n int) error {
 
 // Run serverless operation for house keeping
 func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
-	return serverless.CreateRepeatedlyAsStack(
+	return serverless.Create(
 		getHouseKeepingCommand(
 			r.PoolName,
 			r.Architecture,
@@ -146,6 +160,7 @@ func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
 			r.OfferedCapacity,
 			r.MaxSize,
 			r.FixedLocation),
+		serverless.Repeat,
 		houseKeepingInterval,
 		fmt.Sprintf("%s-%s-%s",
 			r.PoolName,
@@ -291,4 +306,88 @@ func (r *MacPoolRequestArgs) fillMacRequest() *macMachine.Request {
 		// SetupGHActionsRunner: r.SetupGHActionsRunner,
 		// Airgap:               r.Airgap,
 	}
+}
+
+// Create an user and a pair of automation credentials to add on cicd system of choice
+// to execute request and release operation with minimum rights
+func (r *MacPoolRequestArgs) requestReleaserAccount() error {
+	pc, err := requestReleaserPolicy()
+	if err != nil {
+		return err
+	}
+	return iam.Create(
+		fmt.Sprintf("%s-%s-%s",
+			r.PoolName,
+			r.Architecture,
+			r.OSVersion),
+		pc)
+}
+
+// This is only used during create to create a policy content allowing to
+// run request and release operations. Helping to reduce the iam rights required
+// to make use for the mac pool service from an user point of view
+func requestReleaserPolicy() (*string, error) {
+	// For mac pool service all macs will be a sub path for the backed url
+	// set during create
+	bucketPath := strings.TrimPrefix(maptContext.BackedURL(), "s3://")
+	bucket := strings.Split(bucketPath, "/")[0]
+	pc, err := json.Marshal(map[string]interface{}{
+		"Version": "2012-10-17",
+		"Statement": []map[string]interface{}{
+			{
+				"Effect": "Allow",
+				"Action": []string{
+					"ec2:CreateSecurityGroup",
+					"ec2:DeleteSecurityGroup",
+					"ec2:AuthorizeSecurityGroupIngress",
+					"ec2:RevokeSecurityGroupIngress",
+					"ec2:ModifyInstanceAttribute",
+					"ec2:CreateReplaceRootVolumeTask",
+					"ec2:CreateTags",
+					"ec2:DeleteTags",
+					"ec2:Describe*",
+					"ec2:ImportKeyPair",
+					"ec2:DeleteKeyPair",
+				},
+				"Resource": []string{
+					"*",
+				},
+			},
+			{
+				"Effect": "Allow",
+				"Action": []string{
+					"ec2:CreateSnapshot",
+					"ec2:CreateVolume",
+					"ec2:DetachVolume",
+					"ec2:AttachVolume",
+				},
+				"Resource": []string{
+					"*",
+				},
+			},
+			{
+				"Effect": "Allow",
+				"Action": []string{
+					"s3:PutBucketPolicy",
+					"s3:PutObjectAcl",
+					"s3:GetBucketPolicy",
+					"s3:PutObject",
+					"s3:DeleteObject",
+					"s3:ListBucket",
+					"s3:GetObject",
+					"s3:GetBucketLocation",
+				},
+				"Resource": []string{
+					fmt.Sprintf("arn:aws:s3:::%s", bucket),
+					fmt.Sprintf("arn:aws:s3:::%s", bucketPath),
+					fmt.Sprintf("arn:aws:s3:::%s/*", bucketPath),
+				},
+			},
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+	policy := string(pc)
+	return &policy, nil
 }

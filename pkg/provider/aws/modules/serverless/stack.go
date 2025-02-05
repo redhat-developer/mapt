@@ -1,18 +1,18 @@
 package serverless
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 // function to create a mapt servless cmd which will be executed repeatedly
 // interval should match expected expression
 // https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html
-func CreateRepeatedlyAsStack(command, rateExpression, logGroupName string) error {
+func Create(command string, scheduleType scheduleType, schedulexpression, logGroupName string) error {
 	// Initially manage it by setup, may we need to customize the region
 	//
 	// THis was initially created for mac, if no FixedLocation we may
@@ -21,7 +21,8 @@ func CreateRepeatedlyAsStack(command, rateExpression, logGroupName string) error
 	r := &serverlessRequestArgs{
 		region:             region,
 		command:            command,
-		scheduleExpression: fmt.Sprintf("rate(%s)", rateExpression),
+		scheduleType:       scheduleType,
+		scheduleExpression: schedulexpression,
 		logGroupName:       logGroupName,
 		// Being isolated stack these values
 		// do not care
@@ -37,4 +38,12 @@ func CreateRepeatedlyAsStack(command, rateExpression, logGroupName string) error
 	}
 	_, err := manager.UpStack(stack)
 	return err
+}
+
+func Destroy() (err error) {
+	logging.Debug("Destroy serverless resources")
+	return aws.DestroyStack(
+		aws.DestroyStackRequest{
+			Stackname: maptServerlessDefaultPrefix,
+		})
 }
