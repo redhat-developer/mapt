@@ -42,14 +42,15 @@ func GetMacPoolCmd() *cobra.Command {
 		},
 	}
 	c.AddCommand(
-		getCreateMacPool(),
-		getHouseKeepingMacPool(),
-		getRequest(),
-		getRelease())
+		create(),
+		destroy(),
+		houseKeep(),
+		request(),
+		release())
 	return c
 }
 
-func getCreateMacPool() *cobra.Command {
+func create() *cobra.Command {
 	c := &cobra.Command{
 		Use:   params.CreateCmdName,
 		Short: params.CreateCmdName,
@@ -57,14 +58,14 @@ func getCreateMacPool() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
 			if err := macpool.Create(
 				&maptContext.ContextArgs{
-					ProjectName: viper.GetString(params.ProjectName),
-					BackedURL:   viper.GetString(params.BackedURL),
-					Debug:       viper.IsSet(params.Debug),
-					DebugLevel:  viper.GetUint(params.DebugLevel),
-					Tags:        viper.GetStringMapString(params.Tags),
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&macpool.MacPoolRequestArgs{
 					Prefix:          "main",
@@ -81,6 +82,7 @@ func getCreateMacPool() *cobra.Command {
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	params.AddCommonFlags(flagSet)
+	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringP(paramName, "", "", paramNameDesc)
 	flagSet.Int(paramOfferedCapacity, paramOfferedCapacityDefault, paramOfferedCapacityDesc)
 	flagSet.Int(paramMaxSize, paramMaxSizeDefault, paramMaxSizeDesc)
@@ -92,7 +94,33 @@ func getCreateMacPool() *cobra.Command {
 	return c
 }
 
-func getHouseKeepingMacPool() *cobra.Command {
+func destroy() *cobra.Command {
+	c := &cobra.Command{
+		Use:   params.DestroyCmdName,
+		Short: params.DestroyCmdName,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := viper.BindPFlags(cmd.Flags()); err != nil {
+				return err
+			}
+
+			if err := macpool.Destroy(&maptContext.ContextArgs{
+				ProjectName: viper.GetString(params.ProjectName),
+				BackedURL:   viper.GetString(params.BackedURL),
+				Debug:       viper.IsSet(params.Debug),
+				DebugLevel:  viper.GetUint(params.DebugLevel),
+			}); err != nil {
+				logging.Error(err)
+			}
+			return nil
+		},
+	}
+	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
+	params.AddCommonFlags(flagSet)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	return c
+}
+
+func houseKeep() *cobra.Command {
 	c := &cobra.Command{
 		Use:   cmdHousekeep,
 		Short: cmdHousekeepDesc,
@@ -136,7 +164,7 @@ func getHouseKeepingMacPool() *cobra.Command {
 	return c
 }
 
-func getRequest() *cobra.Command {
+func request() *cobra.Command {
 	c := &cobra.Command{
 		Use:   awsParams.MACRequestCmd,
 		Short: awsParams.MACRequestCmd,
@@ -194,7 +222,7 @@ func getRequest() *cobra.Command {
 	return c
 }
 
-func getRelease() *cobra.Command {
+func release() *cobra.Command {
 	c := &cobra.Command{
 		Use:   awsParams.MACReleaseCmd,
 		Short: awsParams.MACReleaseCmd,

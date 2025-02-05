@@ -120,6 +120,7 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	se := scheduleExpressionByType(a.scheduleType, a.scheduleExpression)
 	_, err = scheduler.NewSchedule(ctx,
 		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fgs"),
 		&scheduler.ScheduleArgs{
@@ -144,7 +145,7 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 				Arn:     clusterArn,
 				RoleArn: sRole.Arn,
 			},
-			ScheduleExpression:         pulumi.String(a.scheduleExpression),
+			ScheduleExpression:         pulumi.String(*se),
 			ScheduleExpressionTimezone: pulumi.String(data.RegionTimezones[a.region]),
 		})
 	if err != nil {
@@ -335,5 +336,18 @@ func generateOneTimeScheduleExpression(region, delay string) (string, error) {
 	}
 	// Add the duration to the current time
 	futureTime := currentTime.Add(duration)
-	return fmt.Sprintf("at(%s)", futureTime.Format("2006-01-02T15:04:05")), nil
+	se := scheduleExpressionByType(OneTime, futureTime.Format("2006-01-02T15:04:05"))
+	return *se, nil
+}
+
+func scheduleExpressionByType(st scheduleType, se string) *string {
+	switch st {
+	case Repeat:
+		e := fmt.Sprintf("rate(%s)", se)
+		return &e
+	case OneTime:
+		e := fmt.Sprintf("at(%s)", se)
+		return &e
+	}
+	return nil
 }

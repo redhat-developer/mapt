@@ -1,22 +1,35 @@
 package serverless
 
-// Mapts requires the cluster to exist previously wit specific naming
-// check hacks/aws/serverless.sh to
 var (
+	// stackName = "mapt-serverless"
+
+	// This is mostly used to prefix resources used by mapt on serverless mode
+	// i.e. ECS clusters which are created and kept after destroy as they always
+	// will be used by mapt serverless features
 	maptServerlessDefaultPrefix = "mapt-serverless-manager"
+)
+
+type scheduleType string
+
+var (
+	Repeat  scheduleType = "rate"
+	OneTime scheduleType = "at"
 )
 
 // https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size
 const (
-	LimitCPU    = "2048"
-	LimitMemory = "4096"
+	LimitCPU    = "1024"
+	LimitMemory = "2048"
 )
 
 type serverlessRequestArgs struct {
 	// need this to find the right ECS cluster to run this serverless
 	region string
 	// command and scheduling to be used for it
-	command, scheduleExpression string
+	command            string
+	scheduleType       scheduleType
+	scheduleExpression string
+
 	// optional if we want to set the name for the log group were logs are sent
 	// to facilitate find it out
 	logGroupName string

@@ -45,6 +45,12 @@ type RequestMachineArgs struct {
 type ReleaseMachineArgs struct {
 }
 
+// type PoolID struct {
+// 	PoolName  string
+// 	Arch      string
+// 	OSVersion string
+// }
+
 type pool struct {
 	// pool params
 	name            string
@@ -62,17 +68,3 @@ type pool struct {
 
 func (p *pool) currentOfferedCapacity() int { return len(p.currentOfferedMachines) }
 func (p *pool) currentPoolSize() int        { return len(p.machines) }
-
-// func (p *pool) currentOfferedCapacity() int {
-// 	return util.If(
-// 		p.currentOfferedMachines == nil,
-// 		0,
-// 		len(p.currentOfferedMachines))
-// }
-
-// func (p *pool) currentPoolSize() int {
-// 	return util.If(
-// 		p.machines == nil,
-// 		0,
-// 		len(p.machines))
-// }

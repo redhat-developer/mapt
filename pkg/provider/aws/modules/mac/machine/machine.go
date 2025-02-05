@@ -14,6 +14,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	macSnippet "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine/snippet"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 	qEC2 "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
@@ -22,7 +23,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 
@@ -34,19 +34,6 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 )
-
-//go:embed bootstrap.sh
-var BootstrapScript []byte
-
-// Need to extend this to also pass the key to be set up on each / create or replace
-type userDataValues struct {
-	Username             string
-	Password             string
-	AuthorizedKey        string
-	InstallActionsRunner bool
-	ActionsRunnerSnippet string
-	CirrusSnippet        string
-}
 
 type locked struct {
 	pulumi.ResourceState
@@ -128,11 +115,18 @@ func (r *Request) manageMacMachineTargets(h *mac.HostInformation, targetURNs []s
 	r.AvailabilityZone = h.Host.AvailabilityZone
 	r.dedicatedHost = h
 	r.Region = h.Region
-	cpk, err := getCurrentPrivateKey(*h.ProjectName, *h.BackedURL, *h.Prefix)
+	cpk, cp, err := currentCredentials(*h.ProjectName, *h.BackedURL, *h.Prefix)
 	if err != nil {
 		logging.Debugf("%v", err)
 	}
-	r.currentUserPrivateKey = cpk
+	// Both are managed at same time
+	if cpk != nil && cp != nil {
+		r.currentPrivateKey = *cpk
+		r.currentPassword = *cp
+	}
+	if err != nil {
+		logging.Debugf("%v", err)
+	}
 	cs := manager.Stack{
 		StackName: fmt.Sprintf("%s-%s",
 			mac.StackMacMachine, *h.ProjectName),
@@ -371,7 +365,7 @@ func (r *Request) bootstrapscript(ctx *pulumi.Context,
 	}
 	remoteKey := util.If[pulumi.StringPtrInput](
 		r.isRequestOperation,
-		r.currentUserPrivateKey,
+		pulumi.String(r.currentPrivateKey),
 		mk.PrivateKeyOpenssh)
 	timeout := util.If(len(r.remoteTimeout) > 0, r.remoteTimeout, defaultTimeout)
 	rc, err := remote.NewCommand(ctx,
@@ -414,19 +408,20 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
-			cirrusSnippet, err := cirrus.PersistentWorkerSnippet(defaultUsername)
-			if err != nil {
-				return "", err
-			}
-			return file.Template(
-				userDataValues{
+
+			if r.isRequestOperation {
+				return macSnippet.GetRequestSnippet(
 					defaultUsername,
+					r.currentPassword,
 					password,
 					authorizedKey,
 					r.SetupGHActionsRunner,
-					github.GetActionRunnerSnippetMacos(),
-					*cirrusSnippet},
-				string(BootstrapScript[:]))
+					github.GetActionRunnerSnippetMacos())
+			}
+			return macSnippet.GetReleaseSnippet(
+				defaultUsername,
+				password,
+				authorizedKey)
 		}).(pulumi.StringOutput)
 	return postscript, password, ukp, nil
 }
@@ -499,29 +494,36 @@ func machineLock(ctx *pulumi.Context, name string, lockedValue bool, opts ...pul
 
 // In order to change the user credentials the old value for the user private key is required
 // this behavior is not offered by pulumi, but we can rely on inspecting previous state file
-func getCurrentPrivateKey(projecName, backedURL, prefix string) (pulumi.StringPtrInput, error) {
+func currentCredentials(projecName, backedURL, prefix string) (
+	pk, pass *string, err error) {
 	stack, err := manager.CheckStack(manager.Stack{
 		StackName: fmt.Sprintf("%s-%s",
 			mac.StackMacMachine, projecName),
 		ProjectName: projecName,
 		BackedURL:   backedURL})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return getCurrentPKFromOutputs(stack, prefix)
+	return getCredentialsFromStack(stack, prefix)
 }
 
-// This function will pick the output value from the stack
-func getCurrentPKFromOutputs(stack *auto.Stack, prefix string) (pulumi.StringPtrInput, error) {
+// Function to get secrets for current user o
+func getCredentialsFromStack(stack *auto.Stack, prefix string) (
+	pk, pass *string, err error) {
 	outputs, err := manager.GetOutputs(stack)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if len(outputs) == 0 {
-		return nil, errors.New("stack outputs are empty please destroy and re-create")
+		return nil, nil, errors.New("stack outputs are empty please destroy and re-create")
 	}
 	if value, exists := outputs[fmt.Sprintf("%s-%s", prefix, outputUserPrivateKey)]; exists {
-		return pulumi.String(value.Value.(string)), nil
+		pkv := value.Value.(string)
+		pk = &pkv
 	}
-	return nil, errors.New("stack outputs does not contain current user private key")
+	if value, exists := outputs[fmt.Sprintf("%s-%s", prefix, outputUserPassword)]; exists {
+		pv := value.Value.(string)
+		pass = &pv
+	}
+	return pk, pass, nil
 }
