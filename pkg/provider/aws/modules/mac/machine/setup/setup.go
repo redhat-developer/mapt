@@ -1,4 +1,4 @@
-package snippet
+package setup
 
 import (
 	_ "embed"
@@ -30,7 +30,7 @@ type requestDataValues struct {
 	CirrusSnippet        string
 }
 
-func GetReleaseSnippet(username, pass, authorizedKey string) (string, error) {
+func Release(username, pass, authorizedKey string) (string, error) {
 	return file.Template(
 		releaseDataValues{
 			username,
@@ -39,7 +39,7 @@ func GetReleaseSnippet(username, pass, authorizedKey string) (string, error) {
 		string(ReleaseScript[:]))
 }
 
-func GetRequestSnippet(username, oldPassword, newPassword, authorizedKey string,
+func Request(username, oldPassword, newPassword, authorizedKey string,
 	isGHRunner bool, GHRunnerSnippet string) (string, error) {
 	cirrusSnippet, err := cirrus.PersistentWorkerSnippet(username)
 	if err != nil {

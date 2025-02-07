@@ -14,7 +14,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
-	macSnippet "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine/snippet"
+	macSetup "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine/setup"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 	qEC2 "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
@@ -410,7 +410,7 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 			authorizedKey := args[1].(string)
 
 			if r.isRequestOperation {
-				return macSnippet.GetRequestSnippet(
+				return macSetup.Request(
 					defaultUsername,
 					r.currentPassword,
 					password,
@@ -418,7 +418,7 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 					r.SetupGHActionsRunner,
 					github.GetActionRunnerSnippetMacos())
 			}
-			return macSnippet.GetReleaseSnippet(
+			return macSetup.Release(
 				defaultUsername,
 				password,
 				authorizedKey)

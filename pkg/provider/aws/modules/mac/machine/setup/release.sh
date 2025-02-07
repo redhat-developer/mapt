@@ -36,7 +36,7 @@ echo "{{.AuthorizedKey}}" | tee /Users/{{.Username}}/.ssh/authorized_keys
 
 # Install some utilites tools (mostly required for dev / test)
 export PATH=$PATH:/opt/homebrew/bin
-brew install go go-md2man coreutils pkg-config pstree gpgme
+brew install go go-md2man coreutils pkg-config pstree gpgme zstd
 
 # autologin to take effect
 # run reboot on background to successfully finish the remote exec of the script
