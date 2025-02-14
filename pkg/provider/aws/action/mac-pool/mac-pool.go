@@ -113,6 +113,7 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 		Version:              *hi.OSVersion,
 		Architecture:         *hi.Arch,
 		SetupGHActionsRunner: r.SetupGHActionsRunner,
+		Timeout:              r.Timeout,
 	}
 
 	// TODO here we would change based on the integration-mode requested
@@ -121,6 +122,7 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	if err != nil {
 		return err
 	}
+
 	// We update the runID on the dedicated host
 	return tag.Update(maptContext.TagKeyRunID,
 		maptContext.RunID(),
@@ -348,6 +350,10 @@ func requestReleaserPolicy() (*string, error) {
 					"ec2:Describe*",
 					"ec2:ImportKeyPair",
 					"ec2:DeleteKeyPair",
+					"cloudformation:GetResource",
+					"scheduler:GetSchedule",
+					"cloudformation:DeleteResource",
+					"cloudformation:GetResourceRequestStatus",
 				},
 				"Resource": []string{
 					"*",

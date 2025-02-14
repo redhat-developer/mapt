@@ -16,6 +16,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	macSetup "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine/setup"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
 	qEC2 "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
@@ -68,12 +69,12 @@ func ReplaceMachine(h *mac.HostInformation) error {
 	}
 	// Set a default request
 	r := &Request{
-		Prefix:             *h.Prefix,
-		Architecture:       *h.Arch,
-		Version:            *h.OSVersion,
-		lock:               false,
-		remoteTimeout:      releaseTimeout,
-		isRequestOperation: false,
+		Prefix:               *h.Prefix,
+		Architecture:         *h.Arch,
+		Version:              *h.OSVersion,
+		lock:                 false,
+		sshConnectionTimeout: releaseTimeout,
+		isRequestOperation:   false,
 	}
 	return r.manageMacMachine(h)
 }
@@ -85,7 +86,7 @@ func ReplaceMachine(h *mac.HostInformation) error {
 func (r *Request) ManageRequest(h *mac.HostInformation) error {
 	r.lock = true
 	r.isRequestOperation = true
-	r.remoteTimeout = requestTimeout
+	r.sshConnectionTimeout = requestTimeout
 	return r.manageMacMachine(h)
 }
 
@@ -241,6 +242,18 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputLock), pulumi.Bool(r.lock))
+
+	// We offer serverless release so there should be a timeout and operation should be a request
+	if len(r.Timeout) > 0 && r.isRequestOperation {
+		if err = serverless.OneTimeDelayedTask(ctx,
+			*r.Region, r.Prefix, awsMacMachineID,
+			fmt.Sprintf("aws mac-pool release --dedicated-host-id %s --serverless",
+				*r.dedicatedHost.Host.HostId),
+			r.Timeout); err != nil {
+			return err
+		}
+	}
+
 	return machineLock(ctx,
 		resourcesUtil.GetResourceName(
 			r.Prefix, awsMacMachineID, "mac-lock"), r.lock,
@@ -367,7 +380,7 @@ func (r *Request) bootstrapscript(ctx *pulumi.Context,
 		r.isRequestOperation,
 		pulumi.String(r.currentPrivateKey),
 		mk.PrivateKeyOpenssh)
-	timeout := util.If(len(r.remoteTimeout) > 0, r.remoteTimeout, defaultTimeout)
+	timeout := util.If(len(r.sshConnectionTimeout) > 0, r.sshConnectionTimeout, defaultTimeout)
 	rc, err := remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "bootstrap-cmd"),
 		&remote.CommandArgs{
@@ -431,7 +444,7 @@ func (r *Request) readiness(ctx *pulumi.Context,
 	mk *tls.PrivateKey,
 	b *bastion.Bastion,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
-	timeout := util.If(len(r.remoteTimeout) > 0, r.remoteTimeout, defaultTimeout)
+	timeout := util.If(len(r.sshConnectionTimeout) > 0, r.sshConnectionTimeout, defaultTimeout)
 	return remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "readiness-cmd"),
 		&remote.CommandArgs{
