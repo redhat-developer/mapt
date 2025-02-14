@@ -204,6 +204,7 @@ func request() *cobra.Command {
 					PoolName:             viper.GetString(paramName),
 					Architecture:         viper.GetString(awsParams.MACArch),
 					OSVersion:            viper.GetString(awsParams.MACOSVersion),
+					Timeout:              viper.GetString(params.Timeout),
 					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner)}); err != nil {
 				logging.Error(err)
 			}
@@ -216,6 +217,7 @@ func request() *cobra.Command {
 	flagSet.StringP(paramName, "", "", paramNameDesc)
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
+	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
@@ -235,6 +237,7 @@ func release() *cobra.Command {
 				&maptContext.ContextArgs{
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
+					Serverless: viper.IsSet(params.Serverless),
 				},
 				viper.GetString(awsParams.MACDHID)); err != nil {
 				logging.Error(err)
@@ -244,6 +247,7 @@ func release() *cobra.Command {
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACReleaseCmd, pflag.ExitOnError)
 	flagSet.StringP(awsParams.MACDHID, "", "", awsParams.MACDHIDDesc)
+	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	err := c.MarkPersistentFlagRequired(awsParams.MACDHID)
 	if err != nil {

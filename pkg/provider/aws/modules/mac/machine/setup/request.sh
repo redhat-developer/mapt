@@ -9,14 +9,14 @@ set new_password "{{.NewPassword}}"
 
 spawn sudo dscl . -passwd /Users/{{.Username}}
 expect "New Password:"
-send "$new_password\r"
+send "\$new_password\r"
 expect "Permission denied. Please enter user's old password:"
-send "$old_password\r"
+send "\$old_password\r"
 expect eof
 EOF
 chmod +x change_password.exp
 ./change_password.exp
-rm change_password.exp
+# rm change_password.exp
 
 # Autologin
 sudo curl -o /tmp/kcpassword https://raw.githubusercontent.com/xfreebird/kcpassword/master/kcpassword

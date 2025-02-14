@@ -25,9 +25,9 @@ var (
 	ErrInvalidBackedURLForTimeout = fmt.Errorf("timeout can action can not be set due to backed url pointing to local file. Please use external storage or remote timeout option")
 )
 
-func CreateDestroyOperation(ctx *pulumi.Context,
+func OneTimeDelayedTask(ctx *pulumi.Context,
 	region, prefix, componentID string,
-	target string,
+	cmd string,
 	delay string) error {
 	if err := checkBackedURLForServerless(); err != nil {
 		return err
@@ -37,11 +37,9 @@ func CreateDestroyOperation(ctx *pulumi.Context,
 		return err
 	}
 	r := &serverlessRequestArgs{
-		region: region,
-		command: fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
-			target,
-			maptContext.ProjectName(),
-			maptContext.BackedURL()),
+		region:             region,
+		command:            cmd,
+		scheduleType:       OneTime,
 		scheduleExpression: se,
 		prefix:             prefix,
 		componentID:        componentID,
@@ -110,7 +108,7 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	sRole, err := createSchedulerRole(ctx,
+	sRoleArn, err := getSchedulerRole(ctx,
 		a.prefix,
 		a.componentID)
 	if err != nil {
@@ -143,7 +141,7 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 					},
 				},
 				Arn:     clusterArn,
-				RoleArn: sRole.Arn,
+				RoleArn: sRoleArn,
 			},
 			ScheduleExpression:         pulumi.String(*se),
 			ScheduleExpressionTimezone: pulumi.String(data.RegionTimezones[a.region]),
@@ -260,8 +258,24 @@ func createTaskRole(ctx *pulumi.Context, roleName, prefix, componentID string) (
 	return r, nil
 }
 
+// As part of the runtime for serverless invocation we need a fixed role for task execution the region as so if
+// it exists it will pick the role otherwise it will create and will not be deleted
+func getSchedulerRole(ctx *pulumi.Context, prefix, componentID string) (*pulumi.StringOutput, error) {
+	roleName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "sch-role")
+	roleArn, err := data.GetRole(roleName)
+	if err != nil {
+		if role, err := createSchedulerRole(ctx, roleName, prefix, componentID); err != nil {
+			return nil, err
+		} else {
+			return &role.Arn, nil
+		}
+	}
+	rarn := pulumi.String(*roleArn).ToStringOutput()
+	return &rarn, nil
+}
+
 // https://docs.aws.amazon.com/scheduler/latest/UserGuide/setting-up.html#setting-up-execution-role
-func createSchedulerRole(ctx *pulumi.Context, prefix, componentID string) (*iam.Role, error) {
+func createSchedulerRole(ctx *pulumi.Context, roleName, prefix, componentID string) (*iam.Role, error) {
 	trustPolicyContent, err := json.Marshal(map[string]interface{}{
 		"Version": "2012-10-17",
 		"Statement": []map[string]interface{}{
@@ -279,12 +293,13 @@ func createSchedulerRole(ctx *pulumi.Context, prefix, componentID string) (*iam.
 	}
 	// Need to creeate policies and attach
 	r, err := iam.NewRole(ctx,
-		resourcesUtil.GetResourceName(prefix, componentID, "role-sche"),
+		resourcesUtil.GetResourceName(prefix, componentID, "sch-role"),
 		&iam.RoleArgs{
-			Name:             pulumi.String(fmt.Sprintf("mapt-sche-%s", maptContext.RunID())),
+			Name:             pulumi.String(roleName),
 			AssumeRolePolicy: pulumi.String(string(trustPolicyContent)),
 			Tags:             maptContext.ResourceTags(),
-		})
+		},
+		pulumi.RetainOnDelete(true))
 	if err != nil {
 		return nil, err
 	}
@@ -336,8 +351,8 @@ func generateOneTimeScheduleExpression(region, delay string) (string, error) {
 	}
 	// Add the duration to the current time
 	futureTime := currentTime.Add(duration)
-	se := scheduleExpressionByType(OneTime, futureTime.Format("2006-01-02T15:04:05"))
-	return *se, nil
+	se := futureTime.Format("2006-01-02T15:04:05")
+	return se, nil
 }
 
 func scheduleExpressionByType(st scheduleType, se string) *string {
