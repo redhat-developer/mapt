@@ -81,21 +81,11 @@ type LookupDeploymentStackAtManagementGroupResult struct {
 }
 
 func LookupDeploymentStackAtManagementGroupOutput(ctx *pulumi.Context, args LookupDeploymentStackAtManagementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentStackAtManagementGroupResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDeploymentStackAtManagementGroupResultOutput, error) {
 			args := v.(LookupDeploymentStackAtManagementGroupArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDeploymentStackAtManagementGroupResult
-			secret, err := ctx.InvokePackageRaw("azure-native:resources:getDeploymentStackAtManagementGroup", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDeploymentStackAtManagementGroupResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDeploymentStackAtManagementGroupResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDeploymentStackAtManagementGroupResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:resources:getDeploymentStackAtManagementGroup", args, LookupDeploymentStackAtManagementGroupResultOutput{}, options).(LookupDeploymentStackAtManagementGroupResultOutput), nil
 		}).(LookupDeploymentStackAtManagementGroupResultOutput)
 }
 

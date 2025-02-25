@@ -75,21 +75,11 @@ type LookupExpressRouteCrossConnectionPeeringResult struct {
 }
 
 func LookupExpressRouteCrossConnectionPeeringOutput(ctx *pulumi.Context, args LookupExpressRouteCrossConnectionPeeringOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteCrossConnectionPeeringResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupExpressRouteCrossConnectionPeeringResultOutput, error) {
 			args := v.(LookupExpressRouteCrossConnectionPeeringArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupExpressRouteCrossConnectionPeeringResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getExpressRouteCrossConnectionPeering", args, &rv, "", opts...)
-			if err != nil {
-				return LookupExpressRouteCrossConnectionPeeringResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupExpressRouteCrossConnectionPeeringResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupExpressRouteCrossConnectionPeeringResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getExpressRouteCrossConnectionPeering", args, LookupExpressRouteCrossConnectionPeeringResultOutput{}, options).(LookupExpressRouteCrossConnectionPeeringResultOutput), nil
 		}).(LookupExpressRouteCrossConnectionPeeringResultOutput)
 }
 

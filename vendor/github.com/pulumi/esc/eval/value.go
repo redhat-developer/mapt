@@ -39,10 +39,14 @@ type value struct {
 	base   *value         // the base value, if any
 	schema *schema.Schema // the value's schema
 
+	mergedKeys []string   // the value's merged keys. computed lazily--use keys().
+	exported   *esc.Value // non-nil if this value has already been exported
+
 	// true if the value is unknown (e.g. because it did not evaluate successfully or is the result of an unevaluated
 	// fn::open)
-	unknown bool
-	secret  bool // true if the value is secret
+	unknown    bool
+	rotateOnly bool
+	secret     bool // true if the value is secret
 
 	repr any // nil | bool | json.Number | string | []*value | map[string]*value
 }
@@ -73,6 +77,35 @@ func (v *value) containsUnknowns() bool {
 	case map[string]*value:
 		for _, k := range v.keys() {
 			if v.property(v.def.repr.syntax(), k).containsUnknowns() {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// containsObservableUnknowns returns true if the value contains any unknown values.
+// the rotating flag indicate our tolerance of unknown rotateOnly values.
+func (v *value) containsObservableUnknowns(rotating bool) bool {
+	if v == nil {
+		return false
+	}
+	if v.unknown {
+		if v.rotateOnly && !rotating {
+			return false // this unknown value will not be observed
+		}
+		return true
+	}
+	switch repr := v.repr.(type) {
+	case []*value:
+		for _, v := range repr {
+			if v.containsObservableUnknowns(rotating) {
+				return true
+			}
+		}
+	case map[string]*value:
+		for _, k := range v.keys() {
+			if v.property(v.def.repr.syntax(), k).containsObservableUnknowns(rotating) {
 				return true
 			}
 		}
@@ -149,20 +182,36 @@ func (v *value) combine(others ...*value) {
 // keys returns the value's keys if the value is an object. This method should be used instead of accessing the
 // underlying map[string]*value directly, as it takes JSON merge patch semantics into account.
 func (v *value) keys() []string {
-	keySet := make(map[string]struct{})
-	for v != nil {
+	if v == nil {
+		return nil
+	}
+	if v.mergedKeys == nil {
 		m, ok := v.repr.(map[string]*value)
 		if !ok {
-			break
+			return nil
 		}
-		for k := range m {
-			keySet[k] = struct{}{}
+
+		baseKeys := v.base.keys()
+		if len(baseKeys) == 0 {
+			v.mergedKeys = maps.Keys(m)
+		} else {
+			l := len(baseKeys)
+			if l < len(m) {
+				l = len(m)
+			}
+			keySet := make(map[string]struct{}, l)
+
+			for _, k := range baseKeys {
+				keySet[k] = struct{}{}
+			}
+			for k := range m {
+				keySet[k] = struct{}{}
+			}
+			v.mergedKeys = maps.Keys(keySet)
 		}
-		v = v.base
+		sort.Strings(v.mergedKeys)
 	}
-	keys := maps.Keys(keySet)
-	sort.Strings(keys)
-	return keys
+	return v.mergedKeys
 }
 
 // property returns the named property (if any) as per JSON merge patch semantics. If the receiver is unknown,
@@ -269,6 +318,10 @@ func (v *value) toString() (str string, unknown bool, secret bool) {
 
 // export converts the value into its serializable representation.
 func (v *value) export(environment string) esc.Value {
+	if v.exported != nil {
+		return *v.exported
+	}
+
 	var pv any
 	switch repr := v.repr.(type) {
 	case []*value:
@@ -295,7 +348,7 @@ func (v *value) export(environment string) esc.Value {
 		base = &b
 	}
 
-	return esc.Value{
+	v.exported = &esc.Value{
 		Value:   pv,
 		Secret:  v.secret,
 		Unknown: v.unknown,
@@ -304,6 +357,7 @@ func (v *value) export(environment string) esc.Value {
 			Base: base,
 		},
 	}
+	return *v.exported
 }
 
 // unexport creates a value from a Value. This is used when interacting with providers, as the Provider API works on
@@ -327,7 +381,7 @@ func unexport(v esc.Value, x *expr) *value {
 		}
 		vv.repr, vv.schema = a, schema.Tuple(items...).Schema()
 	case map[string]esc.Value:
-		m, properties := make(map[string]*value, len(pv)), make(map[string]schema.Builder, len(pv))
+		m, properties := make(map[string]*value, len(pv)), make(schema.SchemaMap, len(pv))
 		for k, v := range pv {
 			uv := unexport(v, x)
 			m[k], properties[k] = uv, uv.schema
@@ -348,7 +402,12 @@ func mergedSchema(base, top *schema.Schema) *schema.Schema {
 		return top
 	}
 
-	record := make(map[string]schema.Builder)
+	l := len(base.Properties)
+	if l < len(top.Properties) {
+		l = len(top.Properties)
+	}
+
+	record := make(schema.SchemaMap, l)
 	for k, base := range base.Properties {
 		record[k] = base
 	}

@@ -37,21 +37,11 @@ type GetVirtualNetworkGatewayConnectionIkeSasResult struct {
 }
 
 func GetVirtualNetworkGatewayConnectionIkeSasOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayConnectionIkeSasOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayConnectionIkeSasResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayConnectionIkeSasResultOutput, error) {
 			args := v.(GetVirtualNetworkGatewayConnectionIkeSasArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv GetVirtualNetworkGatewayConnectionIkeSasResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayConnectionIkeSas", args, &rv, "", opts...)
-			if err != nil {
-				return GetVirtualNetworkGatewayConnectionIkeSasResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(GetVirtualNetworkGatewayConnectionIkeSasResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(GetVirtualNetworkGatewayConnectionIkeSasResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayConnectionIkeSas", args, GetVirtualNetworkGatewayConnectionIkeSasResultOutput{}, options).(GetVirtualNetworkGatewayConnectionIkeSasResultOutput), nil
 		}).(GetVirtualNetworkGatewayConnectionIkeSasResultOutput)
 }
 

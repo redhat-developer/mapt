@@ -147,23 +147,12 @@ func (val *LookupManagedClusterResult) Defaults() *LookupManagedClusterResult {
 
 	return &tmp
 }
-
 func LookupManagedClusterOutput(ctx *pulumi.Context, args LookupManagedClusterOutputArgs, opts ...pulumi.InvokeOption) LookupManagedClusterResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupManagedClusterResultOutput, error) {
 			args := v.(LookupManagedClusterArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupManagedClusterResult
-			secret, err := ctx.InvokePackageRaw("azure-native:containerservice/v20240801:getManagedCluster", args, &rv, "", opts...)
-			if err != nil {
-				return LookupManagedClusterResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupManagedClusterResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupManagedClusterResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:containerservice/v20240801:getManagedCluster", args, LookupManagedClusterResultOutput{}, options).(LookupManagedClusterResultOutput), nil
 		}).(LookupManagedClusterResultOutput)
 }
 

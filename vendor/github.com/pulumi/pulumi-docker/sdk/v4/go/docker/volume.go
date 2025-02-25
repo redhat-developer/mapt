@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // <!-- Bug: Type and Name are switched -->
@@ -29,7 +28,9 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := docker.NewVolume(ctx, "sharedVolume", nil)
+//			_, err := docker.NewVolume(ctx, "shared_volume", &docker.VolumeArgs{
+//				Name: pulumi.String("shared_volume"),
+//			})
 //			if err != nil {
 //				return err
 //			}
@@ -41,14 +42,34 @@ import (
 //
 // ## Import
 //
-// ### Example Assuming you created a `volume` as follows #!/bin/bash docker volume create prints the long ID 524b0457aa2a87dd2b75c74c3e4e53f406974249e63ab3ed9bf21e5644f9dc7d you provide the definition for the resource as follows terraform resource "docker_volume" "foo" {
+// ### Example
 //
-//	name = "524b0457aa2a87dd2b75c74c3e4e53f406974249e63ab3ed9bf21e5644f9dc7d" } then the import command is as follows #!/bin/bash
+// # Assuming you created a `volume` as follows
+//
+// #!/bin/bash
+//
+// docker volume create
+//
+// prints the long ID
+//
+// 524b0457aa2a87dd2b75c74c3e4e53f406974249e63ab3ed9bf21e5644f9dc7d
+//
+// you provide the definition for the resource as follows
+//
+// terraform
+//
+// resource "docker_volume" "foo" {
+//
+//	name = "524b0457aa2a87dd2b75c74c3e4e53f406974249e63ab3ed9bf21e5644f9dc7d"
+//
+// }
+//
+// then the import command is as follows
+//
+// #!/bin/bash
 //
 // ```sh
-//
-//	$ pulumi import docker:index/volume:Volume foo 524b0457aa2a87dd2b75c74c3e4e53f406974249e63ab3ed9bf21e5644f9dc7d
-//
+// $ pulumi import docker:index/volume:Volume foo 524b0457aa2a87dd2b75c74c3e4e53f406974249e63ab3ed9bf21e5644f9dc7d
 // ```
 type Volume struct {
 	pulumi.CustomResourceState
@@ -56,7 +77,7 @@ type Volume struct {
 	// Driver type for the volume. Defaults to `local`.
 	Driver pulumi.StringOutput `pulumi:"driver"`
 	// Options specific to the driver.
-	DriverOpts pulumi.MapOutput `pulumi:"driverOpts"`
+	DriverOpts pulumi.StringMapOutput `pulumi:"driverOpts"`
 	// User-defined key/value metadata
 	Labels VolumeLabelArrayOutput `pulumi:"labels"`
 	// The mountpoint of the volume.
@@ -98,7 +119,7 @@ type volumeState struct {
 	// Driver type for the volume. Defaults to `local`.
 	Driver *string `pulumi:"driver"`
 	// Options specific to the driver.
-	DriverOpts map[string]interface{} `pulumi:"driverOpts"`
+	DriverOpts map[string]string `pulumi:"driverOpts"`
 	// User-defined key/value metadata
 	Labels []VolumeLabel `pulumi:"labels"`
 	// The mountpoint of the volume.
@@ -111,7 +132,7 @@ type VolumeState struct {
 	// Driver type for the volume. Defaults to `local`.
 	Driver pulumi.StringPtrInput
 	// Options specific to the driver.
-	DriverOpts pulumi.MapInput
+	DriverOpts pulumi.StringMapInput
 	// User-defined key/value metadata
 	Labels VolumeLabelArrayInput
 	// The mountpoint of the volume.
@@ -128,7 +149,7 @@ type volumeArgs struct {
 	// Driver type for the volume. Defaults to `local`.
 	Driver *string `pulumi:"driver"`
 	// Options specific to the driver.
-	DriverOpts map[string]interface{} `pulumi:"driverOpts"`
+	DriverOpts map[string]string `pulumi:"driverOpts"`
 	// User-defined key/value metadata
 	Labels []VolumeLabel `pulumi:"labels"`
 	// The name of the Docker volume (will be generated if not provided).
@@ -140,7 +161,7 @@ type VolumeArgs struct {
 	// Driver type for the volume. Defaults to `local`.
 	Driver pulumi.StringPtrInput
 	// Options specific to the driver.
-	DriverOpts pulumi.MapInput
+	DriverOpts pulumi.StringMapInput
 	// User-defined key/value metadata
 	Labels VolumeLabelArrayInput
 	// The name of the Docker volume (will be generated if not provided).
@@ -170,12 +191,6 @@ func (i *Volume) ToVolumeOutputWithContext(ctx context.Context) VolumeOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VolumeOutput)
 }
 
-func (i *Volume) ToOutput(ctx context.Context) pulumix.Output[*Volume] {
-	return pulumix.Output[*Volume]{
-		OutputState: i.ToVolumeOutputWithContext(ctx).OutputState,
-	}
-}
-
 // VolumeArrayInput is an input type that accepts VolumeArray and VolumeArrayOutput values.
 // You can construct a concrete instance of `VolumeArrayInput` via:
 //
@@ -199,12 +214,6 @@ func (i VolumeArray) ToVolumeArrayOutput() VolumeArrayOutput {
 
 func (i VolumeArray) ToVolumeArrayOutputWithContext(ctx context.Context) VolumeArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(VolumeArrayOutput)
-}
-
-func (i VolumeArray) ToOutput(ctx context.Context) pulumix.Output[[]*Volume] {
-	return pulumix.Output[[]*Volume]{
-		OutputState: i.ToVolumeArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // VolumeMapInput is an input type that accepts VolumeMap and VolumeMapOutput values.
@@ -232,12 +241,6 @@ func (i VolumeMap) ToVolumeMapOutputWithContext(ctx context.Context) VolumeMapOu
 	return pulumi.ToOutputWithContext(ctx, i).(VolumeMapOutput)
 }
 
-func (i VolumeMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Volume] {
-	return pulumix.Output[map[string]*Volume]{
-		OutputState: i.ToVolumeMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type VolumeOutput struct{ *pulumi.OutputState }
 
 func (VolumeOutput) ElementType() reflect.Type {
@@ -252,20 +255,14 @@ func (o VolumeOutput) ToVolumeOutputWithContext(ctx context.Context) VolumeOutpu
 	return o
 }
 
-func (o VolumeOutput) ToOutput(ctx context.Context) pulumix.Output[*Volume] {
-	return pulumix.Output[*Volume]{
-		OutputState: o.OutputState,
-	}
-}
-
 // Driver type for the volume. Defaults to `local`.
 func (o VolumeOutput) Driver() pulumi.StringOutput {
 	return o.ApplyT(func(v *Volume) pulumi.StringOutput { return v.Driver }).(pulumi.StringOutput)
 }
 
 // Options specific to the driver.
-func (o VolumeOutput) DriverOpts() pulumi.MapOutput {
-	return o.ApplyT(func(v *Volume) pulumi.MapOutput { return v.DriverOpts }).(pulumi.MapOutput)
+func (o VolumeOutput) DriverOpts() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *Volume) pulumi.StringMapOutput { return v.DriverOpts }).(pulumi.StringMapOutput)
 }
 
 // User-defined key/value metadata
@@ -297,12 +294,6 @@ func (o VolumeArrayOutput) ToVolumeArrayOutputWithContext(ctx context.Context) V
 	return o
 }
 
-func (o VolumeArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Volume] {
-	return pulumix.Output[[]*Volume]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o VolumeArrayOutput) Index(i pulumi.IntInput) VolumeOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Volume {
 		return vs[0].([]*Volume)[vs[1].(int)]
@@ -321,12 +312,6 @@ func (o VolumeMapOutput) ToVolumeMapOutput() VolumeMapOutput {
 
 func (o VolumeMapOutput) ToVolumeMapOutputWithContext(ctx context.Context) VolumeMapOutput {
 	return o
-}
-
-func (o VolumeMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Volume] {
-	return pulumix.Output[map[string]*Volume]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o VolumeMapOutput) MapIndex(k pulumi.StringInput) VolumeOutput {

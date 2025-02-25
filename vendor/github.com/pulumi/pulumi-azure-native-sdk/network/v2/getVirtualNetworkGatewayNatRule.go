@@ -57,21 +57,11 @@ type LookupVirtualNetworkGatewayNatRuleResult struct {
 }
 
 func LookupVirtualNetworkGatewayNatRuleOutput(ctx *pulumi.Context, args LookupVirtualNetworkGatewayNatRuleOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkGatewayNatRuleResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupVirtualNetworkGatewayNatRuleResultOutput, error) {
 			args := v.(LookupVirtualNetworkGatewayNatRuleArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupVirtualNetworkGatewayNatRuleResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayNatRule", args, &rv, "", opts...)
-			if err != nil {
-				return LookupVirtualNetworkGatewayNatRuleResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupVirtualNetworkGatewayNatRuleResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupVirtualNetworkGatewayNatRuleResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayNatRule", args, LookupVirtualNetworkGatewayNatRuleResultOutput{}, options).(LookupVirtualNetworkGatewayNatRuleResultOutput), nil
 		}).(LookupVirtualNetworkGatewayNatRuleResultOutput)
 }
 

@@ -57,21 +57,11 @@ type LookupStaticMemberResult struct {
 }
 
 func LookupStaticMemberOutput(ctx *pulumi.Context, args LookupStaticMemberOutputArgs, opts ...pulumi.InvokeOption) LookupStaticMemberResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupStaticMemberResultOutput, error) {
 			args := v.(LookupStaticMemberArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupStaticMemberResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getStaticMember", args, &rv, "", opts...)
-			if err != nil {
-				return LookupStaticMemberResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupStaticMemberResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupStaticMemberResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getStaticMember", args, LookupStaticMemberResultOutput{}, options).(LookupStaticMemberResultOutput), nil
 		}).(LookupStaticMemberResultOutput)
 }
 

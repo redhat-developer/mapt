@@ -59,21 +59,11 @@ type LookupInboundEndpointResult struct {
 }
 
 func LookupInboundEndpointOutput(ctx *pulumi.Context, args LookupInboundEndpointOutputArgs, opts ...pulumi.InvokeOption) LookupInboundEndpointResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupInboundEndpointResultOutput, error) {
 			args := v.(LookupInboundEndpointArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupInboundEndpointResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getInboundEndpoint", args, &rv, "", opts...)
-			if err != nil {
-				return LookupInboundEndpointResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupInboundEndpointResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupInboundEndpointResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getInboundEndpoint", args, LookupInboundEndpointResultOutput{}, options).(LookupInboundEndpointResultOutput), nil
 		}).(LookupInboundEndpointResultOutput)
 }
 

@@ -66,21 +66,11 @@ type LookupPolicyResult struct {
 }
 
 func LookupPolicyOutput(ctx *pulumi.Context, args LookupPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupPolicyResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupPolicyResultOutput, error) {
 			args := v.(LookupPolicyArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupPolicyResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getPolicy", args, &rv, "", opts...)
-			if err != nil {
-				return LookupPolicyResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupPolicyResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupPolicyResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getPolicy", args, LookupPolicyResultOutput{}, options).(LookupPolicyResultOutput), nil
 		}).(LookupPolicyResultOutput)
 }
 

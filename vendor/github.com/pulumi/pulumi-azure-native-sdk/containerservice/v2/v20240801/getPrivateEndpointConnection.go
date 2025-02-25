@@ -48,21 +48,11 @@ type LookupPrivateEndpointConnectionResult struct {
 }
 
 func LookupPrivateEndpointConnectionOutput(ctx *pulumi.Context, args LookupPrivateEndpointConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateEndpointConnectionResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupPrivateEndpointConnectionResultOutput, error) {
 			args := v.(LookupPrivateEndpointConnectionArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupPrivateEndpointConnectionResult
-			secret, err := ctx.InvokePackageRaw("azure-native:containerservice/v20240801:getPrivateEndpointConnection", args, &rv, "", opts...)
-			if err != nil {
-				return LookupPrivateEndpointConnectionResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupPrivateEndpointConnectionResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupPrivateEndpointConnectionResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:containerservice/v20240801:getPrivateEndpointConnection", args, LookupPrivateEndpointConnectionResultOutput{}, options).(LookupPrivateEndpointConnectionResultOutput), nil
 		}).(LookupPrivateEndpointConnectionResultOutput)
 }
 

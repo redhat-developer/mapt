@@ -15,7 +15,7 @@ import (
 // Properties of the file share, including Id, resource name, resource type, Etag.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 type FileShare struct {
 	pulumi.CustomResourceState
 
@@ -118,6 +118,9 @@ func NewFileShare(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:storage/v20230501:FileShare"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20240101:FileShare"),
 		},
 	})
 	opts = append(opts, aliases)

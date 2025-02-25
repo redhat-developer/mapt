@@ -65,21 +65,11 @@ type LookupPrivateZoneResult struct {
 }
 
 func LookupPrivateZoneOutput(ctx *pulumi.Context, args LookupPrivateZoneOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateZoneResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupPrivateZoneResultOutput, error) {
 			args := v.(LookupPrivateZoneArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupPrivateZoneResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getPrivateZone", args, &rv, "", opts...)
-			if err != nil {
-				return LookupPrivateZoneResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupPrivateZoneResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupPrivateZoneResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getPrivateZone", args, LookupPrivateZoneResultOutput{}, options).(LookupPrivateZoneResultOutput), nil
 		}).(LookupPrivateZoneResultOutput)
 }
 

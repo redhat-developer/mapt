@@ -14,7 +14,7 @@ import (
 // Get the local user of the storage account by username.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func LookupLocalUser(ctx *pulumi.Context, args *LookupLocalUserArgs, opts ...pulumi.InvokeOption) (*LookupLocalUserResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupLocalUserResult
@@ -61,21 +61,11 @@ type LookupLocalUserResult struct {
 }
 
 func LookupLocalUserOutput(ctx *pulumi.Context, args LookupLocalUserOutputArgs, opts ...pulumi.InvokeOption) LookupLocalUserResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupLocalUserResultOutput, error) {
 			args := v.(LookupLocalUserArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupLocalUserResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:getLocalUser", args, &rv, "", opts...)
-			if err != nil {
-				return LookupLocalUserResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupLocalUserResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupLocalUserResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:getLocalUser", args, LookupLocalUserResultOutput{}, options).(LookupLocalUserResultOutput), nil
 		}).(LookupLocalUserResultOutput)
 }
 

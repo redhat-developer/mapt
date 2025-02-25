@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // The version of the Docker builder.
@@ -81,12 +80,6 @@ func (o BuilderVersionOutput) ToBuilderVersionPtrOutputWithContext(ctx context.C
 	}).(BuilderVersionPtrOutput)
 }
 
-func (o BuilderVersionOutput) ToOutput(ctx context.Context) pulumix.Output[BuilderVersion] {
-	return pulumix.Output[BuilderVersion]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o BuilderVersionOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
@@ -122,12 +115,6 @@ func (o BuilderVersionPtrOutput) ToBuilderVersionPtrOutputWithContext(ctx contex
 	return o
 }
 
-func (o BuilderVersionPtrOutput) ToOutput(ctx context.Context) pulumix.Output[*BuilderVersion] {
-	return pulumix.Output[*BuilderVersion]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o BuilderVersionPtrOutput) Elem() BuilderVersionOutput {
 	return o.ApplyT(func(v *BuilderVersion) BuilderVersion {
 		if v != nil {
@@ -152,10 +139,11 @@ func (o BuilderVersionPtrOutput) ToStringPtrOutputWithContext(ctx context.Contex
 	}).(pulumi.StringPtrOutput)
 }
 
-// BuilderVersionInput is an input type that accepts BuilderVersionArgs and BuilderVersionOutput values.
-// You can construct a concrete instance of `BuilderVersionInput` via:
+// BuilderVersionInput is an input type that accepts values of the BuilderVersion enum
+// A concrete instance of `BuilderVersionInput` can be one of the following:
 //
-//	BuilderVersionArgs{...}
+//	BuilderVersionBuilderV1
+//	BuilderVersionBuilderBuildKit
 type BuilderVersionInput interface {
 	pulumi.Input
 
@@ -188,12 +176,6 @@ func (in *builderVersionPtr) ToBuilderVersionPtrOutput() BuilderVersionPtrOutput
 
 func (in *builderVersionPtr) ToBuilderVersionPtrOutputWithContext(ctx context.Context) BuilderVersionPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(BuilderVersionPtrOutput)
-}
-
-func (in *builderVersionPtr) ToOutput(ctx context.Context) pulumix.Output[*BuilderVersion] {
-	return pulumix.Output[*BuilderVersion]{
-		OutputState: in.ToBuilderVersionPtrOutputWithContext(ctx).OutputState,
-	}
 }
 
 func init() {

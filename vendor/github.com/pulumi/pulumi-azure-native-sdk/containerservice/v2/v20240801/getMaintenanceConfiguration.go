@@ -59,23 +59,12 @@ func (val *LookupMaintenanceConfigurationResult) Defaults() *LookupMaintenanceCo
 
 	return &tmp
 }
-
 func LookupMaintenanceConfigurationOutput(ctx *pulumi.Context, args LookupMaintenanceConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupMaintenanceConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupMaintenanceConfigurationResultOutput, error) {
 			args := v.(LookupMaintenanceConfigurationArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupMaintenanceConfigurationResult
-			secret, err := ctx.InvokePackageRaw("azure-native:containerservice/v20240801:getMaintenanceConfiguration", args, &rv, "", opts...)
-			if err != nil {
-				return LookupMaintenanceConfigurationResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupMaintenanceConfigurationResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupMaintenanceConfigurationResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:containerservice/v20240801:getMaintenanceConfiguration", args, LookupMaintenanceConfigurationResultOutput{}, options).(LookupMaintenanceConfigurationResultOutput), nil
 		}).(LookupMaintenanceConfigurationResultOutput)
 }
 

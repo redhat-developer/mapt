@@ -43,21 +43,11 @@ type ListActiveSecurityUserRuleResult struct {
 }
 
 func ListActiveSecurityUserRuleOutput(ctx *pulumi.Context, args ListActiveSecurityUserRuleOutputArgs, opts ...pulumi.InvokeOption) ListActiveSecurityUserRuleResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (ListActiveSecurityUserRuleResultOutput, error) {
 			args := v.(ListActiveSecurityUserRuleArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv ListActiveSecurityUserRuleResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:listActiveSecurityUserRule", args, &rv, "", opts...)
-			if err != nil {
-				return ListActiveSecurityUserRuleResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(ListActiveSecurityUserRuleResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(ListActiveSecurityUserRuleResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:listActiveSecurityUserRule", args, ListActiveSecurityUserRuleResultOutput{}, options).(ListActiveSecurityUserRuleResultOutput), nil
 		}).(ListActiveSecurityUserRuleResultOutput)
 }
 

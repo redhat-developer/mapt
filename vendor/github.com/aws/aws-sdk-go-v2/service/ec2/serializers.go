@@ -12,6 +12,7 @@ import (
 	"github.com/aws/smithy-go/encoding/httpbinding"
 	"github.com/aws/smithy-go/middleware"
 	smithytime "github.com/aws/smithy-go/time"
+	"github.com/aws/smithy-go/tracing"
 	smithyhttp "github.com/aws/smithy-go/transport/http"
 	"math"
 	"path"
@@ -27,6 +28,10 @@ func (*awsEc2query_serializeOpAcceptAddressTransfer) ID() string {
 func (m *awsEc2query_serializeOpAcceptAddressTransfer) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -78,6 +83,78 @@ func (m *awsEc2query_serializeOpAcceptAddressTransfer) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpAcceptCapacityReservationBillingOwnership struct {
+}
+
+func (*awsEc2query_serializeOpAcceptCapacityReservationBillingOwnership) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpAcceptCapacityReservationBillingOwnership) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*AcceptCapacityReservationBillingOwnershipInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("AcceptCapacityReservationBillingOwnership")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentAcceptCapacityReservationBillingOwnershipInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -91,6 +168,10 @@ func (*awsEc2query_serializeOpAcceptReservedInstancesExchangeQuote) ID() string 
 func (m *awsEc2query_serializeOpAcceptReservedInstancesExchangeQuote) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -142,6 +223,8 @@ func (m *awsEc2query_serializeOpAcceptReservedInstancesExchangeQuote) HandleSeri
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -155,6 +238,10 @@ func (*awsEc2query_serializeOpAcceptTransitGatewayMulticastDomainAssociations) I
 func (m *awsEc2query_serializeOpAcceptTransitGatewayMulticastDomainAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -206,6 +293,8 @@ func (m *awsEc2query_serializeOpAcceptTransitGatewayMulticastDomainAssociations)
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -219,6 +308,10 @@ func (*awsEc2query_serializeOpAcceptTransitGatewayPeeringAttachment) ID() string
 func (m *awsEc2query_serializeOpAcceptTransitGatewayPeeringAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -270,6 +363,8 @@ func (m *awsEc2query_serializeOpAcceptTransitGatewayPeeringAttachment) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -283,6 +378,10 @@ func (*awsEc2query_serializeOpAcceptTransitGatewayVpcAttachment) ID() string {
 func (m *awsEc2query_serializeOpAcceptTransitGatewayVpcAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -334,6 +433,8 @@ func (m *awsEc2query_serializeOpAcceptTransitGatewayVpcAttachment) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -347,6 +448,10 @@ func (*awsEc2query_serializeOpAcceptVpcEndpointConnections) ID() string {
 func (m *awsEc2query_serializeOpAcceptVpcEndpointConnections) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -398,6 +503,8 @@ func (m *awsEc2query_serializeOpAcceptVpcEndpointConnections) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -411,6 +518,10 @@ func (*awsEc2query_serializeOpAcceptVpcPeeringConnection) ID() string {
 func (m *awsEc2query_serializeOpAcceptVpcPeeringConnection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -462,6 +573,8 @@ func (m *awsEc2query_serializeOpAcceptVpcPeeringConnection) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -475,6 +588,10 @@ func (*awsEc2query_serializeOpAdvertiseByoipCidr) ID() string {
 func (m *awsEc2query_serializeOpAdvertiseByoipCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -526,6 +643,8 @@ func (m *awsEc2query_serializeOpAdvertiseByoipCidr) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -539,6 +658,10 @@ func (*awsEc2query_serializeOpAllocateAddress) ID() string {
 func (m *awsEc2query_serializeOpAllocateAddress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -590,6 +713,8 @@ func (m *awsEc2query_serializeOpAllocateAddress) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -603,6 +728,10 @@ func (*awsEc2query_serializeOpAllocateHosts) ID() string {
 func (m *awsEc2query_serializeOpAllocateHosts) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -654,6 +783,8 @@ func (m *awsEc2query_serializeOpAllocateHosts) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -667,6 +798,10 @@ func (*awsEc2query_serializeOpAllocateIpamPoolCidr) ID() string {
 func (m *awsEc2query_serializeOpAllocateIpamPoolCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -718,6 +853,8 @@ func (m *awsEc2query_serializeOpAllocateIpamPoolCidr) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -731,6 +868,10 @@ func (*awsEc2query_serializeOpApplySecurityGroupsToClientVpnTargetNetwork) ID() 
 func (m *awsEc2query_serializeOpApplySecurityGroupsToClientVpnTargetNetwork) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -782,6 +923,8 @@ func (m *awsEc2query_serializeOpApplySecurityGroupsToClientVpnTargetNetwork) Han
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -795,6 +938,10 @@ func (*awsEc2query_serializeOpAssignIpv6Addresses) ID() string {
 func (m *awsEc2query_serializeOpAssignIpv6Addresses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -846,6 +993,8 @@ func (m *awsEc2query_serializeOpAssignIpv6Addresses) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -859,6 +1008,10 @@ func (*awsEc2query_serializeOpAssignPrivateIpAddresses) ID() string {
 func (m *awsEc2query_serializeOpAssignPrivateIpAddresses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -910,6 +1063,8 @@ func (m *awsEc2query_serializeOpAssignPrivateIpAddresses) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -923,6 +1078,10 @@ func (*awsEc2query_serializeOpAssignPrivateNatGatewayAddress) ID() string {
 func (m *awsEc2query_serializeOpAssignPrivateNatGatewayAddress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -974,6 +1133,8 @@ func (m *awsEc2query_serializeOpAssignPrivateNatGatewayAddress) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -987,6 +1148,10 @@ func (*awsEc2query_serializeOpAssociateAddress) ID() string {
 func (m *awsEc2query_serializeOpAssociateAddress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1038,6 +1203,78 @@ func (m *awsEc2query_serializeOpAssociateAddress) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpAssociateCapacityReservationBillingOwner struct {
+}
+
+func (*awsEc2query_serializeOpAssociateCapacityReservationBillingOwner) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpAssociateCapacityReservationBillingOwner) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*AssociateCapacityReservationBillingOwnerInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("AssociateCapacityReservationBillingOwner")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentAssociateCapacityReservationBillingOwnerInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1051,6 +1288,10 @@ func (*awsEc2query_serializeOpAssociateClientVpnTargetNetwork) ID() string {
 func (m *awsEc2query_serializeOpAssociateClientVpnTargetNetwork) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1102,6 +1343,8 @@ func (m *awsEc2query_serializeOpAssociateClientVpnTargetNetwork) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1115,6 +1358,10 @@ func (*awsEc2query_serializeOpAssociateDhcpOptions) ID() string {
 func (m *awsEc2query_serializeOpAssociateDhcpOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1166,6 +1413,8 @@ func (m *awsEc2query_serializeOpAssociateDhcpOptions) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1179,6 +1428,10 @@ func (*awsEc2query_serializeOpAssociateEnclaveCertificateIamRole) ID() string {
 func (m *awsEc2query_serializeOpAssociateEnclaveCertificateIamRole) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1230,6 +1483,8 @@ func (m *awsEc2query_serializeOpAssociateEnclaveCertificateIamRole) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1243,6 +1498,10 @@ func (*awsEc2query_serializeOpAssociateIamInstanceProfile) ID() string {
 func (m *awsEc2query_serializeOpAssociateIamInstanceProfile) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1294,6 +1553,8 @@ func (m *awsEc2query_serializeOpAssociateIamInstanceProfile) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1307,6 +1568,10 @@ func (*awsEc2query_serializeOpAssociateInstanceEventWindow) ID() string {
 func (m *awsEc2query_serializeOpAssociateInstanceEventWindow) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1358,6 +1623,8 @@ func (m *awsEc2query_serializeOpAssociateInstanceEventWindow) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1371,6 +1638,10 @@ func (*awsEc2query_serializeOpAssociateIpamByoasn) ID() string {
 func (m *awsEc2query_serializeOpAssociateIpamByoasn) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1422,6 +1693,8 @@ func (m *awsEc2query_serializeOpAssociateIpamByoasn) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1435,6 +1708,10 @@ func (*awsEc2query_serializeOpAssociateIpamResourceDiscovery) ID() string {
 func (m *awsEc2query_serializeOpAssociateIpamResourceDiscovery) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1486,6 +1763,8 @@ func (m *awsEc2query_serializeOpAssociateIpamResourceDiscovery) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1499,6 +1778,10 @@ func (*awsEc2query_serializeOpAssociateNatGatewayAddress) ID() string {
 func (m *awsEc2query_serializeOpAssociateNatGatewayAddress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1550,6 +1833,8 @@ func (m *awsEc2query_serializeOpAssociateNatGatewayAddress) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1563,6 +1848,10 @@ func (*awsEc2query_serializeOpAssociateRouteTable) ID() string {
 func (m *awsEc2query_serializeOpAssociateRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1614,6 +1903,78 @@ func (m *awsEc2query_serializeOpAssociateRouteTable) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpAssociateSecurityGroupVpc struct {
+}
+
+func (*awsEc2query_serializeOpAssociateSecurityGroupVpc) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpAssociateSecurityGroupVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*AssociateSecurityGroupVpcInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("AssociateSecurityGroupVpc")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentAssociateSecurityGroupVpcInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1627,6 +1988,10 @@ func (*awsEc2query_serializeOpAssociateSubnetCidrBlock) ID() string {
 func (m *awsEc2query_serializeOpAssociateSubnetCidrBlock) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1678,6 +2043,8 @@ func (m *awsEc2query_serializeOpAssociateSubnetCidrBlock) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1691,6 +2058,10 @@ func (*awsEc2query_serializeOpAssociateTransitGatewayMulticastDomain) ID() strin
 func (m *awsEc2query_serializeOpAssociateTransitGatewayMulticastDomain) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1742,6 +2113,8 @@ func (m *awsEc2query_serializeOpAssociateTransitGatewayMulticastDomain) HandleSe
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1755,6 +2128,10 @@ func (*awsEc2query_serializeOpAssociateTransitGatewayPolicyTable) ID() string {
 func (m *awsEc2query_serializeOpAssociateTransitGatewayPolicyTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1806,6 +2183,8 @@ func (m *awsEc2query_serializeOpAssociateTransitGatewayPolicyTable) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1819,6 +2198,10 @@ func (*awsEc2query_serializeOpAssociateTransitGatewayRouteTable) ID() string {
 func (m *awsEc2query_serializeOpAssociateTransitGatewayRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1870,6 +2253,8 @@ func (m *awsEc2query_serializeOpAssociateTransitGatewayRouteTable) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1883,6 +2268,10 @@ func (*awsEc2query_serializeOpAssociateTrunkInterface) ID() string {
 func (m *awsEc2query_serializeOpAssociateTrunkInterface) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1934,6 +2323,8 @@ func (m *awsEc2query_serializeOpAssociateTrunkInterface) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -1947,6 +2338,10 @@ func (*awsEc2query_serializeOpAssociateVpcCidrBlock) ID() string {
 func (m *awsEc2query_serializeOpAssociateVpcCidrBlock) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -1998,6 +2393,8 @@ func (m *awsEc2query_serializeOpAssociateVpcCidrBlock) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2011,6 +2408,10 @@ func (*awsEc2query_serializeOpAttachClassicLinkVpc) ID() string {
 func (m *awsEc2query_serializeOpAttachClassicLinkVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2062,6 +2463,8 @@ func (m *awsEc2query_serializeOpAttachClassicLinkVpc) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2075,6 +2478,10 @@ func (*awsEc2query_serializeOpAttachInternetGateway) ID() string {
 func (m *awsEc2query_serializeOpAttachInternetGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2126,6 +2533,8 @@ func (m *awsEc2query_serializeOpAttachInternetGateway) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2139,6 +2548,10 @@ func (*awsEc2query_serializeOpAttachNetworkInterface) ID() string {
 func (m *awsEc2query_serializeOpAttachNetworkInterface) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2190,6 +2603,8 @@ func (m *awsEc2query_serializeOpAttachNetworkInterface) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2203,6 +2618,10 @@ func (*awsEc2query_serializeOpAttachVerifiedAccessTrustProvider) ID() string {
 func (m *awsEc2query_serializeOpAttachVerifiedAccessTrustProvider) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2254,6 +2673,8 @@ func (m *awsEc2query_serializeOpAttachVerifiedAccessTrustProvider) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2267,6 +2688,10 @@ func (*awsEc2query_serializeOpAttachVolume) ID() string {
 func (m *awsEc2query_serializeOpAttachVolume) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2318,6 +2743,8 @@ func (m *awsEc2query_serializeOpAttachVolume) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2331,6 +2758,10 @@ func (*awsEc2query_serializeOpAttachVpnGateway) ID() string {
 func (m *awsEc2query_serializeOpAttachVpnGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2382,6 +2813,8 @@ func (m *awsEc2query_serializeOpAttachVpnGateway) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2395,6 +2828,10 @@ func (*awsEc2query_serializeOpAuthorizeClientVpnIngress) ID() string {
 func (m *awsEc2query_serializeOpAuthorizeClientVpnIngress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2446,6 +2883,8 @@ func (m *awsEc2query_serializeOpAuthorizeClientVpnIngress) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2459,6 +2898,10 @@ func (*awsEc2query_serializeOpAuthorizeSecurityGroupEgress) ID() string {
 func (m *awsEc2query_serializeOpAuthorizeSecurityGroupEgress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2510,6 +2953,8 @@ func (m *awsEc2query_serializeOpAuthorizeSecurityGroupEgress) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2523,6 +2968,10 @@ func (*awsEc2query_serializeOpAuthorizeSecurityGroupIngress) ID() string {
 func (m *awsEc2query_serializeOpAuthorizeSecurityGroupIngress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2574,6 +3023,8 @@ func (m *awsEc2query_serializeOpAuthorizeSecurityGroupIngress) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2587,6 +3038,10 @@ func (*awsEc2query_serializeOpBundleInstance) ID() string {
 func (m *awsEc2query_serializeOpBundleInstance) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2638,6 +3093,8 @@ func (m *awsEc2query_serializeOpBundleInstance) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2651,6 +3108,10 @@ func (*awsEc2query_serializeOpCancelBundleTask) ID() string {
 func (m *awsEc2query_serializeOpCancelBundleTask) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2702,6 +3163,8 @@ func (m *awsEc2query_serializeOpCancelBundleTask) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2715,6 +3178,10 @@ func (*awsEc2query_serializeOpCancelCapacityReservation) ID() string {
 func (m *awsEc2query_serializeOpCancelCapacityReservation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2766,6 +3233,8 @@ func (m *awsEc2query_serializeOpCancelCapacityReservation) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2779,6 +3248,10 @@ func (*awsEc2query_serializeOpCancelCapacityReservationFleets) ID() string {
 func (m *awsEc2query_serializeOpCancelCapacityReservationFleets) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2830,6 +3303,8 @@ func (m *awsEc2query_serializeOpCancelCapacityReservationFleets) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2843,6 +3318,10 @@ func (*awsEc2query_serializeOpCancelConversionTask) ID() string {
 func (m *awsEc2query_serializeOpCancelConversionTask) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2894,6 +3373,78 @@ func (m *awsEc2query_serializeOpCancelConversionTask) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpCancelDeclarativePoliciesReport struct {
+}
+
+func (*awsEc2query_serializeOpCancelDeclarativePoliciesReport) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpCancelDeclarativePoliciesReport) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*CancelDeclarativePoliciesReportInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("CancelDeclarativePoliciesReport")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentCancelDeclarativePoliciesReportInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2907,6 +3458,10 @@ func (*awsEc2query_serializeOpCancelExportTask) ID() string {
 func (m *awsEc2query_serializeOpCancelExportTask) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -2958,6 +3513,8 @@ func (m *awsEc2query_serializeOpCancelExportTask) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -2971,6 +3528,10 @@ func (*awsEc2query_serializeOpCancelImageLaunchPermission) ID() string {
 func (m *awsEc2query_serializeOpCancelImageLaunchPermission) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3022,6 +3583,8 @@ func (m *awsEc2query_serializeOpCancelImageLaunchPermission) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3035,6 +3598,10 @@ func (*awsEc2query_serializeOpCancelImportTask) ID() string {
 func (m *awsEc2query_serializeOpCancelImportTask) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3086,6 +3653,8 @@ func (m *awsEc2query_serializeOpCancelImportTask) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3099,6 +3668,10 @@ func (*awsEc2query_serializeOpCancelReservedInstancesListing) ID() string {
 func (m *awsEc2query_serializeOpCancelReservedInstancesListing) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3150,6 +3723,8 @@ func (m *awsEc2query_serializeOpCancelReservedInstancesListing) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3163,6 +3738,10 @@ func (*awsEc2query_serializeOpCancelSpotFleetRequests) ID() string {
 func (m *awsEc2query_serializeOpCancelSpotFleetRequests) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3214,6 +3793,8 @@ func (m *awsEc2query_serializeOpCancelSpotFleetRequests) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3227,6 +3808,10 @@ func (*awsEc2query_serializeOpCancelSpotInstanceRequests) ID() string {
 func (m *awsEc2query_serializeOpCancelSpotInstanceRequests) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3278,6 +3863,8 @@ func (m *awsEc2query_serializeOpCancelSpotInstanceRequests) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3291,6 +3878,10 @@ func (*awsEc2query_serializeOpConfirmProductInstance) ID() string {
 func (m *awsEc2query_serializeOpConfirmProductInstance) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3342,6 +3933,8 @@ func (m *awsEc2query_serializeOpConfirmProductInstance) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3355,6 +3948,10 @@ func (*awsEc2query_serializeOpCopyFpgaImage) ID() string {
 func (m *awsEc2query_serializeOpCopyFpgaImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3406,6 +4003,8 @@ func (m *awsEc2query_serializeOpCopyFpgaImage) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3419,6 +4018,10 @@ func (*awsEc2query_serializeOpCopyImage) ID() string {
 func (m *awsEc2query_serializeOpCopyImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3470,6 +4073,8 @@ func (m *awsEc2query_serializeOpCopyImage) HandleSerialize(ctx context.Context, 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3483,6 +4088,10 @@ func (*awsEc2query_serializeOpCopySnapshot) ID() string {
 func (m *awsEc2query_serializeOpCopySnapshot) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3534,6 +4143,8 @@ func (m *awsEc2query_serializeOpCopySnapshot) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3547,6 +4158,10 @@ func (*awsEc2query_serializeOpCreateCapacityReservation) ID() string {
 func (m *awsEc2query_serializeOpCreateCapacityReservation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3598,6 +4213,78 @@ func (m *awsEc2query_serializeOpCreateCapacityReservation) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpCreateCapacityReservationBySplitting struct {
+}
+
+func (*awsEc2query_serializeOpCreateCapacityReservationBySplitting) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpCreateCapacityReservationBySplitting) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*CreateCapacityReservationBySplittingInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("CreateCapacityReservationBySplitting")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentCreateCapacityReservationBySplittingInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3611,6 +4298,10 @@ func (*awsEc2query_serializeOpCreateCapacityReservationFleet) ID() string {
 func (m *awsEc2query_serializeOpCreateCapacityReservationFleet) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3662,6 +4353,8 @@ func (m *awsEc2query_serializeOpCreateCapacityReservationFleet) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3675,6 +4368,10 @@ func (*awsEc2query_serializeOpCreateCarrierGateway) ID() string {
 func (m *awsEc2query_serializeOpCreateCarrierGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3726,6 +4423,8 @@ func (m *awsEc2query_serializeOpCreateCarrierGateway) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3739,6 +4438,10 @@ func (*awsEc2query_serializeOpCreateClientVpnEndpoint) ID() string {
 func (m *awsEc2query_serializeOpCreateClientVpnEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3790,6 +4493,8 @@ func (m *awsEc2query_serializeOpCreateClientVpnEndpoint) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3803,6 +4508,10 @@ func (*awsEc2query_serializeOpCreateClientVpnRoute) ID() string {
 func (m *awsEc2query_serializeOpCreateClientVpnRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3854,6 +4563,8 @@ func (m *awsEc2query_serializeOpCreateClientVpnRoute) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3867,6 +4578,10 @@ func (*awsEc2query_serializeOpCreateCoipCidr) ID() string {
 func (m *awsEc2query_serializeOpCreateCoipCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3918,6 +4633,8 @@ func (m *awsEc2query_serializeOpCreateCoipCidr) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3931,6 +4648,10 @@ func (*awsEc2query_serializeOpCreateCoipPool) ID() string {
 func (m *awsEc2query_serializeOpCreateCoipPool) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -3982,6 +4703,8 @@ func (m *awsEc2query_serializeOpCreateCoipPool) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -3995,6 +4718,10 @@ func (*awsEc2query_serializeOpCreateCustomerGateway) ID() string {
 func (m *awsEc2query_serializeOpCreateCustomerGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4046,6 +4773,8 @@ func (m *awsEc2query_serializeOpCreateCustomerGateway) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4059,6 +4788,10 @@ func (*awsEc2query_serializeOpCreateDefaultSubnet) ID() string {
 func (m *awsEc2query_serializeOpCreateDefaultSubnet) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4110,6 +4843,8 @@ func (m *awsEc2query_serializeOpCreateDefaultSubnet) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4123,6 +4858,10 @@ func (*awsEc2query_serializeOpCreateDefaultVpc) ID() string {
 func (m *awsEc2query_serializeOpCreateDefaultVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4174,6 +4913,8 @@ func (m *awsEc2query_serializeOpCreateDefaultVpc) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4187,6 +4928,10 @@ func (*awsEc2query_serializeOpCreateDhcpOptions) ID() string {
 func (m *awsEc2query_serializeOpCreateDhcpOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4238,6 +4983,8 @@ func (m *awsEc2query_serializeOpCreateDhcpOptions) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4251,6 +4998,10 @@ func (*awsEc2query_serializeOpCreateEgressOnlyInternetGateway) ID() string {
 func (m *awsEc2query_serializeOpCreateEgressOnlyInternetGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4302,6 +5053,8 @@ func (m *awsEc2query_serializeOpCreateEgressOnlyInternetGateway) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4315,6 +5068,10 @@ func (*awsEc2query_serializeOpCreateFleet) ID() string {
 func (m *awsEc2query_serializeOpCreateFleet) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4366,6 +5123,8 @@ func (m *awsEc2query_serializeOpCreateFleet) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4379,6 +5138,10 @@ func (*awsEc2query_serializeOpCreateFlowLogs) ID() string {
 func (m *awsEc2query_serializeOpCreateFlowLogs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4430,6 +5193,8 @@ func (m *awsEc2query_serializeOpCreateFlowLogs) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4443,6 +5208,10 @@ func (*awsEc2query_serializeOpCreateFpgaImage) ID() string {
 func (m *awsEc2query_serializeOpCreateFpgaImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4494,6 +5263,8 @@ func (m *awsEc2query_serializeOpCreateFpgaImage) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4507,6 +5278,10 @@ func (*awsEc2query_serializeOpCreateImage) ID() string {
 func (m *awsEc2query_serializeOpCreateImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4558,6 +5333,8 @@ func (m *awsEc2query_serializeOpCreateImage) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4571,6 +5348,10 @@ func (*awsEc2query_serializeOpCreateInstanceConnectEndpoint) ID() string {
 func (m *awsEc2query_serializeOpCreateInstanceConnectEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4622,6 +5403,8 @@ func (m *awsEc2query_serializeOpCreateInstanceConnectEndpoint) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4635,6 +5418,10 @@ func (*awsEc2query_serializeOpCreateInstanceEventWindow) ID() string {
 func (m *awsEc2query_serializeOpCreateInstanceEventWindow) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4686,6 +5473,8 @@ func (m *awsEc2query_serializeOpCreateInstanceEventWindow) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4699,6 +5488,10 @@ func (*awsEc2query_serializeOpCreateInstanceExportTask) ID() string {
 func (m *awsEc2query_serializeOpCreateInstanceExportTask) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4750,6 +5543,8 @@ func (m *awsEc2query_serializeOpCreateInstanceExportTask) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4763,6 +5558,10 @@ func (*awsEc2query_serializeOpCreateInternetGateway) ID() string {
 func (m *awsEc2query_serializeOpCreateInternetGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4814,6 +5613,8 @@ func (m *awsEc2query_serializeOpCreateInternetGateway) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4827,6 +5628,10 @@ func (*awsEc2query_serializeOpCreateIpam) ID() string {
 func (m *awsEc2query_serializeOpCreateIpam) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4878,6 +5683,78 @@ func (m *awsEc2query_serializeOpCreateIpam) HandleSerialize(ctx context.Context,
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpCreateIpamExternalResourceVerificationToken struct {
+}
+
+func (*awsEc2query_serializeOpCreateIpamExternalResourceVerificationToken) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpCreateIpamExternalResourceVerificationToken) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*CreateIpamExternalResourceVerificationTokenInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("CreateIpamExternalResourceVerificationToken")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentCreateIpamExternalResourceVerificationTokenInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4891,6 +5768,10 @@ func (*awsEc2query_serializeOpCreateIpamPool) ID() string {
 func (m *awsEc2query_serializeOpCreateIpamPool) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -4942,6 +5823,8 @@ func (m *awsEc2query_serializeOpCreateIpamPool) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -4955,6 +5838,10 @@ func (*awsEc2query_serializeOpCreateIpamResourceDiscovery) ID() string {
 func (m *awsEc2query_serializeOpCreateIpamResourceDiscovery) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5006,6 +5893,8 @@ func (m *awsEc2query_serializeOpCreateIpamResourceDiscovery) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5019,6 +5908,10 @@ func (*awsEc2query_serializeOpCreateIpamScope) ID() string {
 func (m *awsEc2query_serializeOpCreateIpamScope) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5070,6 +5963,8 @@ func (m *awsEc2query_serializeOpCreateIpamScope) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5083,6 +5978,10 @@ func (*awsEc2query_serializeOpCreateKeyPair) ID() string {
 func (m *awsEc2query_serializeOpCreateKeyPair) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5134,6 +6033,8 @@ func (m *awsEc2query_serializeOpCreateKeyPair) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5147,6 +6048,10 @@ func (*awsEc2query_serializeOpCreateLaunchTemplate) ID() string {
 func (m *awsEc2query_serializeOpCreateLaunchTemplate) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5198,6 +6103,8 @@ func (m *awsEc2query_serializeOpCreateLaunchTemplate) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5211,6 +6118,10 @@ func (*awsEc2query_serializeOpCreateLaunchTemplateVersion) ID() string {
 func (m *awsEc2query_serializeOpCreateLaunchTemplateVersion) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5262,6 +6173,8 @@ func (m *awsEc2query_serializeOpCreateLaunchTemplateVersion) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5275,6 +6188,10 @@ func (*awsEc2query_serializeOpCreateLocalGatewayRoute) ID() string {
 func (m *awsEc2query_serializeOpCreateLocalGatewayRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5326,6 +6243,8 @@ func (m *awsEc2query_serializeOpCreateLocalGatewayRoute) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5339,6 +6258,10 @@ func (*awsEc2query_serializeOpCreateLocalGatewayRouteTable) ID() string {
 func (m *awsEc2query_serializeOpCreateLocalGatewayRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5390,6 +6313,8 @@ func (m *awsEc2query_serializeOpCreateLocalGatewayRouteTable) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5403,6 +6328,10 @@ func (*awsEc2query_serializeOpCreateLocalGatewayRouteTableVirtualInterfaceGroupA
 func (m *awsEc2query_serializeOpCreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5454,6 +6383,8 @@ func (m *awsEc2query_serializeOpCreateLocalGatewayRouteTableVirtualInterfaceGrou
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5467,6 +6398,10 @@ func (*awsEc2query_serializeOpCreateLocalGatewayRouteTableVpcAssociation) ID() s
 func (m *awsEc2query_serializeOpCreateLocalGatewayRouteTableVpcAssociation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5518,6 +6453,8 @@ func (m *awsEc2query_serializeOpCreateLocalGatewayRouteTableVpcAssociation) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5531,6 +6468,10 @@ func (*awsEc2query_serializeOpCreateManagedPrefixList) ID() string {
 func (m *awsEc2query_serializeOpCreateManagedPrefixList) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5582,6 +6523,8 @@ func (m *awsEc2query_serializeOpCreateManagedPrefixList) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5595,6 +6538,10 @@ func (*awsEc2query_serializeOpCreateNatGateway) ID() string {
 func (m *awsEc2query_serializeOpCreateNatGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5646,6 +6593,8 @@ func (m *awsEc2query_serializeOpCreateNatGateway) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5659,6 +6608,10 @@ func (*awsEc2query_serializeOpCreateNetworkAcl) ID() string {
 func (m *awsEc2query_serializeOpCreateNetworkAcl) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5710,6 +6663,8 @@ func (m *awsEc2query_serializeOpCreateNetworkAcl) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5723,6 +6678,10 @@ func (*awsEc2query_serializeOpCreateNetworkAclEntry) ID() string {
 func (m *awsEc2query_serializeOpCreateNetworkAclEntry) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5774,6 +6733,8 @@ func (m *awsEc2query_serializeOpCreateNetworkAclEntry) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5787,6 +6748,10 @@ func (*awsEc2query_serializeOpCreateNetworkInsightsAccessScope) ID() string {
 func (m *awsEc2query_serializeOpCreateNetworkInsightsAccessScope) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5838,6 +6803,8 @@ func (m *awsEc2query_serializeOpCreateNetworkInsightsAccessScope) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5851,6 +6818,10 @@ func (*awsEc2query_serializeOpCreateNetworkInsightsPath) ID() string {
 func (m *awsEc2query_serializeOpCreateNetworkInsightsPath) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5902,6 +6873,8 @@ func (m *awsEc2query_serializeOpCreateNetworkInsightsPath) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5915,6 +6888,10 @@ func (*awsEc2query_serializeOpCreateNetworkInterface) ID() string {
 func (m *awsEc2query_serializeOpCreateNetworkInterface) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -5966,6 +6943,8 @@ func (m *awsEc2query_serializeOpCreateNetworkInterface) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -5979,6 +6958,10 @@ func (*awsEc2query_serializeOpCreateNetworkInterfacePermission) ID() string {
 func (m *awsEc2query_serializeOpCreateNetworkInterfacePermission) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6030,6 +7013,8 @@ func (m *awsEc2query_serializeOpCreateNetworkInterfacePermission) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6043,6 +7028,10 @@ func (*awsEc2query_serializeOpCreatePlacementGroup) ID() string {
 func (m *awsEc2query_serializeOpCreatePlacementGroup) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6094,6 +7083,8 @@ func (m *awsEc2query_serializeOpCreatePlacementGroup) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6107,6 +7098,10 @@ func (*awsEc2query_serializeOpCreatePublicIpv4Pool) ID() string {
 func (m *awsEc2query_serializeOpCreatePublicIpv4Pool) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6158,6 +7153,8 @@ func (m *awsEc2query_serializeOpCreatePublicIpv4Pool) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6171,6 +7168,10 @@ func (*awsEc2query_serializeOpCreateReplaceRootVolumeTask) ID() string {
 func (m *awsEc2query_serializeOpCreateReplaceRootVolumeTask) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6222,6 +7223,8 @@ func (m *awsEc2query_serializeOpCreateReplaceRootVolumeTask) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6235,6 +7238,10 @@ func (*awsEc2query_serializeOpCreateReservedInstancesListing) ID() string {
 func (m *awsEc2query_serializeOpCreateReservedInstancesListing) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6286,6 +7293,8 @@ func (m *awsEc2query_serializeOpCreateReservedInstancesListing) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6299,6 +7308,10 @@ func (*awsEc2query_serializeOpCreateRestoreImageTask) ID() string {
 func (m *awsEc2query_serializeOpCreateRestoreImageTask) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6350,6 +7363,8 @@ func (m *awsEc2query_serializeOpCreateRestoreImageTask) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6363,6 +7378,10 @@ func (*awsEc2query_serializeOpCreateRoute) ID() string {
 func (m *awsEc2query_serializeOpCreateRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6414,6 +7433,8 @@ func (m *awsEc2query_serializeOpCreateRoute) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6427,6 +7448,10 @@ func (*awsEc2query_serializeOpCreateRouteTable) ID() string {
 func (m *awsEc2query_serializeOpCreateRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6478,6 +7503,8 @@ func (m *awsEc2query_serializeOpCreateRouteTable) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6491,6 +7518,10 @@ func (*awsEc2query_serializeOpCreateSecurityGroup) ID() string {
 func (m *awsEc2query_serializeOpCreateSecurityGroup) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6542,6 +7573,8 @@ func (m *awsEc2query_serializeOpCreateSecurityGroup) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6555,6 +7588,10 @@ func (*awsEc2query_serializeOpCreateSnapshot) ID() string {
 func (m *awsEc2query_serializeOpCreateSnapshot) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6606,6 +7643,8 @@ func (m *awsEc2query_serializeOpCreateSnapshot) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6619,6 +7658,10 @@ func (*awsEc2query_serializeOpCreateSnapshots) ID() string {
 func (m *awsEc2query_serializeOpCreateSnapshots) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6670,6 +7713,8 @@ func (m *awsEc2query_serializeOpCreateSnapshots) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6683,6 +7728,10 @@ func (*awsEc2query_serializeOpCreateSpotDatafeedSubscription) ID() string {
 func (m *awsEc2query_serializeOpCreateSpotDatafeedSubscription) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6734,6 +7783,8 @@ func (m *awsEc2query_serializeOpCreateSpotDatafeedSubscription) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6747,6 +7798,10 @@ func (*awsEc2query_serializeOpCreateStoreImageTask) ID() string {
 func (m *awsEc2query_serializeOpCreateStoreImageTask) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6798,6 +7853,8 @@ func (m *awsEc2query_serializeOpCreateStoreImageTask) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6811,6 +7868,10 @@ func (*awsEc2query_serializeOpCreateSubnet) ID() string {
 func (m *awsEc2query_serializeOpCreateSubnet) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6862,6 +7923,8 @@ func (m *awsEc2query_serializeOpCreateSubnet) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6875,6 +7938,10 @@ func (*awsEc2query_serializeOpCreateSubnetCidrReservation) ID() string {
 func (m *awsEc2query_serializeOpCreateSubnetCidrReservation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6926,6 +7993,8 @@ func (m *awsEc2query_serializeOpCreateSubnetCidrReservation) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -6939,6 +8008,10 @@ func (*awsEc2query_serializeOpCreateTags) ID() string {
 func (m *awsEc2query_serializeOpCreateTags) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -6990,6 +8063,8 @@ func (m *awsEc2query_serializeOpCreateTags) HandleSerialize(ctx context.Context,
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7003,6 +8078,10 @@ func (*awsEc2query_serializeOpCreateTrafficMirrorFilter) ID() string {
 func (m *awsEc2query_serializeOpCreateTrafficMirrorFilter) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7054,6 +8133,8 @@ func (m *awsEc2query_serializeOpCreateTrafficMirrorFilter) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7067,6 +8148,10 @@ func (*awsEc2query_serializeOpCreateTrafficMirrorFilterRule) ID() string {
 func (m *awsEc2query_serializeOpCreateTrafficMirrorFilterRule) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7118,6 +8203,8 @@ func (m *awsEc2query_serializeOpCreateTrafficMirrorFilterRule) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7131,6 +8218,10 @@ func (*awsEc2query_serializeOpCreateTrafficMirrorSession) ID() string {
 func (m *awsEc2query_serializeOpCreateTrafficMirrorSession) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7182,6 +8273,8 @@ func (m *awsEc2query_serializeOpCreateTrafficMirrorSession) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7195,6 +8288,10 @@ func (*awsEc2query_serializeOpCreateTrafficMirrorTarget) ID() string {
 func (m *awsEc2query_serializeOpCreateTrafficMirrorTarget) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7246,6 +8343,8 @@ func (m *awsEc2query_serializeOpCreateTrafficMirrorTarget) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7259,6 +8358,10 @@ func (*awsEc2query_serializeOpCreateTransitGateway) ID() string {
 func (m *awsEc2query_serializeOpCreateTransitGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7310,6 +8413,8 @@ func (m *awsEc2query_serializeOpCreateTransitGateway) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7323,6 +8428,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayConnect) ID() string {
 func (m *awsEc2query_serializeOpCreateTransitGatewayConnect) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7374,6 +8483,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayConnect) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7387,6 +8498,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayConnectPeer) ID() string {
 func (m *awsEc2query_serializeOpCreateTransitGatewayConnectPeer) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7438,6 +8553,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayConnectPeer) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7451,6 +8568,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayMulticastDomain) ID() string {
 func (m *awsEc2query_serializeOpCreateTransitGatewayMulticastDomain) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7502,6 +8623,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayMulticastDomain) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7515,6 +8638,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayPeeringAttachment) ID() string
 func (m *awsEc2query_serializeOpCreateTransitGatewayPeeringAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7566,6 +8693,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayPeeringAttachment) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7579,6 +8708,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayPolicyTable) ID() string {
 func (m *awsEc2query_serializeOpCreateTransitGatewayPolicyTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7630,6 +8763,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayPolicyTable) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7643,6 +8778,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayPrefixListReference) ID() stri
 func (m *awsEc2query_serializeOpCreateTransitGatewayPrefixListReference) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7694,6 +8833,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayPrefixListReference) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7707,6 +8848,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayRoute) ID() string {
 func (m *awsEc2query_serializeOpCreateTransitGatewayRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7758,6 +8903,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayRoute) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7771,6 +8918,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayRouteTable) ID() string {
 func (m *awsEc2query_serializeOpCreateTransitGatewayRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7822,6 +8973,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayRouteTable) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7835,6 +8988,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayRouteTableAnnouncement) ID() s
 func (m *awsEc2query_serializeOpCreateTransitGatewayRouteTableAnnouncement) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7886,6 +9043,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayRouteTableAnnouncement) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7899,6 +9058,10 @@ func (*awsEc2query_serializeOpCreateTransitGatewayVpcAttachment) ID() string {
 func (m *awsEc2query_serializeOpCreateTransitGatewayVpcAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -7950,6 +9113,8 @@ func (m *awsEc2query_serializeOpCreateTransitGatewayVpcAttachment) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -7963,6 +9128,10 @@ func (*awsEc2query_serializeOpCreateVerifiedAccessEndpoint) ID() string {
 func (m *awsEc2query_serializeOpCreateVerifiedAccessEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8014,6 +9183,8 @@ func (m *awsEc2query_serializeOpCreateVerifiedAccessEndpoint) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8027,6 +9198,10 @@ func (*awsEc2query_serializeOpCreateVerifiedAccessGroup) ID() string {
 func (m *awsEc2query_serializeOpCreateVerifiedAccessGroup) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8078,6 +9253,8 @@ func (m *awsEc2query_serializeOpCreateVerifiedAccessGroup) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8091,6 +9268,10 @@ func (*awsEc2query_serializeOpCreateVerifiedAccessInstance) ID() string {
 func (m *awsEc2query_serializeOpCreateVerifiedAccessInstance) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8142,6 +9323,8 @@ func (m *awsEc2query_serializeOpCreateVerifiedAccessInstance) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8155,6 +9338,10 @@ func (*awsEc2query_serializeOpCreateVerifiedAccessTrustProvider) ID() string {
 func (m *awsEc2query_serializeOpCreateVerifiedAccessTrustProvider) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8206,6 +9393,8 @@ func (m *awsEc2query_serializeOpCreateVerifiedAccessTrustProvider) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8219,6 +9408,10 @@ func (*awsEc2query_serializeOpCreateVolume) ID() string {
 func (m *awsEc2query_serializeOpCreateVolume) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8270,6 +9463,8 @@ func (m *awsEc2query_serializeOpCreateVolume) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8283,6 +9478,10 @@ func (*awsEc2query_serializeOpCreateVpc) ID() string {
 func (m *awsEc2query_serializeOpCreateVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8334,6 +9533,78 @@ func (m *awsEc2query_serializeOpCreateVpc) HandleSerialize(ctx context.Context, 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpCreateVpcBlockPublicAccessExclusion struct {
+}
+
+func (*awsEc2query_serializeOpCreateVpcBlockPublicAccessExclusion) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpCreateVpcBlockPublicAccessExclusion) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*CreateVpcBlockPublicAccessExclusionInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("CreateVpcBlockPublicAccessExclusion")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentCreateVpcBlockPublicAccessExclusionInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8347,6 +9618,10 @@ func (*awsEc2query_serializeOpCreateVpcEndpoint) ID() string {
 func (m *awsEc2query_serializeOpCreateVpcEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8398,6 +9673,8 @@ func (m *awsEc2query_serializeOpCreateVpcEndpoint) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8411,6 +9688,10 @@ func (*awsEc2query_serializeOpCreateVpcEndpointConnectionNotification) ID() stri
 func (m *awsEc2query_serializeOpCreateVpcEndpointConnectionNotification) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8462,6 +9743,8 @@ func (m *awsEc2query_serializeOpCreateVpcEndpointConnectionNotification) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8475,6 +9758,10 @@ func (*awsEc2query_serializeOpCreateVpcEndpointServiceConfiguration) ID() string
 func (m *awsEc2query_serializeOpCreateVpcEndpointServiceConfiguration) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8526,6 +9813,8 @@ func (m *awsEc2query_serializeOpCreateVpcEndpointServiceConfiguration) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8539,6 +9828,10 @@ func (*awsEc2query_serializeOpCreateVpcPeeringConnection) ID() string {
 func (m *awsEc2query_serializeOpCreateVpcPeeringConnection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8590,6 +9883,8 @@ func (m *awsEc2query_serializeOpCreateVpcPeeringConnection) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8603,6 +9898,10 @@ func (*awsEc2query_serializeOpCreateVpnConnection) ID() string {
 func (m *awsEc2query_serializeOpCreateVpnConnection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8654,6 +9953,8 @@ func (m *awsEc2query_serializeOpCreateVpnConnection) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8667,6 +9968,10 @@ func (*awsEc2query_serializeOpCreateVpnConnectionRoute) ID() string {
 func (m *awsEc2query_serializeOpCreateVpnConnectionRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8718,6 +10023,8 @@ func (m *awsEc2query_serializeOpCreateVpnConnectionRoute) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8731,6 +10038,10 @@ func (*awsEc2query_serializeOpCreateVpnGateway) ID() string {
 func (m *awsEc2query_serializeOpCreateVpnGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8782,6 +10093,8 @@ func (m *awsEc2query_serializeOpCreateVpnGateway) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8795,6 +10108,10 @@ func (*awsEc2query_serializeOpDeleteCarrierGateway) ID() string {
 func (m *awsEc2query_serializeOpDeleteCarrierGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8846,6 +10163,8 @@ func (m *awsEc2query_serializeOpDeleteCarrierGateway) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8859,6 +10178,10 @@ func (*awsEc2query_serializeOpDeleteClientVpnEndpoint) ID() string {
 func (m *awsEc2query_serializeOpDeleteClientVpnEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8910,6 +10233,8 @@ func (m *awsEc2query_serializeOpDeleteClientVpnEndpoint) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8923,6 +10248,10 @@ func (*awsEc2query_serializeOpDeleteClientVpnRoute) ID() string {
 func (m *awsEc2query_serializeOpDeleteClientVpnRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -8974,6 +10303,8 @@ func (m *awsEc2query_serializeOpDeleteClientVpnRoute) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -8987,6 +10318,10 @@ func (*awsEc2query_serializeOpDeleteCoipCidr) ID() string {
 func (m *awsEc2query_serializeOpDeleteCoipCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9038,6 +10373,8 @@ func (m *awsEc2query_serializeOpDeleteCoipCidr) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9051,6 +10388,10 @@ func (*awsEc2query_serializeOpDeleteCoipPool) ID() string {
 func (m *awsEc2query_serializeOpDeleteCoipPool) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9102,6 +10443,8 @@ func (m *awsEc2query_serializeOpDeleteCoipPool) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9115,6 +10458,10 @@ func (*awsEc2query_serializeOpDeleteCustomerGateway) ID() string {
 func (m *awsEc2query_serializeOpDeleteCustomerGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9166,6 +10513,8 @@ func (m *awsEc2query_serializeOpDeleteCustomerGateway) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9179,6 +10528,10 @@ func (*awsEc2query_serializeOpDeleteDhcpOptions) ID() string {
 func (m *awsEc2query_serializeOpDeleteDhcpOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9230,6 +10583,8 @@ func (m *awsEc2query_serializeOpDeleteDhcpOptions) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9243,6 +10598,10 @@ func (*awsEc2query_serializeOpDeleteEgressOnlyInternetGateway) ID() string {
 func (m *awsEc2query_serializeOpDeleteEgressOnlyInternetGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9294,6 +10653,8 @@ func (m *awsEc2query_serializeOpDeleteEgressOnlyInternetGateway) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9307,6 +10668,10 @@ func (*awsEc2query_serializeOpDeleteFleets) ID() string {
 func (m *awsEc2query_serializeOpDeleteFleets) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9358,6 +10723,8 @@ func (m *awsEc2query_serializeOpDeleteFleets) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9371,6 +10738,10 @@ func (*awsEc2query_serializeOpDeleteFlowLogs) ID() string {
 func (m *awsEc2query_serializeOpDeleteFlowLogs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9422,6 +10793,8 @@ func (m *awsEc2query_serializeOpDeleteFlowLogs) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9435,6 +10808,10 @@ func (*awsEc2query_serializeOpDeleteFpgaImage) ID() string {
 func (m *awsEc2query_serializeOpDeleteFpgaImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9486,6 +10863,8 @@ func (m *awsEc2query_serializeOpDeleteFpgaImage) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9499,6 +10878,10 @@ func (*awsEc2query_serializeOpDeleteInstanceConnectEndpoint) ID() string {
 func (m *awsEc2query_serializeOpDeleteInstanceConnectEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9550,6 +10933,8 @@ func (m *awsEc2query_serializeOpDeleteInstanceConnectEndpoint) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9563,6 +10948,10 @@ func (*awsEc2query_serializeOpDeleteInstanceEventWindow) ID() string {
 func (m *awsEc2query_serializeOpDeleteInstanceEventWindow) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9614,6 +11003,8 @@ func (m *awsEc2query_serializeOpDeleteInstanceEventWindow) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9627,6 +11018,10 @@ func (*awsEc2query_serializeOpDeleteInternetGateway) ID() string {
 func (m *awsEc2query_serializeOpDeleteInternetGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9678,6 +11073,8 @@ func (m *awsEc2query_serializeOpDeleteInternetGateway) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9691,6 +11088,10 @@ func (*awsEc2query_serializeOpDeleteIpam) ID() string {
 func (m *awsEc2query_serializeOpDeleteIpam) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9742,6 +11143,78 @@ func (m *awsEc2query_serializeOpDeleteIpam) HandleSerialize(ctx context.Context,
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDeleteIpamExternalResourceVerificationToken struct {
+}
+
+func (*awsEc2query_serializeOpDeleteIpamExternalResourceVerificationToken) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDeleteIpamExternalResourceVerificationToken) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DeleteIpamExternalResourceVerificationTokenInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DeleteIpamExternalResourceVerificationToken")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDeleteIpamExternalResourceVerificationTokenInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9755,6 +11228,10 @@ func (*awsEc2query_serializeOpDeleteIpamPool) ID() string {
 func (m *awsEc2query_serializeOpDeleteIpamPool) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9806,6 +11283,8 @@ func (m *awsEc2query_serializeOpDeleteIpamPool) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9819,6 +11298,10 @@ func (*awsEc2query_serializeOpDeleteIpamResourceDiscovery) ID() string {
 func (m *awsEc2query_serializeOpDeleteIpamResourceDiscovery) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9870,6 +11353,8 @@ func (m *awsEc2query_serializeOpDeleteIpamResourceDiscovery) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9883,6 +11368,10 @@ func (*awsEc2query_serializeOpDeleteIpamScope) ID() string {
 func (m *awsEc2query_serializeOpDeleteIpamScope) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9934,6 +11423,8 @@ func (m *awsEc2query_serializeOpDeleteIpamScope) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -9947,6 +11438,10 @@ func (*awsEc2query_serializeOpDeleteKeyPair) ID() string {
 func (m *awsEc2query_serializeOpDeleteKeyPair) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -9998,6 +11493,8 @@ func (m *awsEc2query_serializeOpDeleteKeyPair) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10011,6 +11508,10 @@ func (*awsEc2query_serializeOpDeleteLaunchTemplate) ID() string {
 func (m *awsEc2query_serializeOpDeleteLaunchTemplate) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10062,6 +11563,8 @@ func (m *awsEc2query_serializeOpDeleteLaunchTemplate) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10075,6 +11578,10 @@ func (*awsEc2query_serializeOpDeleteLaunchTemplateVersions) ID() string {
 func (m *awsEc2query_serializeOpDeleteLaunchTemplateVersions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10126,6 +11633,8 @@ func (m *awsEc2query_serializeOpDeleteLaunchTemplateVersions) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10139,6 +11648,10 @@ func (*awsEc2query_serializeOpDeleteLocalGatewayRoute) ID() string {
 func (m *awsEc2query_serializeOpDeleteLocalGatewayRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10190,6 +11703,8 @@ func (m *awsEc2query_serializeOpDeleteLocalGatewayRoute) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10203,6 +11718,10 @@ func (*awsEc2query_serializeOpDeleteLocalGatewayRouteTable) ID() string {
 func (m *awsEc2query_serializeOpDeleteLocalGatewayRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10254,6 +11773,8 @@ func (m *awsEc2query_serializeOpDeleteLocalGatewayRouteTable) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10267,6 +11788,10 @@ func (*awsEc2query_serializeOpDeleteLocalGatewayRouteTableVirtualInterfaceGroupA
 func (m *awsEc2query_serializeOpDeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10318,6 +11843,8 @@ func (m *awsEc2query_serializeOpDeleteLocalGatewayRouteTableVirtualInterfaceGrou
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10331,6 +11858,10 @@ func (*awsEc2query_serializeOpDeleteLocalGatewayRouteTableVpcAssociation) ID() s
 func (m *awsEc2query_serializeOpDeleteLocalGatewayRouteTableVpcAssociation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10382,6 +11913,8 @@ func (m *awsEc2query_serializeOpDeleteLocalGatewayRouteTableVpcAssociation) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10395,6 +11928,10 @@ func (*awsEc2query_serializeOpDeleteManagedPrefixList) ID() string {
 func (m *awsEc2query_serializeOpDeleteManagedPrefixList) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10446,6 +11983,8 @@ func (m *awsEc2query_serializeOpDeleteManagedPrefixList) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10459,6 +11998,10 @@ func (*awsEc2query_serializeOpDeleteNatGateway) ID() string {
 func (m *awsEc2query_serializeOpDeleteNatGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10510,6 +12053,8 @@ func (m *awsEc2query_serializeOpDeleteNatGateway) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10523,6 +12068,10 @@ func (*awsEc2query_serializeOpDeleteNetworkAcl) ID() string {
 func (m *awsEc2query_serializeOpDeleteNetworkAcl) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10574,6 +12123,8 @@ func (m *awsEc2query_serializeOpDeleteNetworkAcl) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10587,6 +12138,10 @@ func (*awsEc2query_serializeOpDeleteNetworkAclEntry) ID() string {
 func (m *awsEc2query_serializeOpDeleteNetworkAclEntry) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10638,6 +12193,8 @@ func (m *awsEc2query_serializeOpDeleteNetworkAclEntry) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10651,6 +12208,10 @@ func (*awsEc2query_serializeOpDeleteNetworkInsightsAccessScope) ID() string {
 func (m *awsEc2query_serializeOpDeleteNetworkInsightsAccessScope) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10702,6 +12263,8 @@ func (m *awsEc2query_serializeOpDeleteNetworkInsightsAccessScope) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10715,6 +12278,10 @@ func (*awsEc2query_serializeOpDeleteNetworkInsightsAccessScopeAnalysis) ID() str
 func (m *awsEc2query_serializeOpDeleteNetworkInsightsAccessScopeAnalysis) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10766,6 +12333,8 @@ func (m *awsEc2query_serializeOpDeleteNetworkInsightsAccessScopeAnalysis) Handle
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10779,6 +12348,10 @@ func (*awsEc2query_serializeOpDeleteNetworkInsightsAnalysis) ID() string {
 func (m *awsEc2query_serializeOpDeleteNetworkInsightsAnalysis) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10830,6 +12403,8 @@ func (m *awsEc2query_serializeOpDeleteNetworkInsightsAnalysis) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10843,6 +12418,10 @@ func (*awsEc2query_serializeOpDeleteNetworkInsightsPath) ID() string {
 func (m *awsEc2query_serializeOpDeleteNetworkInsightsPath) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10894,6 +12473,8 @@ func (m *awsEc2query_serializeOpDeleteNetworkInsightsPath) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10907,6 +12488,10 @@ func (*awsEc2query_serializeOpDeleteNetworkInterface) ID() string {
 func (m *awsEc2query_serializeOpDeleteNetworkInterface) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -10958,6 +12543,8 @@ func (m *awsEc2query_serializeOpDeleteNetworkInterface) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -10971,6 +12558,10 @@ func (*awsEc2query_serializeOpDeleteNetworkInterfacePermission) ID() string {
 func (m *awsEc2query_serializeOpDeleteNetworkInterfacePermission) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11022,6 +12613,8 @@ func (m *awsEc2query_serializeOpDeleteNetworkInterfacePermission) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11035,6 +12628,10 @@ func (*awsEc2query_serializeOpDeletePlacementGroup) ID() string {
 func (m *awsEc2query_serializeOpDeletePlacementGroup) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11086,6 +12683,8 @@ func (m *awsEc2query_serializeOpDeletePlacementGroup) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11099,6 +12698,10 @@ func (*awsEc2query_serializeOpDeletePublicIpv4Pool) ID() string {
 func (m *awsEc2query_serializeOpDeletePublicIpv4Pool) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11150,6 +12753,8 @@ func (m *awsEc2query_serializeOpDeletePublicIpv4Pool) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11163,6 +12768,10 @@ func (*awsEc2query_serializeOpDeleteQueuedReservedInstances) ID() string {
 func (m *awsEc2query_serializeOpDeleteQueuedReservedInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11214,6 +12823,8 @@ func (m *awsEc2query_serializeOpDeleteQueuedReservedInstances) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11227,6 +12838,10 @@ func (*awsEc2query_serializeOpDeleteRoute) ID() string {
 func (m *awsEc2query_serializeOpDeleteRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11278,6 +12893,8 @@ func (m *awsEc2query_serializeOpDeleteRoute) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11291,6 +12908,10 @@ func (*awsEc2query_serializeOpDeleteRouteTable) ID() string {
 func (m *awsEc2query_serializeOpDeleteRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11342,6 +12963,8 @@ func (m *awsEc2query_serializeOpDeleteRouteTable) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11355,6 +12978,10 @@ func (*awsEc2query_serializeOpDeleteSecurityGroup) ID() string {
 func (m *awsEc2query_serializeOpDeleteSecurityGroup) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11406,6 +13033,8 @@ func (m *awsEc2query_serializeOpDeleteSecurityGroup) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11419,6 +13048,10 @@ func (*awsEc2query_serializeOpDeleteSnapshot) ID() string {
 func (m *awsEc2query_serializeOpDeleteSnapshot) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11470,6 +13103,8 @@ func (m *awsEc2query_serializeOpDeleteSnapshot) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11483,6 +13118,10 @@ func (*awsEc2query_serializeOpDeleteSpotDatafeedSubscription) ID() string {
 func (m *awsEc2query_serializeOpDeleteSpotDatafeedSubscription) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11534,6 +13173,8 @@ func (m *awsEc2query_serializeOpDeleteSpotDatafeedSubscription) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11547,6 +13188,10 @@ func (*awsEc2query_serializeOpDeleteSubnet) ID() string {
 func (m *awsEc2query_serializeOpDeleteSubnet) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11598,6 +13243,8 @@ func (m *awsEc2query_serializeOpDeleteSubnet) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11611,6 +13258,10 @@ func (*awsEc2query_serializeOpDeleteSubnetCidrReservation) ID() string {
 func (m *awsEc2query_serializeOpDeleteSubnetCidrReservation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11662,6 +13313,8 @@ func (m *awsEc2query_serializeOpDeleteSubnetCidrReservation) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11675,6 +13328,10 @@ func (*awsEc2query_serializeOpDeleteTags) ID() string {
 func (m *awsEc2query_serializeOpDeleteTags) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11726,6 +13383,8 @@ func (m *awsEc2query_serializeOpDeleteTags) HandleSerialize(ctx context.Context,
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11739,6 +13398,10 @@ func (*awsEc2query_serializeOpDeleteTrafficMirrorFilter) ID() string {
 func (m *awsEc2query_serializeOpDeleteTrafficMirrorFilter) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11790,6 +13453,8 @@ func (m *awsEc2query_serializeOpDeleteTrafficMirrorFilter) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11803,6 +13468,10 @@ func (*awsEc2query_serializeOpDeleteTrafficMirrorFilterRule) ID() string {
 func (m *awsEc2query_serializeOpDeleteTrafficMirrorFilterRule) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11854,6 +13523,8 @@ func (m *awsEc2query_serializeOpDeleteTrafficMirrorFilterRule) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11867,6 +13538,10 @@ func (*awsEc2query_serializeOpDeleteTrafficMirrorSession) ID() string {
 func (m *awsEc2query_serializeOpDeleteTrafficMirrorSession) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11918,6 +13593,8 @@ func (m *awsEc2query_serializeOpDeleteTrafficMirrorSession) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11931,6 +13608,10 @@ func (*awsEc2query_serializeOpDeleteTrafficMirrorTarget) ID() string {
 func (m *awsEc2query_serializeOpDeleteTrafficMirrorTarget) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -11982,6 +13663,8 @@ func (m *awsEc2query_serializeOpDeleteTrafficMirrorTarget) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -11995,6 +13678,10 @@ func (*awsEc2query_serializeOpDeleteTransitGateway) ID() string {
 func (m *awsEc2query_serializeOpDeleteTransitGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12046,6 +13733,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGateway) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12059,6 +13748,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayConnect) ID() string {
 func (m *awsEc2query_serializeOpDeleteTransitGatewayConnect) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12110,6 +13803,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayConnect) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12123,6 +13818,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayConnectPeer) ID() string {
 func (m *awsEc2query_serializeOpDeleteTransitGatewayConnectPeer) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12174,6 +13873,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayConnectPeer) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12187,6 +13888,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayMulticastDomain) ID() string {
 func (m *awsEc2query_serializeOpDeleteTransitGatewayMulticastDomain) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12238,6 +13943,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayMulticastDomain) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12251,6 +13958,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayPeeringAttachment) ID() string
 func (m *awsEc2query_serializeOpDeleteTransitGatewayPeeringAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12302,6 +14013,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayPeeringAttachment) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12315,6 +14028,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayPolicyTable) ID() string {
 func (m *awsEc2query_serializeOpDeleteTransitGatewayPolicyTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12366,6 +14083,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayPolicyTable) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12379,6 +14098,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayPrefixListReference) ID() stri
 func (m *awsEc2query_serializeOpDeleteTransitGatewayPrefixListReference) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12430,6 +14153,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayPrefixListReference) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12443,6 +14168,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayRoute) ID() string {
 func (m *awsEc2query_serializeOpDeleteTransitGatewayRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12494,6 +14223,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayRoute) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12507,6 +14238,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayRouteTable) ID() string {
 func (m *awsEc2query_serializeOpDeleteTransitGatewayRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12558,6 +14293,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayRouteTable) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12571,6 +14308,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayRouteTableAnnouncement) ID() s
 func (m *awsEc2query_serializeOpDeleteTransitGatewayRouteTableAnnouncement) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12622,6 +14363,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayRouteTableAnnouncement) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12635,6 +14378,10 @@ func (*awsEc2query_serializeOpDeleteTransitGatewayVpcAttachment) ID() string {
 func (m *awsEc2query_serializeOpDeleteTransitGatewayVpcAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12686,6 +14433,8 @@ func (m *awsEc2query_serializeOpDeleteTransitGatewayVpcAttachment) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12699,6 +14448,10 @@ func (*awsEc2query_serializeOpDeleteVerifiedAccessEndpoint) ID() string {
 func (m *awsEc2query_serializeOpDeleteVerifiedAccessEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12750,6 +14503,8 @@ func (m *awsEc2query_serializeOpDeleteVerifiedAccessEndpoint) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12763,6 +14518,10 @@ func (*awsEc2query_serializeOpDeleteVerifiedAccessGroup) ID() string {
 func (m *awsEc2query_serializeOpDeleteVerifiedAccessGroup) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12814,6 +14573,8 @@ func (m *awsEc2query_serializeOpDeleteVerifiedAccessGroup) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12827,6 +14588,10 @@ func (*awsEc2query_serializeOpDeleteVerifiedAccessInstance) ID() string {
 func (m *awsEc2query_serializeOpDeleteVerifiedAccessInstance) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12878,6 +14643,8 @@ func (m *awsEc2query_serializeOpDeleteVerifiedAccessInstance) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12891,6 +14658,10 @@ func (*awsEc2query_serializeOpDeleteVerifiedAccessTrustProvider) ID() string {
 func (m *awsEc2query_serializeOpDeleteVerifiedAccessTrustProvider) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -12942,6 +14713,8 @@ func (m *awsEc2query_serializeOpDeleteVerifiedAccessTrustProvider) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -12955,6 +14728,10 @@ func (*awsEc2query_serializeOpDeleteVolume) ID() string {
 func (m *awsEc2query_serializeOpDeleteVolume) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13006,6 +14783,8 @@ func (m *awsEc2query_serializeOpDeleteVolume) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13019,6 +14798,10 @@ func (*awsEc2query_serializeOpDeleteVpc) ID() string {
 func (m *awsEc2query_serializeOpDeleteVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13070,6 +14853,78 @@ func (m *awsEc2query_serializeOpDeleteVpc) HandleSerialize(ctx context.Context, 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDeleteVpcBlockPublicAccessExclusion struct {
+}
+
+func (*awsEc2query_serializeOpDeleteVpcBlockPublicAccessExclusion) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDeleteVpcBlockPublicAccessExclusion) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DeleteVpcBlockPublicAccessExclusionInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DeleteVpcBlockPublicAccessExclusion")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDeleteVpcBlockPublicAccessExclusionInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13083,6 +14938,10 @@ func (*awsEc2query_serializeOpDeleteVpcEndpointConnectionNotifications) ID() str
 func (m *awsEc2query_serializeOpDeleteVpcEndpointConnectionNotifications) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13134,6 +14993,8 @@ func (m *awsEc2query_serializeOpDeleteVpcEndpointConnectionNotifications) Handle
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13147,6 +15008,10 @@ func (*awsEc2query_serializeOpDeleteVpcEndpoints) ID() string {
 func (m *awsEc2query_serializeOpDeleteVpcEndpoints) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13198,6 +15063,8 @@ func (m *awsEc2query_serializeOpDeleteVpcEndpoints) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13211,6 +15078,10 @@ func (*awsEc2query_serializeOpDeleteVpcEndpointServiceConfigurations) ID() strin
 func (m *awsEc2query_serializeOpDeleteVpcEndpointServiceConfigurations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13262,6 +15133,8 @@ func (m *awsEc2query_serializeOpDeleteVpcEndpointServiceConfigurations) HandleSe
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13275,6 +15148,10 @@ func (*awsEc2query_serializeOpDeleteVpcPeeringConnection) ID() string {
 func (m *awsEc2query_serializeOpDeleteVpcPeeringConnection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13326,6 +15203,8 @@ func (m *awsEc2query_serializeOpDeleteVpcPeeringConnection) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13339,6 +15218,10 @@ func (*awsEc2query_serializeOpDeleteVpnConnection) ID() string {
 func (m *awsEc2query_serializeOpDeleteVpnConnection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13390,6 +15273,8 @@ func (m *awsEc2query_serializeOpDeleteVpnConnection) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13403,6 +15288,10 @@ func (*awsEc2query_serializeOpDeleteVpnConnectionRoute) ID() string {
 func (m *awsEc2query_serializeOpDeleteVpnConnectionRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13454,6 +15343,8 @@ func (m *awsEc2query_serializeOpDeleteVpnConnectionRoute) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13467,6 +15358,10 @@ func (*awsEc2query_serializeOpDeleteVpnGateway) ID() string {
 func (m *awsEc2query_serializeOpDeleteVpnGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13518,6 +15413,8 @@ func (m *awsEc2query_serializeOpDeleteVpnGateway) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13531,6 +15428,10 @@ func (*awsEc2query_serializeOpDeprovisionByoipCidr) ID() string {
 func (m *awsEc2query_serializeOpDeprovisionByoipCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13582,6 +15483,8 @@ func (m *awsEc2query_serializeOpDeprovisionByoipCidr) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13595,6 +15498,10 @@ func (*awsEc2query_serializeOpDeprovisionIpamByoasn) ID() string {
 func (m *awsEc2query_serializeOpDeprovisionIpamByoasn) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13646,6 +15553,8 @@ func (m *awsEc2query_serializeOpDeprovisionIpamByoasn) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13659,6 +15568,10 @@ func (*awsEc2query_serializeOpDeprovisionIpamPoolCidr) ID() string {
 func (m *awsEc2query_serializeOpDeprovisionIpamPoolCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13710,6 +15623,8 @@ func (m *awsEc2query_serializeOpDeprovisionIpamPoolCidr) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13723,6 +15638,10 @@ func (*awsEc2query_serializeOpDeprovisionPublicIpv4PoolCidr) ID() string {
 func (m *awsEc2query_serializeOpDeprovisionPublicIpv4PoolCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13774,6 +15693,8 @@ func (m *awsEc2query_serializeOpDeprovisionPublicIpv4PoolCidr) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13787,6 +15708,10 @@ func (*awsEc2query_serializeOpDeregisterImage) ID() string {
 func (m *awsEc2query_serializeOpDeregisterImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13838,6 +15763,8 @@ func (m *awsEc2query_serializeOpDeregisterImage) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13851,6 +15778,10 @@ func (*awsEc2query_serializeOpDeregisterInstanceEventNotificationAttributes) ID(
 func (m *awsEc2query_serializeOpDeregisterInstanceEventNotificationAttributes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13902,6 +15833,8 @@ func (m *awsEc2query_serializeOpDeregisterInstanceEventNotificationAttributes) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13915,6 +15848,10 @@ func (*awsEc2query_serializeOpDeregisterTransitGatewayMulticastGroupMembers) ID(
 func (m *awsEc2query_serializeOpDeregisterTransitGatewayMulticastGroupMembers) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -13966,6 +15903,8 @@ func (m *awsEc2query_serializeOpDeregisterTransitGatewayMulticastGroupMembers) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -13979,6 +15918,10 @@ func (*awsEc2query_serializeOpDeregisterTransitGatewayMulticastGroupSources) ID(
 func (m *awsEc2query_serializeOpDeregisterTransitGatewayMulticastGroupSources) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14030,6 +15973,8 @@ func (m *awsEc2query_serializeOpDeregisterTransitGatewayMulticastGroupSources) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14043,6 +15988,10 @@ func (*awsEc2query_serializeOpDescribeAccountAttributes) ID() string {
 func (m *awsEc2query_serializeOpDescribeAccountAttributes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14094,6 +16043,8 @@ func (m *awsEc2query_serializeOpDescribeAccountAttributes) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14107,6 +16058,10 @@ func (*awsEc2query_serializeOpDescribeAddresses) ID() string {
 func (m *awsEc2query_serializeOpDescribeAddresses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14158,6 +16113,8 @@ func (m *awsEc2query_serializeOpDescribeAddresses) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14171,6 +16128,10 @@ func (*awsEc2query_serializeOpDescribeAddressesAttribute) ID() string {
 func (m *awsEc2query_serializeOpDescribeAddressesAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14222,6 +16183,8 @@ func (m *awsEc2query_serializeOpDescribeAddressesAttribute) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14235,6 +16198,10 @@ func (*awsEc2query_serializeOpDescribeAddressTransfers) ID() string {
 func (m *awsEc2query_serializeOpDescribeAddressTransfers) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14286,6 +16253,8 @@ func (m *awsEc2query_serializeOpDescribeAddressTransfers) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14299,6 +16268,10 @@ func (*awsEc2query_serializeOpDescribeAggregateIdFormat) ID() string {
 func (m *awsEc2query_serializeOpDescribeAggregateIdFormat) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14350,6 +16323,8 @@ func (m *awsEc2query_serializeOpDescribeAggregateIdFormat) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14363,6 +16338,10 @@ func (*awsEc2query_serializeOpDescribeAvailabilityZones) ID() string {
 func (m *awsEc2query_serializeOpDescribeAvailabilityZones) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14414,6 +16393,8 @@ func (m *awsEc2query_serializeOpDescribeAvailabilityZones) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14427,6 +16408,10 @@ func (*awsEc2query_serializeOpDescribeAwsNetworkPerformanceMetricSubscriptions) 
 func (m *awsEc2query_serializeOpDescribeAwsNetworkPerformanceMetricSubscriptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14478,6 +16463,8 @@ func (m *awsEc2query_serializeOpDescribeAwsNetworkPerformanceMetricSubscriptions
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14491,6 +16478,10 @@ func (*awsEc2query_serializeOpDescribeBundleTasks) ID() string {
 func (m *awsEc2query_serializeOpDescribeBundleTasks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14542,6 +16533,8 @@ func (m *awsEc2query_serializeOpDescribeBundleTasks) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14555,6 +16548,10 @@ func (*awsEc2query_serializeOpDescribeByoipCidrs) ID() string {
 func (m *awsEc2query_serializeOpDescribeByoipCidrs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14606,6 +16603,148 @@ func (m *awsEc2query_serializeOpDescribeByoipCidrs) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeCapacityBlockExtensionHistory struct {
+}
+
+func (*awsEc2query_serializeOpDescribeCapacityBlockExtensionHistory) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeCapacityBlockExtensionHistory) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeCapacityBlockExtensionHistoryInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeCapacityBlockExtensionHistory")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeCapacityBlockExtensionHistoryInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeCapacityBlockExtensionOfferings struct {
+}
+
+func (*awsEc2query_serializeOpDescribeCapacityBlockExtensionOfferings) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeCapacityBlockExtensionOfferings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeCapacityBlockExtensionOfferingsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeCapacityBlockExtensionOfferings")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeCapacityBlockExtensionOfferingsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14619,6 +16758,10 @@ func (*awsEc2query_serializeOpDescribeCapacityBlockOfferings) ID() string {
 func (m *awsEc2query_serializeOpDescribeCapacityBlockOfferings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14670,6 +16813,78 @@ func (m *awsEc2query_serializeOpDescribeCapacityBlockOfferings) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeCapacityReservationBillingRequests struct {
+}
+
+func (*awsEc2query_serializeOpDescribeCapacityReservationBillingRequests) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeCapacityReservationBillingRequests) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeCapacityReservationBillingRequestsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeCapacityReservationBillingRequests")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeCapacityReservationBillingRequestsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14683,6 +16898,10 @@ func (*awsEc2query_serializeOpDescribeCapacityReservationFleets) ID() string {
 func (m *awsEc2query_serializeOpDescribeCapacityReservationFleets) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14734,6 +16953,8 @@ func (m *awsEc2query_serializeOpDescribeCapacityReservationFleets) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14747,6 +16968,10 @@ func (*awsEc2query_serializeOpDescribeCapacityReservations) ID() string {
 func (m *awsEc2query_serializeOpDescribeCapacityReservations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14798,6 +17023,8 @@ func (m *awsEc2query_serializeOpDescribeCapacityReservations) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14811,6 +17038,10 @@ func (*awsEc2query_serializeOpDescribeCarrierGateways) ID() string {
 func (m *awsEc2query_serializeOpDescribeCarrierGateways) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14862,6 +17093,8 @@ func (m *awsEc2query_serializeOpDescribeCarrierGateways) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14875,6 +17108,10 @@ func (*awsEc2query_serializeOpDescribeClassicLinkInstances) ID() string {
 func (m *awsEc2query_serializeOpDescribeClassicLinkInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14926,6 +17163,8 @@ func (m *awsEc2query_serializeOpDescribeClassicLinkInstances) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -14939,6 +17178,10 @@ func (*awsEc2query_serializeOpDescribeClientVpnAuthorizationRules) ID() string {
 func (m *awsEc2query_serializeOpDescribeClientVpnAuthorizationRules) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -14990,6 +17233,8 @@ func (m *awsEc2query_serializeOpDescribeClientVpnAuthorizationRules) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15003,6 +17248,10 @@ func (*awsEc2query_serializeOpDescribeClientVpnConnections) ID() string {
 func (m *awsEc2query_serializeOpDescribeClientVpnConnections) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15054,6 +17303,8 @@ func (m *awsEc2query_serializeOpDescribeClientVpnConnections) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15067,6 +17318,10 @@ func (*awsEc2query_serializeOpDescribeClientVpnEndpoints) ID() string {
 func (m *awsEc2query_serializeOpDescribeClientVpnEndpoints) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15118,6 +17373,8 @@ func (m *awsEc2query_serializeOpDescribeClientVpnEndpoints) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15131,6 +17388,10 @@ func (*awsEc2query_serializeOpDescribeClientVpnRoutes) ID() string {
 func (m *awsEc2query_serializeOpDescribeClientVpnRoutes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15182,6 +17443,8 @@ func (m *awsEc2query_serializeOpDescribeClientVpnRoutes) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15195,6 +17458,10 @@ func (*awsEc2query_serializeOpDescribeClientVpnTargetNetworks) ID() string {
 func (m *awsEc2query_serializeOpDescribeClientVpnTargetNetworks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15246,6 +17513,8 @@ func (m *awsEc2query_serializeOpDescribeClientVpnTargetNetworks) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15259,6 +17528,10 @@ func (*awsEc2query_serializeOpDescribeCoipPools) ID() string {
 func (m *awsEc2query_serializeOpDescribeCoipPools) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15310,6 +17583,8 @@ func (m *awsEc2query_serializeOpDescribeCoipPools) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15323,6 +17598,10 @@ func (*awsEc2query_serializeOpDescribeConversionTasks) ID() string {
 func (m *awsEc2query_serializeOpDescribeConversionTasks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15374,6 +17653,8 @@ func (m *awsEc2query_serializeOpDescribeConversionTasks) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15387,6 +17668,10 @@ func (*awsEc2query_serializeOpDescribeCustomerGateways) ID() string {
 func (m *awsEc2query_serializeOpDescribeCustomerGateways) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15438,6 +17723,78 @@ func (m *awsEc2query_serializeOpDescribeCustomerGateways) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeDeclarativePoliciesReports struct {
+}
+
+func (*awsEc2query_serializeOpDescribeDeclarativePoliciesReports) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeDeclarativePoliciesReports) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeDeclarativePoliciesReportsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeDeclarativePoliciesReports")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeDeclarativePoliciesReportsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15451,6 +17808,10 @@ func (*awsEc2query_serializeOpDescribeDhcpOptions) ID() string {
 func (m *awsEc2query_serializeOpDescribeDhcpOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15502,6 +17863,8 @@ func (m *awsEc2query_serializeOpDescribeDhcpOptions) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15515,6 +17878,10 @@ func (*awsEc2query_serializeOpDescribeEgressOnlyInternetGateways) ID() string {
 func (m *awsEc2query_serializeOpDescribeEgressOnlyInternetGateways) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15566,6 +17933,8 @@ func (m *awsEc2query_serializeOpDescribeEgressOnlyInternetGateways) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15579,6 +17948,10 @@ func (*awsEc2query_serializeOpDescribeElasticGpus) ID() string {
 func (m *awsEc2query_serializeOpDescribeElasticGpus) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15630,6 +18003,8 @@ func (m *awsEc2query_serializeOpDescribeElasticGpus) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15643,6 +18018,10 @@ func (*awsEc2query_serializeOpDescribeExportImageTasks) ID() string {
 func (m *awsEc2query_serializeOpDescribeExportImageTasks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15694,6 +18073,8 @@ func (m *awsEc2query_serializeOpDescribeExportImageTasks) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15707,6 +18088,10 @@ func (*awsEc2query_serializeOpDescribeExportTasks) ID() string {
 func (m *awsEc2query_serializeOpDescribeExportTasks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15758,6 +18143,8 @@ func (m *awsEc2query_serializeOpDescribeExportTasks) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15771,6 +18158,10 @@ func (*awsEc2query_serializeOpDescribeFastLaunchImages) ID() string {
 func (m *awsEc2query_serializeOpDescribeFastLaunchImages) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15822,6 +18213,8 @@ func (m *awsEc2query_serializeOpDescribeFastLaunchImages) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15835,6 +18228,10 @@ func (*awsEc2query_serializeOpDescribeFastSnapshotRestores) ID() string {
 func (m *awsEc2query_serializeOpDescribeFastSnapshotRestores) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15886,6 +18283,8 @@ func (m *awsEc2query_serializeOpDescribeFastSnapshotRestores) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15899,6 +18298,10 @@ func (*awsEc2query_serializeOpDescribeFleetHistory) ID() string {
 func (m *awsEc2query_serializeOpDescribeFleetHistory) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -15950,6 +18353,8 @@ func (m *awsEc2query_serializeOpDescribeFleetHistory) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -15963,6 +18368,10 @@ func (*awsEc2query_serializeOpDescribeFleetInstances) ID() string {
 func (m *awsEc2query_serializeOpDescribeFleetInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16014,6 +18423,8 @@ func (m *awsEc2query_serializeOpDescribeFleetInstances) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16027,6 +18438,10 @@ func (*awsEc2query_serializeOpDescribeFleets) ID() string {
 func (m *awsEc2query_serializeOpDescribeFleets) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16078,6 +18493,8 @@ func (m *awsEc2query_serializeOpDescribeFleets) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16091,6 +18508,10 @@ func (*awsEc2query_serializeOpDescribeFlowLogs) ID() string {
 func (m *awsEc2query_serializeOpDescribeFlowLogs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16142,6 +18563,8 @@ func (m *awsEc2query_serializeOpDescribeFlowLogs) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16155,6 +18578,10 @@ func (*awsEc2query_serializeOpDescribeFpgaImageAttribute) ID() string {
 func (m *awsEc2query_serializeOpDescribeFpgaImageAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16206,6 +18633,8 @@ func (m *awsEc2query_serializeOpDescribeFpgaImageAttribute) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16219,6 +18648,10 @@ func (*awsEc2query_serializeOpDescribeFpgaImages) ID() string {
 func (m *awsEc2query_serializeOpDescribeFpgaImages) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16270,6 +18703,8 @@ func (m *awsEc2query_serializeOpDescribeFpgaImages) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16283,6 +18718,10 @@ func (*awsEc2query_serializeOpDescribeHostReservationOfferings) ID() string {
 func (m *awsEc2query_serializeOpDescribeHostReservationOfferings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16334,6 +18773,8 @@ func (m *awsEc2query_serializeOpDescribeHostReservationOfferings) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16347,6 +18788,10 @@ func (*awsEc2query_serializeOpDescribeHostReservations) ID() string {
 func (m *awsEc2query_serializeOpDescribeHostReservations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16398,6 +18843,8 @@ func (m *awsEc2query_serializeOpDescribeHostReservations) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16411,6 +18858,10 @@ func (*awsEc2query_serializeOpDescribeHosts) ID() string {
 func (m *awsEc2query_serializeOpDescribeHosts) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16462,6 +18913,8 @@ func (m *awsEc2query_serializeOpDescribeHosts) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16475,6 +18928,10 @@ func (*awsEc2query_serializeOpDescribeIamInstanceProfileAssociations) ID() strin
 func (m *awsEc2query_serializeOpDescribeIamInstanceProfileAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16526,6 +18983,8 @@ func (m *awsEc2query_serializeOpDescribeIamInstanceProfileAssociations) HandleSe
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16539,6 +18998,10 @@ func (*awsEc2query_serializeOpDescribeIdentityIdFormat) ID() string {
 func (m *awsEc2query_serializeOpDescribeIdentityIdFormat) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16590,6 +19053,8 @@ func (m *awsEc2query_serializeOpDescribeIdentityIdFormat) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16603,6 +19068,10 @@ func (*awsEc2query_serializeOpDescribeIdFormat) ID() string {
 func (m *awsEc2query_serializeOpDescribeIdFormat) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16654,6 +19123,8 @@ func (m *awsEc2query_serializeOpDescribeIdFormat) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16667,6 +19138,10 @@ func (*awsEc2query_serializeOpDescribeImageAttribute) ID() string {
 func (m *awsEc2query_serializeOpDescribeImageAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16718,6 +19193,8 @@ func (m *awsEc2query_serializeOpDescribeImageAttribute) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16731,6 +19208,10 @@ func (*awsEc2query_serializeOpDescribeImages) ID() string {
 func (m *awsEc2query_serializeOpDescribeImages) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16782,6 +19263,8 @@ func (m *awsEc2query_serializeOpDescribeImages) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16795,6 +19278,10 @@ func (*awsEc2query_serializeOpDescribeImportImageTasks) ID() string {
 func (m *awsEc2query_serializeOpDescribeImportImageTasks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16846,6 +19333,8 @@ func (m *awsEc2query_serializeOpDescribeImportImageTasks) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16859,6 +19348,10 @@ func (*awsEc2query_serializeOpDescribeImportSnapshotTasks) ID() string {
 func (m *awsEc2query_serializeOpDescribeImportSnapshotTasks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16910,6 +19403,8 @@ func (m *awsEc2query_serializeOpDescribeImportSnapshotTasks) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16923,6 +19418,10 @@ func (*awsEc2query_serializeOpDescribeInstanceAttribute) ID() string {
 func (m *awsEc2query_serializeOpDescribeInstanceAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -16974,6 +19473,8 @@ func (m *awsEc2query_serializeOpDescribeInstanceAttribute) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -16987,6 +19488,10 @@ func (*awsEc2query_serializeOpDescribeInstanceConnectEndpoints) ID() string {
 func (m *awsEc2query_serializeOpDescribeInstanceConnectEndpoints) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17038,6 +19543,8 @@ func (m *awsEc2query_serializeOpDescribeInstanceConnectEndpoints) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17051,6 +19558,10 @@ func (*awsEc2query_serializeOpDescribeInstanceCreditSpecifications) ID() string 
 func (m *awsEc2query_serializeOpDescribeInstanceCreditSpecifications) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17102,6 +19613,8 @@ func (m *awsEc2query_serializeOpDescribeInstanceCreditSpecifications) HandleSeri
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17115,6 +19628,10 @@ func (*awsEc2query_serializeOpDescribeInstanceEventNotificationAttributes) ID() 
 func (m *awsEc2query_serializeOpDescribeInstanceEventNotificationAttributes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17166,6 +19683,8 @@ func (m *awsEc2query_serializeOpDescribeInstanceEventNotificationAttributes) Han
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17179,6 +19698,10 @@ func (*awsEc2query_serializeOpDescribeInstanceEventWindows) ID() string {
 func (m *awsEc2query_serializeOpDescribeInstanceEventWindows) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17230,6 +19753,78 @@ func (m *awsEc2query_serializeOpDescribeInstanceEventWindows) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeInstanceImageMetadata struct {
+}
+
+func (*awsEc2query_serializeOpDescribeInstanceImageMetadata) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeInstanceImageMetadata) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeInstanceImageMetadataInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeInstanceImageMetadata")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeInstanceImageMetadataInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17243,6 +19838,10 @@ func (*awsEc2query_serializeOpDescribeInstances) ID() string {
 func (m *awsEc2query_serializeOpDescribeInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17294,6 +19893,8 @@ func (m *awsEc2query_serializeOpDescribeInstances) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17307,6 +19908,10 @@ func (*awsEc2query_serializeOpDescribeInstanceStatus) ID() string {
 func (m *awsEc2query_serializeOpDescribeInstanceStatus) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17358,6 +19963,8 @@ func (m *awsEc2query_serializeOpDescribeInstanceStatus) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17371,6 +19978,10 @@ func (*awsEc2query_serializeOpDescribeInstanceTopology) ID() string {
 func (m *awsEc2query_serializeOpDescribeInstanceTopology) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17422,6 +20033,8 @@ func (m *awsEc2query_serializeOpDescribeInstanceTopology) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17435,6 +20048,10 @@ func (*awsEc2query_serializeOpDescribeInstanceTypeOfferings) ID() string {
 func (m *awsEc2query_serializeOpDescribeInstanceTypeOfferings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17486,6 +20103,8 @@ func (m *awsEc2query_serializeOpDescribeInstanceTypeOfferings) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17499,6 +20118,10 @@ func (*awsEc2query_serializeOpDescribeInstanceTypes) ID() string {
 func (m *awsEc2query_serializeOpDescribeInstanceTypes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17550,6 +20173,8 @@ func (m *awsEc2query_serializeOpDescribeInstanceTypes) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17563,6 +20188,10 @@ func (*awsEc2query_serializeOpDescribeInternetGateways) ID() string {
 func (m *awsEc2query_serializeOpDescribeInternetGateways) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17614,6 +20243,8 @@ func (m *awsEc2query_serializeOpDescribeInternetGateways) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17627,6 +20258,10 @@ func (*awsEc2query_serializeOpDescribeIpamByoasn) ID() string {
 func (m *awsEc2query_serializeOpDescribeIpamByoasn) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17678,6 +20313,78 @@ func (m *awsEc2query_serializeOpDescribeIpamByoasn) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeIpamExternalResourceVerificationTokens struct {
+}
+
+func (*awsEc2query_serializeOpDescribeIpamExternalResourceVerificationTokens) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeIpamExternalResourceVerificationTokens) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeIpamExternalResourceVerificationTokensInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeIpamExternalResourceVerificationTokens")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeIpamExternalResourceVerificationTokensInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17691,6 +20398,10 @@ func (*awsEc2query_serializeOpDescribeIpamPools) ID() string {
 func (m *awsEc2query_serializeOpDescribeIpamPools) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17742,6 +20453,8 @@ func (m *awsEc2query_serializeOpDescribeIpamPools) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17755,6 +20468,10 @@ func (*awsEc2query_serializeOpDescribeIpamResourceDiscoveries) ID() string {
 func (m *awsEc2query_serializeOpDescribeIpamResourceDiscoveries) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17806,6 +20523,8 @@ func (m *awsEc2query_serializeOpDescribeIpamResourceDiscoveries) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17819,6 +20538,10 @@ func (*awsEc2query_serializeOpDescribeIpamResourceDiscoveryAssociations) ID() st
 func (m *awsEc2query_serializeOpDescribeIpamResourceDiscoveryAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17870,6 +20593,8 @@ func (m *awsEc2query_serializeOpDescribeIpamResourceDiscoveryAssociations) Handl
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17883,6 +20608,10 @@ func (*awsEc2query_serializeOpDescribeIpams) ID() string {
 func (m *awsEc2query_serializeOpDescribeIpams) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17934,6 +20663,8 @@ func (m *awsEc2query_serializeOpDescribeIpams) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -17947,6 +20678,10 @@ func (*awsEc2query_serializeOpDescribeIpamScopes) ID() string {
 func (m *awsEc2query_serializeOpDescribeIpamScopes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -17998,6 +20733,8 @@ func (m *awsEc2query_serializeOpDescribeIpamScopes) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18011,6 +20748,10 @@ func (*awsEc2query_serializeOpDescribeIpv6Pools) ID() string {
 func (m *awsEc2query_serializeOpDescribeIpv6Pools) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18062,6 +20803,8 @@ func (m *awsEc2query_serializeOpDescribeIpv6Pools) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18075,6 +20818,10 @@ func (*awsEc2query_serializeOpDescribeKeyPairs) ID() string {
 func (m *awsEc2query_serializeOpDescribeKeyPairs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18126,6 +20873,8 @@ func (m *awsEc2query_serializeOpDescribeKeyPairs) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18139,6 +20888,10 @@ func (*awsEc2query_serializeOpDescribeLaunchTemplates) ID() string {
 func (m *awsEc2query_serializeOpDescribeLaunchTemplates) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18190,6 +20943,8 @@ func (m *awsEc2query_serializeOpDescribeLaunchTemplates) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18203,6 +20958,10 @@ func (*awsEc2query_serializeOpDescribeLaunchTemplateVersions) ID() string {
 func (m *awsEc2query_serializeOpDescribeLaunchTemplateVersions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18254,6 +21013,8 @@ func (m *awsEc2query_serializeOpDescribeLaunchTemplateVersions) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18267,6 +21028,10 @@ func (*awsEc2query_serializeOpDescribeLocalGatewayRouteTables) ID() string {
 func (m *awsEc2query_serializeOpDescribeLocalGatewayRouteTables) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18318,6 +21083,8 @@ func (m *awsEc2query_serializeOpDescribeLocalGatewayRouteTables) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18331,6 +21098,10 @@ func (*awsEc2query_serializeOpDescribeLocalGatewayRouteTableVirtualInterfaceGrou
 func (m *awsEc2query_serializeOpDescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18382,6 +21153,8 @@ func (m *awsEc2query_serializeOpDescribeLocalGatewayRouteTableVirtualInterfaceGr
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18395,6 +21168,10 @@ func (*awsEc2query_serializeOpDescribeLocalGatewayRouteTableVpcAssociations) ID(
 func (m *awsEc2query_serializeOpDescribeLocalGatewayRouteTableVpcAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18446,6 +21223,8 @@ func (m *awsEc2query_serializeOpDescribeLocalGatewayRouteTableVpcAssociations) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18459,6 +21238,10 @@ func (*awsEc2query_serializeOpDescribeLocalGateways) ID() string {
 func (m *awsEc2query_serializeOpDescribeLocalGateways) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18510,6 +21293,8 @@ func (m *awsEc2query_serializeOpDescribeLocalGateways) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18523,6 +21308,10 @@ func (*awsEc2query_serializeOpDescribeLocalGatewayVirtualInterfaceGroups) ID() s
 func (m *awsEc2query_serializeOpDescribeLocalGatewayVirtualInterfaceGroups) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18574,6 +21363,8 @@ func (m *awsEc2query_serializeOpDescribeLocalGatewayVirtualInterfaceGroups) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18587,6 +21378,10 @@ func (*awsEc2query_serializeOpDescribeLocalGatewayVirtualInterfaces) ID() string
 func (m *awsEc2query_serializeOpDescribeLocalGatewayVirtualInterfaces) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18638,6 +21433,8 @@ func (m *awsEc2query_serializeOpDescribeLocalGatewayVirtualInterfaces) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18651,6 +21448,10 @@ func (*awsEc2query_serializeOpDescribeLockedSnapshots) ID() string {
 func (m *awsEc2query_serializeOpDescribeLockedSnapshots) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18702,6 +21503,78 @@ func (m *awsEc2query_serializeOpDescribeLockedSnapshots) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeMacHosts struct {
+}
+
+func (*awsEc2query_serializeOpDescribeMacHosts) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeMacHosts) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeMacHostsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeMacHosts")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeMacHostsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18715,6 +21588,10 @@ func (*awsEc2query_serializeOpDescribeManagedPrefixLists) ID() string {
 func (m *awsEc2query_serializeOpDescribeManagedPrefixLists) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18766,6 +21643,8 @@ func (m *awsEc2query_serializeOpDescribeManagedPrefixLists) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18779,6 +21658,10 @@ func (*awsEc2query_serializeOpDescribeMovingAddresses) ID() string {
 func (m *awsEc2query_serializeOpDescribeMovingAddresses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18830,6 +21713,8 @@ func (m *awsEc2query_serializeOpDescribeMovingAddresses) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18843,6 +21728,10 @@ func (*awsEc2query_serializeOpDescribeNatGateways) ID() string {
 func (m *awsEc2query_serializeOpDescribeNatGateways) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18894,6 +21783,8 @@ func (m *awsEc2query_serializeOpDescribeNatGateways) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18907,6 +21798,10 @@ func (*awsEc2query_serializeOpDescribeNetworkAcls) ID() string {
 func (m *awsEc2query_serializeOpDescribeNetworkAcls) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -18958,6 +21853,8 @@ func (m *awsEc2query_serializeOpDescribeNetworkAcls) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -18971,6 +21868,10 @@ func (*awsEc2query_serializeOpDescribeNetworkInsightsAccessScopeAnalyses) ID() s
 func (m *awsEc2query_serializeOpDescribeNetworkInsightsAccessScopeAnalyses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19022,6 +21923,8 @@ func (m *awsEc2query_serializeOpDescribeNetworkInsightsAccessScopeAnalyses) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19035,6 +21938,10 @@ func (*awsEc2query_serializeOpDescribeNetworkInsightsAccessScopes) ID() string {
 func (m *awsEc2query_serializeOpDescribeNetworkInsightsAccessScopes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19086,6 +21993,8 @@ func (m *awsEc2query_serializeOpDescribeNetworkInsightsAccessScopes) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19099,6 +22008,10 @@ func (*awsEc2query_serializeOpDescribeNetworkInsightsAnalyses) ID() string {
 func (m *awsEc2query_serializeOpDescribeNetworkInsightsAnalyses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19150,6 +22063,8 @@ func (m *awsEc2query_serializeOpDescribeNetworkInsightsAnalyses) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19163,6 +22078,10 @@ func (*awsEc2query_serializeOpDescribeNetworkInsightsPaths) ID() string {
 func (m *awsEc2query_serializeOpDescribeNetworkInsightsPaths) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19214,6 +22133,8 @@ func (m *awsEc2query_serializeOpDescribeNetworkInsightsPaths) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19227,6 +22148,10 @@ func (*awsEc2query_serializeOpDescribeNetworkInterfaceAttribute) ID() string {
 func (m *awsEc2query_serializeOpDescribeNetworkInterfaceAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19278,6 +22203,8 @@ func (m *awsEc2query_serializeOpDescribeNetworkInterfaceAttribute) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19291,6 +22218,10 @@ func (*awsEc2query_serializeOpDescribeNetworkInterfacePermissions) ID() string {
 func (m *awsEc2query_serializeOpDescribeNetworkInterfacePermissions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19342,6 +22273,8 @@ func (m *awsEc2query_serializeOpDescribeNetworkInterfacePermissions) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19355,6 +22288,10 @@ func (*awsEc2query_serializeOpDescribeNetworkInterfaces) ID() string {
 func (m *awsEc2query_serializeOpDescribeNetworkInterfaces) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19406,6 +22343,8 @@ func (m *awsEc2query_serializeOpDescribeNetworkInterfaces) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19419,6 +22358,10 @@ func (*awsEc2query_serializeOpDescribePlacementGroups) ID() string {
 func (m *awsEc2query_serializeOpDescribePlacementGroups) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19470,6 +22413,8 @@ func (m *awsEc2query_serializeOpDescribePlacementGroups) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19483,6 +22428,10 @@ func (*awsEc2query_serializeOpDescribePrefixLists) ID() string {
 func (m *awsEc2query_serializeOpDescribePrefixLists) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19534,6 +22483,8 @@ func (m *awsEc2query_serializeOpDescribePrefixLists) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19547,6 +22498,10 @@ func (*awsEc2query_serializeOpDescribePrincipalIdFormat) ID() string {
 func (m *awsEc2query_serializeOpDescribePrincipalIdFormat) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19598,6 +22553,8 @@ func (m *awsEc2query_serializeOpDescribePrincipalIdFormat) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19611,6 +22568,10 @@ func (*awsEc2query_serializeOpDescribePublicIpv4Pools) ID() string {
 func (m *awsEc2query_serializeOpDescribePublicIpv4Pools) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19662,6 +22623,8 @@ func (m *awsEc2query_serializeOpDescribePublicIpv4Pools) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19675,6 +22638,10 @@ func (*awsEc2query_serializeOpDescribeRegions) ID() string {
 func (m *awsEc2query_serializeOpDescribeRegions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19726,6 +22693,8 @@ func (m *awsEc2query_serializeOpDescribeRegions) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19739,6 +22708,10 @@ func (*awsEc2query_serializeOpDescribeReplaceRootVolumeTasks) ID() string {
 func (m *awsEc2query_serializeOpDescribeReplaceRootVolumeTasks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19790,6 +22763,8 @@ func (m *awsEc2query_serializeOpDescribeReplaceRootVolumeTasks) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19803,6 +22778,10 @@ func (*awsEc2query_serializeOpDescribeReservedInstances) ID() string {
 func (m *awsEc2query_serializeOpDescribeReservedInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19854,6 +22833,8 @@ func (m *awsEc2query_serializeOpDescribeReservedInstances) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19867,6 +22848,10 @@ func (*awsEc2query_serializeOpDescribeReservedInstancesListings) ID() string {
 func (m *awsEc2query_serializeOpDescribeReservedInstancesListings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19918,6 +22903,8 @@ func (m *awsEc2query_serializeOpDescribeReservedInstancesListings) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19931,6 +22918,10 @@ func (*awsEc2query_serializeOpDescribeReservedInstancesModifications) ID() strin
 func (m *awsEc2query_serializeOpDescribeReservedInstancesModifications) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -19982,6 +22973,8 @@ func (m *awsEc2query_serializeOpDescribeReservedInstancesModifications) HandleSe
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -19995,6 +22988,10 @@ func (*awsEc2query_serializeOpDescribeReservedInstancesOfferings) ID() string {
 func (m *awsEc2query_serializeOpDescribeReservedInstancesOfferings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20046,6 +23043,8 @@ func (m *awsEc2query_serializeOpDescribeReservedInstancesOfferings) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20059,6 +23058,10 @@ func (*awsEc2query_serializeOpDescribeRouteTables) ID() string {
 func (m *awsEc2query_serializeOpDescribeRouteTables) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20110,6 +23113,8 @@ func (m *awsEc2query_serializeOpDescribeRouteTables) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20123,6 +23128,10 @@ func (*awsEc2query_serializeOpDescribeScheduledInstanceAvailability) ID() string
 func (m *awsEc2query_serializeOpDescribeScheduledInstanceAvailability) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20174,6 +23183,8 @@ func (m *awsEc2query_serializeOpDescribeScheduledInstanceAvailability) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20187,6 +23198,10 @@ func (*awsEc2query_serializeOpDescribeScheduledInstances) ID() string {
 func (m *awsEc2query_serializeOpDescribeScheduledInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20238,6 +23253,8 @@ func (m *awsEc2query_serializeOpDescribeScheduledInstances) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20251,6 +23268,10 @@ func (*awsEc2query_serializeOpDescribeSecurityGroupReferences) ID() string {
 func (m *awsEc2query_serializeOpDescribeSecurityGroupReferences) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20302,6 +23323,8 @@ func (m *awsEc2query_serializeOpDescribeSecurityGroupReferences) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20315,6 +23338,10 @@ func (*awsEc2query_serializeOpDescribeSecurityGroupRules) ID() string {
 func (m *awsEc2query_serializeOpDescribeSecurityGroupRules) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20366,6 +23393,8 @@ func (m *awsEc2query_serializeOpDescribeSecurityGroupRules) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20379,6 +23408,10 @@ func (*awsEc2query_serializeOpDescribeSecurityGroups) ID() string {
 func (m *awsEc2query_serializeOpDescribeSecurityGroups) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20430,6 +23463,78 @@ func (m *awsEc2query_serializeOpDescribeSecurityGroups) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeSecurityGroupVpcAssociations struct {
+}
+
+func (*awsEc2query_serializeOpDescribeSecurityGroupVpcAssociations) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeSecurityGroupVpcAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeSecurityGroupVpcAssociationsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeSecurityGroupVpcAssociations")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeSecurityGroupVpcAssociationsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20443,6 +23548,10 @@ func (*awsEc2query_serializeOpDescribeSnapshotAttribute) ID() string {
 func (m *awsEc2query_serializeOpDescribeSnapshotAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20494,6 +23603,8 @@ func (m *awsEc2query_serializeOpDescribeSnapshotAttribute) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20507,6 +23618,10 @@ func (*awsEc2query_serializeOpDescribeSnapshots) ID() string {
 func (m *awsEc2query_serializeOpDescribeSnapshots) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20558,6 +23673,8 @@ func (m *awsEc2query_serializeOpDescribeSnapshots) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20571,6 +23688,10 @@ func (*awsEc2query_serializeOpDescribeSnapshotTierStatus) ID() string {
 func (m *awsEc2query_serializeOpDescribeSnapshotTierStatus) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20622,6 +23743,8 @@ func (m *awsEc2query_serializeOpDescribeSnapshotTierStatus) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20635,6 +23758,10 @@ func (*awsEc2query_serializeOpDescribeSpotDatafeedSubscription) ID() string {
 func (m *awsEc2query_serializeOpDescribeSpotDatafeedSubscription) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20686,6 +23813,8 @@ func (m *awsEc2query_serializeOpDescribeSpotDatafeedSubscription) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20699,6 +23828,10 @@ func (*awsEc2query_serializeOpDescribeSpotFleetInstances) ID() string {
 func (m *awsEc2query_serializeOpDescribeSpotFleetInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20750,6 +23883,8 @@ func (m *awsEc2query_serializeOpDescribeSpotFleetInstances) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20763,6 +23898,10 @@ func (*awsEc2query_serializeOpDescribeSpotFleetRequestHistory) ID() string {
 func (m *awsEc2query_serializeOpDescribeSpotFleetRequestHistory) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20814,6 +23953,8 @@ func (m *awsEc2query_serializeOpDescribeSpotFleetRequestHistory) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20827,6 +23968,10 @@ func (*awsEc2query_serializeOpDescribeSpotFleetRequests) ID() string {
 func (m *awsEc2query_serializeOpDescribeSpotFleetRequests) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20878,6 +24023,8 @@ func (m *awsEc2query_serializeOpDescribeSpotFleetRequests) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20891,6 +24038,10 @@ func (*awsEc2query_serializeOpDescribeSpotInstanceRequests) ID() string {
 func (m *awsEc2query_serializeOpDescribeSpotInstanceRequests) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -20942,6 +24093,8 @@ func (m *awsEc2query_serializeOpDescribeSpotInstanceRequests) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -20955,6 +24108,10 @@ func (*awsEc2query_serializeOpDescribeSpotPriceHistory) ID() string {
 func (m *awsEc2query_serializeOpDescribeSpotPriceHistory) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21006,6 +24163,8 @@ func (m *awsEc2query_serializeOpDescribeSpotPriceHistory) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21019,6 +24178,10 @@ func (*awsEc2query_serializeOpDescribeStaleSecurityGroups) ID() string {
 func (m *awsEc2query_serializeOpDescribeStaleSecurityGroups) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21070,6 +24233,8 @@ func (m *awsEc2query_serializeOpDescribeStaleSecurityGroups) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21083,6 +24248,10 @@ func (*awsEc2query_serializeOpDescribeStoreImageTasks) ID() string {
 func (m *awsEc2query_serializeOpDescribeStoreImageTasks) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21134,6 +24303,8 @@ func (m *awsEc2query_serializeOpDescribeStoreImageTasks) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21147,6 +24318,10 @@ func (*awsEc2query_serializeOpDescribeSubnets) ID() string {
 func (m *awsEc2query_serializeOpDescribeSubnets) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21198,6 +24373,8 @@ func (m *awsEc2query_serializeOpDescribeSubnets) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21211,6 +24388,10 @@ func (*awsEc2query_serializeOpDescribeTags) ID() string {
 func (m *awsEc2query_serializeOpDescribeTags) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21262,6 +24443,78 @@ func (m *awsEc2query_serializeOpDescribeTags) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeTrafficMirrorFilterRules struct {
+}
+
+func (*awsEc2query_serializeOpDescribeTrafficMirrorFilterRules) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeTrafficMirrorFilterRules) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeTrafficMirrorFilterRulesInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeTrafficMirrorFilterRules")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeTrafficMirrorFilterRulesInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21275,6 +24528,10 @@ func (*awsEc2query_serializeOpDescribeTrafficMirrorFilters) ID() string {
 func (m *awsEc2query_serializeOpDescribeTrafficMirrorFilters) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21326,6 +24583,8 @@ func (m *awsEc2query_serializeOpDescribeTrafficMirrorFilters) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21339,6 +24598,10 @@ func (*awsEc2query_serializeOpDescribeTrafficMirrorSessions) ID() string {
 func (m *awsEc2query_serializeOpDescribeTrafficMirrorSessions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21390,6 +24653,8 @@ func (m *awsEc2query_serializeOpDescribeTrafficMirrorSessions) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21403,6 +24668,10 @@ func (*awsEc2query_serializeOpDescribeTrafficMirrorTargets) ID() string {
 func (m *awsEc2query_serializeOpDescribeTrafficMirrorTargets) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21454,6 +24723,8 @@ func (m *awsEc2query_serializeOpDescribeTrafficMirrorTargets) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21467,6 +24738,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayAttachments) ID() string {
 func (m *awsEc2query_serializeOpDescribeTransitGatewayAttachments) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21518,6 +24793,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayAttachments) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21531,6 +24808,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayConnectPeers) ID() string {
 func (m *awsEc2query_serializeOpDescribeTransitGatewayConnectPeers) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21582,6 +24863,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayConnectPeers) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21595,6 +24878,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayConnects) ID() string {
 func (m *awsEc2query_serializeOpDescribeTransitGatewayConnects) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21646,6 +24933,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayConnects) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21659,6 +24948,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayMulticastDomains) ID() strin
 func (m *awsEc2query_serializeOpDescribeTransitGatewayMulticastDomains) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21710,6 +25003,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayMulticastDomains) HandleSe
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21723,6 +25018,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayPeeringAttachments) ID() str
 func (m *awsEc2query_serializeOpDescribeTransitGatewayPeeringAttachments) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21774,6 +25073,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayPeeringAttachments) Handle
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21787,6 +25088,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayPolicyTables) ID() string {
 func (m *awsEc2query_serializeOpDescribeTransitGatewayPolicyTables) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21838,6 +25143,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayPolicyTables) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21851,6 +25158,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayRouteTableAnnouncements) ID(
 func (m *awsEc2query_serializeOpDescribeTransitGatewayRouteTableAnnouncements) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21902,6 +25213,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayRouteTableAnnouncements) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21915,6 +25228,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayRouteTables) ID() string {
 func (m *awsEc2query_serializeOpDescribeTransitGatewayRouteTables) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -21966,6 +25283,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayRouteTables) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -21979,6 +25298,10 @@ func (*awsEc2query_serializeOpDescribeTransitGateways) ID() string {
 func (m *awsEc2query_serializeOpDescribeTransitGateways) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22030,6 +25353,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGateways) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22043,6 +25368,10 @@ func (*awsEc2query_serializeOpDescribeTransitGatewayVpcAttachments) ID() string 
 func (m *awsEc2query_serializeOpDescribeTransitGatewayVpcAttachments) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22094,6 +25423,8 @@ func (m *awsEc2query_serializeOpDescribeTransitGatewayVpcAttachments) HandleSeri
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22107,6 +25438,10 @@ func (*awsEc2query_serializeOpDescribeTrunkInterfaceAssociations) ID() string {
 func (m *awsEc2query_serializeOpDescribeTrunkInterfaceAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22158,6 +25493,8 @@ func (m *awsEc2query_serializeOpDescribeTrunkInterfaceAssociations) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22171,6 +25508,10 @@ func (*awsEc2query_serializeOpDescribeVerifiedAccessEndpoints) ID() string {
 func (m *awsEc2query_serializeOpDescribeVerifiedAccessEndpoints) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22222,6 +25563,8 @@ func (m *awsEc2query_serializeOpDescribeVerifiedAccessEndpoints) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22235,6 +25578,10 @@ func (*awsEc2query_serializeOpDescribeVerifiedAccessGroups) ID() string {
 func (m *awsEc2query_serializeOpDescribeVerifiedAccessGroups) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22286,6 +25633,8 @@ func (m *awsEc2query_serializeOpDescribeVerifiedAccessGroups) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22299,6 +25648,10 @@ func (*awsEc2query_serializeOpDescribeVerifiedAccessInstanceLoggingConfiguration
 func (m *awsEc2query_serializeOpDescribeVerifiedAccessInstanceLoggingConfigurations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22350,6 +25703,8 @@ func (m *awsEc2query_serializeOpDescribeVerifiedAccessInstanceLoggingConfigurati
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22363,6 +25718,10 @@ func (*awsEc2query_serializeOpDescribeVerifiedAccessInstances) ID() string {
 func (m *awsEc2query_serializeOpDescribeVerifiedAccessInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22414,6 +25773,8 @@ func (m *awsEc2query_serializeOpDescribeVerifiedAccessInstances) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22427,6 +25788,10 @@ func (*awsEc2query_serializeOpDescribeVerifiedAccessTrustProviders) ID() string 
 func (m *awsEc2query_serializeOpDescribeVerifiedAccessTrustProviders) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22478,6 +25843,8 @@ func (m *awsEc2query_serializeOpDescribeVerifiedAccessTrustProviders) HandleSeri
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22491,6 +25858,10 @@ func (*awsEc2query_serializeOpDescribeVolumeAttribute) ID() string {
 func (m *awsEc2query_serializeOpDescribeVolumeAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22542,6 +25913,8 @@ func (m *awsEc2query_serializeOpDescribeVolumeAttribute) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22555,6 +25928,10 @@ func (*awsEc2query_serializeOpDescribeVolumes) ID() string {
 func (m *awsEc2query_serializeOpDescribeVolumes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22606,6 +25983,8 @@ func (m *awsEc2query_serializeOpDescribeVolumes) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22619,6 +25998,10 @@ func (*awsEc2query_serializeOpDescribeVolumesModifications) ID() string {
 func (m *awsEc2query_serializeOpDescribeVolumesModifications) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22670,6 +26053,8 @@ func (m *awsEc2query_serializeOpDescribeVolumesModifications) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22683,6 +26068,10 @@ func (*awsEc2query_serializeOpDescribeVolumeStatus) ID() string {
 func (m *awsEc2query_serializeOpDescribeVolumeStatus) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22734,6 +26123,8 @@ func (m *awsEc2query_serializeOpDescribeVolumeStatus) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22747,6 +26138,10 @@ func (*awsEc2query_serializeOpDescribeVpcAttribute) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpcAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22798,6 +26193,148 @@ func (m *awsEc2query_serializeOpDescribeVpcAttribute) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeVpcBlockPublicAccessExclusions struct {
+}
+
+func (*awsEc2query_serializeOpDescribeVpcBlockPublicAccessExclusions) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeVpcBlockPublicAccessExclusions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeVpcBlockPublicAccessExclusionsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeVpcBlockPublicAccessExclusions")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeVpcBlockPublicAccessExclusionsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeVpcBlockPublicAccessOptions struct {
+}
+
+func (*awsEc2query_serializeOpDescribeVpcBlockPublicAccessOptions) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeVpcBlockPublicAccessOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeVpcBlockPublicAccessOptionsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeVpcBlockPublicAccessOptions")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeVpcBlockPublicAccessOptionsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22811,6 +26348,10 @@ func (*awsEc2query_serializeOpDescribeVpcClassicLink) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpcClassicLink) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22862,6 +26403,8 @@ func (m *awsEc2query_serializeOpDescribeVpcClassicLink) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22875,6 +26418,10 @@ func (*awsEc2query_serializeOpDescribeVpcClassicLinkDnsSupport) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpcClassicLinkDnsSupport) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22926,6 +26473,78 @@ func (m *awsEc2query_serializeOpDescribeVpcClassicLinkDnsSupport) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDescribeVpcEndpointAssociations struct {
+}
+
+func (*awsEc2query_serializeOpDescribeVpcEndpointAssociations) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDescribeVpcEndpointAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DescribeVpcEndpointAssociationsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DescribeVpcEndpointAssociations")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDescribeVpcEndpointAssociationsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -22939,6 +26558,10 @@ func (*awsEc2query_serializeOpDescribeVpcEndpointConnectionNotifications) ID() s
 func (m *awsEc2query_serializeOpDescribeVpcEndpointConnectionNotifications) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -22990,6 +26613,8 @@ func (m *awsEc2query_serializeOpDescribeVpcEndpointConnectionNotifications) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23003,6 +26628,10 @@ func (*awsEc2query_serializeOpDescribeVpcEndpointConnections) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpcEndpointConnections) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23054,6 +26683,8 @@ func (m *awsEc2query_serializeOpDescribeVpcEndpointConnections) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23067,6 +26698,10 @@ func (*awsEc2query_serializeOpDescribeVpcEndpoints) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpcEndpoints) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23118,6 +26753,8 @@ func (m *awsEc2query_serializeOpDescribeVpcEndpoints) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23131,6 +26768,10 @@ func (*awsEc2query_serializeOpDescribeVpcEndpointServiceConfigurations) ID() str
 func (m *awsEc2query_serializeOpDescribeVpcEndpointServiceConfigurations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23182,6 +26823,8 @@ func (m *awsEc2query_serializeOpDescribeVpcEndpointServiceConfigurations) Handle
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23195,6 +26838,10 @@ func (*awsEc2query_serializeOpDescribeVpcEndpointServicePermissions) ID() string
 func (m *awsEc2query_serializeOpDescribeVpcEndpointServicePermissions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23246,6 +26893,8 @@ func (m *awsEc2query_serializeOpDescribeVpcEndpointServicePermissions) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23259,6 +26908,10 @@ func (*awsEc2query_serializeOpDescribeVpcEndpointServices) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpcEndpointServices) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23310,6 +26963,8 @@ func (m *awsEc2query_serializeOpDescribeVpcEndpointServices) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23323,6 +26978,10 @@ func (*awsEc2query_serializeOpDescribeVpcPeeringConnections) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpcPeeringConnections) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23374,6 +27033,8 @@ func (m *awsEc2query_serializeOpDescribeVpcPeeringConnections) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23387,6 +27048,10 @@ func (*awsEc2query_serializeOpDescribeVpcs) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpcs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23438,6 +27103,8 @@ func (m *awsEc2query_serializeOpDescribeVpcs) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23451,6 +27118,10 @@ func (*awsEc2query_serializeOpDescribeVpnConnections) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpnConnections) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23502,6 +27173,8 @@ func (m *awsEc2query_serializeOpDescribeVpnConnections) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23515,6 +27188,10 @@ func (*awsEc2query_serializeOpDescribeVpnGateways) ID() string {
 func (m *awsEc2query_serializeOpDescribeVpnGateways) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23566,6 +27243,8 @@ func (m *awsEc2query_serializeOpDescribeVpnGateways) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23579,6 +27258,10 @@ func (*awsEc2query_serializeOpDetachClassicLinkVpc) ID() string {
 func (m *awsEc2query_serializeOpDetachClassicLinkVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23630,6 +27313,8 @@ func (m *awsEc2query_serializeOpDetachClassicLinkVpc) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23643,6 +27328,10 @@ func (*awsEc2query_serializeOpDetachInternetGateway) ID() string {
 func (m *awsEc2query_serializeOpDetachInternetGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23694,6 +27383,8 @@ func (m *awsEc2query_serializeOpDetachInternetGateway) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23707,6 +27398,10 @@ func (*awsEc2query_serializeOpDetachNetworkInterface) ID() string {
 func (m *awsEc2query_serializeOpDetachNetworkInterface) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23758,6 +27453,8 @@ func (m *awsEc2query_serializeOpDetachNetworkInterface) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23771,6 +27468,10 @@ func (*awsEc2query_serializeOpDetachVerifiedAccessTrustProvider) ID() string {
 func (m *awsEc2query_serializeOpDetachVerifiedAccessTrustProvider) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23822,6 +27523,8 @@ func (m *awsEc2query_serializeOpDetachVerifiedAccessTrustProvider) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23835,6 +27538,10 @@ func (*awsEc2query_serializeOpDetachVolume) ID() string {
 func (m *awsEc2query_serializeOpDetachVolume) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23886,6 +27593,8 @@ func (m *awsEc2query_serializeOpDetachVolume) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23899,6 +27608,10 @@ func (*awsEc2query_serializeOpDetachVpnGateway) ID() string {
 func (m *awsEc2query_serializeOpDetachVpnGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -23950,6 +27663,8 @@ func (m *awsEc2query_serializeOpDetachVpnGateway) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -23963,6 +27678,10 @@ func (*awsEc2query_serializeOpDisableAddressTransfer) ID() string {
 func (m *awsEc2query_serializeOpDisableAddressTransfer) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24014,6 +27733,78 @@ func (m *awsEc2query_serializeOpDisableAddressTransfer) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDisableAllowedImagesSettings struct {
+}
+
+func (*awsEc2query_serializeOpDisableAllowedImagesSettings) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDisableAllowedImagesSettings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DisableAllowedImagesSettingsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DisableAllowedImagesSettings")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDisableAllowedImagesSettingsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24027,6 +27818,10 @@ func (*awsEc2query_serializeOpDisableAwsNetworkPerformanceMetricSubscription) ID
 func (m *awsEc2query_serializeOpDisableAwsNetworkPerformanceMetricSubscription) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24078,6 +27873,8 @@ func (m *awsEc2query_serializeOpDisableAwsNetworkPerformanceMetricSubscription) 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24091,6 +27888,10 @@ func (*awsEc2query_serializeOpDisableEbsEncryptionByDefault) ID() string {
 func (m *awsEc2query_serializeOpDisableEbsEncryptionByDefault) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24142,6 +27943,8 @@ func (m *awsEc2query_serializeOpDisableEbsEncryptionByDefault) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24155,6 +27958,10 @@ func (*awsEc2query_serializeOpDisableFastLaunch) ID() string {
 func (m *awsEc2query_serializeOpDisableFastLaunch) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24206,6 +28013,8 @@ func (m *awsEc2query_serializeOpDisableFastLaunch) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24219,6 +28028,10 @@ func (*awsEc2query_serializeOpDisableFastSnapshotRestores) ID() string {
 func (m *awsEc2query_serializeOpDisableFastSnapshotRestores) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24270,6 +28083,8 @@ func (m *awsEc2query_serializeOpDisableFastSnapshotRestores) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24283,6 +28098,10 @@ func (*awsEc2query_serializeOpDisableImage) ID() string {
 func (m *awsEc2query_serializeOpDisableImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24334,6 +28153,8 @@ func (m *awsEc2query_serializeOpDisableImage) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24347,6 +28168,10 @@ func (*awsEc2query_serializeOpDisableImageBlockPublicAccess) ID() string {
 func (m *awsEc2query_serializeOpDisableImageBlockPublicAccess) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24398,6 +28223,8 @@ func (m *awsEc2query_serializeOpDisableImageBlockPublicAccess) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24411,6 +28238,10 @@ func (*awsEc2query_serializeOpDisableImageDeprecation) ID() string {
 func (m *awsEc2query_serializeOpDisableImageDeprecation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24462,6 +28293,78 @@ func (m *awsEc2query_serializeOpDisableImageDeprecation) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDisableImageDeregistrationProtection struct {
+}
+
+func (*awsEc2query_serializeOpDisableImageDeregistrationProtection) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDisableImageDeregistrationProtection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DisableImageDeregistrationProtectionInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DisableImageDeregistrationProtection")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDisableImageDeregistrationProtectionInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24475,6 +28378,10 @@ func (*awsEc2query_serializeOpDisableIpamOrganizationAdminAccount) ID() string {
 func (m *awsEc2query_serializeOpDisableIpamOrganizationAdminAccount) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24526,6 +28433,8 @@ func (m *awsEc2query_serializeOpDisableIpamOrganizationAdminAccount) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24539,6 +28448,10 @@ func (*awsEc2query_serializeOpDisableSerialConsoleAccess) ID() string {
 func (m *awsEc2query_serializeOpDisableSerialConsoleAccess) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24590,6 +28503,8 @@ func (m *awsEc2query_serializeOpDisableSerialConsoleAccess) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24603,6 +28518,10 @@ func (*awsEc2query_serializeOpDisableSnapshotBlockPublicAccess) ID() string {
 func (m *awsEc2query_serializeOpDisableSnapshotBlockPublicAccess) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24654,6 +28573,8 @@ func (m *awsEc2query_serializeOpDisableSnapshotBlockPublicAccess) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24667,6 +28588,10 @@ func (*awsEc2query_serializeOpDisableTransitGatewayRouteTablePropagation) ID() s
 func (m *awsEc2query_serializeOpDisableTransitGatewayRouteTablePropagation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24718,6 +28643,8 @@ func (m *awsEc2query_serializeOpDisableTransitGatewayRouteTablePropagation) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24731,6 +28658,10 @@ func (*awsEc2query_serializeOpDisableVgwRoutePropagation) ID() string {
 func (m *awsEc2query_serializeOpDisableVgwRoutePropagation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24782,6 +28713,8 @@ func (m *awsEc2query_serializeOpDisableVgwRoutePropagation) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24795,6 +28728,10 @@ func (*awsEc2query_serializeOpDisableVpcClassicLink) ID() string {
 func (m *awsEc2query_serializeOpDisableVpcClassicLink) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24846,6 +28783,8 @@ func (m *awsEc2query_serializeOpDisableVpcClassicLink) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24859,6 +28798,10 @@ func (*awsEc2query_serializeOpDisableVpcClassicLinkDnsSupport) ID() string {
 func (m *awsEc2query_serializeOpDisableVpcClassicLinkDnsSupport) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24910,6 +28853,8 @@ func (m *awsEc2query_serializeOpDisableVpcClassicLinkDnsSupport) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24923,6 +28868,10 @@ func (*awsEc2query_serializeOpDisassociateAddress) ID() string {
 func (m *awsEc2query_serializeOpDisassociateAddress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -24974,6 +28923,78 @@ func (m *awsEc2query_serializeOpDisassociateAddress) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDisassociateCapacityReservationBillingOwner struct {
+}
+
+func (*awsEc2query_serializeOpDisassociateCapacityReservationBillingOwner) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDisassociateCapacityReservationBillingOwner) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DisassociateCapacityReservationBillingOwnerInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DisassociateCapacityReservationBillingOwner")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDisassociateCapacityReservationBillingOwnerInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -24987,6 +29008,10 @@ func (*awsEc2query_serializeOpDisassociateClientVpnTargetNetwork) ID() string {
 func (m *awsEc2query_serializeOpDisassociateClientVpnTargetNetwork) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25038,6 +29063,8 @@ func (m *awsEc2query_serializeOpDisassociateClientVpnTargetNetwork) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25051,6 +29078,10 @@ func (*awsEc2query_serializeOpDisassociateEnclaveCertificateIamRole) ID() string
 func (m *awsEc2query_serializeOpDisassociateEnclaveCertificateIamRole) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25102,6 +29133,8 @@ func (m *awsEc2query_serializeOpDisassociateEnclaveCertificateIamRole) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25115,6 +29148,10 @@ func (*awsEc2query_serializeOpDisassociateIamInstanceProfile) ID() string {
 func (m *awsEc2query_serializeOpDisassociateIamInstanceProfile) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25166,6 +29203,8 @@ func (m *awsEc2query_serializeOpDisassociateIamInstanceProfile) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25179,6 +29218,10 @@ func (*awsEc2query_serializeOpDisassociateInstanceEventWindow) ID() string {
 func (m *awsEc2query_serializeOpDisassociateInstanceEventWindow) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25230,6 +29273,8 @@ func (m *awsEc2query_serializeOpDisassociateInstanceEventWindow) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25243,6 +29288,10 @@ func (*awsEc2query_serializeOpDisassociateIpamByoasn) ID() string {
 func (m *awsEc2query_serializeOpDisassociateIpamByoasn) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25294,6 +29343,8 @@ func (m *awsEc2query_serializeOpDisassociateIpamByoasn) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25307,6 +29358,10 @@ func (*awsEc2query_serializeOpDisassociateIpamResourceDiscovery) ID() string {
 func (m *awsEc2query_serializeOpDisassociateIpamResourceDiscovery) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25358,6 +29413,8 @@ func (m *awsEc2query_serializeOpDisassociateIpamResourceDiscovery) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25371,6 +29428,10 @@ func (*awsEc2query_serializeOpDisassociateNatGatewayAddress) ID() string {
 func (m *awsEc2query_serializeOpDisassociateNatGatewayAddress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25422,6 +29483,8 @@ func (m *awsEc2query_serializeOpDisassociateNatGatewayAddress) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25435,6 +29498,10 @@ func (*awsEc2query_serializeOpDisassociateRouteTable) ID() string {
 func (m *awsEc2query_serializeOpDisassociateRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25486,6 +29553,78 @@ func (m *awsEc2query_serializeOpDisassociateRouteTable) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpDisassociateSecurityGroupVpc struct {
+}
+
+func (*awsEc2query_serializeOpDisassociateSecurityGroupVpc) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpDisassociateSecurityGroupVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*DisassociateSecurityGroupVpcInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("DisassociateSecurityGroupVpc")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentDisassociateSecurityGroupVpcInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25499,6 +29638,10 @@ func (*awsEc2query_serializeOpDisassociateSubnetCidrBlock) ID() string {
 func (m *awsEc2query_serializeOpDisassociateSubnetCidrBlock) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25550,6 +29693,8 @@ func (m *awsEc2query_serializeOpDisassociateSubnetCidrBlock) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25563,6 +29708,10 @@ func (*awsEc2query_serializeOpDisassociateTransitGatewayMulticastDomain) ID() st
 func (m *awsEc2query_serializeOpDisassociateTransitGatewayMulticastDomain) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25614,6 +29763,8 @@ func (m *awsEc2query_serializeOpDisassociateTransitGatewayMulticastDomain) Handl
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25627,6 +29778,10 @@ func (*awsEc2query_serializeOpDisassociateTransitGatewayPolicyTable) ID() string
 func (m *awsEc2query_serializeOpDisassociateTransitGatewayPolicyTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25678,6 +29833,8 @@ func (m *awsEc2query_serializeOpDisassociateTransitGatewayPolicyTable) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25691,6 +29848,10 @@ func (*awsEc2query_serializeOpDisassociateTransitGatewayRouteTable) ID() string 
 func (m *awsEc2query_serializeOpDisassociateTransitGatewayRouteTable) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25742,6 +29903,8 @@ func (m *awsEc2query_serializeOpDisassociateTransitGatewayRouteTable) HandleSeri
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25755,6 +29918,10 @@ func (*awsEc2query_serializeOpDisassociateTrunkInterface) ID() string {
 func (m *awsEc2query_serializeOpDisassociateTrunkInterface) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25806,6 +29973,8 @@ func (m *awsEc2query_serializeOpDisassociateTrunkInterface) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25819,6 +29988,10 @@ func (*awsEc2query_serializeOpDisassociateVpcCidrBlock) ID() string {
 func (m *awsEc2query_serializeOpDisassociateVpcCidrBlock) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25870,6 +30043,8 @@ func (m *awsEc2query_serializeOpDisassociateVpcCidrBlock) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25883,6 +30058,10 @@ func (*awsEc2query_serializeOpEnableAddressTransfer) ID() string {
 func (m *awsEc2query_serializeOpEnableAddressTransfer) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25934,6 +30113,78 @@ func (m *awsEc2query_serializeOpEnableAddressTransfer) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpEnableAllowedImagesSettings struct {
+}
+
+func (*awsEc2query_serializeOpEnableAllowedImagesSettings) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpEnableAllowedImagesSettings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*EnableAllowedImagesSettingsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("EnableAllowedImagesSettings")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentEnableAllowedImagesSettingsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -25947,6 +30198,10 @@ func (*awsEc2query_serializeOpEnableAwsNetworkPerformanceMetricSubscription) ID(
 func (m *awsEc2query_serializeOpEnableAwsNetworkPerformanceMetricSubscription) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -25998,6 +30253,8 @@ func (m *awsEc2query_serializeOpEnableAwsNetworkPerformanceMetricSubscription) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26011,6 +30268,10 @@ func (*awsEc2query_serializeOpEnableEbsEncryptionByDefault) ID() string {
 func (m *awsEc2query_serializeOpEnableEbsEncryptionByDefault) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26062,6 +30323,8 @@ func (m *awsEc2query_serializeOpEnableEbsEncryptionByDefault) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26075,6 +30338,10 @@ func (*awsEc2query_serializeOpEnableFastLaunch) ID() string {
 func (m *awsEc2query_serializeOpEnableFastLaunch) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26126,6 +30393,8 @@ func (m *awsEc2query_serializeOpEnableFastLaunch) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26139,6 +30408,10 @@ func (*awsEc2query_serializeOpEnableFastSnapshotRestores) ID() string {
 func (m *awsEc2query_serializeOpEnableFastSnapshotRestores) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26190,6 +30463,8 @@ func (m *awsEc2query_serializeOpEnableFastSnapshotRestores) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26203,6 +30478,10 @@ func (*awsEc2query_serializeOpEnableImage) ID() string {
 func (m *awsEc2query_serializeOpEnableImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26254,6 +30533,8 @@ func (m *awsEc2query_serializeOpEnableImage) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26267,6 +30548,10 @@ func (*awsEc2query_serializeOpEnableImageBlockPublicAccess) ID() string {
 func (m *awsEc2query_serializeOpEnableImageBlockPublicAccess) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26318,6 +30603,8 @@ func (m *awsEc2query_serializeOpEnableImageBlockPublicAccess) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26331,6 +30618,10 @@ func (*awsEc2query_serializeOpEnableImageDeprecation) ID() string {
 func (m *awsEc2query_serializeOpEnableImageDeprecation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26382,6 +30673,78 @@ func (m *awsEc2query_serializeOpEnableImageDeprecation) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpEnableImageDeregistrationProtection struct {
+}
+
+func (*awsEc2query_serializeOpEnableImageDeregistrationProtection) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpEnableImageDeregistrationProtection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*EnableImageDeregistrationProtectionInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("EnableImageDeregistrationProtection")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentEnableImageDeregistrationProtectionInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26395,6 +30758,10 @@ func (*awsEc2query_serializeOpEnableIpamOrganizationAdminAccount) ID() string {
 func (m *awsEc2query_serializeOpEnableIpamOrganizationAdminAccount) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26446,6 +30813,8 @@ func (m *awsEc2query_serializeOpEnableIpamOrganizationAdminAccount) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26459,6 +30828,10 @@ func (*awsEc2query_serializeOpEnableReachabilityAnalyzerOrganizationSharing) ID(
 func (m *awsEc2query_serializeOpEnableReachabilityAnalyzerOrganizationSharing) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26510,6 +30883,8 @@ func (m *awsEc2query_serializeOpEnableReachabilityAnalyzerOrganizationSharing) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26523,6 +30898,10 @@ func (*awsEc2query_serializeOpEnableSerialConsoleAccess) ID() string {
 func (m *awsEc2query_serializeOpEnableSerialConsoleAccess) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26574,6 +30953,8 @@ func (m *awsEc2query_serializeOpEnableSerialConsoleAccess) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26587,6 +30968,10 @@ func (*awsEc2query_serializeOpEnableSnapshotBlockPublicAccess) ID() string {
 func (m *awsEc2query_serializeOpEnableSnapshotBlockPublicAccess) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26638,6 +31023,8 @@ func (m *awsEc2query_serializeOpEnableSnapshotBlockPublicAccess) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26651,6 +31038,10 @@ func (*awsEc2query_serializeOpEnableTransitGatewayRouteTablePropagation) ID() st
 func (m *awsEc2query_serializeOpEnableTransitGatewayRouteTablePropagation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26702,6 +31093,8 @@ func (m *awsEc2query_serializeOpEnableTransitGatewayRouteTablePropagation) Handl
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26715,6 +31108,10 @@ func (*awsEc2query_serializeOpEnableVgwRoutePropagation) ID() string {
 func (m *awsEc2query_serializeOpEnableVgwRoutePropagation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26766,6 +31163,8 @@ func (m *awsEc2query_serializeOpEnableVgwRoutePropagation) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26779,6 +31178,10 @@ func (*awsEc2query_serializeOpEnableVolumeIO) ID() string {
 func (m *awsEc2query_serializeOpEnableVolumeIO) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26830,6 +31233,8 @@ func (m *awsEc2query_serializeOpEnableVolumeIO) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26843,6 +31248,10 @@ func (*awsEc2query_serializeOpEnableVpcClassicLink) ID() string {
 func (m *awsEc2query_serializeOpEnableVpcClassicLink) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26894,6 +31303,8 @@ func (m *awsEc2query_serializeOpEnableVpcClassicLink) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26907,6 +31318,10 @@ func (*awsEc2query_serializeOpEnableVpcClassicLinkDnsSupport) ID() string {
 func (m *awsEc2query_serializeOpEnableVpcClassicLinkDnsSupport) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -26958,6 +31373,8 @@ func (m *awsEc2query_serializeOpEnableVpcClassicLinkDnsSupport) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -26971,6 +31388,10 @@ func (*awsEc2query_serializeOpExportClientVpnClientCertificateRevocationList) ID
 func (m *awsEc2query_serializeOpExportClientVpnClientCertificateRevocationList) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27022,6 +31443,8 @@ func (m *awsEc2query_serializeOpExportClientVpnClientCertificateRevocationList) 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27035,6 +31458,10 @@ func (*awsEc2query_serializeOpExportClientVpnClientConfiguration) ID() string {
 func (m *awsEc2query_serializeOpExportClientVpnClientConfiguration) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27086,6 +31513,8 @@ func (m *awsEc2query_serializeOpExportClientVpnClientConfiguration) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27099,6 +31528,10 @@ func (*awsEc2query_serializeOpExportImage) ID() string {
 func (m *awsEc2query_serializeOpExportImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27150,6 +31583,8 @@ func (m *awsEc2query_serializeOpExportImage) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27163,6 +31598,10 @@ func (*awsEc2query_serializeOpExportTransitGatewayRoutes) ID() string {
 func (m *awsEc2query_serializeOpExportTransitGatewayRoutes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27214,6 +31653,148 @@ func (m *awsEc2query_serializeOpExportTransitGatewayRoutes) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpExportVerifiedAccessInstanceClientConfiguration struct {
+}
+
+func (*awsEc2query_serializeOpExportVerifiedAccessInstanceClientConfiguration) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpExportVerifiedAccessInstanceClientConfiguration) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*ExportVerifiedAccessInstanceClientConfigurationInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("ExportVerifiedAccessInstanceClientConfiguration")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentExportVerifiedAccessInstanceClientConfigurationInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpGetAllowedImagesSettings struct {
+}
+
+func (*awsEc2query_serializeOpGetAllowedImagesSettings) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpGetAllowedImagesSettings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*GetAllowedImagesSettingsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("GetAllowedImagesSettings")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentGetAllowedImagesSettingsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27227,6 +31808,10 @@ func (*awsEc2query_serializeOpGetAssociatedEnclaveCertificateIamRoles) ID() stri
 func (m *awsEc2query_serializeOpGetAssociatedEnclaveCertificateIamRoles) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27278,6 +31863,8 @@ func (m *awsEc2query_serializeOpGetAssociatedEnclaveCertificateIamRoles) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27291,6 +31878,10 @@ func (*awsEc2query_serializeOpGetAssociatedIpv6PoolCidrs) ID() string {
 func (m *awsEc2query_serializeOpGetAssociatedIpv6PoolCidrs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27342,6 +31933,8 @@ func (m *awsEc2query_serializeOpGetAssociatedIpv6PoolCidrs) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27355,6 +31948,10 @@ func (*awsEc2query_serializeOpGetAwsNetworkPerformanceData) ID() string {
 func (m *awsEc2query_serializeOpGetAwsNetworkPerformanceData) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27406,6 +32003,8 @@ func (m *awsEc2query_serializeOpGetAwsNetworkPerformanceData) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27419,6 +32018,10 @@ func (*awsEc2query_serializeOpGetCapacityReservationUsage) ID() string {
 func (m *awsEc2query_serializeOpGetCapacityReservationUsage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27470,6 +32073,8 @@ func (m *awsEc2query_serializeOpGetCapacityReservationUsage) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27483,6 +32088,10 @@ func (*awsEc2query_serializeOpGetCoipPoolUsage) ID() string {
 func (m *awsEc2query_serializeOpGetCoipPoolUsage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27534,6 +32143,8 @@ func (m *awsEc2query_serializeOpGetCoipPoolUsage) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27547,6 +32158,10 @@ func (*awsEc2query_serializeOpGetConsoleOutput) ID() string {
 func (m *awsEc2query_serializeOpGetConsoleOutput) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27598,6 +32213,8 @@ func (m *awsEc2query_serializeOpGetConsoleOutput) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27611,6 +32228,10 @@ func (*awsEc2query_serializeOpGetConsoleScreenshot) ID() string {
 func (m *awsEc2query_serializeOpGetConsoleScreenshot) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27662,6 +32283,78 @@ func (m *awsEc2query_serializeOpGetConsoleScreenshot) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpGetDeclarativePoliciesReportSummary struct {
+}
+
+func (*awsEc2query_serializeOpGetDeclarativePoliciesReportSummary) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpGetDeclarativePoliciesReportSummary) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*GetDeclarativePoliciesReportSummaryInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("GetDeclarativePoliciesReportSummary")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentGetDeclarativePoliciesReportSummaryInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27675,6 +32368,10 @@ func (*awsEc2query_serializeOpGetDefaultCreditSpecification) ID() string {
 func (m *awsEc2query_serializeOpGetDefaultCreditSpecification) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27726,6 +32423,8 @@ func (m *awsEc2query_serializeOpGetDefaultCreditSpecification) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27739,6 +32438,10 @@ func (*awsEc2query_serializeOpGetEbsDefaultKmsKeyId) ID() string {
 func (m *awsEc2query_serializeOpGetEbsDefaultKmsKeyId) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27790,6 +32493,8 @@ func (m *awsEc2query_serializeOpGetEbsDefaultKmsKeyId) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27803,6 +32508,10 @@ func (*awsEc2query_serializeOpGetEbsEncryptionByDefault) ID() string {
 func (m *awsEc2query_serializeOpGetEbsEncryptionByDefault) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27854,6 +32563,8 @@ func (m *awsEc2query_serializeOpGetEbsEncryptionByDefault) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27867,6 +32578,10 @@ func (*awsEc2query_serializeOpGetFlowLogsIntegrationTemplate) ID() string {
 func (m *awsEc2query_serializeOpGetFlowLogsIntegrationTemplate) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27918,6 +32633,8 @@ func (m *awsEc2query_serializeOpGetFlowLogsIntegrationTemplate) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27931,6 +32648,10 @@ func (*awsEc2query_serializeOpGetGroupsForCapacityReservation) ID() string {
 func (m *awsEc2query_serializeOpGetGroupsForCapacityReservation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -27982,6 +32703,8 @@ func (m *awsEc2query_serializeOpGetGroupsForCapacityReservation) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -27995,6 +32718,10 @@ func (*awsEc2query_serializeOpGetHostReservationPurchasePreview) ID() string {
 func (m *awsEc2query_serializeOpGetHostReservationPurchasePreview) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28046,6 +32773,8 @@ func (m *awsEc2query_serializeOpGetHostReservationPurchasePreview) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28059,6 +32788,10 @@ func (*awsEc2query_serializeOpGetImageBlockPublicAccessState) ID() string {
 func (m *awsEc2query_serializeOpGetImageBlockPublicAccessState) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28110,6 +32843,148 @@ func (m *awsEc2query_serializeOpGetImageBlockPublicAccessState) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpGetInstanceMetadataDefaults struct {
+}
+
+func (*awsEc2query_serializeOpGetInstanceMetadataDefaults) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpGetInstanceMetadataDefaults) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*GetInstanceMetadataDefaultsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("GetInstanceMetadataDefaults")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentGetInstanceMetadataDefaultsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpGetInstanceTpmEkPub struct {
+}
+
+func (*awsEc2query_serializeOpGetInstanceTpmEkPub) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpGetInstanceTpmEkPub) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*GetInstanceTpmEkPubInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("GetInstanceTpmEkPub")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentGetInstanceTpmEkPubInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28123,6 +32998,10 @@ func (*awsEc2query_serializeOpGetInstanceTypesFromInstanceRequirements) ID() str
 func (m *awsEc2query_serializeOpGetInstanceTypesFromInstanceRequirements) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28174,6 +33053,8 @@ func (m *awsEc2query_serializeOpGetInstanceTypesFromInstanceRequirements) Handle
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28187,6 +33068,10 @@ func (*awsEc2query_serializeOpGetInstanceUefiData) ID() string {
 func (m *awsEc2query_serializeOpGetInstanceUefiData) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28238,6 +33123,8 @@ func (m *awsEc2query_serializeOpGetInstanceUefiData) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28251,6 +33138,10 @@ func (*awsEc2query_serializeOpGetIpamAddressHistory) ID() string {
 func (m *awsEc2query_serializeOpGetIpamAddressHistory) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28302,6 +33193,8 @@ func (m *awsEc2query_serializeOpGetIpamAddressHistory) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28315,6 +33208,10 @@ func (*awsEc2query_serializeOpGetIpamDiscoveredAccounts) ID() string {
 func (m *awsEc2query_serializeOpGetIpamDiscoveredAccounts) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28366,6 +33263,8 @@ func (m *awsEc2query_serializeOpGetIpamDiscoveredAccounts) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28379,6 +33278,10 @@ func (*awsEc2query_serializeOpGetIpamDiscoveredPublicAddresses) ID() string {
 func (m *awsEc2query_serializeOpGetIpamDiscoveredPublicAddresses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28430,6 +33333,8 @@ func (m *awsEc2query_serializeOpGetIpamDiscoveredPublicAddresses) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28443,6 +33348,10 @@ func (*awsEc2query_serializeOpGetIpamDiscoveredResourceCidrs) ID() string {
 func (m *awsEc2query_serializeOpGetIpamDiscoveredResourceCidrs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28494,6 +33403,8 @@ func (m *awsEc2query_serializeOpGetIpamDiscoveredResourceCidrs) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28507,6 +33418,10 @@ func (*awsEc2query_serializeOpGetIpamPoolAllocations) ID() string {
 func (m *awsEc2query_serializeOpGetIpamPoolAllocations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28558,6 +33473,8 @@ func (m *awsEc2query_serializeOpGetIpamPoolAllocations) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28571,6 +33488,10 @@ func (*awsEc2query_serializeOpGetIpamPoolCidrs) ID() string {
 func (m *awsEc2query_serializeOpGetIpamPoolCidrs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28622,6 +33543,8 @@ func (m *awsEc2query_serializeOpGetIpamPoolCidrs) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28635,6 +33558,10 @@ func (*awsEc2query_serializeOpGetIpamResourceCidrs) ID() string {
 func (m *awsEc2query_serializeOpGetIpamResourceCidrs) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28686,6 +33613,8 @@ func (m *awsEc2query_serializeOpGetIpamResourceCidrs) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28699,6 +33628,10 @@ func (*awsEc2query_serializeOpGetLaunchTemplateData) ID() string {
 func (m *awsEc2query_serializeOpGetLaunchTemplateData) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28750,6 +33683,8 @@ func (m *awsEc2query_serializeOpGetLaunchTemplateData) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28763,6 +33698,10 @@ func (*awsEc2query_serializeOpGetManagedPrefixListAssociations) ID() string {
 func (m *awsEc2query_serializeOpGetManagedPrefixListAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28814,6 +33753,8 @@ func (m *awsEc2query_serializeOpGetManagedPrefixListAssociations) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28827,6 +33768,10 @@ func (*awsEc2query_serializeOpGetManagedPrefixListEntries) ID() string {
 func (m *awsEc2query_serializeOpGetManagedPrefixListEntries) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28878,6 +33823,8 @@ func (m *awsEc2query_serializeOpGetManagedPrefixListEntries) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28891,6 +33838,10 @@ func (*awsEc2query_serializeOpGetNetworkInsightsAccessScopeAnalysisFindings) ID(
 func (m *awsEc2query_serializeOpGetNetworkInsightsAccessScopeAnalysisFindings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -28942,6 +33893,8 @@ func (m *awsEc2query_serializeOpGetNetworkInsightsAccessScopeAnalysisFindings) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -28955,6 +33908,10 @@ func (*awsEc2query_serializeOpGetNetworkInsightsAccessScopeContent) ID() string 
 func (m *awsEc2query_serializeOpGetNetworkInsightsAccessScopeContent) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29006,6 +33963,8 @@ func (m *awsEc2query_serializeOpGetNetworkInsightsAccessScopeContent) HandleSeri
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29019,6 +33978,10 @@ func (*awsEc2query_serializeOpGetPasswordData) ID() string {
 func (m *awsEc2query_serializeOpGetPasswordData) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29070,6 +34033,8 @@ func (m *awsEc2query_serializeOpGetPasswordData) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29083,6 +34048,10 @@ func (*awsEc2query_serializeOpGetReservedInstancesExchangeQuote) ID() string {
 func (m *awsEc2query_serializeOpGetReservedInstancesExchangeQuote) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29134,6 +34103,8 @@ func (m *awsEc2query_serializeOpGetReservedInstancesExchangeQuote) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29147,6 +34118,10 @@ func (*awsEc2query_serializeOpGetSecurityGroupsForVpc) ID() string {
 func (m *awsEc2query_serializeOpGetSecurityGroupsForVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29198,6 +34173,8 @@ func (m *awsEc2query_serializeOpGetSecurityGroupsForVpc) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29211,6 +34188,10 @@ func (*awsEc2query_serializeOpGetSerialConsoleAccessStatus) ID() string {
 func (m *awsEc2query_serializeOpGetSerialConsoleAccessStatus) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29262,6 +34243,8 @@ func (m *awsEc2query_serializeOpGetSerialConsoleAccessStatus) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29275,6 +34258,10 @@ func (*awsEc2query_serializeOpGetSnapshotBlockPublicAccessState) ID() string {
 func (m *awsEc2query_serializeOpGetSnapshotBlockPublicAccessState) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29326,6 +34313,8 @@ func (m *awsEc2query_serializeOpGetSnapshotBlockPublicAccessState) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29339,6 +34328,10 @@ func (*awsEc2query_serializeOpGetSpotPlacementScores) ID() string {
 func (m *awsEc2query_serializeOpGetSpotPlacementScores) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29390,6 +34383,8 @@ func (m *awsEc2query_serializeOpGetSpotPlacementScores) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29403,6 +34398,10 @@ func (*awsEc2query_serializeOpGetSubnetCidrReservations) ID() string {
 func (m *awsEc2query_serializeOpGetSubnetCidrReservations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29454,6 +34453,8 @@ func (m *awsEc2query_serializeOpGetSubnetCidrReservations) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29467,6 +34468,10 @@ func (*awsEc2query_serializeOpGetTransitGatewayAttachmentPropagations) ID() stri
 func (m *awsEc2query_serializeOpGetTransitGatewayAttachmentPropagations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29518,6 +34523,8 @@ func (m *awsEc2query_serializeOpGetTransitGatewayAttachmentPropagations) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29531,6 +34538,10 @@ func (*awsEc2query_serializeOpGetTransitGatewayMulticastDomainAssociations) ID()
 func (m *awsEc2query_serializeOpGetTransitGatewayMulticastDomainAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29582,6 +34593,8 @@ func (m *awsEc2query_serializeOpGetTransitGatewayMulticastDomainAssociations) Ha
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29595,6 +34608,10 @@ func (*awsEc2query_serializeOpGetTransitGatewayPolicyTableAssociations) ID() str
 func (m *awsEc2query_serializeOpGetTransitGatewayPolicyTableAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29646,6 +34663,8 @@ func (m *awsEc2query_serializeOpGetTransitGatewayPolicyTableAssociations) Handle
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29659,6 +34678,10 @@ func (*awsEc2query_serializeOpGetTransitGatewayPolicyTableEntries) ID() string {
 func (m *awsEc2query_serializeOpGetTransitGatewayPolicyTableEntries) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29710,6 +34733,8 @@ func (m *awsEc2query_serializeOpGetTransitGatewayPolicyTableEntries) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29723,6 +34748,10 @@ func (*awsEc2query_serializeOpGetTransitGatewayPrefixListReferences) ID() string
 func (m *awsEc2query_serializeOpGetTransitGatewayPrefixListReferences) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29774,6 +34803,8 @@ func (m *awsEc2query_serializeOpGetTransitGatewayPrefixListReferences) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29787,6 +34818,10 @@ func (*awsEc2query_serializeOpGetTransitGatewayRouteTableAssociations) ID() stri
 func (m *awsEc2query_serializeOpGetTransitGatewayRouteTableAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29838,6 +34873,8 @@ func (m *awsEc2query_serializeOpGetTransitGatewayRouteTableAssociations) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29851,6 +34888,10 @@ func (*awsEc2query_serializeOpGetTransitGatewayRouteTablePropagations) ID() stri
 func (m *awsEc2query_serializeOpGetTransitGatewayRouteTablePropagations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29902,6 +34943,8 @@ func (m *awsEc2query_serializeOpGetTransitGatewayRouteTablePropagations) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29915,6 +34958,10 @@ func (*awsEc2query_serializeOpGetVerifiedAccessEndpointPolicy) ID() string {
 func (m *awsEc2query_serializeOpGetVerifiedAccessEndpointPolicy) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -29966,6 +35013,78 @@ func (m *awsEc2query_serializeOpGetVerifiedAccessEndpointPolicy) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpGetVerifiedAccessEndpointTargets struct {
+}
+
+func (*awsEc2query_serializeOpGetVerifiedAccessEndpointTargets) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpGetVerifiedAccessEndpointTargets) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*GetVerifiedAccessEndpointTargetsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("GetVerifiedAccessEndpointTargets")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentGetVerifiedAccessEndpointTargetsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -29979,6 +35098,10 @@ func (*awsEc2query_serializeOpGetVerifiedAccessGroupPolicy) ID() string {
 func (m *awsEc2query_serializeOpGetVerifiedAccessGroupPolicy) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30030,6 +35153,8 @@ func (m *awsEc2query_serializeOpGetVerifiedAccessGroupPolicy) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30043,6 +35168,10 @@ func (*awsEc2query_serializeOpGetVpnConnectionDeviceSampleConfiguration) ID() st
 func (m *awsEc2query_serializeOpGetVpnConnectionDeviceSampleConfiguration) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30094,6 +35223,8 @@ func (m *awsEc2query_serializeOpGetVpnConnectionDeviceSampleConfiguration) Handl
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30107,6 +35238,10 @@ func (*awsEc2query_serializeOpGetVpnConnectionDeviceTypes) ID() string {
 func (m *awsEc2query_serializeOpGetVpnConnectionDeviceTypes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30158,6 +35293,8 @@ func (m *awsEc2query_serializeOpGetVpnConnectionDeviceTypes) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30171,6 +35308,10 @@ func (*awsEc2query_serializeOpGetVpnTunnelReplacementStatus) ID() string {
 func (m *awsEc2query_serializeOpGetVpnTunnelReplacementStatus) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30222,6 +35363,8 @@ func (m *awsEc2query_serializeOpGetVpnTunnelReplacementStatus) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30235,6 +35378,10 @@ func (*awsEc2query_serializeOpImportClientVpnClientCertificateRevocationList) ID
 func (m *awsEc2query_serializeOpImportClientVpnClientCertificateRevocationList) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30286,6 +35433,8 @@ func (m *awsEc2query_serializeOpImportClientVpnClientCertificateRevocationList) 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30299,6 +35448,10 @@ func (*awsEc2query_serializeOpImportImage) ID() string {
 func (m *awsEc2query_serializeOpImportImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30350,6 +35503,8 @@ func (m *awsEc2query_serializeOpImportImage) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30363,6 +35518,10 @@ func (*awsEc2query_serializeOpImportInstance) ID() string {
 func (m *awsEc2query_serializeOpImportInstance) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30414,6 +35573,8 @@ func (m *awsEc2query_serializeOpImportInstance) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30427,6 +35588,10 @@ func (*awsEc2query_serializeOpImportKeyPair) ID() string {
 func (m *awsEc2query_serializeOpImportKeyPair) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30478,6 +35643,8 @@ func (m *awsEc2query_serializeOpImportKeyPair) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30491,6 +35658,10 @@ func (*awsEc2query_serializeOpImportSnapshot) ID() string {
 func (m *awsEc2query_serializeOpImportSnapshot) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30542,6 +35713,8 @@ func (m *awsEc2query_serializeOpImportSnapshot) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30555,6 +35728,10 @@ func (*awsEc2query_serializeOpImportVolume) ID() string {
 func (m *awsEc2query_serializeOpImportVolume) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30606,6 +35783,8 @@ func (m *awsEc2query_serializeOpImportVolume) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30619,6 +35798,10 @@ func (*awsEc2query_serializeOpListImagesInRecycleBin) ID() string {
 func (m *awsEc2query_serializeOpListImagesInRecycleBin) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30670,6 +35853,8 @@ func (m *awsEc2query_serializeOpListImagesInRecycleBin) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30683,6 +35868,10 @@ func (*awsEc2query_serializeOpListSnapshotsInRecycleBin) ID() string {
 func (m *awsEc2query_serializeOpListSnapshotsInRecycleBin) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30734,6 +35923,8 @@ func (m *awsEc2query_serializeOpListSnapshotsInRecycleBin) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30747,6 +35938,10 @@ func (*awsEc2query_serializeOpLockSnapshot) ID() string {
 func (m *awsEc2query_serializeOpLockSnapshot) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30798,6 +35993,8 @@ func (m *awsEc2query_serializeOpLockSnapshot) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30811,6 +36008,10 @@ func (*awsEc2query_serializeOpModifyAddressAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifyAddressAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30862,6 +36063,8 @@ func (m *awsEc2query_serializeOpModifyAddressAttribute) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30875,6 +36078,10 @@ func (*awsEc2query_serializeOpModifyAvailabilityZoneGroup) ID() string {
 func (m *awsEc2query_serializeOpModifyAvailabilityZoneGroup) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30926,6 +36133,8 @@ func (m *awsEc2query_serializeOpModifyAvailabilityZoneGroup) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -30939,6 +36148,10 @@ func (*awsEc2query_serializeOpModifyCapacityReservation) ID() string {
 func (m *awsEc2query_serializeOpModifyCapacityReservation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -30990,6 +36203,8 @@ func (m *awsEc2query_serializeOpModifyCapacityReservation) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31003,6 +36218,10 @@ func (*awsEc2query_serializeOpModifyCapacityReservationFleet) ID() string {
 func (m *awsEc2query_serializeOpModifyCapacityReservationFleet) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31054,6 +36273,8 @@ func (m *awsEc2query_serializeOpModifyCapacityReservationFleet) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31067,6 +36288,10 @@ func (*awsEc2query_serializeOpModifyClientVpnEndpoint) ID() string {
 func (m *awsEc2query_serializeOpModifyClientVpnEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31118,6 +36343,8 @@ func (m *awsEc2query_serializeOpModifyClientVpnEndpoint) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31131,6 +36358,10 @@ func (*awsEc2query_serializeOpModifyDefaultCreditSpecification) ID() string {
 func (m *awsEc2query_serializeOpModifyDefaultCreditSpecification) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31182,6 +36413,8 @@ func (m *awsEc2query_serializeOpModifyDefaultCreditSpecification) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31195,6 +36428,10 @@ func (*awsEc2query_serializeOpModifyEbsDefaultKmsKeyId) ID() string {
 func (m *awsEc2query_serializeOpModifyEbsDefaultKmsKeyId) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31246,6 +36483,8 @@ func (m *awsEc2query_serializeOpModifyEbsDefaultKmsKeyId) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31259,6 +36498,10 @@ func (*awsEc2query_serializeOpModifyFleet) ID() string {
 func (m *awsEc2query_serializeOpModifyFleet) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31310,6 +36553,8 @@ func (m *awsEc2query_serializeOpModifyFleet) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31323,6 +36568,10 @@ func (*awsEc2query_serializeOpModifyFpgaImageAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifyFpgaImageAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31374,6 +36623,8 @@ func (m *awsEc2query_serializeOpModifyFpgaImageAttribute) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31387,6 +36638,10 @@ func (*awsEc2query_serializeOpModifyHosts) ID() string {
 func (m *awsEc2query_serializeOpModifyHosts) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31438,6 +36693,8 @@ func (m *awsEc2query_serializeOpModifyHosts) HandleSerialize(ctx context.Context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31451,6 +36708,10 @@ func (*awsEc2query_serializeOpModifyIdentityIdFormat) ID() string {
 func (m *awsEc2query_serializeOpModifyIdentityIdFormat) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31502,6 +36763,8 @@ func (m *awsEc2query_serializeOpModifyIdentityIdFormat) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31515,6 +36778,10 @@ func (*awsEc2query_serializeOpModifyIdFormat) ID() string {
 func (m *awsEc2query_serializeOpModifyIdFormat) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31566,6 +36833,8 @@ func (m *awsEc2query_serializeOpModifyIdFormat) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31579,6 +36848,10 @@ func (*awsEc2query_serializeOpModifyImageAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifyImageAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31630,6 +36903,8 @@ func (m *awsEc2query_serializeOpModifyImageAttribute) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31643,6 +36918,10 @@ func (*awsEc2query_serializeOpModifyInstanceAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifyInstanceAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31694,6 +36973,8 @@ func (m *awsEc2query_serializeOpModifyInstanceAttribute) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31707,6 +36988,10 @@ func (*awsEc2query_serializeOpModifyInstanceCapacityReservationAttributes) ID() 
 func (m *awsEc2query_serializeOpModifyInstanceCapacityReservationAttributes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31758,6 +37043,78 @@ func (m *awsEc2query_serializeOpModifyInstanceCapacityReservationAttributes) Han
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpModifyInstanceCpuOptions struct {
+}
+
+func (*awsEc2query_serializeOpModifyInstanceCpuOptions) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpModifyInstanceCpuOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*ModifyInstanceCpuOptionsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("ModifyInstanceCpuOptions")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentModifyInstanceCpuOptionsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31771,6 +37128,10 @@ func (*awsEc2query_serializeOpModifyInstanceCreditSpecification) ID() string {
 func (m *awsEc2query_serializeOpModifyInstanceCreditSpecification) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31822,6 +37183,8 @@ func (m *awsEc2query_serializeOpModifyInstanceCreditSpecification) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31835,6 +37198,10 @@ func (*awsEc2query_serializeOpModifyInstanceEventStartTime) ID() string {
 func (m *awsEc2query_serializeOpModifyInstanceEventStartTime) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31886,6 +37253,8 @@ func (m *awsEc2query_serializeOpModifyInstanceEventStartTime) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31899,6 +37268,10 @@ func (*awsEc2query_serializeOpModifyInstanceEventWindow) ID() string {
 func (m *awsEc2query_serializeOpModifyInstanceEventWindow) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -31950,6 +37323,8 @@ func (m *awsEc2query_serializeOpModifyInstanceEventWindow) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -31963,6 +37338,10 @@ func (*awsEc2query_serializeOpModifyInstanceMaintenanceOptions) ID() string {
 func (m *awsEc2query_serializeOpModifyInstanceMaintenanceOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32014,6 +37393,78 @@ func (m *awsEc2query_serializeOpModifyInstanceMaintenanceOptions) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpModifyInstanceMetadataDefaults struct {
+}
+
+func (*awsEc2query_serializeOpModifyInstanceMetadataDefaults) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpModifyInstanceMetadataDefaults) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*ModifyInstanceMetadataDefaultsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("ModifyInstanceMetadataDefaults")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentModifyInstanceMetadataDefaultsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32027,6 +37478,10 @@ func (*awsEc2query_serializeOpModifyInstanceMetadataOptions) ID() string {
 func (m *awsEc2query_serializeOpModifyInstanceMetadataOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32078,6 +37533,78 @@ func (m *awsEc2query_serializeOpModifyInstanceMetadataOptions) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpModifyInstanceNetworkPerformanceOptions struct {
+}
+
+func (*awsEc2query_serializeOpModifyInstanceNetworkPerformanceOptions) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpModifyInstanceNetworkPerformanceOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*ModifyInstanceNetworkPerformanceOptionsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("ModifyInstanceNetworkPerformanceOptions")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentModifyInstanceNetworkPerformanceOptionsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32091,6 +37618,10 @@ func (*awsEc2query_serializeOpModifyInstancePlacement) ID() string {
 func (m *awsEc2query_serializeOpModifyInstancePlacement) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32142,6 +37673,8 @@ func (m *awsEc2query_serializeOpModifyInstancePlacement) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32155,6 +37688,10 @@ func (*awsEc2query_serializeOpModifyIpam) ID() string {
 func (m *awsEc2query_serializeOpModifyIpam) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32206,6 +37743,8 @@ func (m *awsEc2query_serializeOpModifyIpam) HandleSerialize(ctx context.Context,
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32219,6 +37758,10 @@ func (*awsEc2query_serializeOpModifyIpamPool) ID() string {
 func (m *awsEc2query_serializeOpModifyIpamPool) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32270,6 +37813,8 @@ func (m *awsEc2query_serializeOpModifyIpamPool) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32283,6 +37828,10 @@ func (*awsEc2query_serializeOpModifyIpamResourceCidr) ID() string {
 func (m *awsEc2query_serializeOpModifyIpamResourceCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32334,6 +37883,8 @@ func (m *awsEc2query_serializeOpModifyIpamResourceCidr) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32347,6 +37898,10 @@ func (*awsEc2query_serializeOpModifyIpamResourceDiscovery) ID() string {
 func (m *awsEc2query_serializeOpModifyIpamResourceDiscovery) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32398,6 +37953,8 @@ func (m *awsEc2query_serializeOpModifyIpamResourceDiscovery) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32411,6 +37968,10 @@ func (*awsEc2query_serializeOpModifyIpamScope) ID() string {
 func (m *awsEc2query_serializeOpModifyIpamScope) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32462,6 +38023,8 @@ func (m *awsEc2query_serializeOpModifyIpamScope) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32475,6 +38038,10 @@ func (*awsEc2query_serializeOpModifyLaunchTemplate) ID() string {
 func (m *awsEc2query_serializeOpModifyLaunchTemplate) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32526,6 +38093,8 @@ func (m *awsEc2query_serializeOpModifyLaunchTemplate) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32539,6 +38108,10 @@ func (*awsEc2query_serializeOpModifyLocalGatewayRoute) ID() string {
 func (m *awsEc2query_serializeOpModifyLocalGatewayRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32590,6 +38163,8 @@ func (m *awsEc2query_serializeOpModifyLocalGatewayRoute) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32603,6 +38178,10 @@ func (*awsEc2query_serializeOpModifyManagedPrefixList) ID() string {
 func (m *awsEc2query_serializeOpModifyManagedPrefixList) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32654,6 +38233,8 @@ func (m *awsEc2query_serializeOpModifyManagedPrefixList) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32667,6 +38248,10 @@ func (*awsEc2query_serializeOpModifyNetworkInterfaceAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifyNetworkInterfaceAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32718,6 +38303,8 @@ func (m *awsEc2query_serializeOpModifyNetworkInterfaceAttribute) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32731,6 +38318,10 @@ func (*awsEc2query_serializeOpModifyPrivateDnsNameOptions) ID() string {
 func (m *awsEc2query_serializeOpModifyPrivateDnsNameOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32782,6 +38373,8 @@ func (m *awsEc2query_serializeOpModifyPrivateDnsNameOptions) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32795,6 +38388,10 @@ func (*awsEc2query_serializeOpModifyReservedInstances) ID() string {
 func (m *awsEc2query_serializeOpModifyReservedInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32846,6 +38443,8 @@ func (m *awsEc2query_serializeOpModifyReservedInstances) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32859,6 +38458,10 @@ func (*awsEc2query_serializeOpModifySecurityGroupRules) ID() string {
 func (m *awsEc2query_serializeOpModifySecurityGroupRules) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32910,6 +38513,8 @@ func (m *awsEc2query_serializeOpModifySecurityGroupRules) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32923,6 +38528,10 @@ func (*awsEc2query_serializeOpModifySnapshotAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifySnapshotAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -32974,6 +38583,8 @@ func (m *awsEc2query_serializeOpModifySnapshotAttribute) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -32987,6 +38598,10 @@ func (*awsEc2query_serializeOpModifySnapshotTier) ID() string {
 func (m *awsEc2query_serializeOpModifySnapshotTier) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33038,6 +38653,8 @@ func (m *awsEc2query_serializeOpModifySnapshotTier) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33051,6 +38668,10 @@ func (*awsEc2query_serializeOpModifySpotFleetRequest) ID() string {
 func (m *awsEc2query_serializeOpModifySpotFleetRequest) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33102,6 +38723,8 @@ func (m *awsEc2query_serializeOpModifySpotFleetRequest) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33115,6 +38738,10 @@ func (*awsEc2query_serializeOpModifySubnetAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifySubnetAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33166,6 +38793,8 @@ func (m *awsEc2query_serializeOpModifySubnetAttribute) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33179,6 +38808,10 @@ func (*awsEc2query_serializeOpModifyTrafficMirrorFilterNetworkServices) ID() str
 func (m *awsEc2query_serializeOpModifyTrafficMirrorFilterNetworkServices) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33230,6 +38863,8 @@ func (m *awsEc2query_serializeOpModifyTrafficMirrorFilterNetworkServices) Handle
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33243,6 +38878,10 @@ func (*awsEc2query_serializeOpModifyTrafficMirrorFilterRule) ID() string {
 func (m *awsEc2query_serializeOpModifyTrafficMirrorFilterRule) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33294,6 +38933,8 @@ func (m *awsEc2query_serializeOpModifyTrafficMirrorFilterRule) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33307,6 +38948,10 @@ func (*awsEc2query_serializeOpModifyTrafficMirrorSession) ID() string {
 func (m *awsEc2query_serializeOpModifyTrafficMirrorSession) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33358,6 +39003,8 @@ func (m *awsEc2query_serializeOpModifyTrafficMirrorSession) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33371,6 +39018,10 @@ func (*awsEc2query_serializeOpModifyTransitGateway) ID() string {
 func (m *awsEc2query_serializeOpModifyTransitGateway) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33422,6 +39073,8 @@ func (m *awsEc2query_serializeOpModifyTransitGateway) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33435,6 +39088,10 @@ func (*awsEc2query_serializeOpModifyTransitGatewayPrefixListReference) ID() stri
 func (m *awsEc2query_serializeOpModifyTransitGatewayPrefixListReference) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33486,6 +39143,8 @@ func (m *awsEc2query_serializeOpModifyTransitGatewayPrefixListReference) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33499,6 +39158,10 @@ func (*awsEc2query_serializeOpModifyTransitGatewayVpcAttachment) ID() string {
 func (m *awsEc2query_serializeOpModifyTransitGatewayVpcAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33550,6 +39213,8 @@ func (m *awsEc2query_serializeOpModifyTransitGatewayVpcAttachment) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33563,6 +39228,10 @@ func (*awsEc2query_serializeOpModifyVerifiedAccessEndpoint) ID() string {
 func (m *awsEc2query_serializeOpModifyVerifiedAccessEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33614,6 +39283,8 @@ func (m *awsEc2query_serializeOpModifyVerifiedAccessEndpoint) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33627,6 +39298,10 @@ func (*awsEc2query_serializeOpModifyVerifiedAccessEndpointPolicy) ID() string {
 func (m *awsEc2query_serializeOpModifyVerifiedAccessEndpointPolicy) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33678,6 +39353,8 @@ func (m *awsEc2query_serializeOpModifyVerifiedAccessEndpointPolicy) HandleSerial
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33691,6 +39368,10 @@ func (*awsEc2query_serializeOpModifyVerifiedAccessGroup) ID() string {
 func (m *awsEc2query_serializeOpModifyVerifiedAccessGroup) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33742,6 +39423,8 @@ func (m *awsEc2query_serializeOpModifyVerifiedAccessGroup) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33755,6 +39438,10 @@ func (*awsEc2query_serializeOpModifyVerifiedAccessGroupPolicy) ID() string {
 func (m *awsEc2query_serializeOpModifyVerifiedAccessGroupPolicy) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33806,6 +39493,8 @@ func (m *awsEc2query_serializeOpModifyVerifiedAccessGroupPolicy) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33819,6 +39508,10 @@ func (*awsEc2query_serializeOpModifyVerifiedAccessInstance) ID() string {
 func (m *awsEc2query_serializeOpModifyVerifiedAccessInstance) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33870,6 +39563,8 @@ func (m *awsEc2query_serializeOpModifyVerifiedAccessInstance) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33883,6 +39578,10 @@ func (*awsEc2query_serializeOpModifyVerifiedAccessInstanceLoggingConfiguration) 
 func (m *awsEc2query_serializeOpModifyVerifiedAccessInstanceLoggingConfiguration) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33934,6 +39633,8 @@ func (m *awsEc2query_serializeOpModifyVerifiedAccessInstanceLoggingConfiguration
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -33947,6 +39648,10 @@ func (*awsEc2query_serializeOpModifyVerifiedAccessTrustProvider) ID() string {
 func (m *awsEc2query_serializeOpModifyVerifiedAccessTrustProvider) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -33998,6 +39703,8 @@ func (m *awsEc2query_serializeOpModifyVerifiedAccessTrustProvider) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34011,6 +39718,10 @@ func (*awsEc2query_serializeOpModifyVolume) ID() string {
 func (m *awsEc2query_serializeOpModifyVolume) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34062,6 +39773,8 @@ func (m *awsEc2query_serializeOpModifyVolume) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34075,6 +39788,10 @@ func (*awsEc2query_serializeOpModifyVolumeAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifyVolumeAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34126,6 +39843,8 @@ func (m *awsEc2query_serializeOpModifyVolumeAttribute) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34139,6 +39858,10 @@ func (*awsEc2query_serializeOpModifyVpcAttribute) ID() string {
 func (m *awsEc2query_serializeOpModifyVpcAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34190,6 +39913,148 @@ func (m *awsEc2query_serializeOpModifyVpcAttribute) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpModifyVpcBlockPublicAccessExclusion struct {
+}
+
+func (*awsEc2query_serializeOpModifyVpcBlockPublicAccessExclusion) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpModifyVpcBlockPublicAccessExclusion) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*ModifyVpcBlockPublicAccessExclusionInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("ModifyVpcBlockPublicAccessExclusion")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentModifyVpcBlockPublicAccessExclusionInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpModifyVpcBlockPublicAccessOptions struct {
+}
+
+func (*awsEc2query_serializeOpModifyVpcBlockPublicAccessOptions) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpModifyVpcBlockPublicAccessOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*ModifyVpcBlockPublicAccessOptionsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("ModifyVpcBlockPublicAccessOptions")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentModifyVpcBlockPublicAccessOptionsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34203,6 +40068,10 @@ func (*awsEc2query_serializeOpModifyVpcEndpoint) ID() string {
 func (m *awsEc2query_serializeOpModifyVpcEndpoint) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34254,6 +40123,8 @@ func (m *awsEc2query_serializeOpModifyVpcEndpoint) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34267,6 +40138,10 @@ func (*awsEc2query_serializeOpModifyVpcEndpointConnectionNotification) ID() stri
 func (m *awsEc2query_serializeOpModifyVpcEndpointConnectionNotification) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34318,6 +40193,8 @@ func (m *awsEc2query_serializeOpModifyVpcEndpointConnectionNotification) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34331,6 +40208,10 @@ func (*awsEc2query_serializeOpModifyVpcEndpointServiceConfiguration) ID() string
 func (m *awsEc2query_serializeOpModifyVpcEndpointServiceConfiguration) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34382,6 +40263,8 @@ func (m *awsEc2query_serializeOpModifyVpcEndpointServiceConfiguration) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34395,6 +40278,10 @@ func (*awsEc2query_serializeOpModifyVpcEndpointServicePayerResponsibility) ID() 
 func (m *awsEc2query_serializeOpModifyVpcEndpointServicePayerResponsibility) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34446,6 +40333,8 @@ func (m *awsEc2query_serializeOpModifyVpcEndpointServicePayerResponsibility) Han
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34459,6 +40348,10 @@ func (*awsEc2query_serializeOpModifyVpcEndpointServicePermissions) ID() string {
 func (m *awsEc2query_serializeOpModifyVpcEndpointServicePermissions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34510,6 +40403,8 @@ func (m *awsEc2query_serializeOpModifyVpcEndpointServicePermissions) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34523,6 +40418,10 @@ func (*awsEc2query_serializeOpModifyVpcPeeringConnectionOptions) ID() string {
 func (m *awsEc2query_serializeOpModifyVpcPeeringConnectionOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34574,6 +40473,8 @@ func (m *awsEc2query_serializeOpModifyVpcPeeringConnectionOptions) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34587,6 +40488,10 @@ func (*awsEc2query_serializeOpModifyVpcTenancy) ID() string {
 func (m *awsEc2query_serializeOpModifyVpcTenancy) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34638,6 +40543,8 @@ func (m *awsEc2query_serializeOpModifyVpcTenancy) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34651,6 +40558,10 @@ func (*awsEc2query_serializeOpModifyVpnConnection) ID() string {
 func (m *awsEc2query_serializeOpModifyVpnConnection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34702,6 +40613,8 @@ func (m *awsEc2query_serializeOpModifyVpnConnection) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34715,6 +40628,10 @@ func (*awsEc2query_serializeOpModifyVpnConnectionOptions) ID() string {
 func (m *awsEc2query_serializeOpModifyVpnConnectionOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34766,6 +40683,8 @@ func (m *awsEc2query_serializeOpModifyVpnConnectionOptions) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34779,6 +40698,10 @@ func (*awsEc2query_serializeOpModifyVpnTunnelCertificate) ID() string {
 func (m *awsEc2query_serializeOpModifyVpnTunnelCertificate) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34830,6 +40753,8 @@ func (m *awsEc2query_serializeOpModifyVpnTunnelCertificate) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34843,6 +40768,10 @@ func (*awsEc2query_serializeOpModifyVpnTunnelOptions) ID() string {
 func (m *awsEc2query_serializeOpModifyVpnTunnelOptions) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34894,6 +40823,8 @@ func (m *awsEc2query_serializeOpModifyVpnTunnelOptions) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34907,6 +40838,10 @@ func (*awsEc2query_serializeOpMonitorInstances) ID() string {
 func (m *awsEc2query_serializeOpMonitorInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -34958,6 +40893,8 @@ func (m *awsEc2query_serializeOpMonitorInstances) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -34971,6 +40908,10 @@ func (*awsEc2query_serializeOpMoveAddressToVpc) ID() string {
 func (m *awsEc2query_serializeOpMoveAddressToVpc) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35022,6 +40963,8 @@ func (m *awsEc2query_serializeOpMoveAddressToVpc) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35035,6 +40978,10 @@ func (*awsEc2query_serializeOpMoveByoipCidrToIpam) ID() string {
 func (m *awsEc2query_serializeOpMoveByoipCidrToIpam) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35086,6 +41033,78 @@ func (m *awsEc2query_serializeOpMoveByoipCidrToIpam) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpMoveCapacityReservationInstances struct {
+}
+
+func (*awsEc2query_serializeOpMoveCapacityReservationInstances) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpMoveCapacityReservationInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*MoveCapacityReservationInstancesInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("MoveCapacityReservationInstances")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentMoveCapacityReservationInstancesInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35099,6 +41118,10 @@ func (*awsEc2query_serializeOpProvisionByoipCidr) ID() string {
 func (m *awsEc2query_serializeOpProvisionByoipCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35150,6 +41173,8 @@ func (m *awsEc2query_serializeOpProvisionByoipCidr) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35163,6 +41188,10 @@ func (*awsEc2query_serializeOpProvisionIpamByoasn) ID() string {
 func (m *awsEc2query_serializeOpProvisionIpamByoasn) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35214,6 +41243,8 @@ func (m *awsEc2query_serializeOpProvisionIpamByoasn) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35227,6 +41258,10 @@ func (*awsEc2query_serializeOpProvisionIpamPoolCidr) ID() string {
 func (m *awsEc2query_serializeOpProvisionIpamPoolCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35278,6 +41313,8 @@ func (m *awsEc2query_serializeOpProvisionIpamPoolCidr) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35291,6 +41328,10 @@ func (*awsEc2query_serializeOpProvisionPublicIpv4PoolCidr) ID() string {
 func (m *awsEc2query_serializeOpProvisionPublicIpv4PoolCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35342,6 +41383,8 @@ func (m *awsEc2query_serializeOpProvisionPublicIpv4PoolCidr) HandleSerialize(ctx
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35355,6 +41398,10 @@ func (*awsEc2query_serializeOpPurchaseCapacityBlock) ID() string {
 func (m *awsEc2query_serializeOpPurchaseCapacityBlock) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35406,6 +41453,78 @@ func (m *awsEc2query_serializeOpPurchaseCapacityBlock) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpPurchaseCapacityBlockExtension struct {
+}
+
+func (*awsEc2query_serializeOpPurchaseCapacityBlockExtension) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpPurchaseCapacityBlockExtension) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*PurchaseCapacityBlockExtensionInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("PurchaseCapacityBlockExtension")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentPurchaseCapacityBlockExtensionInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35419,6 +41538,10 @@ func (*awsEc2query_serializeOpPurchaseHostReservation) ID() string {
 func (m *awsEc2query_serializeOpPurchaseHostReservation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35470,6 +41593,8 @@ func (m *awsEc2query_serializeOpPurchaseHostReservation) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35483,6 +41608,10 @@ func (*awsEc2query_serializeOpPurchaseReservedInstancesOffering) ID() string {
 func (m *awsEc2query_serializeOpPurchaseReservedInstancesOffering) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35534,6 +41663,8 @@ func (m *awsEc2query_serializeOpPurchaseReservedInstancesOffering) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35547,6 +41678,10 @@ func (*awsEc2query_serializeOpPurchaseScheduledInstances) ID() string {
 func (m *awsEc2query_serializeOpPurchaseScheduledInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35598,6 +41733,8 @@ func (m *awsEc2query_serializeOpPurchaseScheduledInstances) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35611,6 +41748,10 @@ func (*awsEc2query_serializeOpRebootInstances) ID() string {
 func (m *awsEc2query_serializeOpRebootInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35662,6 +41803,8 @@ func (m *awsEc2query_serializeOpRebootInstances) HandleSerialize(ctx context.Con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35675,6 +41818,10 @@ func (*awsEc2query_serializeOpRegisterImage) ID() string {
 func (m *awsEc2query_serializeOpRegisterImage) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35726,6 +41873,8 @@ func (m *awsEc2query_serializeOpRegisterImage) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35739,6 +41888,10 @@ func (*awsEc2query_serializeOpRegisterInstanceEventNotificationAttributes) ID() 
 func (m *awsEc2query_serializeOpRegisterInstanceEventNotificationAttributes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35790,6 +41943,8 @@ func (m *awsEc2query_serializeOpRegisterInstanceEventNotificationAttributes) Han
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35803,6 +41958,10 @@ func (*awsEc2query_serializeOpRegisterTransitGatewayMulticastGroupMembers) ID() 
 func (m *awsEc2query_serializeOpRegisterTransitGatewayMulticastGroupMembers) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35854,6 +42013,8 @@ func (m *awsEc2query_serializeOpRegisterTransitGatewayMulticastGroupMembers) Han
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35867,6 +42028,10 @@ func (*awsEc2query_serializeOpRegisterTransitGatewayMulticastGroupSources) ID() 
 func (m *awsEc2query_serializeOpRegisterTransitGatewayMulticastGroupSources) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35918,6 +42083,78 @@ func (m *awsEc2query_serializeOpRegisterTransitGatewayMulticastGroupSources) Han
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpRejectCapacityReservationBillingOwnership struct {
+}
+
+func (*awsEc2query_serializeOpRejectCapacityReservationBillingOwnership) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpRejectCapacityReservationBillingOwnership) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*RejectCapacityReservationBillingOwnershipInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("RejectCapacityReservationBillingOwnership")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentRejectCapacityReservationBillingOwnershipInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35931,6 +42168,10 @@ func (*awsEc2query_serializeOpRejectTransitGatewayMulticastDomainAssociations) I
 func (m *awsEc2query_serializeOpRejectTransitGatewayMulticastDomainAssociations) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -35982,6 +42223,8 @@ func (m *awsEc2query_serializeOpRejectTransitGatewayMulticastDomainAssociations)
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -35995,6 +42238,10 @@ func (*awsEc2query_serializeOpRejectTransitGatewayPeeringAttachment) ID() string
 func (m *awsEc2query_serializeOpRejectTransitGatewayPeeringAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36046,6 +42293,8 @@ func (m *awsEc2query_serializeOpRejectTransitGatewayPeeringAttachment) HandleSer
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36059,6 +42308,10 @@ func (*awsEc2query_serializeOpRejectTransitGatewayVpcAttachment) ID() string {
 func (m *awsEc2query_serializeOpRejectTransitGatewayVpcAttachment) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36110,6 +42363,8 @@ func (m *awsEc2query_serializeOpRejectTransitGatewayVpcAttachment) HandleSeriali
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36123,6 +42378,10 @@ func (*awsEc2query_serializeOpRejectVpcEndpointConnections) ID() string {
 func (m *awsEc2query_serializeOpRejectVpcEndpointConnections) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36174,6 +42433,8 @@ func (m *awsEc2query_serializeOpRejectVpcEndpointConnections) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36187,6 +42448,10 @@ func (*awsEc2query_serializeOpRejectVpcPeeringConnection) ID() string {
 func (m *awsEc2query_serializeOpRejectVpcPeeringConnection) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36238,6 +42503,8 @@ func (m *awsEc2query_serializeOpRejectVpcPeeringConnection) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36251,6 +42518,10 @@ func (*awsEc2query_serializeOpReleaseAddress) ID() string {
 func (m *awsEc2query_serializeOpReleaseAddress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36302,6 +42573,8 @@ func (m *awsEc2query_serializeOpReleaseAddress) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36315,6 +42588,10 @@ func (*awsEc2query_serializeOpReleaseHosts) ID() string {
 func (m *awsEc2query_serializeOpReleaseHosts) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36366,6 +42643,8 @@ func (m *awsEc2query_serializeOpReleaseHosts) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36379,6 +42658,10 @@ func (*awsEc2query_serializeOpReleaseIpamPoolAllocation) ID() string {
 func (m *awsEc2query_serializeOpReleaseIpamPoolAllocation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36430,6 +42713,8 @@ func (m *awsEc2query_serializeOpReleaseIpamPoolAllocation) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36443,6 +42728,10 @@ func (*awsEc2query_serializeOpReplaceIamInstanceProfileAssociation) ID() string 
 func (m *awsEc2query_serializeOpReplaceIamInstanceProfileAssociation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36494,6 +42783,78 @@ func (m *awsEc2query_serializeOpReplaceIamInstanceProfileAssociation) HandleSeri
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpReplaceImageCriteriaInAllowedImagesSettings struct {
+}
+
+func (*awsEc2query_serializeOpReplaceImageCriteriaInAllowedImagesSettings) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpReplaceImageCriteriaInAllowedImagesSettings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*ReplaceImageCriteriaInAllowedImagesSettingsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("ReplaceImageCriteriaInAllowedImagesSettings")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentReplaceImageCriteriaInAllowedImagesSettingsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36507,6 +42868,10 @@ func (*awsEc2query_serializeOpReplaceNetworkAclAssociation) ID() string {
 func (m *awsEc2query_serializeOpReplaceNetworkAclAssociation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36558,6 +42923,8 @@ func (m *awsEc2query_serializeOpReplaceNetworkAclAssociation) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36571,6 +42938,10 @@ func (*awsEc2query_serializeOpReplaceNetworkAclEntry) ID() string {
 func (m *awsEc2query_serializeOpReplaceNetworkAclEntry) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36622,6 +42993,8 @@ func (m *awsEc2query_serializeOpReplaceNetworkAclEntry) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36635,6 +43008,10 @@ func (*awsEc2query_serializeOpReplaceRoute) ID() string {
 func (m *awsEc2query_serializeOpReplaceRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36686,6 +43063,8 @@ func (m *awsEc2query_serializeOpReplaceRoute) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36699,6 +43078,10 @@ func (*awsEc2query_serializeOpReplaceRouteTableAssociation) ID() string {
 func (m *awsEc2query_serializeOpReplaceRouteTableAssociation) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36750,6 +43133,8 @@ func (m *awsEc2query_serializeOpReplaceRouteTableAssociation) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36763,6 +43148,10 @@ func (*awsEc2query_serializeOpReplaceTransitGatewayRoute) ID() string {
 func (m *awsEc2query_serializeOpReplaceTransitGatewayRoute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36814,6 +43203,8 @@ func (m *awsEc2query_serializeOpReplaceTransitGatewayRoute) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36827,6 +43218,10 @@ func (*awsEc2query_serializeOpReplaceVpnTunnel) ID() string {
 func (m *awsEc2query_serializeOpReplaceVpnTunnel) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36878,6 +43273,8 @@ func (m *awsEc2query_serializeOpReplaceVpnTunnel) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36891,6 +43288,10 @@ func (*awsEc2query_serializeOpReportInstanceStatus) ID() string {
 func (m *awsEc2query_serializeOpReportInstanceStatus) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -36942,6 +43343,8 @@ func (m *awsEc2query_serializeOpReportInstanceStatus) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -36955,6 +43358,10 @@ func (*awsEc2query_serializeOpRequestSpotFleet) ID() string {
 func (m *awsEc2query_serializeOpRequestSpotFleet) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37006,6 +43413,8 @@ func (m *awsEc2query_serializeOpRequestSpotFleet) HandleSerialize(ctx context.Co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37019,6 +43428,10 @@ func (*awsEc2query_serializeOpRequestSpotInstances) ID() string {
 func (m *awsEc2query_serializeOpRequestSpotInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37070,6 +43483,8 @@ func (m *awsEc2query_serializeOpRequestSpotInstances) HandleSerialize(ctx contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37083,6 +43498,10 @@ func (*awsEc2query_serializeOpResetAddressAttribute) ID() string {
 func (m *awsEc2query_serializeOpResetAddressAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37134,6 +43553,8 @@ func (m *awsEc2query_serializeOpResetAddressAttribute) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37147,6 +43568,10 @@ func (*awsEc2query_serializeOpResetEbsDefaultKmsKeyId) ID() string {
 func (m *awsEc2query_serializeOpResetEbsDefaultKmsKeyId) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37198,6 +43623,8 @@ func (m *awsEc2query_serializeOpResetEbsDefaultKmsKeyId) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37211,6 +43638,10 @@ func (*awsEc2query_serializeOpResetFpgaImageAttribute) ID() string {
 func (m *awsEc2query_serializeOpResetFpgaImageAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37262,6 +43693,8 @@ func (m *awsEc2query_serializeOpResetFpgaImageAttribute) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37275,6 +43708,10 @@ func (*awsEc2query_serializeOpResetImageAttribute) ID() string {
 func (m *awsEc2query_serializeOpResetImageAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37326,6 +43763,8 @@ func (m *awsEc2query_serializeOpResetImageAttribute) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37339,6 +43778,10 @@ func (*awsEc2query_serializeOpResetInstanceAttribute) ID() string {
 func (m *awsEc2query_serializeOpResetInstanceAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37390,6 +43833,8 @@ func (m *awsEc2query_serializeOpResetInstanceAttribute) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37403,6 +43848,10 @@ func (*awsEc2query_serializeOpResetNetworkInterfaceAttribute) ID() string {
 func (m *awsEc2query_serializeOpResetNetworkInterfaceAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37454,6 +43903,8 @@ func (m *awsEc2query_serializeOpResetNetworkInterfaceAttribute) HandleSerialize(
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37467,6 +43918,10 @@ func (*awsEc2query_serializeOpResetSnapshotAttribute) ID() string {
 func (m *awsEc2query_serializeOpResetSnapshotAttribute) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37518,6 +43973,8 @@ func (m *awsEc2query_serializeOpResetSnapshotAttribute) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37531,6 +43988,10 @@ func (*awsEc2query_serializeOpRestoreAddressToClassic) ID() string {
 func (m *awsEc2query_serializeOpRestoreAddressToClassic) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37582,6 +44043,8 @@ func (m *awsEc2query_serializeOpRestoreAddressToClassic) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37595,6 +44058,10 @@ func (*awsEc2query_serializeOpRestoreImageFromRecycleBin) ID() string {
 func (m *awsEc2query_serializeOpRestoreImageFromRecycleBin) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37646,6 +44113,8 @@ func (m *awsEc2query_serializeOpRestoreImageFromRecycleBin) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37659,6 +44128,10 @@ func (*awsEc2query_serializeOpRestoreManagedPrefixListVersion) ID() string {
 func (m *awsEc2query_serializeOpRestoreManagedPrefixListVersion) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37710,6 +44183,8 @@ func (m *awsEc2query_serializeOpRestoreManagedPrefixListVersion) HandleSerialize
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37723,6 +44198,10 @@ func (*awsEc2query_serializeOpRestoreSnapshotFromRecycleBin) ID() string {
 func (m *awsEc2query_serializeOpRestoreSnapshotFromRecycleBin) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37774,6 +44253,8 @@ func (m *awsEc2query_serializeOpRestoreSnapshotFromRecycleBin) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37787,6 +44268,10 @@ func (*awsEc2query_serializeOpRestoreSnapshotTier) ID() string {
 func (m *awsEc2query_serializeOpRestoreSnapshotTier) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37838,6 +44323,8 @@ func (m *awsEc2query_serializeOpRestoreSnapshotTier) HandleSerialize(ctx context
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37851,6 +44338,10 @@ func (*awsEc2query_serializeOpRevokeClientVpnIngress) ID() string {
 func (m *awsEc2query_serializeOpRevokeClientVpnIngress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37902,6 +44393,8 @@ func (m *awsEc2query_serializeOpRevokeClientVpnIngress) HandleSerialize(ctx cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37915,6 +44408,10 @@ func (*awsEc2query_serializeOpRevokeSecurityGroupEgress) ID() string {
 func (m *awsEc2query_serializeOpRevokeSecurityGroupEgress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -37966,6 +44463,8 @@ func (m *awsEc2query_serializeOpRevokeSecurityGroupEgress) HandleSerialize(ctx c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -37979,6 +44478,10 @@ func (*awsEc2query_serializeOpRevokeSecurityGroupIngress) ID() string {
 func (m *awsEc2query_serializeOpRevokeSecurityGroupIngress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38030,6 +44533,8 @@ func (m *awsEc2query_serializeOpRevokeSecurityGroupIngress) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38043,6 +44548,10 @@ func (*awsEc2query_serializeOpRunInstances) ID() string {
 func (m *awsEc2query_serializeOpRunInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38094,6 +44603,8 @@ func (m *awsEc2query_serializeOpRunInstances) HandleSerialize(ctx context.Contex
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38107,6 +44618,10 @@ func (*awsEc2query_serializeOpRunScheduledInstances) ID() string {
 func (m *awsEc2query_serializeOpRunScheduledInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38158,6 +44673,8 @@ func (m *awsEc2query_serializeOpRunScheduledInstances) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38171,6 +44688,10 @@ func (*awsEc2query_serializeOpSearchLocalGatewayRoutes) ID() string {
 func (m *awsEc2query_serializeOpSearchLocalGatewayRoutes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38222,6 +44743,8 @@ func (m *awsEc2query_serializeOpSearchLocalGatewayRoutes) HandleSerialize(ctx co
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38235,6 +44758,10 @@ func (*awsEc2query_serializeOpSearchTransitGatewayMulticastGroups) ID() string {
 func (m *awsEc2query_serializeOpSearchTransitGatewayMulticastGroups) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38286,6 +44813,8 @@ func (m *awsEc2query_serializeOpSearchTransitGatewayMulticastGroups) HandleSeria
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38299,6 +44828,10 @@ func (*awsEc2query_serializeOpSearchTransitGatewayRoutes) ID() string {
 func (m *awsEc2query_serializeOpSearchTransitGatewayRoutes) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38350,6 +44883,8 @@ func (m *awsEc2query_serializeOpSearchTransitGatewayRoutes) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38363,6 +44898,10 @@ func (*awsEc2query_serializeOpSendDiagnosticInterrupt) ID() string {
 func (m *awsEc2query_serializeOpSendDiagnosticInterrupt) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38414,6 +44953,78 @@ func (m *awsEc2query_serializeOpSendDiagnosticInterrupt) HandleSerialize(ctx con
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpStartDeclarativePoliciesReport struct {
+}
+
+func (*awsEc2query_serializeOpStartDeclarativePoliciesReport) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpStartDeclarativePoliciesReport) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*StartDeclarativePoliciesReportInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("StartDeclarativePoliciesReport")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentStartDeclarativePoliciesReportInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38427,6 +45038,10 @@ func (*awsEc2query_serializeOpStartInstances) ID() string {
 func (m *awsEc2query_serializeOpStartInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38478,6 +45093,8 @@ func (m *awsEc2query_serializeOpStartInstances) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38491,6 +45108,10 @@ func (*awsEc2query_serializeOpStartNetworkInsightsAccessScopeAnalysis) ID() stri
 func (m *awsEc2query_serializeOpStartNetworkInsightsAccessScopeAnalysis) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38542,6 +45163,8 @@ func (m *awsEc2query_serializeOpStartNetworkInsightsAccessScopeAnalysis) HandleS
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38555,6 +45178,10 @@ func (*awsEc2query_serializeOpStartNetworkInsightsAnalysis) ID() string {
 func (m *awsEc2query_serializeOpStartNetworkInsightsAnalysis) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38606,6 +45233,8 @@ func (m *awsEc2query_serializeOpStartNetworkInsightsAnalysis) HandleSerialize(ct
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38619,6 +45248,10 @@ func (*awsEc2query_serializeOpStartVpcEndpointServicePrivateDnsVerification) ID(
 func (m *awsEc2query_serializeOpStartVpcEndpointServicePrivateDnsVerification) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38670,6 +45303,8 @@ func (m *awsEc2query_serializeOpStartVpcEndpointServicePrivateDnsVerification) H
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38683,6 +45318,10 @@ func (*awsEc2query_serializeOpStopInstances) ID() string {
 func (m *awsEc2query_serializeOpStopInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38734,6 +45373,8 @@ func (m *awsEc2query_serializeOpStopInstances) HandleSerialize(ctx context.Conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38747,6 +45388,10 @@ func (*awsEc2query_serializeOpTerminateClientVpnConnections) ID() string {
 func (m *awsEc2query_serializeOpTerminateClientVpnConnections) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38798,6 +45443,8 @@ func (m *awsEc2query_serializeOpTerminateClientVpnConnections) HandleSerialize(c
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38811,6 +45458,10 @@ func (*awsEc2query_serializeOpTerminateInstances) ID() string {
 func (m *awsEc2query_serializeOpTerminateInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38862,6 +45513,8 @@ func (m *awsEc2query_serializeOpTerminateInstances) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38875,6 +45528,10 @@ func (*awsEc2query_serializeOpUnassignIpv6Addresses) ID() string {
 func (m *awsEc2query_serializeOpUnassignIpv6Addresses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38926,6 +45583,8 @@ func (m *awsEc2query_serializeOpUnassignIpv6Addresses) HandleSerialize(ctx conte
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -38939,6 +45598,10 @@ func (*awsEc2query_serializeOpUnassignPrivateIpAddresses) ID() string {
 func (m *awsEc2query_serializeOpUnassignPrivateIpAddresses) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -38990,6 +45653,8 @@ func (m *awsEc2query_serializeOpUnassignPrivateIpAddresses) HandleSerialize(ctx 
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -39003,6 +45668,10 @@ func (*awsEc2query_serializeOpUnassignPrivateNatGatewayAddress) ID() string {
 func (m *awsEc2query_serializeOpUnassignPrivateNatGatewayAddress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -39054,6 +45723,8 @@ func (m *awsEc2query_serializeOpUnassignPrivateNatGatewayAddress) HandleSerializ
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -39067,6 +45738,10 @@ func (*awsEc2query_serializeOpUnlockSnapshot) ID() string {
 func (m *awsEc2query_serializeOpUnlockSnapshot) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -39118,6 +45793,8 @@ func (m *awsEc2query_serializeOpUnlockSnapshot) HandleSerialize(ctx context.Cont
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -39131,6 +45808,10 @@ func (*awsEc2query_serializeOpUnmonitorInstances) ID() string {
 func (m *awsEc2query_serializeOpUnmonitorInstances) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -39182,6 +45863,8 @@ func (m *awsEc2query_serializeOpUnmonitorInstances) HandleSerialize(ctx context.
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -39195,6 +45878,10 @@ func (*awsEc2query_serializeOpUpdateSecurityGroupRuleDescriptionsEgress) ID() st
 func (m *awsEc2query_serializeOpUpdateSecurityGroupRuleDescriptionsEgress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -39246,6 +45933,8 @@ func (m *awsEc2query_serializeOpUpdateSecurityGroupRuleDescriptionsEgress) Handl
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -39259,6 +45948,10 @@ func (*awsEc2query_serializeOpUpdateSecurityGroupRuleDescriptionsIngress) ID() s
 func (m *awsEc2query_serializeOpUpdateSecurityGroupRuleDescriptionsIngress) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -39310,6 +46003,8 @@ func (m *awsEc2query_serializeOpUpdateSecurityGroupRuleDescriptionsIngress) Hand
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 
@@ -39323,6 +46018,10 @@ func (*awsEc2query_serializeOpWithdrawByoipCidr) ID() string {
 func (m *awsEc2query_serializeOpWithdrawByoipCidr) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
 	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
 ) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
 	request, ok := in.Request.(*smithyhttp.Request)
 	if !ok {
 		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
@@ -39374,6 +46073,8 @@ func (m *awsEc2query_serializeOpWithdrawByoipCidr) HandleSerialize(ctx context.C
 	}
 	in.Request = request
 
+	endTimer()
+	span.End()
 	return next.HandleSerialize(ctx, in)
 }
 func awsEc2query_serializeDocumentAcceleratorCount(v *types.AcceleratorCount, value query.Value) error {
@@ -39411,6 +46112,9 @@ func awsEc2query_serializeDocumentAcceleratorCountRequest(v *types.AcceleratorCo
 }
 
 func awsEc2query_serializeDocumentAcceleratorManufacturerSet(v []types.AcceleratorManufacturer, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39421,6 +46125,9 @@ func awsEc2query_serializeDocumentAcceleratorManufacturerSet(v []types.Accelerat
 }
 
 func awsEc2query_serializeDocumentAcceleratorNameSet(v []types.AcceleratorName, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39465,6 +46172,9 @@ func awsEc2query_serializeDocumentAcceleratorTotalMemoryMiBRequest(v *types.Acce
 }
 
 func awsEc2query_serializeDocumentAcceleratorTypeSet(v []types.AcceleratorType, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39475,6 +46185,9 @@ func awsEc2query_serializeDocumentAcceleratorTypeSet(v []types.AcceleratorType, 
 }
 
 func awsEc2query_serializeDocumentAccessScopePathListRequest(v []types.AccessScopePathRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39515,6 +46228,9 @@ func awsEc2query_serializeDocumentAccessScopePathRequest(v *types.AccessScopePat
 }
 
 func awsEc2query_serializeDocumentAccountAttributeNameStringList(v []types.AccountAttributeName, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("AttributeName")
 
 	for i := range v {
@@ -39537,6 +46253,9 @@ func awsEc2query_serializeDocumentAddIpamOperatingRegion(v *types.AddIpamOperati
 }
 
 func awsEc2query_serializeDocumentAddIpamOperatingRegionSet(v []types.AddIpamOperatingRegion, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -39548,7 +46267,37 @@ func awsEc2query_serializeDocumentAddIpamOperatingRegionSet(v []types.AddIpamOpe
 	return nil
 }
 
+func awsEc2query_serializeDocumentAddIpamOrganizationalUnitExclusion(v *types.AddIpamOrganizationalUnitExclusion, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.OrganizationsEntityPath != nil {
+		objectKey := object.Key("OrganizationsEntityPath")
+		objectKey.String(*v.OrganizationsEntityPath)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentAddIpamOrganizationalUnitExclusionSet(v []types.AddIpamOrganizationalUnitExclusion, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Member")
+
+	for i := range v {
+		av := array.Value()
+		if err := awsEc2query_serializeDocumentAddIpamOrganizationalUnitExclusion(&v[i], av); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func awsEc2query_serializeDocumentAddPrefixListEntries(v []types.AddPrefixListEntry, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -39578,6 +46327,9 @@ func awsEc2query_serializeDocumentAddPrefixListEntry(v *types.AddPrefixListEntry
 }
 
 func awsEc2query_serializeDocumentAllocationIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("AllocationId")
 
 	for i := range v {
@@ -39588,6 +46340,9 @@ func awsEc2query_serializeDocumentAllocationIdList(v []string, value query.Value
 }
 
 func awsEc2query_serializeDocumentAllocationIds(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39598,6 +46353,9 @@ func awsEc2query_serializeDocumentAllocationIds(v []string, value query.Value) e
 }
 
 func awsEc2query_serializeDocumentAllowedInstanceTypeSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39608,6 +46366,9 @@ func awsEc2query_serializeDocumentAllowedInstanceTypeSet(v []string, value query
 }
 
 func awsEc2query_serializeDocumentArchitectureTypeSet(v []types.ArchitectureType, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39618,6 +46379,9 @@ func awsEc2query_serializeDocumentArchitectureTypeSet(v []types.ArchitectureType
 }
 
 func awsEc2query_serializeDocumentArnList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39645,6 +46409,9 @@ func awsEc2query_serializeDocumentAsnAuthorizationContext(v *types.AsnAuthorizat
 }
 
 func awsEc2query_serializeDocumentAssetIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -39655,6 +46422,9 @@ func awsEc2query_serializeDocumentAssetIdList(v []string, value query.Value) err
 }
 
 func awsEc2query_serializeDocumentAssociationIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("AssociationId")
 
 	for i := range v {
@@ -39692,6 +46462,9 @@ func awsEc2query_serializeDocumentAthenaIntegration(v *types.AthenaIntegration, 
 }
 
 func awsEc2query_serializeDocumentAthenaIntegrationsSet(v []types.AthenaIntegration, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39728,6 +46501,9 @@ func awsEc2query_serializeDocumentAttributeValue(v *types.AttributeValue, value 
 }
 
 func awsEc2query_serializeDocumentAvailabilityZoneStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("AvailabilityZone")
 
 	for i := range v {
@@ -39771,7 +46547,38 @@ func awsEc2query_serializeDocumentBaselineEbsBandwidthMbpsRequest(v *types.Basel
 	return nil
 }
 
+func awsEc2query_serializeDocumentBaselinePerformanceFactors(v *types.BaselinePerformanceFactors, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.Cpu != nil {
+		objectKey := object.Key("Cpu")
+		if err := awsEc2query_serializeDocumentCpuPerformanceFactor(v.Cpu, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentBaselinePerformanceFactorsRequest(v *types.BaselinePerformanceFactorsRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.Cpu != nil {
+		objectKey := object.Key("Cpu")
+		if err := awsEc2query_serializeDocumentCpuPerformanceFactorRequest(v.Cpu, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeDocumentBillingProductList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39823,6 +46630,9 @@ func awsEc2query_serializeDocumentBlockDeviceMapping(v *types.BlockDeviceMapping
 }
 
 func awsEc2query_serializeDocumentBlockDeviceMappingList(v []types.BlockDeviceMapping, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39835,6 +46645,9 @@ func awsEc2query_serializeDocumentBlockDeviceMappingList(v []types.BlockDeviceMa
 }
 
 func awsEc2query_serializeDocumentBlockDeviceMappingRequestList(v []types.BlockDeviceMapping, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("BlockDeviceMapping")
 
 	for i := range v {
@@ -39847,6 +46660,9 @@ func awsEc2query_serializeDocumentBlockDeviceMappingRequestList(v []types.BlockD
 }
 
 func awsEc2query_serializeDocumentBundleIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("BundleId")
 
 	for i := range v {
@@ -39857,6 +46673,9 @@ func awsEc2query_serializeDocumentBundleIdStringList(v []string, value query.Val
 }
 
 func awsEc2query_serializeDocumentCapacityReservationFleetIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39867,6 +46686,9 @@ func awsEc2query_serializeDocumentCapacityReservationFleetIdSet(v []string, valu
 }
 
 func awsEc2query_serializeDocumentCapacityReservationIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -39925,6 +46747,9 @@ func awsEc2query_serializeDocumentCapacityReservationTarget(v *types.CapacityRes
 }
 
 func awsEc2query_serializeDocumentCarrierGatewayIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -39976,6 +46801,9 @@ func awsEc2query_serializeDocumentClassicLoadBalancer(v *types.ClassicLoadBalanc
 }
 
 func awsEc2query_serializeDocumentClassicLoadBalancers(v []types.ClassicLoadBalancer, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40109,6 +46937,9 @@ func awsEc2query_serializeDocumentClientVpnAuthenticationRequest(v *types.Client
 }
 
 func awsEc2query_serializeDocumentClientVpnAuthenticationRequestList(v []types.ClientVpnAuthenticationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -40121,6 +46952,9 @@ func awsEc2query_serializeDocumentClientVpnAuthenticationRequestList(v []types.C
 }
 
 func awsEc2query_serializeDocumentClientVpnEndpointIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40131,6 +46965,9 @@ func awsEc2query_serializeDocumentClientVpnEndpointIdList(v []string, value quer
 }
 
 func awsEc2query_serializeDocumentClientVpnSecurityGroupIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40163,6 +47000,9 @@ func awsEc2query_serializeDocumentCloudWatchLogOptionsSpecification(v *types.Clo
 }
 
 func awsEc2query_serializeDocumentCoipPoolIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40195,6 +47035,9 @@ func awsEc2query_serializeDocumentConnectionLogOptions(v *types.ConnectionLogOpt
 }
 
 func awsEc2query_serializeDocumentConnectionNotificationIdsList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40227,6 +47070,9 @@ func awsEc2query_serializeDocumentConnectionTrackingSpecificationRequest(v *type
 }
 
 func awsEc2query_serializeDocumentConversionIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40237,6 +47083,9 @@ func awsEc2query_serializeDocumentConversionIdStringList(v []string, value query
 }
 
 func awsEc2query_serializeDocumentCpuManufacturerSet(v []types.CpuManufacturer, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40263,6 +47112,34 @@ func awsEc2query_serializeDocumentCpuOptionsRequest(v *types.CpuOptionsRequest, 
 	if v.ThreadsPerCore != nil {
 		objectKey := object.Key("ThreadsPerCore")
 		objectKey.Integer(*v.ThreadsPerCore)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentCpuPerformanceFactor(v *types.CpuPerformanceFactor, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.References != nil {
+		objectKey := object.FlatKey("ReferenceSet")
+		if err := awsEc2query_serializeDocumentPerformanceFactorReferenceSet(v.References, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentCpuPerformanceFactorRequest(v *types.CpuPerformanceFactorRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.References != nil {
+		objectKey := object.FlatKey("Reference")
+		if err := awsEc2query_serializeDocumentPerformanceFactorReferenceSetRequest(v.References, objectKey); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -40341,6 +47218,37 @@ func awsEc2query_serializeDocumentCreateTransitGatewayVpcAttachmentRequestOption
 	return nil
 }
 
+func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointCidrOptions(v *types.CreateVerifiedAccessEndpointCidrOptions, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.Cidr != nil {
+		objectKey := object.Key("Cidr")
+		objectKey.String(*v.Cidr)
+	}
+
+	if v.PortRanges != nil {
+		objectKey := object.FlatKey("PortRange")
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessEndpointPortRangeList(v.PortRanges, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if len(v.Protocol) > 0 {
+		objectKey := object.Key("Protocol")
+		objectKey.String(string(v.Protocol))
+	}
+
+	if v.SubnetIds != nil {
+		objectKey := object.FlatKey("SubnetId")
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessEndpointSubnetIdList(v.SubnetIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointEniOptions(v *types.CreateVerifiedAccessEndpointEniOptions, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -40353,6 +47261,13 @@ func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointEniOptions(v *type
 	if v.Port != nil {
 		objectKey := object.Key("Port")
 		objectKey.Integer(*v.Port)
+	}
+
+	if v.PortRanges != nil {
+		objectKey := object.FlatKey("PortRange")
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessEndpointPortRangeList(v.PortRanges, objectKey); err != nil {
+			return err
+		}
 	}
 
 	if len(v.Protocol) > 0 {
@@ -40377,6 +47292,13 @@ func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointLoadBalancerOption
 		objectKey.Integer(*v.Port)
 	}
 
+	if v.PortRanges != nil {
+		objectKey := object.FlatKey("PortRange")
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessEndpointPortRangeList(v.PortRanges, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if len(v.Protocol) > 0 {
 		objectKey := object.Key("Protocol")
 		objectKey.String(string(v.Protocol))
@@ -40392,13 +47314,139 @@ func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointLoadBalancerOption
 	return nil
 }
 
+func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointPortRange(v *types.CreateVerifiedAccessEndpointPortRange, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.FromPort != nil {
+		objectKey := object.Key("FromPort")
+		objectKey.Integer(*v.FromPort)
+	}
+
+	if v.ToPort != nil {
+		objectKey := object.Key("ToPort")
+		objectKey.Integer(*v.ToPort)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointPortRangeList(v []types.CreateVerifiedAccessEndpointPortRange, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Item")
+
+	for i := range v {
+		av := array.Value()
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessEndpointPortRange(&v[i], av); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointRdsOptions(v *types.CreateVerifiedAccessEndpointRdsOptions, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.Port != nil {
+		objectKey := object.Key("Port")
+		objectKey.Integer(*v.Port)
+	}
+
+	if len(v.Protocol) > 0 {
+		objectKey := object.Key("Protocol")
+		objectKey.String(string(v.Protocol))
+	}
+
+	if v.RdsDbClusterArn != nil {
+		objectKey := object.Key("RdsDbClusterArn")
+		objectKey.String(*v.RdsDbClusterArn)
+	}
+
+	if v.RdsDbInstanceArn != nil {
+		objectKey := object.Key("RdsDbInstanceArn")
+		objectKey.String(*v.RdsDbInstanceArn)
+	}
+
+	if v.RdsDbProxyArn != nil {
+		objectKey := object.Key("RdsDbProxyArn")
+		objectKey.String(*v.RdsDbProxyArn)
+	}
+
+	if v.RdsEndpoint != nil {
+		objectKey := object.Key("RdsEndpoint")
+		objectKey.String(*v.RdsEndpoint)
+	}
+
+	if v.SubnetIds != nil {
+		objectKey := object.FlatKey("SubnetId")
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessEndpointSubnetIdList(v.SubnetIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeDocumentCreateVerifiedAccessEndpointSubnetIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
 		av := array.Value()
 		av.String(v[i])
 	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentCreateVerifiedAccessNativeApplicationOidcOptions(v *types.CreateVerifiedAccessNativeApplicationOidcOptions, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.AuthorizationEndpoint != nil {
+		objectKey := object.Key("AuthorizationEndpoint")
+		objectKey.String(*v.AuthorizationEndpoint)
+	}
+
+	if v.ClientId != nil {
+		objectKey := object.Key("ClientId")
+		objectKey.String(*v.ClientId)
+	}
+
+	if v.ClientSecret != nil {
+		objectKey := object.Key("ClientSecret")
+		objectKey.String(*v.ClientSecret)
+	}
+
+	if v.Issuer != nil {
+		objectKey := object.Key("Issuer")
+		objectKey.String(*v.Issuer)
+	}
+
+	if v.PublicSigningKeyEndpoint != nil {
+		objectKey := object.Key("PublicSigningKeyEndpoint")
+		objectKey.String(*v.PublicSigningKeyEndpoint)
+	}
+
+	if v.Scope != nil {
+		objectKey := object.Key("Scope")
+		objectKey.String(*v.Scope)
+	}
+
+	if v.TokenEndpoint != nil {
+		objectKey := object.Key("TokenEndpoint")
+		objectKey.String(*v.TokenEndpoint)
+	}
+
+	if v.UserInfoEndpoint != nil {
+		objectKey := object.Key("UserInfoEndpoint")
+		objectKey.String(*v.UserInfoEndpoint)
+	}
+
 	return nil
 }
 
@@ -40479,6 +47527,9 @@ func awsEc2query_serializeDocumentCreateVolumePermission(v *types.CreateVolumePe
 }
 
 func awsEc2query_serializeDocumentCreateVolumePermissionList(v []types.CreateVolumePermission, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40524,6 +47575,9 @@ func awsEc2query_serializeDocumentCreditSpecificationRequest(v *types.CreditSpec
 }
 
 func awsEc2query_serializeDocumentCustomerGatewayIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("CustomerGatewayId")
 
 	for i := range v {
@@ -40534,6 +47588,9 @@ func awsEc2query_serializeDocumentCustomerGatewayIdStringList(v []string, value 
 }
 
 func awsEc2query_serializeDocumentDataQueries(v []types.DataQuery, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -40583,6 +47640,9 @@ func awsEc2query_serializeDocumentDataQuery(v *types.DataQuery, value query.Valu
 }
 
 func awsEc2query_serializeDocumentDedicatedHostIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40593,6 +47653,9 @@ func awsEc2query_serializeDocumentDedicatedHostIdList(v []string, value query.Va
 }
 
 func awsEc2query_serializeDocumentDeleteQueuedReservedInstancesIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40622,6 +47685,9 @@ func awsEc2query_serializeDocumentDeregisterInstanceTagAttributeRequest(v *types
 }
 
 func awsEc2query_serializeDocumentDescribeInstanceTopologyGroupNameSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -40632,6 +47698,9 @@ func awsEc2query_serializeDocumentDescribeInstanceTopologyGroupNameSet(v []strin
 }
 
 func awsEc2query_serializeDocumentDescribeInstanceTopologyInstanceIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -40664,6 +47733,9 @@ func awsEc2query_serializeDocumentDestinationOptionsRequest(v *types.Destination
 }
 
 func awsEc2query_serializeDocumentDhcpOptionsIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("DhcpOptionsId")
 
 	for i := range v {
@@ -40734,6 +47806,9 @@ func awsEc2query_serializeDocumentDiskImageDetail(v *types.DiskImageDetail, valu
 }
 
 func awsEc2query_serializeDocumentDiskImageList(v []types.DiskImage, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -40851,6 +47926,9 @@ func awsEc2query_serializeDocumentEbsInstanceBlockDeviceSpecification(v *types.E
 }
 
 func awsEc2query_serializeDocumentEgressOnlyInternetGatewayIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40861,6 +47939,9 @@ func awsEc2query_serializeDocumentEgressOnlyInternetGatewayIdList(v []string, va
 }
 
 func awsEc2query_serializeDocumentEipAssociationIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40871,6 +47952,9 @@ func awsEc2query_serializeDocumentEipAssociationIdList(v []string, value query.V
 }
 
 func awsEc2query_serializeDocumentElasticGpuIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40893,6 +47977,9 @@ func awsEc2query_serializeDocumentElasticGpuSpecification(v *types.ElasticGpuSpe
 }
 
 func awsEc2query_serializeDocumentElasticGpuSpecificationList(v []types.ElasticGpuSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ElasticGpuSpecification")
 
 	for i := range v {
@@ -40905,6 +47992,9 @@ func awsEc2query_serializeDocumentElasticGpuSpecificationList(v []types.ElasticG
 }
 
 func awsEc2query_serializeDocumentElasticGpuSpecifications(v []types.ElasticGpuSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -40934,6 +48024,9 @@ func awsEc2query_serializeDocumentElasticInferenceAccelerator(v *types.ElasticIn
 }
 
 func awsEc2query_serializeDocumentElasticInferenceAccelerators(v []types.ElasticInferenceAccelerator, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41020,6 +48113,9 @@ func awsEc2query_serializeDocumentEnclaveOptionsRequest(v *types.EnclaveOptionsR
 }
 
 func awsEc2query_serializeDocumentExcludedInstanceTypeSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41030,6 +48126,9 @@ func awsEc2query_serializeDocumentExcludedInstanceTypeSet(v []string, value quer
 }
 
 func awsEc2query_serializeDocumentExecutableByStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ExecutableBy")
 
 	for i := range v {
@@ -41040,6 +48139,9 @@ func awsEc2query_serializeDocumentExecutableByStringList(v []string, value query
 }
 
 func awsEc2query_serializeDocumentExportImageTaskIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ExportImageTaskId")
 
 	for i := range v {
@@ -41050,6 +48152,9 @@ func awsEc2query_serializeDocumentExportImageTaskIdList(v []string, value query.
 }
 
 func awsEc2query_serializeDocumentExportTaskIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ExportTaskId")
 
 	for i := range v {
@@ -41104,6 +48209,9 @@ func awsEc2query_serializeDocumentExportToS3TaskSpecification(v *types.ExportToS
 }
 
 func awsEc2query_serializeDocumentFastLaunchImageIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ImageId")
 
 	for i := range v {
@@ -41184,6 +48292,9 @@ func awsEc2query_serializeDocumentFilter(v *types.Filter, value query.Value) err
 }
 
 func awsEc2query_serializeDocumentFilterList(v []types.Filter, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Filter")
 
 	for i := range v {
@@ -41196,6 +48307,9 @@ func awsEc2query_serializeDocumentFilterList(v []types.Filter, value query.Value
 }
 
 func awsEc2query_serializeDocumentFleetIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -41206,6 +48320,9 @@ func awsEc2query_serializeDocumentFleetIdSet(v []string, value query.Value) erro
 }
 
 func awsEc2query_serializeDocumentFleetLaunchTemplateConfigListRequest(v []types.FleetLaunchTemplateConfigRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41239,6 +48356,9 @@ func awsEc2query_serializeDocumentFleetLaunchTemplateConfigRequest(v *types.Flee
 }
 
 func awsEc2query_serializeDocumentFleetLaunchTemplateOverridesListRequest(v []types.FleetLaunchTemplateOverridesRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41408,6 +48528,9 @@ func awsEc2query_serializeDocumentFleetSpotMaintenanceStrategiesRequest(v *types
 }
 
 func awsEc2query_serializeDocumentFlowLogIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41418,6 +48541,9 @@ func awsEc2query_serializeDocumentFlowLogIdList(v []string, value query.Value) e
 }
 
 func awsEc2query_serializeDocumentFlowLogResourceIds(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41428,6 +48554,9 @@ func awsEc2query_serializeDocumentFlowLogResourceIds(v []string, value query.Val
 }
 
 func awsEc2query_serializeDocumentFpgaImageIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41455,6 +48584,9 @@ func awsEc2query_serializeDocumentGroupIdentifier(v *types.GroupIdentifier, valu
 }
 
 func awsEc2query_serializeDocumentGroupIdentifierList(v []types.GroupIdentifier, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41467,6 +48599,9 @@ func awsEc2query_serializeDocumentGroupIdentifierList(v []types.GroupIdentifier,
 }
 
 func awsEc2query_serializeDocumentGroupIds(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41477,6 +48612,9 @@ func awsEc2query_serializeDocumentGroupIds(v []string, value query.Value) error 
 }
 
 func awsEc2query_serializeDocumentGroupIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("GroupId")
 
 	for i := range v {
@@ -41487,6 +48625,9 @@ func awsEc2query_serializeDocumentGroupIdStringList(v []string, value query.Valu
 }
 
 func awsEc2query_serializeDocumentGroupNameStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("GroupName")
 
 	for i := range v {
@@ -41509,6 +48650,9 @@ func awsEc2query_serializeDocumentHibernationOptionsRequest(v *types.Hibernation
 }
 
 func awsEc2query_serializeDocumentHostReservationIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41553,6 +48697,9 @@ func awsEc2query_serializeDocumentIcmpTypeCode(v *types.IcmpTypeCode, value quer
 }
 
 func awsEc2query_serializeDocumentIKEVersionsRequestList(v []types.IKEVersionsRequestListValue, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41573,6 +48720,35 @@ func awsEc2query_serializeDocumentIKEVersionsRequestListValue(v *types.IKEVersio
 		objectKey.String(*v.Value)
 	}
 
+	return nil
+}
+
+func awsEc2query_serializeDocumentImageCriterionRequest(v *types.ImageCriterionRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.ImageProviders != nil {
+		objectKey := object.FlatKey("ImageProvider")
+		if err := awsEc2query_serializeDocumentImageProviderRequestList(v.ImageProviders, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentImageCriterionRequestList(v []types.ImageCriterionRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("ImageCriterion")
+
+	for i := range v {
+		av := array.Value()
+		if err := awsEc2query_serializeDocumentImageCriterionRequest(&v[i], av); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -41616,6 +48792,9 @@ func awsEc2query_serializeDocumentImageDiskContainer(v *types.ImageDiskContainer
 }
 
 func awsEc2query_serializeDocumentImageDiskContainerList(v []types.ImageDiskContainer, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41628,6 +48807,9 @@ func awsEc2query_serializeDocumentImageDiskContainerList(v []types.ImageDiskCont
 }
 
 func awsEc2query_serializeDocumentImageIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41638,7 +48820,23 @@ func awsEc2query_serializeDocumentImageIdList(v []string, value query.Value) err
 }
 
 func awsEc2query_serializeDocumentImageIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ImageId")
+
+	for i := range v {
+		av := array.Value()
+		av.String(v[i])
+	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentImageProviderRequestList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Item")
 
 	for i := range v {
 		av := array.Value()
@@ -41660,6 +48858,9 @@ func awsEc2query_serializeDocumentImportImageLicenseConfigurationRequest(v *type
 }
 
 func awsEc2query_serializeDocumentImportImageLicenseSpecificationListRequest(v []types.ImportImageLicenseConfigurationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41742,6 +48943,9 @@ func awsEc2query_serializeDocumentImportInstanceLaunchSpecification(v *types.Imp
 }
 
 func awsEc2query_serializeDocumentImportSnapshotTaskIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ImportTaskId")
 
 	for i := range v {
@@ -41752,6 +48956,9 @@ func awsEc2query_serializeDocumentImportSnapshotTaskIdList(v []string, value que
 }
 
 func awsEc2query_serializeDocumentImportTaskIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ImportTaskId")
 
 	for i := range v {
@@ -41762,6 +48969,9 @@ func awsEc2query_serializeDocumentImportTaskIdList(v []string, value query.Value
 }
 
 func awsEc2query_serializeDocumentInsideCidrBlocksStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41801,6 +49011,9 @@ func awsEc2query_serializeDocumentInstanceBlockDeviceMappingSpecification(v *typ
 }
 
 func awsEc2query_serializeDocumentInstanceBlockDeviceMappingSpecificationList(v []types.InstanceBlockDeviceMappingSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41813,6 +49026,9 @@ func awsEc2query_serializeDocumentInstanceBlockDeviceMappingSpecificationList(v 
 }
 
 func awsEc2query_serializeDocumentInstanceCreditSpecificationListRequest(v []types.InstanceCreditSpecificationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41898,6 +49114,9 @@ func awsEc2query_serializeDocumentInstanceEventWindowDisassociationRequest(v *ty
 }
 
 func awsEc2query_serializeDocumentInstanceEventWindowIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("InstanceEventWindowId")
 
 	for i := range v {
@@ -41935,6 +49154,9 @@ func awsEc2query_serializeDocumentInstanceEventWindowTimeRangeRequest(v *types.I
 }
 
 func awsEc2query_serializeDocumentInstanceEventWindowTimeRangeRequestSet(v []types.InstanceEventWindowTimeRangeRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -41947,6 +49169,9 @@ func awsEc2query_serializeDocumentInstanceEventWindowTimeRangeRequestSet(v []typ
 }
 
 func awsEc2query_serializeDocumentInstanceGenerationSet(v []types.InstanceGeneration, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41957,6 +49182,9 @@ func awsEc2query_serializeDocumentInstanceGenerationSet(v []types.InstanceGenera
 }
 
 func awsEc2query_serializeDocumentInstanceIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -41967,6 +49195,9 @@ func awsEc2query_serializeDocumentInstanceIdList(v []string, value query.Value) 
 }
 
 func awsEc2query_serializeDocumentInstanceIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("InstanceId")
 
 	for i := range v {
@@ -41994,6 +49225,9 @@ func awsEc2query_serializeDocumentInstanceIpv6Address(v *types.InstanceIpv6Addre
 }
 
 func awsEc2query_serializeDocumentInstanceIpv6AddressList(v []types.InstanceIpv6Address, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42006,6 +49240,9 @@ func awsEc2query_serializeDocumentInstanceIpv6AddressList(v []types.InstanceIpv6
 }
 
 func awsEc2query_serializeDocumentInstanceIpv6AddressListRequest(v []types.InstanceIpv6AddressRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("InstanceIpv6Address")
 
 	for i := range v {
@@ -42224,6 +49461,9 @@ func awsEc2query_serializeDocumentInstanceNetworkInterfaceSpecification(v *types
 }
 
 func awsEc2query_serializeDocumentInstanceNetworkInterfaceSpecificationList(v []types.InstanceNetworkInterfaceSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42232,6 +49472,18 @@ func awsEc2query_serializeDocumentInstanceNetworkInterfaceSpecificationList(v []
 			return err
 		}
 	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentInstanceNetworkPerformanceOptionsRequest(v *types.InstanceNetworkPerformanceOptionsRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if len(v.BandwidthWeighting) > 0 {
+		objectKey := object.Key("BandwidthWeighting")
+		objectKey.String(string(v.BandwidthWeighting))
+	}
+
 	return nil
 }
 
@@ -42293,6 +49545,13 @@ func awsEc2query_serializeDocumentInstanceRequirements(v *types.InstanceRequirem
 		}
 	}
 
+	if v.BaselinePerformanceFactors != nil {
+		objectKey := object.Key("BaselinePerformanceFactors")
+		if err := awsEc2query_serializeDocumentBaselinePerformanceFactors(v.BaselinePerformanceFactors, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if len(v.BurstablePerformance) > 0 {
 		objectKey := object.Key("BurstablePerformance")
 		objectKey.String(string(v.BurstablePerformance))
@@ -42329,6 +49588,11 @@ func awsEc2query_serializeDocumentInstanceRequirements(v *types.InstanceRequirem
 		if err := awsEc2query_serializeDocumentLocalStorageTypeSet(v.LocalStorageTypes, objectKey); err != nil {
 			return err
 		}
+	}
+
+	if v.MaxSpotPriceAsPercentageOfOptimalOnDemandPrice != nil {
+		objectKey := object.Key("MaxSpotPriceAsPercentageOfOptimalOnDemandPrice")
+		objectKey.Integer(*v.MaxSpotPriceAsPercentageOfOptimalOnDemandPrice)
 	}
 
 	if v.MemoryGiBPerVCpu != nil {
@@ -42449,6 +49713,13 @@ func awsEc2query_serializeDocumentInstanceRequirementsRequest(v *types.InstanceR
 		}
 	}
 
+	if v.BaselinePerformanceFactors != nil {
+		objectKey := object.Key("BaselinePerformanceFactors")
+		if err := awsEc2query_serializeDocumentBaselinePerformanceFactorsRequest(v.BaselinePerformanceFactors, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if len(v.BurstablePerformance) > 0 {
 		objectKey := object.Key("BurstablePerformance")
 		objectKey.String(string(v.BurstablePerformance))
@@ -42485,6 +49756,11 @@ func awsEc2query_serializeDocumentInstanceRequirementsRequest(v *types.InstanceR
 		if err := awsEc2query_serializeDocumentLocalStorageTypeSet(v.LocalStorageTypes, objectKey); err != nil {
 			return err
 		}
+	}
+
+	if v.MaxSpotPriceAsPercentageOfOptimalOnDemandPrice != nil {
+		objectKey := object.Key("MaxSpotPriceAsPercentageOfOptimalOnDemandPrice")
+		objectKey.Integer(*v.MaxSpotPriceAsPercentageOfOptimalOnDemandPrice)
 	}
 
 	if v.MemoryGiBPerVCpu != nil {
@@ -42600,6 +49876,9 @@ func awsEc2query_serializeDocumentInstanceSpecification(v *types.InstanceSpecifi
 }
 
 func awsEc2query_serializeDocumentInstanceTagKeySet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42610,6 +49889,9 @@ func awsEc2query_serializeDocumentInstanceTagKeySet(v []string, value query.Valu
 }
 
 func awsEc2query_serializeDocumentInstanceTypeList(v []types.InstanceType, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -42620,6 +49902,9 @@ func awsEc2query_serializeDocumentInstanceTypeList(v []types.InstanceType, value
 }
 
 func awsEc2query_serializeDocumentInstanceTypes(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -42644,6 +49929,9 @@ func awsEc2query_serializeDocumentIntegrateServices(v *types.IntegrateServices, 
 }
 
 func awsEc2query_serializeDocumentInternetGatewayIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42671,6 +49959,9 @@ func awsEc2query_serializeDocumentIpamCidrAuthorizationContext(v *types.IpamCidr
 }
 
 func awsEc2query_serializeDocumentIpamPoolAllocationAllowedCidrs(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42681,6 +49972,9 @@ func awsEc2query_serializeDocumentIpamPoolAllocationAllowedCidrs(v []string, val
 }
 
 func awsEc2query_serializeDocumentIpamPoolAllocationDisallowedCidrs(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42718,6 +50012,9 @@ func awsEc2query_serializeDocumentIpamPoolSourceResourceRequest(v *types.IpamPoo
 }
 
 func awsEc2query_serializeDocumentIpList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42778,6 +50075,9 @@ func awsEc2query_serializeDocumentIpPermission(v *types.IpPermission, value quer
 }
 
 func awsEc2query_serializeDocumentIpPermissionList(v []types.IpPermission, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42790,6 +50090,9 @@ func awsEc2query_serializeDocumentIpPermissionList(v []types.IpPermission, value
 }
 
 func awsEc2query_serializeDocumentIpPrefixList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42817,6 +50120,9 @@ func awsEc2query_serializeDocumentIpRange(v *types.IpRange, value query.Value) e
 }
 
 func awsEc2query_serializeDocumentIpRangeList(v []types.IpRange, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42829,6 +50135,9 @@ func awsEc2query_serializeDocumentIpRangeList(v []types.IpRange, value query.Val
 }
 
 func awsEc2query_serializeDocumentIpv4PrefixList(v []types.Ipv4PrefixSpecificationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42853,6 +50162,9 @@ func awsEc2query_serializeDocumentIpv4PrefixSpecificationRequest(v *types.Ipv4Pr
 }
 
 func awsEc2query_serializeDocumentIpv6AddressList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42863,6 +50175,9 @@ func awsEc2query_serializeDocumentIpv6AddressList(v []string, value query.Value)
 }
 
 func awsEc2query_serializeDocumentIpv6PoolIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42873,6 +50188,9 @@ func awsEc2query_serializeDocumentIpv6PoolIdList(v []string, value query.Value) 
 }
 
 func awsEc2query_serializeDocumentIpv6PrefixList(v []types.Ipv6PrefixSpecificationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42914,6 +50232,9 @@ func awsEc2query_serializeDocumentIpv6Range(v *types.Ipv6Range, value query.Valu
 }
 
 func awsEc2query_serializeDocumentIpv6RangeList(v []types.Ipv6Range, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -42926,6 +50247,9 @@ func awsEc2query_serializeDocumentIpv6RangeList(v []types.Ipv6Range, value query
 }
 
 func awsEc2query_serializeDocumentKeyNameStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("KeyName")
 
 	for i := range v {
@@ -42936,6 +50260,9 @@ func awsEc2query_serializeDocumentKeyNameStringList(v []string, value query.Valu
 }
 
 func awsEc2query_serializeDocumentKeyPairIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("KeyPairId")
 
 	for i := range v {
@@ -42973,6 +50300,9 @@ func awsEc2query_serializeDocumentLaunchPermission(v *types.LaunchPermission, va
 }
 
 func awsEc2query_serializeDocumentLaunchPermissionList(v []types.LaunchPermission, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43006,6 +50336,9 @@ func awsEc2query_serializeDocumentLaunchPermissionModifications(v *types.LaunchP
 }
 
 func awsEc2query_serializeDocumentLaunchSpecsList(v []types.SpotFleetLaunchSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43047,6 +50380,9 @@ func awsEc2query_serializeDocumentLaunchTemplateBlockDeviceMappingRequest(v *typ
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateBlockDeviceMappingRequestList(v []types.LaunchTemplateBlockDeviceMappingRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("BlockDeviceMapping")
 
 	for i := range v {
@@ -43099,6 +50435,9 @@ func awsEc2query_serializeDocumentLaunchTemplateConfig(v *types.LaunchTemplateCo
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateConfigList(v []types.LaunchTemplateConfig, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43197,6 +50536,9 @@ func awsEc2query_serializeDocumentLaunchTemplateElasticInferenceAccelerator(v *t
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateElasticInferenceAcceleratorList(v []types.LaunchTemplateElasticInferenceAccelerator, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43250,6 +50592,9 @@ func awsEc2query_serializeDocumentLaunchTemplateIamInstanceProfileSpecificationR
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43454,6 +50799,9 @@ func awsEc2query_serializeDocumentLaunchTemplateInstanceNetworkInterfaceSpecific
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateInstanceNetworkInterfaceSpecificationRequestList(v []types.LaunchTemplateInstanceNetworkInterfaceSpecificationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("InstanceNetworkInterfaceSpecification")
 
 	for i := range v {
@@ -43478,6 +50826,9 @@ func awsEc2query_serializeDocumentLaunchTemplateLicenseConfigurationRequest(v *t
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateLicenseSpecificationListRequest(v []types.LaunchTemplateLicenseConfigurationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43490,12 +50841,27 @@ func awsEc2query_serializeDocumentLaunchTemplateLicenseSpecificationListRequest(
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateNameStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
 		av := array.Value()
 		av.String(v[i])
 	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentLaunchTemplateNetworkPerformanceOptionsRequest(v *types.LaunchTemplateNetworkPerformanceOptionsRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if len(v.BandwidthWeighting) > 0 {
+		objectKey := object.Key("BandwidthWeighting")
+		objectKey.String(string(v.BandwidthWeighting))
+	}
+
 	return nil
 }
 
@@ -43570,6 +50936,9 @@ func awsEc2query_serializeDocumentLaunchTemplateOverrides(v *types.LaunchTemplat
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateOverridesList(v []types.LaunchTemplateOverrides, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43741,6 +51110,9 @@ func awsEc2query_serializeDocumentLaunchTemplateTagSpecificationRequest(v *types
 }
 
 func awsEc2query_serializeDocumentLaunchTemplateTagSpecificationRequestList(v []types.LaunchTemplateTagSpecificationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("LaunchTemplateTagSpecificationRequest")
 
 	for i := range v {
@@ -43765,6 +51137,9 @@ func awsEc2query_serializeDocumentLicenseConfigurationRequest(v *types.LicenseCo
 }
 
 func awsEc2query_serializeDocumentLicenseSpecificationListRequest(v []types.LicenseConfigurationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43798,6 +51173,9 @@ func awsEc2query_serializeDocumentLoadBalancersConfig(v *types.LoadBalancersConf
 }
 
 func awsEc2query_serializeDocumentLoadPermissionListRequest(v []types.LoadPermissionRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43848,6 +51226,9 @@ func awsEc2query_serializeDocumentLoadPermissionRequest(v *types.LoadPermissionR
 }
 
 func awsEc2query_serializeDocumentLocalGatewayIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43858,6 +51239,9 @@ func awsEc2query_serializeDocumentLocalGatewayIdSet(v []string, value query.Valu
 }
 
 func awsEc2query_serializeDocumentLocalGatewayRouteTableIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43868,6 +51252,9 @@ func awsEc2query_serializeDocumentLocalGatewayRouteTableIdSet(v []string, value 
 }
 
 func awsEc2query_serializeDocumentLocalGatewayRouteTableVirtualInterfaceGroupAssociationIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43878,6 +51265,9 @@ func awsEc2query_serializeDocumentLocalGatewayRouteTableVirtualInterfaceGroupAss
 }
 
 func awsEc2query_serializeDocumentLocalGatewayRouteTableVpcAssociationIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43888,6 +51278,9 @@ func awsEc2query_serializeDocumentLocalGatewayRouteTableVpcAssociationIdSet(v []
 }
 
 func awsEc2query_serializeDocumentLocalGatewayVirtualInterfaceGroupIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43898,6 +51291,9 @@ func awsEc2query_serializeDocumentLocalGatewayVirtualInterfaceGroupIdSet(v []str
 }
 
 func awsEc2query_serializeDocumentLocalGatewayVirtualInterfaceIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -43908,6 +51304,9 @@ func awsEc2query_serializeDocumentLocalGatewayVirtualInterfaceIdSet(v []string, 
 }
 
 func awsEc2query_serializeDocumentLocalStorageTypeSet(v []types.LocalStorageType, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44130,6 +51529,20 @@ func awsEc2query_serializeDocumentModifyTransitGatewayVpcAttachmentRequestOption
 	return nil
 }
 
+func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointCidrOptions(v *types.ModifyVerifiedAccessEndpointCidrOptions, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.PortRanges != nil {
+		objectKey := object.FlatKey("PortRange")
+		if err := awsEc2query_serializeDocumentModifyVerifiedAccessEndpointPortRangeList(v.PortRanges, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointEniOptions(v *types.ModifyVerifiedAccessEndpointEniOptions, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -44137,6 +51550,13 @@ func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointEniOptions(v *type
 	if v.Port != nil {
 		objectKey := object.Key("Port")
 		objectKey.Integer(*v.Port)
+	}
+
+	if v.PortRanges != nil {
+		objectKey := object.FlatKey("PortRange")
+		if err := awsEc2query_serializeDocumentModifyVerifiedAccessEndpointPortRangeList(v.PortRanges, objectKey); err != nil {
+			return err
+		}
 	}
 
 	if len(v.Protocol) > 0 {
@@ -44156,6 +51576,13 @@ func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointLoadBalancerOption
 		objectKey.Integer(*v.Port)
 	}
 
+	if v.PortRanges != nil {
+		objectKey := object.FlatKey("PortRange")
+		if err := awsEc2query_serializeDocumentModifyVerifiedAccessEndpointPortRangeList(v.PortRanges, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if len(v.Protocol) > 0 {
 		objectKey := object.Key("Protocol")
 		objectKey.String(string(v.Protocol))
@@ -44171,13 +51598,119 @@ func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointLoadBalancerOption
 	return nil
 }
 
+func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointPortRange(v *types.ModifyVerifiedAccessEndpointPortRange, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.FromPort != nil {
+		objectKey := object.Key("FromPort")
+		objectKey.Integer(*v.FromPort)
+	}
+
+	if v.ToPort != nil {
+		objectKey := object.Key("ToPort")
+		objectKey.Integer(*v.ToPort)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointPortRangeList(v []types.ModifyVerifiedAccessEndpointPortRange, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Item")
+
+	for i := range v {
+		av := array.Value()
+		if err := awsEc2query_serializeDocumentModifyVerifiedAccessEndpointPortRange(&v[i], av); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointRdsOptions(v *types.ModifyVerifiedAccessEndpointRdsOptions, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.Port != nil {
+		objectKey := object.Key("Port")
+		objectKey.Integer(*v.Port)
+	}
+
+	if v.RdsEndpoint != nil {
+		objectKey := object.Key("RdsEndpoint")
+		objectKey.String(*v.RdsEndpoint)
+	}
+
+	if v.SubnetIds != nil {
+		objectKey := object.FlatKey("SubnetId")
+		if err := awsEc2query_serializeDocumentModifyVerifiedAccessEndpointSubnetIdList(v.SubnetIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeDocumentModifyVerifiedAccessEndpointSubnetIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
 		av := array.Value()
 		av.String(v[i])
 	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentModifyVerifiedAccessNativeApplicationOidcOptions(v *types.ModifyVerifiedAccessNativeApplicationOidcOptions, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.AuthorizationEndpoint != nil {
+		objectKey := object.Key("AuthorizationEndpoint")
+		objectKey.String(*v.AuthorizationEndpoint)
+	}
+
+	if v.ClientId != nil {
+		objectKey := object.Key("ClientId")
+		objectKey.String(*v.ClientId)
+	}
+
+	if v.ClientSecret != nil {
+		objectKey := object.Key("ClientSecret")
+		objectKey.String(*v.ClientSecret)
+	}
+
+	if v.Issuer != nil {
+		objectKey := object.Key("Issuer")
+		objectKey.String(*v.Issuer)
+	}
+
+	if v.PublicSigningKeyEndpoint != nil {
+		objectKey := object.Key("PublicSigningKeyEndpoint")
+		objectKey.String(*v.PublicSigningKeyEndpoint)
+	}
+
+	if v.Scope != nil {
+		objectKey := object.Key("Scope")
+		objectKey.String(*v.Scope)
+	}
+
+	if v.TokenEndpoint != nil {
+		objectKey := object.Key("TokenEndpoint")
+		objectKey.String(*v.TokenEndpoint)
+	}
+
+	if v.UserInfoEndpoint != nil {
+		objectKey := object.Key("UserInfoEndpoint")
+		objectKey.String(*v.UserInfoEndpoint)
+	}
+
 	return nil
 }
 
@@ -44359,6 +51892,9 @@ func awsEc2query_serializeDocumentModifyVpnTunnelOptionsSpecification(v *types.M
 }
 
 func awsEc2query_serializeDocumentNatGatewayIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44369,6 +51905,9 @@ func awsEc2query_serializeDocumentNatGatewayIdStringList(v []string, value query
 }
 
 func awsEc2query_serializeDocumentNetworkAclIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44465,6 +52004,9 @@ func awsEc2query_serializeDocumentNetworkBandwidthGbpsRequest(v *types.NetworkBa
 }
 
 func awsEc2query_serializeDocumentNetworkInsightsAccessScopeAnalysisIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44475,6 +52017,9 @@ func awsEc2query_serializeDocumentNetworkInsightsAccessScopeAnalysisIdList(v []s
 }
 
 func awsEc2query_serializeDocumentNetworkInsightsAccessScopeIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44485,6 +52030,9 @@ func awsEc2query_serializeDocumentNetworkInsightsAccessScopeIdList(v []string, v
 }
 
 func awsEc2query_serializeDocumentNetworkInsightsAnalysisIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44495,6 +52043,9 @@ func awsEc2query_serializeDocumentNetworkInsightsAnalysisIdList(v []string, valu
 }
 
 func awsEc2query_serializeDocumentNetworkInsightsPathIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44556,6 +52107,9 @@ func awsEc2query_serializeDocumentNetworkInterfaceCountRequest(v *types.NetworkI
 }
 
 func awsEc2query_serializeDocumentNetworkInterfaceIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44566,6 +52120,9 @@ func awsEc2query_serializeDocumentNetworkInterfaceIdList(v []string, value query
 }
 
 func awsEc2query_serializeDocumentNetworkInterfacePermissionIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -44595,6 +52152,9 @@ func awsEc2query_serializeDocumentNewDhcpConfiguration(v *types.NewDhcpConfigura
 }
 
 func awsEc2query_serializeDocumentNewDhcpConfigurationList(v []types.NewDhcpConfiguration, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44607,6 +52167,9 @@ func awsEc2query_serializeDocumentNewDhcpConfigurationList(v []types.NewDhcpConf
 }
 
 func awsEc2query_serializeDocumentOccurrenceDayRequestSet(v []int32, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("OccurenceDay")
 
 	for i := range v {
@@ -44655,7 +52218,22 @@ func awsEc2query_serializeDocumentOnDemandOptionsRequest(v *types.OnDemandOption
 	return nil
 }
 
+func awsEc2query_serializeDocumentOperatorRequest(v *types.OperatorRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.Principal != nil {
+		objectKey := object.Key("Principal")
+		objectKey.String(*v.Principal)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeDocumentOrganizationalUnitArnStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("OrganizationalUnitArn")
 
 	for i := range v {
@@ -44666,6 +52244,9 @@ func awsEc2query_serializeDocumentOrganizationalUnitArnStringList(v []string, va
 }
 
 func awsEc2query_serializeDocumentOrganizationArnStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("OrganizationArn")
 
 	for i := range v {
@@ -44676,6 +52257,9 @@ func awsEc2query_serializeDocumentOrganizationArnStringList(v []string, value qu
 }
 
 func awsEc2query_serializeDocumentOwnerStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Owner")
 
 	for i := range v {
@@ -44815,7 +52399,64 @@ func awsEc2query_serializeDocumentPeeringConnectionOptionsRequest(v *types.Peeri
 	return nil
 }
 
+func awsEc2query_serializeDocumentPerformanceFactorReference(v *types.PerformanceFactorReference, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.InstanceFamily != nil {
+		objectKey := object.Key("InstanceFamily")
+		objectKey.String(*v.InstanceFamily)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentPerformanceFactorReferenceRequest(v *types.PerformanceFactorReferenceRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.InstanceFamily != nil {
+		objectKey := object.Key("InstanceFamily")
+		objectKey.String(*v.InstanceFamily)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentPerformanceFactorReferenceSet(v []types.PerformanceFactorReference, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Item")
+
+	for i := range v {
+		av := array.Value()
+		if err := awsEc2query_serializeDocumentPerformanceFactorReference(&v[i], av); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentPerformanceFactorReferenceSetRequest(v []types.PerformanceFactorReferenceRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Item")
+
+	for i := range v {
+		av := array.Value()
+		if err := awsEc2query_serializeDocumentPerformanceFactorReferenceRequest(&v[i], av); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func awsEc2query_serializeDocumentPhase1DHGroupNumbersRequestList(v []types.Phase1DHGroupNumbersRequestListValue, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44840,6 +52481,9 @@ func awsEc2query_serializeDocumentPhase1DHGroupNumbersRequestListValue(v *types.
 }
 
 func awsEc2query_serializeDocumentPhase1EncryptionAlgorithmsRequestList(v []types.Phase1EncryptionAlgorithmsRequestListValue, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44864,6 +52508,9 @@ func awsEc2query_serializeDocumentPhase1EncryptionAlgorithmsRequestListValue(v *
 }
 
 func awsEc2query_serializeDocumentPhase1IntegrityAlgorithmsRequestList(v []types.Phase1IntegrityAlgorithmsRequestListValue, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44888,6 +52535,9 @@ func awsEc2query_serializeDocumentPhase1IntegrityAlgorithmsRequestListValue(v *t
 }
 
 func awsEc2query_serializeDocumentPhase2DHGroupNumbersRequestList(v []types.Phase2DHGroupNumbersRequestListValue, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44912,6 +52562,9 @@ func awsEc2query_serializeDocumentPhase2DHGroupNumbersRequestListValue(v *types.
 }
 
 func awsEc2query_serializeDocumentPhase2EncryptionAlgorithmsRequestList(v []types.Phase2EncryptionAlgorithmsRequestListValue, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -44936,6 +52589,9 @@ func awsEc2query_serializeDocumentPhase2EncryptionAlgorithmsRequestListValue(v *
 }
 
 func awsEc2query_serializeDocumentPhase2IntegrityAlgorithmsRequestList(v []types.Phase2IntegrityAlgorithmsRequestListValue, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45012,6 +52668,9 @@ func awsEc2query_serializeDocumentPlacement(v *types.Placement, value query.Valu
 }
 
 func awsEc2query_serializeDocumentPlacementGroupIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("GroupId")
 
 	for i := range v {
@@ -45022,6 +52681,9 @@ func awsEc2query_serializeDocumentPlacementGroupIdStringList(v []string, value q
 }
 
 func awsEc2query_serializeDocumentPlacementGroupStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45066,6 +52728,9 @@ func awsEc2query_serializeDocumentPrefixListId(v *types.PrefixListId, value quer
 }
 
 func awsEc2query_serializeDocumentPrefixListIdList(v []types.PrefixListId, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45078,6 +52743,9 @@ func awsEc2query_serializeDocumentPrefixListIdList(v []types.PrefixListId, value
 }
 
 func awsEc2query_serializeDocumentPrefixListResourceIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45123,6 +52791,9 @@ func awsEc2query_serializeDocumentPriceScheduleSpecification(v *types.PriceSched
 }
 
 func awsEc2query_serializeDocumentPriceScheduleSpecificationList(v []types.PriceScheduleSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45157,6 +52828,9 @@ func awsEc2query_serializeDocumentPrivateDnsNameOptionsRequest(v *types.PrivateD
 }
 
 func awsEc2query_serializeDocumentPrivateIpAddressConfigSet(v []types.ScheduledInstancesPrivateIpAddressConfig, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("PrivateIpAddressConfigSet")
 
 	for i := range v {
@@ -45186,6 +52860,9 @@ func awsEc2query_serializeDocumentPrivateIpAddressSpecification(v *types.Private
 }
 
 func awsEc2query_serializeDocumentPrivateIpAddressSpecificationList(v []types.PrivateIpAddressSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45198,6 +52875,9 @@ func awsEc2query_serializeDocumentPrivateIpAddressSpecificationList(v []types.Pr
 }
 
 func awsEc2query_serializeDocumentPrivateIpAddressStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("PrivateIpAddress")
 
 	for i := range v {
@@ -45208,6 +52888,9 @@ func awsEc2query_serializeDocumentPrivateIpAddressStringList(v []string, value q
 }
 
 func awsEc2query_serializeDocumentProductCodeStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ProductCode")
 
 	for i := range v {
@@ -45218,6 +52901,9 @@ func awsEc2query_serializeDocumentProductCodeStringList(v []string, value query.
 }
 
 func awsEc2query_serializeDocumentProductDescriptionList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45228,6 +52914,9 @@ func awsEc2query_serializeDocumentProductDescriptionList(v []string, value query
 }
 
 func awsEc2query_serializeDocumentProtocolList(v []types.Protocol, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45238,6 +52927,9 @@ func awsEc2query_serializeDocumentProtocolList(v []types.Protocol, value query.V
 }
 
 func awsEc2query_serializeDocumentPublicIpStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("PublicIp")
 
 	for i := range v {
@@ -45248,6 +52940,9 @@ func awsEc2query_serializeDocumentPublicIpStringList(v []string, value query.Val
 }
 
 func awsEc2query_serializeDocumentPublicIpv4PoolIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45275,6 +52970,9 @@ func awsEc2query_serializeDocumentPurchaseRequest(v *types.PurchaseRequest, valu
 }
 
 func awsEc2query_serializeDocumentPurchaseRequestSet(v []types.PurchaseRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("PurchaseRequest")
 
 	for i := range v {
@@ -45287,6 +52985,9 @@ func awsEc2query_serializeDocumentPurchaseRequestSet(v []types.PurchaseRequest, 
 }
 
 func awsEc2query_serializeDocumentReasonCodesList(v []types.ReportInstanceReasonCodes, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45297,6 +52998,9 @@ func awsEc2query_serializeDocumentReasonCodesList(v []types.ReportInstanceReason
 }
 
 func awsEc2query_serializeDocumentRegionNames(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45307,6 +53011,9 @@ func awsEc2query_serializeDocumentRegionNames(v []string, value query.Value) err
 }
 
 func awsEc2query_serializeDocumentRegionNameStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("RegionName")
 
 	for i := range v {
@@ -45348,6 +53055,9 @@ func awsEc2query_serializeDocumentRemoveIpamOperatingRegion(v *types.RemoveIpamO
 }
 
 func awsEc2query_serializeDocumentRemoveIpamOperatingRegionSet(v []types.RemoveIpamOperatingRegion, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45359,7 +53069,37 @@ func awsEc2query_serializeDocumentRemoveIpamOperatingRegionSet(v []types.RemoveI
 	return nil
 }
 
+func awsEc2query_serializeDocumentRemoveIpamOrganizationalUnitExclusion(v *types.RemoveIpamOrganizationalUnitExclusion, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.OrganizationsEntityPath != nil {
+		objectKey := object.Key("OrganizationsEntityPath")
+		objectKey.String(*v.OrganizationsEntityPath)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentRemoveIpamOrganizationalUnitExclusionSet(v []types.RemoveIpamOrganizationalUnitExclusion, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Member")
+
+	for i := range v {
+		av := array.Value()
+		if err := awsEc2query_serializeDocumentRemoveIpamOrganizationalUnitExclusion(&v[i], av); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func awsEc2query_serializeDocumentRemovePrefixListEntries(v []types.RemovePrefixListEntry, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45384,6 +53124,9 @@ func awsEc2query_serializeDocumentRemovePrefixListEntry(v *types.RemovePrefixLis
 }
 
 func awsEc2query_serializeDocumentReplaceRootVolumeTaskIds(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ReplaceRootVolumeTaskId")
 
 	for i := range v {
@@ -45411,6 +53154,9 @@ func awsEc2query_serializeDocumentRequestFilterPortRange(v *types.RequestFilterP
 }
 
 func awsEc2query_serializeDocumentRequestHostIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45421,6 +53167,9 @@ func awsEc2query_serializeDocumentRequestHostIdList(v []string, value query.Valu
 }
 
 func awsEc2query_serializeDocumentRequestHostIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45431,6 +53180,9 @@ func awsEc2query_serializeDocumentRequestHostIdSet(v []string, value query.Value
 }
 
 func awsEc2query_serializeDocumentRequestInstanceTypeList(v []types.InstanceType, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45458,6 +53210,9 @@ func awsEc2query_serializeDocumentRequestIpamResourceTag(v *types.RequestIpamRes
 }
 
 func awsEc2query_serializeDocumentRequestIpamResourceTagList(v []types.RequestIpamResourceTag, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45625,6 +53380,20 @@ func awsEc2query_serializeDocumentRequestLaunchTemplateData(v *types.RequestLaun
 		}
 	}
 
+	if v.NetworkPerformanceOptions != nil {
+		objectKey := object.Key("NetworkPerformanceOptions")
+		if err := awsEc2query_serializeDocumentLaunchTemplateNetworkPerformanceOptionsRequest(v.NetworkPerformanceOptions, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.Operator != nil {
+		objectKey := object.Key("Operator")
+		if err := awsEc2query_serializeDocumentOperatorRequest(v.Operator, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if v.Placement != nil {
 		objectKey := object.Key("Placement")
 		if err := awsEc2query_serializeDocumentLaunchTemplatePlacementRequest(v.Placement, objectKey); err != nil {
@@ -45775,6 +53544,9 @@ func awsEc2query_serializeDocumentRequestSpotLaunchSpecification(v *types.Reques
 }
 
 func awsEc2query_serializeDocumentRequestSpotLaunchSpecificationSecurityGroupIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45785,6 +53557,9 @@ func awsEc2query_serializeDocumentRequestSpotLaunchSpecificationSecurityGroupIdL
 }
 
 func awsEc2query_serializeDocumentRequestSpotLaunchSpecificationSecurityGroupList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45850,6 +53625,9 @@ func awsEc2query_serializeDocumentReservationFleetInstanceSpecification(v *types
 }
 
 func awsEc2query_serializeDocumentReservationFleetInstanceSpecificationList(v []types.ReservationFleetInstanceSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45862,6 +53640,9 @@ func awsEc2query_serializeDocumentReservationFleetInstanceSpecificationList(v []
 }
 
 func awsEc2query_serializeDocumentReservedInstanceIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ReservedInstanceId")
 
 	for i := range v {
@@ -45934,6 +53715,9 @@ func awsEc2query_serializeDocumentReservedInstancesConfiguration(v *types.Reserv
 }
 
 func awsEc2query_serializeDocumentReservedInstancesConfigurationList(v []types.ReservedInstancesConfiguration, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -45946,6 +53730,9 @@ func awsEc2query_serializeDocumentReservedInstancesConfigurationList(v []types.R
 }
 
 func awsEc2query_serializeDocumentReservedInstancesIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ReservedInstancesId")
 
 	for i := range v {
@@ -45956,6 +53743,9 @@ func awsEc2query_serializeDocumentReservedInstancesIdStringList(v []string, valu
 }
 
 func awsEc2query_serializeDocumentReservedInstancesModificationIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ReservedInstancesModificationId")
 
 	for i := range v {
@@ -45966,6 +53756,9 @@ func awsEc2query_serializeDocumentReservedInstancesModificationIdStringList(v []
 }
 
 func awsEc2query_serializeDocumentReservedInstancesOfferingIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45976,6 +53769,9 @@ func awsEc2query_serializeDocumentReservedInstancesOfferingIdStringList(v []stri
 }
 
 func awsEc2query_serializeDocumentResourceIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -45986,6 +53782,9 @@ func awsEc2query_serializeDocumentResourceIdList(v []string, value query.Value) 
 }
 
 func awsEc2query_serializeDocumentResourceList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -46017,6 +53816,9 @@ func awsEc2query_serializeDocumentResourceStatementRequest(v *types.ResourceStat
 }
 
 func awsEc2query_serializeDocumentRestorableByStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -46027,6 +53829,9 @@ func awsEc2query_serializeDocumentRestorableByStringList(v []string, value query
 }
 
 func awsEc2query_serializeDocumentRouteTableIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -46066,6 +53871,9 @@ func awsEc2query_serializeDocumentS3ObjectTag(v *types.S3ObjectTag, value query.
 }
 
 func awsEc2query_serializeDocumentS3ObjectTagList(v []types.S3ObjectTag, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -46110,6 +53918,9 @@ func awsEc2query_serializeDocumentS3Storage(v *types.S3Storage, value query.Valu
 }
 
 func awsEc2query_serializeDocumentScheduledInstanceIdRequestSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ScheduledInstanceId")
 
 	for i := range v {
@@ -46183,6 +53994,9 @@ func awsEc2query_serializeDocumentScheduledInstancesBlockDeviceMapping(v *types.
 }
 
 func awsEc2query_serializeDocumentScheduledInstancesBlockDeviceMappingSet(v []types.ScheduledInstancesBlockDeviceMapping, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("BlockDeviceMapping")
 
 	for i := range v {
@@ -46261,6 +54075,9 @@ func awsEc2query_serializeDocumentScheduledInstancesIpv6Address(v *types.Schedul
 }
 
 func awsEc2query_serializeDocumentScheduledInstancesIpv6AddressList(v []types.ScheduledInstancesIpv6Address, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Ipv6Address")
 
 	for i := range v {
@@ -46447,6 +54264,9 @@ func awsEc2query_serializeDocumentScheduledInstancesNetworkInterface(v *types.Sc
 }
 
 func awsEc2query_serializeDocumentScheduledInstancesNetworkInterfaceSet(v []types.ScheduledInstancesNetworkInterface, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("NetworkInterface")
 
 	for i := range v {
@@ -46493,6 +54313,9 @@ func awsEc2query_serializeDocumentScheduledInstancesPrivateIpAddressConfig(v *ty
 }
 
 func awsEc2query_serializeDocumentScheduledInstancesSecurityGroupIdSet(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("SecurityGroupId")
 
 	for i := range v {
@@ -46503,6 +54326,9 @@ func awsEc2query_serializeDocumentScheduledInstancesSecurityGroupIdSet(v []strin
 }
 
 func awsEc2query_serializeDocumentSecurityGroupIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -46513,6 +54339,9 @@ func awsEc2query_serializeDocumentSecurityGroupIdList(v []string, value query.Va
 }
 
 func awsEc2query_serializeDocumentSecurityGroupIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("SecurityGroupId")
 
 	for i := range v {
@@ -46523,6 +54352,9 @@ func awsEc2query_serializeDocumentSecurityGroupIdStringList(v []string, value qu
 }
 
 func awsEc2query_serializeDocumentSecurityGroupIdStringListRequest(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("SecurityGroupId")
 
 	for i := range v {
@@ -46550,6 +54382,9 @@ func awsEc2query_serializeDocumentSecurityGroupRuleDescription(v *types.Security
 }
 
 func awsEc2query_serializeDocumentSecurityGroupRuleDescriptionList(v []types.SecurityGroupRuleDescription, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -46562,6 +54397,9 @@ func awsEc2query_serializeDocumentSecurityGroupRuleDescriptionList(v []types.Sec
 }
 
 func awsEc2query_serializeDocumentSecurityGroupRuleIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -46638,6 +54476,9 @@ func awsEc2query_serializeDocumentSecurityGroupRuleUpdate(v *types.SecurityGroup
 }
 
 func awsEc2query_serializeDocumentSecurityGroupRuleUpdateList(v []types.SecurityGroupRuleUpdate, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -46650,6 +54491,9 @@ func awsEc2query_serializeDocumentSecurityGroupRuleUpdateList(v []types.Security
 }
 
 func awsEc2query_serializeDocumentSecurityGroupStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("SecurityGroup")
 
 	for i := range v {
@@ -46723,6 +54567,9 @@ func awsEc2query_serializeDocumentSnapshotDiskContainer(v *types.SnapshotDiskCon
 }
 
 func awsEc2query_serializeDocumentSnapshotIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("SnapshotId")
 
 	for i := range v {
@@ -47066,6 +54913,9 @@ func awsEc2query_serializeDocumentSpotFleetRequestConfigData(v *types.SpotFleetR
 }
 
 func awsEc2query_serializeDocumentSpotFleetRequestIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47095,6 +54945,9 @@ func awsEc2query_serializeDocumentSpotFleetTagSpecification(v *types.SpotFleetTa
 }
 
 func awsEc2query_serializeDocumentSpotFleetTagSpecificationList(v []types.SpotFleetTagSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47107,6 +54960,9 @@ func awsEc2query_serializeDocumentSpotFleetTagSpecificationList(v []types.SpotFl
 }
 
 func awsEc2query_serializeDocumentSpotInstanceRequestIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("SpotInstanceRequestId")
 
 	for i := range v {
@@ -47287,6 +55143,9 @@ func awsEc2query_serializeDocumentSubnetConfiguration(v *types.SubnetConfigurati
 }
 
 func awsEc2query_serializeDocumentSubnetConfigurationsList(v []types.SubnetConfiguration, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47299,6 +55158,9 @@ func awsEc2query_serializeDocumentSubnetConfigurationsList(v []types.SubnetConfi
 }
 
 func awsEc2query_serializeDocumentSubnetIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("SubnetId")
 
 	for i := range v {
@@ -47326,6 +55188,9 @@ func awsEc2query_serializeDocumentTag(v *types.Tag, value query.Value) error {
 }
 
 func awsEc2query_serializeDocumentTagList(v []types.Tag, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47357,6 +55222,9 @@ func awsEc2query_serializeDocumentTagSpecification(v *types.TagSpecification, va
 }
 
 func awsEc2query_serializeDocumentTagSpecificationList(v []types.TagSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47418,6 +55286,9 @@ func awsEc2query_serializeDocumentTargetConfigurationRequest(v *types.TargetConf
 }
 
 func awsEc2query_serializeDocumentTargetConfigurationRequestSet(v []types.TargetConfigurationRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("TargetConfigurationRequest")
 
 	for i := range v {
@@ -47442,6 +55313,9 @@ func awsEc2query_serializeDocumentTargetGroup(v *types.TargetGroup, value query.
 }
 
 func awsEc2query_serializeDocumentTargetGroups(v []types.TargetGroup, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47482,6 +55356,9 @@ func awsEc2query_serializeDocumentThroughResourcesStatementRequest(v *types.Thro
 }
 
 func awsEc2query_serializeDocumentThroughResourcesStatementRequestList(v []types.ThroughResourcesStatementRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47580,6 +55457,9 @@ func awsEc2query_serializeDocumentTotalLocalStorageGBRequest(v *types.TotalLocal
 }
 
 func awsEc2query_serializeDocumentTrafficMirrorFilterIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47590,6 +55470,9 @@ func awsEc2query_serializeDocumentTrafficMirrorFilterIdList(v []string, value qu
 }
 
 func awsEc2query_serializeDocumentTrafficMirrorFilterRuleFieldList(v []types.TrafficMirrorFilterRuleField, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -47599,7 +55482,23 @@ func awsEc2query_serializeDocumentTrafficMirrorFilterRuleFieldList(v []types.Tra
 	return nil
 }
 
+func awsEc2query_serializeDocumentTrafficMirrorFilterRuleIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Item")
+
+	for i := range v {
+		av := array.Value()
+		av.String(v[i])
+	}
+	return nil
+}
+
 func awsEc2query_serializeDocumentTrafficMirrorNetworkServiceList(v []types.TrafficMirrorNetworkService, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47627,6 +55526,9 @@ func awsEc2query_serializeDocumentTrafficMirrorPortRangeRequest(v *types.Traffic
 }
 
 func awsEc2query_serializeDocumentTrafficMirrorSessionFieldList(v []types.TrafficMirrorSessionField, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -47637,6 +55539,9 @@ func awsEc2query_serializeDocumentTrafficMirrorSessionFieldList(v []types.Traffi
 }
 
 func awsEc2query_serializeDocumentTrafficMirrorSessionIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47647,6 +55552,9 @@ func awsEc2query_serializeDocumentTrafficMirrorSessionIdList(v []string, value q
 }
 
 func awsEc2query_serializeDocumentTrafficMirrorTargetIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47657,6 +55565,9 @@ func awsEc2query_serializeDocumentTrafficMirrorTargetIdList(v []string, value qu
 }
 
 func awsEc2query_serializeDocumentTransitGatewayAttachmentIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -47667,6 +55578,9 @@ func awsEc2query_serializeDocumentTransitGatewayAttachmentIdStringList(v []strin
 }
 
 func awsEc2query_serializeDocumentTransitGatewayCidrBlockStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47677,6 +55591,9 @@ func awsEc2query_serializeDocumentTransitGatewayCidrBlockStringList(v []string, 
 }
 
 func awsEc2query_serializeDocumentTransitGatewayConnectPeerIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47699,6 +55616,9 @@ func awsEc2query_serializeDocumentTransitGatewayConnectRequestBgpOptions(v *type
 }
 
 func awsEc2query_serializeDocumentTransitGatewayIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47709,6 +55629,9 @@ func awsEc2query_serializeDocumentTransitGatewayIdStringList(v []string, value q
 }
 
 func awsEc2query_serializeDocumentTransitGatewayMulticastDomainIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47719,6 +55642,9 @@ func awsEc2query_serializeDocumentTransitGatewayMulticastDomainIdStringList(v []
 }
 
 func awsEc2query_serializeDocumentTransitGatewayNetworkInterfaceIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47729,6 +55655,9 @@ func awsEc2query_serializeDocumentTransitGatewayNetworkInterfaceIdList(v []strin
 }
 
 func awsEc2query_serializeDocumentTransitGatewayPolicyTableIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47793,6 +55722,9 @@ func awsEc2query_serializeDocumentTransitGatewayRequestOptions(v *types.TransitG
 }
 
 func awsEc2query_serializeDocumentTransitGatewayRouteTableAnnouncementIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47803,6 +55735,9 @@ func awsEc2query_serializeDocumentTransitGatewayRouteTableAnnouncementIdStringLi
 }
 
 func awsEc2query_serializeDocumentTransitGatewayRouteTableIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47813,6 +55748,9 @@ func awsEc2query_serializeDocumentTransitGatewayRouteTableIdStringList(v []strin
 }
 
 func awsEc2query_serializeDocumentTransitGatewaySubnetIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47823,6 +55761,9 @@ func awsEc2query_serializeDocumentTransitGatewaySubnetIdList(v []string, value q
 }
 
 func awsEc2query_serializeDocumentTrunkInterfaceAssociationIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47862,6 +55803,9 @@ func awsEc2query_serializeDocumentUserData(v *types.UserData, value query.Value)
 }
 
 func awsEc2query_serializeDocumentUserGroupStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("UserGroup")
 
 	for i := range v {
@@ -47914,6 +55858,9 @@ func awsEc2query_serializeDocumentUserIdGroupPair(v *types.UserIdGroupPair, valu
 }
 
 func awsEc2query_serializeDocumentUserIdGroupPairList(v []types.UserIdGroupPair, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47926,6 +55873,9 @@ func awsEc2query_serializeDocumentUserIdGroupPairList(v []types.UserIdGroupPair,
 }
 
 func awsEc2query_serializeDocumentUserIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("UserId")
 
 	for i := range v {
@@ -47936,6 +55886,9 @@ func awsEc2query_serializeDocumentUserIdStringList(v []string, value query.Value
 }
 
 func awsEc2query_serializeDocumentValueStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47980,6 +55933,9 @@ func awsEc2query_serializeDocumentVCpuCountRangeRequest(v *types.VCpuCountRangeR
 }
 
 func awsEc2query_serializeDocumentVerifiedAccessEndpointIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -47990,6 +55946,9 @@ func awsEc2query_serializeDocumentVerifiedAccessEndpointIdList(v []string, value
 }
 
 func awsEc2query_serializeDocumentVerifiedAccessGroupIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48000,6 +55959,9 @@ func awsEc2query_serializeDocumentVerifiedAccessGroupIdList(v []string, value qu
 }
 
 func awsEc2query_serializeDocumentVerifiedAccessInstanceIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48126,6 +56088,9 @@ func awsEc2query_serializeDocumentVerifiedAccessSseSpecificationRequest(v *types
 }
 
 func awsEc2query_serializeDocumentVerifiedAccessTrustProviderIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48136,6 +56101,9 @@ func awsEc2query_serializeDocumentVerifiedAccessTrustProviderIdList(v []string, 
 }
 
 func awsEc2query_serializeDocumentVersionStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48146,6 +56114,9 @@ func awsEc2query_serializeDocumentVersionStringList(v []string, value query.Valu
 }
 
 func awsEc2query_serializeDocumentVirtualizationTypeSet(v []types.VirtualizationType, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48168,6 +56139,9 @@ func awsEc2query_serializeDocumentVolumeDetail(v *types.VolumeDetail, value quer
 }
 
 func awsEc2query_serializeDocumentVolumeIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("VolumeId")
 
 	for i := range v {
@@ -48177,7 +56151,23 @@ func awsEc2query_serializeDocumentVolumeIdStringList(v []string, value query.Val
 	return nil
 }
 
+func awsEc2query_serializeDocumentVpcBlockPublicAccessExclusionIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Item")
+
+	for i := range v {
+		av := array.Value()
+		av.String(v[i])
+	}
+	return nil
+}
+
 func awsEc2query_serializeDocumentVpcClassicLinkIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("VpcId")
 
 	for i := range v {
@@ -48188,6 +56178,9 @@ func awsEc2query_serializeDocumentVpcClassicLinkIdList(v []string, value query.V
 }
 
 func awsEc2query_serializeDocumentVpcEndpointIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48198,6 +56191,9 @@ func awsEc2query_serializeDocumentVpcEndpointIdList(v []string, value query.Valu
 }
 
 func awsEc2query_serializeDocumentVpcEndpointRouteTableIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48208,6 +56204,9 @@ func awsEc2query_serializeDocumentVpcEndpointRouteTableIdList(v []string, value 
 }
 
 func awsEc2query_serializeDocumentVpcEndpointSecurityGroupIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48218,6 +56217,9 @@ func awsEc2query_serializeDocumentVpcEndpointSecurityGroupIdList(v []string, val
 }
 
 func awsEc2query_serializeDocumentVpcEndpointServiceIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48228,6 +56230,9 @@ func awsEc2query_serializeDocumentVpcEndpointServiceIdList(v []string, value que
 }
 
 func awsEc2query_serializeDocumentVpcEndpointSubnetIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48238,6 +56243,9 @@ func awsEc2query_serializeDocumentVpcEndpointSubnetIdList(v []string, value quer
 }
 
 func awsEc2query_serializeDocumentVpcIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("VpcId")
 
 	for i := range v {
@@ -48248,6 +56256,9 @@ func awsEc2query_serializeDocumentVpcIdStringList(v []string, value query.Value)
 }
 
 func awsEc2query_serializeDocumentVpcPeeringConnectionIdList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Item")
 
 	for i := range v {
@@ -48258,6 +56269,9 @@ func awsEc2query_serializeDocumentVpcPeeringConnectionIdList(v []string, value q
 }
 
 func awsEc2query_serializeDocumentVpnConnectionIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("VpnConnectionId")
 
 	for i := range v {
@@ -48327,6 +56341,9 @@ func awsEc2query_serializeDocumentVpnConnectionOptionsSpecification(v *types.Vpn
 }
 
 func awsEc2query_serializeDocumentVpnGatewayIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("VpnGatewayId")
 
 	for i := range v {
@@ -48474,6 +56491,9 @@ func awsEc2query_serializeDocumentVpnTunnelOptionsSpecification(v *types.VpnTunn
 }
 
 func awsEc2query_serializeDocumentVpnTunnelOptionsSpecificationsList(v []types.VpnTunnelOptionsSpecification, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("Member")
 
 	for i := range v {
@@ -48486,6 +56506,9 @@ func awsEc2query_serializeDocumentVpnTunnelOptionsSpecificationsList(v []types.V
 }
 
 func awsEc2query_serializeDocumentZoneIdStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ZoneId")
 
 	for i := range v {
@@ -48496,6 +56519,9 @@ func awsEc2query_serializeDocumentZoneIdStringList(v []string, value query.Value
 }
 
 func awsEc2query_serializeDocumentZoneNameStringList(v []string, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
 	array := value.Array("ZoneName")
 
 	for i := range v {
@@ -48524,6 +56550,23 @@ func awsEc2query_serializeOpDocumentAcceptAddressTransferInput(v *AcceptAddressT
 		if err := awsEc2query_serializeDocumentTagSpecificationList(v.TagSpecifications, objectKey); err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentAcceptCapacityReservationBillingOwnershipInput(v *AcceptCapacityReservationBillingOwnershipInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CapacityReservationId != nil {
+		objectKey := object.Key("CapacityReservationId")
+		objectKey.String(*v.CapacityReservationId)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
 	}
 
 	return nil
@@ -48708,6 +56751,11 @@ func awsEc2query_serializeOpDocumentAllocateAddressInput(v *AllocateAddressInput
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.IpamPoolId != nil {
+		objectKey := object.Key("IpamPoolId")
+		objectKey.String(*v.IpamPoolId)
 	}
 
 	if v.NetworkBorderGroup != nil {
@@ -49029,6 +57077,28 @@ func awsEc2query_serializeOpDocumentAssociateAddressInput(v *AssociateAddressInp
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentAssociateCapacityReservationBillingOwnerInput(v *AssociateCapacityReservationBillingOwnerInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CapacityReservationId != nil {
+		objectKey := object.Key("CapacityReservationId")
+		objectKey.String(*v.CapacityReservationId)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.UnusedReservationBillingOwnerId != nil {
+		objectKey := object.Key("UnusedReservationBillingOwnerId")
+		objectKey.String(*v.UnusedReservationBillingOwnerId)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentAssociateClientVpnTargetNetworkInput(v *AssociateClientVpnTargetNetworkInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -49252,6 +57322,28 @@ func awsEc2query_serializeOpDocumentAssociateRouteTableInput(v *AssociateRouteTa
 	if v.SubnetId != nil {
 		objectKey := object.Key("SubnetId")
 		objectKey.String(*v.SubnetId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentAssociateSecurityGroupVpcInput(v *AssociateSecurityGroupVpcInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.GroupId != nil {
+		objectKey := object.Key("GroupId")
+		objectKey.String(*v.GroupId)
+	}
+
+	if v.VpcId != nil {
+		objectKey := object.Key("VpcId")
+		objectKey.String(*v.VpcId)
 	}
 
 	return nil
@@ -49885,6 +57977,23 @@ func awsEc2query_serializeOpDocumentCancelConversionTaskInput(v *CancelConversio
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentCancelDeclarativePoliciesReportInput(v *CancelDeclarativePoliciesReportInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ReportId != nil {
+		objectKey := object.Key("ReportId")
+		objectKey.String(*v.ReportId)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentCancelExportTaskInput(v *CancelExportTaskInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -50104,12 +58213,24 @@ func awsEc2query_serializeOpDocumentCopyImageInput(v *CopyImageInput, value quer
 		objectKey.String(*v.SourceRegion)
 	}
 
+	if v.TagSpecifications != nil {
+		objectKey := object.FlatKey("TagSpecification")
+		if err := awsEc2query_serializeDocumentTagSpecificationList(v.TagSpecifications, objectKey); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
 func awsEc2query_serializeOpDocumentCopySnapshotInput(v *CopySnapshotInput, value query.Value) error {
 	object := value.Object()
 	_ = object
+
+	if v.CompletionDurationMinutes != nil {
+		objectKey := object.Key("CompletionDurationMinutes")
+		objectKey.Integer(*v.CompletionDurationMinutes)
+	}
 
 	if v.Description != nil {
 		objectKey := object.Key("Description")
@@ -50154,6 +58275,40 @@ func awsEc2query_serializeOpDocumentCopySnapshotInput(v *CopySnapshotInput, valu
 	if v.SourceSnapshotId != nil {
 		objectKey := object.Key("SourceSnapshotId")
 		objectKey.String(*v.SourceSnapshotId)
+	}
+
+	if v.TagSpecifications != nil {
+		objectKey := object.FlatKey("TagSpecification")
+		if err := awsEc2query_serializeDocumentTagSpecificationList(v.TagSpecifications, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentCreateCapacityReservationBySplittingInput(v *CreateCapacityReservationBySplittingInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.ClientToken != nil {
+		objectKey := object.Key("ClientToken")
+		objectKey.String(*v.ClientToken)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.InstanceCount != nil {
+		objectKey := object.Key("InstanceCount")
+		objectKey.Integer(*v.InstanceCount)
+	}
+
+	if v.SourceCapacityReservationId != nil {
+		objectKey := object.Key("SourceCapacityReservationId")
+		objectKey.String(*v.SourceCapacityReservationId)
 	}
 
 	if v.TagSpecifications != nil {
@@ -50241,6 +58396,16 @@ func awsEc2query_serializeOpDocumentCreateCapacityReservationInput(v *CreateCapa
 		objectKey.String(*v.ClientToken)
 	}
 
+	if v.CommitmentDuration != nil {
+		objectKey := object.Key("CommitmentDuration")
+		objectKey.Long(*v.CommitmentDuration)
+	}
+
+	if len(v.DeliveryPreference) > 0 {
+		objectKey := object.Key("DeliveryPreference")
+		objectKey.String(string(v.DeliveryPreference))
+	}
+
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
@@ -50294,6 +58459,11 @@ func awsEc2query_serializeOpDocumentCreateCapacityReservationInput(v *CreateCapa
 	if v.PlacementGroupArn != nil {
 		objectKey := object.Key("PlacementGroupArn")
 		objectKey.String(*v.PlacementGroupArn)
+	}
+
+	if v.StartDate != nil {
+		objectKey := object.Key("StartDate")
+		objectKey.String(smithytime.FormatDateTime(*v.StartDate))
 	}
 
 	if v.TagSpecifications != nil {
@@ -50385,6 +58555,11 @@ func awsEc2query_serializeOpDocumentCreateClientVpnEndpointInput(v *CreateClient
 	if v.Description != nil {
 		objectKey := object.Key("Description")
 		objectKey.String(*v.Description)
+	}
+
+	if v.DisconnectOnSessionTimeout != nil {
+		objectKey := object.Key("DisconnectOnSessionTimeout")
+		objectKey.Boolean(*v.DisconnectOnSessionTimeout)
 	}
 
 	if v.DnsServers != nil {
@@ -50541,6 +58716,11 @@ func awsEc2query_serializeOpDocumentCreateCustomerGatewayInput(v *CreateCustomer
 	if v.BgpAsn != nil {
 		objectKey := object.Key("BgpAsn")
 		objectKey.Integer(*v.BgpAsn)
+	}
+
+	if v.BgpAsnExtended != nil {
+		objectKey := object.Key("BgpAsnExtended")
+		objectKey.Long(*v.BgpAsnExtended)
 	}
 
 	if v.CertificateArn != nil {
@@ -51068,6 +59248,35 @@ func awsEc2query_serializeOpDocumentCreateInternetGatewayInput(v *CreateInternet
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentCreateIpamExternalResourceVerificationTokenInput(v *CreateIpamExternalResourceVerificationTokenInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.ClientToken != nil {
+		objectKey := object.Key("ClientToken")
+		objectKey.String(*v.ClientToken)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.IpamId != nil {
+		objectKey := object.Key("IpamId")
+		objectKey.String(*v.IpamId)
+	}
+
+	if v.TagSpecifications != nil {
+		objectKey := object.FlatKey("TagSpecification")
+		if err := awsEc2query_serializeDocumentTagSpecificationList(v.TagSpecifications, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentCreateIpamInput(v *CreateIpamInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -51085,6 +59294,11 @@ func awsEc2query_serializeOpDocumentCreateIpamInput(v *CreateIpamInput, value qu
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.EnablePrivateGua != nil {
+		objectKey := object.Key("EnablePrivateGua")
+		objectKey.Boolean(*v.EnablePrivateGua)
 	}
 
 	if v.OperatingRegions != nil {
@@ -51335,6 +59549,13 @@ func awsEc2query_serializeOpDocumentCreateLaunchTemplateInput(v *CreateLaunchTem
 	if v.LaunchTemplateName != nil {
 		objectKey := object.Key("LaunchTemplateName")
 		objectKey.String(*v.LaunchTemplateName)
+	}
+
+	if v.Operator != nil {
+		objectKey := object.Key("Operator")
+		if err := awsEc2query_serializeDocumentOperatorRequest(v.Operator, objectKey); err != nil {
+			return err
+		}
 	}
 
 	if v.TagSpecifications != nil {
@@ -51699,6 +59920,11 @@ func awsEc2query_serializeOpDocumentCreateNetworkAclInput(v *CreateNetworkAclInp
 	object := value.Object()
 	_ = object
 
+	if v.ClientToken != nil {
+		objectKey := object.Key("ClientToken")
+		objectKey.String(*v.ClientToken)
+	}
+
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
@@ -51904,6 +60130,13 @@ func awsEc2query_serializeOpDocumentCreateNetworkInterfaceInput(v *CreateNetwork
 		}
 	}
 
+	if v.Operator != nil {
+		objectKey := object.Key("Operator")
+		if err := awsEc2query_serializeDocumentOperatorRequest(v.Operator, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if v.PrivateIpAddress != nil {
 		objectKey := object.Key("PrivateIpAddress")
 		objectKey.String(*v.PrivateIpAddress)
@@ -52014,6 +60247,11 @@ func awsEc2query_serializeOpDocumentCreatePublicIpv4PoolInput(v *CreatePublicIpv
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.NetworkBorderGroup != nil {
+		objectKey := object.Key("NetworkBorderGroup")
+		objectKey.String(*v.NetworkBorderGroup)
 	}
 
 	if v.TagSpecifications != nil {
@@ -52224,6 +60462,11 @@ func awsEc2query_serializeOpDocumentCreateRouteTableInput(v *CreateRouteTableInp
 	object := value.Object()
 	_ = object
 
+	if v.ClientToken != nil {
+		objectKey := object.Key("ClientToken")
+		objectKey.String(*v.ClientToken)
+	}
+
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
@@ -52292,6 +60535,11 @@ func awsEc2query_serializeOpDocumentCreateSnapshotInput(v *CreateSnapshotInput, 
 		objectKey.Boolean(*v.DryRun)
 	}
 
+	if len(v.Location) > 0 {
+		objectKey := object.Key("Location")
+		objectKey.String(string(v.Location))
+	}
+
 	if v.OutpostArn != nil {
 		objectKey := object.Key("OutpostArn")
 		objectKey.String(*v.OutpostArn)
@@ -52336,6 +60584,11 @@ func awsEc2query_serializeOpDocumentCreateSnapshotsInput(v *CreateSnapshotsInput
 		if err := awsEc2query_serializeDocumentInstanceSpecification(v.InstanceSpecification, objectKey); err != nil {
 			return err
 		}
+	}
+
+	if len(v.Location) > 0 {
+		objectKey := object.Key("Location")
+		objectKey.String(string(v.Location))
 	}
 
 	if v.OutpostArn != nil {
@@ -52626,6 +60879,13 @@ func awsEc2query_serializeOpDocumentCreateTrafficMirrorFilterRuleInput(v *Create
 	if v.SourcePortRange != nil {
 		objectKey := object.Key("SourcePortRange")
 		if err := awsEc2query_serializeDocumentTrafficMirrorPortRangeRequest(v.SourcePortRange, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.TagSpecifications != nil {
+		objectKey := object.FlatKey("TagSpecification")
+		if err := awsEc2query_serializeDocumentTagSpecificationList(v.TagSpecifications, objectKey); err != nil {
 			return err
 		}
 	}
@@ -53131,6 +61391,13 @@ func awsEc2query_serializeOpDocumentCreateVerifiedAccessEndpointInput(v *CreateV
 		objectKey.String(string(v.AttachmentType))
 	}
 
+	if v.CidrOptions != nil {
+		objectKey := object.Key("CidrOptions")
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessEndpointCidrOptions(v.CidrOptions, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if v.ClientToken != nil {
 		objectKey := object.Key("ClientToken")
 		objectKey.String(*v.ClientToken)
@@ -53178,6 +61445,13 @@ func awsEc2query_serializeOpDocumentCreateVerifiedAccessEndpointInput(v *CreateV
 	if v.PolicyDocument != nil {
 		objectKey := object.Key("PolicyDocument")
 		objectKey.String(*v.PolicyDocument)
+	}
+
+	if v.RdsOptions != nil {
+		objectKey := object.Key("RdsOptions")
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessEndpointRdsOptions(v.RdsOptions, objectKey); err != nil {
+			return err
+		}
 	}
 
 	if v.SecurityGroupIds != nil {
@@ -53259,6 +61533,11 @@ func awsEc2query_serializeOpDocumentCreateVerifiedAccessInstanceInput(v *CreateV
 	object := value.Object()
 	_ = object
 
+	if v.CidrEndpointsCustomSubDomain != nil {
+		objectKey := object.Key("CidrEndpointsCustomSubDomain")
+		objectKey.String(*v.CidrEndpointsCustomSubDomain)
+	}
+
 	if v.ClientToken != nil {
 		objectKey := object.Key("ClientToken")
 		objectKey.String(*v.ClientToken)
@@ -53318,6 +61597,13 @@ func awsEc2query_serializeOpDocumentCreateVerifiedAccessTrustProviderInput(v *Cr
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.NativeApplicationOidcOptions != nil {
+		objectKey := object.Key("NativeApplicationOidcOptions")
+		if err := awsEc2query_serializeDocumentCreateVerifiedAccessNativeApplicationOidcOptions(v.NativeApplicationOidcOptions, objectKey); err != nil {
+			return err
+		}
 	}
 
 	if v.OidcOptions != nil {
@@ -53398,6 +61684,13 @@ func awsEc2query_serializeOpDocumentCreateVolumeInput(v *CreateVolumeInput, valu
 		objectKey.Boolean(*v.MultiAttachEnabled)
 	}
 
+	if v.Operator != nil {
+		objectKey := object.Key("Operator")
+		if err := awsEc2query_serializeDocumentOperatorRequest(v.Operator, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if v.OutpostArn != nil {
 		objectKey := object.Key("OutpostArn")
 		objectKey.String(*v.OutpostArn)
@@ -53428,6 +61721,40 @@ func awsEc2query_serializeOpDocumentCreateVolumeInput(v *CreateVolumeInput, valu
 	if len(v.VolumeType) > 0 {
 		objectKey := object.Key("VolumeType")
 		objectKey.String(string(v.VolumeType))
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentCreateVpcBlockPublicAccessExclusionInput(v *CreateVpcBlockPublicAccessExclusionInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if len(v.InternetGatewayExclusionMode) > 0 {
+		objectKey := object.Key("InternetGatewayExclusionMode")
+		objectKey.String(string(v.InternetGatewayExclusionMode))
+	}
+
+	if v.SubnetId != nil {
+		objectKey := object.Key("SubnetId")
+		objectKey.String(*v.SubnetId)
+	}
+
+	if v.TagSpecifications != nil {
+		objectKey := object.FlatKey("TagSpecification")
+		if err := awsEc2query_serializeDocumentTagSpecificationList(v.TagSpecifications, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.VpcId != nil {
+		objectKey := object.Key("VpcId")
+		objectKey.String(*v.VpcId)
 	}
 
 	return nil
@@ -53508,6 +61835,11 @@ func awsEc2query_serializeOpDocumentCreateVpcEndpointInput(v *CreateVpcEndpointI
 		objectKey.Boolean(*v.PrivateDnsEnabled)
 	}
 
+	if v.ResourceConfigurationArn != nil {
+		objectKey := object.Key("ResourceConfigurationArn")
+		objectKey.String(*v.ResourceConfigurationArn)
+	}
+
 	if v.RouteTableIds != nil {
 		objectKey := object.FlatKey("RouteTableId")
 		if err := awsEc2query_serializeDocumentVpcEndpointRouteTableIdList(v.RouteTableIds, objectKey); err != nil {
@@ -53525,6 +61857,16 @@ func awsEc2query_serializeOpDocumentCreateVpcEndpointInput(v *CreateVpcEndpointI
 	if v.ServiceName != nil {
 		objectKey := object.Key("ServiceName")
 		objectKey.String(*v.ServiceName)
+	}
+
+	if v.ServiceNetworkArn != nil {
+		objectKey := object.Key("ServiceNetworkArn")
+		objectKey.String(*v.ServiceNetworkArn)
+	}
+
+	if v.ServiceRegion != nil {
+		objectKey := object.Key("ServiceRegion")
+		objectKey.String(*v.ServiceRegion)
 	}
 
 	if v.SubnetConfigurations != nil {
@@ -53602,6 +61944,13 @@ func awsEc2query_serializeOpDocumentCreateVpcEndpointServiceConfigurationInput(v
 	if v.SupportedIpAddressTypes != nil {
 		objectKey := object.FlatKey("SupportedIpAddressType")
 		if err := awsEc2query_serializeDocumentValueStringList(v.SupportedIpAddressTypes, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.SupportedRegions != nil {
+		objectKey := object.FlatKey("SupportedRegion")
+		if err := awsEc2query_serializeDocumentValueStringList(v.SupportedRegions, objectKey); err != nil {
 			return err
 		}
 	}
@@ -54088,6 +62437,23 @@ func awsEc2query_serializeOpDocumentDeleteInternetGatewayInput(v *DeleteInternet
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentDeleteIpamExternalResourceVerificationTokenInput(v *DeleteIpamExternalResourceVerificationTokenInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.IpamExternalResourceVerificationTokenId != nil {
+		objectKey := object.Key("IpamExternalResourceVerificationTokenId")
+		objectKey.String(*v.IpamExternalResourceVerificationTokenId)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentDeleteIpamInput(v *DeleteIpamInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -54526,6 +62892,11 @@ func awsEc2query_serializeOpDocumentDeletePublicIpv4PoolInput(v *DeletePublicIpv
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.NetworkBorderGroup != nil {
+		objectKey := object.Key("NetworkBorderGroup")
+		objectKey.String(*v.NetworkBorderGroup)
 	}
 
 	if v.PoolId != nil {
@@ -55080,6 +63451,23 @@ func awsEc2query_serializeOpDocumentDeleteVolumeInput(v *DeleteVolumeInput, valu
 	if v.VolumeId != nil {
 		objectKey := object.Key("VolumeId")
 		objectKey.String(*v.VolumeId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDeleteVpcBlockPublicAccessExclusionInput(v *DeleteVpcBlockPublicAccessExclusionInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ExclusionId != nil {
+		objectKey := object.Key("ExclusionId")
+		objectKey.String(*v.ExclusionId)
 	}
 
 	return nil
@@ -55646,6 +64034,74 @@ func awsEc2query_serializeOpDocumentDescribeByoipCidrsInput(v *DescribeByoipCidr
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentDescribeCapacityBlockExtensionHistoryInput(v *DescribeCapacityBlockExtensionHistoryInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CapacityReservationIds != nil {
+		objectKey := object.FlatKey("CapacityReservationId")
+		if err := awsEc2query_serializeDocumentCapacityReservationIdSet(v.CapacityReservationIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDescribeCapacityBlockExtensionOfferingsInput(v *DescribeCapacityBlockExtensionOfferingsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CapacityBlockExtensionDurationHours != nil {
+		objectKey := object.Key("CapacityBlockExtensionDurationHours")
+		objectKey.Integer(*v.CapacityBlockExtensionDurationHours)
+	}
+
+	if v.CapacityReservationId != nil {
+		objectKey := object.Key("CapacityReservationId")
+		objectKey.String(*v.CapacityReservationId)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentDescribeCapacityBlockOfferingsInput(v *DescribeCapacityBlockOfferingsInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -55688,6 +64144,47 @@ func awsEc2query_serializeOpDocumentDescribeCapacityBlockOfferingsInput(v *Descr
 	if v.StartDateRange != nil {
 		objectKey := object.Key("StartDateRange")
 		objectKey.String(smithytime.FormatDateTime(*v.StartDateRange))
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDescribeCapacityReservationBillingRequestsInput(v *DescribeCapacityReservationBillingRequestsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CapacityReservationIds != nil {
+		objectKey := object.FlatKey("CapacityReservationId")
+		if err := awsEc2query_serializeDocumentCapacityReservationIdSet(v.CapacityReservationIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	if len(v.Role) > 0 {
+		objectKey := object.Key("Role")
+		objectKey.String(string(v.Role))
 	}
 
 	return nil
@@ -56090,6 +64587,35 @@ func awsEc2query_serializeOpDocumentDescribeCustomerGatewaysInput(v *DescribeCus
 	if v.Filters != nil {
 		objectKey := object.FlatKey("Filter")
 		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDescribeDeclarativePoliciesReportsInput(v *DescribeDeclarativePoliciesReportsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	if v.ReportIds != nil {
+		objectKey := object.FlatKey("ReportId")
+		if err := awsEc2query_serializeDocumentValueStringList(v.ReportIds, objectKey); err != nil {
 			return err
 		}
 	}
@@ -56992,6 +65518,42 @@ func awsEc2query_serializeOpDocumentDescribeInstanceEventWindowsInput(v *Describ
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentDescribeInstanceImageMetadataInput(v *DescribeInstanceImageMetadataInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.InstanceIds != nil {
+		objectKey := object.FlatKey("InstanceId")
+		if err := awsEc2query_serializeDocumentInstanceIdStringList(v.InstanceIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentDescribeInstancesInput(v *DescribeInstancesInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -57225,6 +65787,42 @@ func awsEc2query_serializeOpDocumentDescribeIpamByoasnInput(v *DescribeIpamByoas
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDescribeIpamExternalResourceVerificationTokensInput(v *DescribeIpamExternalResourceVerificationTokensInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.IpamExternalResourceVerificationTokenIds != nil {
+		objectKey := object.FlatKey("IpamExternalResourceVerificationTokenId")
+		if err := awsEc2query_serializeDocumentValueStringList(v.IpamExternalResourceVerificationTokenIds, objectKey); err != nil {
+			return err
+		}
 	}
 
 	if v.MaxResults != nil {
@@ -57845,6 +66443,37 @@ func awsEc2query_serializeOpDocumentDescribeLockedSnapshotsInput(v *DescribeLock
 		if err := awsEc2query_serializeDocumentSnapshotIdStringList(v.SnapshotIds, objectKey); err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDescribeMacHostsInput(v *DescribeMacHostsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.HostIds != nil {
+		objectKey := object.FlatKey("HostId")
+		if err := awsEc2query_serializeDocumentRequestHostIdList(v.HostIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
 	}
 
 	return nil
@@ -58855,6 +67484,35 @@ func awsEc2query_serializeOpDocumentDescribeSecurityGroupsInput(v *DescribeSecur
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentDescribeSecurityGroupVpcAssociationsInput(v *DescribeSecurityGroupVpcAssociationsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentDescribeSnapshotAttributeInput(v *DescribeSnapshotAttributeInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -59278,6 +67936,47 @@ func awsEc2query_serializeOpDocumentDescribeTagsInput(v *DescribeTagsInput, valu
 	if v.NextToken != nil {
 		objectKey := object.Key("NextToken")
 		objectKey.String(*v.NextToken)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDescribeTrafficMirrorFilterRulesInput(v *DescribeTrafficMirrorFilterRulesInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	if v.TrafficMirrorFilterId != nil {
+		objectKey := object.Key("TrafficMirrorFilterId")
+		objectKey.String(*v.TrafficMirrorFilterId)
+	}
+
+	if v.TrafficMirrorFilterRuleIds != nil {
+		objectKey := object.FlatKey("TrafficMirrorFilterRuleId")
+		if err := awsEc2query_serializeDocumentTrafficMirrorFilterRuleIdList(v.TrafficMirrorFilterRuleIds, objectKey); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -60134,6 +68833,54 @@ func awsEc2query_serializeOpDocumentDescribeVpcAttributeInput(v *DescribeVpcAttr
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentDescribeVpcBlockPublicAccessExclusionsInput(v *DescribeVpcBlockPublicAccessExclusionsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ExclusionIds != nil {
+		objectKey := object.FlatKey("ExclusionId")
+		if err := awsEc2query_serializeDocumentVpcBlockPublicAccessExclusionIdList(v.ExclusionIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDescribeVpcBlockPublicAccessOptionsInput(v *DescribeVpcBlockPublicAccessOptionsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentDescribeVpcClassicLinkDnsSupportInput(v *DescribeVpcClassicLinkDnsSupportInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -60177,6 +68924,42 @@ func awsEc2query_serializeOpDocumentDescribeVpcClassicLinkInput(v *DescribeVpcCl
 	if v.VpcIds != nil {
 		objectKey := object.FlatKey("VpcId")
 		if err := awsEc2query_serializeDocumentVpcClassicLinkIdList(v.VpcIds, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDescribeVpcEndpointAssociationsInput(v *DescribeVpcEndpointAssociationsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.Filters != nil {
+		objectKey := object.FlatKey("Filter")
+		if err := awsEc2query_serializeDocumentFilterList(v.Filters, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	if v.VpcEndpointIds != nil {
+		objectKey := object.FlatKey("VpcEndpointId")
+		if err := awsEc2query_serializeDocumentVpcEndpointIdList(v.VpcEndpointIds, objectKey); err != nil {
 			return err
 		}
 	}
@@ -60346,6 +69129,13 @@ func awsEc2query_serializeOpDocumentDescribeVpcEndpointServicesInput(v *Describe
 	if v.ServiceNames != nil {
 		objectKey := object.FlatKey("ServiceName")
 		if err := awsEc2query_serializeDocumentValueStringList(v.ServiceNames, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.ServiceRegions != nil {
+		objectKey := object.FlatKey("ServiceRegion")
+		if err := awsEc2query_serializeDocumentValueStringList(v.ServiceRegions, objectKey); err != nil {
 			return err
 		}
 	}
@@ -60677,6 +69467,18 @@ func awsEc2query_serializeOpDocumentDisableAddressTransferInput(v *DisableAddres
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentDisableAllowedImagesSettingsInput(v *DisableAllowedImagesSettingsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentDisableAwsNetworkPerformanceMetricSubscriptionInput(v *DisableAwsNetworkPerformanceMetricSubscriptionInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -60782,6 +69584,23 @@ func awsEc2query_serializeOpDocumentDisableImageBlockPublicAccessInput(v *Disabl
 }
 
 func awsEc2query_serializeOpDocumentDisableImageDeprecationInput(v *DisableImageDeprecationInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ImageId != nil {
+		objectKey := object.Key("ImageId")
+		objectKey.String(*v.ImageId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentDisableImageDeregistrationProtectionInput(v *DisableImageDeregistrationProtectionInput, value query.Value) error {
 	object := value.Object()
 	_ = object
 
@@ -60956,6 +69775,28 @@ func awsEc2query_serializeOpDocumentDisassociateAddressInput(v *DisassociateAddr
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentDisassociateCapacityReservationBillingOwnerInput(v *DisassociateCapacityReservationBillingOwnerInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CapacityReservationId != nil {
+		objectKey := object.Key("CapacityReservationId")
+		objectKey.String(*v.CapacityReservationId)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.UnusedReservationBillingOwnerId != nil {
+		objectKey := object.Key("UnusedReservationBillingOwnerId")
+		objectKey.String(*v.UnusedReservationBillingOwnerId)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentDisassociateClientVpnTargetNetworkInput(v *DisassociateClientVpnTargetNetworkInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -61121,6 +69962,28 @@ func awsEc2query_serializeOpDocumentDisassociateRouteTableInput(v *DisassociateR
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentDisassociateSecurityGroupVpcInput(v *DisassociateSecurityGroupVpcInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.GroupId != nil {
+		objectKey := object.Key("GroupId")
+		objectKey.String(*v.GroupId)
+	}
+
+	if v.VpcId != nil {
+		objectKey := object.Key("VpcId")
+		objectKey.String(*v.VpcId)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentDisassociateSubnetCidrBlockInput(v *DisassociateSubnetCidrBlockInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -61257,6 +70120,23 @@ func awsEc2query_serializeOpDocumentEnableAddressTransferInput(v *EnableAddressT
 	if v.TransferAccountId != nil {
 		objectKey := object.Key("TransferAccountId")
 		objectKey.String(*v.TransferAccountId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentEnableAllowedImagesSettingsInput(v *EnableAllowedImagesSettingsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if len(v.AllowedImagesSettingsState) > 0 {
+		objectKey := object.Key("AllowedImagesSettingsState")
+		objectKey.String(string(v.AllowedImagesSettingsState))
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
 	}
 
 	return nil
@@ -61407,6 +70287,28 @@ func awsEc2query_serializeOpDocumentEnableImageDeprecationInput(v *EnableImageDe
 	if v.ImageId != nil {
 		objectKey := object.Key("ImageId")
 		objectKey.String(*v.ImageId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentEnableImageDeregistrationProtectionInput(v *EnableImageDeregistrationProtectionInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ImageId != nil {
+		objectKey := object.Key("ImageId")
+		objectKey.String(*v.ImageId)
+	}
+
+	if v.WithCooldown != nil {
+		objectKey := object.Key("WithCooldown")
+		objectKey.Boolean(*v.WithCooldown)
 	}
 
 	return nil
@@ -61696,6 +70598,35 @@ func awsEc2query_serializeOpDocumentExportTransitGatewayRoutesInput(v *ExportTra
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentExportVerifiedAccessInstanceClientConfigurationInput(v *ExportVerifiedAccessInstanceClientConfigurationInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.VerifiedAccessInstanceId != nil {
+		objectKey := object.Key("VerifiedAccessInstanceId")
+		objectKey.String(*v.VerifiedAccessInstanceId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentGetAllowedImagesSettingsInput(v *GetAllowedImagesSettingsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentGetAssociatedEnclaveCertificateIamRolesInput(v *GetAssociatedEnclaveCertificateIamRolesInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -61884,6 +70815,23 @@ func awsEc2query_serializeOpDocumentGetConsoleScreenshotInput(v *GetConsoleScree
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentGetDeclarativePoliciesReportSummaryInput(v *GetDeclarativePoliciesReportSummaryInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ReportId != nil {
+		objectKey := object.Key("ReportId")
+		objectKey.String(*v.ReportId)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentGetDefaultCreditSpecificationInput(v *GetDefaultCreditSpecificationInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -62007,6 +70955,45 @@ func awsEc2query_serializeOpDocumentGetImageBlockPublicAccessStateInput(v *GetIm
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentGetInstanceMetadataDefaultsInput(v *GetInstanceMetadataDefaultsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentGetInstanceTpmEkPubInput(v *GetInstanceTpmEkPubInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.InstanceId != nil {
+		objectKey := object.Key("InstanceId")
+		objectKey.String(*v.InstanceId)
+	}
+
+	if len(v.KeyFormat) > 0 {
+		objectKey := object.Key("KeyFormat")
+		objectKey.String(string(v.KeyFormat))
+	}
+
+	if len(v.KeyType) > 0 {
+		objectKey := object.Key("KeyType")
+		objectKey.String(string(v.KeyType))
 	}
 
 	return nil
@@ -62938,6 +71925,33 @@ func awsEc2query_serializeOpDocumentGetVerifiedAccessEndpointPolicyInput(v *GetV
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentGetVerifiedAccessEndpointTargetsInput(v *GetVerifiedAccessEndpointTargetsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	if v.VerifiedAccessEndpointId != nil {
+		objectKey := object.Key("VerifiedAccessEndpointId")
+		objectKey.String(*v.VerifiedAccessEndpointId)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentGetVerifiedAccessGroupPolicyInput(v *GetVerifiedAccessGroupPolicyInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -63512,6 +72526,11 @@ func awsEc2query_serializeOpDocumentModifyCapacityReservationInput(v *ModifyCapa
 		objectKey.Integer(*v.InstanceCount)
 	}
 
+	if len(v.InstanceMatchCriteria) > 0 {
+		objectKey := object.Key("InstanceMatchCriteria")
+		objectKey.String(string(v.InstanceMatchCriteria))
+	}
+
 	return nil
 }
 
@@ -63548,6 +72567,11 @@ func awsEc2query_serializeOpDocumentModifyClientVpnEndpointInput(v *ModifyClient
 	if v.Description != nil {
 		objectKey := object.Key("Description")
 		objectKey.String(*v.Description)
+	}
+
+	if v.DisconnectOnSessionTimeout != nil {
+		objectKey := object.Key("DisconnectOnSessionTimeout")
+		objectKey.Boolean(*v.DisconnectOnSessionTimeout)
 	}
 
 	if v.DnsServers != nil {
@@ -64055,6 +73079,33 @@ func awsEc2query_serializeOpDocumentModifyInstanceCapacityReservationAttributesI
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentModifyInstanceCpuOptionsInput(v *ModifyInstanceCpuOptionsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CoreCount != nil {
+		objectKey := object.Key("CoreCount")
+		objectKey.Integer(*v.CoreCount)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.InstanceId != nil {
+		objectKey := object.Key("InstanceId")
+		objectKey.String(*v.InstanceId)
+	}
+
+	if v.ThreadsPerCore != nil {
+		objectKey := object.Key("ThreadsPerCore")
+		objectKey.Integer(*v.ThreadsPerCore)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentModifyInstanceCreditSpecificationInput(v *ModifyInstanceCreditSpecificationInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -64162,6 +73213,38 @@ func awsEc2query_serializeOpDocumentModifyInstanceMaintenanceOptionsInput(v *Mod
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentModifyInstanceMetadataDefaultsInput(v *ModifyInstanceMetadataDefaultsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if len(v.HttpEndpoint) > 0 {
+		objectKey := object.Key("HttpEndpoint")
+		objectKey.String(string(v.HttpEndpoint))
+	}
+
+	if v.HttpPutResponseHopLimit != nil {
+		objectKey := object.Key("HttpPutResponseHopLimit")
+		objectKey.Integer(*v.HttpPutResponseHopLimit)
+	}
+
+	if len(v.HttpTokens) > 0 {
+		objectKey := object.Key("HttpTokens")
+		objectKey.String(string(v.HttpTokens))
+	}
+
+	if len(v.InstanceMetadataTags) > 0 {
+		objectKey := object.Key("InstanceMetadataTags")
+		objectKey.String(string(v.InstanceMetadataTags))
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentModifyInstanceMetadataOptionsInput(v *ModifyInstanceMetadataOptionsInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -64199,6 +73282,28 @@ func awsEc2query_serializeOpDocumentModifyInstanceMetadataOptionsInput(v *Modify
 	if len(v.InstanceMetadataTags) > 0 {
 		objectKey := object.Key("InstanceMetadataTags")
 		objectKey.String(string(v.InstanceMetadataTags))
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentModifyInstanceNetworkPerformanceOptionsInput(v *ModifyInstanceNetworkPerformanceOptionsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if len(v.BandwidthWeighting) > 0 {
+		objectKey := object.Key("BandwidthWeighting")
+		objectKey.String(string(v.BandwidthWeighting))
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.InstanceId != nil {
+		objectKey := object.Key("InstanceId")
+		objectKey.String(*v.InstanceId)
 	}
 
 	return nil
@@ -64270,6 +73375,11 @@ func awsEc2query_serializeOpDocumentModifyIpamInput(v *ModifyIpamInput, value qu
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.EnablePrivateGua != nil {
+		objectKey := object.Key("EnablePrivateGua")
+		objectKey.Boolean(*v.EnablePrivateGua)
 	}
 
 	if v.IpamId != nil {
@@ -64406,6 +73516,13 @@ func awsEc2query_serializeOpDocumentModifyIpamResourceDiscoveryInput(v *ModifyIp
 		}
 	}
 
+	if v.AddOrganizationalUnitExclusions != nil {
+		objectKey := object.FlatKey("AddOrganizationalUnitExclusion")
+		if err := awsEc2query_serializeDocumentAddIpamOrganizationalUnitExclusionSet(v.AddOrganizationalUnitExclusions, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if v.Description != nil {
 		objectKey := object.Key("Description")
 		objectKey.String(*v.Description)
@@ -64424,6 +73541,13 @@ func awsEc2query_serializeOpDocumentModifyIpamResourceDiscoveryInput(v *ModifyIp
 	if v.RemoveOperatingRegions != nil {
 		objectKey := object.FlatKey("RemoveOperatingRegion")
 		if err := awsEc2query_serializeDocumentRemoveIpamOperatingRegionSet(v.RemoveOperatingRegions, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.RemoveOrganizationalUnitExclusions != nil {
+		objectKey := object.FlatKey("RemoveOrganizationalUnitExclusion")
+		if err := awsEc2query_serializeDocumentRemoveIpamOrganizationalUnitExclusionSet(v.RemoveOrganizationalUnitExclusions, objectKey); err != nil {
 			return err
 		}
 	}
@@ -64571,6 +73695,11 @@ func awsEc2query_serializeOpDocumentModifyManagedPrefixListInput(v *ModifyManage
 func awsEc2query_serializeOpDocumentModifyNetworkInterfaceAttributeInput(v *ModifyNetworkInterfaceAttributeInput, value query.Value) error {
 	object := value.Object()
 	_ = object
+
+	if v.AssociatePublicIpAddress != nil {
+		objectKey := object.Key("AssociatePublicIpAddress")
+		objectKey.Boolean(*v.AssociatePublicIpAddress)
+	}
 
 	if v.Attachment != nil {
 		objectKey := object.Key("Attachment")
@@ -65160,6 +74289,13 @@ func awsEc2query_serializeOpDocumentModifyVerifiedAccessEndpointInput(v *ModifyV
 	object := value.Object()
 	_ = object
 
+	if v.CidrOptions != nil {
+		objectKey := object.Key("CidrOptions")
+		if err := awsEc2query_serializeDocumentModifyVerifiedAccessEndpointCidrOptions(v.CidrOptions, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if v.ClientToken != nil {
 		objectKey := object.Key("ClientToken")
 		objectKey.String(*v.ClientToken)
@@ -65185,6 +74321,13 @@ func awsEc2query_serializeOpDocumentModifyVerifiedAccessEndpointInput(v *ModifyV
 	if v.NetworkInterfaceOptions != nil {
 		objectKey := object.Key("NetworkInterfaceOptions")
 		if err := awsEc2query_serializeDocumentModifyVerifiedAccessEndpointEniOptions(v.NetworkInterfaceOptions, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.RdsOptions != nil {
+		objectKey := object.Key("RdsOptions")
+		if err := awsEc2query_serializeDocumentModifyVerifiedAccessEndpointRdsOptions(v.RdsOptions, objectKey); err != nil {
 			return err
 		}
 	}
@@ -65316,6 +74459,11 @@ func awsEc2query_serializeOpDocumentModifyVerifiedAccessInstanceInput(v *ModifyV
 	object := value.Object()
 	_ = object
 
+	if v.CidrEndpointsCustomSubDomain != nil {
+		objectKey := object.Key("CidrEndpointsCustomSubDomain")
+		objectKey.String(*v.CidrEndpointsCustomSubDomain)
+	}
+
 	if v.ClientToken != nil {
 		objectKey := object.Key("ClientToken")
 		objectKey.String(*v.ClientToken)
@@ -65392,6 +74540,13 @@ func awsEc2query_serializeOpDocumentModifyVerifiedAccessTrustProviderInput(v *Mo
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.NativeApplicationOidcOptions != nil {
+		objectKey := object.Key("NativeApplicationOidcOptions")
+		if err := awsEc2query_serializeDocumentModifyVerifiedAccessNativeApplicationOidcOptions(v.NativeApplicationOidcOptions, objectKey); err != nil {
+			return err
+		}
 	}
 
 	if v.OidcOptions != nil {
@@ -65510,6 +74665,45 @@ func awsEc2query_serializeOpDocumentModifyVpcAttributeInput(v *ModifyVpcAttribut
 	if v.VpcId != nil {
 		objectKey := object.Key("VpcId")
 		objectKey.String(*v.VpcId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentModifyVpcBlockPublicAccessExclusionInput(v *ModifyVpcBlockPublicAccessExclusionInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ExclusionId != nil {
+		objectKey := object.Key("ExclusionId")
+		objectKey.String(*v.ExclusionId)
+	}
+
+	if len(v.InternetGatewayExclusionMode) > 0 {
+		objectKey := object.Key("InternetGatewayExclusionMode")
+		objectKey.String(string(v.InternetGatewayExclusionMode))
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentModifyVpcBlockPublicAccessOptionsInput(v *ModifyVpcBlockPublicAccessOptionsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if len(v.InternetGatewayBlockMode) > 0 {
+		objectKey := object.Key("InternetGatewayBlockMode")
+		objectKey.String(string(v.InternetGatewayBlockMode))
 	}
 
 	return nil
@@ -65667,6 +74861,13 @@ func awsEc2query_serializeOpDocumentModifyVpcEndpointServiceConfigurationInput(v
 		}
 	}
 
+	if v.AddSupportedRegions != nil {
+		objectKey := object.FlatKey("AddSupportedRegion")
+		if err := awsEc2query_serializeDocumentValueStringList(v.AddSupportedRegions, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if v.DryRun != nil {
 		objectKey := object.Key("DryRun")
 		objectKey.Boolean(*v.DryRun)
@@ -65699,6 +74900,13 @@ func awsEc2query_serializeOpDocumentModifyVpcEndpointServiceConfigurationInput(v
 	if v.RemoveSupportedIpAddressTypes != nil {
 		objectKey := object.FlatKey("RemoveSupportedIpAddressType")
 		if err := awsEc2query_serializeDocumentValueStringList(v.RemoveSupportedIpAddressTypes, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.RemoveSupportedRegions != nil {
+		objectKey := object.FlatKey("RemoveSupportedRegion")
+		if err := awsEc2query_serializeDocumentValueStringList(v.RemoveSupportedRegions, objectKey); err != nil {
 			return err
 		}
 	}
@@ -66005,6 +75213,38 @@ func awsEc2query_serializeOpDocumentMoveByoipCidrToIpamInput(v *MoveByoipCidrToI
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentMoveCapacityReservationInstancesInput(v *MoveCapacityReservationInstancesInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.ClientToken != nil {
+		objectKey := object.Key("ClientToken")
+		objectKey.String(*v.ClientToken)
+	}
+
+	if v.DestinationCapacityReservationId != nil {
+		objectKey := object.Key("DestinationCapacityReservationId")
+		objectKey.String(*v.DestinationCapacityReservationId)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.InstanceCount != nil {
+		objectKey := object.Key("InstanceCount")
+		objectKey.Integer(*v.InstanceCount)
+	}
+
+	if v.SourceCapacityReservationId != nil {
+		objectKey := object.Key("SourceCapacityReservationId")
+		objectKey.String(*v.SourceCapacityReservationId)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentProvisionByoipCidrInput(v *ProvisionByoipCidrInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -66111,6 +75351,11 @@ func awsEc2query_serializeOpDocumentProvisionIpamPoolCidrInput(v *ProvisionIpamP
 		objectKey.Boolean(*v.DryRun)
 	}
 
+	if v.IpamExternalResourceVerificationTokenId != nil {
+		objectKey := object.Key("IpamExternalResourceVerificationTokenId")
+		objectKey.String(*v.IpamExternalResourceVerificationTokenId)
+	}
+
 	if v.IpamPoolId != nil {
 		objectKey := object.Key("IpamPoolId")
 		objectKey.String(*v.IpamPoolId)
@@ -66119,6 +75364,11 @@ func awsEc2query_serializeOpDocumentProvisionIpamPoolCidrInput(v *ProvisionIpamP
 	if v.NetmaskLength != nil {
 		objectKey := object.Key("NetmaskLength")
 		objectKey.Integer(*v.NetmaskLength)
+	}
+
+	if len(v.VerificationMethod) > 0 {
+		objectKey := object.Key("VerificationMethod")
+		objectKey.String(string(v.VerificationMethod))
 	}
 
 	return nil
@@ -66143,9 +75393,36 @@ func awsEc2query_serializeOpDocumentProvisionPublicIpv4PoolCidrInput(v *Provisio
 		objectKey.Integer(*v.NetmaskLength)
 	}
 
+	if v.NetworkBorderGroup != nil {
+		objectKey := object.Key("NetworkBorderGroup")
+		objectKey.String(*v.NetworkBorderGroup)
+	}
+
 	if v.PoolId != nil {
 		objectKey := object.Key("PoolId")
 		objectKey.String(*v.PoolId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentPurchaseCapacityBlockExtensionInput(v *PurchaseCapacityBlockExtensionInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CapacityBlockExtensionOfferingId != nil {
+		objectKey := object.Key("CapacityBlockExtensionOfferingId")
+		objectKey.String(*v.CapacityBlockExtensionOfferingId)
+	}
+
+	if v.CapacityReservationId != nil {
+		objectKey := object.Key("CapacityReservationId")
+		objectKey.String(*v.CapacityReservationId)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
 	}
 
 	return nil
@@ -66376,6 +75653,13 @@ func awsEc2query_serializeOpDocumentRegisterImageInput(v *RegisterImageInput, va
 		objectKey.String(*v.SriovNetSupport)
 	}
 
+	if v.TagSpecifications != nil {
+		objectKey := object.FlatKey("TagSpecification")
+		if err := awsEc2query_serializeDocumentTagSpecificationList(v.TagSpecifications, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if len(v.TpmSupport) > 0 {
 		objectKey := object.Key("TpmSupport")
 		objectKey.String(string(v.TpmSupport))
@@ -66466,6 +75750,23 @@ func awsEc2query_serializeOpDocumentRegisterTransitGatewayMulticastGroupSourcesI
 	if v.TransitGatewayMulticastDomainId != nil {
 		objectKey := object.Key("TransitGatewayMulticastDomainId")
 		objectKey.String(*v.TransitGatewayMulticastDomainId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentRejectCapacityReservationBillingOwnershipInput(v *RejectCapacityReservationBillingOwnershipInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.CapacityReservationId != nil {
+		objectKey := object.Key("CapacityReservationId")
+		objectKey.String(*v.CapacityReservationId)
+	}
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
 	}
 
 	return nil
@@ -66655,6 +75956,25 @@ func awsEc2query_serializeOpDocumentReplaceIamInstanceProfileAssociationInput(v 
 	if v.IamInstanceProfile != nil {
 		objectKey := object.Key("IamInstanceProfile")
 		if err := awsEc2query_serializeDocumentIamInstanceProfileSpecification(v.IamInstanceProfile, objectKey); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentReplaceImageCriteriaInAllowedImagesSettingsInput(v *ReplaceImageCriteriaInAllowedImagesSettingsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ImageCriteria != nil {
+		objectKey := object.FlatKey("ImageCriterion")
+		if err := awsEc2query_serializeDocumentImageCriterionRequestList(v.ImageCriteria, objectKey); err != nil {
 			return err
 		}
 	}
@@ -67665,6 +76985,20 @@ func awsEc2query_serializeOpDocumentRunInstancesInput(v *RunInstancesInput, valu
 		}
 	}
 
+	if v.NetworkPerformanceOptions != nil {
+		objectKey := object.Key("NetworkPerformanceOptions")
+		if err := awsEc2query_serializeDocumentInstanceNetworkPerformanceOptionsRequest(v.NetworkPerformanceOptions, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.Operator != nil {
+		objectKey := object.Key("Operator")
+		if err := awsEc2query_serializeDocumentOperatorRequest(v.Operator, objectKey); err != nil {
+			return err
+		}
+	}
+
 	if v.Placement != nil {
 		objectKey := object.Key("Placement")
 		if err := awsEc2query_serializeDocumentPlacement(v.Placement, objectKey); err != nil {
@@ -67866,6 +77200,40 @@ func awsEc2query_serializeOpDocumentSendDiagnosticInterruptInput(v *SendDiagnost
 	if v.InstanceId != nil {
 		objectKey := object.Key("InstanceId")
 		objectKey.String(*v.InstanceId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentStartDeclarativePoliciesReportInput(v *StartDeclarativePoliciesReportInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.S3Bucket != nil {
+		objectKey := object.Key("S3Bucket")
+		objectKey.String(*v.S3Bucket)
+	}
+
+	if v.S3Prefix != nil {
+		objectKey := object.Key("S3Prefix")
+		objectKey.String(*v.S3Prefix)
+	}
+
+	if v.TagSpecifications != nil {
+		objectKey := object.FlatKey("TagSpecification")
+		if err := awsEc2query_serializeDocumentTagSpecificationList(v.TagSpecifications, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if v.TargetId != nil {
+		objectKey := object.Key("TargetId")
+		objectKey.String(*v.TargetId)
 	}
 
 	return nil

@@ -34,21 +34,11 @@ type GetClientTokenResult struct {
 }
 
 func GetClientTokenOutput(ctx *pulumi.Context, args GetClientTokenOutputArgs, opts ...pulumi.InvokeOption) GetClientTokenResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (GetClientTokenResultOutput, error) {
 			args := v.(GetClientTokenArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv GetClientTokenResult
-			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getClientToken", args, &rv, "", opts...)
-			if err != nil {
-				return GetClientTokenResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(GetClientTokenResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(GetClientTokenResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:authorization:getClientToken", args, GetClientTokenResultOutput{}, options).(GetClientTokenResultOutput), nil
 		}).(GetClientTokenResultOutput)
 }
 

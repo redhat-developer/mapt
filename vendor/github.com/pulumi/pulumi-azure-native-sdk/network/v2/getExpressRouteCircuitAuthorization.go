@@ -53,21 +53,11 @@ type LookupExpressRouteCircuitAuthorizationResult struct {
 }
 
 func LookupExpressRouteCircuitAuthorizationOutput(ctx *pulumi.Context, args LookupExpressRouteCircuitAuthorizationOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteCircuitAuthorizationResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupExpressRouteCircuitAuthorizationResultOutput, error) {
 			args := v.(LookupExpressRouteCircuitAuthorizationArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupExpressRouteCircuitAuthorizationResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getExpressRouteCircuitAuthorization", args, &rv, "", opts...)
-			if err != nil {
-				return LookupExpressRouteCircuitAuthorizationResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupExpressRouteCircuitAuthorizationResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupExpressRouteCircuitAuthorizationResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getExpressRouteCircuitAuthorization", args, LookupExpressRouteCircuitAuthorizationResultOutput{}, options).(LookupExpressRouteCircuitAuthorizationResultOutput), nil
 		}).(LookupExpressRouteCircuitAuthorizationResultOutput)
 }
 

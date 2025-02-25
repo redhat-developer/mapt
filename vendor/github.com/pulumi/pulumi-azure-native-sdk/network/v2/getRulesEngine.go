@@ -47,21 +47,11 @@ type LookupRulesEngineResult struct {
 }
 
 func LookupRulesEngineOutput(ctx *pulumi.Context, args LookupRulesEngineOutputArgs, opts ...pulumi.InvokeOption) LookupRulesEngineResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupRulesEngineResultOutput, error) {
 			args := v.(LookupRulesEngineArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupRulesEngineResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getRulesEngine", args, &rv, "", opts...)
-			if err != nil {
-				return LookupRulesEngineResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupRulesEngineResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupRulesEngineResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getRulesEngine", args, LookupRulesEngineResultOutput{}, options).(LookupRulesEngineResultOutput), nil
 		}).(LookupRulesEngineResultOutput)
 }
 

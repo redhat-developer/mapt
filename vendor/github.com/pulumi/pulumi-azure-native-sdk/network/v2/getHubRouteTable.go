@@ -57,21 +57,11 @@ type LookupHubRouteTableResult struct {
 }
 
 func LookupHubRouteTableOutput(ctx *pulumi.Context, args LookupHubRouteTableOutputArgs, opts ...pulumi.InvokeOption) LookupHubRouteTableResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupHubRouteTableResultOutput, error) {
 			args := v.(LookupHubRouteTableArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupHubRouteTableResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getHubRouteTable", args, &rv, "", opts...)
-			if err != nil {
-				return LookupHubRouteTableResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupHubRouteTableResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupHubRouteTableResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getHubRouteTable", args, LookupHubRouteTableResultOutput{}, options).(LookupHubRouteTableResultOutput), nil
 		}).(LookupHubRouteTableResultOutput)
 }
 

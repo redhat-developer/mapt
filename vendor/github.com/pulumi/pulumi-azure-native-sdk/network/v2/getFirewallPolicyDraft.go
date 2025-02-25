@@ -65,21 +65,11 @@ type LookupFirewallPolicyDraftResult struct {
 }
 
 func LookupFirewallPolicyDraftOutput(ctx *pulumi.Context, args LookupFirewallPolicyDraftOutputArgs, opts ...pulumi.InvokeOption) LookupFirewallPolicyDraftResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupFirewallPolicyDraftResultOutput, error) {
 			args := v.(LookupFirewallPolicyDraftArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupFirewallPolicyDraftResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getFirewallPolicyDraft", args, &rv, "", opts...)
-			if err != nil {
-				return LookupFirewallPolicyDraftResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupFirewallPolicyDraftResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupFirewallPolicyDraftResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getFirewallPolicyDraft", args, LookupFirewallPolicyDraftResultOutput{}, options).(LookupFirewallPolicyDraftResultOutput), nil
 		}).(LookupFirewallPolicyDraftResultOutput)
 }
 

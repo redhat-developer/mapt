@@ -59,21 +59,11 @@ type LookupRouteFilterResult struct {
 }
 
 func LookupRouteFilterOutput(ctx *pulumi.Context, args LookupRouteFilterOutputArgs, opts ...pulumi.InvokeOption) LookupRouteFilterResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupRouteFilterResultOutput, error) {
 			args := v.(LookupRouteFilterArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupRouteFilterResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getRouteFilter", args, &rv, "", opts...)
-			if err != nil {
-				return LookupRouteFilterResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupRouteFilterResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupRouteFilterResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getRouteFilter", args, LookupRouteFilterResultOutput{}, options).(LookupRouteFilterResultOutput), nil
 		}).(LookupRouteFilterResultOutput)
 }
 

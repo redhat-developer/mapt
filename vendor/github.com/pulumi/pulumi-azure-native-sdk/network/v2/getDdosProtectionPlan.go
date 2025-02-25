@@ -57,21 +57,11 @@ type LookupDdosProtectionPlanResult struct {
 }
 
 func LookupDdosProtectionPlanOutput(ctx *pulumi.Context, args LookupDdosProtectionPlanOutputArgs, opts ...pulumi.InvokeOption) LookupDdosProtectionPlanResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDdosProtectionPlanResultOutput, error) {
 			args := v.(LookupDdosProtectionPlanArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDdosProtectionPlanResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getDdosProtectionPlan", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDdosProtectionPlanResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDdosProtectionPlanResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDdosProtectionPlanResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getDdosProtectionPlan", args, LookupDdosProtectionPlanResultOutput{}, options).(LookupDdosProtectionPlanResultOutput), nil
 		}).(LookupDdosProtectionPlanResultOutput)
 }
 

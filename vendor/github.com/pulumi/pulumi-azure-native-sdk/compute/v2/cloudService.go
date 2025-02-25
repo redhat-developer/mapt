@@ -14,6 +14,8 @@ import (
 
 // Describes the cloud service.
 // Azure REST API version: 2022-09-04. Prior API version in Azure Native 1.x: 2021-03-01.
+//
+// Other available API versions: 2024-11-04.
 type CloudService struct {
 	pulumi.CustomResourceState
 
@@ -55,6 +57,9 @@ func NewCloudService(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20220904:CloudService"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20241104:CloudService"),
 		},
 	})
 	opts = append(opts, aliases)

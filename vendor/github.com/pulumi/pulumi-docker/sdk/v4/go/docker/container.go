@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // <!-- Bug: Type and Name are switched -->
@@ -30,13 +29,16 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			ubuntuRemoteImage, err := docker.NewRemoteImage(ctx, "ubuntuRemoteImage", &docker.RemoteImageArgs{
+//			// Find the latest Ubuntu precise image.
+//			ubuntuRemoteImage, err := docker.NewRemoteImage(ctx, "ubuntu", &docker.RemoteImageArgs{
 //				Name: pulumi.String("ubuntu:precise"),
 //			})
 //			if err != nil {
 //				return err
 //			}
-//			_, err = docker.NewContainer(ctx, "ubuntuContainer", &docker.ContainerArgs{
+//			// Start a container
+//			_, err = docker.NewContainer(ctx, "ubuntu", &docker.ContainerArgs{
+//				Name:  pulumi.String("foo"),
 //				Image: ubuntuRemoteImage.ImageId,
 //			})
 //			if err != nil {
@@ -50,30 +52,44 @@ import (
 //
 // ## Import
 //
-// ### Example Assuming you created a `container` as follows #!/bin/bash docker run --name foo -p8080:80 -d nginx
+// ### Example
+//
+// # Assuming you created a `container` as follows
+//
+// #!/bin/bash
+//
+// docker run --name foo -p8080:80 -d nginx
 //
 // prints the container ID
 //
-// 9a550c0f0163d39d77222d3efd58701b625d47676c25c686c95b5b92d1cba6fd you provide the definition for the resource as follows terraform resource "docker_container" "foo" {
+// 9a550c0f0163d39d77222d3efd58701b625d47676c25c686c95b5b92d1cba6fd
 //
-//	name
+// you provide the definition for the resource as follows
 //
-// = "foo"
+// terraform
+//
+// resource "docker_container" "foo" {
+//
+//	name  = "foo"
 //
 //	image = "nginx"
 //
 //	ports {
 //
-//	internal = "80"
+//	  internal = "80"
 //
-//	external = "8080"
+//	  external = "8080"
 //
-//	} } then the import command is as follows #!/bin/bash
+//	}
+//
+// }
+//
+// then the import command is as follows
+//
+// #!/bin/bash
 //
 // ```sh
-//
-//	$ pulumi import docker:index/container:Container foo 9a550c0f0163d39d77222d3efd58701b625d47676c25c686c95b5b92d1cba6fd
-//
+// $ pulumi import docker:index/container:Container foo 9a550c0f0163d39d77222d3efd58701b625d47676c25c686c95b5b92d1cba6fd
 // ```
 type Container struct {
 	pulumi.CustomResourceState
@@ -135,7 +151,7 @@ type Container struct {
 	// The logging driver to use for the container.
 	LogDriver pulumi.StringOutput `pulumi:"logDriver"`
 	// Key/value pairs to use as options for the logging driver.
-	LogOpts pulumi.MapOutput `pulumi:"logOpts"`
+	LogOpts pulumi.StringMapOutput `pulumi:"logOpts"`
 	// Save the container logs (`attach` must be enabled). Defaults to `false`.
 	Logs pulumi.BoolPtrOutput `pulumi:"logs"`
 	// The maximum amount of times to an attempt a restart when `restart` is set to 'on-failure'.
@@ -145,10 +161,8 @@ type Container struct {
 	// The total memory limit (memory + swap) for the container in MBs. This setting may compute to `-1` after `pulumi up` if the target host doesn't support memory swap, when that is the case docker will use a soft limitation.
 	MemorySwap pulumi.IntPtrOutput `pulumi:"memorySwap"`
 	// Specification for mounts to be added to containers created as part of the service.
-	Mounts ContainerMountArrayOutput `pulumi:"mounts"`
-	// If `true`, then the Docker container will be kept running. If `false`, then as long as the container exists, Terraform
-	// assumes it is successful. Defaults to `true`.
-	MustRun pulumi.BoolPtrOutput `pulumi:"mustRun"`
+	Mounts  ContainerMountArrayOutput `pulumi:"mounts"`
+	MustRun pulumi.BoolPtrOutput      `pulumi:"mustRun"`
 	// The name of the container.
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The data of the networks the container is connected to.
@@ -188,11 +202,11 @@ type Container struct {
 	// Timeout (in seconds) to stop a container.
 	StopTimeout pulumi.IntOutput `pulumi:"stopTimeout"`
 	// Key/value pairs for the storage driver options, e.g. `size`: `120G`
-	StorageOpts pulumi.MapOutput `pulumi:"storageOpts"`
+	StorageOpts pulumi.StringMapOutput `pulumi:"storageOpts"`
 	// A map of kernel parameters (sysctls) to set in the container.
-	Sysctls pulumi.MapOutput `pulumi:"sysctls"`
+	Sysctls pulumi.StringMapOutput `pulumi:"sysctls"`
 	// A map of container directories which should be replaced by `tmpfs mounts`, and their corresponding mount options.
-	Tmpfs pulumi.MapOutput `pulumi:"tmpfs"`
+	Tmpfs pulumi.StringMapOutput `pulumi:"tmpfs"`
 	// If `true`, allocate a pseudo-tty (`docker run -t`). Defaults to `false`.
 	Tty pulumi.BoolPtrOutput `pulumi:"tty"`
 	// Ulimit options to add.
@@ -303,7 +317,7 @@ type containerState struct {
 	// The logging driver to use for the container.
 	LogDriver *string `pulumi:"logDriver"`
 	// Key/value pairs to use as options for the logging driver.
-	LogOpts map[string]interface{} `pulumi:"logOpts"`
+	LogOpts map[string]string `pulumi:"logOpts"`
 	// Save the container logs (`attach` must be enabled). Defaults to `false`.
 	Logs *bool `pulumi:"logs"`
 	// The maximum amount of times to an attempt a restart when `restart` is set to 'on-failure'.
@@ -313,10 +327,8 @@ type containerState struct {
 	// The total memory limit (memory + swap) for the container in MBs. This setting may compute to `-1` after `pulumi up` if the target host doesn't support memory swap, when that is the case docker will use a soft limitation.
 	MemorySwap *int `pulumi:"memorySwap"`
 	// Specification for mounts to be added to containers created as part of the service.
-	Mounts []ContainerMount `pulumi:"mounts"`
-	// If `true`, then the Docker container will be kept running. If `false`, then as long as the container exists, Terraform
-	// assumes it is successful. Defaults to `true`.
-	MustRun *bool `pulumi:"mustRun"`
+	Mounts  []ContainerMount `pulumi:"mounts"`
+	MustRun *bool            `pulumi:"mustRun"`
 	// The name of the container.
 	Name *string `pulumi:"name"`
 	// The data of the networks the container is connected to.
@@ -356,11 +368,11 @@ type containerState struct {
 	// Timeout (in seconds) to stop a container.
 	StopTimeout *int `pulumi:"stopTimeout"`
 	// Key/value pairs for the storage driver options, e.g. `size`: `120G`
-	StorageOpts map[string]interface{} `pulumi:"storageOpts"`
+	StorageOpts map[string]string `pulumi:"storageOpts"`
 	// A map of kernel parameters (sysctls) to set in the container.
-	Sysctls map[string]interface{} `pulumi:"sysctls"`
+	Sysctls map[string]string `pulumi:"sysctls"`
 	// A map of container directories which should be replaced by `tmpfs mounts`, and their corresponding mount options.
-	Tmpfs map[string]interface{} `pulumi:"tmpfs"`
+	Tmpfs map[string]string `pulumi:"tmpfs"`
 	// If `true`, allocate a pseudo-tty (`docker run -t`). Defaults to `false`.
 	Tty *bool `pulumi:"tty"`
 	// Ulimit options to add.
@@ -439,7 +451,7 @@ type ContainerState struct {
 	// The logging driver to use for the container.
 	LogDriver pulumi.StringPtrInput
 	// Key/value pairs to use as options for the logging driver.
-	LogOpts pulumi.MapInput
+	LogOpts pulumi.StringMapInput
 	// Save the container logs (`attach` must be enabled). Defaults to `false`.
 	Logs pulumi.BoolPtrInput
 	// The maximum amount of times to an attempt a restart when `restart` is set to 'on-failure'.
@@ -449,9 +461,7 @@ type ContainerState struct {
 	// The total memory limit (memory + swap) for the container in MBs. This setting may compute to `-1` after `pulumi up` if the target host doesn't support memory swap, when that is the case docker will use a soft limitation.
 	MemorySwap pulumi.IntPtrInput
 	// Specification for mounts to be added to containers created as part of the service.
-	Mounts ContainerMountArrayInput
-	// If `true`, then the Docker container will be kept running. If `false`, then as long as the container exists, Terraform
-	// assumes it is successful. Defaults to `true`.
+	Mounts  ContainerMountArrayInput
 	MustRun pulumi.BoolPtrInput
 	// The name of the container.
 	Name pulumi.StringPtrInput
@@ -492,11 +502,11 @@ type ContainerState struct {
 	// Timeout (in seconds) to stop a container.
 	StopTimeout pulumi.IntPtrInput
 	// Key/value pairs for the storage driver options, e.g. `size`: `120G`
-	StorageOpts pulumi.MapInput
+	StorageOpts pulumi.StringMapInput
 	// A map of kernel parameters (sysctls) to set in the container.
-	Sysctls pulumi.MapInput
+	Sysctls pulumi.StringMapInput
 	// A map of container directories which should be replaced by `tmpfs mounts`, and their corresponding mount options.
-	Tmpfs pulumi.MapInput
+	Tmpfs pulumi.StringMapInput
 	// If `true`, allocate a pseudo-tty (`docker run -t`). Defaults to `false`.
 	Tty pulumi.BoolPtrInput
 	// Ulimit options to add.
@@ -573,7 +583,7 @@ type containerArgs struct {
 	// The logging driver to use for the container.
 	LogDriver *string `pulumi:"logDriver"`
 	// Key/value pairs to use as options for the logging driver.
-	LogOpts map[string]interface{} `pulumi:"logOpts"`
+	LogOpts map[string]string `pulumi:"logOpts"`
 	// Save the container logs (`attach` must be enabled). Defaults to `false`.
 	Logs *bool `pulumi:"logs"`
 	// The maximum amount of times to an attempt a restart when `restart` is set to 'on-failure'.
@@ -583,10 +593,8 @@ type containerArgs struct {
 	// The total memory limit (memory + swap) for the container in MBs. This setting may compute to `-1` after `pulumi up` if the target host doesn't support memory swap, when that is the case docker will use a soft limitation.
 	MemorySwap *int `pulumi:"memorySwap"`
 	// Specification for mounts to be added to containers created as part of the service.
-	Mounts []ContainerMount `pulumi:"mounts"`
-	// If `true`, then the Docker container will be kept running. If `false`, then as long as the container exists, Terraform
-	// assumes it is successful. Defaults to `true`.
-	MustRun *bool `pulumi:"mustRun"`
+	Mounts  []ContainerMount `pulumi:"mounts"`
+	MustRun *bool            `pulumi:"mustRun"`
 	// The name of the container.
 	Name *string `pulumi:"name"`
 	// Network mode of the container.
@@ -624,11 +632,11 @@ type containerArgs struct {
 	// Timeout (in seconds) to stop a container.
 	StopTimeout *int `pulumi:"stopTimeout"`
 	// Key/value pairs for the storage driver options, e.g. `size`: `120G`
-	StorageOpts map[string]interface{} `pulumi:"storageOpts"`
+	StorageOpts map[string]string `pulumi:"storageOpts"`
 	// A map of kernel parameters (sysctls) to set in the container.
-	Sysctls map[string]interface{} `pulumi:"sysctls"`
+	Sysctls map[string]string `pulumi:"sysctls"`
 	// A map of container directories which should be replaced by `tmpfs mounts`, and their corresponding mount options.
-	Tmpfs map[string]interface{} `pulumi:"tmpfs"`
+	Tmpfs map[string]string `pulumi:"tmpfs"`
 	// If `true`, allocate a pseudo-tty (`docker run -t`). Defaults to `false`.
 	Tty *bool `pulumi:"tty"`
 	// Ulimit options to add.
@@ -702,7 +710,7 @@ type ContainerArgs struct {
 	// The logging driver to use for the container.
 	LogDriver pulumi.StringPtrInput
 	// Key/value pairs to use as options for the logging driver.
-	LogOpts pulumi.MapInput
+	LogOpts pulumi.StringMapInput
 	// Save the container logs (`attach` must be enabled). Defaults to `false`.
 	Logs pulumi.BoolPtrInput
 	// The maximum amount of times to an attempt a restart when `restart` is set to 'on-failure'.
@@ -712,9 +720,7 @@ type ContainerArgs struct {
 	// The total memory limit (memory + swap) for the container in MBs. This setting may compute to `-1` after `pulumi up` if the target host doesn't support memory swap, when that is the case docker will use a soft limitation.
 	MemorySwap pulumi.IntPtrInput
 	// Specification for mounts to be added to containers created as part of the service.
-	Mounts ContainerMountArrayInput
-	// If `true`, then the Docker container will be kept running. If `false`, then as long as the container exists, Terraform
-	// assumes it is successful. Defaults to `true`.
+	Mounts  ContainerMountArrayInput
 	MustRun pulumi.BoolPtrInput
 	// The name of the container.
 	Name pulumi.StringPtrInput
@@ -753,11 +759,11 @@ type ContainerArgs struct {
 	// Timeout (in seconds) to stop a container.
 	StopTimeout pulumi.IntPtrInput
 	// Key/value pairs for the storage driver options, e.g. `size`: `120G`
-	StorageOpts pulumi.MapInput
+	StorageOpts pulumi.StringMapInput
 	// A map of kernel parameters (sysctls) to set in the container.
-	Sysctls pulumi.MapInput
+	Sysctls pulumi.StringMapInput
 	// A map of container directories which should be replaced by `tmpfs mounts`, and their corresponding mount options.
-	Tmpfs pulumi.MapInput
+	Tmpfs pulumi.StringMapInput
 	// If `true`, allocate a pseudo-tty (`docker run -t`). Defaults to `false`.
 	Tty pulumi.BoolPtrInput
 	// Ulimit options to add.
@@ -801,12 +807,6 @@ func (i *Container) ToContainerOutputWithContext(ctx context.Context) ContainerO
 	return pulumi.ToOutputWithContext(ctx, i).(ContainerOutput)
 }
 
-func (i *Container) ToOutput(ctx context.Context) pulumix.Output[*Container] {
-	return pulumix.Output[*Container]{
-		OutputState: i.ToContainerOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ContainerArrayInput is an input type that accepts ContainerArray and ContainerArrayOutput values.
 // You can construct a concrete instance of `ContainerArrayInput` via:
 //
@@ -830,12 +830,6 @@ func (i ContainerArray) ToContainerArrayOutput() ContainerArrayOutput {
 
 func (i ContainerArray) ToContainerArrayOutputWithContext(ctx context.Context) ContainerArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ContainerArrayOutput)
-}
-
-func (i ContainerArray) ToOutput(ctx context.Context) pulumix.Output[[]*Container] {
-	return pulumix.Output[[]*Container]{
-		OutputState: i.ToContainerArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // ContainerMapInput is an input type that accepts ContainerMap and ContainerMapOutput values.
@@ -863,12 +857,6 @@ func (i ContainerMap) ToContainerMapOutputWithContext(ctx context.Context) Conta
 	return pulumi.ToOutputWithContext(ctx, i).(ContainerMapOutput)
 }
 
-func (i ContainerMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Container] {
-	return pulumix.Output[map[string]*Container]{
-		OutputState: i.ToContainerMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ContainerOutput struct{ *pulumi.OutputState }
 
 func (ContainerOutput) ElementType() reflect.Type {
@@ -881,12 +869,6 @@ func (o ContainerOutput) ToContainerOutput() ContainerOutput {
 
 func (o ContainerOutput) ToContainerOutputWithContext(ctx context.Context) ContainerOutput {
 	return o
-}
-
-func (o ContainerOutput) ToOutput(ctx context.Context) pulumix.Output[*Container] {
-	return pulumix.Output[*Container]{
-		OutputState: o.OutputState,
-	}
 }
 
 // If `true` attach to the container after its creation and waits the end of its execution. Defaults to `false`.
@@ -1030,8 +1012,8 @@ func (o ContainerOutput) LogDriver() pulumi.StringOutput {
 }
 
 // Key/value pairs to use as options for the logging driver.
-func (o ContainerOutput) LogOpts() pulumi.MapOutput {
-	return o.ApplyT(func(v *Container) pulumi.MapOutput { return v.LogOpts }).(pulumi.MapOutput)
+func (o ContainerOutput) LogOpts() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *Container) pulumi.StringMapOutput { return v.LogOpts }).(pulumi.StringMapOutput)
 }
 
 // Save the container logs (`attach` must be enabled). Defaults to `false`.
@@ -1059,8 +1041,6 @@ func (o ContainerOutput) Mounts() ContainerMountArrayOutput {
 	return o.ApplyT(func(v *Container) ContainerMountArrayOutput { return v.Mounts }).(ContainerMountArrayOutput)
 }
 
-// If `true`, then the Docker container will be kept running. If `false`, then as long as the container exists, Terraform
-// assumes it is successful. Defaults to `true`.
 func (o ContainerOutput) MustRun() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *Container) pulumi.BoolPtrOutput { return v.MustRun }).(pulumi.BoolPtrOutput)
 }
@@ -1161,18 +1141,18 @@ func (o ContainerOutput) StopTimeout() pulumi.IntOutput {
 }
 
 // Key/value pairs for the storage driver options, e.g. `size`: `120G`
-func (o ContainerOutput) StorageOpts() pulumi.MapOutput {
-	return o.ApplyT(func(v *Container) pulumi.MapOutput { return v.StorageOpts }).(pulumi.MapOutput)
+func (o ContainerOutput) StorageOpts() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *Container) pulumi.StringMapOutput { return v.StorageOpts }).(pulumi.StringMapOutput)
 }
 
 // A map of kernel parameters (sysctls) to set in the container.
-func (o ContainerOutput) Sysctls() pulumi.MapOutput {
-	return o.ApplyT(func(v *Container) pulumi.MapOutput { return v.Sysctls }).(pulumi.MapOutput)
+func (o ContainerOutput) Sysctls() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *Container) pulumi.StringMapOutput { return v.Sysctls }).(pulumi.StringMapOutput)
 }
 
 // A map of container directories which should be replaced by `tmpfs mounts`, and their corresponding mount options.
-func (o ContainerOutput) Tmpfs() pulumi.MapOutput {
-	return o.ApplyT(func(v *Container) pulumi.MapOutput { return v.Tmpfs }).(pulumi.MapOutput)
+func (o ContainerOutput) Tmpfs() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *Container) pulumi.StringMapOutput { return v.Tmpfs }).(pulumi.StringMapOutput)
 }
 
 // If `true`, allocate a pseudo-tty (`docker run -t`). Defaults to `false`.
@@ -1234,12 +1214,6 @@ func (o ContainerArrayOutput) ToContainerArrayOutputWithContext(ctx context.Cont
 	return o
 }
 
-func (o ContainerArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Container] {
-	return pulumix.Output[[]*Container]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ContainerArrayOutput) Index(i pulumi.IntInput) ContainerOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Container {
 		return vs[0].([]*Container)[vs[1].(int)]
@@ -1258,12 +1232,6 @@ func (o ContainerMapOutput) ToContainerMapOutput() ContainerMapOutput {
 
 func (o ContainerMapOutput) ToContainerMapOutputWithContext(ctx context.Context) ContainerMapOutput {
 	return o
-}
-
-func (o ContainerMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Container] {
-	return pulumix.Output[map[string]*Container]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ContainerMapOutput) MapIndex(k pulumi.StringInput) ContainerOutput {

@@ -68,23 +68,12 @@ func (val *LookupVirtualHubIpConfigurationResult) Defaults() *LookupVirtualHubIp
 
 	return &tmp
 }
-
 func LookupVirtualHubIpConfigurationOutput(ctx *pulumi.Context, args LookupVirtualHubIpConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualHubIpConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupVirtualHubIpConfigurationResultOutput, error) {
 			args := v.(LookupVirtualHubIpConfigurationArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupVirtualHubIpConfigurationResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualHubIpConfiguration", args, &rv, "", opts...)
-			if err != nil {
-				return LookupVirtualHubIpConfigurationResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupVirtualHubIpConfigurationResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupVirtualHubIpConfigurationResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getVirtualHubIpConfiguration", args, LookupVirtualHubIpConfigurationResultOutput{}, options).(LookupVirtualHubIpConfigurationResultOutput), nil
 		}).(LookupVirtualHubIpConfigurationResultOutput)
 }
 

@@ -53,21 +53,11 @@ type LookupDdosCustomPolicyResult struct {
 }
 
 func LookupDdosCustomPolicyOutput(ctx *pulumi.Context, args LookupDdosCustomPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupDdosCustomPolicyResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDdosCustomPolicyResultOutput, error) {
 			args := v.(LookupDdosCustomPolicyArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDdosCustomPolicyResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getDdosCustomPolicy", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDdosCustomPolicyResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDdosCustomPolicyResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDdosCustomPolicyResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getDdosCustomPolicy", args, LookupDdosCustomPolicyResultOutput{}, options).(LookupDdosCustomPolicyResultOutput), nil
 		}).(LookupDdosCustomPolicyResultOutput)
 }
 

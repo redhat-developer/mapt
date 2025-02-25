@@ -14,7 +14,7 @@ import (
 // Get the object replication policy of the storage account by policy ID.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func LookupObjectReplicationPolicy(ctx *pulumi.Context, args *LookupObjectReplicationPolicyArgs, opts ...pulumi.InvokeOption) (*LookupObjectReplicationPolicyResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupObjectReplicationPolicyResult
@@ -55,21 +55,11 @@ type LookupObjectReplicationPolicyResult struct {
 }
 
 func LookupObjectReplicationPolicyOutput(ctx *pulumi.Context, args LookupObjectReplicationPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupObjectReplicationPolicyResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupObjectReplicationPolicyResultOutput, error) {
 			args := v.(LookupObjectReplicationPolicyArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupObjectReplicationPolicyResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:getObjectReplicationPolicy", args, &rv, "", opts...)
-			if err != nil {
-				return LookupObjectReplicationPolicyResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupObjectReplicationPolicyResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupObjectReplicationPolicyResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:getObjectReplicationPolicy", args, LookupObjectReplicationPolicyResultOutput{}, options).(LookupObjectReplicationPolicyResultOutput), nil
 		}).(LookupObjectReplicationPolicyResultOutput)
 }
 

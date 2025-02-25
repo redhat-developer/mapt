@@ -39,21 +39,11 @@ type GetVirtualNetworkGatewayVpnclientConnectionHealthResult struct {
 }
 
 func GetVirtualNetworkGatewayVpnclientConnectionHealthOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayVpnclientConnectionHealthOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput, error) {
 			args := v.(GetVirtualNetworkGatewayVpnclientConnectionHealthArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv GetVirtualNetworkGatewayVpnclientConnectionHealthResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayVpnclientConnectionHealth", args, &rv, "", opts...)
-			if err != nil {
-				return GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayVpnclientConnectionHealth", args, GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput{}, options).(GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput), nil
 		}).(GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput)
 }
 

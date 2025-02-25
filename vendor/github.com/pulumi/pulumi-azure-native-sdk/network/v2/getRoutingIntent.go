@@ -51,21 +51,11 @@ type LookupRoutingIntentResult struct {
 }
 
 func LookupRoutingIntentOutput(ctx *pulumi.Context, args LookupRoutingIntentOutputArgs, opts ...pulumi.InvokeOption) LookupRoutingIntentResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupRoutingIntentResultOutput, error) {
 			args := v.(LookupRoutingIntentArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupRoutingIntentResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getRoutingIntent", args, &rv, "", opts...)
-			if err != nil {
-				return LookupRoutingIntentResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupRoutingIntentResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupRoutingIntentResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getRoutingIntent", args, LookupRoutingIntentResultOutput{}, options).(LookupRoutingIntentResultOutput), nil
 		}).(LookupRoutingIntentResultOutput)
 }
 

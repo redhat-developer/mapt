@@ -49,21 +49,11 @@ type LookupSubscriptionNetworkManagerConnectionResult struct {
 }
 
 func LookupSubscriptionNetworkManagerConnectionOutput(ctx *pulumi.Context, args LookupSubscriptionNetworkManagerConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupSubscriptionNetworkManagerConnectionResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupSubscriptionNetworkManagerConnectionResultOutput, error) {
 			args := v.(LookupSubscriptionNetworkManagerConnectionArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupSubscriptionNetworkManagerConnectionResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getSubscriptionNetworkManagerConnection", args, &rv, "", opts...)
-			if err != nil {
-				return LookupSubscriptionNetworkManagerConnectionResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupSubscriptionNetworkManagerConnectionResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupSubscriptionNetworkManagerConnectionResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getSubscriptionNetworkManagerConnection", args, LookupSubscriptionNetworkManagerConnectionResultOutput{}, options).(LookupSubscriptionNetworkManagerConnectionResultOutput), nil
 		}).(LookupSubscriptionNetworkManagerConnectionResultOutput)
 }
 

@@ -61,21 +61,11 @@ type LookupExperimentResult struct {
 }
 
 func LookupExperimentOutput(ctx *pulumi.Context, args LookupExperimentOutputArgs, opts ...pulumi.InvokeOption) LookupExperimentResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupExperimentResultOutput, error) {
 			args := v.(LookupExperimentArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupExperimentResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getExperiment", args, &rv, "", opts...)
-			if err != nil {
-				return LookupExperimentResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupExperimentResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupExperimentResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getExperiment", args, LookupExperimentResultOutput{}, options).(LookupExperimentResultOutput), nil
 		}).(LookupExperimentResultOutput)
 }
 

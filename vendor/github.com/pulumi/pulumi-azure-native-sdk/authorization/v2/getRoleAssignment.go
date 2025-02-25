@@ -80,23 +80,12 @@ func (val *LookupRoleAssignmentResult) Defaults() *LookupRoleAssignmentResult {
 	}
 	return &tmp
 }
-
 func LookupRoleAssignmentOutput(ctx *pulumi.Context, args LookupRoleAssignmentOutputArgs, opts ...pulumi.InvokeOption) LookupRoleAssignmentResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupRoleAssignmentResultOutput, error) {
 			args := v.(LookupRoleAssignmentArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupRoleAssignmentResult
-			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getRoleAssignment", args, &rv, "", opts...)
-			if err != nil {
-				return LookupRoleAssignmentResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupRoleAssignmentResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupRoleAssignmentResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:authorization:getRoleAssignment", args, LookupRoleAssignmentResultOutput{}, options).(LookupRoleAssignmentResultOutput), nil
 		}).(LookupRoleAssignmentResultOutput)
 }
 

@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // `Network` provides details about a specific Docker Network.
@@ -68,21 +67,17 @@ type LookupNetworkResult struct {
 	// The name of the Docker network.
 	Name string `pulumi:"name"`
 	// Only available with bridge networks. See [bridge options docs](https://docs.docker.com/engine/reference/commandline/network_create/#bridge-driver-options) for more details.
-	Options map[string]interface{} `pulumi:"options"`
+	Options map[string]string `pulumi:"options"`
 	// Scope of the network. One of `swarm`, `global`, or `local`.
 	Scope string `pulumi:"scope"`
 }
 
 func LookupNetworkOutput(ctx *pulumi.Context, args LookupNetworkOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupNetworkResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (LookupNetworkResultOutput, error) {
 			args := v.(LookupNetworkArgs)
-			r, err := LookupNetwork(ctx, &args, opts...)
-			var s LookupNetworkResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("docker:index/getNetwork:getNetwork", args, LookupNetworkResultOutput{}, options).(LookupNetworkResultOutput), nil
 		}).(LookupNetworkResultOutput)
 }
 
@@ -111,12 +106,6 @@ func (o LookupNetworkResultOutput) ToLookupNetworkResultOutputWithContext(ctx co
 	return o
 }
 
-func (o LookupNetworkResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupNetworkResult] {
-	return pulumix.Output[LookupNetworkResult]{
-		OutputState: o.OutputState,
-	}
-}
-
 // The driver of the Docker network. Possible values are `bridge`, `host`, `overlay`, `macvlan`. See [network docs](https://docs.docker.com/network/#network-drivers) for more details.
 func (o LookupNetworkResultOutput) Driver() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupNetworkResult) string { return v.Driver }).(pulumi.StringOutput)
@@ -143,8 +132,8 @@ func (o LookupNetworkResultOutput) Name() pulumi.StringOutput {
 }
 
 // Only available with bridge networks. See [bridge options docs](https://docs.docker.com/engine/reference/commandline/network_create/#bridge-driver-options) for more details.
-func (o LookupNetworkResultOutput) Options() pulumi.MapOutput {
-	return o.ApplyT(func(v LookupNetworkResult) map[string]interface{} { return v.Options }).(pulumi.MapOutput)
+func (o LookupNetworkResultOutput) Options() pulumi.StringMapOutput {
+	return o.ApplyT(func(v LookupNetworkResult) map[string]string { return v.Options }).(pulumi.StringMapOutput)
 }
 
 // Scope of the network. One of `swarm`, `global`, or `local`.

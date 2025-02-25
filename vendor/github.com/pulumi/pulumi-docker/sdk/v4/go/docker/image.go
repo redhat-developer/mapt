@@ -10,11 +10,14 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // `Image` builds a Docker image and pushes it Docker and OCI compatible registries.
 // This resource enables running Docker builds as part of a Pulumi deployment.
+//
+// Note: We recommend you migrate your images to the more modern [Docker
+// Build](https://www.pulumi.com/registry/packages/docker-build/) provider to get
+// the best possible support, features, and performance.
 //
 // Note: This resource does not delete tags, locally or remotely, when destroyed.
 //
@@ -25,8 +28,7 @@ import (
 // even when using `latest` tag. To trigger such updates, e.g. when referencing pushed images in container orchestration
 // and management resources, please use the `repoDigest` Output instead, which is of the format
 // `repository@<algorithm>:<hash>` and unique per build/push.
-// Note that `repoDigest` is not available for local Images. For a local Image not pushed to a registry, you may want to
-// give `imageName` a unique tag per pulumi update.
+// As of Docker v4.4, `repoDigest` is now available for local Images.
 //
 // ## Cross-platform builds
 //
@@ -56,11 +58,9 @@ import (
 //		pulumi.Run(func(ctx *pulumi.Context) error {
 //			demoImage, err := docker.NewImage(ctx, "demo-image", &docker.ImageArgs{
 //				Build: &docker.DockerBuildArgs{
-//					Args: pulumi.StringMap{
-//						"platform": pulumi.String("linux/amd64"),
-//					},
 //					Context:    pulumi.String("."),
 //					Dockerfile: pulumi.String("Dockerfile"),
+//					Platform:   pulumi.String("linux/amd64"),
 //				},
 //				ImageName: pulumi.String("username/image:tag1"),
 //				SkipPush:  pulumi.Bool(true),
@@ -112,7 +112,7 @@ import (
 //
 //	"fmt"
 //
-//	"github.com/pulumi/pulumi-aws/sdk/v5/go/aws/ecr"
+//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ecr"
 //	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 //
@@ -142,7 +142,7 @@ import (
 //						},
 //					},
 //					Context:    pulumi.String("app/"),
-//					Dockerfile: pulumi.String("Dockerfile"),
+//					Dockerfile: pulumi.String("app/Dockerfile"),
 //				},
 //				ImageName: ecrRepository.RepositoryUrl.ApplyT(func(repositoryUrl string) (string, error) {
 //					return fmt.Sprintf("%v:latest", repositoryUrl), nil
@@ -150,8 +150,11 @@ import (
 //				Registry: &docker.RegistryArgs{
 //					Password: pulumi.ToSecret(authToken.ApplyT(func(authToken ecr.GetAuthorizationTokenResult) (*string, error) {
 //						return &authToken.Password, nil
-//					}).(pulumi.StringPtrOutput)).(*pulumi.StringOutput),
+//					}).(pulumi.StringPtrOutput)).(pulumi.StringOutput),
 //					Server: ecrRepository.RepositoryUrl,
+//					Username: authToken.ApplyT(func(authToken ecr.GetAuthorizationTokenResult) (*string, error) {
+//						return &authToken.UserName, nil
+//					}).(pulumi.StringPtrOutput),
 //				},
 //			})
 //			if err != nil {
@@ -174,6 +177,8 @@ type Image struct {
 	Dockerfile pulumi.StringOutput `pulumi:"dockerfile"`
 	// The fully qualified image name
 	ImageName pulumi.StringOutput `pulumi:"imageName"`
+	// The image's architecture and OS
+	Platform pulumi.StringPtrOutput `pulumi:"platform"`
 	// The name of the registry server hosting the image.
 	RegistryServer pulumi.StringOutput `pulumi:"registryServer"`
 	// **For pushed images:**
@@ -196,8 +201,8 @@ func NewImage(ctx *pulumi.Context,
 	if args.ImageName == nil {
 		return nil, errors.New("invalid value for required argument 'ImageName'")
 	}
-	if args.Build != nil {
-		args.Build = args.Build.ToDockerBuildPtrOutput().ApplyT(func(v *DockerBuild) *DockerBuild { return v.Defaults() }).(DockerBuildPtrOutput)
+	if args.BuildOnPreview == nil {
+		args.BuildOnPreview = pulumi.BoolPtr(false)
 	}
 	if args.SkipPush == nil {
 		args.SkipPush = pulumi.BoolPtr(false)
@@ -243,6 +248,8 @@ func (ImageState) ElementType() reflect.Type {
 type imageArgs struct {
 	// The Docker build context
 	Build *DockerBuild `pulumi:"build"`
+	// A flag to build an image on preview
+	BuildOnPreview *bool `pulumi:"buildOnPreview"`
 	// The image name, of the format repository[:tag], e.g. `docker.io/username/demo-image:v1`.
 	// This reference is not unique to each build and push.For the unique manifest SHA of a pushed docker image, or the local image ID, please use `repoDigest`.
 	ImageName string `pulumi:"imageName"`
@@ -256,6 +263,8 @@ type imageArgs struct {
 type ImageArgs struct {
 	// The Docker build context
 	Build DockerBuildPtrInput
+	// A flag to build an image on preview
+	BuildOnPreview pulumi.BoolPtrInput
 	// The image name, of the format repository[:tag], e.g. `docker.io/username/demo-image:v1`.
 	// This reference is not unique to each build and push.For the unique manifest SHA of a pushed docker image, or the local image ID, please use `repoDigest`.
 	ImageName pulumi.StringInput
@@ -288,12 +297,6 @@ func (i *Image) ToImageOutputWithContext(ctx context.Context) ImageOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ImageOutput)
 }
 
-func (i *Image) ToOutput(ctx context.Context) pulumix.Output[*Image] {
-	return pulumix.Output[*Image]{
-		OutputState: i.ToImageOutputWithContext(ctx).OutputState,
-	}
-}
-
 // ImageArrayInput is an input type that accepts ImageArray and ImageArrayOutput values.
 // You can construct a concrete instance of `ImageArrayInput` via:
 //
@@ -317,12 +320,6 @@ func (i ImageArray) ToImageArrayOutput() ImageArrayOutput {
 
 func (i ImageArray) ToImageArrayOutputWithContext(ctx context.Context) ImageArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(ImageArrayOutput)
-}
-
-func (i ImageArray) ToOutput(ctx context.Context) pulumix.Output[[]*Image] {
-	return pulumix.Output[[]*Image]{
-		OutputState: i.ToImageArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // ImageMapInput is an input type that accepts ImageMap and ImageMapOutput values.
@@ -350,12 +347,6 @@ func (i ImageMap) ToImageMapOutputWithContext(ctx context.Context) ImageMapOutpu
 	return pulumi.ToOutputWithContext(ctx, i).(ImageMapOutput)
 }
 
-func (i ImageMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Image] {
-	return pulumix.Output[map[string]*Image]{
-		OutputState: i.ToImageMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type ImageOutput struct{ *pulumi.OutputState }
 
 func (ImageOutput) ElementType() reflect.Type {
@@ -368,12 +359,6 @@ func (o ImageOutput) ToImageOutput() ImageOutput {
 
 func (o ImageOutput) ToImageOutputWithContext(ctx context.Context) ImageOutput {
 	return o
-}
-
-func (o ImageOutput) ToOutput(ctx context.Context) pulumix.Output[*Image] {
-	return pulumix.Output[*Image]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The fully qualified image name that was pushed to the registry.
@@ -394,6 +379,11 @@ func (o ImageOutput) Dockerfile() pulumi.StringOutput {
 // The fully qualified image name
 func (o ImageOutput) ImageName() pulumi.StringOutput {
 	return o.ApplyT(func(v *Image) pulumi.StringOutput { return v.ImageName }).(pulumi.StringOutput)
+}
+
+// The image's architecture and OS
+func (o ImageOutput) Platform() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Image) pulumi.StringPtrOutput { return v.Platform }).(pulumi.StringPtrOutput)
 }
 
 // The name of the registry server hosting the image.
@@ -426,12 +416,6 @@ func (o ImageArrayOutput) ToImageArrayOutputWithContext(ctx context.Context) Ima
 	return o
 }
 
-func (o ImageArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Image] {
-	return pulumix.Output[[]*Image]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o ImageArrayOutput) Index(i pulumi.IntInput) ImageOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Image {
 		return vs[0].([]*Image)[vs[1].(int)]
@@ -450,12 +434,6 @@ func (o ImageMapOutput) ToImageMapOutput() ImageMapOutput {
 
 func (o ImageMapOutput) ToImageMapOutputWithContext(ctx context.Context) ImageMapOutput {
 	return o
-}
-
-func (o ImageMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Image] {
-	return pulumix.Output[map[string]*Image]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o ImageMapOutput) MapIndex(k pulumi.StringInput) ImageOutput {

@@ -14,7 +14,7 @@ import (
 // Gets the properties of a storage account’s Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func LookupQueueServiceProperties(ctx *pulumi.Context, args *LookupQueueServicePropertiesArgs, opts ...pulumi.InvokeOption) (*LookupQueueServicePropertiesResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupQueueServicePropertiesResult
@@ -47,21 +47,11 @@ type LookupQueueServicePropertiesResult struct {
 }
 
 func LookupQueueServicePropertiesOutput(ctx *pulumi.Context, args LookupQueueServicePropertiesOutputArgs, opts ...pulumi.InvokeOption) LookupQueueServicePropertiesResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupQueueServicePropertiesResultOutput, error) {
 			args := v.(LookupQueueServicePropertiesArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupQueueServicePropertiesResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:getQueueServiceProperties", args, &rv, "", opts...)
-			if err != nil {
-				return LookupQueueServicePropertiesResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupQueueServicePropertiesResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupQueueServicePropertiesResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:getQueueServiceProperties", args, LookupQueueServicePropertiesResultOutput{}, options).(LookupQueueServicePropertiesResultOutput), nil
 		}).(LookupQueueServicePropertiesResultOutput)
 }
 

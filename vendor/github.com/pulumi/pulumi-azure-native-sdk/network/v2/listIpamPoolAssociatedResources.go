@@ -42,21 +42,11 @@ type ListIpamPoolAssociatedResourcesResult struct {
 }
 
 func ListIpamPoolAssociatedResourcesOutput(ctx *pulumi.Context, args ListIpamPoolAssociatedResourcesOutputArgs, opts ...pulumi.InvokeOption) ListIpamPoolAssociatedResourcesResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (ListIpamPoolAssociatedResourcesResultOutput, error) {
 			args := v.(ListIpamPoolAssociatedResourcesArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv ListIpamPoolAssociatedResourcesResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:listIpamPoolAssociatedResources", args, &rv, "", opts...)
-			if err != nil {
-				return ListIpamPoolAssociatedResourcesResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(ListIpamPoolAssociatedResourcesResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(ListIpamPoolAssociatedResourcesResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:listIpamPoolAssociatedResources", args, ListIpamPoolAssociatedResourcesResultOutput{}, options).(ListIpamPoolAssociatedResourcesResultOutput), nil
 		}).(ListIpamPoolAssociatedResourcesResultOutput)
 }
 

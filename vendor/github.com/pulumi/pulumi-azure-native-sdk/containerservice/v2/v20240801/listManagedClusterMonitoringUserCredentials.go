@@ -38,21 +38,11 @@ type ListManagedClusterMonitoringUserCredentialsResult struct {
 }
 
 func ListManagedClusterMonitoringUserCredentialsOutput(ctx *pulumi.Context, args ListManagedClusterMonitoringUserCredentialsOutputArgs, opts ...pulumi.InvokeOption) ListManagedClusterMonitoringUserCredentialsResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (ListManagedClusterMonitoringUserCredentialsResultOutput, error) {
 			args := v.(ListManagedClusterMonitoringUserCredentialsArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv ListManagedClusterMonitoringUserCredentialsResult
-			secret, err := ctx.InvokePackageRaw("azure-native:containerservice/v20240801:listManagedClusterMonitoringUserCredentials", args, &rv, "", opts...)
-			if err != nil {
-				return ListManagedClusterMonitoringUserCredentialsResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(ListManagedClusterMonitoringUserCredentialsResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(ListManagedClusterMonitoringUserCredentialsResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:containerservice/v20240801:listManagedClusterMonitoringUserCredentials", args, ListManagedClusterMonitoringUserCredentialsResultOutput{}, options).(ListManagedClusterMonitoringUserCredentialsResultOutput), nil
 		}).(ListManagedClusterMonitoringUserCredentialsResultOutput)
 }
 

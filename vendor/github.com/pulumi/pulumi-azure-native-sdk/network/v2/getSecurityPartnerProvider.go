@@ -57,21 +57,11 @@ type LookupSecurityPartnerProviderResult struct {
 }
 
 func LookupSecurityPartnerProviderOutput(ctx *pulumi.Context, args LookupSecurityPartnerProviderOutputArgs, opts ...pulumi.InvokeOption) LookupSecurityPartnerProviderResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupSecurityPartnerProviderResultOutput, error) {
 			args := v.(LookupSecurityPartnerProviderArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupSecurityPartnerProviderResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getSecurityPartnerProvider", args, &rv, "", opts...)
-			if err != nil {
-				return LookupSecurityPartnerProviderResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupSecurityPartnerProviderResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupSecurityPartnerProviderResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getSecurityPartnerProvider", args, LookupSecurityPartnerProviderResultOutput{}, options).(LookupSecurityPartnerProviderResultOutput), nil
 		}).(LookupSecurityPartnerProviderResultOutput)
 }
 

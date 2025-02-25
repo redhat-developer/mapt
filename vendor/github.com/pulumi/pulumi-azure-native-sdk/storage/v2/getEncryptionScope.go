@@ -14,7 +14,7 @@ import (
 // Returns the properties for the specified encryption scope.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func LookupEncryptionScope(ctx *pulumi.Context, args *LookupEncryptionScopeArgs, opts ...pulumi.InvokeOption) (*LookupEncryptionScopeResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupEncryptionScopeResult
@@ -57,21 +57,11 @@ type LookupEncryptionScopeResult struct {
 }
 
 func LookupEncryptionScopeOutput(ctx *pulumi.Context, args LookupEncryptionScopeOutputArgs, opts ...pulumi.InvokeOption) LookupEncryptionScopeResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupEncryptionScopeResultOutput, error) {
 			args := v.(LookupEncryptionScopeArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupEncryptionScopeResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:getEncryptionScope", args, &rv, "", opts...)
-			if err != nil {
-				return LookupEncryptionScopeResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupEncryptionScopeResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupEncryptionScopeResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:getEncryptionScope", args, LookupEncryptionScopeResultOutput{}, options).(LookupEncryptionScopeResultOutput), nil
 		}).(LookupEncryptionScopeResultOutput)
 }
 

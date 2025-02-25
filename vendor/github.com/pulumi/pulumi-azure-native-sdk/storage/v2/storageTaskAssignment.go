@@ -14,6 +14,8 @@ import (
 
 // The storage task assignment.
 // Azure REST API version: 2023-05-01.
+//
+// Other available API versions: 2024-01-01.
 type StorageTaskAssignment struct {
 	pulumi.CustomResourceState
 
@@ -44,6 +46,9 @@ func NewStorageTaskAssignment(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:storage/v20230501:StorageTaskAssignment"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20240101:StorageTaskAssignment"),
 		},
 	})
 	opts = append(opts, aliases)

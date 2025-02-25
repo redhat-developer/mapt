@@ -30,6 +30,7 @@ import (
 	"github.com/pulumi/esc/schema"
 	"github.com/pulumi/esc/syntax"
 	"github.com/pulumi/esc/syntax/encoding"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"golang.org/x/exp/maps"
 )
 
@@ -37,6 +38,8 @@ import (
 type ProviderLoader interface {
 	// LoadProvider loads the provider with the given name.
 	LoadProvider(ctx context.Context, name string) (esc.Provider, error)
+	// LoadRotator loads the rotator with the given name.
+	LoadRotator(ctx context.Context, name string) (esc.Rotator, error)
 }
 
 // An EnvironmentLoader provides the environment evaluator the capability to load imported environment definitions.
@@ -66,6 +69,10 @@ func LoadYAMLBytes(filename string, source []byte) (*ast.EnvironmentDecl, syntax
 
 	t, tdiags := ast.ParseEnvironment(source, syn)
 	diags.Extend(tdiags...)
+	if tdiags.HasErrors() {
+		return nil, diags, nil
+	}
+
 	return t, diags, nil
 }
 
@@ -79,7 +86,8 @@ func EvalEnvironment(
 	environments EnvironmentLoader,
 	execContext *esc.ExecContext,
 ) (*esc.Environment, syntax.Diagnostics) {
-	return evalEnvironment(ctx, false, name, env, decrypter, providers, environments, execContext, true)
+	opened, _, diags := evalEnvironment(ctx, false, false, name, env, decrypter, providers, environments, execContext, true, nil)
+	return opened, diags
 }
 
 // CheckEnvironment symbolically evaluates the given environment. Calls to fn::open are not invoked, and instead
@@ -94,13 +102,34 @@ func CheckEnvironment(
 	execContext *esc.ExecContext,
 	showSecrets bool,
 ) (*esc.Environment, syntax.Diagnostics) {
-	return evalEnvironment(ctx, true, name, env, decrypter, providers, environments, execContext, showSecrets)
+	checked, _, diags := evalEnvironment(ctx, true, false, name, env, decrypter, providers, environments, execContext, showSecrets, nil)
+	return checked, diags
+}
+
+// RotateEnvironment evaluates the given environment and invokes provider rotate methods.
+// The updated rotation state is returned with a set of patches to be written back to the environment.
+func RotateEnvironment(
+	ctx context.Context,
+	name string,
+	env *ast.EnvironmentDecl,
+	decrypter Decrypter,
+	providers ProviderLoader,
+	environments EnvironmentLoader,
+	execContext *esc.ExecContext,
+	paths []resource.PropertyPath,
+) (*esc.Environment, *RotationResult, syntax.Diagnostics) {
+	rotateDocPaths := make(map[string]bool, len(paths))
+	for _, path := range paths {
+		rotateDocPaths["values."+path.String()] = true
+	}
+	return evalEnvironment(ctx, false, true, name, env, decrypter, providers, environments, execContext, true, rotateDocPaths)
 }
 
 // evalEnvironment evaluates an environment and exports the result of evaluation.
 func evalEnvironment(
 	ctx context.Context,
 	validating bool,
+	rotating bool,
 	name string,
 	env *ast.EnvironmentDecl,
 	decrypter Decrypter,
@@ -108,12 +137,13 @@ func evalEnvironment(
 	envs EnvironmentLoader,
 	execContext *esc.ExecContext,
 	showSecrets bool,
-) (*esc.Environment, syntax.Diagnostics) {
+	rotatePaths map[string]bool,
+) (*esc.Environment, *RotationResult, syntax.Diagnostics) {
 	if env == nil || (len(env.Values.GetEntries()) == 0 && len(env.Imports.GetElements()) == 0) {
-		return nil, nil
+		return nil, nil, nil
 	}
 
-	ec := newEvalContext(ctx, validating, name, env, decrypter, providers, envs, map[string]*imported{}, execContext, showSecrets)
+	ec := newEvalContext(ctx, validating, rotating, name, env, true, decrypter, providers, envs, map[string]*imported{}, execContext, showSecrets, rotatePaths)
 	v, diags := ec.evaluate()
 
 	s := schema.Never().Schema()
@@ -135,7 +165,7 @@ func evalEnvironment(
 		Properties:       v.export(name).Value.(map[string]esc.Value),
 		Schema:           s,
 		ExecutionContext: executionContext,
-	}, diags
+	}, &ec.rotationResult, diags
 }
 
 type imported struct {
@@ -147,9 +177,11 @@ type imported struct {
 type evalContext struct {
 	ctx          context.Context      // the cancellation context for evaluation
 	validating   bool                 // true if we are only checking the environment
+	rotating     bool                 // true if we are invoking rotators
 	showSecrets  bool                 // true if secrets should be decrypted during validation
 	name         string               // the name of the environment
 	env          *ast.EnvironmentDecl // the root of the environment AST
+	isRootEnv    bool                 // true if this environment is the root of evaluation (not an import)
 	decrypter    Decrypter            // the decrypter to use for the environment
 	providers    ProviderLoader       // the provider loader to use
 	environments EnvironmentLoader    // the environment loader to use
@@ -161,32 +193,41 @@ type evalContext struct {
 	root      *expr  // the root expression
 	base      *value // the base value
 
+	rotateDocPaths map[string]bool // the subset of document paths to invoke rotation for when rotating. if empty, all rotators will be invoked.
+	rotationResult RotationResult  // result of secret rotations
+
 	diags syntax.Diagnostics // diagnostics generated during evaluation
 }
 
 func newEvalContext(
 	ctx context.Context,
 	validating bool,
+	rotating bool,
 	name string,
 	env *ast.EnvironmentDecl,
+	isRootEnv bool,
 	decrypter Decrypter,
 	providers ProviderLoader,
 	environments EnvironmentLoader,
 	imports map[string]*imported,
 	execContext *esc.ExecContext,
 	showSecrets bool,
+	rotateDocPaths map[string]bool,
 ) *evalContext {
 	return &evalContext{
-		ctx:          ctx,
-		validating:   validating,
-		showSecrets:  showSecrets,
-		name:         name,
-		env:          env,
-		decrypter:    decrypter,
-		providers:    providers,
-		environments: environments,
-		imports:      imports,
-		execContext:  execContext.CopyForEnv(name),
+		ctx:            ctx,
+		validating:     validating,
+		rotating:       rotating,
+		showSecrets:    showSecrets,
+		name:           name,
+		env:            env,
+		isRootEnv:      isRootEnv,
+		decrypter:      decrypter,
+		providers:      providers,
+		environments:   environments,
+		imports:        imports,
+		execContext:    execContext.CopyForEnv(name),
+		rotateDocPaths: rotateDocPaths,
 	}
 }
 
@@ -298,6 +339,16 @@ func declare[Expr exprNode](e *evalContext, path string, x Expr, base *value) *e
 			inputSchema: schema.Always().Schema(),
 		}
 		return newExpr(path, repr, schema.Always().Schema(), base)
+	case *ast.RotateExpr:
+		repr := &rotateExpr{
+			node:        x,
+			provider:    declare(e, "", x.Provider, nil),
+			inputs:      declare(e, "", x.Inputs, nil),
+			state:       declare(e, "", x.State, nil),
+			inputSchema: schema.Always().Schema(),
+			stateSchema: schema.Always().Schema(),
+		}
+		return newExpr(path, repr, schema.Always().Schema(), base)
 	case *ast.SecretExpr:
 		if x.Plaintext != nil {
 			repr := &secretExpr{node: x, plaintext: declare(e, "", x.Plaintext, nil)}
@@ -342,7 +393,7 @@ func declare[Expr exprNode](e *evalContext, path string, x Expr, base *value) *e
 
 func (e *evalContext) isReserveTopLevelKey(k string) bool {
 	switch k {
-	case "imports", "context":
+	case "imports", "context", "environments":
 		return true
 	default:
 		return false
@@ -360,7 +411,7 @@ func (e *evalContext) evaluate() (*value, syntax.Diagnostics) {
 	// root.
 	properties := make(map[string]*expr, len(e.env.Values.GetEntries()))
 	e.root = &expr{
-		path: fmt.Sprintf("<%v>", e.name),
+		path: "<" + e.name + ">",
 		repr: &objectExpr{
 			node:       ast.Object(),
 			properties: properties,
@@ -382,7 +433,7 @@ func (e *evalContext) evaluate() (*value, syntax.Diagnostics) {
 	}
 
 	// Evaluate the root value and return.
-	v := e.evaluateExpr(e.root)
+	v := e.evaluateExpr(e.root, schema.Always())
 	return v, e.diags
 }
 
@@ -399,10 +450,32 @@ func (e *evalContext) evaluateImports() {
 
 	myImports := map[string]*value{}
 	for _, entry := range e.env.Imports.GetElements() {
-		e.evaluateImport(myImports, entry)
+		// If the import does not have a name, there's nothing we can do. This can happen for environments
+		// with parse errors.
+		if entry.Environment == nil {
+			continue
+		}
+		name := entry.Environment.Value
+
+		merge := true
+		if entry.Meta != nil && entry.Meta.Merge != nil {
+			merge = entry.Meta.Merge.Value
+		}
+
+		val, ok := e.evaluateImport(entry.Environment, name)
+		if !ok {
+			continue
+		}
+
+		myImports[name] = val
+		if merge {
+			val = newCopier().copy(val)
+			val.merge(e.base)
+			e.base = val
+		}
 	}
 
-	properties := make(map[string]schema.Builder, len(myImports))
+	properties := make(schema.SchemaMap, len(myImports))
 	for k, v := range myImports {
 		properties[k] = v.schema
 	}
@@ -424,60 +497,43 @@ func (e *evalContext) evaluateImports() {
 // evaluateImport evaluates an imported environment.
 //
 // Each environment in the import closure is only evaluated once.
-func (e *evalContext) evaluateImport(myImports map[string]*value, decl *ast.ImportDecl) {
-	// If the import does not have a name, there's nothing we can do. This can happen for environments
-	// with parse errors.
-	if decl.Environment == nil {
-		return
-	}
-	name := decl.Environment.Value
-
-	merge := true
-	if decl.Meta != nil && decl.Meta.Merge != nil {
-		merge = decl.Meta.Merge.Value
-	}
-
+func (e *evalContext) evaluateImport(expr ast.Expr, name string) (*value, bool) {
 	var val *value
 	if imported, ok := e.imports[name]; ok {
 		if imported.evaluating {
-			e.diags.Extend(syntax.Error(decl.Syntax().Syntax().Range(), fmt.Sprintf("cyclic import of %v", name), decl.Syntax().Syntax().Path()))
-			return
+			e.diags.Extend(syntax.Error(expr.Syntax().Syntax().Range(), fmt.Sprintf("cyclic import of %v", name), expr.Syntax().Syntax().Path()))
+			return nil, false
 		}
 		val = imported.value
 	} else {
 		bytes, dec, err := e.environments.LoadEnvironment(e.ctx, name)
 		if err != nil {
-			e.errorf(decl.Environment, "%s", err.Error())
-			return
+			e.errorf(expr, "%s", err.Error())
+			return nil, false
 		}
 
 		env, diags, err := LoadYAMLBytes(name, bytes)
 		e.diags.Extend(diags...)
 		if err != nil {
-			e.errorf(decl.Environment, "%s", err.Error())
-			return
+			e.errorf(expr, "%s", err.Error())
+			return nil, false
 		}
 
-		imp := newEvalContext(e.ctx, e.validating, name, env, dec, e.providers, e.environments, e.imports, e.execContext, e.showSecrets)
+		// we only want to rotate the root environment, so set rotating flag to false when evaluating imports
+		imp := newEvalContext(e.ctx, e.validating, false, name, env, false, dec, e.providers, e.environments, e.imports, e.execContext, e.showSecrets, nil)
 		v, diags := imp.evaluate()
 		e.diags.Extend(diags...)
 
 		val = v
 		e.imports[name].value = val
 	}
-
-	myImports[name] = val
-	if merge {
-		val = newCopier().copy(val)
-		val.merge(e.base)
-		e.base = val
-	}
+	return val, true
 }
 
 // evaluateExpr evaluates an expression. If the expression has already been evaluated, it returns the
 // previously-computed result. evaluateExpr is also responsible for updating the expression's schema to that of its
 // final, merged value.
-func (e *evalContext) evaluateExpr(x *expr) *value {
+func (e *evalContext) evaluateExpr(x *expr, accept *schema.Schema) *value {
 	switch x.state {
 	case exprDone:
 		return x.value
@@ -493,6 +549,11 @@ func (e *evalContext) evaluateExpr(x *expr) *value {
 		defer func() {
 			x.state = exprDone
 		}()
+	}
+
+	// terminate evaluation early if necessary
+	if val, done := e.evaluateSkippedExpr(x, accept); done {
+		return val
 	}
 
 	val := (*value)(nil)
@@ -513,7 +574,7 @@ func (e *evalContext) evaluateExpr(x *expr) *value {
 	case *interpolateExpr:
 		val = e.evaluateInterpolate(x, repr)
 	case *symbolExpr:
-		val = e.evaluatePropertyAccess(x, repr.property.accessors)
+		val = e.evaluatePropertyAccess(x, repr.property.accessors, accept)
 	case *fromBase64Expr:
 		val = e.evaluateBuiltinFromBase64(x, repr)
 	case *fromJSONExpr:
@@ -522,6 +583,8 @@ func (e *evalContext) evaluateExpr(x *expr) *value {
 		val = e.evaluateBuiltinJoin(x, repr)
 	case *openExpr:
 		val = e.evaluateBuiltinOpen(x, repr)
+	case *rotateExpr:
+		val = e.evaluateBuiltinRotate(x, repr)
 	case *secretExpr:
 		val = e.evaluateBuiltinSecret(x, repr)
 	case *toBase64Expr:
@@ -531,13 +594,16 @@ func (e *evalContext) evaluateExpr(x *expr) *value {
 	case *toStringExpr:
 		val = e.evaluateBuiltinToString(x, repr)
 	case *arrayExpr:
-		val = e.evaluateArray(x, repr)
+		val = e.evaluateArray(x, repr, accept)
 	case *objectExpr:
-		val = e.evaluateObject(x, repr)
+		val = e.evaluateObject(x, repr, accept)
 	default:
 		panic(fmt.Sprintf("fatal: invalid expr type %T", repr))
 	}
 
+	if accept.IsRotateOnly() {
+		val.rotateOnly = true
+	}
 	if x.secret {
 		val.secret = true
 	}
@@ -548,10 +614,31 @@ func (e *evalContext) evaluateExpr(x *expr) *value {
 	return val
 }
 
+// evaluateSkippedExpr returns a missing value if it's necessary to stop evaluating this expr early
+func (e *evalContext) evaluateSkippedExpr(x *expr, accept *schema.Schema) (*value, bool) {
+	// if we're not rotating, rotateOnly inputs are resolved as unknown.
+	//
+	// however, we also need to make sure the user has permission to access rotateOnly environments when they are editing an environment to
+	// avoid privilege escalation from adding a reference to an environment that they don't have access to, but the scheduled rotator does.
+	// therefore we will still evaluate rotateOnly imports when validating the root environment.
+	//
+	// we only do this for the root environment, because only root environments are rotated, and it is permissible for a user to import a
+	// rotated environment that transitively uses managing credentials that they don't have access to:
+	// allowed: "my-environment" <-imports- "my-iam-user" <-rotateOnly- "privileged-creds" (no access)
+	//
+	// thus, we want to skip evaluation if in a rotateOnly context and opening the root environment
+	// or if this is an imported env
+	if skipEval := accept.IsRotateOnly() && (!e.rotating && !e.validating || !e.isRootEnv); skipEval {
+		return &value{def: newMissingExpr(x.path, x.base), schema: schema.Always(), unknown: true, rotateOnly: true}, true
+	}
+
+	return nil, false
+}
+
 // evaluateTypedExpr evaluates an expression and typechecks it against the given schema. Returns false if typechecking
 // fails.
 func (e *evalContext) evaluateTypedExpr(x *expr, accept *schema.Schema) (*value, bool) {
-	v := e.evaluateExpr(x)
+	v := e.evaluateExpr(x, accept)
 	vv := validator{}
 	ok := vv.validateValue(v, accept, validationLoc{x: x})
 	e.diags.Extend(vv.diags...)
@@ -559,12 +646,12 @@ func (e *evalContext) evaluateTypedExpr(x *expr, accept *schema.Schema) (*value,
 }
 
 // evaluateArray evaluates an array expression.
-func (e *evalContext) evaluateArray(x *expr, repr *arrayExpr) *value {
+func (e *evalContext) evaluateArray(x *expr, repr *arrayExpr, accept *schema.Schema) *value {
 	v := &value{def: x}
 
 	array, items := make([]*value, len(repr.elements)), make([]schema.Builder, len(repr.elements))
 	for i, elem := range repr.elements {
-		ev := e.evaluateExpr(elem)
+		ev := e.evaluateExpr(elem, accept.Item(i))
 		array[i], items[i] = ev, ev.schema
 	}
 
@@ -573,7 +660,7 @@ func (e *evalContext) evaluateArray(x *expr, repr *arrayExpr) *value {
 }
 
 // evaluateObject evaluates an object expression.
-func (e *evalContext) evaluateObject(x *expr, repr *objectExpr) *value {
+func (e *evalContext) evaluateObject(x *expr, repr *objectExpr, accept *schema.Schema) *value {
 	v := &value{def: x}
 
 	// NOTE: technically, evaluation order of maps is unspecified and the result should be independent of order.
@@ -582,9 +669,9 @@ func (e *evalContext) evaluateObject(x *expr, repr *objectExpr) *value {
 	keys := maps.Keys(repr.properties)
 	sort.Strings(keys)
 
-	object, properties := make(map[string]*value, len(keys)), make(map[string]schema.Builder, len(keys))
+	object, properties := make(map[string]*value, len(keys)), make(schema.SchemaMap, len(keys))
 	for _, k := range keys {
-		pv := e.evaluateExpr(repr.properties[k])
+		pv := e.evaluateExpr(repr.properties[k], accept.Property(k))
 		object[k], properties[k] = pv, pv.schema
 	}
 
@@ -601,7 +688,7 @@ func (e *evalContext) evaluateInterpolate(x *expr, repr *interpolateExpr) *value
 		b.WriteString(i.syntax.Text)
 
 		if i.value != nil {
-			pv := e.evaluatePropertyAccess(x, i.value.accessors)
+			pv := e.evaluatePropertyAccess(x, i.value.accessors, schema.Always())
 			s, unknown, secret := pv.toString()
 			v.unknown, v.secret = v.containsUnknowns() || unknown, v.containsSecrets() || secret
 			if !unknown {
@@ -619,10 +706,10 @@ func (e *evalContext) evaluateInterpolate(x *expr, repr *interpolateExpr) *value
 }
 
 // evaluatePropertyAccess evaluates a property access.
-func (e *evalContext) evaluatePropertyAccess(x *expr, accessors []*propertyAccessor) *value {
+func (e *evalContext) evaluatePropertyAccess(x *expr, accessors []*propertyAccessor, accept *schema.Schema) *value {
 	// We make a copy of the resolved value here because evaluateExpr will merge it with its base, which mutates the
 	// value. We also stamp over the def with the provided expression in order to maintain proper error reporting.
-	v := newCopier().copy(e.evaluateExprAccess(x, accessors))
+	v := newCopier().copy(e.evaluateExprAccess(x, accessors, accept))
 	v.def = x
 	return v
 }
@@ -631,7 +718,7 @@ func (e *evalContext) evaluatePropertyAccess(x *expr, accessors []*propertyAcces
 // is an expression. If the receiver is a list, object, or secret  expression, it is _not evaluated_. If the receiver
 // is any other type of expression, it is evaluated and the result is passed to evaluateValueAccess. Once all accessors
 // have been processed, the resolved expression is evaluated.
-func (e *evalContext) evaluateExprAccess(x *expr, accessors []*propertyAccessor) *value {
+func (e *evalContext) evaluateExprAccess(x *expr, accessors []*propertyAccessor, accept *schema.Schema) *value {
 	receiver := e.root
 
 	k, ok := e.objectKey(x.repr.syntax(), accessors[0].accessor, false)
@@ -646,6 +733,11 @@ func (e *evalContext) evaluateExprAccess(x *expr, accessors []*propertyAccessor)
 	if ok && k == "context" {
 		accessors[0].value = e.myContext
 		return e.evaluateValueAccess(x.repr.syntax(), e.myContext, accessors[1:])
+	}
+
+	// Check for inline reference
+	if ok && k == "environments" {
+		return e.evaluateEnvironmentReferenceAccess(x, accessors, accept)
 	}
 
 	for len(accessors) > 0 {
@@ -685,7 +777,7 @@ func (e *evalContext) evaluateExprAccess(x *expr, accessors []*propertyAccessor)
 			receiver = repr.plaintext
 			continue
 		default:
-			return e.evaluateValueAccess(x.repr.syntax(), e.evaluateExpr(receiver), accessors)
+			return e.evaluateValueAccess(x.repr.syntax(), e.evaluateExpr(receiver, accept), accessors)
 		}
 
 		// Synthesize a value for the accessor.
@@ -697,7 +789,55 @@ func (e *evalContext) evaluateExprAccess(x *expr, accessors []*propertyAccessor)
 		accessor.value, accessors = val, accessors[1:]
 	}
 
-	return e.evaluateExpr(receiver)
+	return e.evaluateExpr(receiver, schema.Always())
+}
+
+// evaluateEnvironmentReferenceAccess performs an inline import of an environment.
+// The accessor is of the form ["environments", $project, $env, ...], which is transformed into an import name in the form "$project/$env"
+func (e *evalContext) evaluateEnvironmentReferenceAccess(x *expr, accessors []*propertyAccessor, accept *schema.Schema) *value {
+	// desugar accessor path into import name
+	if len(accessors) < 3 {
+		// need at least the first three elements to create an import name
+		return e.invalidPropertyAccess(x.repr.syntax(), accessors)
+	}
+	projName, projOk := e.objectKey(x.repr.syntax(), accessors[1].accessor, true)
+	envName, envOk := e.objectKey(x.repr.syntax(), accessors[2].accessor, true)
+	if !projOk || !envOk {
+		return e.invalidPropertyAccess(x.repr.syntax(), accessors)
+	}
+	qualifiedName := fmt.Sprintf("%s/%s", projName, envName)
+
+	importedValue, ok := e.evaluateImport(x.repr.syntax(), qualifiedName)
+	if !ok {
+		// failed to import, treat as missing
+		importedValue = &value{def: newMissingExpr("", nil), schema: schema.Always(), unknown: true}
+	}
+
+	// construct a synthetic object literal of the reference which the accessors can traverse
+	environmentsValue := &value{
+		def: x,
+		repr: map[string]*value{
+			envName: importedValue,
+		},
+		schema: schema.Record(schema.SchemaMap{envName: importedValue.schema}).Schema(),
+	}
+	projectsValue := &value{
+		def: x,
+		repr: map[string]*value{
+			projName: environmentsValue,
+		},
+		schema: schema.Record(schema.SchemaMap{projName: environmentsValue.schema}).Schema(),
+	}
+	referenceValue := &value{
+		def: x,
+		repr: map[string]*value{
+			"environments": projectsValue,
+		},
+		schema: schema.Record(schema.SchemaMap{"environments": projectsValue.schema}).Schema(),
+	}
+
+	referenceValue.rotateOnly = true
+	return e.evaluateValueAccess(x.repr.syntax(), referenceValue, accessors)
 }
 
 // evaluateValueAccess evaluates a list of accessors relative to a value receiver.
@@ -854,7 +994,7 @@ func (e *evalContext) objectKey(expr ast.Expr, accessor ast.PropertyAccessor, mu
 // during evaluation.
 func (e *evalContext) evaluateBuiltinSecret(x *expr, repr *secretExpr) *value {
 	if repr.plaintext != nil {
-		return e.evaluateExpr(repr.plaintext)
+		return e.evaluateExpr(repr.plaintext, schema.String().Schema())
 	}
 
 	v := &value{def: x, schema: x.schema, secret: true}
@@ -921,11 +1061,131 @@ func (e *evalContext) evaluateBuiltinOpen(x *expr, repr *openExpr) *value {
 
 	output, err := provider.Open(e.ctx, inputs.export("").Value.(map[string]esc.Value), e.execContext)
 	if err != nil {
-		e.errorf(repr.syntax(), err.Error())
+		e.errorf(repr.syntax(), "%s", err.Error())
 		v.unknown = true
 		return v
 	}
 	return unexport(output, x)
+}
+
+// evaluateBuiltinOpen evaluates a call to the fn::rotate builtin.
+func (e *evalContext) evaluateBuiltinRotate(x *expr, repr *rotateExpr) *value {
+	v := &value{def: x}
+
+	// Can happen if there are parse errors.
+	if repr.node.Provider == nil {
+		v.schema = schema.Always()
+		v.unknown = true
+		return v
+	}
+
+	rotator, err := e.providers.LoadRotator(e.ctx, repr.node.Provider.GetValue())
+	if err != nil {
+		e.errorf(repr.syntax(), "%v", err)
+	} else {
+		inputSchema, stateSchema, outputSchema := rotator.Schema()
+		stateSchema = schema.OneOf(stateSchema, schema.Null())
+		if err := inputSchema.Compile(); err != nil {
+			e.errorf(repr.syntax(), "internal error: invalid input schema (%v)", err)
+		} else {
+			repr.inputSchema = inputSchema
+		}
+		if err := stateSchema.Compile(); err != nil {
+			e.errorf(repr.syntax(), "internal error: invalid state schema (%v)", err)
+		} else {
+			repr.stateSchema = stateSchema
+		}
+		if err := outputSchema.Compile(); err != nil {
+			e.errorf(repr.syntax(), "internal error: invalid schema (%v)", err)
+		} else {
+			x.schema = outputSchema
+		}
+	}
+	v.schema = x.schema
+
+	docPath := x.repr.syntax().Syntax().Syntax().Path()
+
+	inputs, inputsOK := e.evaluateTypedExpr(repr.inputs, repr.inputSchema)
+	state, stateOK := e.evaluateTypedExpr(repr.state, repr.stateSchema)
+	if !inputsOK || inputs.containsObservableUnknowns(e.rotating) || !stateOK || state.containsUnknowns() || e.validating || err != nil {
+		if e.shouldRotate(docPath) {
+			e.rotationResult = append(e.rotationResult, &Rotation{
+				Path:   docPath,
+				Status: RotationNotEvaluated,
+			})
+		}
+
+		v.unknown = true
+		return v
+	}
+
+	// if rotating, invoke prior to open
+	if e.shouldRotate(docPath) {
+		newState, err := rotator.Rotate(
+			e.ctx,
+			inputs.export("").Value.(map[string]esc.Value),
+			asObjectOrNil(state.export("").Value),
+			e.execContext,
+		)
+		if err != nil {
+			diag := ast.ExprError(repr.syntax(), err.Error())
+			e.rotationResult = append(e.rotationResult, &Rotation{
+				Path:   docPath,
+				Status: RotationFailed,
+				Diags:  []*syntax.Diagnostic{diag},
+			})
+
+			e.errorf(repr.syntax(), "rotate: %s", err.Error())
+			v.unknown = true
+			return v
+		}
+
+		e.rotationResult = append(e.rotationResult, &Rotation{
+			Path:   docPath,
+			Status: RotationSucceeded,
+			Patch: &Patch{
+				// rotation output is written back to the fn's `state` input
+				DocPath:     util.JoinKey(docPath, repr.node.Name().GetValue()) + ".state",
+				Replacement: newState,
+			},
+		})
+
+		// todo: validate newState conforms to state schema
+
+		// pass the updated state to open, as if it were already persisted
+		state = unexport(newState, x)
+	}
+
+	output, err := rotator.Open(
+		e.ctx,
+		inputs.export("").Value.(map[string]esc.Value),
+		asObjectOrNil(state.export("").Value),
+		e.execContext,
+	)
+	if err != nil {
+		e.errorf(repr.syntax(), "%s", err.Error())
+		v.unknown = true
+		return v
+	}
+	return unexport(output, x)
+}
+
+// shouldRotate returns true if the rotator at this path should be invoked.
+func (e *evalContext) shouldRotate(docPath string) bool {
+	if !e.rotating {
+		return false
+	}
+	if len(e.rotateDocPaths) == 0 {
+		// we're rotating the full environment
+		return true
+	}
+	return e.rotateDocPaths[docPath]
+}
+
+// cast to map[string]esc.Value, or nil
+func asObjectOrNil(v any) map[string]esc.Value {
+	cast, _ := v.(map[string]esc.Value)
+	return cast
 }
 
 // evaluateBuiltinJoin evaluates a call to the fn::join builtin.
@@ -1028,7 +1288,7 @@ func (e *evalContext) evaluateBuiltinToBase64(x *expr, repr *toBase64Expr) *valu
 func (e *evalContext) evaluateBuiltinToJSON(x *expr, repr *toJSONExpr) *value {
 	v := &value{def: x, schema: x.schema}
 
-	value := e.evaluateExpr(repr.value)
+	value := e.evaluateExpr(repr.value, schema.Always())
 
 	v.combine(value)
 	if !v.unknown {
@@ -1047,7 +1307,7 @@ func (e *evalContext) evaluateBuiltinToJSON(x *expr, repr *toJSONExpr) *value {
 func (e *evalContext) evaluateBuiltinToString(x *expr, repr *toStringExpr) *value {
 	v := &value{def: x, schema: x.schema}
 
-	value := e.evaluateExpr(repr.value)
+	value := e.evaluateExpr(repr.value, schema.Always())
 
 	s, unknown, secret := value.toString()
 	v.unknown, v.secret = unknown, secret

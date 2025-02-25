@@ -51,21 +51,11 @@ type LookupDiskAccessAPrivateEndpointConnectionResult struct {
 }
 
 func LookupDiskAccessAPrivateEndpointConnectionOutput(ctx *pulumi.Context, args LookupDiskAccessAPrivateEndpointConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupDiskAccessAPrivateEndpointConnectionResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDiskAccessAPrivateEndpointConnectionResultOutput, error) {
 			args := v.(LookupDiskAccessAPrivateEndpointConnectionArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDiskAccessAPrivateEndpointConnectionResult
-			secret, err := ctx.InvokePackageRaw("azure-native:compute:getDiskAccessAPrivateEndpointConnection", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDiskAccessAPrivateEndpointConnectionResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDiskAccessAPrivateEndpointConnectionResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDiskAccessAPrivateEndpointConnectionResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:compute:getDiskAccessAPrivateEndpointConnection", args, LookupDiskAccessAPrivateEndpointConnectionResultOutput{}, options).(LookupDiskAccessAPrivateEndpointConnectionResultOutput), nil
 		}).(LookupDiskAccessAPrivateEndpointConnectionResultOutput)
 }
 

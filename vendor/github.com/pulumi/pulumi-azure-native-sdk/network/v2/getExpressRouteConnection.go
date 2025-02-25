@@ -59,21 +59,11 @@ type LookupExpressRouteConnectionResult struct {
 }
 
 func LookupExpressRouteConnectionOutput(ctx *pulumi.Context, args LookupExpressRouteConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteConnectionResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupExpressRouteConnectionResultOutput, error) {
 			args := v.(LookupExpressRouteConnectionArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupExpressRouteConnectionResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getExpressRouteConnection", args, &rv, "", opts...)
-			if err != nil {
-				return LookupExpressRouteConnectionResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupExpressRouteConnectionResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupExpressRouteConnectionResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getExpressRouteConnection", args, LookupExpressRouteConnectionResultOutput{}, options).(LookupExpressRouteConnectionResultOutput), nil
 		}).(LookupExpressRouteConnectionResultOutput)
 }
 

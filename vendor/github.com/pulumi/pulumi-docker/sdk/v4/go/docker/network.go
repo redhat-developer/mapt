@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // <!-- Bug: Type and Name are switched -->
@@ -29,7 +28,9 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := docker.NewNetwork(ctx, "privateNetwork", nil)
+//			_, err := docker.NewNetwork(ctx, "private_network", &docker.NetworkArgs{
+//				Name: pulumi.String("my_network"),
+//			})
 //			if err != nil {
 //				return err
 //			}
@@ -41,14 +42,34 @@ import (
 //
 // ## Import
 //
-// ### Example Assuming you created a `network` as follows #!/bin/bash docker network create foo prints the long ID 87b57a9b91ecab2db2a6dbf38df74c67d7c7108cbe479d6576574ec2cd8c2d73 you provide the definition for the resource as follows terraform resource "docker_network" "foo" {
+// ### Example
 //
-//	name = "foo" } then the import command is as follows #!/bin/bash
+// # Assuming you created a `network` as follows
+//
+// #!/bin/bash
+//
+// docker network create foo
+//
+// prints the long ID
+//
+// 87b57a9b91ecab2db2a6dbf38df74c67d7c7108cbe479d6576574ec2cd8c2d73
+//
+// you provide the definition for the resource as follows
+//
+// terraform
+//
+// resource "docker_network" "foo" {
+//
+//	name = "foo"
+//
+// }
+//
+// then the import command is as follows
+//
+// #!/bin/bash
 //
 // ```sh
-//
-//	$ pulumi import docker:index/network:Network foo 87b57a9b91ecab2db2a6dbf38df74c67d7c7108cbe479d6576574ec2cd8c2d73
-//
+// $ pulumi import docker:index/network:Network foo 87b57a9b91ecab2db2a6dbf38df74c67d7c7108cbe479d6576574ec2cd8c2d73
 // ```
 type Network struct {
 	pulumi.CustomResourceState
@@ -68,7 +89,7 @@ type Network struct {
 	// Driver used by the custom IP scheme of the network. Defaults to `default`
 	IpamDriver pulumi.StringPtrOutput `pulumi:"ipamDriver"`
 	// Provide explicit options to the IPAM driver. Valid options vary with `ipamDriver` and refer to that driver's documentation for more details.
-	IpamOptions pulumi.MapOutput `pulumi:"ipamOptions"`
+	IpamOptions pulumi.StringMapOutput `pulumi:"ipamOptions"`
 	// Enable IPv6 networking. Defaults to `false`.
 	Ipv6 pulumi.BoolPtrOutput `pulumi:"ipv6"`
 	// User-defined key/value metadata
@@ -76,7 +97,7 @@ type Network struct {
 	// The name of the Docker network.
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Only available with bridge networks. See [bridge options docs](https://docs.docker.com/engine/reference/commandline/network_create/#bridge-driver-options) for more details.
-	Options pulumi.MapOutput `pulumi:"options"`
+	Options pulumi.StringMapOutput `pulumi:"options"`
 	// Scope of the network. One of `swarm`, `global`, or `local`.
 	Scope pulumi.StringOutput `pulumi:"scope"`
 }
@@ -126,7 +147,7 @@ type networkState struct {
 	// Driver used by the custom IP scheme of the network. Defaults to `default`
 	IpamDriver *string `pulumi:"ipamDriver"`
 	// Provide explicit options to the IPAM driver. Valid options vary with `ipamDriver` and refer to that driver's documentation for more details.
-	IpamOptions map[string]interface{} `pulumi:"ipamOptions"`
+	IpamOptions map[string]string `pulumi:"ipamOptions"`
 	// Enable IPv6 networking. Defaults to `false`.
 	Ipv6 *bool `pulumi:"ipv6"`
 	// User-defined key/value metadata
@@ -134,7 +155,7 @@ type networkState struct {
 	// The name of the Docker network.
 	Name *string `pulumi:"name"`
 	// Only available with bridge networks. See [bridge options docs](https://docs.docker.com/engine/reference/commandline/network_create/#bridge-driver-options) for more details.
-	Options map[string]interface{} `pulumi:"options"`
+	Options map[string]string `pulumi:"options"`
 	// Scope of the network. One of `swarm`, `global`, or `local`.
 	Scope *string `pulumi:"scope"`
 }
@@ -155,7 +176,7 @@ type NetworkState struct {
 	// Driver used by the custom IP scheme of the network. Defaults to `default`
 	IpamDriver pulumi.StringPtrInput
 	// Provide explicit options to the IPAM driver. Valid options vary with `ipamDriver` and refer to that driver's documentation for more details.
-	IpamOptions pulumi.MapInput
+	IpamOptions pulumi.StringMapInput
 	// Enable IPv6 networking. Defaults to `false`.
 	Ipv6 pulumi.BoolPtrInput
 	// User-defined key/value metadata
@@ -163,7 +184,7 @@ type NetworkState struct {
 	// The name of the Docker network.
 	Name pulumi.StringPtrInput
 	// Only available with bridge networks. See [bridge options docs](https://docs.docker.com/engine/reference/commandline/network_create/#bridge-driver-options) for more details.
-	Options pulumi.MapInput
+	Options pulumi.StringMapInput
 	// Scope of the network. One of `swarm`, `global`, or `local`.
 	Scope pulumi.StringPtrInput
 }
@@ -188,7 +209,7 @@ type networkArgs struct {
 	// Driver used by the custom IP scheme of the network. Defaults to `default`
 	IpamDriver *string `pulumi:"ipamDriver"`
 	// Provide explicit options to the IPAM driver. Valid options vary with `ipamDriver` and refer to that driver's documentation for more details.
-	IpamOptions map[string]interface{} `pulumi:"ipamOptions"`
+	IpamOptions map[string]string `pulumi:"ipamOptions"`
 	// Enable IPv6 networking. Defaults to `false`.
 	Ipv6 *bool `pulumi:"ipv6"`
 	// User-defined key/value metadata
@@ -196,7 +217,7 @@ type networkArgs struct {
 	// The name of the Docker network.
 	Name *string `pulumi:"name"`
 	// Only available with bridge networks. See [bridge options docs](https://docs.docker.com/engine/reference/commandline/network_create/#bridge-driver-options) for more details.
-	Options map[string]interface{} `pulumi:"options"`
+	Options map[string]string `pulumi:"options"`
 }
 
 // The set of arguments for constructing a Network resource.
@@ -216,7 +237,7 @@ type NetworkArgs struct {
 	// Driver used by the custom IP scheme of the network. Defaults to `default`
 	IpamDriver pulumi.StringPtrInput
 	// Provide explicit options to the IPAM driver. Valid options vary with `ipamDriver` and refer to that driver's documentation for more details.
-	IpamOptions pulumi.MapInput
+	IpamOptions pulumi.StringMapInput
 	// Enable IPv6 networking. Defaults to `false`.
 	Ipv6 pulumi.BoolPtrInput
 	// User-defined key/value metadata
@@ -224,7 +245,7 @@ type NetworkArgs struct {
 	// The name of the Docker network.
 	Name pulumi.StringPtrInput
 	// Only available with bridge networks. See [bridge options docs](https://docs.docker.com/engine/reference/commandline/network_create/#bridge-driver-options) for more details.
-	Options pulumi.MapInput
+	Options pulumi.StringMapInput
 }
 
 func (NetworkArgs) ElementType() reflect.Type {
@@ -248,12 +269,6 @@ func (i *Network) ToNetworkOutput() NetworkOutput {
 
 func (i *Network) ToNetworkOutputWithContext(ctx context.Context) NetworkOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkOutput)
-}
-
-func (i *Network) ToOutput(ctx context.Context) pulumix.Output[*Network] {
-	return pulumix.Output[*Network]{
-		OutputState: i.ToNetworkOutputWithContext(ctx).OutputState,
-	}
 }
 
 // NetworkArrayInput is an input type that accepts NetworkArray and NetworkArrayOutput values.
@@ -281,12 +296,6 @@ func (i NetworkArray) ToNetworkArrayOutputWithContext(ctx context.Context) Netwo
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkArrayOutput)
 }
 
-func (i NetworkArray) ToOutput(ctx context.Context) pulumix.Output[[]*Network] {
-	return pulumix.Output[[]*Network]{
-		OutputState: i.ToNetworkArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 // NetworkMapInput is an input type that accepts NetworkMap and NetworkMapOutput values.
 // You can construct a concrete instance of `NetworkMapInput` via:
 //
@@ -312,12 +321,6 @@ func (i NetworkMap) ToNetworkMapOutputWithContext(ctx context.Context) NetworkMa
 	return pulumi.ToOutputWithContext(ctx, i).(NetworkMapOutput)
 }
 
-func (i NetworkMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*Network] {
-	return pulumix.Output[map[string]*Network]{
-		OutputState: i.ToNetworkMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type NetworkOutput struct{ *pulumi.OutputState }
 
 func (NetworkOutput) ElementType() reflect.Type {
@@ -330,12 +333,6 @@ func (o NetworkOutput) ToNetworkOutput() NetworkOutput {
 
 func (o NetworkOutput) ToNetworkOutputWithContext(ctx context.Context) NetworkOutput {
 	return o
-}
-
-func (o NetworkOutput) ToOutput(ctx context.Context) pulumix.Output[*Network] {
-	return pulumix.Output[*Network]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Enable manual container attachment to the network.
@@ -374,8 +371,8 @@ func (o NetworkOutput) IpamDriver() pulumi.StringPtrOutput {
 }
 
 // Provide explicit options to the IPAM driver. Valid options vary with `ipamDriver` and refer to that driver's documentation for more details.
-func (o NetworkOutput) IpamOptions() pulumi.MapOutput {
-	return o.ApplyT(func(v *Network) pulumi.MapOutput { return v.IpamOptions }).(pulumi.MapOutput)
+func (o NetworkOutput) IpamOptions() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *Network) pulumi.StringMapOutput { return v.IpamOptions }).(pulumi.StringMapOutput)
 }
 
 // Enable IPv6 networking. Defaults to `false`.
@@ -394,8 +391,8 @@ func (o NetworkOutput) Name() pulumi.StringOutput {
 }
 
 // Only available with bridge networks. See [bridge options docs](https://docs.docker.com/engine/reference/commandline/network_create/#bridge-driver-options) for more details.
-func (o NetworkOutput) Options() pulumi.MapOutput {
-	return o.ApplyT(func(v *Network) pulumi.MapOutput { return v.Options }).(pulumi.MapOutput)
+func (o NetworkOutput) Options() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *Network) pulumi.StringMapOutput { return v.Options }).(pulumi.StringMapOutput)
 }
 
 // Scope of the network. One of `swarm`, `global`, or `local`.
@@ -417,12 +414,6 @@ func (o NetworkArrayOutput) ToNetworkArrayOutputWithContext(ctx context.Context)
 	return o
 }
 
-func (o NetworkArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*Network] {
-	return pulumix.Output[[]*Network]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o NetworkArrayOutput) Index(i pulumi.IntInput) NetworkOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *Network {
 		return vs[0].([]*Network)[vs[1].(int)]
@@ -441,12 +432,6 @@ func (o NetworkMapOutput) ToNetworkMapOutput() NetworkMapOutput {
 
 func (o NetworkMapOutput) ToNetworkMapOutputWithContext(ctx context.Context) NetworkMapOutput {
 	return o
-}
-
-func (o NetworkMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*Network] {
-	return pulumix.Output[map[string]*Network]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o NetworkMapOutput) MapIndex(k pulumi.StringInput) NetworkOutput {

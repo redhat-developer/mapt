@@ -1,6 +1,51 @@
 CHANGELOG
 =========
 
+## 0.12.0
+
+### Improvements
+
+- Fix diagnostic messages when updating environment with invalid definition
+  [#422](https://github.com/pulumi/esc/pull/422)
+- Introduce support for rotating static credentials via `fn::rotate` providers [432](https://github.com/pulumi/esc/pull/432)
+- Add the `rotate` CLI command
+  [#433](https://github.com/pulumi/esc/pull/433)
+- Add ability to pass specific paths to rotate with the `rotate` CLI command
+  [#440](https://github.com/pulumi/esc/pull/440)
+- Introduce inline environment reference syntax
+  [#443](https://github.com/pulumi/esc/pull/443)
+- Introduce rotateOnly inputs
+  [#444](https://github.com/pulumi/esc/pull/444)
+- Release rotate environment CLI command
+  [#459](https://github.com/pulumi/esc/pull/459)
+
+## 0.11.1
+
+### Improvements
+
+- Add `--definition` flag to `esc env get` to output definition
+  [#416](https://github.com/pulumi/esc/pull/416)
+
+## 0.11.0
+
+### Improvements
+
+- Improve evaluation performance and memory footprint.
+  [#392](https://github.com/pulumi/esc/pull/392)
+
+- Improve login error message when credentials file is missing or invalid.
+  [#404](https://github.com/pulumi/esc/pull/404)
+
+### Bug Fixes
+
+- Fix panic when object keys are not strings.
+  [#406](https://github.com/pulumi/esc/pull/406)
+
+### Breaking changes
+
+- `schema`: `ObjectBuilder.Properties` and `Record` now take a `MapBuilder` in order to avoid copies.
+  [#392](https://github.com/pulumi/esc/pull/392)
+
 ## 0.10.0
 
 ### Improvements

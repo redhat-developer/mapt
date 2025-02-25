@@ -41,21 +41,11 @@ type ListFirewallPolicyIdpsSignaturesFilterValueResult struct {
 }
 
 func ListFirewallPolicyIdpsSignaturesFilterValueOutput(ctx *pulumi.Context, args ListFirewallPolicyIdpsSignaturesFilterValueOutputArgs, opts ...pulumi.InvokeOption) ListFirewallPolicyIdpsSignaturesFilterValueResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (ListFirewallPolicyIdpsSignaturesFilterValueResultOutput, error) {
 			args := v.(ListFirewallPolicyIdpsSignaturesFilterValueArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv ListFirewallPolicyIdpsSignaturesFilterValueResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:listFirewallPolicyIdpsSignaturesFilterValue", args, &rv, "", opts...)
-			if err != nil {
-				return ListFirewallPolicyIdpsSignaturesFilterValueResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:listFirewallPolicyIdpsSignaturesFilterValue", args, ListFirewallPolicyIdpsSignaturesFilterValueResultOutput{}, options).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput), nil
 		}).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput)
 }
 

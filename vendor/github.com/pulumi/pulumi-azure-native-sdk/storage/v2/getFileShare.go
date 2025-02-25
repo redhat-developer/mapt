@@ -14,7 +14,7 @@ import (
 // Gets properties of a specified share.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func LookupFileShare(ctx *pulumi.Context, args *LookupFileShareArgs, opts ...pulumi.InvokeOption) (*LookupFileShareResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFileShareResult
@@ -85,21 +85,11 @@ type LookupFileShareResult struct {
 }
 
 func LookupFileShareOutput(ctx *pulumi.Context, args LookupFileShareOutputArgs, opts ...pulumi.InvokeOption) LookupFileShareResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupFileShareResultOutput, error) {
 			args := v.(LookupFileShareArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupFileShareResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:getFileShare", args, &rv, "", opts...)
-			if err != nil {
-				return LookupFileShareResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupFileShareResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupFileShareResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:getFileShare", args, LookupFileShareResultOutput{}, options).(LookupFileShareResultOutput), nil
 		}).(LookupFileShareResultOutput)
 }
 

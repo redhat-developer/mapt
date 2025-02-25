@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // `getLogs` provides logs from specific container
@@ -64,15 +63,11 @@ type GetLogsResult struct {
 }
 
 func GetLogsOutput(ctx *pulumi.Context, args GetLogsOutputArgs, opts ...pulumi.InvokeOption) GetLogsResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (GetLogsResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (GetLogsResultOutput, error) {
 			args := v.(GetLogsArgs)
-			r, err := GetLogs(ctx, &args, opts...)
-			var s GetLogsResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("docker:index/getLogs:getLogs", args, GetLogsResultOutput{}, options).(GetLogsResultOutput), nil
 		}).(GetLogsResultOutput)
 }
 
@@ -111,12 +106,6 @@ func (o GetLogsResultOutput) ToGetLogsResultOutput() GetLogsResultOutput {
 
 func (o GetLogsResultOutput) ToGetLogsResultOutputWithContext(ctx context.Context) GetLogsResultOutput {
 	return o
-}
-
-func (o GetLogsResultOutput) ToOutput(ctx context.Context) pulumix.Output[GetLogsResult] {
-	return pulumix.Output[GetLogsResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o GetLogsResultOutput) Details() pulumi.BoolPtrOutput {

@@ -59,21 +59,11 @@ type LookupImageResult struct {
 }
 
 func LookupImageOutput(ctx *pulumi.Context, args LookupImageOutputArgs, opts ...pulumi.InvokeOption) LookupImageResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupImageResultOutput, error) {
 			args := v.(LookupImageArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupImageResult
-			secret, err := ctx.InvokePackageRaw("azure-native:compute:getImage", args, &rv, "", opts...)
-			if err != nil {
-				return LookupImageResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupImageResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupImageResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:compute:getImage", args, LookupImageResultOutput{}, options).(LookupImageResultOutput), nil
 		}).(LookupImageResultOutput)
 }
 

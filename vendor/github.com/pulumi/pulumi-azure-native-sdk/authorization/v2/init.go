@@ -61,6 +61,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &RoleAssignment{}
 	case "azure-native:authorization:RoleDefinition":
 		r = &RoleDefinition{}
+	case "azure-native:authorization:RoleManagementPolicy":
+		r = &RoleManagementPolicy{}
 	case "azure-native:authorization:RoleManagementPolicyAssignment":
 		r = &RoleManagementPolicyAssignment{}
 	case "azure-native:authorization:ScopeAccessReviewHistoryDefinitionById":

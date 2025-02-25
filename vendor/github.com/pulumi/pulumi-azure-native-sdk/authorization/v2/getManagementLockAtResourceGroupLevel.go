@@ -49,21 +49,11 @@ type LookupManagementLockAtResourceGroupLevelResult struct {
 }
 
 func LookupManagementLockAtResourceGroupLevelOutput(ctx *pulumi.Context, args LookupManagementLockAtResourceGroupLevelOutputArgs, opts ...pulumi.InvokeOption) LookupManagementLockAtResourceGroupLevelResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupManagementLockAtResourceGroupLevelResultOutput, error) {
 			args := v.(LookupManagementLockAtResourceGroupLevelArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupManagementLockAtResourceGroupLevelResult
-			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getManagementLockAtResourceGroupLevel", args, &rv, "", opts...)
-			if err != nil {
-				return LookupManagementLockAtResourceGroupLevelResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupManagementLockAtResourceGroupLevelResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupManagementLockAtResourceGroupLevelResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:authorization:getManagementLockAtResourceGroupLevel", args, LookupManagementLockAtResourceGroupLevelResultOutput{}, options).(LookupManagementLockAtResourceGroupLevelResultOutput), nil
 		}).(LookupManagementLockAtResourceGroupLevelResultOutput)
 }
 

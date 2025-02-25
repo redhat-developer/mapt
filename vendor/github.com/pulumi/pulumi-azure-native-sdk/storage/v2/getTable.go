@@ -14,7 +14,7 @@ import (
 // Gets the table with the specified table name, under the specified account if it exists.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func LookupTable(ctx *pulumi.Context, args *LookupTableArgs, opts ...pulumi.InvokeOption) (*LookupTableResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupTableResult
@@ -49,21 +49,11 @@ type LookupTableResult struct {
 }
 
 func LookupTableOutput(ctx *pulumi.Context, args LookupTableOutputArgs, opts ...pulumi.InvokeOption) LookupTableResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupTableResultOutput, error) {
 			args := v.(LookupTableArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupTableResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:getTable", args, &rv, "", opts...)
-			if err != nil {
-				return LookupTableResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupTableResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupTableResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:getTable", args, LookupTableResultOutput{}, options).(LookupTableResultOutput), nil
 		}).(LookupTableResultOutput)
 }
 

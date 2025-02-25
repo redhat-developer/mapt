@@ -62,21 +62,11 @@ type LookupSnapshotResult struct {
 }
 
 func LookupSnapshotOutput(ctx *pulumi.Context, args LookupSnapshotOutputArgs, opts ...pulumi.InvokeOption) LookupSnapshotResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupSnapshotResultOutput, error) {
 			args := v.(LookupSnapshotArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupSnapshotResult
-			secret, err := ctx.InvokePackageRaw("azure-native:containerservice/v20240801:getSnapshot", args, &rv, "", opts...)
-			if err != nil {
-				return LookupSnapshotResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupSnapshotResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupSnapshotResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:containerservice/v20240801:getSnapshot", args, LookupSnapshotResultOutput{}, options).(LookupSnapshotResultOutput), nil
 		}).(LookupSnapshotResultOutput)
 }
 

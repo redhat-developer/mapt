@@ -14,7 +14,7 @@ import (
 // Gets a deployment.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-07-01, 2024-03-01, 2024-07-01.
+// Other available API versions: 2023-07-01, 2024-03-01, 2024-07-01, 2024-11-01.
 func LookupDeploymentAtTenantScope(ctx *pulumi.Context, args *LookupDeploymentAtTenantScopeArgs, opts ...pulumi.InvokeOption) (*LookupDeploymentAtTenantScopeResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDeploymentAtTenantScopeResult
@@ -47,21 +47,11 @@ type LookupDeploymentAtTenantScopeResult struct {
 }
 
 func LookupDeploymentAtTenantScopeOutput(ctx *pulumi.Context, args LookupDeploymentAtTenantScopeOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentAtTenantScopeResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDeploymentAtTenantScopeResultOutput, error) {
 			args := v.(LookupDeploymentAtTenantScopeArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDeploymentAtTenantScopeResult
-			secret, err := ctx.InvokePackageRaw("azure-native:resources:getDeploymentAtTenantScope", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDeploymentAtTenantScopeResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDeploymentAtTenantScopeResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDeploymentAtTenantScopeResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:resources:getDeploymentAtTenantScope", args, LookupDeploymentAtTenantScopeResultOutput{}, options).(LookupDeploymentAtTenantScopeResultOutput), nil
 		}).(LookupDeploymentAtTenantScopeResultOutput)
 }
 

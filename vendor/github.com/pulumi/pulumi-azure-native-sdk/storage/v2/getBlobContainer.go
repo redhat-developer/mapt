@@ -14,7 +14,7 @@ import (
 // Gets properties of a specified container.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func LookupBlobContainer(ctx *pulumi.Context, args *LookupBlobContainerArgs, opts ...pulumi.InvokeOption) (*LookupBlobContainerResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupBlobContainerResult
@@ -85,21 +85,11 @@ type LookupBlobContainerResult struct {
 }
 
 func LookupBlobContainerOutput(ctx *pulumi.Context, args LookupBlobContainerOutputArgs, opts ...pulumi.InvokeOption) LookupBlobContainerResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupBlobContainerResultOutput, error) {
 			args := v.(LookupBlobContainerArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupBlobContainerResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:getBlobContainer", args, &rv, "", opts...)
-			if err != nil {
-				return LookupBlobContainerResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupBlobContainerResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupBlobContainerResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:getBlobContainer", args, LookupBlobContainerResultOutput{}, options).(LookupBlobContainerResultOutput), nil
 		}).(LookupBlobContainerResultOutput)
 }
 

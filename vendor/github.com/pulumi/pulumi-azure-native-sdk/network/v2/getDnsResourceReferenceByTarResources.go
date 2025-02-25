@@ -37,21 +37,11 @@ type GetDnsResourceReferenceByTarResourcesResult struct {
 }
 
 func GetDnsResourceReferenceByTarResourcesOutput(ctx *pulumi.Context, args GetDnsResourceReferenceByTarResourcesOutputArgs, opts ...pulumi.InvokeOption) GetDnsResourceReferenceByTarResourcesResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (GetDnsResourceReferenceByTarResourcesResultOutput, error) {
 			args := v.(GetDnsResourceReferenceByTarResourcesArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv GetDnsResourceReferenceByTarResourcesResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getDnsResourceReferenceByTarResources", args, &rv, "", opts...)
-			if err != nil {
-				return GetDnsResourceReferenceByTarResourcesResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(GetDnsResourceReferenceByTarResourcesResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(GetDnsResourceReferenceByTarResourcesResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getDnsResourceReferenceByTarResources", args, GetDnsResourceReferenceByTarResourcesResultOutput{}, options).(GetDnsResourceReferenceByTarResourcesResultOutput), nil
 		}).(GetDnsResourceReferenceByTarResourcesResultOutput)
 }
 

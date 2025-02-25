@@ -75,21 +75,11 @@ type LookupEndpointResult struct {
 }
 
 func LookupEndpointOutput(ctx *pulumi.Context, args LookupEndpointOutputArgs, opts ...pulumi.InvokeOption) LookupEndpointResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupEndpointResultOutput, error) {
 			args := v.(LookupEndpointArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupEndpointResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getEndpoint", args, &rv, "", opts...)
-			if err != nil {
-				return LookupEndpointResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupEndpointResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupEndpointResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getEndpoint", args, LookupEndpointResultOutput{}, options).(LookupEndpointResultOutput), nil
 		}).(LookupEndpointResultOutput)
 }
 
