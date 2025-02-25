@@ -51,21 +51,11 @@ type LookupNetworkExperimentProfileResult struct {
 }
 
 func LookupNetworkExperimentProfileOutput(ctx *pulumi.Context, args LookupNetworkExperimentProfileOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkExperimentProfileResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupNetworkExperimentProfileResultOutput, error) {
 			args := v.(LookupNetworkExperimentProfileArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupNetworkExperimentProfileResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getNetworkExperimentProfile", args, &rv, "", opts...)
-			if err != nil {
-				return LookupNetworkExperimentProfileResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupNetworkExperimentProfileResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupNetworkExperimentProfileResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getNetworkExperimentProfile", args, LookupNetworkExperimentProfileResultOutput{}, options).(LookupNetworkExperimentProfileResultOutput), nil
 		}).(LookupNetworkExperimentProfileResultOutput)
 }
 

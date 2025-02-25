@@ -53,21 +53,11 @@ type GetLogAnalyticExportThrottledRequestsResult struct {
 }
 
 func GetLogAnalyticExportThrottledRequestsOutput(ctx *pulumi.Context, args GetLogAnalyticExportThrottledRequestsOutputArgs, opts ...pulumi.InvokeOption) GetLogAnalyticExportThrottledRequestsResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (GetLogAnalyticExportThrottledRequestsResultOutput, error) {
 			args := v.(GetLogAnalyticExportThrottledRequestsArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv GetLogAnalyticExportThrottledRequestsResult
-			secret, err := ctx.InvokePackageRaw("azure-native:compute:getLogAnalyticExportThrottledRequests", args, &rv, "", opts...)
-			if err != nil {
-				return GetLogAnalyticExportThrottledRequestsResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(GetLogAnalyticExportThrottledRequestsResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(GetLogAnalyticExportThrottledRequestsResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:compute:getLogAnalyticExportThrottledRequests", args, GetLogAnalyticExportThrottledRequestsResultOutput{}, options).(GetLogAnalyticExportThrottledRequestsResultOutput), nil
 		}).(GetLogAnalyticExportThrottledRequestsResultOutput)
 }
 

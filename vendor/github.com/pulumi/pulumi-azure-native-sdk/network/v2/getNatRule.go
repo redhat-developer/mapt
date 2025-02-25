@@ -61,21 +61,11 @@ type LookupNatRuleResult struct {
 }
 
 func LookupNatRuleOutput(ctx *pulumi.Context, args LookupNatRuleOutputArgs, opts ...pulumi.InvokeOption) LookupNatRuleResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupNatRuleResultOutput, error) {
 			args := v.(LookupNatRuleArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupNatRuleResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getNatRule", args, &rv, "", opts...)
-			if err != nil {
-				return LookupNatRuleResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupNatRuleResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupNatRuleResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getNatRule", args, LookupNatRuleResultOutput{}, options).(LookupNatRuleResultOutput), nil
 		}).(LookupNatRuleResultOutput)
 }
 

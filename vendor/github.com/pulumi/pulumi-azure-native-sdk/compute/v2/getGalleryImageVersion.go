@@ -63,21 +63,11 @@ type LookupGalleryImageVersionResult struct {
 }
 
 func LookupGalleryImageVersionOutput(ctx *pulumi.Context, args LookupGalleryImageVersionOutputArgs, opts ...pulumi.InvokeOption) LookupGalleryImageVersionResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupGalleryImageVersionResultOutput, error) {
 			args := v.(LookupGalleryImageVersionArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupGalleryImageVersionResult
-			secret, err := ctx.InvokePackageRaw("azure-native:compute:getGalleryImageVersion", args, &rv, "", opts...)
-			if err != nil {
-				return LookupGalleryImageVersionResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupGalleryImageVersionResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupGalleryImageVersionResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:compute:getGalleryImageVersion", args, LookupGalleryImageVersionResultOutput{}, options).(LookupGalleryImageVersionResultOutput), nil
 		}).(LookupGalleryImageVersionResultOutput)
 }
 

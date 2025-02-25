@@ -107,6 +107,8 @@ type LookupAmiArgs struct {
 	// * `tags.#.key` - Key name of the tag.
 	// * `tags.#.value` - Value of the tag.
 	Tags map[string]string `pulumi:"tags"`
+	// (Optional) Base64 representation of the non-volatile UEFI variable store.
+	UefiData *string `pulumi:"uefiData"`
 }
 
 // A collection of values returned by getAmi.
@@ -189,6 +191,8 @@ type LookupAmiResult struct {
 	Tags map[string]string `pulumi:"tags"`
 	// If the image is configured for NitroTPM support, the value is `v2.0`.
 	TpmSupport string `pulumi:"tpmSupport"`
+	// (Optional) Base64 representation of the non-volatile UEFI variable store.
+	UefiData *string `pulumi:"uefiData"`
 	// Operation of the Amazon EC2 instance and the billing code that is associated with the AMI.
 	UsageOperation string `pulumi:"usageOperation"`
 	// Type of virtualization of the AMI (ie: `hvm` or
@@ -197,21 +201,11 @@ type LookupAmiResult struct {
 }
 
 func LookupAmiOutput(ctx *pulumi.Context, args LookupAmiOutputArgs, opts ...pulumi.InvokeOption) LookupAmiResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupAmiResultOutput, error) {
 			args := v.(LookupAmiArgs)
-			opts = internal.PkgInvokeDefaultOpts(opts)
-			var rv LookupAmiResult
-			secret, err := ctx.InvokePackageRaw("aws:ec2/getAmi:getAmi", args, &rv, "", opts...)
-			if err != nil {
-				return LookupAmiResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupAmiResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupAmiResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("aws:ec2/getAmi:getAmi", args, LookupAmiResultOutput{}, options).(LookupAmiResultOutput), nil
 		}).(LookupAmiResultOutput)
 }
 
@@ -246,6 +240,8 @@ type LookupAmiOutputArgs struct {
 	// * `tags.#.key` - Key name of the tag.
 	// * `tags.#.value` - Value of the tag.
 	Tags pulumi.StringMapInput `pulumi:"tags"`
+	// (Optional) Base64 representation of the non-volatile UEFI variable store.
+	UefiData pulumi.StringPtrInput `pulumi:"uefiData"`
 }
 
 func (LookupAmiOutputArgs) ElementType() reflect.Type {
@@ -454,6 +450,11 @@ func (o LookupAmiResultOutput) Tags() pulumi.StringMapOutput {
 // If the image is configured for NitroTPM support, the value is `v2.0`.
 func (o LookupAmiResultOutput) TpmSupport() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAmiResult) string { return v.TpmSupport }).(pulumi.StringOutput)
+}
+
+// (Optional) Base64 representation of the non-volatile UEFI variable store.
+func (o LookupAmiResultOutput) UefiData() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupAmiResult) *string { return v.UefiData }).(pulumi.StringPtrOutput)
 }
 
 // Operation of the Amazon EC2 instance and the billing code that is associated with the AMI.

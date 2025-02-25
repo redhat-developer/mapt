@@ -15,7 +15,7 @@ import (
 // Properties of the blob container, including Id, resource name, resource type, Etag.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 type BlobContainer struct {
 	pulumi.CustomResourceState
 
@@ -132,6 +132,9 @@ func NewBlobContainer(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:storage/v20230501:BlobContainer"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20240101:BlobContainer"),
 		},
 	})
 	opts = append(opts, aliases)

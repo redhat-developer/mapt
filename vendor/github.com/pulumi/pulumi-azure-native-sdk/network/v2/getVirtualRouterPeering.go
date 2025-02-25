@@ -53,21 +53,11 @@ type LookupVirtualRouterPeeringResult struct {
 }
 
 func LookupVirtualRouterPeeringOutput(ctx *pulumi.Context, args LookupVirtualRouterPeeringOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualRouterPeeringResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupVirtualRouterPeeringResultOutput, error) {
 			args := v.(LookupVirtualRouterPeeringArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupVirtualRouterPeeringResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualRouterPeering", args, &rv, "", opts...)
-			if err != nil {
-				return LookupVirtualRouterPeeringResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupVirtualRouterPeeringResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupVirtualRouterPeeringResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getVirtualRouterPeering", args, LookupVirtualRouterPeeringResultOutput{}, options).(LookupVirtualRouterPeeringResultOutput), nil
 		}).(LookupVirtualRouterPeeringResultOutput)
 }
 

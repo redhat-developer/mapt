@@ -97,23 +97,12 @@ func (val *LookupAzurePowerShellScriptResult) Defaults() *LookupAzurePowerShellS
 	}
 	return &tmp
 }
-
 func LookupAzurePowerShellScriptOutput(ctx *pulumi.Context, args LookupAzurePowerShellScriptOutputArgs, opts ...pulumi.InvokeOption) LookupAzurePowerShellScriptResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupAzurePowerShellScriptResultOutput, error) {
 			args := v.(LookupAzurePowerShellScriptArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupAzurePowerShellScriptResult
-			secret, err := ctx.InvokePackageRaw("azure-native:resources:getAzurePowerShellScript", args, &rv, "", opts...)
-			if err != nil {
-				return LookupAzurePowerShellScriptResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupAzurePowerShellScriptResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupAzurePowerShellScriptResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:resources:getAzurePowerShellScript", args, LookupAzurePowerShellScriptResultOutput{}, options).(LookupAzurePowerShellScriptResultOutput), nil
 		}).(LookupAzurePowerShellScriptResultOutput)
 }
 

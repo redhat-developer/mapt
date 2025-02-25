@@ -202,7 +202,6 @@ type Template struct {
 	Description string                                // Description of the template.
 	Quickstart  string                                // Optional text to be displayed after template creation.
 	Config      map[string]ProjectTemplateConfigValue // Optional template config.
-	Important   bool                                  // Indicates whether the template should be listed by default.
 	Error       error                                 // Non-nil if the template is broken.
 
 	ProjectName        string // Name of the project.
@@ -286,7 +285,7 @@ func RetrieveTemplates(ctx context.Context, templateNamePathOrURL string, offlin
 	templateKind TemplateKind,
 ) (TemplateRepository, error) {
 	if isZIPTemplateURL(templateNamePathOrURL) {
-		return retrieveZIPTemplates(templateNamePathOrURL)
+		return RetrieveZIPTemplates(templateNamePathOrURL)
 	}
 	if IsTemplateURL(templateNamePathOrURL) {
 		return retrieveURLTemplates(ctx, templateNamePathOrURL, offline, templateKind)
@@ -476,7 +475,6 @@ func LoadTemplate(path string) (Template, error) {
 		template.Description = proj.Template.Description
 		template.Quickstart = proj.Template.Quickstart
 		template.Config = proj.Template.Config
-		template.Important = proj.Template.Important
 	}
 	if proj.Description != nil {
 		template.ProjectDescription = *proj.Description

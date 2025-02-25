@@ -43,6 +43,9 @@ func NewIpamPool(ctx *pulumi.Context,
 	if args.NetworkManagerName == nil {
 		return nil, errors.New("invalid value for required argument 'NetworkManagerName'")
 	}
+	if args.Properties == nil {
+		return nil, errors.New("invalid value for required argument 'Properties'")
+	}
 	if args.ResourceGroupName == nil {
 		return nil, errors.New("invalid value for required argument 'ResourceGroupName'")
 	}
@@ -95,7 +98,7 @@ type ipamPoolArgs struct {
 	// IP Address Manager Pool resource name.
 	PoolName *string `pulumi:"poolName"`
 	// Properties of IpamPool resource properties which are specific to the Pool resource.
-	Properties *IpamPoolProperties `pulumi:"properties"`
+	Properties IpamPoolProperties `pulumi:"properties"`
 	// The name of the resource group.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Resource tags.
@@ -111,7 +114,7 @@ type IpamPoolArgs struct {
 	// IP Address Manager Pool resource name.
 	PoolName pulumi.StringPtrInput
 	// Properties of IpamPool resource properties which are specific to the Pool resource.
-	Properties IpamPoolPropertiesPtrInput
+	Properties IpamPoolPropertiesInput
 	// The name of the resource group.
 	ResourceGroupName pulumi.StringInput
 	// Resource tags.

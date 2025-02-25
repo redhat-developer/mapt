@@ -51,9 +51,6 @@ func NewTrustedAccessRoleBinding(ctx *pulumi.Context,
 	}
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
-			Type: pulumi.String("azure-native:containerservice:TrustedAccessRoleBinding"),
-		},
-		{
 			Type: pulumi.String("azure-native:containerservice/v20220402preview:TrustedAccessRoleBinding"),
 		},
 		{
@@ -160,6 +157,12 @@ func NewTrustedAccessRoleBinding(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:containerservice/v20240902preview:TrustedAccessRoleBinding"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20241001:TrustedAccessRoleBinding"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice:TrustedAccessRoleBinding"),
 		},
 	})
 	opts = append(opts, aliases)

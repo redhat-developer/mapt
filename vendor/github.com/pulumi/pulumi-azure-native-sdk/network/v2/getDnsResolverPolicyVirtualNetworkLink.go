@@ -55,21 +55,11 @@ type LookupDnsResolverPolicyVirtualNetworkLinkResult struct {
 }
 
 func LookupDnsResolverPolicyVirtualNetworkLinkOutput(ctx *pulumi.Context, args LookupDnsResolverPolicyVirtualNetworkLinkOutputArgs, opts ...pulumi.InvokeOption) LookupDnsResolverPolicyVirtualNetworkLinkResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDnsResolverPolicyVirtualNetworkLinkResultOutput, error) {
 			args := v.(LookupDnsResolverPolicyVirtualNetworkLinkArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDnsResolverPolicyVirtualNetworkLinkResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getDnsResolverPolicyVirtualNetworkLink", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDnsResolverPolicyVirtualNetworkLinkResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDnsResolverPolicyVirtualNetworkLinkResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDnsResolverPolicyVirtualNetworkLinkResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getDnsResolverPolicyVirtualNetworkLink", args, LookupDnsResolverPolicyVirtualNetworkLinkResultOutput{}, options).(LookupDnsResolverPolicyVirtualNetworkLinkResultOutput), nil
 		}).(LookupDnsResolverPolicyVirtualNetworkLinkResultOutput)
 }
 

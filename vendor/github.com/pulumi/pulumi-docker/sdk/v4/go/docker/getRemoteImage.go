@@ -9,10 +9,9 @@ import (
 
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
-// `RemoteImage` provides details about a specific Docker Image which need to be presend on the Docker Host
+// `RemoteImage` provides details about a specific Docker Image which needs to be present on the Docker Host
 //
 // ## Example Usage
 //
@@ -28,24 +27,28 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// uses the 'latest' tag
 //			_, err := docker.LookupRemoteImage(ctx, &docker.LookupRemoteImageArgs{
 //				Name: "nginx",
 //			}, nil)
 //			if err != nil {
 //				return err
 //			}
+//			// uses a specific tag
 //			_, err = docker.LookupRemoteImage(ctx, &docker.LookupRemoteImageArgs{
 //				Name: "nginx:1.17.6",
 //			}, nil)
 //			if err != nil {
 //				return err
 //			}
+//			// use the image digest
 //			_, err = docker.LookupRemoteImage(ctx, &docker.LookupRemoteImageArgs{
 //				Name: "nginx@sha256:36b74457bccb56fbf8b05f79c85569501b721d4db813b684391d63e02287c0b2",
 //			}, nil)
 //			if err != nil {
 //				return err
 //			}
+//			// uses the tag and the image digest
 //			_, err = docker.LookupRemoteImage(ctx, &docker.LookupRemoteImageArgs{
 //				Name: "nginx:1.19.1@sha256:36b74457bccb56fbf8b05f79c85569501b721d4db813b684391d63e02287c0b2",
 //			}, nil)
@@ -84,15 +87,11 @@ type LookupRemoteImageResult struct {
 }
 
 func LookupRemoteImageOutput(ctx *pulumi.Context, args LookupRemoteImageOutputArgs, opts ...pulumi.InvokeOption) LookupRemoteImageResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupRemoteImageResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (LookupRemoteImageResultOutput, error) {
 			args := v.(LookupRemoteImageArgs)
-			r, err := LookupRemoteImage(ctx, &args, opts...)
-			var s LookupRemoteImageResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("docker:index/getRemoteImage:getRemoteImage", args, LookupRemoteImageResultOutput{}, options).(LookupRemoteImageResultOutput), nil
 		}).(LookupRemoteImageResultOutput)
 }
 
@@ -119,12 +118,6 @@ func (o LookupRemoteImageResultOutput) ToLookupRemoteImageResultOutput() LookupR
 
 func (o LookupRemoteImageResultOutput) ToLookupRemoteImageResultOutputWithContext(ctx context.Context) LookupRemoteImageResultOutput {
 	return o
-}
-
-func (o LookupRemoteImageResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupRemoteImageResult] {
-	return pulumix.Output[LookupRemoteImageResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The provider-assigned unique ID for this managed resource.

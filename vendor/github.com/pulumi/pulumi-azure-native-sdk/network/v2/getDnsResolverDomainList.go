@@ -55,21 +55,11 @@ type LookupDnsResolverDomainListResult struct {
 }
 
 func LookupDnsResolverDomainListOutput(ctx *pulumi.Context, args LookupDnsResolverDomainListOutputArgs, opts ...pulumi.InvokeOption) LookupDnsResolverDomainListResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDnsResolverDomainListResultOutput, error) {
 			args := v.(LookupDnsResolverDomainListArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDnsResolverDomainListResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getDnsResolverDomainList", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDnsResolverDomainListResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDnsResolverDomainListResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDnsResolverDomainListResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getDnsResolverDomainList", args, LookupDnsResolverDomainListResultOutput{}, options).(LookupDnsResolverDomainListResultOutput), nil
 		}).(LookupDnsResolverDomainListResultOutput)
 }
 

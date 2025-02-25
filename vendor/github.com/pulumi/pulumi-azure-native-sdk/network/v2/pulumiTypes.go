@@ -25945,6 +25945,66 @@ func (o DelegationResponseArrayOutput) Index(i pulumi.IntInput) DelegationRespon
 	}).(DelegationResponseOutput)
 }
 
+// The delegation signer information.
+type DelegationSignerInfoResponse struct {
+	// The digest algorithm type represents the standard digest algorithm number used to construct the digest. See: https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml
+	DigestAlgorithmType int `pulumi:"digestAlgorithmType"`
+	// The digest value is a cryptographic hash value of the referenced DNSKEY Resource Record.
+	DigestValue string `pulumi:"digestValue"`
+	// The record represents a delegation signer (DS) record.
+	Record string `pulumi:"record"`
+}
+
+// The delegation signer information.
+type DelegationSignerInfoResponseOutput struct{ *pulumi.OutputState }
+
+func (DelegationSignerInfoResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DelegationSignerInfoResponse)(nil)).Elem()
+}
+
+func (o DelegationSignerInfoResponseOutput) ToDelegationSignerInfoResponseOutput() DelegationSignerInfoResponseOutput {
+	return o
+}
+
+func (o DelegationSignerInfoResponseOutput) ToDelegationSignerInfoResponseOutputWithContext(ctx context.Context) DelegationSignerInfoResponseOutput {
+	return o
+}
+
+// The digest algorithm type represents the standard digest algorithm number used to construct the digest. See: https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml
+func (o DelegationSignerInfoResponseOutput) DigestAlgorithmType() pulumi.IntOutput {
+	return o.ApplyT(func(v DelegationSignerInfoResponse) int { return v.DigestAlgorithmType }).(pulumi.IntOutput)
+}
+
+// The digest value is a cryptographic hash value of the referenced DNSKEY Resource Record.
+func (o DelegationSignerInfoResponseOutput) DigestValue() pulumi.StringOutput {
+	return o.ApplyT(func(v DelegationSignerInfoResponse) string { return v.DigestValue }).(pulumi.StringOutput)
+}
+
+// The record represents a delegation signer (DS) record.
+func (o DelegationSignerInfoResponseOutput) Record() pulumi.StringOutput {
+	return o.ApplyT(func(v DelegationSignerInfoResponse) string { return v.Record }).(pulumi.StringOutput)
+}
+
+type DelegationSignerInfoResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (DelegationSignerInfoResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]DelegationSignerInfoResponse)(nil)).Elem()
+}
+
+func (o DelegationSignerInfoResponseArrayOutput) ToDelegationSignerInfoResponseArrayOutput() DelegationSignerInfoResponseArrayOutput {
+	return o
+}
+
+func (o DelegationSignerInfoResponseArrayOutput) ToDelegationSignerInfoResponseArrayOutputWithContext(ctx context.Context) DelegationSignerInfoResponseArrayOutput {
+	return o
+}
+
+func (o DelegationSignerInfoResponseArrayOutput) Index(i pulumi.IntInput) DelegationSignerInfoResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) DelegationSignerInfoResponse {
+		return vs[0].([]DelegationSignerInfoResponse)[vs[1].(int)]
+	}).(DelegationSignerInfoResponseOutput)
+}
+
 // List of properties of the device.
 type DeviceProperties struct {
 	// Model of the device.
@@ -46149,47 +46209,6 @@ func (i IpamPoolPropertiesArgs) ToIpamPoolPropertiesOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, i).(IpamPoolPropertiesOutput)
 }
 
-func (i IpamPoolPropertiesArgs) ToIpamPoolPropertiesPtrOutput() IpamPoolPropertiesPtrOutput {
-	return i.ToIpamPoolPropertiesPtrOutputWithContext(context.Background())
-}
-
-func (i IpamPoolPropertiesArgs) ToIpamPoolPropertiesPtrOutputWithContext(ctx context.Context) IpamPoolPropertiesPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IpamPoolPropertiesOutput).ToIpamPoolPropertiesPtrOutputWithContext(ctx)
-}
-
-// IpamPoolPropertiesPtrInput is an input type that accepts IpamPoolPropertiesArgs, IpamPoolPropertiesPtr and IpamPoolPropertiesPtrOutput values.
-// You can construct a concrete instance of `IpamPoolPropertiesPtrInput` via:
-//
-//	        IpamPoolPropertiesArgs{...}
-//
-//	or:
-//
-//	        nil
-type IpamPoolPropertiesPtrInput interface {
-	pulumi.Input
-
-	ToIpamPoolPropertiesPtrOutput() IpamPoolPropertiesPtrOutput
-	ToIpamPoolPropertiesPtrOutputWithContext(context.Context) IpamPoolPropertiesPtrOutput
-}
-
-type ipamPoolPropertiesPtrType IpamPoolPropertiesArgs
-
-func IpamPoolPropertiesPtr(v *IpamPoolPropertiesArgs) IpamPoolPropertiesPtrInput {
-	return (*ipamPoolPropertiesPtrType)(v)
-}
-
-func (*ipamPoolPropertiesPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**IpamPoolProperties)(nil)).Elem()
-}
-
-func (i *ipamPoolPropertiesPtrType) ToIpamPoolPropertiesPtrOutput() IpamPoolPropertiesPtrOutput {
-	return i.ToIpamPoolPropertiesPtrOutputWithContext(context.Background())
-}
-
-func (i *ipamPoolPropertiesPtrType) ToIpamPoolPropertiesPtrOutputWithContext(ctx context.Context) IpamPoolPropertiesPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IpamPoolPropertiesPtrOutput)
-}
-
 // Properties of IpamPool resource properties which are specific to the Pool resource.
 type IpamPoolPropertiesOutput struct{ *pulumi.OutputState }
 
@@ -46203,16 +46222,6 @@ func (o IpamPoolPropertiesOutput) ToIpamPoolPropertiesOutput() IpamPoolPropertie
 
 func (o IpamPoolPropertiesOutput) ToIpamPoolPropertiesOutputWithContext(ctx context.Context) IpamPoolPropertiesOutput {
 	return o
-}
-
-func (o IpamPoolPropertiesOutput) ToIpamPoolPropertiesPtrOutput() IpamPoolPropertiesPtrOutput {
-	return o.ToIpamPoolPropertiesPtrOutputWithContext(context.Background())
-}
-
-func (o IpamPoolPropertiesOutput) ToIpamPoolPropertiesPtrOutputWithContext(ctx context.Context) IpamPoolPropertiesPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v IpamPoolProperties) *IpamPoolProperties {
-		return &v
-	}).(IpamPoolPropertiesPtrOutput)
 }
 
 // List of IP address prefixes of the resource.
@@ -46232,69 +46241,6 @@ func (o IpamPoolPropertiesOutput) DisplayName() pulumi.StringPtrOutput {
 // String representing parent IpamPool resource name. If empty the IpamPool will be a root pool.
 func (o IpamPoolPropertiesOutput) ParentPoolName() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IpamPoolProperties) *string { return v.ParentPoolName }).(pulumi.StringPtrOutput)
-}
-
-type IpamPoolPropertiesPtrOutput struct{ *pulumi.OutputState }
-
-func (IpamPoolPropertiesPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**IpamPoolProperties)(nil)).Elem()
-}
-
-func (o IpamPoolPropertiesPtrOutput) ToIpamPoolPropertiesPtrOutput() IpamPoolPropertiesPtrOutput {
-	return o
-}
-
-func (o IpamPoolPropertiesPtrOutput) ToIpamPoolPropertiesPtrOutputWithContext(ctx context.Context) IpamPoolPropertiesPtrOutput {
-	return o
-}
-
-func (o IpamPoolPropertiesPtrOutput) Elem() IpamPoolPropertiesOutput {
-	return o.ApplyT(func(v *IpamPoolProperties) IpamPoolProperties {
-		if v != nil {
-			return *v
-		}
-		var ret IpamPoolProperties
-		return ret
-	}).(IpamPoolPropertiesOutput)
-}
-
-// List of IP address prefixes of the resource.
-func (o IpamPoolPropertiesPtrOutput) AddressPrefixes() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *IpamPoolProperties) []string {
-		if v == nil {
-			return nil
-		}
-		return v.AddressPrefixes
-	}).(pulumi.StringArrayOutput)
-}
-
-func (o IpamPoolPropertiesPtrOutput) Description() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IpamPoolProperties) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Description
-	}).(pulumi.StringPtrOutput)
-}
-
-// String representing a friendly name for the resource.
-func (o IpamPoolPropertiesPtrOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IpamPoolProperties) *string {
-		if v == nil {
-			return nil
-		}
-		return v.DisplayName
-	}).(pulumi.StringPtrOutput)
-}
-
-// String representing parent IpamPool resource name. If empty the IpamPool will be a root pool.
-func (o IpamPoolPropertiesPtrOutput) ParentPoolName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IpamPoolProperties) *string {
-		if v == nil {
-			return nil
-		}
-		return v.ParentPoolName
-	}).(pulumi.StringPtrOutput)
 }
 
 // Properties of IpamPool resource properties which are specific to the Pool resource.
@@ -56541,6 +56487,198 @@ func (o NsRecordResponseArrayOutput) Index(i pulumi.IntInput) NsRecordResponseOu
 	}).(NsRecordResponseOutput)
 }
 
+// The NSP logging configuration properties.
+type NspLoggingConfigurationProperties struct {
+	// The log categories to enable in the NSP logging configuration.
+	EnabledLogCategories []string `pulumi:"enabledLogCategories"`
+	// The version of the NSP logging configuration.
+	Version *string `pulumi:"version"`
+}
+
+// NspLoggingConfigurationPropertiesInput is an input type that accepts NspLoggingConfigurationPropertiesArgs and NspLoggingConfigurationPropertiesOutput values.
+// You can construct a concrete instance of `NspLoggingConfigurationPropertiesInput` via:
+//
+//	NspLoggingConfigurationPropertiesArgs{...}
+type NspLoggingConfigurationPropertiesInput interface {
+	pulumi.Input
+
+	ToNspLoggingConfigurationPropertiesOutput() NspLoggingConfigurationPropertiesOutput
+	ToNspLoggingConfigurationPropertiesOutputWithContext(context.Context) NspLoggingConfigurationPropertiesOutput
+}
+
+// The NSP logging configuration properties.
+type NspLoggingConfigurationPropertiesArgs struct {
+	// The log categories to enable in the NSP logging configuration.
+	EnabledLogCategories pulumi.StringArrayInput `pulumi:"enabledLogCategories"`
+	// The version of the NSP logging configuration.
+	Version pulumi.StringPtrInput `pulumi:"version"`
+}
+
+func (NspLoggingConfigurationPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*NspLoggingConfigurationProperties)(nil)).Elem()
+}
+
+func (i NspLoggingConfigurationPropertiesArgs) ToNspLoggingConfigurationPropertiesOutput() NspLoggingConfigurationPropertiesOutput {
+	return i.ToNspLoggingConfigurationPropertiesOutputWithContext(context.Background())
+}
+
+func (i NspLoggingConfigurationPropertiesArgs) ToNspLoggingConfigurationPropertiesOutputWithContext(ctx context.Context) NspLoggingConfigurationPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NspLoggingConfigurationPropertiesOutput)
+}
+
+func (i NspLoggingConfigurationPropertiesArgs) ToNspLoggingConfigurationPropertiesPtrOutput() NspLoggingConfigurationPropertiesPtrOutput {
+	return i.ToNspLoggingConfigurationPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i NspLoggingConfigurationPropertiesArgs) ToNspLoggingConfigurationPropertiesPtrOutputWithContext(ctx context.Context) NspLoggingConfigurationPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NspLoggingConfigurationPropertiesOutput).ToNspLoggingConfigurationPropertiesPtrOutputWithContext(ctx)
+}
+
+// NspLoggingConfigurationPropertiesPtrInput is an input type that accepts NspLoggingConfigurationPropertiesArgs, NspLoggingConfigurationPropertiesPtr and NspLoggingConfigurationPropertiesPtrOutput values.
+// You can construct a concrete instance of `NspLoggingConfigurationPropertiesPtrInput` via:
+//
+//	        NspLoggingConfigurationPropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type NspLoggingConfigurationPropertiesPtrInput interface {
+	pulumi.Input
+
+	ToNspLoggingConfigurationPropertiesPtrOutput() NspLoggingConfigurationPropertiesPtrOutput
+	ToNspLoggingConfigurationPropertiesPtrOutputWithContext(context.Context) NspLoggingConfigurationPropertiesPtrOutput
+}
+
+type nspLoggingConfigurationPropertiesPtrType NspLoggingConfigurationPropertiesArgs
+
+func NspLoggingConfigurationPropertiesPtr(v *NspLoggingConfigurationPropertiesArgs) NspLoggingConfigurationPropertiesPtrInput {
+	return (*nspLoggingConfigurationPropertiesPtrType)(v)
+}
+
+func (*nspLoggingConfigurationPropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**NspLoggingConfigurationProperties)(nil)).Elem()
+}
+
+func (i *nspLoggingConfigurationPropertiesPtrType) ToNspLoggingConfigurationPropertiesPtrOutput() NspLoggingConfigurationPropertiesPtrOutput {
+	return i.ToNspLoggingConfigurationPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *nspLoggingConfigurationPropertiesPtrType) ToNspLoggingConfigurationPropertiesPtrOutputWithContext(ctx context.Context) NspLoggingConfigurationPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NspLoggingConfigurationPropertiesPtrOutput)
+}
+
+// The NSP logging configuration properties.
+type NspLoggingConfigurationPropertiesOutput struct{ *pulumi.OutputState }
+
+func (NspLoggingConfigurationPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NspLoggingConfigurationProperties)(nil)).Elem()
+}
+
+func (o NspLoggingConfigurationPropertiesOutput) ToNspLoggingConfigurationPropertiesOutput() NspLoggingConfigurationPropertiesOutput {
+	return o
+}
+
+func (o NspLoggingConfigurationPropertiesOutput) ToNspLoggingConfigurationPropertiesOutputWithContext(ctx context.Context) NspLoggingConfigurationPropertiesOutput {
+	return o
+}
+
+func (o NspLoggingConfigurationPropertiesOutput) ToNspLoggingConfigurationPropertiesPtrOutput() NspLoggingConfigurationPropertiesPtrOutput {
+	return o.ToNspLoggingConfigurationPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o NspLoggingConfigurationPropertiesOutput) ToNspLoggingConfigurationPropertiesPtrOutputWithContext(ctx context.Context) NspLoggingConfigurationPropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v NspLoggingConfigurationProperties) *NspLoggingConfigurationProperties {
+		return &v
+	}).(NspLoggingConfigurationPropertiesPtrOutput)
+}
+
+// The log categories to enable in the NSP logging configuration.
+func (o NspLoggingConfigurationPropertiesOutput) EnabledLogCategories() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v NspLoggingConfigurationProperties) []string { return v.EnabledLogCategories }).(pulumi.StringArrayOutput)
+}
+
+// The version of the NSP logging configuration.
+func (o NspLoggingConfigurationPropertiesOutput) Version() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NspLoggingConfigurationProperties) *string { return v.Version }).(pulumi.StringPtrOutput)
+}
+
+type NspLoggingConfigurationPropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (NspLoggingConfigurationPropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**NspLoggingConfigurationProperties)(nil)).Elem()
+}
+
+func (o NspLoggingConfigurationPropertiesPtrOutput) ToNspLoggingConfigurationPropertiesPtrOutput() NspLoggingConfigurationPropertiesPtrOutput {
+	return o
+}
+
+func (o NspLoggingConfigurationPropertiesPtrOutput) ToNspLoggingConfigurationPropertiesPtrOutputWithContext(ctx context.Context) NspLoggingConfigurationPropertiesPtrOutput {
+	return o
+}
+
+func (o NspLoggingConfigurationPropertiesPtrOutput) Elem() NspLoggingConfigurationPropertiesOutput {
+	return o.ApplyT(func(v *NspLoggingConfigurationProperties) NspLoggingConfigurationProperties {
+		if v != nil {
+			return *v
+		}
+		var ret NspLoggingConfigurationProperties
+		return ret
+	}).(NspLoggingConfigurationPropertiesOutput)
+}
+
+// The log categories to enable in the NSP logging configuration.
+func (o NspLoggingConfigurationPropertiesPtrOutput) EnabledLogCategories() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *NspLoggingConfigurationProperties) []string {
+		if v == nil {
+			return nil
+		}
+		return v.EnabledLogCategories
+	}).(pulumi.StringArrayOutput)
+}
+
+// The version of the NSP logging configuration.
+func (o NspLoggingConfigurationPropertiesPtrOutput) Version() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *NspLoggingConfigurationProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Version
+	}).(pulumi.StringPtrOutput)
+}
+
+// The NSP logging configuration properties.
+type NspLoggingConfigurationPropertiesResponse struct {
+	// The log categories to enable in the NSP logging configuration.
+	EnabledLogCategories []string `pulumi:"enabledLogCategories"`
+	// The version of the NSP logging configuration.
+	Version *string `pulumi:"version"`
+}
+
+// The NSP logging configuration properties.
+type NspLoggingConfigurationPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (NspLoggingConfigurationPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NspLoggingConfigurationPropertiesResponse)(nil)).Elem()
+}
+
+func (o NspLoggingConfigurationPropertiesResponseOutput) ToNspLoggingConfigurationPropertiesResponseOutput() NspLoggingConfigurationPropertiesResponseOutput {
+	return o
+}
+
+func (o NspLoggingConfigurationPropertiesResponseOutput) ToNspLoggingConfigurationPropertiesResponseOutputWithContext(ctx context.Context) NspLoggingConfigurationPropertiesResponseOutput {
+	return o
+}
+
+// The log categories to enable in the NSP logging configuration.
+func (o NspLoggingConfigurationPropertiesResponseOutput) EnabledLogCategories() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v NspLoggingConfigurationPropertiesResponse) []string { return v.EnabledLogCategories }).(pulumi.StringArrayOutput)
+}
+
+// The version of the NSP logging configuration.
+func (o NspLoggingConfigurationPropertiesResponseOutput) Version() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NspLoggingConfigurationPropertiesResponse) *string { return v.Version }).(pulumi.StringPtrOutput)
+}
+
 // Office365 breakout categories.
 type O365BreakOutCategoryPolicies struct {
 	// Flag to control allow category.
@@ -60445,491 +60583,6 @@ func (o PolicySettingsPtrOutput) State() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// To scrub sensitive log fields
-type PolicySettingsLogScrubbing struct {
-	// The rules that are applied to the logs for scrubbing.
-	ScrubbingRules []WebApplicationFirewallScrubbingRules `pulumi:"scrubbingRules"`
-	// State of the log scrubbing config. Default value is Enabled.
-	State *string `pulumi:"state"`
-}
-
-// PolicySettingsLogScrubbingInput is an input type that accepts PolicySettingsLogScrubbingArgs and PolicySettingsLogScrubbingOutput values.
-// You can construct a concrete instance of `PolicySettingsLogScrubbingInput` via:
-//
-//	PolicySettingsLogScrubbingArgs{...}
-type PolicySettingsLogScrubbingInput interface {
-	pulumi.Input
-
-	ToPolicySettingsLogScrubbingOutput() PolicySettingsLogScrubbingOutput
-	ToPolicySettingsLogScrubbingOutputWithContext(context.Context) PolicySettingsLogScrubbingOutput
-}
-
-// To scrub sensitive log fields
-type PolicySettingsLogScrubbingArgs struct {
-	// The rules that are applied to the logs for scrubbing.
-	ScrubbingRules WebApplicationFirewallScrubbingRulesArrayInput `pulumi:"scrubbingRules"`
-	// State of the log scrubbing config. Default value is Enabled.
-	State pulumi.StringPtrInput `pulumi:"state"`
-}
-
-func (PolicySettingsLogScrubbingArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*PolicySettingsLogScrubbing)(nil)).Elem()
-}
-
-func (i PolicySettingsLogScrubbingArgs) ToPolicySettingsLogScrubbingOutput() PolicySettingsLogScrubbingOutput {
-	return i.ToPolicySettingsLogScrubbingOutputWithContext(context.Background())
-}
-
-func (i PolicySettingsLogScrubbingArgs) ToPolicySettingsLogScrubbingOutputWithContext(ctx context.Context) PolicySettingsLogScrubbingOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PolicySettingsLogScrubbingOutput)
-}
-
-func (i PolicySettingsLogScrubbingArgs) ToPolicySettingsLogScrubbingPtrOutput() PolicySettingsLogScrubbingPtrOutput {
-	return i.ToPolicySettingsLogScrubbingPtrOutputWithContext(context.Background())
-}
-
-func (i PolicySettingsLogScrubbingArgs) ToPolicySettingsLogScrubbingPtrOutputWithContext(ctx context.Context) PolicySettingsLogScrubbingPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PolicySettingsLogScrubbingOutput).ToPolicySettingsLogScrubbingPtrOutputWithContext(ctx)
-}
-
-// PolicySettingsLogScrubbingPtrInput is an input type that accepts PolicySettingsLogScrubbingArgs, PolicySettingsLogScrubbingPtr and PolicySettingsLogScrubbingPtrOutput values.
-// You can construct a concrete instance of `PolicySettingsLogScrubbingPtrInput` via:
-//
-//	        PolicySettingsLogScrubbingArgs{...}
-//
-//	or:
-//
-//	        nil
-type PolicySettingsLogScrubbingPtrInput interface {
-	pulumi.Input
-
-	ToPolicySettingsLogScrubbingPtrOutput() PolicySettingsLogScrubbingPtrOutput
-	ToPolicySettingsLogScrubbingPtrOutputWithContext(context.Context) PolicySettingsLogScrubbingPtrOutput
-}
-
-type policySettingsLogScrubbingPtrType PolicySettingsLogScrubbingArgs
-
-func PolicySettingsLogScrubbingPtr(v *PolicySettingsLogScrubbingArgs) PolicySettingsLogScrubbingPtrInput {
-	return (*policySettingsLogScrubbingPtrType)(v)
-}
-
-func (*policySettingsLogScrubbingPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**PolicySettingsLogScrubbing)(nil)).Elem()
-}
-
-func (i *policySettingsLogScrubbingPtrType) ToPolicySettingsLogScrubbingPtrOutput() PolicySettingsLogScrubbingPtrOutput {
-	return i.ToPolicySettingsLogScrubbingPtrOutputWithContext(context.Background())
-}
-
-func (i *policySettingsLogScrubbingPtrType) ToPolicySettingsLogScrubbingPtrOutputWithContext(ctx context.Context) PolicySettingsLogScrubbingPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PolicySettingsLogScrubbingPtrOutput)
-}
-
-// To scrub sensitive log fields
-type PolicySettingsLogScrubbingOutput struct{ *pulumi.OutputState }
-
-func (PolicySettingsLogScrubbingOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PolicySettingsLogScrubbing)(nil)).Elem()
-}
-
-func (o PolicySettingsLogScrubbingOutput) ToPolicySettingsLogScrubbingOutput() PolicySettingsLogScrubbingOutput {
-	return o
-}
-
-func (o PolicySettingsLogScrubbingOutput) ToPolicySettingsLogScrubbingOutputWithContext(ctx context.Context) PolicySettingsLogScrubbingOutput {
-	return o
-}
-
-func (o PolicySettingsLogScrubbingOutput) ToPolicySettingsLogScrubbingPtrOutput() PolicySettingsLogScrubbingPtrOutput {
-	return o.ToPolicySettingsLogScrubbingPtrOutputWithContext(context.Background())
-}
-
-func (o PolicySettingsLogScrubbingOutput) ToPolicySettingsLogScrubbingPtrOutputWithContext(ctx context.Context) PolicySettingsLogScrubbingPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v PolicySettingsLogScrubbing) *PolicySettingsLogScrubbing {
-		return &v
-	}).(PolicySettingsLogScrubbingPtrOutput)
-}
-
-// The rules that are applied to the logs for scrubbing.
-func (o PolicySettingsLogScrubbingOutput) ScrubbingRules() WebApplicationFirewallScrubbingRulesArrayOutput {
-	return o.ApplyT(func(v PolicySettingsLogScrubbing) []WebApplicationFirewallScrubbingRules { return v.ScrubbingRules }).(WebApplicationFirewallScrubbingRulesArrayOutput)
-}
-
-// State of the log scrubbing config. Default value is Enabled.
-func (o PolicySettingsLogScrubbingOutput) State() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicySettingsLogScrubbing) *string { return v.State }).(pulumi.StringPtrOutput)
-}
-
-type PolicySettingsLogScrubbingPtrOutput struct{ *pulumi.OutputState }
-
-func (PolicySettingsLogScrubbingPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PolicySettingsLogScrubbing)(nil)).Elem()
-}
-
-func (o PolicySettingsLogScrubbingPtrOutput) ToPolicySettingsLogScrubbingPtrOutput() PolicySettingsLogScrubbingPtrOutput {
-	return o
-}
-
-func (o PolicySettingsLogScrubbingPtrOutput) ToPolicySettingsLogScrubbingPtrOutputWithContext(ctx context.Context) PolicySettingsLogScrubbingPtrOutput {
-	return o
-}
-
-func (o PolicySettingsLogScrubbingPtrOutput) Elem() PolicySettingsLogScrubbingOutput {
-	return o.ApplyT(func(v *PolicySettingsLogScrubbing) PolicySettingsLogScrubbing {
-		if v != nil {
-			return *v
-		}
-		var ret PolicySettingsLogScrubbing
-		return ret
-	}).(PolicySettingsLogScrubbingOutput)
-}
-
-// The rules that are applied to the logs for scrubbing.
-func (o PolicySettingsLogScrubbingPtrOutput) ScrubbingRules() WebApplicationFirewallScrubbingRulesArrayOutput {
-	return o.ApplyT(func(v *PolicySettingsLogScrubbing) []WebApplicationFirewallScrubbingRules {
-		if v == nil {
-			return nil
-		}
-		return v.ScrubbingRules
-	}).(WebApplicationFirewallScrubbingRulesArrayOutput)
-}
-
-// State of the log scrubbing config. Default value is Enabled.
-func (o PolicySettingsLogScrubbingPtrOutput) State() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsLogScrubbing) *string {
-		if v == nil {
-			return nil
-		}
-		return v.State
-	}).(pulumi.StringPtrOutput)
-}
-
-// Defines contents of a web application firewall global configuration.
-type PolicySettingsResponse struct {
-	// If the action type is block, customer can override the response body. The body must be specified in base64 encoding.
-	CustomBlockResponseBody *string `pulumi:"customBlockResponseBody"`
-	// If the action type is block, customer can override the response status code.
-	CustomBlockResponseStatusCode *int `pulumi:"customBlockResponseStatusCode"`
-	// Whether allow WAF to enforce file upload limits.
-	FileUploadEnforcement *bool `pulumi:"fileUploadEnforcement"`
-	// Maximum file upload size in Mb for WAF.
-	FileUploadLimitInMb *int `pulumi:"fileUploadLimitInMb"`
-	// To scrub sensitive log fields
-	LogScrubbing *PolicySettingsResponseLogScrubbing `pulumi:"logScrubbing"`
-	// Maximum request body size in Kb for WAF.
-	MaxRequestBodySizeInKb *int `pulumi:"maxRequestBodySizeInKb"`
-	// The mode of the policy.
-	Mode *string `pulumi:"mode"`
-	// Whether to allow WAF to check request Body.
-	RequestBodyCheck *bool `pulumi:"requestBodyCheck"`
-	// Whether allow WAF to enforce request body limits.
-	RequestBodyEnforcement *bool `pulumi:"requestBodyEnforcement"`
-	// Max inspection limit in KB for request body inspection for WAF.
-	RequestBodyInspectLimitInKB *int `pulumi:"requestBodyInspectLimitInKB"`
-	// The state of the policy.
-	State *string `pulumi:"state"`
-}
-
-// Defaults sets the appropriate defaults for PolicySettingsResponse
-func (val *PolicySettingsResponse) Defaults() *PolicySettingsResponse {
-	if val == nil {
-		return nil
-	}
-	tmp := *val
-	if tmp.FileUploadEnforcement == nil {
-		fileUploadEnforcement_ := true
-		tmp.FileUploadEnforcement = &fileUploadEnforcement_
-	}
-	if tmp.RequestBodyEnforcement == nil {
-		requestBodyEnforcement_ := true
-		tmp.RequestBodyEnforcement = &requestBodyEnforcement_
-	}
-	return &tmp
-}
-
-// Defines contents of a web application firewall global configuration.
-type PolicySettingsResponseOutput struct{ *pulumi.OutputState }
-
-func (PolicySettingsResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PolicySettingsResponse)(nil)).Elem()
-}
-
-func (o PolicySettingsResponseOutput) ToPolicySettingsResponseOutput() PolicySettingsResponseOutput {
-	return o
-}
-
-func (o PolicySettingsResponseOutput) ToPolicySettingsResponseOutputWithContext(ctx context.Context) PolicySettingsResponseOutput {
-	return o
-}
-
-// If the action type is block, customer can override the response body. The body must be specified in base64 encoding.
-func (o PolicySettingsResponseOutput) CustomBlockResponseBody() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *string { return v.CustomBlockResponseBody }).(pulumi.StringPtrOutput)
-}
-
-// If the action type is block, customer can override the response status code.
-func (o PolicySettingsResponseOutput) CustomBlockResponseStatusCode() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *int { return v.CustomBlockResponseStatusCode }).(pulumi.IntPtrOutput)
-}
-
-// Whether allow WAF to enforce file upload limits.
-func (o PolicySettingsResponseOutput) FileUploadEnforcement() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *bool { return v.FileUploadEnforcement }).(pulumi.BoolPtrOutput)
-}
-
-// Maximum file upload size in Mb for WAF.
-func (o PolicySettingsResponseOutput) FileUploadLimitInMb() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *int { return v.FileUploadLimitInMb }).(pulumi.IntPtrOutput)
-}
-
-// To scrub sensitive log fields
-func (o PolicySettingsResponseOutput) LogScrubbing() PolicySettingsResponseLogScrubbingPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *PolicySettingsResponseLogScrubbing { return v.LogScrubbing }).(PolicySettingsResponseLogScrubbingPtrOutput)
-}
-
-// Maximum request body size in Kb for WAF.
-func (o PolicySettingsResponseOutput) MaxRequestBodySizeInKb() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *int { return v.MaxRequestBodySizeInKb }).(pulumi.IntPtrOutput)
-}
-
-// The mode of the policy.
-func (o PolicySettingsResponseOutput) Mode() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *string { return v.Mode }).(pulumi.StringPtrOutput)
-}
-
-// Whether to allow WAF to check request Body.
-func (o PolicySettingsResponseOutput) RequestBodyCheck() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *bool { return v.RequestBodyCheck }).(pulumi.BoolPtrOutput)
-}
-
-// Whether allow WAF to enforce request body limits.
-func (o PolicySettingsResponseOutput) RequestBodyEnforcement() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *bool { return v.RequestBodyEnforcement }).(pulumi.BoolPtrOutput)
-}
-
-// Max inspection limit in KB for request body inspection for WAF.
-func (o PolicySettingsResponseOutput) RequestBodyInspectLimitInKB() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *int { return v.RequestBodyInspectLimitInKB }).(pulumi.IntPtrOutput)
-}
-
-// The state of the policy.
-func (o PolicySettingsResponseOutput) State() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponse) *string { return v.State }).(pulumi.StringPtrOutput)
-}
-
-type PolicySettingsResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PolicySettingsResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PolicySettingsResponse)(nil)).Elem()
-}
-
-func (o PolicySettingsResponsePtrOutput) ToPolicySettingsResponsePtrOutput() PolicySettingsResponsePtrOutput {
-	return o
-}
-
-func (o PolicySettingsResponsePtrOutput) ToPolicySettingsResponsePtrOutputWithContext(ctx context.Context) PolicySettingsResponsePtrOutput {
-	return o
-}
-
-func (o PolicySettingsResponsePtrOutput) Elem() PolicySettingsResponseOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) PolicySettingsResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PolicySettingsResponse
-		return ret
-	}).(PolicySettingsResponseOutput)
-}
-
-// If the action type is block, customer can override the response body. The body must be specified in base64 encoding.
-func (o PolicySettingsResponsePtrOutput) CustomBlockResponseBody() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.CustomBlockResponseBody
-	}).(pulumi.StringPtrOutput)
-}
-
-// If the action type is block, customer can override the response status code.
-func (o PolicySettingsResponsePtrOutput) CustomBlockResponseStatusCode() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *int {
-		if v == nil {
-			return nil
-		}
-		return v.CustomBlockResponseStatusCode
-	}).(pulumi.IntPtrOutput)
-}
-
-// Whether allow WAF to enforce file upload limits.
-func (o PolicySettingsResponsePtrOutput) FileUploadEnforcement() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *bool {
-		if v == nil {
-			return nil
-		}
-		return v.FileUploadEnforcement
-	}).(pulumi.BoolPtrOutput)
-}
-
-// Maximum file upload size in Mb for WAF.
-func (o PolicySettingsResponsePtrOutput) FileUploadLimitInMb() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *int {
-		if v == nil {
-			return nil
-		}
-		return v.FileUploadLimitInMb
-	}).(pulumi.IntPtrOutput)
-}
-
-// To scrub sensitive log fields
-func (o PolicySettingsResponsePtrOutput) LogScrubbing() PolicySettingsResponseLogScrubbingPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *PolicySettingsResponseLogScrubbing {
-		if v == nil {
-			return nil
-		}
-		return v.LogScrubbing
-	}).(PolicySettingsResponseLogScrubbingPtrOutput)
-}
-
-// Maximum request body size in Kb for WAF.
-func (o PolicySettingsResponsePtrOutput) MaxRequestBodySizeInKb() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *int {
-		if v == nil {
-			return nil
-		}
-		return v.MaxRequestBodySizeInKb
-	}).(pulumi.IntPtrOutput)
-}
-
-// The mode of the policy.
-func (o PolicySettingsResponsePtrOutput) Mode() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Mode
-	}).(pulumi.StringPtrOutput)
-}
-
-// Whether to allow WAF to check request Body.
-func (o PolicySettingsResponsePtrOutput) RequestBodyCheck() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *bool {
-		if v == nil {
-			return nil
-		}
-		return v.RequestBodyCheck
-	}).(pulumi.BoolPtrOutput)
-}
-
-// Whether allow WAF to enforce request body limits.
-func (o PolicySettingsResponsePtrOutput) RequestBodyEnforcement() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *bool {
-		if v == nil {
-			return nil
-		}
-		return v.RequestBodyEnforcement
-	}).(pulumi.BoolPtrOutput)
-}
-
-// Max inspection limit in KB for request body inspection for WAF.
-func (o PolicySettingsResponsePtrOutput) RequestBodyInspectLimitInKB() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *int {
-		if v == nil {
-			return nil
-		}
-		return v.RequestBodyInspectLimitInKB
-	}).(pulumi.IntPtrOutput)
-}
-
-// The state of the policy.
-func (o PolicySettingsResponsePtrOutput) State() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.State
-	}).(pulumi.StringPtrOutput)
-}
-
-// To scrub sensitive log fields
-type PolicySettingsResponseLogScrubbing struct {
-	// The rules that are applied to the logs for scrubbing.
-	ScrubbingRules []WebApplicationFirewallScrubbingRulesResponse `pulumi:"scrubbingRules"`
-	// State of the log scrubbing config. Default value is Enabled.
-	State *string `pulumi:"state"`
-}
-
-// To scrub sensitive log fields
-type PolicySettingsResponseLogScrubbingOutput struct{ *pulumi.OutputState }
-
-func (PolicySettingsResponseLogScrubbingOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PolicySettingsResponseLogScrubbing)(nil)).Elem()
-}
-
-func (o PolicySettingsResponseLogScrubbingOutput) ToPolicySettingsResponseLogScrubbingOutput() PolicySettingsResponseLogScrubbingOutput {
-	return o
-}
-
-func (o PolicySettingsResponseLogScrubbingOutput) ToPolicySettingsResponseLogScrubbingOutputWithContext(ctx context.Context) PolicySettingsResponseLogScrubbingOutput {
-	return o
-}
-
-// The rules that are applied to the logs for scrubbing.
-func (o PolicySettingsResponseLogScrubbingOutput) ScrubbingRules() WebApplicationFirewallScrubbingRulesResponseArrayOutput {
-	return o.ApplyT(func(v PolicySettingsResponseLogScrubbing) []WebApplicationFirewallScrubbingRulesResponse {
-		return v.ScrubbingRules
-	}).(WebApplicationFirewallScrubbingRulesResponseArrayOutput)
-}
-
-// State of the log scrubbing config. Default value is Enabled.
-func (o PolicySettingsResponseLogScrubbingOutput) State() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicySettingsResponseLogScrubbing) *string { return v.State }).(pulumi.StringPtrOutput)
-}
-
-type PolicySettingsResponseLogScrubbingPtrOutput struct{ *pulumi.OutputState }
-
-func (PolicySettingsResponseLogScrubbingPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PolicySettingsResponseLogScrubbing)(nil)).Elem()
-}
-
-func (o PolicySettingsResponseLogScrubbingPtrOutput) ToPolicySettingsResponseLogScrubbingPtrOutput() PolicySettingsResponseLogScrubbingPtrOutput {
-	return o
-}
-
-func (o PolicySettingsResponseLogScrubbingPtrOutput) ToPolicySettingsResponseLogScrubbingPtrOutputWithContext(ctx context.Context) PolicySettingsResponseLogScrubbingPtrOutput {
-	return o
-}
-
-func (o PolicySettingsResponseLogScrubbingPtrOutput) Elem() PolicySettingsResponseLogScrubbingOutput {
-	return o.ApplyT(func(v *PolicySettingsResponseLogScrubbing) PolicySettingsResponseLogScrubbing {
-		if v != nil {
-			return *v
-		}
-		var ret PolicySettingsResponseLogScrubbing
-		return ret
-	}).(PolicySettingsResponseLogScrubbingOutput)
-}
-
-// The rules that are applied to the logs for scrubbing.
-func (o PolicySettingsResponseLogScrubbingPtrOutput) ScrubbingRules() WebApplicationFirewallScrubbingRulesResponseArrayOutput {
-	return o.ApplyT(func(v *PolicySettingsResponseLogScrubbing) []WebApplicationFirewallScrubbingRulesResponse {
-		if v == nil {
-			return nil
-		}
-		return v.ScrubbingRules
-	}).(WebApplicationFirewallScrubbingRulesResponseArrayOutput)
-}
-
-// State of the log scrubbing config. Default value is Enabled.
-func (o PolicySettingsResponseLogScrubbingPtrOutput) State() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicySettingsResponseLogScrubbing) *string {
-		if v == nil {
-			return nil
-		}
-		return v.State
-	}).(pulumi.StringPtrOutput)
-}
-
 func init() {
 	pulumi.RegisterOutputType(ARecordOutput{})
 	pulumi.RegisterOutputType(ARecordArrayOutput{})
@@ -61352,6 +61005,8 @@ func init() {
 	pulumi.RegisterOutputType(DelegationPropertiesResponsePtrOutput{})
 	pulumi.RegisterOutputType(DelegationResponseOutput{})
 	pulumi.RegisterOutputType(DelegationResponseArrayOutput{})
+	pulumi.RegisterOutputType(DelegationSignerInfoResponseOutput{})
+	pulumi.RegisterOutputType(DelegationSignerInfoResponseArrayOutput{})
 	pulumi.RegisterOutputType(DevicePropertiesOutput{})
 	pulumi.RegisterOutputType(DevicePropertiesPtrOutput{})
 	pulumi.RegisterOutputType(DevicePropertiesResponseOutput{})
@@ -61688,7 +61343,6 @@ func init() {
 	pulumi.RegisterOutputType(IpTagResponseOutput{})
 	pulumi.RegisterOutputType(IpTagResponseArrayOutput{})
 	pulumi.RegisterOutputType(IpamPoolPropertiesOutput{})
-	pulumi.RegisterOutputType(IpamPoolPropertiesPtrOutput{})
 	pulumi.RegisterOutputType(IpamPoolPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(IpsecPolicyOutput{})
 	pulumi.RegisterOutputType(IpsecPolicyArrayOutput{})
@@ -61834,6 +61488,9 @@ func init() {
 	pulumi.RegisterOutputType(NsRecordArrayOutput{})
 	pulumi.RegisterOutputType(NsRecordResponseOutput{})
 	pulumi.RegisterOutputType(NsRecordResponseArrayOutput{})
+	pulumi.RegisterOutputType(NspLoggingConfigurationPropertiesOutput{})
+	pulumi.RegisterOutputType(NspLoggingConfigurationPropertiesPtrOutput{})
+	pulumi.RegisterOutputType(NspLoggingConfigurationPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(O365BreakOutCategoryPoliciesOutput{})
 	pulumi.RegisterOutputType(O365BreakOutCategoryPoliciesPtrOutput{})
 	pulumi.RegisterOutputType(O365BreakOutCategoryPoliciesResponseOutput{})
@@ -61900,10 +61557,4 @@ func init() {
 	pulumi.RegisterOutputType(PerimeterBasedAccessRuleResponseArrayOutput{})
 	pulumi.RegisterOutputType(PolicySettingsOutput{})
 	pulumi.RegisterOutputType(PolicySettingsPtrOutput{})
-	pulumi.RegisterOutputType(PolicySettingsLogScrubbingOutput{})
-	pulumi.RegisterOutputType(PolicySettingsLogScrubbingPtrOutput{})
-	pulumi.RegisterOutputType(PolicySettingsResponseOutput{})
-	pulumi.RegisterOutputType(PolicySettingsResponsePtrOutput{})
-	pulumi.RegisterOutputType(PolicySettingsResponseLogScrubbingOutput{})
-	pulumi.RegisterOutputType(PolicySettingsResponseLogScrubbingPtrOutput{})
 }

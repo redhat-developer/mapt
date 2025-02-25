@@ -72,23 +72,12 @@ func (val *LookupVirtualNetworkTapResult) Defaults() *LookupVirtualNetworkTapRes
 
 	return &tmp
 }
-
 func LookupVirtualNetworkTapOutput(ctx *pulumi.Context, args LookupVirtualNetworkTapOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkTapResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupVirtualNetworkTapResultOutput, error) {
 			args := v.(LookupVirtualNetworkTapArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupVirtualNetworkTapResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkTap", args, &rv, "", opts...)
-			if err != nil {
-				return LookupVirtualNetworkTapResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupVirtualNetworkTapResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupVirtualNetworkTapResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkTap", args, LookupVirtualNetworkTapResultOutput{}, options).(LookupVirtualNetworkTapResultOutput), nil
 		}).(LookupVirtualNetworkTapResultOutput)
 }
 

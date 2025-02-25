@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	awsmiddleware "github.com/aws/aws-sdk-go-v2/aws/middleware"
-	"github.com/aws/aws-sdk-go-v2/aws/signer/v4"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/aws/smithy-go/middleware"
 	smithyhttp "github.com/aws/smithy-go/transport/http"
@@ -45,11 +44,11 @@ type GetCapacityReservationUsageInput struct {
 	// UnauthorizedOperation .
 	DryRun *bool
 
-	// The maximum number of results to return for the request in a single page. The
-	// remaining results can be seen by sending another request with the returned
-	// nextToken value. This value can be between 5 and 500. If maxResults is given a
-	// larger value than 500, you receive an error. Valid range: Minimum value of 1.
-	// Maximum value of 1000.
+	// The maximum number of items to return for this request. To get the next page of
+	// items, make another request with the token returned in the output. For more
+	// information, see [Pagination].
+	//
+	// [Pagination]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination
 	MaxResults *int32
 
 	// The token to use to retrieve the next page of results.
@@ -79,18 +78,39 @@ type GetCapacityReservationUsageOutput struct {
 
 	// The current state of the Capacity Reservation. A Capacity Reservation can be in
 	// one of the following states:
-	//   - active - The Capacity Reservation is active and the capacity is available
-	//   for your use.
+	//
+	//   - active - The capacity is available for use.
+	//
 	//   - expired - The Capacity Reservation expired automatically at the date and
-	//   time specified in your request. The reserved capacity is no longer available for
-	//   your use.
-	//   - cancelled - The Capacity Reservation was cancelled. The reserved capacity is
+	//   time specified in your reservation request. The reserved capacity is no longer
+	//   available for your use.
+	//
+	//   - cancelled - The Capacity Reservation was canceled. The reserved capacity is
 	//   no longer available for your use.
+	//
 	//   - pending - The Capacity Reservation request was successful but the capacity
 	//   provisioning is still pending.
-	//   - failed - The Capacity Reservation request has failed. A request might fail
-	//   due to invalid request parameters, capacity constraints, or instance limit
-	//   constraints. Failed requests are retained for 60 minutes.
+	//
+	//   - failed - The Capacity Reservation request has failed. A request can fail due
+	//   to request parameters that are not valid, capacity constraints, or instance
+	//   limit constraints. You can view a failed request for 60 minutes.
+	//
+	//   - scheduled - (Future-dated Capacity Reservations only) The future-dated
+	//   Capacity Reservation request was approved and the Capacity Reservation is
+	//   scheduled for delivery on the requested start date.
+	//
+	//   - assessing - (Future-dated Capacity Reservations only) Amazon EC2 is
+	//   assessing your request for a future-dated Capacity Reservation.
+	//
+	//   - delayed - (Future-dated Capacity Reservations only) Amazon EC2 encountered a
+	//   delay in provisioning the requested future-dated Capacity Reservation. Amazon
+	//   EC2 is unable to deliver the requested capacity by the requested start date and
+	//   time.
+	//
+	//   - unsupported - (Future-dated Capacity Reservations only) Amazon EC2 can't
+	//   support the future-dated Capacity Reservation request due to capacity
+	//   constraints. You can view unsupported requests for 30 days. The Capacity
+	//   Reservation will not be delivered.
 	State types.CapacityReservationState
 
 	// The number of instances for which the Capacity Reservation reserves capacity.
@@ -124,25 +144,28 @@ func (c *Client) addOperationGetCapacityReservationUsageMiddlewares(stack *middl
 	if err = addSetLoggerMiddleware(stack, options); err != nil {
 		return err
 	}
-	if err = awsmiddleware.AddClientRequestIDMiddleware(stack); err != nil {
+	if err = addClientRequestID(stack); err != nil {
 		return err
 	}
-	if err = smithyhttp.AddComputeContentLengthMiddleware(stack); err != nil {
+	if err = addComputeContentLength(stack); err != nil {
 		return err
 	}
 	if err = addResolveEndpointMiddleware(stack, options); err != nil {
 		return err
 	}
-	if err = v4.AddComputePayloadSHA256Middleware(stack); err != nil {
+	if err = addComputePayloadSHA256(stack); err != nil {
 		return err
 	}
-	if err = addRetryMiddlewares(stack, options); err != nil {
+	if err = addRetry(stack, options); err != nil {
 		return err
 	}
-	if err = awsmiddleware.AddRawResponseToMetadata(stack); err != nil {
+	if err = addRawResponseToMetadata(stack); err != nil {
 		return err
 	}
-	if err = awsmiddleware.AddRecordResponseTiming(stack); err != nil {
+	if err = addRecordResponseTiming(stack); err != nil {
+		return err
+	}
+	if err = addSpanRetryLoop(stack, options); err != nil {
 		return err
 	}
 	if err = addClientUserAgent(stack, options); err != nil {
@@ -157,13 +180,19 @@ func (c *Client) addOperationGetCapacityReservationUsageMiddlewares(stack *middl
 	if err = addSetLegacyContextSigningOptionsMiddleware(stack); err != nil {
 		return err
 	}
+	if err = addTimeOffsetBuild(stack, c); err != nil {
+		return err
+	}
+	if err = addUserAgentRetryMode(stack, options); err != nil {
+		return err
+	}
 	if err = addOpGetCapacityReservationUsageValidationMiddleware(stack); err != nil {
 		return err
 	}
 	if err = stack.Initialize.Add(newServiceMetadataMiddleware_opGetCapacityReservationUsage(options.Region), middleware.Before); err != nil {
 		return err
 	}
-	if err = awsmiddleware.AddRecursionDetection(stack); err != nil {
+	if err = addRecursionDetection(stack); err != nil {
 		return err
 	}
 	if err = addRequestIDRetrieverMiddleware(stack); err != nil {
@@ -176,6 +205,18 @@ func (c *Client) addOperationGetCapacityReservationUsageMiddlewares(stack *middl
 		return err
 	}
 	if err = addDisableHTTPSMiddleware(stack, options); err != nil {
+		return err
+	}
+	if err = addSpanInitializeStart(stack); err != nil {
+		return err
+	}
+	if err = addSpanInitializeEnd(stack); err != nil {
+		return err
+	}
+	if err = addSpanBuildRequestStart(stack); err != nil {
+		return err
+	}
+	if err = addSpanBuildRequestEnd(stack); err != nil {
 		return err
 	}
 	return nil

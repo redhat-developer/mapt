@@ -59,21 +59,11 @@ type LookupNspAssociationResult struct {
 }
 
 func LookupNspAssociationOutput(ctx *pulumi.Context, args LookupNspAssociationOutputArgs, opts ...pulumi.InvokeOption) LookupNspAssociationResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupNspAssociationResultOutput, error) {
 			args := v.(LookupNspAssociationArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupNspAssociationResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getNspAssociation", args, &rv, "", opts...)
-			if err != nil {
-				return LookupNspAssociationResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupNspAssociationResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupNspAssociationResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getNspAssociation", args, LookupNspAssociationResultOutput{}, options).(LookupNspAssociationResultOutput), nil
 		}).(LookupNspAssociationResultOutput)
 }
 

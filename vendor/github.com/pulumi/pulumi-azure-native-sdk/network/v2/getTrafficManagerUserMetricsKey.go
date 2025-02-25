@@ -41,21 +41,11 @@ type LookupTrafficManagerUserMetricsKeyResult struct {
 }
 
 func LookupTrafficManagerUserMetricsKeyOutput(ctx *pulumi.Context, args LookupTrafficManagerUserMetricsKeyOutputArgs, opts ...pulumi.InvokeOption) LookupTrafficManagerUserMetricsKeyResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupTrafficManagerUserMetricsKeyResultOutput, error) {
 			args := v.(LookupTrafficManagerUserMetricsKeyArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupTrafficManagerUserMetricsKeyResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getTrafficManagerUserMetricsKey", args, &rv, "", opts...)
-			if err != nil {
-				return LookupTrafficManagerUserMetricsKeyResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupTrafficManagerUserMetricsKeyResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupTrafficManagerUserMetricsKeyResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getTrafficManagerUserMetricsKey", args, LookupTrafficManagerUserMetricsKeyResultOutput{}, options).(LookupTrafficManagerUserMetricsKeyResultOutput), nil
 		}).(LookupTrafficManagerUserMetricsKeyResultOutput)
 }
 

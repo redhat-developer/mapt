@@ -9,50 +9,10 @@ import (
 
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // <!-- Bug: Type and Name are switched -->
 // Manages the lifecycle of docker image in a registry. You can upload images to a registry (= `docker push`) and also delete them again
-//
-// ## Example Usage
-//
-// Build an image with the `RemoteImage` resource and then push it to a registry:
-//
-// ```go
-// package main
-//
-// import (
-//
-//	"fmt"
-//
-//	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker"
-//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-//
-// )
-//
-//	func main() {
-//		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := docker.NewRegistryImage(ctx, "helloworld", &docker.RegistryImageArgs{
-//				KeepRemotely: pulumi.Bool(true),
-//			})
-//			if err != nil {
-//				return err
-//			}
-//			_, err = docker.NewRemoteImage(ctx, "image", &docker.RemoteImageArgs{
-//				Name: pulumi.String("registry.com/somename:1.0"),
-//				Build: &docker.RemoteImageBuildArgs{
-//					Context: pulumi.String(fmt.Sprintf("%v/absolutePathToContextFolder", path.Cwd)),
-//				},
-//			})
-//			if err != nil {
-//				return err
-//			}
-//			return nil
-//		})
-//	}
-//
-// ```
 type RegistryImage struct {
 	pulumi.CustomResourceState
 
@@ -65,7 +25,7 @@ type RegistryImage struct {
 	// The sha256 digest of the image.
 	Sha256Digest pulumi.StringOutput `pulumi:"sha256Digest"`
 	// A map of arbitrary strings that, when changed, will force the `RegistryImage` resource to be replaced. This can be used to repush a local image
-	Triggers pulumi.MapOutput `pulumi:"triggers"`
+	Triggers pulumi.StringMapOutput `pulumi:"triggers"`
 }
 
 // NewRegistryImage registers a new resource with the given unique name, arguments, and options.
@@ -107,7 +67,7 @@ type registryImageState struct {
 	// The sha256 digest of the image.
 	Sha256Digest *string `pulumi:"sha256Digest"`
 	// A map of arbitrary strings that, when changed, will force the `RegistryImage` resource to be replaced. This can be used to repush a local image
-	Triggers map[string]interface{} `pulumi:"triggers"`
+	Triggers map[string]string `pulumi:"triggers"`
 }
 
 type RegistryImageState struct {
@@ -120,7 +80,7 @@ type RegistryImageState struct {
 	// The sha256 digest of the image.
 	Sha256Digest pulumi.StringPtrInput
 	// A map of arbitrary strings that, when changed, will force the `RegistryImage` resource to be replaced. This can be used to repush a local image
-	Triggers pulumi.MapInput
+	Triggers pulumi.StringMapInput
 }
 
 func (RegistryImageState) ElementType() reflect.Type {
@@ -135,7 +95,7 @@ type registryImageArgs struct {
 	// The name of the Docker image.
 	Name *string `pulumi:"name"`
 	// A map of arbitrary strings that, when changed, will force the `RegistryImage` resource to be replaced. This can be used to repush a local image
-	Triggers map[string]interface{} `pulumi:"triggers"`
+	Triggers map[string]string `pulumi:"triggers"`
 }
 
 // The set of arguments for constructing a RegistryImage resource.
@@ -147,7 +107,7 @@ type RegistryImageArgs struct {
 	// The name of the Docker image.
 	Name pulumi.StringPtrInput
 	// A map of arbitrary strings that, when changed, will force the `RegistryImage` resource to be replaced. This can be used to repush a local image
-	Triggers pulumi.MapInput
+	Triggers pulumi.StringMapInput
 }
 
 func (RegistryImageArgs) ElementType() reflect.Type {
@@ -171,12 +131,6 @@ func (i *RegistryImage) ToRegistryImageOutput() RegistryImageOutput {
 
 func (i *RegistryImage) ToRegistryImageOutputWithContext(ctx context.Context) RegistryImageOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(RegistryImageOutput)
-}
-
-func (i *RegistryImage) ToOutput(ctx context.Context) pulumix.Output[*RegistryImage] {
-	return pulumix.Output[*RegistryImage]{
-		OutputState: i.ToRegistryImageOutputWithContext(ctx).OutputState,
-	}
 }
 
 // RegistryImageArrayInput is an input type that accepts RegistryImageArray and RegistryImageArrayOutput values.
@@ -204,12 +158,6 @@ func (i RegistryImageArray) ToRegistryImageArrayOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, i).(RegistryImageArrayOutput)
 }
 
-func (i RegistryImageArray) ToOutput(ctx context.Context) pulumix.Output[[]*RegistryImage] {
-	return pulumix.Output[[]*RegistryImage]{
-		OutputState: i.ToRegistryImageArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 // RegistryImageMapInput is an input type that accepts RegistryImageMap and RegistryImageMapOutput values.
 // You can construct a concrete instance of `RegistryImageMapInput` via:
 //
@@ -235,12 +183,6 @@ func (i RegistryImageMap) ToRegistryImageMapOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, i).(RegistryImageMapOutput)
 }
 
-func (i RegistryImageMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*RegistryImage] {
-	return pulumix.Output[map[string]*RegistryImage]{
-		OutputState: i.ToRegistryImageMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RegistryImageOutput struct{ *pulumi.OutputState }
 
 func (RegistryImageOutput) ElementType() reflect.Type {
@@ -253,12 +195,6 @@ func (o RegistryImageOutput) ToRegistryImageOutput() RegistryImageOutput {
 
 func (o RegistryImageOutput) ToRegistryImageOutputWithContext(ctx context.Context) RegistryImageOutput {
 	return o
-}
-
-func (o RegistryImageOutput) ToOutput(ctx context.Context) pulumix.Output[*RegistryImage] {
-	return pulumix.Output[*RegistryImage]{
-		OutputState: o.OutputState,
-	}
 }
 
 // If `true`, the verification of TLS certificates of the server/registry is disabled. Defaults to `false`
@@ -282,8 +218,8 @@ func (o RegistryImageOutput) Sha256Digest() pulumi.StringOutput {
 }
 
 // A map of arbitrary strings that, when changed, will force the `RegistryImage` resource to be replaced. This can be used to repush a local image
-func (o RegistryImageOutput) Triggers() pulumi.MapOutput {
-	return o.ApplyT(func(v *RegistryImage) pulumi.MapOutput { return v.Triggers }).(pulumi.MapOutput)
+func (o RegistryImageOutput) Triggers() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *RegistryImage) pulumi.StringMapOutput { return v.Triggers }).(pulumi.StringMapOutput)
 }
 
 type RegistryImageArrayOutput struct{ *pulumi.OutputState }
@@ -298,12 +234,6 @@ func (o RegistryImageArrayOutput) ToRegistryImageArrayOutput() RegistryImageArra
 
 func (o RegistryImageArrayOutput) ToRegistryImageArrayOutputWithContext(ctx context.Context) RegistryImageArrayOutput {
 	return o
-}
-
-func (o RegistryImageArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*RegistryImage] {
-	return pulumix.Output[[]*RegistryImage]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o RegistryImageArrayOutput) Index(i pulumi.IntInput) RegistryImageOutput {
@@ -324,12 +254,6 @@ func (o RegistryImageMapOutput) ToRegistryImageMapOutput() RegistryImageMapOutpu
 
 func (o RegistryImageMapOutput) ToRegistryImageMapOutputWithContext(ctx context.Context) RegistryImageMapOutput {
 	return o
-}
-
-func (o RegistryImageMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*RegistryImage] {
-	return pulumix.Output[map[string]*RegistryImage]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o RegistryImageMapOutput) MapIndex(k pulumi.StringInput) RegistryImageOutput {

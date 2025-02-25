@@ -51,21 +51,11 @@ type LookupReachabilityAnalysisRunResult struct {
 }
 
 func LookupReachabilityAnalysisRunOutput(ctx *pulumi.Context, args LookupReachabilityAnalysisRunOutputArgs, opts ...pulumi.InvokeOption) LookupReachabilityAnalysisRunResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupReachabilityAnalysisRunResultOutput, error) {
 			args := v.(LookupReachabilityAnalysisRunArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupReachabilityAnalysisRunResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getReachabilityAnalysisRun", args, &rv, "", opts...)
-			if err != nil {
-				return LookupReachabilityAnalysisRunResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupReachabilityAnalysisRunResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupReachabilityAnalysisRunResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getReachabilityAnalysisRun", args, LookupReachabilityAnalysisRunResultOutput{}, options).(LookupReachabilityAnalysisRunResultOutput), nil
 		}).(LookupReachabilityAnalysisRunResultOutput)
 }
 

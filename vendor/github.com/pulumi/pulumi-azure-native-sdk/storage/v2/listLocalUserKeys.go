@@ -14,7 +14,7 @@ import (
 // List SSH authorized keys and shared key of the local user.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func ListLocalUserKeys(ctx *pulumi.Context, args *ListLocalUserKeysArgs, opts ...pulumi.InvokeOption) (*ListLocalUserKeysResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListLocalUserKeysResult
@@ -43,21 +43,11 @@ type ListLocalUserKeysResult struct {
 }
 
 func ListLocalUserKeysOutput(ctx *pulumi.Context, args ListLocalUserKeysOutputArgs, opts ...pulumi.InvokeOption) ListLocalUserKeysResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (ListLocalUserKeysResultOutput, error) {
 			args := v.(ListLocalUserKeysArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv ListLocalUserKeysResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:listLocalUserKeys", args, &rv, "", opts...)
-			if err != nil {
-				return ListLocalUserKeysResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(ListLocalUserKeysResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(ListLocalUserKeysResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:listLocalUserKeys", args, ListLocalUserKeysResultOutput{}, options).(ListLocalUserKeysResultOutput), nil
 		}).(ListLocalUserKeysResultOutput)
 }
 

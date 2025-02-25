@@ -15,7 +15,7 @@ import (
 // The local user associated with the storage accounts.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-08-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 type LocalUser struct {
 	pulumi.CustomResourceState
 
@@ -75,6 +75,9 @@ func NewLocalUser(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:storage/v20230501:LocalUser"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20240101:LocalUser"),
 		},
 	})
 	opts = append(opts, aliases)

@@ -14,7 +14,7 @@ import (
 // Wrapper resource for tags API requests and responses.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-07-01, 2024-03-01, 2024-07-01.
+// Other available API versions: 2023-07-01, 2024-03-01, 2024-07-01, 2024-11-01.
 func LookupTagAtScope(ctx *pulumi.Context, args *LookupTagAtScopeArgs, opts ...pulumi.InvokeOption) (*LookupTagAtScopeResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupTagAtScopeResult
@@ -43,21 +43,11 @@ type LookupTagAtScopeResult struct {
 }
 
 func LookupTagAtScopeOutput(ctx *pulumi.Context, args LookupTagAtScopeOutputArgs, opts ...pulumi.InvokeOption) LookupTagAtScopeResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupTagAtScopeResultOutput, error) {
 			args := v.(LookupTagAtScopeArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupTagAtScopeResult
-			secret, err := ctx.InvokePackageRaw("azure-native:resources:getTagAtScope", args, &rv, "", opts...)
-			if err != nil {
-				return LookupTagAtScopeResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupTagAtScopeResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupTagAtScopeResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:resources:getTagAtScope", args, LookupTagAtScopeResultOutput{}, options).(LookupTagAtScopeResultOutput), nil
 		}).(LookupTagAtScopeResultOutput)
 }
 

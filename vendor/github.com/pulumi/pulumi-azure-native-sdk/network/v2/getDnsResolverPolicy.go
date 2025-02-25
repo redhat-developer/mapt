@@ -53,21 +53,11 @@ type LookupDnsResolverPolicyResult struct {
 }
 
 func LookupDnsResolverPolicyOutput(ctx *pulumi.Context, args LookupDnsResolverPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupDnsResolverPolicyResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDnsResolverPolicyResultOutput, error) {
 			args := v.(LookupDnsResolverPolicyArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDnsResolverPolicyResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getDnsResolverPolicy", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDnsResolverPolicyResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDnsResolverPolicyResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDnsResolverPolicyResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getDnsResolverPolicy", args, LookupDnsResolverPolicyResultOutput{}, options).(LookupDnsResolverPolicyResultOutput), nil
 		}).(LookupDnsResolverPolicyResultOutput)
 }
 

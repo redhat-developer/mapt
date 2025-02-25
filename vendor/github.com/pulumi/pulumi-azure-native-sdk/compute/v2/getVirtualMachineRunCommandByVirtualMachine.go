@@ -94,23 +94,12 @@ func (val *LookupVirtualMachineRunCommandByVirtualMachineResult) Defaults() *Loo
 	}
 	return &tmp
 }
-
 func LookupVirtualMachineRunCommandByVirtualMachineOutput(ctx *pulumi.Context, args LookupVirtualMachineRunCommandByVirtualMachineOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineRunCommandByVirtualMachineResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupVirtualMachineRunCommandByVirtualMachineResultOutput, error) {
 			args := v.(LookupVirtualMachineRunCommandByVirtualMachineArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupVirtualMachineRunCommandByVirtualMachineResult
-			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachineRunCommandByVirtualMachine", args, &rv, "", opts...)
-			if err != nil {
-				return LookupVirtualMachineRunCommandByVirtualMachineResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupVirtualMachineRunCommandByVirtualMachineResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupVirtualMachineRunCommandByVirtualMachineResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:compute:getVirtualMachineRunCommandByVirtualMachine", args, LookupVirtualMachineRunCommandByVirtualMachineResultOutput{}, options).(LookupVirtualMachineRunCommandByVirtualMachineResultOutput), nil
 		}).(LookupVirtualMachineRunCommandByVirtualMachineResultOutput)
 }
 

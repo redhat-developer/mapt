@@ -97,21 +97,11 @@ type LookupVirtualMachineScaleSetVMResult struct {
 }
 
 func LookupVirtualMachineScaleSetVMOutput(ctx *pulumi.Context, args LookupVirtualMachineScaleSetVMOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineScaleSetVMResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupVirtualMachineScaleSetVMResultOutput, error) {
 			args := v.(LookupVirtualMachineScaleSetVMArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupVirtualMachineScaleSetVMResult
-			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachineScaleSetVM", args, &rv, "", opts...)
-			if err != nil {
-				return LookupVirtualMachineScaleSetVMResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupVirtualMachineScaleSetVMResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupVirtualMachineScaleSetVMResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:compute:getVirtualMachineScaleSetVM", args, LookupVirtualMachineScaleSetVMResultOutput{}, options).(LookupVirtualMachineScaleSetVMResultOutput), nil
 		}).(LookupVirtualMachineScaleSetVMResultOutput)
 }
 

@@ -9,7 +9,6 @@ import (
 
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Reads the image metadata from a Docker Registry. Used in conjunction with the RemoteImage resource to keep an image up to date on the latest available version of the tag.
@@ -28,16 +27,16 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			ubuntuRegistryImage, err := docker.LookupRegistryImage(ctx, &docker.LookupRegistryImageArgs{
+//			ubuntu, err := docker.LookupRegistryImage(ctx, &docker.LookupRegistryImageArgs{
 //				Name: "ubuntu:precise",
 //			}, nil)
 //			if err != nil {
 //				return err
 //			}
-//			_, err = docker.NewRemoteImage(ctx, "ubuntuRemoteImage", &docker.RemoteImageArgs{
-//				Name: *pulumi.String(ubuntuRegistryImage.Name),
+//			_, err = docker.NewRemoteImage(ctx, "ubuntu", &docker.RemoteImageArgs{
+//				Name: pulumi.String(ubuntu.Name),
 //				PullTriggers: pulumi.StringArray{
-//					*pulumi.String(ubuntuRegistryImage.Sha256Digest),
+//					pulumi.String(ubuntu.Sha256Digest),
 //				},
 //			})
 //			if err != nil {
@@ -79,15 +78,11 @@ type LookupRegistryImageResult struct {
 }
 
 func LookupRegistryImageOutput(ctx *pulumi.Context, args LookupRegistryImageOutputArgs, opts ...pulumi.InvokeOption) LookupRegistryImageResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupRegistryImageResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (LookupRegistryImageResultOutput, error) {
 			args := v.(LookupRegistryImageArgs)
-			r, err := LookupRegistryImage(ctx, &args, opts...)
-			var s LookupRegistryImageResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("docker:index/getRegistryImage:getRegistryImage", args, LookupRegistryImageResultOutput{}, options).(LookupRegistryImageResultOutput), nil
 		}).(LookupRegistryImageResultOutput)
 }
 
@@ -116,12 +111,6 @@ func (o LookupRegistryImageResultOutput) ToLookupRegistryImageResultOutput() Loo
 
 func (o LookupRegistryImageResultOutput) ToLookupRegistryImageResultOutputWithContext(ctx context.Context) LookupRegistryImageResultOutput {
 	return o
-}
-
-func (o LookupRegistryImageResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupRegistryImageResult] {
-	return pulumix.Output[LookupRegistryImageResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The provider-assigned unique ID for this managed resource.

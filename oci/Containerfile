@@ -1,24 +1,23 @@
 # go toolset 9.5-1733160835-1.22.7-1733160835
-FROM registry.access.redhat.com/ubi9/go-toolset:1.22.7-1733160835 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset:1.22.9-1739801907 as builder
 ARG TARGETARCH
 USER root
 WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.142.0
+ENV PULUMI_VERSION 3.152.0
+ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
+ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
+
 RUN GOARCH=${TARGETARCH} make build \
-    && if [ "$TARGETARCH" = "amd64" ]; then \
-        export PULUMI_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-x64.tar.gz"; \
-    else \
-        export PULUMI_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}-linux-arm64.tar.gz"; \
-    fi \
+    && if [ "$TARGETARCH" = "arm64" ]; then export PULUMI_URL="${PULUMI_BASE_URL}-linux-arm64.tar.gz"; fi \
     && echo ${PULUMI_URL} \
     && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
     && tar -xzvf pulumicli.tar.gz 
 
 # ubi 9.5-1732804088
-FROM registry.access.redhat.com/ubi9/ubi:9.5-1732804088
+FROM registry.access.redhat.com/ubi9/ubi:9.5-1739751568
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
 
@@ -28,29 +27,31 @@ ENV PULUMI_CONFIG_PASSPHRASE "passphrase"
 
 ENV AWS_SDK_LOAD_CONFIG=1 \
     AWS_CLI_VERSION=2.16.7 \
-    AZ_CLI_VERSION=2.61.0
+    AZ_CLI_VERSION=2.61.0 \
+    ARCH_N=x86_64
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.64.0
+ARG PULUMI_AWS_VERSION=v6.69.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
-ARG PULUMI_AWSX_VERSION=v2.19.0
+ARG PULUMI_AWSX_VERSION=v2.21.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v2.76.0
+ARG PULUMI_AZURE_NATIVE_VERSION=v2.88.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v1.0.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
 ARG PULUMI_TLS_VERSION=v5.0.9
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.16.7
+# renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
+ARG PULUMI_AWS_NATIVE_VERSION=v1.25.0
+
+ENV PULUMI_HOME "/opt/mapt/run" 
+WORKDIR ${PULUMI_HOME}
 
 RUN mkdir -p /opt/mapt/run \
     && chmod -R 0777 /opt/mapt/run \
-    && if [ "$TARGETARCH" = "amd64" ]; then \
-        export ARCH_N=x86_64; \ 
-    else \
-        export ARCH_N=aarch64; \
-    fi \
+    && if [ "$TARGETARCH" = "arm64" ]; then export ARCH_N=aarch64; fi \
     && export AWS_CLI_URL="https://awscli.amazonaws.com/awscli-exe-linux-${ARCH_N}-${AWS_CLI_VERSION}.zip" \
     && export AZ_CLI_RPM="https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli-${AZ_CLI_VERSION}-1.el9.${ARCH_N}.rpm" \
     && echo ${AWS_CLI_URL} ${AZ_CLI_RPM} \
@@ -68,12 +69,9 @@ RUN mkdir -p /opt/mapt/run \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
     && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \
     && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION} \
-    && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION}
-
-ENV PULUMI_HOME "/opt/mapt/run" 
-WORKDIR ${PULUMI_HOME}
+    && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
+    && pulumi plugin install resource aws-native ${PULUMI_AWS_NATIVE_VERSION} 
     
 ENTRYPOINT ["mapt"]
-# Default to show help
 CMD ["-h"]
 

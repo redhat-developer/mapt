@@ -102,23 +102,12 @@ func (val *LookupPublicIPAddressResult) Defaults() *LookupPublicIPAddressResult 
 
 	return &tmp
 }
-
 func LookupPublicIPAddressOutput(ctx *pulumi.Context, args LookupPublicIPAddressOutputArgs, opts ...pulumi.InvokeOption) LookupPublicIPAddressResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupPublicIPAddressResultOutput, error) {
 			args := v.(LookupPublicIPAddressArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupPublicIPAddressResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getPublicIPAddress", args, &rv, "", opts...)
-			if err != nil {
-				return LookupPublicIPAddressResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupPublicIPAddressResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupPublicIPAddressResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getPublicIPAddress", args, LookupPublicIPAddressResultOutput{}, options).(LookupPublicIPAddressResultOutput), nil
 		}).(LookupPublicIPAddressResultOutput)
 }
 

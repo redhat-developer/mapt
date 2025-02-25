@@ -67,21 +67,11 @@ type LookupNspLinkResult struct {
 }
 
 func LookupNspLinkOutput(ctx *pulumi.Context, args LookupNspLinkOutputArgs, opts ...pulumi.InvokeOption) LookupNspLinkResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupNspLinkResultOutput, error) {
 			args := v.(LookupNspLinkArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupNspLinkResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getNspLink", args, &rv, "", opts...)
-			if err != nil {
-				return LookupNspLinkResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupNspLinkResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupNspLinkResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getNspLink", args, LookupNspLinkResultOutput{}, options).(LookupNspLinkResultOutput), nil
 		}).(LookupNspLinkResultOutput)
 }
 

@@ -13,6 +13,8 @@ import (
 
 // Display information about a cloud service.
 // Azure REST API version: 2022-09-04.
+//
+// Other available API versions: 2024-11-04.
 func LookupCloudService(ctx *pulumi.Context, args *LookupCloudServiceArgs, opts ...pulumi.InvokeOption) (*LookupCloudServiceResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupCloudServiceResult
@@ -51,21 +53,11 @@ type LookupCloudServiceResult struct {
 }
 
 func LookupCloudServiceOutput(ctx *pulumi.Context, args LookupCloudServiceOutputArgs, opts ...pulumi.InvokeOption) LookupCloudServiceResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupCloudServiceResultOutput, error) {
 			args := v.(LookupCloudServiceArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupCloudServiceResult
-			secret, err := ctx.InvokePackageRaw("azure-native:compute:getCloudService", args, &rv, "", opts...)
-			if err != nil {
-				return LookupCloudServiceResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupCloudServiceResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupCloudServiceResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:compute:getCloudService", args, LookupCloudServiceResultOutput{}, options).(LookupCloudServiceResultOutput), nil
 		}).(LookupCloudServiceResultOutput)
 }
 

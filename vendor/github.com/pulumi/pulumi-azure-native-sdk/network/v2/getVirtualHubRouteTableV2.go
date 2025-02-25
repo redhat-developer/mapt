@@ -51,21 +51,11 @@ type LookupVirtualHubRouteTableV2Result struct {
 }
 
 func LookupVirtualHubRouteTableV2Output(ctx *pulumi.Context, args LookupVirtualHubRouteTableV2OutputArgs, opts ...pulumi.InvokeOption) LookupVirtualHubRouteTableV2ResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupVirtualHubRouteTableV2ResultOutput, error) {
 			args := v.(LookupVirtualHubRouteTableV2Args)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupVirtualHubRouteTableV2Result
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualHubRouteTableV2", args, &rv, "", opts...)
-			if err != nil {
-				return LookupVirtualHubRouteTableV2ResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupVirtualHubRouteTableV2ResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupVirtualHubRouteTableV2ResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getVirtualHubRouteTableV2", args, LookupVirtualHubRouteTableV2ResultOutput{}, options).(LookupVirtualHubRouteTableV2ResultOutput), nil
 		}).(LookupVirtualHubRouteTableV2ResultOutput)
 }
 

@@ -78,21 +78,11 @@ type LookupAdminRuleResult struct {
 }
 
 func LookupAdminRuleOutput(ctx *pulumi.Context, args LookupAdminRuleOutputArgs, opts ...pulumi.InvokeOption) LookupAdminRuleResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupAdminRuleResultOutput, error) {
 			args := v.(LookupAdminRuleArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupAdminRuleResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getAdminRule", args, &rv, "", opts...)
-			if err != nil {
-				return LookupAdminRuleResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupAdminRuleResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupAdminRuleResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getAdminRule", args, LookupAdminRuleResultOutput{}, options).(LookupAdminRuleResultOutput), nil
 		}).(LookupAdminRuleResultOutput)
 }
 

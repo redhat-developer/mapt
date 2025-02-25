@@ -77,21 +77,11 @@ type LookupPublicIPPrefixResult struct {
 }
 
 func LookupPublicIPPrefixOutput(ctx *pulumi.Context, args LookupPublicIPPrefixOutputArgs, opts ...pulumi.InvokeOption) LookupPublicIPPrefixResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupPublicIPPrefixResultOutput, error) {
 			args := v.(LookupPublicIPPrefixArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupPublicIPPrefixResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getPublicIPPrefix", args, &rv, "", opts...)
-			if err != nil {
-				return LookupPublicIPPrefixResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupPublicIPPrefixResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupPublicIPPrefixResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getPublicIPPrefix", args, LookupPublicIPPrefixResultOutput{}, options).(LookupPublicIPPrefixResultOutput), nil
 		}).(LookupPublicIPPrefixResultOutput)
 }
 

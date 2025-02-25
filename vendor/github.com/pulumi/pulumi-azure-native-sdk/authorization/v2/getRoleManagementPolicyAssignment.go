@@ -53,21 +53,11 @@ type LookupRoleManagementPolicyAssignmentResult struct {
 }
 
 func LookupRoleManagementPolicyAssignmentOutput(ctx *pulumi.Context, args LookupRoleManagementPolicyAssignmentOutputArgs, opts ...pulumi.InvokeOption) LookupRoleManagementPolicyAssignmentResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupRoleManagementPolicyAssignmentResultOutput, error) {
 			args := v.(LookupRoleManagementPolicyAssignmentArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupRoleManagementPolicyAssignmentResult
-			secret, err := ctx.InvokePackageRaw("azure-native:authorization:getRoleManagementPolicyAssignment", args, &rv, "", opts...)
-			if err != nil {
-				return LookupRoleManagementPolicyAssignmentResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupRoleManagementPolicyAssignmentResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupRoleManagementPolicyAssignmentResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:authorization:getRoleManagementPolicyAssignment", args, LookupRoleManagementPolicyAssignmentResultOutput{}, options).(LookupRoleManagementPolicyAssignmentResultOutput), nil
 		}).(LookupRoleManagementPolicyAssignmentResultOutput)
 }
 

@@ -41,21 +41,11 @@ type GetVirtualNetworkGatewayAdvertisedRoutesResult struct {
 }
 
 func GetVirtualNetworkGatewayAdvertisedRoutesOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayAdvertisedRoutesOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayAdvertisedRoutesResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayAdvertisedRoutesResultOutput, error) {
 			args := v.(GetVirtualNetworkGatewayAdvertisedRoutesArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv GetVirtualNetworkGatewayAdvertisedRoutesResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getVirtualNetworkGatewayAdvertisedRoutes", args, &rv, "", opts...)
-			if err != nil {
-				return GetVirtualNetworkGatewayAdvertisedRoutesResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(GetVirtualNetworkGatewayAdvertisedRoutesResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(GetVirtualNetworkGatewayAdvertisedRoutesResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayAdvertisedRoutes", args, GetVirtualNetworkGatewayAdvertisedRoutesResultOutput{}, options).(GetVirtualNetworkGatewayAdvertisedRoutesResultOutput), nil
 		}).(GetVirtualNetworkGatewayAdvertisedRoutesResultOutput)
 }
 

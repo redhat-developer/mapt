@@ -71,21 +71,11 @@ type LookupSecurityUserRuleResult struct {
 }
 
 func LookupSecurityUserRuleOutput(ctx *pulumi.Context, args LookupSecurityUserRuleOutputArgs, opts ...pulumi.InvokeOption) LookupSecurityUserRuleResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupSecurityUserRuleResultOutput, error) {
 			args := v.(LookupSecurityUserRuleArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupSecurityUserRuleResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getSecurityUserRule", args, &rv, "", opts...)
-			if err != nil {
-				return LookupSecurityUserRuleResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupSecurityUserRuleResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupSecurityUserRuleResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getSecurityUserRule", args, LookupSecurityUserRuleResultOutput{}, options).(LookupSecurityUserRuleResultOutput), nil
 		}).(LookupSecurityUserRuleResultOutput)
 }
 

@@ -73,21 +73,11 @@ type LookupPrivateRecordSetResult struct {
 }
 
 func LookupPrivateRecordSetOutput(ctx *pulumi.Context, args LookupPrivateRecordSetOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateRecordSetResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupPrivateRecordSetResultOutput, error) {
 			args := v.(LookupPrivateRecordSetArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupPrivateRecordSetResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getPrivateRecordSet", args, &rv, "", opts...)
-			if err != nil {
-				return LookupPrivateRecordSetResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupPrivateRecordSetResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupPrivateRecordSetResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getPrivateRecordSet", args, LookupPrivateRecordSetResultOutput{}, options).(LookupPrivateRecordSetResultOutput), nil
 		}).(LookupPrivateRecordSetResultOutput)
 }
 

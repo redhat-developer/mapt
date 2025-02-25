@@ -71,21 +71,11 @@ type LookupDscpConfigurationResult struct {
 }
 
 func LookupDscpConfigurationOutput(ctx *pulumi.Context, args LookupDscpConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupDscpConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDscpConfigurationResultOutput, error) {
 			args := v.(LookupDscpConfigurationArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDscpConfigurationResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getDscpConfiguration", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDscpConfigurationResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDscpConfigurationResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDscpConfigurationResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getDscpConfiguration", args, LookupDscpConfigurationResultOutput{}, options).(LookupDscpConfigurationResultOutput), nil
 		}).(LookupDscpConfigurationResultOutput)
 }
 

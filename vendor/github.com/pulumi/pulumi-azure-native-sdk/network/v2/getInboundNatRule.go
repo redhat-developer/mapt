@@ -82,23 +82,12 @@ func (val *LookupInboundNatRuleResult) Defaults() *LookupInboundNatRuleResult {
 
 	return &tmp
 }
-
 func LookupInboundNatRuleOutput(ctx *pulumi.Context, args LookupInboundNatRuleOutputArgs, opts ...pulumi.InvokeOption) LookupInboundNatRuleResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupInboundNatRuleResultOutput, error) {
 			args := v.(LookupInboundNatRuleArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupInboundNatRuleResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getInboundNatRule", args, &rv, "", opts...)
-			if err != nil {
-				return LookupInboundNatRuleResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupInboundNatRuleResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupInboundNatRuleResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getInboundNatRule", args, LookupInboundNatRuleResultOutput{}, options).(LookupInboundNatRuleResultOutput), nil
 		}).(LookupInboundNatRuleResultOutput)
 }
 

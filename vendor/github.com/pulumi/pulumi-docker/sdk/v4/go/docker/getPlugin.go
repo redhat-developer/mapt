@@ -9,18 +9,43 @@ import (
 
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Reads the local Docker plugin. The plugin must be installed locally.
 //
 // ## Example Usage
 //
-// ### With alias
+// ```go
+// package main
 //
-//	data "Plugin" "byAlias" {
-//	  alias = "sample-volume-plugin:latest"
+// import (
+//
+//	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			// ## With alias
+//			_, err := docker.LookupPlugin(ctx, &docker.LookupPluginArgs{
+//				Alias: pulumi.StringRef("sample-volume-plugin:latest"),
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			// ## With ID
+//			_, err = docker.LookupPlugin(ctx, &docker.LookupPluginArgs{
+//				Id: pulumi.StringRef("e9a9db917b3bfd6706b5d3a66d4bceb9f"),
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
 //	}
+//
+// ```
 func LookupPlugin(ctx *pulumi.Context, args *LookupPluginArgs, opts ...pulumi.InvokeOption) (*LookupPluginResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv LookupPluginResult
@@ -58,15 +83,11 @@ type LookupPluginResult struct {
 }
 
 func LookupPluginOutput(ctx *pulumi.Context, args LookupPluginOutputArgs, opts ...pulumi.InvokeOption) LookupPluginResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupPluginResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (LookupPluginResultOutput, error) {
 			args := v.(LookupPluginArgs)
-			r, err := LookupPlugin(ctx, &args, opts...)
-			var s LookupPluginResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("docker:index/getPlugin:getPlugin", args, LookupPluginResultOutput{}, options).(LookupPluginResultOutput), nil
 		}).(LookupPluginResultOutput)
 }
 
@@ -95,12 +116,6 @@ func (o LookupPluginResultOutput) ToLookupPluginResultOutput() LookupPluginResul
 
 func (o LookupPluginResultOutput) ToLookupPluginResultOutputWithContext(ctx context.Context) LookupPluginResultOutput {
 	return o
-}
-
-func (o LookupPluginResultOutput) ToOutput(ctx context.Context) pulumix.Output[LookupPluginResult] {
-	return pulumix.Output[LookupPluginResult]{
-		OutputState: o.OutputState,
-	}
 }
 
 // The alias of the Docker plugin. If the tag is omitted, `:latest` is complemented to the attribute value.

@@ -30,6 +30,26 @@ type Builder interface {
 	Schema() *Schema
 }
 
+type MapBuilder interface {
+	Build() map[string]*Schema
+}
+
+type BuilderMap map[string]Builder
+
+func (m BuilderMap) Build() map[string]*Schema {
+	s := make(map[string]*Schema, len(m))
+	for k, v := range m {
+		s[k] = v.Schema()
+	}
+	return s
+}
+
+type SchemaMap map[string]*Schema
+
+func (m SchemaMap) Build() map[string]*Schema {
+	return m
+}
+
 func Never() *Schema {
 	return &Schema{Never: true}
 }
@@ -100,7 +120,8 @@ type Schema struct {
 	Examples    []any  `json:"examples,omitempty"`
 
 	// Environments extensions
-	Secret bool `json:"secret,omitempty"`
+	Secret     bool     `json:"secret,omitempty"`
+	RotateOnly []string `json:"rotateOnly,omitempty"`
 
 	ref              *Schema
 	multipleOf       *big.Float
@@ -115,6 +136,7 @@ type Schema struct {
 	minItems         *uint
 	maxProperties    *uint
 	minProperties    *uint
+	rotateOnly       bool
 
 	compiled bool
 }
@@ -196,6 +218,10 @@ func (s *Schema) Property(name string) *Schema {
 	return union(oneOf)
 }
 
+func (s *Schema) IsRotateOnly() bool {
+	return s.rotateOnly
+}
+
 func (s *Schema) GetRef() *Schema                 { return s.ref }
 func (s *Schema) GetMultipleOf() *big.Float       { return s.multipleOf }
 func (s *Schema) GetMaximum() *big.Float          { return s.maximum }
@@ -259,6 +285,12 @@ func (s *Schema) compile(root *Schema) error {
 	for _, v := range s.Properties {
 		if err := v.compile(root); err != nil {
 			return err
+		}
+	}
+	for _, name := range s.RotateOnly {
+		// need to push the rotateOnly flag down onto the actual properties, so it is available to the evaluator while evaluating object properties
+		if p, ok := s.Properties[name]; ok {
+			p.rotateOnly = true
 		}
 	}
 
@@ -381,10 +413,11 @@ func buildOneOf[T Builder](b T, oneOf []Builder) T {
 
 func union(oneOf []*Schema) *Schema {
 	// Filter out Never schemas.
-	n := 0
+	n, rotateOnly := 0, true
 	for _, s := range oneOf {
 		if s != nil && !s.Never {
 			oneOf[n] = s
+			rotateOnly = rotateOnly && s.rotateOnly
 			n++
 		}
 	}
@@ -399,6 +432,6 @@ func union(oneOf []*Schema) *Schema {
 		return oneOf[0]
 	default:
 		// Otherwise, return a OneOf.
-		return &Schema{OneOf: oneOf}
+		return &Schema{OneOf: oneOf, rotateOnly: rotateOnly}
 	}
 }

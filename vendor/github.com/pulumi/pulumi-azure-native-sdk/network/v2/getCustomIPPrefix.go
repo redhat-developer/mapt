@@ -85,21 +85,11 @@ type LookupCustomIPPrefixResult struct {
 }
 
 func LookupCustomIPPrefixOutput(ctx *pulumi.Context, args LookupCustomIPPrefixOutputArgs, opts ...pulumi.InvokeOption) LookupCustomIPPrefixResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupCustomIPPrefixResultOutput, error) {
 			args := v.(LookupCustomIPPrefixArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupCustomIPPrefixResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getCustomIPPrefix", args, &rv, "", opts...)
-			if err != nil {
-				return LookupCustomIPPrefixResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupCustomIPPrefixResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupCustomIPPrefixResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getCustomIPPrefix", args, LookupCustomIPPrefixResultOutput{}, options).(LookupCustomIPPrefixResultOutput), nil
 		}).(LookupCustomIPPrefixResultOutput)
 }
 

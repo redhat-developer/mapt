@@ -14,7 +14,7 @@ import (
 // Gets a deployment.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-07-01, 2024-03-01, 2024-07-01.
+// Other available API versions: 2023-07-01, 2024-03-01, 2024-07-01, 2024-11-01.
 func LookupDeploymentAtManagementGroupScope(ctx *pulumi.Context, args *LookupDeploymentAtManagementGroupScopeArgs, opts ...pulumi.InvokeOption) (*LookupDeploymentAtManagementGroupScopeResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDeploymentAtManagementGroupScopeResult
@@ -49,21 +49,11 @@ type LookupDeploymentAtManagementGroupScopeResult struct {
 }
 
 func LookupDeploymentAtManagementGroupScopeOutput(ctx *pulumi.Context, args LookupDeploymentAtManagementGroupScopeOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentAtManagementGroupScopeResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDeploymentAtManagementGroupScopeResultOutput, error) {
 			args := v.(LookupDeploymentAtManagementGroupScopeArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDeploymentAtManagementGroupScopeResult
-			secret, err := ctx.InvokePackageRaw("azure-native:resources:getDeploymentAtManagementGroupScope", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDeploymentAtManagementGroupScopeResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDeploymentAtManagementGroupScopeResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDeploymentAtManagementGroupScopeResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:resources:getDeploymentAtManagementGroupScope", args, LookupDeploymentAtManagementGroupScopeResultOutput{}, options).(LookupDeploymentAtManagementGroupScopeResultOutput), nil
 		}).(LookupDeploymentAtManagementGroupScopeResultOutput)
 }
 

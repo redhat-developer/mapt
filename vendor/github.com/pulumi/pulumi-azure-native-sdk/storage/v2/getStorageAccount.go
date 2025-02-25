@@ -14,7 +14,7 @@ import (
 // Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
 // Azure REST API version: 2022-09-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 func LookupStorageAccount(ctx *pulumi.Context, args *LookupStorageAccountArgs, opts ...pulumi.InvokeOption) (*LookupStorageAccountResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupStorageAccountResult
@@ -146,23 +146,12 @@ func (val *LookupStorageAccountResult) Defaults() *LookupStorageAccountResult {
 
 	return &tmp
 }
-
 func LookupStorageAccountOutput(ctx *pulumi.Context, args LookupStorageAccountOutputArgs, opts ...pulumi.InvokeOption) LookupStorageAccountResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupStorageAccountResultOutput, error) {
 			args := v.(LookupStorageAccountArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupStorageAccountResult
-			secret, err := ctx.InvokePackageRaw("azure-native:storage:getStorageAccount", args, &rv, "", opts...)
-			if err != nil {
-				return LookupStorageAccountResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupStorageAccountResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupStorageAccountResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:storage:getStorageAccount", args, LookupStorageAccountResultOutput{}, options).(LookupStorageAccountResultOutput), nil
 		}).(LookupStorageAccountResultOutput)
 }
 

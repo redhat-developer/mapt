@@ -75,21 +75,11 @@ type LookupVirtualMachineExtensionResult struct {
 }
 
 func LookupVirtualMachineExtensionOutput(ctx *pulumi.Context, args LookupVirtualMachineExtensionOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineExtensionResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupVirtualMachineExtensionResultOutput, error) {
 			args := v.(LookupVirtualMachineExtensionArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupVirtualMachineExtensionResult
-			secret, err := ctx.InvokePackageRaw("azure-native:compute:getVirtualMachineExtension", args, &rv, "", opts...)
-			if err != nil {
-				return LookupVirtualMachineExtensionResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupVirtualMachineExtensionResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupVirtualMachineExtensionResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:compute:getVirtualMachineExtension", args, LookupVirtualMachineExtensionResultOutput{}, options).(LookupVirtualMachineExtensionResultOutput), nil
 		}).(LookupVirtualMachineExtensionResultOutput)
 }
 

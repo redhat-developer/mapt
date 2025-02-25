@@ -102,23 +102,12 @@ func (val *LookupSubnetResult) Defaults() *LookupSubnetResult {
 	}
 	return &tmp
 }
-
 func LookupSubnetOutput(ctx *pulumi.Context, args LookupSubnetOutputArgs, opts ...pulumi.InvokeOption) LookupSubnetResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupSubnetResultOutput, error) {
 			args := v.(LookupSubnetArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupSubnetResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getSubnet", args, &rv, "", opts...)
-			if err != nil {
-				return LookupSubnetResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupSubnetResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupSubnetResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getSubnet", args, LookupSubnetResultOutput{}, options).(LookupSubnetResultOutput), nil
 		}).(LookupSubnetResultOutput)
 }
 

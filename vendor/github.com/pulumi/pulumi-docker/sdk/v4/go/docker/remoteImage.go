@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // <!-- Bug: Type and Name are switched -->
@@ -19,6 +18,7 @@ import (
 //	This resource will *not* pull new layers of the image automatically unless used in conjunction with RegistryImage data source to update the `pullTriggers` field.
 //
 // ## Example Usage
+//
 // ### Basic
 //
 // Finds and downloads the latest `ubuntu:precise` image but does not check
@@ -47,6 +47,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Dynamic updates
 //
 // To be able to update an image dynamically when the `sha256` sum changes,
@@ -64,16 +65,16 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			ubuntuRegistryImage, err := docker.LookupRegistryImage(ctx, &docker.LookupRegistryImageArgs{
+//			ubuntu, err := docker.LookupRegistryImage(ctx, &docker.LookupRegistryImageArgs{
 //				Name: "ubuntu:precise",
 //			}, nil)
 //			if err != nil {
 //				return err
 //			}
-//			_, err = docker.NewRemoteImage(ctx, "ubuntuRemoteImage", &docker.RemoteImageArgs{
-//				Name: *pulumi.String(ubuntuRegistryImage.Name),
+//			_, err = docker.NewRemoteImage(ctx, "ubuntu", &docker.RemoteImageArgs{
+//				Name: pulumi.String(ubuntu.Name),
 //				PullTriggers: pulumi.StringArray{
-//					*pulumi.String(ubuntuRegistryImage.Sha256Digest),
+//					pulumi.String(ubuntu.Sha256Digest),
 //				},
 //			})
 //			if err != nil {
@@ -84,6 +85,49 @@ import (
 //	}
 //
 // ```
+//
+// ### Build
+//
+// You can also use the resource to build an image.
+// In this case the image "zoo" and "zoo:develop" are built.
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-docker/sdk/v4/go/docker"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := docker.NewRemoteImage(ctx, "zoo", &docker.RemoteImageArgs{
+//				Name: pulumi.String("zoo"),
+//				Build: &docker.RemoteImageBuildArgs{
+//					Context: pulumi.String("."),
+//					Tags: pulumi.StringArray{
+//						pulumi.String("zoo:develop"),
+//					},
+//					BuildArg: pulumi.StringMap{
+//						"foo": pulumi.String("zoo"),
+//					},
+//					Label: pulumi.StringMap{
+//						"author": pulumi.String("zoo"),
+//					},
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// You can use the `triggers` argument to specify when the image should be rebuild. This is for example helpful when you want to rebuild the docker image whenever the source code changes.
 type RemoteImage struct {
 	pulumi.CustomResourceState
 
@@ -104,7 +148,7 @@ type RemoteImage struct {
 	// The image sha256 digest in the form of `repo[:tag]@sha256:<hash>`.
 	RepoDigest pulumi.StringOutput `pulumi:"repoDigest"`
 	// A map of arbitrary strings that, when changed, will force the `RemoteImage` resource to be replaced. This can be used to rebuild an image when contents of source code folders change
-	Triggers pulumi.MapOutput `pulumi:"triggers"`
+	Triggers pulumi.StringMapOutput `pulumi:"triggers"`
 }
 
 // NewRemoteImage registers a new resource with the given unique name, arguments, and options.
@@ -157,7 +201,7 @@ type remoteImageState struct {
 	// The image sha256 digest in the form of `repo[:tag]@sha256:<hash>`.
 	RepoDigest *string `pulumi:"repoDigest"`
 	// A map of arbitrary strings that, when changed, will force the `RemoteImage` resource to be replaced. This can be used to rebuild an image when contents of source code folders change
-	Triggers map[string]interface{} `pulumi:"triggers"`
+	Triggers map[string]string `pulumi:"triggers"`
 }
 
 type RemoteImageState struct {
@@ -178,7 +222,7 @@ type RemoteImageState struct {
 	// The image sha256 digest in the form of `repo[:tag]@sha256:<hash>`.
 	RepoDigest pulumi.StringPtrInput
 	// A map of arbitrary strings that, when changed, will force the `RemoteImage` resource to be replaced. This can be used to rebuild an image when contents of source code folders change
-	Triggers pulumi.MapInput
+	Triggers pulumi.StringMapInput
 }
 
 func (RemoteImageState) ElementType() reflect.Type {
@@ -199,7 +243,7 @@ type remoteImageArgs struct {
 	// List of values which cause an image pull when changed. This is used to store the image digest from the registry when using the docker*registry*image.
 	PullTriggers []string `pulumi:"pullTriggers"`
 	// A map of arbitrary strings that, when changed, will force the `RemoteImage` resource to be replaced. This can be used to rebuild an image when contents of source code folders change
-	Triggers map[string]interface{} `pulumi:"triggers"`
+	Triggers map[string]string `pulumi:"triggers"`
 }
 
 // The set of arguments for constructing a RemoteImage resource.
@@ -217,7 +261,7 @@ type RemoteImageArgs struct {
 	// List of values which cause an image pull when changed. This is used to store the image digest from the registry when using the docker*registry*image.
 	PullTriggers pulumi.StringArrayInput
 	// A map of arbitrary strings that, when changed, will force the `RemoteImage` resource to be replaced. This can be used to rebuild an image when contents of source code folders change
-	Triggers pulumi.MapInput
+	Triggers pulumi.StringMapInput
 }
 
 func (RemoteImageArgs) ElementType() reflect.Type {
@@ -241,12 +285,6 @@ func (i *RemoteImage) ToRemoteImageOutput() RemoteImageOutput {
 
 func (i *RemoteImage) ToRemoteImageOutputWithContext(ctx context.Context) RemoteImageOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(RemoteImageOutput)
-}
-
-func (i *RemoteImage) ToOutput(ctx context.Context) pulumix.Output[*RemoteImage] {
-	return pulumix.Output[*RemoteImage]{
-		OutputState: i.ToRemoteImageOutputWithContext(ctx).OutputState,
-	}
 }
 
 // RemoteImageArrayInput is an input type that accepts RemoteImageArray and RemoteImageArrayOutput values.
@@ -274,12 +312,6 @@ func (i RemoteImageArray) ToRemoteImageArrayOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, i).(RemoteImageArrayOutput)
 }
 
-func (i RemoteImageArray) ToOutput(ctx context.Context) pulumix.Output[[]*RemoteImage] {
-	return pulumix.Output[[]*RemoteImage]{
-		OutputState: i.ToRemoteImageArrayOutputWithContext(ctx).OutputState,
-	}
-}
-
 // RemoteImageMapInput is an input type that accepts RemoteImageMap and RemoteImageMapOutput values.
 // You can construct a concrete instance of `RemoteImageMapInput` via:
 //
@@ -305,12 +337,6 @@ func (i RemoteImageMap) ToRemoteImageMapOutputWithContext(ctx context.Context) R
 	return pulumi.ToOutputWithContext(ctx, i).(RemoteImageMapOutput)
 }
 
-func (i RemoteImageMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*RemoteImage] {
-	return pulumix.Output[map[string]*RemoteImage]{
-		OutputState: i.ToRemoteImageMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type RemoteImageOutput struct{ *pulumi.OutputState }
 
 func (RemoteImageOutput) ElementType() reflect.Type {
@@ -323,12 +349,6 @@ func (o RemoteImageOutput) ToRemoteImageOutput() RemoteImageOutput {
 
 func (o RemoteImageOutput) ToRemoteImageOutputWithContext(ctx context.Context) RemoteImageOutput {
 	return o
-}
-
-func (o RemoteImageOutput) ToOutput(ctx context.Context) pulumix.Output[*RemoteImage] {
-	return pulumix.Output[*RemoteImage]{
-		OutputState: o.OutputState,
-	}
 }
 
 // Configuration to build an image. Please see [docker build command reference](https://docs.docker.com/engine/reference/commandline/build/#options) too.
@@ -372,8 +392,8 @@ func (o RemoteImageOutput) RepoDigest() pulumi.StringOutput {
 }
 
 // A map of arbitrary strings that, when changed, will force the `RemoteImage` resource to be replaced. This can be used to rebuild an image when contents of source code folders change
-func (o RemoteImageOutput) Triggers() pulumi.MapOutput {
-	return o.ApplyT(func(v *RemoteImage) pulumi.MapOutput { return v.Triggers }).(pulumi.MapOutput)
+func (o RemoteImageOutput) Triggers() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *RemoteImage) pulumi.StringMapOutput { return v.Triggers }).(pulumi.StringMapOutput)
 }
 
 type RemoteImageArrayOutput struct{ *pulumi.OutputState }
@@ -388,12 +408,6 @@ func (o RemoteImageArrayOutput) ToRemoteImageArrayOutput() RemoteImageArrayOutpu
 
 func (o RemoteImageArrayOutput) ToRemoteImageArrayOutputWithContext(ctx context.Context) RemoteImageArrayOutput {
 	return o
-}
-
-func (o RemoteImageArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*RemoteImage] {
-	return pulumix.Output[[]*RemoteImage]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o RemoteImageArrayOutput) Index(i pulumi.IntInput) RemoteImageOutput {
@@ -414,12 +428,6 @@ func (o RemoteImageMapOutput) ToRemoteImageMapOutput() RemoteImageMapOutput {
 
 func (o RemoteImageMapOutput) ToRemoteImageMapOutputWithContext(ctx context.Context) RemoteImageMapOutput {
 	return o
-}
-
-func (o RemoteImageMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*RemoteImage] {
-	return pulumix.Output[map[string]*RemoteImage]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o RemoteImageMapOutput) MapIndex(k pulumi.StringInput) RemoteImageOutput {

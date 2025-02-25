@@ -16,7 +16,6 @@ package eval
 
 import (
 	"fmt"
-
 	"github.com/hashicorp/hcl/v2"
 	"github.com/pulumi/esc"
 	"github.com/pulumi/esc/ast"
@@ -122,9 +121,13 @@ func (x *expr) export(environment string) esc.Expr {
 			if p.value != nil {
 				value = make([]esc.PropertyAccessor, len(p.value.accessors))
 				for i, a := range p.value.accessors {
+					var rng esc.Range
+					if a.value != nil {
+						rng = a.value.def.defRange(environment)
+					}
 					value[i] = esc.PropertyAccessor{
 						Accessor: exportAccessor(a.accessor, environment),
-						Value:    a.value.def.defRange(environment),
+						Value:    rng,
 					}
 				}
 			}
@@ -137,9 +140,13 @@ func (x *expr) export(environment string) esc.Expr {
 	case *symbolExpr:
 		value := make([]esc.PropertyAccessor, len(repr.property.accessors))
 		for i, a := range repr.property.accessors {
+			var rng esc.Range
+			if a.value != nil {
+				rng = a.value.def.defRange(environment)
+			}
 			value[i] = esc.PropertyAccessor{
 				Accessor: exportAccessor(a.accessor, environment),
-				Value:    a.value.def.defRange(environment),
+				Value:    rng,
 			}
 		}
 		ex.Symbol = value
@@ -185,8 +192,8 @@ func (x *expr) export(environment string) esc.Expr {
 			ex.Builtin = &esc.BuiltinExpr{
 				Name:      name,
 				NameRange: convertRange(repr.node.Name().Syntax().Syntax().Range(), environment),
-				ArgSchema: schema.Record(map[string]schema.Builder{
-					"provider": schema.String(),
+				ArgSchema: schema.Record(schema.SchemaMap{
+					"provider": schema.String().Schema(),
 					"inputs":   repr.inputSchema,
 				}).Schema(),
 				Arg: esc.Expr{
@@ -202,6 +209,41 @@ func (x *expr) export(environment string) esc.Expr {
 				NameRange: convertRange(repr.node.Name().Syntax().Syntax().Range(), environment),
 				ArgSchema: repr.inputSchema,
 				Arg:       repr.inputs.export(environment),
+			}
+		}
+	case *rotateExpr:
+		name := repr.node.Name().Value
+		if name == "fn::rotate" {
+			ex.Builtin = &esc.BuiltinExpr{
+				Name:      name,
+				NameRange: convertRange(repr.node.Name().Syntax().Syntax().Range(), environment),
+				ArgSchema: schema.Record(schema.SchemaMap{
+					"provider": schema.String().Schema(),
+					"inputs":   repr.inputSchema,
+					"state":    repr.stateSchema,
+				}).Schema(),
+				Arg: esc.Expr{
+					Object: map[string]esc.Expr{
+						"provider": repr.provider.export(environment),
+						"inputs":   repr.inputs.export(environment),
+						"state":    repr.state.export(environment),
+					},
+				},
+			}
+		} else {
+			ex.Builtin = &esc.BuiltinExpr{
+				Name:      name,
+				NameRange: convertRange(repr.node.Name().Syntax().Syntax().Range(), environment),
+				ArgSchema: schema.Record(schema.SchemaMap{
+					"inputs": repr.inputSchema,
+					"state":  repr.stateSchema,
+				}).Schema(),
+				Arg: esc.Expr{
+					Object: map[string]esc.Expr{
+						"inputs": repr.inputs.export(environment),
+						"state":  repr.state.export(environment),
+					},
+				},
 			}
 		}
 	case *secretExpr:
@@ -368,6 +410,22 @@ type openExpr struct {
 }
 
 func (x *openExpr) syntax() ast.Expr {
+	return x.node
+}
+
+// rotateExpr represents a call to the fn::rotate builtin.
+type rotateExpr struct {
+	node *ast.RotateExpr
+
+	provider *expr
+	inputs   *expr
+	state    *expr
+
+	inputSchema *schema.Schema
+	stateSchema *schema.Schema
+}
+
+func (x *rotateExpr) syntax() ast.Expr {
 	return x.node
 }
 

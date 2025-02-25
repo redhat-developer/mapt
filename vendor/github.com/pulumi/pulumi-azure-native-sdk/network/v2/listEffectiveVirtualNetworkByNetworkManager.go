@@ -47,21 +47,11 @@ type ListEffectiveVirtualNetworkByNetworkManagerResult struct {
 }
 
 func ListEffectiveVirtualNetworkByNetworkManagerOutput(ctx *pulumi.Context, args ListEffectiveVirtualNetworkByNetworkManagerOutputArgs, opts ...pulumi.InvokeOption) ListEffectiveVirtualNetworkByNetworkManagerResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (ListEffectiveVirtualNetworkByNetworkManagerResultOutput, error) {
 			args := v.(ListEffectiveVirtualNetworkByNetworkManagerArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv ListEffectiveVirtualNetworkByNetworkManagerResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:listEffectiveVirtualNetworkByNetworkManager", args, &rv, "", opts...)
-			if err != nil {
-				return ListEffectiveVirtualNetworkByNetworkManagerResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(ListEffectiveVirtualNetworkByNetworkManagerResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(ListEffectiveVirtualNetworkByNetworkManagerResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:listEffectiveVirtualNetworkByNetworkManager", args, ListEffectiveVirtualNetworkByNetworkManagerResultOutput{}, options).(ListEffectiveVirtualNetworkByNetworkManagerResultOutput), nil
 		}).(ListEffectiveVirtualNetworkByNetworkManagerResultOutput)
 }
 

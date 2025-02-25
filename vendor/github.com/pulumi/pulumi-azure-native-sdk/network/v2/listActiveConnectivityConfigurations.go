@@ -47,21 +47,11 @@ type ListActiveConnectivityConfigurationsResult struct {
 }
 
 func ListActiveConnectivityConfigurationsOutput(ctx *pulumi.Context, args ListActiveConnectivityConfigurationsOutputArgs, opts ...pulumi.InvokeOption) ListActiveConnectivityConfigurationsResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (ListActiveConnectivityConfigurationsResultOutput, error) {
 			args := v.(ListActiveConnectivityConfigurationsArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv ListActiveConnectivityConfigurationsResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:listActiveConnectivityConfigurations", args, &rv, "", opts...)
-			if err != nil {
-				return ListActiveConnectivityConfigurationsResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(ListActiveConnectivityConfigurationsResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(ListActiveConnectivityConfigurationsResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:listActiveConnectivityConfigurations", args, ListActiveConnectivityConfigurationsResultOutput{}, options).(ListActiveConnectivityConfigurationsResultOutput), nil
 		}).(ListActiveConnectivityConfigurationsResultOutput)
 }
 

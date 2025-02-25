@@ -15,7 +15,7 @@ import (
 // Properties of the table, including Id, resource name, resource type.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 type Table struct {
 	pulumi.CustomResourceState
 
@@ -81,6 +81,9 @@ func NewTable(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:storage/v20230501:Table"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20240101:Table"),
 		},
 	})
 	opts = append(opts, aliases)

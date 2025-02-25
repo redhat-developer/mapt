@@ -79,21 +79,11 @@ type LookupDeploymentStackAtSubscriptionResult struct {
 }
 
 func LookupDeploymentStackAtSubscriptionOutput(ctx *pulumi.Context, args LookupDeploymentStackAtSubscriptionOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentStackAtSubscriptionResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupDeploymentStackAtSubscriptionResultOutput, error) {
 			args := v.(LookupDeploymentStackAtSubscriptionArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupDeploymentStackAtSubscriptionResult
-			secret, err := ctx.InvokePackageRaw("azure-native:resources:getDeploymentStackAtSubscription", args, &rv, "", opts...)
-			if err != nil {
-				return LookupDeploymentStackAtSubscriptionResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupDeploymentStackAtSubscriptionResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupDeploymentStackAtSubscriptionResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:resources:getDeploymentStackAtSubscription", args, LookupDeploymentStackAtSubscriptionResultOutput{}, options).(LookupDeploymentStackAtSubscriptionResultOutput), nil
 		}).(LookupDeploymentStackAtSubscriptionResultOutput)
 }
 

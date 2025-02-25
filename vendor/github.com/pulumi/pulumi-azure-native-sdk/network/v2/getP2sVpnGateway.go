@@ -65,21 +65,11 @@ type LookupP2sVpnGatewayResult struct {
 }
 
 func LookupP2sVpnGatewayOutput(ctx *pulumi.Context, args LookupP2sVpnGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupP2sVpnGatewayResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupP2sVpnGatewayResultOutput, error) {
 			args := v.(LookupP2sVpnGatewayArgs)
-			opts = utilities.PkgInvokeDefaultOpts(opts)
-			var rv LookupP2sVpnGatewayResult
-			secret, err := ctx.InvokePackageRaw("azure-native:network:getP2sVpnGateway", args, &rv, "", opts...)
-			if err != nil {
-				return LookupP2sVpnGatewayResultOutput{}, err
-			}
-
-			output := pulumi.ToOutput(rv).(LookupP2sVpnGatewayResultOutput)
-			if secret {
-				return pulumi.ToSecret(output).(LookupP2sVpnGatewayResultOutput), nil
-			}
-			return output, nil
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:network:getP2sVpnGateway", args, LookupP2sVpnGatewayResultOutput{}, options).(LookupP2sVpnGatewayResultOutput), nil
 		}).(LookupP2sVpnGatewayResultOutput)
 }
 

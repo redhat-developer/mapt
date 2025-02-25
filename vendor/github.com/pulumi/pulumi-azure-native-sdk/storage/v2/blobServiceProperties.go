@@ -15,7 +15,7 @@ import (
 // The properties of a storage account’s Blob service.
 // Azure REST API version: 2022-09-01. Prior API version in Azure Native 1.x: 2021-02-01.
 //
-// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01.
+// Other available API versions: 2023-01-01, 2023-04-01, 2023-05-01, 2024-01-01.
 type BlobServiceProperties struct {
 	pulumi.CustomResourceState
 
@@ -106,6 +106,9 @@ func NewBlobServiceProperties(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:storage/v20230501:BlobServiceProperties"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20240101:BlobServiceProperties"),
 		},
 	})
 	opts = append(opts, aliases)
