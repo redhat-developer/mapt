@@ -1,3 +1,70 @@
+# v1.53.16 (2025-02-19)
+
+* **Documentation**: This is a documentation only release for Amazon ECS that supports the CPU task limit increase.
+
+# v1.53.15 (2025-02-18)
+
+* **Bug Fix**: Bump go version to 1.22
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.14 (2025-02-13)
+
+* **Documentation**: This is a documentation only release to support migrating Amazon ECS service ARNs to the long ARN format.
+
+# v1.53.13 (2025-02-05)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.12 (2025-02-04)
+
+* No change notes available for this release.
+
+# v1.53.11 (2025-01-31)
+
+* **Dependency Update**: Switch to code-generated waiter matchers, removing the dependency on go-jmespath.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.10 (2025-01-30)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.9 (2025-01-24)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+* **Dependency Update**: Upgrade to smithy-go v1.22.2.
+
+# v1.53.8 (2025-01-17)
+
+* **Bug Fix**: Fix bug where credentials weren't refreshed during retry loop.
+
+# v1.53.7 (2025-01-16)
+
+* **Documentation**: The release addresses Amazon ECS documentation tickets.
+
+# v1.53.6 (2025-01-15)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.5 (2025-01-14)
+
+* **Bug Fix**: Fix issue where waiters were not failing on unmatched errors as they should. This may have breaking behavioral changes for users in fringe cases. See [this announcement](https://github.com/aws/aws-sdk-go-v2/discussions/2954) for more information.
+
+# v1.53.4 (2025-01-09)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.3 (2025-01-08)
+
+* No change notes available for this release.
+
+# v1.53.2 (2025-01-03)
+
+* **Documentation**: Adding SDK reference examples for Amazon ECS operations.
+
+# v1.53.1 (2024-12-19)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
 # v1.53.0 (2024-12-17)
 
 * **Feature**: Added support for enableFaultInjection task definition parameter which can be used to enable Fault Injection feature on ECS tasks.

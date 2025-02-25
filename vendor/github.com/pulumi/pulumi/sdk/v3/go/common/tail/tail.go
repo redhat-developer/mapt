@@ -1,12 +1,17 @@
+//nolint:goheader // This file is a vendored copy of the tail package from nxadm/tail, keep the original license header.
+// Copyright (c) 2024, Pulumi Corporation.
 // Copyright (c) 2019 FOSS contributors of https://github.com/nxadm/tail
 // Copyright (c) 2015 HPE Software Inc. All rights reserved.
 // Copyright (c) 2013 ActiveState Software Inc. All rights reserved.
 
-//nxadm/tail provides a Go library that emulates the features of the BSD `tail`
-//program. The library comes with full support for truncation/move detection as
-//it is designed to work with log rotation tools. The library works on all
-//operating systems supported by Go, including POSIX systems like Linux and
-//*BSD, and MS Windows. Go 1.9 is the oldest compiler release supported.
+// tail provides a Go library that emulates the features of the BSD `tail`
+// program. The library comes with full support for truncation/move detection as
+// it is designed to work with log rotation tools. The library works on all
+// operating systems supported by Go, including POSIX systems like Linux and
+// *BSD, and MS Windows.
+//
+// This is a trimmed down vendored copy of github.com/nxadm/tail with fixes
+// from nxadm/tail#70 and nxadm/tail#71 applied.
 package tail
 
 import (
@@ -14,23 +19,20 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
 	"sync"
 	"time"
 
-	"github.com/nxadm/tail/ratelimiter"
 	"github.com/nxadm/tail/util"
 	"github.com/nxadm/tail/watch"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"gopkg.in/tomb.v1"
 )
 
-var (
-	// ErrStop is returned when the tail of a file has been marked to be stopped.
-	ErrStop = errors.New("tail should now stop")
-)
+// ErrStop is returned when the tail of a file has been marked to be stopped.
+var ErrStop = errors.New("tail should now stop")
 
 type Line struct {
 	Text     string    // The contents of the file
@@ -38,15 +40,6 @@ type Line struct {
 	SeekInfo SeekInfo  // SeekInfo
 	Time     time.Time // Present time
 	Err      error     // Error from tail
-}
-
-// Deprecated: this function is no longer used internally and it has little of no
-// use in the API. As such, it will be removed from the API in a future major
-// release.
-//
-// NewLine returns a * pointer to a Line struct.
-func NewLine(text string, lineNum int) *Line {
-	return &Line{text, lineNum, SeekInfo{}, time.Now(), nil}
 }
 
 // SeekInfo represents arguments to io.Seek. See: https://golang.org/pkg/io/#SectionReader.Seek
@@ -81,9 +74,6 @@ type Config struct {
 	MaxLineSize   int  // If non-zero, split longer lines into multiple lines
 	CompleteLines bool // Only return complete lines (that end with "\n" or EOF when Follow is false)
 
-	// Optionally, use a ratelimiter (e.g. created by the ratelimiter/NewLeakyBucket function)
-	RateLimiter *ratelimiter.LeakyBucket
-
 	// Optionally use a Logger. When nil, the Logger is set to tail.DefaultLogger.
 	// To disable logging, set it to tail.DiscardingLogger
 	Logger logger
@@ -112,15 +102,15 @@ var (
 	// DefaultLogger logs to os.Stderr and it is used when Config.Logger == nil
 	DefaultLogger = log.New(os.Stderr, "", log.LstdFlags)
 	// DiscardingLogger can be used to disable logging output
-	DiscardingLogger = log.New(ioutil.Discard, "", 0)
+	DiscardingLogger = log.New(io.Discard, "", 0)
 )
 
-// TailFile begins tailing the file. And returns a pointer to a Tail struct
+// File begins tailing the file. And returns a pointer to a Tail struct
 // and an error. An output stream is made available via the Tail.Lines
 // channel (e.g. to be looped and printed). To handle errors during tailing,
 // after finishing reading from the Lines channel, invoke the `Wait` or `Err`
 // method on the returned *Tail.
-func TailFile(filename string, config Config) (*Tail, error) {
+func File(filename string, config Config) (*Tail, error) {
 	if config.ReOpen && !config.Follow {
 		util.Fatal("cannot set ReOpen without Follow.")
 	}
@@ -148,7 +138,7 @@ func TailFile(filename string, config Config) (*Tail, error) {
 
 	if t.MustExist {
 		var err error
-		t.file, err = OpenFile(t.Filename)
+		t.file, err = openFile(t.Filename)
 		if err != nil {
 			return nil, err
 		}
@@ -216,7 +206,7 @@ func (tail *Tail) reopen() error {
 	tail.lineNum = 0
 	for {
 		var err error
-		tail.file, err = OpenFile(tail.Filename)
+		tail.file, err = openFile(tail.Filename)
 		if err != nil {
 			if os.IsNotExist(err) {
 				tail.Logger.Printf("Waiting for %s to appear...", tail.Filename)
@@ -259,12 +249,11 @@ func (tail *Tail) readLine() (string, error) {
 		line = tail.lineBuf.String()
 		tail.lineBuf.Reset()
 		return line, nil
-	} else {
-		if tail.Config.Follow {
-			line = ""
-		}
-		return line, io.EOF
 	}
+	if tail.Config.Follow {
+		line = ""
+	}
+	return line, io.EOF
 }
 
 func (tail *Tail) tailFileSync() {
@@ -286,13 +275,14 @@ func (tail *Tail) tailFileSync() {
 	if tail.Location != nil {
 		_, err := tail.file.Seek(tail.Location.Offset, tail.Location.Whence)
 		if err != nil {
-			tail.Killf("Seek error on %s: %s", tail.Filename, err)
+			contract.IgnoreError(tail.Killf("Seek error on %s: %s", tail.Filename, err))
 			return
 		}
 	}
 
 	tail.openReader()
 
+	stopOnNextEOF := false
 	// Read line by line.
 	for {
 		// do not seek in named pipes
@@ -341,11 +331,25 @@ func (tail *Tail) tailFileSync() {
 				}
 			}
 
+			if stopOnNextEOF {
+				return
+			}
+
 			// When EOF is reached, wait for more data to become
 			// available. Wait strategy is based on the `tail.watcher`
 			// implementation (inotify or polling).
 			err := tail.waitForChanges()
 			if err != nil {
+				// When StopAtEOF() is called, we
+				// might have more data to read, that
+				// the filewatcher might not have
+				// notified us about.  Continue
+				// reading until we found an EOF
+				// again, and then exit.
+				if err == ErrStop && tail.Err() == errStopAtEOF {
+					stopOnNextEOF = true
+					continue
+				}
 				if err != ErrStop {
 					tail.Kill(err)
 				}
@@ -353,7 +357,7 @@ func (tail *Tail) tailFileSync() {
 			}
 		} else {
 			// non-EOF error
-			tail.Killf("Error reading %s: %s", tail.Filename, err)
+			contract.IgnoreError(tail.Killf("Error reading %s: %s", tail.Filename, err))
 			return
 		}
 
@@ -450,22 +454,22 @@ func (tail *Tail) sendLine(line string) bool {
 		lines = util.PartitionString(line, tail.MaxLineSize)
 	}
 
+	earlyExitChan := tail.Dying()
 	for _, line := range lines {
 		tail.lineNum++
 		offset, _ := tail.Tell()
 		select {
 		case tail.Lines <- &Line{line, tail.lineNum, SeekInfo{Offset: offset}, now, nil}:
-		case <-tail.Dying():
-			return true
-		}
-	}
-
-	if tail.Config.RateLimiter != nil {
-		ok := tail.Config.RateLimiter.Pour(uint16(len(lines)))
-		if !ok {
-			tail.Logger.Printf("Leaky bucket full (%v); entering 1s cooloff period.",
-				tail.Filename)
-			return false
+		case <-earlyExitChan:
+			// This is a bit weird here, when a user requests StopAtEof we
+			// must keep sending all lines. However <-tail.Dying() will return
+			// immediately at this point so depending on the scheduler we may
+			// not have a chance to send the line.  If StopAtEOF is sent, we
+			// continue sending lines, and expect the reader to read them all
+			// to avoid a deadlock.
+			if tail.Err() == errStopAtEOF {
+				tail.Lines <- &Line{line, tail.lineNum, SeekInfo{Offset: offset}, now, nil}
+			}
 		}
 	}
 
@@ -477,5 +481,5 @@ func (tail *Tail) sendLine(line string) bool {
 // automatically remove inotify watches after the process exits.
 // If you plan to re-read a file, don't call Cleanup in between.
 func (tail *Tail) Cleanup() {
-	watch.Cleanup(tail.Filename)
+	contract.IgnoreError(watch.Cleanup(tail.Filename))
 }
