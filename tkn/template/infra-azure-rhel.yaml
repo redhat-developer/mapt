@@ -10,60 +10,73 @@ metadata:
     tekton.dev/categories: infrastructure
     tekton.dev/tags: infrastructure, azure
     tekton.dev/displayName: "azure manager"
-    tekton.dev/platforms: "linux/amd64"
+    tekton.dev/platforms: "linux/amd64, linux/arm64"
 spec:
   description: |
     This task will provision / decomission rhel on azure
 
     The output will give required information to connect within the remote provisioned host
 
-  workspaces:
-    - name: pipelines-data
-      description: workspace to store outputs to connect within the target machine + state file for the infrastructure 
+  volumes:
     - name: az-credentials
+      secret:
+        secretName: $(params.secret-az-credentials)
+    - name: host-info
+      emptyDir: {}
+
+  params: 
+    - name: secret-az-credentials
       description: |
         ocp secret holding the azure credentials. Secret should be accessible to this task.
 
-        To be a valid secret it should contains the following fields:
-        * tenant_id
-        * subscription_id
-        * client_id
-        * client_secret
-        * storage_account (optional if we use remote az storage)
-        * storage_key (optional if we use remote az storage)
-      mountPath: /opt/credentials
-    - name: rh-account-secret
-      optional: true
-      description: |
-        ocp secret holding the credentials for a valid rh user to subscribe VM. Secret should be accessible to this task.
-
-        Sample format for valid Secret
         ---
         apiVersion: v1
         kind: Secret
         metadata:
-          name: credentials-${configname}
+          name: ${name}
         type: Opaque
         data:
-          user: ${user}
-          password: ${password}
-      mountPath: /opt/rh-account-secret
-      
-  params: 
-    # mapt params 
-    - name: project-name
-      description: identifier for project.   
-    - name: backed-url
-      description: |
-        If we want to backed resources externally we can use az storage setting this param(i.e azblob://existing-storage). 
-
-        If default will be store on storage workspace at path set by param ws-output-path.
-      default: "''"
-    - name: ws-output-path
-      description: path on workspace where to store ephemeral assets related with the provisioning
+          tenant_id: ${tenant_id}
+          subscription_id: ${subscription_id}
+          client_id: ${client_id}
+          client_secret: ${client_secret}
+          storage_account: ${storage_account}
+          storage_key: ${storage_key}
+          blob: ${blob}
+    - name: id
+      description: identifier for the provisioned environment
     - name: operation 
       description: operation to execute within the infrastructure. Current values (create, destroy)
-      default: create   
+
+    # Secret result 
+    # naming
+    - name: host-access-secret-name
+      type: string
+      default: "''"
+      description: |
+        Once the target is provisioned the config to connect is addded to a secret 
+        check resutls. If this param is set the secret will be created with the name set 
+        otherwise it will be created with a random name.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: PipelineRun
+      description: |
+        The type of resource that should own the generated SpaceRequest.
+        Deletion of this resource will trigger deletion of the SpaceRequest.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      description: |
+        The name of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.name)`
+        or `$(context.taskRun.name)` depending on the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      description: |
+        The uid of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.uid)`
+        or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
 
     # VM type params
     - name: arch
@@ -103,95 +116,76 @@ spec:
       default: "''"
     
     # Control params
-    - name: remove-lock
-      description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
-      default: 'true'
+    - name: debug
+      description: |
+        Warning setting this param to true expose credentials 
+        
+        The parameter is intended to add verbosity on the task execution and also print credentials on stdout
+        to easily access to remote machice
+      default: 'false'
   
   results:
-  - name: host
-    description: ip to connect to the provisioned machine
-  - name: username
-    description: username to connect to the provisioned machine
-  - name: key
-    description: filename for the private key. The key is located at ws-output-path
+    - name: host-access-secret
+      description: |
+        ocp secret holding the information to connect with the target machine.
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+          type: Opaque
+          data:
+            host: ${host}
+            username: ${username}
+            id_rsa: ${id_rsa}
 
   steps:
     - name: provisioner
       image: <IMAGE>
       imagePullPolicy: Always
+      volumeMounts:
+        - name: az-credentials
+          mountPath: /opt/az-credentials
+        - name: host-info
+          mountPath: /opt/host-info
       script: |
         #!/bin/sh
 
-        # Added verbosity
-        set -xuo
+        # If debug add verbosity
+        if [[ $(params.debug) == "true" ]]; then
+          set -xuo   
+        fi
         
         # Credentials
-        export ARM_TENANT_ID=$(cat /opt/credentials/tenant_id)
-        export ARM_SUBSCRIPTION_ID=$(cat /opt/credentials/subscription_id)
-        export ARM_CLIENT_ID=$(cat /opt/credentials/client_id)
-        export ARM_CLIENT_SECRET=$(cat /opt/credentials/client_secret)
-        if ! [ -f /opt/credentials/storage_account ]; then
-          export AZURE_STORAGE_ACCOUNT=$(cat /opt/credentials/storage_account)
-        fi
-        if ! [ -f /opt/credentials/storage_key ]; then
-          export AZURE_STORAGE_KEY=$(cat /opt/credentials/storage_key)
-        fi
-        
-        # Output folder
-        workspace_path=$(workspaces.pipelines-data.path)/$(params.ws-output-path)
-        mkdir -p ${workspace_path}
-
-        # Remove lock
-        if [[ $(params.remove-lock) == "true" ]]; then
-          rm -rf ${workspace_path}/.pulumi/locks/*
-        fi
+        export ARM_TENANT_ID=$(cat /opt/az-credentials/tenant_id)
+        export ARM_SUBSCRIPTION_ID=$(cat /opt/az-credentials/subscription_id)
+        export ARM_CLIENT_ID=$(cat /opt/az-credentials/client_id)
+        export ARM_CLIENT_SECRET=$(cat /opt/az-credentials/client_secret)
+        export AZURE_STORAGE_ACCOUNT=$(cat /opt/az-credentials/storage_account)
+        export AZURE_STORAGE_KEY=$(cat /opt/az-credentials/storage_key)
+        BLOB=$(cat /opt/az-credentials/blob)
 
         # Run mapt
         cmd="mapt azure rhel $(params.operation) "
-        cmd="$cmd --project-name $(params.project-name) "
-        if [[ $(params.backed-url) != "" ]]; then
-          cmd="$cmd --backed-url $(params.backed-url) "
-        else
-          cmd="$cmd --backed-url file://${workspace_path} "
-        fi
+        cmd+="--project-name mapt-rhel-$(params.id) "
+        cmd+="--backed-url azblob://${BLOB}/rhel-$(params.id) "
         if [[ $(params.operation) == "create" ]]; then
-          cmd="$cmd --conn-details-output ${workspace_path} "
-          cmd="$cmd --arch $(params.arch) "
-          cmd="$cmd --cpus $(params.cpus) "
-          cmd="$cmd --memory $(params.memory) "
+          cmd+="--conn-details-output /opt/host-info "
+          cmd+="--arch $(params.arch) --cpus $(params.cpus) "
+          cmd+="--memory $(params.memory) --version $(params.version) "
           if [[ $(params.nested-virt) == "true" ]]; then
-            cmd="$cmd --nested-virt "
+            cmd+="--nested-virt "
           fi
           if [[ $(params.vmsize) != "" ]]; then
-            cmd="$cmd --vmsize $(params.vmsize) "
+            cmd+="--vmsize $(params.vmsize) "
           fi
-          cmd="$cmd --version $(params.version) "
-          if [[ $(params.spot) == "true" ]]; then
-            cmd="$cmd --spot "
-            cmd="$cmd --spot-eviction-tolerance $(params.spot-eviction-tolerance) "
-          fi
-          cmd="$cmd --rh-subscription-username $(cat /opt/rh-account-secret/user) "  
-          cmd="$cmd --rh-subscription-password $(cat /opt/rh-account-secret/password) "  
-          if [[ $(params.profile-snc) == "true" ]]; then
-            cmd="$cmd --snc "
-          fi
-          if [[ $(params.tags) != "" ]]; then
-            cmd="$cmd --tags $(params.tags) "
-          fi
+          if [[ $(params.spot) == "true" ]]; then cmd+="--spot "; fi
+          # Spot tolerance only be applied if spot is enabled
+          cmd+="--spot-eviction-tolerance $(params.spot-eviction-tolerance) "
+          cmd+="--tags $(params.tags) "
         fi
         eval "${cmd}"
-
-        create_exit_code=$?
-      
-        # set task results
-        cat "${workspace_path}/host" | tee $(results.host.path)
-        cat "${workspace_path}/username" | tee $(results.username.path)   
-        echo -n "id_rsa" | tee $(results.key.path)
-
-        if [[ ${create_exit_code} -ne 0 ]]; then 
-          exit 1
-        fi
-        
       resources:      
         requests:
           memory: "200Mi"
@@ -199,3 +193,50 @@ spec:
         limits:
           memory: "600Mi"
           cpu: "300m"
+    - name: host-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:4.13@sha256:e70eb2be867f1236b19f5cbfeb8e0625737ce0ec1369e32a4f9f146aaaf68d49
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)  
+      volumeMounts:
+        - name: host-info
+          mountPath: /opt/host-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ $(params.operation) == "create" ]]; then
+        export SECRETNAME="generateName: mapt-azure-rhel-"
+        if [[ $(params.host-access-secret-name) != "" ]]; then
+          export SECRETNAME="name: $(params.host-access-secret-name)"
+        fi
+        cat <<EOF > host-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: $NAMESPACE
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: $OWNER_KIND
+            name: $OWNER_NAME
+            uid: $OWNER_UID
+        type: Opaque
+        data:
+          host: $(cat /opt/host-info/host | base64 -w0)
+          username: $(cat /opt/host-info/username | base64 -w0)
+          id_rsa: $(cat /opt/host-info/id_rsa | base64 -w0)
+        EOF
+
+        if [[ $(params.debug) == "true" ]]; then
+          cat /opt/host-info/*
+        fi
+        
+        NAME=$(oc create -f host-info.yaml -o=jsonpath='{.metadata.name}')
+        echo -n "${NAME}" | tee $(results.host-access-secret.path)   
+        fi
