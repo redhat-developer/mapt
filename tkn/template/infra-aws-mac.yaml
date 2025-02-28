@@ -6,22 +6,24 @@ metadata:
   labels:
     app.kubernetes.io/version: "<VERSION>"
   annotations:
-    tekton.dev/pipelines.minVersion: "0.24.x"
+    tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
     tekton.dev/tags: infrastructure, aws, mac
     tekton.dev/displayName: "aws manager"
-    tekton.dev/platforms: "linux/amd64"
+    tekton.dev/platforms: "linux/amd64, linux/arm64"
 spec:
   description: |
-    Task provision a mac dedicated host on AWS, and handle mac machines on top of it
+    Task provision a mac dedicated host on AWS, and handle mac machines on top of it.
 
-    The machine will offer nested virtualizataion capabilities as so it should be spin on a dedicated (baremetal) machine
-
-  workspaces:
-    - name: storage
-      description: volume to store outputs to connect within the target machine + state file for the infrastructure 
-      mountPath: /opt/storage
+  volumes:
     - name: aws-credentials
+      secret:
+        secretName: $(params.secret-aws-credentials)
+    - name: host-info
+      emptyDir: {}
+
+  params:
+    - name: secret-aws-credentials
       description: |
         ocp secret holding the aws credentials. Secret should be accessible to this task.
 
@@ -30,30 +32,46 @@ spec:
         kind: Secret
         metadata:
           name: aws-${name}
-          labels:
-            app.kubernetes.io/component: ${name}
-            app.kubernetes.io/part-of: qe-platform
         type: Opaque
         data:
           access-key: ${access_key}
           secret-key: ${secret_key}
           region: ${region}
-      mountPath: /opt/aws-credentials
-  
-  params:
-    # mapt params 
-    - name: project-name
-      description: identifier for project. 
-    - name: backed-url
-      description: |
-        If we want to backed resources externally we can use s3 setting this param(i.e s3://existing-bucket). 
-
-        If default will be store on storage workspace at path set by param ws-output-path.
-      default: "''"
-    - name: ws-output-path
-      description: path on workspace where to store ephemeral assets related with the provisioning
+          bucket: ${bucket}
+    - name: id
+      description: identifier for the provisioned environment
     - name: operation 
       description: operation to execute within the infrastructure. Current values (create, destroy)
+
+    # Secret result 
+    # naming
+    - name: host-access-secret-name
+      type: string
+      default: "''"
+      description: |
+        Once the target is provisioned the config to connect is addded to a secret 
+        check resutls. If this param is set the secret will be created with the name set 
+        otherwise it will be created with a random name.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: PipelineRun
+      description: |
+        The type of resource that should own the generated SpaceRequest.
+        Deletion of this resource will trigger deletion of the SpaceRequest.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      description: |
+        The name of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.name)`
+        or `$(context.taskRun.name)` depending on the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      description: |
+        The uid of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.uid)`
+        or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
 
     # Mac params
     # Dedicated Host
@@ -76,9 +94,6 @@ spec:
     - name: fixed-location
       description: if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION).
       default: 'false'
-    - name: spot
-      description: Check best spot option to spin the machine and will create resources on that region.
-      default: 'true'
 
     # Topology params
     - name: airgap
@@ -97,9 +112,6 @@ spec:
       default: "''"
 
     # Control params
-    - name: remove-lock
-      description: in case a previous run fails the stack can be locked. This value allows to control if remove lock
-      default: 'true'
     - name: debug
       description: |
         Warning setting this param to true expose credentials 
@@ -109,117 +121,75 @@ spec:
       default: 'false'
 
   results:
-    - name: host-id
-      description: id for the dedicated host. It will be used as input when use this task to create new mac machines on the dedicated host
-    - name: host
-      description: ip to connect to the provisioned machine
-    - name: username
-      description: username to connect to the provisioned machine
-    - name: key
-      description: filename for the private key. The key is located at workspace-resources-path
-    - name: bastion-host
-      description: if airgap is set we get the bastion host as result
-    - name: bastion-username
-      description: if airgap is set we get the bastion username to connect as result
-    - name: bastion-key
-      description: if airgap is set we get the bastion filename for the private key. The key is located at workspace-resources-path
+    - name: host-access-secret
+      description: |
+        ocp secret holding the information to connect with the target machine.
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+          type: Opaque
+          data:
+            # host
+            host: ${host}
+            username: ${username}
+            id_rsa: ${id_rsa}
+            # If airgap data for bastion host
+            bastion-host: ${bastion-host}
+            bastion-username: ${bastion-username}
+            bastion-id_rsa: ${bastion-id_rsa}
 
   steps:
     - name: provisioner
       image: <IMAGE>
       imagePullPolicy: Always
+      volumeMounts:
+        - name: aws-credentials
+          mountPath: /opt/az-credentials
+        - name: host-info
+          mountPath: /opt/host-info
       script: |
         #!/bin/sh
 
+        set -euo pipefail
         # If debug add verbosity
         if [[ $(params.debug) == "true" ]]; then
-          set -xuo   
+          set -xeuo pipefail  
         fi
 
         # Credentials
         export AWS_ACCESS_KEY_ID=$(cat /opt/aws-credentials/access-key)
         export AWS_SECRET_ACCESS_KEY=$(cat /opt/aws-credentials/secret-key)
         export AWS_DEFAULT_REGION=$(cat /opt/aws-credentials/region)
-
-        # Output folder
-        workspace_path=/opt/storage/$(params.ws-output-path)
-        mkdir -p ${workspace_path}
-
-        # Remove lock
-        if [[ $(params.remove-lock) == "true" ]]; then
-            rm -rf ${workspace_path}/.pulumi/locks/*
-        fi
-
+        BUCKET=$(cat /opt/aws-credentials/bucket)
+       
         # Run mapt
         cmd="mapt aws mac $(params.operation) "
-        cmd="$cmd --project-name $(params.project-name) "
-        # Set the backed url
-        if [[ $(params.backed-url) != "" ]]; then
-          cmd="$cmd --backed-url $(params.backed-url) "
-        else
-          cmd="$cmd --backed-url file://${workspace_path} "
-        fi
+        cmd+="--project-name mapt-mac-$(params.id) "
+        cmd+="--backed-url s3://${BUCKET}/mapt/mac/$(params.id) "
         if [[ $(params.only-host) == "true" ]]; then
-          cmd="$cmd --only-host "
+          cmd+="--only-host "
         fi
         if [[ $(params.only-machine) == "true" ]]; then
-          cmd="$cmd --only-machine "
+          cmd+="--only-machine "
         fi
         if [[ $(params.operation) == "create" ]]; then
+          cmd+="--conn-details-output /opt/host-info "
           if [[ $(params.fixed-location) == "true" ]]; then
-            cmd="$cmd --fixed-location "
+            cmd+="--fixed-location "
           fi
           # Host params
-          cmd="$cmd --arch $(params.arch) " 
-          if [[ $(params.host-id) != "" ]]; then
-            cmd="$cmd --host-id $(params.host-id) " 
-          fi
+          cmd+="--arch $(params.arch) " 
           # Mac machine params
-          cmd="$cmd --version $(params.version) "
-          cmd="$cmd --conn-details-output ${workspace_path} "
-          if [[ $(params.spot) == "true" ]]; then
-            cmd="$cmd --spot "
-          fi
+          cmd+="--version $(params.version) "
           if [[ $(params.airgap) == "true" ]]; then
-            cmd="$cmd --airgap "
+            cmd+="--airgap "
           fi
-          if [[ $(params.tags) != "" ]]; then
-            cmd="$cmd --tags $(params.tags) "
-          fi
-          
+          cmd+="--tags $(params.tags) "
         fi
         eval "${cmd}"
-        
-        create_exit_code=$?
-      
-        # set task results
-        cat "${workspace_path}/dedicatedHostID" | tee $(results.host-id.path)
-        cat "${workspace_path}/host" | tee $(results.host.path)
-        cat "${workspace_path}/username" | tee $(results.username.path)   
-        echo -n "id_rsa" | tee $(results.key.path)   
-        if [[ $(params.airgap) == "true" ]]; then
-          cat "${workspace_path}/bastion_host" | tee $(results.bastion-host.path)
-          cat "${workspace_path}/bastion_username" | tee $(results.bastion-username.path)   
-          echo -n "bastion_id_rsa" | tee $(results.bastion-key.path)   
-        fi
-
-        # If debug print credentials
-        if [[ $(params.debug) == "true" ]]; then
-          echo "Credentials to access target machine \n"
-          cat "${workspace_path}/host"
-          cat "${workspace_path}/username"
-          cat "${workspace_path}/id_rsa"
-          if [[ $(params.airgap) == "true" ]]; then
-            cat "${workspace_path}/bastion_host"
-            cat "${workspace_path}/bastion_username"
-            cat "${workspace_path}/bastion_id_rsa"
-          fi
-        fi
-
-        if [[ ${create_exit_code} -ne 0 ]]; then 
-          exit 1
-        fi
-
       resources:      
         requests:
           memory: "200Mi"
@@ -227,4 +197,59 @@ spec:
         limits:
           memory: "600Mi"
           cpu: "300m"
-  
+          
+    - name: host-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:4.13@sha256:e70eb2be867f1236b19f5cbfeb8e0625737ce0ec1369e32a4f9f146aaaf68d49
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)  
+      volumeMounts:
+        - name: host-info
+          mountPath: /opt/host-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ $(params.operation) == "create" ]]; then
+        export SECRETNAME="generateName: mapt-aws-mac-"
+        if [[ $(params.host-access-secret-name) != "" ]]; then
+          export SECRETNAME="name: $(params.host-access-secret-name)"
+        fi
+        cat <<EOF > host-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: $NAMESPACE
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: $OWNER_KIND
+            name: $OWNER_NAME
+            uid: $OWNER_UID
+        type: Opaque
+        data:
+          host: $(cat /opt/host-info/host | base64 -w0)
+          username: $(cat /opt/host-info/username | base64 -w0)
+          id_rsa: $(cat /opt/host-info/id_rsa | base64 -w0)
+        EOF
+        if [[ $(params.airgap) == "true" ]]; then
+        cat <<EOF >> host-info.yaml
+          bastion-host: $(cat /opt/host-info/bastion_host | base64 -w0)
+          bastion-username: $(cat /opt/host-info/bastion_username | base64 -w0)
+          bastion-id_rsa: $(cat /opt/host-info/bastion_id_rsa | base64 -w0)
+        EOF
+        fi
+
+          if [[ $(params.debug) == "true" ]]; then
+            cat /opt/host-info/*
+          fi
+          
+          NAME=$(oc create -f host-info.yaml -o=jsonpath='{.metadata.name}')
+          echo -n "${NAME}" | tee $(results.host-access-secret.path)   
+
+        fi
