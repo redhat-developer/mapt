@@ -21,6 +21,8 @@ var amiRegexRhel = map[string]string{
 
 type SpotRequest struct {
 	CPUs                  int32
+	GPUs                  int32
+	GPUManufacturer       string
 	MemoryGib             int32
 	Os                    string
 	OSVersion             string
