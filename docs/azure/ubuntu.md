@@ -7,14 +7,14 @@ mapt offers several operations to manage environments within azure:
 It creates / destroy a Ubuntu machine ready to be included within the CI/CD system. Features included within the offering:
 
 * Creates an admin user with a self generated passwd (only accessible within rdp)
-* Creates an user acting as adminuser
-* Setup ssh for the user user with a self generated private key
+* Creates a user acting as adminuser
+* Setup ssh for the user with a self generated private key
 
 ### Operations
 
 #### Create
 
-This will create a windows desktop accordig to params specificed:
+This will create a Windows desktop according to params specified:
 
 ```bash
 podman run -it --rm quay.io/redhat-developer/mapt:0.7.0-dev azure ubuntu create -h
@@ -42,17 +42,17 @@ Global Flags:
       --project-name string   project name to identify the instance of the stack
 ```
 
-It will crete a windows desktop instance and will give as result several files located at path defined by `--conn-details-output`:
+It will crete a Windows desktop instance and will give as result several files located at path defined by `--conn-details-output`:
 
 
 * username: file containing the username for worker user
 * id_rsa: file containing the private key for worker user
 * host: file containing the public ip for the instance  
 
-Also it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to detroy the resources.
+Also, it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to destroy the resources.
 
-When running the container image it is required to pass the authetication information as variables, following a sample snipped on how to create
-a instance with default values:
+When running the container image it is required to pass the authentication information as variables, following a sample snipped on how to create
+an instance with default values:
 
 ```bash
 podman run -d --rm \
@@ -69,7 +69,7 @@ podman run -d --rm \
         --spot
 ```
 
-The following is a snipped on how to destroy the resources:
+The following is a snippet on how to destroy the resources:
 
 ```bash
 podman run -d --rm \

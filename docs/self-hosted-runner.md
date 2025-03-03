@@ -1,16 +1,16 @@
 # Overview
 
-This feature of `mapt` allows to setup hosts deployed by it as a Github Self Hosted Runner, which can then be directly used for running github actions jobs.
-It benefits from all the existing features that `mapt` already provides, allowing to create self hosted runners that can be used for different QE scenarios.
+This feature of `mapt` allows to setup hosts deployed by it as a GitHub Self Hosted Runner, which can then be directly used for running GitHub actions jobs.
+It benefits from all the existing features that `mapt` already provides, allowing to create self-hosted runners that can be used for different QE scenarios.
 
 ## Providers and Platforms
 
-Currently it allow to create self hosted runners on AWS (Windows Server, RHEL) and Azure (Windows Desktop)
+Currently, it allows to create self-hosted runners on AWS (Windows Server, RHEL) and Azure (Windows Desktop)
 
 ### Prerequisite
 
-To register a Self Hosted Runner for a repository or a Github organization, the runner program needs a registration token, which can be obtained by requesting the
-Github API.
+To register a Self Hosted Runner for a repository or a GitHub organization, the runner program needs a registration token, which can be obtained by requesting the
+GitHub API.
 
 * [Information for requesting a token to register a runner for an Organization](https://docs.github.com/en/rest/actions/self-hosted-runners#create-a-registration-token-for-an-organization)
 * [Information for requesting a token to register a runner for a repository](https://docs.github.com/en/rest/actions/self-hosted-runners#create-a-registration-token-for-a-repository)
@@ -41,7 +41,7 @@ The Response from this `POST` request will be:
 After getting the required token, we need to also decide what we are going to call this runner, the desired name can be passed to the `mapt` command using the
 `--ghactions-runner-name` flag.
 
-The full URL of the repository or the github organization also needs to be passed using the `--ghactions-runner-repo` flag.
+The full URL of the repository or the GitHub organization also needs to be passed using the `--ghactions-runner-repo` flag.
 
 To deploy a Windows runner on the Azure provider, we can use the following command:
 

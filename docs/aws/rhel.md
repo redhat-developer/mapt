@@ -51,7 +51,7 @@ Global Flags:
   * **bastion_username**: username to connect to the bastion (airgap)
   * **bastion_id_rsa**: private key to connect to the bastion (airgap)
 
-* Also it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to detroy the resources.
+* Also, it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to destroy the resources.
 
 ### Container
 

@@ -10,7 +10,7 @@ It creates / destroy a basic AKS Cluster. In order to run this operation the use
 
 #### Create
 
-This will create K8s cluster using the AKS accordig to params specificed:
+This will create K8s cluster using the AKS according to params specified:
 
 ```bash
 podman run -it --rm quay.io/redhat-developer/mapt:0.7.0-dev azure aks create -h
@@ -38,7 +38,7 @@ Global Flags:
 
 It will crete an AKS cluster and kubeconfig file to connect will be placed at `--conn-details-output`:
 
-When running the container image it is required to pass the authetication information as variables, following a sample snippet on how to create
+When running the container image it is required to pass the authentication information as variables, following a sample snippet on how to create
 a instance with default values:
 
 ```bash
