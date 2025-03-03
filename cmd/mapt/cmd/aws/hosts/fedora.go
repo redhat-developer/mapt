@@ -92,8 +92,10 @@ func getFedoraCreate() *cobra.Command {
 					Version: viper.GetString(fedoraVersion),
 					Arch:    viper.GetString(params.LinuxArch),
 					InstanceRequest: &instancetypes.AwsInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
+						CPUs:            viper.GetInt32(params.CPUs),
+						GPUs:            viper.GetInt32(params.GPUs),
+						GPUManufacturer: viper.GetString(params.GPUManufacturer),
+						MemoryGib:       viper.GetInt32(params.Memory),
 						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
 							instancetypes.Arm64, instancetypes.Amd64),
 						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
