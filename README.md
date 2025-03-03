@@ -2,16 +2,16 @@
 
 Mapt is a swiss army knife for provisioning environments, it could be used across multiple CI/CD systems:
 
-* Github Actions: It is possible to spin the target machines as self hosted runners on your github repo to make use of them within actions.
-* Tekton: Each target environemnt offered has its own tekton task spec which could be used as a extenal spec on tekton (with git resolver or even as a bunde)
-* Run from anywhere: mapt funcionallity is offered as an OCI image, as so it allows to create environment from almost everywhere as long as you have a container runtime.
+* GitHub Actions: It is possible to spin the target machines as self-hosted runners on your GitHub repo to make use of them within actions.
+* Tekton: Each target environment offered has its own tekton task spec which could be used as an external spec on tekton (with git resolver or even as a bundle)
+* Run from anywhere: mapt functionality is offered as an OCI image, as so it allows to create environment from almost everywhere as long as you have a container runtime.
 
 Also it includes out of the box some optimizations around provisioning:
 
 * Spot price option which allows to find the best option for the target machine on any location across the target provider.
 * Implement optimization around boot time to reduce the amount of time required to spin the machines (i.e. pre created snapshots or change root volumes)
 
-About the target environments offered it is not limited to a single machine or service but it takes care of the full infra allowing to requrest complex topologies:
+About the target environments offered it is not limited to a single machine or service but it takes care of the full infra allowing to request complex topologies:
 
 * Airgap 
 * Proxy (Coming...)
@@ -45,7 +45,7 @@ About the target environments offered it is not limited to a single machine or s
 
 ## CI/CD integrations
 
-### Github Self hosted runner
+### GitHub Self hosted runner
 
 `mapt` can setup a deployed machine as a Self Hosted runner on most of the Platform and Provider combinations
 it supports.

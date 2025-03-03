@@ -10,7 +10,7 @@ mapt will take care of:
 
 * Try to honor the AWS_DEFAULT_REGION to spin the mac machine and look for a random AZ on it to launch it. In case the machine is no offered on the region as long as flag for `--fixed-location` is not set mapt will move the Machine to a region were it is offered.
 
-* Previous graph also applies when there is no capacity on an specific region. It could happen that a region offers the machine but there is no capacity under that circumstance it will dinamically move it to other region.
+* Previous graph also applies when there is no capacity on a specific region. It could happen that a region offers the machine but there is no capacity under that circumstance it will dinamically move it to other region.
 
 * As the machine will be active for 24 hours, mapt will allow to spin multiple machines (only once at a time) during that period (i.e different OS versions, or setups like airgap or vpn connected machine).
 
@@ -57,11 +57,11 @@ Global Flags:
     * **bastion_username**: username to connect to the bastion (airgap)
     * **bastion_id_rsa**: private key to connect to the bastion (airgap)
 
-* Also it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to detroy the resources.
+* Also, it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to destroy the resources.
 
 ### Container
 
-When running the container image it is required to pass the authetication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
+When running the container image it is required to pass the authentication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
 
 ```bash
 podman run -d --name mapt-rhel \

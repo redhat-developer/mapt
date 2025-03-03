@@ -15,11 +15,11 @@ Some of the customizations this image includes:
 
 ## Ami replication
 
-Also the action is expecting the image exists with the name: `Windows_Server-2022-English-Full-HyperV-RHQE` at least on one region (this AMI can be created using the helper side project [mapt-builder](https://github.com/redhat-developer/mapt-builder)). If `--spot` option is enable and the image is not offered / created on the chosen region it will copy the AMI as part of the stack (As so it will delete it on destroy).
+Also, the action is expecting the image exists with the name: `Windows_Server-2022-English-Full-HyperV-RHQE` at least on one region (this AMI can be created using the helper side project [mapt-builder](https://github.com/redhat-developer/mapt-builder)). If `--spot` option is enable and the image is not offered / created on the chosen region it will copy the AMI as part of the stack (As so it will delete it on destroy).
 
 This process (replicate the ami) increase the overall time for spinning the machine, and can be avoided by running the replication cmd on the image to pre replicate the image on all regions.
 
-Also there is a special flag enabling the AMI to keep beyon the destroy operation `--ami-keep-copy`. In addition we are using the [fast launch](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/win-ami-config-fast-launch.html) feature for the AMI to reduce the amount of time for spinning up the machines.
+Also, there is a special flag enabling the AMI to keep beyon the destroy operation `--ami-keep-copy`. In addition, we are using the [fast launch](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/win-ami-config-fast-launch.html) feature for the AMI to reduce the amount of time for spinning up the machines.
 
 Disclaimer in case of use the `--ami-keep-copy` it will keep the ami and the six snapshots required to enable the fast launch. 
 
@@ -60,11 +60,11 @@ Global Flags:
   * **bastion_username**: username to connect to the bastion (airgap)
   * **bastion_id_rsa**: private key to connect to the bastion (airgap)
 
-* Also it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to detroy the resources.
+* Also, it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to destroy the resources.
 
 ### Container
 
-When running the container image it is required to pass the authetication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
+When running the container image it is required to pass the authentication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
 
 ```bash
 podman run -d --name mapt-rhel \

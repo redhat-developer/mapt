@@ -38,18 +38,18 @@ Global Flags:
 
 * It will crete an instance and will give as result several files located at path defined by `--conn-details-output`:
 
-  * **host**: host for the windows machine (lb if spot)
+  * **host**: host for the Windows machine (lb if spot)
   * **username**: username to connect to the machine
   * **id_rsa**: private key to connect to machine
   * **bastion_host**: host for the bastion (airgap)
   * **bastion_username**: username to connect to the bastion (airgap)
   * **bastion_id_rsa**: private key to connect to the bastion (airgap)
 
-* Also it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to detroy the resources.
+* Also, it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to destroy the resources.
 
 ### Container
 
-When running the container image it is required to pass the authetication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
+When running the container image it is required to pass the authentication information as variables(to setup AWS credentials there is a [helper script](./../../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
 
 ```bash
 podman run -d --name mapt-rhel \

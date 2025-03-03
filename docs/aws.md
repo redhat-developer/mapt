@@ -24,7 +24,7 @@ This module allows to check for best bid price on all regions, to request instan
 
 to check those requisites the module make use of spot placement scores based on machine requirements. Then best scores are crossed with lowers price from spot price history to pick the most valuable option.
 
-Current use case is working on one machine but it will be exteded to analyze any required environment offered by mapt (checking with all the machines included on a specific environment).
+Current use case is working on one machine, but it will be extended to analyze any required environment offered by mapt (checking with all the machines included on a specific environment).
 
 Current information about supported machines can be checked at [support-matrix](./../pkg/infra/aws/support-matrix/matrix.go)
 
@@ -59,9 +59,9 @@ It will crete an instance and will give as result several files located at path 
 * id_rsa: file containing the private key for worker user
 * host: file containing the public ip for the instance  
 
-Also it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to detroy the resources.
+Also, it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to destroy the resources.
 
-When running the container image it is required to pass the authetication information as variables(to setup AWS credentials there is a [helper script](./../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
+When running the container image it is required to pass the authentication information as variables(to setup AWS credentials there is a [helper script](./../hacks/aws_setup.sh)), following a sample snipped on how to create an instance with default values:  
 
 ```bash
 # Create rhel host

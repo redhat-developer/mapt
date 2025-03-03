@@ -7,14 +7,14 @@ mapt offers several operations to manage environments within azure:
 It creates / destroy a rhel ready to be included within the CI/CD system. Features included within the offering:
 
 * Creates an admin user with a self generated passwd (only accessible within rdp)
-* Creates an user acting as adminuser
-* Setup ssh for the user user with a self generated private key
+* Creates a user acting as adminuser
+* Setup ssh for the user with a self generated private key
 
 ### Operations
 
 #### Create
 
-This will create a RHEL accordig to params specificed:
+This will create a RHEL according to params specified:
 
 ```bash
 podman run -it --rm quay.io/redhat-developer/mapt:0.7.0-dev azure rhel create -h
@@ -57,9 +57,9 @@ It will crete a RHEL instance and will give as result several files located at p
 * id_rsa: file containing the private key for worker user
 * host: file containing the public ip for the instance  
 
-Also it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to detroy the resources.
+Also, it will create a state folder holding the state for the created resources at azure, the path for this folder is defined within `--backed-url`, the content from that folder it is required with the same project name (`--project-name`) in order to destroy the resources.
 
-When running the container image it is required to pass the authetication information as variables, following a sample snipped on how to create
+When running the container image it is required to pass the authentication information as variables, following a sample snipped on how to create
 a instance with default values:
 
 ```bash
