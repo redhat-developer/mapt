@@ -53,8 +53,8 @@ func getMacRequest() *cobra.Command {
 			if viper.IsSet(params.InstallGHActionsRunner) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
 					Token:   viper.GetString(params.GHActionsRunnerToken),
-					RepoURL: viper.GetString(params.GHActionsRunnerName),
-					Name:    viper.GetString(params.GHActionsRunnerRepo),
+					RepoURL: viper.GetString(params.GHActionsRunnerRepo),
+					Name:    viper.GetString(params.GHActionsRunnerName),
 					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
 			}
 
