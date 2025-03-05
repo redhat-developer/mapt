@@ -130,9 +130,7 @@ if ($crcProfile) {
 }
 
 # Install github-actions-runner if needed
-{{ if .InstallActionsRunner }}
-    {{- .ActionsRunnerSnippet }}
-{{ end }}
+{{ .ActionsRunnerSnippet }}
 
 {{ .CirrusSnippet }}
 

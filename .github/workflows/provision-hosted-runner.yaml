@@ -54,8 +54,8 @@ jobs:
             ${MAPT_IMAGE} azure ${{inputs.operating_system}} create \
               --spot --project-name "az-ghrunner" --conn-details-output /workspace \
               --backed-url "azblob://mapt-gh-runner-mapt-state/${{ github.repository }}-${{ github.run_id }}" \
-              --install-ghactions-runner --ghactions-runner-name "az-runner-${{inputs.operating_system}}-${{github.event.workflow_run.id}}" \
-              --ghactions-runner-repo "${{inputs.runner_repo}}" --ghactions-runner-token ${{steps.fetch_token.outputs.runner_token}}
+              --install-ghactions-runner --ghactions-runner-repo "${{inputs.runner_repo}}" \
+              --ghactions-runner-token ${{steps.fetch_token.outputs.runner_token}}
 
       - name: wait for runner to start accepting jobs
         run: sleep 120

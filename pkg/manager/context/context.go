@@ -168,9 +168,8 @@ func manageRemoteState(backedURL string) error {
 
 func manageIntegration(ca *ContextArgs) error {
 	if ca.GHRunnerArgs != nil {
-		if err := github.InitGHRunnerArgs(ca.GHRunnerArgs); err != nil {
-			return err
-		}
+		ca.GHRunnerArgs.Name = RunID()
+		github.Init(ca.GHRunnerArgs)
 	}
 	if ca.CirrusPWArgs != nil {
 		ca.CirrusPWArgs.Name = RunID()
