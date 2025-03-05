@@ -13,14 +13,12 @@ type RequestArgs struct {
 	SNCProfile                 bool
 	SubsUsername, SubsPassword string
 	Username                   string
-	GHActionRunner             bool
 }
 
 type userDataValues struct {
 	SubscriptionUsername string
 	SubscriptionPassword string
 	Username             string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 }
@@ -40,13 +38,16 @@ func (r *RequestArgs) GetAsUserdata() (string, error) {
 	if err != nil {
 		return "", err
 	}
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile(r.Username)
+	if err != nil {
+		return "", err
+	}
 	userdata, err := file.Template(
 		userDataValues{
 			r.SubsUsername,
 			r.SubsPassword,
 			r.Username,
-			r.GHActionRunner,
-			github.GetActionRunnerSnippetLinux(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		templateConfig)
 	// return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err

@@ -14,9 +14,7 @@ type Request struct {
 	AvailabilityZone *string
 	Version          string
 	Architecture     string
-	// setup as github actions runner
-	SetupGHActionsRunner bool
-	Airgap               bool
+	Airgap           bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 	// For airgap scenario there is an orchestation of

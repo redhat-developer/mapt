@@ -89,12 +89,14 @@ func getCreateWindowsDesktop() *cobra.Command {
 				}
 			}
 
-			if viper.IsSet(params.InstallGHActionsRunner) {
+			if viper.IsSet(params.GHActionsRunnerToken) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:   viper.GetString(params.GHActionsRunnerToken),
-					RepoURL: viper.GetString(params.GHActionsRunnerRepo),
-					Name:    viper.GetString(params.GHActionsRunnerName),
-					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
+					Token:    viper.GetString(params.GHActionsRunnerToken),
+					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
+					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
+					Platform: &github.Windows,
+					Arch:     &github.Amd64,
+				}
 			}
 
 			if err := azureWindows.Create(
@@ -109,15 +111,14 @@ func getCreateWindowsDesktop() *cobra.Command {
 						Arch:       instancetypes.Amd64,
 						NestedVirt: viper.GetBool(params.NestedVirt),
 					},
-					Version:              viper.GetString(paramWindowsVersion),
-					Feature:              viper.GetString(paramFeature),
-					Username:             viper.GetString(paramUsername),
-					AdminUsername:        viper.GetString(paramAdminUsername),
-					Profiles:             viper.GetStringSlice(paramProfile),
-					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
-					Spot:                 viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:        spotToleranceValue,
-					SpotExcludedRegions:  viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
+					Version:             viper.GetString(paramWindowsVersion),
+					Feature:             viper.GetString(paramFeature),
+					Username:            viper.GetString(paramUsername),
+					AdminUsername:       viper.GetString(paramAdminUsername),
+					Profiles:            viper.GetStringSlice(paramProfile),
+					Spot:                viper.IsSet(azparams.ParamSpot),
+					SpotTolerance:       spotToleranceValue,
+					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
 				logging.Error(err)
 			}
 			return nil

@@ -180,12 +180,15 @@ func request() *cobra.Command {
 				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
-			if viper.IsSet(params.InstallGHActionsRunner) {
+			if viper.IsSet(params.GHActionsRunnerToken) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:   viper.GetString(params.GHActionsRunnerToken),
-					RepoURL: viper.GetString(params.GHActionsRunnerRepo),
-					Name:    viper.GetString(params.GHActionsRunnerName),
-					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
+					Token:    viper.GetString(params.GHActionsRunnerToken),
+					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
+					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
+					Platform: &github.Linux,
+					Arch: params.LinuxArchAsGithubActionsArch(
+						viper.GetString(params.LinuxArch)),
+				}
 			}
 
 			if viper.IsSet(params.CirrusPWToken) {
@@ -201,11 +204,11 @@ func request() *cobra.Command {
 			if err := macpool.Request(
 				ctx,
 				&macpool.RequestMachineArgs{
-					PoolName:             viper.GetString(paramName),
-					Architecture:         viper.GetString(awsParams.MACArch),
-					OSVersion:            viper.GetString(awsParams.MACOSVersion),
-					Timeout:              viper.GetString(params.Timeout),
-					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner)}); err != nil {
+					PoolName:     viper.GetString(paramName),
+					Architecture: viper.GetString(awsParams.MACArch),
+					OSVersion:    viper.GetString(awsParams.MACOSVersion),
+					Timeout:      viper.GetString(params.Timeout),
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil

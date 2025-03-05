@@ -49,8 +49,6 @@ type Request struct {
 	// a phase with connectivity on the machine (allowing bootstraping)
 	// a pahase with connectivyt off where the subnet for the target lost the nat gateway
 	airgapPhaseConnectivity network.Connectivity
-	// setup as github actions runner
-	SetupGHActionsRunner bool
 	// location and price (if Spot is enable)
 	region    string
 	az        string
@@ -59,7 +57,6 @@ type Request struct {
 
 type userDataValues struct {
 	Username             string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 }
@@ -329,12 +326,16 @@ func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
 	if err != nil {
 		return nil, err
 	}
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile(amiUserDefault)
+	if err != nil {
+		return nil, err
+	}
+
 	templateConfig := string(CloudConfigBase[:])
 	userdata, err := file.Template(
 		userDataValues{
 			amiUserDefault,
-			r.SetupGHActionsRunner,
-			github.GetActionRunnerSnippetLinux(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		templateConfig)
 	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err

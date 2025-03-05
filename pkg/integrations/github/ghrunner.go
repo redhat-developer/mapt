@@ -1,104 +1,118 @@
 package github
 
 import (
+	_ "embed"
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/file"
 )
 
-type GithubRunnerArgs struct {
-	Token   string
-	RepoURL string
-	Name    string
-	Labels  []string
+var runnerVersion = "2.317.0"
+
+// 1 is version, 2 is platform: (win, linux, osx), 3 is arch: (arm64, x64, arm)
+const runnerBaseURL = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-%[2]s-%[3]s-%[1]s"
+
+//go:embed snippet-darwin.sh
+var snippetDarwin []byte
+
+//go:embed snippet-linux.sh
+var snippetLinux []byte
+
+//go:embed snippet-windows.ps1
+var snippetWindows []byte
+
+var snippets map[Platform][]byte = map[Platform][]byte{
+	Darwin:  snippetDarwin,
+	Linux:   snippetLinux,
+	Windows: snippetWindows,
 }
 
-const (
-	runnerVersion = "2.317.0"
+type snippetDataValues struct {
+	Username  string
+	Token     string
+	RepoURL   string
+	Name      string
+	Labels    string
+	RunnerURL string
+}
 
-	runnerBaseURLWin   = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-win-x64-%[1]s.zip"
-	runnerBaseURLLinux = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-linux-x64-%[1]s.tar.gz"
-	runnerBaseURLMacos = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-osx-x64-%[1]s.tar.gz"
+var runnerArgs *GithubRunnerArgs
 
-	// $ghToken needs to be set externally before use; it is defined in the platform specific setup scripts
-	// for aws this is defined in the script and for azure it is passed as an arg to the setup script
-	installActionRunnerSnippetWindows string = `New-Item -Path C:\actions-runner -Type Directory ; cd C:\actions-runner
-Invoke-WebRequest -Uri %s -OutFile actions-runner-win.zip
-Add-Type -AssemblyName System.IO.Compression.FileSystem ;
-[System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD\actions-runner-win.zip", "$PWD")
-./config.cmd --token $ghToken --url %s --name %s --unattended --runasservice --replace %s`
+func Init(args *GithubRunnerArgs) {
+	runnerArgs = args
+}
 
-	// whitespace at the start is required since this is expanded in a cloud-init yaml file
-	// to start as service need to relable the runsvc.sh file on rhel: https://github.com/actions/runner/issues/3222
-	installActionRunnerSnippetLinux string = `  mkdir ~/actions-runner && cd ~/actions-runner` + "\n" +
-		`      curl -o actions-runner-linux.tar.gz -L %s` + "\n" +
-		`      tar xzf ./actions-runner-linux.tar.gz` + "\n" +
-		`      sudo ./bin/installdependencies.sh` + "\n" +
-		`      ./config.sh --token %s --url %s --name %s --unattended --replace %s` + "\n" +
-		`      sudo ./svc.sh install` + "\n" +
-		`      chcon system_u:object_r:usr_t:s0 $(pwd)/runsvc.sh` + "\n" +
-		`      sudo ./svc.sh start`
-
-	installActionRunnerSnippetMacos string = `mkdir ~/actions-runner && cd ~/actions-runner
-curl -o actions-runner-osx.tar.gz -L %s
-tar xzf ./actions-runner-osx.tar.gz
-./config.sh --token %s --url %s --name %s --unattended --replace %s
-./svc.sh install
-plistName=$(basename $(./svc.sh status | grep "plist$"))
-mkdir -p ~/Library/LaunchDaemons
-mv ~/Library/LaunchAgents/"${plistName}" ~/Library/LaunchDaemons/"${plistName}"
-launchctl load ~/Library/LaunchDaemons/"${plistName}"`
-)
-
-var args *GithubRunnerArgs
-
-func InitGHRunnerArgs(gra *GithubRunnerArgs) error {
-	if gra.Token == "" || gra.Name == "" || gra.RepoURL == "" {
-		return errors.New("All args are required and must have non-empty values")
+func SelfHostedRunnerSnippet(username string) (*string, error) {
+	if runnerArgs == nil {
+		noSnippet := ""
+		return &noSnippet, nil
 	}
-	args = gra
-	return nil
+	templateConfig := string(snippets[*runnerArgs.Platform][:])
+	snippet, err := file.Template(
+		snippetDataValues{
+			Name:      runnerArgs.Name,
+			Token:     runnerArgs.Token,
+			Labels:    GetLabels(),
+			RepoURL:   runnerArgs.RepoURL,
+			RunnerURL: downloadURL(),
+			Username:  username,
+		},
+		templateConfig)
+	return &snippet, err
+}
+
+// If we add the snippet as part of a cloud init file the strategy
+// would be create the file with write_files:
+// i.e.
+// write_files:
+//
+//	# Cirrus service setup
+//	- content: |
+//	    {{ .CirrusSnippet }} <----- 6 spaces
+//
+// to do so we need to indent 6 spaces each line of the snippet
+func SelfHostedRunnerSnippetAsCloudInitWritableFile(username string) (*string, error) {
+	snippet, err := SelfHostedRunnerSnippet(username)
+	if err != nil || len(*snippet) == 0 {
+		return snippet, err
+	}
+	lines := strings.Split(strings.TrimSpace(*snippet), "\n")
+	for i, line := range lines {
+		// Added 6 spaces before each line
+		lines[i] = fmt.Sprintf("      %s", line)
+	}
+	identedSnippet := strings.Join(lines, "\n")
+	return &identedSnippet, nil
+}
+
+// platform: darwin, linux, windows
+// arch: amd64, arm64, arm
+func downloadURL() string {
+	url := fmt.Sprintf(runnerBaseURL, runnerVersion, *runnerArgs.Platform, *runnerArgs.Arch)
+	switch *runnerArgs.Platform {
+	case Windows:
+		url = fmt.Sprintf("%s.zip", url)
+	case Linux, Darwin:
+		url = fmt.Sprintf("%s.tar.gz", url)
+	}
+	return url
 }
 
 func GetToken() string {
 	var token = func() string {
-		return args.Token
+		return runnerArgs.Token
 	}
-	return util.IfNillable(args != nil, token, "")
+	return util.IfNillable(runnerArgs != nil, token, "")
 }
 
 func GetLabels() string {
 	var labels = func() string {
-		if len(args.Labels) > 0 {
-			return fmt.Sprintf("--labels %s", strings.Join(args.Labels, ","))
+		if len(runnerArgs.Labels) > 0 {
+			return strings.Join(runnerArgs.Labels, ",")
 		}
 		return ""
 	}
-	return util.IfNillable(args != nil, labels, "")
-}
-
-func GetActionRunnerSnippetWin() string {
-	var snippetWindows = func() string {
-		return fmt.Sprintf(installActionRunnerSnippetWindows,
-			fmt.Sprintf(runnerBaseURLWin, runnerVersion), args.RepoURL, args.Name, GetLabels())
-	}
-	return util.IfNillable(args != nil, snippetWindows, "")
-}
-
-func GetActionRunnerSnippetLinux() string {
-	var snippetLinux = func() string {
-		return fmt.Sprintf(installActionRunnerSnippetLinux,
-			fmt.Sprintf(runnerBaseURLLinux, runnerVersion), args.Token, args.RepoURL, args.Name, GetLabels())
-	}
-	return util.IfNillable(args != nil, snippetLinux, "")
-}
-
-func GetActionRunnerSnippetMacos() string {
-	var snippetMacos = func() string {
-		return fmt.Sprintf(installActionRunnerSnippetMacos,
-			fmt.Sprintf(runnerBaseURLMacos, runnerVersion), args.Token, args.RepoURL, args.Name, GetLabels())
-	}
-	return util.IfNillable(args != nil, snippetMacos, "")
+	return util.IfNillable(runnerArgs != nil, labels, "")
 }
