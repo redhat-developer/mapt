@@ -40,13 +40,17 @@ func (r *RequestArgs) GetAsUserdata() (string, error) {
 	if err != nil {
 		return "", err
 	}
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile()
+	if err != nil {
+		return "", err
+	}
 	userdata, err := file.Template(
 		userDataValues{
 			r.SubsUsername,
 			r.SubsPassword,
 			r.Username,
 			r.GHActionRunner,
-			github.GetActionRunnerSnippetLinux(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		templateConfig)
 	// return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err

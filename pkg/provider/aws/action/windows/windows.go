@@ -359,12 +359,16 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 			if err != nil {
 				return "", err
 			}
+			ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet()
+			if err != nil {
+				return "", err
+			}
 			udv := userDataValues{
 				r.AMIUser,
 				password,
 				authorizedKey,
 				r.SetupGHActionsRunner,
-				github.GetActionRunnerSnippetWin(),
+				*ghActionsRunnerSnippet,
 				github.GetToken(),
 				*cirrusSnippet,
 				cirrus.GetToken(),

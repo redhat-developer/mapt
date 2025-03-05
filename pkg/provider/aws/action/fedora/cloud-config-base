@@ -12,7 +12,7 @@ runcmd:
 {{ if .CirrusSnippet }}  - /opt/setup-cirrus-service.sh{{ end }}
 {{ if .InstallActionsRunner }}write_files:
   - content: |
-    {{ .ActionsRunnerSnippet }}
+{{ .ActionsRunnerSnippet }}
     path: /opt/install-ghrunner.sh
     permissions: '0755'
 {{ end }}

@@ -80,10 +80,12 @@ func getWindowsCreate() *cobra.Command {
 
 			if viper.IsSet(params.InstallGHActionsRunner) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:   viper.GetString(params.GHActionsRunnerToken),
-					RepoURL: viper.GetString(params.GHActionsRunnerRepo),
-					Name:    viper.GetString(params.GHActionsRunnerName),
-					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
+					Token:    viper.GetString(params.GHActionsRunnerToken),
+					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
+					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
+					Platform: &github.Windows,
+					Arch:     &github.Amd64,
+				}
 			}
 
 			// Run create

@@ -318,10 +318,15 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet()
+	if err != nil {
+		return nil, err
+	}
+	logging.Debug("got the self hosted runner script")
 	ciSetupScript, err := file.Template(
 		ghActionsRunnerData{
 			r.SetupGHActionsRunner,
-			github.GetActionRunnerSnippetWin(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet,
 		},
 		string(RHQPCISetupScript))

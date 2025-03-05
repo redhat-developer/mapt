@@ -329,12 +329,17 @@ func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
 	if err != nil {
 		return nil, err
 	}
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile()
+	if err != nil {
+		return nil, err
+	}
+
 	templateConfig := string(CloudConfigBase[:])
 	userdata, err := file.Template(
 		userDataValues{
 			amiUserDefault,
 			r.SetupGHActionsRunner,
-			github.GetActionRunnerSnippetLinux(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		templateConfig)
 	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
