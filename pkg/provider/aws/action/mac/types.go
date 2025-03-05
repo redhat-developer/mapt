@@ -17,9 +17,6 @@ type MacRequestArgs struct {
 
 	// Topology paras
 	Airgap bool
-
-	// setup as github actions runner
-	SetupGHActionsRunner bool
 }
 
 const (

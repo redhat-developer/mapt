@@ -51,8 +51,6 @@ type Request struct {
 	Airgap bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
-	// setup as github actions runner
-	SetupGHActionsRunner bool
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -68,7 +66,6 @@ type userDataValues struct {
 	Username             string
 	Password             string
 	AuthorizedKey        string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	RunnerToken          string
 	CirrusSnippet        string
@@ -359,12 +356,15 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 			if err != nil {
 				return "", err
 			}
+			ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet(r.AMIUser)
+			if err != nil {
+				return "", err
+			}
 			udv := userDataValues{
 				r.AMIUser,
 				password,
 				authorizedKey,
-				r.SetupGHActionsRunner,
-				github.GetActionRunnerSnippetWin(),
+				*ghActionsRunnerSnippet,
 				github.GetToken(),
 				*cirrusSnippet,
 				cirrus.GetToken(),

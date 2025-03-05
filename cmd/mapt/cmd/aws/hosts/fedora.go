@@ -71,12 +71,15 @@ func getFedoraCreate() *cobra.Command {
 				}
 			}
 
-			if viper.IsSet(params.InstallGHActionsRunner) {
+			if viper.IsSet(params.GHActionsRunnerToken) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:   viper.GetString(params.GHActionsRunnerToken),
-					RepoURL: viper.GetString(params.GHActionsRunnerRepo),
-					Name:    viper.GetString(params.GHActionsRunnerName),
-					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
+					Token:    viper.GetString(params.GHActionsRunnerToken),
+					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
+					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
+					Platform: &github.Linux,
+					Arch: params.LinuxArchAsGithubActionsArch(
+						viper.GetString(params.LinuxArch)),
+				}
 			}
 
 			// Run create
@@ -94,10 +97,9 @@ func getFedoraCreate() *cobra.Command {
 							instancetypes.Arm64, instancetypes.Amd64),
 						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
 					},
-					Spot:                 viper.IsSet(spot),
-					Timeout:              viper.GetString(params.Timeout),
-					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
-					Airgap:               viper.IsSet(airgap)}); err != nil {
+					Spot:    viper.IsSet(spot),
+					Timeout: viper.GetString(params.Timeout),
+					Airgap:  viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
 			}
 			return nil

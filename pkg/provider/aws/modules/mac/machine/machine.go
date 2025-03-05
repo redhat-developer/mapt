@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -427,9 +426,7 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 					defaultUsername,
 					r.currentPassword,
 					password,
-					authorizedKey,
-					r.SetupGHActionsRunner,
-					github.GetActionRunnerSnippetMacos())
+					authorizedKey)
 			}
 			return macSetup.Release(
 				defaultUsername,
