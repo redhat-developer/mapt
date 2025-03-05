@@ -10,6 +10,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -99,6 +100,7 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 	if len(r.Userdata) > 0 {
 		vmArgs.UserData = pulumi.String(r.Userdata)
 	}
+	logging.Debug("About to create the VM with compute.NewVirtualMachine")
 	return compute.NewVirtualMachine(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "vm"),
 		vmArgs)

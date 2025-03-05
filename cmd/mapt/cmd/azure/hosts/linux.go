@@ -5,7 +5,6 @@ import (
 
 	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
@@ -76,14 +75,6 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 				Debug:         viper.IsSet(params.Debug),
 				DebugLevel:    viper.GetUint(params.DebugLevel),
 				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.InstallGHActionsRunner) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:   viper.GetString(params.GHActionsRunnerToken),
-					RepoURL: viper.GetString(params.GHActionsRunnerRepo),
-					Name:    viper.GetString(params.GHActionsRunnerName),
-					Labels:  viper.GetStringSlice(params.GHActionsRunnerLabels)}
 			}
 
 			if err := azureLinux.Create(

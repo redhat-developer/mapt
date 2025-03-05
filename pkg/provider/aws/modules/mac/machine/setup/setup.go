@@ -25,7 +25,6 @@ type requestDataValues struct {
 	OldPassword          string
 	NewPassword          string
 	AuthorizedKey        string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 }
@@ -39,9 +38,12 @@ func Release(username, pass, authorizedKey string) (string, error) {
 		string(ReleaseScript[:]))
 }
 
-func Request(username, oldPassword, newPassword, authorizedKey string,
-	isGHRunner bool, GHRunnerSnippet string) (string, error) {
+func Request(username, oldPassword, newPassword, authorizedKey string) (string, error) {
 	cirrusSnippet, err := cirrus.PersistentWorkerSnippet(username)
+	if err != nil {
+		return "", err
+	}
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet(username)
 	if err != nil {
 		return "", err
 	}
@@ -51,8 +53,7 @@ func Request(username, oldPassword, newPassword, authorizedKey string,
 			oldPassword,
 			newPassword,
 			authorizedKey,
-			isGHRunner,
-			github.GetActionRunnerSnippetMacos(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		string(RequestScript[:]))
 }
