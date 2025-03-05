@@ -89,22 +89,38 @@ lint: $(TOOLS_BINDIR)/golangci-lint
 
 # Build the container image
 .PHONY: oci-build
-oci-build: clean
-	# ${CONTAINER_MANAGER} build -t $(IMG) -f oci/Containerfile .
+oci-build: clean oci-build-amd64 oci-build-arm64
+
+# Build for amd64 architecture only
+.PHONY: oci-build-amd64
+oci-build-amd64: clean
+	# Build the container image for amd64
 	${CONTAINER_MANAGER} build --platform linux/amd64 --manifest $(IMG)-amd64 -f oci/Containerfile .
+
+# Build for arm64 architecture only
+.PHONY: oci-build-arm64
+oci-build-arm64: clean
+	# Build the container image for arm64
 	${CONTAINER_MANAGER} build --platform linux/arm64 --manifest $(IMG)-arm64 -f oci/Containerfile .
+
+# Save images for amd64 architecture only
+.PHONY: oci-save-amd64
+oci-save-amd64:
+	${CONTAINER_MANAGER} save -m -o $(MAPT_SAVE)-amd64.tar $(IMG)-amd64
+
+# Save images for arm64 architecture only
+.PHONY: oci-save-arm64
+oci-save-arm64:
+	${CONTAINER_MANAGER} save -m -o $(MAPT_SAVE)-arm64.tar $(IMG)-arm64
+
 
 MAPT_SAVE ?= mapt
 .PHONY: oci-save 
-oci-save: ARM64D=$(shell ${CONTAINER_MANAGER} manifest inspect ${IMG}-arm64 | jq '.manifests[0].digest')
-oci-save: 
-	${CONTAINER_MANAGER} manifest annotate --arch amd64 $(IMG)-arm64 $(ARM64D)
-	${CONTAINER_MANAGER} save -m -o $(MAPT_SAVE)-amd64.tar $(IMG)-amd64
-	${CONTAINER_MANAGER} save -m -o $(MAPT_SAVE)-arm64.tar $(IMG)-arm64
+oci-save: oci-save-amd64 oci-save-arm64
 
 oci-load:
-	${CONTAINER_MANAGER} load -i $(MAPT_SAVE)-arm64.tar 
-	${CONTAINER_MANAGER} load -i $(MAPT_SAVE)-amd64.tar 
+	${CONTAINER_MANAGER} load -i $(MAPT_SAVE)-arm64/$(MAPT_SAVE)-arm64.tar 
+	${CONTAINER_MANAGER} load -i $(MAPT_SAVE)-amd64/$(MAPT_SAVE)-amd64.tar 
 
 # Push the docker image
 .PHONY: oci-push
