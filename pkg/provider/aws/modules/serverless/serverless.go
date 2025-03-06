@@ -331,7 +331,8 @@ func createSchedulerRole(ctx *pulumi.Context, roleName, prefix, componentID stri
 		&iam.RolePolicyArgs{
 			Role:   r.ID(),
 			Policy: pulumi.String(string(policyContent)),
-		}); err != nil {
+		},
+		pulumi.RetainOnDelete(true)); err != nil {
 		return nil, err
 	}
 	return r, nil
