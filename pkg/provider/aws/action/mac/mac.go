@@ -170,10 +170,9 @@ func (r *MacRequestArgs) fillHostRequest() *macHost.MacDedicatedHostRequestArgs 
 
 func (r *MacRequestArgs) fillMacRequest() *macMachine.Request {
 	return &macMachine.Request{
-		Prefix:               r.Prefix,
-		Architecture:         r.Architecture,
-		Version:              r.Version,
-		SetupGHActionsRunner: r.SetupGHActionsRunner,
-		Airgap:               r.Airgap,
+		Prefix:       r.Prefix,
+		Architecture: r.Architecture,
+		Version:      r.Version,
+		Airgap:       r.Airgap,
 	}
 }

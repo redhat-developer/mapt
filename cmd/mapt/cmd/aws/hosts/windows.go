@@ -78,7 +78,7 @@ func getWindowsCreate() *cobra.Command {
 				}
 			}
 
-			if viper.IsSet(params.InstallGHActionsRunner) {
+			if viper.IsSet(params.GHActionsRunnerToken) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
 					Token:    viper.GetString(params.GHActionsRunnerToken),
 					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
@@ -92,16 +92,15 @@ func getWindowsCreate() *cobra.Command {
 			if err := windows.Create(
 				ctx,
 				&windows.Request{
-					Prefix:               "main",
-					AMIName:              viper.GetString(amiName),
-					AMIUser:              viper.GetString(amiUsername),
-					AMIOwner:             viper.GetString(amiOwner),
-					AMILang:              viper.GetString(amiLang),
-					AMIKeepCopy:          viper.IsSet(amiKeepCopy),
-					Spot:                 viper.IsSet(spot),
-					Airgap:               viper.IsSet(airgap),
-					Timeout:              viper.GetString(params.Timeout),
-					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner),
+					Prefix:      "main",
+					AMIName:     viper.GetString(amiName),
+					AMIUser:     viper.GetString(amiUsername),
+					AMIOwner:    viper.GetString(amiOwner),
+					AMILang:     viper.GetString(amiLang),
+					AMIKeepCopy: viper.IsSet(amiKeepCopy),
+					Spot:        viper.IsSet(spot),
+					Airgap:      viper.IsSet(airgap),
+					Timeout:     viper.GetString(params.Timeout),
 				}); err != nil {
 				logging.Error(err)
 			}

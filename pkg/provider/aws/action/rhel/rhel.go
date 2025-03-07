@@ -48,8 +48,6 @@ type Request struct {
 	Airgap     bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
-	// setup as github actions runner
-	SetupGHActionsRunner bool
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -213,11 +211,10 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 	}
 	// Compute
 	rhelCloudConfig := &cloudConfigRHEL.RequestArgs{
-		SNCProfile:     r.ProfileSNC,
-		SubsUsername:   r.SubsUsername,
-		SubsPassword:   r.SubsUserpass,
-		Username:       amiUserDefault,
-		GHActionRunner: r.SetupGHActionsRunner}
+		SNCProfile:   r.ProfileSNC,
+		SubsUsername: r.SubsUsername,
+		SubsPassword: r.SubsUserpass,
+		Username:     amiUserDefault}
 	userDataB64, err := rhelCloudConfig.GetAsUserdata()
 	if err != nil {
 		return err

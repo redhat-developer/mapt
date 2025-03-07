@@ -13,14 +13,12 @@ type RequestArgs struct {
 	SNCProfile                 bool
 	SubsUsername, SubsPassword string
 	Username                   string
-	GHActionRunner             bool
 }
 
 type userDataValues struct {
 	SubscriptionUsername string
 	SubscriptionPassword string
 	Username             string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 }
@@ -49,7 +47,6 @@ func (r *RequestArgs) GetAsUserdata() (string, error) {
 			r.SubsUsername,
 			r.SubsPassword,
 			r.Username,
-			r.GHActionRunner,
 			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		templateConfig)
