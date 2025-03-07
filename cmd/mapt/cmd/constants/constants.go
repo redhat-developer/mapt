@@ -43,7 +43,6 @@ const (
 	AMISourceRegionDesc         string = "region for the ami to be copied worldwide"
 	Tags                        string = "tags"
 	TagsDesc                    string = "tags to add on each resource (--tags name1=value1,name2=value2)"
-	InstallGHActionsRunnerDesc  string = "Install and setup Github Actions runner in the instance"
 	GHActionsRunnerTokenDesc    string = "Token needed for registering the Github Actions Runner token"
 	GHActionsRunnerRepoDesc     string = "Full URL of the repository where the Github Actions Runner should be registered"
 	GHActionsRunnerLabelsDesc   string = "List of labels separated by comma to be added to the self-hosted runner"
@@ -57,10 +56,9 @@ const (
 	CreateCmdName  string = "create"
 	DestroyCmdName string = "destroy"
 
-	InstallGHActionsRunner string = "install-ghactions-runner"
-	GHActionsRunnerToken   string = "ghactions-runner-token"
-	GHActionsRunnerRepo    string = "ghactions-runner-repo"
-	GHActionsRunnerLabels  string = "ghactions-runner-labels"
+	GHActionsRunnerToken  string = "ghactions-runner-token"
+	GHActionsRunnerRepo   string = "ghactions-runner-repo"
+	GHActionsRunnerLabels string = "ghactions-runner-labels"
 
 	CirrusPWToken      string = "it-cirrus-pw-token"
 	CirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
@@ -87,7 +85,6 @@ const (
 
 func GetGHActionsFlagset() *pflag.FlagSet {
 	flagSet := pflag.NewFlagSet(CreateCmdName, pflag.ExitOnError)
-	flagSet.Bool(InstallGHActionsRunner, false, InstallGHActionsRunnerDesc)
 	flagSet.StringP(GHActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
 	flagSet.StringP(GHActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
 	flagSet.StringSlice(GHActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)

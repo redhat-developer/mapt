@@ -37,9 +37,6 @@ type RequestMachineArgs struct {
 	PoolName     string
 	Architecture string
 	OSVersion    string
-	// This is sampler for type of integration / usage
-	// for the request machine
-	SetupGHActionsRunner bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }

@@ -78,7 +78,7 @@ func getCreateRHEL() *cobra.Command {
 				}
 			}
 
-			if viper.IsSet(params.InstallGHActionsRunner) {
+			if viper.IsSet(params.GHActionsRunnerToken) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
 					Token:    viper.GetString(params.GHActionsRunnerToken),
 					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
@@ -101,16 +101,16 @@ func getCreateRHEL() *cobra.Command {
 						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
 							instancetypes.Arm64, instancetypes.Amd64),
 						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt)},
-					Version:              viper.GetString(paramLinuxVersion),
-					Arch:                 viper.GetString(params.LinuxArch),
-					SubsUsername:         viper.GetString(params.SubsUsername),
-					SubsUserpass:         viper.GetString(params.SubsUserpass),
-					ProfileSNC:           viper.IsSet(params.ProfileSNC),
-					Username:             viper.GetString(paramUsername),
-					Spot:                 viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:        spotToleranceValue,
-					SpotExcludedRegions:  viper.GetStringSlice(azparams.ParamSpotExcludedRegions),
-					SetupGHActionsRunner: viper.IsSet(params.InstallGHActionsRunner)}); err != nil {
+					Version:             viper.GetString(paramLinuxVersion),
+					Arch:                viper.GetString(params.LinuxArch),
+					SubsUsername:        viper.GetString(params.SubsUsername),
+					SubsUserpass:        viper.GetString(params.SubsUserpass),
+					ProfileSNC:          viper.IsSet(params.ProfileSNC),
+					Username:            viper.GetString(paramUsername),
+					Spot:                viper.IsSet(azparams.ParamSpot),
+					SpotTolerance:       spotToleranceValue,
+					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions),
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil

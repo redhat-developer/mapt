@@ -50,7 +50,7 @@ func getMacRequest() *cobra.Command {
 				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
-			if viper.IsSet(params.InstallGHActionsRunner) {
+			if viper.IsSet(params.GHActionsRunnerToken) {
 				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
 					Token:    viper.GetString(params.GHActionsRunnerToken),
 					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
@@ -65,12 +65,11 @@ func getMacRequest() *cobra.Command {
 			if err := mac.Request(
 				ctx,
 				&mac.MacRequestArgs{
-					Prefix:               "main",
-					Architecture:         viper.GetString(awsParams.MACArch),
-					Version:              viper.GetString(awsParams.MACOSVersion),
-					FixedLocation:        viper.IsSet(awsParams.MACFixedLocation),
-					SetupGHActionsRunner: viper.GetBool(params.InstallGHActionsRunner),
-					Airgap:               viper.IsSet(airgap)}); err != nil {
+					Prefix:        "main",
+					Architecture:  viper.GetString(awsParams.MACArch),
+					Version:       viper.GetString(awsParams.MACOSVersion),
+					FixedLocation: viper.IsSet(awsParams.MACFixedLocation),
+					Airgap:        viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
