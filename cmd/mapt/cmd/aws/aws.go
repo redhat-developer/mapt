@@ -28,6 +28,7 @@ func GetCmd() *cobra.Command {
 		hosts.GetMacCmd(),
 		hosts.GetWindowsCmd(),
 		hosts.GetRHELCmd(),
+		hosts.GetRHELAICmd(),
 		hosts.GetFedoraCmd(),
 		services.GetMacPoolCmd())
 	return c

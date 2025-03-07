@@ -51,6 +51,10 @@ const (
 	MemoryDesc                  string = "Amount of RAM for the cloud instance in GiB"
 	CPUs                        string = "cpus"
 	CPUsDesc                    string = "Number of CPUs for the cloud instance"
+	GPUs                        string = "gpus"
+	GPUsDesc                    string = "Number of GPUs for the cloud instance"
+	GPUManufacturer             string = "gpu-manufacturer"
+	GPUManufacturerDesc         string = "Manufacturer company name for GPU. (i.e. NVIDIA)"
 	NestedVirt                  string = "nested-virt"
 	NestedVirtDesc              string = "Use cloud instance that has nested virtualization support"
 
@@ -99,6 +103,8 @@ func GetGHActionsFlagset() *pflag.FlagSet {
 func GetCpusAndMemoryFlagset() *pflag.FlagSet {
 	flagSet := pflag.NewFlagSet(CreateCmdName, pflag.ExitOnError)
 	flagSet.Int32P(CPUs, "", 8, CPUsDesc)
+	flagSet.Int32P(GPUs, "", 8, GPUsDesc)
+	flagSet.StringP(GPUManufacturer, "", "", GPUManufacturerDesc)
 	flagSet.Int32P(Memory, "", 64, MemoryDesc)
 	flagSet.BoolP(NestedVirt, "", false, NestedVirtDesc)
 	return flagSet
