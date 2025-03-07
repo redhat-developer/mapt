@@ -180,7 +180,9 @@ func spotOption(instanceTypes []string,
 			return price
 		})
 		groupInfo.AVGPrice = util.Average(prices)
-		slices.SortFunc(prices, func(a, b float64) int { return int(a - b) })
+		if len(prices) > 0 {
+			slices.SortFunc(prices, func(a, b float64) int { return int(a - b) })
+		}
 		groupInfo.MaxPrice = prices[len(prices)-1]
 		groupInfo.Region = region
 		pricesGroup = append(pricesGroup, groupInfo)
@@ -203,7 +205,7 @@ func checkBestOption(amiName, amiArch string, source []SpotOptionInfo,
 			return int(a.AVGPrice - b.AVGPrice)
 		})
 	var score int32 = spsMaxScore
-	for score > 3 {
+	for score > 2 {
 		for _, price := range source {
 			idx := slices.IndexFunc(sps, func(item ec2Types.SpotPlacementScore) bool {
 				// Need transform
