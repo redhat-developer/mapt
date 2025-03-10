@@ -27,9 +27,7 @@ sudo /tmp/kcpassword "{{.NewPassword}}"
 mkdir -p /Users/{{.Username}}/.ssh
 echo "{{.AuthorizedKey}}" | tee /Users/{{.Username}}/.ssh/authorized_keys
 
-{{ if .InstallActionsRunner }}
-    {{- .ActionsRunnerSnippet }}
-{{ end }}
+{{ .ActionsRunnerSnippet }}
 
 {{ .CirrusSnippet }}
 
