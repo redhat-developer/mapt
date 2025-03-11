@@ -12,7 +12,7 @@ import (
 // function to create a mapt servless cmd which will be executed repeatedly
 // interval should match expected expression
 // https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html
-func Create(command string, scheduleType scheduleType, schedulexpression, logGroupName string) error {
+func Create(args *ServerlessArgs) error {
 	// Initially manage it by setup, may we need to customize the region
 	//
 	// THis was initially created for mac, if no FixedLocation we may
@@ -20,10 +20,10 @@ func Create(command string, scheduleType scheduleType, schedulexpression, logGro
 	region := os.Getenv("AWS_DEFAULT_REGION")
 	r := &serverlessRequestArgs{
 		region:             region,
-		command:            command,
-		scheduleType:       scheduleType,
-		scheduleExpression: schedulexpression,
-		logGroupName:       logGroupName,
+		command:            args.Command,
+		scheduleType:       args.ScheduleType,
+		scheduleExpression: args.Schedulexpression,
+		logGroupName:       args.LogGroupName,
 		// Being isolated stack these values
 		// do not care
 		prefix:      "mapt",
