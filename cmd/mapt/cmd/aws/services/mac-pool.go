@@ -87,7 +87,7 @@ func create() *cobra.Command {
 	flagSet.Int(paramOfferedCapacity, paramOfferedCapacityDefault, paramOfferedCapacityDesc)
 	flagSet.Int(paramMaxSize, paramMaxSizeDefault, paramMaxSizeDesc)
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
-	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
+	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersionDefault, awsParams.MACOSVersionDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.Bool(awsParams.MACFixedLocation, false, awsParams.MACFixedLocationDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
