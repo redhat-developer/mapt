@@ -39,7 +39,7 @@ func OneTimeDelayedTask(ctx *pulumi.Context,
 	r := &serverlessRequestArgs{
 		region:             region,
 		command:            cmd,
-		scheduleType:       OneTime,
+		scheduleType:       &OneTime,
 		scheduleExpression: se,
 		prefix:             prefix,
 		componentID:        componentID,
@@ -114,40 +114,42 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	subnetID, err := data.GetRandomPublicSubnet(a.region)
-	if err != nil {
-		return err
-	}
-	se := scheduleExpressionByType(a.scheduleType, a.scheduleExpression)
-	_, err = scheduler.NewSchedule(ctx,
-		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fgs"),
-		&scheduler.ScheduleArgs{
-			FlexibleTimeWindow: scheduler.ScheduleFlexibleTimeWindowArgs{
-				Mode:                   scheduler.ScheduleFlexibleTimeWindowModeFlexible,
-				MaximumWindowInMinutes: pulumi.Float64(1),
-			},
-			Target: scheduler.ScheduleTargetArgs{
-				EcsParameters: scheduler.ScheduleEcsParametersArgs{
-					TaskDefinitionArn: td.TaskDefinition.Arn(),
-					LaunchType:        scheduler.ScheduleLaunchTypeFargate,
-					NetworkConfiguration: scheduler.ScheduleNetworkConfigurationArgs{
-						// https://github.com/aws/aws-cdk/issues/13348#issuecomment-1539336376
-						AwsvpcConfiguration: scheduler.ScheduleAwsVpcConfigurationArgs{
-							AssignPublicIp: scheduler.ScheduleAssignPublicIpEnabled,
-							Subnets: pulumi.StringArray{
-								pulumi.String(*subnetID),
+	if len(a.scheduleExpression) > 0 {
+		subnetID, err := data.GetRandomPublicSubnet(a.region)
+		if err != nil {
+			return err
+		}
+		se := scheduleExpressionByType(a.scheduleType, a.scheduleExpression)
+		_, err = scheduler.NewSchedule(ctx,
+			resourcesUtil.GetResourceName(a.prefix, a.componentID, "fgs"),
+			&scheduler.ScheduleArgs{
+				FlexibleTimeWindow: scheduler.ScheduleFlexibleTimeWindowArgs{
+					Mode:                   scheduler.ScheduleFlexibleTimeWindowModeFlexible,
+					MaximumWindowInMinutes: pulumi.Float64(1),
+				},
+				Target: scheduler.ScheduleTargetArgs{
+					EcsParameters: scheduler.ScheduleEcsParametersArgs{
+						TaskDefinitionArn: td.TaskDefinition.Arn(),
+						LaunchType:        scheduler.ScheduleLaunchTypeFargate,
+						NetworkConfiguration: scheduler.ScheduleNetworkConfigurationArgs{
+							// https://github.com/aws/aws-cdk/issues/13348#issuecomment-1539336376
+							AwsvpcConfiguration: scheduler.ScheduleAwsVpcConfigurationArgs{
+								AssignPublicIp: scheduler.ScheduleAssignPublicIpEnabled,
+								Subnets: pulumi.StringArray{
+									pulumi.String(*subnetID),
+								},
 							},
 						},
 					},
+					Arn:     clusterArn,
+					RoleArn: sRoleArn,
 				},
-				Arn:     clusterArn,
-				RoleArn: sRoleArn,
-			},
-			ScheduleExpression:         pulumi.String(*se),
-			ScheduleExpressionTimezone: pulumi.String(data.RegionTimezones[a.region]),
-		})
-	if err != nil {
-		return err
+				ScheduleExpression:         pulumi.String(*se),
+				ScheduleExpressionTimezone: pulumi.String(data.RegionTimezones[a.region]),
+			})
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -358,8 +360,8 @@ func generateOneTimeScheduleExpression(region, delay string) (string, error) {
 	return se, nil
 }
 
-func scheduleExpressionByType(st scheduleType, se string) *string {
-	switch st {
+func scheduleExpressionByType(st *scheduleType, se string) *string {
+	switch *st {
 	case Repeat:
 		e := fmt.Sprintf("rate(%s)", se)
 		return &e

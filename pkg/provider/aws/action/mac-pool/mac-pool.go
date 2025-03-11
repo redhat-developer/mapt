@@ -154,20 +154,39 @@ func (r *MacPoolRequestArgs) addMachinesToPool(n int) error {
 // Run serverless operation for house keeping
 func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
 	return serverless.Create(
-		getHouseKeepingCommand(
-			r.PoolName,
-			r.Architecture,
-			r.OSVersion,
-			r.OfferedCapacity,
-			r.MaxSize,
-			r.FixedLocation),
-		serverless.Repeat,
-		houseKeepingInterval,
-		fmt.Sprintf("%s-%s-%s",
-			r.PoolName,
-			r.Architecture,
-			r.OSVersion))
+		&serverless.ServerlessArgs{
+			Command: getHouseKeepingCommand(
+				r.PoolName,
+				r.Architecture,
+				r.OSVersion,
+				r.OfferedCapacity,
+				r.MaxSize,
+				r.FixedLocation),
+			ScheduleType:      &serverless.Repeat,
+			Schedulexpression: houseKeepingInterval,
+			LogGroupName: fmt.Sprintf("%s-%s-%s",
+				r.PoolName,
+				r.Architecture,
+				r.OSVersion)})
 }
+
+// // Run serverless operation request
+// func (r *MacPoolRequestArgs) requester() error {
+// 	return serverless.Create(
+// 		getHouseKeepingCommand(
+// 			r.PoolName,
+// 			r.Architecture,
+// 			r.OSVersion,
+// 			r.OfferedCapacity,
+// 			r.MaxSize,
+// 			r.FixedLocation),
+// 		serverless.Repeat,
+// 		houseKeepingInterval,
+// 		fmt.Sprintf("%s-%s-%s",
+// 			r.PoolName,
+// 			r.Architecture,
+// 			r.OSVersion))
+// }
 
 func getHouseKeepingCommand(poolName, arch, osVersion string,
 	offeredCapacity, maxSize int,

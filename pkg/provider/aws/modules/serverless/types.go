@@ -22,12 +22,19 @@ const (
 	LimitMemory = "2048"
 )
 
+type ServerlessArgs struct {
+	Command           string
+	ScheduleType      *scheduleType
+	Schedulexpression string
+	LogGroupName      string
+}
+
 type serverlessRequestArgs struct {
 	// need this to find the right ECS cluster to run this serverless
 	region string
 	// command and scheduling to be used for it
 	command            string
-	scheduleType       scheduleType
+	scheduleType       *scheduleType
 	scheduleExpression string
 
 	// optional if we want to set the name for the log group were logs are sent
