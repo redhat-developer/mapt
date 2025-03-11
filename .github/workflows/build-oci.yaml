@@ -54,20 +54,35 @@ jobs:
         run: |
           make oci-build-${{ env.ARCH_TYPE }}
           make oci-save-${{ env.ARCH_TYPE }}
-          echo ${IMG} > mapt-image
-
       - name: Build and Push image for Release
         if: github.event_name == 'push'
         run: |
           make oci-build-${{ env.ARCH_TYPE }}
           make oci-save-${{ env.ARCH_TYPE }}
-
       - name: Upload mapt artifacts for PR
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: mapt-${{ env.ARCH_TYPE }}
           path: mapt*
-
+  combine-artifacts:
+    name: combine-artifacts
+    needs: build-and-upload
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download mapt oci flatten images
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
+        with:
+          pattern: mapt-*
+      - name: copy both artifacts into single directory
+        env:
+          IMG: ghcr.io/redhat-developer/mapt:pr-${{ github.event.number }}
+        run: echo ${IMG} > mapt-image
+      - name: Upload combined mapt artifacts for PR
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        with:
+          name: mapt-arm64-and-amd64
+          path: mapt-*
   push:
     name: push
     if: github.event_name == 'push'

@@ -25,7 +25,7 @@ on:
   
 jobs:
   push:
-    name: push
+    name: artifact-check-then-push
     if: |
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'pull_request'
@@ -37,28 +37,39 @@ jobs:
       - name: Download mapt assets
         uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
-          pattern: mapt-*
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
-      
+          name: mapt-arm64-and-amd64
+        continue-on-error: true
+      - name: Check if Artifact is Present
+        id: artifact-check
+        run: |
+          if [ -d "mapt-amd64" ] && [ -d "mapt-arm64" ]; then
+            echo "Artifacts found."
+            echo "found=true" >> $GITHUB_ENV
+          else
+            echo "Artifacts not found."
+            echo "found=false" >> $GITHUB_ENV
+          fi
       - name: Get mapt build information
+        if: env.found == 'true'
         run: |
           echo "image=$(cat mapt-image)" >> "$GITHUB_ENV"
-
       - name: Log in to ghcr.io
+        if: env.found == 'true'
         uses: redhat-actions/podman-login@4934294ad0449894bcd1e9f191899d7292469603 # v1.7
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-    
       - name: Push mapt
+        if: env.found == 'true'
         run: |
           # Load images from build
-          podman load -i mapt-arm64.tar
-          podman load -i mapt-amd64.tar 
-          
+          podman load -i mapt-arm64/mapt-arm64.tar
+          podman load -i mapt-amd64/mapt-amd64.tar 
+
           # Push
           podman push ${{ env.image }}-arm64
           podman push ${{ env.image }}-amd64
