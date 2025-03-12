@@ -43,7 +43,7 @@ func Request(username, oldPassword, newPassword, authorizedKey string) (string, 
 	if err != nil {
 		return "", err
 	}
-	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet()
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet(username)
 	if err != nil {
 		return "", err
 	}

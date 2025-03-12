@@ -356,7 +356,7 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 			if err != nil {
 				return "", err
 			}
-			ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet()
+			ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet(r.AMIUser)
 			if err != nil {
 				return "", err
 			}

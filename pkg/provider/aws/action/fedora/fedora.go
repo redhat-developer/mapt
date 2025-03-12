@@ -326,7 +326,7 @@ func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
 	if err != nil {
 		return nil, err
 	}
-	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile()
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile(amiUserDefault)
 	if err != nil {
 		return nil, err
 	}

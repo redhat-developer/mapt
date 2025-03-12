@@ -38,7 +38,7 @@ func (r *RequestArgs) GetAsUserdata() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile()
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile(r.Username)
 	if err != nil {
 		return "", err
 	}

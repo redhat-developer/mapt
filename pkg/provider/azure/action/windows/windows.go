@@ -315,7 +315,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
-	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet()
+	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet(r.Username)
 	if err != nil {
 		return nil, err
 	}

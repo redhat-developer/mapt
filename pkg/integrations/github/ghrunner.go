@@ -30,6 +30,7 @@ var snippets map[Platform][]byte = map[Platform][]byte{
 }
 
 type snippetDataValues struct {
+	Username  string
 	Token     string
 	RepoURL   string
 	Name      string
@@ -43,7 +44,7 @@ func Init(args *GithubRunnerArgs) {
 	runnerArgs = args
 }
 
-func SelfHostedRunnerSnippet() (*string, error) {
+func SelfHostedRunnerSnippet(username string) (*string, error) {
 	if runnerArgs == nil {
 		noSnippet := ""
 		return &noSnippet, nil
@@ -56,6 +57,7 @@ func SelfHostedRunnerSnippet() (*string, error) {
 			Labels:    GetLabels(),
 			RepoURL:   runnerArgs.RepoURL,
 			RunnerURL: downloadURL(),
+			Username:  username,
 		},
 		templateConfig)
 	return &snippet, err
@@ -71,8 +73,8 @@ func SelfHostedRunnerSnippet() (*string, error) {
 //	    {{ .CirrusSnippet }} <----- 6 spaces
 //
 // to do so we need to indent 6 spaces each line of the snippet
-func SelfHostedRunnerSnippetAsCloudInitWritableFile() (*string, error) {
-	snippet, err := SelfHostedRunnerSnippet()
+func SelfHostedRunnerSnippetAsCloudInitWritableFile(username string) (*string, error) {
+	snippet, err := SelfHostedRunnerSnippet(username)
 	if err != nil || len(*snippet) == 0 {
 		return snippet, err
 	}
