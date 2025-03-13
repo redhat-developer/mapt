@@ -10,6 +10,7 @@ import (
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -352,11 +353,11 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
-			cirrusSnippet, err := cirrus.PersistentWorkerSnippet(r.AMIUser)
+			cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), r.AMIUser)
 			if err != nil {
 				return "", err
 			}
-			ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet(r.AMIUser)
+			ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), r.AMIUser)
 			if err != nil {
 				return "", err
 			}
