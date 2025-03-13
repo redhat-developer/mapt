@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -47,12 +48,9 @@ type WindowsRequest struct {
 	SpotTolerance       spotAzure.EvictionRate
 	SpotExcludedRegions []string
 	Profiles            []string
-	// setup as github actions runner
-	SetupGHActionsRunner bool
 }
 
 type ghActionsRunnerData struct {
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 }
@@ -314,14 +312,18 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
-	cirrusSnippet, err := cirrus.PersistentWorkerSnippet(r.Username)
+	cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), r.Username)
 	if err != nil {
 		return nil, err
 	}
+	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), r.Username)
+	if err != nil {
+		return nil, err
+	}
+	logging.Debug("got the self hosted runner script")
 	ciSetupScript, err := file.Template(
 		ghActionsRunnerData{
-			r.SetupGHActionsRunner,
-			github.GetActionRunnerSnippetWin(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet,
 		},
 		string(RHQPCISetupScript))

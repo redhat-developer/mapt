@@ -10,6 +10,7 @@ import (
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -51,8 +52,6 @@ type Request struct {
 	Airgap bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
-	// setup as github actions runner
-	SetupGHActionsRunner bool
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -68,7 +67,6 @@ type userDataValues struct {
 	Username             string
 	Password             string
 	AuthorizedKey        string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	RunnerToken          string
 	CirrusSnippet        string
@@ -355,7 +353,11 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
-			cirrusSnippet, err := cirrus.PersistentWorkerSnippet(r.AMIUser)
+			cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), r.AMIUser)
+			if err != nil {
+				return "", err
+			}
+			ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), r.AMIUser)
 			if err != nil {
 				return "", err
 			}
@@ -363,8 +365,7 @@ func (r *Request) getUserdata(ctx *pulumi.Context,
 				r.AMIUser,
 				password,
 				authorizedKey,
-				r.SetupGHActionsRunner,
-				github.GetActionRunnerSnippetWin(),
+				*ghActionsRunnerSnippet,
 				github.GetToken(),
 				*cirrusSnippet,
 				cirrus.GetToken(),

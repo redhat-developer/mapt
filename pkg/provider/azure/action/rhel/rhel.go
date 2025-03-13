@@ -25,8 +25,6 @@ type Request struct {
 	Spot                bool
 	SpotTolerance       spotAzure.EvictionRate
 	SpotExcludedRegions []string
-	// setup as github actions runner
-	SetupGHActionsRunner bool
 }
 
 func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
@@ -41,11 +39,10 @@ func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
 	}
 	logging.Debug("Creating RHEL Server")
 	rhelCloudConfig := &cloudConfigRHEL.RequestArgs{
-		SNCProfile:     r.ProfileSNC,
-		SubsUsername:   r.SubsUsername,
-		SubsPassword:   r.SubsUserpass,
-		Username:       r.Username,
-		GHActionRunner: r.SetupGHActionsRunner}
+		SNCProfile:   r.ProfileSNC,
+		SubsUsername: r.SubsUsername,
+		SubsPassword: r.SubsUserpass,
+		Username:     r.Username}
 	azureLinuxRequest :=
 		&azureLinux.LinuxRequest{
 			Prefix:          r.Prefix,

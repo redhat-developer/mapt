@@ -3,6 +3,7 @@ package setup
 import (
 	_ "embed"
 
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util/file"
@@ -25,7 +26,6 @@ type requestDataValues struct {
 	OldPassword          string
 	NewPassword          string
 	AuthorizedKey        string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 }
@@ -39,9 +39,12 @@ func Release(username, pass, authorizedKey string) (string, error) {
 		string(ReleaseScript[:]))
 }
 
-func Request(username, oldPassword, newPassword, authorizedKey string,
-	isGHRunner bool, GHRunnerSnippet string) (string, error) {
-	cirrusSnippet, err := cirrus.PersistentWorkerSnippet(username)
+func Request(username, oldPassword, newPassword, authorizedKey string) (string, error) {
+	cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), username)
+	if err != nil {
+		return "", err
+	}
+	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), username)
 	if err != nil {
 		return "", err
 	}
@@ -51,8 +54,7 @@ func Request(username, oldPassword, newPassword, authorizedKey string,
 			oldPassword,
 			newPassword,
 			authorizedKey,
-			isGHRunner,
-			github.GetActionRunnerSnippetMacos(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		string(RequestScript[:]))
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -49,8 +50,6 @@ type Request struct {
 	// a phase with connectivity on the machine (allowing bootstraping)
 	// a pahase with connectivyt off where the subnet for the target lost the nat gateway
 	airgapPhaseConnectivity network.Connectivity
-	// setup as github actions runner
-	SetupGHActionsRunner bool
 	// location and price (if Spot is enable)
 	region    string
 	az        string
@@ -59,7 +58,6 @@ type Request struct {
 
 type userDataValues struct {
 	Username             string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 }
@@ -325,16 +323,20 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 }
 
 func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
-	cirrusSnippet, err := cirrus.PersistentWorkerSnippetAsCloudInitWritableFile(amiUserDefault)
+	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), amiUserDefault)
 	if err != nil {
 		return nil, err
 	}
+	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), amiUserDefault)
+	if err != nil {
+		return nil, err
+	}
+
 	templateConfig := string(CloudConfigBase[:])
 	userdata, err := file.Template(
 		userDataValues{
 			amiUserDefault,
-			r.SetupGHActionsRunner,
-			github.GetActionRunnerSnippetLinux(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		templateConfig)
 	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err

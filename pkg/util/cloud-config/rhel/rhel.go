@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"encoding/base64"
 
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util/file"
@@ -13,14 +14,12 @@ type RequestArgs struct {
 	SNCProfile                 bool
 	SubsUsername, SubsPassword string
 	Username                   string
-	GHActionRunner             bool
 }
 
 type userDataValues struct {
 	SubscriptionUsername string
 	SubscriptionPassword string
 	Username             string
-	InstallActionsRunner bool
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 }
@@ -36,7 +35,11 @@ func (r *RequestArgs) GetAsUserdata() (string, error) {
 	if r.SNCProfile {
 		templateConfig = string(CloudConfigSNC[:])
 	}
-	cirrusSnippet, err := cirrus.PersistentWorkerSnippetAsCloudInitWritableFile(r.Username)
+	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), r.Username)
+	if err != nil {
+		return "", err
+	}
+	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), r.Username)
 	if err != nil {
 		return "", err
 	}
@@ -45,8 +48,7 @@ func (r *RequestArgs) GetAsUserdata() (string, error) {
 			r.SubsUsername,
 			r.SubsPassword,
 			r.Username,
-			r.GHActionRunner,
-			github.GetActionRunnerSnippetLinux(),
+			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		templateConfig)
 	// return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err

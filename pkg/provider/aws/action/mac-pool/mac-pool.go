@@ -109,11 +109,10 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	}
 
 	mr := macMachine.Request{
-		Prefix:               *hi.Prefix,
-		Version:              *hi.OSVersion,
-		Architecture:         *hi.Arch,
-		SetupGHActionsRunner: r.SetupGHActionsRunner,
-		Timeout:              r.Timeout,
+		Prefix:       *hi.Prefix,
+		Version:      *hi.OSVersion,
+		Architecture: *hi.Arch,
+		Timeout:      r.Timeout,
 	}
 
 	// TODO here we would change based on the integration-mode requested

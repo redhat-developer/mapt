@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/file"
 )
 
 //go:embed snippet-darwin.sh
@@ -24,15 +24,6 @@ var snippets map[Platform][]byte = map[Platform][]byte{
 	Linux:   snippetLinux,
 	Windows: snippetWindows}
 
-type snippetDataValues struct {
-	CliURL string
-	User   string
-	Name   string
-	Token  string
-	Labels string
-	Port   string
-}
-
 var (
 	version = "v0.135.0"
 	baseURL = "https://github.com/cirruslabs/cirrus-cli/releases/download/%s/cirrus-%s-%s"
@@ -44,48 +35,23 @@ func Init(args *PersistentWorkerArgs) {
 	pwa = args
 }
 
-func PersistentWorkerSnippet(username string) (*string, error) {
-	if pwa == nil {
-		noSnippet := ""
-		return &noSnippet, nil
+func (args *PersistentWorkerArgs) GetUserDataValues() *integrations.UserDataValues {
+	return &integrations.UserDataValues{
+		CliURL: downloadURL(),
+		Name:   pwa.Name,
+		Token:  pwa.Token,
+		Labels: getLabelsAsString(),
+		Port:   cirrusPort,
 	}
-	templateConfig := string(snippets[*pwa.Platform][:])
-	snippet, err := file.Template(
-		snippetDataValues{
-			CliURL: downloadURL(),
-			User:   username,
-			Name:   pwa.Name,
-			Token:  pwa.Token,
-			Labels: getLabelsAsString(),
-			Port:   cirrusPort,
-		},
-		templateConfig)
-	return &snippet, err
 }
 
-// If we add the snippet as part of a cloud init file the strategy
-// would be create the file with write_files:
-// i.e.
-// write_files:
-//
-//	# Cirrus service setup
-//	- content: |
-//	    {{ .CirrusSnippet }} <----- 6 spaces
-//
-// to do so we need to indent 6 spaces each line of the snippet
-func PersistentWorkerSnippetAsCloudInitWritableFile(username string) (*string, error) {
-	snippet, err := PersistentWorkerSnippet(username)
-	if err != nil || len(*snippet) == 0 {
-		return snippet, err
-	}
-	lines := strings.Split(strings.TrimSpace(*snippet), "\n")
-	for i, line := range lines {
-		// Added 6 spaces before each line
-		lines[i] = fmt.Sprintf("      %s", line)
-	}
-	identedSnippet := strings.Join(lines, "\n")
-	return &identedSnippet, nil
+func (args *PersistentWorkerArgs) GetSetupScriptTemplate() string {
+	templateConfig := string(snippets[*pwa.Platform][:])
+	return templateConfig
+}
 
+func GetRunnerArgs() *PersistentWorkerArgs {
+	return pwa
 }
 
 // If cirrus is enable it will return
