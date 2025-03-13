@@ -86,6 +86,10 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 		lga.Args.SkipDestroy = pulumi.Bool(false)
 		lga.Args.Name = pulumi.String(a.logGroupName)
 	}
+	tags := maptContext.ResourceTags()
+	if a.tags != nil {
+		tags = a.tags
+	}
 	td, err := awsxecs.NewFargateTaskDefinition(ctx,
 		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fg-task"),
 		&awsxecs.FargateTaskDefinitionArgs{
@@ -104,6 +108,7 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 				RoleArn: roleArn,
 			},
 			LogGroup: lga,
+			Tags:     pulumi.StringMapInput(tags),
 		})
 	if err != nil {
 		return err

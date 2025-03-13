@@ -175,6 +175,7 @@ func request() *cobra.Command {
 
 			ctx := &maptContext.ContextArgs{
 				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+				Serverless:    viper.IsSet(params.Serverless),
 				Debug:         viper.IsSet(params.Debug),
 				DebugLevel:    viper.GetUint(params.DebugLevel),
 				Tags:          viper.GetStringMapString(params.Tags),
@@ -221,6 +222,7 @@ func request() *cobra.Command {
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
+	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)

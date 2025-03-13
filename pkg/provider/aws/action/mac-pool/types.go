@@ -5,10 +5,15 @@ import (
 )
 
 const (
-	houseKeepingCommand            = "aws mac-pool house-keep --name %s --arch %s --version %s --offered-capacity %d --max-size %d --serverless "
+	houseKeepingCommandRegex       = "aws mac-pool house-keep --name %s --arch %s --version %s --offered-capacity %d --max-size %d --serverless "
 	houseKeepingFixedLocationParam = "--fixed-location "
 	// https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html#eb-rate-expressions
 	houseKeepingInterval = "27 minutes"
+
+	requestCommandRegex = "aws mac-pool request --name %s --arch %s --version %s --serverless "
+	// requestTimeoutParam   = "--timeout "
+	// itCirrusPWTokenParam  = "--it-cirrus-pw-token "
+	// itCirrusPWLabelsParam = "--it-cirrus-pw-labels "
 )
 
 type MacPoolRequestArgs struct {
@@ -39,16 +44,12 @@ type RequestMachineArgs struct {
 	OSVersion    string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
+	// If remote is set we will run the action through the serverless task spec
+	Remote bool
 }
 
 type ReleaseMachineArgs struct {
 }
-
-// type PoolID struct {
-// 	PoolName  string
-// 	Arch      string
-// 	OSVersion string
-// }
 
 type pool struct {
 	// pool params

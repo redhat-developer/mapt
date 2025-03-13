@@ -3,10 +3,12 @@ package serverless
 import (
 	"os"
 
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
 )
 
 // function to create a mapt servless cmd which will be executed repeatedly
@@ -28,6 +30,11 @@ func Create(args *ServerlessArgs) error {
 		// do not care
 		prefix:      "mapt",
 		componentID: "sf",
+	}
+	if args.Tags != nil {
+		r.tags = utilMaps.Convert(args.Tags,
+			func(name string) string { return name },
+			func(value string) pulumi.StringInput { return pulumi.String(value) })
 	}
 	stack := manager.Stack{
 		StackName:           maptContext.StackNameByProject(maptServerlessDefaultPrefix),

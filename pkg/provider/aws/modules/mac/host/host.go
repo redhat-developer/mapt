@@ -13,6 +13,7 @@ import (
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -28,9 +29,9 @@ import (
 
 func CreatePoolDedicatedHost(args *PoolMacDedicatedHostRequestArgs) (dhi *mac.HostInformation, err error) {
 	tags := map[string]string{
-		tagKeyBackedURL:         args.BackedURL,
-		tagKeyPrefix:            args.MacDedicatedHost.Prefix,
-		maptContext.TagKeyRunID: maptContext.RunID(),
+		macConstants.TagKeyBackedURL: args.BackedURL,
+		macConstants.TagKeyPrefix:    args.MacDedicatedHost.Prefix,
+		maptContext.TagKeyRunID:      maptContext.RunID(),
 	}
 	maps.Copy(tags, args.PoolID.asTags())
 	return createDedicatedHost(args.MacDedicatedHost, args.BackedURL, tags, false)
@@ -40,10 +41,10 @@ func CreatePoolDedicatedHost(args *PoolMacDedicatedHostRequestArgs) (dhi *mac.Ho
 func CreateDedicatedHost(args *MacDedicatedHostRequestArgs) (dhi *mac.HostInformation, err error) {
 	backedURL := getBackedURL()
 	tags := map[string]string{
-		tagKeyBackedURL:         backedURL,
-		tagKeyPrefix:            args.Prefix,
-		tagKeyArch:              args.Architecture,
-		maptContext.TagKeyRunID: maptContext.RunID(),
+		macConstants.TagKeyBackedURL: backedURL,
+		macConstants.TagKeyPrefix:    args.Prefix,
+		macConstants.TagKeyArch:      args.Architecture,
+		maptContext.TagKeyRunID:      maptContext.RunID(),
 	}
 	return createDedicatedHost(args, backedURL, tags, true)
 }

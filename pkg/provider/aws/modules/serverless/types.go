@@ -1,5 +1,7 @@
 package serverless
 
+import "github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+
 var (
 	// stackName = "mapt-serverless"
 
@@ -23,10 +25,13 @@ const (
 )
 
 type ServerlessArgs struct {
-	Command           string
+	Command string
+	// From here params are optional
+	LogGroupName string
+	Tags         map[string]string
+	// If no schedule info is added just create the task spec
 	ScheduleType      *scheduleType
 	Schedulexpression string
-	LogGroupName      string
 }
 
 type serverlessRequestArgs struct {
@@ -42,4 +47,5 @@ type serverlessRequestArgs struct {
 	logGroupName string
 	// optional params in case we create serverless inside a stack
 	prefix, componentID string
+	tags                pulumi.StringMap
 }
