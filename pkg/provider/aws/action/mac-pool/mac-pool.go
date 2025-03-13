@@ -10,6 +10,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/iam"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
 	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
 	macUtil "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/util"
@@ -33,6 +34,9 @@ func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 		return err
 	}
 	if err := r.scheduleHouseKeeper(); err != nil {
+		return err
+	}
+	if err := r.createRequestTaskSpec(); err != nil {
 		return err
 	}
 	return r.requestReleaserAccount()
@@ -91,6 +95,10 @@ func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 }
 
 func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
+	// If remote run through serverless
+	if r.Remote {
+		return requestRemote(ctx, r)
+	}
 	// First get full info on the pool and the next machine for request
 	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
 	if err != nil {
@@ -129,6 +137,11 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 		*hi.Host.HostId)
 }
 
+func requestRemote(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
+
+	return fmt.Errorf("not implemented yet")
+}
+
 func Release(ctx *maptContext.ContextArgs, hostID string) error {
 	return macUtil.Release(ctx, hostID)
 }
@@ -155,7 +168,7 @@ func (r *MacPoolRequestArgs) addMachinesToPool(n int) error {
 func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
 	return serverless.Create(
 		&serverless.ServerlessArgs{
-			Command: getHouseKeepingCommand(
+			Command: houseKeepingCommand(
 				r.PoolName,
 				r.Architecture,
 				r.OSVersion,
@@ -170,33 +183,42 @@ func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
 				r.OSVersion)})
 }
 
-// // Run serverless operation request
-// func (r *MacPoolRequestArgs) requester() error {
-// 	return serverless.Create(
-// 		getHouseKeepingCommand(
-// 			r.PoolName,
-// 			r.Architecture,
-// 			r.OSVersion,
-// 			r.OfferedCapacity,
-// 			r.MaxSize,
-// 			r.FixedLocation),
-// 		serverless.Repeat,
-// 		houseKeepingInterval,
-// 		fmt.Sprintf("%s-%s-%s",
-// 			r.PoolName,
-// 			r.Architecture,
-// 			r.OSVersion))
-// }
+// Run serverless operation request
+// check how we will call it from the request?
+// may add tags and find or add arn to stack?
+func (r *MacPoolRequestArgs) createRequestTaskSpec() error {
+	return serverless.Create(
+		&serverless.ServerlessArgs{
+			Command: requestCommand(
+				r.PoolName,
+				r.Architecture,
+				r.OSVersion),
+			LogGroupName: fmt.Sprintf("%s-%s-%s-request",
+				r.PoolName,
+				r.Architecture,
+				r.OSVersion),
+			Tags: map[string]string{
+				macConstants.TagKeyArch:      r.Architecture,
+				macConstants.TagKeyOSVersion: r.OSVersion,
+				macConstants.TagKeyPoolName:  r.PoolName,
+			}})
+}
 
-func getHouseKeepingCommand(poolName, arch, osVersion string,
+func houseKeepingCommand(poolName, arch, osVersion string,
 	offeredCapacity, maxSize int,
 	fixedLocation bool) string {
-	cmd := fmt.Sprintf(houseKeepingCommand,
+	cmd := fmt.Sprintf(houseKeepingCommandRegex,
 		poolName, arch, osVersion,
 		offeredCapacity, maxSize)
 	if fixedLocation {
 		cmd += houseKeepingFixedLocationParam
 	}
+	return cmd
+}
+
+func requestCommand(poolName, arch, osVersion string) string {
+	cmd := fmt.Sprintf(requestCommandRegex,
+		poolName, arch, osVersion)
 	return cmd
 }
 
