@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/file"
 )
 
 var runnerVersion = "2.317.0"
@@ -29,62 +29,29 @@ var snippets map[Platform][]byte = map[Platform][]byte{
 	Windows: snippetWindows,
 }
 
-type snippetDataValues struct {
-	Username  string
-	Token     string
-	RepoURL   string
-	Name      string
-	Labels    string
-	RunnerURL string
-}
-
 var runnerArgs *GithubRunnerArgs
 
 func Init(args *GithubRunnerArgs) {
 	runnerArgs = args
 }
 
-func SelfHostedRunnerSnippet(username string) (*string, error) {
-	if runnerArgs == nil {
-		noSnippet := ""
-		return &noSnippet, nil
+func (args *GithubRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
+	return &integrations.UserDataValues{
+		Name:    args.Name,
+		Token:   args.Token,
+		Labels:  getLabels(),
+		RepoURL: args.RepoURL,
+		CliURL:  downloadURL(),
 	}
-	templateConfig := string(snippets[*runnerArgs.Platform][:])
-	snippet, err := file.Template(
-		snippetDataValues{
-			Name:      runnerArgs.Name,
-			Token:     runnerArgs.Token,
-			Labels:    GetLabels(),
-			RepoURL:   runnerArgs.RepoURL,
-			RunnerURL: downloadURL(),
-			Username:  username,
-		},
-		templateConfig)
-	return &snippet, err
 }
 
-// If we add the snippet as part of a cloud init file the strategy
-// would be create the file with write_files:
-// i.e.
-// write_files:
-//
-//	# Cirrus service setup
-//	- content: |
-//	    {{ .CirrusSnippet }} <----- 6 spaces
-//
-// to do so we need to indent 6 spaces each line of the snippet
-func SelfHostedRunnerSnippetAsCloudInitWritableFile(username string) (*string, error) {
-	snippet, err := SelfHostedRunnerSnippet(username)
-	if err != nil || len(*snippet) == 0 {
-		return snippet, err
-	}
-	lines := strings.Split(strings.TrimSpace(*snippet), "\n")
-	for i, line := range lines {
-		// Added 6 spaces before each line
-		lines[i] = fmt.Sprintf("      %s", line)
-	}
-	identedSnippet := strings.Join(lines, "\n")
-	return &identedSnippet, nil
+func (args *GithubRunnerArgs) GetSetupScriptTemplate() string {
+	templateConfig := string(snippets[*runnerArgs.Platform][:])
+	return templateConfig
+}
+
+func GetRunnerArgs() *GithubRunnerArgs {
+	return runnerArgs
 }
 
 // platform: darwin, linux, windows
@@ -107,7 +74,7 @@ func GetToken() string {
 	return util.IfNillable(runnerArgs != nil, token, "")
 }
 
-func GetLabels() string {
+func getLabels() string {
 	var labels = func() string {
 		if len(runnerArgs.Labels) > 0 {
 			return strings.Join(runnerArgs.Labels, ",")

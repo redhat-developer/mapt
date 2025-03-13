@@ -20,4 +20,5 @@ type GithubRunnerArgs struct {
 	Platform *Platform
 	Arch     *Arch
 	Labels   []string
+	User     string
 }

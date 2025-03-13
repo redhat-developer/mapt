@@ -9,6 +9,7 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -322,11 +323,11 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 }
 
 func (r *Request) getUserdata() (pulumi.StringPtrInput, error) {
-	cirrusSnippet, err := cirrus.PersistentWorkerSnippetAsCloudInitWritableFile(amiUserDefault)
+	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), amiUserDefault)
 	if err != nil {
 		return nil, err
 	}
-	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile(amiUserDefault)
+	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), amiUserDefault)
 	if err != nil {
 		return nil, err
 	}

@@ -3,6 +3,7 @@ package setup
 import (
 	_ "embed"
 
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util/file"
@@ -39,11 +40,11 @@ func Release(username, pass, authorizedKey string) (string, error) {
 }
 
 func Request(username, oldPassword, newPassword, authorizedKey string) (string, error) {
-	cirrusSnippet, err := cirrus.PersistentWorkerSnippet(username)
+	cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), username)
 	if err != nil {
 		return "", err
 	}
-	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippet(username)
+	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), username)
 	if err != nil {
 		return "", err
 	}
