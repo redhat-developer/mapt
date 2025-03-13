@@ -1,15 +1,12 @@
 package host
 
+import (
+	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
+)
+
 const (
 	// mapt internal ID for the component: nac dedicated host
 	awsMacHostID = "amh"
-
-	tagKeyPrefix    = "prefix"
-	tagKeyBackedURL = "backedURL"
-	tagKeyArch      = "arch"
-	// tags added when dedicated host is part of a pool
-	tagKeyOSVersion = "osVersion"
-	tagKeyPoolName  = "poolName"
 
 	outputDedicatedHostID = "ammDedicatedHostID"
 	outputDedicatedHostAZ = "ammDedicatedHostAZ"
@@ -32,9 +29,9 @@ type PoolID struct {
 
 func (p *PoolID) asTags() map[string]string {
 	return map[string]string{
-		tagKeyArch:      p.Arch,
-		tagKeyOSVersion: p.OSVersion,
-		tagKeyPoolName:  p.PoolName,
+		macConstants.TagKeyArch:      p.Arch,
+		macConstants.TagKeyOSVersion: p.OSVersion,
+		macConstants.TagKeyPoolName:  p.PoolName,
 	}
 }
 
