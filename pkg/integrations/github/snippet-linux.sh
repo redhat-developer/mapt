@@ -1,5 +1,5 @@
 mkdir ~/actions-runner && cd ~/actions-runner
-curl -o actions-runner-linux.tar.gz -L {{ .RunnerURL }}
+curl -o actions-runner-linux.tar.gz -L {{ .CliURL }}
 tar xzf ./actions-runner-linux.tar.gz
 sudo ./bin/installdependencies.sh
 ./config.sh --token {{ .Token }} --url {{ .RepoURL }} --name {{ .Name }} --unattended --replace --labels {{ .Labels }}

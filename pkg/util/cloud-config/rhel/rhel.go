@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"encoding/base64"
 
+	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util/file"
@@ -34,11 +35,11 @@ func (r *RequestArgs) GetAsUserdata() (string, error) {
 	if r.SNCProfile {
 		templateConfig = string(CloudConfigSNC[:])
 	}
-	cirrusSnippet, err := cirrus.PersistentWorkerSnippetAsCloudInitWritableFile(r.Username)
+	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), r.Username)
 	if err != nil {
 		return "", err
 	}
-	ghActionsRunnerSnippet, err := github.SelfHostedRunnerSnippetAsCloudInitWritableFile(r.Username)
+	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), r.Username)
 	if err != nil {
 		return "", err
 	}
