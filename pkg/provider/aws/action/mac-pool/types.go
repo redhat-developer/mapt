@@ -10,11 +10,13 @@ const (
 	// https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html#eb-rate-expressions
 	houseKeepingInterval = "27 minutes"
 
-	requestOperation    = "request"
+	requestOperation    = "mac-pool-request"
 	requestCommandRegex = "aws mac-pool request --name %s --arch %s --version %s --serverless "
 	// requestTimeoutParam   = "--timeout "
 	// itCirrusPWTokenParam  = "--it-cirrus-pw-token "
 	// itCirrusPWLabelsParam = "--it-cirrus-pw-labels "
+	releaseOperation = "mac-pool-release"
+	releaseCommand   = "aws mac-pool release --serverless "
 )
 
 type MacPoolRequestArgs struct {

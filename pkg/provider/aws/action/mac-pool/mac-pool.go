@@ -34,7 +34,13 @@ func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	if err := r.scheduleHouseKeeper(); err != nil {
 		return err
 	}
-	if err := r.createRequestTaskSpec(); err != nil {
+	if err := requestTaskSpec(r); err != nil {
+		return err
+	}
+	if err := releaseTaskSpec(
+		r.PoolName,
+		r.Architecture,
+		r.OSVersion); err != nil {
 		return err
 	}
 	return r.requestReleaserAccount()
@@ -68,6 +74,10 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 }
 
 func Release(ctx *maptContext.ContextArgs, hostID string) error {
+	// If remote run through serverless
+	if ctx.Remote {
+		return releaseRemote(ctx, hostID)
+	}
 	return macUtil.Release(ctx, hostID)
 }
 

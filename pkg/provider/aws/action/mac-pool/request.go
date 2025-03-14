@@ -2,22 +2,15 @@ package macpool
 
 import (
 	"fmt"
-	"strings"
 
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
-	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
-	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
-	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 func request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
-	// If remote run through serverless
-	if maptContext.IsRemote() {
-		return requestRemote(ctx, r)
-	}
 	// First get full info on the pool and the next machine for request
 	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
 	if err != nil {
@@ -61,28 +54,21 @@ func requestRemote(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	if err := maptContext.Init(ctx); err != nil {
 		return err
 	}
-	rARNs, err := data.GetResourcesMatchingTags(
-		data.ResourceTypeECS,
-		requestTags(
-			r.PoolName,
-			r.Architecture,
-			r.OSVersion))
+	tARN, err := serverlessTaskARN(r.PoolName,
+		r.Architecture,
+		r.OSVersion,
+		requestOperation)
 	if err != nil {
 		return err
 	}
-	if len(rARNs) > 1 {
-		return fmt.Errorf(
-			"should be only one task spec matching tags. Found %s",
-			strings.Join(rARNs, ","))
-	}
-	// We got the arn value for the task
+	logging.Debugf("Got ARN for task spec %s", *tARN)
 	return fmt.Errorf("not implemented yet")
 }
 
 // Run serverless operation request
 // check how we will call it from the request?
 // may add tags and find or add arn to stack?
-func (r *MacPoolRequestArgs) createRequestTaskSpec() error {
+func requestTaskSpec(r *MacPoolRequestArgs) error {
 	return serverless.Create(
 		&serverless.ServerlessArgs{
 			Command: requestCommand(
@@ -93,27 +79,15 @@ func (r *MacPoolRequestArgs) createRequestTaskSpec() error {
 				r.PoolName,
 				r.Architecture,
 				r.OSVersion),
-			Tags: requestTags(
+			Tags: serverlessTags(
 				r.PoolName,
 				r.Architecture,
-				r.OSVersion)})
+				r.OSVersion,
+				requestOperation)})
 }
 
 func requestCommand(poolName, arch, osVersion string) string {
 	cmd := fmt.Sprintf(requestCommandRegex,
 		poolName, arch, osVersion)
 	return cmd
-}
-
-// Return the map of tags wich should identify unique
-// resquest operation spec for a pool
-func requestTags(poolName, arch, osVersion string) (m map[string]string) {
-	poolID := macHost.PoolID{
-		PoolName:  poolName,
-		Arch:      arch,
-		OSVersion: osVersion,
-	}
-	m = poolID.AsTags()
-	m[macConstants.TagKeyPoolOperationName] = requestOperation
-	return
 }
