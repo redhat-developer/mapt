@@ -33,7 +33,7 @@ func CreatePoolDedicatedHost(args *PoolMacDedicatedHostRequestArgs) (dhi *mac.Ho
 		macConstants.TagKeyPrefix:    args.MacDedicatedHost.Prefix,
 		maptContext.TagKeyRunID:      maptContext.RunID(),
 	}
-	maps.Copy(tags, args.PoolID.asTags())
+	maps.Copy(tags, args.PoolID.AsTags())
 	return createDedicatedHost(args.MacDedicatedHost, args.BackedURL, tags, false)
 }
 

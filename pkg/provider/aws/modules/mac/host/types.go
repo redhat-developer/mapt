@@ -27,7 +27,7 @@ type PoolID struct {
 	OSVersion string
 }
 
-func (p *PoolID) asTags() map[string]string {
+func (p *PoolID) AsTags() map[string]string {
 	return map[string]string{
 		macConstants.TagKeyArch:      p.Arch,
 		macConstants.TagKeyOSVersion: p.OSVersion,
