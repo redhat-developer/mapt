@@ -137,9 +137,13 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	userDataB64, err := r.GetUserdata()
-	if err != nil {
-		return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
+	var userDataB64 string
+	if r.GetUserdata != nil {
+		var err error
+		userDataB64, err = r.GetUserdata()
+		if err != nil {
+			return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
+		}
 	}
 	vmr := virtualmachine.VirtualMachineRequest{
 		Prefix:          r.Prefix,
