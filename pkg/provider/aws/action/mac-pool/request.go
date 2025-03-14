@@ -2,9 +2,12 @@ package macpool
 
 import (
 	"fmt"
+	"strings"
 
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
+	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
@@ -12,7 +15,7 @@ import (
 
 func request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	// If remote run through serverless
-	if r.Remote {
+	if maptContext.IsRemote() {
 		return requestRemote(ctx, r)
 	}
 	// First get full info on the pool and the next machine for request
@@ -55,6 +58,24 @@ func request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 }
 
 func requestRemote(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
+	if err := maptContext.Init(ctx); err != nil {
+		return err
+	}
+	rARNs, err := data.GetResourcesMatchingTags(
+		data.ResourceTypeECS,
+		requestTags(
+			r.PoolName,
+			r.Architecture,
+			r.OSVersion))
+	if err != nil {
+		return err
+	}
+	if len(rARNs) > 1 {
+		return fmt.Errorf(
+			"should be only one task spec matching tags. Found %s",
+			strings.Join(rARNs, ","))
+	}
+	// We got the arn value for the task
 	return fmt.Errorf("not implemented yet")
 }
 
@@ -72,15 +93,27 @@ func (r *MacPoolRequestArgs) createRequestTaskSpec() error {
 				r.PoolName,
 				r.Architecture,
 				r.OSVersion),
-			Tags: map[string]string{
-				macConstants.TagKeyArch:      r.Architecture,
-				macConstants.TagKeyOSVersion: r.OSVersion,
-				macConstants.TagKeyPoolName:  r.PoolName,
-			}})
+			Tags: requestTags(
+				r.PoolName,
+				r.Architecture,
+				r.OSVersion)})
 }
 
 func requestCommand(poolName, arch, osVersion string) string {
 	cmd := fmt.Sprintf(requestCommandRegex,
 		poolName, arch, osVersion)
 	return cmd
+}
+
+// Return the map of tags wich should identify unique
+// resquest operation spec for a pool
+func requestTags(poolName, arch, osVersion string) (m map[string]string) {
+	poolID := macHost.PoolID{
+		PoolName:  poolName,
+		Arch:      arch,
+		OSVersion: osVersion,
+	}
+	m = poolID.AsTags()
+	m[macConstants.TagKeyPoolOperationName] = requestOperation
+	return
 }

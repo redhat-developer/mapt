@@ -133,6 +133,7 @@ require (
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/aws/aws-sdk-go-v2/service/ecs v1.53.0
 	github.com/aws/aws-sdk-go-v2/service/iam v1.39.2
+	github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi v1.26.1
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect
 	github.com/djherbis/times v1.6.0 // indirect

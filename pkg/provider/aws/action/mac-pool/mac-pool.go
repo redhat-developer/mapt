@@ -61,7 +61,7 @@ func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 
 func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	// If remote run through serverless
-	if r.Remote {
+	if ctx.Remote {
 		return requestRemote(ctx, r)
 	}
 	return request(ctx, r)

@@ -79,6 +79,8 @@ github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.17.5 h1:f9RyWNtS8oH7cZ
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.17.5/go.mod h1:h5CoMZV2VF297/VLhRhO1WF+XYWOzXo+4HsObA4HjBQ=
 github.com/aws/aws-sdk-go-v2/service/pricing v1.32.17 h1:EtZFyL/uhaXlHjIwHW0KSJvppg+Ie1fzQ3wEXLEUj0I=
 github.com/aws/aws-sdk-go-v2/service/pricing v1.32.17/go.mod h1:l7bufyRvU+8mY0Z1BNWbWvjr59dlj9YrLKmeiz5CJ30=
+github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi v1.26.1 h1:emvw6/2IQzFGPiAnFkRu10XwB4unT76YJnZNsUFmqDc=
+github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi v1.26.1/go.mod h1:cgPfPTC/V3JqwCKed7Q6d0FrgarV7ltz4Bz6S4Q+Dqk=
 github.com/aws/aws-sdk-go-v2/service/s3 v1.53.1 h1:6cnno47Me9bRykw9AEv9zkXE+5or7jz8TsskTTccbgc=
 github.com/aws/aws-sdk-go-v2/service/s3 v1.53.1/go.mod h1:qmdkIIAC+GCLASF7R2whgNrJADz0QZPX+Seiw/i4S3o=
 github.com/aws/aws-sdk-go-v2/service/sso v1.25.0 h1:2U9sF8nKy7UgyEeLiZTRg6ShBS22z8UnYpV6aRFL0is=
