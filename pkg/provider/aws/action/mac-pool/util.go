@@ -9,6 +9,15 @@ import (
 	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 )
 
+// this is a business identificator to assing to resources related to the serverless management
+func serverlessName(poolName, arch, osVersion, operation string) string {
+	return fmt.Sprintf("%s-%s-%s-%s",
+		operation,
+		poolName,
+		arch,
+		osVersion)
+}
+
 func serverlessTaskARN(poolName, arch, osVersion, operation string) (*string, error) {
 	rARNs, err := data.GetResourcesMatchingTags(
 		data.ResourceTypeECS,

@@ -33,13 +33,15 @@ func releaseRemote(ctx *maptContext.ContextArgs, hostID string) error {
 }
 
 func releaseTaskSpec(poolName, arch, osVersion string) error {
+	name := serverlessName(
+		poolName,
+		arch,
+		osVersion, releaseOperation)
 	return serverless.Create(
 		&serverless.ServerlessArgs{
-			Command: releaseCommand,
-			LogGroupName: fmt.Sprintf("%s-%s-%s-release",
-				poolName,
-				arch,
-				osVersion),
+			ContainerName: name,
+			Command:       releaseCommand,
+			LogGroupName:  name,
 			Tags: serverlessTags(
 				poolName,
 				arch,

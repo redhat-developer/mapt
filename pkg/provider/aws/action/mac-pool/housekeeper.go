@@ -52,6 +52,10 @@ func houseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
 	return serverless.Create(
 		&serverless.ServerlessArgs{
+			ContainerName: fmt.Sprintf("housekeeper-%s-%s-%s",
+				r.PoolName,
+				r.Architecture,
+				r.OSVersion),
 			Command: houseKeepingCommand(
 				r.PoolName,
 				r.Architecture,

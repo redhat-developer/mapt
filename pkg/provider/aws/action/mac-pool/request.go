@@ -69,16 +69,19 @@ func requestRemote(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 // check how we will call it from the request?
 // may add tags and find or add arn to stack?
 func requestTaskSpec(r *MacPoolRequestArgs) error {
+	name := serverlessName(
+		r.PoolName,
+		r.Architecture,
+		r.OSVersion,
+		requestOperation)
 	return serverless.Create(
 		&serverless.ServerlessArgs{
+			ContainerName: name,
 			Command: requestCommand(
 				r.PoolName,
 				r.Architecture,
 				r.OSVersion),
-			LogGroupName: fmt.Sprintf("%s-%s-%s-request",
-				r.PoolName,
-				r.Architecture,
-				r.OSVersion),
+			LogGroupName: name,
 			Tags: serverlessTags(
 				r.PoolName,
 				r.Architecture,

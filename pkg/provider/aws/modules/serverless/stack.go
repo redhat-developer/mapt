@@ -21,6 +21,7 @@ func Create(args *ServerlessArgs) error {
 	// on a situation where region differs from resources managed..is this working??
 	region := os.Getenv("AWS_DEFAULT_REGION")
 	r := &serverlessRequestArgs{
+		containerName:      args.ContainerName,
 		region:             region,
 		command:            args.Command,
 		scheduleType:       args.ScheduleType,
@@ -28,8 +29,8 @@ func Create(args *ServerlessArgs) error {
 		logGroupName:       args.LogGroupName,
 		// Being isolated stack these values
 		// do not care
-		prefix:      "mapt",
-		componentID: "sf",
+		prefix:      defaultPrefix,
+		componentID: defaultComponentID,
 	}
 	if args.Tags != nil {
 		r.tags = utilMaps.Convert(args.Tags,
