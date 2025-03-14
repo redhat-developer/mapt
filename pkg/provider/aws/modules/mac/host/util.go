@@ -26,7 +26,7 @@ func GetMatchingHostsInformation(arch string) ([]*mac.HostInformation, error) {
 // Get all dedicated hosts matching the tags + arch
 // it will return the list ordered by allocation time
 func GetPoolDedicatedHostsInformation(id *PoolID) ([]*mac.HostInformation, error) {
-	return GetMatchingHostsInStateInformation(id.asTags(), nil)
+	return GetMatchingHostsInStateInformation(id.AsTags(), nil)
 }
 
 // Get all dedicated hosts in available state ordered based on the allocation time

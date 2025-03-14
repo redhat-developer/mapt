@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -14,7 +15,7 @@ import (
 func houseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	// Create mapt Context, this is a special case where we need change the context
 	// based on the operation
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 

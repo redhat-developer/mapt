@@ -5,6 +5,7 @@ const (
 	TagKeyBackedURL = "backedURL"
 	TagKeyArch      = "arch"
 	// tags added when dedicated host is part of a pool
-	TagKeyOSVersion = "osVersion"
-	TagKeyPoolName  = "poolName"
+	TagKeyOSVersion         = "osVersion"
+	TagKeyPoolName          = "poolName"
+	TagKeyPoolOperationName = "poolOperation"
 )

@@ -216,6 +216,11 @@ github.com/aws/aws-sdk-go-v2/service/internal/s3shared/config
 github.com/aws/aws-sdk-go-v2/service/pricing
 github.com/aws/aws-sdk-go-v2/service/pricing/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/pricing/types
+# github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi v1.26.3
+## explicit; go 1.22
+github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi
+github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/internal/endpoints
+github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types
 # github.com/aws/aws-sdk-go-v2/service/s3 v1.79.3
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/s3

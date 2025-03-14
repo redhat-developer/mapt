@@ -41,6 +41,8 @@ type ContextArgs struct {
 	Serverless bool
 	// This forces destroy even when lock exists
 	ForceDestroy bool
+	// If remote is set we will run the action through the serverless task spec
+	Remote bool
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
@@ -58,6 +60,7 @@ type context struct {
 	serverless            bool
 	forceDestroy          bool
 	spotPriceIncreaseRate int
+	remote                bool
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
 }
@@ -118,6 +121,8 @@ func IsServerless() bool { return mc.serverless }
 func IsForceDestroy() bool { return mc.forceDestroy }
 
 func SpotPriceIncreaseRate() int { return mc.spotPriceIncreaseRate }
+
+func IsRemote() bool { return mc.remote }
 
 // It will create a runID
 // if context has been intialized it will set it as the runID for the context
