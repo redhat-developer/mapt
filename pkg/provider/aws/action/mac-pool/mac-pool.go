@@ -14,7 +14,6 @@ import (
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
 	macUtil "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/util"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
-	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -33,6 +32,15 @@ func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 		return err
 	}
 	if err := r.scheduleHouseKeeper(); err != nil {
+		return err
+	}
+	if err := requestTaskSpec(r); err != nil {
+		return err
+	}
+	if err := releaseTaskSpec(
+		r.PoolName,
+		r.Architecture,
+		r.OSVersion); err != nil {
 		return err
 	}
 	return r.requestReleaserAccount()
@@ -54,83 +62,22 @@ func Destroy(ctx *maptContext.ContextArgs) error {
 // machine non locked which had been running more than 24h.
 // It should check if capacity allows to remove the machine
 func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
-	// Create mapt Context, this is a special case where we need change the context
-	// based on the operation
-	if err := maptContext.Init(ctx); err != nil {
-		return err
-	}
-
-	// Get full info on the pool
-	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
-	if err != nil {
-		return err
-	}
-	// Pool under expected offered capacity
-	if p.currentOfferedCapacity() < r.OfferedCapacity {
-		if p.currentPoolSize() < r.MaxSize {
-			logging.Debug("house keeper will try to add machines as offered capacity is lower than expected")
-			maptContext.SetProjectName(r.PoolName)
-			return r.addCapacity(p)
-		}
-		// if number of machines in the pool + to max machines
-		// we do nothing
-		logging.Debug("house keeper will not do any action as pool size is currently at max size")
-		return nil
-	}
-	// Pool over expected offered capacity need to destroy machines
-	if p.currentOfferedCapacity() > r.OfferedCapacity {
-		if len(p.destroyableMachines) > 0 {
-			logging.Debug("house keeper will try to destroy machines as offered capacity is higher than expected")
-			// Need to check if any offered can be destroy
-			return r.destroyCapacity(p)
-		}
-	}
-	logging.Debug("house keeper will not do any action as offered capacity is met by the pool")
-	// Otherwise nonLockedMachines meet Capacity so we do nothing
-	return nil
+	return houseKeeper(ctx, r)
 }
 
 func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
-	// First get full info on the pool and the next machine for request
-	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
-	if err != nil {
-		return err
+	// If remote run through serverless
+	if ctx.Remote {
+		return requestRemote(ctx, r)
 	}
-	hi, err := p.getNextMachineForRequest()
-	if err != nil {
-		return err
-	}
-
-	// Create mapt Context
-	ctx.ProjectName = *hi.ProjectName
-	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx); err != nil {
-		return err
-	}
-
-	mr := macMachine.Request{
-		Prefix:               *hi.Prefix,
-		Version:              *hi.OSVersion,
-		Architecture:         *hi.Arch,
-		SetupGHActionsRunner: r.SetupGHActionsRunner,
-		Timeout:              r.Timeout,
-	}
-
-	// TODO here we would change based on the integration-mode requested
-	// possible values remote-shh, gh-selfhosted-runner, cirrus-persistent-worker
-	err = mr.ManageRequest(hi)
-	if err != nil {
-		return err
-	}
-
-	// We update the runID on the dedicated host
-	return tag.Update(maptContext.TagKeyRunID,
-		maptContext.RunID(),
-		*hi.Region,
-		*hi.Host.HostId)
+	return request(ctx, r)
 }
 
 func Release(ctx *maptContext.ContextArgs, hostID string) error {
+	// If remote run through serverless
+	if ctx.Remote {
+		return releaseRemote(ctx, hostID)
+	}
 	return macUtil.Release(ctx, hostID)
 }
 
@@ -150,36 +97,6 @@ func (r *MacPoolRequestArgs) addMachinesToPool(n int) error {
 		}
 	}
 	return nil
-}
-
-// Run serverless operation for house keeping
-func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
-	return serverless.Create(
-		getHouseKeepingCommand(
-			r.PoolName,
-			r.Architecture,
-			r.OSVersion,
-			r.OfferedCapacity,
-			r.MaxSize,
-			r.FixedLocation),
-		serverless.Repeat,
-		houseKeepingInterval,
-		fmt.Sprintf("%s-%s-%s",
-			r.PoolName,
-			r.Architecture,
-			r.OSVersion))
-}
-
-func getHouseKeepingCommand(poolName, arch, osVersion string,
-	offeredCapacity, maxSize int,
-	fixedLocation bool) string {
-	cmd := fmt.Sprintf(houseKeepingCommand,
-		poolName, arch, osVersion,
-		offeredCapacity, maxSize)
-	if fixedLocation {
-		cmd += houseKeepingFixedLocationParam
-	}
-	return cmd
 }
 
 // If we need less or equal than the max allowed on the pool we create all of them

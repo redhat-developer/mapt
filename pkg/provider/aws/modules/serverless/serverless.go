@@ -26,7 +26,7 @@ var (
 )
 
 func OneTimeDelayedTask(ctx *pulumi.Context,
-	region, prefix, componentID string,
+	containerName, region, prefix, componentID string,
 	cmd string,
 	delay string) error {
 	if err := checkBackedURLForServerless(); err != nil {
@@ -37,9 +37,10 @@ func OneTimeDelayedTask(ctx *pulumi.Context,
 		return err
 	}
 	r := &serverlessRequestArgs{
+		containerName:      containerName,
 		region:             region,
 		command:            cmd,
-		scheduleType:       OneTime,
+		scheduleType:       &OneTime,
 		scheduleExpression: se,
 		prefix:             prefix,
 		componentID:        componentID,
@@ -86,10 +87,15 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 		lga.Args.SkipDestroy = pulumi.Bool(false)
 		lga.Args.Name = pulumi.String(a.logGroupName)
 	}
+	tags := maptContext.ResourceTags()
+	if a.tags != nil {
+		tags = a.tags
+	}
 	td, err := awsxecs.NewFargateTaskDefinition(ctx,
 		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fg-task"),
 		&awsxecs.FargateTaskDefinitionArgs{
 			Container: &awsxecs.TaskDefinitionContainerDefinitionArgs{
+				Name:    pulumi.String(a.containerName),
 				Image:   pulumi.String(maptContext.OCI),
 				Command: pulumi.ToStringArray(strings.Fields(a.command)),
 				Cpu:     pulumi.Int(limitCPUasInt),
@@ -104,6 +110,7 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 				RoleArn: roleArn,
 			},
 			LogGroup: lga,
+			Tags:     pulumi.StringMapInput(tags),
 		})
 	if err != nil {
 		return err
@@ -114,40 +121,42 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	subnetID, err := data.GetRandomPublicSubnet(a.region)
-	if err != nil {
-		return err
-	}
-	se := scheduleExpressionByType(a.scheduleType, a.scheduleExpression)
-	_, err = scheduler.NewSchedule(ctx,
-		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fgs"),
-		&scheduler.ScheduleArgs{
-			FlexibleTimeWindow: scheduler.ScheduleFlexibleTimeWindowArgs{
-				Mode:                   scheduler.ScheduleFlexibleTimeWindowModeFlexible,
-				MaximumWindowInMinutes: pulumi.Float64(1),
-			},
-			Target: scheduler.ScheduleTargetArgs{
-				EcsParameters: scheduler.ScheduleEcsParametersArgs{
-					TaskDefinitionArn: td.TaskDefinition.Arn(),
-					LaunchType:        scheduler.ScheduleLaunchTypeFargate,
-					NetworkConfiguration: scheduler.ScheduleNetworkConfigurationArgs{
-						// https://github.com/aws/aws-cdk/issues/13348#issuecomment-1539336376
-						AwsvpcConfiguration: scheduler.ScheduleAwsVpcConfigurationArgs{
-							AssignPublicIp: scheduler.ScheduleAssignPublicIpEnabled,
-							Subnets: pulumi.StringArray{
-								pulumi.String(*subnetID),
+	if len(a.scheduleExpression) > 0 {
+		subnetID, err := data.GetRandomPublicSubnet(a.region)
+		if err != nil {
+			return err
+		}
+		se := scheduleExpressionByType(a.scheduleType, a.scheduleExpression)
+		_, err = scheduler.NewSchedule(ctx,
+			resourcesUtil.GetResourceName(a.prefix, a.componentID, "fgs"),
+			&scheduler.ScheduleArgs{
+				FlexibleTimeWindow: scheduler.ScheduleFlexibleTimeWindowArgs{
+					Mode:                   scheduler.ScheduleFlexibleTimeWindowModeFlexible,
+					MaximumWindowInMinutes: pulumi.Float64(1),
+				},
+				Target: scheduler.ScheduleTargetArgs{
+					EcsParameters: scheduler.ScheduleEcsParametersArgs{
+						TaskDefinitionArn: td.TaskDefinition.Arn(),
+						LaunchType:        scheduler.ScheduleLaunchTypeFargate,
+						NetworkConfiguration: scheduler.ScheduleNetworkConfigurationArgs{
+							// https://github.com/aws/aws-cdk/issues/13348#issuecomment-1539336376
+							AwsvpcConfiguration: scheduler.ScheduleAwsVpcConfigurationArgs{
+								AssignPublicIp: scheduler.ScheduleAssignPublicIpEnabled,
+								Subnets: pulumi.StringArray{
+									pulumi.String(*subnetID),
+								},
 							},
 						},
 					},
+					Arn:     clusterArn,
+					RoleArn: sRoleArn,
 				},
-				Arn:     clusterArn,
-				RoleArn: sRoleArn,
-			},
-			ScheduleExpression:         pulumi.String(*se),
-			ScheduleExpressionTimezone: pulumi.String(data.RegionTimezones[a.region]),
-		})
-	if err != nil {
-		return err
+				ScheduleExpression:         pulumi.String(*se),
+				ScheduleExpressionTimezone: pulumi.String(data.RegionTimezones[a.region]),
+			})
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -155,15 +164,14 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 // As part of the runtime for serverless invocation we need a fixed cluster spec on the region as so if
 // it exists it will pick the cluster otherwise it will create and will not be deleted
 func getClusterArn(ctx *pulumi.Context, region, prefix, componentID string) (*pulumi.StringOutput, error) {
-	clusterName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "cluster")
-	clusterArn, err := data.GetCluster(clusterName, region)
+	clusterArn, err := data.GetCluster(maptServerlessClusterName, region)
 	if err != nil {
 		if err == data.ErrECSClusterNotFound {
 			if cluster, err := ecs.NewCluster(ctx,
 				resourcesUtil.GetResourceName(prefix, componentID, "cluster"),
 				&ecs.ClusterArgs{
 					Tags: maptContext.ResourceTags(),
-					Name: pulumi.String(clusterName),
+					Name: pulumi.String(maptServerlessClusterName),
 				},
 				pulumi.RetainOnDelete(true)); err != nil {
 				return nil, err
@@ -261,10 +269,9 @@ func createTaskRole(ctx *pulumi.Context, roleName, prefix, componentID string) (
 // As part of the runtime for serverless invocation we need a fixed role for task execution the region as so if
 // it exists it will pick the role otherwise it will create and will not be deleted
 func getSchedulerRole(ctx *pulumi.Context, prefix, componentID string) (*pulumi.StringOutput, error) {
-	roleName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "sch-role")
-	roleArn, err := data.GetRole(roleName)
+	roleArn, err := data.GetRole(maptServerlessExecRoleName)
 	if err != nil {
-		if role, err := createSchedulerRole(ctx, roleName, prefix, componentID); err != nil {
+		if role, err := createSchedulerRole(ctx, maptServerlessExecRoleName, prefix, componentID); err != nil {
 			return nil, err
 		} else {
 			return &role.Arn, nil
@@ -356,8 +363,8 @@ func generateOneTimeScheduleExpression(region, delay string) (string, error) {
 	return se, nil
 }
 
-func scheduleExpressionByType(st scheduleType, se string) *string {
-	switch st {
+func scheduleExpressionByType(st *scheduleType, se string) *string {
+	switch *st {
 	case Repeat:
 		e := fmt.Sprintf("rate(%s)", se)
 		return &e
