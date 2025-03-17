@@ -1,38 +1,14 @@
-package dupl
+// Package lib Golangci-lint: altered version of main.go
+package lib
 
 import (
-	"flag"
-	"fmt"
-	"io/ioutil"
 	"os"
-	"path/filepath"
 	"sort"
 
 	"github.com/golangci/dupl/job"
 	"github.com/golangci/dupl/printer"
 	"github.com/golangci/dupl/syntax"
 )
-
-const defaultThreshold = 15
-
-var (
-	paths   = []string{"."}
-	vendor  = flag.Bool("dupl.vendor", false, "")
-	verbose = flag.Bool("dupl.verbose", false, "")
-	files   = flag.Bool("dupl.files", false, "")
-
-	html     = flag.Bool("dupl.html", false, "")
-	plumbing = flag.Bool("dupl.plumbing", false, "")
-)
-
-const (
-	vendorDirPrefix = "vendor" + string(filepath.Separator)
-	vendorDirInPath = string(filepath.Separator) + vendorDirPrefix
-)
-
-func init() {
-	flag.BoolVar(verbose, "dupl.v", false, "alias for -verbose")
-}
 
 func Run(files []string, threshold int) ([]printer.Issue, error) {
 	fchan := make(chan string, 1024)
@@ -75,7 +51,7 @@ func makeIssues(duplChan <-chan syntax.Match) ([]printer.Issue, error) {
 	}
 	sort.Strings(keys)
 
-	p := printer.NewPlumbing(ioutil.ReadFile)
+	p := printer.NewIssuer(os.ReadFile)
 
 	var issues []printer.Issue
 	for _, k := range keys {
@@ -109,40 +85,4 @@ func unique(group [][]*syntax.Node) [][]*syntax.Node {
 		}
 	}
 	return newGroup
-}
-
-func usage() {
-	fmt.Fprintln(os.Stderr, `Usage: dupl [flags] [paths]
-
-Paths:
-  If the given path is a file, dupl will use it regardless of
-  the file extension. If it is a directory, it will recursively
-  search for *.go files in that directory.
-
-  If no path is given, dupl will recursively search for *.go
-  files in the current directory.
-
-Flags:
-  -files
-    	read file names from stdin one at each line
-  -html
-    	output the results as HTML, including duplicate code fragments
-  -plumbing
-    	plumbing (easy-to-parse) output for consumption by scripts or tools
-  -t, -threshold size
-    	minimum token sequence size as a clone (default 15)
-  -vendor
-    	check files in vendor directory
-  -v, -verbose
-    	explain what is being done
-
-Examples:
-  dupl -t 100
-    	Search clones in the current directory of size at least
-    	100 tokens.
-  dupl $(find app/ -name '*_test.go')
-    	Search for clones in tests in the app directory.
-  find app/ -name '*_test.go' |dupl -files
-    	The same as above.`)
-	os.Exit(2)
 }
