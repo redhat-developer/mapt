@@ -18,6 +18,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
@@ -194,7 +195,16 @@ func (r *WindowsRequest) valuesCheckingSpot() (*string, string, *float64, error)
 		}
 		return &bsc.Location, bsc.VMType, &bsc.Price, nil
 	}
-	return &r.Location, "", nil, nil
+	// TODO we need to extend this to other azure targets (refactor this function)
+	// plus we probably would need to check prices for vmsizes and pick the cheaper
+	availableVMSizes, err := data.FilterVMSizeOfferedByLocation(r.VMSizes, r.Location)
+	if err != nil {
+		return nil, "", nil, err
+	}
+	if len(availableVMSizes) == 0 {
+		return nil, "", nil, fmt.Errorf("no vm size mathing expectations on current region")
+	}
+	return &r.Location, availableVMSizes[0], nil, nil
 }
 
 // Write exported values in context to files o a selected target folder
