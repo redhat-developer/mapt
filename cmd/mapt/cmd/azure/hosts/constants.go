@@ -3,7 +3,7 @@ package hosts
 const (
 	paramLocation         = "location"
 	paramLocationDesc     = "If spot is passed location will be calculated based on spot results. Otherwise localtion will be used to create resources."
-	defaultLocation       = "West US"
+	defaultLocation       = "westeurope"
 	paramVMSize           = "vmsize"
 	paramVMSizeDesc       = "set specific size for the VM and ignore any CPUs, Memory and Arch parameters set. Type requires to allow nested virtualization"
 	paramUsername         = "username"
