@@ -5699,7 +5699,7 @@ func (o EventTargetRunCommandTargetArrayOutput) Index(i pulumi.IntInput) EventTa
 }
 
 type EventTargetSagemakerPipelineTarget struct {
-	// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+	// List of Parameter names and values for SageMaker AI Model Building Pipeline execution.
 	PipelineParameterLists []EventTargetSagemakerPipelineTargetPipelineParameterList `pulumi:"pipelineParameterLists"`
 }
 
@@ -5715,7 +5715,7 @@ type EventTargetSagemakerPipelineTargetInput interface {
 }
 
 type EventTargetSagemakerPipelineTargetArgs struct {
-	// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+	// List of Parameter names and values for SageMaker AI Model Building Pipeline execution.
 	PipelineParameterLists EventTargetSagemakerPipelineTargetPipelineParameterListArrayInput `pulumi:"pipelineParameterLists"`
 }
 
@@ -5796,7 +5796,7 @@ func (o EventTargetSagemakerPipelineTargetOutput) ToEventTargetSagemakerPipeline
 	}).(EventTargetSagemakerPipelineTargetPtrOutput)
 }
 
-// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+// List of Parameter names and values for SageMaker AI Model Building Pipeline execution.
 func (o EventTargetSagemakerPipelineTargetOutput) PipelineParameterLists() EventTargetSagemakerPipelineTargetPipelineParameterListArrayOutput {
 	return o.ApplyT(func(v EventTargetSagemakerPipelineTarget) []EventTargetSagemakerPipelineTargetPipelineParameterList {
 		return v.PipelineParameterLists
@@ -5827,7 +5827,7 @@ func (o EventTargetSagemakerPipelineTargetPtrOutput) Elem() EventTargetSagemaker
 	}).(EventTargetSagemakerPipelineTargetOutput)
 }
 
-// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+// List of Parameter names and values for SageMaker AI Model Building Pipeline execution.
 func (o EventTargetSagemakerPipelineTargetPtrOutput) PipelineParameterLists() EventTargetSagemakerPipelineTargetPipelineParameterListArrayOutput {
 	return o.ApplyT(func(v *EventTargetSagemakerPipelineTarget) []EventTargetSagemakerPipelineTargetPipelineParameterList {
 		if v == nil {
@@ -5838,9 +5838,9 @@ func (o EventTargetSagemakerPipelineTargetPtrOutput) PipelineParameterLists() Ev
 }
 
 type EventTargetSagemakerPipelineTargetPipelineParameterList struct {
-	// Name of parameter to start execution of a SageMaker Model Building Pipeline.
+	// Name of parameter to start execution of a SageMaker AI Model Building Pipeline.
 	Name string `pulumi:"name"`
-	// Value of parameter to start execution of a SageMaker Model Building Pipeline.
+	// Value of parameter to start execution of a SageMaker AI Model Building Pipeline.
 	Value string `pulumi:"value"`
 }
 
@@ -5856,9 +5856,9 @@ type EventTargetSagemakerPipelineTargetPipelineParameterListInput interface {
 }
 
 type EventTargetSagemakerPipelineTargetPipelineParameterListArgs struct {
-	// Name of parameter to start execution of a SageMaker Model Building Pipeline.
+	// Name of parameter to start execution of a SageMaker AI Model Building Pipeline.
 	Name pulumi.StringInput `pulumi:"name"`
-	// Value of parameter to start execution of a SageMaker Model Building Pipeline.
+	// Value of parameter to start execution of a SageMaker AI Model Building Pipeline.
 	Value pulumi.StringInput `pulumi:"value"`
 }
 
@@ -5913,12 +5913,12 @@ func (o EventTargetSagemakerPipelineTargetPipelineParameterListOutput) ToEventTa
 	return o
 }
 
-// Name of parameter to start execution of a SageMaker Model Building Pipeline.
+// Name of parameter to start execution of a SageMaker AI Model Building Pipeline.
 func (o EventTargetSagemakerPipelineTargetPipelineParameterListOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v EventTargetSagemakerPipelineTargetPipelineParameterList) string { return v.Name }).(pulumi.StringOutput)
 }
 
-// Value of parameter to start execution of a SageMaker Model Building Pipeline.
+// Value of parameter to start execution of a SageMaker AI Model Building Pipeline.
 func (o EventTargetSagemakerPipelineTargetPipelineParameterListOutput) Value() pulumi.StringOutput {
 	return o.ApplyT(func(v EventTargetSagemakerPipelineTargetPipelineParameterList) string { return v.Value }).(pulumi.StringOutput)
 }
@@ -7847,6 +7847,241 @@ func (o MetricStreamStatisticsConfigurationIncludeMetricArrayOutput) Index(i pul
 	}).(MetricStreamStatisticsConfigurationIncludeMetricOutput)
 }
 
+type GetContributorManagedInsightRulesManagedRule struct {
+	// ARN of an Amazon Web Services resource that has managed Contributor Insights rules.
+	//
+	// The following arguments are optional:
+	//
+	// There are no optional arguments.
+	ResourceArn string `pulumi:"resourceArn"`
+	// Describes the state of a managed rule. If the rule is enabled, it contains information about the Contributor Insights rule that contains information about the related Amazon Web Services resource. See `ruleState reference` below for details.
+	RuleStates []GetContributorManagedInsightRulesManagedRuleRuleState `pulumi:"ruleStates"`
+	// Template name for the managed rule. Used to enable managed rules using `PutManagedInsightRules`.
+	TemplateName string `pulumi:"templateName"`
+}
+
+// GetContributorManagedInsightRulesManagedRuleInput is an input type that accepts GetContributorManagedInsightRulesManagedRuleArgs and GetContributorManagedInsightRulesManagedRuleOutput values.
+// You can construct a concrete instance of `GetContributorManagedInsightRulesManagedRuleInput` via:
+//
+//	GetContributorManagedInsightRulesManagedRuleArgs{...}
+type GetContributorManagedInsightRulesManagedRuleInput interface {
+	pulumi.Input
+
+	ToGetContributorManagedInsightRulesManagedRuleOutput() GetContributorManagedInsightRulesManagedRuleOutput
+	ToGetContributorManagedInsightRulesManagedRuleOutputWithContext(context.Context) GetContributorManagedInsightRulesManagedRuleOutput
+}
+
+type GetContributorManagedInsightRulesManagedRuleArgs struct {
+	// ARN of an Amazon Web Services resource that has managed Contributor Insights rules.
+	//
+	// The following arguments are optional:
+	//
+	// There are no optional arguments.
+	ResourceArn pulumi.StringInput `pulumi:"resourceArn"`
+	// Describes the state of a managed rule. If the rule is enabled, it contains information about the Contributor Insights rule that contains information about the related Amazon Web Services resource. See `ruleState reference` below for details.
+	RuleStates GetContributorManagedInsightRulesManagedRuleRuleStateArrayInput `pulumi:"ruleStates"`
+	// Template name for the managed rule. Used to enable managed rules using `PutManagedInsightRules`.
+	TemplateName pulumi.StringInput `pulumi:"templateName"`
+}
+
+func (GetContributorManagedInsightRulesManagedRuleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetContributorManagedInsightRulesManagedRule)(nil)).Elem()
+}
+
+func (i GetContributorManagedInsightRulesManagedRuleArgs) ToGetContributorManagedInsightRulesManagedRuleOutput() GetContributorManagedInsightRulesManagedRuleOutput {
+	return i.ToGetContributorManagedInsightRulesManagedRuleOutputWithContext(context.Background())
+}
+
+func (i GetContributorManagedInsightRulesManagedRuleArgs) ToGetContributorManagedInsightRulesManagedRuleOutputWithContext(ctx context.Context) GetContributorManagedInsightRulesManagedRuleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetContributorManagedInsightRulesManagedRuleOutput)
+}
+
+// GetContributorManagedInsightRulesManagedRuleArrayInput is an input type that accepts GetContributorManagedInsightRulesManagedRuleArray and GetContributorManagedInsightRulesManagedRuleArrayOutput values.
+// You can construct a concrete instance of `GetContributorManagedInsightRulesManagedRuleArrayInput` via:
+//
+//	GetContributorManagedInsightRulesManagedRuleArray{ GetContributorManagedInsightRulesManagedRuleArgs{...} }
+type GetContributorManagedInsightRulesManagedRuleArrayInput interface {
+	pulumi.Input
+
+	ToGetContributorManagedInsightRulesManagedRuleArrayOutput() GetContributorManagedInsightRulesManagedRuleArrayOutput
+	ToGetContributorManagedInsightRulesManagedRuleArrayOutputWithContext(context.Context) GetContributorManagedInsightRulesManagedRuleArrayOutput
+}
+
+type GetContributorManagedInsightRulesManagedRuleArray []GetContributorManagedInsightRulesManagedRuleInput
+
+func (GetContributorManagedInsightRulesManagedRuleArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetContributorManagedInsightRulesManagedRule)(nil)).Elem()
+}
+
+func (i GetContributorManagedInsightRulesManagedRuleArray) ToGetContributorManagedInsightRulesManagedRuleArrayOutput() GetContributorManagedInsightRulesManagedRuleArrayOutput {
+	return i.ToGetContributorManagedInsightRulesManagedRuleArrayOutputWithContext(context.Background())
+}
+
+func (i GetContributorManagedInsightRulesManagedRuleArray) ToGetContributorManagedInsightRulesManagedRuleArrayOutputWithContext(ctx context.Context) GetContributorManagedInsightRulesManagedRuleArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetContributorManagedInsightRulesManagedRuleArrayOutput)
+}
+
+type GetContributorManagedInsightRulesManagedRuleOutput struct{ *pulumi.OutputState }
+
+func (GetContributorManagedInsightRulesManagedRuleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetContributorManagedInsightRulesManagedRule)(nil)).Elem()
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleOutput) ToGetContributorManagedInsightRulesManagedRuleOutput() GetContributorManagedInsightRulesManagedRuleOutput {
+	return o
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleOutput) ToGetContributorManagedInsightRulesManagedRuleOutputWithContext(ctx context.Context) GetContributorManagedInsightRulesManagedRuleOutput {
+	return o
+}
+
+// ARN of an Amazon Web Services resource that has managed Contributor Insights rules.
+//
+// The following arguments are optional:
+//
+// There are no optional arguments.
+func (o GetContributorManagedInsightRulesManagedRuleOutput) ResourceArn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetContributorManagedInsightRulesManagedRule) string { return v.ResourceArn }).(pulumi.StringOutput)
+}
+
+// Describes the state of a managed rule. If the rule is enabled, it contains information about the Contributor Insights rule that contains information about the related Amazon Web Services resource. See `ruleState reference` below for details.
+func (o GetContributorManagedInsightRulesManagedRuleOutput) RuleStates() GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput {
+	return o.ApplyT(func(v GetContributorManagedInsightRulesManagedRule) []GetContributorManagedInsightRulesManagedRuleRuleState {
+		return v.RuleStates
+	}).(GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput)
+}
+
+// Template name for the managed rule. Used to enable managed rules using `PutManagedInsightRules`.
+func (o GetContributorManagedInsightRulesManagedRuleOutput) TemplateName() pulumi.StringOutput {
+	return o.ApplyT(func(v GetContributorManagedInsightRulesManagedRule) string { return v.TemplateName }).(pulumi.StringOutput)
+}
+
+type GetContributorManagedInsightRulesManagedRuleArrayOutput struct{ *pulumi.OutputState }
+
+func (GetContributorManagedInsightRulesManagedRuleArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetContributorManagedInsightRulesManagedRule)(nil)).Elem()
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleArrayOutput) ToGetContributorManagedInsightRulesManagedRuleArrayOutput() GetContributorManagedInsightRulesManagedRuleArrayOutput {
+	return o
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleArrayOutput) ToGetContributorManagedInsightRulesManagedRuleArrayOutputWithContext(ctx context.Context) GetContributorManagedInsightRulesManagedRuleArrayOutput {
+	return o
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleArrayOutput) Index(i pulumi.IntInput) GetContributorManagedInsightRulesManagedRuleOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetContributorManagedInsightRulesManagedRule {
+		return vs[0].([]GetContributorManagedInsightRulesManagedRule)[vs[1].(int)]
+	}).(GetContributorManagedInsightRulesManagedRuleOutput)
+}
+
+type GetContributorManagedInsightRulesManagedRuleRuleState struct {
+	// Name of the Contributor Insights rule that contains data for the specified Amazon Web Services resource.
+	RuleName string `pulumi:"ruleName"`
+	// Indicates whether the rule is enabled or disabled.
+	State string `pulumi:"state"`
+}
+
+// GetContributorManagedInsightRulesManagedRuleRuleStateInput is an input type that accepts GetContributorManagedInsightRulesManagedRuleRuleStateArgs and GetContributorManagedInsightRulesManagedRuleRuleStateOutput values.
+// You can construct a concrete instance of `GetContributorManagedInsightRulesManagedRuleRuleStateInput` via:
+//
+//	GetContributorManagedInsightRulesManagedRuleRuleStateArgs{...}
+type GetContributorManagedInsightRulesManagedRuleRuleStateInput interface {
+	pulumi.Input
+
+	ToGetContributorManagedInsightRulesManagedRuleRuleStateOutput() GetContributorManagedInsightRulesManagedRuleRuleStateOutput
+	ToGetContributorManagedInsightRulesManagedRuleRuleStateOutputWithContext(context.Context) GetContributorManagedInsightRulesManagedRuleRuleStateOutput
+}
+
+type GetContributorManagedInsightRulesManagedRuleRuleStateArgs struct {
+	// Name of the Contributor Insights rule that contains data for the specified Amazon Web Services resource.
+	RuleName pulumi.StringInput `pulumi:"ruleName"`
+	// Indicates whether the rule is enabled or disabled.
+	State pulumi.StringInput `pulumi:"state"`
+}
+
+func (GetContributorManagedInsightRulesManagedRuleRuleStateArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetContributorManagedInsightRulesManagedRuleRuleState)(nil)).Elem()
+}
+
+func (i GetContributorManagedInsightRulesManagedRuleRuleStateArgs) ToGetContributorManagedInsightRulesManagedRuleRuleStateOutput() GetContributorManagedInsightRulesManagedRuleRuleStateOutput {
+	return i.ToGetContributorManagedInsightRulesManagedRuleRuleStateOutputWithContext(context.Background())
+}
+
+func (i GetContributorManagedInsightRulesManagedRuleRuleStateArgs) ToGetContributorManagedInsightRulesManagedRuleRuleStateOutputWithContext(ctx context.Context) GetContributorManagedInsightRulesManagedRuleRuleStateOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetContributorManagedInsightRulesManagedRuleRuleStateOutput)
+}
+
+// GetContributorManagedInsightRulesManagedRuleRuleStateArrayInput is an input type that accepts GetContributorManagedInsightRulesManagedRuleRuleStateArray and GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput values.
+// You can construct a concrete instance of `GetContributorManagedInsightRulesManagedRuleRuleStateArrayInput` via:
+//
+//	GetContributorManagedInsightRulesManagedRuleRuleStateArray{ GetContributorManagedInsightRulesManagedRuleRuleStateArgs{...} }
+type GetContributorManagedInsightRulesManagedRuleRuleStateArrayInput interface {
+	pulumi.Input
+
+	ToGetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput() GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput
+	ToGetContributorManagedInsightRulesManagedRuleRuleStateArrayOutputWithContext(context.Context) GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput
+}
+
+type GetContributorManagedInsightRulesManagedRuleRuleStateArray []GetContributorManagedInsightRulesManagedRuleRuleStateInput
+
+func (GetContributorManagedInsightRulesManagedRuleRuleStateArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetContributorManagedInsightRulesManagedRuleRuleState)(nil)).Elem()
+}
+
+func (i GetContributorManagedInsightRulesManagedRuleRuleStateArray) ToGetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput() GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput {
+	return i.ToGetContributorManagedInsightRulesManagedRuleRuleStateArrayOutputWithContext(context.Background())
+}
+
+func (i GetContributorManagedInsightRulesManagedRuleRuleStateArray) ToGetContributorManagedInsightRulesManagedRuleRuleStateArrayOutputWithContext(ctx context.Context) GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput)
+}
+
+type GetContributorManagedInsightRulesManagedRuleRuleStateOutput struct{ *pulumi.OutputState }
+
+func (GetContributorManagedInsightRulesManagedRuleRuleStateOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetContributorManagedInsightRulesManagedRuleRuleState)(nil)).Elem()
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleRuleStateOutput) ToGetContributorManagedInsightRulesManagedRuleRuleStateOutput() GetContributorManagedInsightRulesManagedRuleRuleStateOutput {
+	return o
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleRuleStateOutput) ToGetContributorManagedInsightRulesManagedRuleRuleStateOutputWithContext(ctx context.Context) GetContributorManagedInsightRulesManagedRuleRuleStateOutput {
+	return o
+}
+
+// Name of the Contributor Insights rule that contains data for the specified Amazon Web Services resource.
+func (o GetContributorManagedInsightRulesManagedRuleRuleStateOutput) RuleName() pulumi.StringOutput {
+	return o.ApplyT(func(v GetContributorManagedInsightRulesManagedRuleRuleState) string { return v.RuleName }).(pulumi.StringOutput)
+}
+
+// Indicates whether the rule is enabled or disabled.
+func (o GetContributorManagedInsightRulesManagedRuleRuleStateOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v GetContributorManagedInsightRulesManagedRuleRuleState) string { return v.State }).(pulumi.StringOutput)
+}
+
+type GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput struct{ *pulumi.OutputState }
+
+func (GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetContributorManagedInsightRulesManagedRuleRuleState)(nil)).Elem()
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput) ToGetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput() GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput {
+	return o
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput) ToGetContributorManagedInsightRulesManagedRuleRuleStateArrayOutputWithContext(ctx context.Context) GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput {
+	return o
+}
+
+func (o GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput) Index(i pulumi.IntInput) GetContributorManagedInsightRulesManagedRuleRuleStateOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetContributorManagedInsightRulesManagedRuleRuleState {
+		return vs[0].([]GetContributorManagedInsightRulesManagedRuleRuleState)[vs[1].(int)]
+	}).(GetContributorManagedInsightRulesManagedRuleRuleStateOutput)
+}
+
 type GetEventBusesEventBus struct {
 	// The ARN of the event bus.
 	Arn string `pulumi:"arn"`
@@ -7987,6 +8222,251 @@ func (o GetEventBusesEventBusArrayOutput) Index(i pulumi.IntInput) GetEventBuses
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetEventBusesEventBus {
 		return vs[0].([]GetEventBusesEventBus)[vs[1].(int)]
 	}).(GetEventBusesEventBusOutput)
+}
+
+type GetLogDataProtectionPolicyDocumentConfiguration struct {
+	// Configures custom regular expressions to detect sensitive data. Read more in [Custom data identifiers](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL-custom-data-identifiers.html).
+	CustomDataIdentifiers []GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier `pulumi:"customDataIdentifiers"`
+}
+
+// GetLogDataProtectionPolicyDocumentConfigurationInput is an input type that accepts GetLogDataProtectionPolicyDocumentConfigurationArgs and GetLogDataProtectionPolicyDocumentConfigurationOutput values.
+// You can construct a concrete instance of `GetLogDataProtectionPolicyDocumentConfigurationInput` via:
+//
+//	GetLogDataProtectionPolicyDocumentConfigurationArgs{...}
+type GetLogDataProtectionPolicyDocumentConfigurationInput interface {
+	pulumi.Input
+
+	ToGetLogDataProtectionPolicyDocumentConfigurationOutput() GetLogDataProtectionPolicyDocumentConfigurationOutput
+	ToGetLogDataProtectionPolicyDocumentConfigurationOutputWithContext(context.Context) GetLogDataProtectionPolicyDocumentConfigurationOutput
+}
+
+type GetLogDataProtectionPolicyDocumentConfigurationArgs struct {
+	// Configures custom regular expressions to detect sensitive data. Read more in [Custom data identifiers](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL-custom-data-identifiers.html).
+	CustomDataIdentifiers GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayInput `pulumi:"customDataIdentifiers"`
+}
+
+func (GetLogDataProtectionPolicyDocumentConfigurationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetLogDataProtectionPolicyDocumentConfiguration)(nil)).Elem()
+}
+
+func (i GetLogDataProtectionPolicyDocumentConfigurationArgs) ToGetLogDataProtectionPolicyDocumentConfigurationOutput() GetLogDataProtectionPolicyDocumentConfigurationOutput {
+	return i.ToGetLogDataProtectionPolicyDocumentConfigurationOutputWithContext(context.Background())
+}
+
+func (i GetLogDataProtectionPolicyDocumentConfigurationArgs) ToGetLogDataProtectionPolicyDocumentConfigurationOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLogDataProtectionPolicyDocumentConfigurationOutput)
+}
+
+func (i GetLogDataProtectionPolicyDocumentConfigurationArgs) ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutput() GetLogDataProtectionPolicyDocumentConfigurationPtrOutput {
+	return i.ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i GetLogDataProtectionPolicyDocumentConfigurationArgs) ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLogDataProtectionPolicyDocumentConfigurationOutput).ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(ctx)
+}
+
+// GetLogDataProtectionPolicyDocumentConfigurationPtrInput is an input type that accepts GetLogDataProtectionPolicyDocumentConfigurationArgs, GetLogDataProtectionPolicyDocumentConfigurationPtr and GetLogDataProtectionPolicyDocumentConfigurationPtrOutput values.
+// You can construct a concrete instance of `GetLogDataProtectionPolicyDocumentConfigurationPtrInput` via:
+//
+//	        GetLogDataProtectionPolicyDocumentConfigurationArgs{...}
+//
+//	or:
+//
+//	        nil
+type GetLogDataProtectionPolicyDocumentConfigurationPtrInput interface {
+	pulumi.Input
+
+	ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutput() GetLogDataProtectionPolicyDocumentConfigurationPtrOutput
+	ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(context.Context) GetLogDataProtectionPolicyDocumentConfigurationPtrOutput
+}
+
+type getLogDataProtectionPolicyDocumentConfigurationPtrType GetLogDataProtectionPolicyDocumentConfigurationArgs
+
+func GetLogDataProtectionPolicyDocumentConfigurationPtr(v *GetLogDataProtectionPolicyDocumentConfigurationArgs) GetLogDataProtectionPolicyDocumentConfigurationPtrInput {
+	return (*getLogDataProtectionPolicyDocumentConfigurationPtrType)(v)
+}
+
+func (*getLogDataProtectionPolicyDocumentConfigurationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**GetLogDataProtectionPolicyDocumentConfiguration)(nil)).Elem()
+}
+
+func (i *getLogDataProtectionPolicyDocumentConfigurationPtrType) ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutput() GetLogDataProtectionPolicyDocumentConfigurationPtrOutput {
+	return i.ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i *getLogDataProtectionPolicyDocumentConfigurationPtrType) ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLogDataProtectionPolicyDocumentConfigurationPtrOutput)
+}
+
+type GetLogDataProtectionPolicyDocumentConfigurationOutput struct{ *pulumi.OutputState }
+
+func (GetLogDataProtectionPolicyDocumentConfigurationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetLogDataProtectionPolicyDocumentConfiguration)(nil)).Elem()
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationOutput) ToGetLogDataProtectionPolicyDocumentConfigurationOutput() GetLogDataProtectionPolicyDocumentConfigurationOutput {
+	return o
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationOutput) ToGetLogDataProtectionPolicyDocumentConfigurationOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationOutput {
+	return o
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationOutput) ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutput() GetLogDataProtectionPolicyDocumentConfigurationPtrOutput {
+	return o.ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationOutput) ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GetLogDataProtectionPolicyDocumentConfiguration) *GetLogDataProtectionPolicyDocumentConfiguration {
+		return &v
+	}).(GetLogDataProtectionPolicyDocumentConfigurationPtrOutput)
+}
+
+// Configures custom regular expressions to detect sensitive data. Read more in [Custom data identifiers](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL-custom-data-identifiers.html).
+func (o GetLogDataProtectionPolicyDocumentConfigurationOutput) CustomDataIdentifiers() GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput {
+	return o.ApplyT(func(v GetLogDataProtectionPolicyDocumentConfiguration) []GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier {
+		return v.CustomDataIdentifiers
+	}).(GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput)
+}
+
+type GetLogDataProtectionPolicyDocumentConfigurationPtrOutput struct{ *pulumi.OutputState }
+
+func (GetLogDataProtectionPolicyDocumentConfigurationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GetLogDataProtectionPolicyDocumentConfiguration)(nil)).Elem()
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationPtrOutput) ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutput() GetLogDataProtectionPolicyDocumentConfigurationPtrOutput {
+	return o
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationPtrOutput) ToGetLogDataProtectionPolicyDocumentConfigurationPtrOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationPtrOutput {
+	return o
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationPtrOutput) Elem() GetLogDataProtectionPolicyDocumentConfigurationOutput {
+	return o.ApplyT(func(v *GetLogDataProtectionPolicyDocumentConfiguration) GetLogDataProtectionPolicyDocumentConfiguration {
+		if v != nil {
+			return *v
+		}
+		var ret GetLogDataProtectionPolicyDocumentConfiguration
+		return ret
+	}).(GetLogDataProtectionPolicyDocumentConfigurationOutput)
+}
+
+// Configures custom regular expressions to detect sensitive data. Read more in [Custom data identifiers](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL-custom-data-identifiers.html).
+func (o GetLogDataProtectionPolicyDocumentConfigurationPtrOutput) CustomDataIdentifiers() GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput {
+	return o.ApplyT(func(v *GetLogDataProtectionPolicyDocumentConfiguration) []GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier {
+		if v == nil {
+			return nil
+		}
+		return v.CustomDataIdentifiers
+	}).(GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput)
+}
+
+type GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier struct {
+	// Name of the custom data idenfitier
+	Name string `pulumi:"name"`
+	// Regular expression to match sensitive data
+	Regex string `pulumi:"regex"`
+}
+
+// GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierInput is an input type that accepts GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArgs and GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput values.
+// You can construct a concrete instance of `GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierInput` via:
+//
+//	GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArgs{...}
+type GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierInput interface {
+	pulumi.Input
+
+	ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput() GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput
+	ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutputWithContext(context.Context) GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput
+}
+
+type GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArgs struct {
+	// Name of the custom data idenfitier
+	Name pulumi.StringInput `pulumi:"name"`
+	// Regular expression to match sensitive data
+	Regex pulumi.StringInput `pulumi:"regex"`
+}
+
+func (GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier)(nil)).Elem()
+}
+
+func (i GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArgs) ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput() GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput {
+	return i.ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutputWithContext(context.Background())
+}
+
+func (i GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArgs) ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput)
+}
+
+// GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayInput is an input type that accepts GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArray and GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput values.
+// You can construct a concrete instance of `GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayInput` via:
+//
+//	GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArray{ GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArgs{...} }
+type GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayInput interface {
+	pulumi.Input
+
+	ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput() GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput
+	ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutputWithContext(context.Context) GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput
+}
+
+type GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArray []GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierInput
+
+func (GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier)(nil)).Elem()
+}
+
+func (i GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArray) ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput() GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput {
+	return i.ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutputWithContext(context.Background())
+}
+
+func (i GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArray) ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput)
+}
+
+type GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput struct{ *pulumi.OutputState }
+
+func (GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier)(nil)).Elem()
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput) ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput() GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput {
+	return o
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput) ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput {
+	return o
+}
+
+// Name of the custom data idenfitier
+func (o GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Regular expression to match sensitive data
+func (o GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput) Regex() pulumi.StringOutput {
+	return o.ApplyT(func(v GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier) string { return v.Regex }).(pulumi.StringOutput)
+}
+
+type GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput struct{ *pulumi.OutputState }
+
+func (GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier)(nil)).Elem()
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput) ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput() GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput {
+	return o
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput) ToGetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutputWithContext(ctx context.Context) GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput {
+	return o
+}
+
+func (o GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput) Index(i pulumi.IntInput) GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier {
+		return vs[0].([]GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifier)[vs[1].(int)]
+	}).(GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput)
 }
 
 type GetLogDataProtectionPolicyDocumentStatement struct {
@@ -9276,8 +9756,16 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*MetricStreamStatisticsConfigurationArrayInput)(nil)).Elem(), MetricStreamStatisticsConfigurationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*MetricStreamStatisticsConfigurationIncludeMetricInput)(nil)).Elem(), MetricStreamStatisticsConfigurationIncludeMetricArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*MetricStreamStatisticsConfigurationIncludeMetricArrayInput)(nil)).Elem(), MetricStreamStatisticsConfigurationIncludeMetricArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetContributorManagedInsightRulesManagedRuleInput)(nil)).Elem(), GetContributorManagedInsightRulesManagedRuleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetContributorManagedInsightRulesManagedRuleArrayInput)(nil)).Elem(), GetContributorManagedInsightRulesManagedRuleArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetContributorManagedInsightRulesManagedRuleRuleStateInput)(nil)).Elem(), GetContributorManagedInsightRulesManagedRuleRuleStateArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetContributorManagedInsightRulesManagedRuleRuleStateArrayInput)(nil)).Elem(), GetContributorManagedInsightRulesManagedRuleRuleStateArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetEventBusesEventBusInput)(nil)).Elem(), GetEventBusesEventBusArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetEventBusesEventBusArrayInput)(nil)).Elem(), GetEventBusesEventBusArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetLogDataProtectionPolicyDocumentConfigurationInput)(nil)).Elem(), GetLogDataProtectionPolicyDocumentConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetLogDataProtectionPolicyDocumentConfigurationPtrInput)(nil)).Elem(), GetLogDataProtectionPolicyDocumentConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierInput)(nil)).Elem(), GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayInput)(nil)).Elem(), GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLogDataProtectionPolicyDocumentStatementInput)(nil)).Elem(), GetLogDataProtectionPolicyDocumentStatementArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLogDataProtectionPolicyDocumentStatementArrayInput)(nil)).Elem(), GetLogDataProtectionPolicyDocumentStatementArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLogDataProtectionPolicyDocumentStatementOperationInput)(nil)).Elem(), GetLogDataProtectionPolicyDocumentStatementOperationArgs{})
@@ -9399,8 +9887,16 @@ func init() {
 	pulumi.RegisterOutputType(MetricStreamStatisticsConfigurationArrayOutput{})
 	pulumi.RegisterOutputType(MetricStreamStatisticsConfigurationIncludeMetricOutput{})
 	pulumi.RegisterOutputType(MetricStreamStatisticsConfigurationIncludeMetricArrayOutput{})
+	pulumi.RegisterOutputType(GetContributorManagedInsightRulesManagedRuleOutput{})
+	pulumi.RegisterOutputType(GetContributorManagedInsightRulesManagedRuleArrayOutput{})
+	pulumi.RegisterOutputType(GetContributorManagedInsightRulesManagedRuleRuleStateOutput{})
+	pulumi.RegisterOutputType(GetContributorManagedInsightRulesManagedRuleRuleStateArrayOutput{})
 	pulumi.RegisterOutputType(GetEventBusesEventBusOutput{})
 	pulumi.RegisterOutputType(GetEventBusesEventBusArrayOutput{})
+	pulumi.RegisterOutputType(GetLogDataProtectionPolicyDocumentConfigurationOutput{})
+	pulumi.RegisterOutputType(GetLogDataProtectionPolicyDocumentConfigurationPtrOutput{})
+	pulumi.RegisterOutputType(GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierOutput{})
+	pulumi.RegisterOutputType(GetLogDataProtectionPolicyDocumentConfigurationCustomDataIdentifierArrayOutput{})
 	pulumi.RegisterOutputType(GetLogDataProtectionPolicyDocumentStatementOutput{})
 	pulumi.RegisterOutputType(GetLogDataProtectionPolicyDocumentStatementArrayOutput{})
 	pulumi.RegisterOutputType(GetLogDataProtectionPolicyDocumentStatementOperationOutput{})

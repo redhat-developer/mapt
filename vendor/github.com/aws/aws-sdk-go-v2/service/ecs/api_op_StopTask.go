@@ -47,7 +47,7 @@ func (c *Client) StopTask(ctx context.Context, params *StopTaskInput, optFns ...
 
 type StopTaskInput struct {
 
-	// The task ID of the task to stop.
+	// Thefull Amazon Resource Name (ARN) of the task.
 	//
 	// This member is required.
 	Task *string
@@ -140,6 +140,9 @@ func (c *Client) addOperationStopTaskMiddlewares(stack *middleware.Stack, option
 		return err
 	}
 	if err = addUserAgentRetryMode(stack, options); err != nil {
+		return err
+	}
+	if err = addCredentialSource(stack, options); err != nil {
 		return err
 	}
 	if err = addOpStopTaskValidationMiddleware(stack); err != nil {
