@@ -1,5 +1,5 @@
 # Moved to Fedora 41 and install go tools until ubi9 go tools support go 1.23
-FROM quay.io/fedora/fedora:43@sha256:cd46550fc71e9401db4ad6e2b992df3278f6874a16d0abf1050e332f376802a5 as builder
+FROM quay.io/fedora/fedora:41 as builder
 RUN dnf install -y make go
 ARG TARGETARCH
 USER root
