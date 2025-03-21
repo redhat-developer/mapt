@@ -36,6 +36,9 @@ func Init(args *GithubRunnerArgs) {
 }
 
 func (args *GithubRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
+	if args == nil {
+		return nil
+	}
 	return &integrations.UserDataValues{
 		Name:    args.Name,
 		Token:   args.Token,
