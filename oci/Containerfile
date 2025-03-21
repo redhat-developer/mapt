@@ -1,5 +1,6 @@
-# go toolset 9.5-1733160835-1.22.7-1733160835
-FROM registry.access.redhat.com/ubi9/go-toolset:1.22.9-1739801907 as builder
+# Moved to Fedora 41 and install go tools until ubi9 go tools support go 1.23
+FROM quay.io/fedora/fedora:41 as builder
+RUN dnf install -y make go
 ARG TARGETARCH
 USER root
 WORKDIR /workspace
