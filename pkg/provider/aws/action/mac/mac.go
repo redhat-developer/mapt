@@ -29,7 +29,7 @@ import (
 //	...
 func Request(ctx *maptContext.ContextArgs, r *MacRequestArgs) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 
@@ -83,7 +83,7 @@ func Release(ctx *maptContext.ContextArgs, hostID string) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 	// replace machine
@@ -102,7 +102,7 @@ func Destroy(ctx *maptContext.ContextArgs, hostID string) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 	// Dedicated host is not on a valid state to be deleted

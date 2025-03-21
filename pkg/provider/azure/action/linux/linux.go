@@ -52,7 +52,7 @@ type LinuxRequest struct {
 
 func Create(ctx *maptContext.ContextArgs, r *LinuxRequest) (err error) {
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, azure.Provider()); err != nil {
 		return err
 	}
 
@@ -79,7 +79,7 @@ func Create(ctx *maptContext.ContextArgs, r *LinuxRequest) (err error) {
 
 func Destroy(ctx *maptContext.ContextArgs) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, azure.Provider()); err != nil {
 		return err
 	}
 	// destroy

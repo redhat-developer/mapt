@@ -1,11 +1,42 @@
 package azure
 
 import (
+	"os"
 	"slices"
+	"strings"
 
 	"github.com/redhat-developer/mapt/pkg/manager"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 )
+
+var azIdentityEnvs = []string{
+	"AZURE_TENANT_ID",
+	"AZURE_SUBSCRIPTION_ID",
+	"AZURE_CLIENT_ID",
+	"AZURE_CLIENT_SECRET",
+}
+
+type Azure struct{}
+
+func Provider() *Azure {
+	return &Azure{}
+}
+
+func (a *Azure) Init(backedURL string) error {
+	setAZIdentityEnvs()
+	return nil
+}
+
+// Envs required for auth with go sdk
+// https://learn.microsoft.com/es-es/azure/developer/go/azure-sdk-authentication?tabs=bash#service-principal-with-a-secret
+// do not match standard envs for pulumi envs for auth with native sdk
+// https://www.pulumi.com/registry/packages/azure-native/installation-configuration/#set-configuration-using-environment-variables
+func setAZIdentityEnvs() {
+	for _, e := range azIdentityEnvs {
+		os.Setenv(e,
+			os.Getenv(strings.ReplaceAll(e, "AZURE", "ARM")))
+	}
+}
 
 func GetClouProviderCredentials(fixedCredentials map[string]string) credentials.ProviderCredentials {
 	return credentials.ProviderCredentials{

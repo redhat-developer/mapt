@@ -8,7 +8,6 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6"
-	maptAzIdentity "github.com/redhat-developer/mapt/pkg/provider/azure/module/identity"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
@@ -18,8 +17,6 @@ type ImageRequest struct {
 }
 
 func GetImage(req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResponse, error) {
-	maptAzIdentity.SetAZIdentityEnvs()
-
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
