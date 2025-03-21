@@ -14,7 +14,7 @@ import (
 // Gets the federated identity credential.
 // Azure REST API version: 2023-01-31.
 //
-// Other available API versions: 2023-07-31-preview.
+// Other available API versions: 2023-07-31-preview, 2024-11-30.
 func LookupFederatedIdentityCredential(ctx *pulumi.Context, args *LookupFederatedIdentityCredentialArgs, opts ...pulumi.InvokeOption) (*LookupFederatedIdentityCredentialResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFederatedIdentityCredentialResult
@@ -53,15 +53,11 @@ type LookupFederatedIdentityCredentialResult struct {
 }
 
 func LookupFederatedIdentityCredentialOutput(ctx *pulumi.Context, args LookupFederatedIdentityCredentialOutputArgs, opts ...pulumi.InvokeOption) LookupFederatedIdentityCredentialResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupFederatedIdentityCredentialResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (LookupFederatedIdentityCredentialResultOutput, error) {
 			args := v.(LookupFederatedIdentityCredentialArgs)
-			r, err := LookupFederatedIdentityCredential(ctx, &args, opts...)
-			var s LookupFederatedIdentityCredentialResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:managedidentity:getFederatedIdentityCredential", args, LookupFederatedIdentityCredentialResultOutput{}, options).(LookupFederatedIdentityCredentialResultOutput), nil
 		}).(LookupFederatedIdentityCredentialResultOutput)
 }
 

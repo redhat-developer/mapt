@@ -14,7 +14,7 @@ import (
 // Gets the identity.
 // Azure REST API version: 2023-01-31.
 //
-// Other available API versions: 2015-08-31-preview, 2023-07-31-preview.
+// Other available API versions: 2023-07-31-preview, 2024-11-30.
 func LookupUserAssignedIdentity(ctx *pulumi.Context, args *LookupUserAssignedIdentityArgs, opts ...pulumi.InvokeOption) (*LookupUserAssignedIdentityResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupUserAssignedIdentityResult
@@ -55,15 +55,11 @@ type LookupUserAssignedIdentityResult struct {
 }
 
 func LookupUserAssignedIdentityOutput(ctx *pulumi.Context, args LookupUserAssignedIdentityOutputArgs, opts ...pulumi.InvokeOption) LookupUserAssignedIdentityResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupUserAssignedIdentityResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (LookupUserAssignedIdentityResultOutput, error) {
 			args := v.(LookupUserAssignedIdentityArgs)
-			r, err := LookupUserAssignedIdentity(ctx, &args, opts...)
-			var s LookupUserAssignedIdentityResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:managedidentity:getUserAssignedIdentity", args, LookupUserAssignedIdentityResultOutput{}, options).(LookupUserAssignedIdentityResultOutput), nil
 		}).(LookupUserAssignedIdentityResultOutput)
 }
 

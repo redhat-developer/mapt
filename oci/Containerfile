@@ -1,5 +1,5 @@
 # Moved to Fedora 41 and install go tools until ubi9 go tools support go 1.23
-FROM quay.io/fedora/fedora:41 as builder
+FROM quay.io/fedora/fedora:43@sha256:cd46550fc71e9401db4ad6e2b992df3278f6874a16d0abf1050e332f376802a5 as builder
 RUN dnf install -y make go
 ARG TARGETARCH
 USER root
@@ -7,7 +7,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.154.0
+ENV PULUMI_VERSION 3.157.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -33,19 +33,19 @@ ENV AWS_SDK_LOAD_CONFIG=1 \
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.69.0
+ARG PULUMI_AWS_VERSION=v6.72.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
 ARG PULUMI_AWSX_VERSION=v2.21.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v2.88.0
+ARG PULUMI_AZURE_NATIVE_VERSION=v2.89.3
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v1.0.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
-ARG PULUMI_TLS_VERSION=v5.0.9
+ARG PULUMI_TLS_VERSION=v5.1.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
-ARG PULUMI_RANDOM_VERSION=v4.16.7
+ARG PULUMI_RANDOM_VERSION=v4.18.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.25.0
+ARG PULUMI_AWS_NATIVE_VERSION=v1.26.0
 
 ENV PULUMI_HOME "/opt/mapt/run" 
 WORKDIR ${PULUMI_HOME}

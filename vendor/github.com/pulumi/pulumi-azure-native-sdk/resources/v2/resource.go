@@ -50,6 +50,9 @@ func NewResource(ctx *pulumi.Context,
 		return nil, errors.New("missing one or more required arguments")
 	}
 
+	if args.ApiVersion == nil {
+		return nil, errors.New("invalid value for required argument 'ApiVersion'")
+	}
 	if args.ParentResourcePath == nil {
 		return nil, errors.New("invalid value for required argument 'ParentResourcePath'")
 	}
@@ -167,6 +170,8 @@ func (ResourceState) ElementType() reflect.Type {
 }
 
 type resourceArgs struct {
+	// The API version to use for the operation.
+	ApiVersion string `pulumi:"apiVersion"`
 	// Resource extended location.
 	ExtendedLocation *ExtendedLocation `pulumi:"extendedLocation"`
 	// The identity of the resource.
@@ -199,6 +204,8 @@ type resourceArgs struct {
 
 // The set of arguments for constructing a Resource resource.
 type ResourceArgs struct {
+	// The API version to use for the operation.
+	ApiVersion pulumi.StringInput
 	// Resource extended location.
 	ExtendedLocation ExtendedLocationPtrInput
 	// The identity of the resource.
