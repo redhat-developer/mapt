@@ -36,6 +36,9 @@ func Init(args *PersistentWorkerArgs) {
 }
 
 func (args *PersistentWorkerArgs) GetUserDataValues() *integrations.UserDataValues {
+	if args == nil {
+		return nil
+	}
 	return &integrations.UserDataValues{
 		CliURL: downloadURL(),
 		Name:   pwa.Name,
