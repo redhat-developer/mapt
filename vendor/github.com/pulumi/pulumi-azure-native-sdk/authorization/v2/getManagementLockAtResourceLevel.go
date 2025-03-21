@@ -24,6 +24,8 @@ func LookupManagementLockAtResourceLevel(ctx *pulumi.Context, args *LookupManage
 }
 
 type LookupManagementLockAtResourceLevelArgs struct {
+	// The API version to use for this operation.
+	ApiVersion string `pulumi:"apiVersion"`
 	// The name of lock.
 	LockName string `pulumi:"lockName"`
 	// An extra path parameter needed in some services, like SQL Databases.
@@ -66,6 +68,8 @@ func LookupManagementLockAtResourceLevelOutput(ctx *pulumi.Context, args LookupM
 }
 
 type LookupManagementLockAtResourceLevelOutputArgs struct {
+	// The API version to use for this operation.
+	ApiVersion pulumi.StringInput `pulumi:"apiVersion"`
 	// The name of lock.
 	LockName pulumi.StringInput `pulumi:"lockName"`
 	// An extra path parameter needed in some services, like SQL Databases.

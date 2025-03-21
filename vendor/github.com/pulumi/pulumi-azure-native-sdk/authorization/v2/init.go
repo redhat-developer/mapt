@@ -33,6 +33,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ManagementLockAtSubscriptionLevel{}
 	case "azure-native:authorization:ManagementLockByScope":
 		r = &ManagementLockByScope{}
+	case "azure-native:authorization:PimRoleEligibilitySchedule":
+		r = &PimRoleEligibilitySchedule{}
 	case "azure-native:authorization:PolicyAssignment":
 		r = &PolicyAssignment{}
 	case "azure-native:authorization:PolicyDefinition":
