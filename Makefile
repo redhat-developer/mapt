@@ -1,4 +1,4 @@
-VERSION ?= 0.8.2-dev
+VERSION ?= 0.8.3-dev
 CONTAINER_MANAGER ?= podman
 
 # Image URL to use all building/pushing image targets
