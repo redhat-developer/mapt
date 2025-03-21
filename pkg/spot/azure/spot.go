@@ -14,7 +14,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
-	maptAzIdentity "github.com/redhat-developer/mapt/pkg/provider/azure/module/identity"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"golang.org/x/exp/maps"
@@ -113,8 +112,6 @@ func GetBestSpotChoice(r BestSpotChoiceRequest) (*BestSpotChoiceResponse, error)
 }
 
 func getGraphClient() (*armresourcegraph.Client, error) {
-	// Auth identity
-	maptAzIdentity.SetAZIdentityEnvs()
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, fmt.Errorf("error getting the best spot price choice: %v", err)

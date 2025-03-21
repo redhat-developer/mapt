@@ -11,11 +11,10 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	armcompute "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6"
-	maptAzIdenity "github.com/redhat-developer/mapt/pkg/provider/azure/module/identity"
 )
 
 func getAzureVMSKUs(cpus, memory int32, arch arch, nestedVirt bool) ([]string, error) {
-	maptAzIdenity.SetAZIdentityEnvs()
+
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
