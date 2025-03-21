@@ -23,11 +23,11 @@ type IntegrationConfig interface {
 }
 
 func GetIntegrationSnippet(intCfg IntegrationConfig, username string) (*string, error) {
-	if intCfg == nil {
+	userDatatValues := intCfg.GetUserDataValues()
+	if userDatatValues == nil {
 		noSnippet := ""
 		return &noSnippet, nil
 	}
-	userDatatValues := intCfg.GetUserDataValues()
 	userDatatValues.User = username
 	snippet, err := file.Template(userDatatValues, intCfg.GetSetupScriptTemplate())
 	return &snippet, err
