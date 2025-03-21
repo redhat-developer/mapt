@@ -15,10 +15,46 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/redhat-developer/mapt/pkg/util/maps"
 )
+
+type AWS struct{}
+
+func (a *AWS) Init(backedURL string) error {
+	// Manage remote state requirements, if backedURL
+	// is on a different region we need to change to that region
+	// in order to interact with the state
+	return manageRemoteState(backedURL)
+}
+
+func Provider() *AWS {
+	return &AWS{}
+}
+
+// Under some circumstances it is possible we need to update Location initial configuration
+// due to usage of remote backed url. i.e. https://github.com/redhat-developer/mapt/issues/392
+
+// This function will check if backed url is remote and if so change initial values to be able to
+// use it.
+func manageRemoteState(backedURL string) error {
+	if data.ValidateS3Path(backedURL) {
+		awsRegion, err := data.GetBucketLocationFromS3Path(backedURL)
+		if err != nil {
+			return err
+		}
+		if err := os.Setenv("AWS_DEFAULT_REGION", *awsRegion); err != nil {
+			return err
+		}
+		if err := os.Setenv("AWS_REGION", *awsRegion); err != nil {
+			return err
+		}
+		return nil
+	}
+	return nil
+}
 
 // pulumi config key : aws env credential
 var envCredentials = map[string]string{

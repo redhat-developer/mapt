@@ -26,7 +26,7 @@ import (
 // Even if we want to destroy the pool we will set params to max size 0
 func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 	if err := r.addMachinesToPool(r.OfferedCapacity); err != nil {
@@ -41,7 +41,7 @@ func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 // TODO decide how to destroy machines in the pool as they may need to wait to reach 24 hours
 func Destroy(ctx *maptContext.ContextArgs) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 	if err := iam.Destroy(); err != nil {
@@ -56,7 +56,7 @@ func Destroy(ctx *maptContext.ContextArgs) error {
 func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	// Create mapt Context, this is a special case where we need change the context
 	// based on the operation
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 
@@ -104,7 +104,7 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 
