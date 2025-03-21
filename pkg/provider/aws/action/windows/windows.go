@@ -81,7 +81,7 @@ var BootstrapScript []byte
 // Then it will run the stack for windows dedicated host
 func Create(ctx *maptContext.ContextArgs, r *Request) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 
@@ -152,7 +152,7 @@ func Create(ctx *maptContext.ContextArgs, r *Request) error {
 func Destroy(ctx *maptContext.ContextArgs) (err error) {
 	logging.Debug("Run windows destroy")
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 
