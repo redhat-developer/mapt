@@ -2,8 +2,9 @@ package instancetypes
 
 import (
 	"context"
-	"github.com/aws/amazon-ec2-instance-selector/v2/pkg/bytequantity"
-	"github.com/aws/amazon-ec2-instance-selector/v2/pkg/selector"
+
+	"github.com/aws/amazon-ec2-instance-selector/v3/pkg/bytequantity"
+	"github.com/aws/amazon-ec2-instance-selector/v3/pkg/selector"
 	"github.com/aws/aws-sdk-go-v2/config"
 	ec2types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
