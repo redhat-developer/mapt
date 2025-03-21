@@ -64,7 +64,7 @@ type Request struct {
 // Then it will run the stack for windows dedicated host
 func Create(ctx *maptContext.ContextArgs, r *Request) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 
@@ -119,7 +119,7 @@ func Create(ctx *maptContext.ContextArgs, r *Request) error {
 func Destroy(ctx *maptContext.ContextArgs) error {
 	logging.Debug("Run rhel destroy")
 	// Create mapt Context
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 
