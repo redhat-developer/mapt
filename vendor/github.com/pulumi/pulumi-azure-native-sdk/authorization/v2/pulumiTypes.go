@@ -1480,6 +1480,345 @@ func (o ApprovalStageResponseArrayOutput) Index(i pulumi.IntInput) ApprovalStage
 	}).(ApprovalStageResponseOutput)
 }
 
+// Expanded info of resource, role and principal
+type ExpandedPropertiesResponse struct {
+	// Details of the principal
+	Principal *ExpandedPropertiesResponsePrincipal `pulumi:"principal"`
+	// Details of role definition
+	RoleDefinition *ExpandedPropertiesResponseRoleDefinition `pulumi:"roleDefinition"`
+	// Details of the resource scope
+	Scope *ExpandedPropertiesResponseScope `pulumi:"scope"`
+}
+
+// Expanded info of resource, role and principal
+type ExpandedPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (ExpandedPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExpandedPropertiesResponse)(nil)).Elem()
+}
+
+func (o ExpandedPropertiesResponseOutput) ToExpandedPropertiesResponseOutput() ExpandedPropertiesResponseOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponseOutput) ToExpandedPropertiesResponseOutputWithContext(ctx context.Context) ExpandedPropertiesResponseOutput {
+	return o
+}
+
+// Details of the principal
+func (o ExpandedPropertiesResponseOutput) Principal() ExpandedPropertiesResponsePrincipalPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponse) *ExpandedPropertiesResponsePrincipal { return v.Principal }).(ExpandedPropertiesResponsePrincipalPtrOutput)
+}
+
+// Details of role definition
+func (o ExpandedPropertiesResponseOutput) RoleDefinition() ExpandedPropertiesResponseRoleDefinitionPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponse) *ExpandedPropertiesResponseRoleDefinition { return v.RoleDefinition }).(ExpandedPropertiesResponseRoleDefinitionPtrOutput)
+}
+
+// Details of the resource scope
+func (o ExpandedPropertiesResponseOutput) Scope() ExpandedPropertiesResponseScopePtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponse) *ExpandedPropertiesResponseScope { return v.Scope }).(ExpandedPropertiesResponseScopePtrOutput)
+}
+
+// Details of the principal
+type ExpandedPropertiesResponsePrincipal struct {
+	// Display name of the principal
+	DisplayName *string `pulumi:"displayName"`
+	// Email id of the principal
+	Email *string `pulumi:"email"`
+	// Id of the principal
+	Id *string `pulumi:"id"`
+	// Type of the principal
+	Type *string `pulumi:"type"`
+}
+
+// Details of the principal
+type ExpandedPropertiesResponsePrincipalOutput struct{ *pulumi.OutputState }
+
+func (ExpandedPropertiesResponsePrincipalOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExpandedPropertiesResponsePrincipal)(nil)).Elem()
+}
+
+func (o ExpandedPropertiesResponsePrincipalOutput) ToExpandedPropertiesResponsePrincipalOutput() ExpandedPropertiesResponsePrincipalOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponsePrincipalOutput) ToExpandedPropertiesResponsePrincipalOutputWithContext(ctx context.Context) ExpandedPropertiesResponsePrincipalOutput {
+	return o
+}
+
+// Display name of the principal
+func (o ExpandedPropertiesResponsePrincipalOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponsePrincipal) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+}
+
+// Email id of the principal
+func (o ExpandedPropertiesResponsePrincipalOutput) Email() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponsePrincipal) *string { return v.Email }).(pulumi.StringPtrOutput)
+}
+
+// Id of the principal
+func (o ExpandedPropertiesResponsePrincipalOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponsePrincipal) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// Type of the principal
+func (o ExpandedPropertiesResponsePrincipalOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponsePrincipal) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type ExpandedPropertiesResponsePrincipalPtrOutput struct{ *pulumi.OutputState }
+
+func (ExpandedPropertiesResponsePrincipalPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ExpandedPropertiesResponsePrincipal)(nil)).Elem()
+}
+
+func (o ExpandedPropertiesResponsePrincipalPtrOutput) ToExpandedPropertiesResponsePrincipalPtrOutput() ExpandedPropertiesResponsePrincipalPtrOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponsePrincipalPtrOutput) ToExpandedPropertiesResponsePrincipalPtrOutputWithContext(ctx context.Context) ExpandedPropertiesResponsePrincipalPtrOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponsePrincipalPtrOutput) Elem() ExpandedPropertiesResponsePrincipalOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponsePrincipal) ExpandedPropertiesResponsePrincipal {
+		if v != nil {
+			return *v
+		}
+		var ret ExpandedPropertiesResponsePrincipal
+		return ret
+	}).(ExpandedPropertiesResponsePrincipalOutput)
+}
+
+// Display name of the principal
+func (o ExpandedPropertiesResponsePrincipalPtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponsePrincipal) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DisplayName
+	}).(pulumi.StringPtrOutput)
+}
+
+// Email id of the principal
+func (o ExpandedPropertiesResponsePrincipalPtrOutput) Email() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponsePrincipal) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Email
+	}).(pulumi.StringPtrOutput)
+}
+
+// Id of the principal
+func (o ExpandedPropertiesResponsePrincipalPtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponsePrincipal) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// Type of the principal
+func (o ExpandedPropertiesResponsePrincipalPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponsePrincipal) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+// Details of role definition
+type ExpandedPropertiesResponseRoleDefinition struct {
+	// Display name of the role definition
+	DisplayName *string `pulumi:"displayName"`
+	// Id of the role definition
+	Id *string `pulumi:"id"`
+	// Type of the role definition
+	Type *string `pulumi:"type"`
+}
+
+// Details of role definition
+type ExpandedPropertiesResponseRoleDefinitionOutput struct{ *pulumi.OutputState }
+
+func (ExpandedPropertiesResponseRoleDefinitionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExpandedPropertiesResponseRoleDefinition)(nil)).Elem()
+}
+
+func (o ExpandedPropertiesResponseRoleDefinitionOutput) ToExpandedPropertiesResponseRoleDefinitionOutput() ExpandedPropertiesResponseRoleDefinitionOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponseRoleDefinitionOutput) ToExpandedPropertiesResponseRoleDefinitionOutputWithContext(ctx context.Context) ExpandedPropertiesResponseRoleDefinitionOutput {
+	return o
+}
+
+// Display name of the role definition
+func (o ExpandedPropertiesResponseRoleDefinitionOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponseRoleDefinition) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+}
+
+// Id of the role definition
+func (o ExpandedPropertiesResponseRoleDefinitionOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponseRoleDefinition) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// Type of the role definition
+func (o ExpandedPropertiesResponseRoleDefinitionOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponseRoleDefinition) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type ExpandedPropertiesResponseRoleDefinitionPtrOutput struct{ *pulumi.OutputState }
+
+func (ExpandedPropertiesResponseRoleDefinitionPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ExpandedPropertiesResponseRoleDefinition)(nil)).Elem()
+}
+
+func (o ExpandedPropertiesResponseRoleDefinitionPtrOutput) ToExpandedPropertiesResponseRoleDefinitionPtrOutput() ExpandedPropertiesResponseRoleDefinitionPtrOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponseRoleDefinitionPtrOutput) ToExpandedPropertiesResponseRoleDefinitionPtrOutputWithContext(ctx context.Context) ExpandedPropertiesResponseRoleDefinitionPtrOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponseRoleDefinitionPtrOutput) Elem() ExpandedPropertiesResponseRoleDefinitionOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponseRoleDefinition) ExpandedPropertiesResponseRoleDefinition {
+		if v != nil {
+			return *v
+		}
+		var ret ExpandedPropertiesResponseRoleDefinition
+		return ret
+	}).(ExpandedPropertiesResponseRoleDefinitionOutput)
+}
+
+// Display name of the role definition
+func (o ExpandedPropertiesResponseRoleDefinitionPtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponseRoleDefinition) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DisplayName
+	}).(pulumi.StringPtrOutput)
+}
+
+// Id of the role definition
+func (o ExpandedPropertiesResponseRoleDefinitionPtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponseRoleDefinition) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// Type of the role definition
+func (o ExpandedPropertiesResponseRoleDefinitionPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponseRoleDefinition) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+// Details of the resource scope
+type ExpandedPropertiesResponseScope struct {
+	// Display name of the resource
+	DisplayName *string `pulumi:"displayName"`
+	// Scope id of the resource
+	Id *string `pulumi:"id"`
+	// Type of the resource
+	Type *string `pulumi:"type"`
+}
+
+// Details of the resource scope
+type ExpandedPropertiesResponseScopeOutput struct{ *pulumi.OutputState }
+
+func (ExpandedPropertiesResponseScopeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExpandedPropertiesResponseScope)(nil)).Elem()
+}
+
+func (o ExpandedPropertiesResponseScopeOutput) ToExpandedPropertiesResponseScopeOutput() ExpandedPropertiesResponseScopeOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponseScopeOutput) ToExpandedPropertiesResponseScopeOutputWithContext(ctx context.Context) ExpandedPropertiesResponseScopeOutput {
+	return o
+}
+
+// Display name of the resource
+func (o ExpandedPropertiesResponseScopeOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponseScope) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+}
+
+// Scope id of the resource
+func (o ExpandedPropertiesResponseScopeOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponseScope) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// Type of the resource
+func (o ExpandedPropertiesResponseScopeOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ExpandedPropertiesResponseScope) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type ExpandedPropertiesResponseScopePtrOutput struct{ *pulumi.OutputState }
+
+func (ExpandedPropertiesResponseScopePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ExpandedPropertiesResponseScope)(nil)).Elem()
+}
+
+func (o ExpandedPropertiesResponseScopePtrOutput) ToExpandedPropertiesResponseScopePtrOutput() ExpandedPropertiesResponseScopePtrOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponseScopePtrOutput) ToExpandedPropertiesResponseScopePtrOutputWithContext(ctx context.Context) ExpandedPropertiesResponseScopePtrOutput {
+	return o
+}
+
+func (o ExpandedPropertiesResponseScopePtrOutput) Elem() ExpandedPropertiesResponseScopeOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponseScope) ExpandedPropertiesResponseScope {
+		if v != nil {
+			return *v
+		}
+		var ret ExpandedPropertiesResponseScope
+		return ret
+	}).(ExpandedPropertiesResponseScopeOutput)
+}
+
+// Display name of the resource
+func (o ExpandedPropertiesResponseScopePtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponseScope) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DisplayName
+	}).(pulumi.StringPtrOutput)
+}
+
+// Scope id of the resource
+func (o ExpandedPropertiesResponseScopePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponseScope) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// Type of the resource
+func (o ExpandedPropertiesResponseScopePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ExpandedPropertiesResponseScope) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
 // Identity for the resource.  Policy assignments support a maximum of one identity.  That is either a system assigned identity or a single user assigned identity.
 type Identity struct {
 	// The identity type. This is the only required field when adding a system or user assigned identity to a resource.
@@ -5330,6 +5669,754 @@ func (o ResourceSelectorResponseArrayOutput) Index(i pulumi.IntInput) ResourceSe
 	}).(ResourceSelectorResponseOutput)
 }
 
+// Expiration of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesExpiration struct {
+	// Duration of the role eligibility schedule in TimeSpan.
+	Duration *string `pulumi:"duration"`
+	// End DateTime of the role eligibility schedule.
+	EndDateTime *string `pulumi:"endDateTime"`
+	// Type of the role eligibility schedule expiration
+	Type *string `pulumi:"type"`
+}
+
+// RoleEligibilityScheduleRequestPropertiesExpirationInput is an input type that accepts RoleEligibilityScheduleRequestPropertiesExpirationArgs and RoleEligibilityScheduleRequestPropertiesExpirationOutput values.
+// You can construct a concrete instance of `RoleEligibilityScheduleRequestPropertiesExpirationInput` via:
+//
+//	RoleEligibilityScheduleRequestPropertiesExpirationArgs{...}
+type RoleEligibilityScheduleRequestPropertiesExpirationInput interface {
+	pulumi.Input
+
+	ToRoleEligibilityScheduleRequestPropertiesExpirationOutput() RoleEligibilityScheduleRequestPropertiesExpirationOutput
+	ToRoleEligibilityScheduleRequestPropertiesExpirationOutputWithContext(context.Context) RoleEligibilityScheduleRequestPropertiesExpirationOutput
+}
+
+// Expiration of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesExpirationArgs struct {
+	// Duration of the role eligibility schedule in TimeSpan.
+	Duration pulumi.StringPtrInput `pulumi:"duration"`
+	// End DateTime of the role eligibility schedule.
+	EndDateTime pulumi.StringPtrInput `pulumi:"endDateTime"`
+	// Type of the role eligibility schedule expiration
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (RoleEligibilityScheduleRequestPropertiesExpirationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesExpiration)(nil)).Elem()
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesExpirationArgs) ToRoleEligibilityScheduleRequestPropertiesExpirationOutput() RoleEligibilityScheduleRequestPropertiesExpirationOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesExpirationOutputWithContext(context.Background())
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesExpirationArgs) ToRoleEligibilityScheduleRequestPropertiesExpirationOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesExpirationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesExpirationOutput)
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesExpirationArgs) ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutput() RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(context.Background())
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesExpirationArgs) ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesExpirationOutput).ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(ctx)
+}
+
+// RoleEligibilityScheduleRequestPropertiesExpirationPtrInput is an input type that accepts RoleEligibilityScheduleRequestPropertiesExpirationArgs, RoleEligibilityScheduleRequestPropertiesExpirationPtr and RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput values.
+// You can construct a concrete instance of `RoleEligibilityScheduleRequestPropertiesExpirationPtrInput` via:
+//
+//	        RoleEligibilityScheduleRequestPropertiesExpirationArgs{...}
+//
+//	or:
+//
+//	        nil
+type RoleEligibilityScheduleRequestPropertiesExpirationPtrInput interface {
+	pulumi.Input
+
+	ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutput() RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput
+	ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(context.Context) RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput
+}
+
+type roleEligibilityScheduleRequestPropertiesExpirationPtrType RoleEligibilityScheduleRequestPropertiesExpirationArgs
+
+func RoleEligibilityScheduleRequestPropertiesExpirationPtr(v *RoleEligibilityScheduleRequestPropertiesExpirationArgs) RoleEligibilityScheduleRequestPropertiesExpirationPtrInput {
+	return (*roleEligibilityScheduleRequestPropertiesExpirationPtrType)(v)
+}
+
+func (*roleEligibilityScheduleRequestPropertiesExpirationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesExpiration)(nil)).Elem()
+}
+
+func (i *roleEligibilityScheduleRequestPropertiesExpirationPtrType) ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutput() RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(context.Background())
+}
+
+func (i *roleEligibilityScheduleRequestPropertiesExpirationPtrType) ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput)
+}
+
+// Expiration of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesExpirationOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesExpirationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesExpiration)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesExpirationOutput) ToRoleEligibilityScheduleRequestPropertiesExpirationOutput() RoleEligibilityScheduleRequestPropertiesExpirationOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesExpirationOutput) ToRoleEligibilityScheduleRequestPropertiesExpirationOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesExpirationOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesExpirationOutput) ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutput() RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return o.ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(context.Background())
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesExpirationOutput) ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v RoleEligibilityScheduleRequestPropertiesExpiration) *RoleEligibilityScheduleRequestPropertiesExpiration {
+		return &v
+	}).(RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput)
+}
+
+// Duration of the role eligibility schedule in TimeSpan.
+func (o RoleEligibilityScheduleRequestPropertiesExpirationOutput) Duration() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesExpiration) *string { return v.Duration }).(pulumi.StringPtrOutput)
+}
+
+// End DateTime of the role eligibility schedule.
+func (o RoleEligibilityScheduleRequestPropertiesExpirationOutput) EndDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesExpiration) *string { return v.EndDateTime }).(pulumi.StringPtrOutput)
+}
+
+// Type of the role eligibility schedule expiration
+func (o RoleEligibilityScheduleRequestPropertiesExpirationOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesExpiration) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesExpiration)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput) ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutput() RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput) ToRoleEligibilityScheduleRequestPropertiesExpirationPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput) Elem() RoleEligibilityScheduleRequestPropertiesExpirationOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesExpiration) RoleEligibilityScheduleRequestPropertiesExpiration {
+		if v != nil {
+			return *v
+		}
+		var ret RoleEligibilityScheduleRequestPropertiesExpiration
+		return ret
+	}).(RoleEligibilityScheduleRequestPropertiesExpirationOutput)
+}
+
+// Duration of the role eligibility schedule in TimeSpan.
+func (o RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput) Duration() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesExpiration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Duration
+	}).(pulumi.StringPtrOutput)
+}
+
+// End DateTime of the role eligibility schedule.
+func (o RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput) EndDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesExpiration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.EndDateTime
+	}).(pulumi.StringPtrOutput)
+}
+
+// Type of the role eligibility schedule expiration
+func (o RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesExpiration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+// Expiration of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesResponseExpiration struct {
+	// Duration of the role eligibility schedule in TimeSpan.
+	Duration *string `pulumi:"duration"`
+	// End DateTime of the role eligibility schedule.
+	EndDateTime *string `pulumi:"endDateTime"`
+	// Type of the role eligibility schedule expiration
+	Type *string `pulumi:"type"`
+}
+
+// Expiration of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesResponseExpiration)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput) ToRoleEligibilityScheduleRequestPropertiesResponseExpirationOutput() RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput) ToRoleEligibilityScheduleRequestPropertiesResponseExpirationOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput {
+	return o
+}
+
+// Duration of the role eligibility schedule in TimeSpan.
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput) Duration() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesResponseExpiration) *string { return v.Duration }).(pulumi.StringPtrOutput)
+}
+
+// End DateTime of the role eligibility schedule.
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput) EndDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesResponseExpiration) *string { return v.EndDateTime }).(pulumi.StringPtrOutput)
+}
+
+// Type of the role eligibility schedule expiration
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesResponseExpiration) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesResponseExpiration)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput) ToRoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput() RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput) ToRoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput) Elem() RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseExpiration) RoleEligibilityScheduleRequestPropertiesResponseExpiration {
+		if v != nil {
+			return *v
+		}
+		var ret RoleEligibilityScheduleRequestPropertiesResponseExpiration
+		return ret
+	}).(RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput)
+}
+
+// Duration of the role eligibility schedule in TimeSpan.
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput) Duration() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseExpiration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Duration
+	}).(pulumi.StringPtrOutput)
+}
+
+// End DateTime of the role eligibility schedule.
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput) EndDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseExpiration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.EndDateTime
+	}).(pulumi.StringPtrOutput)
+}
+
+// Type of the role eligibility schedule expiration
+func (o RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseExpiration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+// Schedule info of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo struct {
+	// Expiration of the role eligibility schedule
+	Expiration *RoleEligibilityScheduleRequestPropertiesResponseExpiration `pulumi:"expiration"`
+	// Start DateTime of the role eligibility schedule.
+	StartDateTime *string `pulumi:"startDateTime"`
+}
+
+// Schedule info of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput) ToRoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput() RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput) ToRoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput {
+	return o
+}
+
+// Expiration of the role eligibility schedule
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput) Expiration() RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo) *RoleEligibilityScheduleRequestPropertiesResponseExpiration {
+		return v.Expiration
+	}).(RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput)
+}
+
+// Start DateTime of the role eligibility schedule.
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput) StartDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo) *string { return v.StartDateTime }).(pulumi.StringPtrOutput)
+}
+
+type RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput) ToRoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput) ToRoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput) Elem() RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo) RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo {
+		if v != nil {
+			return *v
+		}
+		var ret RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo
+		return ret
+	}).(RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput)
+}
+
+// Expiration of the role eligibility schedule
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput) Expiration() RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo) *RoleEligibilityScheduleRequestPropertiesResponseExpiration {
+		if v == nil {
+			return nil
+		}
+		return v.Expiration
+	}).(RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput)
+}
+
+// Start DateTime of the role eligibility schedule.
+func (o RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput) StartDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseScheduleInfo) *string {
+		if v == nil {
+			return nil
+		}
+		return v.StartDateTime
+	}).(pulumi.StringPtrOutput)
+}
+
+// Ticket Info of the role eligibility
+type RoleEligibilityScheduleRequestPropertiesResponseTicketInfo struct {
+	// Ticket number for the role eligibility
+	TicketNumber *string `pulumi:"ticketNumber"`
+	// Ticket system name for the role eligibility
+	TicketSystem *string `pulumi:"ticketSystem"`
+}
+
+// Ticket Info of the role eligibility
+type RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesResponseTicketInfo)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput) ToRoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput() RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput) ToRoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput {
+	return o
+}
+
+// Ticket number for the role eligibility
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput) TicketNumber() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesResponseTicketInfo) *string { return v.TicketNumber }).(pulumi.StringPtrOutput)
+}
+
+// Ticket system name for the role eligibility
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput) TicketSystem() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesResponseTicketInfo) *string { return v.TicketSystem }).(pulumi.StringPtrOutput)
+}
+
+type RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesResponseTicketInfo)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput) ToRoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput) ToRoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput) Elem() RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseTicketInfo) RoleEligibilityScheduleRequestPropertiesResponseTicketInfo {
+		if v != nil {
+			return *v
+		}
+		var ret RoleEligibilityScheduleRequestPropertiesResponseTicketInfo
+		return ret
+	}).(RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput)
+}
+
+// Ticket number for the role eligibility
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput) TicketNumber() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseTicketInfo) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TicketNumber
+	}).(pulumi.StringPtrOutput)
+}
+
+// Ticket system name for the role eligibility
+func (o RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput) TicketSystem() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesResponseTicketInfo) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TicketSystem
+	}).(pulumi.StringPtrOutput)
+}
+
+// Schedule info of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesScheduleInfo struct {
+	// Expiration of the role eligibility schedule
+	Expiration *RoleEligibilityScheduleRequestPropertiesExpiration `pulumi:"expiration"`
+	// Start DateTime of the role eligibility schedule.
+	StartDateTime *string `pulumi:"startDateTime"`
+}
+
+// RoleEligibilityScheduleRequestPropertiesScheduleInfoInput is an input type that accepts RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs and RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput values.
+// You can construct a concrete instance of `RoleEligibilityScheduleRequestPropertiesScheduleInfoInput` via:
+//
+//	RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs{...}
+type RoleEligibilityScheduleRequestPropertiesScheduleInfoInput interface {
+	pulumi.Input
+
+	ToRoleEligibilityScheduleRequestPropertiesScheduleInfoOutput() RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput
+	ToRoleEligibilityScheduleRequestPropertiesScheduleInfoOutputWithContext(context.Context) RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput
+}
+
+// Schedule info of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs struct {
+	// Expiration of the role eligibility schedule
+	Expiration RoleEligibilityScheduleRequestPropertiesExpirationPtrInput `pulumi:"expiration"`
+	// Start DateTime of the role eligibility schedule.
+	StartDateTime pulumi.StringPtrInput `pulumi:"startDateTime"`
+}
+
+func (RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesScheduleInfo)(nil)).Elem()
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoOutput() RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesScheduleInfoOutputWithContext(context.Background())
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput)
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(context.Background())
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput).ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(ctx)
+}
+
+// RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrInput is an input type that accepts RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs, RoleEligibilityScheduleRequestPropertiesScheduleInfoPtr and RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput values.
+// You can construct a concrete instance of `RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrInput` via:
+//
+//	        RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs{...}
+//
+//	or:
+//
+//	        nil
+type RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrInput interface {
+	pulumi.Input
+
+	ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput
+	ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(context.Context) RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput
+}
+
+type roleEligibilityScheduleRequestPropertiesScheduleInfoPtrType RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs
+
+func RoleEligibilityScheduleRequestPropertiesScheduleInfoPtr(v *RoleEligibilityScheduleRequestPropertiesScheduleInfoArgs) RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrInput {
+	return (*roleEligibilityScheduleRequestPropertiesScheduleInfoPtrType)(v)
+}
+
+func (*roleEligibilityScheduleRequestPropertiesScheduleInfoPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesScheduleInfo)(nil)).Elem()
+}
+
+func (i *roleEligibilityScheduleRequestPropertiesScheduleInfoPtrType) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(context.Background())
+}
+
+func (i *roleEligibilityScheduleRequestPropertiesScheduleInfoPtrType) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput)
+}
+
+// Schedule info of the role eligibility schedule
+type RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesScheduleInfo)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoOutput() RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput {
+	return o.ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(context.Background())
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v RoleEligibilityScheduleRequestPropertiesScheduleInfo) *RoleEligibilityScheduleRequestPropertiesScheduleInfo {
+		return &v
+	}).(RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput)
+}
+
+// Expiration of the role eligibility schedule
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput) Expiration() RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesScheduleInfo) *RoleEligibilityScheduleRequestPropertiesExpiration {
+		return v.Expiration
+	}).(RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput)
+}
+
+// Start DateTime of the role eligibility schedule.
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput) StartDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesScheduleInfo) *string { return v.StartDateTime }).(pulumi.StringPtrOutput)
+}
+
+type RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesScheduleInfo)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput) ToRoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput) Elem() RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesScheduleInfo) RoleEligibilityScheduleRequestPropertiesScheduleInfo {
+		if v != nil {
+			return *v
+		}
+		var ret RoleEligibilityScheduleRequestPropertiesScheduleInfo
+		return ret
+	}).(RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput)
+}
+
+// Expiration of the role eligibility schedule
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput) Expiration() RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesScheduleInfo) *RoleEligibilityScheduleRequestPropertiesExpiration {
+		if v == nil {
+			return nil
+		}
+		return v.Expiration
+	}).(RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput)
+}
+
+// Start DateTime of the role eligibility schedule.
+func (o RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput) StartDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesScheduleInfo) *string {
+		if v == nil {
+			return nil
+		}
+		return v.StartDateTime
+	}).(pulumi.StringPtrOutput)
+}
+
+// Ticket Info of the role eligibility
+type RoleEligibilityScheduleRequestPropertiesTicketInfo struct {
+	// Ticket number for the role eligibility
+	TicketNumber *string `pulumi:"ticketNumber"`
+	// Ticket system name for the role eligibility
+	TicketSystem *string `pulumi:"ticketSystem"`
+}
+
+// RoleEligibilityScheduleRequestPropertiesTicketInfoInput is an input type that accepts RoleEligibilityScheduleRequestPropertiesTicketInfoArgs and RoleEligibilityScheduleRequestPropertiesTicketInfoOutput values.
+// You can construct a concrete instance of `RoleEligibilityScheduleRequestPropertiesTicketInfoInput` via:
+//
+//	RoleEligibilityScheduleRequestPropertiesTicketInfoArgs{...}
+type RoleEligibilityScheduleRequestPropertiesTicketInfoInput interface {
+	pulumi.Input
+
+	ToRoleEligibilityScheduleRequestPropertiesTicketInfoOutput() RoleEligibilityScheduleRequestPropertiesTicketInfoOutput
+	ToRoleEligibilityScheduleRequestPropertiesTicketInfoOutputWithContext(context.Context) RoleEligibilityScheduleRequestPropertiesTicketInfoOutput
+}
+
+// Ticket Info of the role eligibility
+type RoleEligibilityScheduleRequestPropertiesTicketInfoArgs struct {
+	// Ticket number for the role eligibility
+	TicketNumber pulumi.StringPtrInput `pulumi:"ticketNumber"`
+	// Ticket system name for the role eligibility
+	TicketSystem pulumi.StringPtrInput `pulumi:"ticketSystem"`
+}
+
+func (RoleEligibilityScheduleRequestPropertiesTicketInfoArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesTicketInfo)(nil)).Elem()
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesTicketInfoArgs) ToRoleEligibilityScheduleRequestPropertiesTicketInfoOutput() RoleEligibilityScheduleRequestPropertiesTicketInfoOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesTicketInfoOutputWithContext(context.Background())
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesTicketInfoArgs) ToRoleEligibilityScheduleRequestPropertiesTicketInfoOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesTicketInfoOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesTicketInfoOutput)
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesTicketInfoArgs) ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(context.Background())
+}
+
+func (i RoleEligibilityScheduleRequestPropertiesTicketInfoArgs) ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesTicketInfoOutput).ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(ctx)
+}
+
+// RoleEligibilityScheduleRequestPropertiesTicketInfoPtrInput is an input type that accepts RoleEligibilityScheduleRequestPropertiesTicketInfoArgs, RoleEligibilityScheduleRequestPropertiesTicketInfoPtr and RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput values.
+// You can construct a concrete instance of `RoleEligibilityScheduleRequestPropertiesTicketInfoPtrInput` via:
+//
+//	        RoleEligibilityScheduleRequestPropertiesTicketInfoArgs{...}
+//
+//	or:
+//
+//	        nil
+type RoleEligibilityScheduleRequestPropertiesTicketInfoPtrInput interface {
+	pulumi.Input
+
+	ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput
+	ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(context.Context) RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput
+}
+
+type roleEligibilityScheduleRequestPropertiesTicketInfoPtrType RoleEligibilityScheduleRequestPropertiesTicketInfoArgs
+
+func RoleEligibilityScheduleRequestPropertiesTicketInfoPtr(v *RoleEligibilityScheduleRequestPropertiesTicketInfoArgs) RoleEligibilityScheduleRequestPropertiesTicketInfoPtrInput {
+	return (*roleEligibilityScheduleRequestPropertiesTicketInfoPtrType)(v)
+}
+
+func (*roleEligibilityScheduleRequestPropertiesTicketInfoPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesTicketInfo)(nil)).Elem()
+}
+
+func (i *roleEligibilityScheduleRequestPropertiesTicketInfoPtrType) ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput {
+	return i.ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(context.Background())
+}
+
+func (i *roleEligibilityScheduleRequestPropertiesTicketInfoPtrType) ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput)
+}
+
+// Ticket Info of the role eligibility
+type RoleEligibilityScheduleRequestPropertiesTicketInfoOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesTicketInfoOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoleEligibilityScheduleRequestPropertiesTicketInfo)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoOutput) ToRoleEligibilityScheduleRequestPropertiesTicketInfoOutput() RoleEligibilityScheduleRequestPropertiesTicketInfoOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoOutput) ToRoleEligibilityScheduleRequestPropertiesTicketInfoOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesTicketInfoOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoOutput) ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput {
+	return o.ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(context.Background())
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoOutput) ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v RoleEligibilityScheduleRequestPropertiesTicketInfo) *RoleEligibilityScheduleRequestPropertiesTicketInfo {
+		return &v
+	}).(RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput)
+}
+
+// Ticket number for the role eligibility
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoOutput) TicketNumber() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesTicketInfo) *string { return v.TicketNumber }).(pulumi.StringPtrOutput)
+}
+
+// Ticket system name for the role eligibility
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoOutput) TicketSystem() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RoleEligibilityScheduleRequestPropertiesTicketInfo) *string { return v.TicketSystem }).(pulumi.StringPtrOutput)
+}
+
+type RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput struct{ *pulumi.OutputState }
+
+func (RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoleEligibilityScheduleRequestPropertiesTicketInfo)(nil)).Elem()
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput) ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput() RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput) ToRoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutputWithContext(ctx context.Context) RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput {
+	return o
+}
+
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput) Elem() RoleEligibilityScheduleRequestPropertiesTicketInfoOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesTicketInfo) RoleEligibilityScheduleRequestPropertiesTicketInfo {
+		if v != nil {
+			return *v
+		}
+		var ret RoleEligibilityScheduleRequestPropertiesTicketInfo
+		return ret
+	}).(RoleEligibilityScheduleRequestPropertiesTicketInfoOutput)
+}
+
+// Ticket number for the role eligibility
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput) TicketNumber() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesTicketInfo) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TicketNumber
+	}).(pulumi.StringPtrOutput)
+}
+
+// Ticket system name for the role eligibility
+func (o RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput) TicketSystem() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RoleEligibilityScheduleRequestPropertiesTicketInfo) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TicketSystem
+	}).(pulumi.StringPtrOutput)
+}
+
 // The role management policy approval rule.
 type RoleManagementPolicyApprovalRule struct {
 	// The id of the rule.
@@ -7276,6 +8363,13 @@ func init() {
 	pulumi.RegisterOutputType(ApprovalStageArrayOutput{})
 	pulumi.RegisterOutputType(ApprovalStageResponseOutput{})
 	pulumi.RegisterOutputType(ApprovalStageResponseArrayOutput{})
+	pulumi.RegisterOutputType(ExpandedPropertiesResponseOutput{})
+	pulumi.RegisterOutputType(ExpandedPropertiesResponsePrincipalOutput{})
+	pulumi.RegisterOutputType(ExpandedPropertiesResponsePrincipalPtrOutput{})
+	pulumi.RegisterOutputType(ExpandedPropertiesResponseRoleDefinitionOutput{})
+	pulumi.RegisterOutputType(ExpandedPropertiesResponseRoleDefinitionPtrOutput{})
+	pulumi.RegisterOutputType(ExpandedPropertiesResponseScopeOutput{})
+	pulumi.RegisterOutputType(ExpandedPropertiesResponseScopePtrOutput{})
 	pulumi.RegisterOutputType(IdentityOutput{})
 	pulumi.RegisterOutputType(IdentityPtrOutput{})
 	pulumi.RegisterOutputType(IdentityResponseOutput{})
@@ -7353,6 +8447,18 @@ func init() {
 	pulumi.RegisterOutputType(ResourceSelectorArrayOutput{})
 	pulumi.RegisterOutputType(ResourceSelectorResponseOutput{})
 	pulumi.RegisterOutputType(ResourceSelectorResponseArrayOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesExpirationOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesExpirationPtrOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesResponseExpirationOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesResponseExpirationPtrOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesResponseScheduleInfoPtrOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesResponseTicketInfoOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesResponseTicketInfoPtrOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesScheduleInfoOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesScheduleInfoPtrOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesTicketInfoOutput{})
+	pulumi.RegisterOutputType(RoleEligibilityScheduleRequestPropertiesTicketInfoPtrOutput{})
 	pulumi.RegisterOutputType(RoleManagementPolicyApprovalRuleOutput{})
 	pulumi.RegisterOutputType(RoleManagementPolicyApprovalRuleResponseOutput{})
 	pulumi.RegisterOutputType(RoleManagementPolicyAuthenticationContextRuleOutput{})

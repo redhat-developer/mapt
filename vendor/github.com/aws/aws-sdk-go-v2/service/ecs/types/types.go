@@ -164,21 +164,25 @@ type AutoScalingGroupProviderUpdate struct {
 type AwsVpcConfiguration struct {
 
 	// The IDs of the subnets associated with the task or service. There's a limit of
-	// 16 subnets that can be specified per awsvpcConfiguration .
+	// 16 subnets that can be specified.
 	//
 	// All specified subnets must be from the same VPC.
 	//
 	// This member is required.
 	Subnets []string
 
-	// Whether the task's elastic network interface receives a public IP address. The
-	// default value is ENABLED .
+	// Whether the task's elastic network interface receives a public IP address.
+	//
+	// Consider the following when you set this value:
+	//
+	//   - When you use create-service or update-service , the default is DISABLED .
+	//
+	//   - When the service deploymentController is ECS , the value must be DISABLED .
 	AssignPublicIp AssignPublicIp
 
 	// The IDs of the security groups associated with the task or service. If you
 	// don't specify a security group, the default security group for the VPC is used.
-	// There's a limit of 5 security groups that can be specified per
-	// awsvpcConfiguration .
+	// There's a limit of 5 security groups that can be specified.
 	//
 	// All specified security groups must be from the same VPC.
 	SecurityGroups []string
@@ -527,8 +531,8 @@ type ClusterServiceConnectDefaultsRequest struct {
 	// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map
 	// namespace that's used when you create a service and don't specify a Service
 	// Connect configuration. The namespace name can include up to 1024 characters. The
-	// name is case-sensitive. The name can't include hyphens (-), tilde (~), greater
-	// than (>), less than (<), or slash (/).
+	// name is case-sensitive. The name can't include greater than (>), less than (<),
+	// double quotation marks ("), or slash (/).
 	//
 	// If you enter an existing namespace name or ARN, then that namespace will be
 	// used. Any namespace type is supported. The namespace must be in this account and
@@ -957,8 +961,8 @@ type ContainerDefinition struct {
 	// and VPC settings.
 	Links []string
 
-	// Linux-specific modifications that are applied to the container, such as Linux
-	// kernel capabilities. For more information see [KernelCapabilities].
+	// Linux-specific modifications that are applied to the default Docker container
+	// configuration, such as Linux kernel capabilities. For more information see [KernelCapabilities].
 	//
 	// This parameter is not supported for Windows containers.
 	//
@@ -2497,8 +2501,13 @@ type FSxWindowsFileServerVolumeConfiguration struct {
 //   - Container health checks aren't supported for tasks that are part of a
 //     service that's configured to use a Classic Load Balancer.
 //
+// For an example of how to specify a task definition with multiple containers
+// where container dependency is specified, see [Container dependency]in the Amazon Elastic Container
+// Service Developer Guide.
+//
 // [Updating the Amazon ECS container agent]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html
 // [Fargate platform versions]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html
+// [Container dependency]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency
 type HealthCheck struct {
 
 	// A string array representing the command that the container runs to determine if
@@ -2524,17 +2533,19 @@ type HealthCheck struct {
 	Command []string
 
 	// The time period in seconds between each health check execution. You may specify
-	// between 5 and 300 seconds. The default value is 30 seconds.
+	// between 5 and 300 seconds. The default value is 30 seconds. This value applies
+	// only when you specify a command .
 	Interval *int32
 
 	// The number of times to retry a failed health check before the container is
 	// considered unhealthy. You may specify between 1 and 10 retries. The default
-	// value is 3.
+	// value is 3. This value applies only when you specify a command .
 	Retries *int32
 
 	// The optional grace period to provide containers time to bootstrap before failed
 	// health checks count towards the maximum number of retries. You can specify
-	// between 0 and 300 seconds. By default, the startPeriod is off.
+	// between 0 and 300 seconds. By default, the startPeriod is off. This value
+	// applies only when you specify a command .
 	//
 	// If a health check succeeds within the startPeriod , then the container is
 	// considered healthy and any subsequent failures count toward the maximum number
@@ -2543,7 +2554,7 @@ type HealthCheck struct {
 
 	// The time period in seconds to wait for a health check to succeed before it is
 	// considered a failure. You may specify between 2 and 60 seconds. The default
-	// value is 5.
+	// value is 5. This value applies only when you specify a command .
 	Timeout *int32
 
 	noSmithyDocumentSerde
@@ -2650,6 +2661,30 @@ type InstanceHealthCheckResult struct {
 // for a container defined in the task definition. For more detailed information
 // about these Linux capabilities, see the [capabilities(7)]Linux manual page.
 //
+// The following describes how Docker processes the Linux capabilities specified
+// in the add and drop request parameters. For information about the latest
+// behavior, see [Docker Compose: order of cap_drop and cap_add]in the Docker Community Forum.
+//
+//   - When the container is a privleged container, the container capabilities are
+//     all of the default Docker capabilities. The capabilities specified in the add
+//     request parameter, and the drop request parameter are ignored.
+//
+//   - When the add request parameter is set to ALL, the container capabilities are
+//     all of the default Docker capabilities, excluding those specified in the drop
+//     request parameter.
+//
+//   - When the drop request parameter is set to ALL, the container capabilities
+//     are the capabilities specified in the add request parameter.
+//
+//   - When the add request parameter and the drop request parameter are both
+//     empty, the capabilities the container capabilities are all of the default Docker
+//     capabilities.
+//
+//   - The default is to first drop the capabilities specified in the drop request
+//     parameter, and then add the capabilities specified in the add request
+//     parameter.
+//
+// [Docker Compose: order of cap_drop and cap_add]: https://forums.docker.com/t/docker-compose-order-of-cap-drop-and-cap-add/97136/1
 // [capabilities(7)]: http://man7.org/linux/man-pages/man7/capabilities.7.html
 type KernelCapabilities struct {
 
@@ -3163,9 +3198,13 @@ type ManagedScaling struct {
 type ManagedStorageConfiguration struct {
 
 	// Specify the Key Management Service key ID for the Fargate ephemeral storage.
+	//
+	// The key must be a single Region key.
 	FargateEphemeralStorageKmsKeyId *string
 
 	// Specify a Key Management Service key ID to encrypt the managed storage.
+	//
+	// The key must be a single Region key.
 	KmsKeyId *string
 
 	noSmithyDocumentSerde
@@ -3792,7 +3831,7 @@ type Service struct {
 	// Indicates whether to use Availability Zone rebalancing for the service.
 	//
 	// For more information, see [Balancing an Amazon ECS service across Availability Zones] in the Amazon Elastic Container Service Developer
-	// Guide.
+	// Guide .
 	//
 	// [Balancing an Amazon ECS service across Availability Zones]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html
 	AvailabilityZoneRebalancing AvailabilityZoneRebalancing
@@ -4891,12 +4930,13 @@ type Task struct {
 	// values are converted to an integer that indicates the CPU units when the task
 	// definition is registered.
 	//
-	// If you use the EC2 launch type, this field is optional. Supported values are
-	// between 128 CPU units ( 0.125 vCPUs) and 10240 CPU units ( 10 vCPUs).
+	// If you're using the EC2 launch type or the external launch type, this field is
+	// optional. Supported values are between 128 CPU units ( 0.125 vCPUs) and 196608
+	// CPU units ( 192 vCPUs). If you do not specify a value, the parameter is ignored.
 	//
-	// If you use the Fargate launch type, this field is required. You must use one of
-	// the following values. These values determine the range of supported values for
-	// the memory parameter:
+	// If you're using the Fargate launch type, this field is required. You must use
+	// one of the following values. These values determine the range of supported
+	// values for the memory parameter:
 	//
 	// The CPU units cannot be less than 1 vCPU when you use Windows containers on
 	// Fargate.
@@ -5138,11 +5178,10 @@ type TaskDefinition struct {
 	// this field is required. You must use one of the following values. The value that
 	// you choose determines your range of valid values for the memory parameter.
 	//
-	// If you use the EC2 launch type, this field is optional. Supported values are
-	// between 128 CPU units ( 0.125 vCPUs) and 10240 CPU units ( 10 vCPUs).
-	//
-	// The CPU units cannot be less than 1 vCPU when you use Windows containers on
-	// Fargate.
+	// If you're using the EC2 launch type or the external launch type, this field is
+	// optional. Supported values are between 128 CPU units ( 0.125 vCPUs) and 196608
+	// CPU units ( 192 vCPUs). The CPU units cannot be less than 1 vCPU when you use
+	// Windows containers on Fargate.
 	//
 	//   - 256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2
 	//   GB)

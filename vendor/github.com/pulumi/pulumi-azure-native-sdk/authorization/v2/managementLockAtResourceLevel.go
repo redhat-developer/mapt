@@ -38,6 +38,9 @@ func NewManagementLockAtResourceLevel(ctx *pulumi.Context,
 		return nil, errors.New("missing one or more required arguments")
 	}
 
+	if args.ApiVersion == nil {
+		return nil, errors.New("invalid value for required argument 'ApiVersion'")
+	}
 	if args.Level == nil {
 		return nil, errors.New("invalid value for required argument 'Level'")
 	}
@@ -101,6 +104,8 @@ func (ManagementLockAtResourceLevelState) ElementType() reflect.Type {
 }
 
 type managementLockAtResourceLevelArgs struct {
+	// The API version to use for this operation.
+	ApiVersion string `pulumi:"apiVersion"`
 	// The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it.
 	Level string `pulumi:"level"`
 	// The name of lock. The lock name can be a maximum of 260 characters. It cannot contain <, > %, &, :, \, ?, /, or any control characters.
@@ -123,6 +128,8 @@ type managementLockAtResourceLevelArgs struct {
 
 // The set of arguments for constructing a ManagementLockAtResourceLevel resource.
 type ManagementLockAtResourceLevelArgs struct {
+	// The API version to use for this operation.
+	ApiVersion pulumi.StringInput
 	// The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it.
 	Level pulumi.StringInput
 	// The name of lock. The lock name can be a maximum of 260 characters. It cannot contain <, > %, &, :, \, ?, /, or any control characters.

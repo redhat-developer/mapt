@@ -64,9 +64,9 @@ func (e *AttributeLimitExceededException) ErrorCode() string {
 }
 func (e *AttributeLimitExceededException) ErrorFault() smithy.ErrorFault { return smithy.FaultClient }
 
-// Your Amazon Web Services account was blocked. For more information, contact [Amazon Web Services Support].
+// Your Amazon Web Services account was blocked. For more information, contact [Amazon Web ServicesSupport].
 //
-// [Amazon Web Services Support]: http://aws.amazon.com/contact-us/
+// [Amazon Web ServicesSupport]: http://aws.amazon.com/contact-us/
 type BlockedException struct {
 	Message *string
 
@@ -285,6 +285,10 @@ func (e *ConflictException) ErrorFault() smithy.ErrorFault { return smithy.Fault
 
 // The specified parameter isn't valid. Review the available parameters for the
 // API request.
+//
+// For more information about service event errors, see [Amazon ECS service event messages].
+//
+// [Amazon ECS service event messages]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html
 type InvalidParameterException struct {
 	Message *string
 

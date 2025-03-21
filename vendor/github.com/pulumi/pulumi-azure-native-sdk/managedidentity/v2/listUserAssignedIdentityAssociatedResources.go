@@ -51,15 +51,11 @@ type ListUserAssignedIdentityAssociatedResourcesResult struct {
 }
 
 func ListUserAssignedIdentityAssociatedResourcesOutput(ctx *pulumi.Context, args ListUserAssignedIdentityAssociatedResourcesOutputArgs, opts ...pulumi.InvokeOption) ListUserAssignedIdentityAssociatedResourcesResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (ListUserAssignedIdentityAssociatedResourcesResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (ListUserAssignedIdentityAssociatedResourcesResultOutput, error) {
 			args := v.(ListUserAssignedIdentityAssociatedResourcesArgs)
-			r, err := ListUserAssignedIdentityAssociatedResources(ctx, &args, opts...)
-			var s ListUserAssignedIdentityAssociatedResourcesResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("azure-native:managedidentity:listUserAssignedIdentityAssociatedResources", args, ListUserAssignedIdentityAssociatedResourcesResultOutput{}, options).(ListUserAssignedIdentityAssociatedResourcesResultOutput), nil
 		}).(ListUserAssignedIdentityAssociatedResourcesResultOutput)
 }
 

@@ -26,6 +26,8 @@ func LookupResource(ctx *pulumi.Context, args *LookupResourceArgs, opts ...pulum
 }
 
 type LookupResourceArgs struct {
+	// The API version to use for the operation.
+	ApiVersion string `pulumi:"apiVersion"`
 	// The parent resource identity.
 	ParentResourcePath string `pulumi:"parentResourcePath"`
 	// The name of the resource group containing the resource to get. The name is case insensitive.
@@ -76,6 +78,8 @@ func LookupResourceOutput(ctx *pulumi.Context, args LookupResourceOutputArgs, op
 }
 
 type LookupResourceOutputArgs struct {
+	// The API version to use for the operation.
+	ApiVersion pulumi.StringInput `pulumi:"apiVersion"`
 	// The parent resource identity.
 	ParentResourcePath pulumi.StringInput `pulumi:"parentResourcePath"`
 	// The name of the resource group containing the resource to get. The name is case insensitive.
