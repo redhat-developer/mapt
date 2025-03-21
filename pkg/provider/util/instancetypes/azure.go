@@ -101,6 +101,10 @@ func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
 	if res.ResourceType != nil && *res.ResourceType != "virtualMachines" {
 		return nil
 	}
+	// If Machine type has any type of restriccions discard
+	if len(res.Restrictions) > 0 {
+		return nil
+	}
 	vm := &virtualMachine{
 		Name:   *res.Name,
 		Family: *res.Family,
