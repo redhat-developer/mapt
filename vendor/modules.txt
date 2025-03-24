@@ -151,7 +151,7 @@ github.com/aws/aws-sdk-go-v2/internal/timeconv
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream
 github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi
-# github.com/aws/aws-sdk-go-v2/config v1.29.8
+# github.com/aws/aws-sdk-go-v2/config v1.29.9
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/config
 # github.com/aws/aws-sdk-go-v2/credentials v1.17.62
@@ -191,7 +191,7 @@ github.com/aws/aws-sdk-go-v2/service/ec2/types
 github.com/aws/aws-sdk-go-v2/service/ecs
 github.com/aws/aws-sdk-go-v2/service/ecs/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ecs/types
-# github.com/aws/aws-sdk-go-v2/service/iam v1.40.1
+# github.com/aws/aws-sdk-go-v2/service/iam v1.40.2
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/iam
 github.com/aws/aws-sdk-go-v2/service/iam/internal/endpoints
@@ -575,8 +575,8 @@ github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/s3
-# github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.0
-## explicit; go 1.21.12
+# github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
+## explicit; go 1.22
 github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/awsx
 github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs
 github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/internal
@@ -946,8 +946,8 @@ google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-# google.golang.org/protobuf v1.36.5
-## explicit; go 1.21
+# google.golang.org/protobuf v1.36.6
+## explicit; go 1.22
 google.golang.org/protobuf/encoding/protojson
 google.golang.org/protobuf/encoding/prototext
 google.golang.org/protobuf/encoding/protowire
