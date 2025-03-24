@@ -31,18 +31,18 @@ jobs:
       - name: Download mapt image from artifacts
         uses: actions/download-artifact@v4
         with:
-          name: mapt
+          pattern: mapt*
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 
       - name: Import mapt image
         run: |
-          podman load -i mapt-amd64.tar
+          podman load -i mapt-amd64/mapt-amd64.tar
           podman images
 
       - name: Run mapt
         run: |
-          MAPT_IMAGE=$(cat mapt-image)-amd64
+          MAPT_IMAGE=$(cat mapt-amd64/mapt-image)-amd64
           podman run --name mapt-create --rm \
             -v ${PWD}:/workspace:z \
             -e ARM_CLIENT_ID=${{secrets.ARM_CLIENT_ID}} \
