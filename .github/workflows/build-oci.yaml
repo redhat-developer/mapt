@@ -18,7 +18,7 @@ name: oci-builds
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, "0.8" ]
     tags:
       - '*'
   pull_request:
