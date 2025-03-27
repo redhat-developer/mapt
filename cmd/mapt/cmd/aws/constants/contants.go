@@ -2,6 +2,7 @@ package constants
 
 import (
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"
 )
 
@@ -29,4 +30,12 @@ func MACArchAsCirrusArch(arch string) *cirrus.Arch {
 		return &cirrus.Amd64
 	}
 	return &cirrus.Arm64
+}
+
+func MACArchAsGithubArch(arch string) *github.Arch {
+	switch arch {
+	case "x86_64":
+		return &github.Amd64
+	}
+	return &github.Arm64
 }

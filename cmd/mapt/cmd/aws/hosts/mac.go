@@ -56,8 +56,8 @@ func getMacRequest() *cobra.Command {
 					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
 					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
 					Platform: &github.Linux,
-					Arch: params.LinuxArchAsGithubActionsArch(
-						viper.GetString(params.LinuxArch)),
+					Arch: awsParams.MACArchAsGithubArch(
+						viper.GetString(awsParams.MACArch)),
 				}
 			}
 
