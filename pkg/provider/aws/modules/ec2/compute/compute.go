@@ -44,8 +44,11 @@ type ComputeRequest struct {
 	Airgap         bool
 	Spot           bool
 	// Only required if Spot is true
-	SpotPrice        string
+	SpotPrice string
+	// Only required if we need to set userdata
 	UserDataAsBase64 pulumi.StringPtrInput
+	// If we need to add explicit dependecies
+	DependsOn []pulumi.Resource
 }
 
 type Compute struct {
@@ -94,7 +97,8 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 	}
 	return ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance"),
-		&args)
+		&args,
+		pulumi.DependsOn(r.DependsOn))
 }
 
 // create asg with 1 instance forced by spot
@@ -183,7 +187,8 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 			},
 		},
 		pulumi.Timeouts(&pulumi.CustomTimeouts{
-			Delete: "30m"}))
+			Delete: "30m"}),
+		pulumi.DependsOn(r.DependsOn))
 }
 
 // function returns the ip to access the target host
@@ -216,6 +221,26 @@ func (compute *Compute) Readiness(ctx *pulumi.Context,
 				Update: command.RemoteTimeout}),
 		pulumi.DependsOn(dependecies))
 	return err
+}
+
+// Check if compute is healthy based on running a remote cmd
+func (compute *Compute) RunCommand(ctx *pulumi.Context,
+	cmd string,
+	prefix, id string,
+	mk *tls.PrivateKey, username string,
+	b *bastion.Bastion,
+	dependecies []pulumi.Resource) (*remote.Command, error) {
+	return remote.NewCommand(ctx,
+		resourcesUtil.GetResourceName(prefix, id, "cmd"),
+		&remote.CommandArgs{
+			Connection: remoteCommandArgs(compute, mk, username, b),
+			Create:     pulumi.String(cmd),
+			Update:     pulumi.String(cmd),
+		}, pulumi.Timeouts(
+			&pulumi.CustomTimeouts{
+				Create: command.RemoteTimeout,
+				Update: command.RemoteTimeout}),
+		pulumi.DependsOn(dependecies))
 }
 
 // helper function to set the connection args

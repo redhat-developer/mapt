@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -183,7 +184,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf(amiRegex[r.Arch], r.Version),
-		amiOwner,
+		[]string{amiOwner},
 		map[string]string{
 			"architecture": r.Arch})
 	if err != nil {
@@ -239,7 +240,11 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		Airgap:         r.Airgap,
 		LB:             lb,
 		LBTargetGroups: []int{22},
-		Spot:           r.Spot}
+	}
+	if r.Spot {
+		cr.Spot = true
+		cr.SpotPrice = strconv.FormatFloat(r.spotPrice, 'f', -1, 64)
+	}
 	c, err := cr.NewCompute(ctx)
 	if err != nil {
 		return err
