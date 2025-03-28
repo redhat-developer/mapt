@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
@@ -96,7 +97,7 @@ func getRHELCreate() *cobra.Command {
 					SubsUsername: viper.GetString(params.SubsUsername),
 					SubsUserpass: viper.GetString(params.SubsUserpass),
 					ProfileSNC:   viper.IsSet(params.ProfileSNC),
-					Spot:         viper.IsSet(spot),
+					Spot:         viper.IsSet(awsParams.Spot),
 					Timeout:      viper.GetString(params.Timeout),
 					Airgap:       viper.IsSet(airgap),
 				}); err != nil {
@@ -114,7 +115,7 @@ func getRHELCreate() *cobra.Command {
 	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)
 	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
-	flagSet.Bool(spot, false, spotDesc)
+	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())

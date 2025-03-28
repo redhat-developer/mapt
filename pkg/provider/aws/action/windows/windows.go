@@ -213,7 +213,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 	// ami, err := amiSVC.GetAMIByName(ctx, r.AMIName, r.AMIOwner, nil)
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf("%s*", r.AMIName),
-		r.AMIOwner, nil)
+		[]string{r.AMIOwner}, nil)
 
 	if err != nil {
 		return err

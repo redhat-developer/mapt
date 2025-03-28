@@ -173,7 +173,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf(amiRegex, r.Version, r.Arch),
-		"",
+		nil,
 		map[string]string{
 			"architecture": r.Arch})
 	if err != nil {
