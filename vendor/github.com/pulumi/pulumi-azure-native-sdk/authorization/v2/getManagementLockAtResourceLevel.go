@@ -12,7 +12,8 @@ import (
 )
 
 // Get the management lock of a resource or any level below resource.
-// Azure REST API version: 2020-05-01.
+//
+// Uses Azure REST API version 2020-05-01.
 func LookupManagementLockAtResourceLevel(ctx *pulumi.Context, args *LookupManagementLockAtResourceLevelArgs, opts ...pulumi.InvokeOption) (*LookupManagementLockAtResourceLevelResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupManagementLockAtResourceLevelResult

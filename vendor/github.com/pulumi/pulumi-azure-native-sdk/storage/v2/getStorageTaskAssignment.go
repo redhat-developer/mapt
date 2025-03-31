@@ -12,7 +12,8 @@ import (
 )
 
 // Get the storage task assignment properties
-// Azure REST API version: 2023-05-01.
+//
+// Uses Azure REST API version 2023-05-01.
 //
 // Other available API versions: 2024-01-01.
 func LookupStorageTaskAssignment(ctx *pulumi.Context, args *LookupStorageTaskAssignmentArgs, opts ...pulumi.InvokeOption) (*LookupStorageTaskAssignmentResult, error) {

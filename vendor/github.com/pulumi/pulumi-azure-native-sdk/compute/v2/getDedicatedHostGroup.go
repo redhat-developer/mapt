@@ -12,9 +12,10 @@ import (
 )
 
 // Retrieves information about a dedicated host group.
-// Azure REST API version: 2023-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
+// Uses Azure REST API version 2023-03-01.
+//
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01, 2024-11-01.
 func LookupDedicatedHostGroup(ctx *pulumi.Context, args *LookupDedicatedHostGroupArgs, opts ...pulumi.InvokeOption) (*LookupDedicatedHostGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDedicatedHostGroupResult

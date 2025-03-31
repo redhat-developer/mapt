@@ -12,7 +12,8 @@ import (
 )
 
 // Get single access review definition
-// Azure REST API version: 2021-12-01-preview.
+//
+// Uses Azure REST API version 2021-12-01-preview.
 func LookupAccessReviewScheduleDefinitionById(ctx *pulumi.Context, args *LookupAccessReviewScheduleDefinitionByIdArgs, opts ...pulumi.InvokeOption) (*LookupAccessReviewScheduleDefinitionByIdResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupAccessReviewScheduleDefinitionByIdResult

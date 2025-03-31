@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a Rules Engine Configuration with the specified name within the specified Front Door.
-// Azure REST API version: 2021-06-01.
+//
+// Uses Azure REST API version 2021-06-01.
 func LookupRulesEngine(ctx *pulumi.Context, args *LookupRulesEngineArgs, opts ...pulumi.InvokeOption) (*LookupRulesEngineResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRulesEngineResult

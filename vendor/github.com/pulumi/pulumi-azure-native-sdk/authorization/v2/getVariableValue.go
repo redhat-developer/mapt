@@ -12,7 +12,10 @@ import (
 )
 
 // This operation retrieves a single variable value; given its name, subscription it was created at and the variable it's created for.
-// Azure REST API version: 2022-08-01-preview.
+//
+// Uses Azure REST API version 2022-08-01-preview.
+//
+// Other available API versions: 2024-12-01-preview.
 func LookupVariableValue(ctx *pulumi.Context, args *LookupVariableValueArgs, opts ...pulumi.InvokeOption) (*LookupVariableValueResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVariableValueResult

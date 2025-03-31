@@ -13,7 +13,8 @@ import (
 )
 
 // Describes a DNS security rule.
-// Azure REST API version: 2023-07-01-preview.
+//
+// Uses Azure REST API version 2023-07-01-preview.
 type DnsSecurityRule struct {
 	pulumi.CustomResourceState
 

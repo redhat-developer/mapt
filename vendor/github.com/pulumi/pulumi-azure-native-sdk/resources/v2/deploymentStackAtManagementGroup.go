@@ -13,7 +13,8 @@ import (
 )
 
 // Deployment stack object.
-// Azure REST API version: 2022-08-01-preview.
+//
+// Uses Azure REST API version 2022-08-01-preview.
 //
 // Other available API versions: 2024-03-01.
 type DeploymentStackAtManagementGroup struct {

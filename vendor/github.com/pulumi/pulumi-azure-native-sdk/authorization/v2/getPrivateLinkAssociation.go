@@ -12,7 +12,8 @@ import (
 )
 
 // Get a single private link association
-// Azure REST API version: 2020-05-01.
+//
+// Uses Azure REST API version 2020-05-01.
 func LookupPrivateLinkAssociation(ctx *pulumi.Context, args *LookupPrivateLinkAssociationArgs, opts ...pulumi.InvokeOption) (*LookupPrivateLinkAssociationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPrivateLinkAssociationResult

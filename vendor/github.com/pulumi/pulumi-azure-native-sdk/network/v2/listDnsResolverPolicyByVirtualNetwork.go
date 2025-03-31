@@ -12,7 +12,8 @@ import (
 )
 
 // Lists DNS resolver policy resource IDs linked to a virtual network.
-// Azure REST API version: 2023-07-01-preview.
+//
+// Uses Azure REST API version 2023-07-01-preview.
 func ListDnsResolverPolicyByVirtualNetwork(ctx *pulumi.Context, args *ListDnsResolverPolicyByVirtualNetworkArgs, opts ...pulumi.InvokeOption) (*ListDnsResolverPolicyByVirtualNetworkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListDnsResolverPolicyByVirtualNetworkResult

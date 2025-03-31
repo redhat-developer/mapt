@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a management lock at the resource group level.
-// Azure REST API version: 2020-05-01.
+//
+// Uses Azure REST API version 2020-05-01.
 func LookupManagementLockAtResourceGroupLevel(ctx *pulumi.Context, args *LookupManagementLockAtResourceGroupLevelArgs, opts ...pulumi.InvokeOption) (*LookupManagementLockAtResourceGroupLevelResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupManagementLockAtResourceGroupLevelResult

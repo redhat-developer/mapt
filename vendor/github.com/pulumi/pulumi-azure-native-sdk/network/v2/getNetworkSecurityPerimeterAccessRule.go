@@ -12,7 +12,8 @@ import (
 )
 
 // Gets the specified NSP access rule by name.
-// Azure REST API version: 2024-06-01-preview.
+//
+// Uses Azure REST API version 2024-06-01-preview.
 func LookupNetworkSecurityPerimeterAccessRule(ctx *pulumi.Context, args *LookupNetworkSecurityPerimeterAccessRuleArgs, opts ...pulumi.InvokeOption) (*LookupNetworkSecurityPerimeterAccessRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkSecurityPerimeterAccessRuleResult

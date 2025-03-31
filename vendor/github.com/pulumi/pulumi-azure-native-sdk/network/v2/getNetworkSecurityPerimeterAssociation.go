@@ -12,7 +12,8 @@ import (
 )
 
 // Gets the specified NSP association by name.
-// Azure REST API version: 2024-06-01-preview.
+//
+// Uses Azure REST API version 2024-06-01-preview.
 func LookupNetworkSecurityPerimeterAssociation(ctx *pulumi.Context, args *LookupNetworkSecurityPerimeterAssociationArgs, opts ...pulumi.InvokeOption) (*LookupNetworkSecurityPerimeterAssociationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkSecurityPerimeterAssociationResult

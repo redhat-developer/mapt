@@ -13,7 +13,8 @@ import (
 )
 
 // Represents the DNSSEC configuration.
-// Azure REST API version: 2023-07-01-preview.
+//
+// Uses Azure REST API version 2023-07-01-preview.
 type DnssecConfig struct {
 	pulumi.CustomResourceState
 

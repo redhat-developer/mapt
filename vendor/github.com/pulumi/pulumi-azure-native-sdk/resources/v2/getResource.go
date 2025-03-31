@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a resource.
-// Azure REST API version: 2022-09-01.
+//
+// Uses Azure REST API version 2022-09-01.
 //
 // Other available API versions: 2023-07-01, 2024-03-01, 2024-07-01, 2024-11-01.
 func LookupResource(ctx *pulumi.Context, args *LookupResourceArgs, opts ...pulumi.InvokeOption) (*LookupResourceResult, error) {

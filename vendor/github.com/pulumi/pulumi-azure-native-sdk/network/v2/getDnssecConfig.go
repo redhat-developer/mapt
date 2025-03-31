@@ -12,7 +12,8 @@ import (
 )
 
 // Gets the DNSSEC configuration.
-// Azure REST API version: 2023-07-01-preview.
+//
+// Uses Azure REST API version 2023-07-01-preview.
 func LookupDnssecConfig(ctx *pulumi.Context, args *LookupDnssecConfigArgs, opts ...pulumi.InvokeOption) (*LookupDnssecConfigResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDnssecConfigResult

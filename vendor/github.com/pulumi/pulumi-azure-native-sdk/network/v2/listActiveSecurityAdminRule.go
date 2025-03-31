@@ -12,7 +12,8 @@ import (
 )
 
 // Lists active security admin rules in a network manager.
-// Azure REST API version: 2021-02-01-preview.
+//
+// Uses Azure REST API version 2021-02-01-preview.
 func ListActiveSecurityAdminRule(ctx *pulumi.Context, args *ListActiveSecurityAdminRuleArgs, opts ...pulumi.InvokeOption) (*ListActiveSecurityAdminRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListActiveSecurityAdminRuleResult

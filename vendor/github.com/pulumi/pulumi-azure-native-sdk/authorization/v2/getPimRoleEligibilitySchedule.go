@@ -12,7 +12,8 @@ import (
 )
 
 // Get the specified role eligibility schedule request.
-// Azure REST API version: 2020-10-01.
+//
+// Uses Azure REST API version 2020-10-01.
 func LookupPimRoleEligibilitySchedule(ctx *pulumi.Context, args *LookupPimRoleEligibilityScheduleArgs, opts ...pulumi.InvokeOption) (*LookupPimRoleEligibilityScheduleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPimRoleEligibilityScheduleResult

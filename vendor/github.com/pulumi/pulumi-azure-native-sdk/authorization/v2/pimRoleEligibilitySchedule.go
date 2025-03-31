@@ -25,8 +25,6 @@ import (
 // Internally, this resource uses the
 // [Role Eligibility Schedule Requests](https://learn.microsoft.com/en-us/rest/api/authorization/role-eligibility-schedule-requests?view=rest-authorization-2020-10-01)
 // API to create and delete the schedules.
-//
-// Azure REST API version: 2020-10-01.
 type PimRoleEligibilitySchedule struct {
 	pulumi.CustomResourceState
 

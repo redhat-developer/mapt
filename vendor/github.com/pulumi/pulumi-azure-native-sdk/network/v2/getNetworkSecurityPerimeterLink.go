@@ -12,7 +12,8 @@ import (
 )
 
 // Gets the specified NSP link resource.
-// Azure REST API version: 2024-06-01-preview.
+//
+// Uses Azure REST API version 2024-06-01-preview.
 func LookupNetworkSecurityPerimeterLink(ctx *pulumi.Context, args *LookupNetworkSecurityPerimeterLinkArgs, opts ...pulumi.InvokeOption) (*LookupNetworkSecurityPerimeterLinkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkSecurityPerimeterLinkResult

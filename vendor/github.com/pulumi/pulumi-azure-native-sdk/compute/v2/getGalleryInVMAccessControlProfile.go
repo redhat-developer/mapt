@@ -12,7 +12,8 @@ import (
 )
 
 // Retrieves information about a gallery inVMAccessControlProfile.
-// Azure REST API version: 2024-03-03.
+//
+// Uses Azure REST API version 2024-03-03.
 func LookupGalleryInVMAccessControlProfile(ctx *pulumi.Context, args *LookupGalleryInVMAccessControlProfileArgs, opts ...pulumi.InvokeOption) (*LookupGalleryInVMAccessControlProfileResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupGalleryInVMAccessControlProfileResult

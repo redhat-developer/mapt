@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a deployment script with a given name.
-// Azure REST API version: 2020-10-01.
+//
+// Uses Azure REST API version 2020-10-01.
 func LookupAzureCliScript(ctx *pulumi.Context, args *LookupAzureCliScriptArgs, opts ...pulumi.InvokeOption) (*LookupAzureCliScriptResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupAzureCliScriptResult

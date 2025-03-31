@@ -13,7 +13,8 @@ import (
 )
 
 // Interface endpoint resource.
-// Azure REST API version: 2019-02-01.
+//
+// Uses Azure REST API version 2019-02-01.
 type InterfaceEndpoint struct {
 	pulumi.CustomResourceState
 

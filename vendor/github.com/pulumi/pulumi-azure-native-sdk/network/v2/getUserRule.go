@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a user rule.
-// Azure REST API version: 2022-04-01-preview.
+//
+// Uses Azure REST API version 2022-04-01-preview.
 //
 // Other available API versions: 2021-05-01-preview.
 func LookupUserRule(ctx *pulumi.Context, args *LookupUserRuleArgs, opts ...pulumi.InvokeOption) (*LookupUserRuleResult, error) {

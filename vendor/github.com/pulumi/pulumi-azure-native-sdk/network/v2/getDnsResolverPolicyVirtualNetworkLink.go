@@ -12,7 +12,8 @@ import (
 )
 
 // Gets properties of a DNS resolver policy virtual network link.
-// Azure REST API version: 2023-07-01-preview.
+//
+// Uses Azure REST API version 2023-07-01-preview.
 func LookupDnsResolverPolicyVirtualNetworkLink(ctx *pulumi.Context, args *LookupDnsResolverPolicyVirtualNetworkLinkArgs, opts ...pulumi.InvokeOption) (*LookupDnsResolverPolicyVirtualNetworkLinkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDnsResolverPolicyVirtualNetworkLinkResult

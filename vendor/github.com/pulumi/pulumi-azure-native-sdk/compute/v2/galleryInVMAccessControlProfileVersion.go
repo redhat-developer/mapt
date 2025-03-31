@@ -13,7 +13,8 @@ import (
 )
 
 // Specifies information about the gallery inVMAccessControlProfile version that you want to create or update.
-// Azure REST API version: 2024-03-03.
+//
+// Uses Azure REST API version 2024-03-03.
 type GalleryInVMAccessControlProfileVersion struct {
 	pulumi.CustomResourceState
 
