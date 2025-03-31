@@ -12,7 +12,10 @@ import (
 )
 
 // This operation retrieves a single policy exemption, given its name and the scope it was created at.
-// Azure REST API version: 2022-07-01-preview.
+//
+// Uses Azure REST API version 2022-07-01-preview.
+//
+// Other available API versions: 2024-12-01-preview.
 func LookupPolicyExemption(ctx *pulumi.Context, args *LookupPolicyExemptionArgs, opts ...pulumi.InvokeOption) (*LookupPolicyExemptionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPolicyExemptionResult

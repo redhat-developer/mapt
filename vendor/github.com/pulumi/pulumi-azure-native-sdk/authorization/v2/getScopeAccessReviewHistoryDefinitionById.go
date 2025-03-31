@@ -12,7 +12,8 @@ import (
 )
 
 // Get access review history definition by definition Id
-// Azure REST API version: 2021-12-01-preview.
+//
+// Uses Azure REST API version 2021-12-01-preview.
 func LookupScopeAccessReviewHistoryDefinitionById(ctx *pulumi.Context, args *LookupScopeAccessReviewHistoryDefinitionByIdArgs, opts ...pulumi.InvokeOption) (*LookupScopeAccessReviewHistoryDefinitionByIdResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupScopeAccessReviewHistoryDefinitionByIdResult

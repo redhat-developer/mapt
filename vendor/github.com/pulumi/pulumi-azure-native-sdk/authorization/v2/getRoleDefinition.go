@@ -12,7 +12,8 @@ import (
 )
 
 // Get role definition by ID (GUID).
-// Azure REST API version: 2022-05-01-preview.
+//
+// Uses Azure REST API version 2022-05-01-preview.
 func LookupRoleDefinition(ctx *pulumi.Context, args *LookupRoleDefinitionArgs, opts ...pulumi.InvokeOption) (*LookupRoleDefinitionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupRoleDefinitionResult

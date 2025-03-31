@@ -12,7 +12,8 @@ import (
 )
 
 // Gets the NSP logging configuration.
-// Azure REST API version: 2024-06-01-preview.
+//
+// Uses Azure REST API version 2024-06-01-preview.
 func LookupNetworkSecurityPerimeterLoggingConfiguration(ctx *pulumi.Context, args *LookupNetworkSecurityPerimeterLoggingConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupNetworkSecurityPerimeterLoggingConfigurationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkSecurityPerimeterLoggingConfigurationResult

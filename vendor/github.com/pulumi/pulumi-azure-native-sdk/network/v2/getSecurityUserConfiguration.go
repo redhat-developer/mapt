@@ -12,7 +12,8 @@ import (
 )
 
 // Retrieves a network manager security user configuration.
-// Azure REST API version: 2022-04-01-preview.
+//
+// Uses Azure REST API version 2022-04-01-preview.
 //
 // Other available API versions: 2021-05-01-preview, 2024-03-01, 2024-05-01.
 func LookupSecurityUserConfiguration(ctx *pulumi.Context, args *LookupSecurityUserConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupSecurityUserConfigurationResult, error) {

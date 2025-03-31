@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a Template Spec version from a specific Template Spec.
-// Azure REST API version: 2022-02-01.
+//
+// Uses Azure REST API version 2022-02-01.
 //
 // Other available API versions: 2019-06-01-preview.
 func LookupTemplateSpecVersion(ctx *pulumi.Context, args *LookupTemplateSpecVersionArgs, opts ...pulumi.InvokeOption) (*LookupTemplateSpecVersionResult, error) {

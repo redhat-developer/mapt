@@ -12,7 +12,8 @@ import (
 )
 
 // Gets properties of a DNS resolver domain list.
-// Azure REST API version: 2023-07-01-preview.
+//
+// Uses Azure REST API version 2023-07-01-preview.
 func LookupDnsResolverDomainList(ctx *pulumi.Context, args *LookupDnsResolverDomainListArgs, opts ...pulumi.InvokeOption) (*LookupDnsResolverDomainListResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDnsResolverDomainListResult

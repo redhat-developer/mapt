@@ -12,7 +12,8 @@ import (
 )
 
 // Instance of Verifier Workspace.
-// Azure REST API version: 2024-01-01-preview.
+//
+// Uses Azure REST API version 2024-01-01-preview.
 //
 // Other available API versions: 2024-05-01.
 func LookupVerifierWorkspace(ctx *pulumi.Context, args *LookupVerifierWorkspaceArgs, opts ...pulumi.InvokeOption) (*LookupVerifierWorkspaceResult, error) {

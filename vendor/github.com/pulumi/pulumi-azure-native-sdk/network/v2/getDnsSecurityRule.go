@@ -12,7 +12,8 @@ import (
 )
 
 // Gets properties of a DNS security rule for a DNS resolver policy.
-// Azure REST API version: 2023-07-01-preview.
+//
+// Uses Azure REST API version 2023-07-01-preview.
 func LookupDnsSecurityRule(ctx *pulumi.Context, args *LookupDnsSecurityRuleArgs, opts ...pulumi.InvokeOption) (*LookupDnsSecurityRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDnsSecurityRuleResult

@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a network manager security configuration admin rule.
-// Azure REST API version: 2023-02-01.
+//
+// Uses Azure REST API version 2023-02-01.
 func LookupDefaultAdminRule(ctx *pulumi.Context, args *LookupDefaultAdminRuleArgs, opts ...pulumi.InvokeOption) (*LookupDefaultAdminRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDefaultAdminRuleResult

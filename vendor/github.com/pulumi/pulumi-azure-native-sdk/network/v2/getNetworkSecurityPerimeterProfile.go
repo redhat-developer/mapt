@@ -12,7 +12,8 @@ import (
 )
 
 // Gets the specified NSP profile.
-// Azure REST API version: 2024-06-01-preview.
+//
+// Uses Azure REST API version 2024-06-01-preview.
 func LookupNetworkSecurityPerimeterProfile(ctx *pulumi.Context, args *LookupNetworkSecurityPerimeterProfileArgs, opts ...pulumi.InvokeOption) (*LookupNetworkSecurityPerimeterProfileResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkSecurityPerimeterProfileResult

@@ -13,7 +13,8 @@ import (
 )
 
 // The NSP logging configuration
-// Azure REST API version: 2024-06-01-preview.
+//
+// Uses Azure REST API version 2024-06-01-preview.
 type NetworkSecurityPerimeterLoggingConfiguration struct {
 	pulumi.CustomResourceState
 

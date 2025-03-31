@@ -12,7 +12,8 @@ import (
 )
 
 // Gets the specified FirewallPolicyRuleGroup.
-// Azure REST API version: 2020-04-01.
+//
+// Uses Azure REST API version 2020-04-01.
 func LookupFirewallPolicyRuleGroup(ctx *pulumi.Context, args *LookupFirewallPolicyRuleGroupArgs, opts ...pulumi.InvokeOption) (*LookupFirewallPolicyRuleGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFirewallPolicyRuleGroupResult

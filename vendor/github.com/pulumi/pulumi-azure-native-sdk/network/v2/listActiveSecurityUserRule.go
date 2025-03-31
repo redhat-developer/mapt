@@ -12,7 +12,8 @@ import (
 )
 
 // Lists Active Security User Rules in a network manager.
-// Azure REST API version: 2021-02-01-preview.
+//
+// Uses Azure REST API version 2021-02-01-preview.
 func ListActiveSecurityUserRule(ctx *pulumi.Context, args *ListActiveSecurityUserRuleArgs, opts ...pulumi.InvokeOption) (*ListActiveSecurityUserRuleResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListActiveSecurityUserRuleResult

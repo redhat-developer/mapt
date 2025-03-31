@@ -13,9 +13,10 @@ import (
 )
 
 // Describes a Virtual Machine run command.
-// Azure REST API version: 2023-03-01. Prior API version in Azure Native 1.x: 2021-03-01.
 //
-// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
+// Uses Azure REST API version 2023-03-01. In version 1.x of the Azure Native provider, it used API version 2021-03-01.
+//
+// Other available API versions: 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01, 2024-11-01.
 type VirtualMachineRunCommandByVirtualMachine struct {
 	pulumi.CustomResourceState
 
@@ -118,6 +119,9 @@ func NewVirtualMachineRunCommandByVirtualMachine(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20240701:VirtualMachineRunCommandByVirtualMachine"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20241101:VirtualMachineRunCommandByVirtualMachine"),
 		},
 	})
 	opts = append(opts, aliases)

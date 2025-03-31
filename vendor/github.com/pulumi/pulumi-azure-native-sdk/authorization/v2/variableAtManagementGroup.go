@@ -13,7 +13,10 @@ import (
 )
 
 // The variable.
-// Azure REST API version: 2022-08-01-preview.
+//
+// Uses Azure REST API version 2022-08-01-preview.
+//
+// Other available API versions: 2024-12-01-preview.
 type VariableAtManagementGroup struct {
 	pulumi.CustomResourceState
 
@@ -43,6 +46,9 @@ func NewVariableAtManagementGroup(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:authorization/v20220801preview:VariableAtManagementGroup"),
+		},
+		{
+			Type: pulumi.String("azure-native:authorization/v20241201preview:VariableAtManagementGroup"),
 		},
 	})
 	opts = append(opts, aliases)

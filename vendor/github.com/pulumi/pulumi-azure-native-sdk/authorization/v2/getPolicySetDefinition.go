@@ -12,9 +12,10 @@ import (
 )
 
 // This operation retrieves the policy set definition in the given subscription with the given name.
-// Azure REST API version: 2021-06-01.
 //
-// Other available API versions: 2019-06-01, 2023-04-01, 2024-05-01, 2025-01-01.
+// Uses Azure REST API version 2021-06-01.
+//
+// Other available API versions: 2019-06-01, 2023-04-01, 2024-05-01, 2025-01-01, 2025-03-01.
 func LookupPolicySetDefinition(ctx *pulumi.Context, args *LookupPolicySetDefinitionArgs, opts ...pulumi.InvokeOption) (*LookupPolicySetDefinitionResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupPolicySetDefinitionResult

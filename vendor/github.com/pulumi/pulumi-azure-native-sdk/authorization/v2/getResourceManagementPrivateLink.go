@@ -12,7 +12,8 @@ import (
 )
 
 // Get a resource management private link(resource-level).
-// Azure REST API version: 2020-05-01.
+//
+// Uses Azure REST API version 2020-05-01.
 func LookupResourceManagementPrivateLink(ctx *pulumi.Context, args *LookupResourceManagementPrivateLinkArgs, opts ...pulumi.InvokeOption) (*LookupResourceManagementPrivateLinkResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupResourceManagementPrivateLinkResult

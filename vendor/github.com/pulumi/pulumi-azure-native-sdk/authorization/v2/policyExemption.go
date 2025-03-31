@@ -13,7 +13,10 @@ import (
 )
 
 // The policy exemption.
-// Azure REST API version: 2022-07-01-preview. Prior API version in Azure Native 1.x: 2020-07-01-preview.
+//
+// Uses Azure REST API version 2022-07-01-preview. In version 1.x of the Azure Native provider, it used API version 2020-07-01-preview.
+//
+// Other available API versions: 2024-12-01-preview.
 type PolicyExemption struct {
 	pulumi.CustomResourceState
 
@@ -68,6 +71,9 @@ func NewPolicyExemption(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:authorization/v20220701preview:PolicyExemption"),
+		},
+		{
+			Type: pulumi.String("azure-native:authorization/v20241201preview:PolicyExemption"),
 		},
 	})
 	opts = append(opts, aliases)

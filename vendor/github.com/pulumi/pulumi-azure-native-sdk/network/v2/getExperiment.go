@@ -12,7 +12,8 @@ import (
 )
 
 // Defines the properties of an Experiment
-// Azure REST API version: 2019-11-01.
+//
+// Uses Azure REST API version 2019-11-01.
 func LookupExperiment(ctx *pulumi.Context, args *LookupExperimentArgs, opts ...pulumi.InvokeOption) (*LookupExperimentResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupExperimentResult

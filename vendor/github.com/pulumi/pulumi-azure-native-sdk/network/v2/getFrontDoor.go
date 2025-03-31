@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a Front Door with the specified Front Door name under the specified subscription and resource group.
-// Azure REST API version: 2021-06-01.
+//
+// Uses Azure REST API version 2021-06-01.
 func LookupFrontDoor(ctx *pulumi.Context, args *LookupFrontDoorArgs, opts ...pulumi.InvokeOption) (*LookupFrontDoorResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFrontDoorResult

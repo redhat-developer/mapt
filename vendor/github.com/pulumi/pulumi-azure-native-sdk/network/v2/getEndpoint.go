@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a Traffic Manager endpoint.
-// Azure REST API version: 2022-04-01.
+//
+// Uses Azure REST API version 2022-04-01.
 //
 // Other available API versions: 2022-04-01-preview.
 func LookupEndpoint(ctx *pulumi.Context, args *LookupEndpointArgs, opts ...pulumi.InvokeOption) (*LookupEndpointResult, error) {

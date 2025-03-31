@@ -12,7 +12,8 @@ import (
 )
 
 // Defines an Network Experiment Profile and lists of Experiments
-// Azure REST API version: 2019-11-01.
+//
+// Uses Azure REST API version 2019-11-01.
 func LookupNetworkExperimentProfile(ctx *pulumi.Context, args *LookupNetworkExperimentProfileArgs, opts ...pulumi.InvokeOption) (*LookupNetworkExperimentProfileResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkExperimentProfileResult

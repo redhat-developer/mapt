@@ -12,7 +12,8 @@ import (
 )
 
 // Get a management lock by scope.
-// Azure REST API version: 2020-05-01.
+//
+// Uses Azure REST API version 2020-05-01.
 func LookupManagementLockByScope(ctx *pulumi.Context, args *LookupManagementLockByScopeArgs, opts ...pulumi.InvokeOption) (*LookupManagementLockByScopeResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupManagementLockByScopeResult

@@ -13,9 +13,10 @@ import (
 )
 
 // Describes a Virtual Machine Extension.
-// Azure REST API version: 2023-03-01. Prior API version in Azure Native 1.x: 2021-03-01.
 //
-// Other available API versions: 2021-11-01, 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01.
+// Uses Azure REST API version 2023-03-01. In version 1.x of the Azure Native provider, it used API version 2021-03-01.
+//
+// Other available API versions: 2021-11-01, 2023-07-01, 2023-09-01, 2024-03-01, 2024-07-01, 2024-11-01.
 type VirtualMachineExtension struct {
 	pulumi.CustomResourceState
 
@@ -141,6 +142,9 @@ func NewVirtualMachineExtension(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20240701:VirtualMachineExtension"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20241101:VirtualMachineExtension"),
 		},
 	})
 	opts = append(opts, aliases)

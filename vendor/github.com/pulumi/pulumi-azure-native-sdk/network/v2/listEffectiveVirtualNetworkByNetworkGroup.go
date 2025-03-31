@@ -12,7 +12,8 @@ import (
 )
 
 // Lists all effective virtual networks by specified network group.
-// Azure REST API version: 2021-02-01-preview.
+//
+// Uses Azure REST API version 2021-02-01-preview.
 func ListEffectiveVirtualNetworkByNetworkGroup(ctx *pulumi.Context, args *ListEffectiveVirtualNetworkByNetworkGroupArgs, opts ...pulumi.InvokeOption) (*ListEffectiveVirtualNetworkByNetworkGroupResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListEffectiveVirtualNetworkByNetworkGroupResult

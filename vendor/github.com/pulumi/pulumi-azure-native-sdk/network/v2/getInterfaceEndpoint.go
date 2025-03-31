@@ -12,7 +12,8 @@ import (
 )
 
 // Gets the specified interface endpoint by resource group.
-// Azure REST API version: 2019-02-01.
+//
+// Uses Azure REST API version 2019-02-01.
 func LookupInterfaceEndpoint(ctx *pulumi.Context, args *LookupInterfaceEndpointArgs, opts ...pulumi.InvokeOption) (*LookupInterfaceEndpointResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupInterfaceEndpointResult

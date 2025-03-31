@@ -12,7 +12,8 @@ import (
 )
 
 // Retrieves the details of a P2SVpnServerConfiguration.
-// Azure REST API version: 2019-07-01.
+//
+// Uses Azure REST API version 2019-07-01.
 func LookupP2sVpnServerConfiguration(ctx *pulumi.Context, args *LookupP2sVpnServerConfigurationArgs, opts ...pulumi.InvokeOption) (*LookupP2sVpnServerConfigurationResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupP2sVpnServerConfigurationResult

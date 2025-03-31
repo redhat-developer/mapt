@@ -12,7 +12,8 @@ import (
 )
 
 // Gets information about a disk.
-// Azure REST API version: 2022-07-02.
+//
+// Uses Azure REST API version 2022-07-02.
 //
 // Other available API versions: 2023-01-02, 2023-04-02, 2023-10-02, 2024-03-02.
 func LookupDisk(ctx *pulumi.Context, args *LookupDiskArgs, opts ...pulumi.InvokeOption) (*LookupDiskResult, error) {

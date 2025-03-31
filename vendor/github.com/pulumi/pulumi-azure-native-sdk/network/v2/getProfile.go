@@ -12,7 +12,8 @@ import (
 )
 
 // Gets a Traffic Manager profile.
-// Azure REST API version: 2022-04-01.
+//
+// Uses Azure REST API version 2022-04-01.
 //
 // Other available API versions: 2022-04-01-preview.
 func LookupProfile(ctx *pulumi.Context, args *LookupProfileArgs, opts ...pulumi.InvokeOption) (*LookupProfileResult, error) {

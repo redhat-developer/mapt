@@ -3,6 +3,7 @@ package rule
 import (
 	"fmt"
 	"go/ast"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -56,7 +57,7 @@ func (r *StructTagRule) Apply(file *lint.File, _ lint.Arguments) []lint.Failure 
 	w := lintStructTagRule{
 		onFailure:      onFailure,
 		userDefined:    r.userDefined,
-		isAtLeastGo124: file.Pkg.IsAtLeastGo124(),
+		isAtLeastGo124: file.Pkg.IsAtLeastGoVersion(lint.Go124),
 	}
 
 	ast.Walk(w, file.AST)
@@ -98,14 +99,19 @@ func (w lintStructTagRule) Visit(node ast.Node) ast.Visitor {
 }
 
 const (
-	keyASN1     = "asn1"
-	keyBSON     = "bson"
-	keyDefault  = "default"
-	keyJSON     = "json"
-	keyProtobuf = "protobuf"
-	keyRequired = "required"
-	keyXML      = "xml"
-	keyYAML     = "yaml"
+	keyASN1         = "asn1"
+	keyBSON         = "bson"
+	keyDatastore    = "datastore"
+	keyDefault      = "default"
+	keyJSON         = "json"
+	keyMapstructure = "mapstructure"
+	keyProtobuf     = "protobuf"
+	keyRequired     = "required"
+	keyTOML         = "toml"
+	keyURL          = "url"
+	keyValidate     = "validate"
+	keyXML          = "xml"
+	keyYAML         = "yaml"
 )
 
 func (w lintStructTagRule) checkTagNameIfNeed(tag *structtag.Tag) (string, bool) {
@@ -180,12 +186,22 @@ func (w lintStructTagRule) checkTaggedField(f *ast.Field) {
 			if !ok {
 				w.addFailure(f.Tag, msg)
 			}
+		case keyDatastore:
+			msg, ok := w.checkDatastoreTag(tag.Options)
+			if !ok {
+				w.addFailure(f.Tag, msg)
+			}
 		case keyDefault:
 			if !w.typeValueMatch(f.Type, tag.Name) {
 				w.addFailure(f.Tag, "field's type and default value's type mismatch")
 			}
 		case keyJSON:
 			msg, ok := w.checkJSONTag(tag.Name, tag.Options)
+			if !ok {
+				w.addFailure(f.Tag, msg)
+			}
+		case keyMapstructure:
+			msg, ok := w.checkMapstructureTag(tag.Options)
 			if !ok {
 				w.addFailure(f.Tag, msg)
 			}
@@ -197,6 +213,22 @@ func (w lintStructTagRule) checkTaggedField(f *ast.Field) {
 		case keyRequired:
 			if tag.Name != "true" && tag.Name != "false" {
 				w.addFailure(f.Tag, "required should be 'true' or 'false'")
+			}
+		case keyTOML:
+			msg, ok := w.checkTOMLTag(tag.Options)
+			if !ok {
+				w.addFailure(f.Tag, msg)
+			}
+		case keyURL:
+			msg, ok := w.checkURLTag(tag.Options)
+			if !ok {
+				w.addFailure(f.Tag, msg)
+			}
+		case keyValidate:
+			opts := append([]string{tag.Name}, tag.Options...)
+			msg, ok := w.checkValidateTag(opts)
+			if !ok {
+				w.addFailure(f.Tag, msg)
 			}
 		case keyXML:
 			msg, ok := w.checkXMLTag(tag.Options)
@@ -329,6 +361,127 @@ func (w lintStructTagRule) checkYAMLTag(options []string) (string, bool) {
 	return "", true
 }
 
+func (w lintStructTagRule) checkURLTag(options []string) (string, bool) {
+	var delimiter = ""
+	for _, opt := range options {
+		switch opt {
+		case "int", "omitempty", "numbered", "brackets":
+		case "unix", "unixmilli", "unixnano": // TODO : check that the field is of type time.Time
+		case "comma", "semicolon", "space":
+			if delimiter == "" {
+				delimiter = opt
+				continue
+			}
+			return fmt.Sprintf("can not set both '%s' and '%s' as delimiters in URL tag", opt, delimiter), false
+		default:
+			if w.isUserDefined(keyURL, opt) {
+				continue
+			}
+			return fmt.Sprintf("unknown option '%s' in URL tag", opt), false
+		}
+	}
+
+	return "", true
+}
+
+func (w lintStructTagRule) checkDatastoreTag(options []string) (string, bool) {
+	for _, opt := range options {
+		switch opt {
+		case "flatten", "noindex", "omitempty":
+		default:
+			if w.isUserDefined(keyDatastore, opt) {
+				continue
+			}
+			return fmt.Sprintf("unknown option '%s' in Datastore tag", opt), false
+		}
+	}
+
+	return "", true
+}
+
+func (w lintStructTagRule) checkMapstructureTag(options []string) (string, bool) {
+	for _, opt := range options {
+		switch opt {
+		case "omitempty", "reminder", "squash":
+		default:
+			if w.isUserDefined(keyMapstructure, opt) {
+				continue
+			}
+			return fmt.Sprintf("unknown option '%s' in Mapstructure tag", opt), false
+		}
+	}
+
+	return "", true
+}
+
+func (w lintStructTagRule) checkValidateTag(options []string) (string, bool) {
+	previousOption := ""
+	seenKeysOption := false
+	for _, opt := range options {
+		switch opt {
+		case "keys":
+			if previousOption != "dive" {
+				return "option 'keys' must follow a 'dive' option in validate tag", false
+			}
+			seenKeysOption = true
+		case "endkeys":
+			if !seenKeysOption {
+				return "option 'endkeys' without a previous 'keys' option in validate tag", false
+			}
+			seenKeysOption = false
+		default:
+			parts := strings.Split(opt, "|")
+			errMsg, ok := w.checkValidateOptionsAlternatives(parts)
+			if !ok {
+				return errMsg, false
+			}
+		}
+		previousOption = opt
+	}
+
+	return "", true
+}
+
+func (w lintStructTagRule) checkTOMLTag(options []string) (string, bool) {
+	for _, opt := range options {
+		switch opt {
+		case "omitempty":
+		default:
+			if w.isUserDefined(keyTOML, opt) {
+				continue
+			}
+			return fmt.Sprintf("unknown option '%s' in TOML tag", opt), false
+		}
+	}
+
+	return "", true
+}
+
+func (w lintStructTagRule) checkValidateOptionsAlternatives(alternatives []string) (string, bool) {
+	for _, alternative := range alternatives {
+		alternative := strings.TrimSpace(alternative)
+		parts := strings.Split(alternative, "=")
+		switch len(parts) {
+		case 1:
+			badOpt, ok := areValidateOpts(parts[0])
+			if ok || w.isUserDefined(keyValidate, badOpt) {
+				continue
+			}
+			return fmt.Sprintf("unknown option '%s' in validate tag", badOpt), false
+		case 2:
+			lhs := parts[0]
+			_, ok := validateLHS[lhs]
+			if ok || w.isUserDefined(keyValidate, lhs) {
+				continue
+			}
+			return fmt.Sprintf("unknown option '%s' in validate tag", lhs), false
+		default:
+			return fmt.Sprintf("malformed options '%s' in validate tag, not expected more than one '='", alternative), false
+		}
+	}
+	return "", true
+}
+
 func (lintStructTagRule) typeValueMatch(t ast.Expr, val string) bool {
 	tID, ok := t.(*ast.Ident)
 	if !ok {
@@ -422,10 +575,156 @@ func (w lintStructTagRule) isUserDefined(key, opt string) bool {
 	}
 
 	options := w.userDefined[key]
-	for _, o := range options {
-		if opt == o {
-			return true
+	return slices.Contains(options, opt)
+}
+
+func areValidateOpts(opts string) (string, bool) {
+	parts := strings.Split(opts, "|")
+	for _, opt := range parts {
+		_, ok := validateSingleOptions[opt]
+		if !ok {
+			return opt, false
 		}
 	}
-	return false
+
+	return "", true
+}
+
+var validateSingleOptions = map[string]struct{}{
+	"alpha":                     {},
+	"alphanum":                  {},
+	"alphanumunicode":           {},
+	"alphaunicode":              {},
+	"ascii":                     {},
+	"base32":                    {},
+	"base64":                    {},
+	"base64url":                 {},
+	"bcp47_language_tag":        {},
+	"boolean":                   {},
+	"bic":                       {},
+	"btc_addr":                  {},
+	"btc_addr_bech32":           {},
+	"cidr":                      {},
+	"cidrv4":                    {},
+	"cidrv6":                    {},
+	"country_code":              {},
+	"credit_card":               {},
+	"cron":                      {},
+	"cve":                       {},
+	"datauri":                   {},
+	"dir":                       {},
+	"dirpath":                   {},
+	"dive":                      {},
+	"dns_rfc1035_label":         {},
+	"e164":                      {},
+	"email":                     {},
+	"eth_addr":                  {},
+	"file":                      {},
+	"filepath":                  {},
+	"fqdn":                      {},
+	"hexadecimal":               {},
+	"hexcolor":                  {},
+	"hostname":                  {},
+	"hostname_port":             {},
+	"hostname_rfc1123":          {},
+	"hsl":                       {},
+	"hsla":                      {},
+	"html":                      {},
+	"html_encoded":              {},
+	"image":                     {},
+	"ip":                        {},
+	"ip4_addr":                  {},
+	"ip6_addr":                  {},
+	"ip_addr":                   {},
+	"ipv4":                      {},
+	"ipv6":                      {},
+	"isbn":                      {},
+	"isbn10":                    {},
+	"isbn13":                    {},
+	"isdefault":                 {},
+	"iso3166_1_alpha2":          {},
+	"iso3166_1_alpha3":          {},
+	"iscolor":                   {},
+	"json":                      {},
+	"jwt":                       {},
+	"latitude":                  {},
+	"longitude":                 {},
+	"lowercase":                 {},
+	"luhn_checksum":             {},
+	"mac":                       {},
+	"mongodb":                   {},
+	"mongodb_connection_string": {},
+	"multibyte":                 {},
+	"nostructlevel":             {},
+	"number":                    {},
+	"numeric":                   {},
+	"omitempty":                 {},
+	"printascii":                {},
+	"required":                  {},
+	"rgb":                       {},
+	"rgba":                      {},
+	"semver":                    {},
+	"ssn":                       {},
+	"structonly":                {},
+	"tcp_addr":                  {},
+	"tcp4_addr":                 {},
+	"tcp6_addr":                 {},
+	"timezone":                  {},
+	"udp4_addr":                 {},
+	"udp6_addr":                 {},
+	"ulid":                      {},
+	"unique":                    {},
+	"unix_addr":                 {},
+	"uppercase":                 {},
+	"uri":                       {},
+	"url":                       {},
+	"url_encoded":               {},
+	"urn_rfc2141":               {},
+	"uuid":                      {},
+	"uuid3":                     {},
+	"uuid4":                     {},
+	"uuid5":                     {},
+}
+
+var validateLHS = map[string]struct{}{
+	"contains":             {},
+	"containsany":          {},
+	"containsfield":        {},
+	"containsrune":         {},
+	"datetime":             {},
+	"endsnotwith":          {},
+	"endswith":             {},
+	"eq":                   {},
+	"eqfield":              {},
+	"eqcsfield":            {},
+	"excluded_if":          {},
+	"excluded_unless":      {},
+	"excludes":             {},
+	"excludesall":          {},
+	"excludesfield":        {},
+	"excludesrune":         {},
+	"gt":                   {},
+	"gtcsfield":            {},
+	"gtecsfield":           {},
+	"len":                  {},
+	"lt":                   {},
+	"lte":                  {},
+	"ltcsfield":            {},
+	"ltecsfield":           {},
+	"max":                  {},
+	"min":                  {},
+	"ne":                   {},
+	"necsfield":            {},
+	"oneof":                {},
+	"oneofci":              {},
+	"required_if":          {},
+	"required_unless":      {},
+	"required_with":        {},
+	"required_with_all":    {},
+	"required_without":     {},
+	"required_without_all": {},
+	"spicedb":              {},
+	"startsnotwith":        {},
+	"startswith":           {},
+	"unique":               {},
 }
