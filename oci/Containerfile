@@ -1,5 +1,5 @@
 # Moved to Fedora 41 and install go tools until ubi9 go tools support go 1.23
-FROM quay.io/fedora/fedora:43@sha256:f48a335dfaeb458a06d7d8055943daa1e4727240a90a8f579c791d555fc046a2 as builder
+FROM quay.io/fedora/fedora:41 as builder
 RUN dnf install -y make go
 ARG TARGETARCH
 USER root
@@ -18,7 +18,7 @@ RUN GOARCH=${TARGETARCH} make build \
     && tar -xzvf pulumicli.tar.gz 
 
 # ubi 9.5-1732804088
-FROM registry.access.redhat.com/ubi9/ubi:9.5-1741850090@sha256:8d53b60617e53e4dbd6c0d485c569801f48dbeb40b48c8424a67e33a07320968
+FROM registry.access.redhat.com/ubi9/ubi:9.5-1742918310@sha256:a1804302f6f53e04cc1c6b20bc2204d5c9ae6e5a664174b38fbeeb30f7983d4e
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
 
