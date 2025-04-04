@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
@@ -98,7 +99,7 @@ func getWindowsCreate() *cobra.Command {
 					AMIOwner:    viper.GetString(amiOwner),
 					AMILang:     viper.GetString(amiLang),
 					AMIKeepCopy: viper.IsSet(amiKeepCopy),
-					Spot:        viper.IsSet(spot),
+					Spot:        viper.IsSet(awsParams.Spot),
 					Airgap:      viper.IsSet(airgap),
 					Timeout:     viper.GetString(params.Timeout),
 				}); err != nil {
@@ -115,7 +116,7 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.StringP(amiOwner, "", amiOwnerDefault, amiOwnerDesc)
 	flagSet.StringP(amiLang, "", amiLangDefault, amiLangDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
-	flagSet.Bool(spot, false, spotDesc)
+	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())

@@ -188,7 +188,7 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 		Airgap:                  r.Airgap,
 		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
 	}
-	vpc, targetSubnet, targetRouteTableAssociation, bastion, _, err := nr.Network(ctx)
+	vpc, targetSubnet, targetRouteTableAssociation, bastion, _, _, err := nr.Network(ctx)
 	if err != nil {
 		return err
 	}
