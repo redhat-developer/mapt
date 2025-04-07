@@ -66,6 +66,8 @@ func BestSpotOptionInfo(productDescription string, instaceTypes []string, amiNam
 	if bestPrice != nil {
 		logging.Debugf("Based on avg prices for instance types %v is az %s, current avg price is %.2f and max price is %.2f with a score of %d",
 			instaceTypes, bestPrice.AvailabilityZone, bestPrice.AVGPrice, bestPrice.MaxPrice, bestPrice.Score)
+	} else {
+		return nil, fmt.Errorf("couldn't find the best price for instance types %v", instaceTypes)
 	}
 	return bestPrice, nil
 }

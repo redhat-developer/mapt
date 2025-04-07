@@ -28,7 +28,7 @@ Flags:
       --spot                             if spot is set the spot prices across all regions will be cheked and machine will be started on best spot option (price / eviction)
       --spot-eviction-tolerance string   if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest (default "lowest")
       --tags stringToString              tags to add on each resource (--tags name1=value1,name2=value2) (default [])
-      --version string                   AKS K8s cluster version (default "1.30")
+      --version string                   AKS K8s cluster version (default "1.31")
       --vmsize string                    VMSize to be used on the user pool. Typically this is used to provision spot node pools (default "Standard_D8as_v5")
 
 Global Flags:
