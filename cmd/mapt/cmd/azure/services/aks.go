@@ -21,7 +21,7 @@ const (
 	paramVersion              = "version"
 	paramVersionDesc          = "AKS K8s cluster version"
 	paramVMSizeDesc           = "VMSize to be used on the user pool. Typically this is used to provision spot node pools"
-	defaultVersion            = "1.30"
+	defaultVersion            = "1.31"
 	paramOnlySystemPool       = "only-system-pool"
 	paramOnlySystemPoolDesc   = "if we do not need bunch of resources we can run only the systempool. More info https://learn.microsoft.com/es-es/azure/aks/use-system-pools?tabs=azure-cli#system-and-user-node-pools"
 	paramEnableAppRouting     = "enable-app-routing"

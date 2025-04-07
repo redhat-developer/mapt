@@ -16,6 +16,7 @@ type PublicSubnetRequest struct {
 	AvailabilityZone string
 	Name             string
 	AddNatGateway    bool
+	MapPublicIp      bool
 }
 
 type PublicSubnetResources struct {
@@ -31,10 +32,11 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 	sn, err := ec2.NewSubnet(ctx,
 		snName,
 		&ec2.SubnetArgs{
-			VpcId:            r.VPC.ID(),
-			CidrBlock:        pulumi.String(r.CIDR),
-			AvailabilityZone: pulumi.String(r.AvailabilityZone),
-			Tags:             maptContext.ResourceTags(),
+			VpcId:               r.VPC.ID(),
+			CidrBlock:           pulumi.String(r.CIDR),
+			AvailabilityZone:    pulumi.String(r.AvailabilityZone),
+			Tags:                maptContext.ResourceTags(),
+			MapPublicIpOnLaunch: pulumi.Bool(r.MapPublicIp),
 		})
 	if err != nil {
 		return nil, err

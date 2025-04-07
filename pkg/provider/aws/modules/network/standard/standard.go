@@ -18,18 +18,36 @@ const (
 var (
 	DefaultCIDRNetwork string = "10.0.0.0/16"
 
-	DefaultCIDRPublicSubnets [3]string = [3]string{
-		"10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"}
 	DefaultLBIPs [3]string = [3]string{
 		"10.0.1.15", "10.0.2.15", "10.0.3.15"}
-	DefaultCIDRPrivateSubnets [3]string = [3]string{
-		"10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"}
-	DefaultCIDRIntraSubnets [3]string = [3]string{
-		"10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"}
 	DefaultAvailabilityZones [3]string = [3]string{
 		"us-east-1b", "us-east-1c", "us-east-1d"}
 	DefaultRegion string = "us-east-1"
 )
+
+// GeneratePublicSubnetCIDRs generates CIDR blocks for public subnets based on the number of availability zones
+func GeneratePublicSubnetCIDRs(azCount int) []string {
+	return generateCIDRBlocks(DefaultCIDRNetwork, azCount, 1)
+}
+
+// GeneratePrivateSubnetCIDRs generates CIDR blocks for private subnets based on the number of availability zones
+func GeneratePrivateSubnetCIDRs(azCount int) []string {
+	return generateCIDRBlocks(DefaultCIDRNetwork, azCount, 101)
+}
+
+// GenerateIntraSubnetCIDRs generates CIDR blocks for intra subnets based on the number of availability zones
+func GenerateIntraSubnetCIDRs(azCount int) []string {
+	return generateCIDRBlocks(DefaultCIDRNetwork, azCount, 201)
+}
+
+// generateCIDRBlocks generates CIDR blocks for a given number of subnets
+func generateCIDRBlocks(baseCIDR string, count int, offset int) []string {
+	cidrs := make([]string, count)
+	for i := 0; i < count; i++ {
+		cidrs[i] = fmt.Sprintf("10.0.%d.0/24", offset+i)
+	}
+	return cidrs
+}
 
 type NetworkRequest struct {
 	CIDR                string
@@ -41,6 +59,7 @@ type NetworkRequest struct {
 	IntraSubnetsCIDRs   []string
 	SingleNatGateway    bool
 	PublicToIntra       *bool
+	MapPublicIp         bool
 }
 
 type NetworkResources struct {
@@ -53,15 +72,18 @@ type NetworkResources struct {
 }
 
 func DefaultNetworkRequest(name, regionName string) NetworkRequest {
+	azs := data.GetAvailabilityZones("")[:3]
+	azCount := len(azs)
 	return NetworkRequest{
 		Name:                name,
 		CIDR:                DefaultCIDRNetwork,
-		AvailabilityZones:   data.GetAvailabilityZones()[:3],
-		PublicSubnetsCIDRs:  DefaultCIDRPublicSubnets[:],
-		PrivateSubnetsCIDRs: DefaultCIDRPrivateSubnets[:],
-		IntraSubnetsCIDRs:   DefaultCIDRIntraSubnets[:],
-		SingleNatGateway:    false}
-
+		AvailabilityZones:   azs,
+		PublicSubnetsCIDRs:  GeneratePublicSubnetCIDRs(azCount),
+		PrivateSubnetsCIDRs: GeneratePrivateSubnetCIDRs(azCount),
+		IntraSubnetsCIDRs:   GenerateIntraSubnetCIDRs(azCount),
+		SingleNatGateway:    false,
+		MapPublicIp:         false,
+	}
 }
 
 func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, error) {
@@ -131,7 +153,9 @@ func (r NetworkRequest) managePublicSubnets(vpc *ec2.Vpc,
 					CIDR:             r.PublicSubnetsCIDRs[i],
 					AvailabilityZone: r.AvailabilityZones[i],
 					Name:             fmt.Sprintf("%s%s%d", namePrefix, r.Name, i),
-					AddNatGateway:    r.checkIfNatGatewayRequired(i)}
+					AddNatGateway:    r.checkIfNatGatewayRequired(i),
+					MapPublicIp:      r.MapPublicIp,
+				}
 			subnet, err := publicSNRequest.Create(ctx)
 			if err != nil {
 				return nil, err

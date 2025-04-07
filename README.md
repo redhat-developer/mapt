@@ -22,7 +22,7 @@ Instances can also define a timeout to avoid leftovers in case destoy operation 
 
 Mapt offers some managed services boosted with some of the features from the instances offerings (i.e spot) and also create some ad hoc services on top the instances offerings to improve reutilization of instances when there is no easy way to do it (i.e. Mac-Pool).
 
-[AKS](docs/azure/aks.md)-[Mac-Pool](docs/aws/mac-pool.md) - [OpenShift-SNC](docs/aws/openshift-snc.md) - [Kind](docs/aws/openshift-snc.md)
+[AKS](docs/azure/aks.md)-[EKS](docs/aws/eks.md)-[Mac-Pool](docs/aws/mac-pool.md) - [OpenShift-SNC](docs/aws/openshift-snc.md) - [Kind](docs/aws/openshift-snc.md)
 
 
 ### Integrations

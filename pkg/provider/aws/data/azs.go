@@ -26,8 +26,8 @@ func GetRandomAvailabilityZone(region string, excludedAZs []string) (*string, er
 	return azs[util.Random(len(azs)-1, 0)].ZoneName, nil
 }
 
-func GetAvailabilityZones() []string {
-	azs, err := describeAvailabilityZones("")
+func GetAvailabilityZones(region string) []string {
+	azs, err := describeAvailabilityZones(region)
 	if err != nil {
 		logging.Error(err)
 		return nil
