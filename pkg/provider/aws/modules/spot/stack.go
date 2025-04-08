@@ -136,7 +136,7 @@ func getOutputs(stack *auto.Stack) (*SpotOptionResult, error) {
 		return nil, err
 	}
 	if len(outputs) == 0 {
-		return nil, errors.New("Stack outputs are empty please destroy and re-create")
+		return nil, errors.New("stack outputs are empty please destroy and re-create")
 	}
 	return &SpotOptionResult{
 		Region:           outputs["region"].Value.(string),

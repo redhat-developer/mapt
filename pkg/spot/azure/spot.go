@@ -223,7 +223,7 @@ func getEvictionRateInfoByVMTypes(ctx context.Context, client *armresourcegraph.
 }
 
 func getBestSpotChoice(s []priceHistory, e []evictionRate, currentERT EvictionRate, maxERT EvictionRate, imageID string) (*BestSpotChoiceResponse, error) {
-	var evm map[string]string = make(map[string]string)
+	var evm = make(map[string]string)
 	for _, ev := range e {
 		evm[fmt.Sprintf("%s%s", ev.Location, ev.VMType)] = ev.EvictionRate
 	}

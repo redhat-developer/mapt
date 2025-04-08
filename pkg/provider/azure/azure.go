@@ -7,6 +7,7 @@ import (
 
 	"github.com/redhat-developer/mapt/pkg/manager"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 var azIdentityEnvs = []string{
@@ -33,8 +34,10 @@ func (a *Azure) Init(backedURL string) error {
 // https://www.pulumi.com/registry/packages/azure-native/installation-configuration/#set-configuration-using-environment-variables
 func setAZIdentityEnvs() {
 	for _, e := range azIdentityEnvs {
-		os.Setenv(e,
-			os.Getenv(strings.ReplaceAll(e, "AZURE", "ARM")))
+		if err := os.Setenv(e,
+			os.Getenv(strings.ReplaceAll(e, "AZURE", "ARM"))); err != nil {
+			logging.Error(err)
+		}
 	}
 }
 

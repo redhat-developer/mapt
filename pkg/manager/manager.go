@@ -38,7 +38,14 @@ func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptio
 	objectStack := getStack(ctx, targetStack)
 	// TODO add when loglevel debug control in place
 	w := logging.GetWritter()
-	defer w.Close()
+
+	defer func() {
+		if err := w.Close(); err != nil {
+			logging.Error(err)
+		}
+
+	}()
+
 	mOpts := []optup.Option{
 		optup.ProgressStreams(w),
 	}
@@ -70,7 +77,11 @@ func DestroyStack(targetStack Stack, opts ...ManagerOptions) (err error) {
 	ctx := context.Background()
 	objectStack := getStack(ctx, targetStack)
 	w := logging.GetWritter()
-	defer w.Close()
+	defer func() {
+		if err := w.Close(); err != nil {
+			logging.Error(err)
+		}
+	}()
 	// stdoutStreamer := optdestroy.ProgressStreams(w)
 	mOpts := []optdestroy.Option{
 		optdestroy.ProgressStreams(w),

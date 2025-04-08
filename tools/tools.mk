@@ -12,4 +12,4 @@ $(TOOLS_BINDIR)/tkn:
 	&& rm "tkn_${TKN_VERSION}_Linux_x86_64.tar.gz"
 
 $(TOOLS_BINDIR)/golangci-lint: $(TOOLS_DIR)/go.mod
-	cd $(TOOLS_DIR) && GOBIN="$(TOOLS_BINDIR)" go install github.com/golangci/golangci-lint/cmd/golangci-lint
+	cd $(TOOLS_DIR) && GOBIN="$(TOOLS_BINDIR)" go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint

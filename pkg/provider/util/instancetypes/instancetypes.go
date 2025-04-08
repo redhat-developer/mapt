@@ -29,5 +29,5 @@ func validate(cpus, memory int32, arch arch) error {
 	if cpus > 0 && memory > 0 && arch.String() != "" {
 		return nil
 	}
-	return fmt.Errorf("Invalid values for CPUs: %d, Memory: %d and Arch: %s", cpus, memory, arch)
+	return fmt.Errorf("invalid values for CPUs: %d, Memory: %d and Arch: %s", cpus, memory, arch)
 }

@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"text/template"
+
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 func WriteTempFile(content string) (string, error) {
@@ -13,7 +15,11 @@ func WriteTempFile(content string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	defer tmpFile.Close()
+	defer func() {
+		if err := tmpFile.Close(); err != nil {
+			logging.Error(err)
+		}
+	}()
 	_, err = tmpFile.WriteString(content)
 	return tmpFile.Name(), err
 }

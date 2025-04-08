@@ -147,7 +147,11 @@ func setCredentialsForServerless() error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			logging.Error(err)
+		}
+	}()
 
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("failed to fetch credentials, status code: %d", resp.StatusCode)
