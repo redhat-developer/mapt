@@ -1,0 +1,255 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-aws-ocp-snc
+  labels:
+    app.kubernetes.io/version: "<VERSION>"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.44.x"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, aws, ocp
+    tekton.dev/displayName: "aws manager"
+    tekton.dev/platforms: "linux/amd64, linux/arm64"
+spec:
+  description: |
+    Task provision a OpenShift Single Node Cluster based on OpenShift Local 
+
+  volumes:
+    - name: aws-credentials
+      secret:
+        secretName: $(params.secret-aws-credentials)
+    - name: ocp-snc-credentials
+      secret:
+        secretName: $(params.secret-ocp-snc-credentials)
+    - name: cluster-info
+      emptyDir: {}
+
+  params: 
+    # Credentials
+    - name: secret-aws-credentials
+      description: |
+        ocp secret holding the aws credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: aws-${name}
+        type: Opaque
+        data:
+          access-key: ${access_key}
+          secret-key: ${secret_key}
+          region: ${region}
+          bucket: ${bucket}
+    - name: secret-ocp-snc-credentials
+      description: |
+        ocp secret holding the ocp snc credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: ocp-snc-${name}
+        type: Opaque
+        data:
+          pull-secret: ${pull_secret}
+          # This is optional in case we want certs from OCP signed by our CA
+          ca.crt: ${ca_crt}
+
+    # Mapt params
+    - name: id
+      description: identifier for the provisioned environment
+    - name: operation 
+      description: operation to execute within the infrastructure. Current values (create, destroy)
+
+    # Secret result 
+    # naming
+    - name: cluster-access-secret-name
+      type: string
+      default: "''"
+      description: |
+        Once the target is provisioned the config to connect is addded to a secret 
+        check resutls. If this param is set the secret will be created with the name set 
+        otherwise it will be created with a random name.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: PipelineRun
+      description: |
+        The type of resource that should own the generated SpaceRequest.
+        Deletion of this resource will trigger deletion of the SpaceRequest.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      description: |
+        The name of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.name)`
+        or `$(context.taskRun.name)` depending on the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      description: |
+        The uid of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.uid)`
+        or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
+
+    # VM type params
+    - name: arch
+      description: Architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
+      default: 'x86_64'
+    - name: cpus 
+      description: Number of CPUs for the cloud instance (default 8)
+      default: '8'
+    - name: memory
+      description: Amount of RAM for the cloud instance in GiB (default 64)
+      default: '64'
+    - name: nested-virt
+      description: Use cloud instance that has nested virtualization support
+      default: 'false'
+    - name: spot
+      description: Check best spot option to spin the machine and will create resources on that region.
+      default: 'true'
+
+    # OCP params
+    - name: version
+      description: Version for ocp cluster. If not version set it will pick the latest stable
+      default: "''"
+    
+    # Metadata params
+    - name: tags
+      description: tags for the resources created on the providers
+      default: "''"
+
+    # Control params
+    - name: debug
+      description: |
+        Warning setting this param to true expose credentials 
+        
+        The parameter is intended to add verbosity on the task execution and also print credentials on stdout
+        to easily access to remote machice
+      default: 'false'
+    - name: timeout
+      description: The Timeout value is a duration conforming to Go ParseDuration format. This will set a serverless destroy operation based on this.
+      default: "''"
+
+  results:
+    - name: cluster-access-secret
+      description: |
+        ocp secret holding the information to connect to the cluster
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+          type: Opaque
+          data:
+            kubeconfig: ${kubeconfig}
+
+  steps:
+    - name: provisioner
+      image: <IMAGE>
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: aws-credentials
+          mountPath: /opt/aws-credentials
+        - name: ocp-snc-credentials
+          mountPath: /opt/ocp-snc-secret
+        - name: cluster-info
+          mountPath: /opt/cluster-info
+      script: |
+        #!/bin/sh
+
+        set -euo pipefail
+        # If debug add verbosity
+        if [[ $(params.debug) == "true" ]]; then
+          set -xeuo pipefail  
+        fi
+
+        # Credentials
+        export AWS_ACCESS_KEY_ID=$(cat /opt/aws-credentials/access-key)
+        export AWS_SECRET_ACCESS_KEY=$(cat /opt/aws-credentials/secret-key)
+        export AWS_DEFAULT_REGION=$(cat /opt/aws-credentials/region)
+        BUCKET=$(cat /opt/aws-credentials/bucket)
+
+        # Run mapt
+        cmd="mapt aws ocp-snc $(params.operation) "
+        cmd+="--project-name ocp-snc-$(params.id) "
+        cmd+="--backed-url s3://${BUCKET}/mapt/ocp-snc/$(params.id) "
+        if [[ $(params.operation) == "create" ]]; then
+          cmd+="--conn-details-output /opt/cluster-info "
+          cmd+="--arch $(params.arch) "
+          cmd+="--cpus $(params.cpus) "
+          cmd+="--memory $(params.memory) "
+          if [[ $(params.nested-virt) == "true" ]]; then
+            cmd+="--nested-virt "
+          fi
+          if [[ -f /opt/ocp-snc-secret/pull-secret ]]; then
+            cmd+="--pull-secret-file /opt/ocp-snc-secret/pull-secret "
+          fi
+          if [[ -f /opt/ocp-snc-secret/ca.crt ]]; then
+            cmd+="--ca-cert-file /opt/ocp-snc-secret/ca.crt"
+          fi
+          if [[ $(params.version) != "" ]]; then
+            cmd+="--version $(params.version) "
+          fi
+          if [[ $(params.spot) == "true" ]]; then cmd+="--spot "; fi
+          if [[ $(params.timeout) != "" ]]; then
+            cmd+="--timeout $(params.timeout) "
+          fi
+          cmd+="--tags $(params.tags) "
+        fi
+        eval "${cmd}"
+        
+      resources:      
+        requests:
+          memory: "200Mi"
+          cpu: "100m"
+        limits:
+          memory: "600Mi"
+          cpu: "300m"
+    - name: host-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:4.13@sha256:e70eb2be867f1236b19f5cbfeb8e0625737ce0ec1369e32a4f9f146aaaf68d49
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)  
+      volumeMounts:
+        - name: cluster-info
+          mountPath: /opt/cluster-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ $(params.operation) == "create" ]]; then
+        export SECRETNAME="generateName: mapt-aws-ocp-snc-"
+        if [[ $(params.cluster-access-secret-name) != "" ]]; then
+          export SECRETNAME="name: $(params.cluster-access-secret-name)"
+        fi
+        cat <<EOF > cluster-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: $NAMESPACE
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: $OWNER_KIND
+            name: $OWNER_NAME
+            uid: $OWNER_UID
+        type: Opaque
+        data:
+          kubeconfig: $(cat /opt/cluster-info/kubeconfig | base64 -w0)
+        EOF
+
+        if [[ $(params.debug) == "true" ]]; then
+          cat /opt/cluster-info/*
+        fi
+        
+        NAME=$(oc create -f cluster-info.yaml -o=jsonpath='{.metadata.name}')
+        echo -n "${NAME}" | tee $(results.cluster-access-secret.path)   
+        fi 

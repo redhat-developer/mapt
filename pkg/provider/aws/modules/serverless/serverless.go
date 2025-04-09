@@ -236,6 +236,7 @@ func createTaskRole(ctx *pulumi.Context, roleName, prefix, componentID string) (
 					"logs:*",
 					"cloudformation:*",
 					"scheduler:*",
+					"ssm:*",
 				},
 				"Resource": []string{
 					"*",
@@ -316,6 +317,7 @@ func createSchedulerRole(ctx *pulumi.Context, roleName, prefix, componentID stri
 					"logs:*",
 					"cloudformation:*",
 					"scheduler:*",
+					"ssm:*",
 				},
 				"Resource": []string{
 					"*",
