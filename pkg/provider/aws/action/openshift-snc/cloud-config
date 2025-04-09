@@ -1,0 +1,36 @@
+#cloud-config
+runcmd:
+  - systemctl enable --now kubelet
+  - pushd /tmp
+  - curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip"
+  - podman run -it --rm --workdir /data --privileged -v ${PWD}:/data registry.access.redhat.com/ubi9/toolbox unzip awscliv2.zip
+  - ./aws/install
+  - export PS=$(aws ssm get-parameter --name "{{ .SSMPullSecretName }}" --with-decryption --query "Parameter.Value" --output text)
+  - echo ${PS} > /opt/crc/pull-secret
+  - chmod 0644 /opt/crc/pull-secret
+  - export CA64=$(aws ssm get-parameter --name "{{ .SSMCaCertName }}" --with-decryption --query "Parameter.Value" --output text)
+  - echo ${CA64} > /opt/crc/custom-ca.crt
+  - chmod 0644 /opt/crc/custom-ca.crt
+  - export KP=$(aws ssm get-parameter --name "{{ .SSMKubeAdminPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
+  - echo ${KP} > /opt/crc/pass_kubeadmin
+  - chmod 0644 /opt/crc/pass_kubeadmin
+  - export DV=$(aws ssm get-parameter --name "{{ .SSMDeveloperPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
+  - echo ${DV} > /opt/crc/pass_developer
+  - chmod 0644 /opt/crc/pass_developer
+  - echo "{{ .PublicIP }}" > /opt/crc/eip
+  - chmod 0644 /opt/crc/eip
+write_files:
+- path: /home/core/.ssh/authorized_keys
+  content: {{ .PubKey }}
+  owner: {{ .Username }}
+  permissions: '0600'
+- path: /opt/crc/id_rsa.pub
+  content: {{ .PubKey }}
+  owner: root:root
+  permissions: '0644'
+- content: |
+      CRC_CLOUD=1
+      CRC_NETWORK_MODE_USER=0
+  owner: root:root
+  path: /etc/systemd/system/crc-env
+  permissions: '0644'
