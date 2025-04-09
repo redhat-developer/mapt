@@ -566,6 +566,7 @@ github.com/pulumi/esc/syntax/encoding
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/ssm
 # github.com/pulumi/pulumi-aws/sdk/v6 v6.80.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling

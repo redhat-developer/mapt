@@ -14,6 +14,13 @@ func If[T any](cond bool, vtrue, vfalse T) T {
 	return vfalse
 }
 
+func IfWithError[T any](cond bool, vtrue, vfalse func() (T, error)) (T, error) {
+	if cond {
+		return vtrue()
+	}
+	return vfalse()
+}
+
 // In case vtrue value depends on a variable checked on condition which could be nil
 // as params are evaluated within the If function invokation it will produce a panic error
 // in that case we will pass the vtrue as a function which will be evaluated only if condition is met

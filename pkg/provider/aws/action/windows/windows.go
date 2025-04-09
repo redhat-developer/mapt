@@ -213,7 +213,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 	// ami, err := amiSVC.GetAMIByName(ctx, r.AMIName, r.AMIOwner, nil)
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf("%s*", r.AMIName),
-		r.AMIOwner, nil)
+		[]string{r.AMIOwner}, nil)
 
 	if err != nil {
 		return err
@@ -230,7 +230,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
 	}
 	// vpc, targetSubnet, targetRouteTableAssociation, bastion, lb, err := nr.Network(ctx)
-	vpc, targetSubnet, _, bastion, lb, err := nr.Network(ctx)
+	vpc, targetSubnet, _, bastion, lb, lbEIP, err := nr.Network(ctx)
 	if err != nil {
 		return err
 	}
@@ -267,6 +267,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		DiskSize:         &diskSize,
 		Airgap:           r.Airgap,
 		LB:               lb,
+		LBEIP:            lbEIP,
 		LBTargetGroups:   []int{22, 3389},
 		Spot:             r.Spot}
 	c, err := cr.NewCompute(ctx)

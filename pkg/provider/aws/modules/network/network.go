@@ -35,6 +35,7 @@ type NetworkRequest struct {
 	// If !airgap lb will be public facing
 	// If airgap lb will be internal
 	CreateLoadBalancer      *bool
+	LoadBalancerIp          bool
 	Airgap                  bool
 	AirgapPhaseConnectivity Connectivity
 }
@@ -45,6 +46,7 @@ func (r *NetworkRequest) Network(ctx *pulumi.Context) (
 	targetRouteTableAssociation *ec2.RouteTableAssociation,
 	b *bastion.Bastion,
 	lb *lb.LoadBalancer,
+	lbEIP *ec2.Eip,
 	err error) {
 	if !r.Airgap {
 		vpc, targetSubnet, err = r.manageNetworking(ctx)
@@ -52,7 +54,7 @@ func (r *NetworkRequest) Network(ctx *pulumi.Context) (
 		var publicSubnet *ec2.Subnet
 		if vpc, publicSubnet, targetSubnet, targetRouteTableAssociation, err =
 			r.manageAirgapNetworking(ctx); err != nil {
-			return nil, nil, nil, nil, nil, err
+			return nil, nil, nil, nil, nil, nil, err
 		}
 		br := bastion.BastionRequest{
 			Prefix: r.Prefix,
@@ -66,7 +68,7 @@ func (r *NetworkRequest) Network(ctx *pulumi.Context) (
 		b, err = br.Create(ctx)
 	}
 	if r.CreateLoadBalancer != nil && *r.CreateLoadBalancer {
-		lb, err = r.createLoadBalancer(ctx, targetSubnet)
+		lb, lbEIP, err = r.createLoadBalancer(ctx, targetSubnet)
 	}
 	return
 }
@@ -115,20 +117,37 @@ func (r *NetworkRequest) manageAirgapNetworking(ctx *pulumi.Context) (
 }
 
 func (r *NetworkRequest) createLoadBalancer(ctx *pulumi.Context,
-	subnet *ec2.Subnet) (*lb.LoadBalancer, error) {
+	subnet *ec2.Subnet) (*lb.LoadBalancer, *ec2.Eip, error) {
 	lbArgs := &lb.LoadBalancerArgs{
-		LoadBalancerType: pulumi.String("network"),
+		LoadBalancerType:         pulumi.String("network"),
+		EnableDeletionProtection: pulumi.Bool(false),
 	}
 	snMapping := &lb.LoadBalancerSubnetMappingArgs{
 		SubnetId: subnet.ID()}
 	lbArgs.SubnetMappings = lb.LoadBalancerSubnetMappingArray{
 		snMapping,
 	}
-	// If airgap the load balancer is internal facing
+	var lbEIP *ec2.Eip
+	var err error
 	if r.Airgap {
+		// If airgap the load balancer is internal facing
 		snMapping.PrivateIpv4Address = pulumi.String(internalLBIp)
 		lbArgs.Internal = pulumi.Bool(true)
+	} else {
+		// It load balancer is public facing
+		lbEIP, err = ec2.NewEip(ctx,
+			resourcesUtil.GetResourceName(r.Prefix, r.ID, "lbeip"),
+			&ec2.EipArgs{})
+		if err != nil {
+			return nil, nil, err
+		}
+		snMapping.AllocationId = lbEIP.ID()
 	}
-	return lb.NewLoadBalancer(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ID, "lb"), lbArgs)
+	lb, err := lb.NewLoadBalancer(ctx,
+		resourcesUtil.GetResourceName(r.Prefix, r.ID, "lb"),
+		lbArgs)
+	if err != nil {
+		return nil, nil, err
+	}
+	return lb, lbEIP, nil
 }

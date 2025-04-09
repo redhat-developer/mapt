@@ -173,7 +173,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf(amiRegex, r.Version, r.Arch),
-		"",
+		nil,
 		map[string]string{
 			"architecture": r.Arch})
 	if err != nil {
@@ -190,7 +190,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		Airgap:                  r.Airgap,
 		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
 	}
-	vpc, targetSubnet, _, bastion, lb, err := nr.Network(ctx)
+	vpc, targetSubnet, _, bastion, lb, lbEIP, err := nr.Network(ctx)
 	if err != nil {
 		return err
 	}
@@ -234,6 +234,7 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 		DiskSize:       &diskSize,
 		Airgap:         r.Airgap,
 		LB:             lb,
+		LBEIP:          lbEIP,
 		LBTargetGroups: []int{22},
 		Spot:           r.Spot}
 	c, err := cr.NewCompute(ctx)

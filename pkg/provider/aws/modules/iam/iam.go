@@ -9,6 +9,42 @@ import (
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
+// Create a instance profile based on a list of policies
+func InstanceProfile(ctx *pulumi.Context, prefix, id *string, policiesARNs []string) (*iam.InstanceProfile, error) {
+	r, err := iam.NewRole(ctx,
+		resourcesUtil.GetResourceName(*prefix, *id, "ec2-role"),
+		&iam.RoleArgs{
+			AssumeRolePolicy: pulumi.String(`{
+			"Version": "2012-10-17",
+			"Statement": [
+				{
+					"Effect": "Allow",
+					"Principal": { "Service": "ec2.amazonaws.com" },
+					"Action": "sts:AssumeRole"
+				}
+			]
+		}`),
+		})
+	if err != nil {
+		return nil, err
+	}
+	for i, p := range policiesARNs {
+		_, err = iam.NewRolePolicyAttachment(ctx,
+			resourcesUtil.GetResourceName(*prefix, *id, fmt.Sprintf("ec2-role-attach-%d", i)),
+			&iam.RolePolicyAttachmentArgs{
+				Role:      r.Name,
+				PolicyArn: pulumi.String(p),
+			})
+		if err != nil {
+			return nil, err
+		}
+	}
+	return iam.NewInstanceProfile(ctx,
+		resourcesUtil.GetResourceName(*prefix, *id, "instance-profie"),
+		&iam.InstanceProfileArgs{
+			Role: r})
+}
+
 func (a *iamRequestArgs) deploy(ctx *pulumi.Context) error {
 	user, err := iam.NewUser(ctx,
 		resourcesUtil.GetResourceName(a.prefix, a.componentID, "user"),
