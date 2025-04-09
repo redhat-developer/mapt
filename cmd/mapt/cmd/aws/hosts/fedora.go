@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
@@ -97,7 +98,7 @@ func getFedoraCreate() *cobra.Command {
 							instancetypes.Arm64, instancetypes.Amd64),
 						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
 					},
-					Spot:    viper.IsSet(spot),
+					Spot:    viper.IsSet(awsParams.Spot),
 					Timeout: viper.GetString(params.Timeout),
 					Airgap:  viper.IsSet(airgap)}); err != nil {
 				logging.Error(err)
@@ -112,7 +113,7 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.Bool(airgap, false, airgapDesc)
-	flagSet.Bool(spot, false, spotDesc)
+	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	params.AddCirrusFlags(flagSet)
