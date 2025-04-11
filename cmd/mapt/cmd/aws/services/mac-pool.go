@@ -42,15 +42,15 @@ func GetMacPoolCmd() *cobra.Command {
 		},
 	}
 	c.AddCommand(
-		create(),
-		destroy(),
+		createMP(),
+		destroyMP(),
 		houseKeep(),
 		request(),
 		release())
 	return c
 }
 
-func create() *cobra.Command {
+func createMP() *cobra.Command {
 	c := &cobra.Command{
 		Use:   params.CreateCmdName,
 		Short: params.CreateCmdName,
@@ -94,7 +94,7 @@ func create() *cobra.Command {
 	return c
 }
 
-func destroy() *cobra.Command {
+func destroyMP() *cobra.Command {
 	c := &cobra.Command{
 		Use:   params.DestroyCmdName,
 		Short: params.DestroyCmdName,
@@ -186,8 +186,8 @@ func request() *cobra.Command {
 					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
 					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
 					Platform: &github.Linux,
-					Arch: params.LinuxArchAsGithubActionsArch(
-						viper.GetString(params.LinuxArch)),
+					Arch: awsParams.MACArchAsGithubArch(
+						viper.GetString(awsParams.MACArch)),
 				}
 			}
 

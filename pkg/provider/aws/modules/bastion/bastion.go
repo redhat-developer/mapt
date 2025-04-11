@@ -62,7 +62,7 @@ type Bastion struct {
 // allow orchestrated within the wrapping stack
 func (r *BastionRequest) Create(ctx *pulumi.Context) (*Bastion, error) {
 	// Get AMI
-	ami, err := ami.GetAMIByName(ctx, amiRegex, "", nil)
+	ami, err := ami.GetAMIByName(ctx, amiRegex, nil, nil)
 	if err != nil {
 		return nil, err
 	}
