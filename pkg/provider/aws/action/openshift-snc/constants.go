@@ -9,11 +9,11 @@ var (
 	diskSize int = 200
 
 	// This is managed by https://github.com/devtools-qe-incubator/cloud-importer
-	// amiProductDescription = "Linux/UNIX"
-	amiProductDescription = "Red Hat Enterprise Linux"
-	amiRegex              = "openshift-local-%s-%s"
-	amiUserDefault        = "core"
-	amiOwner              = "391597328979"
+	amiProductDescription = "Linux/UNIX"
+	// amiProductDescription = "Red Hat Enterprise Linux"
+	amiRegex       = "openshift-local-%s-%s"
+	amiUserDefault = "core"
+	amiOwner       = "391597328979"
 	// amiOriginRegion       = "us-east-1"
 
 	consoleURLRegex = "https://console-openshift-console.apps.%s.nip.io"
