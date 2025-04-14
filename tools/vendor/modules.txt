@@ -50,8 +50,8 @@ github.com/OpenPeeDeeP/depguard/v2/internal/utils
 # github.com/alecthomas/go-check-sumtype v0.3.1
 ## explicit; go 1.22.0
 github.com/alecthomas/go-check-sumtype
-# github.com/alexkohler/nakedret/v2 v2.0.5
-## explicit; go 1.21
+# github.com/alexkohler/nakedret/v2 v2.0.6
+## explicit; go 1.23.0
 github.com/alexkohler/nakedret/v2
 # github.com/alexkohler/prealloc v1.0.0
 ## explicit; go 1.15
@@ -102,7 +102,7 @@ github.com/butuzov/mirror/internal/checker
 # github.com/catenacyber/perfsprint v0.9.1
 ## explicit; go 1.22.0
 github.com/catenacyber/perfsprint/analyzer
-# github.com/ccojocar/zxcvbn-go v1.0.2
+# github.com/ccojocar/zxcvbn-go v1.0.4
 ## explicit; go 1.20
 github.com/ccojocar/zxcvbn-go
 github.com/ccojocar/zxcvbn-go/adjacency
@@ -190,7 +190,7 @@ github.com/fsnotify/fsnotify/internal
 # github.com/fzipp/gocyclo v0.6.0
 ## explicit; go 1.18
 github.com/fzipp/gocyclo
-# github.com/ghostiam/protogetter v0.3.13
+# github.com/ghostiam/protogetter v0.3.15
 ## explicit; go 1.22.0
 github.com/ghostiam/protogetter
 # github.com/go-critic/go-critic v0.13.0
@@ -500,7 +500,7 @@ github.com/kunwardeep/paralleltest/pkg/paralleltest
 # github.com/lasiar/canonicalheader v1.1.2
 ## explicit; go 1.22.0
 github.com/lasiar/canonicalheader
-# github.com/ldez/exptostd v0.4.2
+# github.com/ldez/exptostd v0.4.3
 ## explicit; go 1.22.0
 github.com/ldez/exptostd
 # github.com/ldez/gomoddirectives v0.6.1
@@ -513,7 +513,7 @@ github.com/ldez/grignotin/gomod
 # github.com/ldez/tagliatelle v0.7.1
 ## explicit; go 1.22.0
 github.com/ldez/tagliatelle
-# github.com/ldez/usetesting v0.4.2
+# github.com/ldez/usetesting v0.4.3
 ## explicit; go 1.22.0
 github.com/ldez/usetesting
 # github.com/leonklingele/grouper v1.1.2
@@ -622,8 +622,8 @@ github.com/prometheus/client_golang/prometheus
 github.com/prometheus/client_golang/prometheus/internal
 github.com/prometheus/client_golang/prometheus/testutil/promlint
 github.com/prometheus/client_golang/prometheus/testutil/promlint/validations
-# github.com/prometheus/client_model v0.6.1
-## explicit; go 1.19
+# github.com/prometheus/client_model v0.6.2
+## explicit; go 1.22.0
 github.com/prometheus/client_model/go
 # github.com/prometheus/common v0.63.0
 ## explicit; go 1.21
