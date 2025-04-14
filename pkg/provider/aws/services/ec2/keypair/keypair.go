@@ -6,6 +6,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 type KeyPairRequest struct {
@@ -18,7 +19,15 @@ type KeyPairResources struct {
 }
 
 func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
-	return r.create(ctx, r.Name, nil)
+	kr, err := r.create(ctx, r.Name, nil)
+	if maptContext.Debug() {
+		kr.PrivateKey.PrivateKeyPem.ApplyT(
+			func(privateKey string) (*string, error) {
+				logging.Debugf("%s", privateKey)
+				return nil, nil
+			})
+	}
+	return kr, err
 }
 
 // This will create the private on each update even when no changes are applied
