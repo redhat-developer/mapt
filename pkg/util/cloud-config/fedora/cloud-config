@@ -1,0 +1,27 @@
+#cloud-config
+ntp:
+  enabled: true
+  servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+    - 3.pool.ntp.org
+  config:
+    service_name: chronyd.service
+    check_exe: chronyd
+runcmd:
+  - dnf install -y podman
+{{ if .ActionsRunnerSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh{{ end }}
+{{ if .CirrusSnippet }}  - /opt/setup-cirrus-service.sh{{ end }}
+{{ if .ActionsRunnerSnippet }}write_files:
+  - content: |
+{{ .ActionsRunnerSnippet }}
+    path: /opt/install-ghrunner.sh
+    permissions: '0755'
+{{ end }}
+{{ if .CirrusSnippet }}write_files:
+  - content: |
+{{.CirrusSnippet}}
+    path: /opt/setup-cirrus-service.sh
+    permissions: '0755'
+{{ end }}

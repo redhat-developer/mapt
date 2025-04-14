@@ -30,6 +30,7 @@ func GetCmd() *cobra.Command {
 		hosts.GetRHELCmd(),
 		hosts.GetFedoraCmd(),
 		services.GetMacPoolCmd(),
-		services.GetOpenshiftSNCCmd())
+		services.GetOpenshiftSNCCmd(),
+		services.GetKindCmd())
 	return c
 }
