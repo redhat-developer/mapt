@@ -1,0 +1,53 @@
+#cloud-config
+ntp:
+  enabled: true
+  servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+    - 3.pool.ntp.org
+  config:
+    service_name: chronyd.service
+    check_exe: chronyd
+write_files:
+- content: |
+    # kind-config.yaml
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    kubeadmConfigPatches:
+    - |
+      kind: ClusterConfiguration
+      apiServer:
+        certSANs:
+        - "{{ .PublicIP }}"
+    - |
+      kind: InitConfiguration
+      nodeRegistration:
+        kubeletExtraArgs:
+          node-labels: "ingress-ready=true"
+          system-reserved: memory=8Gi
+    nodes:
+    - role: control-plane
+      extraPortMappings:
+      - containerPort: 6443
+        hostPort: 6443
+        protocol: TCP
+      - containerPort: 30010
+        hostPort: 8888
+        protocol: TCP
+      - containerPort: 30011
+        hostPort: 9443
+        protocol: TCP
+  # owner: {{ .Username }}
+  path: /root/kind-config.yaml
+  permissions: '0644'
+runcmd:  
+  - dnf install -y podman kubectl
+  - curl -Lo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}
+  - chmod +x /usr/local/bin/kind
+  - kind create cluster --name kind-mapt --config /root/kind-config.yaml --image {{ .KindImage }}
+    # Validate cluster before export the final Kubeconfig
+  - cmdKubeconfig="kind get kubeconfig --name kind-mapt > kubeconfig"
+  - cmdCheckCluster="kubectl --request-timeout=3s --insecure-skip-tls-verify --kubeconfig kubeconfig get node >/dev/null 2>&1"
+  - until eval $cmdCheckCluster; do eval $cmdKubeconfig; done
+  - kind get kubeconfig --name kind-mapt > /home/{{ .Username }}/kubeconfig  
