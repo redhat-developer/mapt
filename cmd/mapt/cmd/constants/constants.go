@@ -81,6 +81,16 @@ const (
 	TimeoutDesc    string = "if timeout is set a serverless destroy actions will be set on the time according to the timeout. The Timeout value is a duration conforming to Go ParseDuration format."
 	Serverless     string = "serverless"
 	ServerlessDesc string = "if serverless is set the command will be executed as a serverless action."
+
+	// Desytoy
+	ForceDestroy     string = "force-destroy"
+	ForceDestroyDesc string = "if force-destroy is set the command will destroy even if there is a lock."
+
+	// Kind
+	KindCmd            = "kind"
+	KindCmdDesc        = "Manage a Kind cluster. This is not intended for production use"
+	KindK8SVersion     = "version"
+	KindK8SVersionDesc = "version for k8s offered through Kind."
 )
 
 func GetGHActionsFlagset() *pflag.FlagSet {

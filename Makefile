@@ -2,8 +2,8 @@ VERSION ?= 0.9.0-dev
 CONTAINER_MANAGER ?= podman
 
 # Image URL to use all building/pushing image targets
-IMG ?= quay.io/redhat-developer/mapt:v${VERSION}
-TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
+IMG ?= ghcr.io/redhat-developer/mapt:pr-464
+TKN_IMG ?= ghcr.io/redhat-developer/mapt:pr-464-tkn
 
 # Integrations
 # renovate: datasource=github-releases depName=cirruslabs/cirrus-cli
@@ -40,6 +40,8 @@ define tkn_update
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-fedora.yaml > tkn/infra-aws-fedora.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-mac.yaml > tkn/infra-aws-mac.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-rhel.yaml > tkn/infra-aws-rhel.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-kind.yaml > tkn/infra-aws-kind.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-ocp-snc.yaml > tkn/infra-aws-ocp-snc.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-windows-server.yaml > tkn/infra-aws-windows-server.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-aks.yaml > tkn/infra-azure-aks.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-rhel.yaml > tkn/infra-azure-rhel.yaml
