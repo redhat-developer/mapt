@@ -43,7 +43,6 @@ func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptio
 		if err := w.Close(); err != nil {
 			logging.Error(err)
 		}
-
 	}()
 
 	mOpts := []optup.Option{

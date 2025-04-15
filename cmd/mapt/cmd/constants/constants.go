@@ -82,6 +82,10 @@ const (
 	Serverless     string = "serverless"
 	ServerlessDesc string = "if serverless is set the command will be executed as a serverless action."
 
+	// Desytoy
+	ForceDestroy     string = "force-destroy"
+	ForceDestroyDesc string = "if force-destroy is set the command will destroy even if there is a lock."
+
 	// Kind
 	KindCmd            = "kind"
 	KindCmdDesc        = "Manage a Kind cluster. This is not intended for production use"
