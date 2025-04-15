@@ -8,6 +8,7 @@
 
 ## Updates
 
+- 2025-04-14: Sync with go1.23.8
 - 2024-08-17: Sync with go1.22.6
 - 2023-02-28: Sync with go1.21.7
 - 2023-10-04: Sync with go1.20.8

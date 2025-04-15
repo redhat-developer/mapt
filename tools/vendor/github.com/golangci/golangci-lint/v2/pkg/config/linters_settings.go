@@ -41,6 +41,10 @@ var defaultLintersSettings = LintersSettings{
 	Forbidigo: ForbidigoSettings{
 		ExcludeGodocExamples: true,
 	},
+	FuncOrder: FuncOrderSettings{
+		Constructor:  true,
+		StructMethod: true,
+	},
 	Funlen: FunlenSettings{
 		IgnoreComments: true,
 	},
@@ -217,6 +221,7 @@ type LintersSettings struct {
 	Exhaustruct     ExhaustructSettings     `mapstructure:"exhaustruct"`
 	Fatcontext      FatcontextSettings      `mapstructure:"fatcontext"`
 	Forbidigo       ForbidigoSettings       `mapstructure:"forbidigo"`
+	FuncOrder       FuncOrderSettings       `mapstructure:"funcorder"`
 	Funlen          FunlenSettings          `mapstructure:"funlen"`
 	GinkgoLinter    GinkgoLinterSettings    `mapstructure:"ginkgolinter"`
 	Gocognit        GocognitSettings        `mapstructure:"gocognit"`
@@ -420,6 +425,11 @@ type ForbidigoPattern struct {
 	Msg     string `yaml:"msg,omitempty" mapstructure:"msg,omitempty"`
 }
 
+type FuncOrderSettings struct {
+	Constructor  bool `mapstructure:"constructor,omitempty"`
+	StructMethod bool `mapstructure:"struct-method,omitempty"`
+}
+
 type FunlenSettings struct {
 	Lines          int  `mapstructure:"lines"`
 	Statements     int  `mapstructure:"statements"`
@@ -451,14 +461,19 @@ type GocognitSettings struct {
 }
 
 type GoConstSettings struct {
-	IgnoreStrings       string `mapstructure:"ignore-strings"`
-	MatchWithConstants  bool   `mapstructure:"match-constant"`
-	MinStringLen        int    `mapstructure:"min-len"`
-	MinOccurrencesCount int    `mapstructure:"min-occurrences"`
-	ParseNumbers        bool   `mapstructure:"numbers"`
-	NumberMin           int    `mapstructure:"min"`
-	NumberMax           int    `mapstructure:"max"`
-	IgnoreCalls         bool   `mapstructure:"ignore-calls"`
+	IgnoreStringValues   []string `mapstructure:"ignore-string-values"`
+	MatchWithConstants   bool     `mapstructure:"match-constant"`
+	MinStringLen         int      `mapstructure:"min-len"`
+	MinOccurrencesCount  int      `mapstructure:"min-occurrences"`
+	ParseNumbers         bool     `mapstructure:"numbers"`
+	NumberMin            int      `mapstructure:"min"`
+	NumberMax            int      `mapstructure:"max"`
+	IgnoreCalls          bool     `mapstructure:"ignore-calls"`
+	FindDuplicates       bool     `mapstructure:"find-duplicates"`
+	EvalConstExpressions bool     `mapstructure:"eval-const-expressions"`
+
+	// Deprecated: use IgnoreStringValues instead.
+	IgnoreStrings string `mapstructure:"ignore-strings"`
 }
 
 type GoCriticSettings struct {
@@ -784,6 +799,7 @@ type SlogLintSettings struct {
 	NoGlobal       string   `mapstructure:"no-global"`
 	Context        string   `mapstructure:"context"`
 	StaticMsg      bool     `mapstructure:"static-msg"`
+	MsgStyle       string   `mapstructure:"msg-style"`
 	NoRawKeys      bool     `mapstructure:"no-raw-keys"`
 	KeyNamingCase  string   `mapstructure:"key-naming-case"`
 	ForbiddenKeys  []string `mapstructure:"forbidden-keys"`
@@ -965,6 +981,7 @@ type WrapcheckSettings struct {
 	IgnoreSigRegexps       []string `mapstructure:"ignore-sig-regexps"`
 	IgnorePackageGlobs     []string `mapstructure:"ignore-package-globs"`
 	IgnoreInterfaceRegexps []string `mapstructure:"ignore-interface-regexps"`
+	ReportInternalErrors   bool     `mapstructure:"report-internal-errors"`
 }
 
 type WSLSettings struct {
