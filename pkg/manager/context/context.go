@@ -39,6 +39,8 @@ type ContextArgs struct {
 	// take into account that the name may change as the approach to get
 	// credentials from role is more general approach
 	Serverless bool
+	// This forces destroy even when lock exists
+	ForceDestroy bool
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
@@ -52,6 +54,7 @@ type context struct {
 	debug                 bool
 	debugLevel            uint
 	serverless            bool
+	forceDestroy          bool
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
 }
@@ -73,6 +76,7 @@ func Init(ca *ContextArgs, provider Provider) error {
 		debugLevel:    ca.DebugLevel,
 		tags:          ca.Tags,
 		serverless:    ca.Serverless,
+		forceDestroy:  ca.ForceDestroy,
 	}
 	addCommonTags()
 	// Init provider
@@ -106,6 +110,8 @@ func Debug() bool { return mc.debug }
 func DebugLevel() uint { return mc.debugLevel }
 
 func IsServerless() bool { return mc.serverless }
+
+func IsForceDestroy() bool { return mc.forceDestroy }
 
 // It will create a runID
 // if context has been intialized it will set it as the runID for the context
