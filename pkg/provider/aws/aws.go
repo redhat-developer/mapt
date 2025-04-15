@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsEC2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
@@ -16,10 +18,13 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/s3"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/redhat-developer/mapt/pkg/util/maps"
 )
+
+const pulumiLocksPath = ".pulumi/locks"
 
 type AWS struct{}
 
@@ -106,6 +111,21 @@ func DestroyStack(s DestroyStackRequest) error {
 	if len(s.Stackname) == 0 {
 		return fmt.Errorf("stackname is required")
 	}
+	if maptContext.IsForceDestroy() {
+		// Currently only support this for remote backed urls to allow serverless
+		bucket, key, err := parseS3BackedURL()
+		if err != nil {
+			// Do not exit
+			logging.Error(err)
+		}
+		// TODO add lock key
+		lockPathKey := fmt.Sprintf("%s/%s", *key, pulumiLocksPath)
+		err = s3.Delete(bucket, &lockPathKey)
+		if err != nil {
+			// Do not exit
+			logging.Error(err)
+		}
+	}
 	return manager.DestroyStack(manager.Stack{
 		StackName:   maptContext.StackNameByProject(s.Stackname),
 		ProjectName: maptContext.ProjectName(),
@@ -190,4 +210,16 @@ func setCredentialsForServerless() error {
 		return err
 	}
 	return nil
+}
+
+func parseS3BackedURL() (*string, *string, error) {
+	if !strings.HasPrefix(maptContext.BackedURL(), "s3://") {
+		return nil, nil, fmt.Errorf("invalid S3 URI: must start with s3://")
+	}
+	u, err := url.Parse(maptContext.BackedURL())
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to parse S3 URI: %w", err)
+	}
+	key := strings.TrimPrefix(u.Path, "/")
+	return &u.Host, &key, nil
 }

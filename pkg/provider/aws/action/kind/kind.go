@@ -197,7 +197,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		if err = serverless.OneTimeDelayedTask(ctx,
 			*r.allocationData.Region, *r.prefix,
 			awsKindID,
-			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
+			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless --force-destroy",
 				"kind",
 				maptContext.ProjectName(),
 				maptContext.BackedURL()),
