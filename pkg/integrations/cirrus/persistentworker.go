@@ -43,7 +43,7 @@ func (args *PersistentWorkerArgs) GetUserDataValues() *integrations.UserDataValu
 		CliURL: downloadURL(),
 		Name:   pwa.Name,
 		Token:  pwa.Token,
-		Labels: getLabelsAsString(),
+		Labels: GetLabelsAsString(),
 		Port:   cirrusPort,
 	}
 }
@@ -74,18 +74,8 @@ func GetToken() string {
 		"")
 }
 
-// platform: darwin, linux, windows
-// arch: amd64, arm64
-func downloadURL() string {
-	url := fmt.Sprintf(baseURL, version, *pwa.Platform, *pwa.Arch)
-	if pwa.Platform == &Windows {
-		url = fmt.Sprintf("%s.exe", url)
-	}
-	return url
-}
-
 // Get labels in format
-func getLabelsAsString() string {
+func GetLabelsAsString() string {
 	return util.IfNillable(pwa != nil,
 		func() string {
 			if len(pwa.Labels) > 0 {
@@ -100,4 +90,14 @@ func getLabelsAsString() string {
 			return ""
 		},
 		"")
+}
+
+// platform: darwin, linux, windows
+// arch: amd64, arm64
+func downloadURL() string {
+	url := fmt.Sprintf(baseURL, version, *pwa.Platform, *pwa.Arch)
+	if pwa.Platform == &Windows {
+		url = fmt.Sprintf("%s.exe", url)
+	}
+	return url
 }

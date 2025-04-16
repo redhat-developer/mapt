@@ -245,6 +245,7 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	// We offer serverless release so there should be a timeout and operation should be a request
 	if len(r.Timeout) > 0 && r.isRequestOperation {
 		if err = serverless.OneTimeDelayedTask(ctx,
+			fmt.Sprintf("mac-pool-release-%s", maptContext.RunID()),
 			*r.Region, r.Prefix, awsMacMachineID,
 			fmt.Sprintf("aws mac-pool release --dedicated-host-id %s --serverless",
 				*r.dedicatedHost.Host.HostId),

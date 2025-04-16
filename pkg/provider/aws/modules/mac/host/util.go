@@ -55,7 +55,7 @@ func GetMatchingHostsInStateInformation(matchingTags map[string]string, state *e
 	}
 	var r []*mac.HostInformation
 	for _, dh := range hosts {
-		if state == nil || (state != nil && dh.State == *state) {
+		if state == nil || dh.State == *state {
 			r = append(r, GetHostInformation(dh))
 		}
 	}
@@ -83,6 +83,7 @@ func GetHostInformation(h ec2Types.Host) *mac.HostInformation {
 		RunID:       getTagValue(h.Tags, maptContext.TagKeyRunID),
 		Region:      &region,
 		Host:        &h,
+		PoolName:    getTagValue(h.Tags, macConstants.TagKeyPoolName),
 	}
 }
 

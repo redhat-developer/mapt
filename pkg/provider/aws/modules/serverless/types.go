@@ -1,14 +1,23 @@
 package serverless
 
-import "github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+import (
+	"fmt"
+
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+)
+
+const (
+	defaultPrefix      = "mapt"
+	defaultComponentID = "sf"
+)
 
 var (
-	// stackName = "mapt-serverless"
-
 	// This is mostly used to prefix resources used by mapt on serverless mode
 	// i.e. ECS clusters which are created and kept after destroy as they always
 	// will be used by mapt serverless features
 	maptServerlessDefaultPrefix = "mapt-serverless-manager"
+	MaptServerlessClusterName   = fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "cluster")
+	maptServerlessExecRoleName  = fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "sch-role")
 )
 
 type scheduleType string
@@ -25,7 +34,8 @@ const (
 )
 
 type ServerlessArgs struct {
-	Command string
+	ContainerName string
+	Command       string
 	// From here params are optional
 	LogGroupName string
 	Tags         map[string]string
@@ -35,6 +45,7 @@ type ServerlessArgs struct {
 }
 
 type serverlessRequestArgs struct {
+	containerName string
 	// need this to find the right ECS cluster to run this serverless
 	region string
 	// command and scheduling to be used for it

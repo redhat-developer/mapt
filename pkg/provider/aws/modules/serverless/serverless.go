@@ -26,7 +26,7 @@ var (
 )
 
 func OneTimeDelayedTask(ctx *pulumi.Context,
-	region, prefix, componentID string,
+	containerName, region, prefix, componentID string,
 	cmd string,
 	delay string) error {
 	if err := checkBackedURLForServerless(); err != nil {
@@ -37,6 +37,7 @@ func OneTimeDelayedTask(ctx *pulumi.Context,
 		return err
 	}
 	r := &serverlessRequestArgs{
+		containerName:      containerName,
 		region:             region,
 		command:            cmd,
 		scheduleType:       &OneTime,
@@ -94,6 +95,7 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 		resourcesUtil.GetResourceName(a.prefix, a.componentID, "fg-task"),
 		&awsxecs.FargateTaskDefinitionArgs{
 			Container: &awsxecs.TaskDefinitionContainerDefinitionArgs{
+				Name:    pulumi.String(a.containerName),
 				Image:   pulumi.String(maptContext.OCI),
 				Command: pulumi.ToStringArray(strings.Fields(a.command)),
 				Cpu:     pulumi.Int(limitCPUasInt),
@@ -162,15 +164,14 @@ func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
 // As part of the runtime for serverless invocation we need a fixed cluster spec on the region as so if
 // it exists it will pick the cluster otherwise it will create and will not be deleted
 func getClusterArn(ctx *pulumi.Context, region, prefix, componentID string) (*pulumi.StringOutput, error) {
-	clusterName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "cluster")
-	clusterArn, err := data.GetCluster(clusterName, region)
+	clusterArn, err := data.GetCluster(MaptServerlessClusterName, region)
 	if err != nil {
 		if err == data.ErrECSClusterNotFound {
 			if cluster, err := ecs.NewCluster(ctx,
 				resourcesUtil.GetResourceName(prefix, componentID, "cluster"),
 				&ecs.ClusterArgs{
 					Tags: maptContext.ResourceTags(),
-					Name: pulumi.String(clusterName),
+					Name: pulumi.String(MaptServerlessClusterName),
 				},
 				pulumi.RetainOnDelete(true)); err != nil {
 				return nil, err
@@ -268,10 +269,9 @@ func createTaskRole(ctx *pulumi.Context, roleName, prefix, componentID string) (
 // As part of the runtime for serverless invocation we need a fixed role for task execution the region as so if
 // it exists it will pick the role otherwise it will create and will not be deleted
 func getSchedulerRole(ctx *pulumi.Context, prefix, componentID string) (*pulumi.StringOutput, error) {
-	roleName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "sch-role")
-	roleArn, err := data.GetRole(roleName)
+	roleArn, err := data.GetRole(maptServerlessExecRoleName)
 	if err != nil {
-		if role, err := createSchedulerRole(ctx, roleName, prefix, componentID); err != nil {
+		if role, err := createSchedulerRole(ctx, maptServerlessExecRoleName, prefix, componentID); err != nil {
 			return nil, err
 		} else {
 			return &role.Arn, nil

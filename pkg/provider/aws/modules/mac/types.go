@@ -18,6 +18,9 @@ type HostInformation struct {
 	RunID       *string
 	Region      *string
 	Host        *ec2Types.Host
+	// Optional in case the host belongs
+	// to a pool
+	PoolName *string
 }
 
 var (
