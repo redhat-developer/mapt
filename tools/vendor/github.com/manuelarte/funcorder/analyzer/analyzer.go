@@ -14,6 +14,7 @@ import (
 const (
 	ConstructorCheckName  = "constructor"
 	StructMethodCheckName = "struct-method"
+	AlphabeticalCheckName = "alphabetical"
 )
 
 func NewAnalyzer() *analysis.Analyzer {
@@ -27,10 +28,11 @@ func NewAnalyzer() *analysis.Analyzer {
 	}
 
 	a.Flags.BoolVar(&f.constructorCheck, ConstructorCheckName, true,
-		"Enable/disable feature to check constructors are placed after struct declaration")
+		"Checks that constructors are placed after the structure declaration.")
 	a.Flags.BoolVar(&f.structMethodCheck, StructMethodCheckName, true,
-		"Enable/disable feature to check whether the exported struct's methods "+
-			"are placed before the non-exported")
+		"Checks if the exported methods of a structure are placed before the non-exported ones.")
+	a.Flags.BoolVar(&f.alphabeticalCheck, AlphabeticalCheckName, false,
+		"Checks if the constructors and/or structure methods are sorted alphabetically.")
 
 	return a
 }
@@ -38,16 +40,21 @@ func NewAnalyzer() *analysis.Analyzer {
 type funcorder struct {
 	constructorCheck  bool
 	structMethodCheck bool
+	alphabeticalCheck bool
 }
 
 func (f *funcorder) run(pass *analysis.Pass) (any, error) {
 	var enabledCheckers features.Feature
 	if f.constructorCheck {
-		enabledCheckers |= features.ConstructorCheck
+		enabledCheckers.Enable(features.ConstructorCheck)
 	}
 
 	if f.structMethodCheck {
-		enabledCheckers |= features.StructMethodCheck
+		enabledCheckers.Enable(features.StructMethodCheck)
+	}
+
+	if f.alphabeticalCheck {
+		enabledCheckers.Enable(features.AlphabeticalCheck)
 	}
 
 	fp := fileprocessor.NewFileProcessor(enabledCheckers)
