@@ -3,10 +3,15 @@ package features
 const (
 	ConstructorCheck Feature = 1 << iota
 	StructMethodCheck
+	AlphabeticalCheck
 )
 
 type Feature uint8
 
-func (c Feature) IsEnabled(other Feature) bool {
-	return c&other != 0
+func (f *Feature) Enable(other Feature) {
+	*f |= other
+}
+
+func (f *Feature) IsEnabled(other Feature) bool {
+	return *f&other != 0
 }

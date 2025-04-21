@@ -38,16 +38,6 @@ func (fp *FileProcessor) Analyze() []analysis.Diagnostic {
 	return reports
 }
 
-func (fp *FileProcessor) addConstructor(sc models.StructConstructor) {
-	sh := fp.getOrCreate(sc.GetStructReturn().Name)
-	sh.AddConstructor(sc.GetConstructor())
-}
-
-func (fp *FileProcessor) addMethod(st string, n *ast.FuncDecl) {
-	sh := fp.getOrCreate(st)
-	sh.AddMethod(n)
-}
-
 func (fp *FileProcessor) NewFileNode(_ *ast.File) {
 	fp.structs = make(map[string]*models.StructHolder)
 }
@@ -66,6 +56,16 @@ func (fp *FileProcessor) NewFuncDecl(n *ast.FuncDecl) {
 func (fp *FileProcessor) NewTypeSpec(n *ast.TypeSpec) {
 	sh := fp.getOrCreate(n.Name.Name)
 	sh.Struct = n
+}
+
+func (fp *FileProcessor) addConstructor(sc models.StructConstructor) {
+	sh := fp.getOrCreate(sc.GetStructReturn().Name)
+	sh.AddConstructor(sc.GetConstructor())
+}
+
+func (fp *FileProcessor) addMethod(st string, n *ast.FuncDecl) {
+	sh := fp.getOrCreate(st)
+	sh.AddMethod(n)
 }
 
 func (fp *FileProcessor) getOrCreate(structName string) *models.StructHolder {

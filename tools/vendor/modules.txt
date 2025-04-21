@@ -544,7 +544,7 @@ github.com/lucasb-eyer/go-colorful
 # github.com/macabu/inamedparam v0.2.0
 ## explicit; go 1.23.0
 github.com/macabu/inamedparam
-# github.com/manuelarte/funcorder v0.2.1
+# github.com/manuelarte/funcorder v0.3.0
 ## explicit; go 1.23.0
 github.com/manuelarte/funcorder/analyzer
 github.com/manuelarte/funcorder/internal/astutils
