@@ -174,6 +174,10 @@ func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
 
 func filterCPUsAndMemory(cpus, memory int32, arch arch, nestedVirt bool) filterFunc {
 	return func(ctx context.Context, vm *virtualMachine, wg *sync.WaitGroup, vmCh chan<- string) {
+		// VM size is lowered with '-'suffix.
+		// Filter them to meet the request cpu number
+		var lowerCpuPattern = `Standard.*-.*_v\d$`
+
 		defer wg.Done()
 		select {
 		case <-ctx.Done():
@@ -185,10 +189,12 @@ func filterCPUsAndMemory(cpus, memory int32, arch arch, nestedVirt bool) filterF
 			if nestedVirt && !vm.nestedVirtSupported() {
 				return
 			}
-
 			if vm.VCPUs >= cpus && vm.Memory >= memory && vm.Arch == arch.String() &&
 				vm.baseFeaturesSupported() {
-				vmCh <- vm.Name
+				dSeries := regexp.MustCompile(lowerCpuPattern)
+				if !dSeries.Match([]byte(vm.Name)) {
+					vmCh <- vm.Name
+				}
 			}
 		}
 	}
