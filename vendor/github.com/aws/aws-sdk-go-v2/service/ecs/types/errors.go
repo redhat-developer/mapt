@@ -247,15 +247,8 @@ func (e *ClusterNotFoundException) ErrorCode() string {
 }
 func (e *ClusterNotFoundException) ErrorFault() smithy.ErrorFault { return smithy.FaultClient }
 
-// The RunTask request could not be processed due to conflicts. The provided
-// clientToken is already in use with a different RunTask request. The resourceIds
-// are the existing task ARNs which are already associated with the clientToken .
-//
-// To fix this issue:
-//
-//   - Run RunTask with a unique clientToken .
-//
-//   - Run RunTask with the clientToken and the original set of parameters
+// The request could not be processed because of conflict in the current state of
+// the resource.
 type ConflictException struct {
 	Message *string
 
@@ -556,6 +549,36 @@ func (e *ServerException) ErrorCode() string {
 	return *e.ErrorCodeOverride
 }
 func (e *ServerException) ErrorFault() smithy.ErrorFault { return smithy.FaultServer }
+
+// The service deploy ARN that you specified in the StopServiceDeployment doesn't
+// exist. You can use ListServiceDeployments to retrieve the service deployment
+// ARNs.
+type ServiceDeploymentNotFoundException struct {
+	Message *string
+
+	ErrorCodeOverride *string
+
+	noSmithyDocumentSerde
+}
+
+func (e *ServiceDeploymentNotFoundException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCode(), e.ErrorMessage())
+}
+func (e *ServiceDeploymentNotFoundException) ErrorMessage() string {
+	if e.Message == nil {
+		return ""
+	}
+	return *e.Message
+}
+func (e *ServiceDeploymentNotFoundException) ErrorCode() string {
+	if e == nil || e.ErrorCodeOverride == nil {
+		return "ServiceDeploymentNotFoundException"
+	}
+	return *e.ErrorCodeOverride
+}
+func (e *ServiceDeploymentNotFoundException) ErrorFault() smithy.ErrorFault {
+	return smithy.FaultClient
+}
 
 // The specified service isn't active. You can't update a service that's inactive.
 // If you have previously deleted a service, you can re-create it with [CreateService].

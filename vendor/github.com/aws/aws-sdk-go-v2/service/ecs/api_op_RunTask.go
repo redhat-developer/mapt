@@ -52,6 +52,17 @@ import (
 //     starting with a couple of seconds of wait time, and increase gradually up to
 //     about five minutes of wait time.
 //
+// If you get a ConflictException error, the RunTask request could not be
+// processed due to conflicts. The provided clientToken is already in use with a
+// different RunTask request. The resourceIds are the existing task ARNs which are
+// already associated with the clientToken .
+//
+// To fix this issue:
+//
+//   - Run RunTask with a unique clientToken .
+//
+//   - Run RunTask with the clientToken and the original set of parameters
+//
 // [Scheduling Tasks]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html
 // [Amazon EBS volumes]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types
 func (c *Client) RunTask(ctx context.Context, params *RunTaskInput, optFns ...func(*Options)) (*RunTaskOutput, error) {
@@ -118,6 +129,9 @@ type RunTaskInput struct {
 
 	// The short name or full Amazon Resource Name (ARN) of the cluster to run your
 	// task on. If you do not specify a cluster, the default cluster is assumed.
+	//
+	// Each account receives a default cluster the first time you use the service, but
+	// you may also create other clusters.
 	Cluster *string
 
 	// The number of instantiations of the specified task to place on your cluster.

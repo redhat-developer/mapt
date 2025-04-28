@@ -18,6 +18,8 @@ type CertRequestSubject struct {
 	CommonName *string `pulumi:"commonName"`
 	// Distinguished name: `C`
 	Country *string `pulumi:"country"`
+	// ASN.1 Object Identifier (OID): `1.2.840.113549.1.9.1`
+	EmailAddress *string `pulumi:"emailAddress"`
 	// Distinguished name: `L`
 	Locality *string `pulumi:"locality"`
 	// Distinguished name: `O`
@@ -50,6 +52,8 @@ type CertRequestSubjectArgs struct {
 	CommonName pulumi.StringPtrInput `pulumi:"commonName"`
 	// Distinguished name: `C`
 	Country pulumi.StringPtrInput `pulumi:"country"`
+	// ASN.1 Object Identifier (OID): `1.2.840.113549.1.9.1`
+	EmailAddress pulumi.StringPtrInput `pulumi:"emailAddress"`
 	// Distinguished name: `L`
 	Locality pulumi.StringPtrInput `pulumi:"locality"`
 	// Distinguished name: `O`
@@ -153,6 +157,11 @@ func (o CertRequestSubjectOutput) Country() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v CertRequestSubject) *string { return v.Country }).(pulumi.StringPtrOutput)
 }
 
+// ASN.1 Object Identifier (OID): `1.2.840.113549.1.9.1`
+func (o CertRequestSubjectOutput) EmailAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v CertRequestSubject) *string { return v.EmailAddress }).(pulumi.StringPtrOutput)
+}
+
 // Distinguished name: `L`
 func (o CertRequestSubjectOutput) Locality() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v CertRequestSubject) *string { return v.Locality }).(pulumi.StringPtrOutput)
@@ -229,6 +238,16 @@ func (o CertRequestSubjectPtrOutput) Country() pulumi.StringPtrOutput {
 			return nil
 		}
 		return v.Country
+	}).(pulumi.StringPtrOutput)
+}
+
+// ASN.1 Object Identifier (OID): `1.2.840.113549.1.9.1`
+func (o CertRequestSubjectPtrOutput) EmailAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *CertRequestSubject) *string {
+		if v == nil {
+			return nil
+		}
+		return v.EmailAddress
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -501,6 +520,8 @@ type SelfSignedCertSubject struct {
 	CommonName *string `pulumi:"commonName"`
 	// Distinguished name: `C`
 	Country *string `pulumi:"country"`
+	// ASN.1 Object Identifier (OID): `1.2.840.113549.1.9.1`
+	EmailAddress *string `pulumi:"emailAddress"`
 	// Distinguished name: `L`
 	Locality *string `pulumi:"locality"`
 	// Distinguished name: `O`
@@ -533,6 +554,8 @@ type SelfSignedCertSubjectArgs struct {
 	CommonName pulumi.StringPtrInput `pulumi:"commonName"`
 	// Distinguished name: `C`
 	Country pulumi.StringPtrInput `pulumi:"country"`
+	// ASN.1 Object Identifier (OID): `1.2.840.113549.1.9.1`
+	EmailAddress pulumi.StringPtrInput `pulumi:"emailAddress"`
 	// Distinguished name: `L`
 	Locality pulumi.StringPtrInput `pulumi:"locality"`
 	// Distinguished name: `O`
@@ -636,6 +659,11 @@ func (o SelfSignedCertSubjectOutput) Country() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v SelfSignedCertSubject) *string { return v.Country }).(pulumi.StringPtrOutput)
 }
 
+// ASN.1 Object Identifier (OID): `1.2.840.113549.1.9.1`
+func (o SelfSignedCertSubjectOutput) EmailAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SelfSignedCertSubject) *string { return v.EmailAddress }).(pulumi.StringPtrOutput)
+}
+
 // Distinguished name: `L`
 func (o SelfSignedCertSubjectOutput) Locality() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v SelfSignedCertSubject) *string { return v.Locality }).(pulumi.StringPtrOutput)
@@ -712,6 +740,16 @@ func (o SelfSignedCertSubjectPtrOutput) Country() pulumi.StringPtrOutput {
 			return nil
 		}
 		return v.Country
+	}).(pulumi.StringPtrOutput)
+}
+
+// ASN.1 Object Identifier (OID): `1.2.840.113549.1.9.1`
+func (o SelfSignedCertSubjectPtrOutput) EmailAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SelfSignedCertSubject) *string {
+		if v == nil {
+			return nil
+		}
+		return v.EmailAddress
 	}).(pulumi.StringPtrOutput)
 }
 

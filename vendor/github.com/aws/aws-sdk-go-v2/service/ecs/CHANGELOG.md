@@ -1,3 +1,15 @@
+# v1.56.2 (2025-04-25)
+
+* **Documentation**: Documentation only release for Amazon ECS.
+
+# v1.56.1 (2025-04-24)
+
+* **Documentation**: Documentation only release for Amazon ECS
+
+# v1.56.0 (2025-04-23)
+
+* **Feature**: Add support to roll back an In_Progress ECS Service Deployment
+
 # v1.55.0 (2025-04-17)
 
 * **Feature**: Adds a new AccountSetting - defaultLogDriverMode for ECS.
