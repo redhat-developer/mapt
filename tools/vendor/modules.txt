@@ -47,7 +47,7 @@ github.com/Masterminds/semver/v3
 ## explicit; go 1.23.0
 github.com/OpenPeeDeeP/depguard/v2
 github.com/OpenPeeDeeP/depguard/v2/internal/utils
-# github.com/alecthomas/chroma/v2 v2.16.0
+# github.com/alecthomas/chroma/v2 v2.17.0
 ## explicit; go 1.22
 github.com/alecthomas/chroma/v2
 github.com/alecthomas/chroma/v2/formatters
@@ -738,11 +738,9 @@ github.com/sirupsen/logrus
 # github.com/sivchari/containedctx v1.0.3
 ## explicit; go 1.17
 github.com/sivchari/containedctx
-# github.com/sonatard/noctx v0.1.0
-## explicit; go 1.22.0
+# github.com/sonatard/noctx v0.3.2
+## explicit; go 1.23.0
 github.com/sonatard/noctx
-github.com/sonatard/noctx/ngfunc
-github.com/sonatard/noctx/reqwithoutctx
 # github.com/sourcegraph/conc v0.3.0
 ## explicit; go 1.19
 github.com/sourcegraph/conc

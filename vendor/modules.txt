@@ -182,12 +182,12 @@ github.com/aws/aws-sdk-go-v2/internal/ini
 github.com/aws/aws-sdk-go-v2/internal/v4a
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4
-# github.com/aws/aws-sdk-go-v2/service/ec2 v1.211.3
+# github.com/aws/aws-sdk-go-v2/service/ec2 v1.212.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ec2/types
-# github.com/aws/aws-sdk-go-v2/service/ecs v1.55.0
+# github.com/aws/aws-sdk-go-v2/service/ecs v1.56.2
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ecs
 github.com/aws/aws-sdk-go-v2/service/ecs/internal/endpoints
@@ -551,8 +551,8 @@ github.com/pkg/term/termios
 github.com/pulumi/appdash
 github.com/pulumi/appdash/internal/wire
 github.com/pulumi/appdash/opentracing
-# github.com/pulumi/esc v0.13.0
-## explicit; go 1.21
+# github.com/pulumi/esc v0.14.0
+## explicit; go 1.23.0
 github.com/pulumi/esc
 github.com/pulumi/esc/ast
 github.com/pulumi/esc/diags
@@ -566,7 +566,7 @@ github.com/pulumi/esc/syntax/encoding
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
-# github.com/pulumi/pulumi-aws/sdk/v6 v6.77.1
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.78.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/cloudwatch
@@ -621,11 +621,11 @@ github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-random/sdk/v4/go/random
 github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
-# github.com/pulumi/pulumi-tls/sdk/v5 v5.1.1
+# github.com/pulumi/pulumi-tls/sdk/v5 v5.2.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.163.0
+# github.com/pulumi/pulumi/sdk/v3 v3.165.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -876,7 +876,7 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20250414145226-207652e42e2e
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20250425173222-7b384671a197
 ## explicit; go 1.23.0
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.72.0
