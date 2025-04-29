@@ -15,23 +15,25 @@ const (
 	cmdEKS     = "eks"
 	cmdEKSDesc = "eks operations"
 
-	paramVersion                = "version"
-	paramVersionDesc            = "EKS K8s cluster version"
-	defaultParamVMSize          = "t3.medium"
-	paramVMSizeDesc             = "VMSize to be used on the user pool. Typically this is used to provision spot node pools"
-	defaultVersion              = "1.31"
-	paramScalingDesiredSize     = "workers-desired"
-	paramScalingDesiredSizeDesc = "Worker nodes scaling desired size"
-	defaultScalingDesiredSize   = "1"
-	paramScalingMaxSize         = "workers-max"
-	paramScalingMaxSizeDesc     = "Worker nodes scaling maximum size"
-	defaultScalingMaxSize       = "3"
-	paramScalingMinSize         = "workers-min"
-	paramScalingMinSizeDesc     = "Worker nodes scaling minimum size"
-	defaultScalingMinSize       = "1"
-	paramAddons                 = "addons"
-	paramAddonsDesc             = "List of EKS addons to be installed, separated by commas."
-	defaultAddons               = ""
+	paramVersion                    = "version"
+	paramVersionDesc                = "EKS K8s cluster version"
+	defaultParamVMSize              = "t3.medium"
+	paramVMSizeDesc                 = "VMSize to be used on the user pool. Typically this is used to provision spot node pools"
+	defaultVersion                  = "1.31"
+	paramScalingDesiredSize         = "workers-desired"
+	paramScalingDesiredSizeDesc     = "Worker nodes scaling desired size"
+	defaultScalingDesiredSize       = "1"
+	paramScalingMaxSize             = "workers-max"
+	paramScalingMaxSizeDesc         = "Worker nodes scaling maximum size"
+	defaultScalingMaxSize           = "3"
+	paramScalingMinSize             = "workers-min"
+	paramScalingMinSizeDesc         = "Worker nodes scaling minimum size"
+	defaultScalingMinSize           = "1"
+	paramAddons                     = "addons"
+	paramAddonsDesc                 = "List of EKS addons to be installed, separated by commas."
+	defaultAddons                   = ""
+	paramLoadBalancerController     = "load-balancer-controller"
+	paramLoadBalancerControllerDesc = "Install AWS Load Balancer Controller"
 )
 
 func GetEKSCmd() *cobra.Command {
@@ -68,14 +70,15 @@ func getCreateEKS() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&awsEKS.EKSRequest{
-					Prefix:             viper.GetString(params.ProjectName),
-					Region:             viper.GetString(awsparams.ParamRegion),
-					VMSize:             viper.GetString(awsparams.ParamVMSize),
-					KubernetesVersion:  viper.GetString(paramVersion),
-					ScalingDesiredSize: viper.GetInt(paramScalingDesiredSize),
-					ScalingMaxSize:     viper.GetInt(paramScalingMaxSize),
-					ScalingMinSize:     viper.GetInt(paramScalingMinSize),
-					Addons:             viper.GetStringSlice(paramAddons),
+					Prefix:                 viper.GetString(params.ProjectName),
+					Region:                 viper.GetString(awsparams.ParamRegion),
+					VMSize:                 viper.GetString(awsparams.ParamVMSize),
+					KubernetesVersion:      viper.GetString(paramVersion),
+					ScalingDesiredSize:     viper.GetInt(paramScalingDesiredSize),
+					ScalingMaxSize:         viper.GetInt(paramScalingMaxSize),
+					ScalingMinSize:         viper.GetInt(paramScalingMinSize),
+					Addons:                 viper.GetStringSlice(paramAddons),
+					LoadBalancerController: viper.IsSet(paramLoadBalancerController),
 				}); err != nil {
 				logging.Error(err)
 			}
@@ -92,6 +95,7 @@ func getCreateEKS() *cobra.Command {
 	flagSet.StringP(paramScalingMaxSize, "", defaultScalingMaxSize, paramScalingMaxSizeDesc)
 	flagSet.StringP(paramScalingMinSize, "", defaultScalingMinSize, paramScalingMinSizeDesc)
 	flagSet.StringSliceP(paramAddons, "", []string{}, paramAddonsDesc)
+	flagSet.Bool(paramLoadBalancerController, false, paramLoadBalancerControllerDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

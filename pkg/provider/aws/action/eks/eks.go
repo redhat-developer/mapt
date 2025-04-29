@@ -1,12 +1,18 @@
 package eks
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/eks"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam"
+	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
+	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
+	helmv3 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3"
+	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
+	rbacv1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/rbac/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
@@ -205,6 +211,114 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 
 	kubeconfig := generateKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthority.Data().Elem(), eksCluster.Name)
 
+	if r.LoadBalancerController {
+		// Create a Kubernetes provider instance
+		k8sProvider, err := kubernetes.NewProvider(ctx, "k8sProvider", &kubernetes.ProviderArgs{
+			Kubeconfig: kubeconfig,
+		})
+		if err != nil {
+			return err
+		}
+
+		// IAM Policy Document
+		policyDocumentJSON := getAwsLoadBalancerControllerIamPolicy()
+
+		// Create IAM policy
+		policy, err := iam.NewPolicy(ctx, "loadBalancerControllerPolicy", &iam.PolicyArgs{
+			Policy: pulumi.String(policyDocumentJSON),
+		})
+		if err != nil {
+			return err
+		}
+
+		// Create IAM role
+		role, err := iam.NewRole(ctx, "loadBalancerControllerRole", &iam.RoleArgs{
+			AssumeRolePolicy: pulumi.String(`{
+				"Version": "2008-10-17",
+				"Statement": [{
+						"Sid": "",
+						"Effect": "Allow",
+						"Principal": {
+								"Service": "ec2.amazonaws.com"
+						},
+						"Action": "sts:AssumeRole"
+				}]
+		}`),
+		})
+		if err != nil {
+			return err
+		}
+
+		// Attach policy to role
+		_, err = iam.NewRolePolicyAttachment(ctx, "loadBalancerControllerPolicyAttachment", &iam.RolePolicyAttachmentArgs{
+			Role:      role.Name,
+			PolicyArn: policy.Arn,
+		})
+		if err != nil {
+			return err
+		}
+
+		loadBalancerControllerNamespace := pulumi.String("kube-system")
+		serviceAccountName := pulumi.String("aws-load-balancer-controller")
+
+		// Create the Kubernetes service account with the IAM role annotation
+		_, err = corev1.NewServiceAccount(ctx, "k8sServiceAccount", &corev1.ServiceAccountArgs{
+			Metadata: &metav1.ObjectMetaArgs{
+				Name:      serviceAccountName,
+				Namespace: loadBalancerControllerNamespace,
+				Annotations: pulumi.StringMap{
+					"eks.amazonaws.com/role-arn": role.Arn,
+				},
+			},
+		}, pulumi.Provider(k8sProvider))
+		if err != nil {
+			return err
+		}
+
+		_, err = rbacv1.NewClusterRoleBinding(ctx, "aws-lb-controller-rolebinding", &rbacv1.ClusterRoleBindingArgs{
+			Metadata: &metav1.ObjectMetaArgs{
+				Name: pulumi.Sprintf("aws-load-balancer-controller-rolebinding-%s", eksCluster.Name),
+			},
+			RoleRef: &rbacv1.RoleRefArgs{
+				ApiGroup: pulumi.String("rbac.authorization.k8s.io"),
+				Kind:     pulumi.String("ClusterRole"),
+				Name:     pulumi.String("cluster-admin"),
+			},
+			Subjects: rbacv1.SubjectArray{
+				&rbacv1.SubjectArgs{
+					Kind:      pulumi.String("ServiceAccount"),
+					Name:      serviceAccountName,
+					Namespace: loadBalancerControllerNamespace,
+				},
+			},
+		}, pulumi.Provider(k8sProvider))
+		if err != nil {
+			return err
+		}
+
+		// Deploy the AWS Load Balancer Controller as a Helm chart
+		_, err = helmv3.NewChart(ctx, "aws-load-balancer-controller", helmv3.ChartArgs{
+			Chart: pulumi.String("aws-load-balancer-controller"),
+			FetchArgs: helmv3.FetchArgs{
+				Repo: pulumi.String("https://aws.github.io/eks-charts"),
+			},
+			Namespace: loadBalancerControllerNamespace,
+			Values: pulumi.Map{
+				"clusterName": eksCluster.Name,
+				"serviceAccount": pulumi.Map{
+					"create": pulumi.Bool(false),
+					"name":   serviceAccountName,
+				},
+				"region": pulumi.String(r.Region),
+				"vpcId":  vpc.ID(),
+			},
+		}, pulumi.Provider(k8sProvider))
+		if err != nil {
+			return err
+		}
+	}
+
+	// ctx.Export("clusterName", eksCluster.Name)
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputKubeconfig), kubeconfig)
 	return nil
 }
@@ -295,4 +409,259 @@ func (r *EKSRequest) securityGroups(ctx *pulumi.Context,
 			return sg.ID()
 		})
 	return pulumi.StringArray(sgs[:]), nil
+}
+
+func getAwsLoadBalancerControllerIamPolicy() json.RawMessage {
+	// Source: https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.12.0/docs/install/iam_policy.json
+	policyDocumentJSON := json.RawMessage(`{
+			"Version": "2012-10-17",
+			"Statement": [
+					{
+							"Effect": "Allow",
+							"Action": [
+									"iam:CreateServiceLinkedRole"
+							],
+							"Resource": "*",
+							"Condition": {
+									"StringEquals": {
+											"iam:AWSServiceName": "elasticloadbalancing.amazonaws.com"
+									}
+							}
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"ec2:DescribeAccountAttributes",
+									"ec2:DescribeAddresses",
+									"ec2:DescribeAvailabilityZones",
+									"ec2:DescribeInternetGateways",
+									"ec2:DescribeVpcs",
+									"ec2:DescribeVpcPeeringConnections",
+									"ec2:DescribeSubnets",
+									"ec2:DescribeSecurityGroups",
+									"ec2:DescribeInstances",
+									"ec2:DescribeNetworkInterfaces",
+									"ec2:DescribeTags",
+									"ec2:GetCoipPoolUsage",
+									"ec2:DescribeCoipPools",
+									"ec2:GetSecurityGroupsForVpc",
+									"ec2:DescribeIpamPools",
+									"elasticloadbalancing:DescribeLoadBalancers",
+									"elasticloadbalancing:DescribeLoadBalancerAttributes",
+									"elasticloadbalancing:DescribeListeners",
+									"elasticloadbalancing:DescribeListenerCertificates",
+									"elasticloadbalancing:DescribeSSLPolicies",
+									"elasticloadbalancing:DescribeRules",
+									"elasticloadbalancing:DescribeTargetGroups",
+									"elasticloadbalancing:DescribeTargetGroupAttributes",
+									"elasticloadbalancing:DescribeTargetHealth",
+									"elasticloadbalancing:DescribeTags",
+									"elasticloadbalancing:DescribeTrustStores",
+									"elasticloadbalancing:DescribeListenerAttributes",
+									"elasticloadbalancing:DescribeCapacityReservation"
+							],
+							"Resource": "*"
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"cognito-idp:DescribeUserPoolClient",
+									"acm:ListCertificates",
+									"acm:DescribeCertificate",
+									"iam:ListServerCertificates",
+									"iam:GetServerCertificate",
+									"waf-regional:GetWebACL",
+									"waf-regional:GetWebACLForResource",
+									"waf-regional:AssociateWebACL",
+									"waf-regional:DisassociateWebACL",
+									"wafv2:GetWebACL",
+									"wafv2:GetWebACLForResource",
+									"wafv2:AssociateWebACL",
+									"wafv2:DisassociateWebACL",
+									"shield:GetSubscriptionState",
+									"shield:DescribeProtection",
+									"shield:CreateProtection",
+									"shield:DeleteProtection"
+							],
+							"Resource": "*"
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"ec2:AuthorizeSecurityGroupIngress",
+									"ec2:RevokeSecurityGroupIngress"
+							],
+							"Resource": "*"
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"ec2:CreateSecurityGroup"
+							],
+							"Resource": "*"
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"ec2:CreateTags"
+							],
+							"Resource": "arn:aws:ec2:*:*:security-group/*",
+							"Condition": {
+									"StringEquals": {
+											"ec2:CreateAction": "CreateSecurityGroup"
+									},
+									"Null": {
+											"aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+									}
+							}
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"ec2:CreateTags",
+									"ec2:DeleteTags"
+							],
+							"Resource": "arn:aws:ec2:*:*:security-group/*",
+							"Condition": {
+									"Null": {
+											"aws:RequestTag/elbv2.k8s.aws/cluster": "true",
+											"aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+									}
+							}
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"ec2:AuthorizeSecurityGroupIngress",
+									"ec2:RevokeSecurityGroupIngress",
+									"ec2:DeleteSecurityGroup"
+							],
+							"Resource": "*",
+							"Condition": {
+									"Null": {
+											"aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+									}
+							}
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"elasticloadbalancing:CreateLoadBalancer",
+									"elasticloadbalancing:CreateTargetGroup"
+							],
+							"Resource": "*",
+							"Condition": {
+									"Null": {
+											"aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+									}
+							}
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"elasticloadbalancing:CreateListener",
+									"elasticloadbalancing:DeleteListener",
+									"elasticloadbalancing:CreateRule",
+									"elasticloadbalancing:DeleteRule"
+							],
+							"Resource": "*"
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"elasticloadbalancing:AddTags",
+									"elasticloadbalancing:RemoveTags"
+							],
+							"Resource": [
+									"arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+									"arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+									"arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
+							],
+							"Condition": {
+									"Null": {
+											"aws:RequestTag/elbv2.k8s.aws/cluster": "true",
+											"aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+									}
+							}
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"elasticloadbalancing:AddTags",
+									"elasticloadbalancing:RemoveTags"
+							],
+							"Resource": [
+									"arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
+									"arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
+									"arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
+									"arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*/*"
+							]
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"elasticloadbalancing:ModifyLoadBalancerAttributes",
+									"elasticloadbalancing:SetIpAddressType",
+									"elasticloadbalancing:SetSecurityGroups",
+									"elasticloadbalancing:SetSubnets",
+									"elasticloadbalancing:DeleteLoadBalancer",
+									"elasticloadbalancing:ModifyTargetGroup",
+									"elasticloadbalancing:ModifyTargetGroupAttributes",
+									"elasticloadbalancing:DeleteTargetGroup",
+									"elasticloadbalancing:ModifyListenerAttributes",
+									"elasticloadbalancing:ModifyCapacityReservation",
+									"elasticloadbalancing:ModifyIpPools"
+							],
+							"Resource": "*",
+							"Condition": {
+									"Null": {
+											"aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
+									}
+							}
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"elasticloadbalancing:AddTags"
+							],
+							"Resource": [
+									"arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+									"arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+									"arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
+							],
+							"Condition": {
+									"StringEquals": {
+											"elasticloadbalancing:CreateAction": [
+													"CreateTargetGroup",
+													"CreateLoadBalancer"
+											]
+									},
+									"Null": {
+											"aws:RequestTag/elbv2.k8s.aws/cluster": "false"
+									}
+							}
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"elasticloadbalancing:RegisterTargets",
+									"elasticloadbalancing:DeregisterTargets"
+							],
+							"Resource": "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+					},
+					{
+							"Effect": "Allow",
+							"Action": [
+									"elasticloadbalancing:SetWebAcl",
+									"elasticloadbalancing:ModifyListener",
+									"elasticloadbalancing:AddListenerCertificates",
+									"elasticloadbalancing:RemoveListenerCertificates",
+									"elasticloadbalancing:ModifyRule",
+									"elasticloadbalancing:SetRulePriorities"
+							],
+							"Resource": "*"
+					}
+			]
+	}`)
+	return policyDocumentJSON
 }
