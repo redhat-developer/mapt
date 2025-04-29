@@ -9,12 +9,18 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+
+	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 type EKSRequest struct {
@@ -141,26 +147,9 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 			return err
 		}
 	}
-	// Create a Security Group that we can use to actually connect to our cluster
-	clusterSg, err := ec2.NewSecurityGroup(ctx, "cluster-sg", &ec2.SecurityGroupArgs{
-		VpcId: pulumi.String(vpc.Id),
-		Egress: ec2.SecurityGroupEgressArray{
-			ec2.SecurityGroupEgressArgs{
-				Protocol:   pulumi.String("-1"),
-				FromPort:   pulumi.Int(0),
-				ToPort:     pulumi.Int(0),
-				CidrBlocks: pulumi.StringArray{pulumi.String("0.0.0.0/0")},
-			},
-		},
-		Ingress: ec2.SecurityGroupIngressArray{
-			ec2.SecurityGroupIngressArgs{
-				Protocol:   pulumi.String("tcp"),
-				FromPort:   pulumi.Int(80),
-				ToPort:     pulumi.Int(80),
-				CidrBlocks: pulumi.StringArray{pulumi.String("0.0.0.0/0")},
-			},
-		},
-	})
+
+	// Security groups
+	securityGroups, err := r.securityGroups(ctx, vpc)
 	if err != nil {
 		return err
 	}
@@ -171,10 +160,8 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 			PublicAccessCidrs: pulumi.StringArray{
 				pulumi.String("0.0.0.0/0"),
 			},
-			SecurityGroupIds: pulumi.StringArray{
-				clusterSg.ID().ToStringOutput(),
-			},
 			SubnetIds: toPulumiStringArray(subnet.Ids),
+			SecurityGroupIds: securityGroups,
 		},
 		Version: pulumi.String(r.KubernetesVersion),
 	})
@@ -268,4 +255,46 @@ func (r *EKSRequest) manageResults(stackResult auto.UpResult) error {
 	return output.Write(stackResult, maptContext.GetResultsOutputPath(), map[string]string{
 		fmt.Sprintf("%s-%s", r.Prefix, outputKubeconfig): "kubeconfig",
 	})
+}
+
+// security group with ingress rules for ssh and vnc
+func (r *EKSRequest) securityGroups(ctx *pulumi.Context,
+	vpc *ec2.Vpc) (pulumi.StringArray, error) {
+	// ingress for ssh access from 0.0.0.0
+	var ingressRules []securityGroup.IngressRules
+	sshIngressRule := securityGroup.SSH_TCP
+	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	ingressRules = []securityGroup.IngressRules{sshIngressRule}
+	// Integration ports
+	cirrusPort, err := cirrus.CirrusPort()
+	if err != nil {
+		return nil, err
+	}
+	if cirrusPort != nil {
+		ingressRules = append(ingressRules,
+			securityGroup.IngressRules{
+				Description: fmt.Sprintf("Cirrus port for %s", awsEKSID),
+				FromPort:    *cirrusPort,
+				ToPort:      *cirrusPort,
+				Protocol:    "tcp",
+				CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
+			})
+	}
+
+	// Create SG with ingress rules
+	sg, err := securityGroup.SGRequest{
+		Name:         resourcesUtil.GetResourceName(r.Prefix, awsEKSID, "sg"),
+		VPC:          vpc,
+		Description:  fmt.Sprintf("sg for %s", awsEKSID),
+		IngressRules: ingressRules,
+	}.Create(ctx)
+	if err != nil {
+		return nil, err
+	}
+	// Convert to an array of IDs
+	sgs := util.ArrayConvert([]*ec2.SecurityGroup{sg.SG},
+		func(sg *ec2.SecurityGroup) pulumi.StringInput {
+			return sg.ID()
+		})
+	return pulumi.StringArray(sgs[:]), nil
 }
