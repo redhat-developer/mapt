@@ -290,8 +290,8 @@ github.com/charmbracelet/bubbles/runeutil
 github.com/charmbracelet/bubbles/spinner
 github.com/charmbracelet/bubbles/textinput
 github.com/charmbracelet/bubbles/viewport
-# github.com/charmbracelet/bubbletea v1.3.4
-## explicit; go 1.18
+# github.com/charmbracelet/bubbletea v1.3.5
+## explicit; go 1.23.0
 github.com/charmbracelet/bubbletea
 # github.com/charmbracelet/colorprofile v0.3.1
 ## explicit; go 1.23.0
@@ -551,7 +551,7 @@ github.com/pkg/term/termios
 github.com/pulumi/appdash
 github.com/pulumi/appdash/internal/wire
 github.com/pulumi/appdash/opentracing
-# github.com/pulumi/esc v0.14.0
+# github.com/pulumi/esc v0.14.1
 ## explicit; go 1.23.0
 github.com/pulumi/esc
 github.com/pulumi/esc/ast
@@ -605,7 +605,7 @@ github.com/pulumi/pulumi-azure-native-sdk/storage/v2
 # github.com/pulumi/pulumi-azure-native-sdk/v2 v2.90.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
-# github.com/pulumi/pulumi-command/sdk v1.0.2
+# github.com/pulumi/pulumi-command/sdk v1.0.3
 ## explicit; go 1.22
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
@@ -617,7 +617,7 @@ github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
-# github.com/pulumi/pulumi-random/sdk/v4 v4.18.1
+# github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
 ## explicit; go 1.22
 github.com/pulumi/pulumi-random/sdk/v4/go/random
 github.com/pulumi/pulumi-random/sdk/v4/go/random/internal

@@ -24,8 +24,8 @@ github.com/OpenPeeDeeP/depguard/v2 v2.2.1 h1:vckeWVESWp6Qog7UZSARNqfu/cZqvki8zsu
 github.com/OpenPeeDeeP/depguard/v2 v2.2.1/go.mod h1:q4DKzC4UcVaAvcfd41CZh0PWpGgzrVxUYBlgKNGquUo=
 github.com/alecthomas/assert/v2 v2.11.0 h1:2Q9r3ki8+JYXvGsDyBXwH3LcJ+WK5D0gc5E8vS6K3D0=
 github.com/alecthomas/assert/v2 v2.11.0/go.mod h1:Bze95FyfUr7x34QZrjL+XP+0qgp/zg8yS+TtBj1WA3k=
-github.com/alecthomas/chroma/v2 v2.17.0 h1:3r2Cgk+nXNICMBxIFGnTRTbQFUwMiLisW+9uos0TtUI=
-github.com/alecthomas/chroma/v2 v2.17.0/go.mod h1:RVX6AvYm4VfYe/zsk7mjHueLDZor3aWCNE14TFlepBk=
+github.com/alecthomas/chroma/v2 v2.17.2 h1:Rm81SCZ2mPoH+Q8ZCc/9YvzPUN/E7HgPiPJD8SLV6GI=
+github.com/alecthomas/chroma/v2 v2.17.2/go.mod h1:RVX6AvYm4VfYe/zsk7mjHueLDZor3aWCNE14TFlepBk=
 github.com/alecthomas/go-check-sumtype v0.3.1 h1:u9aUvbGINJxLVXiFvHUlPEaD7VDULsrxJb4Aq31NLkU=
 github.com/alecthomas/go-check-sumtype v0.3.1/go.mod h1:A8TSiN3UPRw3laIgWEUOHHLPa6/r9MtoigdlP5h3K/E=
 github.com/alecthomas/repr v0.4.0 h1:GhI2A8MACjfegCPVq9f1FLvIBS+DrQ2KQBFZP1iFzXc=
@@ -155,8 +155,8 @@ github.com/golangci/go-printf-func-name v0.1.0 h1:dVokQP+NMTO7jwO4bwsRwLWeudOVUP
 github.com/golangci/go-printf-func-name v0.1.0/go.mod h1:wqhWFH5mUdJQhweRnldEywnR5021wTdZSNgwYceV14s=
 github.com/golangci/gofmt v0.0.0-20250413222143-f2e10e00591b h1:Aa2SLCpcFsO9PI39l00IkHCP79z/D9gk3EwZBoJGv1k=
 github.com/golangci/gofmt v0.0.0-20250413222143-f2e10e00591b/go.mod h1:ivJ9QDg0XucIkmwhzCDsqcnxxlDStoTl89jDMIoNxKY=
-github.com/golangci/golangci-lint/v2 v2.1.5 h1:zDcxV8s7kgQW3cpQiVA633CZJnKN/0iEXibPDWO8sZo=
-github.com/golangci/golangci-lint/v2 v2.1.5/go.mod h1:RGcjZLyl9fSVLqxdKMrknPlspC3TYETLoKXyRG06RDo=
+github.com/golangci/golangci-lint/v2 v2.1.6 h1:LXqShFfAGM5BDzEOWD2SL1IzJAgUOqES/HRBsfKjI+w=
+github.com/golangci/golangci-lint/v2 v2.1.6/go.mod h1:EPj+fgv4TeeBq3TcqaKZb3vkiV5dP4hHHKhXhEhzci8=
 github.com/golangci/golines v0.0.0-20250217232252-b35a6149b587 h1:RXtAfHDBWAv49/t94l3j9Iqvy6eXL/nm56EejqrZuQc=
 github.com/golangci/golines v0.0.0-20250217232252-b35a6149b587/go.mod h1:k9mmcyWKSTMcPPvQUCfRWWQ9VHJ1U9Dc0R7kaXAgtnQ=
 github.com/golangci/misspell v0.6.0 h1:JCle2HUTNWirNlDIAUO44hUsKhOFqGPoC4LZxlaSXDs=
@@ -350,8 +350,8 @@ github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/sivchari/containedctx v1.0.3 h1:x+etemjbsh2fB5ewm5FeLNi5bUjK0V8n0RB+Wwfd0XE=
 github.com/sivchari/containedctx v1.0.3/go.mod h1:c1RDvCbnJLtH4lLcYD/GqwiBSSf4F5Qk0xld2rBqzJ4=
-github.com/sonatard/noctx v0.3.2 h1:ntVy5RbjYEqEqNl3CpRu5dAg5zgA+4XPf4o0pkXWVxU=
-github.com/sonatard/noctx v0.3.2/go.mod h1:64XdbzFb18XL4LporKXp8poqZtPKbCrqQ402CV+kJas=
+github.com/sonatard/noctx v0.3.3 h1:9+wFUxZfjiCdNadFaGH55sa7Y1r6yKZiAsUVmCP+tjw=
+github.com/sonatard/noctx v0.3.3/go.mod h1:64XdbzFb18XL4LporKXp8poqZtPKbCrqQ402CV+kJas=
 github.com/sourcegraph/conc v0.3.0 h1:OQTbbt6P72L20UqAkXXuLOj79LfEanQ+YQFNpLA9ySo=
 github.com/sourcegraph/conc v0.3.0/go.mod h1:Sdozi7LEKbFPqYX2/J+iBAM6HpqSLTASQIKqDmF7Mt0=
 github.com/sourcegraph/go-diff v0.7.0 h1:9uLlrd5T46OXs5qpp8L/MTltk0zikUGi0sNNyCpA8G0=
