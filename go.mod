@@ -2,13 +2,13 @@ module github.com/redhat-developer/mapt
 
 go 1.23.1
 
-toolchain go1.23.7
+toolchain go1.24.2
 
 require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.0.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
-	github.com/pulumi/pulumi/sdk/v3 v3.165.0
+	github.com/pulumi/pulumi/sdk/v3 v3.167.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
@@ -22,10 +22,10 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.1
 	github.com/aws/aws-sdk-go-v2 v1.36.3
 	github.com/aws/aws-sdk-go-v2/config v1.29.14
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.212.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.213.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.79.3
 	github.com/pulumi/pulumi-aws-native/sdk v1.27.0
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.78.0
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.79.1
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.90.0
@@ -79,7 +79,7 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.5 // indirect
 	github.com/charmbracelet/colorprofile v0.3.1 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
-	github.com/charmbracelet/x/ansi v0.8.0 // indirect
+	github.com/charmbracelet/x/ansi v0.9.2 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.13 // indirect
 	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/cloudflare/circl v1.6.1 // indirect
@@ -113,13 +113,13 @@ require (
 	github.com/skeema/knownhosts v1.3.1 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.14.0 // indirect
-	github.com/spf13/cast v1.7.1 // indirect
+	github.com/spf13/cast v1.8.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/zclconf/go-cty v1.16.2 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/sync v0.13.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250425173222-7b384671a197 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250428153025-10db94c68c34 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
