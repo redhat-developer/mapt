@@ -13,10 +13,11 @@ import (
 
 const (
 	cidrVN       = "10.0.0.0/16"
-	cidrPublicSN = "10.0.2.0/24"
 	cidrIntraSN  = "10.0.101.0/24"
 	internalLBIp = "10.0.101.15"
 )
+
+var cidrPublicSN = []string{"10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"}
 
 type Connectivity int
 
@@ -73,7 +74,7 @@ func (r *NetworkRequest) manageNetworking(ctx *pulumi.Context) (*ec2.Vpc, []*ec2
 		Name:               resourcesUtil.GetResourceName(r.Prefix, r.ID, "net"),
 		Region:             r.Region,
 		AvailabilityZones:  r.AZ,
-		PublicSubnetsCIDRs: []string{cidrPublicSN},
+		PublicSubnetsCIDRs: cidrPublicSN,
 		SingleNatGateway:   true,
 	}.CreateNetwork(ctx)
 	if err != nil {
