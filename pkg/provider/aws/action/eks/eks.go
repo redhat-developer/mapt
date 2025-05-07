@@ -16,6 +16,7 @@ import (
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	network "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/network_extended"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -32,7 +33,7 @@ type EKSRequest struct {
 	ScalingMaxSize     int
 	ScalingMinSize     int
 	Addons             []string
-	az                 string
+	az                 []string
 }
 
 func Create(ctx *maptContext.ContextArgs, r *EKSRequest) (err error) {
@@ -48,11 +49,8 @@ func Create(ctx *maptContext.ContextArgs, r *EKSRequest) (err error) {
 		DeployFunc:          r.deployer,
 	}
 	r.Region = os.Getenv("AWS_DEFAULT_REGION")
-	az, err := data.GetRandomAvailabilityZone(r.Region, nil)
-	if err != nil {
-		return err
-	}
-	r.az = *az
+	az := data.GetAvailabilityZones(r.Region)
+	r.az = az
 	sr, _ := manager.UpStack(cs)
 	return r.manageResults(sr)
 }
@@ -72,21 +70,19 @@ func Destroy(ctx *maptContext.ContextArgs) error {
 
 // Main function to deploy all requried resources to AWS
 func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
-	// Read back the default VPC and public subnets, which we will use.
-	t := true
-	vpc, err := ec2.LookupVpc(ctx, &ec2.LookupVpcArgs{Default: &t})
+
+	// Networking
+	nr := network.NetworkRequest{
+		Prefix: r.Prefix,
+		ID:     awsEKSID,
+		Region: r.Region,
+		AZ:     r.az,
+	}
+	vpc, subnet, _, _, _, err := nr.Network(ctx)
 	if err != nil {
 		return err
 	}
 
-	subnet, err := ec2.GetSubnets(ctx, &ec2.GetSubnetsArgs{
-		Filters: []ec2.GetSubnetsFilter{
-			{Name: "vpc-id", Values: []string{vpc.Id}},
-		},
-	})
-	if err != nil {
-		return err
-	}
 	eksRole, err := iam.NewRole(ctx, "eks-iam-eksRole", &iam.RoleArgs{
 		AssumeRolePolicy: pulumi.String(`{
 			"Version": "2008-10-17",
@@ -160,8 +156,8 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 			PublicAccessCidrs: pulumi.StringArray{
 				pulumi.String("0.0.0.0/0"),
 			},
-			SubnetIds: toPulumiStringArray(subnet.Ids),
 			SecurityGroupIds: securityGroups,
+			SubnetIds:        pulumi.StringArray(util.ArrayConvert(subnet, func(s *ec2.Subnet) pulumi.StringInput { return s.ID() })),
 		},
 		Version: pulumi.String(r.KubernetesVersion),
 	})
@@ -183,7 +179,7 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 		ClusterName:   eksCluster.Name,
 		NodeGroupName: pulumi.String("eks-nodegroup-0"),
 		NodeRoleArn:   pulumi.StringInput(nodeGroupRole.Arn),
-		SubnetIds:     toPulumiStringArray(subnet.Ids),
+		SubnetIds:     pulumi.StringArray(util.ArrayConvert(subnet, func(s *ec2.Subnet) pulumi.StringInput { return s.ID() })),
 		InstanceTypes: pulumi.StringArray{
 			pulumi.String(r.VMSize),
 		},

@@ -56,12 +56,11 @@ func DefaultNetworkRequest(name, regionName string) NetworkRequest {
 	return NetworkRequest{
 		Name:                name,
 		CIDR:                DefaultCIDRNetwork,
-		AvailabilityZones:   data.GetAvailabilityZones()[:3],
+		AvailabilityZones:   data.GetAvailabilityZones("")[:3],
 		PublicSubnetsCIDRs:  DefaultCIDRPublicSubnets[:],
 		PrivateSubnetsCIDRs: DefaultCIDRPrivateSubnets[:],
 		IntraSubnetsCIDRs:   DefaultCIDRIntraSubnets[:],
 		SingleNatGateway:    false}
-
 }
 
 func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, error) {
