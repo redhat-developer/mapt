@@ -237,14 +237,6 @@ func generateKubeconfig(clusterEndpoint pulumi.StringOutput, certData pulumi.Str
     }`, clusterEndpoint, certData, clusterName)
 }
 
-func toPulumiStringArray(a []string) pulumi.StringArrayInput {
-	var res []pulumi.StringInput
-	for _, s := range a {
-		res = append(res, pulumi.String(s))
-	}
-	return pulumi.StringArray(res)
-}
-
 // Write exported values in context to files o a selected target folder
 func (r *EKSRequest) manageResults(stackResult auto.UpResult) error {
 
