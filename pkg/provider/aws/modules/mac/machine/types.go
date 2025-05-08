@@ -17,6 +17,11 @@ type Request struct {
 	Airgap           bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
+	// Network and Security
+	VPCID   *string
+	SSHSGID *string
+
+	subnetID *string
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
 	// a pahase with connectivyt off where the subnet for the target lost the nat gateway

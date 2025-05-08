@@ -39,6 +39,8 @@ type ContextArgs struct {
 	// take into account that the name may change as the approach to get
 	// credentials from role is more general approach
 	Serverless bool
+	// If remote is set we will run the action through the serverless task spec
+	Remote bool
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
@@ -52,8 +54,11 @@ type context struct {
 	debug                 bool
 	debugLevel            uint
 	serverless            bool
+	remote                bool
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
+	// This will be set if we need specific customization on a specfici execution
+	provider Provider
 }
 
 // mapt context
@@ -61,6 +66,7 @@ var mc *context
 
 type Provider interface {
 	Init(backedURL string) error
+	Custom(ctx *pulumi.Context) (*pulumi.ProviderResource, error)
 }
 
 func Init(ca *ContextArgs, provider Provider) error {
@@ -73,6 +79,8 @@ func Init(ca *ContextArgs, provider Provider) error {
 		debugLevel:    ca.DebugLevel,
 		tags:          ca.Tags,
 		serverless:    ca.Serverless,
+		remote:        ca.Remote,
+		provider:      provider,
 	}
 	addCommonTags()
 	// Init provider
@@ -106,6 +114,20 @@ func Debug() bool { return mc.debug }
 func DebugLevel() uint { return mc.debugLevel }
 
 func IsServerless() bool { return mc.serverless }
+
+func IsRemote() bool { return mc.remote }
+
+func CommonOptions(ctx *pulumi.Context) (co []pulumi.ResourceOption) {
+	// Check if provider requires customization
+	cp, err := mc.provider.Custom(ctx)
+	if cp != nil {
+		co = append(co, pulumi.Provider(*cp))
+	}
+	if err != nil {
+		logging.Errorf("Error registering custom provider %v", err)
+	}
+	return
+}
 
 // It will create a runID
 // if context has been intialized it will set it as the runID for the context

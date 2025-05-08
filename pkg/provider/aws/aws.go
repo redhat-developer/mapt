@@ -10,7 +10,9 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsEC2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	awsConfig "github.com/pulumi/pulumi-aws/sdk/v6/go/aws"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
@@ -21,13 +23,37 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/maps"
 )
 
-type AWS struct{}
+type AWS struct {
+	cp *pulumi.ProviderResource
+}
 
 func (a *AWS) Init(backedURL string) error {
 	// Manage remote state requirements, if backedURL
 	// is on a different region we need to change to that region
 	// in order to interact with the state
 	return manageRemoteState(backedURL)
+}
+
+func (a *AWS) Custom(ctx *pulumi.Context) (*pulumi.ProviderResource, error) {
+	if a.cp != nil {
+		return a.cp, nil
+	}
+	if maptContext.IsServerless() {
+		cp, err := awsConfig.NewProvider(ctx,
+			"aws-serverless-custom-args",
+			&awsConfig.ProviderArgs{
+				SkipCredentialsValidation: pulumi.Bool(true),
+				SkipRequestingAccountId:   pulumi.Bool(true),
+				MaxRetries:                pulumi.Int(1),
+			})
+		if err != nil {
+			return nil, err
+		}
+		var pr pulumi.ProviderResource = cp
+		a.cp = &pr
+		return a.cp, nil
+	}
+	return nil, nil
 }
 
 func Provider() *AWS {
@@ -96,9 +122,10 @@ func SetAWSCredentials(ctx context.Context, stack auto.Stack, customCredentials 
 }
 
 type DestroyStackRequest struct {
-	Region    string
-	BackedURL string
-	Stackname string
+	Region      string
+	BackedURL   string
+	ProjectName string
+	Stackname   string
 }
 
 func DestroyStack(s DestroyStackRequest) error {
@@ -107,8 +134,10 @@ func DestroyStack(s DestroyStackRequest) error {
 		return fmt.Errorf("stackname is required")
 	}
 	return manager.DestroyStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject(s.Stackname),
-		ProjectName: maptContext.ProjectName(),
+		StackName: maptContext.StackNameByProject(s.Stackname),
+		ProjectName: util.If(len(s.ProjectName) > 0,
+			s.ProjectName,
+			maptContext.ProjectName()),
 		BackedURL: util.If(len(s.BackedURL) > 0,
 			s.BackedURL,
 			maptContext.BackedURL()),

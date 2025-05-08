@@ -1,5 +1,7 @@
 package iam
 
+import "github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+
 const (
 	stackName = "iam-manager"
 
@@ -14,4 +16,6 @@ type iamRequestArgs struct {
 	policyContent *string
 	// optional params in case we create serverless inside a stack
 	prefix, componentID string
+	// Dependecies
+	dependsOn []pulumi.Resource
 }

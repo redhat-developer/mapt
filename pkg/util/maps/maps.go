@@ -8,3 +8,15 @@ func Convert[X comparable, Y any, Z comparable, V any](source map[X]Y,
 	}
 	return result
 }
+
+// Append 2 maps if a key value exists on both foo will take preference
+func Append[X comparable, Y any](foo map[X]Y, bar map[X]Y) map[X]Y {
+	var result = make(map[X]Y)
+	for k, v := range bar {
+		result[k] = v
+	}
+	for k, v := range foo {
+		result[k] = v
+	}
+	return result
+}

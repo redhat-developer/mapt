@@ -1,15 +1,12 @@
 package host
 
+import (
+	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
+)
+
 const (
 	// mapt internal ID for the component: nac dedicated host
 	awsMacHostID = "amh"
-
-	tagKeyPrefix    = "prefix"
-	tagKeyBackedURL = "backedURL"
-	tagKeyArch      = "arch"
-	// tags added when dedicated host is part of a pool
-	tagKeyOSVersion = "osVersion"
-	tagKeyPoolName  = "poolName"
 
 	outputDedicatedHostID = "ammDedicatedHostID"
 	outputDedicatedHostAZ = "ammDedicatedHostAZ"
@@ -20,8 +17,16 @@ type MacDedicatedHostRequestArgs struct {
 	// Allow orquestrate
 	Prefix string
 
-	Architecture  string
-	FixedLocation bool
+	Architecture string
+	// Previously it supported check multi region for capacity due to pool approach
+	// for the time being this will be fixed
+	// FixedLocation bool
+	// House keeper requires extra info for setup network and security for managed machines
+	VPCID    *string
+	Region   *string
+	AZID     *string
+	SubnetID *string
+	SSHSGID  *string
 }
 
 type PoolID struct {
@@ -30,11 +35,11 @@ type PoolID struct {
 	OSVersion string
 }
 
-func (p *PoolID) asTags() map[string]string {
+func (p *PoolID) AsTags() map[string]string {
 	return map[string]string{
-		tagKeyArch:      p.Arch,
-		tagKeyOSVersion: p.OSVersion,
-		tagKeyPoolName:  p.PoolName,
+		macConstants.TagKeyArch:      p.Arch,
+		macConstants.TagKeyOSVersion: p.OSVersion,
+		macConstants.TagKeyPoolName:  p.PoolName,
 	}
 }
 

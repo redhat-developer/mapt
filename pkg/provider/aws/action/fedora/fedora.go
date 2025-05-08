@@ -249,7 +249,9 @@ func (r *Request) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputHost),
 		c.GetHostIP(!r.Airgap))
 	if len(r.Timeout) > 0 {
-		if err = serverless.OneTimeDelayedTask(ctx,
+		if err = serverless.OneTimeDelayedTask(
+			ctx,
+			fmt.Sprintf("fedora-timeout-%s", maptContext.RunID()),
 			r.region, r.Prefix,
 			awsFedoraDedicatedID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",

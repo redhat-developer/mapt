@@ -2,7 +2,7 @@ module github.com/redhat-developer/mapt/tools
 
 go 1.23.1
 
-toolchain go1.24.2
+toolchain go1.23.7
 
 require github.com/golangci/golangci-lint/v2 v2.1.6
 
