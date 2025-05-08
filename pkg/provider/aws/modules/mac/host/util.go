@@ -83,6 +83,7 @@ func GetHostInformation(h ec2Types.Host) *mac.HostInformation {
 		RunID:       getTagValue(h.Tags, maptContext.TagKeyRunID),
 		Region:      &region,
 		Host:        &h,
+		AzId:        &az,
 		PoolName:    getTagValue(h.Tags, macConstants.TagKeyPoolName),
 	}
 }
@@ -125,26 +126,4 @@ func getRegion(arch string, fixedLocation bool) (*string, error) {
 		os.Getenv("AWS_DEFAULT_REGION"))
 	return data.LokupRegionOfferingInstanceType(
 		mac.TypesByArch[arch])
-}
-
-// Get a random AZ from the requested region, it ensures the az offers the instance type
-func getAZ(region, arch string) (az *string, err error) {
-	isOffered := false
-	var excludedAZs []string
-	for !isOffered {
-		az, err = data.GetRandomAvailabilityZone(region, excludedAZs)
-		if err != nil {
-			return nil, err
-		}
-		isOffered, err = data.IsInstanceTypeOfferedByAZ(
-			region,
-			mac.TypesByArch[arch], *az)
-		if err != nil {
-			return nil, err
-		}
-		if !isOffered {
-			excludedAZs = append(excludedAZs, *az)
-		}
-	}
-	return
 }

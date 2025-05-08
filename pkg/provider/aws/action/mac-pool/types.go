@@ -28,10 +28,11 @@ type PoolRequestArgs struct {
 
 // Custom values to setup within machines in the cluster
 type MachineRequestArgs struct {
-	VPCID    string
-	AZID     string
-	SubnetID string
-	SSHSGID  string
+	VPCID string
+	// This values now will be calculated
+	// AZID     string
+	// SubnetID string
+	SSHSGID string
 }
 
 type HouseKeepRequestArgs struct {

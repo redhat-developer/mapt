@@ -20,7 +20,7 @@ func Create(projectName, backedURL, cidr string,
 		PublicSubnetsCIDRs:  publicSubnets,
 		PrivateSubnetsCIDRs: privateSubnets,
 		IntraSubnetsCIDRs:   intraSubnets,
-		SingleNatGateway:    false}
+		NatGatewayType:      ALL}
 	stack := manager.Stack{
 		StackName:           StackCreateNetworkName,
 		ProjectName:         projectName,

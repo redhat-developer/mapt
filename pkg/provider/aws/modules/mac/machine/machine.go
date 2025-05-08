@@ -198,6 +198,11 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 		if err != nil {
 			return err
 		}
+	} else {
+		r.subnetID, err = data.GetSubnetID(r.Region, r.VPCID, r.AvailabilityZone)
+		if err != nil {
+			return err
+		}
 	}
 	// Create Keypair
 	machineKeyPair := keypair.KeyPairRequest{
@@ -353,10 +358,7 @@ func (r *Request) instance(ctx *pulumi.Context,
 	securityGroups pulumi.StringArray,
 ) (*ec2.Instance, error) {
 	instanceArgs := ec2.InstanceArgs{
-		HostId: pulumi.String(*r.dedicatedHost.Host.HostId),
-		SubnetId: util.If[pulumi.StringPtrInput](r.SubnetID != nil,
-			pulumi.String(*r.SubnetID),
-			subnet.ID()),
+		HostId:                   pulumi.String(*r.dedicatedHost.Host.HostId),
 		Ami:                      pulumi.String(*ami.Image.ImageId),
 		InstanceType:             pulumi.String(mac.TypesByArch[r.Architecture]),
 		KeyName:                  keyResources.AWSKeyPair.KeyName,
@@ -366,6 +368,11 @@ func (r *Request) instance(ctx *pulumi.Context,
 			VolumeSize: pulumi.Int(diskSize),
 		},
 		Tags: maptContext.ResourceTags(),
+	}
+	if subnet != nil {
+		instanceArgs.SubnetId = subnet.ID()
+	} else {
+		instanceArgs.SubnetId = pulumi.String(*r.subnetID)
 	}
 	if r.Airgap {
 		instanceArgs.AssociatePublicIpAddress = pulumi.Bool(false)

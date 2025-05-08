@@ -203,6 +203,7 @@ func getClusterArn(ctx *pulumi.Context, region, prefix, componentID string) (*pu
 	clusterArn, err := data.GetCluster(MaptServerlessClusterName, region)
 	if err != nil {
 		if err == data.ErrECSClusterNotFound {
+
 			if cluster, err := ecs.NewCluster(ctx,
 				resourcesUtil.GetResourceName(prefix, componentID, "cluster"),
 				&ecs.ClusterArgs{

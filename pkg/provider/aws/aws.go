@@ -44,6 +44,7 @@ func (a *AWS) Custom(ctx *pulumi.Context) (*pulumi.ProviderResource, error) {
 			&awsConfig.ProviderArgs{
 				SkipCredentialsValidation: pulumi.Bool(true),
 				SkipRequestingAccountId:   pulumi.Bool(true),
+				MaxRetries:                pulumi.Int(1),
 			})
 		if err != nil {
 			return nil, err

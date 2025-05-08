@@ -42,7 +42,7 @@ func Create(ctx *maptContext.ContextArgs, r *PoolRequestArgs) error {
 }
 
 func Destroy(ctx *maptContext.ContextArgs) (err error) {
-	logging.Debug("Run fedora destroy")
+	logging.Debug("Run mac pool destroy")
 	// Create mapt Context
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err

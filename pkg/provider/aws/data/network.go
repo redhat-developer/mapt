@@ -117,3 +117,32 @@ func isPublic(client *ec2.Client, subnetID string) error {
 	}
 	return fmt.Errorf("no public subnet setup found")
 }
+
+func GetSubnetID(region, vpcID, azID *string) (*string, error) {
+	cfg, err := getConfig(*region)
+	if err != nil {
+		return nil, err
+	}
+	ec2Client := ec2.NewFromConfig(cfg)
+	output, err := ec2Client.DescribeSubnets(
+		context.TODO(),
+		&ec2.DescribeSubnetsInput{
+			Filters: []ec2types.Filter{
+				{
+					Name:   aws.String("vpc-id"),
+					Values: []string{*vpcID},
+				},
+				{
+					Name:   aws.String("availability-zone-id"),
+					Values: []string{*azID},
+				},
+			},
+		})
+	if err != nil {
+		return nil, err
+	}
+	if len(output.Subnets) != 1 {
+		return nil, fmt.Errorf("expected one subnet, found %d", len(output.Subnets))
+	}
+	return output.Subnets[0].SubnetId, nil
+}

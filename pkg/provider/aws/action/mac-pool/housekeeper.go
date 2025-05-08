@@ -89,10 +89,8 @@ func (r *HouseKeepRequestArgs) fillHostRequest() *macHost.PoolMacDedicatedHostRe
 			Prefix:       r.Pool.Prefix,
 			Architecture: r.Pool.Architecture,
 			// FixedLocation: r.FixedLocation,
-			VPCID:    &r.Machine.VPCID,
-			AZID:     &r.Machine.AZID,
-			SubnetID: &r.Machine.SubnetID,
-			SSHSGID:  &r.Machine.SSHSGID,
+			VPCID:   &r.Machine.VPCID,
+			SSHSGID: &r.Machine.SSHSGID,
 		},
 		PoolID: &macHost.PoolID{
 			PoolName:  r.Pool.Name,

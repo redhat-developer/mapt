@@ -164,10 +164,8 @@ func houseKeep() *cobra.Command {
 						MaxSize:         viper.GetInt(paramMaxSize),
 					},
 					Machine: &macpool.MachineRequestArgs{
-						VPCID:    viper.GetString(paramVPCID),
-						AZID:     viper.GetString(paramAZID),
-						SubnetID: viper.GetString(paramSubnetID),
-						SSHSGID:  viper.GetString(paramSSHSGID)},
+						VPCID:   viper.GetString(paramVPCID),
+						SSHSGID: viper.GetString(paramSSHSGID)},
 				}); err != nil {
 				logging.Error(err)
 			}
@@ -184,8 +182,6 @@ func houseKeep() *cobra.Command {
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	flagSet.StringP(paramVPCID, "", paramVPCIDDefault, paramVPCIDDesc)
-	flagSet.StringP(paramAZID, "", paramAZIDDefault, paramAZIDDesc)
-	flagSet.StringP(paramSubnetID, "", paramSubnetIDDefault, paramSubnetIDDesc)
 	flagSet.StringP(paramSSHSGID, "", paramSSHSGIDDefault, paramSSHSGIDDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
@@ -237,10 +233,8 @@ func request() *cobra.Command {
 					Architecture: viper.GetString(awsParams.MACArch),
 					OSVersion:    viper.GetString(awsParams.MACOSVersion),
 					Machine: &macpool.MachineRequestArgs{
-						VPCID:    viper.GetString(paramVPCID),
-						AZID:     viper.GetString(paramAZID),
-						SubnetID: viper.GetString(paramSubnetID),
-						SSHSGID:  viper.GetString(paramSSHSGID),
+						VPCID:   viper.GetString(paramVPCID),
+						SSHSGID: viper.GetString(paramSSHSGID),
 					},
 					Ticket:  viper.GetString(paramTicket),
 					Timeout: viper.GetString(params.Timeout),
@@ -258,8 +252,6 @@ func request() *cobra.Command {
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.StringP(paramVPCID, "", paramVPCIDDefault, paramVPCIDDesc)
-	flagSet.StringP(paramAZID, "", paramAZIDDefault, paramAZIDDesc)
-	flagSet.StringP(paramSubnetID, "", paramSubnetIDDefault, paramSubnetIDDesc)
 	flagSet.StringP(paramSSHSGID, "", paramSSHSGIDDefault, paramSSHSGIDDesc)
 	flagSet.StringP(paramTicket, "", paramTicketDefault, paramTicketDesc)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
@@ -287,10 +279,8 @@ func release() *cobra.Command {
 					Remote:     viper.IsSet(params.Remote),
 				},
 				&macpool.MachineRequestArgs{
-					VPCID:    viper.GetString(paramVPCID),
-					AZID:     viper.GetString(paramAZID),
-					SubnetID: viper.GetString(paramSubnetID),
-					SSHSGID:  viper.GetString(paramSSHSGID),
+					VPCID:   viper.GetString(paramVPCID),
+					SSHSGID: viper.GetString(paramSSHSGID),
 				},
 				viper.GetString(paramTicket)); err != nil {
 				logging.Error(err)
@@ -300,8 +290,6 @@ func release() *cobra.Command {
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACReleaseCmd, pflag.ExitOnError)
 	flagSet.StringP(paramVPCID, "", paramVPCIDDefault, paramVPCIDDesc)
-	flagSet.StringP(paramAZID, "", paramAZIDDefault, paramAZIDDesc)
-	flagSet.StringP(paramSubnetID, "", paramSubnetIDDefault, paramSubnetIDDesc)
 	flagSet.StringP(paramSSHSGID, "", paramSSHSGIDDefault, paramSSHSGIDDesc)
 	flagSet.StringP(paramTicket, "", paramTicketDefault, paramTicketDesc)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)

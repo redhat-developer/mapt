@@ -42,12 +42,8 @@ func request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 		Version:      *hi.OSVersion,
 		Architecture: *hi.Arch,
 		VPCID:        &r.Machine.VPCID,
-		// Availability zone is not needed cause it will be picked
-		// from dedicated host
-		// AvailabilityZone: &r.Machine.AZID,
-		SubnetID: &r.Machine.SubnetID,
-		SSHSGID:  &r.Machine.SSHSGID,
-		Timeout:  r.Timeout,
+		SSHSGID:      &r.Machine.SSHSGID,
+		Timeout:      r.Timeout,
 	}
 
 	// TODO here we would change based on the integration-mode requested
@@ -94,8 +90,8 @@ func (r *HouseKeepRequestArgs) fillMacRequest() *macMachine.Request {
 		Architecture: r.Pool.Architecture,
 		Version:      r.Pool.OSVersion,
 		// Network and Security
-		VPCID:    &r.Machine.VPCID,
-		SubnetID: &r.Machine.SubnetID,
-		SSHSGID:  &r.Machine.SSHSGID,
+		VPCID: &r.Machine.VPCID,
+		// SubnetID: &r.Machine.SubnetID,
+		SSHSGID: &r.Machine.SSHSGID,
 	}
 }

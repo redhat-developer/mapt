@@ -3,6 +3,7 @@ package host
 import (
 	"fmt"
 	"maps"
+	"strings"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -57,21 +58,11 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 	if err != nil {
 		return nil, err
 	}
-	// pick random az from region ensuring machine is offered (sometimes machines are not offered on each az from a region)
-	dHArgs.availabilityZone, err = getAZ(*dHArgs.region, args.Architecture)
+	// We will try on each Az in case we do not have capacity
+	sr, err := retryCreateStack(&dHArgs, &backedURL)
 	if err != nil {
 		return nil, err
 	}
-	cs := manager.Stack{
-		StackName:   maptContext.StackNameByProject(mac.StackDedicatedHost),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   backedURL,
-		ProviderCredentials: aws.GetClouProviderCredentials(
-			map[string]string{
-				awsConstants.CONFIG_AWS_REGION: *dHArgs.region}),
-		DeployFunc: dHArgs.deploy,
-	}
-	sr, _ := manager.UpStack(cs)
 	dhID, _, err := manageResultsDedicatedHost(sr, dHArgs.prefix, exportOutputs)
 	if err != nil {
 		return nil, err
@@ -84,6 +75,41 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 	i := GetHostInformation(*host)
 	dhi = i
 	return
+}
+
+func retryCreateStack(dHArgs *dedicatedHostArgs, backedURL *string) (sr auto.UpResult, err error) {
+	created := false
+	azs := data.GetAvailabilityZones(*dHArgs.region)
+	for i := 0; created || i < len(azs); i++ {
+		// for _, az := range data.GetAvailabilityZones(*dHArgs.region) {
+		dHArgs.availabilityZone = &azs[i]
+		cs := manager.Stack{
+			StackName:   maptContext.StackNameByProject(mac.StackDedicatedHost),
+			ProjectName: maptContext.ProjectName(),
+			BackedURL:   *backedURL,
+			ProviderCredentials: aws.GetClouProviderCredentials(
+				map[string]string{
+					awsConstants.CONFIG_AWS_REGION: *dHArgs.region}),
+			DeployFunc: dHArgs.deploy,
+		}
+		sr, err = manager.UpStack(cs)
+		if err != nil {
+			if isCapacityError(err) {
+				break
+			}
+			return
+		}
+		created = true
+	}
+	if !created {
+		err = fmt.Errorf("currently no AZ on %s has capacity", *dHArgs.region)
+	}
+	return
+}
+
+func isCapacityError(err error) bool {
+	return strings.Contains(err.Error(), "Insufficient") ||
+		strings.Contains(err.Error(), "capacity")
 }
 
 // this function will create the dedicated host resource

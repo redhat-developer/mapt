@@ -18,7 +18,7 @@ func houseKeeperRemote(tARN *string,
 	region := "us-east-1"
 	command := houseKeepCommand(*name, *arch, *osVersion,
 		*offeredCapacity, *maxSize,
-		vpcID, azID, subnetID, sshSGID)
+		vpcID, subnetID, sshSGID)
 	containerName := houseKeepContainerName(*name, *arch, *osVersion)
 	return ecs.RunTaskWithCommand(&region, tARN, &serverless.MaptServerlessClusterName,
 		&containerName, &command,
@@ -26,7 +26,7 @@ func houseKeeperRemote(tARN *string,
 }
 
 func houseKeeperTaskSpecScheduler(ctx *pulumi.Context, p *PoolArgs,
-	vpcID, azID, subnetID, sgID *string) (*awsxecs.FargateTaskDefinition, error) {
+	vpcID, subnetID, sgID *string) (*awsxecs.FargateTaskDefinition, error) {
 	cn := houseKeepContainerName(
 		p.Name,
 		p.Arch,
@@ -39,7 +39,7 @@ func houseKeeperTaskSpecScheduler(ctx *pulumi.Context, p *PoolArgs,
 			Command: houseKeepCommand(
 				p.Name, p.Arch, p.OSVersion,
 				p.OfferedCapacity, p.MaxSize,
-				vpcID, azID, subnetID, sgID),
+				vpcID, subnetID, sgID),
 			ScheduleType:      &serverless.Repeat,
 			Schedulexpression: scheduleIntervalHouseKeep,
 			LogGroupName:      cn,
@@ -48,7 +48,6 @@ func houseKeeperTaskSpecScheduler(ctx *pulumi.Context, p *PoolArgs,
 			// in order to ssh into mac machine
 			ExecutionDefaults: map[string]*string{
 				TaskExecDefaultVPCID:               vpcID,
-				TaskExecDefaultAZID:                azID,
 				serverless.TaskExecDefaultSubnetID: subnetID,
 				serverless.TaskExecDefaultSGID:     sgID,
 			}})
@@ -62,11 +61,11 @@ func houseKeepContainerName(name, arch, osVersion string) string {
 }
 
 func houseKeepCommand(poolName, arch, osVersion string,
-	offeredCapacity, maxSize int, vpcID, azID, subnetID, sshSGID *string) string {
+	offeredCapacity, maxSize int, vpcID, subnetID, sshSGID *string) string {
 	cmd := fmt.Sprintf(cmdRegexHouseKeep,
 		poolName, arch, osVersion,
 		offeredCapacity, maxSize,
-		*vpcID, *azID, *subnetID, *sshSGID,
+		*vpcID, *subnetID, *sshSGID,
 		maptContext.ProjectName(), maptContext.BackedURL())
 	return cmd
 }

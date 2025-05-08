@@ -15,13 +15,12 @@ import (
 const (
 	// values for the ExecutionDefaults map
 	TaskExecDefaultVPCID = "default_vpcid"
-	TaskExecDefaultAZID  = "default_azid"
 )
 
 // Operations are based on mapt params around mac-pool
 var (
 	operationHouseKeep = "mac-pool-housekeep"
-	cmdRegexHouseKeep  = "aws mac-pool house-keep --name %s --arch %s --version %s --offered-capacity %d --max-size %d --vpcid %s --azid %s --subnetid %s --ssh-sgid %s project-name %s --backed-url %s --serverless --debug --debug-level 7"
+	cmdRegexHouseKeep  = "aws mac-pool house-keep --name %s --arch %s --version %s --offered-capacity %d --max-size %d --vpcid %s --subnetid %s --ssh-sgid %s project-name %s --backed-url %s --serverless"
 	// https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html#eb-rate-expressions
 	scheduleIntervalHouseKeep = "27 minutes"
 
@@ -31,7 +30,7 @@ var (
 	operationRelease = "mac-pool-release"
 	cmdRelease       = "aws mac-pool release --serverless "
 
-	remoteCommandParamsRegex = "--vpcid %s --azid %s --subnetid %s --ssh-sgid %s --serverless "
+	remoteCommandParamsRegex = "--vpcid %s --subnetid %s --ssh-sgid %s --serverless "
 	paramTicket              = "--ticket"
 )
 
@@ -78,22 +77,21 @@ func serverlessTaskARN(poolName, arch, osVersion, operation string) (*string, er
 
 // Command to be executed within the task is same as remote command without --remote flag
 // and with specific network and security data (coming from task def as tags)
-func commandToTask(vpcID, azID, subnetID, sshSGID *string) string {
+func commandToTask(vpcID, subnetID, sshSGID *string) string {
 	rawCmd := strings.Join(os.Args[1:], " ")
 	cmd := strings.Replace(rawCmd, "--remote ", "", 1)
 	remoteParams := fmt.Sprintf(remoteCommandParamsRegex,
-		vpcID, azID, subnetID, sshSGID)
+		vpcID, subnetID, sshSGID)
 	return fmt.Sprintf("%s %s", cmd, remoteParams)
 }
 
-func getExecutionDefaultsFromTask(region *string, taskDefArn *string) (vpcID, azID, subnetID, sshSGID *string, err error) {
+func getExecutionDefaultsFromTask(region *string, taskDefArn *string) (vpcID, subnetID, sshSGID *string, err error) {
 	var tags map[string]*string
 	tags, err = ecs.GetTags(region, taskDefArn)
 	if err != nil {
 		return
 	}
 	vpcID = tags[TaskExecDefaultVPCID]
-	azID = tags[TaskExecDefaultAZID]
 	subnetID = tags[serverless.TaskExecDefaultSubnetID]
 	sshSGID = tags[serverless.TaskExecDefaultSGID]
 	return

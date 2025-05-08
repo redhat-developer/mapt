@@ -34,11 +34,11 @@ func ReleaseRemote(ctx *maptContext.ContextArgs, ticket string) error {
 	logging.Debugf("Got ARN for task spec %s", *tARN)
 	// How to handle the region...coming from create operation we are always using "us-east-1"
 	region := "us-east-1"
-	vpcID, azID, subnetID, sshSGID, err := getExecutionDefaultsFromTask(&region, tARN)
+	vpcID, subnetID, sshSGID, err := getExecutionDefaultsFromTask(&region, tARN)
 	if err != nil {
 		return err
 	}
-	command := commandToTask(vpcID, azID, subnetID, sshSGID)
+	command := commandToTask(vpcID, subnetID, sshSGID)
 	containerName := releaseTaskContainerName(*hi.PoolName, *hi.Arch, *hi.OSVersion)
 	// return serverless.RunTaskWithCommand(&defaultRegion, tARN,
 	// 	&serverless.MaptServerlessClusterName, &containerName, &cmd)
@@ -48,7 +48,7 @@ func ReleaseRemote(ctx *maptContext.ContextArgs, ticket string) error {
 }
 
 func releaseTaskSpec(ctx *pulumi.Context, p *PoolArgs,
-	vpcID, azID, subnetID, sgID *string) (*awsxecs.FargateTaskDefinition, error) {
+	vpcID, subnetID, sgID *string) (*awsxecs.FargateTaskDefinition, error) {
 	cn := releaseTaskContainerName(p.Name, p.Arch, p.OSVersion)
 	return serverless.Deploy(
 		ctx,
@@ -60,7 +60,6 @@ func releaseTaskSpec(ctx *pulumi.Context, p *PoolArgs,
 			LogGroupName:  cn,
 			ExecutionDefaults: map[string]*string{
 				TaskExecDefaultVPCID:               vpcID,
-				TaskExecDefaultAZID:                azID,
 				serverless.TaskExecDefaultSubnetID: subnetID,
 				serverless.TaskExecDefaultSGID:     sgID,
 			},

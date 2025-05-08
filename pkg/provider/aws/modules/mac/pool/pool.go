@@ -7,7 +7,12 @@ import (
 	awsxecs "github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
-	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
+	"github.com/redhat-developer/mapt/pkg/util"
+
+	network "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/vpc/subnet"
+
+	// "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -39,9 +44,10 @@ type Pool struct {
 
 	AzId pulumi.StringOutput `pulumi:"azId"`
 
-	Vpc    ec2.VpcOutput           `pulumi:"vpc"`
-	Subnet ec2.SubnetOutput        `pulumi:"subnet"`
-	SshSG  ec2.SecurityGroupOutput `pulumi:"sshSG"`
+	Vpc     ec2.VpcOutput           `pulumi:"vpc"`
+	Subnets []ec2.SubnetOutput      `pulumi:"subnets"`
+	Subnet  ec2.SubnetOutput        `pulumi:"subnet"`
+	SshSG   ec2.SecurityGroupOutput `pulumi:"sshSG"`
 
 	TaskHouseKeep awsxecs.FargateTaskDefinitionOutput `pulumi:"taskHouseKeep"`
 	TaskRequest   awsxecs.FargateTaskDefinitionOutput `pulumi:"taskRequest"`
@@ -68,58 +74,79 @@ func NewPool(ctx *pulumi.Context, name string, p *PoolArgs, opts ...pulumi.Resou
 		opts...); err != nil {
 		return nil, err
 	}
-	azID, err := data.GetRandomAvailabilityZone(p.Region, nil)
+	azs := data.GetAvailabilityZones(p.Region)
+	nr, err := network.NetworkRequest{
+		Name:               p.Name,
+		Region:             p.Region,
+		AvailabilityZones:  azs,
+		CIDR:               network.DefaultCIDRNetwork,
+		PublicSubnetsCIDRs: network.DefaultCIDRPublicSubnets[:len(azs)],
+		NatGatewayType:     network.NONE,
+	}.CreateNetwork(ctx)
 	if err != nil {
 		return nil, err
 	}
-	res.AzId = pulumi.String(*azID).ToStringOutput()
-	nonLB := false
-	nr := network.NetworkRequest{
-		Prefix:                  p.Name,
-		ID:                      awsMacPoolID,
-		Region:                  p.Region,
-		AZ:                      *azID,
-		CreateLoadBalancer:      &nonLB,
-		Airgap:                  false,
-		AirgapPhaseConnectivity: network.ON,
-	}
-	vpc, subnet, _, _, _, err := nr.Network(ctx)
-	if err != nil {
-		return nil, err
-	}
+
+	// How we do it before
+
+	// // We will not use only one AZ but all
+	// azID, err := data.GetRandomAvailabilityZone(p.Region, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// res.AzId = pulumi.String(*azID).ToStringOutput()
+
+	// // nr, err := network.DefaultNetworkRequest(p.Name, p.Region).CreateNetwork(ctx)
+	// nonLB := false
+	// nr := network.NetworkRequest{
+	// 	Prefix:                  p.Name,
+	// 	ID:                      awsMacPoolID,
+	// 	Region:                  p.Region,
+	// 	AZ:                      *azID,
+	// 	CreateLoadBalancer:      &nonLB,
+	// 	Airgap:                  false,
+	// 	AirgapPhaseConnectivity: network.ON,
+	// }
+	// vpc, subnet, _, _, _, err := nr.Network(ctx)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	sshRunnerSG, err := securityGroup.SGRequest{
 		Name:        resourcesUtil.GetResourceName(p.Name, awsMacPoolID, "ssh-runner-sg"),
-		VPC:         vpc,
+		VPC:         nr.VPCResources.VPC,
 		Description: fmt.Sprintf("sg for %s", awsMacPoolID),
 	}.Create(ctx)
 	if err != nil {
 		return nil, err
 	}
-	// Resoruces Outputs
-	res.Vpc = vpc.ToVpcOutput()
-	res.Subnet = subnet.ToSubnetOutput()
+	// Outputs
+	res.Vpc = nr.VPCResources.VPC.ToVpcOutput()
+	res.Subnets = util.ArrayConvert[ec2.SubnetOutput](nr.PublicSNResources,
+		func(sn *subnet.PublicSubnetResources) ec2.SubnetOutput {
+			return sn.Subnet.ToSubnetOutput()
+		})
 	res.SshSG = sshRunnerSG.SG.ToSecurityGroupOutput()
 	// Tasks
-	res.TaskHouseKeep = pulumi.All(vpc.ID(), subnet.ID(), sshRunnerSG.SG.ID()).ApplyT(
+	res.TaskHouseKeep = pulumi.All(nr.VPCResources.VPC.ID(), nr.PublicSNResources[0].Subnet.ID(), sshRunnerSG.SG.ID()).ApplyT(
 		func(args []any) (*awsxecs.FargateTaskDefinition, error) {
 			vpcID := string(args[0].(pulumi.ID))
 			subnetID := string(args[1].(pulumi.ID))
 			sgID := string(args[2].(pulumi.ID))
-			return houseKeeperTaskSpecScheduler(ctx, p, &vpcID, azID, &subnetID, &sgID)
+			return houseKeeperTaskSpecScheduler(ctx, p, &vpcID, &subnetID, &sgID)
 		}).(awsxecs.FargateTaskDefinitionOutput)
-	res.TaskRequest = pulumi.All(vpc.ID(), subnet.ID(), sshRunnerSG.SG.ID()).ApplyT(
+	res.TaskRequest = pulumi.All(nr.VPCResources.VPC.ID(), nr.PublicSNResources[0].Subnet.ID(), sshRunnerSG.SG.ID()).ApplyT(
 		func(args []any) (*awsxecs.FargateTaskDefinition, error) {
 			vpcID := string(args[0].(pulumi.ID))
 			subnetID := string(args[1].(pulumi.ID))
 			sgID := string(args[2].(pulumi.ID))
-			return requestTaskSpec(ctx, p, &vpcID, azID, &subnetID, &sgID)
+			return requestTaskSpec(ctx, p, &vpcID, &subnetID, &sgID)
 		}).(awsxecs.FargateTaskDefinitionOutput)
-	res.TaskRelease = pulumi.All(vpc.ID(), subnet.ID(), sshRunnerSG.SG.ID()).ApplyT(
+	res.TaskRelease = pulumi.All(nr.VPCResources.VPC.ID(), nr.PublicSNResources[0].Subnet.ID(), sshRunnerSG.SG.ID()).ApplyT(
 		func(args []any) (*awsxecs.FargateTaskDefinition, error) {
 			vpcID := string(args[0].(pulumi.ID))
 			subnetID := string(args[1].(pulumi.ID))
 			sgID := string(args[2].(pulumi.ID))
-			return releaseTaskSpec(ctx, p, &vpcID, azID, &subnetID, &sgID)
+			return releaseTaskSpec(ctx, p, &vpcID, &subnetID, &sgID)
 		}).(awsxecs.FargateTaskDefinitionOutput)
 
 	_, ak, err := clientAccount(ctx, p.Name, p.Arch, p.OSVersion, nil)

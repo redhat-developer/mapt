@@ -23,11 +23,11 @@ func RequestRemote(ctx *maptContext.ContextArgs, name, arch, osVersion, ticket *
 	logging.Debugf("Got ARN for task spec %s", *tARN)
 	// How to handle the region...coming from create operation we are always using "us-east-1"
 	region := "us-east-1"
-	vpcID, azID, subnetID, sshSGID, err := getExecutionDefaultsFromTask(&region, tARN)
+	vpcID, subnetID, sshSGID, err := getExecutionDefaultsFromTask(&region, tARN)
 	if err != nil {
 		return err
 	}
-	command := requestCommandTotask(vpcID, azID, subnetID, sshSGID, ticket)
+	command := requestCommandTotask(vpcID, subnetID, sshSGID, ticket)
 	containerName := requestTaskContainerName(*name, *arch, *osVersion)
 	// Run task serverless
 	return ecs.RunTaskWithCommand(&region, tARN, &serverless.MaptServerlessClusterName,
@@ -35,8 +35,8 @@ func RequestRemote(ctx *maptContext.ContextArgs, name, arch, osVersion, ticket *
 		subnetID, sshSGID)
 }
 
-func requestCommandTotask(vpcID, azID, subnetID, sshSGID, ticket *string) string {
-	command := commandToTask(vpcID, azID, subnetID, sshSGID)
+func requestCommandTotask(vpcID, subnetID, sshSGID, ticket *string) string {
+	command := commandToTask(vpcID, subnetID, sshSGID)
 	return fmt.Sprintf("%s %s %s", command, paramTicket, *ticket)
 
 }
@@ -45,7 +45,7 @@ func requestCommandTotask(vpcID, azID, subnetID, sshSGID, ticket *string) string
 // check how we will call it from the request?
 // may add tags and find or add arn to stack?
 func requestTaskSpec(ctx *pulumi.Context, p *PoolArgs,
-	vpcID, azID, subnetID, sgID *string) (*awsxecs.FargateTaskDefinition, error) {
+	vpcID, subnetID, sgID *string) (*awsxecs.FargateTaskDefinition, error) {
 	name := requestTaskContainerName(
 		p.Name,
 		p.Arch,
@@ -61,10 +61,7 @@ func requestTaskSpec(ctx *pulumi.Context, p *PoolArgs,
 				p.OSVersion),
 			LogGroupName: name,
 			ExecutionDefaults: map[string]*string{
-				TaskExecDefaultVPCID: vpcID,
-				// request do no need AZ cause for mac machines are tied to dedicated hosts
-				// which already contains AZ information
-				// TaskExecDefaultAZID:                azID,
+				TaskExecDefaultVPCID:               vpcID,
 				serverless.TaskExecDefaultSubnetID: subnetID,
 				serverless.TaskExecDefaultSGID:     sgID,
 			},
