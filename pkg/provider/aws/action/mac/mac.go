@@ -162,9 +162,9 @@ func create(r *MacRequestArgs, dh *mac.HostInformation) (err error) {
 
 func (r *MacRequestArgs) fillHostRequest() *macHost.MacDedicatedHostRequestArgs {
 	return &macHost.MacDedicatedHostRequestArgs{
-		Prefix:        r.Prefix,
-		Architecture:  r.Architecture,
-		FixedLocation: r.FixedLocation,
+		Prefix:       r.Prefix,
+		Architecture: r.Architecture,
+		// FixedLocation: r.FixedLocation,
 	}
 }
 

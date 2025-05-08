@@ -2,7 +2,7 @@ module github.com/redhat-developer/mapt
 
 go 1.23.1
 
-toolchain go1.24.2
+toolchain go1.23.7
 
 require (
 	github.com/coocood/freecache v1.2.4

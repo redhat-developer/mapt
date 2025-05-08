@@ -17,8 +17,16 @@ type MacDedicatedHostRequestArgs struct {
 	// Allow orquestrate
 	Prefix string
 
-	Architecture  string
-	FixedLocation bool
+	Architecture string
+	// Previously it supported check multi region for capacity due to pool approach
+	// for the time being this will be fixed
+	// FixedLocation bool
+	// House keeper requires extra info for setup network and security for managed machines
+	VPCID    *string
+	Region   *string
+	AZID     *string
+	SubnetID *string
+	SSHSGID  *string
 }
 
 type PoolID struct {

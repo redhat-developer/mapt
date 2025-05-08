@@ -2,6 +2,7 @@ package ecs
 
 import (
 	"context"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -12,7 +13,8 @@ import (
 
 func RunTaskWithCommand(region,
 	taskDefArn, clusterName,
-	containerName, command *string) error {
+	containerName, command *string,
+	subnetID, sgID *string) error {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithRegion(*region), //
 	)
@@ -21,25 +23,31 @@ func RunTaskWithCommand(region,
 	}
 	client := ecs.NewFromConfig(cfg)
 	// Run the task
-	subnetID, err := data.GetRandomPublicSubnet(*region)
-	if err != nil {
-		return err
+	if subnetID == nil {
+		subnetID, err = data.GetRandomPublicSubnet(*region)
+		if err != nil {
+			return err
+		}
+	}
+	nc := &types.NetworkConfiguration{
+		AwsvpcConfiguration: &types.AwsVpcConfiguration{
+			Subnets:        []string{*subnetID},
+			AssignPublicIp: types.AssignPublicIpEnabled,
+		},
+	}
+	if sgID != nil {
+		nc.AwsvpcConfiguration.SecurityGroups = []string{*sgID}
 	}
 	_, err = client.RunTask(context.TODO(), &ecs.RunTaskInput{
-		Cluster:        aws.String(*clusterName),
-		TaskDefinition: aws.String(*taskDefArn),
-		LaunchType:     types.LaunchTypeFargate,
-		NetworkConfiguration: &types.NetworkConfiguration{
-			AwsvpcConfiguration: &types.AwsVpcConfiguration{
-				Subnets:        []string{*subnetID},
-				AssignPublicIp: types.AssignPublicIpEnabled,
-			},
-		},
+		Cluster:              aws.String(*clusterName),
+		TaskDefinition:       aws.String(*taskDefArn),
+		LaunchType:           types.LaunchTypeFargate,
+		NetworkConfiguration: nc,
 		Overrides: &types.TaskOverride{
 			ContainerOverrides: []types.ContainerOverride{
 				{
 					Name:    aws.String(*containerName),
-					Command: []string{*command},
+					Command: strings.Fields(*command),
 				},
 			},
 		}})
@@ -47,4 +55,26 @@ func RunTaskWithCommand(region,
 		return err
 	}
 	return nil
+}
+
+func GetTags(region, taskDefArn *string) (map[string]*string, error) {
+	cfg, err := config.LoadDefaultConfig(context.TODO(),
+		config.WithRegion(*region), //
+	)
+	if err != nil {
+		return nil, err
+	}
+	client := ecs.NewFromConfig(cfg)
+	out, err := client.ListTagsForResource(context.TODO(),
+		&ecs.ListTagsForResourceInput{
+			ResourceArn: aws.String(*taskDefArn),
+		})
+	if err != nil {
+		return nil, err
+	}
+	var tags = make(map[string]*string)
+	for _, tag := range out.Tags {
+		tags[*tag.Key] = tag.Value
+	}
+	return tags, nil
 }

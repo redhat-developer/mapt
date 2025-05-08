@@ -573,6 +573,7 @@ github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
 # github.com/pulumi/pulumi-aws/sdk/v6 v6.79.1
 ## explicit; go 1.22
+github.com/pulumi/pulumi-aws/sdk/v6/go/aws
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/cloudwatch
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2

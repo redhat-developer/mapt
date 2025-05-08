@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	defaultPrefix      = "mapt"
-	defaultComponentID = "sf"
+	defaultPrefix      string = "mapt"
+	defaultComponentID string = "sf"
 )
 
 var (
@@ -18,6 +18,11 @@ var (
 	maptServerlessDefaultPrefix = "mapt-serverless-manager"
 	MaptServerlessClusterName   = fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "cluster")
 	maptServerlessExecRoleName  = fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "sch-role")
+)
+
+const (
+	TaskExecDefaultSubnetID = "default_subnetid"
+	TaskExecDefaultSGID     = "default_sgid"
 )
 
 type scheduleType string
@@ -34,6 +39,8 @@ const (
 )
 
 type ServerlessArgs struct {
+	Prefix        string
+	Region        string
 	ContainerName string
 	Command       string
 	// From here params are optional
@@ -42,6 +49,8 @@ type ServerlessArgs struct {
 	// If no schedule info is added just create the task spec
 	ScheduleType      *scheduleType
 	Schedulexpression string
+	// Optional information to use for execute the task
+	ExecutionDefaults map[string]*string
 }
 
 type serverlessRequestArgs struct {
@@ -59,4 +68,5 @@ type serverlessRequestArgs struct {
 	// optional params in case we create serverless inside a stack
 	prefix, componentID string
 	tags                pulumi.StringMap
+	executionDefaults   map[string]*string
 }

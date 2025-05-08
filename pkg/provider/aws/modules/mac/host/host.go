@@ -19,14 +19,6 @@ import (
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-// Idea move away from multi file creation a set outputs as an unified yaml file
-// type macdh struct {
-// 	ID          string `yaml:"id"`
-// 	AZ          string `yaml:"az"`
-// 	BackedURL   string `yaml:"backedurl"`
-// 	ProjectName string `yaml:"projectname"`
-// }
-
 func CreatePoolDedicatedHost(args *PoolMacDedicatedHostRequestArgs) (dhi *mac.HostInformation, err error) {
 	tags := map[string]string{
 		macConstants.TagKeyBackedURL: args.BackedURL,
@@ -45,6 +37,7 @@ func CreateDedicatedHost(args *MacDedicatedHostRequestArgs) (dhi *mac.HostInform
 		macConstants.TagKeyPrefix:    args.Prefix,
 		macConstants.TagKeyArch:      args.Architecture,
 		maptContext.TagKeyRunID:      maptContext.RunID(),
+		macConstants.TagKeyTicket:    "",
 	}
 	return createDedicatedHost(args, backedURL, tags, true)
 }
@@ -60,7 +53,7 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 		arch:   args.Architecture,
 		tags:   tags,
 	}
-	dHArgs.region, err = getRegion(args.Architecture, args.FixedLocation)
+	dHArgs.region, err = getRegion(args.Architecture, true)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +96,7 @@ func (r *dedicatedHostArgs) deploy(ctx *pulumi.Context) (err error) {
 			AvailabilityZone: pulumi.String(*r.availabilityZone),
 			InstanceType:     pulumi.String(mac.TypesByArch[r.arch]),
 			Tags:             maptContext.ResourceTagsWithCustom(r.tags),
-		})
+		}, maptContext.CommonOptions(ctx)...)
 	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostID),
 		dh.ID())
 	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostAZ),

@@ -21,6 +21,11 @@ type HostInformation struct {
 	// Optional in case the host belongs
 	// to a pool
 	PoolName *string
+	// Network and Security
+	// Network and Security
+	VPCID    *string
+	SubnetID *string
+	SGSSHID  *string
 }
 
 var (

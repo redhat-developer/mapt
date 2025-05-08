@@ -180,17 +180,24 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	nr := network.NetworkRequest{
-		Prefix:                  r.Prefix,
-		ID:                      awsMacMachineID,
-		Region:                  *r.Region,
-		AZ:                      *r.AvailabilityZone,
-		Airgap:                  r.Airgap,
-		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-	}
-	vpc, targetSubnet, targetRouteTableAssociation, bastion, _, err := nr.Network(ctx)
-	if err != nil {
-		return err
+	// Networks
+	var vpc *ec2.Vpc
+	var targetSubnet *ec2.Subnet
+	var targetRouteTableAssociation *ec2.RouteTableAssociation
+	var bastion *bastion.Bastion
+	if r.VPCID == nil {
+		nr := network.NetworkRequest{
+			Prefix:                  r.Prefix,
+			ID:                      awsMacMachineID,
+			Region:                  *r.Region,
+			AZ:                      *r.AvailabilityZone,
+			Airgap:                  r.Airgap,
+			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
+		}
+		vpc, targetSubnet, targetRouteTableAssociation, bastion, _, err = nr.Network(ctx)
+		if err != nil {
+			return err
+		}
 	}
 	// Create Keypair
 	machineKeyPair := keypair.KeyPairRequest{
@@ -284,7 +291,12 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// ingress for ssh access from 0.0.0.0
 	sshIngressRule := securityGroup.SSH_TCP
-	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	// TODO we should decide if we only allow machines management based on pool
+	if r.SSHSGID != nil {
+		sshIngressRule.SGID = r.SSHSGID
+	} else {
+		sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	}
 	// ingress for vnc access from 0.0.0.0
 	vncIngressRule := securityGroup.IngressRules{
 		Description: fmt.Sprintf("VNC port for %s", awsMacMachineID),
@@ -311,12 +323,17 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 			})
 	}
 	// Create SG with ingress rules
-	sg, err := securityGroup.SGRequest{
+	sgr := securityGroup.SGRequest{
 		Name:         resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "sg"),
-		VPC:          vpc,
 		Description:  fmt.Sprintf("sg for %s", awsMacMachineID),
 		IngressRules: ingressRules,
-	}.Create(ctx)
+	}
+	if r.VPCID != nil {
+		sgr.VPCID = r.VPCID
+	} else {
+		sgr.VPC = vpc
+	}
+	sg, err := sgr.Create(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -336,8 +353,10 @@ func (r *Request) instance(ctx *pulumi.Context,
 	securityGroups pulumi.StringArray,
 ) (*ec2.Instance, error) {
 	instanceArgs := ec2.InstanceArgs{
-		HostId:                   pulumi.String(*r.dedicatedHost.Host.HostId),
-		SubnetId:                 subnet.ID(),
+		HostId: pulumi.String(*r.dedicatedHost.Host.HostId),
+		SubnetId: util.If[pulumi.StringPtrInput](r.SubnetID != nil,
+			pulumi.String(*r.SubnetID),
+			subnet.ID()),
 		Ami:                      pulumi.String(*ami.Image.ImageId),
 		InstanceType:             pulumi.String(mac.TypesByArch[r.Architecture]),
 		KeyName:                  keyResources.AWSKeyPair.KeyName,
@@ -351,15 +370,18 @@ func (r *Request) instance(ctx *pulumi.Context,
 	if r.Airgap {
 		instanceArgs.AssociatePublicIpAddress = pulumi.Bool(false)
 	}
+	// Options
+	opts := maptContext.CommonOptions(ctx)
+	// Retain on delete to speed destroy operation for the dedicated host,
+	// destroy is managed by replace root volume operation
+	// pulumi.RetainOnDelete(true),
+	// All changes on the instance should be done through root volume replace
+	// as so we ignore Amis missmatch
+	opts = append(opts, pulumi.IgnoreChanges([]string{"ami"}))
 	return ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "instance"),
 		&instanceArgs,
-		// Retain on delete to speed destroy operation for the dedicated host,
-		// destroy is managed by replace root volume operation
-		// pulumi.RetainOnDelete(true),
-		// All changes on the instance should be done through root volume replace
-		// as so we ignore Amis missmatch
-		pulumi.IgnoreChanges([]string{"ami"}))
+		opts...)
 }
 
 func (r *Request) bootstrapscript(ctx *pulumi.Context,
