@@ -7,8 +7,7 @@ import (
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
 
-	"github.com/manuelarte/funcorder/internal/features"
-	"github.com/manuelarte/funcorder/internal/fileprocessor"
+	"github.com/manuelarte/funcorder/internal"
 )
 
 const (
@@ -23,6 +22,7 @@ func NewAnalyzer() *analysis.Analyzer {
 	a := &analysis.Analyzer{
 		Name:     "funcorder",
 		Doc:      "checks the order of functions, methods, and constructors",
+		URL:      "https://github.com/manuelarte/funcorder",
 		Run:      f.run,
 		Requires: []*analysis.Analyzer{inspect.Analyzer},
 	}
@@ -30,7 +30,7 @@ func NewAnalyzer() *analysis.Analyzer {
 	a.Flags.BoolVar(&f.constructorCheck, ConstructorCheckName, true,
 		"Checks that constructors are placed after the structure declaration.")
 	a.Flags.BoolVar(&f.structMethodCheck, StructMethodCheckName, true,
-		"Checks if the exported methods of a structure are placed before the non-exported ones.")
+		"Checks if the exported methods of a structure are placed before the unexported ones.")
 	a.Flags.BoolVar(&f.alphabeticalCheck, AlphabeticalCheckName, false,
 		"Checks if the constructors and/or structure methods are sorted alphabetically.")
 
@@ -44,20 +44,20 @@ type funcorder struct {
 }
 
 func (f *funcorder) run(pass *analysis.Pass) (any, error) {
-	var enabledCheckers features.Feature
+	var enabledCheckers internal.Feature
 	if f.constructorCheck {
-		enabledCheckers.Enable(features.ConstructorCheck)
+		enabledCheckers.Enable(internal.ConstructorCheck)
 	}
 
 	if f.structMethodCheck {
-		enabledCheckers.Enable(features.StructMethodCheck)
+		enabledCheckers.Enable(internal.StructMethodCheck)
 	}
 
 	if f.alphabeticalCheck {
-		enabledCheckers.Enable(features.AlphabeticalCheck)
+		enabledCheckers.Enable(internal.AlphabeticalCheck)
 	}
 
-	fp := fileprocessor.NewFileProcessor(enabledCheckers)
+	fp := internal.NewFileProcessor(pass.Fset, enabledCheckers)
 
 	insp, found := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 	if !found {

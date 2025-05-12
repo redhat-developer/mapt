@@ -1,9 +1,7 @@
-package models
+package internal
 
 import (
 	"go/ast"
-
-	"github.com/manuelarte/funcorder/internal/astutils"
 )
 
 type StructConstructor struct {
@@ -12,13 +10,13 @@ type StructConstructor struct {
 }
 
 func NewStructConstructor(funcDec *ast.FuncDecl) (StructConstructor, bool) {
-	if !astutils.FuncCanBeConstructor(funcDec) {
+	if !FuncCanBeConstructor(funcDec) {
 		return StructConstructor{}, false
 	}
 
 	expr := funcDec.Type.Results.List[0].Type
 
-	returnType, ok := astutils.GetIdent(expr)
+	returnType, ok := GetIdent(expr)
 	if !ok {
 		return StructConstructor{}, false
 	}

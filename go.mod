@@ -8,10 +8,10 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.0.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
-	github.com/pulumi/pulumi/sdk/v3 v3.167.0
+	github.com/pulumi/pulumi/sdk/v3 v3.169.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
-	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0
+	golang.org/x/exp v0.0.0-20250506013437-ce4c2cf36ca6
 )
 
 require (
@@ -22,10 +22,10 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.1
 	github.com/aws/aws-sdk-go-v2 v1.36.3
 	github.com/aws/aws-sdk-go-v2/config v1.29.14
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.213.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.217.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.79.3
 	github.com/pulumi/pulumi-aws-native/sdk v1.27.0
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.79.1
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.80.0
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.90.0
@@ -51,7 +51,7 @@ require (
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.6.2 // indirect
 	github.com/sahilm/fuzzy v0.1.1 // indirect
 	golang.org/x/mod v0.24.0 // indirect
-	golang.org/x/tools v0.32.0 // indirect
+	golang.org/x/tools v0.33.0 // indirect
 )
 
 require (
@@ -118,8 +118,8 @@ require (
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/zclconf/go-cty v1.16.2 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/sync v0.13.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250428153025-10db94c68c34 // indirect
+	golang.org/x/sync v0.14.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250505200425-f936aa4a68b2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -162,11 +162,11 @@ require (
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
-	golang.org/x/crypto v0.37.0 // indirect
-	golang.org/x/net v0.39.0 // indirect
-	golang.org/x/sys v0.32.0 // indirect
-	golang.org/x/term v0.31.0 // indirect
-	golang.org/x/text v0.24.0 // indirect
+	golang.org/x/crypto v0.38.0 // indirect
+	golang.org/x/net v0.40.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/term v0.32.0 // indirect
+	golang.org/x/text v0.25.0 // indirect
 	google.golang.org/grpc v1.72.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect

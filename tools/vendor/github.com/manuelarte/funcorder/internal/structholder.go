@@ -1,20 +1,25 @@
-package models
+package internal
 
 import (
 	"cmp"
 	"go/ast"
+	"go/token"
 	"slices"
 
 	"golang.org/x/tools/go/analysis"
+)
 
-	"github.com/manuelarte/funcorder/internal/diag"
-	"github.com/manuelarte/funcorder/internal/features"
+type (
+	ExportedMethods   []*ast.FuncDecl
+	UnexportedMethods []*ast.FuncDecl
 )
 
 // StructHolder contains all the information around a Go struct.
 type StructHolder struct {
+	// The fileset
+	Fset *token.FileSet
 	// The features to be analyzed
-	Features features.Feature
+	Features Feature
 
 	// The struct declaration
 	Struct *ast.TypeSpec
@@ -37,18 +42,17 @@ func (sh *StructHolder) AddMethod(fn *ast.FuncDecl) {
 // Analyze applies the linter to the struct holder.
 func (sh *StructHolder) Analyze() []analysis.Diagnostic {
 	// TODO maybe sort constructors and then report also, like NewXXX before MustXXX
-
 	slices.SortFunc(sh.StructMethods, func(a, b *ast.FuncDecl) int {
 		return cmp.Compare(a.Pos(), b.Pos())
 	})
 
 	var reports []analysis.Diagnostic
 
-	if sh.Features.IsEnabled(features.ConstructorCheck) {
+	if sh.Features.IsEnabled(ConstructorCheck) {
 		reports = append(reports, sh.analyzeConstructor()...)
 	}
 
-	if sh.Features.IsEnabled(features.StructMethodCheck) {
+	if sh.Features.IsEnabled(StructMethodCheck) {
 		reports = append(reports, sh.analyzeStructMethod()...)
 	}
 
@@ -61,20 +65,21 @@ func (sh *StructHolder) analyzeConstructor() []analysis.Diagnostic {
 
 	for i, constructor := range sh.Constructors {
 		if constructor.Pos() < sh.Struct.Pos() {
-			reports = append(reports, diag.NewConstructorNotAfterStructType(sh.Struct, constructor))
+			reports = append(reports, NewConstructorNotAfterStructType(sh.Struct, constructor))
 		}
 
 		if len(sh.StructMethods) > 0 && constructor.Pos() > sh.StructMethods[0].Pos() {
-			reports = append(reports, diag.NewConstructorNotBeforeStructMethod(sh.Struct, constructor, sh.StructMethods[0]))
+			reports = append(reports, NewConstructorNotBeforeStructMethod(sh.Struct, constructor, sh.StructMethods[0]))
 		}
 
-		if sh.Features.IsEnabled(features.AlphabeticalCheck) &&
+		if sh.Features.IsEnabled(AlphabeticalCheck) &&
 			i < len(sh.Constructors)-1 && sh.Constructors[i].Name.Name > sh.Constructors[i+1].Name.Name {
 			reports = append(reports,
-				diag.NewAdjacentConstructorsNotSortedAlphabetically(sh.Struct, sh.Constructors[i], sh.Constructors[i+1]),
+				NewAdjacentConstructorsNotSortedAlphabetically(sh.Struct, sh.Constructors[i], sh.Constructors[i+1]),
 			)
 		}
 	}
+
 	return reports
 }
 
@@ -103,35 +108,22 @@ func (sh *StructHolder) analyzeStructMethod() []analysis.Diagnostic {
 				continue
 			}
 
-			reports = append(reports, diag.NewNonExportedMethodBeforeExportedForStruct(sh.Struct, m, lastExportedMethod))
+			reports = append(reports, NewUnexportedMethodBeforeExportedForStruct(sh.Struct, m, lastExportedMethod))
 		}
 	}
 
-	if sh.Features.IsEnabled(features.AlphabeticalCheck) {
-		return slices.Concat(reports,
-			isSorted(sh.Struct, filterMethods(sh.StructMethods, true)),
-			isSorted(sh.Struct, filterMethods(sh.StructMethods, false)),
+	if sh.Features.IsEnabled(AlphabeticalCheck) {
+		exported, unexported := SplitExportedUnexported(sh.StructMethods)
+		reports = slices.Concat(reports,
+			sortDiagnostics(sh.Struct, exported),
+			sortDiagnostics(sh.Struct, unexported),
 		)
 	}
 
 	return reports
 }
 
-func filterMethods(funcDecls []*ast.FuncDecl, exported bool) []*ast.FuncDecl {
-	var result []*ast.FuncDecl
-
-	for _, f := range funcDecls {
-		if f.Name.IsExported() != exported {
-			continue
-		}
-
-		result = append(result, f)
-	}
-
-	return result
-}
-
-func isSorted(typeSpec *ast.TypeSpec, funcDecls []*ast.FuncDecl) []analysis.Diagnostic {
+func sortDiagnostics(typeSpec *ast.TypeSpec, funcDecls []*ast.FuncDecl) []analysis.Diagnostic {
 	var reports []analysis.Diagnostic
 
 	for i := range funcDecls {
@@ -141,8 +133,9 @@ func isSorted(typeSpec *ast.TypeSpec, funcDecls []*ast.FuncDecl) []analysis.Diag
 
 		if funcDecls[i].Name.Name > funcDecls[i+1].Name.Name {
 			reports = append(reports,
-				diag.NewAdjacentStructMethodsNotSortedAlphabetically(typeSpec, funcDecls[i], funcDecls[i+1]))
+				NewAdjacentStructMethodsNotSortedAlphabetically(typeSpec, funcDecls[i], funcDecls[i+1]))
 		}
 	}
+
 	return reports
 }
