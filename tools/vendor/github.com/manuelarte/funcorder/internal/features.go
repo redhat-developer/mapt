@@ -1,4 +1,4 @@
-package features
+package internal
 
 const (
 	ConstructorCheck Feature = 1 << iota
