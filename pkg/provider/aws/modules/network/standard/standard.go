@@ -41,6 +41,7 @@ type NetworkRequest struct {
 	IntraSubnetsCIDRs   []string
 	SingleNatGateway    bool
 	PublicToIntra       *bool
+	MapPublicIp         bool
 }
 
 type NetworkResources struct {
@@ -56,12 +57,13 @@ func DefaultNetworkRequest(name, regionName string) NetworkRequest {
 	return NetworkRequest{
 		Name:                name,
 		CIDR:                DefaultCIDRNetwork,
-		AvailabilityZones:   data.GetAvailabilityZones()[:3],
+		AvailabilityZones:   data.GetAvailabilityZones("")[:3],
 		PublicSubnetsCIDRs:  DefaultCIDRPublicSubnets[:],
 		PrivateSubnetsCIDRs: DefaultCIDRPrivateSubnets[:],
 		IntraSubnetsCIDRs:   DefaultCIDRIntraSubnets[:],
-		SingleNatGateway:    false}
-
+		SingleNatGateway:    false,
+		MapPublicIp:         false,
+	}
 }
 
 func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, error) {
@@ -132,6 +134,7 @@ func (r NetworkRequest) managePublicSubnets(vpc *ec2.Vpc,
 					AvailabilityZone: r.AvailabilityZones[i],
 					Name:             fmt.Sprintf("%s%s%d", namePrefix, r.Name, i),
 					AddNatGateway:    r.checkIfNatGatewayRequired(i)}
+
 			subnet, err := publicSNRequest.Create(ctx)
 			if err != nil {
 				return nil, err
