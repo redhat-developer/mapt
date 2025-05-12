@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-aws-kind
   labels:
-    app.kubernetes.io/version: "0.9.0-dev"
+    app.kubernetes.io/version: "1.0.0-dev"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -131,7 +131,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v0.9.0-dev
+      image: quay.io/redhat-developer/mapt:v1.0.0-dev
       imagePullPolicy: Always
       volumeMounts:
         - name: aws-credentials
@@ -154,9 +154,9 @@ spec:
         BUCKET=$(cat /opt/aws-credentials/bucket)
 
         # Run mapt
-        cmd="mapt aws ocp-snc $(params.operation) "
-        cmd+="--project-name ocp-snc-$(params.id) "
-        cmd+="--backed-url s3://${BUCKET}/mapt/ocp-snc/$(params.id) "
+        cmd="mapt aws kind $(params.operation) "
+        cmd+="--project-name kind-$(params.id) "
+        cmd+="--backed-url s3://${BUCKET}/mapt/kind/$(params.id) "
         if [[ $(params.operation) == "create" ]]; then
           cmd+="--conn-details-output /opt/cluster-info "
           cmd+="--arch $(params.arch) "
