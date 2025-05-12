@@ -1,61 +1,35 @@
-# mapt (Multi Architecture Provisionig Tool)
+# ![mapt](./docs/logo/mapt.svg) Multi Architecture Provisioning Tool 
 
-Mapt is a swiss army knife for provisioning environments, it could be used across multiple CI/CD systems:
+![code check](https://github.com/redhat-developer/mapt/actions/workflows/build-go.yaml/badge.svg)![oci builds](https://github.com/redhat-developer/mapt/actions/workflows/build-oci.yaml/badge.svg)
 
-* GitHub Actions: It is possible to spin the target machines as self-hosted runners on your GitHub repo to make use of them within actions.
-* Tekton: Each target environment offered has its own tekton task spec which could be used as an external spec on tekton (with git resolver or even as a bundle)
-* Run from anywhere: mapt functionality is offered as an OCI image, as so it allows to create environment from almost everywhere as long as you have a container runtime.
+Mapt is a swiss army knife for provisioning environments, the project is focused on cover 3 main purposes:
 
-Also it includes out of the box some optimizations around provisioning:
+* Offer a set of target environments / services with different topologies across multiple cloud providers.
+* Implement best practices leading to increase cost savings, speed up times and security concerns.
+* Easily integrate targets with different CI/CD systems or with local envs to facilitate developers testing experience.
 
-* Spot price option which allows to find the best option for the target machine on any location across the target provider.
-* Implement optimization around boot time to reduce the amount of time required to spin the machines (i.e. pre created snapshots or change root volumes)
+### Instances
 
-About the target environments offered it is not limited to a single machine or service but it takes care of the full infra allowing to request complex topologies:
+Mapt offers a set of instances categorize by the OS, instances can benefit from spot module which will allocate the machine on a region with a good relationship beetween cost / availability. Also and depending on the type of instances it will use specific best practices to boost the provisioning time (i.e Fast Launch, Root Volume Replacement, ...). 
 
-* Airgap 
-* Proxy (Coming...)
-* VPN emulation (Coming... )
-* Domain Controller integration (Coming... )
+Instances can be wrapped on specific topologies like airgap, in this case mapt will set the target isolated and will create a bastion to allow access to it. 
 
-![code check](https://github.com/redhat-developer/mapt/actions/workflows/build-go.yaml/badge.svg)
-![oci builds](https://github.com/redhat-developer/mapt/actions/workflows/build-oci.yaml/badge.svg)
+Instances can also define a timeout to avoid leftovers in case destoy operation is missing. Using this approach mapt will be execute as an unateneded execution using servless technologies. 
 
-## Supported environments
-
-### Virtual Machines
-
-| Platform       | Archs         | Provider      | Type          | Information                  | Tekton                                       
-| -------------- | ------------- | ------------- | ------------- | ---------------------------- | -------------------------------------------- 
-| Mac            | x86, M1, M2   | AWS           | Baremetal     | [info](docs/aws/mac.md)      | [task](tkn/infra-aws-mac.yaml)               
-| Windows Server | x86           | AWS           | Baremetal     | [info](docs/aws/windows.md)  | [task](tkn/infra-aws-windows-server.yaml)    
-| Windows Desktop| x86           | Azure         | Virtualized   | [info](docs/azure/windows.md)| [task](tkn/infra-azure-windows-desktop.yaml) 
-| RHEL           | x86, arm64    | AWS           | Customizable  | [info](docs/aws/rhel.md)     | [task](tkn/infra-aws-rhel.yaml)              
-| RHEL           | x86, arm64    | Azure         | Virtualized   | [info](docs/azure/rhel.md)   | [task](tkn/infra-azure-rhel.yaml)            
-| Fedora         | x86, arm64    | AWS           | Customizable  | [info](docs/aws/fedora.md)   | [task](tkn/infra-aws-fedora.yaml)            
-| Fedora         | x86, arm64    | Azure         | Customizable  | [info](docs/azure/fedora.md) | [task](tkn/infra-azure-fedora.yaml)          
-| Ubuntu         | x86           | Azure         | Virtualized   | [info](docs/azure/ubuntu.md) | -                                            
+[MacOS](docs/aws/mac.md)-[Windows Server](docs/aws/windows.md)-[Windows Desktop](docs/azure/windows.md)-[RHEL](docs/aws/rhel.md)-[Fedora](docs/azure/fedora.md)-[Ubuntu](docs/azure/ubuntu.md)
 
 ### Services
 
-| Service        | Provider      | Information                  | Tekton                         
-| -------------- | ------------- | -------------                | ---------------------------- | 
-| AKS            | Azure         | [info](docs/azure/aks.md)    | [task](tkn/infra-azure-aks.yaml) 
-| Mac-pool       | AWS           | [info](docs/aws/mac-pool.md) | - 
+Mapt offers some managed services boosted with some of the features from the instances offerings (i.e spot) and also create some ad hoc services on top the instances offerings to improve reutilization of instances when there is no easy way to do it (i.e. Mac-Pool).
 
-## CI/CD integrations
+[AKS](docs/azure/aks.md)-[Mac-Pool](docs/aws/mac-pool.md) - [OpenShift-SNC](docs/aws/openshift-snc.md) - [Kind](docs/aws/openshift-snc.md)
 
-### GitHub Self hosted runner
 
-`mapt` can setup a deployed machine as a Self Hosted runner on most of the Platform and Provider combinations
-it supports.
+### Integrations
 
-Use the following flags with `mapt <provider> <platform> create` command:
+Currently each target offered by Mapt can be added as:
 
-```
---install-ghactions-runner <bool>   Install and setup Github Actions runner in the instance
---ghactions-runner-name <string>    Name for the Github Actions Runner
---ghactions-runner-repo <string>    Full URL of the repository where the Github Actions Runner should be registered
---ghactions-runner-token <string>   Token needed for registering the Github Actions Runner token
-```
+* [Github Self Hosted Runner](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners)
+* [Cirrus Persistent Worker](https://cirrus-ci.org/guide/persistent-workers/)
 
+And [Tekton taks](tkn) are offered to dynamically provision the remote target to use within tekton pipelines
