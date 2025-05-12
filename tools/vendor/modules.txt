@@ -7,8 +7,8 @@
 # github.com/4meepo/tagalign v1.4.2
 ## explicit; go 1.22.0
 github.com/4meepo/tagalign
-# github.com/Abirdcfly/dupword v0.1.3
-## explicit; go 1.22.0
+# github.com/Abirdcfly/dupword v0.1.4
+## explicit; go 1.23.0
 github.com/Abirdcfly/dupword
 # github.com/Antonboom/errname v1.1.0
 ## explicit; go 1.23.0
@@ -487,7 +487,7 @@ github.com/jgautheron/goconst
 # github.com/jingyugao/rowserrcheck v1.1.1
 ## explicit; go 1.13
 github.com/jingyugao/rowserrcheck/passes/rowserr
-# github.com/jjti/go-spancheck v0.6.4
+# github.com/jjti/go-spancheck v0.6.5
 ## explicit; go 1.22.1
 github.com/jjti/go-spancheck
 # github.com/julz/importas v0.2.0
@@ -718,7 +718,7 @@ github.com/sashamelentyev/interfacebloat/pkg/analyzer
 ## explicit; go 1.20
 github.com/sashamelentyev/usestdlibvars/pkg/analyzer
 github.com/sashamelentyev/usestdlibvars/pkg/analyzer/internal/mapping
-# github.com/securego/gosec/v2 v2.22.3
+# github.com/securego/gosec/v2 v2.22.4
 ## explicit; go 1.23.0
 github.com/securego/gosec/v2
 github.com/securego/gosec/v2/analyzers
