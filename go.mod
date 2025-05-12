@@ -2,11 +2,11 @@ module github.com/redhat-developer/mapt
 
 go 1.23.1
 
-toolchain go1.24.2
+toolchain go1.24.3
 
 require (
 	github.com/coocood/freecache v1.2.4
-	github.com/pulumi/pulumi-command/sdk v1.0.3
+	github.com/pulumi/pulumi-command/sdk v1.0.4
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
 	github.com/pulumi/pulumi/sdk/v3 v3.169.0
 	github.com/sirupsen/logrus v1.9.3
@@ -55,7 +55,7 @@ require (
 )
 
 require (
-	dario.cat/mergo v1.0.1 // indirect
+	dario.cat/mergo v1.0.2 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.1 // indirect
 	github.com/AzureAD/microsoft-authentication-library-for-go v1.4.2 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
@@ -105,7 +105,7 @@ require (
 	github.com/pjbgf/sha1cd v0.3.2 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
-	github.com/pulumi/esc v0.14.1 // indirect
+	github.com/pulumi/esc v0.14.2 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.90.0 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.11 // indirect
 	github.com/sagikazarmark/locafero v0.9.0 // indirect
@@ -126,7 +126,7 @@ require (
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.2.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.56.2
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.56.3
 	github.com/aws/aws-sdk-go-v2/service/iam v1.41.1
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect

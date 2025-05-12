@@ -1,5 +1,5 @@
-dario.cat/mergo v1.0.1 h1:Ra4+bf83h2ztPIQYNP99R6m+Y7KfnARDfID+a+vLl4s=
-dario.cat/mergo v1.0.1/go.mod h1:uNxQE+84aUszobStD9th8a29P2fMDhsBdgRYvZOxGmk=
+dario.cat/mergo v1.0.2 h1:85+piFYR1tMbRrLcDwR18y4UKJ3aH1Tbzi24VRW1TK8=
+dario.cat/mergo v1.0.2/go.mod h1:E/hbnu0NxMFBjpMIE34DRGLWqDy0g5FuKDhCb31ngxA=
 github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.0 h1:Gt0j3wceWMwPmiazCa8MzMA0MfhmPIz0Qp0FJ6qcM0U=
 github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.0/go.mod h1:Ot/6aikWnKWi4l9QB7qVSwa8iMphQNqkWALMoNT3rzM=
 github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.9.0 h1:OVoM452qUFBrX+URdH3VpR299ma4kfom0yB0URYky9g=
@@ -61,8 +61,8 @@ github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.34 h1:ZNTqv4nIdE/DiBfUUfXcLZ/Spcu
 github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.34/go.mod h1:zf7Vcd1ViW7cPqYWEHLHJkS50X0JS2IKz9Cgaj6ugrs=
 github.com/aws/aws-sdk-go-v2/service/ec2 v1.217.0 h1:Bzfj/H0nvEcdqnt5TVL7X0wBlwvPe0OXDt7UqcQmr9Q=
 github.com/aws/aws-sdk-go-v2/service/ec2 v1.217.0/go.mod h1:ouvGEfHbLaIlWwpDpOVWPWR+YwO0HDv3vm5tYLq8ImY=
-github.com/aws/aws-sdk-go-v2/service/ecs v1.56.2 h1:oYHra2ttm7jOSY/wfuTeEnH164O6Eo3AuygreQKa+Gg=
-github.com/aws/aws-sdk-go-v2/service/ecs v1.56.2/go.mod h1:wAtdeFanDuF9Re/ge4DRDaYe3Wy1OGrU7jG042UcuI4=
+github.com/aws/aws-sdk-go-v2/service/ecs v1.56.3 h1:h0BpYI0wr4b1kVliz4wlQ8Z+liaPj81gKM5vq6SGP0k=
+github.com/aws/aws-sdk-go-v2/service/ecs v1.56.3/go.mod h1:wAtdeFanDuF9Re/ge4DRDaYe3Wy1OGrU7jG042UcuI4=
 github.com/aws/aws-sdk-go-v2/service/iam v1.41.1 h1:Kq3R+K49y23CGC5UQF3Vpw5oZEQk5gF/nn+MekPD0ZY=
 github.com/aws/aws-sdk-go-v2/service/iam v1.41.1/go.mod h1:mPJkGQzeCoPs82ElNILor2JzZgYENr4UaSKUT8K27+c=
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.3 h1:eAh2A4b5IzM/lum78bZ590jy36+d/aFLgKF/4Vd1xPE=
@@ -266,8 +266,8 @@ github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 h1:Jamvg5psRI
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 h1:vkHw5I/plNdTr435cARxCW6q9gc0S/Yxz7Mkd38pOb0=
 github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231/go.mod h1:murToZ2N9hNJzewjHBgfFdXhZKjY3z5cYC1VXk+lbFE=
-github.com/pulumi/esc v0.14.1 h1:bxiV9elswYsfOU9FHoQ5Wl2tlIHG6qEwToiLDGAQw+Q=
-github.com/pulumi/esc v0.14.1/go.mod h1:Om2CLbvd3itRuyH8C4GW/PuWiWlW3xhRr4GAY3OT+vI=
+github.com/pulumi/esc v0.14.2 h1:xHpjJXzKs1hk/QPpgwe1Rmif3VWA0QcZ7jDvTFYX/jM=
+github.com/pulumi/esc v0.14.2/go.mod h1:0dNzCWIiRUmdfFrhHdeBzU4GiDPBhSfpeWDNApZwZ08=
 github.com/pulumi/pulumi-aws-native/sdk v1.27.0 h1:EyEKeu/CBbnSlUkCor3yOQrtCr4vVoxq6FWRXkOT1vU=
 github.com/pulumi/pulumi-aws-native/sdk v1.27.0/go.mod h1:YHbRkFCniMt2LfurtekrFOuVTsy5DFtUdqCLsh9szro=
 github.com/pulumi/pulumi-aws/sdk/v6 v6.80.0 h1:7DF4YPMqF9HPJQ5HZuLmyhr7X2nHH1M+0IRRDG6f2Io=
@@ -290,8 +290,8 @@ github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.90.0 h1:ZrZ/HhSXEez4XlmF
 github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.90.0/go.mod h1:aYU8LRrKffIqYmA9/B9eqmmsLALkMlwKLPwA0UBPB/U=
 github.com/pulumi/pulumi-azure-native-sdk/v2 v2.90.0 h1:clO7kyLNEPl6VCwm74/C/yoFemBjVJPompPgkSQgBoI=
 github.com/pulumi/pulumi-azure-native-sdk/v2 v2.90.0/go.mod h1:2IvMmB8/M+RXKlMz330M8BFD+7ChBo7mEWhzpgPAkSc=
-github.com/pulumi/pulumi-command/sdk v1.0.3 h1:VBB3eRaYYg0/48gTYXnuFiXSSh6p1n6uVB3rW/PO8sc=
-github.com/pulumi/pulumi-command/sdk v1.0.3/go.mod h1:2LXVa7pHsCuCnHpSF+tgFtazHnPh1HxlQC65FMrQReo=
+github.com/pulumi/pulumi-command/sdk v1.0.4 h1:OCYn9Q4QygXfQYhJGDfNISPSqi/mRu1wVdm/W0r/ZaM=
+github.com/pulumi/pulumi-command/sdk v1.0.4/go.mod h1:MQm5WIJOsEEpgZfp7q283q8d37RwgSlKzO1H/Hh3leU=
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.11 h1:16T7aYBGcMs7oMGcRHzRO9ETHit0xVYgPRBkaFu6T3M=
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.11/go.mod h1:Uxxd/MM83Wys2lfpbfqvY8KUmnbU9mePbxbwEda/+SM=
 github.com/pulumi/pulumi-docker/sdk/v4 v4.6.2 h1:YJffxtgdexLoI4RPFJpoAbjksoqvBN6VUQlom9HlRuc=
