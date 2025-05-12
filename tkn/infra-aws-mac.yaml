@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-aws-mac
   labels:
-    app.kubernetes.io/version: "0.9.0-dev"
+    app.kubernetes.io/version: "0.9.0"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -143,7 +143,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v0.9.0-dev
+      image: quay.io/redhat-developer/mapt:v0.9.0
       imagePullPolicy: Always
       volumeMounts:
         - name: aws-credentials
