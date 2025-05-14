@@ -91,6 +91,11 @@ const (
 	KindCmdDesc        = "Manage a Kind cluster. This is not intended for production use"
 	KindK8SVersion     = "version"
 	KindK8SVersionDesc = "version for k8s offered through Kind."
+
+	// Spot
+	SpotPriceIncreaseRate        = "spot-increase-rate"
+	SpotPriceIncreaseRateDesc    = "Percentage to be added on top of the current calculated spot price to increase chances to get the machine"
+	SpotPriceIncreaseRateDefault = 20
 )
 
 func GetGHActionsFlagset() *pflag.FlagSet {
