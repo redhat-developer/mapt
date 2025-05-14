@@ -3,12 +3,11 @@ package allocation
 import (
 	"os"
 
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
+	"github.com/redhat-developer/mapt/pkg/util"
 )
-
-// This percentage will be used as a safe net on the spot history price 10%
-var spSafePercen float64 = 1.20
 
 type AllocationData struct {
 	// location and price (if Spot is enable)
@@ -38,7 +37,7 @@ func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, instan
 	if err != nil {
 		return nil, err
 	}
-	spSafe := so.MaxPrice * spSafePercen
+	spSafe := spotPriceBid(so.MaxPrice)
 	return &AllocationData{
 		Region:        &so.Region,
 		AZ:            &so.AvailabilityZone,
@@ -53,4 +52,11 @@ func AllocationDataOnDemand() (ad *AllocationData, err error) {
 	ad.Region = &region
 	ad.AZ, err = data.GetRandomAvailabilityZone(region, nil)
 	return
+}
+
+// Calculate a bid price for spot using a increased rate set by user
+func spotPriceBid(basePrice float64) float64 {
+	return util.If(maptContext.SpotPriceIncreaseRate() > 0,
+		basePrice*(1+float64(maptContext.SpotPriceIncreaseRate())/100),
+		basePrice)
 }
