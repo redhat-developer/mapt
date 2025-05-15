@@ -54,12 +54,13 @@ func getFedoraCreate() *cobra.Command {
 			}
 
 			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				Tags:          viper.GetStringMapString(params.Tags),
+				ProjectName:           viper.GetString(params.ProjectName),
+				BackedURL:             viper.GetString(params.BackedURL),
+				ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
+				Debug:                 viper.IsSet(params.Debug),
+				DebugLevel:            viper.GetUint(params.DebugLevel),
+				SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
+				Tags:                  viper.GetStringMapString(params.Tags),
 			}
 
 			if viper.IsSet(params.CirrusPWToken) {
@@ -86,11 +87,10 @@ func getFedoraCreate() *cobra.Command {
 			// Run create
 			if err := fedora.Create(
 				ctx,
-				&fedora.Request{
+				&fedora.FedoraArgs{
 					Prefix:  "main",
 					Version: viper.GetString(fedoraVersion),
 					Arch:    viper.GetString(params.LinuxArch),
-					VMType:  viper.GetStringSlice(vmTypes),
 					InstanceRequest: &instancetypes.AwsInstanceRequest{
 						CPUs:      viper.GetInt32(params.CPUs),
 						MemoryGib: viper.GetInt32(params.Memory),
@@ -111,9 +111,9 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(fedoraVersion, "", fedoraVersionDefault, fedoraVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
-	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
+	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	params.AddCirrusFlags(flagSet)

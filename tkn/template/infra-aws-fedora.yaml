@@ -93,6 +93,9 @@ spec:
     - name: spot
       description: Check best spot option to spin the machine and will create resources on that region.
       default: 'true'
+    - name: spot-increase-rate
+      description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
+      default: '20'
     
     # Fedora params
     - name: version
@@ -179,9 +182,8 @@ spec:
           cmd+="--memory $(params.memory) "
           cmd+="--version $(params.version) "
           if  $($(params.nested-virt)); then cmd+="--nested-virt "; fi
-          
-          if [[ $(params.spot) == "true" ]]; then
-            cmd+="--spot "
+          if [[ $(params.spot) == "true" ]]; then 
+            cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) " 
           fi
           if [[ $(params.airgap) == "true" ]]; then
             cmd+="--airgap "

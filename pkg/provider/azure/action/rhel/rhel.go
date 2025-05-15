@@ -4,10 +4,10 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
+	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/rhel"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
-	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/util/cloud-config/rhel"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
