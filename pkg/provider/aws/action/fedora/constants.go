@@ -14,10 +14,7 @@ var (
 	// This is the ID for AMIS from https://fedoraproject.org/cloud
 	amiOwner       = "125523088429"
 	amiUserDefault = "fedora"
-
-	supportedInstanceTypes = map[string][]string{
-		"x86_64": {"c5.metal", "c5d.metal", "c5n.metal"},
-		"arm64":  {"c7gd.metal", "c7gn.metal", "m6gd.metal"}}
+	amiProduct     = "Linux/UNIX"
 
 	outputHost           = "afdHost"
 	outputUsername       = "afdUsername"

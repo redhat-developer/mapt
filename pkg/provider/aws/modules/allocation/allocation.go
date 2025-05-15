@@ -7,6 +7,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 type AllocationData struct {
@@ -38,6 +39,7 @@ func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, instan
 		return nil, err
 	}
 	spSafe := spotPriceBid(so.MaxPrice)
+	logging.Debugf("Due to the spot increase rate at %d we will request the spot at %f", maptContext.SpotPriceIncreaseRate(), spSafe)
 	return &AllocationData{
 		Region:        &so.Region,
 		AZ:            &so.AvailabilityZone,

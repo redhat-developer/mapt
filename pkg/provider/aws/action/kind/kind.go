@@ -3,7 +3,6 @@ package kind
 import (
 	"fmt"
 	"regexp"
-	"strconv"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
@@ -21,11 +20,11 @@ import (
 	amiSVC "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
+	kindCloudConfig "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/kind"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
-	kindCloudConfig "github.com/redhat-developer/mapt/pkg/util/cloud-config/kind"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -183,7 +182,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	}
 	if r.allocationData.SpotPrice != nil {
 		cr.Spot = true
-		cr.SpotPrice = strconv.FormatFloat(*r.allocationData.SpotPrice, 'f', -1, 64)
+		cr.SpotPrice = *r.allocationData.SpotPrice
 	}
 	c, err := cr.NewCompute(ctx)
 	if err != nil {

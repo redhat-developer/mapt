@@ -9,7 +9,7 @@ var (
 	diskSize int = 200
 
 	// This is managed by https://github.com/devtools-qe-incubator/cloud-importer
-	amiProductDescription = "Linux/UNIX"
+	amiProduct = "Linux/UNIX"
 	// amiProductDescription = "Red Hat Enterprise Linux"
 	amiRegex       = "openshift-local-%s-%s"
 	amiUserDefault = "core"

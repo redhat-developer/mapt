@@ -4,7 +4,6 @@ import (
 	"encoding/base64"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
@@ -16,6 +15,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
 	amiCopy "github.com/redhat-developer/mapt/pkg/provider/aws/modules/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/iam"
@@ -45,14 +45,6 @@ type OpenshiftSNCArgs struct {
 	Timeout         string
 }
 
-type allocationData struct {
-	// location and price (if Spot is enable)
-	region        *string
-	az            *string
-	spotPrice     *float64
-	instanceTypes []string
-}
-
 type openshiftSNCRequest struct {
 	prefix         *string
 	version        *string
@@ -60,7 +52,7 @@ type openshiftSNCRequest struct {
 	timeout        *string
 	pullSecretFile *string
 	caCertFile     *string
-	allocationData *allocationData
+	allocationData *allocation.AllocationData
 }
 
 // Create orchestrate 3 stacks:
@@ -89,11 +81,12 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) error {
 		caCertFile:     &args.CaCertFile,
 		timeout:        &args.Timeout}
 	r.allocationData, err = util.IfWithError(args.Spot,
-		func() (*allocationData, error) {
-			return getSpotAllocationData(&args.Prefix, instanceTypes)
+		func() (*allocation.AllocationData, error) {
+			return allocation.AllocationDataOnSpot(
+				&args.Prefix, &amiProduct, nil, instanceTypes)
 		},
-		func() (*allocationData, error) {
-			return getDefaultAllocationData()
+		func() (*allocation.AllocationData, error) {
+			return allocation.AllocationDataOnDemand()
 		})
 	if err != nil {
 		return err
@@ -101,7 +94,7 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) error {
 	// Manage AMI offering / replication
 	amiName := amiName(&args.Version, &args.Arch)
 	if err = manageAMIReplication(&args.Prefix,
-		&amiName, r.allocationData.region, &args.Arch); err != nil {
+		&amiName, r.allocationData.Region, &args.Arch); err != nil {
 		return err
 	}
 	return r.createCluster()
@@ -142,8 +135,8 @@ func (r *openshiftSNCRequest) createCluster() error {
 		BackedURL:   maptContext.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
-				awsConstants.CONFIG_AWS_REGION:        *r.allocationData.region,
-				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.allocationData.region}),
+				awsConstants.CONFIG_AWS_REGION:        *r.allocationData.Region,
+				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.allocationData.Region}),
 		DeployFunc: r.deploy,
 	}
 	sr, _ := manager.UpStack(cs)
@@ -165,8 +158,8 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	nr := network.NetworkRequest{
 		Prefix: *r.prefix,
 		ID:     awsOCPSNCID,
-		Region: *r.allocationData.region,
-		AZ:     *r.allocationData.az,
+		Region: *r.allocationData.Region,
+		AZ:     *r.allocationData.AZ,
 		// LB is required if we use as which is used for spot feature
 		CreateLoadBalancer: &lbEnable,
 		Airgap:             false,
@@ -220,12 +213,12 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		AMI:              ami,
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
-		InstaceTypes:     r.allocationData.instanceTypes,
+		InstaceTypes:     r.allocationData.InstanceTypes,
 		DiskSize:         &diskSize,
 		LB:               lb,
 		LBEIP:            lbEIP,
 		LBTargetGroups:   []int{securityGroup.SSH_PORT, portHTTPS, portAPI},
-		SpotPrice:        strconv.FormatFloat(*r.allocationData.spotPrice, 'f', -1, 64),
+		SpotPrice:        *r.allocationData.SpotPrice,
 		Spot:             true,
 		InstanceProfile:  iProfile,
 		UserDataAsBase64: udB64,
@@ -241,7 +234,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		c.GetHostIP(true))
 	if len(*r.timeout) > 0 {
 		if err = serverless.OneTimeDelayedTask(ctx,
-			*r.allocationData.region, *r.prefix,
+			*r.allocationData.Region, *r.prefix,
 			awsOCPSNCID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
 				"openshift-snc",
@@ -307,39 +300,6 @@ func securityGroups(ctx *pulumi.Context, prefix *string,
 			return sg.ID()
 		})
 	return pulumi.StringArray(sgs[:]), nil
-}
-
-func getSpotAllocationData(prefix *string, instanceTypes []string) (*allocationData, error) {
-	sr := spot.SpotOptionRequest{
-		// do not need to filter the AMI as if it does not exist on the target region
-		// mapt will copy it
-		Prefix:             *prefix,
-		ProductDescription: amiProductDescription,
-		InstaceTypes:       instanceTypes,
-	}
-	so, err := sr.Create()
-	if err != nil {
-		return nil, err
-	}
-	availableInstaceTypes, err :=
-		data.FilterInstaceTypesOfferedByRegion(instanceTypes, so.Region)
-	if err != nil {
-		return nil, err
-	}
-	return &allocationData{
-		region:        &so.Region,
-		az:            &so.AvailabilityZone,
-		spotPrice:     &so.MaxPrice,
-		instanceTypes: availableInstaceTypes,
-	}, nil
-}
-
-func getDefaultAllocationData() (ad *allocationData, err error) {
-	ad = &allocationData{}
-	region := os.Getenv("AWS_DEFAULT_REGION")
-	ad.region = &region
-	ad.az, err = data.GetRandomAvailabilityZone(region, nil)
-	return
 }
 
 func manageAMIReplication(prefix, amiName, region, arch *string) error {
