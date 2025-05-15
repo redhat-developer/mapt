@@ -47,7 +47,7 @@ type ComputeRequest struct {
 	Airgap          bool
 	Spot            bool
 	// Only required if Spot is true
-	SpotPrice string
+	SpotPrice float64
 	// Only required if we need to set userdata
 	UserDataAsBase64 pulumi.StringPtrInput
 	// If we need to add explicit dependecies
@@ -163,12 +163,13 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 			InstanceType: pulumi.String(instanceType),
 		})
 	}
+	spotMaxPrice := strconv.FormatFloat(r.SpotPrice, 'f', -1, 64)
 	mixedInstancesPolicy := &autoscaling.GroupMixedInstancesPolicyArgs{
 		InstancesDistribution: &autoscaling.GroupMixedInstancesPolicyInstancesDistributionArgs{
 			OnDemandBaseCapacity:                pulumi.Int(0),
 			OnDemandPercentageAboveBaseCapacity: pulumi.Int(0),
 			SpotAllocationStrategy:              pulumi.String("capacity-optimized"),
-			SpotMaxPrice:                        pulumi.String(r.SpotPrice),
+			SpotMaxPrice:                        pulumi.String(spotMaxPrice),
 		},
 		LaunchTemplate: &autoscaling.GroupMixedInstancesPolicyLaunchTemplateArgs{
 			LaunchTemplateSpecification: &autoscaling.GroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecificationArgs{

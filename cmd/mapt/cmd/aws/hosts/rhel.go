@@ -50,12 +50,13 @@ func getRHELCreate() *cobra.Command {
 			}
 
 			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				Tags:          viper.GetStringMapString(params.Tags),
+				ProjectName:           viper.GetString(params.ProjectName),
+				BackedURL:             viper.GetString(params.BackedURL),
+				ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
+				Debug:                 viper.IsSet(params.Debug),
+				DebugLevel:            viper.GetUint(params.DebugLevel),
+				SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
+				Tags:                  viper.GetStringMapString(params.Tags),
 			}
 
 			if viper.IsSet(params.CirrusPWToken) {
@@ -82,7 +83,7 @@ func getRHELCreate() *cobra.Command {
 			// Run create
 			if err := rhel.Create(
 				ctx,
-				&rhel.Request{
+				&rhel.RHELArgs{
 					Prefix:  "main",
 					Version: viper.GetString(params.RhelVersion),
 					Arch:    viper.GetString(params.LinuxArch),
@@ -93,7 +94,6 @@ func getRHELCreate() *cobra.Command {
 							instancetypes.Arm64, instancetypes.Amd64),
 						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
 					},
-					VMType:       viper.GetStringSlice(vmTypes),
 					SubsUsername: viper.GetString(params.SubsUsername),
 					SubsUserpass: viper.GetString(params.SubsUserpass),
 					ProfileSNC:   viper.IsSet(params.ProfileSNC),
@@ -111,11 +111,11 @@ func getRHELCreate() *cobra.Command {
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(params.RhelVersion, "", params.RhelVersionDefault, params.RhelVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
-	flagSet.StringSliceP(vmTypes, "", []string{}, vmTypesDescription)
 	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)
 	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
+	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())

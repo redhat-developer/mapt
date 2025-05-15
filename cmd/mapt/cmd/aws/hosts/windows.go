@@ -61,12 +61,13 @@ func getWindowsCreate() *cobra.Command {
 			}
 
 			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				Tags:          viper.GetStringMapString(params.Tags),
+				ProjectName:           viper.GetString(params.ProjectName),
+				BackedURL:             viper.GetString(params.BackedURL),
+				ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
+				Debug:                 viper.IsSet(params.Debug),
+				DebugLevel:            viper.GetUint(params.DebugLevel),
+				SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
+				Tags:                  viper.GetStringMapString(params.Tags),
 			}
 
 			if viper.IsSet(params.CirrusPWToken) {
@@ -92,7 +93,7 @@ func getWindowsCreate() *cobra.Command {
 			// Run create
 			if err := windows.Create(
 				ctx,
-				&windows.Request{
+				&windows.WindowsServerArgs{
 					Prefix:      "main",
 					AMIName:     viper.GetString(amiName),
 					AMIUser:     viper.GetString(amiUsername),
@@ -117,6 +118,7 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.StringP(amiLang, "", amiLangDefault, amiLangDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
+	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())

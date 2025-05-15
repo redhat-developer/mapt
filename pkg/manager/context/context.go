@@ -44,6 +44,8 @@ type ContextArgs struct {
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
+	// Spot Bid Safe Limit
+	SpotPriceIncreaseRate int
 }
 
 type context struct {
@@ -55,6 +57,7 @@ type context struct {
 	debugLevel            uint
 	serverless            bool
 	forceDestroy          bool
+	spotPriceIncreaseRate int
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
 }
@@ -68,15 +71,16 @@ type Provider interface {
 
 func Init(ca *ContextArgs, provider Provider) error {
 	mc = &context{
-		runID:         CreateRunID(),
-		projectName:   ca.ProjectName,
-		backedURL:     ca.BackedURL,
-		resultsOutput: ca.ResultsOutput,
-		debug:         ca.Debug,
-		debugLevel:    ca.DebugLevel,
-		tags:          ca.Tags,
-		serverless:    ca.Serverless,
-		forceDestroy:  ca.ForceDestroy,
+		runID:                 CreateRunID(),
+		projectName:           ca.ProjectName,
+		backedURL:             ca.BackedURL,
+		resultsOutput:         ca.ResultsOutput,
+		debug:                 ca.Debug,
+		debugLevel:            ca.DebugLevel,
+		tags:                  ca.Tags,
+		serverless:            ca.Serverless,
+		forceDestroy:          ca.ForceDestroy,
+		spotPriceIncreaseRate: ca.SpotPriceIncreaseRate,
 	}
 	addCommonTags()
 	// Init provider
@@ -112,6 +116,8 @@ func DebugLevel() uint { return mc.debugLevel }
 func IsServerless() bool { return mc.serverless }
 
 func IsForceDestroy() bool { return mc.forceDestroy }
+
+func SpotPriceIncreaseRate() int { return mc.spotPriceIncreaseRate }
 
 // It will create a runID
 // if context has been intialized it will set it as the runID for the context
