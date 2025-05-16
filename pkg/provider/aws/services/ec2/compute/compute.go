@@ -4,9 +4,11 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 type ReplaceRootVolumeRequest struct {
@@ -57,4 +59,44 @@ func ReplaceRootVolume(r ReplaceRootVolumeRequest) (*string, error) {
 		taskState = drvt.ReplaceRootVolumeTasks[0].TaskState
 	}
 	return rrvt.ReplaceRootVolumeTask.ReplaceRootVolumeTaskId, nil
+}
+
+// Create a dedicated host
+func DedicatedHost(region, azId, instanceType *string, tags map[string]string) (*string, error) {
+	ctx := context.Background()
+	cfg, err := config.LoadDefaultConfig(
+		ctx,
+		config.WithRegion(*region))
+	if err != nil {
+		return nil, err
+	}
+	client := ec2.NewFromConfig(cfg)
+	logging.Debugf("Trying to get a dedicated host %s in %s", *instanceType, *azId)
+	aResp, err := client.AllocateHosts(
+		context.Background(),
+		&ec2.AllocateHostsInput{
+			AvailabilityZone: aws.String(*azId),
+			InstanceType:     aws.String(*instanceType),
+			Quantity:         aws.Int32(1),
+		})
+	if err != nil {
+		return nil, err
+	}
+	if len(aResp.HostIds) == 0 {
+		return nil, fmt.Errorf("no capacity: dedicated host had not been allocated")
+	}
+	hostID := aResp.HostIds[0]
+	var t []types.Tag
+	for k, v := range tags {
+		t = append(t,
+			types.Tag{
+				Key:   aws.String(k),
+				Value: aws.String(v)})
+	}
+	_, err = client.CreateTags(ctx,
+		&ec2.CreateTagsInput{
+			Resources: []string{hostID},
+			Tags:      t,
+		})
+	return &hostID, err
 }

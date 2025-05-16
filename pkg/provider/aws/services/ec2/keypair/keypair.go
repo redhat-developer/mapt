@@ -54,7 +54,8 @@ func (r KeyPairRequest) create(ctx *pulumi.Context, name string,
 		r.Name,
 		&ec2.KeyPairArgs{
 			PublicKey: privateKey.PublicKeyOpenssh,
-			Tags:      maptContext.ResourceTags()})
+			Tags:      maptContext.ResourceTags()},
+		maptContext.CommonOptions(ctx)...)
 	if err != nil {
 		return nil, err
 	}
