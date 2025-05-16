@@ -3,6 +3,7 @@ package host
 import (
 	"fmt"
 	"maps"
+	"strings"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -14,18 +15,12 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
-
-// Idea move away from multi file creation a set outputs as an unified yaml file
-// type macdh struct {
-// 	ID          string `yaml:"id"`
-// 	AZ          string `yaml:"az"`
-// 	BackedURL   string `yaml:"backedurl"`
-// 	ProjectName string `yaml:"projectname"`
-// }
 
 func CreatePoolDedicatedHost(args *PoolMacDedicatedHostRequestArgs) (dhi *mac.HostInformation, err error) {
 	tags := map[string]string{
@@ -45,6 +40,7 @@ func CreateDedicatedHost(args *MacDedicatedHostRequestArgs) (dhi *mac.HostInform
 		macConstants.TagKeyPrefix:    args.Prefix,
 		macConstants.TagKeyArch:      args.Architecture,
 		maptContext.TagKeyRunID:      maptContext.RunID(),
+		macConstants.TagKeyTicket:    "",
 	}
 	return createDedicatedHost(args, backedURL, tags, true)
 }
@@ -60,25 +56,15 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 		arch:   args.Architecture,
 		tags:   tags,
 	}
-	dHArgs.region, err = getRegion(args.Architecture, args.FixedLocation)
+	dHArgs.region, err = getRegion(args.Architecture, true)
 	if err != nil {
 		return nil, err
 	}
-	// pick random az from region ensuring machine is offered (sometimes machines are not offered on each az from a region)
-	dHArgs.availabilityZone, err = getAZ(*dHArgs.region, args.Architecture)
+	// We will try on each Az in case we do not have capacity
+	sr, err := retryCreateStack(&dHArgs, &backedURL)
 	if err != nil {
 		return nil, err
 	}
-	cs := manager.Stack{
-		StackName:   maptContext.StackNameByProject(mac.StackDedicatedHost),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   backedURL,
-		ProviderCredentials: aws.GetClouProviderCredentials(
-			map[string]string{
-				awsConstants.CONFIG_AWS_REGION: *dHArgs.region}),
-		DeployFunc: dHArgs.deploy,
-	}
-	sr, _ := manager.UpStack(cs)
 	dhID, _, err := manageResultsDedicatedHost(sr, dHArgs.prefix, exportOutputs)
 	if err != nil {
 		return nil, err
@@ -93,9 +79,60 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 	return
 }
 
+func retryCreateStack(dHArgs *dedicatedHostArgs, backedURL *string) (sr auto.UpResult, err error) {
+	created := false
+	azs := data.GetAvailabilityZones(*dHArgs.region)
+	for i := 0; !created && i < len(azs); i++ {
+		dHArgs.availabilityZone = &azs[i]
+		var isOffered bool
+		isOffered, err = data.IsInstanceTypeOfferedByAZ(
+			*dHArgs.region,
+			mac.TypesByArch[dHArgs.arch], *dHArgs.availabilityZone)
+		if err != nil {
+			return
+		}
+		if !isOffered {
+			logging.Debugf("Instancetype %s is not offered at %s", mac.TypesByArch[dHArgs.arch], *dHArgs.availabilityZone)
+			continue
+		}
+		cs := manager.Stack{
+			StackName:   maptContext.StackNameByProject(mac.StackDedicatedHost),
+			ProjectName: maptContext.ProjectName(),
+			BackedURL:   *backedURL,
+			ProviderCredentials: aws.GetClouProviderCredentials(
+				map[string]string{
+					awsConstants.CONFIG_AWS_REGION: *dHArgs.region}),
+			DeployFunc: dHArgs.deploy,
+		}
+		sr, err = manager.UpStack(cs)
+		if err != nil {
+			if isCapacityError(err) {
+				continue
+			}
+			return
+		}
+		created = true
+	}
+	if !created {
+		err = fmt.Errorf("currently no AZ on %s has capacity", *dHArgs.region)
+	}
+	return
+}
+
+func isCapacityError(err error) bool {
+	return strings.Contains(err.Error(), "Insufficient") ||
+		strings.Contains(err.Error(), "capacity")
+}
+
 // this function will create the dedicated host resource
 func (r *dedicatedHostArgs) deploy(ctx *pulumi.Context) (err error) {
 	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputRegion), pulumi.String(*r.region))
+	tags := utilMaps.Append(maptContext.GetTags(), r.tags)
+	instanceType := mac.TypesByArch[r.arch]
+	hostId, err := compute.DedicatedHost(r.region, r.availabilityZone, &instanceType, tags)
+	if err != nil {
+		return err
+	}
 	dh, err := ec2.NewDedicatedHost(ctx,
 		resourcesUtil.GetResourceName(r.prefix, awsMacHostID, "dh"),
 		&ec2.DedicatedHostArgs{
@@ -103,7 +140,7 @@ func (r *dedicatedHostArgs) deploy(ctx *pulumi.Context) (err error) {
 			AvailabilityZone: pulumi.String(*r.availabilityZone),
 			InstanceType:     pulumi.String(mac.TypesByArch[r.arch]),
 			Tags:             maptContext.ResourceTagsWithCustom(r.tags),
-		})
+		}, pulumi.Import(pulumi.ID(*hostId)))
 	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostID),
 		dh.ID())
 	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostAZ),
