@@ -2,21 +2,23 @@ package macpool
 
 import (
 	"fmt"
-	"strings"
 
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
-	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
-	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
-	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/tag"
 )
 
 func request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
-	// If remote run through serverless
-	if maptContext.IsRemote() {
-		return requestRemote(ctx, r)
+	if len(r.Ticket) == 0 {
+		// Generate ticket
+		ticket, err := ticket()
+		if err != nil {
+			return err
+		}
+		r.Ticket = *ticket
 	}
 	// First get full info on the pool and the next machine for request
 	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
@@ -31,16 +33,17 @@ func request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx); err != nil {
+	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 
 	mr := macMachine.Request{
-		Prefix:               *hi.Prefix,
-		Version:              *hi.OSVersion,
-		Architecture:         *hi.Arch,
-		SetupGHActionsRunner: r.SetupGHActionsRunner,
-		Timeout:              r.Timeout,
+		Prefix:       *hi.Prefix,
+		Version:      *hi.OSVersion,
+		Architecture: *hi.Arch,
+		VPCID:        &r.Machine.VPCID,
+		SSHSGID:      &r.Machine.SSHSGID,
+		Timeout:      r.Timeout,
 	}
 
 	// TODO here we would change based on the integration-mode requested
@@ -51,69 +54,44 @@ func request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	}
 
 	// We update the runID on the dedicated host
-	return tag.Update(maptContext.TagKeyRunID,
+	err = tag.Update(maptContext.TagKeyRunID,
 		maptContext.RunID(),
 		*hi.Region,
 		*hi.Host.HostId)
-}
-
-func requestRemote(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
-	if err := maptContext.Init(ctx); err != nil {
-		return err
-	}
-	rARNs, err := data.GetResourcesMatchingTags(
-		data.ResourceTypeECS,
-		requestTags(
-			r.PoolName,
-			r.Architecture,
-			r.OSVersion))
 	if err != nil {
 		return err
 	}
-	if len(rARNs) > 1 {
-		return fmt.Errorf(
-			"should be only one task spec matching tags. Found %s",
-			strings.Join(rARNs, ","))
+	err = tag.Update(macConstants.TagKeyTicket,
+		r.Ticket,
+		*hi.Region,
+		*hi.Host.HostId)
+	if err != nil {
+		return err
 	}
-	// We got the arn value for the task
-	return fmt.Errorf("not implemented yet")
+	return writeTicket(&r.Ticket)
 }
 
-// Run serverless operation request
-// check how we will call it from the request?
-// may add tags and find or add arn to stack?
-func (r *MacPoolRequestArgs) createRequestTaskSpec() error {
-	return serverless.Create(
-		&serverless.ServerlessArgs{
-			Command: requestCommand(
-				r.PoolName,
-				r.Architecture,
-				r.OSVersion),
-			LogGroupName: fmt.Sprintf("%s-%s-%s-request",
-				r.PoolName,
-				r.Architecture,
-				r.OSVersion),
-			Tags: requestTags(
-				r.PoolName,
-				r.Architecture,
-				r.OSVersion)})
-}
-
-func requestCommand(poolName, arch, osVersion string) string {
-	cmd := fmt.Sprintf(requestCommandRegex,
-		poolName, arch, osVersion)
-	return cmd
-}
-
-// Return the map of tags wich should identify unique
-// resquest operation spec for a pool
-func requestTags(poolName, arch, osVersion string) (m map[string]string) {
-	poolID := macHost.PoolID{
-		PoolName:  poolName,
-		Arch:      arch,
-		OSVersion: osVersion,
+// This is a boilerplate function to pick the best machine for
+// next request, initially we just pick the newest machine from the
+// offered machines, may we can optimize this
+func (p *pool) getNextMachineForRequest() (*mac.HostInformation, error) {
+	if len(p.currentOfferedMachines) == 0 {
+		return nil, fmt.Errorf("no available machines to process the request")
 	}
-	m = poolID.AsTags()
-	m[macConstants.TagKeyPoolOperationName] = requestOperation
-	return
+	mp := len(p.currentOfferedMachines) - 1
+	return p.currentOfferedMachines[mp], nil
+}
+
+// transform pool request to machine request
+// need if we need to expand the pool
+func (r *HouseKeepRequestArgs) fillMacRequest() *macMachine.Request {
+	return &macMachine.Request{
+		Prefix:       r.Pool.Prefix,
+		Architecture: r.Pool.Architecture,
+		Version:      r.Pool.OSVersion,
+		// Network and Security
+		VPCID: &r.Machine.VPCID,
+		// SubnetID: &r.Machine.SubnetID,
+		SSHSGID: &r.Machine.SSHSGID,
+	}
 }

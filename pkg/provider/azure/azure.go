@@ -5,6 +5,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -26,6 +27,10 @@ func Provider() *Azure {
 func (a *Azure) Init(backedURL string) error {
 	setAZIdentityEnvs()
 	return nil
+}
+
+func (a *Azure) Custom(ctx *pulumi.Context) (*pulumi.ProviderResource, error) {
+	return nil, nil
 }
 
 // Envs required for auth with go sdk

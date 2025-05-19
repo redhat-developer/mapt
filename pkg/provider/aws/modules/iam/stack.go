@@ -7,18 +7,23 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 
+	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-func Create(accountName string, policyContent *string) error {
+const defaultPrefix = "mapt"
+
+func Create(prefix, accountName string, policyContent *string) error {
 	r := &iamRequestArgs{
 		name:          accountName,
 		policyContent: policyContent,
-		// Being isolated stack these values
-		// do not care
-		prefix:      "mapt",
+		prefix: util.If(len(prefix) > 0,
+			prefix,
+			string(defaultPrefix)),
 		componentID: "",
 	}
 	stack := manager.Stack{
@@ -32,7 +37,7 @@ func Create(accountName string, policyContent *string) error {
 	if err != nil {
 		return err
 	}
-	return manageResultsMachine(sr, r.prefix)
+	return Results(sr, r.prefix)
 }
 
 func Destroy() (err error) {
@@ -43,7 +48,20 @@ func Destroy() (err error) {
 		})
 }
 
-func manageResultsMachine(stackResult auto.UpResult, prefix string) error {
+func Deploy(ctx *pulumi.Context, prefix, accountName string, policyContent *string, dependsOn []pulumi.Resource) (*iam.User, *iam.AccessKey, error) {
+	r := &iamRequestArgs{
+		name:          accountName,
+		policyContent: policyContent,
+		prefix: util.If(len(prefix) > 0,
+			prefix,
+			string(defaultPrefix)),
+		componentID: "",
+		dependsOn:   dependsOn,
+	}
+	return r.resources(ctx)
+}
+
+func Results(stackResult auto.UpResult, prefix string) error {
 	results := map[string]string{
 		fmt.Sprintf("%s-%s", prefix, outputAccessKey): "accessKey",
 		fmt.Sprintf("%s-%s", prefix, outputSecretKey): "secretKey",
