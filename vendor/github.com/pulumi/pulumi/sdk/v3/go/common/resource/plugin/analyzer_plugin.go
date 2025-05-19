@@ -62,6 +62,7 @@ var _ Analyzer = (*analyzer)(nil)
 func NewAnalyzer(host Host, ctx *Context, name tokens.QName) (Analyzer, error) {
 	// Load the plugin's path by using the standard workspace logic.
 	path, err := workspace.GetPluginPath(
+		ctx.baseContext,
 		ctx.Diag,
 		workspace.PluginSpec{
 			Name: strings.ReplaceAll(string(name), tokens.QNameDelimiter, "_"),
@@ -77,7 +78,7 @@ func NewAnalyzer(host Host, ctx *Context, name tokens.QName) (Analyzer, error) {
 
 	plug, _, err := newPlugin(ctx, ctx.Pwd, path, fmt.Sprintf("%v (analyzer)", name),
 		apitype.AnalyzerPlugin, []string{host.ServerAddr(), ctx.Pwd}, nil, /*env*/
-		testConnection, dialOpts)
+		testConnection, dialOpts, host.AttachDebugger())
 	if err != nil {
 		return nil, err
 	}
@@ -115,24 +116,6 @@ func NewPolicyAnalyzer(
 			ProgramDirectory: &dir,
 		}
 
-		// We might not have options. For example example when running `pulumi
-		// policy publish`, we are not running in the context of a project or
-		// stack.
-		if opts != nil {
-			rpcOpts := &pulumirpc.AnalyzerStackConfiguration{
-				Stack:        opts.Stack,
-				Project:      opts.Project,
-				Organization: opts.Organization,
-			}
-			mconfig, err := MarshalProperties(resource.ToResourcePropertyMap(opts.Config),
-				MarshalOptions{KeepSecrets: true})
-			if err != nil {
-				return nil, fmt.Errorf("marshalling config: %w", err)
-			}
-			rpcOpts.Config = mconfig
-			req.StackConfiguration = rpcOpts
-		}
-
 		res, err := client.Handshake(ctx, &req)
 		if err != nil {
 			status, ok := status.FromError(err)
@@ -160,6 +143,7 @@ func NewPolicyAnalyzer(
 	// legacy behavior.
 	if proj.Runtime.Name() != "python" && proj.Runtime.Name() != "nodejs" {
 		path, err = workspace.GetPluginPath(
+			ctx.baseContext,
 			ctx.Diag,
 			workspace.PluginSpec{Name: proj.Runtime.Name(), Kind: apitype.LanguagePlugin},
 			host.GetProjectPlugins())
@@ -177,7 +161,8 @@ func NewPolicyAnalyzer(
 		// Load the policy-booting analyzer plugin (i.e., `pulumi-analyzer-${policyAnalyzerName}`).
 		var pluginPath string
 		pluginPath, err = workspace.GetPluginPath(
-			ctx.Diag, workspace.PluginSpec{Name: policyAnalyzerName, Kind: apitype.AnalyzerPlugin}, host.GetProjectPlugins())
+			ctx.baseContext, ctx.Diag,
+			workspace.PluginSpec{Name: policyAnalyzerName, Kind: apitype.AnalyzerPlugin}, host.GetProjectPlugins())
 
 		var e *workspace.MissingError
 		if errors.As(err, &e) {
@@ -212,7 +197,7 @@ func NewPolicyAnalyzer(
 
 		plug, _, err = newPlugin(ctx, pwd, pluginPath, fmt.Sprintf("%v (analyzer)", name),
 			apitype.AnalyzerPlugin, args, env, handshake,
-			analyzerPluginDialOptions(ctx, fmt.Sprintf("%v", name)))
+			analyzerPluginDialOptions(ctx, fmt.Sprintf("%v", name)), host.AttachDebugger())
 	} else {
 		// Else we _did_ get a lanuage plugin so just use RunPlugin to invoke the policy pack.
 
@@ -225,7 +210,7 @@ func NewPolicyAnalyzer(
 
 		plug, _, err = newPlugin(ctx, ctx.Pwd, policyPackPath, fmt.Sprintf("%v (analyzer)", name),
 			apitype.AnalyzerPlugin, []string{host.ServerAddr()}, os.Environ(),
-			handshake, analyzerPluginDialOptions(ctx, string(name)))
+			handshake, analyzerPluginDialOptions(ctx, string(name)), host.AttachDebugger())
 	}
 
 	if err != nil {
@@ -243,11 +228,44 @@ func NewPolicyAnalyzer(
 	}
 	contract.Assertf(plug != nil, "unexpected nil analyzer plugin for %s", name)
 
+	client := pulumirpc.NewAnalyzerClient(plug.Conn)
+
+	// We call Configure on the analyzer plugin if we've been given options. We might not have options. For example
+	// example when running `pulumi policy publish`, we are not running in the context of a project or stack.
+	if opts != nil {
+		req := &pulumirpc.AnalyzerStackConfigureRequest{
+			Stack:        opts.Stack,
+			Project:      opts.Project,
+			Organization: opts.Organization,
+		}
+		mconfig, err := MarshalProperties(resource.ToResourcePropertyMap(opts.Config),
+			MarshalOptions{KeepSecrets: true})
+		if err != nil {
+			return nil, fmt.Errorf("marshalling config: %w", err)
+		}
+		req.Config = mconfig
+
+		_, err = client.ConfigureStack(ctx.Request(), req)
+		if err != nil {
+			status, ok := status.FromError(err)
+			if ok && status.Code() == codes.Unimplemented {
+				// If the analyzer doesn't implement StackConfigure, that's fine -- we'll fall back to existing
+				// behavior.
+				logging.V(7).Infof("StackConfigure: not supported by '%v'", name)
+			} else {
+				logging.V(7).Infof("StackConfigure: failed: err=%v", status)
+				return nil, rpcerror.Convert(err)
+			}
+		}
+
+		logging.V(7).Infof("StackConfigure: success [%v]", name)
+	}
+
 	return &analyzer{
 		ctx:     ctx,
 		name:    name,
 		plug:    plug,
-		client:  pulumirpc.NewAnalyzerClient(plug.Conn),
+		client:  client,
 		version: proj.Version,
 	}, nil
 }

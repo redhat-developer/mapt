@@ -44,7 +44,7 @@ github.com/Masterminds/semver/v3
 ## explicit; go 1.23.0
 github.com/OpenPeeDeeP/depguard/v2
 github.com/OpenPeeDeeP/depguard/v2/internal/utils
-# github.com/alecthomas/chroma/v2 v2.17.2
+# github.com/alecthomas/chroma/v2 v2.18.0
 ## explicit; go 1.22
 github.com/alecthomas/chroma/v2
 github.com/alecthomas/chroma/v2/formatters
@@ -428,8 +428,8 @@ github.com/golangci/golangci-lint/v2/pkg/timeutils
 # github.com/golangci/golines v0.0.0-20250217232252-b35a6149b587
 ## explicit; go 1.22.0
 github.com/golangci/golines
-# github.com/golangci/misspell v0.6.0
-## explicit; go 1.21
+# github.com/golangci/misspell v0.7.0
+## explicit; go 1.23.0
 github.com/golangci/misspell
 # github.com/golangci/plugin-module-register v0.1.1
 ## explicit; go 1.21
@@ -640,8 +640,8 @@ github.com/prometheus/client_golang/prometheus/testutil/promlint/validations
 # github.com/prometheus/client_model v0.6.2
 ## explicit; go 1.22.0
 github.com/prometheus/client_model/go
-# github.com/prometheus/common v0.63.0
-## explicit; go 1.21
+# github.com/prometheus/common v0.64.0
+## explicit; go 1.23.0
 github.com/prometheus/common/expfmt
 github.com/prometheus/common/model
 # github.com/prometheus/procfs v0.16.1
