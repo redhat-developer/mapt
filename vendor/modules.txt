@@ -606,16 +606,16 @@ github.com/pulumi/pulumi-azure-native-sdk/storage/v2
 # github.com/pulumi/pulumi-azure-native-sdk/v2 v2.90.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-azure-native-sdk/v2/utilities
-# github.com/pulumi/pulumi-command/sdk v1.0.4
+# github.com/pulumi/pulumi-command/sdk v1.0.5
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
-# github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.11
-## explicit; go 1.23.1
+# github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3
+## explicit; go 1.21.7
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
-# github.com/pulumi/pulumi-docker/sdk/v4 v4.6.2
-## explicit; go 1.22
+# github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8
+## explicit; go 1.21
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 # github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
@@ -778,7 +778,7 @@ github.com/xanzy/ssh-agent
 # github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e
 ## explicit; go 1.19
 github.com/xo/terminfo
-# github.com/zclconf/go-cty v1.16.2
+# github.com/zclconf/go-cty v1.16.3
 ## explicit; go 1.18
 github.com/zclconf/go-cty/cty
 github.com/zclconf/go-cty/cty/convert
@@ -880,7 +880,7 @@ golang.org/x/tools/internal/versions
 # google.golang.org/genproto/googleapis/rpc v0.0.0-20250512202823-5a2f75b736a9
 ## explicit; go 1.23.0
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.72.0
+# google.golang.org/grpc v1.72.1
 ## explicit; go 1.23
 google.golang.org/grpc
 google.golang.org/grpc/attributes

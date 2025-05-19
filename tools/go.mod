@@ -1,8 +1,6 @@
 module github.com/redhat-developer/mapt/tools
 
-go 1.23.1
-
-toolchain go1.24.3
+go 1.23.6
 
 require github.com/golangci/golangci-lint/v2 v2.1.6
 
@@ -173,7 +171,7 @@ require (
 	github.com/ultraware/funlen v0.2.0 // indirect
 	github.com/ultraware/whitespace v0.2.0 // indirect
 	github.com/uudashr/gocognit v1.2.0 // indirect
-	github.com/uudashr/iface v1.3.1 // indirect
+	github.com/uudashr/iface v1.3.2 // indirect
 	github.com/xen0n/gosmopolitan v1.3.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/yagipy/maintidx v1.0.0 // indirect

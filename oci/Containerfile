@@ -10,7 +10,9 @@ ENV PULUMI_VERSION 3.170.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
-RUN GOARCH=${TARGETARCH} make build \
+# go toolset has VERSION env with go minor version this is conflicting our version management
+RUN unset VERSION \
+    && GOARCH=${TARGETARCH} make build \
     && if [ "$TARGETARCH" = "arm64" ]; then export PULUMI_URL="${PULUMI_BASE_URL}-linux-arm64.tar.gz"; fi \
     && echo ${PULUMI_URL} \
     && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
@@ -38,7 +40,7 @@ ARG PULUMI_AWSX_VERSION=v2.21.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
 ARG PULUMI_AZURE_NATIVE_VERSION=v3.4.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
-ARG PULUMI_COMMAND_VERSION=v1.0.4
+ARG PULUMI_COMMAND_VERSION=v1.0.5
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
 ARG PULUMI_TLS_VERSION=v5.2.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
