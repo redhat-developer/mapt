@@ -31,6 +31,19 @@ func GetDedicatedHost(hostID string) (*ec2Types.Host, error) {
 	return &hosts[0], nil
 }
 
+func GetDedicatedHostByTag(tags map[string]string) (*ec2Types.Host, error) {
+	hosts, err := GetDedicatedHosts(DedicatedHostResquest{
+		Tags: tags,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if len(hosts) != 1 {
+		return nil, fmt.Errorf("error getting the dedicated host %v", tags)
+	}
+	return &hosts[0], nil
+}
+
 // This function check on all regions for the dedicated host
 // and return the list of hosts matching the request params
 func GetDedicatedHosts(r DedicatedHostResquest) ([]ec2Types.Host, error) {

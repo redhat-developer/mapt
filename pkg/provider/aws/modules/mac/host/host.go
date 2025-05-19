@@ -3,6 +3,7 @@ package host
 import (
 	"fmt"
 	"maps"
+	"strings"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -13,26 +14,20 @@ import (
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-// Idea move away from multi file creation a set outputs as an unified yaml file
-// type macdh struct {
-// 	ID          string `yaml:"id"`
-// 	AZ          string `yaml:"az"`
-// 	BackedURL   string `yaml:"backedurl"`
-// 	ProjectName string `yaml:"projectname"`
-// }
-
 func CreatePoolDedicatedHost(args *PoolMacDedicatedHostRequestArgs) (dhi *mac.HostInformation, err error) {
 	tags := map[string]string{
-		tagKeyBackedURL:         args.BackedURL,
-		tagKeyPrefix:            args.MacDedicatedHost.Prefix,
-		maptContext.TagKeyRunID: maptContext.RunID(),
+		macConstants.TagKeyBackedURL: args.BackedURL,
+		macConstants.TagKeyPrefix:    args.MacDedicatedHost.Prefix,
+		maptContext.TagKeyRunID:      maptContext.RunID(),
 	}
-	maps.Copy(tags, args.PoolID.asTags())
+	maps.Copy(tags, args.PoolID.AsTags())
 	return createDedicatedHost(args.MacDedicatedHost, args.BackedURL, tags, false)
 }
 
@@ -40,10 +35,11 @@ func CreatePoolDedicatedHost(args *PoolMacDedicatedHostRequestArgs) (dhi *mac.Ho
 func CreateDedicatedHost(args *MacDedicatedHostRequestArgs) (dhi *mac.HostInformation, err error) {
 	backedURL := getBackedURL()
 	tags := map[string]string{
-		tagKeyBackedURL:         backedURL,
-		tagKeyPrefix:            args.Prefix,
-		tagKeyArch:              args.Architecture,
-		maptContext.TagKeyRunID: maptContext.RunID(),
+		macConstants.TagKeyBackedURL: backedURL,
+		macConstants.TagKeyPrefix:    args.Prefix,
+		macConstants.TagKeyArch:      args.Architecture,
+		maptContext.TagKeyRunID:      maptContext.RunID(),
+		macConstants.TagKeyTicket:    "",
 	}
 	return createDedicatedHost(args, backedURL, tags, true)
 }
@@ -52,19 +48,19 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 	backedURL string,
 	tags map[string]string,
 	exportOutputs bool) (dhi *mac.HostInformation, err error) {
-	// mac does not offer spot, this will check region based on default region Env,
-	// if machine type is not offered on the region it will try to find a new region for it
-	dHArgs := dedicatedHostArgs{
+	dHArgs := dedicatedHostRequest{
 		prefix: args.Prefix,
 		arch:   args.Architecture,
 		tags:   tags,
 	}
-	dHArgs.region, err = getRegion(args.Architecture, args.FixedLocation)
+	dHArgs.region, err = getRegion(args.Architecture, true)
 	if err != nil {
 		return nil, err
 	}
-	// pick random az from region ensuring machine is offered (sometimes machines are not offered on each az from a region)
-	dHArgs.availabilityZone, err = getAZ(*dHArgs.region, args.Architecture)
+	instanceType := mac.TypesByArch[dHArgs.arch]
+	dhTags := utilMaps.Append(maptContext.GetTags(), tags)
+	dHArgs.hostId, dHArgs.azId, err =
+		dedicatedHost(dHArgs.region, &instanceType, dhTags)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +73,10 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 				awsConstants.CONFIG_AWS_REGION: *dHArgs.region}),
 		DeployFunc: dHArgs.deploy,
 	}
-	sr, _ := manager.UpStack(cs)
+	sr, err := manager.UpStack(cs)
+	if err != nil {
+		return nil, err
+	}
 	dhID, _, err := manageResultsDedicatedHost(sr, dHArgs.prefix, exportOutputs)
 	if err != nil {
 		return nil, err
@@ -92,24 +91,59 @@ func createDedicatedHost(args *MacDedicatedHostRequestArgs,
 	return
 }
 
+func dedicatedHost(region, instanceType *string, tags map[string]string) (hostId *string, azId *string, err error) {
+	// azs := data.GetAvailabilityZones(*region)
+	// for i := 0; hostId != nil && i < len(azs); i++ {
+	// 	var isOffered bool
+	// 	isOffered, err = data.IsInstanceTypeOfferedByAZ(*region, *instanceType, azs[i])
+	// 	if err != nil {
+	// 		return
+	// 	}
+	// 	if !isOffered {
+	// 		logging.Debugf("Instancetype %s is not offered at %s", *instanceType, azs[i])
+	// 		continue
+	// 	}
+	// 	hostId, err = compute.DedicatedHost(region, &azs[i], instanceType, tags)
+	// 	if err != nil {
+	// 		if isCapacityError(err) {
+	// 			continue
+	// 		}
+	// 		azId = &azs[i]
+	// 		return
+	// 	}
+	// }
+	// if hostId == nil {
+	// 	return nil, nil, fmt.Errorf("no capacity across the region")
+	// }
+	// return
+	h := "h-0ec747eb69bbc07c3"
+	az := "us-east-1b"
+	return &h, &az, nil
+}
+
+func isCapacityError(err error) bool {
+	return strings.Contains(err.Error(), "Insufficient") ||
+		strings.Contains(err.Error(), "capacity")
+}
+
 // this function will create the dedicated host resource
-func (r *dedicatedHostArgs) deploy(ctx *pulumi.Context) (err error) {
+func (r *dedicatedHostRequest) deploy(ctx *pulumi.Context) (err error) {
 	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputRegion), pulumi.String(*r.region))
 	dh, err := ec2.NewDedicatedHost(ctx,
 		resourcesUtil.GetResourceName(r.prefix, awsMacHostID, "dh"),
 		&ec2.DedicatedHostArgs{
 			AutoPlacement:    pulumi.String("off"),
-			AvailabilityZone: pulumi.String(*r.availabilityZone),
+			AvailabilityZone: pulumi.String(*r.azId),
 			InstanceType:     pulumi.String(mac.TypesByArch[r.arch]),
 			Tags:             maptContext.ResourceTagsWithCustom(r.tags),
-		})
-	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostID),
-		dh.ID())
-	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostAZ),
-		pulumi.String(*r.availabilityZone))
+		}, pulumi.Import(pulumi.ID(*r.hostId)))
 	if err != nil {
 		return err
 	}
+	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostID),
+		dh.ID())
+	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostAZ),
+		pulumi.String(*r.azId))
 	return nil
 }
 
