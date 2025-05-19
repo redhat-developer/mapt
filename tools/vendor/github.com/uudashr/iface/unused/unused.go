@@ -28,7 +28,7 @@ func newAnalyzer() *analysis.Analyzer {
 		Run:      r.run,
 	}
 
-	analyzer.Flags.BoolVar(&r.debug, "debug", false, "enable debug mode")
+	analyzer.Flags.BoolVar(&r.debug, "nerd", false, "enable nerd mode")
 	analyzer.Flags.StringVar(&r.exclude, "exclude", "", "comma-separated list of packages to exclude from the check")
 
 	return analyzer
