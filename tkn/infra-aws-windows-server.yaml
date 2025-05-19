@@ -91,6 +91,10 @@ spec:
     - name: spot
       description: Check best spot option to spin the machine and will create resources on that region.
       default: 'true'
+    - name: spot-increase-rate
+      description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
+      default: '20'
+      
     - name: airgap
       description: |
           Set the machine on an airgap scenario. 
@@ -170,7 +174,9 @@ spec:
           cmd+="--ami-username $(params.ami-username) "
           cmd+="--ami-owner $(params.ami-owner) "
           cmd+="--ami-lang $(params.ami-lang) "
-          if [[ $(params.spot) == "true" ]]; then cmd+="--spot "; fi
+          if [[ $(params.spot) == "true" ]]; then 
+            cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) " 
+          fi
           if [[ $(params.airgap) == "true" ]]; then cmd+="--airgap "; fi
           cmd+="--tags $(params.tags) "
         fi

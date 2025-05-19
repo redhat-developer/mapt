@@ -10,6 +10,7 @@ var (
 	amiNameDefault  = "Windows_Server-2022-English-Full-HyperV-RHQE"
 	amiOwnerDefault = "self"
 	amiUserDefault  = "ec2-user"
+	amiProduct      = "windows"
 
 	// Custom non english ami
 	amiLangNonEng        = "non-eng"

@@ -42,12 +42,13 @@ func createKind() *cobra.Command {
 			}
 			if err := kind.Create(
 				&maptContext.ContextArgs{
-					ProjectName:   viper.GetString(params.ProjectName),
-					BackedURL:     viper.GetString(params.BackedURL),
-					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-					Debug:         viper.IsSet(params.Debug),
-					DebugLevel:    viper.GetUint(params.DebugLevel),
-					Tags:          viper.GetStringMapString(params.Tags),
+					ProjectName:           viper.GetString(params.ProjectName),
+					BackedURL:             viper.GetString(params.BackedURL),
+					ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
+					Debug:                 viper.IsSet(params.Debug),
+					DebugLevel:            viper.GetUint(params.DebugLevel),
+					SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
+					Tags:                  viper.GetStringMapString(params.Tags),
 				},
 				&kind.KindArgs{
 					InstanceRequest: &instancetypes.AwsInstanceRequest{
@@ -71,6 +72,7 @@ func createKind() *cobra.Command {
 	flagSet.StringP(params.KindK8SVersion, "", "", params.KindK8SVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
+	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
