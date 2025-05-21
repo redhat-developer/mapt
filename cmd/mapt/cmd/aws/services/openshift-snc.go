@@ -21,8 +21,6 @@ const (
 	ocpVersionDesc     = "version for Openshift. If not set it will pick latest available version"
 	pullSecretFile     = "pull-secret-file"
 	pullSecretFileDesc = "file path of image pull secret (download from https://console.redhat.com/openshift/create/local)"
-	caCertFile         = "ca-cert-file"
-	caCertFileDesc     = "file path for Certified Authority to sign for certs on cluster, as requisite the CA subj CN should contain /CN=admin-kubeconfig-signer-custom. If no ca.crt is given mapt will create one"
 )
 
 func GetOpenshiftSNCCmd() *cobra.Command {
@@ -73,7 +71,6 @@ func createSNC() *cobra.Command {
 					Version:        viper.GetString(ocpVersion),
 					Arch:           viper.GetString(params.LinuxArch),
 					PullSecretFile: viper.GetString(pullSecretFile),
-					CaCertFile:     viper.GetString(caCertFile),
 					Spot:           viper.IsSet(awsParams.Spot),
 					Timeout:        viper.GetString(params.Timeout)}); err != nil {
 				logging.Error(err)
@@ -86,7 +83,6 @@ func createSNC() *cobra.Command {
 	flagSet.StringP(ocpVersion, "", "", ocpVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(pullSecretFile, "", "", pullSecretFileDesc)
-	flagSet.StringP(caCertFile, "", "", caCertFileDesc)
 	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
 	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)

@@ -8,9 +8,6 @@ runcmd:
   - export PS=$(aws ssm get-parameter --name "{{ .SSMPullSecretName }}" --with-decryption --query "Parameter.Value" --output text)
   - echo ${PS} > /opt/crc/pull-secret
   - chmod 0644 /opt/crc/pull-secret
-  - export CA64=$(aws ssm get-parameter --name "{{ .SSMCaCertName }}" --with-decryption --query "Parameter.Value" --output text)
-  - echo ${CA64} > /opt/crc/custom-ca.crt
-  - chmod 0644 /opt/crc/custom-ca.crt
   - export KP=$(aws ssm get-parameter --name "{{ .SSMKubeAdminPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
   - echo ${KP} > /opt/crc/pass_kubeadmin
   - chmod 0644 /opt/crc/pass_kubeadmin

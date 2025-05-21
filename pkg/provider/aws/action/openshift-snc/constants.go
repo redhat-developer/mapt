@@ -33,7 +33,6 @@ var (
 
 	// SSM
 	ocpPullSecretID = "ocppullsecretid"
-	cacertID        = "cacertid"
 	kapass          = "kapass"
 	devpass         = "devpass"
 )

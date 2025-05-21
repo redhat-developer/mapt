@@ -1,7 +1,6 @@
 package openshiftsnc
 
 import (
-	"encoding/base64"
 	"fmt"
 	"os"
 	"strings"
@@ -40,7 +39,6 @@ type OpenshiftSNCArgs struct {
 	Version         string
 	Arch            string
 	PullSecretFile  string
-	CaCertFile      string
 	Spot            bool
 	Timeout         string
 }
@@ -51,7 +49,6 @@ type openshiftSNCRequest struct {
 	arch           *string
 	timeout        *string
 	pullSecretFile *string
-	caCertFile     *string
 	allocationData *allocation.AllocationData
 }
 
@@ -78,7 +75,6 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) error {
 		version:        &args.Version,
 		arch:           &args.Arch,
 		pullSecretFile: &args.PullSecretFile,
-		caCertFile:     &args.CaCertFile,
 		timeout:        &args.Timeout}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
@@ -344,17 +340,6 @@ func (r *openshiftSNCRequest) userData(ctx *pulumi.Context,
 		return nil, nil, nil, nil, err
 	}
 	dependecies = append(dependecies, psParam)
-	// Manage ca crt
-	ca, err := os.ReadFile(*r.caCertFile)
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-	caB64 := base64.StdEncoding.EncodeToString([]byte(ca))
-	caName, caParam, err := ssm.AddSSM(ctx, r.prefix, &cacertID, &caB64)
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-	dependecies = append(dependecies, caParam)
 	// KubeAdmin pass
 	kaPassword, err := security.CreatePassword(ctx,
 		resourcesUtil.GetResourceName(
@@ -386,7 +371,6 @@ func (r *openshiftSNCRequest) userData(ctx *pulumi.Context,
 				PubKey:                   args[0].(string),
 				PublicIP:                 args[1].(string),
 				SSMPullSecretName:        *psName,
-				SSMCaCertName:            *caName,
 				SSMKubeAdminPasswordName: *kaPassName,
 				SSMDeveloperPasswordName: *devPassName})
 			return *ccB64, err
