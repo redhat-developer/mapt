@@ -195,6 +195,18 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	// CA certificate needed for ocp
+	if len(*r.caCertFile) == 0 {
+		caCert, caKey, err := util.GenAdminKubeconfigSignerCert()
+		if err != nil {
+			return err
+		}
+		ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputCaCert),
+			pulumi.ToSecret(caCert))
+		ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputCaKey),
+			pulumi.ToSecret(caKey))
+		ctx = ctx.WithValue(fmt.Sprintf("%s-%s", *r.prefix, outputCaCert), caCert)
+	}
 	// Userdata
 	udB64, kaPass, devPass, udDependecies, err := r.userData(ctx, &keyResources.PrivateKey.PublicKeyOpenssh, &lbEIP.PublicIp)
 	if err != nil {
@@ -257,6 +269,8 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 // Write exported values in context to files o a selected target folder
 func manageResults(stackResult auto.UpResult, prefix *string) error {
 	hostIPKey := fmt.Sprintf("%s-%s", *prefix, outputHost)
+	caCertKey := fmt.Sprintf("%s-%s", *prefix, outputCaCert)
+	caPrivKey := fmt.Sprintf("%s-%s", *prefix, outputCaKey)
 	results := map[string]string{
 		fmt.Sprintf("%s-%s", *prefix, outputUsername):       "username",
 		fmt.Sprintf("%s-%s", *prefix, outputUserPrivateKey): "id_rsa",
@@ -264,6 +278,12 @@ func manageResults(stackResult auto.UpResult, prefix *string) error {
 		fmt.Sprintf("%s-%s", *prefix, outputKubeconfig):    "kubeconfig",
 		fmt.Sprintf("%s-%s", *prefix, outputKubeAdminPass): "kubeadmin_pass",
 		fmt.Sprintf("%s-%s", *prefix, outputDeveloperPass): "developer_pass",
+	}
+	if _, ok := stackResult.Outputs[caCertKey].Value.([]byte); ok {
+		results[caCertKey] = "admin_kubeconfig_ca_certificate"
+	}
+	if _, ok := stackResult.Outputs[caPrivKey].Value.([]byte); ok {
+		results[caCertKey] = "admin_kubeconfig_ca_private_key"
 	}
 	if err := output.Write(
 		stackResult, maptContext.GetResultsOutputPath(), results); err != nil {
@@ -345,9 +365,14 @@ func (r *openshiftSNCRequest) userData(ctx *pulumi.Context,
 	}
 	dependecies = append(dependecies, psParam)
 	// Manage ca crt
-	ca, err := os.ReadFile(*r.caCertFile)
-	if err != nil {
-		return nil, nil, nil, nil, err
+	var ca []byte
+	if len(*r.caCertFile) == 0 {
+		ca = ctx.Value(fmt.Sprintf("%s-%s", *r.prefix, outputCaCert)).([]byte)
+	} else {
+		ca, err = os.ReadFile(*r.caCertFile)
+		if err != nil {
+			return nil, nil, nil, nil, err
+		}
 	}
 	caB64 := base64.StdEncoding.EncodeToString([]byte(ca))
 	caName, caParam, err := ssm.AddSSM(ctx, r.prefix, &cacertID, &caB64)
