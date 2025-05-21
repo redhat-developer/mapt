@@ -15,7 +15,6 @@ type dataValues struct {
 	PublicIP string
 	// Secret information will be moved through ssm
 	SSMPullSecretName        string
-	SSMCaCertName            string
 	SSMKubeAdminPasswordName string
 	SSMDeveloperPasswordName string
 }
