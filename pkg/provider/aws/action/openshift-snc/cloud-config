@@ -29,5 +29,5 @@ write_files:
       CRC_CLOUD=1
       CRC_NETWORK_MODE_USER=0
   owner: root:root
-  path: /etc/systemd/system/crc-env
+  path: /etc/sysconfig/crc-env
   permissions: '0644'
