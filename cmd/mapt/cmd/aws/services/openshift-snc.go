@@ -72,9 +72,10 @@ func createSNC() *cobra.Command {
 					Version:        viper.GetString(ocpVersion),
 					Arch:           viper.GetString(params.LinuxArch),
 					PullSecretFile: viper.GetString(pullSecretFile),
-					CaCertFile:     viper.GetString(caCertFile),
-					Spot:           viper.IsSet(awsParams.Spot),
-					Timeout:        viper.GetString(params.Timeout)}); err != nil {
+					CaCertFile: util.If(viper.GetString(caCertFile) == "",
+						util.GenAdminKubeconfigSignerCert(), viper.GetString(caCertFile)),
+					Spot:    viper.IsSet(awsParams.Spot),
+					Timeout: viper.GetString(params.Timeout)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
