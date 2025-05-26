@@ -148,6 +148,7 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 		AdminUsername:   r.AdminUsername,
 		AdminPasswd:     adminPasswd,
 		SpotPrice:       spotPrice,
+		Location:        rgLocation,
 	}
 	vm, err := vmr.Create(ctx)
 	if err != nil {
