@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.0.5
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
-	github.com/pulumi/pulumi/sdk/v3 v3.170.0
+	github.com/pulumi/pulumi/sdk/v3 v3.171.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
 	golang.org/x/exp v0.0.0-20250506013437-ce4c2cf36ca6
@@ -20,10 +20,10 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.1
 	github.com/aws/aws-sdk-go-v2 v1.36.3
 	github.com/aws/aws-sdk-go-v2/config v1.29.14
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.218.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.222.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.79.3
-	github.com/pulumi/pulumi-aws-native/sdk v1.27.0
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.80.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.28.0
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.81.0
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.90.0
@@ -36,7 +36,7 @@ require (
 
 require (
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
-	github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.7.0 // indirect
 )
 
 require (
@@ -122,13 +122,13 @@ require (
 	github.com/zclconf/go-cty v1.16.3 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/sync v0.14.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250512202823-5a2f75b736a9 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250519155744-55703ea1f237 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
-	github.com/ProtonMail/go-crypto v1.2.0 // indirect
+	github.com/ProtonMail/go-crypto v1.3.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ecs v1.57.1
 	github.com/aws/aws-sdk-go-v2/service/iam v1.42.0
 	github.com/blang/semver v3.5.1+incompatible // indirect

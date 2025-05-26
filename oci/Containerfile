@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.170.0
+ENV PULUMI_VERSION 3.171.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -34,11 +34,11 @@ ENV AWS_SDK_LOAD_CONFIG=1 \
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.80.0
+ARG PULUMI_AWS_VERSION=v6.81.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
 ARG PULUMI_AWSX_VERSION=v2.21.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v3.4.0
+ARG PULUMI_AZURE_NATIVE_VERSION=v3.5.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v1.0.5
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
@@ -46,7 +46,7 @@ ARG PULUMI_TLS_VERSION=v5.2.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.18.2
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.27.0
+ARG PULUMI_AWS_NATIVE_VERSION=v1.28.0
 
 ENV PULUMI_HOME "/opt/mapt/run" 
 WORKDIR ${PULUMI_HOME}

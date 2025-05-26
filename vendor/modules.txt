@@ -78,7 +78,7 @@ github.com/Microsoft/go-winio/internal/fs
 github.com/Microsoft/go-winio/internal/socket
 github.com/Microsoft/go-winio/internal/stringbuffer
 github.com/Microsoft/go-winio/pkg/guid
-# github.com/ProtonMail/go-crypto v1.2.0
+# github.com/ProtonMail/go-crypto v1.3.0
 ## explicit; go 1.22.0
 github.com/ProtonMail/go-crypto/bitcurves
 github.com/ProtonMail/go-crypto/brainpool
@@ -182,7 +182,7 @@ github.com/aws/aws-sdk-go-v2/internal/ini
 github.com/aws/aws-sdk-go-v2/internal/v4a
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4
-# github.com/aws/aws-sdk-go-v2/service/ec2 v1.218.0
+# github.com/aws/aws-sdk-go-v2/service/ec2 v1.222.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
@@ -561,13 +561,13 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
-# github.com/pulumi/pulumi-aws-native/sdk v1.27.0
+# github.com/pulumi/pulumi-aws-native/sdk v1.28.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/ssm
-# github.com/pulumi/pulumi-aws/sdk/v6 v6.80.0
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.81.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/cloudwatch
@@ -614,8 +614,8 @@ github.com/pulumi/pulumi-command/sdk/go/command/remote
 ## explicit; go 1.21.7
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
-# github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8
-## explicit; go 1.21
+# github.com/pulumi/pulumi-docker/sdk/v4 v4.7.0
+## explicit; go 1.22
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 # github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
@@ -626,7 +626,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.170.0
+# github.com/pulumi/pulumi/sdk/v3 v3.171.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -877,7 +877,7 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20250512202823-5a2f75b736a9
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20250519155744-55703ea1f237
 ## explicit; go 1.23.0
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.72.1
