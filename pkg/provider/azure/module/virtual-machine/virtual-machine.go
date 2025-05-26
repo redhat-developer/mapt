@@ -10,6 +10,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -38,6 +39,7 @@ type VirtualMachineRequest struct {
 	AdminPasswd *random.RandomPassword
 	// Linux optional
 	Userdata string
+	Location string
 }
 
 // Create virtual machine based on request + export to context
@@ -48,10 +50,14 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 		imageReferenceArgs = compute.ImageReferenceArgs{
 			CommunityGalleryImageId: pulumi.String(r.ImageID)}
 	} else {
+		finalSku, err := data.SkuG2Support(r.Location, r.Publisher, r.Offer, r.Sku)
+		if err != nil {
+			return nil, err
+		}
 		imageReferenceArgs = compute.ImageReferenceArgs{
 			Publisher: pulumi.String(r.Publisher),
 			Offer:     pulumi.String(r.Offer),
-			Sku:       pulumi.String(r.Sku),
+			Sku:       pulumi.String(finalSku),
 			Version:   pulumi.String("latest"),
 		}
 	}
