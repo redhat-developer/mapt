@@ -67,7 +67,7 @@ func SkuG2Support(location string, publisher string, offer string, sku string) (
 		return "", err
 	}
 	imagesClient := clientFactory.NewVirtualMachineImagesClient()
-	if ! verify_g2(imagesClient, location, publisher, offer, sku) {
+	if !verify_g2(imagesClient, location, publisher, offer, sku) {
 		finalSKU, err := get_g2_sku(imagesClient, location, publisher, offer, sku)
 		if err == nil && finalSKU != "" {
 			if verify_g2(imagesClient, location, publisher, offer, finalSKU) {
@@ -77,27 +77,27 @@ func SkuG2Support(location string, publisher string, offer string, sku string) (
 		}
 	} else {
 		return sku, nil
-	} 
+	}
 	return "", fmt.Errorf("the SKU %s is not support for G2", sku)
 }
 
 func verify_g2(imagesClient *armcompute.VirtualMachineImagesClient, location string, publisher string, offer string, sku string) bool {
 	// List available image versions
-	resp, err := imagesClient.List(context.Background(),location, publisher, offer, sku, nil)
+	resp, err := imagesClient.List(context.Background(), location, publisher, offer, sku, nil)
 	if err != nil {
 		return false
-	} 
+	}
 
 	image := resp.VirtualMachineImageResourceArray[0]
 	version := *image.Name
-	resps, _ := imagesClient.Get(context.Background(),location, publisher, offer, sku, version, nil)
+	resps, _ := imagesClient.Get(context.Background(), location, publisher, offer, sku, version, nil)
 	info := resps.VirtualMachineImage
 	generation := *info.Properties.HyperVGeneration
 	return generation == "V2"
 }
 
 func get_g2_sku(imagesClient *armcompute.VirtualMachineImagesClient, location string, publisher string, offer string, originSKU string) (string, error) {
-	resp, err := imagesClient.ListSKUs(context.Background(),location, publisher, offer, nil)
+	resp, err := imagesClient.ListSKUs(context.Background(), location, publisher, offer, nil)
 	if err != nil {
 		return "", err
 	}
