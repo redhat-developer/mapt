@@ -100,11 +100,11 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) error {
 func Destroy(ctx *maptContext.ContextArgs) (err error) {
 	logging.Debug("Run openshift destroy")
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	if err = maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
 	// Destroy fedora related resources
-	if err := aws.DestroyStack(
+	if err = aws.DestroyStack(
 		aws.DestroyStackRequest{
 			Stackname: stackName,
 		}); err != nil {
