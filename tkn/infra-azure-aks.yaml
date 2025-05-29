@@ -67,12 +67,14 @@ spec:
         Supported values: `PipelineRun`, `TaskRun`.
     - name: ownerName
       type: string
+      default: "''"
       description: |
         The name of the resource that should own the generated SpaceRequest.
         This should either be passed the value of `$(context.pipelineRun.name)`
         or `$(context.taskRun.name)` depending on the value of `ownerKind`.
     - name: ownerUid
       type: string
+      default: "''"
       description: |
         The uid of the resource that should own the generated SpaceRequest.
         This should either be passed the value of `$(context.pipelineRun.uid)`
@@ -151,6 +153,12 @@ spec:
         export AZURE_STORAGE_KEY=$(cat /opt/az-credentials/storage_key)
         BLOB=$(cat /opt/az-credentials/blob)
 
+        if [[ $(params.operation) == "create"  ]]; then
+          if [[ $(params.ownerName) == "" || $(params.ownerUid) == "" ]]; then
+            echo "Parameter ownerName and ownerUid is required for create instance"
+            exit 1
+          fi
+        fi
         
         # Run mapt
         cmd="mapt azure aks $(params.operation) "

@@ -82,12 +82,14 @@ spec:
         Supported values: `PipelineRun`, `TaskRun`.
     - name: ownerName
       type: string
+      default: "''"
       description: |
         The name of the resource that should own the generated SpaceRequest.
         This should either be passed the value of `$(context.pipelineRun.name)`
         or `$(context.taskRun.name)` depending on the value of `ownerKind`.
     - name: ownerUid
       type: string
+      default: "''"
       description: |
         The uid of the resource that should own the generated SpaceRequest.
         This should either be passed the value of `$(context.pipelineRun.uid)`
@@ -174,6 +176,13 @@ spec:
         export AWS_SECRET_ACCESS_KEY=$(cat /opt/aws-credentials/secret-key)
         export AWS_DEFAULT_REGION=$(cat /opt/aws-credentials/region)
         BUCKET=$(cat /opt/aws-credentials/bucket)
+
+        if [[ $(params.operation) == "create"  ]]; then
+          if [[ $(params.ownerName) == "" || $(params.ownerUid) == "" ]]; then
+            echo "Parameter ownerName and ownerUid is required for create instance"
+            exit 1
+          fi
+        fi
 
         # Run mapt
         cmd="mapt aws ocp-snc $(params.operation) "
