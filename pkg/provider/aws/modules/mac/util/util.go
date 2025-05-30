@@ -11,6 +11,7 @@ import (
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
 	macHost "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/host"
 	macMachine "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/machine"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -73,9 +74,9 @@ func IsMachineLocked(h *mac.HostInformation) (bool, error) {
 // get projectName (tag on the dh)
 // load machine stack based on those params
 // run release update on it
-func Release(ctx *maptContext.ContextArgs, hostID string) error {
+func Release(ctx *maptContext.ContextArgs, ticket string) error {
 	// Get host as context will be fullfilled with info coming from the tags on the host
-	host, err := data.GetDedicatedHost(hostID)
+	host, err := data.GetDedicatedHostByTag(map[string]string{macConstants.TagKeyTicket: ticket})
 	if err != nil {
 		return err
 	}

@@ -20,6 +20,7 @@ const (
 	cmdHousekeep     = "house-keep"
 	cmdHousekeepDesc = "house keeping for mac pool. Detroy old machines on over capacity and create new ones if capacity not meet"
 
+	// Pool params
 	paramName                   = "name"
 	paramNameDesc               = "pool name it is a unique identifier for the pool. The name should be unique for the whole AWS account"
 	paramOfferedCapacity        = "offered-capacity"
@@ -28,6 +29,17 @@ const (
 	paramMaxSize                = "max-size"
 	paramMaxSizeDesc            = "max number of machines in the pool"
 	paramMaxSizeDefault         = 2
+	// Machines in the pool params
+	paramVPCID          = "vpcid"
+	paramVPCIDDesc      = "VPC Id to setup mac machines"
+	paramVPCIDDefault   = ""
+	paramSSHSGID        = "ssh-sgid"
+	paramSSHSGIDDesc    = "Security group Id to securize ssh access to machines. SSH can only be used from instances with this SG."
+	paramSSHSGIDDefault = ""
+	// Request / Release
+	paramTicket        = "ticket"
+	paramTicketDesc    = "this is a unique identifier to tag the dedicated host meanwhile it is being locked to identify the request which locked it. It will be used on release to identify the machine being released"
+	paramTicketDefault = ""
 )
 
 func GetMacPoolCmd() *cobra.Command {
@@ -67,14 +79,13 @@ func createMP() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
-				&macpool.MacPoolRequestArgs{
+				&macpool.PoolRequestArgs{
 					Prefix:          "main",
-					PoolName:        viper.GetString(paramName),
+					Name:            viper.GetString(paramName),
 					Architecture:    viper.GetString(awsParams.MACArch),
 					OSVersion:       viper.GetString(awsParams.MACOSVersion),
 					OfferedCapacity: viper.GetInt(paramOfferedCapacity),
-					MaxSize:         viper.GetInt(paramMaxSize),
-					FixedLocation:   viper.IsSet(awsParams.MACFixedLocation)}); err != nil {
+					MaxSize:         viper.GetInt(paramMaxSize)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -89,7 +100,6 @@ func createMP() *cobra.Command {
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersionDefault, awsParams.MACOSVersionDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.Bool(awsParams.MACFixedLocation, false, awsParams.MACFixedLocationDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -138,28 +148,35 @@ func houseKeep() *cobra.Command {
 					DebugLevel:  viper.GetUint(params.DebugLevel),
 					Tags:        viper.GetStringMapString(params.Tags),
 				},
-				&macpool.MacPoolRequestArgs{
-					Prefix:          "main",
-					PoolName:        viper.GetString(paramName),
-					Architecture:    viper.GetString(awsParams.MACArch),
-					OSVersion:       viper.GetString(awsParams.MACOSVersion),
-					OfferedCapacity: viper.GetInt(paramOfferedCapacity),
-					MaxSize:         viper.GetInt(paramMaxSize),
-					FixedLocation:   viper.IsSet(awsParams.MACFixedLocation)}); err != nil {
+				&macpool.HouseKeepRequestArgs{
+					Pool: &macpool.PoolRequestArgs{
+						Prefix:          "main",
+						Name:            viper.GetString(paramName),
+						Architecture:    viper.GetString(awsParams.MACArch),
+						OSVersion:       viper.GetString(awsParams.MACOSVersion),
+						OfferedCapacity: viper.GetInt(paramOfferedCapacity),
+						MaxSize:         viper.GetInt(paramMaxSize),
+					},
+					Machine: &macpool.MachineRequestArgs{
+						VPCID:   viper.GetString(paramVPCID),
+						SSHSGID: viper.GetString(paramSSHSGID)},
+				}); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
+	params.AddCommonFlags(flagSet)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramName, "", "", paramNameDesc)
 	flagSet.Int(paramOfferedCapacity, paramOfferedCapacityDefault, paramOfferedCapacityDesc)
 	flagSet.Int(paramMaxSize, paramMaxSizeDefault, paramMaxSizeDesc)
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
-	flagSet.Bool(awsParams.MACFixedLocation, false, awsParams.MACFixedLocationDesc)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
+	flagSet.StringP(paramVPCID, "", paramVPCIDDefault, paramVPCIDDesc)
+	flagSet.StringP(paramSSHSGID, "", paramSSHSGIDDefault, paramSSHSGIDDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -178,8 +195,8 @@ func request() *cobra.Command {
 				Debug:         viper.IsSet(params.Debug),
 				DebugLevel:    viper.GetUint(params.DebugLevel),
 				Serverless:    viper.IsSet(params.Serverless),
-				// Remote:        viper.IsSet(params.Remote),
-				Tags: viper.GetStringMapString(params.Tags),
+				Remote:        viper.IsSet(params.Remote),
+				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
 			if viper.IsSet(params.GHActionsRunnerToken) {
@@ -209,7 +226,12 @@ func request() *cobra.Command {
 					PoolName:     viper.GetString(paramName),
 					Architecture: viper.GetString(awsParams.MACArch),
 					OSVersion:    viper.GetString(awsParams.MACOSVersion),
-					Timeout:      viper.GetString(params.Timeout),
+					Machine: &macpool.MachineRequestArgs{
+						VPCID:   viper.GetString(paramVPCID),
+						SSHSGID: viper.GetString(paramSSHSGID),
+					},
+					Ticket:  viper.GetString(paramTicket),
+					Timeout: viper.GetString(params.Timeout),
 				}); err != nil {
 				logging.Error(err)
 			}
@@ -223,8 +245,11 @@ func request() *cobra.Command {
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
+	flagSet.StringP(paramVPCID, "", paramVPCIDDefault, paramVPCIDDesc)
+	flagSet.StringP(paramSSHSGID, "", paramSSHSGIDDefault, paramSSHSGIDDesc)
+	flagSet.StringP(paramTicket, "", paramTicketDefault, paramTicketDesc)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
-	// flagSet.Bool(params.Remote, false, params.RemoteDesc)
+	flagSet.Bool(params.Remote, false, params.RemoteDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
@@ -245,22 +270,24 @@ func release() *cobra.Command {
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 					Serverless: viper.IsSet(params.Serverless),
-					// Remote:     viper.IsSet(params.Remote),
+					Remote:     viper.IsSet(params.Remote),
 				},
-				viper.GetString(awsParams.MACDHID)); err != nil {
+				&macpool.MachineRequestArgs{
+					VPCID:   viper.GetString(paramVPCID),
+					SSHSGID: viper.GetString(paramSSHSGID),
+				},
+				viper.GetString(paramTicket)); err != nil {
 				logging.Error(err)
 			}
 			return nil
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACReleaseCmd, pflag.ExitOnError)
-	flagSet.StringP(awsParams.MACDHID, "", "", awsParams.MACDHIDDesc)
+	flagSet.StringP(paramVPCID, "", paramVPCIDDefault, paramVPCIDDesc)
+	flagSet.StringP(paramSSHSGID, "", paramSSHSGIDDefault, paramSSHSGIDDesc)
+	flagSet.StringP(paramTicket, "", paramTicketDefault, paramTicketDesc)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
-	// flagSet.Bool(params.Remote, false, params.RemoteDesc)
+	flagSet.Bool(params.Remote, false, params.RemoteDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
-	err := c.MarkPersistentFlagRequired(awsParams.MACDHID)
-	if err != nil {
-		logging.Error(err)
-	}
 	return c
 }

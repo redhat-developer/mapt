@@ -117,3 +117,41 @@ func isPublic(client *ec2.Client, subnetID string) error {
 	}
 	return fmt.Errorf("no public subnet setup found")
 }
+
+type SubnetRequestArgs struct {
+	Region, VpcId, AzId *string
+}
+
+// Get first subnet if azid is pass it will pick from it
+// If vpc id is pass it will pick first from vpc id subnets
+func GetSubnetID(args *SubnetRequestArgs) (*string, error) {
+	cfg, err := getConfig(*args.Region)
+	if err != nil {
+		return nil, err
+	}
+	ec2Client := ec2.NewFromConfig(cfg)
+	var filters []ec2types.Filter
+	if args.VpcId != nil {
+		filters = append(filters, ec2types.Filter{
+			Name:   aws.String("vpc-id"),
+			Values: []string{*args.VpcId}})
+	}
+	if args.AzId != nil {
+		filters = append(filters, ec2types.Filter{
+			Name:   aws.String("availability-zone-id"),
+			Values: []string{*args.AzId}})
+	}
+	output, err := ec2Client.DescribeSubnets(
+		context.TODO(),
+		&ec2.DescribeSubnetsInput{
+			Filters: filters,
+		})
+	if err != nil {
+		return nil, err
+	}
+	if len(output.Subnets) == 1 {
+		return output.Subnets[0].SubnetId, nil
+	}
+	// If we got several subnets (all for vpcId we get subnet random)
+	return output.Subnets[util.Random(len(output.Subnets), 0)].SubnetId, nil
+}

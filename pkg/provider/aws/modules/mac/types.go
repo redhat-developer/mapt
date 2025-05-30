@@ -17,7 +17,16 @@ type HostInformation struct {
 	ProjectName *string
 	RunID       *string
 	Region      *string
+	AzId        *string
 	Host        *ec2Types.Host
+	// Optional in case the host belongs
+	// to a pool
+	PoolName *string
+	// Network and Security
+	// Network and Security
+	VPCID    *string
+	SubnetID *string
+	SGSSHID  *string
 }
 
 var (

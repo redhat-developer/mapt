@@ -234,6 +234,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		c.GetHostIP(true))
 	if len(*r.timeout) > 0 {
 		if err = serverless.OneTimeDelayedTask(ctx,
+			fmt.Sprintf("openshift-snc-destroy-%s", maptContext.RunID()),
 			*r.allocationData.Region, *r.prefix,
 			awsOCPSNCID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",

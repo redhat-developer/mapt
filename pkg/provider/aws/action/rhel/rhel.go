@@ -240,7 +240,9 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
 		c.GetHostIP(!*r.airgap))
 	if len(*r.timeout) > 0 {
-		if err = serverless.OneTimeDelayedTask(ctx,
+		if err = serverless.OneTimeDelayedTask(
+			ctx,
+			fmt.Sprintf("rhel-timeout-%s", maptContext.RunID()),
 			*r.allocationData.Region, *r.prefix,
 			awsRHELDedicatedID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",

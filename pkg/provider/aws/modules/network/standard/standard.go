@@ -18,17 +18,29 @@ const (
 var (
 	DefaultCIDRNetwork string = "10.0.0.0/16"
 
-	DefaultCIDRPublicSubnets [3]string = [3]string{
-		"10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"}
-	DefaultLBIPs [3]string = [3]string{
-		"10.0.1.15", "10.0.2.15", "10.0.3.15"}
-	DefaultCIDRPrivateSubnets [3]string = [3]string{
-		"10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"}
-	DefaultCIDRIntraSubnets [3]string = [3]string{
-		"10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"}
+	DefaultCIDRPublicSubnets [6]string = [6]string{
+		"10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24",
+		"10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"}
+	DefaultLBIPs [6]string = [6]string{
+		"10.0.1.15", "10.0.2.15", "10.0.3.15",
+		"10.0.4.15", "10.0.5.15", "10.0.6.15"}
+	DefaultCIDRPrivateSubnets [6]string = [6]string{
+		"10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24",
+		"10.0.104.0/24", "10.0.105.0/24", "10.0.106.0/24"}
+	DefaultCIDRIntraSubnets [6]string = [6]string{
+		"10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24",
+		"10.0.204.0/24", "10.0.205.0/24", "10.0.206.0/24"}
 	DefaultAvailabilityZones [3]string = [3]string{
 		"us-east-1b", "us-east-1c", "us-east-1d"}
 	DefaultRegion string = "us-east-1"
+)
+
+type natgatewayType string
+
+var (
+	NONE   natgatewayType = "none"
+	SINGLE natgatewayType = "single"
+	ALL    natgatewayType = "all"
 )
 
 type NetworkRequest struct {
@@ -39,7 +51,7 @@ type NetworkRequest struct {
 	PublicSubnetsCIDRs  []string
 	PrivateSubnetsCIDRs []string
 	IntraSubnetsCIDRs   []string
-	SingleNatGateway    bool
+	NatGatewayType      natgatewayType
 	PublicToIntra       *bool
 }
 
@@ -56,11 +68,11 @@ func DefaultNetworkRequest(name, regionName string) NetworkRequest {
 	return NetworkRequest{
 		Name:                name,
 		CIDR:                DefaultCIDRNetwork,
-		AvailabilityZones:   data.GetAvailabilityZones()[:3],
+		AvailabilityZones:   data.GetAvailabilityZones("")[:3],
 		PublicSubnetsCIDRs:  DefaultCIDRPublicSubnets[:],
 		PrivateSubnetsCIDRs: DefaultCIDRPrivateSubnets[:],
 		IntraSubnetsCIDRs:   DefaultCIDRIntraSubnets[:],
-		SingleNatGateway:    false}
+		NatGatewayType:      ALL}
 
 }
 
@@ -144,21 +156,21 @@ func (r NetworkRequest) managePublicSubnets(vpc *ec2.Vpc,
 
 func (r NetworkRequest) managePrivateSubnets(vpc *ec2.Vpc,
 	ngws []*ec2.NatGateway, ctx *pulumi.Context, namePrefix string) (subnets []*subnet.PrivateSubnetResources, err error) {
-	return managePrivateSubnets(vpc, ngws, ctx, r.PrivateSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.SingleNatGateway)
+	return managePrivateSubnets(vpc, ngws, ctx, r.PrivateSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.NatGatewayType)
 }
 
 func (r NetworkRequest) manageIntraSubnets(vpc *ec2.Vpc, ctx *pulumi.Context, namePrefix string) (subnets []*subnet.PrivateSubnetResources, err error) {
-	return managePrivateSubnets(vpc, nil, ctx, r.IntraSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.SingleNatGateway)
+	return managePrivateSubnets(vpc, nil, ctx, r.IntraSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.NatGatewayType)
 }
 
 func managePrivateSubnets(vpc *ec2.Vpc, ngws []*ec2.NatGateway, ctx *pulumi.Context,
-	snsCIDRs, azs []string, name, namePrefix string, singleNatGateway bool) (subnets []*subnet.PrivateSubnetResources, err error) {
+	snsCIDRs, azs []string, name, namePrefix string, ngwType natgatewayType) (subnets []*subnet.PrivateSubnetResources, err error) {
 	if len(snsCIDRs) > 0 {
 		for i := 0; i < len(snsCIDRs); i++ {
 			privateSNRequest :=
 				subnet.PrivateSubnetRequest{
 					VPC:              vpc,
-					NatGateway:       getNatGateway(singleNatGateway, ngws, i),
+					NatGateway:       getNatGateway(ngwType, ngws, i),
 					CIDR:             snsCIDRs[i],
 					AvailabilityZone: azs[i],
 					Name:             fmt.Sprintf("%s%s%d", namePrefix, name, i)}
@@ -173,7 +185,7 @@ func managePrivateSubnets(vpc *ec2.Vpc, ngws []*ec2.NatGateway, ctx *pulumi.Cont
 }
 
 func (r NetworkRequest) checkIfNatGatewayRequired(i int) bool {
-	return r.SingleNatGateway && i == 0 || len(r.PrivateSubnetsCIDRs) > 0
+	return r.NatGatewayType != NONE || r.NatGatewayType == SINGLE && i == 0 || len(r.PrivateSubnetsCIDRs) > 0
 }
 
 func getNatGateways(source []*subnet.PublicSubnetResources) (ngws []*ec2.NatGateway) {
@@ -183,11 +195,11 @@ func getNatGateways(source []*subnet.PublicSubnetResources) (ngws []*ec2.NatGate
 	return
 }
 
-func getNatGateway(singleNatGateway bool, ngws []*ec2.NatGateway, i int) *ec2.NatGateway {
+func getNatGateway(ngwType natgatewayType, ngws []*ec2.NatGateway, i int) *ec2.NatGateway {
 	if ngws == nil {
 		return nil
 	}
-	if singleNatGateway {
+	if ngwType == SINGLE {
 		return ngws[0]
 	}
 	return ngws[i]

@@ -82,6 +82,8 @@ const (
 	// TODO we should be able to know if it is being executed serverless just checking the ENVs??
 	Serverless     string = "serverless"
 	ServerlessDesc string = "if serverless is set the command will be executed as a serverless action."
+	Remote         string = "remote"
+	RemoteDesc     string = "run the action remote through a servlerss execution."
 
 	// Desytoy
 	ForceDestroy     string = "force-destroy"
