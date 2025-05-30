@@ -24,6 +24,8 @@ var (
 	outputKubeconfig     = "aosKubeconfig"
 	outputKubeAdminPass  = "aosKubeAdminPasss"
 	outputDeveloperPass  = "aosDeveloperPass"
+	outputCaCert         = "aosCACertificate"
+	outputCaKey          = "aosCACertificateKey"
 
 	commandReadiness = "while [ ! -f /tmp/.crc-cluster-ready ]; do sleep 5; done"
 
