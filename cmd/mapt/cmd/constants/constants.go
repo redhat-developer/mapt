@@ -77,10 +77,13 @@ const (
 	RhelVersionDefault string = "9.4"
 
 	// Serverless
-	Timeout        string = "timeout"
-	TimeoutDesc    string = "if timeout is set a serverless destroy actions will be set on the time according to the timeout. The Timeout value is a duration conforming to Go ParseDuration format."
+	Timeout     string = "timeout"
+	TimeoutDesc string = "if timeout is set a serverless destroy actions will be set on the time according to the timeout. The Timeout value is a duration conforming to Go ParseDuration format."
+	// TODO we should be able to know if it is being executed serverless just checking the ENVs??
 	Serverless     string = "serverless"
 	ServerlessDesc string = "if serverless is set the command will be executed as a serverless action."
+	Remote         string = "remote"
+	RemoteDesc     string = "run the action remote through a servlerss execution."
 
 	// Desytoy
 	ForceDestroy     string = "force-destroy"

@@ -39,17 +39,18 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 	if err != nil {
 		return nil, err
 	}
-	eipName := fmt.Sprintf("%s-%s", "eip", r.Name)
-	eip, err := ec2.NewEip(ctx,
-		eipName,
-		&ec2.EipArgs{
-			Vpc: pulumi.Bool(true),
-		})
-	if err != nil {
-		return nil, err
-	}
 	var n *ec2.NatGateway
+	var eip *ec2.Eip
 	if r.AddNatGateway {
+		eipName := fmt.Sprintf("%s-%s", "eip", r.Name)
+		eip, err = ec2.NewEip(ctx,
+			eipName,
+			&ec2.EipArgs{
+				Domain: pulumi.String("vpc"),
+			})
+		if err != nil {
+			return nil, err
+		}
 		nName := fmt.Sprintf("%s-%s", "natgateway", r.Name)
 		n, err = ec2.NewNatGateway(ctx,
 			nName,

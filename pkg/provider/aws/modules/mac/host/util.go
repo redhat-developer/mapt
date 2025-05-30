@@ -10,6 +10,7 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
+	macConstants "github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac/constants"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"golang.org/x/exp/slices"
 )
@@ -18,14 +19,14 @@ import (
 // it will return the list ordered by allocation time
 func GetMatchingHostsInformation(arch string) ([]*mac.HostInformation, error) {
 	matchingTags := maptContext.GetTags()
-	matchingTags[tagKeyArch] = arch
+	matchingTags[macConstants.TagKeyArch] = arch
 	return GetMatchingHostsInStateInformation(matchingTags, nil)
 }
 
 // Get all dedicated hosts matching the tags + arch
 // it will return the list ordered by allocation time
 func GetPoolDedicatedHostsInformation(id *PoolID) ([]*mac.HostInformation, error) {
-	return GetMatchingHostsInStateInformation(id.asTags(), nil)
+	return GetMatchingHostsInStateInformation(id.AsTags(), nil)
 }
 
 // Get all dedicated hosts in available state ordered based on the allocation time
@@ -54,7 +55,7 @@ func GetMatchingHostsInStateInformation(matchingTags map[string]string, state *e
 	}
 	var r []*mac.HostInformation
 	for _, dh := range hosts {
-		if state == nil || (state != nil && dh.State == *state) {
+		if state == nil || dh.State == *state {
 			r = append(r, GetHostInformation(dh))
 		}
 	}
@@ -72,16 +73,18 @@ func GetMatchingHostsInStateInformation(matchingTags map[string]string, state *e
 func GetHostInformation(h ec2Types.Host) *mac.HostInformation {
 	az := *h.AvailabilityZone
 	region := az[:len(az)-1]
-	archValue := awsArchIDbyArch[*getTagValue(h.Tags, tagKeyArch)]
+	archValue := awsArchIDbyArch[*getTagValue(h.Tags, macConstants.TagKeyArch)]
 	return &mac.HostInformation{
 		Arch:        &archValue,
-		OSVersion:   getTagValue(h.Tags, tagKeyOSVersion),
-		BackedURL:   getTagValue(h.Tags, tagKeyBackedURL),
-		Prefix:      getTagValue(h.Tags, tagKeyPrefix),
+		OSVersion:   getTagValue(h.Tags, macConstants.TagKeyOSVersion),
+		BackedURL:   getTagValue(h.Tags, macConstants.TagKeyBackedURL),
+		Prefix:      getTagValue(h.Tags, macConstants.TagKeyPrefix),
 		ProjectName: getTagValue(h.Tags, maptContext.TagKeyProjectName),
 		RunID:       getTagValue(h.Tags, maptContext.TagKeyRunID),
 		Region:      &region,
 		Host:        &h,
+		AzId:        &az,
+		PoolName:    getTagValue(h.Tags, macConstants.TagKeyPoolName),
 	}
 }
 
@@ -123,26 +126,4 @@ func getRegion(arch string, fixedLocation bool) (*string, error) {
 		os.Getenv("AWS_DEFAULT_REGION"))
 	return data.LokupRegionOfferingInstanceType(
 		mac.TypesByArch[arch])
-}
-
-// Get a random AZ from the requested region, it ensures the az offers the instance type
-func getAZ(region, arch string) (az *string, err error) {
-	isOffered := false
-	var excludedAZs []string
-	for !isOffered {
-		az, err = data.GetRandomAvailabilityZone(region, excludedAZs)
-		if err != nil {
-			return nil, err
-		}
-		isOffered, err = data.IsInstanceTypeOfferedByAZ(
-			region,
-			mac.TypesByArch[arch], *az)
-		if err != nil {
-			return nil, err
-		}
-		if !isOffered {
-			excludedAZs = append(excludedAZs, *az)
-		}
-	}
-	return
 }

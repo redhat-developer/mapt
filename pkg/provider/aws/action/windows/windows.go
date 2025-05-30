@@ -293,6 +293,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		c.GetHostIP(!*r.airgap))
 	if len(*r.timeout) > 0 {
 		if err = serverless.OneTimeDelayedTask(ctx,
+			fmt.Sprintf("windows-timeout-%s", maptContext.RunID()),
 			*r.allocationData.Region, *r.prefix,
 			awsWindowsDedicatedID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",

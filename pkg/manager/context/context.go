@@ -41,6 +41,8 @@ type ContextArgs struct {
 	Serverless bool
 	// This forces destroy even when lock exists
 	ForceDestroy bool
+	// If remote is set we will run the action through the serverless task spec
+	Remote bool
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
@@ -58,8 +60,11 @@ type context struct {
 	serverless            bool
 	forceDestroy          bool
 	spotPriceIncreaseRate int
+	remote                bool
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
+	// This will be set if we need specific customization on a specfici execution
+	provider Provider
 }
 
 // mapt context
@@ -67,6 +72,7 @@ var mc *context
 
 type Provider interface {
 	Init(backedURL string) error
+	Custom(ctx *pulumi.Context) (*pulumi.ProviderResource, error)
 }
 
 func Init(ca *ContextArgs, provider Provider) error {
@@ -81,6 +87,8 @@ func Init(ca *ContextArgs, provider Provider) error {
 		serverless:            ca.Serverless,
 		forceDestroy:          ca.ForceDestroy,
 		spotPriceIncreaseRate: ca.SpotPriceIncreaseRate,
+		remote:                ca.Remote,
+		provider:              provider,
 	}
 	addCommonTags()
 	// Init provider
@@ -118,6 +126,20 @@ func IsServerless() bool { return mc.serverless }
 func IsForceDestroy() bool { return mc.forceDestroy }
 
 func SpotPriceIncreaseRate() int { return mc.spotPriceIncreaseRate }
+
+func IsRemote() bool { return mc.remote }
+
+func CommonOptions(ctx *pulumi.Context) (co []pulumi.ResourceOption) {
+	// Check if provider requires customization
+	cp, err := mc.provider.Custom(ctx)
+	if cp != nil {
+		co = append(co, pulumi.Provider(*cp))
+	}
+	if err != nil {
+		logging.Errorf("Error registering custom provider %v", err)
+	}
+	return
+}
 
 // It will create a runID
 // if context has been intialized it will set it as the runID for the context

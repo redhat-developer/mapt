@@ -81,7 +81,7 @@ func (r *NetworkRequest) manageNetworking(ctx *pulumi.Context) (*ec2.Vpc, *ec2.S
 		Region:             r.Region,
 		AvailabilityZones:  []string{r.AZ},
 		PublicSubnetsCIDRs: []string{cidrPublicSN},
-		SingleNatGateway:   true,
+		NatGatewayType:     ns.SINGLE,
 	}.CreateNetwork(ctx)
 	if err != nil {
 		return nil, nil, err

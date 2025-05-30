@@ -14,6 +14,8 @@ type IngressRules struct {
 	Protocol    string
 	CidrBlocks  string
 	SG          *ec2.SecurityGroup
+	// If it uses a pre existing SG
+	SGID *string
 }
 
 type SGRequest struct {
@@ -21,6 +23,8 @@ type SGRequest struct {
 	Description  string
 	IngressRules []IngressRules
 	VPC          *ec2.Vpc
+	// If it uses a pre existing VPC
+	VPCID *string
 }
 
 type SGResources struct {
@@ -28,15 +32,23 @@ type SGResources struct {
 }
 
 func (r SGRequest) Create(ctx *pulumi.Context) (*SGResources, error) {
+	var vpcId pulumi.StringInput
+	if r.VPC != nil {
+		vpcId = r.VPC.ID()
+	} else if r.VPCID != nil {
+		vpcId = pulumi.String(*r.VPCID)
+	}
+	sga := &ec2.SecurityGroupArgs{
+		Description: pulumi.String(r.Description),
+		VpcId:       vpcId,
+		Ingress:     getSecurityGroupIngressArray(r.IngressRules),
+		Egress:      ec2.SecurityGroupEgressArray{egressAll},
+		Tags:        maptContext.ResourceTags(),
+	}
 	sg, err := ec2.NewSecurityGroup(ctx,
 		r.Name,
-		&ec2.SecurityGroupArgs{
-			Description: pulumi.String(r.Description),
-			VpcId:       r.VPC.ID(),
-			Ingress:     getSecurityGroupIngressArray(r.IngressRules),
-			Egress:      ec2.SecurityGroupEgressArray{egressAll},
-			Tags:        maptContext.ResourceTags(),
-		})
+		sga,
+		maptContext.CommonOptions(ctx)...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,6 +65,8 @@ func getSecurityGroupIngressArray(rules []IngressRules) (sgia ec2.SecurityGroupI
 		}
 		if r.SG != nil {
 			args.SecurityGroups = pulumi.StringArray{r.SG.ID()}
+		} else if r.SGID != nil {
+			args.SecurityGroups = pulumi.StringArray{pulumi.String(*r.SGID)}
 		} else if len(r.CidrBlocks) > 0 {
 			args.CidrBlocks = pulumi.StringArray{pulumi.String(r.CidrBlocks)}
 		} else {
