@@ -23,8 +23,13 @@ const (
 	MACDHID              string = "dedicated-host-id"
 	MACDHIDDesc          string = "id for the dedicated host"
 
-	Spot     string = "spot"
-	SpotDesc string = "if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)"
+	Spot            string = "spot"
+	SpotDesc        string = "if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)"
+	ParamRegion            = "location"
+	ParamRegionDesc        = "location for created resources in case spot flag (if available) is not passed"
+	ParamVMSize            = "vmsize"
+	ParamVMSizeDesc        = "size for the VM"
+	DefaultVMSize          = "t3.medium"
 )
 
 func MACArchAsCirrusArch(arch string) *cirrus.Arch {
