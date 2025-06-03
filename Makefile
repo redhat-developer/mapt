@@ -28,8 +28,6 @@ GCFLAGS := all=-N -l
 GOOS := $(shell go env GOOS)
 GOARCH := $(shell go env GOARCH)
 
-
-
 # Tools
 TOOLS_DIR := tools
 include tools/tools.mk

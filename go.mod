@@ -51,7 +51,6 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/oliveagle/jsonpath v0.0.0-20180606110733-2e52cf6e6852 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
-	// github.com/pulumi/pulumi-docker/sdk/v4 v4.6.2 // indirect
 	github.com/sahilm/fuzzy v0.1.1 // indirect
 	golang.org/x/mod v0.24.0 // indirect
 	golang.org/x/tools v0.33.0 // indirect
