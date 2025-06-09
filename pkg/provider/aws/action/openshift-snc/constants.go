@@ -25,7 +25,8 @@ var (
 	outputKubeAdminPass  = "aosKubeAdminPasss"
 	outputDeveloperPass  = "aosDeveloperPass"
 
-	commandReadiness = "while [ ! -f /tmp/.crc-cluster-ready ]; do sleep 5; done"
+	commandReadiness    = "while [ ! -f /tmp/.crc-cluster-ready ]; do sleep 5; done"
+	commandCaServiceRan = "while [ $(sudo systemctl is-active ocp-cluster-ca.service) != inactive ]; do sleep 5; done"
 
 	// portHTTP  = 80
 	portHTTPS = 443
