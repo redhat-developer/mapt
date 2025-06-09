@@ -83,7 +83,7 @@ type provider struct {
 
 	ctx                    *Context                         // a plugin context for caching, etc.
 	pkg                    tokens.Package                   // the Pulumi package containing this provider's resources.
-	plug                   *plugin                          // the actual plugin process wrapper.
+	plug                   *Plugin                          // the actual plugin process wrapper.
 	clientRaw              pulumirpc.ResourceProviderClient // the raw provider client; usually unsafe to use directly.
 	disableProviderPreview bool                             // true if previews for Create and Update are disabled.
 	legacyPreview          bool                             // enables legacy behavior for unconfigured provider previews.
@@ -174,7 +174,7 @@ func NewProvider(host Host, ctx *Context, spec workspace.PluginSpec,
 	projectName tokens.PackageName,
 ) (Provider, error) {
 	// See if this is a provider we just want to attach to
-	var plug *plugin
+	var plug *Plugin
 	var handshakeRes *ProviderHandshakeResponse
 
 	pkg := tokens.Package(spec.Name)
@@ -212,7 +212,7 @@ func NewProvider(host Host, ctx *Context, spec workspace.PluginSpec,
 		}
 
 		// Done; store the connection and return the plugin info.
-		plug = &plugin{
+		plug = &Plugin{
 			Conn: conn,
 			// Nothing to kill
 			Kill: func() error { return nil },
@@ -2350,19 +2350,9 @@ func (p *provider) GetMappings(ctx context.Context, req GetMappingsRequest) (Get
 
 // marshalViews is a helper that marshals a slice of views into the gRPC equivalent.
 func marshalViews(views []View, opts MarshalOptions) ([]*pulumirpc.View, error) {
-	if len(views) == 0 {
-		return nil, nil
-	}
-
-	result := make([]*pulumirpc.View, len(views))
-	for i, v := range views {
-		mv, err := marshalView(v, opts)
-		if err != nil {
-			return nil, err
-		}
-		result[i] = mv
-	}
-	return result, nil
+	return slice.MapError(views, func(v View) (*pulumirpc.View, error) {
+		return marshalView(v, opts)
+	})
 }
 
 // marshalView is a helper that marshals a view into the gRPC equivalent.

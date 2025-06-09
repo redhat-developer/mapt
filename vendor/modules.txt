@@ -561,14 +561,14 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
-# github.com/pulumi/pulumi-aws-native/sdk v1.28.0
-## explicit; go 1.22
+# github.com/pulumi/pulumi-aws-native/sdk v1.29.0
+## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/ssm
-# github.com/pulumi/pulumi-aws/sdk/v6 v6.81.0
-## explicit; go 1.22
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.82.1
+## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/cloudwatch
@@ -620,7 +620,7 @@ github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
-# github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.22.2
+# github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/admissionregistration/v1
@@ -677,6 +677,7 @@ github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/resource/v1alpha1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/resource/v1alpha2
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/resource/v1alpha3
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/resource/v1beta1
+github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/resource/v1beta2
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/scheduling/v1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/scheduling/v1alpha1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/scheduling/v1beta1
@@ -695,7 +696,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.173.0
+# github.com/pulumi/pulumi/sdk/v3 v3.175.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -780,7 +781,7 @@ github.com/sahilm/fuzzy
 # github.com/santhosh-tekuri/jsonschema/v5 v5.3.1
 ## explicit; go 1.19
 github.com/santhosh-tekuri/jsonschema/v5
-# github.com/sergi/go-diff v1.3.2-0.20230802210424-5b0b94c5c0d3
+# github.com/sergi/go-diff v1.4.0
 ## explicit; go 1.13
 github.com/sergi/go-diff/diffmatchpatch
 # github.com/sirupsen/logrus v1.9.3
@@ -861,7 +862,7 @@ go.uber.org/atomic
 # go.uber.org/multierr v1.11.0
 ## explicit; go 1.19
 go.uber.org/multierr
-# golang.org/x/crypto v0.38.0
+# golang.org/x/crypto v0.39.0
 ## explicit; go 1.23.0
 golang.org/x/crypto/argon2
 golang.org/x/crypto/blake2b
@@ -882,14 +883,14 @@ golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
-# golang.org/x/exp v0.0.0-20250531010427-b6e5de432a8b
+# golang.org/x/exp v0.0.0-20250606033433-dcc06ee1d476
 ## explicit; go 1.23.0
 golang.org/x/exp/maps
 golang.org/x/exp/slices
-# golang.org/x/mod v0.24.0
+# golang.org/x/mod v0.25.0
 ## explicit; go 1.23.0
 golang.org/x/mod/semver
-# golang.org/x/net v0.40.0
+# golang.org/x/net v0.41.0
 ## explicit; go 1.23.0
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
@@ -901,7 +902,7 @@ golang.org/x/net/internal/socks
 golang.org/x/net/internal/timeseries
 golang.org/x/net/proxy
 golang.org/x/net/trace
-# golang.org/x/sync v0.14.0
+# golang.org/x/sync v0.15.0
 ## explicit; go 1.23.0
 golang.org/x/sync/errgroup
 # golang.org/x/sys v0.33.0
@@ -915,7 +916,7 @@ golang.org/x/sys/windows/registry
 # golang.org/x/term v0.32.0
 ## explicit; go 1.23.0
 golang.org/x/term
-# golang.org/x/text v0.25.0
+# golang.org/x/text v0.26.0
 ## explicit; go 1.23.0
 golang.org/x/text/encoding
 golang.org/x/text/encoding/internal
@@ -927,7 +928,7 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# golang.org/x/tools v0.33.0
+# golang.org/x/tools v0.34.0
 ## explicit; go 1.23.0
 golang.org/x/tools/cmd/stringer
 golang.org/x/tools/go/gcexportdata
@@ -947,11 +948,11 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20250528174236-200df99c418a
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20250603155806-513f23925822
 ## explicit; go 1.23.0
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.72.1
-## explicit; go 1.23
+# google.golang.org/grpc v1.73.0
+## explicit; go 1.23.0
 google.golang.org/grpc
 google.golang.org/grpc/attributes
 google.golang.org/grpc/backoff
