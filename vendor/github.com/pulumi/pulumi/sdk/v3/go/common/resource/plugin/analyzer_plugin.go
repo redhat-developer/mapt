@@ -50,7 +50,7 @@ import (
 type analyzer struct {
 	ctx     *Context
 	name    tokens.QName
-	plug    *plugin
+	plug    *Plugin
 	client  pulumirpc.AnalyzerClient
 	version string
 }
@@ -141,7 +141,7 @@ func NewPolicyAnalyzer(
 	// https://github.com/pulumi/pulumi-policy-opa continue to work (although in time they could probably be moved to
 	// just be language runtimes like the rest).
 
-	var plug *plugin
+	var plug *Plugin
 	var foundLanguagePlugin bool
 	// Try to load the language plugin for the runtime, except for python and node that _for now_ continue using the
 	// legacy behavior.
@@ -244,12 +244,16 @@ func NewPolicyAnalyzer(
 			Project:      opts.Project,
 			Organization: opts.Organization,
 		}
-		mconfig, err := MarshalProperties(resource.ToResourcePropertyMap(opts.Config),
-			MarshalOptions{KeepSecrets: true})
-		if err != nil {
-			return nil, fmt.Errorf("marshalling config: %w", err)
+		mconfig := make(map[string]string, len(opts.Config))
+		for k, v := range opts.Config {
+			mconfig[k.String()] = v
 		}
 		req.Config = mconfig
+		mkeys := make([]string, 0, len(opts.ConfigSecretKeys))
+		for _, k := range opts.ConfigSecretKeys {
+			mkeys = append(mkeys, k.String())
+		}
+		req.ConfigSecretKeys = mkeys
 
 		_, err = client.ConfigureStack(ctx.Request(), req)
 		if err != nil {
@@ -860,7 +864,6 @@ func convertDiagnostics(protoDiagnostics []*pulumirpc.AnalyzeDiagnostic, version
 			PolicyPackVersion: policyPackVersion,
 			Description:       protoD.Description,
 			Message:           protoD.Message,
-			Tags:              protoD.Tags,
 			EnforcementLevel:  enforcementLevel,
 			URN:               resource.URN(protoD.Urn),
 		}
@@ -910,12 +913,14 @@ func constructEnv(opts *PolicyAnalyzerOptions, runtime string) ([]string, error)
 
 // constructConfig JSON-serializes the configuration data.
 func constructConfig(opts *PolicyAnalyzerOptions) (string, error) {
-	if opts == nil || opts.Config.Len() == 0 {
+	if opts == nil || opts.Config == nil {
 		return "", nil
 	}
 
-	// We get rich property values here, but the envvar interface just expects JSON-like strings.
-	config, _ := PropertyMapToConfig(opts.Config)
+	config := make(map[string]string)
+	for k, v := range opts.Config {
+		config[k.String()] = v
+	}
 
 	configJSON, err := json.Marshal(config)
 	if err != nil {

@@ -514,8 +514,8 @@ github.com/lasiar/canonicalheader
 # github.com/ldez/exptostd v0.4.3
 ## explicit; go 1.22.0
 github.com/ldez/exptostd
-# github.com/ldez/gomoddirectives v0.6.1
-## explicit; go 1.22.0
+# github.com/ldez/gomoddirectives v0.7.0
+## explicit; go 1.23.0
 github.com/ldez/gomoddirectives
 # github.com/ldez/grignotin v0.9.0
 ## explicit; go 1.22.0
@@ -869,17 +869,17 @@ go.uber.org/zap/internal/exit
 go.uber.org/zap/internal/pool
 go.uber.org/zap/internal/stacktrace
 go.uber.org/zap/zapcore
-# golang.org/x/exp/typeparams v0.0.0-20250531010427-b6e5de432a8b
+# golang.org/x/exp/typeparams v0.0.0-20250606033433-dcc06ee1d476
 ## explicit; go 1.23.0
 golang.org/x/exp/typeparams
-# golang.org/x/mod v0.24.0
+# golang.org/x/mod v0.25.0
 ## explicit; go 1.23.0
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/modfile
 golang.org/x/mod/module
 golang.org/x/mod/semver
 golang.org/x/mod/sumdb/dirhash
-# golang.org/x/sync v0.14.0
+# golang.org/x/sync v0.15.0
 ## explicit; go 1.23.0
 golang.org/x/sync/errgroup
 golang.org/x/sync/semaphore
@@ -887,7 +887,7 @@ golang.org/x/sync/semaphore
 ## explicit; go 1.23.0
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.25.0
+# golang.org/x/text v0.26.0
 ## explicit; go 1.23.0
 golang.org/x/text/encoding
 golang.org/x/text/encoding/internal
@@ -910,7 +910,7 @@ golang.org/x/text/runes
 golang.org/x/text/transform
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
-# golang.org/x/tools v0.33.0
+# golang.org/x/tools v0.34.0
 ## explicit; go 1.23.0
 golang.org/x/tools/go/analysis
 golang.org/x/tools/go/analysis/passes/appends
@@ -963,6 +963,7 @@ golang.org/x/tools/go/analysis/passes/unusedresult
 golang.org/x/tools/go/analysis/passes/unusedwrite
 golang.org/x/tools/go/analysis/passes/waitgroup
 golang.org/x/tools/go/ast/astutil
+golang.org/x/tools/go/ast/edge
 golang.org/x/tools/go/ast/inspector
 golang.org/x/tools/go/buildutil
 golang.org/x/tools/go/cfg
@@ -978,8 +979,6 @@ golang.org/x/tools/imports
 golang.org/x/tools/internal/aliases
 golang.org/x/tools/internal/analysisinternal
 golang.org/x/tools/internal/astutil
-golang.org/x/tools/internal/astutil/cursor
-golang.org/x/tools/internal/astutil/edge
 golang.org/x/tools/internal/event
 golang.org/x/tools/internal/event/core
 golang.org/x/tools/internal/event/keys

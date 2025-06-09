@@ -6,10 +6,10 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
-	github.com/pulumi/pulumi/sdk/v3 v3.173.0
+	github.com/pulumi/pulumi/sdk/v3 v3.175.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
-	golang.org/x/exp v0.0.0-20250531010427-b6e5de432a8b
+	golang.org/x/exp v0.0.0-20250606033433-dcc06ee1d476
 )
 
 require (
@@ -22,8 +22,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.29.14
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.224.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.80.0
-	github.com/pulumi/pulumi-aws-native/sdk v1.28.0
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.81.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.29.0
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.82.1
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.90.0
@@ -52,8 +52,8 @@ require (
 	github.com/oliveagle/jsonpath v0.0.0-20180606110733-2e52cf6e6852 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/sahilm/fuzzy v0.1.1 // indirect
-	golang.org/x/mod v0.24.0 // indirect
-	golang.org/x/tools v0.33.0 // indirect
+	golang.org/x/mod v0.25.0 // indirect
+	golang.org/x/tools v0.34.0 // indirect
 )
 
 require (
@@ -120,8 +120,8 @@ require (
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/zclconf/go-cty v1.16.3 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/sync v0.14.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250528174236-200df99c418a // indirect
+	golang.org/x/sync v0.15.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250603155806-513f23925822 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -153,11 +153,11 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2 v2.90.0
-	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.22.2
+	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
-	github.com/sergi/go-diff v1.3.2-0.20230802210424-5b0b94c5c0d3 // indirect
+	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/spf13/pflag v1.0.6
 	github.com/spf13/viper v1.20.1
 	github.com/texttheater/golang-levenshtein v1.0.1 // indirect
@@ -165,12 +165,12 @@ require (
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
-	golang.org/x/crypto v0.38.0 // indirect
-	golang.org/x/net v0.40.0 // indirect
+	golang.org/x/crypto v0.39.0 // indirect
+	golang.org/x/net v0.41.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/term v0.32.0 // indirect
-	golang.org/x/text v0.25.0 // indirect
-	google.golang.org/grpc v1.72.1 // indirect
+	golang.org/x/text v0.26.0 // indirect
+	google.golang.org/grpc v1.73.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
