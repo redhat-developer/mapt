@@ -394,11 +394,18 @@ func kubeconfig(ctx *pulumi.Context,
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
+	// Check ocp-cluster-ca.service succeeds
+	ocpCaRotatedCmd, err := c.RunCommand(ctx, commandCaServiceRan, fmt.Sprintf("%s-ocp-ca-rotated", *prefix), awsOCPSNCID,
+		mk, amiUserDefault, nil, []pulumi.Resource{ocpReadyCmd})
+	if err != nil {
+		return pulumi.StringOutput{}, err
+	}
+
 	// Get content for /opt/kubeconfig
 	getKCCmd := ("cat /opt/kubeconfig")
 	getKC, err := c.RunCommand(ctx, getKCCmd,
 		fmt.Sprintf("%s-kubeconfig", *prefix), awsOCPSNCID, mk, amiUserDefault,
-		nil, []pulumi.Resource{ocpReadyCmd})
+		nil, []pulumi.Resource{ocpCaRotatedCmd})
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
