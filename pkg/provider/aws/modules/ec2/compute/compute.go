@@ -26,6 +26,9 @@ const (
 	// Delay health check due to baremetal + userdata otherwise it will kill hosts consntantly
 	// Probably move this to compute asset as each can have different value depending on userdata
 	defaultHealthCheckGracePeriod int = 1200
+
+	LoggingCmdStd   = true
+	NoLoggingCmdStd = false
 )
 
 type ComputeRequest struct {
@@ -245,17 +248,23 @@ func (compute *Compute) Readiness(ctx *pulumi.Context,
 // Check if compute is healthy based on running a remote cmd
 func (compute *Compute) RunCommand(ctx *pulumi.Context,
 	cmd string,
+	loggingCmdStd bool,
 	prefix, id string,
 	mk *tls.PrivateKey, username string,
 	b *bastion.Bastion,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
+	ca := &remote.CommandArgs{
+		Connection: remoteCommandArgs(compute, mk, username, b),
+		Create:     pulumi.String(cmd),
+		Update:     pulumi.String(cmd),
+	}
+	if !loggingCmdStd {
+		ca.Logging = remote.LoggingNone
+	}
 	return remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(prefix, id, "cmd"),
-		&remote.CommandArgs{
-			Connection: remoteCommandArgs(compute, mk, username, b),
-			Create:     pulumi.String(cmd),
-			Update:     pulumi.String(cmd),
-		}, pulumi.Timeouts(
+		ca,
+		pulumi.Timeouts(
 			&pulumi.CustomTimeouts{
 				Create: command.RemoteTimeout,
 				Update: command.RemoteTimeout}),

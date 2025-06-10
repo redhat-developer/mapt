@@ -389,13 +389,19 @@ func kubeconfig(ctx *pulumi.Context,
 	// the resulting kubeconfig file can be used to access the cluster
 
 	// Check cluster is ready
-	ocpReadyCmd, err := c.RunCommand(ctx, commandReadiness, fmt.Sprintf("%s-ocp-readiness", *prefix), awsOCPSNCID,
+	ocpReadyCmd, err := c.RunCommand(ctx,
+		commandReadiness,
+		compute.LoggingCmdStd,
+		fmt.Sprintf("%s-ocp-readiness", *prefix), awsOCPSNCID,
 		mk, amiUserDefault, nil, nil)
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
 	// Check ocp-cluster-ca.service succeeds
-	ocpCaRotatedCmd, err := c.RunCommand(ctx, commandCaServiceRan, fmt.Sprintf("%s-ocp-ca-rotated", *prefix), awsOCPSNCID,
+	ocpCaRotatedCmd, err := c.RunCommand(ctx,
+		commandCaServiceRan,
+		compute.LoggingCmdStd,
+		fmt.Sprintf("%s-ocp-ca-rotated", *prefix), awsOCPSNCID,
 		mk, amiUserDefault, nil, []pulumi.Resource{ocpReadyCmd})
 	if err != nil {
 		return pulumi.StringOutput{}, err
@@ -403,7 +409,9 @@ func kubeconfig(ctx *pulumi.Context,
 
 	// Get content for /opt/kubeconfig
 	getKCCmd := ("cat /opt/kubeconfig")
-	getKC, err := c.RunCommand(ctx, getKCCmd,
+	getKC, err := c.RunCommand(ctx,
+		getKCCmd,
+		compute.NoLoggingCmdStd,
 		fmt.Sprintf("%s-kubeconfig", *prefix), awsOCPSNCID, mk, amiUserDefault,
 		nil, []pulumi.Resource{ocpCaRotatedCmd})
 	if err != nil {
