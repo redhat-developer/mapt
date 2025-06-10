@@ -278,14 +278,19 @@ func kubeconfig(ctx *pulumi.Context,
 	// the resulting kubeconfig file can be used to access the cluster
 
 	// Check cluster is ready
-	kindReadyCmd, err := c.RunCommand(ctx, command.CommandCloudInitWait, fmt.Sprintf("%s-kind-readiness", *prefix), awsKindID,
+	kindReadyCmd, err := c.RunCommand(ctx,
+		command.CommandCloudInitWait,
+		compute.LoggingCmdStd,
+		fmt.Sprintf("%s-kind-readiness", *prefix), awsKindID,
 		mk, amiUserDefault, nil, nil)
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
 	// Get content for /opt/kubeconfig
 	getKCCmd := ("cat /home/fedora/kubeconfig")
-	getKC, err := c.RunCommand(ctx, getKCCmd,
+	getKC, err := c.RunCommand(ctx,
+		getKCCmd,
+		compute.NoLoggingCmdStd,
 		fmt.Sprintf("%s-kubeconfig", *prefix), awsKindID, mk, amiUserDefault,
 		nil, []pulumi.Resource{kindReadyCmd})
 	if err != nil {
