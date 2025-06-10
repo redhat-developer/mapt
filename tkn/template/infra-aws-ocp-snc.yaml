@@ -54,8 +54,6 @@ spec:
         type: Opaque
         data:
           pull-secret: ${pull_secret}
-          # This is optional in case we want certs from OCP signed by our CA
-          ca.crt: ${ca_crt}
 
     # Mapt params
     - name: id
@@ -198,9 +196,6 @@ spec:
           fi
           if [[ -f /opt/ocp-snc-secret/pull-secret ]]; then
             cmd+="--pull-secret-file /opt/ocp-snc-secret/pull-secret "
-          fi
-          if [[ -f /opt/ocp-snc-secret/ca.crt ]]; then
-            cmd+="--ca-cert-file /opt/ocp-snc-secret/ca.crt"
           fi
           if [[ $(params.version) != "" ]]; then
             cmd+="--version $(params.version) "
