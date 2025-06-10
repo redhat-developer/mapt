@@ -10,7 +10,7 @@ codeberg.org/chavacava/garif
 # github.com/4meepo/tagalign v1.4.2
 ## explicit; go 1.22.0
 github.com/4meepo/tagalign
-# github.com/Abirdcfly/dupword v0.1.4
+# github.com/Abirdcfly/dupword v0.1.6
 ## explicit; go 1.23.0
 github.com/Abirdcfly/dupword
 # github.com/Antonboom/errname v1.1.0
@@ -431,8 +431,8 @@ github.com/golangci/golines
 # github.com/golangci/misspell v0.7.0
 ## explicit; go 1.23.0
 github.com/golangci/misspell
-# github.com/golangci/plugin-module-register v0.1.1
-## explicit; go 1.21
+# github.com/golangci/plugin-module-register v0.1.2
+## explicit; go 1.23.0
 github.com/golangci/plugin-module-register/register
 # github.com/golangci/revgrep v0.8.0
 ## explicit; go 1.21
@@ -481,7 +481,7 @@ github.com/hexops/gotextdiff/span
 # github.com/inconshreveable/mousetrap v1.1.0
 ## explicit; go 1.18
 github.com/inconshreveable/mousetrap
-# github.com/jgautheron/goconst v1.8.1
+# github.com/jgautheron/goconst v1.8.2
 ## explicit; go 1.16
 github.com/jgautheron/goconst
 # github.com/jingyugao/rowserrcheck v1.1.1
@@ -705,7 +705,7 @@ github.com/sagikazarmark/locafero
 # github.com/sanposhiho/wastedassign/v2 v2.1.0
 ## explicit; go 1.18
 github.com/sanposhiho/wastedassign/v2
-# github.com/santhosh-tekuri/jsonschema/v6 v6.0.1
+# github.com/santhosh-tekuri/jsonschema/v6 v6.0.2
 ## explicit; go 1.21
 github.com/santhosh-tekuri/jsonschema/v6
 github.com/santhosh-tekuri/jsonschema/v6/kind
@@ -746,7 +746,7 @@ github.com/sourcegraph/go-diff/diff
 github.com/spf13/afero
 github.com/spf13/afero/internal/common
 github.com/spf13/afero/mem
-# github.com/spf13/cast v1.9.1
+# github.com/spf13/cast v1.9.2
 ## explicit; go 1.21.0
 github.com/spf13/cast
 github.com/spf13/cast/internal

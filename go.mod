@@ -19,9 +19,9 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.9.0
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.1
 	github.com/aws/aws-sdk-go-v2 v1.36.3
-	github.com/aws/aws-sdk-go-v2/config v1.29.14
+	github.com/aws/aws-sdk-go-v2/config v1.29.15
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.224.0
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.80.0
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.80.1
 	github.com/pulumi/pulumi-aws-native/sdk v1.29.0
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.82.1
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
@@ -34,10 +34,8 @@ require (
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.0
 )
 
-require (
-	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
-	github.com/pulumi/pulumi-docker/sdk/v4 v4.7.0 // indirect
-)
+// github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
+require github.com/pulumi/pulumi-docker/sdk/v4 v4.7.0 // indirect
 
 require (
 	github.com/BurntSushi/toml v1.5.0 // indirect
@@ -51,6 +49,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/oliveagle/jsonpath v0.0.0-20180606110733-2e52cf6e6852 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
+	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
 	github.com/sahilm/fuzzy v0.1.1 // indirect
 	golang.org/x/mod v0.25.0 // indirect
 	golang.org/x/tools v0.34.0 // indirect
@@ -63,7 +62,7 @@ require (
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.17.67 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.17.68 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.30 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.34 // indirect
@@ -73,7 +72,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/pricing v1.34.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.25.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.30.1 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.33.19 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.33.20 // indirect
 	github.com/aws/smithy-go v1.22.3 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -115,7 +114,7 @@ require (
 	github.com/skeema/knownhosts v1.3.1 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.14.0 // indirect
-	github.com/spf13/cast v1.9.1 // indirect
+	github.com/spf13/cast v1.9.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/zclconf/go-cty v1.16.3 // indirect
@@ -128,7 +127,7 @@ require (
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.3.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.57.1
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.57.3
 	github.com/aws/aws-sdk-go-v2/service/iam v1.42.0
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect
@@ -136,7 +135,7 @@ require (
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-git/go-billy/v5 v5.6.2 // indirect
-	github.com/go-git/go-git/v5 v5.16.0 // indirect
+	github.com/go-git/go-git/v5 v5.16.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/glog v1.2.5 // indirect
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645 // indirect
