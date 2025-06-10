@@ -1,3 +1,11 @@
+# v1.57.3 (2025-06-06)
+
+* No change notes available for this release.
+
+# v1.57.2 (2025-06-02)
+
+* **Documentation**: Updates Amazon ECS documentation to include note for upcoming default log driver mode change.
+
 # v1.57.1 (2025-05-16)
 
 * **Documentation**: This is an Amazon ECs documentation only release to support the change of the container exit "reason" field from 255 characters to 1024 characters.
