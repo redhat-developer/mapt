@@ -3,9 +3,9 @@ package virtualmachine
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/compute/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/network/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/compute/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/network/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"

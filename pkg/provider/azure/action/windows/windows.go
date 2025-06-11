@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/compute/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/storage/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/compute/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/storage/v3"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -20,6 +20,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/module/serverless"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
@@ -49,6 +50,7 @@ type WindowsRequest struct {
 	SpotTolerance       spotAzure.EvictionRate
 	SpotExcludedRegions []string
 	Profiles            []string
+	Timeout             string
 }
 
 type ghActionsRunnerData struct {
@@ -156,6 +158,18 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername), pulumi.String(r.AdminUsername))
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), adminPasswd.Result)
+	// schedule destroy if Timeout is provided
+	if len(r.Timeout) > 0 {
+		if err = serverless.CreateScheduledJob(ctx, rg,
+			r.Prefix, azureWindowsDesktopID,
+			fmt.Sprintf("azure %s destroy --project-name %s --backed-url %s --serverless --force-destroy",
+				"windows",
+				maptContext.ProjectName(),
+				maptContext.BackedURL()),
+			r.Timeout); err != nil {
+			return err
+		}
+	}
 	// Setup machine on post init (may move too to virtual-machine pkg)
 	pk, vme, err := r.postInitSetup(ctx, rg, vm, *location)
 	if err != nil {

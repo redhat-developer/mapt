@@ -25,6 +25,7 @@ type Request struct {
 	Spot                bool
 	SpotTolerance       spotAzure.EvictionRate
 	SpotExcludedRegions []string
+	Timeout             string
 }
 
 func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
