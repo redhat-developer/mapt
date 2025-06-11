@@ -21,6 +21,7 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
 	network "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
@@ -31,7 +32,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
-	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 )
 
 type EKSRequest struct {
@@ -82,15 +82,15 @@ func Create(ctx *maptContext.ContextArgs, r *EKSRequest) (err error) {
 	r.AvailabilityZones = data.GetAvailabilityZones(*r.AllocationData.Region)
 
 	cs := manager.Stack{
-		StackName:           maptContext.StackNameByProject(stackName),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:   maptContext.StackNameByProject(stackName),
+		ProjectName: maptContext.ProjectName(),
+		BackedURL:   maptContext.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				awsConstants.CONFIG_AWS_REGION:        *r.AllocationData.Region,
 				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.AllocationData.Region,
 			}),
-		DeployFunc:          r.deployer,
+		DeployFunc: r.deployer,
 	}
 
 	sr, _ := manager.UpStack(cs)

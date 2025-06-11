@@ -25,12 +25,15 @@ require (
 	github.com/pulumi/pulumi-aws-native/sdk v1.29.0
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.82.1
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.90.0
+	github.com/pulumi/pulumi-azure-native-sdk/app/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.5.1
 	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.90.0
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/operationalinsights/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.5.1
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.0
 )
 
@@ -49,6 +52,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/oliveagle/jsonpath v0.0.0-20180606110733-2e52cf6e6852 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.5.1 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
 	github.com/sahilm/fuzzy v0.1.1 // indirect
 	golang.org/x/mod v0.25.0 // indirect
@@ -151,7 +155,6 @@ require (
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2 v2.90.0
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
