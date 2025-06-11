@@ -99,6 +99,8 @@ func getCreateWindowsDesktop() *cobra.Command {
 				}
 			}
 
+			logging.Debugf("Timeout flag value in cmd: %s", viper.GetString(params.Timeout))
+
 			if err := azureWindows.Create(
 				ctx,
 				&azureWindows.WindowsRequest{
@@ -117,6 +119,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 					AdminUsername:       viper.GetString(paramAdminUsername),
 					Profiles:            viper.GetStringSlice(paramProfile),
 					Spot:                viper.IsSet(azparams.ParamSpot),
+					Timeout:             viper.GetString(params.Timeout),
 					SpotTolerance:       spotToleranceValue,
 					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
 				logging.Error(err)
@@ -139,6 +142,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
 	flagSet.AddFlagSet(params.GetGHActionsFlagset())
 	params.AddCirrusFlags(flagSet)
+	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c

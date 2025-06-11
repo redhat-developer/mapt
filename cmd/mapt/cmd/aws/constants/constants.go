@@ -23,8 +23,8 @@ const (
 	MACDHID              string = "dedicated-host-id"
 	MACDHIDDesc          string = "id for the dedicated host"
 
-	Spot            string = "spot"
-	SpotDesc        string = "if spot is set the spot prices across all regions will be checked and machine will be started on best spot option (price / eviction)"
+	Spot     string = "spot"
+	SpotDesc string = "if spot is set the spot prices across all regions will be checked and machine will be started on best spot option (price / eviction)"
 )
 
 func MACArchAsCirrusArch(arch string) *cirrus.Arch {

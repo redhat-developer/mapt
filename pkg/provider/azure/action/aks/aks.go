@@ -4,10 +4,10 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v3"
 	containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2/v20240801"
-	"github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -198,7 +198,7 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 	// grant the 'contributor' role to the identity on the resource group
 	_, err = authorization.NewRoleAssignment(ctx, "roleAssignment", &authorization.RoleAssignmentArgs{
 		PrincipalId:      identity.PrincipalId,
-		PrincipalType:    pulumi.String("ServicePrincipal"),
+		PrincipalType:    pulumi.String(authorization.PrincipalTypeServicePrincipal),
 		RoleDefinitionId: pulumi.String("/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"),
 		Scope:            rg.ID(),
 	})
