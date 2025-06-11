@@ -3,7 +3,7 @@ package linux
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -48,6 +48,7 @@ type LinuxRequest struct {
 	SpotExcludedRegions []string
 	GetUserdata         func() (string, error)
 	ReadinessCommand    string
+	Timeout             string
 }
 
 func Create(ctx *maptContext.ContextArgs, r *LinuxRequest) (err error) {
