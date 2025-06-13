@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+# Moved to Fedora 41 and install go tools until ubi9 go tools support go 1.23
+FROM quay.io/fedora/fedora@sha256:77326d310d7df97020509f2015525d2e1c30761929d30f16e8462892d69112ad as builder
+RUN dnf install -y make go
+>>>>>>> ff9ffbcd (more tests for RHELAI we really need the cloud-importer)
 
 FROM registry.access.redhat.com/ubi9/go-toolset@sha256:d4bcb27c15c76c727742a78173ba02a56d9acc695ecc2603a0dc0fc745a75685 as builder
 ARG TARGETARCH
