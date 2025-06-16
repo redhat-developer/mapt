@@ -524,8 +524,8 @@ github.com/ldez/grignotin/gomod
 # github.com/ldez/tagliatelle v0.7.1
 ## explicit; go 1.22.0
 github.com/ldez/tagliatelle
-# github.com/ldez/usetesting v0.4.3
-## explicit; go 1.22.0
+# github.com/ldez/usetesting v0.5.0
+## explicit; go 1.23.0
 github.com/ldez/usetesting
 # github.com/leonklingele/grouper v1.1.2
 ## explicit; go 1.18
