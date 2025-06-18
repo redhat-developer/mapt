@@ -1,3 +1,16 @@
+# v1.57.6 (2025-06-17)
+
+* **Dependency Update**: Update to smithy-go v1.22.4.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.57.5 (2025-06-12)
+
+* **Documentation**: This Amazon ECS  release supports updating the capacityProviderStrategy parameter in update-service.
+
+# v1.57.4 (2025-06-10)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
 # v1.57.3 (2025-06-06)
 
 * No change notes available for this release.
