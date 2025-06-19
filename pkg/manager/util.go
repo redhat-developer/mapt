@@ -2,14 +2,22 @@ package manager
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+)
+
+var (
+	ErrInvalidBackedURLForTimeout = fmt.Errorf("timeout can action can not be set due to backed url pointing to local file. Please use external storage or remote timeout option")
 )
 
 // this function gets our stack ready for update/destroy by prepping the workspace, init/selecting the stack
@@ -50,4 +58,11 @@ func postStack(ctx context.Context, target Stack, stack *auto.Stack) (err error)
 	}
 	_, err = stack.Refresh(ctx)
 	return
+}
+
+func CheckBackedURLForServerless() error {
+	return util.If(
+		strings.HasPrefix(maptContext.BackedURL(), "file:///"),
+		ErrInvalidBackedURLForTimeout,
+		nil)
 }

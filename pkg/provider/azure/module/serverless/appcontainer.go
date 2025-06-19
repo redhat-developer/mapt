@@ -13,6 +13,7 @@ import (
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -20,6 +21,10 @@ import (
 func CreateScheduledJob(ctx *pulumi.Context, resourceGroup *resources.ResourceGroup,
 	prefix, componentID string,
 	cmd string, delay string) error {
+
+	if err := manager.CheckBackedURLForServerless(); err != nil {
+		return err
+	}
 
 	cronExp := getCronExpressionForScheduledTrigger(delay)
 

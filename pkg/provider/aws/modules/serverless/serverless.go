@@ -14,22 +14,18 @@ import (
 	"github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/awsx"
 	awsxecs "github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
-	"github.com/redhat-developer/mapt/pkg/util"
 
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
-)
-
-var (
-	ErrInvalidBackedURLForTimeout = fmt.Errorf("timeout can action can not be set due to backed url pointing to local file. Please use external storage or remote timeout option")
 )
 
 func OneTimeDelayedTask(ctx *pulumi.Context,
 	region, prefix, componentID string,
 	cmd string,
 	delay string) error {
-	if err := checkBackedURLForServerless(); err != nil {
+	if err := manager.CheckBackedURLForServerless(); err != nil {
 		return err
 	}
 	se, err := generateOneTimeScheduleExpression(region, delay)
@@ -46,13 +42,6 @@ func OneTimeDelayedTask(ctx *pulumi.Context,
 	}
 
 	return r.deploy(ctx)
-}
-
-func checkBackedURLForServerless() error {
-	return util.If(
-		strings.HasPrefix(maptContext.BackedURL(), "file:///"),
-		ErrInvalidBackedURLForTimeout,
-		nil)
 }
 
 func (a *serverlessRequestArgs) deploy(ctx *pulumi.Context) error {
