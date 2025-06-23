@@ -187,7 +187,7 @@ github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ec2/types
-# github.com/aws/aws-sdk-go-v2/service/ecs v1.57.6
+# github.com/aws/aws-sdk-go-v2/service/ecs v1.58.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ecs
 github.com/aws/aws-sdk-go-v2/service/ecs/internal/endpoints
@@ -216,7 +216,7 @@ github.com/aws/aws-sdk-go-v2/service/internal/s3shared/config
 github.com/aws/aws-sdk-go-v2/service/pricing
 github.com/aws/aws-sdk-go-v2/service/pricing/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/pricing/types
-# github.com/aws/aws-sdk-go-v2/service/s3 v1.80.3
+# github.com/aws/aws-sdk-go-v2/service/s3 v1.81.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/s3
 github.com/aws/aws-sdk-go-v2/service/s3/internal/arn
@@ -416,7 +416,7 @@ github.com/go-git/go-git/v5/utils/merkletrie/internal/frame
 github.com/go-git/go-git/v5/utils/merkletrie/noder
 github.com/go-git/go-git/v5/utils/sync
 github.com/go-git/go-git/v5/utils/trace
-# github.com/go-viper/mapstructure/v2 v2.2.1
+# github.com/go-viper/mapstructure/v2 v2.3.0
 ## explicit; go 1.18
 github.com/go-viper/mapstructure/v2
 github.com/go-viper/mapstructure/v2/internal/errors
@@ -561,13 +561,13 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
-# github.com/pulumi/pulumi-aws-native/sdk v1.29.0
+# github.com/pulumi/pulumi-aws-native/sdk v1.30.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/ssm
-# github.com/pulumi/pulumi-aws/sdk/v6 v6.82.1
+# github.com/pulumi/pulumi-aws/sdk/v6 v6.83.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling
@@ -616,8 +616,8 @@ github.com/pulumi/pulumi-command/sdk/go/command/remote
 ## explicit; go 1.21.7
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
-# github.com/pulumi/pulumi-docker/sdk/v4 v4.7.0
-## explicit; go 1.22
+# github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0
+## explicit; go 1.23.0
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 # github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0
@@ -696,7 +696,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.177.0
+# github.com/pulumi/pulumi/sdk/v3 v3.178.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -883,7 +883,7 @@ golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
-# golang.org/x/exp v0.0.0-20250606033433-dcc06ee1d476
+# golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
 ## explicit; go 1.23.0
 golang.org/x/exp/maps
 golang.org/x/exp/slices
