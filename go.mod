@@ -6,10 +6,10 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
-	github.com/pulumi/pulumi/sdk/v3 v3.177.0
+	github.com/pulumi/pulumi/sdk/v3 v3.178.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
-	golang.org/x/exp v0.0.0-20250606033433-dcc06ee1d476
+	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
 )
 
 require (
@@ -21,9 +21,9 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.36.5
 	github.com/aws/aws-sdk-go-v2/config v1.29.17
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.225.2
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.80.3
-	github.com/pulumi/pulumi-aws-native/sdk v1.29.0
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.82.1
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.81.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.30.0
+	github.com/pulumi/pulumi-aws/sdk/v6 v6.83.0
 	github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.90.0
@@ -37,7 +37,7 @@ require (
 require github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
 
 // github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
-require github.com/pulumi/pulumi-docker/sdk/v4 v4.7.0 // indirect
+require github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0 // indirect
 
 require (
 	github.com/BurntSushi/toml v1.5.0 // indirect
@@ -89,7 +89,7 @@ require (
 	github.com/cyphar/filepath-securejoin v0.4.1 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
-	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
+	github.com/go-viper/mapstructure/v2 v2.3.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -129,7 +129,7 @@ require (
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.3.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.57.6
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.58.0
 	github.com/aws/aws-sdk-go-v2/service/iam v1.42.2
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect
