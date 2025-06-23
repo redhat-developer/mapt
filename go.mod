@@ -34,7 +34,7 @@ require (
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.0
 )
 
-require github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
+require github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
 
 // github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
 require github.com/pulumi/pulumi-docker/sdk/v4 v4.7.0 // indirect
