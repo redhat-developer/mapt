@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
@@ -136,6 +137,24 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 			},
 		},
 		Tags: maptContext.ResourceTags(),
+		TagSpecifications: ec2.LaunchTemplateTagSpecificationArray{
+			&ec2.LaunchTemplateTagSpecificationArgs{
+				ResourceType: pulumi.String(constants.PulumiAwsResourceInstance),
+				Tags:         maptContext.ResourceTags(),
+			},
+			&ec2.LaunchTemplateTagSpecificationArgs{
+				ResourceType: pulumi.String(constants.PulumiAwsResourceVolume),
+				Tags:         maptContext.ResourceTags(),
+			},
+			&ec2.LaunchTemplateTagSpecificationArgs{
+				ResourceType: pulumi.String(constants.PulumiAwsResourceNetworkInterface),
+				Tags:         maptContext.ResourceTags(),
+			},
+			&ec2.LaunchTemplateTagSpecificationArgs{
+				ResourceType: pulumi.String(constants.PulumiAwsResourceSpotInstanceRequest),
+				Tags:         maptContext.ResourceTags(),
+			},
+		},
 	}
 	if r.InstanceProfile != nil {
 		args.IamInstanceProfile = ec2.LaunchTemplateIamInstanceProfileArgs{

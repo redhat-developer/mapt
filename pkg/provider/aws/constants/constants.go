@@ -12,3 +12,10 @@ const (
 	ECSCredentialsRelativeURIENV = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
 	DefaultAWSRegion             = "us-east-1"
 )
+
+const (
+	PulumiAwsResourceInstance            = "instance"
+	PulumiAwsResourceVolume              = "volume"
+	PulumiAwsResourceNetworkInterface    = "network-interface"
+	PulumiAwsResourceSpotInstanceRequest = "spot-instances-request"
+)
