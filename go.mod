@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
-	github.com/pulumi/pulumi/sdk/v3 v3.178.0
+	github.com/pulumi/pulumi/sdk/v3 v3.181.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
@@ -20,11 +20,11 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.1
 	github.com/aws/aws-sdk-go-v2 v1.36.5
 	github.com/aws/aws-sdk-go-v2/config v1.29.17
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.225.2
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.81.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.227.0
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.82.0
 	github.com/pulumi/pulumi-aws-native/sdk v1.30.0
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.83.0
-	github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
+	github.com/pulumi/pulumi-awsx/sdk/v2 v2.22.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.90.0

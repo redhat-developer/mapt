@@ -182,7 +182,7 @@ github.com/aws/aws-sdk-go-v2/internal/ini
 github.com/aws/aws-sdk-go-v2/internal/v4a
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4
-# github.com/aws/aws-sdk-go-v2/service/ec2 v1.225.2
+# github.com/aws/aws-sdk-go-v2/service/ec2 v1.227.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
@@ -216,7 +216,7 @@ github.com/aws/aws-sdk-go-v2/service/internal/s3shared/config
 github.com/aws/aws-sdk-go-v2/service/pricing
 github.com/aws/aws-sdk-go-v2/service/pricing/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/pricing/types
-# github.com/aws/aws-sdk-go-v2/service/s3 v1.81.0
+# github.com/aws/aws-sdk-go-v2/service/s3 v1.82.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/s3
 github.com/aws/aws-sdk-go-v2/service/s3/internal/arn
@@ -579,7 +579,7 @@ github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/internal
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb
 github.com/pulumi/pulumi-aws/sdk/v6/go/aws/s3
-# github.com/pulumi/pulumi-awsx/sdk/v2 v2.21.1
+# github.com/pulumi/pulumi-awsx/sdk/v2 v2.22.0
 ## explicit; go 1.22
 github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/awsx
 github.com/pulumi/pulumi-awsx/sdk/v2/go/awsx/ecs
@@ -696,7 +696,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.178.0
+# github.com/pulumi/pulumi/sdk/v3 v3.181.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
