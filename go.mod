@@ -9,7 +9,7 @@ require (
 	github.com/pulumi/pulumi/sdk/v3 v3.181.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
-	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
+// golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
 )
 
 require (
@@ -32,9 +32,12 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.90.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.0
+	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56
 )
 
 require github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
+
+// require github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
 
 // github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
 require github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0 // indirect
@@ -129,7 +132,7 @@ require (
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.3.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.58.0
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.58.1
 	github.com/aws/aws-sdk-go-v2/service/iam v1.42.2
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect

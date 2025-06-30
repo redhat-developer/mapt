@@ -3,13 +3,14 @@ package context
 import (
 	"fmt"
 
+	"maps"
+
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
-	"golang.org/x/exp/maps"
 )
 
 var (
