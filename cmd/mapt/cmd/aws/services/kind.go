@@ -49,11 +49,12 @@ func createKind() *cobra.Command {
 					Tags:                  viper.GetStringMapString(params.Tags),
 				},
 				&kind.KindArgs{
-					ComputeRequest: params.GetComputeRequest(),
-					Version:        viper.GetString(params.KindK8SVersion),
-					Arch:           viper.GetString(params.LinuxArch),
-					Spot:           viper.IsSet(awsParams.Spot),
-					Timeout:        viper.GetString(params.Timeout)}); err != nil {
+					ComputeRequest:    params.GetComputeRequest(),
+					Version:           viper.GetString(params.KindK8SVersion),
+					Arch:              viper.GetString(params.LinuxArch),
+					Spot:              viper.IsSet(awsParams.Spot),
+					Timeout:           viper.GetString(params.Timeout),
+					ExtraPortMappings: viper.GetString(params.KindExtraPortMappings)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -63,6 +64,7 @@ func createKind() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringP(params.KindK8SVersion, "", "", params.KindK8SVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
+	flagSet.StringP(params.KindExtraPortMappings, "", "", params.KindExtraPortMappingsDesc)
 	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
 	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)

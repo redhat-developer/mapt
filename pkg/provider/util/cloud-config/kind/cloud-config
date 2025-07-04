@@ -37,7 +37,10 @@ write_files:
         protocol: TCP
       - containerPort: 30011
         hostPort: 9443
-        protocol: TCP
+        protocol: TCP{{- range .ExtraPortMappings }}
+      - containerPort: {{ .ContainerPort }}
+        hostPort: {{ .HostPort }}
+        protocol: {{ .Protocol }}{{- end }}
   # owner: {{ .Username }}
   path: /root/kind-config.yaml
   permissions: '0644'
