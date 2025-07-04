@@ -40,7 +40,7 @@ func createKind() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := kind.Create(
+			if _, err := kind.Create(
 				&maptContext.ContextArgs{
 					ProjectName:           viper.GetString(params.ProjectName),
 					BackedURL:             viper.GetString(params.BackedURL),

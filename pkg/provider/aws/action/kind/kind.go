@@ -46,23 +46,28 @@ type kindRequest struct {
 	allocationData *allocation.AllocationData
 }
 
+type KindResultsMetadata struct {
+	Username   string  `json:"username"`
+	PrivateKey string  `json:"private_key"`
+	Host       string  `json:"host"`
+	Kubeconfig string  `json:"kubeconfig"`
+	SpotPrice  float64 `json:"spot_price,omitempty"`
+}
+
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *KindArgs) error {
-	// Create mapt Context
+func Create(ctx *maptContext.ContextArgs, args *KindArgs) (*KindResultsMetadata, error) {
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
-		return err
+		return &KindResultsMetadata{}, err
 	}
-	// Get instance types matching requirements
 	instanceTypes, err := args.InstanceRequest.GetMachineTypes()
 	if err != nil {
-		return err
+		return &KindResultsMetadata{}, err
 	}
 	if len(instanceTypes) == 0 {
-		return fmt.Errorf("no instances matching criteria")
+		return &KindResultsMetadata{}, fmt.Errorf("no instances matching criteria")
 	}
-	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := kindRequest{
 		prefix:  &prefix,
@@ -71,41 +76,33 @@ func Create(ctx *maptContext.ContextArgs, args *KindArgs) error {
 		timeout: &args.Timeout}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
-			// amiName := amiName(&args.Arch)
-			return allocation.AllocationDataOnSpot(
-				&args.Prefix, &amiProduct, nil, instanceTypes)
+			return allocation.AllocationDataOnSpot(&args.Prefix, &amiProduct, nil, instanceTypes)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()
 		})
 	if err != nil {
-		return err
+		return &KindResultsMetadata{}, err
 	}
+
 	return r.createHost()
 }
 
-// Will destroy resources related to machine
 func Destroy(ctx *maptContext.ContextArgs) (err error) {
 	logging.Debug("Run openshift destroy")
-	// Create mapt Context
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
 	}
-	// Destroy fedora related resources
-	if err := aws.DestroyStack(
-		aws.DestroyStackRequest{
-			Stackname: stackName,
-		}); err != nil {
+	if err := aws.DestroyStack(aws.DestroyStackRequest{Stackname: stackName}); err != nil {
 		return err
 	}
-	// Destroy spot orchestrated stack
 	if spot.Exist() {
 		return spot.Destroy()
 	}
 	return nil
 }
 
-func (r *kindRequest) createHost() error {
+func (r *kindRequest) createHost() (*KindResultsMetadata, error) {
 	cs := manager.Stack{
 		StackName:   maptContext.StackNameByProject(stackName),
 		ProjectName: maptContext.ProjectName(),
@@ -116,8 +113,57 @@ func (r *kindRequest) createHost() error {
 				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.allocationData.Region}),
 		DeployFunc: r.deploy,
 	}
-	sr, _ := manager.UpStack(cs)
-	return manageResults(sr, r.prefix)
+
+	sr, err := manager.UpStack(cs)
+	if err != nil {
+		return nil, fmt.Errorf("stack creation failed: %w", err)
+	}
+
+	getOutput := func(name string) (string, error) {
+		key := fmt.Sprintf("%s-%s", *r.prefix, name)
+		output, ok := sr.Outputs[key]
+		if !ok {
+			return "", fmt.Errorf("output not found: %s", key)
+		}
+		value, ok := output.Value.(string)
+		if !ok {
+			return "", fmt.Errorf("output for %s is not a string", key)
+		}
+		return value, nil
+	}
+
+	username, err := getOutput(outputUsername)
+	if err != nil {
+		return nil, err
+	}
+	privateKey, err := getOutput(outputUserPrivateKey)
+	if err != nil {
+		return nil, err
+	}
+	host, err := getOutput(outputHost)
+	if err != nil {
+		return nil, err
+	}
+	kubeconfig, err := getOutput(outputKubeconfig)
+	if err != nil {
+		return nil, err
+	}
+
+	results := &KindResultsMetadata{
+		Username:   username,
+		PrivateKey: privateKey,
+		Host:       host,
+		Kubeconfig: kubeconfig,
+		SpotPrice:  *r.allocationData.SpotPrice,
+	}
+
+	if path := maptContext.GetResultsOutputPath(); path != "" {
+		if err := manageResults(sr, r.prefix); err != nil {
+			logging.Warnf("Failed to write results to %s: %v", path, err)
+		}
+	}
+
+	return results, nil
 }
 
 func (r *kindRequest) deploy(ctx *pulumi.Context) error {
@@ -125,46 +171,48 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	ami, err := amiSVC.GetAMIByName(ctx,
 		amiName(r.arch),
 		[]string{amiOwner},
-		map[string]string{
-			"architecture": *r.arch})
+		map[string]string{"architecture": *r.arch})
 	if err != nil {
 		return err
 	}
+
 	// Networking
 	// LB is required if we use as which is used for spot feature
 	createLB := r.allocationData.SpotPrice != nil
 	nr := network.NetworkRequest{
-		Prefix: *r.prefix,
-		ID:     awsKindID,
-		Region: *r.allocationData.Region,
-		AZ:     *r.allocationData.AZ,
-
+		Prefix:             *r.prefix,
+		ID:                 awsKindID,
+		Region:             *r.allocationData.Region,
+		AZ:                 *r.allocationData.AZ,
 		CreateLoadBalancer: &createLB,
 	}
 	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx)
 	if err != nil {
 		return err
 	}
+
 	// Create Keypair
 	kpr := keypair.KeyPairRequest{
-		Name: resourcesUtil.GetResourceName(
-			*r.prefix, awsKindID, "pk")}
+		Name: resourcesUtil.GetResourceName(*r.prefix, awsKindID, "pk")}
 	keyResources, err := kpr.Create(ctx)
 	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
+
 	// Security groups
 	securityGroups, err := securityGroups(ctx, r.prefix, vpc)
 	if err != nil {
 		return err
 	}
+
 	// Userdata
 	udB64, err := userData(r.arch, r.version, &lbEIP.PublicIp)
 	if err != nil {
 		return err
 	}
+
 	cr := compute.ComputeRequest{
 		Prefix:           *r.prefix,
 		ID:               awsKindID,
@@ -188,29 +236,32 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUsername),
 		pulumi.String(amiUserDefault))
+
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
 		c.GetHostIP(true))
+
 	if len(*r.timeout) > 0 {
-		if err = serverless.OneTimeDelayedTask(ctx,
+		err := serverless.OneTimeDelayedTask(ctx,
 			*r.allocationData.Region, *r.prefix,
 			awsKindID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless --force-destroy",
-				"kind",
-				maptContext.ProjectName(),
-				maptContext.BackedURL()),
-			*r.timeout); err != nil {
+				"kind", maptContext.ProjectName(), maptContext.BackedURL()),
+			*r.timeout)
+		if err != nil {
 			return err
 		}
 	}
-	// Use kubeconfig as the readiness for the cluster
+
 	kubeconfig, err := kubeconfig(ctx, r.prefix, c, keyResources.PrivateKey)
 	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig),
 		pulumi.ToSecret(kubeconfig))
+
 	return nil
 }
 
