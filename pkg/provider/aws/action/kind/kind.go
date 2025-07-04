@@ -30,20 +30,22 @@ import (
 )
 
 type KindArgs struct {
-	Prefix         string
-	ComputeRequest *cr.ComputeRequestArgs
-	Version        string
-	Arch           string
-	Spot           bool
-	Timeout        string
+	Prefix            string
+	ComputeRequest    *cr.ComputeRequestArgs
+	Version           string
+	Arch              string
+	Spot              bool
+	Timeout           string
+	ExtraPortMappings string
 }
 
 type kindRequest struct {
-	prefix         *string
-	version        *string
-	arch           *string
-	timeout        *string
-	allocationData *allocation.AllocationData
+	prefix            *string
+	version           *string
+	arch              *string
+	timeout           *string
+	allocationData    *allocation.AllocationData
+	extraPortMappings *string
 }
 
 type KindResultsMetadata struct {
@@ -63,10 +65,11 @@ func Create(ctx *maptContext.ContextArgs, args *KindArgs) (kr *KindResultsMetada
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := kindRequest{
-		prefix:  &prefix,
-		version: &args.Version,
-		arch:    &args.Arch,
-		timeout: &args.Timeout}
+		prefix:            &prefix,
+		version:           &args.Version,
+		arch:              &args.Arch,
+		timeout:           &args.Timeout,
+		extraPortMappings: &args.ExtraPortMappings}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnSpot(&args.Prefix, &amiProduct, nil, args.ComputeRequest)
@@ -130,6 +133,23 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 
+	// Parse extra port mappings to extract hostPort values
+	extraPortMappingsValue := ""
+	if r.extraPortMappings != nil {
+		extraPortMappingsValue = *r.extraPortMappings
+	}
+
+	parsedPortMappings, err := kindCloudConfig.ParseExtraPortMappings(extraPortMappingsValue)
+	if err != nil {
+		return err
+	}
+
+	// Extract hostPort values for LB target groups and security group rules
+	extraHostPorts := make([]int, 0, len(parsedPortMappings))
+	for _, pm := range parsedPortMappings {
+		extraHostPorts = append(extraHostPorts, pm.HostPort)
+	}
+
 	// Networking
 	// LB is required if we use as which is used for spot feature
 	createLB := r.allocationData.SpotPrice != nil
@@ -156,16 +176,19 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		keyResources.PrivateKey.PrivateKeyPem)
 
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.prefix, vpc)
+	securityGroups, err := securityGroups(ctx, r.prefix, vpc, extraHostPorts)
 	if err != nil {
 		return err
 	}
 
 	// Userdata
-	udB64, err := userData(r.arch, r.version, &lbEIP.PublicIp)
+	udB64, err := userData(r.arch, r.version, parsedPortMappings, &lbEIP.PublicIp)
 	if err != nil {
 		return err
 	}
+	// Build LB target groups including both default and extra ports
+	lbTargetGroups := []int{22, portAPI, portHTTP, portHTTPS}
+	lbTargetGroups = append(lbTargetGroups, extraHostPorts...)
 
 	cr := compute.ComputeRequest{
 		Prefix:           *r.prefix,
@@ -180,7 +203,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		DiskSize:         &diskSize,
 		LB:               lb,
 		LBEIP:            lbEIP,
-		LBTargetGroups:   []int{22, portAPI, portHTTP, portHTTPS},
+		LBTargetGroups:   lbTargetGroups,
 	}
 	if r.allocationData.SpotPrice != nil {
 		cr.Spot = true
@@ -278,16 +301,31 @@ func getResultOutput(name string, sr auto.UpResult, prefix *string) (string, err
 
 // security group for Openshift
 func securityGroups(ctx *pulumi.Context, prefix *string,
-	vpc *ec2.Vpc) (pulumi.StringArray, error) {
+	vpc *ec2.Vpc, extraHostPorts []int) (pulumi.StringArray, error) {
+	// Build ingress rules including both default and extra ports
+	ingressRules := []securityGroup.IngressRules{
+		securityGroup.SSH_TCP,
+		{Description: "HTTPS", FromPort: portHTTPS, ToPort: portHTTPS, Protocol: "tcp"},
+		{Description: "HTTP", FromPort: portHTTP, ToPort: portHTTP, Protocol: "tcp"},
+		{Description: "API", FromPort: portAPI, ToPort: portAPI, Protocol: "tcp"},
+	}
+
+	// Add extra ports to ingress rules
+	for _, port := range extraHostPorts {
+		ingressRules = append(ingressRules, securityGroup.IngressRules{
+			Description: fmt.Sprintf("Extra Port %d", port),
+			FromPort:    port,
+			ToPort:      port,
+			Protocol:    "tcp",
+		})
+	}
+
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
-		Name:        resourcesUtil.GetResourceName(*prefix, awsKindID, "sg"),
-		VPC:         vpc,
-		Description: fmt.Sprintf("sg for %s", awsKindID),
-		IngressRules: []securityGroup.IngressRules{securityGroup.SSH_TCP,
-			{Description: "HTTPS", FromPort: portHTTPS, ToPort: portHTTPS, Protocol: "tcp"},
-			{Description: "HTTP", FromPort: portHTTP, ToPort: portHTTP, Protocol: "tcp"},
-			{Description: "API", FromPort: portAPI, ToPort: portAPI, Protocol: "tcp"}},
+		Name:         resourcesUtil.GetResourceName(*prefix, awsKindID, "sg"),
+		VPC:          vpc,
+		Description:  fmt.Sprintf("sg for %s", awsKindID),
+		IngressRules: ingressRules,
 	}.Create(ctx)
 	if err != nil {
 		return nil, err
@@ -300,7 +338,7 @@ func securityGroups(ctx *pulumi.Context, prefix *string,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func userData(arch, k8sVersion *string, lbEIP *pulumi.StringOutput) (pulumi.StringPtrInput, error) {
+func userData(arch, k8sVersion *string, parsedPortMappings []kindCloudConfig.PortMapping, lbEIP *pulumi.StringOutput) (pulumi.StringPtrInput, error) {
 	ccB64 := lbEIP.ApplyT(
 		func(publicIP string) (string, error) {
 			ccB64, err := kindCloudConfig.CloudConfig(
@@ -308,10 +346,11 @@ func userData(arch, k8sVersion *string, lbEIP *pulumi.StringOutput) (pulumi.Stri
 					Arch: util.If(*arch == "x86_64",
 						kindCloudConfig.X86_64,
 						kindCloudConfig.Arm64),
-					KindVersion: KindK8sVersions[*k8sVersion].kindVersion,
-					KindImage:   KindK8sVersions[*k8sVersion].KindImage,
-					Username:    amiUserDefault,
-					PublicIP:    publicIP})
+					KindVersion:       KindK8sVersions[*k8sVersion].kindVersion,
+					KindImage:         KindK8sVersions[*k8sVersion].KindImage,
+					Username:          amiUserDefault,
+					PublicIP:          publicIP,
+					ExtraPortMappings: parsedPortMappings})
 			return *ccB64, err
 		}).(pulumi.StringOutput)
 
