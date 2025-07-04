@@ -43,9 +43,12 @@ write_files:
   permissions: '0644'
 runcmd:  
   - dnf install -y podman kubectl
+  - sysctl fs.inotify.max_user_watches=524288
+  - sysctl fs.inotify.max_user_instances=512
   - curl -Lo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}
   - chmod +x /usr/local/bin/kind
   - kind create cluster --name kind-mapt --config /root/kind-config.yaml --image {{ .KindImage }}
+  - podman update --pids-limit 4096 kind-mapt-control-plane
     # Validate cluster before export the final Kubeconfig
   - cmdKubeconfig="kind get kubeconfig --name kind-mapt > kubeconfig"
   - cmdCheckCluster="kubectl --request-timeout=3s --insecure-skip-tls-verify --kubeconfig kubeconfig get node >/dev/null 2>&1"
