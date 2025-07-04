@@ -1,4 +1,9 @@
 #cloud-config
+bootcmd:
+  # Resize the partition (4 = /dev/nvme0n1p4 typically)
+  - growpart /dev/nvme0n1 4
+  # Resize the XFS filesystem on /sysroot
+  - xfs_growfs /sysroot
 runcmd:
   - systemctl enable --now kubelet
   - pushd /tmp
