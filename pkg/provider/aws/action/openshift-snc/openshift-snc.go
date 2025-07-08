@@ -52,13 +52,23 @@ type openshiftSNCRequest struct {
 	allocationData *allocation.AllocationData
 }
 
+type OpenshiftSncResultsMetadata struct {
+	Username      string   `json:"username"`
+	PrivateKey    string   `json:"private_key"`
+	Host          string   `json:"host"`
+	Kubeconfig    string   `json:"kubeconfig"`
+	KubeadminPass string   `json:"kubeadmin_pass"`
+	SpotPrice     *float64 `json:"spot_price,omitempty"`
+	ConsoleUrl    string   `json:"console_url,omitempty"`
+}
+
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) (err error) {
+func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncResultsMetadata, err error) {
 	// Create mapt Context
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
-		return err
+		return nil, err
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
@@ -77,13 +87,13 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) (err error) {
 			return allocation.AllocationDataOnDemand()
 		})
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// Manage AMI offering / replication
 	amiName := amiName(&args.Version, &args.Arch)
 	if err = manageAMIReplication(&args.Prefix,
 		&amiName, r.allocationData.Region, &args.Arch); err != nil {
-		return err
+		return nil, err
 	}
 	return r.createCluster()
 }
@@ -116,7 +126,7 @@ func Destroy(ctx *maptContext.ContextArgs) (err error) {
 	return nil
 }
 
-func (r *openshiftSNCRequest) createCluster() error {
+func (r *openshiftSNCRequest) createCluster() (*OpenshiftSncResultsMetadata, error) {
 	cs := manager.Stack{
 		StackName:   maptContext.StackNameByProject(stackName),
 		ProjectName: maptContext.ProjectName(),
@@ -127,8 +137,12 @@ func (r *openshiftSNCRequest) createCluster() error {
 				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.allocationData.Region}),
 		DeployFunc: r.deploy,
 	}
-	sr, _ := manager.UpStack(cs)
-	return manageResults(sr, r.prefix)
+	sr, err := manager.UpStack(cs)
+	if err != nil {
+		return nil, fmt.Errorf("stack creation failed: %w", err)
+	}
+
+	return r.manageResults(sr, r.prefix)
 }
 
 func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
@@ -243,7 +257,29 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 }
 
 // Write exported values in context to files o a selected target folder
-func manageResults(stackResult auto.UpResult, prefix *string) error {
+func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *string) (*OpenshiftSncResultsMetadata, error) {
+	username, err := getResultOutput(outputUsername, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	privateKey, err := getResultOutput(outputUserPrivateKey, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	host, err := getResultOutput(outputHost, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	kubeconfig, err := getResultOutput(outputKubeconfig, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+
+	kubeAdminPass, err := getResultOutput(outputKubeAdminPass, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+
 	hostIPKey := fmt.Sprintf("%s-%s", *prefix, outputHost)
 	results := map[string]string{
 		fmt.Sprintf("%s-%s", *prefix, outputUsername):       "username",
@@ -253,18 +289,32 @@ func manageResults(stackResult auto.UpResult, prefix *string) error {
 		fmt.Sprintf("%s-%s", *prefix, outputKubeAdminPass): "kubeadmin_pass",
 		fmt.Sprintf("%s-%s", *prefix, outputDeveloperPass): "developer_pass",
 	}
-	if err := output.Write(
-		stackResult, maptContext.GetResultsOutputPath(), results); err != nil {
-		return err
+
+	outputPath := maptContext.GetResultsOutputPath()
+	if len(outputPath) == 0 {
+		logging.Warn("conn-details-output flag not set; skipping writing output files.")
+	} else {
+		if err := output.Write(stackResult, outputPath, results); err != nil {
+			return nil, fmt.Errorf("failed to write results: %w", err)
+		}
 	}
+
 	eip, ok := stackResult.Outputs[hostIPKey].Value.(string)
 	if ok {
-		fmt.Printf("Cluster has been started you can access console at: %s. You can check passwords at %s",
-			fmt.Sprintf(consoleURLRegex, eip),
-			maptContext.GetResultsOutputPath())
-		return nil
+		fmt.Printf("Cluster has been started you can access console at: %s.",
+			fmt.Sprintf(consoleURLRegex, eip))
+		return nil, err
 	}
-	return fmt.Errorf("error getting value for cluster ip")
+
+	return &OpenshiftSncResultsMetadata{
+		Username:      username,
+		PrivateKey:    privateKey,
+		Host:          host,
+		Kubeconfig:    kubeconfig,
+		KubeadminPass: kubeAdminPass,
+		SpotPrice:     r.allocationData.SpotPrice,
+		ConsoleUrl:    fmt.Sprintf(consoleURLRegex, host),
+	}, fmt.Errorf("error getting value for cluster ip")
 }
 
 // security group for Openshift
@@ -416,4 +466,17 @@ func kubeconfig(ctx *pulumi.Context,
 				fmt.Sprintf("https://api.%s.nip.io:6443", args[1].(string)))
 		}).(pulumi.StringOutput)
 	return kubeconfig, nil
+}
+
+func getResultOutput(name string, sr auto.UpResult, prefix *string) (string, error) {
+	key := fmt.Sprintf("%s-%s", *prefix, name)
+	output, ok := sr.Outputs[key]
+	if !ok {
+		return "", fmt.Errorf("output not found: %s", key)
+	}
+	value, ok := output.Value.(string)
+	if !ok {
+		return "", fmt.Errorf("output for %s is not a string", key)
+	}
+	return value, nil
 }

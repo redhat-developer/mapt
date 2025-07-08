@@ -48,7 +48,7 @@ func createSNC() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := openshiftsnc.Create(
+			if _, err := openshiftsnc.Create(
 				&maptContext.ContextArgs{
 					ProjectName:           viper.GetString(params.ProjectName),
 					BackedURL:             viper.GetString(params.BackedURL),
