@@ -35,12 +35,10 @@ require (
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b
 )
 
-require github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
-
-// require github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
-
-// github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
-require github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0 // indirect
+require (
+	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0 // indirect
+)
 
 require (
 	github.com/BurntSushi/toml v1.5.0 // indirect
@@ -82,7 +80,7 @@ require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charmbracelet/bubbles v0.21.0 // indirect
-	github.com/charmbracelet/bubbletea v1.3.5 // indirect
+	github.com/charmbracelet/bubbletea v1.3.6 // indirect
 	github.com/charmbracelet/colorprofile v0.3.1 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.9.3 // indirect
