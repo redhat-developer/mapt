@@ -112,6 +112,10 @@ const (
 	SpotPriceIncreaseRate        = "spot-increase-rate"
 	SpotPriceIncreaseRateDesc    = "Percentage to be added on top of the current calculated spot price to increase chances to get the machine"
 	SpotPriceIncreaseRateDefault = 20
+	
+	// Excluded Zone IDs
+	ExcludedZoneIDs     = "excluded-zone-ids"
+	ExcludedZoneIDsDesc = "Comma-separated list of zone IDs to exclude from availability zone selection"
 )
 
 func GetGHActionsFlagset() *pflag.FlagSet {

@@ -77,6 +77,7 @@ func getCreateEKS() *cobra.Command {
 					Spot:                   viper.IsSet(awsparams.Spot),
 					Addons:                 viper.GetStringSlice(paramAddons),
 					LoadBalancerController: viper.IsSet(paramLoadBalancerController),
+					ExcludedZoneIDs:        viper.GetStringSlice(params.ExcludedZoneIDs),
 				}); err != nil {
 				logging.Error(err)
 			}
@@ -92,6 +93,7 @@ func getCreateEKS() *cobra.Command {
 	flagSet.StringP(paramScalingMinSize, "", defaultScalingMinSize, paramScalingMinSizeDesc)
 	flagSet.StringSliceP(paramAddons, "", []string{}, paramAddonsDesc)
 	flagSet.Bool(paramLoadBalancerController, false, paramLoadBalancerControllerDesc)
+	flagSet.StringSliceP(params.ExcludedZoneIDs, "", []string{}, params.ExcludedZoneIDsDesc)
 	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.Bool(awsparams.Spot, false, awsparams.SpotDesc)

@@ -75,7 +75,7 @@ type NetworkResources struct {
 }
 
 func DefaultNetworkRequest(name, regionName string) NetworkRequest {
-	azs := data.GetAvailabilityZones("")[:3]
+	azs := data.GetAvailabilityZones("", nil)[:3]
 	azCount := len(azs)
 	return NetworkRequest{
 		Name:                name,
