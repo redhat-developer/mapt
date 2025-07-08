@@ -47,11 +47,11 @@ type kindRequest struct {
 }
 
 type KindResultsMetadata struct {
-	Username   string  `json:"username"`
-	PrivateKey string  `json:"private_key"`
-	Host       string  `json:"host"`
-	Kubeconfig string  `json:"kubeconfig"`
-	SpotPrice  float64 `json:"spot_price,omitempty"`
+	Username   string   `json:"username"`
+	PrivateKey string   `json:"private_key"`
+	Host       string   `json:"host"`
+	Kubeconfig string   `json:"kubeconfig"`
+	SpotPrice  *float64 `json:"spot_price,omitempty"`
 }
 
 // Create orchestrate 3 stacks:
@@ -59,14 +59,14 @@ type KindResultsMetadata struct {
 // Then it will run the stack for windows dedicated host
 func Create(ctx *maptContext.ContextArgs, args *KindArgs) (*KindResultsMetadata, error) {
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
-		return &KindResultsMetadata{}, err
+		return nil, err
 	}
 	instanceTypes, err := args.InstanceRequest.GetMachineTypes()
 	if err != nil {
-		return &KindResultsMetadata{}, err
+		return nil, err
 	}
 	if len(instanceTypes) == 0 {
-		return &KindResultsMetadata{}, fmt.Errorf("no instances matching criteria")
+		return nil, fmt.Errorf("no instances matching criteria")
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := kindRequest{
@@ -82,7 +82,7 @@ func Create(ctx *maptContext.ContextArgs, args *KindArgs) (*KindResultsMetadata,
 			return allocation.AllocationDataOnDemand()
 		})
 	if err != nil {
-		return &KindResultsMetadata{}, err
+		return nil, err
 	}
 
 	return r.createHost()
@@ -119,51 +119,12 @@ func (r *kindRequest) createHost() (*KindResultsMetadata, error) {
 		return nil, fmt.Errorf("stack creation failed: %w", err)
 	}
 
-	getOutput := func(name string) (string, error) {
-		key := fmt.Sprintf("%s-%s", *r.prefix, name)
-		output, ok := sr.Outputs[key]
-		if !ok {
-			return "", fmt.Errorf("output not found: %s", key)
-		}
-		value, ok := output.Value.(string)
-		if !ok {
-			return "", fmt.Errorf("output for %s is not a string", key)
-		}
-		return value, nil
+	metadataResults, err := r.manageResults(sr, r.prefix)
+	if err != nil {
+		return nil, fmt.Errorf("failed to manage results: %w", err)
 	}
 
-	username, err := getOutput(outputUsername)
-	if err != nil {
-		return nil, err
-	}
-	privateKey, err := getOutput(outputUserPrivateKey)
-	if err != nil {
-		return nil, err
-	}
-	host, err := getOutput(outputHost)
-	if err != nil {
-		return nil, err
-	}
-	kubeconfig, err := getOutput(outputKubeconfig)
-	if err != nil {
-		return nil, err
-	}
-
-	results := &KindResultsMetadata{
-		Username:   username,
-		PrivateKey: privateKey,
-		Host:       host,
-		Kubeconfig: kubeconfig,
-		SpotPrice:  *r.allocationData.SpotPrice,
-	}
-
-	if path := maptContext.GetResultsOutputPath(); path != "" {
-		if err := manageResults(sr, r.prefix); err != nil {
-			logging.Warnf("Failed to write results to %s: %v", path, err)
-		}
-	}
-
-	return results, nil
+	return metadataResults, nil
 }
 
 func (r *kindRequest) deploy(ctx *pulumi.Context) error {
@@ -266,7 +227,32 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 }
 
 // Write exported values in context to files o a selected target folder
-func manageResults(stackResult auto.UpResult, prefix *string) error {
+func (r *kindRequest) manageResults(stackResult auto.UpResult, prefix *string) (*KindResultsMetadata, error) {
+	username, err := getResultOutput(outputUsername, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	privateKey, err := getResultOutput(outputUserPrivateKey, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	host, err := getResultOutput(outputHost, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	kubeconfig, err := getResultOutput(outputKubeconfig, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+
+	metadataResults := &KindResultsMetadata{
+		Username:   username,
+		PrivateKey: privateKey,
+		Host:       host,
+		Kubeconfig: kubeconfig,
+		SpotPrice:  r.allocationData.SpotPrice,
+	}
+
 	hostIPKey := fmt.Sprintf("%s-%s", *prefix, outputHost)
 	results := map[string]string{
 		fmt.Sprintf("%s-%s", *prefix, outputUsername):       "username",
@@ -274,7 +260,27 @@ func manageResults(stackResult auto.UpResult, prefix *string) error {
 		hostIPKey: "host",
 		fmt.Sprintf("%s-%s", *prefix, outputKubeconfig): "kubeconfig",
 	}
-	return output.Write(stackResult, maptContext.GetResultsOutputPath(), results)
+
+	if maptContext.GetResultsOutputPath() != "" {
+		if err := output.Write(stackResult, maptContext.GetResultsOutputPath(), results); err != nil {
+			return nil, fmt.Errorf("failed to write results: %w", err)
+		}
+	}
+
+	return metadataResults, nil
+}
+
+func getResultOutput(name string, sr auto.UpResult, prefix *string) (string, error) {
+	key := fmt.Sprintf("%s-%s", *prefix, name)
+	output, ok := sr.Outputs[key]
+	if !ok {
+		return "", fmt.Errorf("output not found: %s", key)
+	}
+	value, ok := output.Value.(string)
+	if !ok {
+		return "", fmt.Errorf("output for %s is not a string", key)
+	}
+	return value, nil
 }
 
 // security group for Openshift
