@@ -14,22 +14,35 @@ import (
 
 // this function gets our stack ready for update/destroy by prepping the workspace, init/selecting the stack
 // and doing a refresh to make sure state and cloud resources are in sync
-func getStack(ctx context.Context, target Stack) auto.Stack {
+func getStack(ctx context.Context, target Stack) (auto.Stack, error) {
 	// create or select a stack with an inline Pulumi program
-	s, err := auto.UpsertStackInlineSource(ctx, target.StackName,
-		target.ProjectName, target.DeployFunc, getOpts(target)...)
+	s, err := auto.UpsertStackInlineSource(ctx,
+		target.StackName,
+		target.ProjectName,
+		target.DeployFunc,
+		getOpts(target)...)
 	if err != nil {
 		logging.Errorf("Failed to create or select stack: %v", err)
-		os.Exit(1)
+		return auto.Stack{}, err
 	}
+
 	if err = postStack(ctx, target, &s); err != nil {
 		logging.Error(err)
-		os.Exit(1)
+		return auto.Stack{}, err
 	}
-	return s
+
+	return s, nil
 }
 
 func getOpts(target Stack) []auto.LocalWorkspaceOption {
+	// Build the work dir path: ./<stack-name>
+	workDir := filepath.Join(".", target.StackName)
+
+	// Ensure the directory exists
+	if err := os.MkdirAll(workDir, 0755); err != nil {
+		logging.Fatalf("Failed to create work directory %q: %v", workDir, err)
+	}
+
 	return []auto.LocalWorkspaceOption{
 		auto.Project(workspace.Project{
 			Name:    tokens.PackageName(target.ProjectName),
@@ -38,8 +51,7 @@ func getOpts(target Stack) []auto.LocalWorkspaceOption {
 				URL: target.BackedURL,
 			},
 		}),
-		auto.WorkDir(filepath.Join(".")),
-		// auto.SecretsProvider("awskms://alias/pulumi-secret-encryption"),
+		auto.WorkDir(workDir),
 	}
 }
 
