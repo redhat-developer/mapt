@@ -50,7 +50,7 @@ github.com/Masterminds/semver/v3
 ## explicit; go 1.23.0
 github.com/OpenPeeDeeP/depguard/v2
 github.com/OpenPeeDeeP/depguard/v2/internal/utils
-# github.com/alecthomas/chroma/v2 v2.18.0
+# github.com/alecthomas/chroma/v2 v2.19.0
 ## explicit; go 1.22
 github.com/alecthomas/chroma/v2
 github.com/alecthomas/chroma/v2/formatters
@@ -96,7 +96,7 @@ github.com/blizzy78/varnamelen
 # github.com/bombsimon/wsl/v4 v4.7.0
 ## explicit; go 1.23
 github.com/bombsimon/wsl/v4
-# github.com/bombsimon/wsl/v5 v5.0.0
+# github.com/bombsimon/wsl/v5 v5.1.0
 ## explicit; go 1.23.0
 github.com/bombsimon/wsl/v5
 # github.com/breml/bidichk v0.3.3
@@ -268,8 +268,8 @@ github.com/golangci/dupl/syntax/golang
 # github.com/golangci/go-printf-func-name v0.1.0
 ## explicit; go 1.22.0
 github.com/golangci/go-printf-func-name/pkg/analyzer
-# github.com/golangci/gofmt v0.0.0-20250413222143-f2e10e00591b
-## explicit; go 1.22.0
+# github.com/golangci/gofmt v0.0.0-20250704145412-3e58ba0443c6
+## explicit; go 1.23.0
 github.com/golangci/gofmt/gofmt
 # github.com/golangci/golangci-lint/v2 v2.2.1
 ## explicit; go 1.23.0
@@ -660,7 +660,7 @@ github.com/prometheus/client_model/go
 ## explicit; go 1.23.0
 github.com/prometheus/common/expfmt
 github.com/prometheus/common/model
-# github.com/prometheus/procfs v0.16.1
+# github.com/prometheus/procfs v0.17.0
 ## explicit; go 1.23.0
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
