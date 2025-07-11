@@ -1,9 +1,12 @@
-package constants
+package params
 
 import (
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 )
 
 const (
@@ -46,12 +49,20 @@ const (
 	GHActionsRunnerTokenDesc    string = "Token needed for registering the Github Actions Runner token"
 	GHActionsRunnerRepoDesc     string = "Full URL of the repository where the Github Actions Runner should be registered"
 	GHActionsRunnerLabelsDesc   string = "List of labels separated by comma to be added to the self-hosted runner"
-	Memory                      string = "memory"
-	MemoryDesc                  string = "Amount of RAM for the cloud instance in GiB"
-	CPUs                        string = "cpus"
-	CPUsDesc                    string = "Number of CPUs for the cloud instance"
-	NestedVirt                  string = "nested-virt"
-	NestedVirtDesc              string = "Use cloud instance that has nested virtualization support"
+
+	// Compute request
+	memory              string = "memory"
+	memoryDesc          string = "Amount of RAM for the cloud instance in GiB"
+	cpus                string = "cpus"
+	cpusDesc            string = "Number of CPUs for the cloud instance"
+	gpus                string = "gpus"
+	gpusDesc            string = "Number of GPUs for the cloud instance"
+	gpuManufacturer     string = "gpu-manufacturer"
+	gpuManufacturerDesc string = "Manufacturer company name for GPU. (i.e. NVIDIA)"
+	nestedVirt          string = "nested-virt"
+	nestedVirtDesc      string = "Use cloud instance that has nested virtualization support"
+	computeSizes        string = "compute-sizes"
+	computeSizesDesc    string = "Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args"
 
 	CreateCmdName  string = "create"
 	DestroyCmdName string = "destroy"
@@ -66,15 +77,18 @@ const (
 	CirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
 
 	//RHEL
-	SubsUsername       string = "rh-subscription-username"
-	SubsUsernameDesc   string = "username to register the subscription"
-	SubsUserpass       string = "rh-subscription-password"
-	SubsUserpassDesc   string = "password to register the subscription"
-	ProfileSNC         string = "snc"
-	ProfileSNCDesc     string = "if this flag is set the RHEL will be setup with SNC profile. Setting up all requirements to run https://github.com/crc-org/snc"
-	RhelVersion        string = "version"
-	RhelVersionDesc    string = "version for the RHEL OS"
-	RhelVersionDefault string = "9.4"
+	SubsUsername         string = "rh-subscription-username"
+	SubsUsernameDesc     string = "username to register the subscription"
+	SubsUserpass         string = "rh-subscription-password"
+	SubsUserpassDesc     string = "password to register the subscription"
+	ProfileSNC           string = "snc"
+	ProfileSNCDesc       string = "if this flag is set the RHEL will be setup with SNC profile. Setting up all requirements to run https://github.com/crc-org/snc"
+	RhelVersion          string = "version"
+	RhelVersionDesc      string = "version for the RHEL OS"
+	RhelVersionDefault   string = "9.4"
+	RhelAIVersion        string = "version"
+	RhelAIVersionDesc    string = "version for the RHELAI OS"
+	RhelAIVersionDefault string = "1.5.0"
 
 	// Serverless
 	Timeout        string = "timeout"
@@ -108,10 +122,26 @@ func GetGHActionsFlagset() *pflag.FlagSet {
 
 func GetCpusAndMemoryFlagset() *pflag.FlagSet {
 	flagSet := pflag.NewFlagSet(CreateCmdName, pflag.ExitOnError)
-	flagSet.Int32P(CPUs, "", 8, CPUsDesc)
-	flagSet.Int32P(Memory, "", 64, MemoryDesc)
-	flagSet.BoolP(NestedVirt, "", false, NestedVirtDesc)
+	flagSet.Int32P(cpus, "", 8, cpusDesc)
+	flagSet.Int32P(gpus, "", 0, gpusDesc)
+	flagSet.StringP(gpuManufacturer, "", "", gpuManufacturerDesc)
+	flagSet.Int32P(memory, "", 64, memoryDesc)
+	flagSet.BoolP(nestedVirt, "", false, nestedVirtDesc)
+	flagSet.StringSliceP(computeSizes, "", []string{}, computeSizesDesc)
 	return flagSet
+}
+
+func GetComputeRequest() *cr.ComputeRequestArgs {
+	return &cr.ComputeRequestArgs{
+		CPUs:            viper.GetInt32(cpus),
+		GPUs:            viper.GetInt32(gpus),
+		GPUManufacturer: viper.GetString(gpuManufacturer),
+		MemoryGib:       viper.GetInt32(memory),
+		Arch: util.If(viper.GetString(LinuxArch) == "arm64",
+			cr.Arm64, cr.Amd64),
+		NestedVirt:   viper.GetBool(ProfileSNC) || viper.GetBool(nestedVirt),
+		ComputeSizes: viper.GetStringSlice(computeSizes),
+	}
 }
 
 func AddCommonFlags(fs *pflag.FlagSet) {

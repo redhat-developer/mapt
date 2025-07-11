@@ -1,17 +1,12 @@
 package hosts
 
 import (
-	"fmt"
-
-	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	"github.com/redhat-developer/mapt/pkg/util"
 
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -57,15 +52,9 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 				return err
 			}
 
-			// ParseEvictionRate
-			var spotToleranceValue = spotAzure.DefaultEvictionRate
-			if viper.IsSet(azparams.ParamSpotTolerance) {
-				var ok bool
-				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
-					viper.GetString(azparams.ParamSpotTolerance))
-				if !ok {
-					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
-				}
+			spotToleranceValue, err := azparams.SpotTolerance()
+			if err != nil {
+				return err
 			}
 
 			ctx := &maptContext.ContextArgs{
@@ -80,22 +69,16 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 			if err := azureLinux.Create(
 				ctx,
 				&azureLinux.LinuxRequest{
-					Prefix:   viper.GetString(params.ProjectName),
-					Location: viper.GetString(paramLocation),
-					VMSizes:  viper.GetStringSlice(paramVMSize),
-					InstanceRequest: &instancetypes.AzureInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
-						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
-							instancetypes.Arm64, instancetypes.Amd64),
-						NestedVirt: viper.GetBool(params.NestedVirt),
-					},
-					Version:       viper.GetString(paramLinuxVersion),
-					Arch:          viper.GetString(params.LinuxArch),
-					OSType:        ostype,
-					Username:      viper.GetString(paramUsername),
-					Spot:          viper.IsSet(azparams.ParamSpot),
-					SpotTolerance: spotToleranceValue}); err != nil {
+					Prefix:         viper.GetString(params.ProjectName),
+					Location:       viper.GetString(paramLocation),
+					VMSizes:        viper.GetStringSlice(paramVMSize),
+					ComputeRequest: params.GetComputeRequest(),
+					Version:        viper.GetString(paramLinuxVersion),
+					Arch:           viper.GetString(params.LinuxArch),
+					OSType:         ostype,
+					Username:       viper.GetString(paramUsername),
+					Spot:           viper.IsSet(azparams.ParamSpot),
+					SpotTolerance:  *spotToleranceValue}); err != nil {
 				logging.Error(err)
 			}
 			return nil

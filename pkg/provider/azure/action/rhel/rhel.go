@@ -2,12 +2,12 @@ package rhel
 
 import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/rhel"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
@@ -16,20 +16,21 @@ type Request struct {
 	Location            string
 	VMSizes             []string
 	Arch                string
-	InstanceRequest     instancetypes.InstanceRequest
+	ComputeRequest      *cr.ComputeRequestArgs
 	Version             string
 	SubsUsername        string
 	SubsUserpass        string
 	ProfileSNC          bool
 	Username            string
 	Spot                bool
-	SpotTolerance       spotAzure.EvictionRate
+	SpotTolerance       spotTypes.Tolerance
 	SpotExcludedRegions []string
 }
 
 func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
 	if len(r.VMSizes) == 0 {
-		vmSizes, err := r.InstanceRequest.GetMachineTypes()
+		vmSizes, err :=
+			data.NewComputeSelector().Select(r.ComputeRequest)
 		if err != nil {
 			logging.Debugf("Unable to fetch desired instance type: %v", err)
 		}
@@ -45,17 +46,17 @@ func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
 		Username:     r.Username}
 	azureLinuxRequest :=
 		&azureLinux.LinuxRequest{
-			Prefix:          r.Prefix,
-			Location:        r.Location,
-			VMSizes:         r.VMSizes,
-			InstanceRequest: r.InstanceRequest,
-			Version:         r.Version,
-			Arch:            r.Arch,
-			OSType:          data.RHEL,
-			Username:        r.Username,
-			Spot:            r.Spot,
-			SpotTolerance:   r.SpotTolerance,
-			GetUserdata:     rhelCloudConfig.GetAsUserdata,
+			Prefix:         r.Prefix,
+			Location:       r.Location,
+			VMSizes:        r.VMSizes,
+			ComputeRequest: r.ComputeRequest,
+			Version:        r.Version,
+			Arch:           r.Arch,
+			OSType:         data.RHEL,
+			Username:       r.Username,
+			Spot:           r.Spot,
+			SpotTolerance:  r.SpotTolerance,
+			GetUserdata:    rhelCloudConfig.GetAsUserdata,
 			// As RHEL now is set with cloud init this is the ReadinessCommand to check
 			ReadinessCommand: command.CommandCloudInitWait}
 	return azureLinux.Create(ctx, azureLinuxRequest)

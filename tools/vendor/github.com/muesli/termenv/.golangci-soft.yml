@@ -14,16 +14,13 @@ issues:
 
 linters:
   enable:
-    # - dupl
     - exhaustive
-    # - exhaustivestruct
     - goconst
     - godot
     - godox
     - mnd
     - gomoddirectives
     - goprintffuncname
-    # - lll
     - misspell
     - nakedret
     - nestif

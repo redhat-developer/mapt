@@ -1,4 +1,4 @@
-package util
+package slices
 
 import (
 	"reflect"
@@ -28,8 +28,8 @@ var expectedResult map[identifier][]data = map[identifier][]data{
 	{a: "foo", b: "b"}: {{a: "foo", b: "b", c: "c"}},
 }
 
-func TestSplitSlice(t *testing.T) {
-	result := SplitSlice(items,
+func TestSplit(t *testing.T) {
+	result := Split(items,
 		func(item data) identifier {
 			return identifier{
 				a: item.a,

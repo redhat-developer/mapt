@@ -2,11 +2,9 @@ package services
 
 import (
 	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/kind"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -51,17 +49,11 @@ func createKind() *cobra.Command {
 					Tags:                  viper.GetStringMapString(params.Tags),
 				},
 				&kind.KindArgs{
-					InstanceRequest: &instancetypes.AwsInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
-						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
-							instancetypes.Arm64, instancetypes.Amd64),
-						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
-					},
-					Version: viper.GetString(params.KindK8SVersion),
-					Arch:    viper.GetString(params.LinuxArch),
-					Spot:    viper.IsSet(awsParams.Spot),
-					Timeout: viper.GetString(params.Timeout)}); err != nil {
+					ComputeRequest: params.GetComputeRequest(),
+					Version:        viper.GetString(params.KindK8SVersion),
+					Arch:           viper.GetString(params.LinuxArch),
+					Spot:           viper.IsSet(awsParams.Spot),
+					Timeout:        viper.GetString(params.Timeout)}); err != nil {
 				logging.Error(err)
 			}
 			return nil

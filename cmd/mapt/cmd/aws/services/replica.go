@@ -1,7 +1,7 @@
 package services
 
 import (
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	amireplication "github.com/redhat-developer/mapt/pkg/provider/aws/modules/ami"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"

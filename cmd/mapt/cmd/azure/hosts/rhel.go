@@ -1,18 +1,13 @@
 package hosts
 
 import (
-	"fmt"
-
-	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureRHEL "github.com/redhat-developer/mapt/pkg/provider/azure/action/rhel"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	"github.com/redhat-developer/mapt/pkg/util"
 
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -48,15 +43,9 @@ func getCreateRHEL() *cobra.Command {
 				return err
 			}
 
-			// ParseEvictionRate
-			var spotToleranceValue = spotAzure.DefaultEvictionRate
-			if viper.IsSet(azparams.ParamSpotTolerance) {
-				var ok bool
-				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
-					viper.GetString(azparams.ParamSpotTolerance))
-				if !ok {
-					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
-				}
+			spotToleranceValue, err := azparams.SpotTolerance()
+			if err != nil {
+				return err
 			}
 
 			ctx := &maptContext.ContextArgs{
@@ -92,15 +81,10 @@ func getCreateRHEL() *cobra.Command {
 			if err := azureRHEL.Create(
 				ctx,
 				&azureRHEL.Request{
-					Prefix:   viper.GetString(params.ProjectName),
-					Location: viper.GetString(paramLocation),
-					VMSizes:  viper.GetStringSlice(paramVMSize),
-					InstanceRequest: &instancetypes.AzureInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
-						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
-							instancetypes.Arm64, instancetypes.Amd64),
-						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt)},
+					Prefix:              viper.GetString(params.ProjectName),
+					Location:            viper.GetString(paramLocation),
+					VMSizes:             viper.GetStringSlice(paramVMSize),
+					ComputeRequest:      params.GetComputeRequest(),
 					Version:             viper.GetString(paramLinuxVersion),
 					Arch:                viper.GetString(params.LinuxArch),
 					SubsUsername:        viper.GetString(params.SubsUsername),
@@ -108,7 +92,7 @@ func getCreateRHEL() *cobra.Command {
 					ProfileSNC:          viper.IsSet(params.ProfileSNC),
 					Username:            viper.GetString(paramUsername),
 					Spot:                viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:       spotToleranceValue,
+					SpotTolerance:       *spotToleranceValue,
 					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions),
 				}); err != nil {
 				logging.Error(err)

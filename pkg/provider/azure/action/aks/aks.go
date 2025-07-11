@@ -13,9 +13,10 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -29,7 +30,7 @@ type AKSRequest struct {
 	OnlySystemPool      bool
 	EnableAppRouting    bool
 	Spot                bool
-	SpotTolerance       spotAzure.EvictionRate
+	SpotTolerance       spotTypes.Tolerance
 	SpotExcludedRegions []string
 }
 
@@ -118,7 +119,6 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-
 	// create the cluster
 	agentPoolProfiles := containerservice.ManagedClusterAgentPoolProfileArray{
 		&containerservice.ManagedClusterAgentPoolProfileArgs{
@@ -218,11 +218,12 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 func (r *AKSRequest) valuesCheckingSpot() (*string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
-			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
-				VMTypes:               []string{r.VMSize},
-				OSType:                "linux",
-				EvictionRateTolerance: r.SpotTolerance,
-				ExcludedRegions:       r.SpotExcludedRegions,
+			data.GetBestSpotChoice(data.BestSpotChoiceRequest{
+				VMTypes: []string{r.VMSize},
+				OSType:  "linux",
+				// TODO review this
+				// EvictionRateTolerance: r.SpotTolerance,
+				ExcludedRegions: r.SpotExcludedRegions,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {

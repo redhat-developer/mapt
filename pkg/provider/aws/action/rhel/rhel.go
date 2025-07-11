@@ -9,6 +9,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
@@ -22,7 +23,6 @@ import (
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/rhel"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -30,15 +30,15 @@ import (
 )
 
 type RHELArgs struct {
-	Prefix          string
-	Version         string
-	Arch            string
-	InstanceRequest instancetypes.InstanceRequest
-	SubsUsername    string
-	SubsUserpass    string
-	ProfileSNC      bool
-	Spot            bool
-	Airgap          bool
+	Prefix         string
+	Version        string
+	Arch           string
+	ComputeRequest *cr.ComputeRequestArgs
+	SubsUsername   string
+	SubsUserpass   string
+	ProfileSNC     bool
+	Spot           bool
+	Airgap         bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -64,18 +64,10 @@ type rhelRequest struct {
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *RHELArgs) error {
+func Create(ctx *maptContext.ContextArgs, args *RHELArgs) (err error) {
 	// Create mapt Context
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
-	}
-	// Get instance types matching requirements
-	instanceTypes, err := args.InstanceRequest.GetMachineTypes()
-	if err != nil {
-		return err
-	}
-	if len(instanceTypes) == 0 {
-		return fmt.Errorf("no instances matching criteria")
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
@@ -92,7 +84,7 @@ func Create(ctx *maptContext.ContextArgs, args *RHELArgs) error {
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnSpot(
-				&args.Prefix, &amiProduct, nil, instanceTypes)
+				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()
@@ -229,8 +221,11 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		Airgap:           *r.airgap,
 		LB:               lb,
 		LBEIP:            lbEIP,
-		LBTargetGroups:   []int{22},
-		Spot:             *r.spot}
+		LBTargetGroups:   []int{22}}
+	if r.allocationData.SpotPrice != nil {
+		cr.Spot = true
+		cr.SpotPrice = *r.allocationData.SpotPrice
+	}
 	c, err := cr.NewCompute(ctx)
 	if err != nil {
 		return err

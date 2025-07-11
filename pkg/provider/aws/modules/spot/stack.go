@@ -8,7 +8,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
-	awsSpot "github.com/redhat-developer/mapt/pkg/spot/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -30,13 +30,19 @@ type SpotOptionResult struct {
 
 type bestSpotOption struct {
 	pulumi.ResourceState
-	Option *awsSpot.SpotOptionInfo
+	Option *data.SpotInfoResult
 }
 
 func NewBestSpotOption(ctx *pulumi.Context, name string,
 	productDescription string, instaceTypes []string,
-	amiName, amiArch string, opts ...pulumi.ResourceOption) (*awsSpot.SpotOptionInfo, error) {
-	spotOption, err := awsSpot.BestSpotOptionInfo(productDescription, instaceTypes, amiName, amiArch)
+	amiName, amiArch string, opts ...pulumi.ResourceOption) (*data.SpotInfoResult, error) {
+	spotOption, err := data.SpotInfo(
+		&data.SpotInfoArgs{
+			ProductDescription: &productDescription,
+			InstaceTypes:       instaceTypes,
+			AMIName:            &amiName,
+			AMIArch:            &amiArch,
+		})
 	if err != nil {
 		return nil, err
 	}

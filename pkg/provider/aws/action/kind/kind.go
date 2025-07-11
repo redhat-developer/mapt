@@ -10,6 +10,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
@@ -22,7 +23,6 @@ import (
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	kindCloudConfig "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/kind"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -30,12 +30,12 @@ import (
 )
 
 type KindArgs struct {
-	Prefix          string
-	InstanceRequest instancetypes.InstanceRequest
-	Version         string
-	Arch            string
-	Spot            bool
-	Timeout         string
+	Prefix         string
+	ComputeRequest *cr.ComputeRequestArgs
+	Version        string
+	Arch           string
+	Spot           bool
+	Timeout        string
 }
 
 type kindRequest struct {
@@ -57,16 +57,9 @@ type KindResultsMetadata struct {
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *KindArgs) (*KindResultsMetadata, error) {
+func Create(ctx *maptContext.ContextArgs, args *KindArgs) (kr *KindResultsMetadata, err error) {
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return nil, err
-	}
-	instanceTypes, err := args.InstanceRequest.GetMachineTypes()
-	if err != nil {
-		return nil, err
-	}
-	if len(instanceTypes) == 0 {
-		return nil, fmt.Errorf("no instances matching criteria")
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := kindRequest{
@@ -76,7 +69,7 @@ func Create(ctx *maptContext.ContextArgs, args *KindArgs) (*KindResultsMetadata,
 		timeout: &args.Timeout}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(&args.Prefix, &amiProduct, nil, instanceTypes)
+			return allocation.AllocationDataOnSpot(&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()

@@ -1,4 +1,4 @@
-package instancetypes
+package data
 
 import (
 	"context"
@@ -10,32 +10,55 @@ import (
 	"sync"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	armcompute "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 )
 
-func getAzureVMSKUs(cpus, memory int32, arch arch, nestedVirt bool) ([]string, error) {
+const (
+	// standard D,E and F series are the VM families
+	// supporting nested virtualization
+	dSeriesPattern = `standardD.*v[3-6]Family$`
+	eSeriesPattern = `standardE.*v[3-6]Family$`
+	fSeriesPattern = `standardF.*v\dFamily$`
+	//
+	lowerCpuPattern = `Standard.*-.*_v\d$`
+)
 
+type ComputeSelector struct{}
+
+func NewComputeSelector() *ComputeSelector { return &ComputeSelector{} }
+
+func (c *ComputeSelector) Select(
+	args *cr.ComputeRequestArgs) ([]string, error) {
+	return getAzureVMSKUs(args)
+}
+
+func getAzureVMSKUs(args *cr.ComputeRequestArgs) ([]string, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 	ctx := context.Background()
 	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
-	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
+	clientFactory, err := armcompute.NewClientFactory(
+		subscriptionId, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	pager := clientFactory.NewResourceSKUsClient().NewListPager(&armcompute.ResourceSKUsClientListOptions{Filter: nil,
-		IncludeExtendedLocations: nil,
-	})
-
+	pager := clientFactory.NewResourceSKUsClient().NewListPager(
+		&armcompute.ResourceSKUsClientListOptions{
+			Filter:                   nil,
+			IncludeExtendedLocations: nil,
+		})
 	vmTypes := []string{}
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-		vmTypes = append(vmTypes, FilterVMs(page, filterCPUsAndMemory(cpus, memory, arch, nestedVirt))...)
+		vmTypes = append(vmTypes,
+			filterVMs(page,
+				filterCPUsAndMemory(args))...)
 	}
 	return vmTypes, nil
 }
@@ -63,24 +86,15 @@ type virtualMachine struct {
 }
 
 func (vm *virtualMachine) nestedVirtSupported() bool {
-	// standard D,E and F series are the VM families
-	// supporting nested virtualization
-	var dSeriesPattern = `standardD.*v[3-6]Family$`
-	var eSeriesPattern = `standardE.*v[3-6]Family$`
-	var fSeriesPattern = `standardF.*v\dFamily$`
-
 	dSeries := regexp.MustCompile(dSeriesPattern)
 	if dSeries.Match([]byte(vm.Family)) {
 		return true
 	}
-
 	eSeries := regexp.MustCompile(eSeriesPattern)
 	if eSeries.Match([]byte(vm.Family)) {
 		return true
 	}
-
 	fSeries := regexp.MustCompile(fSeriesPattern)
-
 	return fSeries.Match([]byte(vm.Family))
 }
 
@@ -172,12 +186,8 @@ func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
 	return vm
 }
 
-func filterCPUsAndMemory(cpus, memory int32, arch arch, nestedVirt bool) filterFunc {
+func filterCPUsAndMemory(args *cr.ComputeRequestArgs) filterFunc {
 	return func(ctx context.Context, vm *virtualMachine, wg *sync.WaitGroup, vmCh chan<- string) {
-		// VM size is lowered with '-'suffix.
-		// Filter them to meet the request cpu number
-		var lowerCpuPattern = `Standard.*-.*_v\d$`
-
 		defer wg.Done()
 		select {
 		case <-ctx.Done():
@@ -186,10 +196,12 @@ func filterCPUsAndMemory(cpus, memory int32, arch arch, nestedVirt bool) filterF
 			if vm == nil {
 				return
 			}
-			if nestedVirt && !vm.nestedVirtSupported() {
+			if args.NestedVirt && !vm.nestedVirtSupported() {
 				return
 			}
-			if vm.VCPUs >= cpus && vm.Memory >= memory && vm.Arch == arch.String() &&
+			if vm.VCPUs >= args.CPUs &&
+				vm.Memory >= args.MemoryGib &&
+				vm.Arch == args.Arch.String() &&
 				vm.baseFeaturesSupported() {
 				dSeries := regexp.MustCompile(lowerCpuPattern)
 				if !dSeries.Match([]byte(vm.Name)) {
@@ -203,9 +215,8 @@ func filterCPUsAndMemory(cpus, memory int32, arch arch, nestedVirt bool) filterF
 // sort the VirtualMachine slice based on vcpus
 // for the above to happen need to have a slice of VirtualMachines in memory first
 // so no go routines needed
-
-func FilterVMs(skus armcompute.ResourceSKUsClientListResponse, filter filterFunc) []string {
-	chVmTypes := make(chan string, maxResults)
+func filterVMs(skus armcompute.ResourceSKUsClientListResponse, filter filterFunc) []string {
+	chVmTypes := make(chan string, cr.MaxResults)
 	vmTypes := []string{}
 	virtualMachines := []*virtualMachine{}
 	wg := &sync.WaitGroup{}
@@ -245,7 +256,7 @@ func FilterVMs(skus armcompute.ResourceSKUsClientListResponse, filter filterFunc
 			if !slices.Contains(vmTypes, vmtype) {
 				vmTypes = append(vmTypes, vmtype)
 			}
-			if len(vmTypes) == maxResults {
+			if len(vmTypes) == cr.MaxResults {
 				cancelFn()
 				return vmTypes
 			}
@@ -254,18 +265,4 @@ func FilterVMs(skus armcompute.ResourceSKUsClientListResponse, filter filterFunc
 			return vmTypes
 		}
 	}
-}
-
-type AzureInstanceRequest struct {
-	CPUs       int32
-	MemoryGib  int32
-	Arch       arch
-	NestedVirt bool
-}
-
-func (r *AzureInstanceRequest) GetMachineTypes() ([]string, error) {
-	if err := validate(r.CPUs, r.MemoryGib, r.Arch); err != nil {
-		return nil, err
-	}
-	return getAzureVMSKUs(r.CPUs, r.MemoryGib, r.Arch, r.NestedVirt)
 }

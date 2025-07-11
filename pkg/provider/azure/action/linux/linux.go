@@ -10,14 +10,14 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -39,12 +39,12 @@ type LinuxRequest struct {
 	Location            string
 	VMSizes             []string
 	Arch                string
-	InstanceRequest     instancetypes.InstanceRequest
+	ComputeRequest      *cr.ComputeRequestArgs
 	OSType              data.OSType
 	Version             string
 	Username            string
 	Spot                bool
-	SpotTolerance       spotAzure.EvictionRate
+	SpotTolerance       spotTypes.Tolerance
 	SpotExcludedRegions []string
 	GetUserdata         func() (string, error)
 	ReadinessCommand    string
@@ -57,7 +57,8 @@ func Create(ctx *maptContext.ContextArgs, r *LinuxRequest) (err error) {
 	}
 
 	if len(r.VMSizes) == 0 {
-		vmSizes, err := r.InstanceRequest.GetMachineTypes()
+		vmSizes, err :=
+			data.NewComputeSelector().Select(r.ComputeRequest)
 		if err != nil {
 			logging.Debugf("Unable to fetch desired instance type: %v", err)
 		}
@@ -198,13 +199,13 @@ func (r *LinuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 			return nil, "", nil, err
 		}
 		bsc, err :=
-			spotAzure.GetBestSpotChoice(
-				spotAzure.BestSpotChoiceRequest{
-					VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
-					OSType:                "linux",
-					EvictionRateTolerance: r.SpotTolerance,
-					ImageRef:              *ir,
-					ExcludedRegions:       r.SpotExcludedRegions,
+			data.GetBestSpotChoice(
+				data.BestSpotChoiceRequest{
+					VMTypes: util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
+					OSType:  "linux",
+					// EvictionRateTolerance: r.SpotTolerance,
+					ImageRef:        *ir,
+					ExcludedRegions: r.SpotExcludedRegions,
 				})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {

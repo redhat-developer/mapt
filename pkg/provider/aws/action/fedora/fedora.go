@@ -10,6 +10,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
@@ -23,7 +24,6 @@ import (
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	fedoraCloudConfig "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/fedora"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -31,12 +31,12 @@ import (
 )
 
 type FedoraArgs struct {
-	Prefix          string
-	Version         string
-	Arch            string
-	InstanceRequest instancetypes.InstanceRequest
-	Spot            bool
-	Airgap          bool
+	Prefix         string
+	Version        string
+	Arch           string
+	ComputeRequest *cr.ComputeRequestArgs
+	Spot           bool
+	Airgap         bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -59,18 +59,10 @@ type fedoraRequest struct {
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *FedoraArgs) error {
+func Create(ctx *maptContext.ContextArgs, args *FedoraArgs) (err error) {
 	// Create mapt Context
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
-	}
-	// Get instance types matching requirements
-	instanceTypes, err := args.InstanceRequest.GetMachineTypes()
-	if err != nil {
-		return err
-	}
-	if len(instanceTypes) == 0 {
-		return fmt.Errorf("no instances matching criteria")
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
@@ -84,7 +76,7 @@ func Create(ctx *maptContext.ContextArgs, args *FedoraArgs) error {
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnSpot(
-				&args.Prefix, &amiProduct, nil, instanceTypes)
+				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()
@@ -245,8 +237,14 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
+	var cDeps []pulumi.Resource
+	if *r.spot {
+		cDeps = []pulumi.Resource{c.AutoscalingGroup}
+	} else {
+		cDeps = []pulumi.Resource{c.Instance}
+	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsFedoraDedicatedID,
-		keyResources.PrivateKey, amiUserDefault, bastion, []pulumi.Resource{})
+		keyResources.PrivateKey, amiUserDefault, bastion, cDeps)
 }
 
 // Write exported values in context to files o a selected target folder

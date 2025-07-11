@@ -9,7 +9,7 @@ import (
 
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
