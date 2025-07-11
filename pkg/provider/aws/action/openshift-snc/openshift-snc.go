@@ -385,7 +385,7 @@ func kubeconfig(ctx *pulumi.Context,
 		commandReadiness,
 		compute.LoggingCmdStd,
 		fmt.Sprintf("%s-ocp-readiness", *prefix), awsOCPSNCID,
-		mk, amiUserDefault, nil, nil)
+		mk, amiUserDefault, nil, c.Dependencies)
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}

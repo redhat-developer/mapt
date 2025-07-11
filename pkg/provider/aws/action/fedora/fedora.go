@@ -237,14 +237,8 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
-	var cDeps []pulumi.Resource
-	if *r.spot {
-		cDeps = []pulumi.Resource{c.AutoscalingGroup}
-	} else {
-		cDeps = []pulumi.Resource{c.Instance}
-	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsFedoraDedicatedID,
-		keyResources.PrivateKey, amiUserDefault, bastion, cDeps)
+		keyResources.PrivateKey, amiUserDefault, bastion, c.Dependencies)
 }
 
 // Write exported values in context to files o a selected target folder
