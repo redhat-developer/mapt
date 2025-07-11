@@ -32,9 +32,6 @@ func ParseTolerance(str string) (Tolerance, bool) {
 }
 
 type SpotRequestArgs struct {
-	// Compute for the spot can be given by specific types
-	// or params based
-	ComputeTypes   []string
 	ComputeRequest *cr.ComputeRequestArgs
 	OS             *string
 	AMIName        *string

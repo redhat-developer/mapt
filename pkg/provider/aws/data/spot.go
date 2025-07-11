@@ -54,7 +54,7 @@ func (c *SpotSelector) Select(
 
 func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
 	var err error
-	computeTypes := args.ComputeTypes
+	computeTypes := args.ComputeRequest.ComputeSizes
 	if len(computeTypes) == 0 {
 		computeTypes, err =
 			NewComputeSelector().Select(args.ComputeRequest)
