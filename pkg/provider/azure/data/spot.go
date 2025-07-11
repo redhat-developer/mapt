@@ -95,7 +95,7 @@ func (c *SpotSelector) Select(
 
 func lowestPrice(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
 	var err error
-	vms := args.ComputeTypes
+	vms := args.ComputeRequest.ComputeSizes
 	if len(vms) == 0 {
 		vms, err =
 			NewComputeSelector().Select(args.ComputeRequest)
