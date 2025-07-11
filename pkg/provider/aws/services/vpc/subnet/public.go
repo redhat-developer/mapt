@@ -45,7 +45,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 	eip, err := ec2.NewEip(ctx,
 		eipName,
 		&ec2.EipArgs{
-			Vpc: pulumi.Bool(true),
+			Domain: pulumi.String("vpc"),
 		})
 	if err != nil {
 		return nil, err
