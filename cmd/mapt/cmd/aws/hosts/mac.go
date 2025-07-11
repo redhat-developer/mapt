@@ -2,7 +2,7 @@ package hosts
 
 import (
 	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"

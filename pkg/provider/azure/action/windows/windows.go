@@ -17,15 +17,15 @@ import (
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -40,13 +40,13 @@ type WindowsRequest struct {
 	Prefix              string
 	Location            string
 	VMSizes             []string
-	InstaceTypeRequest  instancetypes.InstanceRequest
+	ComputeRequest      *cr.ComputeRequestArgs
 	Version             string
 	Feature             string
 	Username            string
 	AdminUsername       string
 	Spot                bool
-	SpotTolerance       spotAzure.EvictionRate
+	SpotTolerance       spotTypes.Tolerance
 	SpotExcludedRegions []string
 	Profiles            []string
 }
@@ -63,7 +63,8 @@ func Create(ctx *maptContext.ContextArgs, r *WindowsRequest) (err error) {
 	}
 
 	if len(r.VMSizes) == 0 {
-		vmSizes, err := r.InstaceTypeRequest.GetMachineTypes()
+		vmSizes, err :=
+			data.NewComputeSelector().Select(r.ComputeRequest)
 		if err != nil {
 			logging.Debugf("Failed to get instance types: %v", err)
 		}
@@ -184,11 +185,11 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 func (r *WindowsRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if r.Spot {
 		bsc, err :=
-			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
-				VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
-				OSType:                "windows",
-				EvictionRateTolerance: r.SpotTolerance,
-				ExcludedRegions:       r.SpotExcludedRegions,
+			data.GetBestSpotChoice(data.BestSpotChoiceRequest{
+				VMTypes: util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
+				OSType:  "windows",
+				// EvictionRateTolerance: r.SpotTolerance,
+				ExcludedRegions: r.SpotExcludedRegions,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {

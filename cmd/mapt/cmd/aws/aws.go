@@ -3,7 +3,7 @@ package aws
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/hosts"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/services"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"

@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
-	ec2types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"golang.org/x/exp/slices"
@@ -19,7 +19,7 @@ func GetRandomAvailabilityZone(region string, excludedAZs []string) (*string, er
 		return nil, err
 	}
 	if len(excludedAZs) > 0 {
-		azs = slices.DeleteFunc(azs, func(a ec2types.AvailabilityZone) bool {
+		azs = slices.DeleteFunc(azs, func(a ec2Types.AvailabilityZone) bool {
 			return slices.Contains(excludedAZs, *a.ZoneName)
 		})
 	}
@@ -32,17 +32,17 @@ func GetAvailabilityZones(region string) []string {
 		logging.Error(err)
 		return nil
 	}
-	return util.ArrayConvert(azs, func(source ec2types.AvailabilityZone) string {
+	return util.ArrayConvert(azs, func(source ec2Types.AvailabilityZone) string {
 		return *source.ZoneName
 	})
 }
 
 type AvailabilityZonesResult struct {
-	AvailabilityZones []ec2types.AvailabilityZone
+	AvailabilityZones []ec2Types.AvailabilityZone
 	Err               error
 }
 
-func DescribeAvailabilityZonesAsync(regionName string, c chan AvailabilityZonesResult) {
+func describeAvailabilityZonesAsync(regionName string, c chan AvailabilityZonesResult) {
 	data, err := DescribeAvailabilityZones(regionName)
 	c <- AvailabilityZonesResult{
 		AvailabilityZones: data,
@@ -50,11 +50,11 @@ func DescribeAvailabilityZonesAsync(regionName string, c chan AvailabilityZonesR
 
 }
 
-func DescribeAvailabilityZones(regionName string) ([]ec2types.AvailabilityZone, error) {
+func DescribeAvailabilityZones(regionName string) ([]ec2Types.AvailabilityZone, error) {
 	return describeAvailabilityZones(regionName)
 }
 
-func describeAvailabilityZones(regionName string) ([]ec2types.AvailabilityZone, error) {
+func describeAvailabilityZones(regionName string) ([]ec2Types.AvailabilityZone, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(regionName) > 0 {
 		cfgOpts = config.WithRegion(regionName)
@@ -68,7 +68,7 @@ func describeAvailabilityZones(regionName string) ([]ec2types.AvailabilityZone, 
 	input := ec2.DescribeAvailabilityZonesInput{
 		// AllAvailabilityZones: aws.Bool(true),
 	}
-	input.Filters = []ec2types.Filter{
+	input.Filters = []ec2Types.Filter{
 		{
 			Name:   aws.String("zone-type"),
 			Values: []string{"availability-zone"},
@@ -81,13 +81,41 @@ func describeAvailabilityZones(regionName string) ([]ec2types.AvailabilityZone, 
 	return resultAZs.AvailabilityZones, nil
 }
 
-func GetZoneName(azID string, azDescriptions []ec2types.AvailabilityZone) (string, error) {
+func getZoneName(azID string, azDescriptions []ec2Types.AvailabilityZone) (string, error) {
 	idx := slices.IndexFunc(azDescriptions,
-		func(azDescription ec2types.AvailabilityZone) bool {
+		func(azDescription ec2Types.AvailabilityZone) bool {
 			return azID == *azDescription.ZoneId
 		})
 	if idx == -1 {
 		return "", fmt.Errorf("az id not found")
 	}
 	return *azDescriptions[idx].ZoneName, nil
+}
+
+// describeAvailabilityZones will get information for each Az on the requested regions
+// with information for matching AzID and AzName
+
+// AzName is the general AzName
+// AZId is the id for the current user (users are distributed across Azs;
+//
+//	meaning i.e.
+//
+// user 1 Name: us-west-1a ID: us-west-11, Name: us-west-1b ID: us-west-12
+// user 2 Name: us-west-1a ID: us-west-12, Name: us-west-1b ID: us-west-11
+// This allowsa a better distribution among users
+func describeAvailabilityZonesByRegions(regions []string) map[string][]ec2Types.AvailabilityZone {
+	result := make(map[string][]ec2Types.AvailabilityZone)
+	c := make(chan AvailabilityZonesResult)
+	for _, region := range regions {
+		go describeAvailabilityZonesAsync(region, c)
+	}
+	for i := 0; i < len(regions); i++ {
+		availabilityZonesResult := <-c
+		if availabilityZonesResult.Err == nil {
+			region := availabilityZonesResult.AvailabilityZones[0].RegionName
+			result[*region] = append(result[*region], availabilityZonesResult.AvailabilityZones...)
+		}
+	}
+	close(c)
+	return result
 }

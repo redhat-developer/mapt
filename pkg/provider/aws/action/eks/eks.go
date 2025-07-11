@@ -20,23 +20,23 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
+	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
 	network "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	subnet "github.com/redhat-developer/mapt/pkg/provider/aws/services/vpc/subnet"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
-	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 )
 
 type EKSRequest struct {
 	Prefix                 string
-	InstanceRequest        *instancetypes.AwsInstanceRequest
+	ComputeRequest         *cr.ComputeRequestArgs
 	KubernetesVersion      string
 	ScalingDesiredSize     int
 	ScalingMaxSize         int
@@ -54,15 +54,6 @@ func Create(ctx *maptContext.ContextArgs, r *EKSRequest) (err error) {
 		return err
 	}
 
-	// Get instance types matching requirements
-	instanceTypes, err := r.InstanceRequest.GetMachineTypes()
-	if err != nil {
-		return err
-	}
-	if len(instanceTypes) == 0 {
-		return fmt.Errorf("no instances matching criteria")
-	}
-
 	// Get allocation data based on spot flag
 	projectName := maptContext.ProjectName()
 	r.AllocationData, err = util.IfWithError(r.Spot,
@@ -70,8 +61,7 @@ func Create(ctx *maptContext.ContextArgs, r *EKSRequest) (err error) {
 			return allocation.AllocationDataOnSpot(
 				&projectName,
 				&amiProduct,
-				nil,
-				instanceTypes)
+				nil, r.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()
@@ -82,15 +72,15 @@ func Create(ctx *maptContext.ContextArgs, r *EKSRequest) (err error) {
 	r.AvailabilityZones = data.GetAvailabilityZones(*r.AllocationData.Region)
 
 	cs := manager.Stack{
-		StackName:           maptContext.StackNameByProject(stackName),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:   maptContext.StackNameByProject(stackName),
+		ProjectName: maptContext.ProjectName(),
+		BackedURL:   maptContext.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				awsConstants.CONFIG_AWS_REGION:        *r.AllocationData.Region,
 				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.AllocationData.Region,
 			}),
-		DeployFunc:          r.deployer,
+		DeployFunc: r.deployer,
 	}
 
 	sr, _ := manager.UpStack(cs)

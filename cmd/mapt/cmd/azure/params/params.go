@@ -1,4 +1,11 @@
-package constants
+package params
+
+import (
+	"fmt"
+
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	"github.com/spf13/viper"
+)
 
 const (
 	ParamLocation                = "location"
@@ -15,3 +22,18 @@ const (
 	ParamSpotExcludedRegions     = "spot-excluded-regions"
 	ParamSpotExcludedRegionsDesc = "this params allows to pass a comma separated list of regions to avoid when searching for best spot option"
 )
+
+func SpotTolerance() (*spotTypes.Tolerance, error) {
+	// ParseEvictionRate
+	spotToleranceValue := spotTypes.DefaultTolerance
+	if viper.IsSet(ParamSpotTolerance) {
+		var ok bool
+		spotToleranceValue, ok = spotTypes.ParseTolerance(
+			viper.GetString(ParamSpotTolerance))
+		if !ok {
+			return nil, fmt.Errorf("%s is not a valid spot tolerance value",
+				viper.GetString(ParamSpotTolerance))
+		}
+	}
+	return &spotToleranceValue, nil
+}

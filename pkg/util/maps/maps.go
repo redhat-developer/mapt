@@ -8,3 +8,19 @@ func Convert[X comparable, Y any, Z comparable, V any](source map[X]Y,
 	}
 	return result
 }
+
+func Keys[X comparable, Y any](m map[X]Y) []X {
+	keys := make([]X, 0, len(m))
+	for k := range m {
+		keys = append(keys, k)
+	}
+	return keys
+}
+
+func Values[X comparable, Y any](m map[X]Y) []Y {
+	values := make([]Y, 0, len(m))
+	for _, v := range m {
+		values = append(values, v)
+	}
+	return values
+}

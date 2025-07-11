@@ -2,11 +2,9 @@ package services
 
 import (
 	awsparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	awsEKS "github.com/redhat-developer/mapt/pkg/provider/aws/action/eks"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -71,13 +69,8 @@ func getCreateEKS() *cobra.Command {
 					SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
 				},
 				&awsEKS.EKSRequest{
-					Prefix: viper.GetString(params.ProjectName),
-					InstanceRequest: &instancetypes.AwsInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
-						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
-							instancetypes.Arm64, instancetypes.Amd64),
-					},
+					Prefix:                 viper.GetString(params.ProjectName),
+					ComputeRequest:         params.GetComputeRequest(),
 					KubernetesVersion:      viper.GetString(paramVersion),
 					ScalingDesiredSize:     viper.GetInt(paramScalingDesiredSize),
 					ScalingMaxSize:         viper.GetInt(paramScalingMaxSize),

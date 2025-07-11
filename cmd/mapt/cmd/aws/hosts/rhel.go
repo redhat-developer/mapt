@@ -2,13 +2,11 @@ package hosts
 
 import (
 	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -84,22 +82,16 @@ func getRHELCreate() *cobra.Command {
 			if err := rhel.Create(
 				ctx,
 				&rhel.RHELArgs{
-					Prefix:  "main",
-					Version: viper.GetString(params.RhelVersion),
-					Arch:    viper.GetString(params.LinuxArch),
-					InstanceRequest: &instancetypes.AwsInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
-						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
-							instancetypes.Arm64, instancetypes.Amd64),
-						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
-					},
-					SubsUsername: viper.GetString(params.SubsUsername),
-					SubsUserpass: viper.GetString(params.SubsUserpass),
-					ProfileSNC:   viper.IsSet(params.ProfileSNC),
-					Spot:         viper.IsSet(awsParams.Spot),
-					Timeout:      viper.GetString(params.Timeout),
-					Airgap:       viper.IsSet(airgap),
+					Prefix:         "main",
+					Version:        viper.GetString(params.RhelVersion),
+					Arch:           viper.GetString(params.LinuxArch),
+					ComputeRequest: params.GetComputeRequest(),
+					SubsUsername:   viper.GetString(params.SubsUsername),
+					SubsUserpass:   viper.GetString(params.SubsUserpass),
+					ProfileSNC:     viper.IsSet(params.ProfileSNC),
+					Spot:           viper.IsSet(awsParams.Spot),
+					Timeout:        viper.GetString(params.Timeout),
+					Airgap:         viper.IsSet(airgap),
 				}); err != nil {
 				logging.Error(err)
 			}

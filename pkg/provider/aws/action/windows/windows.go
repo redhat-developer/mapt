@@ -10,6 +10,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -25,7 +26,6 @@ import (
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	cloudConfigWindowsServer "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/windows-server"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -44,9 +44,9 @@ type WindowsServerArgs struct {
 	AMILang     string
 	AMIKeepCopy bool
 	// Machine params
-	InstanceRequest instancetypes.InstanceRequest
-	Spot            bool
-	Airgap          bool
+	ComputeRequest *cr.ComputeRequestArgs
+	Spot           bool
+	Airgap         bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -74,7 +74,7 @@ type windowsServerRequest struct {
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *WindowsServerArgs) error {
+func Create(ctx *maptContext.ContextArgs, args *WindowsServerArgs) (err error) {
 	// Create mapt Context
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
@@ -86,14 +86,6 @@ func Create(ctx *maptContext.ContextArgs, args *WindowsServerArgs) error {
 	}
 	if len(args.AMILang) > 0 && args.AMILang == amiLangNonEng {
 		args.AMIName = amiNonEngNameDefault
-	}
-	// Get instance types matching requirements
-	instanceTypes, err := args.InstanceRequest.GetMachineTypes()
-	if err != nil {
-		return err
-	}
-	if len(instanceTypes) == 0 {
-		return fmt.Errorf("no instances matching criteria")
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
@@ -110,7 +102,7 @@ func Create(ctx *maptContext.ContextArgs, args *WindowsServerArgs) error {
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnSpot(
-				&args.Prefix, &amiProduct, nil, instanceTypes)
+				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()

@@ -11,6 +11,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -25,7 +26,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ssm"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -34,13 +34,13 @@ import (
 )
 
 type OpenshiftSNCArgs struct {
-	Prefix          string
-	InstanceRequest instancetypes.InstanceRequest
-	Version         string
-	Arch            string
-	PullSecretFile  string
-	Spot            bool
-	Timeout         string
+	Prefix         string
+	ComputeRequest *cr.ComputeRequestArgs
+	Version        string
+	Arch           string
+	PullSecretFile string
+	Spot           bool
+	Timeout        string
 }
 
 type openshiftSNCRequest struct {
@@ -55,18 +55,10 @@ type openshiftSNCRequest struct {
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) error {
+func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) (err error) {
 	// Create mapt Context
 	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
 		return err
-	}
-	// Get instance types matching requirements
-	instanceTypes, err := args.InstanceRequest.GetMachineTypes()
-	if err != nil {
-		return err
-	}
-	if len(instanceTypes) == 0 {
-		return fmt.Errorf("no instances matching criteria")
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
@@ -79,7 +71,7 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) error {
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnSpot(
-				&args.Prefix, &amiProduct, nil, instanceTypes)
+				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()

@@ -1,13 +1,10 @@
 package services
 
 import (
-	"fmt"
-
-	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureAKS "github.com/redhat-developer/mapt/pkg/provider/azure/action/aks"
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -52,15 +49,9 @@ func getCreateAKS() *cobra.Command {
 				return err
 			}
 
-			// ParseEvictionRate
-			var spotToleranceValue = spotAzure.DefaultEvictionRate
-			if viper.IsSet(azparams.ParamSpotTolerance) {
-				var ok bool
-				spotToleranceValue, ok = spotAzure.ParseEvictionRate(
-					viper.GetString(azparams.ParamSpotTolerance))
-				if !ok {
-					return fmt.Errorf("%s is not a valid spot tolerance value", viper.GetString(azparams.ParamSpotTolerance))
-				}
+			spotToleranceValue, err := azparams.SpotTolerance()
+			if err != nil {
+				return err
 			}
 
 			if err := azureAKS.Create(
@@ -80,7 +71,7 @@ func getCreateAKS() *cobra.Command {
 					EnableAppRouting:    viper.IsSet(paramEnableAppRouting),
 					VMSize:              viper.GetString(azparams.ParamVMSize),
 					Spot:                viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:       spotToleranceValue,
+					SpotTolerance:       *spotToleranceValue,
 					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
 				logging.Error(err)
 			}

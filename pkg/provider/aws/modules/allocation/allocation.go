@@ -4,6 +4,7 @@ import (
 	"os"
 
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -18,13 +19,20 @@ type AllocationData struct {
 	InstanceTypes []string
 }
 
-func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, instanceTypes []string) (*AllocationData, error) {
+func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, computeRequest *cr.ComputeRequestArgs) (*AllocationData, error) {
+	var err error
+	computeTypes := computeRequest.ComputeSizes
+	if len(computeTypes) == 0 {
+		computeTypes, err =
+			data.NewComputeSelector().Select(computeRequest)
+		if err != nil {
+			return nil, err
+		}
+	}
 	sr := spot.SpotOptionRequest{
-		// do not need to filter the AMI as if it does not exist on the target region
-		// mapt will copy it
 		Prefix:             *prefix,
 		ProductDescription: *amiProductDescription,
-		InstaceTypes:       instanceTypes,
+		InstaceTypes:       computeTypes,
 	}
 	if amiName != nil {
 		sr.AMIName = *amiName
@@ -34,7 +42,7 @@ func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, instan
 		return nil, err
 	}
 	availableInstaceTypes, err :=
-		data.FilterInstaceTypesOfferedByRegion(instanceTypes, so.Region)
+		data.FilterInstaceTypesOfferedByRegion(computeTypes, so.Region)
 	if err != nil {
 		return nil, err
 	}
