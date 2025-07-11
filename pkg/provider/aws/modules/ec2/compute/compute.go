@@ -3,6 +3,7 @@ package compute
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
@@ -17,6 +18,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -66,6 +68,9 @@ type Compute struct {
 	AutoscalingGroup *autoscaling.Group
 	LB               *lb.LoadBalancer
 	LBEIP            *ec2.Eip
+	// This can be used in case explicit
+	// dependencies on the Compute resources
+	Dependencies []pulumi.Resource
 }
 
 // Create compute resource based on requested args
@@ -80,10 +85,12 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 		return &Compute{
 			AutoscalingGroup: asg,
 			LB:               r.LB,
-			LBEIP:            r.LBEIP}, err
+			LBEIP:            r.LBEIP,
+			Dependencies:     []pulumi.Resource{asg, r.LB, r.LBEIP}}, err
 	}
 	i, err := r.onDemandInstance(ctx)
-	return &Compute{Instance: i}, err
+	return &Compute{Instance: i,
+		Dependencies: []pulumi.Resource{i}}, err
 }
 
 // Create on demand instance
@@ -117,6 +124,12 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 
 // create asg with 1 instance forced by spot
 func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, error) {
+	// Logging information
+	r.Subnet.AvailabilityZone.ApplyT(func(az string) error {
+		logging.Debugf("Requesting a spot instance of types: %s at %s paying: %f",
+			strings.Join(r.InstaceTypes, ", "), az, r.SpotPrice)
+		return nil
+	})
 	args := &ec2.LaunchTemplateArgs{
 		NamePrefix: pulumi.String(r.ID),
 		ImageId:    pulumi.String(r.AMI.Id),

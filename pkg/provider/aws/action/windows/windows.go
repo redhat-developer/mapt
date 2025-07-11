@@ -296,7 +296,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		}
 	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsWindowsDedicatedID,
-		keyResources.PrivateKey, *r.amiUser, bastion, []pulumi.Resource{})
+		keyResources.PrivateKey, *r.amiUser, bastion, c.Dependencies)
 }
 
 // Write exported values in context to files o a selected target folder

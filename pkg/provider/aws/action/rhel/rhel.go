@@ -247,7 +247,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		}
 	}
 	return c.Readiness(ctx, command.CommandCloudInitWait, *r.prefix, awsRHELDedicatedID,
-		keyResources.PrivateKey, amiUserDefault, bastion, []pulumi.Resource{})
+		keyResources.PrivateKey, amiUserDefault, bastion, c.Dependencies)
 }
 
 // Write exported values in context to files o a selected target folder

@@ -209,7 +209,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		}
 	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsRHELDedicatedID,
-		keyResources.PrivateKey, amiUserDefault, nil, []pulumi.Resource{})
+		keyResources.PrivateKey, amiUserDefault, nil, c.Dependencies)
 }
 
 // Write exported values in context to files o a selected target folder

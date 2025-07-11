@@ -332,7 +332,7 @@ func kubeconfig(ctx *pulumi.Context,
 		command.CommandCloudInitWait,
 		compute.LoggingCmdStd,
 		fmt.Sprintf("%s-kind-readiness", *prefix), awsKindID,
-		mk, amiUserDefault, nil, nil)
+		mk, amiUserDefault, nil, c.Dependencies)
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
