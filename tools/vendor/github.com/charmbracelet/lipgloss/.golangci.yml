@@ -1,6 +1,5 @@
 run:
   tests: false
-  issues-exit-code: 0
 
 issues:
   include:
@@ -15,25 +14,16 @@ issues:
 
 linters:
   enable:
-<<<<<<< HEAD:tools/vendor/github.com/charmbracelet/lipgloss/.golangci.yml
     - bodyclose
-=======
->>>>>>> 5db308ee (feat: added support for spot instances with GPU enabled):vendor/github.com/charmbracelet/bubbletea/.golangci-soft.yml
     - exhaustive
     - goconst
     - godot
     - godox
-<<<<<<< HEAD:tools/vendor/github.com/charmbracelet/lipgloss/.golangci.yml
     - gofumpt
     - goimports
     - gomoddirectives
     - goprintffuncname
     - gosec
-=======
-    - mnd
-    - gomoddirectives
-    - goprintffuncname
->>>>>>> 5db308ee (feat: added support for spot instances with GPU enabled):vendor/github.com/charmbracelet/bubbletea/.golangci-soft.yml
     - misspell
     - nakedret
     - nestif
@@ -49,15 +39,3 @@ linters:
     - unparam
     - whitespace
     - wrapcheck
-<<<<<<< HEAD:tools/vendor/github.com/charmbracelet/lipgloss/.golangci.yml
-=======
-
-  # disable default linters, they are already enabled in .golangci.yml
-  disable:
-    - errcheck
-    - gosimple
-    - govet
-    - ineffassign
-    - staticcheck
-    - unused
->>>>>>> 5db308ee (feat: added support for spot instances with GPU enabled):vendor/github.com/charmbracelet/bubbletea/.golangci-soft.yml
