@@ -45,7 +45,7 @@ type kindRequest struct {
 	arch              *string
 	timeout           *string
 	allocationData    *allocation.AllocationData
-	extraPortMappings *[]kindCloudConfig.PortMapping
+	extraPortMappings []kindCloudConfig.PortMapping
 }
 
 type KindResultsMetadata struct {
@@ -69,7 +69,7 @@ func Create(ctx *maptContext.ContextArgs, args *KindArgs) (kr *KindResultsMetada
 		version:           &args.Version,
 		arch:              &args.Arch,
 		timeout:           &args.Timeout,
-		extraPortMappings: &args.ExtraPortMappings}
+		extraPortMappings: args.ExtraPortMappings}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnSpot(&args.Prefix, &amiProduct, nil, args.ComputeRequest)
@@ -133,15 +133,9 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 
-	// Parse extra port mappings to extract hostPort values
-	var parsedPortMappings []kindCloudConfig.PortMapping
-	if r.extraPortMappings != nil {
-		parsedPortMappings = *r.extraPortMappings
-	}
-
 	// Extract hostPort values for LB target groups and security group rules
-	extraHostPorts := make([]int, 0, len(parsedPortMappings))
-	for _, pm := range parsedPortMappings {
+	extraHostPorts := make([]int, 0, len(r.extraPortMappings))
+	for _, pm := range r.extraPortMappings {
 		extraHostPorts = append(extraHostPorts, pm.HostPort)
 	}
 
@@ -177,7 +171,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	}
 
 	// Userdata
-	udB64, err := userData(r.arch, r.version, parsedPortMappings, &lbEIP.PublicIp)
+	udB64, err := userData(r.arch, r.version, r.extraPortMappings, &lbEIP.PublicIp)
 	if err != nil {
 		return err
 	}
