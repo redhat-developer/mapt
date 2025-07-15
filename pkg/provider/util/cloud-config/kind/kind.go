@@ -4,6 +4,8 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
+	"strings"
 
 	"github.com/redhat-developer/mapt/pkg/util/file"
 )
@@ -50,5 +52,37 @@ func ParseExtraPortMappings(extraPortMappingsJSON string) ([]PortMapping, error)
 		return nil, err
 	}
 
+	// Validate and normalize each port mapping
+	for i := range portMappings {
+		if err := validatePortMapping(&portMappings[i], i); err != nil {
+			return nil, err
+		}
+	}
+
 	return portMappings, nil
+}
+
+func validatePortMapping(pm *PortMapping, index int) error {
+	if pm.ContainerPort <= 0 {
+		return fmt.Errorf("port mapping %d: containerPort must be greater than 0, got %d", index, pm.ContainerPort)
+	}
+
+	if pm.HostPort <= 0 {
+		return fmt.Errorf("port mapping %d: hostPort must be greater than 0, got %d", index, pm.HostPort)
+	}
+
+	if pm.Protocol == "" {
+		return fmt.Errorf("port mapping %d: protocol is required", index)
+	}
+
+	// Validate protocol (case-insensitive)
+	protocol := strings.ToUpper(pm.Protocol)
+	if protocol != "TCP" && protocol != "UDP" {
+		return fmt.Errorf("port mapping %d: protocol must be 'TCP' or 'UDP', got '%s'", index, pm.Protocol)
+	}
+
+	// Normalize protocol to uppercase
+	pm.Protocol = protocol
+
+	return nil
 }
