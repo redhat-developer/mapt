@@ -36,7 +36,7 @@ type KindArgs struct {
 	Arch              string
 	Spot              bool
 	Timeout           string
-	ExtraPortMappings string
+	ExtraPortMappings []kindCloudConfig.PortMapping
 }
 
 type kindRequest struct {
@@ -45,7 +45,7 @@ type kindRequest struct {
 	arch              *string
 	timeout           *string
 	allocationData    *allocation.AllocationData
-	extraPortMappings *string
+	extraPortMappings *[]kindCloudConfig.PortMapping
 }
 
 type KindResultsMetadata struct {
@@ -134,14 +134,9 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	}
 
 	// Parse extra port mappings to extract hostPort values
-	extraPortMappingsValue := ""
+	var parsedPortMappings []kindCloudConfig.PortMapping
 	if r.extraPortMappings != nil {
-		extraPortMappingsValue = *r.extraPortMappings
-	}
-
-	parsedPortMappings, err := kindCloudConfig.ParseExtraPortMappings(extraPortMappingsValue)
-	if err != nil {
-		return err
+		parsedPortMappings = *r.extraPortMappings
 	}
 
 	// Extract hostPort values for LB target groups and security group rules

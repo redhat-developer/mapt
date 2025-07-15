@@ -1,10 +1,13 @@
 package services
 
 import (
+	"fmt"
+
 	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/kind"
+	kindCloudConfig "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/kind"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -38,6 +41,18 @@ func createKind() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
+
+			// Parse extra port mappings from JSON string to PortMapping struct
+			var extraPortMappings []kindCloudConfig.PortMapping
+			extraPortMappingsStr := viper.GetString(params.KindExtraPortMappings)
+			if extraPortMappingsStr != "" {
+				var err error
+				extraPortMappings, err = kindCloudConfig.ParseExtraPortMappings(extraPortMappingsStr)
+				if err != nil {
+					return fmt.Errorf("failed to parse 'extra-port-mappings' flag: %w", err)
+				}
+			}
+
 			if _, err := kind.Create(
 				&maptContext.ContextArgs{
 					ProjectName:           viper.GetString(params.ProjectName),
@@ -54,7 +69,7 @@ func createKind() *cobra.Command {
 					Arch:              viper.GetString(params.LinuxArch),
 					Spot:              viper.IsSet(awsParams.Spot),
 					Timeout:           viper.GetString(params.Timeout),
-					ExtraPortMappings: viper.GetString(params.KindExtraPortMappings)}); err != nil {
+					ExtraPortMappings: extraPortMappings}); err != nil {
 				logging.Error(err)
 			}
 			return nil
