@@ -274,7 +274,6 @@ func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *s
 	if err != nil {
 		return nil, err
 	}
-
 	kubeAdminPass, err := getResultOutput(outputKubeAdminPass, stackResult, prefix)
 	if err != nil {
 		return nil, err
@@ -299,11 +298,9 @@ func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *s
 		}
 	}
 
-	eip, ok := stackResult.Outputs[hostIPKey].Value.(string)
-	if ok {
-		fmt.Printf("Cluster has been started you can access console at: %s.",
-			fmt.Sprintf(consoleURLRegex, eip))
-		return nil, err
+	consoleURL := fmt.Sprintf(consoleURLRegex, host)
+	if eip, ok := stackResult.Outputs[hostIPKey].Value.(string); ok {
+		fmt.Printf("Cluster has been started you can access console at: %s.\n", fmt.Sprintf(consoleURLRegex, eip))
 	}
 
 	return &OpenshiftSncResultsMetadata{
@@ -313,8 +310,8 @@ func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *s
 		Kubeconfig:    kubeconfig,
 		KubeadminPass: kubeAdminPass,
 		SpotPrice:     r.allocationData.SpotPrice,
-		ConsoleUrl:    fmt.Sprintf(consoleURLRegex, host),
-	}, fmt.Errorf("error getting value for cluster ip")
+		ConsoleUrl:    consoleURL,
+	}, nil
 }
 
 // security group for Openshift
