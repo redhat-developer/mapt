@@ -120,7 +120,7 @@ github.com/aws/amazon-ec2-instance-selector/v3/pkg/instancetypes
 github.com/aws/amazon-ec2-instance-selector/v3/pkg/selector
 github.com/aws/amazon-ec2-instance-selector/v3/pkg/selector/outputs
 github.com/aws/amazon-ec2-instance-selector/v3/pkg/sorter
-# github.com/aws/aws-sdk-go-v2 v1.36.5
+# github.com/aws/aws-sdk-go-v2 v1.36.6
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/aws
 github.com/aws/aws-sdk-go-v2/aws/arn
@@ -168,26 +168,26 @@ github.com/aws/aws-sdk-go-v2/credentials/stscreds
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/feature/ec2/imds
 github.com/aws/aws-sdk-go-v2/feature/ec2/imds/internal/config
-# github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.36
+# github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.37
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/internal/configsources
-# github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.36
+# github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.37
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2
 # github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/internal/ini
-# github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.36
+# github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.37
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/internal/v4a
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4
-# github.com/aws/aws-sdk-go-v2/service/ec2 v1.231.0
+# github.com/aws/aws-sdk-go-v2/service/ec2 v1.233.1
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ec2/types
-# github.com/aws/aws-sdk-go-v2/service/ecs v1.58.1
+# github.com/aws/aws-sdk-go-v2/service/ecs v1.60.1
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ecs
 github.com/aws/aws-sdk-go-v2/service/ecs/internal/endpoints
@@ -200,23 +200,23 @@ github.com/aws/aws-sdk-go-v2/service/iam/types
 # github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.4
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding
-# github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.7.4
+# github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.7.5
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/internal/checksum
-# github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.17
+# github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.18
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url
-# github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.18.17
+# github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.18.18
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared/arn
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared/config
-# github.com/aws/aws-sdk-go-v2/service/pricing v1.34.5
+# github.com/aws/aws-sdk-go-v2/service/pricing v1.35.1
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/pricing
 github.com/aws/aws-sdk-go-v2/service/pricing/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/pricing/types
-# github.com/aws/aws-sdk-go-v2/service/s3 v1.83.0
+# github.com/aws/aws-sdk-go-v2/service/s3 v1.84.1
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/s3
 github.com/aws/aws-sdk-go-v2/service/s3/internal/arn
@@ -416,7 +416,7 @@ github.com/go-git/go-git/v5/utils/merkletrie/internal/frame
 github.com/go-git/go-git/v5/utils/merkletrie/noder
 github.com/go-git/go-git/v5/utils/sync
 github.com/go-git/go-git/v5/utils/trace
-# github.com/go-viper/mapstructure/v2 v2.3.0
+# github.com/go-viper/mapstructure/v2 v2.4.0
 ## explicit; go 1.18
 github.com/go-viper/mapstructure/v2
 github.com/go-viper/mapstructure/v2/internal/errors
@@ -561,7 +561,7 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
-# github.com/pulumi/pulumi-aws-native/sdk v1.30.0
+# github.com/pulumi/pulumi-aws-native/sdk v1.31.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
@@ -696,7 +696,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.181.0
+# github.com/pulumi/pulumi/sdk/v3 v3.184.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -883,7 +883,7 @@ golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
-# golang.org/x/exp v0.0.0-20250711185948-6ae5c78190dc
+# golang.org/x/exp v0.0.0-20250718183923-645b1fa84792
 ## explicit; go 1.23.0
 golang.org/x/exp/maps
 golang.org/x/exp/slices
@@ -948,7 +948,7 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20250707201910-8d1bb00bc6a7
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20250715232539-7130f93afb79
 ## explicit; go 1.23.0
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.73.0
