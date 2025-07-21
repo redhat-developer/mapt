@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"sync"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -12,6 +11,7 @@ import (
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	hostingPlaces "github.com/redhat-developer/mapt/pkg/provider/util/hosting-places"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
@@ -123,14 +123,14 @@ func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	placementScores := runByRegion(regions,
+	placementScores := hostingPlaces.RunOnHostingPlaces(regions,
 		placementScoreArgs{
 			instanceTypes: args.InstaceTypes,
 			capacity:      1,
 		},
 		placementScoresAsync)
 	regionsWithPlacementScore := utilMaps.Keys(placementScores)
-	spotPricing := runByRegion(regionsWithPlacementScore,
+	spotPricing := hostingPlaces.RunOnHostingPlaces(regionsWithPlacementScore,
 		spotPricingArgs{
 			productDescription: *args.ProductDescription,
 			instanceTypes:      args.InstaceTypes,
@@ -213,40 +213,6 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 	return spis[0], nil
 }
 
-// Struct to communicate data tied region
-// when running some aggregation data func async on a number of regions
-type regionData[Y any] struct {
-	Region string
-	Err    error
-	Value  Y
-}
-
-// Generic function to run specific function on each region
-// and then aggregate the results into a struct
-func runByRegion[X, Y any](regions []string, data X,
-	run func(string, X, chan regionData[Y])) map[string]Y {
-	result := make(map[string]Y)
-	c := make(chan regionData[Y], len(regions))
-	var wg sync.WaitGroup
-	for _, r := range regions {
-		wg.Add(1)
-		go func(region string) {
-			defer wg.Done()
-			run(region, data, c)
-		}(r)
-	}
-	go func() {
-		wg.Wait()
-		close(c)
-	}()
-	for rr := range c {
-		if rr.Err == nil {
-			result[rr.Region] = rr.Value
-		}
-	}
-	return result
-}
-
 type spotPricingArgs struct {
 	productDescription string
 	instanceTypes      []string
@@ -261,10 +227,10 @@ type spotPrincingResults struct {
 	InstanceType     string
 }
 
-func spotPricingAsync(r string, args spotPricingArgs, c chan regionData[[]spotPrincingResults]) {
+func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.HostingPlaceData[[]spotPrincingResults]) {
 	cfg, err := getConfig(r)
 	if err != nil {
-		c <- regionData[[]spotPrincingResults]{
+		c <- hostingPlaces.HostingPlaceData[[]spotPrincingResults]{
 			Err: err}
 		return
 	}
@@ -288,7 +254,7 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan regionData[[]spotPr
 			EndTime:   &endTime,
 		})
 	if err != nil {
-		c <- regionData[[]spotPrincingResults]{
+		c <- hostingPlaces.HostingPlaceData[[]spotPrincingResults]{
 			Err: err}
 		return
 	}
@@ -327,7 +293,7 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan regionData[[]spotPr
 		groupInfo.Region = r
 		results = append(results, groupInfo)
 	}
-	c <- regionData[[]spotPrincingResults]{
+	c <- hostingPlaces.HostingPlaceData[[]spotPrincingResults]{
 		Region: r,
 		Value:  results,
 		Err:    err}
@@ -346,11 +312,11 @@ type placementScoreResult struct {
 
 // This will get placement scores grouped on map per region
 // only scores over tolerance will be added
-func placementScoresAsync(r string, args placementScoreArgs, c chan regionData[[]placementScoreResult]) {
+func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlaces.HostingPlaceData[[]placementScoreResult]) {
 	azsByRegion := describeAvailabilityZonesByRegions([]string{r})
 	cfg, err := getConfig(r)
 	if err != nil {
-		c <- regionData[[]placementScoreResult]{
+		c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
 			Err: err}
 		return
 	}
@@ -365,12 +331,12 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan regionData[[
 			MaxResults:             aws.Int32(maxQueryResultsResultsPlacementScore),
 		})
 	if err != nil {
-		c <- regionData[[]placementScoreResult]{
+		c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
 			Err: err}
 		return
 	}
 	if len(sps.SpotPlacementScores) == 0 {
-		c <- regionData[[]placementScoreResult]{
+		c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
 			Err: fmt.Errorf("non available scores")}
 		return
 	}
@@ -379,7 +345,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan regionData[[
 		if *ps.Score >= tolerance {
 			azName, err := getZoneName(*ps.AvailabilityZoneId, azsByRegion[*ps.Region])
 			if err != nil {
-				c <- regionData[[]placementScoreResult]{
+				c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
 					Err: err}
 				return
 			}
@@ -393,7 +359,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan regionData[[
 		func(a, b placementScoreResult) int {
 			return int(*a.sps.Score - *b.sps.Score)
 		})
-	c <- regionData[[]placementScoreResult]{
+	c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
 		Region: r,
 		Value:  results}
 }
