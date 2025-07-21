@@ -237,7 +237,7 @@ github.com/go-toolsmith/strparse
 # github.com/go-toolsmith/typep v1.1.0
 ## explicit; go 1.16
 github.com/go-toolsmith/typep
-# github.com/go-viper/mapstructure/v2 v2.3.0
+# github.com/go-viper/mapstructure/v2 v2.4.0
 ## explicit; go 1.18
 github.com/go-viper/mapstructure/v2
 github.com/go-viper/mapstructure/v2/internal/errors
@@ -892,7 +892,7 @@ go.uber.org/zap/internal/exit
 go.uber.org/zap/internal/pool
 go.uber.org/zap/internal/stacktrace
 go.uber.org/zap/zapcore
-# golang.org/x/exp/typeparams v0.0.0-20250711185948-6ae5c78190dc
+# golang.org/x/exp/typeparams v0.0.0-20250718183923-645b1fa84792
 ## explicit; go 1.23.0
 golang.org/x/exp/typeparams
 # golang.org/x/mod v0.26.0

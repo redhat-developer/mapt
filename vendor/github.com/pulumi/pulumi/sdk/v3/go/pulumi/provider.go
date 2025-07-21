@@ -112,6 +112,19 @@ func construct(ctx context.Context, req *pulumirpc.ConstructRequest, engineConn 
 	if req.GetParent() != "" {
 		parent = pulumiCtx.newDependencyResource(URN(req.GetParent()))
 	}
+
+	var hooks *ResourceHookBinding
+	binding := req.GetResourceHooks()
+	if binding != nil {
+		hooks = &ResourceHookBinding{}
+		hooks.BeforeCreate = makeStubHooks(binding.GetBeforeCreate())
+		hooks.AfterCreate = makeStubHooks(binding.GetAfterCreate())
+		hooks.BeforeUpdate = makeStubHooks(binding.GetBeforeUpdate())
+		hooks.AfterUpdate = makeStubHooks(binding.GetAfterUpdate())
+		hooks.BeforeDelete = makeStubHooks(binding.GetBeforeDelete())
+		hooks.AfterDelete = makeStubHooks(binding.GetAfterDelete())
+	}
+
 	opts := resourceOption(func(ro *resourceOptions) {
 		ro.Aliases = aliases
 		if len(dependencies) > 0 {
@@ -136,6 +149,7 @@ func construct(ctx context.Context, req *pulumirpc.ConstructRequest, engineConn 
 		ro.IgnoreChanges = append(ro.IgnoreChanges, req.GetIgnoreChanges()...)
 		ro.ReplaceOnChanges = append(ro.ReplaceOnChanges, req.GetReplaceOnChanges()...)
 		ro.RetainOnDelete = req.RetainOnDelete
+		ro.Hooks = hooks
 	})
 
 	urn, state, err := constructF(pulumiCtx, req.GetType(), req.GetName(), inputs, opts)
