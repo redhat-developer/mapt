@@ -23,10 +23,10 @@ func GetZones() (zones []string, err error) {
 			logging.Errorf("error closing gcp rest client")
 		}
 	}()
-
+	gpID := gcp.GetProjectID()
 	it := client.List(ctx,
 		&computepb.ListZonesRequest{
-			Project: gcp.GetProjectID(),
+			Project: gpID,
 		})
 	for {
 		zone, err := it.Next()

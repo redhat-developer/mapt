@@ -18,15 +18,22 @@ func (c *SpotSelector) Select(
 }
 
 func lowestPrice(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
-	var err error
-	vms := args.ComputeRequest.ComputeSizes
-	if len(vms) == 0 {
-		vms, err =
-			NewComputeSelector().Select(args.ComputeRequest)
-		if err != nil {
-			return nil, err
-		}
+	// var err error
+	// vms := args.ComputeRequest.ComputeSizes
+	// if len(vms) == 0 {
+	// 	vmsByr, err =
+	// 		NewComputeSelector().SelectByHostingZone(args.ComputeRequest)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// }
+	vmsByr, err :=
+		NewComputeSelector().SelectByHostingZone(args.ComputeRequest)
+	if err != nil {
+		return nil, err
 	}
-	logging.Debugf("vms: %s", strings.Join(vms, ","))
+	for k, v := range vmsByr {
+		logging.Debugf("r: %s vms: %s", k, strings.Join(v, ","))
+	}
 	return nil, fmt.Errorf("not implemented yet")
 }

@@ -34,7 +34,7 @@ func GetLowestPrice(args *spotTypes.SpotRequestArgs, p Provider) (result map[Pro
 		}
 	}
 	if p == ALL || p == GCP {
-		result[Azure], err = gcpData.NewSpotSelector().Select(args)
+		result[GCP], err = gcpData.NewSpotSelector().Select(args)
 		if err != nil {
 			return nil, err
 		}
