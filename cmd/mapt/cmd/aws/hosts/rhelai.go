@@ -96,11 +96,12 @@ func getRHELAIDestroy() *cobra.Command {
 			}
 
 			if err := rhelai.Destroy(&maptContext.ContextArgs{
-				ProjectName: viper.GetString(params.ProjectName),
-				BackedURL:   viper.GetString(params.BackedURL),
-				Debug:       viper.IsSet(params.Debug),
-				DebugLevel:  viper.GetUint(params.DebugLevel),
-				Serverless:  viper.IsSet(params.Serverless),
+				ProjectName:  viper.GetString(params.ProjectName),
+				BackedURL:    viper.GetString(params.BackedURL),
+				Debug:        viper.IsSet(params.Debug),
+				DebugLevel:   viper.GetUint(params.DebugLevel),
+				Serverless:   viper.IsSet(params.Serverless),
+				ForceDestroy: viper.IsSet(params.ForceDestroy),
 			}); err != nil {
 				logging.Error(err)
 			}
@@ -109,6 +110,7 @@ func getRHELAIDestroy() *cobra.Command {
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
+	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
