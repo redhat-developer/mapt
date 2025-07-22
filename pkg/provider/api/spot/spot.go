@@ -4,12 +4,14 @@ import (
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
 	awsData "github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	azureData "github.com/redhat-developer/mapt/pkg/provider/azure/data"
+	gcpData "github.com/redhat-developer/mapt/pkg/provider/gcp/data"
 )
 
 const (
 	ALL Provider = iota
 	AWS
 	Azure
+	GCP
 )
 
 type Provider int
@@ -27,6 +29,12 @@ func GetLowestPrice(args *spotTypes.SpotRequestArgs, p Provider) (result map[Pro
 	}
 	if p == ALL || p == Azure {
 		result[Azure], err = azureData.NewSpotSelector().Select(args)
+		if err != nil {
+			return nil, err
+		}
+	}
+	if p == ALL || p == GCP {
+		result[GCP], err = gcpData.NewSpotSelector().Select(args)
 		if err != nil {
 			return nil, err
 		}
