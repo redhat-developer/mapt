@@ -13,7 +13,7 @@ var (
 	amiOwner       = "391597328979"
 	amiOwnerSelf   = "self"
 	amiArch        = "x86_64"
-	amiUserDefault = "ec2-user"
+	amiUserDefault = "cloud-user"
 
 	// p4ComputeTypes = []string{"p4d.24xlarge", "p4de.24xlarge"}
 	// p5ComputeTypes = []string{"p5.48xlarge", "p5e.48xlarge", "p5en.48xlarge"}
