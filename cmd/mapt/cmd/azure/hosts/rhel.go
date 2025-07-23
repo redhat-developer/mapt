@@ -80,10 +80,8 @@ func getCreateRHEL() *cobra.Command {
 
 			if err := azureRHEL.Create(
 				ctx,
-				&azureRHEL.Request{
-					Prefix:              viper.GetString(params.ProjectName),
+				&azureRHEL.RhelArgs{
 					Location:            viper.GetString(paramLocation),
-					VMSizes:             viper.GetStringSlice(paramVMSize),
 					ComputeRequest:      params.GetComputeRequest(),
 					Version:             viper.GetString(paramLinuxVersion),
 					Arch:                viper.GetString(params.LinuxArch),
@@ -105,7 +103,6 @@ func getCreateRHEL() *cobra.Command {
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
-	flagSet.StringSliceP(paramVMSize, "", []string{}, paramVMSizeDesc)
 	flagSet.StringP(paramLinuxVersion, "", defaultRHELVersion, paramLinuxVersionDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
 	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)

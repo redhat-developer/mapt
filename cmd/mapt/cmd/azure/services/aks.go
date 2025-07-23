@@ -63,8 +63,7 @@ func getCreateAKS() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
-				&azureAKS.AKSRequest{
-					Prefix:              viper.GetString(params.ProjectName),
+				&azureAKS.AKSArgs{
 					Location:            viper.GetString(azparams.ParamLocation),
 					KubernetesVersion:   viper.GetString(paramVersion),
 					OnlySystemPool:      viper.IsSet(paramOnlySystemPool),

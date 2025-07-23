@@ -4,7 +4,7 @@ import (
 	"github.com/pulumi/pulumi-azure-native-sdk/network/v2"
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -22,11 +22,11 @@ type Network struct {
 }
 
 // Create networking resource required for spin the VM
-func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Network, error) {
+func (r *NetworkRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Network, error) {
 	vn, err := network.NewVirtualNetwork(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "vn"),
 		&network.VirtualNetworkArgs{
-			VirtualNetworkName: pulumi.String(maptContext.RunID()),
+			VirtualNetworkName: pulumi.String(mCtx.RunID()),
 			AddressSpace: network.AddressSpaceArgs{
 				AddressPrefixes: pulumi.StringArray{
 					pulumi.String(cidrVN),
@@ -34,7 +34,7 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Network, error) {
 			},
 			ResourceGroupName: r.ResourceGroup.Name,
 			Location:          r.ResourceGroup.Location,
-			Tags:              maptContext.ResourceTags(),
+			Tags:              mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Network, error) {
 	sn, err := network.NewSubnet(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "sn"),
 		&network.SubnetArgs{
-			SubnetName:         pulumi.String(maptContext.RunID()),
+			SubnetName:         pulumi.String(mCtx.RunID()),
 			ResourceGroupName:  r.ResourceGroup.Name,
 			VirtualNetworkName: vn.Name,
 			AddressPrefixes: pulumi.StringArray{
@@ -56,10 +56,10 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Network, error) {
 		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "pip"),
 		&network.PublicIPAddressArgs{
 			Location:                 r.ResourceGroup.Location,
-			PublicIpAddressName:      pulumi.String(maptContext.RunID()),
+			PublicIpAddressName:      pulumi.String(mCtx.RunID()),
 			PublicIPAllocationMethod: pulumi.String("Static"),
 			ResourceGroupName:        r.ResourceGroup.Name,
-			Tags:                     maptContext.ResourceTags(),
+			Tags:                     mCtx.ResourceTags(),
 			// DnsSettings: network.PublicIPAddressDnsSettingsArgs{
 			// 	DomainNameLabel: pulumi.String("mapt"),
 			// },
@@ -70,12 +70,12 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Network, error) {
 	ni, err := network.NewNetworkInterface(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "ni"),
 		&network.NetworkInterfaceArgs{
-			NetworkInterfaceName: pulumi.String(maptContext.RunID()),
+			NetworkInterfaceName: pulumi.String(mCtx.RunID()),
 			Location:             r.ResourceGroup.Location,
 			ResourceGroupName:    r.ResourceGroup.Name,
 			IpConfigurations: network.NetworkInterfaceIPConfigurationArray{
 				&network.NetworkInterfaceIPConfigurationArgs{
-					Name:                      pulumi.String(maptContext.RunID()),
+					Name:                      pulumi.String(mCtx.RunID()),
 					PrivateIPAllocationMethod: pulumi.String("Dynamic"),
 					PublicIPAddress: network.PublicIPAddressTypeArgs{
 						Id: publicIP.ID(),
@@ -85,7 +85,7 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context) (*Network, error) {
 					},
 				},
 			},
-			Tags: maptContext.ResourceTags(),
+			Tags: mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err

@@ -8,13 +8,14 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/workspace"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 // this function gets our stack ready for update/destroy by prepping the workspace, init/selecting the stack
 // and doing a refresh to make sure state and cloud resources are in sync
-func getStack(ctx context.Context, target Stack) (auto.Stack, error) {
+func getStack(ctx context.Context, mCtx *mc.Context, target Stack) (auto.Stack, error) {
 	// create or select a stack with an inline Pulumi program
 	s, err := auto.UpsertStackInlineSource(ctx,
 		target.StackName,
@@ -26,7 +27,7 @@ func getStack(ctx context.Context, target Stack) (auto.Stack, error) {
 		return auto.Stack{}, err
 	}
 
-	if err = postStack(ctx, target, &s); err != nil {
+	if err = postStack(ctx, mCtx, target, &s); err != nil {
 		logging.Error(err)
 		return auto.Stack{}, err
 	}
@@ -55,9 +56,9 @@ func getOpts(target Stack) []auto.LocalWorkspaceOption {
 	}
 }
 
-func postStack(ctx context.Context, target Stack, stack *auto.Stack) (err error) {
+func postStack(ctx context.Context, mCtx *mc.Context, target Stack, stack *auto.Stack) (err error) {
 	// Set credentails
-	if err = credentials.SetProviderCredentials(ctx, stack, target.ProviderCredentials); err != nil {
+	if err = credentials.SetProviderCredentials(ctx, mCtx, stack, target.ProviderCredentials); err != nil {
 		return
 	}
 	_, err = stack.Refresh(ctx)

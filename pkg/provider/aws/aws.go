@@ -10,18 +10,15 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
-	awsEC2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/s3"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
-	"github.com/redhat-developer/mapt/pkg/util/maps"
 )
 
 const pulumiLocksPath = ".pulumi/locks"
@@ -76,8 +73,8 @@ func GetClouProviderCredentials(customCredentials map[string]string) credentials
 		FixedCredentials:  customCredentials}
 }
 
-func SetAWSCredentials(ctx context.Context, stack auto.Stack, customCredentials map[string]string) error {
-	if maptContext.IsServerless() {
+func SetAWSCredentials(ctx context.Context, mCtx *mc.Context, stack auto.Stack, customCredentials map[string]string) error {
+	if mCtx.IsServerless() {
 		if err := setCredentialsForServerless(); err != nil {
 			return err
 		}
@@ -106,14 +103,14 @@ type DestroyStackRequest struct {
 	Stackname string
 }
 
-func DestroyStack(s DestroyStackRequest) error {
+func DestroyStack(mCtx *mc.Context, s DestroyStackRequest) error {
 	logging.Debug("Running destroy operation")
 	if len(s.Stackname) == 0 {
 		return fmt.Errorf("stackname is required")
 	}
-	if maptContext.IsForceDestroy() {
+	if mCtx.IsForceDestroy() {
 		// Currently only support this for remote backed urls to allow serverless
-		bucket, key, err := parseS3BackedURL()
+		bucket, key, err := parseS3BackedURL(mCtx)
 		if err != nil {
 			// Do not exit
 			logging.Error(err)
@@ -126,32 +123,19 @@ func DestroyStack(s DestroyStackRequest) error {
 			logging.Error(err)
 		}
 	}
-	return manager.DestroyStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject(s.Stackname),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL: util.If(len(s.BackedURL) > 0,
-			s.BackedURL,
-			maptContext.BackedURL()),
-		ProviderCredentials: GetClouProviderCredentials(
-			map[string]string{
-				awsConstants.CONFIG_AWS_REGION: util.If(len(s.Region) > 0,
-					s.Region,
-					os.Getenv("AWS_DEFAULT_REGION"))})})
-}
-
-// Create a list of filters for tags based on the tags added by mapt
-func GetTagsAsFilters() (filters []*awsEC2Types.Filter) {
-	filterMap := maps.Convert(maptContext.GetTags(),
-		func(name string) *string { return aws.String("tag:" + name) },
-		func(value string) []string { return []string{value} })
-	for k, v := range filterMap {
-		filter := awsEC2Types.Filter{
-			Name:   k,
-			Values: v,
-		}
-		filters = append(filters, &filter)
-	}
-	return
+	return manager.DestroyStack(
+		mCtx,
+		manager.Stack{
+			StackName:   mCtx.StackNameByProject(s.Stackname),
+			ProjectName: mCtx.ProjectName(),
+			BackedURL: util.If(len(s.BackedURL) > 0,
+				s.BackedURL,
+				mCtx.BackedURL()),
+			ProviderCredentials: GetClouProviderCredentials(
+				map[string]string{
+					awsConstants.CONFIG_AWS_REGION: util.If(len(s.Region) > 0,
+						s.Region,
+						os.Getenv("AWS_DEFAULT_REGION"))})})
 }
 
 // https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html
@@ -212,11 +196,11 @@ func setCredentialsForServerless() error {
 	return nil
 }
 
-func parseS3BackedURL() (*string, *string, error) {
-	if !strings.HasPrefix(maptContext.BackedURL(), "s3://") {
+func parseS3BackedURL(mCtx *mc.Context) (*string, *string, error) {
+	if !strings.HasPrefix(mCtx.BackedURL(), "s3://") {
 		return nil, nil, fmt.Errorf("invalid S3 URI: must start with s3://")
 	}
-	u, err := url.Parse(maptContext.BackedURL())
+	u, err := url.Parse(mCtx.BackedURL())
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to parse S3 URI: %w", err)
 	}

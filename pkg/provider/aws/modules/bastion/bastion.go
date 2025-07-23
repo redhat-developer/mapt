@@ -7,7 +7,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
@@ -60,7 +60,7 @@ type Bastion struct {
 // * host
 // It will also return the required refs to resources as BastionsResources to
 // allow orchestrated within the wrapping stack
-func (r *BastionRequest) Create(ctx *pulumi.Context) (*Bastion, error) {
+func (r *BastionRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Bastion, error) {
 	// Get AMI
 	ami, err := ami.GetAMIByName(ctx, amiRegex, nil, nil)
 	if err != nil {
@@ -70,16 +70,16 @@ func (r *BastionRequest) Create(ctx *pulumi.Context) (*Bastion, error) {
 	kpr := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
 			r.Prefix, bastionMachineID, "pk")}
-	keyResources, err := kpr.Create(ctx)
+	keyResources, err := kpr.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
 	ctx.Export(r.OutputKeyPrivateKey, keyResources.PrivateKey.PrivateKeyPem)
-	sgs, err := r.securityGroup(ctx)
+	sgs, err := r.securityGroup(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
-	i, err := r.instance(ctx, ami, keyResources, sgs)
+	i, err := r.instance(ctx, mCtx, ami, keyResources, sgs)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func (r *BastionRequest) Create(ctx *pulumi.Context) (*Bastion, error) {
 }
 
 // Allow connect bastion on ssh port
-func (r *BastionRequest) securityGroup(ctx *pulumi.Context) (pulumi.StringArray, error) {
+func (r *BastionRequest) securityGroup(ctx *pulumi.Context, mCtx *mc.Context) (pulumi.StringArray, error) {
 	sshIngressRule := securityGroup.SSH_TCP
 	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
 	sg, err := securityGroup.SGRequest{
@@ -100,7 +100,7 @@ func (r *BastionRequest) securityGroup(ctx *pulumi.Context) (pulumi.StringArray,
 		VPC:          r.VPC,
 		Description:  fmt.Sprintf("sg for %s", bastionMachineID),
 		IngressRules: []securityGroup.IngressRules{sshIngressRule},
-	}.Create(ctx)
+	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +111,7 @@ func (r *BastionRequest) securityGroup(ctx *pulumi.Context) (pulumi.StringArray,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func (r *BastionRequest) instance(ctx *pulumi.Context,
+func (r *BastionRequest) instance(ctx *pulumi.Context, mCtx *mc.Context,
 	ami *ec2.LookupAmiResult,
 	keyResources *keypair.KeyPairResources,
 	securityGroups pulumi.StringArray,
@@ -126,7 +126,7 @@ func (r *BastionRequest) instance(ctx *pulumi.Context,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: maptContext.ResourceTags(),
+		Tags: mCtx.ResourceTags(),
 	}
 	i, err := ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, bastionMachineID, "instance"),

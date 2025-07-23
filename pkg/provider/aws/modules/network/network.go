@@ -6,6 +6,7 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	na "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/airgap"
 	ns "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
@@ -40,7 +41,7 @@ type NetworkRequest struct {
 	AirgapPhaseConnectivity Connectivity
 }
 
-func (r *NetworkRequest) Network(ctx *pulumi.Context) (
+func (r *NetworkRequest) Network(ctx *pulumi.Context, mCtx *mc.Context) (
 	vpc *ec2.Vpc,
 	targetSubnet *ec2.Subnet,
 	targetRouteTableAssociation *ec2.RouteTableAssociation,
@@ -49,11 +50,11 @@ func (r *NetworkRequest) Network(ctx *pulumi.Context) (
 	lbEIP *ec2.Eip,
 	err error) {
 	if !r.Airgap {
-		vpc, targetSubnet, err = r.manageNetworking(ctx)
+		vpc, targetSubnet, err = r.manageNetworking(ctx, mCtx)
 	} else {
 		var publicSubnet *ec2.Subnet
 		if vpc, publicSubnet, targetSubnet, targetRouteTableAssociation, err =
-			r.manageAirgapNetworking(ctx); err != nil {
+			r.manageAirgapNetworking(ctx, mCtx); err != nil {
 			return nil, nil, nil, nil, nil, nil, err
 		}
 		br := bastion.BastionRequest{
@@ -65,7 +66,7 @@ func (r *NetworkRequest) Network(ctx *pulumi.Context) (
 			OutputKeyUsername:   fmt.Sprintf("%s-%s", r.Prefix, bastion.OutputBastionUsername),
 			OutputKeyHost:       fmt.Sprintf("%s-%s", r.Prefix, bastion.OutputBastionHost),
 		}
-		b, err = br.Create(ctx)
+		b, err = br.Create(ctx, mCtx)
 	}
 	if r.CreateLoadBalancer != nil && *r.CreateLoadBalancer {
 		lb, lbEIP, err = r.createLoadBalancer(ctx, targetSubnet)
@@ -74,8 +75,9 @@ func (r *NetworkRequest) Network(ctx *pulumi.Context) (
 }
 
 // Create a standard network (only one public subnet)
-func (r *NetworkRequest) manageNetworking(ctx *pulumi.Context) (*ec2.Vpc, *ec2.Subnet, error) {
+func (r *NetworkRequest) manageNetworking(ctx *pulumi.Context, mCtx *mc.Context) (*ec2.Vpc, *ec2.Subnet, error) {
 	net, err := ns.NetworkRequest{
+		MCtx:               mCtx,
 		CIDR:               cidrVN,
 		Name:               resourcesUtil.GetResourceName(r.Prefix, r.ID, "net"),
 		Region:             r.Region,
@@ -92,7 +94,7 @@ func (r *NetworkRequest) manageNetworking(ctx *pulumi.Context) (*ec2.Vpc, *ec2.S
 }
 
 // Create an airgap scenario (on and off phases will be executed to remove the nat gateway on the off phase)
-func (r *NetworkRequest) manageAirgapNetworking(ctx *pulumi.Context) (
+func (r *NetworkRequest) manageAirgapNetworking(ctx *pulumi.Context, mCtx *mc.Context) (
 	vpc *ec2.Vpc,
 	publicSubnet *ec2.Subnet,
 	targetSubnet *ec2.Subnet,
@@ -105,7 +107,7 @@ func (r *NetworkRequest) manageAirgapNetworking(ctx *pulumi.Context) (
 		AvailabilityZone: r.AZ,
 		PublicSubnetCIDR: cidrPublicSN,
 		TargetSubnetCIDR: cidrIntraSN,
-		SetAsAirgap:      r.AirgapPhaseConnectivity == OFF}.CreateNetwork(ctx)
+		SetAsAirgap:      r.AirgapPhaseConnectivity == OFF}.CreateNetwork(ctx, mCtx)
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}

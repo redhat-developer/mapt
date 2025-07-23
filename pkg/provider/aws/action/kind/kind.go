@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
@@ -40,12 +41,22 @@ type KindArgs struct {
 }
 
 type kindRequest struct {
+	mCtx              *mc.Context
 	prefix            *string
 	version           *string
 	arch              *string
 	timeout           *string
 	allocationData    *allocation.AllocationData
 	extraPortMappings []kindCloudConfig.PortMapping
+}
+
+func (r *kindRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
+		return err
+	}
+	return v.Struct(r)
 }
 
 type KindResultsMetadata struct {
@@ -59,12 +70,14 @@ type KindResultsMetadata struct {
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *KindArgs) (kr *KindResultsMetadata, err error) {
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+func Create(mCtxArgs *mc.ContextArgs, args *KindArgs) (kr *KindResultsMetadata, err error) {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return nil, err
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := kindRequest{
+		mCtx:              mCtx,
 		prefix:            &prefix,
 		version:           &args.Version,
 		arch:              &args.Arch,
@@ -72,7 +85,8 @@ func Create(ctx *maptContext.ContextArgs, args *KindArgs) (kr *KindResultsMetada
 		extraPortMappings: args.ExtraPortMappings}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(&args.Prefix, &amiProduct, nil, args.ComputeRequest)
+			return allocation.AllocationDataOnSpot(mCtx, &args.Prefix,
+				&amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()
@@ -84,25 +98,26 @@ func Create(ctx *maptContext.ContextArgs, args *KindArgs) (kr *KindResultsMetada
 	return r.createHost()
 }
 
-func Destroy(ctx *maptContext.ContextArgs) (err error) {
+func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	logging.Debug("Run openshift destroy")
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
-	if err := aws.DestroyStack(aws.DestroyStackRequest{Stackname: stackName}); err != nil {
+	if err := aws.DestroyStack(mCtx, aws.DestroyStackRequest{Stackname: stackName}); err != nil {
 		return err
 	}
-	if spot.Exist() {
-		return spot.Destroy()
+	if spot.Exist(mCtx) {
+		return spot.Destroy(mCtx)
 	}
 	return nil
 }
 
 func (r *kindRequest) createHost() (*KindResultsMetadata, error) {
 	cs := manager.Stack{
-		StackName:   maptContext.StackNameByProject(stackName),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL(),
+		StackName:   r.mCtx.StackNameByProject(stackName),
+		ProjectName: r.mCtx.ProjectName(),
+		BackedURL:   r.mCtx.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				awsConstants.CONFIG_AWS_REGION:        *r.allocationData.Region,
@@ -110,7 +125,7 @@ func (r *kindRequest) createHost() (*KindResultsMetadata, error) {
 		DeployFunc: r.deploy,
 	}
 
-	sr, err := manager.UpStack(cs)
+	sr, err := manager.UpStack(r.mCtx, cs)
 	if err != nil {
 		return nil, fmt.Errorf("stack creation failed: %w", err)
 	}
@@ -124,6 +139,9 @@ func (r *kindRequest) createHost() (*KindResultsMetadata, error) {
 }
 
 func (r *kindRequest) deploy(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		amiName(r.arch),
@@ -149,7 +167,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		AZ:                 *r.allocationData.AZ,
 		CreateLoadBalancer: &createLB,
 	}
-	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx)
+	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
@@ -157,7 +175,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	// Create Keypair
 	kpr := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(*r.prefix, awsKindID, "pk")}
-	keyResources, err := kpr.Create(ctx)
+	keyResources, err := kpr.Create(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
@@ -165,7 +183,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		keyResources.PrivateKey.PrivateKeyPem)
 
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.prefix, vpc, extraHostPorts)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, vpc, extraHostPorts)
 	if err != nil {
 		return err
 	}
@@ -180,6 +198,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	lbTargetGroups = append(lbTargetGroups, extraHostPorts...)
 
 	cr := compute.ComputeRequest{
+		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
 		ID:               awsKindID,
 		VPC:              vpc,
@@ -210,11 +229,11 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		c.GetHostIP(true))
 
 	if len(*r.timeout) > 0 {
-		err := serverless.OneTimeDelayedTask(ctx,
+		err := serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
 			awsKindID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless --force-destroy",
-				"kind", maptContext.ProjectName(), maptContext.BackedURL()),
+				"kind", r.mCtx.ProjectName(), r.mCtx.BackedURL()),
 			*r.timeout)
 		if err != nil {
 			return err
@@ -266,8 +285,8 @@ func (r *kindRequest) manageResults(stackResult auto.UpResult, prefix *string) (
 		fmt.Sprintf("%s-%s", *prefix, outputKubeconfig): "kubeconfig",
 	}
 
-	if maptContext.GetResultsOutputPath() != "" {
-		if err := output.Write(stackResult, maptContext.GetResultsOutputPath(), results); err != nil {
+	if r.mCtx.GetResultsOutputPath() != "" {
+		if err := output.Write(stackResult, r.mCtx.GetResultsOutputPath(), results); err != nil {
 			return nil, fmt.Errorf("failed to write results: %w", err)
 		}
 	}
@@ -289,7 +308,7 @@ func getResultOutput(name string, sr auto.UpResult, prefix *string) (string, err
 }
 
 // security group for Openshift
-func securityGroups(ctx *pulumi.Context, prefix *string,
+func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	vpc *ec2.Vpc, extraHostPorts []int) (pulumi.StringArray, error) {
 	// Build ingress rules including both default and extra ports
 	ingressRules := []securityGroup.IngressRules{
@@ -315,7 +334,7 @@ func securityGroups(ctx *pulumi.Context, prefix *string,
 		VPC:          vpc,
 		Description:  fmt.Sprintf("sg for %s", awsKindID),
 		IngressRules: ingressRules,
-	}.Create(ctx)
+	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}

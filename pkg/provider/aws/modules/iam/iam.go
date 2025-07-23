@@ -45,34 +45,37 @@ func InstanceProfile(ctx *pulumi.Context, prefix, id *string, policiesARNs []str
 			Role: r})
 }
 
-func (a *iamRequestArgs) deploy(ctx *pulumi.Context) error {
+func (r *iamRequestArgs) deploy(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	user, err := iam.NewUser(ctx,
-		resourcesUtil.GetResourceName(a.prefix, a.componentID, "user"),
+		resourcesUtil.GetResourceName(r.prefix, r.componentID, "user"),
 		&iam.UserArgs{
-			Name: pulumi.String(a.name),
+			Name: pulumi.String(r.name),
 		})
 	if err != nil {
 		return err
 	}
 	_, err = iam.NewUserPolicy(ctx,
-		resourcesUtil.GetResourceName(a.prefix, a.componentID, "policy"),
+		resourcesUtil.GetResourceName(r.prefix, r.componentID, "policy"),
 		&iam.UserPolicyArgs{
 			User:   user.Name,
-			Policy: pulumi.String(*a.policyContent),
+			Policy: pulumi.String(*r.policyContent),
 		})
 	if err != nil {
 		return err
 	}
 	accessKey, err := iam.NewAccessKey(
 		ctx,
-		resourcesUtil.GetResourceName(a.prefix, a.componentID, "ak"),
+		resourcesUtil.GetResourceName(r.prefix, r.componentID, "ak"),
 		&iam.AccessKeyArgs{
 			User: user.Name,
 		})
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", a.prefix, outputAccessKey), accessKey.ID())
-	ctx.Export(fmt.Sprintf("%s-%s", a.prefix, outputSecretKey), accessKey.Secret)
+	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputAccessKey), accessKey.ID())
+	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputSecretKey), accessKey.Secret)
 	return nil
 }

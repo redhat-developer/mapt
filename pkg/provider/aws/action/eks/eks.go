@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/go-playground/validator/v10"
 	awsProvider "github.com/pulumi/pulumi-aws/sdk/v6/go/aws"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/eks"
@@ -15,10 +16,9 @@ import (
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
@@ -34,34 +34,63 @@ import (
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-type EKSRequest struct {
+type EKSArgs struct {
 	Prefix                 string
-	ComputeRequest         *cr.ComputeRequestArgs
 	KubernetesVersion      string
+	ComputeRequest         *cr.ComputeRequestArgs
 	ScalingDesiredSize     int
 	ScalingMaxSize         int
 	ScalingMinSize         int
 	Spot                   bool
 	Addons                 []string
 	LoadBalancerController bool
-	AvailabilityZones      []string
-	AllocationData         *allocation.AllocationData
 }
 
-func Create(ctx *maptContext.ContextArgs, r *EKSRequest) (err error) {
-	logging.Debug("Creating EKS")
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+type eksRequest struct {
+	mCtx                   *mc.Context `validate:"required"`
+	prefix                 *string
+	kubernetesVersion      *string
+	scalingDesiredSize     *int
+	scalingMaxSize         *int
+	scalingMinSize         *int
+	spot                   *bool
+	addons                 []string
+	loadBalancerController *bool
+	allocationData         *allocation.AllocationData
+	availabilityZones      []string
+}
+
+func (r *eksRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
 		return err
 	}
+	return v.Struct(r)
+}
 
-	// Get allocation data based on spot flag
-	projectName := maptContext.ProjectName()
-	r.AllocationData, err = util.IfWithError(r.Spot,
+func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
+	logging.Debug("Creating EKS")
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
+		return err
+	}
+	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
+	r := eksRequest{
+		mCtx:                   mCtx,
+		prefix:                 &prefix,
+		kubernetesVersion:      &args.KubernetesVersion,
+		spot:                   &args.Spot,
+		scalingDesiredSize:     &args.ScalingDesiredSize,
+		scalingMaxSize:         &args.ScalingMaxSize,
+		scalingMinSize:         &args.ScalingMinSize,
+		loadBalancerController: &args.LoadBalancerController,
+		addons:                 args.Addons,
+	}
+	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(
-				&projectName,
-				&amiProduct,
-				nil, r.ComputeRequest)
+			return allocation.AllocationDataOnSpot(mCtx,
+				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
 			return allocation.AllocationDataOnDemand()
@@ -69,46 +98,52 @@ func Create(ctx *maptContext.ContextArgs, r *EKSRequest) (err error) {
 	if err != nil {
 		return err
 	}
-	r.AvailabilityZones = data.GetAvailabilityZones(*r.AllocationData.Region)
-
+	r.availabilityZones = data.GetAvailabilityZones(*r.allocationData.Region)
 	cs := manager.Stack{
-		StackName:   maptContext.StackNameByProject(stackName),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL(),
+		StackName:   mCtx.StackNameByProject(stackName),
+		ProjectName: mCtx.ProjectName(),
+		BackedURL:   mCtx.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
-				awsConstants.CONFIG_AWS_REGION:        *r.AllocationData.Region,
-				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.AllocationData.Region,
+				awsConstants.CONFIG_AWS_REGION:        *r.allocationData.Region,
+				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.allocationData.Region,
 			}),
 		DeployFunc: r.deployer,
 	}
-
-	sr, _ := manager.UpStack(cs)
-	return r.manageResults(sr)
+	sr, err := manager.UpStack(mCtx, cs)
+	if err != nil {
+		return err
+	}
+	return r.manageResults(mCtx, sr)
 }
 
-func Destroy(ctx *maptContext.ContextArgs) error {
+func Destroy(ctx *mc.ContextArgs) error {
 	// Create mapt Context
 	logging.Debug("Destroy EKS")
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(ctx, aws.Provider())
+	if err != nil {
 		return err
 	}
 	return aws.DestroyStack(
+		mCtx,
 		aws.DestroyStackRequest{
-			BackedURL: maptContext.BackedURL(),
+			BackedURL: mCtx.BackedURL(),
 			Stackname: stackName,
 		})
 }
 
 // Main function to deploy all requried resources to AWS
-func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
+func (r *eksRequest) deployer(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Networking
 	nr, err := network.NetworkRequest{
-		Name:               resourcesUtil.GetResourceName(r.Prefix, awsEKSID, "net"),
+		Name:               resourcesUtil.GetResourceName(*r.prefix, awsEKSID, "net"),
 		CIDR:               network.DefaultCIDRNetwork,
-		AvailabilityZones:  r.AvailabilityZones,
-		PublicSubnetsCIDRs: network.GeneratePublicSubnetCIDRs(len(r.AvailabilityZones)),
-		Region:             *r.AllocationData.Region,
+		AvailabilityZones:  r.availabilityZones,
+		PublicSubnetsCIDRs: network.GeneratePublicSubnetCIDRs(len(r.availabilityZones)),
+		Region:             *r.allocationData.Region,
 		SingleNatGateway:   true,
 		MapPublicIp:        true,
 	}.CreateNetwork(ctx)
@@ -147,7 +182,7 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 			SecurityGroupIds: securityGroups,
 			SubnetIds:        subnetIds,
 		},
-		Version: pulumi.String(r.KubernetesVersion),
+		Version: pulumi.String(*r.kubernetesVersion),
 	}, pulumi.DependsOn([]pulumi.Resource{eksRole}))
 	if err != nil {
 		return err
@@ -200,13 +235,17 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 		NodeGroupName: pulumi.String("eks-nodegroup-0"),
 		NodeRoleArn:   nodeGroupRole.Arn,
 		SubnetIds:     subnetIds,
-		InstanceTypes: pulumi.StringArray(util.ArrayConvert(r.AllocationData.InstanceTypes, func(s string) pulumi.StringInput { return pulumi.String(s) })),
+		InstanceTypes: pulumi.StringArray(util.ArrayConvert(
+			r.allocationData.InstanceTypes,
+			func(s string) pulumi.StringInput {
+				return pulumi.String(s)
+			})),
 		ScalingConfig: &eks.NodeGroupScalingConfigArgs{
-			DesiredSize: pulumi.Int(r.ScalingDesiredSize),
-			MaxSize:     pulumi.Int(r.ScalingMaxSize),
-			MinSize:     pulumi.Int(r.ScalingMinSize),
+			DesiredSize: pulumi.Int(*r.scalingDesiredSize),
+			MaxSize:     pulumi.Int(*r.scalingMaxSize),
+			MinSize:     pulumi.Int(*r.scalingMinSize),
 		},
-		CapacityType: util.If(r.AllocationData != nil && r.AllocationData.SpotPrice != nil,
+		CapacityType: util.If(r.allocationData != nil && r.allocationData.SpotPrice != nil,
 			pulumi.String("SPOT"),
 			pulumi.String("ON_DEMAND")),
 	}, pulumi.DependsOn([]pulumi.Resource{eksCluster, nodeGroupRole}))
@@ -215,7 +254,7 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 	}
 
 	// Install AWS Load Balancer Controller
-	if r.LoadBalancerController {
+	if *r.loadBalancerController {
 		// IAM Policy Document
 		err := r.installAwsLoadBalancerController(ctx, oidcIssuerHostPath, accountId, k8sProvider, eksCluster, vpc, nodeGroup0)
 		if err != nil {
@@ -223,12 +262,12 @@ func (r *EKSRequest) deployer(ctx *pulumi.Context) error {
 		}
 	}
 
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputKubeconfig), kubeconfig)
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig), kubeconfig)
 	return nil
 }
 
 // security group with ingress rules for ssh and vnc
-func (r *EKSRequest) securityGroups(ctx *pulumi.Context,
+func (r *eksRequest) securityGroups(ctx *pulumi.Context,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// ingress for ssh access from 0.0.0.0
 	var ingressRules []securityGroup.IngressRules
@@ -253,11 +292,11 @@ func (r *EKSRequest) securityGroups(ctx *pulumi.Context,
 
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
-		Name:         resourcesUtil.GetResourceName(r.Prefix, awsEKSID, "sg"),
+		Name:         resourcesUtil.GetResourceName(*r.prefix, awsEKSID, "sg"),
 		VPC:          vpc,
 		Description:  fmt.Sprintf("sg for %s", awsEKSID),
 		IngressRules: ingressRules,
-	}.Create(ctx)
+	}.Create(ctx, r.mCtx)
 	if err != nil {
 		return nil, err
 	}
@@ -269,7 +308,7 @@ func (r *EKSRequest) securityGroups(ctx *pulumi.Context,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func (*EKSRequest) createEksRole(ctx *pulumi.Context) (*iam.Role, error) {
+func (*eksRequest) createEksRole(ctx *pulumi.Context) (*iam.Role, error) {
 	eksRolePolicyJSON, err := json.Marshal(map[string]interface{}{
 		"Version": "2012-10-17",
 		"Statement": []map[string]interface{}{
@@ -307,7 +346,7 @@ func (*EKSRequest) createEksRole(ctx *pulumi.Context) (*iam.Role, error) {
 	return eksRole, nil
 }
 
-func (*EKSRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error) {
+func (*eksRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error) {
 	nodeGroupAssumeRolePolicyJSON, err := json.Marshal(map[string]interface{}{
 		"Version": "2012-10-17",
 		"Statement": []map[string]interface{}{
@@ -346,7 +385,7 @@ func (*EKSRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error) {
 	return nodeGroupRole, nil
 }
 
-func (r *EKSRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcIssuerHostPath pulumi.StringOutput, accountId string, k8sProvider *kubernetes.Provider, eksCluster *eks.Cluster, vpc *ec2.Vpc, nodeGroup0 *eks.NodeGroup) error {
+func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcIssuerHostPath pulumi.StringOutput, accountId string, k8sProvider *kubernetes.Provider, eksCluster *eks.Cluster, vpc *ec2.Vpc, nodeGroup0 *eks.NodeGroup) error {
 	policyDocumentJSON := getAwsLoadBalancerControllerIamPolicy()
 
 	// Create IAM policy
@@ -429,7 +468,7 @@ func (r *EKSRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcI
 				"create": pulumi.Bool(false),    // Tell Helm chart not to create SA
 				"name":   lbcServiceAccountName, // Tell Helm chart to use the SA we created
 			},
-			"region": pulumi.String(*r.AllocationData.Region),
+			"region": pulumi.String(*r.allocationData.Region),
 			"vpcId":  vpc.ID(),
 		},
 	}, pulumi.Provider(k8sProvider), pulumi.DependsOn([]pulumi.Resource{eksCluster, nodeGroup0, iamRole, lbcK8sServiceAccount}))
@@ -439,8 +478,8 @@ func (r *EKSRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcI
 	return nil
 }
 
-func deployAddons(r *EKSRequest, oidcIssuerHostPath pulumi.StringOutput, accountId string, ctx *pulumi.Context, eksCluster *eks.Cluster) error {
-	for _, addon := range r.Addons {
+func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, accountId string, ctx *pulumi.Context, eksCluster *eks.Cluster) error {
+	for _, addon := range r.addons {
 		if addon == "aws-ebs-csi-driver" {
 			// Create the IAM role for the EBS CSI driver
 			ebsCsiDriverServiceAccountName := pulumi.String("ebs-csi-controller-sa")
@@ -572,10 +611,10 @@ func generateKubeconfig(clusterEndpoint pulumi.StringOutput, certData pulumi.Str
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *EKSRequest) manageResults(stackResult auto.UpResult) error {
+func (r *eksRequest) manageResults(c *mc.Context, stackResult auto.UpResult) error {
 
-	return output.Write(stackResult, maptContext.GetResultsOutputPath(), map[string]string{
-		fmt.Sprintf("%s-%s", r.Prefix, outputKubeconfig): "kubeconfig",
+	return output.Write(stackResult, c.GetResultsOutputPath(), map[string]string{
+		fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig): "kubeconfig",
 	})
 }
 

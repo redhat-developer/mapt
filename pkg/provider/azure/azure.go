@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/redhat-developer/mapt/pkg/manager"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -97,13 +98,13 @@ var (
 	}
 )
 
-func Destroy(projectName, backedURL, stackName string) error {
+func Destroy(mCtx *mc.Context, stackName string) error {
 	stack := manager.Stack{
-		StackName:           stackName,
-		ProjectName:         projectName,
-		BackedURL:           backedURL,
+		StackName:           mCtx.StackNameByProject(stackName),
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: DefaultCredentials}
-	return manager.DestroyStack(stack)
+	return manager.DestroyStack(mCtx, stack)
 }
 
 func locationSupportsResourceGroup(location string) bool {

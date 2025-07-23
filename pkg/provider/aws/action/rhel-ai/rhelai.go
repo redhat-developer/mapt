@@ -3,11 +3,12 @@ package rhelai
 import (
 	"fmt"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
@@ -42,6 +43,7 @@ type RHELAIArgs struct {
 }
 
 type rhelAIRequest struct {
+	mCtx           *mc.Context
 	prefix         *string
 	version        *string
 	arch           *string
@@ -52,17 +54,28 @@ type rhelAIRequest struct {
 	allocationData *allocation.AllocationData
 }
 
+func (r *rhelAIRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
+		return err
+	}
+	return v.Struct(r)
+}
+
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *RHELAIArgs) (err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *RHELAIArgs) (err error) {
 	// Create mapt Context
-	if err = maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelAIRequest{
+		mCtx:         mCtx,
 		prefix:       &prefix,
 		version:      &args.Version,
 		arch:         &args.Arch,
@@ -72,7 +85,7 @@ func Create(ctx *maptContext.ContextArgs, args *RHELAIArgs) (err error) {
 		subsUserpass: &args.SubsUserpass}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(
+			return allocation.AllocationDataOnSpot(mCtx,
 				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
@@ -82,7 +95,7 @@ func Create(ctx *maptContext.ContextArgs, args *RHELAIArgs) (err error) {
 		return err
 	}
 	amiName := amiName(&args.Version)
-	if err = manageAMIReplication(&args.Prefix,
+	if err = manageAMIReplication(mCtx, &args.Prefix,
 		&amiName, r.allocationData.Region); err != nil {
 		return err
 	}
@@ -90,37 +103,39 @@ func Create(ctx *maptContext.ContextArgs, args *RHELAIArgs) (err error) {
 }
 
 // Will destroy resources related to machine
-func Destroy(ctx *maptContext.ContextArgs) error {
+func Destroy(mCtxArgs *mc.ContextArgs) error {
 	logging.Debug("Run rhel destroy")
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 
 	if err := aws.DestroyStack(
+		mCtx,
 		aws.DestroyStackRequest{
 			Stackname: stackName,
 		}); err != nil {
 		return err
 	}
-	if spot.Exist() {
-		return spot.Destroy()
+	if spot.Exist(mCtx) {
+		return spot.Destroy(mCtx)
 	}
 	return nil
 }
 
 func (r *rhelAIRequest) createMachine() error {
 	cs := manager.Stack{
-		StackName:   maptContext.StackNameByProject(stackName),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL(),
+		StackName:   r.mCtx.StackNameByProject(stackName),
+		ProjectName: r.mCtx.ProjectName(),
+		BackedURL:   r.mCtx.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				awsConstants.CONFIG_AWS_REGION: *r.allocationData.Region}),
 		DeployFunc: r.deploy,
 	}
 
-	sr, _ := manager.UpStack(cs)
+	sr, _ := manager.UpStack(r.mCtx, cs)
 	return r.manageResults(sr)
 }
 
@@ -132,6 +147,9 @@ func (r *rhelAIRequest) createMachine() error {
 // * compute
 // * checks
 func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf("%s*", amiName(r.version)),
@@ -152,7 +170,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		CreateLoadBalancer: &lbEnable,
 		Airgap:             false,
 	}
-	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx)
+	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
@@ -160,18 +178,19 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	kpr := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
 			*r.prefix, awsRHELDedicatedID, "pk")}
-	keyResources, err := kpr.Create(ctx)
+	keyResources, err := kpr.Create(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := r.securityGroups(ctx, vpc)
+	securityGroups, err := r.securityGroups(ctx, r.mCtx, vpc)
 	if err != nil {
 		return err
 	}
 	cr := compute.ComputeRequest{
+		MCtx:           r.mCtx,
 		Prefix:         *r.prefix,
 		ID:             awsRHELDedicatedID,
 		VPC:            vpc,
@@ -197,13 +216,13 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
 		c.GetHostIP(true))
 	if len(*r.timeout) > 0 {
-		if err = serverless.OneTimeDelayedTask(ctx,
+		if err = serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
 			awsRHELDedicatedID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
 				"rhel",
-				maptContext.ProjectName(),
-				maptContext.BackedURL()),
+				r.mCtx.ProjectName(),
+				r.mCtx.BackedURL()),
 			*r.timeout); err != nil {
 			return err
 		}
@@ -219,11 +238,11 @@ func (r *rhelAIRequest) manageResults(stackResult auto.UpResult) error {
 		fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey): "id_rsa",
 		fmt.Sprintf("%s-%s", *r.prefix, outputHost):           "host",
 	}
-	return output.Write(stackResult, maptContext.GetResultsOutputPath(), results)
+	return output.Write(stackResult, r.mCtx.GetResultsOutputPath(), results)
 }
 
 // security group for mac machine with ingress rules for ssh and vnc
-func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context,
+func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// ingress for ssh access from 0.0.0.0
 	sshIngressRule := securityGroup.SSH_TCP
@@ -235,7 +254,7 @@ func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context,
 		Description: fmt.Sprintf("sg for %s", awsRHELDedicatedID),
 		IngressRules: []securityGroup.IngressRules{
 			sshIngressRule},
-	}.Create(ctx)
+	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
@@ -247,7 +266,7 @@ func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func manageAMIReplication(prefix, amiName, region *string) error {
+func manageAMIReplication(mCtx *mc.Context, prefix, amiName, region *string) error {
 	isAMIOffered, _, err := data.IsAMIOffered(
 		data.ImageRequest{
 			Name:   amiName,
@@ -258,6 +277,7 @@ func manageAMIReplication(prefix, amiName, region *string) error {
 	}
 	if !isAMIOffered {
 		acr := amiCopy.CopyAMIRequest{
+			MCtx:            mCtx,
 			Prefix:          *prefix,
 			ID:              awsRHELDedicatedID,
 			AMISourceName:   amiName,

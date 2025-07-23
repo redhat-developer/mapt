@@ -3,7 +3,7 @@ package securitygroup
 import (
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 )
 
@@ -27,7 +27,7 @@ type SGResources struct {
 	SG *ec2.SecurityGroup
 }
 
-func (r SGRequest) Create(ctx *pulumi.Context) (*SGResources, error) {
+func (r SGRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*SGResources, error) {
 	sg, err := ec2.NewSecurityGroup(ctx,
 		r.Name,
 		&ec2.SecurityGroupArgs{
@@ -35,7 +35,7 @@ func (r SGRequest) Create(ctx *pulumi.Context) (*SGResources, error) {
 			VpcId:       r.VPC.ID(),
 			Ingress:     getSecurityGroupIngressArray(r.IngressRules),
 			Egress:      ec2.SecurityGroupEgressArray{egressAll},
-			Tags:        maptContext.ResourceTags(),
+			Tags:        mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err

@@ -1,5 +1,10 @@
 package serverless
 
+import (
+	"github.com/go-playground/validator/v10"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+)
+
 var (
 	// stackName = "mapt-serverless"
 
@@ -22,7 +27,8 @@ const (
 	LimitMemory = "2048"
 )
 
-type serverlessRequestArgs struct {
+type serverlessRequest struct {
+	mCtx *mc.Context `validate:"required"`
 	// need this to find the right ECS cluster to run this serverless
 	region string
 	// command and scheduling to be used for it
@@ -35,4 +41,13 @@ type serverlessRequestArgs struct {
 	logGroupName string
 	// optional params in case we create serverless inside a stack
 	prefix, componentID string
+}
+
+func (r *serverlessRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
+		return err
+	}
+	return v.Struct(r)
 }

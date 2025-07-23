@@ -1,7 +1,7 @@
 package mac
 
 import (
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
@@ -27,14 +27,15 @@ import (
 // create the machine
 //
 //	...
-func Request(ctx *maptContext.ContextArgs, r *MacRequestArgs) error {
+func Request(ctx *mc.ContextArgs, r *MacRequestArgs) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(ctx, aws.Provider())
+	if err != nil {
 		return err
 	}
 
 	// Get list of dedicated host ordered by allocation time
-	his, err := macHost.GetMatchingHostsInformation(r.Architecture)
+	his, err := macHost.GetMatchingHostsInformation(mCtx, r.Architecture)
 	if err != nil {
 		return err
 	}
@@ -60,8 +61,8 @@ func Request(ctx *maptContext.ContextArgs, r *MacRequestArgs) error {
 		return err
 	}
 	// We update the runID on the dedicated host
-	return tag.Update(maptContext.TagKeyRunID,
-		maptContext.RunID(),
+	return tag.Update(mc.TagKeyRunID,
+		mCtx.RunID(),
 		*hi.Region,
 		*hi.Host.HostId)
 }
@@ -73,7 +74,7 @@ func Request(ctx *maptContext.ContextArgs, r *MacRequestArgs) error {
 // get projectName (tag on the dh)
 // load machine stack based on those params
 // run release update on it
-func Release(ctx *maptContext.ContextArgs, hostID string) error {
+func Release(mCtxArgs *mc.ContextArgs, hostID string) error {
 	// Get host as context will be fullfilled with info coming from the tags on the host
 	host, err := data.GetDedicatedHost(hostID)
 	if err != nil {
@@ -81,28 +82,30 @@ func Release(ctx *maptContext.ContextArgs, hostID string) error {
 	}
 	hi := macHost.GetHostInformation(*host)
 	// Create mapt Context
-	ctx.ProjectName = *hi.ProjectName
-	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtxArgs.ProjectName = *hi.ProjectName
+	mCtxArgs.BackedURL = *hi.BackedURL
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 	// replace machine
-	return macMachine.ReplaceMachine(hi)
+	return macMachine.ReplaceMachine(mCtx, hi)
 }
 
 // Initial scenario consider 1 machine
 // If we request destroy mac machine it will look for any machine
 // and check if it is locked if not locked it will destroy it
-func Destroy(ctx *maptContext.ContextArgs, hostID string) error {
+func Destroy(mCtxArgs *mc.ContextArgs, hostID string) error {
 	host, err := data.GetDedicatedHost(hostID)
 	if err != nil {
 		return err
 	}
 	hi := macHost.GetHostInformation(*host)
 	// Create mapt Context
-	ctx.ProjectName = *hi.ProjectName
-	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtxArgs.ProjectName = *hi.ProjectName
+	mCtxArgs.BackedURL = *hi.BackedURL
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 	// Dedicated host is not on a valid state to be deleted
@@ -112,19 +115,23 @@ func Destroy(ctx *maptContext.ContextArgs, hostID string) error {
 		return err
 	}
 	if !machineLocked {
-		if err := aws.DestroyStack(aws.DestroyStackRequest{
-			Stackname: mac.StackMacMachine,
-			Region:    *hi.Region,
-			BackedURL: *hi.BackedURL,
-		}); err != nil {
+		if err := aws.DestroyStack(
+			mCtx,
+			aws.DestroyStackRequest{
+				Stackname: mac.StackMacMachine,
+				Region:    *hi.Region,
+				BackedURL: *hi.BackedURL,
+			}); err != nil {
 			return err
 		}
-		return aws.DestroyStack(aws.DestroyStackRequest{
-			Stackname: mac.StackDedicatedHost,
-			// TODO check if needed to add region for backedURL
-			Region:    *hi.Region,
-			BackedURL: *hi.BackedURL,
-		})
+		return aws.DestroyStack(
+			mCtx,
+			aws.DestroyStackRequest{
+				Stackname: mac.StackDedicatedHost,
+				// TODO check if needed to add region for backedURL
+				Region:    *hi.Region,
+				BackedURL: *hi.BackedURL,
+			})
 	}
 	logging.Debug("nothing to be destroyed")
 	return nil
@@ -143,10 +150,13 @@ func Destroy(ctx *maptContext.ContextArgs, hostID string) error {
 // and will set a lock on it
 
 func create(r *MacRequestArgs, dh *mac.HostInformation) (err error) {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	if dh == nil {
 		hr := r.fillHostRequest()
 		// Get data required for create a dh
-		dh, err = macHost.CreateDedicatedHost(hr)
+		dh, err = macHost.CreateDedicatedHost(r.mCtx, hr)
 		if err != nil {
 			return err
 		}
