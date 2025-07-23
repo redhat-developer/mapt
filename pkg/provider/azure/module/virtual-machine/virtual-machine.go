@@ -9,7 +9,7 @@ import (
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -44,7 +44,7 @@ type VirtualMachineRequest struct {
 
 // Create virtual machine based on request + export to context
 // adminusername and adminuserpassword
-func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMachine, error) {
+func (r *VirtualMachineRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*compute.VirtualMachine, error) {
 	var imageReferenceArgs compute.ImageReferenceArgs
 	if len(r.ImageID) > 0 {
 		imageReferenceArgs = compute.ImageReferenceArgs{
@@ -62,7 +62,7 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 		}
 	}
 	vmArgs := &compute.VirtualMachineArgs{
-		VmName:            pulumi.String(maptContext.RunID()),
+		VmName:            pulumi.String(mCtx.RunID()),
 		Location:          r.ResourceGroup.Location,
 		ResourceGroupName: r.ResourceGroup.Name,
 		NetworkProfile: compute.NetworkProfileArgs{
@@ -78,7 +78,7 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 		StorageProfile: compute.StorageProfileArgs{
 			ImageReference: imageReferenceArgs,
 			OsDisk: compute.OSDiskArgs{
-				Name:         pulumi.String(maptContext.RunID()),
+				Name:         pulumi.String(mCtx.RunID()),
 				DiskSizeGB:   pulumi.Int(diskSize),
 				CreateOption: pulumi.String("FromImage"),
 				Caching:      compute.CachingTypesReadWrite,
@@ -94,8 +94,8 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 			},
 		},
 
-		OsProfile: r.osProfile(),
-		Tags:      maptContext.ResourceTags(),
+		OsProfile: r.osProfile(mCtx.RunID()),
+		Tags:      mCtx.ResourceTags(),
 	}
 	if r.SpotPrice != nil {
 		vmArgs.Priority = pulumi.String(prioritySpot)
@@ -112,10 +112,10 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context) (*compute.VirtualMac
 		vmArgs)
 }
 
-func (r *VirtualMachineRequest) osProfile() compute.OSProfileArgs {
+func (r *VirtualMachineRequest) osProfile(computerName string) compute.OSProfileArgs {
 	osProfile := compute.OSProfileArgs{
 		AdminUsername: pulumi.String(r.AdminUsername),
-		ComputerName:  pulumi.String(maptContext.RunID()),
+		ComputerName:  pulumi.String(computerName),
 	}
 	if r.AdminPasswd != nil {
 		osProfile.AdminPassword = r.AdminPasswd.Result

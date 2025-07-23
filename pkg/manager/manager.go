@@ -9,7 +9,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optdestroy"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optup"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -28,15 +28,15 @@ type ManagerOptions struct {
 	Baground bool
 }
 
-func UpStack(targetStack Stack, opts ...ManagerOptions) (auto.UpResult, error) {
-	return UpStackTargets(targetStack, nil, opts...)
+func UpStack(c *mc.Context, targetStack Stack, opts ...ManagerOptions) (auto.UpResult, error) {
+	return UpStackTargets(c, targetStack, nil, opts...)
 }
 
-func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptions) (auto.UpResult, error) {
+func UpStackTargets(mCtx *mc.Context, targetStack Stack, targetURNs []string, opts ...ManagerOptions) (auto.UpResult, error) {
 	logging.Debugf("managing stack %s", targetStack.StackName)
 	ctx := context.Background()
 
-	objectStack, err := getStack(ctx, targetStack)
+	objectStack, err := getStack(ctx, mCtx, targetStack)
 	if err != nil {
 		logging.Error(err)
 		if len(opts) == 1 && opts[0].Baground {
@@ -55,8 +55,8 @@ func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptio
 	mOpts := []optup.Option{
 		optup.ProgressStreams(w),
 	}
-	if maptContext.Debug() {
-		dl := maptContext.DebugLevel()
+	if mCtx.Debug() {
+		dl := mCtx.DebugLevel()
 		mOpts = append(mOpts, optup.DebugLogging(debug.LoggingOptions{
 			LogLevel:      &dl,
 			Debug:         true,
@@ -80,11 +80,11 @@ func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptio
 	return result, nil
 }
 
-func DestroyStack(targetStack Stack, opts ...ManagerOptions) error {
+func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) error {
 	logging.Debugf("destroying stack %s", targetStack.StackName)
 	ctx := context.Background()
 
-	objectStack, err := getStack(ctx, targetStack)
+	objectStack, err := getStack(ctx, mCtx, targetStack)
 	if err != nil {
 		logging.Error(err)
 		if len(opts) == 1 && opts[0].Baground {
@@ -103,8 +103,8 @@ func DestroyStack(targetStack Stack, opts ...ManagerOptions) error {
 	mOpts := []optdestroy.Option{
 		optdestroy.ProgressStreams(w),
 	}
-	if maptContext.Debug() {
-		dl := maptContext.DebugLevel()
+	if mCtx.Debug() {
+		dl := mCtx.DebugLevel()
 		mOpts = append(mOpts, optdestroy.DebugLogging(
 			debug.LoggingOptions{
 				LogLevel:      &dl,

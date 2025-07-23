@@ -11,10 +11,9 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
-type Request struct {
+type RhelArgs struct {
 	Prefix              string
 	Location            string
-	VMSizes             []string
 	Arch                string
 	ComputeRequest      *cr.ComputeRequestArgs
 	Version             string
@@ -27,17 +26,7 @@ type Request struct {
 	SpotExcludedRegions []string
 }
 
-func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
-	if len(r.VMSizes) == 0 {
-		vmSizes, err :=
-			data.NewComputeSelector().Select(r.ComputeRequest)
-		if err != nil {
-			logging.Debugf("Unable to fetch desired instance type: %v", err)
-		}
-		if len(vmSizes) > 0 {
-			r.VMSizes = append(r.VMSizes, vmSizes...)
-		}
-	}
+func Create(ctx *maptContext.ContextArgs, r *RhelArgs) (err error) {
 	logging.Debug("Creating RHEL Server")
 	rhelCloudConfig := &cloudConfigRHEL.RequestArgs{
 		SNCProfile:   r.ProfileSNC,
@@ -45,10 +34,9 @@ func Create(ctx *maptContext.ContextArgs, r *Request) (err error) {
 		SubsPassword: r.SubsUserpass,
 		Username:     r.Username}
 	azureLinuxRequest :=
-		&azureLinux.LinuxRequest{
+		&azureLinux.LinuxArgs{
 			Prefix:         r.Prefix,
 			Location:       r.Location,
-			VMSizes:        r.VMSizes,
 			ComputeRequest: r.ComputeRequest,
 			Version:        r.Version,
 			Arch:           r.Arch,

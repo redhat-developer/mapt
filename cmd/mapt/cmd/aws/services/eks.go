@@ -68,8 +68,7 @@ func getCreateEKS() *cobra.Command {
 					Tags:                  viper.GetStringMapString(params.Tags),
 					SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
 				},
-				&awsEKS.EKSRequest{
-					Prefix:                 viper.GetString(params.ProjectName),
+				&awsEKS.EKSArgs{
 					ComputeRequest:         params.GetComputeRequest(),
 					KubernetesVersion:      viper.GetString(paramVersion),
 					ScalingDesiredSize:     viper.GetInt(paramScalingDesiredSize),

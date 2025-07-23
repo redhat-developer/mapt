@@ -3,10 +3,11 @@ package ami
 import (
 	"fmt"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -14,6 +15,7 @@ import (
 )
 
 type CopyAMIRequest struct {
+	MCtx          *mc.Context `validate:"required"`
 	Prefix        string
 	ID            string
 	AMISourceName *string
@@ -29,46 +31,46 @@ type CopyAMIRequest struct {
 	MaxParallel int32 // number of snapshost to support fast enable
 }
 
-// Create wil get the information for the best spot choice it is backed
-// within a stack and state to allow idempotency, otherwise run 2nd time a create
-// may bring other region with best option and then all dependant resources from other
-// stacks would need to be updated
+func (r *CopyAMIRequest) validate() error {
+	return validator.New(validator.WithRequiredStructEnabled()).Struct(r)
+}
 
-// So create will check if stack with state already exists, if that is the case it will
-// pick info from its outputs
-// If stack does not exists it will create it
+// Create will check if ami copy state exists and if not it will create the stack
 func (r CopyAMIRequest) Create() error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	_, err := manager.CheckStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject("copyAMI"),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL()})
+		StackName:   r.MCtx.StackNameByProject("copyAMI"),
+		ProjectName: r.MCtx.ProjectName(),
+		BackedURL:   r.MCtx.BackedURL()})
 	if err != nil {
-		return r.createStack()
+		return r.createStack(r.MCtx)
 	}
 	return nil
 }
 
 // Check if spot option stack was created on the backed url
-func Exist() bool {
+func Exist(mCtx *mc.Context) bool {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject("copyAMI"),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL()})
+		StackName:   mCtx.StackNameByProject("copyAMI"),
+		ProjectName: mCtx.ProjectName(),
+		BackedURL:   mCtx.BackedURL()})
 	return err == nil && s != nil
 }
 
 // Destroy the stack
-func Destroy() (err error) {
+func Destroy(mCtx *mc.Context) (err error) {
 	stack := manager.Stack{
-		StackName:           maptContext.StackNameByProject("copyAMI"),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:           mCtx.StackNameByProject("copyAMI"),
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials}
-	return manager.DestroyStack(stack)
+	return manager.DestroyStack(mCtx, stack)
 }
 
 // function to create the stack
-func (r CopyAMIRequest) createStack() error {
+func (r CopyAMIRequest) createStack(mCtx *mc.Context) error {
 	credentials := aws.DefaultCredentials
 	if r.AMITargetRegion != nil {
 		credentials = aws.GetClouProviderCredentials(map[string]string{
@@ -76,13 +78,13 @@ func (r CopyAMIRequest) createStack() error {
 		})
 	}
 	stack := manager.Stack{
-		StackName:           maptContext.StackNameByProject("copyAMI"),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:           mCtx.StackNameByProject("copyAMI"),
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: credentials,
 		DeployFunc:          r.deployer,
 	}
-	_, err := manager.UpStack(stack)
+	_, err := manager.UpStack(mCtx, stack)
 	return err
 }
 
@@ -104,7 +106,7 @@ func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 					fmt.Sprintf("Replica of %s from %s", *amiInfo.Image.ImageId, *amiInfo.Region)),
 				SourceAmiId:     pulumi.String(*amiInfo.Image.ImageId),
 				SourceAmiRegion: pulumi.String(*amiInfo.Region),
-				Tags: maptContext.ResourceTagsWithCustom(
+				Tags: r.MCtx.ResourceTagsWithCustom(
 					map[string]string{"Name": *r.AMISourceName}),
 			},
 			pulumi.RetainOnDelete(r.AMIKeepCopy))

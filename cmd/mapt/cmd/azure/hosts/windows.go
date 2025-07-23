@@ -91,10 +91,9 @@ func getCreateWindowsDesktop() *cobra.Command {
 
 			if err := azureWindows.Create(
 				ctx,
-				&azureWindows.WindowsRequest{
+				&azureWindows.WindowsArgs{
 					Prefix:              viper.GetString(params.ProjectName),
 					Location:            viper.GetString(paramLocation),
-					VMSizes:             viper.GetStringSlice(paramVMSize),
 					ComputeRequest:      params.GetComputeRequest(),
 					Version:             viper.GetString(paramWindowsVersion),
 					Feature:             viper.GetString(paramFeature),
@@ -113,7 +112,6 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
-	flagSet.StringSliceP(paramVMSize, "", []string{}, paramVMSizeDesc)
 	flagSet.StringP(paramWindowsVersion, "", defaultWindowsVersion, paramWindowsVersionDesc)
 	flagSet.StringP(paramFeature, "", defaultFeature, paramFeatureDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)

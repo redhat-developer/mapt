@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"os"
 
+	computerequest "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
 )
@@ -71,7 +72,9 @@ func main() {
 func runByComputeTypes(ct []string, p spot.Provider) {
 	spi, err := spot.GetLowestPrice(
 		&spotTypes.SpotRequestArgs{
-			ComputeTypes: ct,
+			ComputeRequest: &computerequest.ComputeRequestArgs{
+				ComputeSizes: ct,
+			},
 		}, p)
 	if err != nil {
 		fmt.Printf("Error: %v", err)

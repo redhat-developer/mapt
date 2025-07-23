@@ -5,12 +5,13 @@ import (
 	"os"
 	"strings"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
@@ -44,12 +45,22 @@ type OpenshiftSNCArgs struct {
 }
 
 type openshiftSNCRequest struct {
+	mCtx           *mc.Context
 	prefix         *string
 	version        *string
 	arch           *string
 	timeout        *string
 	pullSecretFile *string
 	allocationData *allocation.AllocationData
+}
+
+func (r *openshiftSNCRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
+		return err
+	}
+	return v.Struct(r)
 }
 
 type OpenshiftSncResultsMetadata struct {
@@ -65,14 +76,16 @@ type OpenshiftSncResultsMetadata struct {
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncResultsMetadata, err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncResultsMetadata, err error) {
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return nil, err
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := openshiftSNCRequest{
+		mCtx:           mCtx,
 		prefix:         &prefix,
 		version:        &args.Version,
 		arch:           &args.Arch,
@@ -80,7 +93,7 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftS
 		timeout:        &args.Timeout}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(
+			return allocation.AllocationDataOnSpot(mCtx,
 				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
@@ -91,7 +104,7 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftS
 	}
 	// Manage AMI offering / replication
 	amiName := amiName(&args.Version, &args.Arch)
-	if err = manageAMIReplication(&args.Prefix,
+	if err = manageAMIReplication(mCtx, &args.Prefix,
 		&amiName, r.allocationData.Region, &args.Arch); err != nil {
 		return nil, err
 	}
@@ -99,45 +112,48 @@ func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftS
 }
 
 // Will destroy resources related to machine
-func Destroy(ctx *maptContext.ContextArgs) (err error) {
+func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	logging.Debug("Run openshift destroy")
 	// Create mapt Context
-	if err = maptContext.Init(ctx, aws.Provider()); err != nil {
+	// Create mapt Context
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 	// Destroy fedora related resources
 	if err = aws.DestroyStack(
+		mCtx,
 		aws.DestroyStackRequest{
 			Stackname: stackName,
 		}); err != nil {
 		return err
 	}
 	// AMI Copy
-	if amiCopy.Exist() {
-		err = amiCopy.Destroy()
+	if amiCopy.Exist(mCtx) {
+		err = amiCopy.Destroy(mCtx)
 		if err != nil {
 			return
 		}
 	}
 	// Destroy spot orchestrated stack
-	if spot.Exist() {
-		return spot.Destroy()
+	if spot.Exist(mCtx) {
+		return spot.Destroy(mCtx)
 	}
 	return nil
 }
 
 func (r *openshiftSNCRequest) createCluster() (*OpenshiftSncResultsMetadata, error) {
 	cs := manager.Stack{
-		StackName:   maptContext.StackNameByProject(stackName),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL(),
+		StackName:   r.mCtx.StackNameByProject(stackName),
+		ProjectName: r.mCtx.ProjectName(),
+		BackedURL:   r.mCtx.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				awsConstants.CONFIG_AWS_REGION:        *r.allocationData.Region,
 				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.allocationData.Region}),
 		DeployFunc: r.deploy,
 	}
-	sr, err := manager.UpStack(cs)
+	sr, err := manager.UpStack(r.mCtx, cs)
 	if err != nil {
 		return nil, fmt.Errorf("stack creation failed: %w", err)
 	}
@@ -146,6 +162,9 @@ func (r *openshiftSNCRequest) createCluster() (*OpenshiftSncResultsMetadata, err
 }
 
 func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf("%s*", amiName(r.version, r.arch)),
@@ -166,7 +185,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		CreateLoadBalancer: &lbEnable,
 		Airgap:             false,
 	}
-	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx)
+	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
@@ -174,13 +193,13 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	kpr := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
 			*r.prefix, awsOCPSNCID, "pk")}
-	keyResources, err := kpr.Create(ctx)
+	keyResources, err := kpr.Create(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
-	if maptContext.Debug() {
+	if r.mCtx.Debug() {
 		keyResources.PrivateKey.PrivateKeyPem.ApplyT(
 			func(privateKey string) (*string, error) {
 				logging.Debugf("%s", privateKey)
@@ -188,7 +207,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 			})
 	}
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.prefix, vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, vpc)
 	if err != nil {
 		return err
 	}
@@ -208,6 +227,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		devPass)
 	// Create instance
 	cr := compute.ComputeRequest{
+		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
 		ID:               awsOCPSNCID,
 		VPC:              vpc,
@@ -235,13 +255,13 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
 		c.GetHostIP(true))
 	if len(*r.timeout) > 0 {
-		if err = serverless.OneTimeDelayedTask(ctx,
+		if err = serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
 			awsOCPSNCID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
 				"openshift-snc",
-				maptContext.ProjectName(),
-				maptContext.BackedURL()),
+				r.mCtx.ProjectName(),
+				r.mCtx.BackedURL()),
 			*r.timeout); err != nil {
 			return err
 		}
@@ -289,7 +309,7 @@ func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *s
 		fmt.Sprintf("%s-%s", *prefix, outputDeveloperPass): "developer_pass",
 	}
 
-	outputPath := maptContext.GetResultsOutputPath()
+	outputPath := r.mCtx.GetResultsOutputPath()
 	if len(outputPath) == 0 {
 		logging.Warn("conn-details-output flag not set; skipping writing output files.")
 	} else {
@@ -315,7 +335,7 @@ func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *s
 }
 
 // security group for Openshift
-func securityGroups(ctx *pulumi.Context, prefix *string,
+func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
@@ -325,7 +345,7 @@ func securityGroups(ctx *pulumi.Context, prefix *string,
 		IngressRules: []securityGroup.IngressRules{securityGroup.SSH_TCP,
 			{Description: "Console", FromPort: portHTTPS, ToPort: portHTTPS, Protocol: "tcp"},
 			{Description: "API", FromPort: portAPI, ToPort: portAPI, Protocol: "tcp"}},
-	}.Create(ctx)
+	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
@@ -337,7 +357,7 @@ func securityGroups(ctx *pulumi.Context, prefix *string,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func manageAMIReplication(prefix, amiName, region, arch *string) error {
+func manageAMIReplication(mCtx *mc.Context, prefix, amiName, region, arch *string) error {
 	isAMIOffered, _, err := data.IsAMIOffered(
 		data.ImageRequest{
 			Name:   amiName,
@@ -348,6 +368,7 @@ func manageAMIReplication(prefix, amiName, region, arch *string) error {
 	}
 	if !isAMIOffered {
 		acr := amiCopy.CopyAMIRequest{
+			MCtx:            mCtx,
 			Prefix:          *prefix,
 			ID:              awsOCPSNCID,
 			AMISourceName:   amiName,

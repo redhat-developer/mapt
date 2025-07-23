@@ -1,11 +1,14 @@
 package machine
 
 import (
+	"github.com/go-playground/validator/v10"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 )
 
 type Request struct {
+	MCtx *mc.Context `validate:"required"`
 	// Prefix for the resources related to mac
 	// this is relevant in case of an orchestration with multiple
 	// macs on the same stack
@@ -32,6 +35,10 @@ type Request struct {
 	// currentPassword   pulumi.StringPtrInput
 	currentPrivateKey string
 	currentPassword   string
+}
+
+func (r *Request) validate() error {
+	return validator.New(validator.WithRequiredStructEnabled()).Struct(r)
 }
 
 const (

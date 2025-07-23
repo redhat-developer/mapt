@@ -3,11 +3,12 @@ package rhel
 import (
 	"fmt"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
@@ -44,6 +45,7 @@ type RHELArgs struct {
 }
 
 type rhelRequest struct {
+	mCtx           *mc.Context
 	prefix         *string
 	version        *string
 	arch           *string
@@ -61,17 +63,28 @@ type rhelRequest struct {
 	airgapPhaseConnectivity network.Connectivity
 }
 
+func (r *rhelRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
+		return err
+	}
+	return v.Struct(r)
+}
+
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *RHELArgs) (err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *RHELArgs) (err error) {
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelRequest{
+		mCtx:         mCtx,
 		prefix:       &prefix,
 		version:      &args.Version,
 		arch:         &args.Arch,
@@ -83,7 +96,7 @@ func Create(ctx *maptContext.ContextArgs, args *RHELArgs) (err error) {
 		airgap:       &args.Airgap}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(
+			return allocation.AllocationDataOnSpot(mCtx,
 				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
@@ -101,41 +114,43 @@ func Create(ctx *maptContext.ContextArgs, args *RHELArgs) (err error) {
 }
 
 // Will destroy resources related to machine
-func Destroy(ctx *maptContext.ContextArgs) error {
+func Destroy(mCtxArgs *mc.ContextArgs) error {
 	logging.Debug("Run rhel destroy")
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 
 	if err := aws.DestroyStack(
+		mCtx,
 		aws.DestroyStackRequest{
 			Stackname: stackName,
 		}); err != nil {
 		return err
 	}
-	if spot.Exist() {
-		return spot.Destroy()
+	if spot.Exist(mCtx) {
+		return spot.Destroy(mCtx)
 	}
 	return nil
 }
 
 func (r *rhelRequest) createMachine() error {
 	cs := manager.Stack{
-		StackName:   maptContext.StackNameByProject(stackName),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL(),
+		StackName:   r.mCtx.StackNameByProject(stackName),
+		ProjectName: r.mCtx.ProjectName(),
+		BackedURL:   r.mCtx.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				awsConstants.CONFIG_AWS_REGION: *r.allocationData.Region}),
 		DeployFunc: r.deploy,
 	}
 
-	sr, err := manager.UpStack(cs)
+	sr, err := manager.UpStack(r.mCtx, cs)
 	if err != nil {
 		return err
 	}
-	return manageResults(sr, r.prefix, r.airgap)
+	return manageResults(r.mCtx, sr, r.prefix, r.airgap)
 }
 
 // Abstract this with a stackAirgapHandle receives a fn (connectivty on / off) err executes
@@ -158,6 +173,9 @@ func (r *rhelRequest) createAirgapMachine() error {
 // * compute
 // * checks
 func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf(amiRegex, *r.version, *r.arch),
@@ -178,7 +196,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		Airgap:                  *r.airgap,
 		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
 	}
-	vpc, targetSubnet, _, bastion, lb, lbEIP, err := nr.Network(ctx)
+	vpc, targetSubnet, _, bastion, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
@@ -186,14 +204,14 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 	kpr := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
 			*r.prefix, awsRHELDedicatedID, "pk")}
-	keyResources, err := kpr.Create(ctx)
+	keyResources, err := kpr.Create(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.prefix, vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, vpc)
 	if err != nil {
 		return err
 	}
@@ -208,6 +226,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	cr := compute.ComputeRequest{
+		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
 		ID:               awsRHELDedicatedID,
 		VPC:              vpc,
@@ -235,13 +254,13 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
 		c.GetHostIP(!*r.airgap))
 	if len(*r.timeout) > 0 {
-		if err = serverless.OneTimeDelayedTask(ctx,
+		if err = serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
 			awsRHELDedicatedID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
 				"rhel",
-				maptContext.ProjectName(),
-				maptContext.BackedURL()),
+				r.mCtx.ProjectName(),
+				r.mCtx.BackedURL()),
 			*r.timeout); err != nil {
 			return err
 		}
@@ -251,23 +270,23 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 }
 
 // Write exported values in context to files o a selected target folder
-func manageResults(stackResult auto.UpResult, prefix *string, airgap *bool) error {
+func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix *string, airgap *bool) error {
 	results := map[string]string{
 		fmt.Sprintf("%s-%s", *prefix, outputUsername):       "username",
 		fmt.Sprintf("%s-%s", *prefix, outputUserPrivateKey): "id_rsa",
 		fmt.Sprintf("%s-%s", *prefix, outputHost):           "host",
 	}
 	if *airgap {
-		err := bastion.WriteOutputs(stackResult, *prefix, maptContext.GetResultsOutputPath())
+		err := bastion.WriteOutputs(stackResult, *prefix, mCtx.GetResultsOutputPath())
 		if err != nil {
 			return err
 		}
 	}
-	return output.Write(stackResult, maptContext.GetResultsOutputPath(), results)
+	return output.Write(stackResult, mCtx.GetResultsOutputPath(), results)
 }
 
 // security group for mac machine with ingress rules for ssh and vnc
-func securityGroups(ctx *pulumi.Context, prefix *string,
+func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// ingress for ssh access from 0.0.0.0
 	sshIngressRule := securityGroup.SSH_TCP
@@ -279,7 +298,7 @@ func securityGroups(ctx *pulumi.Context, prefix *string,
 		Description: fmt.Sprintf("sg for %s", awsRHELDedicatedID),
 		IngressRules: []securityGroup.IngressRules{
 			sshIngressRule},
-	}.Create(ctx)
+	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}

@@ -12,7 +12,7 @@ import (
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
@@ -35,6 +35,7 @@ const (
 )
 
 type ComputeRequest struct {
+	MCtx   *mc.Context
 	Prefix string
 	ID     string
 	VPC    *ec2.Vpc
@@ -105,7 +106,7 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: maptContext.ResourceTags(),
+		Tags: r.MCtx.ResourceTags(),
 	}
 	if r.InstanceProfile != nil {
 		args.IamInstanceProfile = r.InstanceProfile
@@ -149,23 +150,23 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 				},
 			},
 		},
-		Tags: maptContext.ResourceTags(),
+		Tags: r.MCtx.ResourceTags(),
 		TagSpecifications: ec2.LaunchTemplateTagSpecificationArray{
 			&ec2.LaunchTemplateTagSpecificationArgs{
 				ResourceType: pulumi.String(constants.PulumiAwsResourceInstance),
-				Tags:         maptContext.ResourceTags(),
+				Tags:         r.MCtx.ResourceTags(),
 			},
 			&ec2.LaunchTemplateTagSpecificationArgs{
 				ResourceType: pulumi.String(constants.PulumiAwsResourceVolume),
-				Tags:         maptContext.ResourceTags(),
+				Tags:         r.MCtx.ResourceTags(),
 			},
 			&ec2.LaunchTemplateTagSpecificationArgs{
 				ResourceType: pulumi.String(constants.PulumiAwsResourceNetworkInterface),
-				Tags:         maptContext.ResourceTags(),
+				Tags:         r.MCtx.ResourceTags(),
 			},
 			&ec2.LaunchTemplateTagSpecificationArgs{
 				ResourceType: pulumi.String(constants.PulumiAwsResourceSpotInstanceRequest),
-				Tags:         maptContext.ResourceTags(),
+				Tags:         r.MCtx.ResourceTags(),
 			},
 		},
 	}

@@ -3,21 +3,27 @@ package spot
 import (
 	"errors"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 type SpotOptionRequest struct {
+	MCtx               *mc.Context `validate:"required"`
 	Prefix             string
 	ProductDescription string
 	InstaceTypes       []string
 	AMIName            string
 	AMIArch            string
+}
+
+func (r *SpotOptionRequest) validate() error {
+	return validator.New(validator.WithRequiredStructEnabled()).Struct(r)
 }
 
 type SpotOptionResult struct {
@@ -67,10 +73,13 @@ func NewBestSpotOption(ctx *pulumi.Context, name string,
 // pick info from its outputs
 // If stack does not exists it will create it
 func (r SpotOptionRequest) Create() (*SpotOptionResult, error) {
+	if err := r.validate(); err != nil {
+		return nil, err
+	}
 	stack, err := manager.CheckStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject("spotOption"),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL()})
+		StackName:   r.MCtx.StackNameByProject("spotOption"),
+		ProjectName: r.MCtx.ProjectName(),
+		BackedURL:   r.MCtx.BackedURL()})
 	if err != nil {
 		return r.createStack()
 	} else {
@@ -79,34 +88,34 @@ func (r SpotOptionRequest) Create() (*SpotOptionResult, error) {
 }
 
 // Check if spot option stack was created on the backed url
-func Exist() bool {
+func Exist(mCtx *mc.Context) bool {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject("spotOption"),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL()})
+		StackName:   mCtx.StackNameByProject("spotOption"),
+		ProjectName: mCtx.ProjectName(),
+		BackedURL:   mCtx.BackedURL()})
 	return err == nil && s != nil
 }
 
 // Destroy the stack
-func Destroy() (err error) {
+func Destroy(mCtx *mc.Context) (err error) {
 	stack := manager.Stack{
-		StackName:           maptContext.StackNameByProject("spotOption"),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:           mCtx.StackNameByProject("spotOption"),
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials}
-	return manager.DestroyStack(stack)
+	return manager.DestroyStack(mCtx, stack)
 }
 
 // function to create the stack
 func (r SpotOptionRequest) createStack() (*SpotOptionResult, error) {
 	stack := manager.Stack{
-		StackName:           maptContext.StackNameByProject("spotOption"),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:           r.MCtx.StackNameByProject("spotOption"),
+		ProjectName:         r.MCtx.ProjectName(),
+		BackedURL:           r.MCtx.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
-	stackResult, err := manager.UpStack(stack)
+	stackResult, err := manager.UpStack(r.MCtx, stack)
 	if err != nil {
 		return nil, err
 	}

@@ -3,7 +3,7 @@ package allocation
 import (
 	"os"
 
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
@@ -19,7 +19,7 @@ type AllocationData struct {
 	InstanceTypes []string
 }
 
-func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, computeRequest *cr.ComputeRequestArgs) (*AllocationData, error) {
+func AllocationDataOnSpot(mCtx *mc.Context, prefix, amiProductDescription, amiName *string, computeRequest *cr.ComputeRequestArgs) (*AllocationData, error) {
 	var err error
 	computeTypes := computeRequest.ComputeSizes
 	if len(computeTypes) == 0 {
@@ -30,6 +30,7 @@ func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, comput
 		}
 	}
 	sr := spot.SpotOptionRequest{
+		MCtx:               mCtx,
 		Prefix:             *prefix,
 		ProductDescription: *amiProductDescription,
 		InstaceTypes:       computeTypes,
@@ -46,8 +47,8 @@ func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, comput
 	if err != nil {
 		return nil, err
 	}
-	spSafe := spotPriceBid(so.MaxPrice)
-	logging.Debugf("Due to the spot increase rate at %d we will request the spot at %f", maptContext.SpotPriceIncreaseRate(), spSafe)
+	spSafe := spotPriceBid(mCtx, so.MaxPrice)
+	logging.Debugf("Due to the spot increase rate at %d we will request the spot at %f", mCtx.SpotPriceIncreaseRate(), spSafe)
 	return &AllocationData{
 		Region:        &so.Region,
 		AZ:            &so.AvailabilityZone,
@@ -65,8 +66,8 @@ func AllocationDataOnDemand() (ad *AllocationData, err error) {
 }
 
 // Calculate a bid price for spot using a increased rate set by user
-func spotPriceBid(basePrice float64) float64 {
-	return util.If(maptContext.SpotPriceIncreaseRate() > 0,
-		basePrice*(1+float64(maptContext.SpotPriceIncreaseRate())/100),
+func spotPriceBid(mCtx *mc.Context, basePrice float64) float64 {
+	return util.If(mCtx.SpotPriceIncreaseRate() > 0,
+		basePrice*(1+float64(mCtx.SpotPriceIncreaseRate())/100),
 		basePrice)
 }

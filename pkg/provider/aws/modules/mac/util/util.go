@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -73,7 +73,7 @@ func IsMachineLocked(h *mac.HostInformation) (bool, error) {
 // get projectName (tag on the dh)
 // load machine stack based on those params
 // run release update on it
-func Release(ctx *maptContext.ContextArgs, hostID string) error {
+func Release(ctx *mc.ContextArgs, hostID string) error {
 	// Get host as context will be fullfilled with info coming from the tags on the host
 	host, err := data.GetDedicatedHost(hostID)
 	if err != nil {
@@ -83,9 +83,10 @@ func Release(ctx *maptContext.ContextArgs, hostID string) error {
 	// Create mapt Context
 	ctx.ProjectName = *hi.ProjectName
 	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(ctx, aws.Provider())
+	if err != nil {
 		return err
 	}
 	// replace machine
-	return macMachine.ReplaceMachine(hi)
+	return macMachine.ReplaceMachine(mCtx, hi)
 }
