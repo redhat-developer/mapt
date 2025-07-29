@@ -69,7 +69,7 @@ func (r *NetworkRequest) Network(ctx *pulumi.Context, mCtx *mc.Context) (
 		b, err = br.Create(ctx, mCtx)
 	}
 	if r.CreateLoadBalancer != nil && *r.CreateLoadBalancer {
-		lb, lbEIP, err = r.createLoadBalancer(ctx, targetSubnet)
+		lb, lbEIP, err = r.createLoadBalancer(ctx, targetSubnet, mCtx)
 	}
 	return
 }
@@ -119,10 +119,12 @@ func (r *NetworkRequest) manageAirgapNetworking(ctx *pulumi.Context, mCtx *mc.Co
 }
 
 func (r *NetworkRequest) createLoadBalancer(ctx *pulumi.Context,
-	subnet *ec2.Subnet) (*lb.LoadBalancer, *ec2.Eip, error) {
+	subnet *ec2.Subnet,
+	mCtx *mc.Context) (*lb.LoadBalancer, *ec2.Eip, error) {
 	lbArgs := &lb.LoadBalancerArgs{
 		LoadBalancerType:         pulumi.String("network"),
 		EnableDeletionProtection: pulumi.Bool(false),
+		Tags:                     mCtx.ResourceTags(),
 	}
 	snMapping := &lb.LoadBalancerSubnetMappingArgs{
 		SubnetId: subnet.ID()}
@@ -139,7 +141,9 @@ func (r *NetworkRequest) createLoadBalancer(ctx *pulumi.Context,
 		// It load balancer is public facing
 		lbEIP, err = ec2.NewEip(ctx,
 			resourcesUtil.GetResourceName(r.Prefix, r.ID, "lbeip"),
-			&ec2.EipArgs{})
+			&ec2.EipArgs{
+				Tags: mCtx.ResourceTags(),
+			})
 		if err != nil {
 			return nil, nil, err
 		}
