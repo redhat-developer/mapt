@@ -11,7 +11,7 @@ var (
 	// This is managed by https://github.com/devtools-qe-incubator/cloud-importer
 	amiProduct = "Linux/UNIX"
 	// amiProductDescription = "Red Hat Enterprise Linux"
-	amiRegex       = "openshift-local-%s-%s"
+	amiRegex       = "openshift-local-%s-%s-*"
 	amiUserDefault = "core"
 	amiOwner       = "391597328979"
 	// amiOriginRegion       = "us-east-1"
