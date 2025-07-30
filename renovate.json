@@ -10,6 +10,32 @@
     "docker:pinDigests",
     "workarounds:supportRedHatImageVersion"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "Makefile"
+      ],
+      "matchStrings": [
+        "CIRRUS_CLI \\?= (?<currentValue>.*)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "{{#if versionPrefix}}{{versionPrefix}}{{/if}}{{version}}",
+      "packageNameTemplate": "cirruslabs/cirrus-cli"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "Makefile"
+      ],
+      "matchStrings": [
+        "GITHUB_RUNNER \\?= (?<currentValue>.*)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "{{version}}",
+      "packageNameTemplate": "actions/runner"
+    }
+  ],
   "packageRules": [
     {
       "description": "Enable go indirect dependencies",
@@ -39,6 +65,14 @@
       "groupName": "Patch updates",
       "automerge": true,
       "platformAutomerge": true
+    },
+    {
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "actions/runner"
+      ]
     }
   ],
   "postUpdateOptions": [
