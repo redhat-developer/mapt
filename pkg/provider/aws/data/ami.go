@@ -114,22 +114,31 @@ func FindAMI(amiName, amiArch *string) (*ImageInfo, error) {
 	}
 	r := make(chan *ImageInfo, len(regions))
 	e := make(chan string, 1)
+	closeCh := make(chan string, 1)
+
 	defer close(r)
+	defer close(closeCh)
+
 	var wg sync.WaitGroup
 	for _, region := range regions {
 		wg.Add(1)
 		lRegion := region
-		go func(r chan *ImageInfo) {
+		go func(r chan *ImageInfo, closeCh chan string) {
 			defer wg.Done()
-			if isOffered, i, _ := IsAMIOffered(
-				ImageRequest{
-					Name:   amiName,
-					Arch:   amiArch,
-					Region: &lRegion,
-				}); isOffered {
-				r <- i
+			select {
+			case <-closeCh:
+				return
+			default:
+				if isOffered, i, _ := IsAMIOffered(
+					ImageRequest{
+						Name:   amiName,
+						Arch:   amiArch,
+						Region: &lRegion,
+					}); isOffered {
+					r <- i
+				}
 			}
-		}(r)
+		}(r, closeCh)
 	}
 	go func(e chan string) {
 		wg.Wait()
@@ -138,6 +147,7 @@ func FindAMI(amiName, amiArch *string) (*ImageInfo, error) {
 	}(e)
 	select {
 	case sAMI := <-r:
+		closeCh <- "done"
 		return sAMI, nil
 	case <-e:
 		return nil, fmt.Errorf("not AMI find with name %s on any region", *amiName)
