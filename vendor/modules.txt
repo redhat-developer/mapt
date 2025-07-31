@@ -552,6 +552,8 @@ github.com/pelletier/go-toml/v2/unstable
 # github.com/pgavlin/fx v0.1.6
 ## explicit; go 1.20
 github.com/pgavlin/fx
+# github.com/pgavlin/fx/v2 v2.0.10
+## explicit; go 1.23.0
 # github.com/pjbgf/sha1cd v0.4.0
 ## explicit; go 1.21
 github.com/pjbgf/sha1cd
