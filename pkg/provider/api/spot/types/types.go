@@ -12,9 +12,9 @@ const (
 	Medium
 	High
 	Highest
-
-	DefaultTolerance = Lowest
 )
+
+var DefaultTolerance = Lowest
 
 type Tolerance int
 
@@ -32,11 +32,12 @@ func ParseTolerance(str string) (Tolerance, bool) {
 }
 
 type SpotRequestArgs struct {
-	ComputeRequest *cr.ComputeRequestArgs
-	OS             *string
-	AMIName        *string
-	SpotTolerance  Tolerance
-	MaxResults     int
+	ComputeRequest        *cr.ComputeRequestArgs
+	OS                    *string
+	ImageName             *string
+	SpotTolerance         Tolerance
+	MaxResults            int
+	ExcludedHostingPlaces []string
 }
 
 type SpotResults struct {

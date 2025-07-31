@@ -62,9 +62,10 @@ func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error
 			return nil, err
 		}
 	}
+
 	siArgs := &SpotInfoArgs{
 		InstaceTypes:       computeTypes,
-		AMIName:            args.AMIName,
+		AMIName:            args.ImageName,
 		ProductDescription: amiProducts[defaultOS],
 	}
 	if args.ComputeRequest != nil {
@@ -123,19 +124,25 @@ func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	placementScores := hostingPlaces.RunOnHostingPlaces(regions,
+	placementScores, err := hostingPlaces.RunOnHostingPlaces(regions,
 		placementScoreArgs{
 			instanceTypes: args.InstaceTypes,
 			capacity:      1,
 		},
 		placementScoresAsync)
+	if err != nil {
+		return nil, err
+	}
 	regionsWithPlacementScore := utilMaps.Keys(placementScores)
-	spotPricing := hostingPlaces.RunOnHostingPlaces(regionsWithPlacementScore,
+	spotPricing, err := hostingPlaces.RunOnHostingPlaces(regionsWithPlacementScore,
 		spotPricingArgs{
 			productDescription: *args.ProductDescription,
 			instanceTypes:      args.InstaceTypes,
 		},
 		spotPricingAsync)
+	if err != nil {
+		return nil, err
+	}
 	c, err := selectSpotChoice(
 		&spotChoiceArgs{
 			placementScores: placementScores,
@@ -230,8 +237,7 @@ type spotPrincingResults struct {
 func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.HostingPlaceData[[]spotPrincingResults]) {
 	cfg, err := getConfig(r)
 	if err != nil {
-		c <- hostingPlaces.HostingPlaceData[[]spotPrincingResults]{
-			Err: err}
+		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	client := ec2.NewFromConfig(cfg)
@@ -254,8 +260,7 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 			EndTime:   &endTime,
 		})
 	if err != nil {
-		c <- hostingPlaces.HostingPlaceData[[]spotPrincingResults]{
-			Err: err}
+		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	spotPriceGroups := utilSlices.Split(
@@ -316,8 +321,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlace
 	azsByRegion := describeAvailabilityZonesByRegions([]string{r})
 	cfg, err := getConfig(r)
 	if err != nil {
-		c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
-			Err: err}
+		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	client := ec2.NewFromConfig(cfg)
@@ -331,13 +335,11 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlace
 			MaxResults:             aws.Int32(maxQueryResultsResultsPlacementScore),
 		})
 	if err != nil {
-		c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
-			Err: err}
+		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	if len(sps.SpotPlacementScores) == 0 {
-		c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
-			Err: fmt.Errorf("non available scores")}
+		hostingPlaces.SendAsyncErr(c, fmt.Errorf("non available scores"))
 		return
 	}
 	var results []placementScoreResult
@@ -345,8 +347,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlace
 		if *ps.Score >= tolerance {
 			azName, err := getZoneName(*ps.AvailabilityZoneId, azsByRegion[*ps.Region])
 			if err != nil {
-				c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
-					Err: err}
+				hostingPlaces.SendAsyncErr(c, err)
 				return
 			}
 			results = append(results, placementScoreResult{

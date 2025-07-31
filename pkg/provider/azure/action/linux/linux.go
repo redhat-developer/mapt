@@ -240,19 +240,19 @@ func (r *linuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 			return nil, "", nil, err
 		}
 		bsc, err :=
-			data.GetBestSpotChoice(
-				data.BestSpotChoiceRequest{
-					VMTypes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
-					OSType:  "linux",
+			data.SpotInfo(
+				&data.SpotInfoArgs{
+					ComputeSizes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
+					OSType:       "linux",
 					// EvictionRateTolerance: r.SpotTolerance,
-					ImageRef:        *ir,
-					ExcludedRegions: r.spotExcludedRegions,
+					ImageRef:          *ir,
+					ExcludedLocations: r.spotExcludedRegions,
 				})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
 			return nil, "", nil, err
 		}
-		return &bsc.Location, bsc.VMType, &bsc.Price, nil
+		return &bsc.Location, bsc.ComputeSize, &bsc.Price, nil
 	}
 	return r.location, "", nil, nil
 }

@@ -37,6 +37,8 @@ func IfNillable[T any](cond bool, vtrueNillable func() T, vfalse T) T {
 	return vfalse
 }
 
+// Return a new array list with those items from source which
+// return true from filter function
 func ArrayFilter[T any](source []T, filter func(item T) bool) []T {
 	var result []T
 	for _, item := range source {

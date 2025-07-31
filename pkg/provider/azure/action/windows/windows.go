@@ -224,17 +224,17 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 func (r *windowsRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if *r.spot {
 		bsc, err :=
-			data.GetBestSpotChoice(data.BestSpotChoiceRequest{
-				VMTypes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
-				OSType:  "windows",
+			data.SpotInfo(&data.SpotInfoArgs{
+				ComputeSizes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
+				OSType:       "windows",
 				// EvictionRateTolerance: r.SpotTolerance,
-				ExcludedRegions: r.spotExcludedRegions,
+				ExcludedLocations: r.spotExcludedRegions,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
 			return nil, "", nil, err
 		}
-		return &bsc.Location, bsc.VMType, &bsc.Price, nil
+		return &bsc.Location, bsc.ComputeSize, &bsc.Price, nil
 	}
 	// TODO we need to extend this to other azure targets (refactor this function)
 	// plus we probably would need to check prices for vmsizes and pick the cheaper
