@@ -1,6 +1,11 @@
 package hostingplace
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+
+	"github.com/redhat-developer/mapt/pkg/util/logging"
+)
 
 // Conceptually each cloud provider works in a similar way
 // they offers services across different zones:
@@ -25,8 +30,9 @@ type HostingPlaceData[Y any] struct {
 // Generic function to run specific function on each region
 // and then aggregate the results into a struct
 func RunOnHostingPlaces[X, Y any](hps []string, data X,
-	run func(string, X, chan HostingPlaceData[Y])) map[string]Y {
+	run func(string, X, chan HostingPlaceData[Y])) (map[string]Y, error) {
 	result := make(map[string]Y)
+	hasErr := false
 	c := make(chan HostingPlaceData[Y], len(hps))
 	var wg sync.WaitGroup
 	for _, hp := range hps {
@@ -41,9 +47,19 @@ func RunOnHostingPlaces[X, Y any](hps []string, data X,
 		close(c)
 	}()
 	for rr := range c {
-		if rr.Err == nil {
+		if rr.Err != nil {
+			logging.Error(rr.Err)
+		} else {
 			result[rr.Region] = rr.Value
 		}
 	}
-	return result
+	if len(result) == 0 && hasErr {
+		return nil, fmt.Errorf("errors running async func")
+	}
+	return result, nil
+}
+
+func SendAsyncErr[X any](c chan HostingPlaceData[[]X], err error) {
+	c <- HostingPlaceData[[]X]{
+		Err: err}
 }

@@ -50,6 +50,7 @@ func GetClouProviderCredentials(fixedCredentials map[string]string) credentials.
 
 var (
 	DefaultCredentials               = GetClouProviderCredentials(nil)
+	ResourceGroupLocation            = "eastus"
 	locationsSupportingResourceGroup = []string{
 		"eastasia",
 		"southeastasia",

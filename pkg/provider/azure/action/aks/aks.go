@@ -260,12 +260,12 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 func (r *aksRequest) valuesCheckingSpot() (*string, *float64, error) {
 	if *r.spot {
 		bsc, err :=
-			data.GetBestSpotChoice(data.BestSpotChoiceRequest{
-				VMTypes: []string{*r.vmSize},
-				OSType:  "linux",
+			data.SpotInfo(&data.SpotInfoArgs{
+				ComputeSizes: []string{*r.vmSize},
+				OSType:       "linux",
 				// TODO review this
 				// EvictionRateTolerance: r.SpotTolerance,
-				ExcludedRegions: r.spotExcludedRegions,
+				ExcludedLocations: r.spotExcludedRegions,
 			})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
