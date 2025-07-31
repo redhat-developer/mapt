@@ -4,7 +4,10 @@ go 1.23.6
 
 require github.com/golangci/golangci-lint/v2 v2.2.2
 
-require github.com/nunnatsa/ginkgolinter v0.19.1 // indirect
+require (
+	github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd // indirect
+	github.com/nunnatsa/ginkgolinter v0.19.1 // indirect
+)
 
 require (
 	// github.com/nunnatsa/ginkgolinter v0.20.0 // indirect
@@ -52,7 +55,7 @@ require (
 	github.com/charmbracelet/colorprofile v0.3.1 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.9.3 // indirect
-	github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd // indirect
+	// github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd // indirect
 	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/ckaznocha/intrange v0.3.1 // indirect
 	github.com/curioswitch/go-reassign v0.3.0 // indirect
