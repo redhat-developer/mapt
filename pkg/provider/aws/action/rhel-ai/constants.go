@@ -9,7 +9,7 @@ var (
 	diskSize int = 2000
 
 	amiProduct     = "Red Hat Enterprise Linux"
-	amiRegex       = "rhel-ai-nvidia-aws-%s"
+	amiRegex       = "rhel-ai-nvidia-aws-%s*"
 	amiOwner       = "391597328979"
 	amiOwnerSelf   = "self"
 	amiArch        = "x86_64"

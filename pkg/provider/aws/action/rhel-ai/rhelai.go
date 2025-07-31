@@ -152,7 +152,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	}
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
-		fmt.Sprintf("%s*", amiName(r.version)),
+		amiName(r.version),
 		[]string{amiOwnerSelf},
 		map[string]string{
 			"architecture": amiArch})
