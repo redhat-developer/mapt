@@ -13,7 +13,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
@@ -46,7 +46,7 @@ type LinuxArgs struct {
 	Version             string
 	Username            string
 	Spot                bool
-	SpotTolerance       spotTypes.Tolerance
+	SpotTolerance       spot.Tolerance
 	SpotExcludedRegions []string
 	GetUserdata         func() (string, error)
 	ReadinessCommand    string
@@ -62,7 +62,7 @@ type linuxRequest struct {
 	version             *string
 	username            *string
 	spot                *bool
-	spotTolerance       *spotTypes.Tolerance
+	spotTolerance       *spot.Tolerance
 	spotExcludedRegions []string
 	getUserdata         func() (string, error)
 	readinessCommand    *string
@@ -250,6 +250,7 @@ func (r *linuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 		}
 		bsc, err :=
 			data.SpotInfo(
+				r.mCtx,
 				&data.SpotInfoArgs{
 					ComputeSizes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
 					OSType:       "linux",

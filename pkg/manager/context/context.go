@@ -68,6 +68,8 @@ type Provider interface {
 	Init(backedURL string) error
 }
 
+func InitNoState() *Context { return &Context{} }
+
 func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 	c := &Context{
 		runID:         util.RandomID(origin),

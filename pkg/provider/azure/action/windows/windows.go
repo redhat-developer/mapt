@@ -20,7 +20,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
@@ -48,7 +48,7 @@ type WindowsArgs struct {
 	Username            string
 	AdminUsername       string
 	Spot                bool
-	SpotTolerance       spotTypes.Tolerance
+	SpotTolerance       spot.Tolerance
 	SpotExcludedRegions []string
 	Profiles            []string
 }
@@ -63,7 +63,7 @@ type windowsRequest struct {
 	username            *string
 	adminUsername       *string
 	spot                *bool
-	spotTolerance       *spotTypes.Tolerance
+	spotTolerance       *spot.Tolerance
 	spotExcludedRegions []string
 	profiles            []string
 }
@@ -254,12 +254,14 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
 func (r *windowsRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if *r.spot {
 		bsc, err :=
-			data.SpotInfo(&data.SpotInfoArgs{
-				ComputeSizes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
-				OSType:       "windows",
-				// EvictionRateTolerance: r.SpotTolerance,
-				ExcludedLocations: r.spotExcludedRegions,
-			})
+			data.SpotInfo(
+				r.mCtx,
+				&data.SpotInfoArgs{
+					ComputeSizes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
+					OSType:       "windows",
+					// EvictionRateTolerance: r.SpotTolerance,
+					ExcludedLocations: r.spotExcludedRegions,
+				})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
 			return nil, "", nil, err

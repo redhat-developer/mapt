@@ -14,8 +14,8 @@ import (
 	"os"
 
 	computerequest "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
+	spot "github.com/redhat-developer/mapt/pkg/spot"
 )
 
 func main() {
@@ -85,7 +85,7 @@ func runByComputeTypes(ct []string, p spot.Provider) {
 		fmt.Printf("Price: %f, Instance Type: %s, Region: %s, Availability Zone: %s and ChanceLevel %d\n",
 			sr.Price,
 			sr.ComputeType,
-			sr.Region,
+			sr.HostingPlace,
 			sr.AvailabilityZone,
 			sr.ChanceLevel,
 		)

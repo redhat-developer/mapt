@@ -3,7 +3,7 @@ package rhel
 import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/rhel"
@@ -22,7 +22,7 @@ type RhelArgs struct {
 	ProfileSNC          bool
 	Username            string
 	Spot                bool
-	SpotTolerance       spotTypes.Tolerance
+	SpotTolerance       spot.Tolerance
 	SpotExcludedRegions []string
 }
 
