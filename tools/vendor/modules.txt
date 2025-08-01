@@ -274,7 +274,7 @@ github.com/golangci/go-printf-func-name/pkg/analyzer
 # github.com/golangci/gofmt v0.0.0-20250704145412-3e58ba0443c6
 ## explicit; go 1.23.0
 github.com/golangci/gofmt/gofmt
-# github.com/golangci/golangci-lint/v2 v2.2.2
+# github.com/golangci/golangci-lint/v2 v2.3.0
 ## explicit; go 1.23.0
 github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 github.com/golangci/golangci-lint/v2/internal/cache
@@ -534,8 +534,8 @@ github.com/ldez/exptostd
 # github.com/ldez/gomoddirectives v0.7.0
 ## explicit; go 1.23.0
 github.com/ldez/gomoddirectives
-# github.com/ldez/grignotin v0.9.0
-## explicit; go 1.22.0
+# github.com/ldez/grignotin v0.10.0
+## explicit; go 1.23.0
 github.com/ldez/grignotin/goenv
 github.com/ldez/grignotin/gomod
 # github.com/ldez/tagliatelle v0.7.1
@@ -618,9 +618,10 @@ github.com/nishanths/exhaustive
 # github.com/nishanths/predeclared v0.2.2
 ## explicit; go 1.14
 github.com/nishanths/predeclared/passes/predeclared
-# github.com/nunnatsa/ginkgolinter v0.19.1
+# github.com/nunnatsa/ginkgolinter v0.20.0
 ## explicit; go 1.23.0
 github.com/nunnatsa/ginkgolinter
+github.com/nunnatsa/ginkgolinter/config
 github.com/nunnatsa/ginkgolinter/internal/expression
 github.com/nunnatsa/ginkgolinter/internal/expression/actual
 github.com/nunnatsa/ginkgolinter/internal/expression/matcher
@@ -630,13 +631,12 @@ github.com/nunnatsa/ginkgolinter/internal/ginkgohandler
 github.com/nunnatsa/ginkgolinter/internal/ginkgoinfo
 github.com/nunnatsa/ginkgolinter/internal/gomegahandler
 github.com/nunnatsa/ginkgolinter/internal/gomegainfo
-github.com/nunnatsa/ginkgolinter/internal/interfaces
 github.com/nunnatsa/ginkgolinter/internal/intervals
 github.com/nunnatsa/ginkgolinter/internal/reports
 github.com/nunnatsa/ginkgolinter/internal/reverseassertion
 github.com/nunnatsa/ginkgolinter/internal/rules
+github.com/nunnatsa/ginkgolinter/internal/typecheck
 github.com/nunnatsa/ginkgolinter/linter
-github.com/nunnatsa/ginkgolinter/types
 github.com/nunnatsa/ginkgolinter/version
 # github.com/pelletier/go-toml/v2 v2.2.4
 ## explicit; go 1.21.0
@@ -651,8 +651,8 @@ github.com/pmezard/go-difflib/difflib
 # github.com/polyfloyd/go-errorlint v1.8.0
 ## explicit; go 1.23.0
 github.com/polyfloyd/go-errorlint/errorlint
-# github.com/prometheus/client_golang v1.22.0
-## explicit; go 1.22
+# github.com/prometheus/client_golang v1.23.0
+## explicit; go 1.23.0
 github.com/prometheus/client_golang/prometheus
 github.com/prometheus/client_golang/prometheus/internal
 github.com/prometheus/client_golang/prometheus/testutil/promlint
@@ -721,7 +721,7 @@ github.com/ryancurrah/gomodguard
 # github.com/ryanrolds/sqlclosecheck v0.5.1
 ## explicit; go 1.20
 github.com/ryanrolds/sqlclosecheck/pkg/analyzer
-# github.com/sagikazarmark/locafero v0.9.0
+# github.com/sagikazarmark/locafero v0.10.0
 ## explicit; go 1.23.0
 github.com/sagikazarmark/locafero
 # github.com/sanposhiho/wastedassign/v2 v2.1.0
@@ -751,15 +751,14 @@ github.com/sirupsen/logrus
 # github.com/sivchari/containedctx v1.0.3
 ## explicit; go 1.17
 github.com/sivchari/containedctx
-# github.com/sonatard/noctx v0.3.5
+# github.com/sonatard/noctx v0.4.0
 ## explicit; go 1.23.0
 github.com/sonatard/noctx
-# github.com/sourcegraph/conc v0.3.0
-## explicit; go 1.19
+# github.com/sourcegraph/conc v0.3.1-0.20240121214520-5f936abd7ae8
+## explicit; go 1.20
 github.com/sourcegraph/conc
-github.com/sourcegraph/conc/internal/multierror
-github.com/sourcegraph/conc/iter
 github.com/sourcegraph/conc/panics
+github.com/sourcegraph/conc/pool
 # github.com/sourcegraph/go-diff v0.7.0
 ## explicit; go 1.14
 github.com/sourcegraph/go-diff/diff
@@ -1024,10 +1023,6 @@ golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/typesinternal/typeindex
 golang.org/x/tools/internal/versions
-# golang.org/x/tools/go/expect v0.1.1-deprecated
-## explicit; go 1.23.0
-# golang.org/x/tools/go/packages/packagestest v0.1.1-deprecated
-## explicit; go 1.23.0
 # google.golang.org/protobuf v1.36.6
 ## explicit; go 1.22
 google.golang.org/protobuf/encoding/protodelim

@@ -1,13 +1,10 @@
 ### Improvements
 
-- `esc run` expects environment to be passed before `--`
-  [#545](https://github.com/pulumi/esc/pull/546)
-- `esc env set` uses a more readable YAML format when setting a key in an empty map  
-  [#548](https://github.com/pulumi/esc/pull/548)
+- Update a draft via `--draft=<change-request-id>` for `env edit`, `env set`, and `env version rollback`. **Warning: this feature is in preview, limited to specific orgs, and subject to change.**
+  [#565](https://github.com/pulumi/esc/pull/565)
+- Open a draft via `--draft=<change-request-id>` for `env run` and `env open`. **Warning: this feature is in preview, limited to specific orgs, and subject to change.**
+  [#565](https://github.com/pulumi/esc/pull/565)
 
 ### Bug Fixes
-
-- Fix `esc version`
- [#541](https://github.com/pulumi/esc/pull/541)
 
 ### Breaking changes
