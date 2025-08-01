@@ -5,14 +5,14 @@ go 1.23.6
 require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.0
-	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
-	github.com/pulumi/pulumi/sdk/v3 v3.184.0
+	github.com/pulumi/pulumi-random/sdk/v4 v4.18.3
+	github.com/pulumi/pulumi/sdk/v3 v3.185.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
 )
 
 require (
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.1
+	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.2
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.10.1
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6 v6.4.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.9.0
@@ -31,13 +31,13 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.90.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.90.0
-	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.0
+	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.1
 	golang.org/x/exp v0.0.0-20250718183923-645b1fa84792
 )
 
 require (
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.9 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
@@ -71,7 +71,7 @@ require (
 
 require (
 	dario.cat/mergo v1.0.2 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.1 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.2 // indirect
 	github.com/AzureAD/microsoft-authentication-library-for-go v1.4.2 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
@@ -85,7 +85,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.25.6 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.30.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.34.1 // indirect
-	github.com/aws/smithy-go v1.22.4 // indirect
+	github.com/aws/smithy-go v1.22.5 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charmbracelet/bubbles v0.21.0 // indirect
