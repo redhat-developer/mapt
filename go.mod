@@ -14,7 +14,7 @@ require (
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.2
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.10.1
-	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6 v6.4.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v7 v7.0.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.9.0
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.1
 	github.com/aws/aws-sdk-go-v2 v1.37.1
@@ -22,15 +22,15 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.239.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.85.1
 	github.com/pulumi/pulumi-aws-native/sdk v1.31.0
-	github.com/pulumi/pulumi-aws/sdk/v6 v6.83.0
-	github.com/pulumi/pulumi-awsx/sdk/v2 v2.22.0
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v2 v2.90.0
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v2 v2.90.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.2.0
+	github.com/pulumi/pulumi-awsx/sdk/v3 v3.0.0
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.5.1
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.1
 	golang.org/x/exp v0.0.0-20250718183923-645b1fa84792
 )
@@ -43,7 +43,8 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx v0.1.6 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v2 v2.90.0 // indirect
+	github.com/pgavlin/fx/v2 v2.0.10 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.5.1 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
@@ -112,7 +113,6 @@ require (
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/termenv v0.16.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
-	github.com/pgavlin/fx/v2 v2.0.10 // indirect
 	github.com/pjbgf/sha1cd v0.4.0 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect

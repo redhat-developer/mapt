@@ -5,10 +5,12 @@ import (
 	"fmt"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v2"
-	containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2/v20240801"
-	"github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v3"
+
+	// containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2/v20240801"
+	containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
