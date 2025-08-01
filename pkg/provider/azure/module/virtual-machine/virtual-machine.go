@@ -20,7 +20,7 @@ const (
 	diskSize     int = 200
 )
 
-type VirtualMachineRequest struct {
+type VirtualMachineArgs struct {
 	Prefix          string
 	ComponentID     string
 	ResourceGroup   *resources.ResourceGroup
@@ -42,38 +42,40 @@ type VirtualMachineRequest struct {
 	Location string
 }
 
+type VirtualMachine = *compute.VirtualMachine
+
 // Create virtual machine based on request + export to context
 // adminusername and adminuserpassword
-func (r *VirtualMachineRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*compute.VirtualMachine, error) {
+func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (VirtualMachine, error) {
 	var imageReferenceArgs compute.ImageReferenceArgs
-	if len(r.ImageID) > 0 {
+	if len(args.ImageID) > 0 {
 		imageReferenceArgs = compute.ImageReferenceArgs{
-			CommunityGalleryImageId: pulumi.String(r.ImageID)}
+			CommunityGalleryImageId: pulumi.String(args.ImageID)}
 	} else {
-		finalSku, err := data.SkuG2Support(r.Location, r.Publisher, r.Offer, r.Sku)
+		finalSku, err := data.SkuG2Support(args.Location, args.Publisher, args.Offer, args.Sku)
 		if err != nil {
 			return nil, err
 		}
 		imageReferenceArgs = compute.ImageReferenceArgs{
-			Publisher: pulumi.String(r.Publisher),
-			Offer:     pulumi.String(r.Offer),
+			Publisher: pulumi.String(args.Publisher),
+			Offer:     pulumi.String(args.Offer),
 			Sku:       pulumi.String(finalSku),
 			Version:   pulumi.String("latest"),
 		}
 	}
 	vmArgs := &compute.VirtualMachineArgs{
 		VmName:            pulumi.String(mCtx.RunID()),
-		Location:          r.ResourceGroup.Location,
-		ResourceGroupName: r.ResourceGroup.Name,
+		Location:          pulumi.String(args.Location),
+		ResourceGroupName: args.ResourceGroup.Name,
 		NetworkProfile: compute.NetworkProfileArgs{
 			NetworkInterfaces: compute.NetworkInterfaceReferenceArray{
 				compute.NetworkInterfaceReferenceArgs{
-					Id: r.NetworkInteface.ID(),
+					Id: args.NetworkInteface.ID(),
 				},
 			},
 		},
 		HardwareProfile: compute.HardwareProfileArgs{
-			VmSize: pulumi.String(r.VMSize),
+			VmSize: pulumi.String(args.VMSize),
 		},
 		StorageProfile: compute.StorageProfileArgs{
 			ImageReference: imageReferenceArgs,
@@ -94,41 +96,41 @@ func (r *VirtualMachineRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*
 			},
 		},
 
-		OsProfile: r.osProfile(mCtx.RunID()),
+		OsProfile: osProfile(mCtx.RunID(), args),
 		Tags:      mCtx.ResourceTags(),
 	}
-	if r.SpotPrice != nil {
+	if args.SpotPrice != nil {
 		vmArgs.Priority = pulumi.String(prioritySpot)
 		vmArgs.BillingProfile = compute.BillingProfileArgs{
-			MaxPrice: pulumi.Float64(*r.SpotPrice),
+			MaxPrice: pulumi.Float64(*args.SpotPrice),
 		}
 	}
-	if len(r.Userdata) > 0 {
-		vmArgs.UserData = pulumi.String(r.Userdata)
+	if len(args.Userdata) > 0 {
+		vmArgs.UserData = pulumi.String(args.Userdata)
 	}
 	logging.Debug("About to create the VM with compute.NewVirtualMachine")
 	return compute.NewVirtualMachine(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "vm"),
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "vm"),
 		vmArgs)
 }
 
-func (r *VirtualMachineRequest) osProfile(computerName string) compute.OSProfileArgs {
+func osProfile(computerName string, args *VirtualMachineArgs) compute.OSProfileArgs {
 	osProfile := compute.OSProfileArgs{
-		AdminUsername: pulumi.String(r.AdminUsername),
+		AdminUsername: pulumi.String(args.AdminUsername),
 		ComputerName:  pulumi.String(computerName),
 	}
-	if r.AdminPasswd != nil {
-		osProfile.AdminPassword = r.AdminPasswd.Result
+	if args.AdminPasswd != nil {
+		osProfile.AdminPassword = args.AdminPasswd.Result
 	}
-	if r.PrivateKey != nil {
+	if args.PrivateKey != nil {
 		osProfile.LinuxConfiguration = &compute.LinuxConfigurationArgs{
 			PatchSettings:                 compute.LinuxPatchSettingsArgs{},
 			DisablePasswordAuthentication: pulumi.Bool(true),
 			Ssh: &compute.SshConfigurationArgs{
 				PublicKeys: compute.SshPublicKeyTypeArray{
 					&compute.SshPublicKeyTypeArgs{
-						KeyData: r.PrivateKey.PublicKeyOpenssh,
-						Path:    pulumi.String(fmt.Sprintf("/home/%s/.ssh/authorized_keys", r.AdminUsername)),
+						KeyData: args.PrivateKey.PublicKeyOpenssh,
+						Path:    pulumi.String(fmt.Sprintf("/home/%s/.ssh/authorized_keys", args.AdminUsername)),
 					},
 				},
 			},

@@ -5,13 +5,16 @@ import (
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/azure/services/network/security-group"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-type NetworkRequest struct {
+type NetworkArgs struct {
 	Prefix        string
 	ComponentID   string
 	ResourceGroup *resources.ResourceGroup
+	Location      *string
+	SecurityGroup securityGroup.SecurityGroup
 }
 
 type Network struct {
@@ -22,9 +25,9 @@ type Network struct {
 }
 
 // Create networking resource required for spin the VM
-func (r *NetworkRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Network, error) {
+func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*Network, error) {
 	vn, err := network.NewVirtualNetwork(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "vn"),
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "vn"),
 		&network.VirtualNetworkArgs{
 			VirtualNetworkName: pulumi.String(mCtx.RunID()),
 			AddressSpace: network.AddressSpaceArgs{
@@ -32,18 +35,18 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Network
 					pulumi.String(cidrVN),
 				},
 			},
-			ResourceGroupName: r.ResourceGroup.Name,
-			Location:          r.ResourceGroup.Location,
+			ResourceGroupName: args.ResourceGroup.Name,
+			Location:          pulumi.String(*args.Location),
 			Tags:              mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
 	}
 	sn, err := network.NewSubnet(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "sn"),
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "sn"),
 		&network.SubnetArgs{
 			SubnetName:         pulumi.String(mCtx.RunID()),
-			ResourceGroupName:  r.ResourceGroup.Name,
+			ResourceGroupName:  args.ResourceGroup.Name,
 			VirtualNetworkName: vn.Name,
 			AddressPrefixes: pulumi.StringArray{
 				pulumi.String(cidrSN),
@@ -53,13 +56,16 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Network
 		return nil, err
 	}
 	publicIP, err := network.NewPublicIPAddress(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "pip"),
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "pip"),
 		&network.PublicIPAddressArgs{
-			Location:                 r.ResourceGroup.Location,
+			Location:                 pulumi.String(*args.Location),
 			PublicIpAddressName:      pulumi.String(mCtx.RunID()),
 			PublicIPAllocationMethod: pulumi.String("Static"),
-			ResourceGroupName:        r.ResourceGroup.Name,
-			Tags:                     mCtx.ResourceTags(),
+			Sku: &network.PublicIPAddressSkuArgs{
+				Name: pulumi.String("Standard"),
+			},
+			ResourceGroupName: args.ResourceGroup.Name,
+			Tags:              mCtx.ResourceTags(),
 			// DnsSettings: network.PublicIPAddressDnsSettingsArgs{
 			// 	DomainNameLabel: pulumi.String("mapt"),
 			// },
@@ -68,11 +74,11 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Network
 		return nil, err
 	}
 	ni, err := network.NewNetworkInterface(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ComponentID, "ni"),
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "ni"),
 		&network.NetworkInterfaceArgs{
 			NetworkInterfaceName: pulumi.String(mCtx.RunID()),
-			Location:             r.ResourceGroup.Location,
-			ResourceGroupName:    r.ResourceGroup.Name,
+			Location:             pulumi.String(*args.Location),
+			ResourceGroupName:    args.ResourceGroup.Name,
 			IpConfigurations: network.NetworkInterfaceIPConfigurationArray{
 				&network.NetworkInterfaceIPConfigurationArgs{
 					Name:                      pulumi.String(mCtx.RunID()),
@@ -84,6 +90,9 @@ func (r *NetworkRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Network
 						Id: sn.ID(),
 					},
 				},
+			},
+			NetworkSecurityGroup: &network.NetworkSecurityGroupTypeArgs{
+				Id: args.SecurityGroup.ID(),
 			},
 			Tags: mCtx.ResourceTags(),
 		})
