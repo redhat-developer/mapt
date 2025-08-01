@@ -8,6 +8,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -29,19 +30,18 @@ func (r *SpotOptionRequest) validate() error {
 type SpotOptionResult struct {
 	Region           string
 	AvailabilityZone string
-	AVGPrice         float64
-	MaxPrice         float64
+	Price            float64
 	Score            int64
 }
 
 type bestSpotOption struct {
 	pulumi.ResourceState
-	Option *data.SpotInfoResult
+	Option *spotTypes.SpotResults
 }
 
 func NewBestSpotOption(ctx *pulumi.Context, name string,
 	productDescription string, instaceTypes []string,
-	amiName, amiArch string, opts ...pulumi.ResourceOption) (*data.SpotInfoResult, error) {
+	amiName, amiArch string, opts ...pulumi.ResourceOption) (*spotTypes.SpotResults, error) {
 	spotOption, err := data.SpotInfo(
 		&data.SpotInfoArgs{
 			ProductDescription: &productDescription,
@@ -122,8 +122,7 @@ func (r SpotOptionRequest) createStack() (*SpotOptionResult, error) {
 	return &SpotOptionResult{
 		Region:           stackResult.Outputs["region"].Value.(string),
 		AvailabilityZone: stackResult.Outputs["az"].Value.(string),
-		MaxPrice:         stackResult.Outputs["max"].Value.(float64),
-		AVGPrice:         stackResult.Outputs["avg"].Value.(float64),
+		Price:            stackResult.Outputs["max"].Value.(float64),
 		Score:            int64(stackResult.Outputs["score"].Value.(float64))}, nil
 }
 
@@ -136,11 +135,10 @@ func (r SpotOptionRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	ctx.Export("region", pulumi.String(so.Region))
+	ctx.Export("region", pulumi.String(so.HostingPlace))
 	ctx.Export("az", pulumi.String(so.AvailabilityZone))
-	ctx.Export("max", pulumi.Float64(so.MaxPrice))
-	ctx.Export("avg", pulumi.Float64(so.AVGPrice))
-	ctx.Export("score", pulumi.Float64(so.Score))
+	ctx.Export("max", pulumi.Float64(so.Price))
+	ctx.Export("score", pulumi.Float64(so.ChanceLevel))
 	return nil
 }
 
@@ -156,7 +154,6 @@ func getOutputs(stack *auto.Stack) (*SpotOptionResult, error) {
 	return &SpotOptionResult{
 		Region:           outputs["region"].Value.(string),
 		AvailabilityZone: outputs["az"].Value.(string),
-		MaxPrice:         outputs["max"].Value.(float64),
-		AVGPrice:         outputs["avg"].Value.(float64),
+		Price:            outputs["max"].Value.(float64),
 		Score:            int64(outputs["score"].Value.(float64))}, nil
 }

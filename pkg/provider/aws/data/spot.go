@@ -62,7 +62,6 @@ func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error
 			return nil, err
 		}
 	}
-
 	siArgs := &SpotInfoArgs{
 		InstaceTypes:       computeTypes,
 		AMIName:            args.ImageName,
@@ -77,17 +76,7 @@ func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error
 	if args.OS != nil {
 		siArgs.ProductDescription = amiProducts[*args.OS]
 	}
-	sp, err := SpotInfo(siArgs)
-	if err != nil {
-		return nil, err
-	}
-	return &spotTypes.SpotResults{
-		ComputeType:      sp.InstanceType,
-		Price:            float32(sp.AVGPrice),
-		Region:           sp.Region,
-		AvailabilityZone: sp.AvailabilityZone,
-		ChanceLevel:      int(sp.Score),
-	}, nil
+	return SpotInfo(siArgs)
 }
 
 const (
@@ -98,16 +87,16 @@ const (
 )
 
 type SpotInfoArgs struct {
-	ProductDescription *string
-	InstaceTypes       []string
-	AMIName, AMIArch   *string
+	SpotPriceIncreaseRate *int
+	ProductDescription    *string
+	InstaceTypes          []string
+	AMIName, AMIArch      *string
 }
 
 type SpotInfoResult struct {
 	Region           string
 	AvailabilityZone string
-	AVGPrice         float64
-	MaxPrice         float64
+	Price            float64
 	Score            int32
 	InstanceType     string
 }
@@ -119,7 +108,7 @@ type SpotInfoResult struct {
 // * instanceTypes types of machines able to execute the workload
 // * amiName ensures the ami is available on the spot option
 // the output is the information realted to the best spot option for the target machine
-func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
+func SpotInfo(args *SpotInfoArgs) (*spotTypes.SpotResults, error) {
 	regions, err := GetRegions()
 	if err != nil {
 		return nil, err
@@ -154,12 +143,23 @@ func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
 		return nil, err
 	}
 	if c != nil {
-		logging.Debugf("Based on avg prices for instance types %v is az %s, current avg price is %.2f and max price is %.2f with a score of %d",
-			args.InstaceTypes, c.AvailabilityZone, c.AVGPrice, c.MaxPrice, c.Score)
+		logging.Debugf("Based on avg prices for instance types %v is az %s, current price is %.2f with a score of %d",
+			args.InstaceTypes, c.AvailabilityZone, c.Price, c.Score)
 	} else {
 		return nil, fmt.Errorf("couldn't find the best price for instance types %v", args.InstaceTypes)
 	}
-	return c, nil
+	// TODO
+	// translate Score
+	sr := spotTypes.SpotResults{
+		ComputeType: c.InstanceType,
+		Price: spotTypes.SafePrice(c.Price,
+			args.SpotPriceIncreaseRate),
+		HostingPlace:     c.Region,
+		AvailabilityZone: c.AvailabilityZone,
+		// ChanceLevel:      int(sp.Score),
+	}
+	logging.Debugf("Spot data: %v", sr)
+	return &sr, nil
 }
 
 type spotChoiceArgs struct {
@@ -201,8 +201,7 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 				result[r] = &SpotInfoResult{
 					Region:           *args.placementScores[r][idx].sps.Region,
 					AvailabilityZone: ps.AvailabilityZone,
-					AVGPrice:         ps.AVGPrice,
-					MaxPrice:         ps.MaxPrice,
+					Price:            ps.Price,
 					Score:            *args.placementScores[r][idx].sps.Score,
 					InstanceType:     ps.InstanceType,
 				}
@@ -212,7 +211,7 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 	spis := utilMaps.Values(result)
 	utilSlices.SortbyFloat(spis,
 		func(s *SpotInfoResult) float64 {
-			return s.MaxPrice
+			return s.Price
 		})
 	if len(spis) == 0 {
 		return nil, fmt.Errorf("no good choice was found")
@@ -228,8 +227,7 @@ type spotPricingArgs struct {
 type spotPrincingResults struct {
 	Region           string
 	AvailabilityZone string
-	AVGPrice         float64
-	MaxPrice         float64
+	Price            float64
 	Score            int32
 	InstanceType     string
 }
@@ -287,14 +285,7 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 			}
 			return price
 		})
-		groupInfo.AVGPrice = util.Average(prices)
-		if len(prices) > 0 {
-			utilSlices.SortbyFloat(prices,
-				func(s float64) float64 {
-					return s
-				})
-		}
-		groupInfo.MaxPrice = prices[len(prices)-1]
+		groupInfo.Price = prices[len(prices)-1]
 		groupInfo.Region = r
 		results = append(results, groupInfo)
 	}

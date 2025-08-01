@@ -22,11 +22,11 @@ func getCredentials() (cred *azidentity.DefaultAzureCredential, subscriptionID *
 	return
 }
 
-func getGraphClient() (*armresourcegraph.Client, error) {
+func getGraphClientFactory() (*armresourcegraph.ClientFactory, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, fmt.Errorf("error getting the best spot price choice: %v", err)
 	}
 	// ResourceGraph client
-	return armresourcegraph.NewClient(cred, nil)
+	return armresourcegraph.NewClientFactory(cred, nil)
 }

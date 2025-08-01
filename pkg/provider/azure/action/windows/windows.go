@@ -18,12 +18,14 @@ import (
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/azure/services/network/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
@@ -155,12 +157,18 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 	// Networking
-	nr := network.NetworkRequest{
-		Prefix:        *r.prefix,
-		ComponentID:   azureWindowsDesktopID,
-		ResourceGroup: rg,
+	sg, err := securityGroups(ctx, r.mCtx, r.prefix, location, rg)
+	if err != nil {
+		return err
 	}
-	n, err := nr.Create(ctx, r.mCtx)
+	n, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:        *r.prefix,
+			ComponentID:   azureWindowsDesktopID,
+			ResourceGroup: rg,
+			Location:      location,
+			SecurityGroup: sg,
+		})
 	if err != nil {
 		return err
 	}
@@ -176,21 +184,21 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	vmr := virtualmachine.VirtualMachineRequest{
-		Prefix:          *r.prefix,
-		ComponentID:     azureWindowsDesktopID,
-		ResourceGroup:   rg,
-		NetworkInteface: n.NetworkInterface,
-		VMSize:          vmType,
-		Publisher:       "MicrosoftWindowsDesktop",
-		Offer:           fmt.Sprintf("windows-%s", *r.version),
-		Sku:             fmt.Sprintf("win%s-%s", *r.version, *r.feature),
-		AdminUsername:   *r.adminUsername,
-		AdminPasswd:     adminPasswd,
-		SpotPrice:       spotPrice,
-		Location:        rgLocation,
-	}
-	vm, err := vmr.Create(ctx, r.mCtx)
+	vm, err := virtualmachine.Create(ctx, r.mCtx,
+		&virtualmachine.VirtualMachineArgs{
+			Prefix:          *r.prefix,
+			ComponentID:     azureWindowsDesktopID,
+			ResourceGroup:   rg,
+			NetworkInteface: n.NetworkInterface,
+			VMSize:          vmType,
+			Publisher:       "MicrosoftWindowsDesktop",
+			Offer:           fmt.Sprintf("windows-%s", *r.version),
+			Sku:             fmt.Sprintf("win%s-%s", *r.version, *r.feature),
+			AdminUsername:   *r.adminUsername,
+			AdminPasswd:     adminPasswd,
+			SpotPrice:       spotPrice,
+			Location:        *location,
+		})
 	if err != nil {
 		return err
 	}
@@ -221,6 +229,28 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 	return err
 }
 
+// security group for mac machine with ingress rules for ssh and vnc
+func securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
+	prefix, location *string,
+	rg *resources.ResourceGroup) (securityGroup.SecurityGroup, error) {
+	// ingress for ssh access from 0.0.0.0
+	sshIngressRule := securityGroup.SSH_TCP
+	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	rdpIngressRule := securityGroup.RDP_TCP
+	rdpIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	// Create SG with ingress rules
+	return securityGroup.Create(
+		ctx,
+		mCtx,
+		&securityGroup.SecurityGroupArgs{
+			Name:     resourcesUtil.GetResourceName(*prefix, azureWindowsDesktopID, "sg"),
+			RG:       rg,
+			Location: location,
+			IngressRules: []securityGroup.IngressRules{
+				sshIngressRule, rdpIngressRule},
+		})
+}
+
 func (r *windowsRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 	if *r.spot {
 		bsc, err :=
@@ -234,7 +264,7 @@ func (r *windowsRequest) valuesCheckingSpot() (*string, string, *float64, error)
 		if err != nil {
 			return nil, "", nil, err
 		}
-		return &bsc.Location, bsc.ComputeSize, &bsc.Price, nil
+		return &bsc.HostingPlace, bsc.ComputeType, &bsc.Price, nil
 	}
 	// TODO we need to extend this to other azure targets (refactor this function)
 	// plus we probably would need to check prices for vmsizes and pick the cheaper
