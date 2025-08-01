@@ -7,8 +7,6 @@ import (
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
-	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 type AllocationData struct {
@@ -47,12 +45,10 @@ func AllocationDataOnSpot(mCtx *mc.Context, prefix, amiProductDescription, amiNa
 	if err != nil {
 		return nil, err
 	}
-	spSafe := spotPriceBid(mCtx, so.MaxPrice)
-	logging.Debugf("Due to the spot increase rate at %d we will request the spot at %f", mCtx.SpotPriceIncreaseRate(), spSafe)
 	return &AllocationData{
 		Region:        &so.Region,
 		AZ:            &so.AvailabilityZone,
-		SpotPrice:     &spSafe,
+		SpotPrice:     &so.Price,
 		InstanceTypes: availableInstaceTypes,
 	}, nil
 }
@@ -63,11 +59,4 @@ func AllocationDataOnDemand() (ad *AllocationData, err error) {
 	ad.Region = &region
 	ad.AZ, err = data.GetRandomAvailabilityZone(region, nil)
 	return
-}
-
-// Calculate a bid price for spot using a increased rate set by user
-func spotPriceBid(mCtx *mc.Context, basePrice float64) float64 {
-	return util.If(mCtx.SpotPriceIncreaseRate() > 0,
-		basePrice*(1+float64(mCtx.SpotPriceIncreaseRate())/100),
-		basePrice)
 }

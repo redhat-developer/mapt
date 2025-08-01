@@ -11,12 +11,14 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/azure/services/network/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -44,7 +46,7 @@ type LinuxArgs struct {
 	Version             string
 	Username            string
 	Spot                bool
-	SpotTolerance       spotTypes.Tolerance
+	SpotTolerance       spot.Tolerance
 	SpotExcludedRegions []string
 	GetUserdata         func() (string, error)
 	ReadinessCommand    string
@@ -60,7 +62,7 @@ type linuxRequest struct {
 	version             *string
 	username            *string
 	spot                *bool
-	spotTolerance       *spotTypes.Tolerance
+	spotTolerance       *spot.Tolerance
 	spotExcludedRegions []string
 	getUserdata         func() (string, error)
 	readinessCommand    *string
@@ -152,12 +154,18 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 	// Networking
-	nr := network.NetworkRequest{
-		Prefix:        *r.prefix,
-		ComponentID:   azureLinuxID,
-		ResourceGroup: rg,
+	sg, err := securityGroups(ctx, r.mCtx, r.prefix, location, rg)
+	if err != nil {
+		return err
 	}
-	n, err := nr.Create(ctx, r.mCtx)
+	n, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:        *r.prefix,
+			ComponentID:   azureLinuxID,
+			ResourceGroup: rg,
+			Location:      location,
+			SecurityGroup: sg,
+		})
 	if err != nil {
 		return err
 	}
@@ -187,22 +195,23 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 			return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
 		}
 	}
-	vmr := virtualmachine.VirtualMachineRequest{
-		Prefix:          *r.prefix,
-		ComponentID:     azureLinuxID,
-		ResourceGroup:   rg,
-		NetworkInteface: n.NetworkInterface,
-		VMSize:          vmType,
-		Publisher:       ir.Publisher,
-		Offer:           ir.Offer,
-		Sku:             ir.Sku,
-		ImageID:         ir.ID,
-		AdminUsername:   *r.username,
-		PrivateKey:      privateKey,
-		SpotPrice:       spotPrice,
-		Userdata:        userDataB64,
-	}
-	vm, err := vmr.Create(ctx, r.mCtx)
+
+	vm, err := virtualmachine.Create(ctx, r.mCtx,
+		&virtualmachine.VirtualMachineArgs{
+			Prefix:          *r.prefix,
+			ComponentID:     azureLinuxID,
+			ResourceGroup:   rg,
+			NetworkInteface: n.NetworkInterface,
+			VMSize:          vmType,
+			Publisher:       ir.Publisher,
+			Offer:           ir.Offer,
+			Sku:             ir.Sku,
+			ImageID:         ir.ID,
+			AdminUsername:   *r.username,
+			PrivateKey:      privateKey,
+			SpotPrice:       spotPrice,
+			Userdata:        userDataB64,
+		})
 	if err != nil {
 		return err
 	}
@@ -240,21 +249,42 @@ func (r *linuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
 			return nil, "", nil, err
 		}
 		bsc, err :=
-			data.GetBestSpotChoice(
-				data.BestSpotChoiceRequest{
-					VMTypes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
-					OSType:  "linux",
+			data.SpotInfo(
+				r.mCtx,
+				&data.SpotInfoArgs{
+					ComputeSizes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
+					OSType:       "linux",
 					// EvictionRateTolerance: r.SpotTolerance,
-					ImageRef:        *ir,
-					ExcludedRegions: r.spotExcludedRegions,
+					ImageRef:          *ir,
+					ExcludedLocations: r.spotExcludedRegions,
 				})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
 			return nil, "", nil, err
 		}
-		return &bsc.Location, bsc.VMType, &bsc.Price, nil
+		return &bsc.HostingPlace, bsc.ComputeType, &bsc.Price, nil
 	}
 	return r.location, "", nil, nil
+}
+
+// security group for mac machine with ingress rules for ssh and vnc
+func securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
+	prefix, location *string,
+	rg *resources.ResourceGroup) (securityGroup.SecurityGroup, error) {
+	// ingress for ssh access from 0.0.0.0
+	sshIngressRule := securityGroup.SSH_TCP
+	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	// Create SG with ingress rules
+	return securityGroup.Create(
+		ctx,
+		mCtx,
+		&securityGroup.SecurityGroupArgs{
+			Name:     resourcesUtil.GetResourceName(*prefix, azureLinuxID, "sg"),
+			RG:       rg,
+			Location: location,
+			IngressRules: []securityGroup.IngressRules{
+				sshIngressRule},
+		})
 }
 
 // Write exported values in context to files o a selected target folder

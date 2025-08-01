@@ -4,14 +4,15 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"sync"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
+	hostingPlaces "github.com/redhat-developer/mapt/pkg/provider/util/hosting-places"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
@@ -47,12 +48,11 @@ type SpotSelector struct{}
 
 func NewSpotSelector() *SpotSelector { return &SpotSelector{} }
 
-func (c *SpotSelector) Select(
-	args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
-	return getSpotInfo(args)
+func (c *SpotSelector) Select(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResults, error) {
+	return getSpotInfo(mCtx, args)
 }
 
-func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
+func getSpotInfo(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResults, error) {
 	var err error
 	computeTypes := args.ComputeRequest.ComputeSizes
 	if len(computeTypes) == 0 {
@@ -64,7 +64,7 @@ func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error
 	}
 	siArgs := &SpotInfoArgs{
 		InstaceTypes:       computeTypes,
-		AMIName:            args.AMIName,
+		AMIName:            args.ImageName,
 		ProductDescription: amiProducts[defaultOS],
 	}
 	if args.ComputeRequest != nil {
@@ -76,17 +76,7 @@ func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error
 	if args.OS != nil {
 		siArgs.ProductDescription = amiProducts[*args.OS]
 	}
-	sp, err := SpotInfo(siArgs)
-	if err != nil {
-		return nil, err
-	}
-	return &spotTypes.SpotResults{
-		ComputeType:      sp.InstanceType,
-		Price:            float32(sp.AVGPrice),
-		Region:           sp.Region,
-		AvailabilityZone: sp.AvailabilityZone,
-		ChanceLevel:      int(sp.Score),
-	}, nil
+	return SpotInfo(mCtx, siArgs)
 }
 
 const (
@@ -97,16 +87,16 @@ const (
 )
 
 type SpotInfoArgs struct {
-	ProductDescription *string
-	InstaceTypes       []string
-	AMIName, AMIArch   *string
+	SpotPriceIncreaseRate *int
+	ProductDescription    *string
+	InstaceTypes          []string
+	AMIName, AMIArch      *string
 }
 
 type SpotInfoResult struct {
 	Region           string
 	AvailabilityZone string
-	AVGPrice         float64
-	MaxPrice         float64
+	Price            float64
 	Score            int32
 	InstanceType     string
 }
@@ -118,24 +108,30 @@ type SpotInfoResult struct {
 // * instanceTypes types of machines able to execute the workload
 // * amiName ensures the ami is available on the spot option
 // the output is the information realted to the best spot option for the target machine
-func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
+func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	regions, err := GetRegions()
 	if err != nil {
 		return nil, err
 	}
-	placementScores := runByRegion(regions,
+	placementScores, err := hostingPlaces.RunOnHostingPlaces(regions,
 		placementScoreArgs{
 			instanceTypes: args.InstaceTypes,
 			capacity:      1,
 		},
 		placementScoresAsync)
+	if err != nil {
+		return nil, err
+	}
 	regionsWithPlacementScore := utilMaps.Keys(placementScores)
-	spotPricing := runByRegion(regionsWithPlacementScore,
+	spotPricing, err := hostingPlaces.RunOnHostingPlaces(regionsWithPlacementScore,
 		spotPricingArgs{
 			productDescription: *args.ProductDescription,
 			instanceTypes:      args.InstaceTypes,
 		},
 		spotPricingAsync)
+	if err != nil {
+		return nil, err
+	}
 	c, err := selectSpotChoice(
 		&spotChoiceArgs{
 			placementScores: placementScores,
@@ -147,12 +143,23 @@ func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
 		return nil, err
 	}
 	if c != nil {
-		logging.Debugf("Based on avg prices for instance types %v is az %s, current avg price is %.2f and max price is %.2f with a score of %d",
-			args.InstaceTypes, c.AvailabilityZone, c.AVGPrice, c.MaxPrice, c.Score)
+		logging.Debugf("Based on avg prices for instance types %v is az %s, current price is %.2f with a score of %d",
+			args.InstaceTypes, c.AvailabilityZone, c.Price, c.Score)
 	} else {
 		return nil, fmt.Errorf("couldn't find the best price for instance types %v", args.InstaceTypes)
 	}
-	return c, nil
+	// TODO
+	// translate Score
+	sr := spot.SpotResults{
+		ComputeType: c.InstanceType,
+		Price: spot.SafePrice(c.Price,
+			args.SpotPriceIncreaseRate),
+		HostingPlace:     c.Region,
+		AvailabilityZone: c.AvailabilityZone,
+		// ChanceLevel:      int(sp.Score),
+	}
+	logging.Debugf("Spot data: %v", sr)
+	return &sr, nil
 }
 
 type spotChoiceArgs struct {
@@ -194,8 +201,7 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 				result[r] = &SpotInfoResult{
 					Region:           *args.placementScores[r][idx].sps.Region,
 					AvailabilityZone: ps.AvailabilityZone,
-					AVGPrice:         ps.AVGPrice,
-					MaxPrice:         ps.MaxPrice,
+					Price:            ps.Price,
 					Score:            *args.placementScores[r][idx].sps.Score,
 					InstanceType:     ps.InstanceType,
 				}
@@ -205,46 +211,12 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 	spis := utilMaps.Values(result)
 	utilSlices.SortbyFloat(spis,
 		func(s *SpotInfoResult) float64 {
-			return s.MaxPrice
+			return s.Price
 		})
 	if len(spis) == 0 {
 		return nil, fmt.Errorf("no good choice was found")
 	}
 	return spis[0], nil
-}
-
-// Struct to communicate data tied region
-// when running some aggregation data func async on a number of regions
-type regionData[Y any] struct {
-	Region string
-	Err    error
-	Value  Y
-}
-
-// Generic function to run specific function on each region
-// and then aggregate the results into a struct
-func runByRegion[X, Y any](regions []string, data X,
-	run func(string, X, chan regionData[Y])) map[string]Y {
-	result := make(map[string]Y)
-	c := make(chan regionData[Y], len(regions))
-	var wg sync.WaitGroup
-	for _, r := range regions {
-		wg.Add(1)
-		go func(region string) {
-			defer wg.Done()
-			run(region, data, c)
-		}(r)
-	}
-	go func() {
-		wg.Wait()
-		close(c)
-	}()
-	for rr := range c {
-		if rr.Err == nil {
-			result[rr.Region] = rr.Value
-		}
-	}
-	return result
 }
 
 type spotPricingArgs struct {
@@ -255,17 +227,15 @@ type spotPricingArgs struct {
 type spotPrincingResults struct {
 	Region           string
 	AvailabilityZone string
-	AVGPrice         float64
-	MaxPrice         float64
+	Price            float64
 	Score            int32
 	InstanceType     string
 }
 
-func spotPricingAsync(r string, args spotPricingArgs, c chan regionData[[]spotPrincingResults]) {
+func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.HostingPlaceData[[]spotPrincingResults]) {
 	cfg, err := getConfig(r)
 	if err != nil {
-		c <- regionData[[]spotPrincingResults]{
-			Err: err}
+		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	client := ec2.NewFromConfig(cfg)
@@ -288,8 +258,7 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan regionData[[]spotPr
 			EndTime:   &endTime,
 		})
 	if err != nil {
-		c <- regionData[[]spotPrincingResults]{
-			Err: err}
+		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	spotPriceGroups := utilSlices.Split(
@@ -316,18 +285,11 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan regionData[[]spotPr
 			}
 			return price
 		})
-		groupInfo.AVGPrice = util.Average(prices)
-		if len(prices) > 0 {
-			utilSlices.SortbyFloat(prices,
-				func(s float64) float64 {
-					return s
-				})
-		}
-		groupInfo.MaxPrice = prices[len(prices)-1]
+		groupInfo.Price = prices[len(prices)-1]
 		groupInfo.Region = r
 		results = append(results, groupInfo)
 	}
-	c <- regionData[[]spotPrincingResults]{
+	c <- hostingPlaces.HostingPlaceData[[]spotPrincingResults]{
 		Region: r,
 		Value:  results,
 		Err:    err}
@@ -346,12 +308,11 @@ type placementScoreResult struct {
 
 // This will get placement scores grouped on map per region
 // only scores over tolerance will be added
-func placementScoresAsync(r string, args placementScoreArgs, c chan regionData[[]placementScoreResult]) {
+func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlaces.HostingPlaceData[[]placementScoreResult]) {
 	azsByRegion := describeAvailabilityZonesByRegions([]string{r})
 	cfg, err := getConfig(r)
 	if err != nil {
-		c <- regionData[[]placementScoreResult]{
-			Err: err}
+		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	client := ec2.NewFromConfig(cfg)
@@ -365,13 +326,11 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan regionData[[
 			MaxResults:             aws.Int32(maxQueryResultsResultsPlacementScore),
 		})
 	if err != nil {
-		c <- regionData[[]placementScoreResult]{
-			Err: err}
+		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	if len(sps.SpotPlacementScores) == 0 {
-		c <- regionData[[]placementScoreResult]{
-			Err: fmt.Errorf("non available scores")}
+		hostingPlaces.SendAsyncErr(c, fmt.Errorf("non available scores"))
 		return
 	}
 	var results []placementScoreResult
@@ -379,8 +338,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan regionData[[
 		if *ps.Score >= tolerance {
 			azName, err := getZoneName(*ps.AvailabilityZoneId, azsByRegion[*ps.Region])
 			if err != nil {
-				c <- regionData[[]placementScoreResult]{
-					Err: err}
+				hostingPlaces.SendAsyncErr(c, err)
 				return
 			}
 			results = append(results, placementScoreResult{
@@ -393,7 +351,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan regionData[[
 		func(a, b placementScoreResult) int {
 			return int(*a.sps.Score - *b.sps.Score)
 		})
-	c <- regionData[[]placementScoreResult]{
+	c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
 		Region: r,
 		Value:  results}
 }

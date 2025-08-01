@@ -51,15 +51,15 @@ type ContextArgs struct {
 }
 
 type Context struct {
-	runID                 string
-	projectName           string
-	backedURL             string
-	resultsOutput         string
-	debug                 bool
-	debugLevel            uint
-	serverless            bool
-	forceDestroy          bool
-	spotPriceIncreaseRate int
+	runID         string
+	projectName   string
+	backedURL     string
+	resultsOutput string
+	debug         bool
+	debugLevel    uint
+	serverless    bool
+	forceDestroy  bool
+	// spotPriceIncreaseRate int
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
 }
@@ -68,18 +68,19 @@ type Provider interface {
 	Init(backedURL string) error
 }
 
+func InitNoState() *Context { return &Context{} }
+
 func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 	c := &Context{
-		runID:                 util.RandomID(origin),
-		projectName:           ca.ProjectName,
-		backedURL:             ca.BackedURL,
-		resultsOutput:         ca.ResultsOutput,
-		debug:                 ca.Debug,
-		debugLevel:            ca.DebugLevel,
-		tags:                  ca.Tags,
-		serverless:            ca.Serverless,
-		forceDestroy:          ca.ForceDestroy,
-		spotPriceIncreaseRate: ca.SpotPriceIncreaseRate,
+		runID:         util.RandomID(origin),
+		projectName:   ca.ProjectName,
+		backedURL:     ca.BackedURL,
+		resultsOutput: ca.ResultsOutput,
+		debug:         ca.Debug,
+		debugLevel:    ca.DebugLevel,
+		tags:          ca.Tags,
+		serverless:    ca.Serverless,
+		forceDestroy:  ca.ForceDestroy,
 	}
 	addCommonTags(c)
 	// Init provider
@@ -115,8 +116,6 @@ func (c *Context) DebugLevel() uint { return c.debugLevel }
 func (c *Context) IsServerless() bool { return c.serverless }
 
 func (c *Context) IsForceDestroy() bool { return c.forceDestroy }
-
-func (c *Context) SpotPriceIncreaseRate() int { return c.spotPriceIncreaseRate }
 
 // Get tags ready to be added to any pulumi resource
 // in addition we cas set specific custom tags
