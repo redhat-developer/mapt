@@ -48,13 +48,14 @@ func RunOnHostingPlaces[X, Y any](hps []string, data X,
 	}()
 	for rr := range c {
 		if rr.Err != nil {
-			logging.Error(rr.Err)
+			logging.Warnf(rr.Err.Error())
+			hasErr = true
 		} else {
 			result[rr.Region] = rr.Value
 		}
 	}
 	if len(result) == 0 && hasErr {
-		return nil, fmt.Errorf("errors running async func")
+		return nil, fmt.Errorf("errors running async func.Check warn messages")
 	}
 	return result, nil
 }

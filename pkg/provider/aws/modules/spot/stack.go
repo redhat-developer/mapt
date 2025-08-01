@@ -8,7 +8,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -36,13 +36,13 @@ type SpotOptionResult struct {
 
 type bestSpotOption struct {
 	pulumi.ResourceState
-	Option *spotTypes.SpotResults
+	Option *spot.SpotResults
 }
 
-func NewBestSpotOption(ctx *pulumi.Context, name string,
+func NewBestSpotOption(ctx *pulumi.Context, mCtx *mc.Context, name string,
 	productDescription string, instaceTypes []string,
-	amiName, amiArch string, opts ...pulumi.ResourceOption) (*spotTypes.SpotResults, error) {
-	spotOption, err := data.SpotInfo(
+	amiName, amiArch string, opts ...pulumi.ResourceOption) (*spot.SpotResults, error) {
+	spotOption, err := data.SpotInfo(mCtx,
 		&data.SpotInfoArgs{
 			ProductDescription: &productDescription,
 			InstaceTypes:       instaceTypes,
@@ -129,7 +129,7 @@ func (r SpotOptionRequest) createStack() (*SpotOptionResult, error) {
 // deployer function to create the logic to get the best spot option
 // and it will export the data from the best spot option to the stack state
 func (r SpotOptionRequest) deployer(ctx *pulumi.Context) error {
-	so, err := NewBestSpotOption(ctx,
+	so, err := NewBestSpotOption(ctx, r.MCtx,
 		resourcesUtil.GetResourceName(r.Prefix, "bso", "bso"),
 		r.ProductDescription, r.InstaceTypes, r.AMIName, r.AMIArch)
 	if err != nil {

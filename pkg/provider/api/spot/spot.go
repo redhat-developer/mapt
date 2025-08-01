@@ -1,35 +1,68 @@
-package spot
+package types
 
 import (
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
-	awsData "github.com/redhat-developer/mapt/pkg/provider/aws/data"
-	azureData "github.com/redhat-developer/mapt/pkg/provider/azure/data"
+	"strings"
+
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 )
+
+type Tolerance int
 
 const (
-	ALL Provider = iota
-	AWS
-	Azure
+	Lowest Tolerance = iota
+	Low
+	Medium
+	High
+	Highest
 )
 
-type Provider int
+var (
+	tolerances = map[string]Tolerance{
+		"lowest":  Lowest,
+		"low":     Low,
+		"medium":  Medium,
+		"high":    High,
+		"highest": Highest}
 
-// GetLowestPrice fetches prices of spot instances for all the supported
-// providers and returns the results as a:  map[string]SpotPrice
-// where map index key is the cloud provider name
-func GetLowestPrice(args *spotTypes.SpotRequestArgs, p Provider) (result map[Provider]*spotTypes.SpotResults, err error) {
-	result = make(map[Provider]*spotTypes.SpotResults)
-	if p == ALL || p == AWS {
-		result[AWS], err = awsData.NewSpotSelector().Select(args)
-		if err != nil {
-			return nil, err
-		}
+	DefaultTolerance = Lowest
+
+	defaultSpotPriceIncreaseRate = 20
+)
+
+func ParseTolerance(str string) (Tolerance, bool) {
+	c, ok := tolerances[strings.ToLower(str)]
+	return c, ok
+}
+
+type SpotRequestArgs struct {
+	ComputeRequest        *cr.ComputeRequestArgs
+	OS                    *string
+	ImageName             *string
+	SpotTolerance         Tolerance
+	SpotPriceIncreaseRate *int
+	MaxResults            int
+	ExcludedHostingPlaces []string
+}
+
+type SpotResults struct {
+	ComputeType      string
+	Price            float64
+	HostingPlace     string
+	AvailabilityZone string
+	ChanceLevel      int
+}
+
+type SpotSelector interface {
+	Select(mCtx *mc.Context, args *SpotRequestArgs) (*SpotResults, error)
+}
+
+// This function add an increased value to the calculated spot price
+// to ensure the bid is good enough to have the machine
+func SafePrice(basePrice float64, spotPriceIncreseRatio *int) float64 {
+	ratio := defaultSpotPriceIncreaseRate
+	if spotPriceIncreseRatio != nil {
+		ratio = *spotPriceIncreseRatio
 	}
-	if p == ALL || p == Azure {
-		result[Azure], err = azureData.NewSpotSelector().Select(args)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return result, nil
+	return basePrice * (1 + float64(ratio)/100)
 }
