@@ -53,35 +53,21 @@ func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error
 			return nil, err
 		}
 	}
-	prices, err := SpotInfo(&SpotInfoArgs{
+	return SpotInfo(&SpotInfoArgs{
 		ComputeSizes:      css,
 		OSType:            osType(args.OS),
 		ExcludedLocations: args.ExcludedHostingPlaces,
 		SpotTolerance:     &args.SpotTolerance,
 	})
-	if err != nil {
-		return nil, err
-	}
-
-	// cl := 0
-	// evr, ok := parseEvictionRate(prices.EvictionRate)
-	// if ok {
-	// 	cl = int(evr)
-	// }
-	return &spotTypes.SpotResults{
-		ComputeType: prices.ComputeSize,
-		Region:      prices.Location,
-		Price:       float32(prices.Price),
-		// ChanceLevel: cl,
-	}, nil
 }
 
 type SpotInfoArgs struct {
-	ComputeSizes      []string
-	ImageRef          ImageReference
-	OSType            string
-	ExcludedLocations []string
-	SpotTolerance     *spotTypes.Tolerance
+	ComputeSizes          []string
+	ImageRef              ImageReference
+	OSType                string
+	ExcludedLocations     []string
+	SpotTolerance         *spotTypes.Tolerance
+	SpotPriceIncreaseRate *int
 }
 
 type SpotInfoResult struct {
@@ -94,12 +80,12 @@ type SpotInfoResult struct {
 // var ErrEvictionRatesEmtpyData = fmt.Errorf("error eviction rates are returning empty")
 
 // This function will return the best spot option
-func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
+func SpotInfo(args *SpotInfoArgs) (*spotTypes.SpotResults, error) {
 	if args.SpotTolerance == nil {
 		args.SpotTolerance = &spotTypes.DefaultTolerance
 	}
-	// Get all available locations for subscription
-	locations, err := GetLocations()
+	// Get all available locations for subscription allowing PublicIPs
+	locations, err := LocationsBySupportedResourceType(RTPublicIPAddresses)
 	if err != nil {
 		return nil, err
 	}
@@ -109,15 +95,15 @@ func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
 				return !slices.Contains(args.ExcludedLocations, item)
 			})
 	}
-	client, err := getGraphClient()
+	clientFactory, err := getGraphClientFactory()
 	if err != nil {
 		return nil, err
 	}
 	evictionRates, err := hostingPlaces.RunOnHostingPlaces(locations,
 		evictionRatesArgs{
-			computeSizes: args.ComputeSizes,
-			client:       client,
-			allowedER:    allowedER(*args.SpotTolerance),
+			computeSizes:  args.ComputeSizes,
+			clientFactory: clientFactory,
+			allowedER:     allowedER(*args.SpotTolerance),
 		},
 		evictionRatesAsync)
 	if err != nil {
@@ -131,9 +117,9 @@ func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
 	// prices
 	spotPricings, err := hostingPlaces.RunOnHostingPlaces(locations,
 		spotPricingArgs{
-			computeSizes: args.ComputeSizes,
-			client:       client,
-			osType:       args.OSType,
+			computeSizes:  args.ComputeSizes,
+			clientFactory: clientFactory,
+			osType:        args.OSType,
 		},
 		spotPricingAsync)
 	if err != nil {
@@ -155,7 +141,15 @@ func SpotInfo(args *SpotInfoArgs) (*SpotInfoResult, error) {
 	} else {
 		return nil, fmt.Errorf("couldn't find the best price for instance types %v", args.ComputeSizes)
 	}
-	return c, nil
+	sr := spotTypes.SpotResults{
+		ComputeType:  c.ComputeSize,
+		HostingPlace: c.Location,
+		Price: spotTypes.SafePrice(c.Price,
+			args.SpotPriceIncreaseRate),
+		// ChanceLevel: cl,
+	}
+	logging.Debugf("Spot data: %v", sr)
+	return &sr, nil
 }
 
 type evictionRateSpec struct {
@@ -193,9 +187,9 @@ func allowedER(spotTolerance spotTypes.Tolerance) []string {
 }
 
 type evictionRatesArgs struct {
-	client       *armresourcegraph.Client
-	computeSizes []string
-	allowedER    []string
+	clientFactory *armresourcegraph.ClientFactory
+	computeSizes  []string
+	allowedER     []string
 	// capacity     int32
 }
 
@@ -230,7 +224,7 @@ func evictionRatesAsync(location string, args evictionRatesArgs, c chan hostingP
 		return
 	}
 	evrr := buffer.String()
-	qr, err := args.client.Resources(context.Background(),
+	qr, err := args.clientFactory.NewClient().Resources(context.Background(),
 		armresourcegraph.QueryRequest{
 			Query: to.Ptr(evrr),
 		},
@@ -265,9 +259,9 @@ func evictionRatesAsync(location string, args evictionRatesArgs, c chan hostingP
 }
 
 type spotPricingArgs struct {
-	client       *armresourcegraph.Client
-	computeSizes []string
-	osType       string
+	clientFactory *armresourcegraph.ClientFactory
+	computeSizes  []string
+	osType        string
 	// capacity     int32
 }
 
@@ -302,7 +296,7 @@ func spotPricingAsync(location string, args spotPricingArgs, c chan hostingPlace
 		return
 	}
 	spr := buffer.String()
-	qr, err := args.client.Resources(context.Background(),
+	qr, err := args.clientFactory.NewClient().Resources(context.Background(),
 		armresourcegraph.QueryRequest{
 			Query: to.Ptr(spr),
 		},
@@ -354,7 +348,6 @@ type spotChoiceArgs struct {
 //
 // first option matching the requirements will be returned
 func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
-	var err error
 	result := make(map[string]*SpotInfoResult)
 	// Fix random error with graphql query not giving information for eviction rates
 	if len(args.evictionRates) == 0 {
@@ -369,9 +362,6 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 					Region:         l,
 					ImageReference: *args.imageRef,
 				})
-			if err != nil {
-				return nil, err
-			}
 		}
 		for _, ps := range pss {
 			idx := slices.IndexFunc(args.evictionRates[l],

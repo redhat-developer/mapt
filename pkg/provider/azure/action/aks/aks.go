@@ -271,7 +271,7 @@ func (r *aksRequest) valuesCheckingSpot() (*string, *float64, error) {
 		if err != nil {
 			return nil, nil, err
 		}
-		return &bsc.Location, &bsc.Price, nil
+		return &bsc.HostingPlace, &bsc.Price, nil
 	}
 	return r.location, nil, nil
 }
