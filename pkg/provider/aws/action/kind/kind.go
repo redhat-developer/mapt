@@ -51,12 +51,11 @@ type kindRequest struct {
 }
 
 func (r *kindRequest) validate() error {
-	v := validator.New(validator.WithRequiredStructEnabled())
-	err := v.Var(r.mCtx, "required")
-	if err != nil {
+	validate := validator.New()
+	if err := validate.Struct(r); err != nil {
 		return err
 	}
-	return v.Struct(r)
+	return nil
 }
 
 type KindResultsMetadata struct {
@@ -89,7 +88,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *KindArgs) (kr *KindResultsMetadata, 
 				&amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnDemand()
+			return allocation.AllocationDataOnDemand(mCtx, &args.Prefix,
+				&amiProduct, nil, args.ComputeRequest)
 		})
 	if err != nil {
 		return nil, err
@@ -160,6 +160,11 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	// Networking
 	// LB is required if we use as which is used for spot feature
 	createLB := r.allocationData.SpotPrice != nil
+	// For on-demand, we also create LB to be identical to spot
+	if !createLB {
+		createLB = true
+	}
+
 	nr := network.NetworkRequest{
 		Prefix:             *r.prefix,
 		ID:                 awsKindID,
@@ -193,6 +198,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+
 	// Build LB target groups including both default and extra ports
 	lbTargetGroups := []int{22, portAPI, portHTTP, portHTTPS}
 	lbTargetGroups = append(lbTargetGroups, extraHostPorts...)
@@ -383,6 +389,7 @@ func kubeconfig(ctx *pulumi.Context,
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
+
 	// Get content for /opt/kubeconfig
 	getKCCmd := ("cat /home/fedora/kubeconfig")
 	getKC, err := c.RunCommand(ctx,
@@ -393,7 +400,8 @@ func kubeconfig(ctx *pulumi.Context,
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
-	kubeconfig := pulumi.All(getKC.Stdout, c.LBEIP.PublicIp).ApplyT(
+
+	kubeconfig := pulumi.All(getKC.Stdout, c.GetHostIP(true)).ApplyT(
 		func(args []interface{}) string {
 			re := regexp.MustCompile(`https://[^:]+:\d+`)
 			return re.ReplaceAllString(

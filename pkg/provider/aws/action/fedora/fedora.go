@@ -92,7 +92,8 @@ func Create(ctx *mc.ContextArgs, args *FedoraArgs) (err error) {
 				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
 		},
 		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnDemand()
+			return allocation.AllocationDataOnDemand(mCtx, &args.Prefix,
+				&amiProduct, nil, args.ComputeRequest)
 		})
 	if err != nil {
 		return err

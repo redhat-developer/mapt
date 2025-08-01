@@ -1,6 +1,7 @@
 package allocation
 
 import (
+	"fmt"
 	"os"
 
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
@@ -57,12 +58,46 @@ func AllocationDataOnSpot(mCtx *mc.Context, prefix, amiProductDescription, amiNa
 	}, nil
 }
 
-func AllocationDataOnDemand() (ad *AllocationData, err error) {
-	ad = &AllocationData{}
+func AllocationDataOnDemand(mCtx *mc.Context, prefix, amiProductDescription, amiName *string, computeRequest *cr.ComputeRequestArgs) (*AllocationData, error) {
+	var err error
+	computeTypes := computeRequest.ComputeSizes
+	if len(computeTypes) == 0 {
+		computeTypes, err = data.NewComputeSelector().Select(computeRequest)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	region := os.Getenv("AWS_DEFAULT_REGION")
-	ad.Region = &region
+	if region == "" {
+		region = "us-east-1"
+	}
+
+	ad := &AllocationData{}
 	ad.AZ, err = data.GetRandomAvailabilityZone(region, nil)
-	return
+	if err != nil {
+		return nil, err
+	}
+
+	availableInstanceTypes, err := data.FilterInstaceTypesOfferedByRegion(computeTypes, region)
+	if err != nil {
+		return nil, err
+	}
+
+	// Ensure we have at least one instance type
+	if len(availableInstanceTypes) == 0 {
+		return nil, fmt.Errorf("no instance types available in region %s for the specified compute requirements", region)
+	}
+
+	// Note: For on-demand, we don't need to handle AMI name like spot does
+	// since we're not searching for spot pricing across regions
+
+	return &AllocationData{
+		Region:        &region,
+		AZ:            ad.AZ,
+		SpotPrice:     nil, // No spot pricing for on-demand
+		InstanceTypes: availableInstanceTypes,
+	}, nil
 }
 
 // Calculate a bid price for spot using a increased rate set by user

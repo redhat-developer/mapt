@@ -83,6 +83,9 @@ type Compute struct {
 func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 	if r.Spot {
 		asg, err := r.spotInstance(ctx)
+		if err != nil {
+			return nil, err
+		}
 		return &Compute{
 			AutoscalingGroup: asg,
 			LB:               r.LB,
@@ -90,12 +93,22 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 			Dependencies:     []pulumi.Resource{asg, r.LB, r.LBEIP}}, err
 	}
 	i, err := r.onDemandInstance(ctx)
-	return &Compute{Instance: i,
+	if err != nil {
+		return nil, err
+	}
+	return &Compute{
+		Instance:     i,
+		LB:           r.LB,
+		LBEIP:        r.LBEIP,
 		Dependencies: []pulumi.Resource{i}}, err
 }
 
 // Create on demand instance
 func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, error) {
+	if len(r.InstaceTypes) == 0 {
+		return nil, fmt.Errorf("no instance types available for on-demand instance")
+	}
+
 	args := ec2.InstanceArgs{
 		SubnetId:                 r.Subnet.ID(),
 		Ami:                      pulumi.String(r.AMI.Id),
@@ -108,6 +121,7 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		},
 		Tags: r.MCtx.ResourceTags(),
 	}
+
 	if r.InstanceProfile != nil {
 		args.IamInstanceProfile = r.InstanceProfile
 	}
@@ -117,14 +131,23 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 	if r.Airgap {
 		args.AssociatePublicIpAddress = pulumi.Bool(false)
 	}
-	return ec2.NewInstance(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance"),
+
+	instance, err := ec2.NewInstance(ctx,
+		r.ID, // Use the same ID as spot instances for consistent naming
 		&args,
 		pulumi.DependsOn(r.DependsOn))
+	if err != nil {
+		return nil, err
+	}
+	return instance, nil
 }
 
 // create asg with 1 instance forced by spot
 func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, error) {
+	if len(r.InstaceTypes) == 0 {
+		return nil, fmt.Errorf("no instance types available for spot instance")
+	}
+
 	// Logging information
 	r.Subnet.AvailabilityZone.ApplyT(func(az string) error {
 		logging.Debugf("Requesting a spot instance of types: %s at %s paying: %f",
@@ -254,7 +277,11 @@ func (c *Compute) GetHostIP(public bool) (ip pulumi.StringInput) {
 	if c.LBEIP != nil {
 		return c.LBEIP.PublicIp
 	}
-	return c.LB.DnsName
+	if c.LB != nil {
+		return c.LB.DnsName
+	}
+	// Fallback to empty string if neither LB nor LBEIP is available
+	return pulumi.String("")
 }
 
 // Check if compute is healthy based on running a remote cmd
@@ -294,7 +321,8 @@ func (compute *Compute) RunCommand(ctx *pulumi.Context,
 	if !loggingCmdStd {
 		ca.Logging = remote.LoggingNone
 	}
-	return remote.NewCommand(ctx,
+
+	remoteCmd, err := remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(prefix, id, "cmd"),
 		ca,
 		pulumi.Timeouts(
@@ -302,6 +330,10 @@ func (compute *Compute) RunCommand(ctx *pulumi.Context,
 				Create: command.RemoteTimeout,
 				Update: command.RemoteTimeout}),
 		pulumi.DependsOn(dependecies))
+	if err != nil {
+		return nil, err
+	}
+	return remoteCmd, nil
 }
 
 // helper function to set the connection args
