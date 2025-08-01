@@ -16,7 +16,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
@@ -34,7 +34,7 @@ type AKSArgs struct {
 	OnlySystemPool      bool
 	EnableAppRouting    bool
 	Spot                bool
-	SpotTolerance       spotTypes.Tolerance
+	SpotTolerance       spot.Tolerance
 	SpotExcludedRegions []string
 }
 
@@ -48,7 +48,7 @@ type aksRequest struct {
 	onlySystemPool      *bool
 	enableAppRouting    *bool
 	spot                *bool
-	spotTolerance       *spotTypes.Tolerance
+	spotTolerance       *spot.Tolerance
 	spotExcludedRegions []string
 }
 
@@ -260,13 +260,15 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 func (r *aksRequest) valuesCheckingSpot() (*string, *float64, error) {
 	if *r.spot {
 		bsc, err :=
-			data.SpotInfo(&data.SpotInfoArgs{
-				ComputeSizes: []string{*r.vmSize},
-				OSType:       "linux",
-				// TODO review this
-				// EvictionRateTolerance: r.SpotTolerance,
-				ExcludedLocations: r.spotExcludedRegions,
-			})
+			data.SpotInfo(
+				r.mCtx,
+				&data.SpotInfoArgs{
+					ComputeSizes: []string{*r.vmSize},
+					OSType:       "linux",
+					// TODO review this
+					// EvictionRateTolerance: r.SpotTolerance,
+					ExcludedLocations: r.spotExcludedRegions,
+				})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
 			return nil, nil, err

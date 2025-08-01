@@ -9,8 +9,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	hostingPlaces "github.com/redhat-developer/mapt/pkg/provider/util/hosting-places"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -47,12 +48,11 @@ type SpotSelector struct{}
 
 func NewSpotSelector() *SpotSelector { return &SpotSelector{} }
 
-func (c *SpotSelector) Select(
-	args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
-	return getSpotInfo(args)
+func (c *SpotSelector) Select(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResults, error) {
+	return getSpotInfo(mCtx, args)
 }
 
-func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
+func getSpotInfo(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResults, error) {
 	var err error
 	computeTypes := args.ComputeRequest.ComputeSizes
 	if len(computeTypes) == 0 {
@@ -76,7 +76,7 @@ func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error
 	if args.OS != nil {
 		siArgs.ProductDescription = amiProducts[*args.OS]
 	}
-	return SpotInfo(siArgs)
+	return SpotInfo(mCtx, siArgs)
 }
 
 const (
@@ -108,7 +108,7 @@ type SpotInfoResult struct {
 // * instanceTypes types of machines able to execute the workload
 // * amiName ensures the ami is available on the spot option
 // the output is the information realted to the best spot option for the target machine
-func SpotInfo(args *SpotInfoArgs) (*spotTypes.SpotResults, error) {
+func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	regions, err := GetRegions()
 	if err != nil {
 		return nil, err
@@ -150,9 +150,9 @@ func SpotInfo(args *SpotInfoArgs) (*spotTypes.SpotResults, error) {
 	}
 	// TODO
 	// translate Score
-	sr := spotTypes.SpotResults{
+	sr := spot.SpotResults{
 		ComputeType: c.InstanceType,
-		Price: spotTypes.SafePrice(c.Price,
+		Price: spot.SafePrice(c.Price,
 			args.SpotPriceIncreaseRate),
 		HostingPlace:     c.Region,
 		AvailabilityZone: c.AvailabilityZone,

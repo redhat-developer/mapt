@@ -8,7 +8,8 @@ import (
 	"slices"
 	"text/template"
 
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot/types"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
@@ -38,12 +39,12 @@ type SpotSelector struct{}
 
 func NewSpotSelector() *SpotSelector { return &SpotSelector{} }
 
-func (c *SpotSelector) Select(
-	args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
-	return getSpotInfo(args)
+func (c *SpotSelector) Select(mCtx *mc.Context,
+	args *spot.SpotRequestArgs) (*spot.SpotResults, error) {
+	return getSpotInfo(mCtx, args)
 }
 
-func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error) {
+func getSpotInfo(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResults, error) {
 	var err error
 	css := args.ComputeRequest.ComputeSizes
 	if len(css) == 0 {
@@ -53,12 +54,13 @@ func getSpotInfo(args *spotTypes.SpotRequestArgs) (*spotTypes.SpotResults, error
 			return nil, err
 		}
 	}
-	return SpotInfo(&SpotInfoArgs{
-		ComputeSizes:      css,
-		OSType:            osType(args.OS),
-		ExcludedLocations: args.ExcludedHostingPlaces,
-		SpotTolerance:     &args.SpotTolerance,
-	})
+	return SpotInfo(mCtx,
+		&SpotInfoArgs{
+			ComputeSizes:      css,
+			OSType:            osType(args.OS),
+			ExcludedLocations: args.ExcludedHostingPlaces,
+			SpotTolerance:     &args.SpotTolerance,
+		})
 }
 
 type SpotInfoArgs struct {
@@ -66,7 +68,7 @@ type SpotInfoArgs struct {
 	ImageRef              ImageReference
 	OSType                string
 	ExcludedLocations     []string
-	SpotTolerance         *spotTypes.Tolerance
+	SpotTolerance         *spot.Tolerance
 	SpotPriceIncreaseRate *int
 }
 
@@ -80,9 +82,9 @@ type SpotInfoResult struct {
 // var ErrEvictionRatesEmtpyData = fmt.Errorf("error eviction rates are returning empty")
 
 // This function will return the best spot option
-func SpotInfo(args *SpotInfoArgs) (*spotTypes.SpotResults, error) {
+func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	if args.SpotTolerance == nil {
-		args.SpotTolerance = &spotTypes.DefaultTolerance
+		args.SpotTolerance = &spot.DefaultTolerance
 	}
 	// Get all available locations for subscription allowing PublicIPs
 	locations, err := LocationsBySupportedResourceType(RTPublicIPAddresses)
@@ -141,10 +143,10 @@ func SpotInfo(args *SpotInfoArgs) (*spotTypes.SpotResults, error) {
 	} else {
 		return nil, fmt.Errorf("couldn't find the best price for instance types %v", args.ComputeSizes)
 	}
-	sr := spotTypes.SpotResults{
+	sr := spot.SpotResults{
 		ComputeType:  c.ComputeSize,
 		HostingPlace: c.Location,
-		Price: spotTypes.SafePrice(c.Price,
+		Price: spot.SafePrice(c.Price,
 			args.SpotPriceIncreaseRate),
 		// ChanceLevel: cl,
 	}
@@ -153,17 +155,17 @@ func SpotInfo(args *SpotInfoArgs) (*spotTypes.SpotResults, error) {
 }
 
 type evictionRateSpec struct {
-	spotTypes.Tolerance
+	spot.Tolerance
 	value string
 }
 
 // Ordered list of eviction rates
 var evictionRates = []evictionRateSpec{
-	{spotTypes.Lowest, "0-5"},
-	{spotTypes.Low, "5-10"},
-	{spotTypes.Medium, "10-15"},
-	{spotTypes.High, "15-20"},
-	{spotTypes.Highest, "20+"},
+	{spot.Lowest, "0-5"},
+	{spot.Low, "5-10"},
+	{spot.Medium, "10-15"},
+	{spot.High, "15-20"},
+	{spot.Highest, "20+"},
 }
 
 var evictionRatesToInt = map[string]int{
@@ -174,7 +176,7 @@ var evictionRatesToInt = map[string]int{
 	"20+":   4,
 }
 
-func allowedER(spotTolerance spotTypes.Tolerance) []string {
+func allowedER(spotTolerance spot.Tolerance) []string {
 	idx := slices.IndexFunc(evictionRates,
 		func(e evictionRateSpec) bool {
 			return e.Tolerance == spotTolerance
