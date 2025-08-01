@@ -4,8 +4,8 @@
 4d63.com/gochecknoglobals v0.2.2/go.mod h1:lLxwTQjL5eIesRbvnzIP3jZtG140FnTdz+AlMa+ogt0=
 codeberg.org/chavacava/garif v0.2.0 h1:F0tVjhYbuOCnvNcU3YSpO6b3Waw6Bimy4K0mM8y6MfY=
 codeberg.org/chavacava/garif v0.2.0/go.mod h1:P2BPbVbT4QcvLZrORc2T29szK3xEOlnl0GiPTJmEqBQ=
-github.com/4meepo/tagalign v1.4.2 h1:0hcLHPGMjDyM1gHG58cS73aQF8J4TdVR96TZViorO9E=
-github.com/4meepo/tagalign v1.4.2/go.mod h1:+p4aMyFM+ra7nb41CnFG6aSDXqRxU/w1VQqScKqDARI=
+github.com/4meepo/tagalign v1.4.3 h1:Bnu7jGWwbfpAie2vyl63Zup5KuRv21olsPIha53BJr8=
+github.com/4meepo/tagalign v1.4.3/go.mod h1:00WwRjiuSbrRJnSVeGWPLp2epS5Q/l4UEy0apLLS37c=
 github.com/Abirdcfly/dupword v0.1.6 h1:qeL6u0442RPRe3mcaLcbaCi2/Y/hOcdtw6DE9odjz9c=
 github.com/Abirdcfly/dupword v0.1.6/go.mod h1:s+BFMuL/I4YSiFv29snqyjwzDp4b65W2Kvy+PKzZ6cw=
 github.com/AlwxSin/noinlineerr v1.0.5 h1:RUjt63wk1AYWTXtVXbSqemlbVTb23JOSRiNsshj7TbY=
@@ -38,6 +38,8 @@ github.com/alexkohler/nakedret/v2 v2.0.6 h1:ME3Qef1/KIKr3kWX3nti3hhgNxw6aqN5pZmQ
 github.com/alexkohler/nakedret/v2 v2.0.6/go.mod h1:l3RKju/IzOMQHmsEvXwkqMDzHHvurNQfAgE1eVmT40Q=
 github.com/alexkohler/prealloc v1.0.0 h1:Hbq0/3fJPQhNkN0dR95AVrr6R7tou91y0uHG5pOcUuw=
 github.com/alexkohler/prealloc v1.0.0/go.mod h1:VetnK3dIgFBBKmg0YnD9F9x6Icjd+9cvfHR56wJVlKE=
+github.com/alfatraining/structtag v1.0.0 h1:2qmcUqNcCoyVJ0up879K614L9PazjBSFruTB0GOFjCc=
+github.com/alfatraining/structtag v1.0.0/go.mod h1:p3Xi5SwzTi+Ryj64DqjLWz7XurHxbGsq6y3ubePJPus=
 github.com/alingse/asasalint v0.0.11 h1:SFwnQXJ49Kx/1GghOFz1XGqHYKp21Kq1nHad/0WQRnw=
 github.com/alingse/asasalint v0.0.11/go.mod h1:nCaoMhw7a9kSJObvQyVzNTPBDbNpdocqrSP7t/cW5+I=
 github.com/alingse/nilnesserr v0.2.0 h1:raLem5KG7EFVb4UIDAXgrv3N2JIaffeKNtcEXkEWd/w=
@@ -89,8 +91,8 @@ github.com/ckaznocha/intrange v0.3.1/go.mod h1:QVepyz1AkUoFQkpEqksSYpNpUo3c5W7nW
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
 github.com/curioswitch/go-reassign v0.3.0 h1:dh3kpQHuADL3cobV/sSGETA8DOv457dwl+fbBAhrQPs=
 github.com/curioswitch/go-reassign v0.3.0/go.mod h1:nApPCCTtqLJN/s8HfItCcKV0jIPwluBOvZP+dsJGA88=
-github.com/daixiang0/gci v0.13.6 h1:RKuEOSkGpSadkGbvZ6hJ4ddItT3cVZ9Vn9Rybk6xjl8=
-github.com/daixiang0/gci v0.13.6/go.mod h1:12etP2OniiIdP4q+kjUGrC/rUagga7ODbqsom5Eo5Yk=
+github.com/daixiang0/gci v0.13.7 h1:+0bG5eK9vlI08J+J/NWGbWPTNiXPG4WhNLJOkSxWITQ=
+github.com/daixiang0/gci v0.13.7/go.mod h1:812WVN6JLFY9S6Tv76twqmNqevN0pa3SX3nih0brVzQ=
 github.com/dave/dst v0.27.3 h1:P1HPoMza3cMEquVf9kKy8yXsFirry4zEnWOdYPOoIzY=
 github.com/dave/dst v0.27.3/go.mod h1:jHh6EOibnHgcUW3WjKHisiooEkYwqpHLBSX1iOBhEyc=
 github.com/dave/jennifer v1.7.1 h1:B4jJJDHelWcDhlRQxWeo0Npa/pYKBLrirAQoTN45txo=
@@ -344,8 +346,8 @@ github.com/sashamelentyev/interfacebloat v1.1.0 h1:xdRdJp0irL086OyW1H/RTZTr1h/tM
 github.com/sashamelentyev/interfacebloat v1.1.0/go.mod h1:+Y9yU5YdTkrNvoX0xHc84dxiN1iBi9+G8zZIhPVoNjQ=
 github.com/sashamelentyev/usestdlibvars v1.29.0 h1:8J0MoRrw4/NAXtjQqTHrbW9NN+3iMf7Knkq057v4XOQ=
 github.com/sashamelentyev/usestdlibvars v1.29.0/go.mod h1:8PpnjHMk5VdeWlVb4wCdrB8PNbLqZ3wBZTZWkrpZZL8=
-github.com/securego/gosec/v2 v2.22.5 h1:ySws9uwOeE42DsG54v2moaJfh7r08Ev7SAYJuoMDfRA=
-github.com/securego/gosec/v2 v2.22.5/go.mod h1:AWfgrFsVewk5LKobsPWlygCHt8K91boVPyL6GUZG5NY=
+github.com/securego/gosec/v2 v2.22.7 h1:8/9P+oTYI4yIpAzccQKVsg1/90Po+JzGtAhqoHImDeM=
+github.com/securego/gosec/v2 v2.22.7/go.mod h1:510TFNDMrIPytokyHQAVLvPeDr41Yihn2ak8P+XQfNE=
 github.com/sergi/go-diff v1.2.0 h1:XU+rvMAioB0UC3q1MFrIQy4Vo5/4VsRDQQXHsEya6xQ=
 github.com/sergi/go-diff v1.2.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
 github.com/shurcooL/go v0.0.0-20180423040247-9e1955d9fb6e/go.mod h1:TDJrrUr11Vxrven61rcy3hJMUqaf/CLWYhHNPmT14Lk=

@@ -1,7 +1,7 @@
 # dario.cat/mergo v1.0.2
 ## explicit; go 1.13
 dario.cat/mergo
-# github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.1
+# github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.2
 ## explicit; go 1.23.0
 github.com/Azure/azure-sdk-for-go/sdk/azcore
 github.com/Azure/azure-sdk-for-go/sdk/azcore/arm
@@ -28,7 +28,7 @@ github.com/Azure/azure-sdk-for-go/sdk/azcore/tracing
 ## explicit; go 1.23.0
 github.com/Azure/azure-sdk-for-go/sdk/azidentity
 github.com/Azure/azure-sdk-for-go/sdk/azidentity/internal
-# github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.1
+# github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.2
 ## explicit; go 1.23.0
 github.com/Azure/azure-sdk-for-go/sdk/internal/diag
 github.com/Azure/azure-sdk-for-go/sdk/internal/errorinfo
@@ -238,7 +238,7 @@ github.com/aws/aws-sdk-go-v2/service/ssooidc/types
 github.com/aws/aws-sdk-go-v2/service/sts
 github.com/aws/aws-sdk-go-v2/service/sts/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/sts/types
-# github.com/aws/smithy-go v1.22.4
+# github.com/aws/smithy-go v1.22.5
 ## explicit; go 1.22
 github.com/aws/smithy-go
 github.com/aws/smithy-go/auth
@@ -354,8 +354,8 @@ github.com/evertras/bubble-table/table
 ## explicit; go 1.17
 github.com/fsnotify/fsnotify
 github.com/fsnotify/fsnotify/internal
-# github.com/gabriel-vasile/mimetype v1.4.8
-## explicit; go 1.20
+# github.com/gabriel-vasile/mimetype v1.4.9
+## explicit; go 1.23.0
 github.com/gabriel-vasile/mimetype
 github.com/gabriel-vasile/mimetype/internal/charset
 github.com/gabriel-vasile/mimetype/internal/json
@@ -710,15 +710,15 @@ github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/storage/v1beta1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/storagemigration/v1alpha1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/utilities
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/yaml
-# github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
-## explicit; go 1.22
+# github.com/pulumi/pulumi-random/sdk/v4 v4.18.3
+## explicit; go 1.23.0
 github.com/pulumi/pulumi-random/sdk/v4/go/random
 github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
-# github.com/pulumi/pulumi-tls/sdk/v5 v5.2.0
-## explicit; go 1.22
+# github.com/pulumi/pulumi-tls/sdk/v5 v5.2.1
+## explicit; go 1.23.0
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.184.0
+# github.com/pulumi/pulumi/sdk/v3 v3.185.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto

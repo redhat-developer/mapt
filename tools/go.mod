@@ -5,6 +5,7 @@ go 1.23.6
 require github.com/golangci/golangci-lint/v2 v2.2.2
 
 require (
+	github.com/alfatraining/structtag v1.0.0 // indirect
 	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd // indirect
 	github.com/nunnatsa/ginkgolinter v0.19.1 // indirect
@@ -20,7 +21,7 @@ require (
 	4d63.com/gocheckcompilerdirectives v1.3.0 // indirect
 	4d63.com/gochecknoglobals v0.2.2 // indirect
 	codeberg.org/chavacava/garif v0.2.0 // indirect
-	github.com/4meepo/tagalign v1.4.2 // indirect
+	github.com/4meepo/tagalign v1.4.3 // indirect
 	github.com/Abirdcfly/dupword v0.1.6 // indirect
 	github.com/AlwxSin/noinlineerr v1.0.5 // indirect
 	github.com/Antonboom/errname v1.1.0 // indirect
@@ -59,7 +60,7 @@ require (
 	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/ckaznocha/intrange v0.3.1 // indirect
 	github.com/curioswitch/go-reassign v0.3.0 // indirect
-	github.com/daixiang0/gci v0.13.6 // indirect
+	github.com/daixiang0/gci v0.13.7 // indirect
 	github.com/dave/dst v0.27.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
@@ -160,7 +161,7 @@ require (
 	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 // indirect
 	github.com/sashamelentyev/interfacebloat v1.1.0 // indirect
 	github.com/sashamelentyev/usestdlibvars v1.29.0 // indirect
-	github.com/securego/gosec/v2 v2.22.5 // indirect
+	github.com/securego/gosec/v2 v2.22.7 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sivchari/containedctx v1.0.3 // indirect
 	github.com/sonatard/noctx v0.3.5 // indirect
