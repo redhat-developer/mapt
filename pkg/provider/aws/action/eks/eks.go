@@ -44,6 +44,7 @@ type EKSArgs struct {
 	Spot                   bool
 	Addons                 []string
 	LoadBalancerController bool
+	ExcludedZoneIDs        []string
 }
 
 type eksRequest struct {
@@ -58,6 +59,7 @@ type eksRequest struct {
 	loadBalancerController *bool
 	allocationData         *allocation.AllocationData
 	availabilityZones      []string
+	excludedZoneIDs        []string
 }
 
 func (r *eksRequest) validate() error {
@@ -86,6 +88,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
 		scalingMinSize:         &args.ScalingMinSize,
 		loadBalancerController: &args.LoadBalancerController,
 		addons:                 args.Addons,
+		excludedZoneIDs:        args.ExcludedZoneIDs,
 	}
 	r.allocationData, err = util.IfWithError(args.Spot,
 		func() (*allocation.AllocationData, error) {
@@ -98,7 +101,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	r.availabilityZones = data.GetAvailabilityZones(*r.allocationData.Region)
+	r.availabilityZones = r.getAvailabilityZonesForEKS(*r.allocationData.Region, r.excludedZoneIDs)
 	cs := manager.Stack{
 		StackName:   mCtx.StackNameByProject(stackName),
 		ProjectName: mCtx.ProjectName(),
@@ -139,13 +142,14 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 	}
 	// Networking
 	nr, err := network.NetworkRequest{
-		Name:               resourcesUtil.GetResourceName(*r.prefix, awsEKSID, "net"),
-		CIDR:               network.DefaultCIDRNetwork,
-		AvailabilityZones:  r.availabilityZones,
-		PublicSubnetsCIDRs: network.GeneratePublicSubnetCIDRs(len(r.availabilityZones)),
-		Region:             *r.allocationData.Region,
-		SingleNatGateway:   true,
-		MapPublicIp:        true,
+		MCtx:                r.mCtx,
+		Name:                resourcesUtil.GetResourceName(*r.prefix, awsEKSID, "net"),
+		CIDR:                network.DefaultCIDRNetwork,
+		AvailabilityZones:   r.availabilityZones,
+		PublicSubnetsCIDRs:  network.GeneratePublicSubnetCIDRs(len(r.availabilityZones)),
+		Region:              *r.allocationData.Region,
+		SingleNatGateway:    true,
+		MapPublicIp:         true,
 	}.CreateNetwork(ctx)
 	if err != nil {
 		return err
@@ -264,6 +268,19 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig), kubeconfig)
 	return nil
+}
+
+// getAvailabilityZonesForEKS gets availability zones for EKS with default excluded zone IDs
+func (r *eksRequest) getAvailabilityZonesForEKS(region string, excludedZoneIDs []string) []string {
+	logging.Debugf("Getting availability zones for region region: %s, excludedZoneIDs: %v", *r.allocationData.Region, excludedZoneIDs)
+	if len(excludedZoneIDs) == 0 {
+		// When no excluded zone IDs are specified, apply default EKS-incompatible availability zone IDs
+		// These zone IDs are known to be unsupported by EKS as documented at https://repost.aws/knowledge-center/eks-cluster-creation-errors
+		excludedZoneIDs = []string{"use1-az3", "usw1-az2", "cac1-az3"}
+	}
+	azs := data.GetAvailabilityZones(*r.allocationData.Region, excludedZoneIDs)
+	logging.Debugf("Got availability zones: %v", azs)
+	return azs
 }
 
 // security group with ingress rules for ssh and vnc

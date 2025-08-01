@@ -26,8 +26,8 @@ func GetRandomAvailabilityZone(region string, excludedAZs []string) (*string, er
 	return azs[util.Random(len(azs)-1, 0)].ZoneName, nil
 }
 
-func GetAvailabilityZones(region string) []string {
-	azs, err := describeAvailabilityZones(region)
+func GetAvailabilityZones(region string, excludedZoneIDs []string) []string {
+	azs, err := describeAvailabilityZones(region, excludedZoneIDs)
 	if err != nil {
 		logging.Error(err)
 		return nil
@@ -51,10 +51,10 @@ func describeAvailabilityZonesAsync(regionName string, c chan AvailabilityZonesR
 }
 
 func DescribeAvailabilityZones(regionName string) ([]ec2Types.AvailabilityZone, error) {
-	return describeAvailabilityZones(regionName)
+	return describeAvailabilityZones(regionName, nil)
 }
 
-func describeAvailabilityZones(regionName string) ([]ec2Types.AvailabilityZone, error) {
+func describeAvailabilityZones(regionName string, excludedZoneIDs []string) ([]ec2Types.AvailabilityZone, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(regionName) > 0 {
 		cfgOpts = config.WithRegion(regionName)
@@ -78,6 +78,15 @@ func describeAvailabilityZones(regionName string) ([]ec2Types.AvailabilityZone, 
 	if err != nil {
 		return nil, err
 	}
+	
+	// Filter out excluded zone-ids if provided
+	if len(excludedZoneIDs) > 0 {
+		filteredAZs := slices.DeleteFunc(resultAZs.AvailabilityZones, func(az ec2Types.AvailabilityZone) bool {
+			return slices.Contains(excludedZoneIDs, *az.ZoneId)
+		})
+		return filteredAZs, nil
+	}
+	
 	return resultAZs.AvailabilityZones, nil
 }
 
