@@ -29,7 +29,7 @@ func LookupVirtualMachineScaleSet(ctx *pulumi.Context, args *LookupVirtualMachin
 type LookupVirtualMachineScaleSetArgs struct {
 	// The expand expression to apply on the operation. 'UserData' retrieves the UserData property of the VM scale set that was provided by the user during the VM scale set Create/Update operation
 	Expand *string `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the VM scale set.
 	VmScaleSetName string `pulumi:"vmScaleSetName"`
@@ -53,13 +53,13 @@ type LookupVirtualMachineScaleSetResult struct {
 	ExtendedLocation *ExtendedLocationResponse `pulumi:"extendedLocation"`
 	// Specifies information about the dedicated host group that the virtual machine scale set resides in. Minimum api-version: 2020-06-01.
 	HostGroup *SubResourceResponse `pulumi:"hostGroup"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The identity of the virtual machine scale set, if configured.
 	Identity *VirtualMachineScaleSetIdentityResponse `pulumi:"identity"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Specifies the orchestration mode for the virtual machine scale set.
 	OrchestrationMode *string `pulumi:"orchestrationMode"`
@@ -89,11 +89,13 @@ type LookupVirtualMachineScaleSetResult struct {
 	SkuProfile *SkuProfileResponse `pulumi:"skuProfile"`
 	// Specifies the Spot Restore properties for the virtual machine scale set.
 	SpotRestorePolicy *SpotRestorePolicyResponse `pulumi:"spotRestorePolicy"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Specifies the time at which the Virtual Machine Scale Set resource was created. Minimum api-version: 2021-11-01.
 	TimeCreated string `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
 	UniqueId string `pulumi:"uniqueId"`
@@ -105,7 +107,7 @@ type LookupVirtualMachineScaleSetResult struct {
 	ZonalPlatformFaultDomainAlignMode *string `pulumi:"zonalPlatformFaultDomainAlignMode"`
 	// Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no zones or only one zone specified, then zoneBalance property should not be set.
 	ZoneBalance *bool `pulumi:"zoneBalance"`
-	// The virtual machine scale set zones.
+	// The availability zones.
 	Zones []string `pulumi:"zones"`
 }
 
@@ -121,7 +123,7 @@ func LookupVirtualMachineScaleSetOutput(ctx *pulumi.Context, args LookupVirtualM
 type LookupVirtualMachineScaleSetOutputArgs struct {
 	// The expand expression to apply on the operation. 'UserData' retrieves the UserData property of the VM scale set that was provided by the user during the VM scale set Create/Update operation
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the VM scale set.
 	VmScaleSetName pulumi.StringInput `pulumi:"vmScaleSetName"`
@@ -190,7 +192,7 @@ func (o LookupVirtualMachineScaleSetResultOutput) HostGroup() SubResourceRespons
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) *SubResourceResponse { return v.HostGroup }).(SubResourceResponsePtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupVirtualMachineScaleSetResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -200,12 +202,12 @@ func (o LookupVirtualMachineScaleSetResultOutput) Identity() VirtualMachineScale
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) *VirtualMachineScaleSetIdentityResponse { return v.Identity }).(VirtualMachineScaleSetIdentityResponsePtrOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupVirtualMachineScaleSetResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupVirtualMachineScaleSetResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -282,7 +284,12 @@ func (o LookupVirtualMachineScaleSetResultOutput) SpotRestorePolicy() SpotRestor
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) *SpotRestorePolicyResponse { return v.SpotRestorePolicy }).(SpotRestorePolicyResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupVirtualMachineScaleSetResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupVirtualMachineScaleSetResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -292,7 +299,7 @@ func (o LookupVirtualMachineScaleSetResultOutput) TimeCreated() pulumi.StringOut
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) string { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupVirtualMachineScaleSetResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) string { return v.Type }).(pulumi.StringOutput)
 }
@@ -324,7 +331,7 @@ func (o LookupVirtualMachineScaleSetResultOutput) ZoneBalance() pulumi.BoolPtrOu
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) *bool { return v.ZoneBalance }).(pulumi.BoolPtrOutput)
 }
 
-// The virtual machine scale set zones.
+// The availability zones.
 func (o LookupVirtualMachineScaleSetResultOutput) Zones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetResult) []string { return v.Zones }).(pulumi.StringArrayOutput)
 }

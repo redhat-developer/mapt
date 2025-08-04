@@ -1019,123 +1019,123 @@ func (in *cloudServiceUpgradeModePtr) ToCloudServiceUpgradeModePtrOutputWithCont
 }
 
 // The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-type ComponentNames string
+type ComponentName string
 
 const (
-	ComponentNames_Microsoft_Windows_Shell_Setup = ComponentNames("Microsoft-Windows-Shell-Setup")
+	ComponentName_Microsoft_Windows_Shell_Setup = ComponentName("Microsoft-Windows-Shell-Setup")
 )
 
-func (ComponentNames) ElementType() reflect.Type {
-	return reflect.TypeOf((*ComponentNames)(nil)).Elem()
+func (ComponentName) ElementType() reflect.Type {
+	return reflect.TypeOf((*ComponentName)(nil)).Elem()
 }
 
-func (e ComponentNames) ToComponentNamesOutput() ComponentNamesOutput {
-	return pulumi.ToOutput(e).(ComponentNamesOutput)
+func (e ComponentName) ToComponentNameOutput() ComponentNameOutput {
+	return pulumi.ToOutput(e).(ComponentNameOutput)
 }
 
-func (e ComponentNames) ToComponentNamesOutputWithContext(ctx context.Context) ComponentNamesOutput {
-	return pulumi.ToOutputWithContext(ctx, e).(ComponentNamesOutput)
+func (e ComponentName) ToComponentNameOutputWithContext(ctx context.Context) ComponentNameOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ComponentNameOutput)
 }
 
-func (e ComponentNames) ToComponentNamesPtrOutput() ComponentNamesPtrOutput {
-	return e.ToComponentNamesPtrOutputWithContext(context.Background())
+func (e ComponentName) ToComponentNamePtrOutput() ComponentNamePtrOutput {
+	return e.ToComponentNamePtrOutputWithContext(context.Background())
 }
 
-func (e ComponentNames) ToComponentNamesPtrOutputWithContext(ctx context.Context) ComponentNamesPtrOutput {
-	return ComponentNames(e).ToComponentNamesOutputWithContext(ctx).ToComponentNamesPtrOutputWithContext(ctx)
+func (e ComponentName) ToComponentNamePtrOutputWithContext(ctx context.Context) ComponentNamePtrOutput {
+	return ComponentName(e).ToComponentNameOutputWithContext(ctx).ToComponentNamePtrOutputWithContext(ctx)
 }
 
-func (e ComponentNames) ToStringOutput() pulumi.StringOutput {
+func (e ComponentName) ToStringOutput() pulumi.StringOutput {
 	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
 }
 
-func (e ComponentNames) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+func (e ComponentName) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
 	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
 }
 
-func (e ComponentNames) ToStringPtrOutput() pulumi.StringPtrOutput {
+func (e ComponentName) ToStringPtrOutput() pulumi.StringPtrOutput {
 	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
 }
 
-func (e ComponentNames) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+func (e ComponentName) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
 	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
 }
 
-type ComponentNamesOutput struct{ *pulumi.OutputState }
+type ComponentNameOutput struct{ *pulumi.OutputState }
 
-func (ComponentNamesOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*ComponentNames)(nil)).Elem()
+func (ComponentNameOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ComponentName)(nil)).Elem()
 }
 
-func (o ComponentNamesOutput) ToComponentNamesOutput() ComponentNamesOutput {
+func (o ComponentNameOutput) ToComponentNameOutput() ComponentNameOutput {
 	return o
 }
 
-func (o ComponentNamesOutput) ToComponentNamesOutputWithContext(ctx context.Context) ComponentNamesOutput {
+func (o ComponentNameOutput) ToComponentNameOutputWithContext(ctx context.Context) ComponentNameOutput {
 	return o
 }
 
-func (o ComponentNamesOutput) ToComponentNamesPtrOutput() ComponentNamesPtrOutput {
-	return o.ToComponentNamesPtrOutputWithContext(context.Background())
+func (o ComponentNameOutput) ToComponentNamePtrOutput() ComponentNamePtrOutput {
+	return o.ToComponentNamePtrOutputWithContext(context.Background())
 }
 
-func (o ComponentNamesOutput) ToComponentNamesPtrOutputWithContext(ctx context.Context) ComponentNamesPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v ComponentNames) *ComponentNames {
+func (o ComponentNameOutput) ToComponentNamePtrOutputWithContext(ctx context.Context) ComponentNamePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ComponentName) *ComponentName {
 		return &v
-	}).(ComponentNamesPtrOutput)
+	}).(ComponentNamePtrOutput)
 }
 
-func (o ComponentNamesOutput) ToStringOutput() pulumi.StringOutput {
+func (o ComponentNameOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
 
-func (o ComponentNamesOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e ComponentNames) string {
+func (o ComponentNameOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ComponentName) string {
 		return string(e)
 	}).(pulumi.StringOutput)
 }
 
-func (o ComponentNamesOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+func (o ComponentNameOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
 	return o.ToStringPtrOutputWithContext(context.Background())
 }
 
-func (o ComponentNamesOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e ComponentNames) *string {
+func (o ComponentNameOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ComponentName) *string {
 		v := string(e)
 		return &v
 	}).(pulumi.StringPtrOutput)
 }
 
-type ComponentNamesPtrOutput struct{ *pulumi.OutputState }
+type ComponentNamePtrOutput struct{ *pulumi.OutputState }
 
-func (ComponentNamesPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**ComponentNames)(nil)).Elem()
+func (ComponentNamePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ComponentName)(nil)).Elem()
 }
 
-func (o ComponentNamesPtrOutput) ToComponentNamesPtrOutput() ComponentNamesPtrOutput {
+func (o ComponentNamePtrOutput) ToComponentNamePtrOutput() ComponentNamePtrOutput {
 	return o
 }
 
-func (o ComponentNamesPtrOutput) ToComponentNamesPtrOutputWithContext(ctx context.Context) ComponentNamesPtrOutput {
+func (o ComponentNamePtrOutput) ToComponentNamePtrOutputWithContext(ctx context.Context) ComponentNamePtrOutput {
 	return o
 }
 
-func (o ComponentNamesPtrOutput) Elem() ComponentNamesOutput {
-	return o.ApplyT(func(v *ComponentNames) ComponentNames {
+func (o ComponentNamePtrOutput) Elem() ComponentNameOutput {
+	return o.ApplyT(func(v *ComponentName) ComponentName {
 		if v != nil {
 			return *v
 		}
-		var ret ComponentNames
+		var ret ComponentName
 		return ret
-	}).(ComponentNamesOutput)
+	}).(ComponentNameOutput)
 }
 
-func (o ComponentNamesPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+func (o ComponentNamePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
 	return o.ToStringPtrOutputWithContext(context.Background())
 }
 
-func (o ComponentNamesPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ComponentNames) *string {
+func (o ComponentNamePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ComponentName) *string {
 		if e == nil {
 			return nil
 		}
@@ -1144,42 +1144,42 @@ func (o ComponentNamesPtrOutput) ToStringPtrOutputWithContext(ctx context.Contex
 	}).(pulumi.StringPtrOutput)
 }
 
-// ComponentNamesInput is an input type that accepts values of the ComponentNames enum
-// A concrete instance of `ComponentNamesInput` can be one of the following:
+// ComponentNameInput is an input type that accepts values of the ComponentName enum
+// A concrete instance of `ComponentNameInput` can be one of the following:
 //
-//	ComponentNames_Microsoft_Windows_Shell_Setup
-type ComponentNamesInput interface {
+//	ComponentName_Microsoft_Windows_Shell_Setup
+type ComponentNameInput interface {
 	pulumi.Input
 
-	ToComponentNamesOutput() ComponentNamesOutput
-	ToComponentNamesOutputWithContext(context.Context) ComponentNamesOutput
+	ToComponentNameOutput() ComponentNameOutput
+	ToComponentNameOutputWithContext(context.Context) ComponentNameOutput
 }
 
-var componentNamesPtrType = reflect.TypeOf((**ComponentNames)(nil)).Elem()
+var componentNamePtrType = reflect.TypeOf((**ComponentName)(nil)).Elem()
 
-type ComponentNamesPtrInput interface {
+type ComponentNamePtrInput interface {
 	pulumi.Input
 
-	ToComponentNamesPtrOutput() ComponentNamesPtrOutput
-	ToComponentNamesPtrOutputWithContext(context.Context) ComponentNamesPtrOutput
+	ToComponentNamePtrOutput() ComponentNamePtrOutput
+	ToComponentNamePtrOutputWithContext(context.Context) ComponentNamePtrOutput
 }
 
-type componentNamesPtr string
+type componentNamePtr string
 
-func ComponentNamesPtr(v string) ComponentNamesPtrInput {
-	return (*componentNamesPtr)(&v)
+func ComponentNamePtr(v string) ComponentNamePtrInput {
+	return (*componentNamePtr)(&v)
 }
 
-func (*componentNamesPtr) ElementType() reflect.Type {
-	return componentNamesPtrType
+func (*componentNamePtr) ElementType() reflect.Type {
+	return componentNamePtrType
 }
 
-func (in *componentNamesPtr) ToComponentNamesPtrOutput() ComponentNamesPtrOutput {
-	return pulumi.ToOutput(in).(ComponentNamesPtrOutput)
+func (in *componentNamePtr) ToComponentNamePtrOutput() ComponentNamePtrOutput {
+	return pulumi.ToOutput(in).(ComponentNamePtrOutput)
 }
 
-func (in *componentNamesPtr) ToComponentNamesPtrOutputWithContext(ctx context.Context) ComponentNamesPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, in).(ComponentNamesPtrOutput)
+func (in *componentNamePtr) ToComponentNamePtrOutputWithContext(ctx context.Context) ComponentNamePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ComponentNamePtrOutput)
 }
 
 // confidential VM encryption types
@@ -2705,9 +2705,9 @@ const (
 	DiskCreateOptionUpload = DiskCreateOption("Upload")
 	// Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.
 	DiskCreateOptionCopyStart = DiskCreateOption("CopyStart")
-	// Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId
+	// Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blobs for VM guest state specified by securityDataUri and VM metadata specified by securityMetadataUri in storage account specified by storageAccountId. The VM metadata is optional and only required for certain Confidential VM configurations and not required for Trusted Launch VM.
 	DiskCreateOptionImportSecure = DiskCreateOption("ImportSecure")
-	// Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state
+	// Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in disk, VM guest state and VM metadata. The VM metadata is optional and only required for certain Confidential VM configurations and not required for Trusted Launch VM.
 	DiskCreateOptionUploadPreparedSecure = DiskCreateOption("UploadPreparedSecure")
 	// Create a new disk by exporting from elastic san volume snapshot
 	DiskCreateOptionCopyFromSanSnapshot = DiskCreateOption("CopyFromSanSnapshot")
@@ -3218,7 +3218,7 @@ func (in *diskDeleteOptionTypesPtr) ToDiskDeleteOptionTypesPtrOutputWithContext(
 	return pulumi.ToOutputWithContext(ctx, in).(DiskDeleteOptionTypesPtrOutput)
 }
 
-// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
+// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
 type DiskDetachOptionTypes string
 
 const (
@@ -8774,123 +8774,123 @@ func (in *orchestrationModePtr) ToOrchestrationModePtrOutputWithContext(ctx cont
 }
 
 // The pass name. Currently, the only allowable value is OobeSystem.
-type PassNames string
+type PassName string
 
 const (
-	PassNamesOobeSystem = PassNames("OobeSystem")
+	PassNameOobeSystem = PassName("OobeSystem")
 )
 
-func (PassNames) ElementType() reflect.Type {
-	return reflect.TypeOf((*PassNames)(nil)).Elem()
+func (PassName) ElementType() reflect.Type {
+	return reflect.TypeOf((*PassName)(nil)).Elem()
 }
 
-func (e PassNames) ToPassNamesOutput() PassNamesOutput {
-	return pulumi.ToOutput(e).(PassNamesOutput)
+func (e PassName) ToPassNameOutput() PassNameOutput {
+	return pulumi.ToOutput(e).(PassNameOutput)
 }
 
-func (e PassNames) ToPassNamesOutputWithContext(ctx context.Context) PassNamesOutput {
-	return pulumi.ToOutputWithContext(ctx, e).(PassNamesOutput)
+func (e PassName) ToPassNameOutputWithContext(ctx context.Context) PassNameOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(PassNameOutput)
 }
 
-func (e PassNames) ToPassNamesPtrOutput() PassNamesPtrOutput {
-	return e.ToPassNamesPtrOutputWithContext(context.Background())
+func (e PassName) ToPassNamePtrOutput() PassNamePtrOutput {
+	return e.ToPassNamePtrOutputWithContext(context.Background())
 }
 
-func (e PassNames) ToPassNamesPtrOutputWithContext(ctx context.Context) PassNamesPtrOutput {
-	return PassNames(e).ToPassNamesOutputWithContext(ctx).ToPassNamesPtrOutputWithContext(ctx)
+func (e PassName) ToPassNamePtrOutputWithContext(ctx context.Context) PassNamePtrOutput {
+	return PassName(e).ToPassNameOutputWithContext(ctx).ToPassNamePtrOutputWithContext(ctx)
 }
 
-func (e PassNames) ToStringOutput() pulumi.StringOutput {
+func (e PassName) ToStringOutput() pulumi.StringOutput {
 	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
 }
 
-func (e PassNames) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+func (e PassName) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
 	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
 }
 
-func (e PassNames) ToStringPtrOutput() pulumi.StringPtrOutput {
+func (e PassName) ToStringPtrOutput() pulumi.StringPtrOutput {
 	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
 }
 
-func (e PassNames) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+func (e PassName) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
 	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
 }
 
-type PassNamesOutput struct{ *pulumi.OutputState }
+type PassNameOutput struct{ *pulumi.OutputState }
 
-func (PassNamesOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PassNames)(nil)).Elem()
+func (PassNameOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PassName)(nil)).Elem()
 }
 
-func (o PassNamesOutput) ToPassNamesOutput() PassNamesOutput {
+func (o PassNameOutput) ToPassNameOutput() PassNameOutput {
 	return o
 }
 
-func (o PassNamesOutput) ToPassNamesOutputWithContext(ctx context.Context) PassNamesOutput {
+func (o PassNameOutput) ToPassNameOutputWithContext(ctx context.Context) PassNameOutput {
 	return o
 }
 
-func (o PassNamesOutput) ToPassNamesPtrOutput() PassNamesPtrOutput {
-	return o.ToPassNamesPtrOutputWithContext(context.Background())
+func (o PassNameOutput) ToPassNamePtrOutput() PassNamePtrOutput {
+	return o.ToPassNamePtrOutputWithContext(context.Background())
 }
 
-func (o PassNamesOutput) ToPassNamesPtrOutputWithContext(ctx context.Context) PassNamesPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v PassNames) *PassNames {
+func (o PassNameOutput) ToPassNamePtrOutputWithContext(ctx context.Context) PassNamePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PassName) *PassName {
 		return &v
-	}).(PassNamesPtrOutput)
+	}).(PassNamePtrOutput)
 }
 
-func (o PassNamesOutput) ToStringOutput() pulumi.StringOutput {
+func (o PassNameOutput) ToStringOutput() pulumi.StringOutput {
 	return o.ToStringOutputWithContext(context.Background())
 }
 
-func (o PassNamesOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e PassNames) string {
+func (o PassNameOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PassName) string {
 		return string(e)
 	}).(pulumi.StringOutput)
 }
 
-func (o PassNamesOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+func (o PassNameOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
 	return o.ToStringPtrOutputWithContext(context.Background())
 }
 
-func (o PassNamesOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e PassNames) *string {
+func (o PassNameOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PassName) *string {
 		v := string(e)
 		return &v
 	}).(pulumi.StringPtrOutput)
 }
 
-type PassNamesPtrOutput struct{ *pulumi.OutputState }
+type PassNamePtrOutput struct{ *pulumi.OutputState }
 
-func (PassNamesPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PassNames)(nil)).Elem()
+func (PassNamePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PassName)(nil)).Elem()
 }
 
-func (o PassNamesPtrOutput) ToPassNamesPtrOutput() PassNamesPtrOutput {
+func (o PassNamePtrOutput) ToPassNamePtrOutput() PassNamePtrOutput {
 	return o
 }
 
-func (o PassNamesPtrOutput) ToPassNamesPtrOutputWithContext(ctx context.Context) PassNamesPtrOutput {
+func (o PassNamePtrOutput) ToPassNamePtrOutputWithContext(ctx context.Context) PassNamePtrOutput {
 	return o
 }
 
-func (o PassNamesPtrOutput) Elem() PassNamesOutput {
-	return o.ApplyT(func(v *PassNames) PassNames {
+func (o PassNamePtrOutput) Elem() PassNameOutput {
+	return o.ApplyT(func(v *PassName) PassName {
 		if v != nil {
 			return *v
 		}
-		var ret PassNames
+		var ret PassName
 		return ret
-	}).(PassNamesOutput)
+	}).(PassNameOutput)
 }
 
-func (o PassNamesPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+func (o PassNamePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
 	return o.ToStringPtrOutputWithContext(context.Background())
 }
 
-func (o PassNamesPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e *PassNames) *string {
+func (o PassNamePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *PassName) *string {
 		if e == nil {
 			return nil
 		}
@@ -8899,42 +8899,42 @@ func (o PassNamesPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pu
 	}).(pulumi.StringPtrOutput)
 }
 
-// PassNamesInput is an input type that accepts values of the PassNames enum
-// A concrete instance of `PassNamesInput` can be one of the following:
+// PassNameInput is an input type that accepts values of the PassName enum
+// A concrete instance of `PassNameInput` can be one of the following:
 //
-//	PassNamesOobeSystem
-type PassNamesInput interface {
+//	PassNameOobeSystem
+type PassNameInput interface {
 	pulumi.Input
 
-	ToPassNamesOutput() PassNamesOutput
-	ToPassNamesOutputWithContext(context.Context) PassNamesOutput
+	ToPassNameOutput() PassNameOutput
+	ToPassNameOutputWithContext(context.Context) PassNameOutput
 }
 
-var passNamesPtrType = reflect.TypeOf((**PassNames)(nil)).Elem()
+var passNamePtrType = reflect.TypeOf((**PassName)(nil)).Elem()
 
-type PassNamesPtrInput interface {
+type PassNamePtrInput interface {
 	pulumi.Input
 
-	ToPassNamesPtrOutput() PassNamesPtrOutput
-	ToPassNamesPtrOutputWithContext(context.Context) PassNamesPtrOutput
+	ToPassNamePtrOutput() PassNamePtrOutput
+	ToPassNamePtrOutputWithContext(context.Context) PassNamePtrOutput
 }
 
-type passNamesPtr string
+type passNamePtr string
 
-func PassNamesPtr(v string) PassNamesPtrInput {
-	return (*passNamesPtr)(&v)
+func PassNamePtr(v string) PassNamePtrInput {
+	return (*passNamePtr)(&v)
 }
 
-func (*passNamesPtr) ElementType() reflect.Type {
-	return passNamesPtrType
+func (*passNamePtr) ElementType() reflect.Type {
+	return passNamePtrType
 }
 
-func (in *passNamesPtr) ToPassNamesPtrOutput() PassNamesPtrOutput {
-	return pulumi.ToOutput(in).(PassNamesPtrOutput)
+func (in *passNamePtr) ToPassNamePtrOutput() PassNamePtrOutput {
+	return pulumi.ToOutput(in).(PassNamePtrOutput)
 }
 
-func (in *passNamesPtr) ToPassNamesPtrOutputWithContext(ctx context.Context) PassNamesPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, in).(PassNamesPtrOutput)
+func (in *passNamePtr) ToPassNamePtrOutputWithContext(ctx context.Context) PassNamePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(PassNamePtrOutput)
 }
 
 // Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
@@ -14971,8 +14971,8 @@ func init() {
 	pulumi.RegisterOutputType(CloudServiceSlotTypePtrOutput{})
 	pulumi.RegisterOutputType(CloudServiceUpgradeModeOutput{})
 	pulumi.RegisterOutputType(CloudServiceUpgradeModePtrOutput{})
-	pulumi.RegisterOutputType(ComponentNamesOutput{})
-	pulumi.RegisterOutputType(ComponentNamesPtrOutput{})
+	pulumi.RegisterOutputType(ComponentNameOutput{})
+	pulumi.RegisterOutputType(ComponentNamePtrOutput{})
 	pulumi.RegisterOutputType(ConfidentialVMEncryptionTypeOutput{})
 	pulumi.RegisterOutputType(ConfidentialVMEncryptionTypePtrOutput{})
 	pulumi.RegisterOutputType(ConsistencyModeTypesOutput{})
@@ -15063,8 +15063,8 @@ func init() {
 	pulumi.RegisterOutputType(OperatingSystemTypesPtrOutput{})
 	pulumi.RegisterOutputType(OrchestrationModeOutput{})
 	pulumi.RegisterOutputType(OrchestrationModePtrOutput{})
-	pulumi.RegisterOutputType(PassNamesOutput{})
-	pulumi.RegisterOutputType(PassNamesPtrOutput{})
+	pulumi.RegisterOutputType(PassNameOutput{})
+	pulumi.RegisterOutputType(PassNamePtrOutput{})
 	pulumi.RegisterOutputType(PrivateEndpointServiceConnectionStatusOutput{})
 	pulumi.RegisterOutputType(PrivateEndpointServiceConnectionStatusPtrOutput{})
 	pulumi.RegisterOutputType(ProtocolTypesOutput{})

@@ -29,9 +29,9 @@ func LookupGalleryApplication(ctx *pulumi.Context, args *LookupGalleryApplicatio
 type LookupGalleryApplicationArgs struct {
 	// The name of the gallery Application Definition to be retrieved.
 	GalleryApplicationName string `pulumi:"galleryApplicationName"`
-	// The name of the Shared Application Gallery from which the Application Definitions are to be retrieved.
+	// The name of the Shared Image Gallery.
 	GalleryName string `pulumi:"galleryName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
@@ -47,11 +47,11 @@ type LookupGalleryApplicationResult struct {
 	EndOfLifeDate *string `pulumi:"endOfLifeDate"`
 	// The Eula agreement for the gallery Application Definition.
 	Eula *string `pulumi:"eula"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The privacy statement uri.
 	PrivacyStatementUri *string `pulumi:"privacyStatementUri"`
@@ -59,9 +59,11 @@ type LookupGalleryApplicationResult struct {
 	ReleaseNoteUri *string `pulumi:"releaseNoteUri"`
 	// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
 	SupportedOSType string `pulumi:"supportedOSType"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -77,9 +79,9 @@ func LookupGalleryApplicationOutput(ctx *pulumi.Context, args LookupGalleryAppli
 type LookupGalleryApplicationOutputArgs struct {
 	// The name of the gallery Application Definition to be retrieved.
 	GalleryApplicationName pulumi.StringInput `pulumi:"galleryApplicationName"`
-	// The name of the Shared Application Gallery from which the Application Definitions are to be retrieved.
+	// The name of the Shared Image Gallery.
 	GalleryName pulumi.StringInput `pulumi:"galleryName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -129,17 +131,17 @@ func (o LookupGalleryApplicationResultOutput) Eula() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationResult) *string { return v.Eula }).(pulumi.StringPtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupGalleryApplicationResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupGalleryApplicationResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupGalleryApplicationResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -159,12 +161,17 @@ func (o LookupGalleryApplicationResultOutput) SupportedOSType() pulumi.StringOut
 	return o.ApplyT(func(v LookupGalleryApplicationResult) string { return v.SupportedOSType }).(pulumi.StringOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupGalleryApplicationResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupGalleryApplicationResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupGalleryApplicationResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupGalleryApplicationResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationResult) string { return v.Type }).(pulumi.StringOutput)
 }

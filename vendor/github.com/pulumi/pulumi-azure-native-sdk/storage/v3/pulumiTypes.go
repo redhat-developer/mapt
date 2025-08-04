@@ -15498,7 +15498,7 @@ type TriggerParameters struct {
 	IntervalUnit *IntervalUnit `pulumi:"intervalUnit"`
 	// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
 	StartFrom *string `pulumi:"startFrom"`
-	// When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
+	// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
 	StartOn *string `pulumi:"startOn"`
 }
 
@@ -15523,7 +15523,7 @@ type TriggerParametersArgs struct {
 	IntervalUnit IntervalUnitPtrInput `pulumi:"intervalUnit"`
 	// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
 	StartFrom pulumi.StringPtrInput `pulumi:"startFrom"`
-	// When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
+	// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
 	StartOn pulumi.StringPtrInput `pulumi:"startOn"`
 }
 
@@ -15574,7 +15574,7 @@ func (o TriggerParametersOutput) StartFrom() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v TriggerParameters) *string { return v.StartFrom }).(pulumi.StringPtrOutput)
 }
 
-// When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
+// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
 func (o TriggerParametersOutput) StartOn() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v TriggerParameters) *string { return v.StartOn }).(pulumi.StringPtrOutput)
 }
@@ -15589,7 +15589,7 @@ type TriggerParametersResponse struct {
 	IntervalUnit *string `pulumi:"intervalUnit"`
 	// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce'
 	StartFrom *string `pulumi:"startFrom"`
-	// When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
+	// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
 	StartOn *string `pulumi:"startOn"`
 }
 
@@ -15628,7 +15628,7 @@ func (o TriggerParametersResponseOutput) StartFrom() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v TriggerParametersResponse) *string { return v.StartFrom }).(pulumi.StringPtrOutput)
 }
 
-// When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
+// When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule'
 func (o TriggerParametersResponseOutput) StartOn() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v TriggerParametersResponse) *string { return v.StartOn }).(pulumi.StringPtrOutput)
 }

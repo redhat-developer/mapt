@@ -29,9 +29,9 @@ func LookupGalleryImage(ctx *pulumi.Context, args *LookupGalleryImageArgs, opts 
 type LookupGalleryImageArgs struct {
 	// The name of the gallery image definition to be retrieved.
 	GalleryImageName string `pulumi:"galleryImageName"`
-	// The name of the Shared Image Gallery from which the Image Definitions are to be retrieved.
+	// The name of the Shared Image Gallery.
 	GalleryName string `pulumi:"galleryName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
@@ -55,13 +55,13 @@ type LookupGalleryImageResult struct {
 	Features []GalleryImageFeatureResponse `pulumi:"features"`
 	// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *string `pulumi:"hyperVGeneration"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// This is the gallery image definition identifier.
 	Identifier GalleryImageIdentifierResponse `pulumi:"identifier"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.
 	OsState string `pulumi:"osState"`
@@ -77,9 +77,11 @@ type LookupGalleryImageResult struct {
 	Recommended *RecommendedMachineConfigurationResponse `pulumi:"recommended"`
 	// The release note uri.
 	ReleaseNoteUri *string `pulumi:"releaseNoteUri"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -95,9 +97,9 @@ func LookupGalleryImageOutput(ctx *pulumi.Context, args LookupGalleryImageOutput
 type LookupGalleryImageOutputArgs struct {
 	// The name of the gallery image definition to be retrieved.
 	GalleryImageName pulumi.StringInput `pulumi:"galleryImageName"`
-	// The name of the Shared Image Gallery from which the Image Definitions are to be retrieved.
+	// The name of the Shared Image Gallery.
 	GalleryName pulumi.StringInput `pulumi:"galleryName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -165,7 +167,7 @@ func (o LookupGalleryImageResultOutput) HyperVGeneration() pulumi.StringPtrOutpu
 	return o.ApplyT(func(v LookupGalleryImageResult) *string { return v.HyperVGeneration }).(pulumi.StringPtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupGalleryImageResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryImageResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -175,12 +177,12 @@ func (o LookupGalleryImageResultOutput) Identifier() GalleryImageIdentifierRespo
 	return o.ApplyT(func(v LookupGalleryImageResult) GalleryImageIdentifierResponse { return v.Identifier }).(GalleryImageIdentifierResponseOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupGalleryImageResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryImageResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupGalleryImageResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryImageResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -220,12 +222,17 @@ func (o LookupGalleryImageResultOutput) ReleaseNoteUri() pulumi.StringPtrOutput 
 	return o.ApplyT(func(v LookupGalleryImageResult) *string { return v.ReleaseNoteUri }).(pulumi.StringPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupGalleryImageResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupGalleryImageResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupGalleryImageResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupGalleryImageResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupGalleryImageResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryImageResult) string { return v.Type }).(pulumi.StringOutput)
 }

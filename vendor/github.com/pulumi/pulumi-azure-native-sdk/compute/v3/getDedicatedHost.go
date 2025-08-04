@@ -33,7 +33,7 @@ type LookupDedicatedHostArgs struct {
 	HostGroupName string `pulumi:"hostGroupName"`
 	// The name of the dedicated host.
 	HostName string `pulumi:"hostName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
@@ -45,15 +45,15 @@ type LookupDedicatedHostResult struct {
 	AzureApiVersion string `pulumi:"azureApiVersion"`
 	// A unique id generated and assigned to the dedicated host by the platform. Does not change throughout the lifetime of the host.
 	HostId string `pulumi:"hostId"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The dedicated host instance view.
 	InstanceView DedicatedHostInstanceViewResponse `pulumi:"instanceView"`
 	// Specifies the software license type that will be applied to the VMs deployed on the dedicated host. Possible values are: **None,** **Windows_Server_Hybrid,** **Windows_Server_Perpetual.** The default value is: **None.**
 	LicenseType *string `pulumi:"licenseType"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Fault domain of the dedicated host within a dedicated host group.
 	PlatformFaultDomain *int `pulumi:"platformFaultDomain"`
@@ -63,11 +63,13 @@ type LookupDedicatedHostResult struct {
 	ProvisioningTime string `pulumi:"provisioningTime"`
 	// SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values.
 	Sku SkuResponse `pulumi:"sku"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Specifies the time at which the Dedicated Host resource was created. Minimum api-version: 2021-11-01.
 	TimeCreated string `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// A list of references to all virtual machines in the Dedicated Host.
 	VirtualMachines []SubResourceReadOnlyResponse `pulumi:"virtualMachines"`
@@ -89,7 +91,7 @@ type LookupDedicatedHostOutputArgs struct {
 	HostGroupName pulumi.StringInput `pulumi:"hostGroupName"`
 	// The name of the dedicated host.
 	HostName pulumi.StringInput `pulumi:"hostName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -127,7 +129,7 @@ func (o LookupDedicatedHostResultOutput) HostId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) string { return v.HostId }).(pulumi.StringOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupDedicatedHostResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -142,12 +144,12 @@ func (o LookupDedicatedHostResultOutput) LicenseType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) *string { return v.LicenseType }).(pulumi.StringPtrOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupDedicatedHostResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupDedicatedHostResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -172,7 +174,12 @@ func (o LookupDedicatedHostResultOutput) Sku() SkuResponseOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) SkuResponse { return v.Sku }).(SkuResponseOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupDedicatedHostResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupDedicatedHostResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupDedicatedHostResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -182,7 +189,7 @@ func (o LookupDedicatedHostResultOutput) TimeCreated() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) string { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupDedicatedHostResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostResult) string { return v.Type }).(pulumi.StringOutput)
 }

@@ -29,13 +29,13 @@ func LookupGalleryApplicationVersion(ctx *pulumi.Context, args *LookupGalleryApp
 type LookupGalleryApplicationVersionArgs struct {
 	// The expand expression to apply on the operation.
 	Expand *string `pulumi:"expand"`
-	// The name of the gallery Application Definition in which the Application Version resides.
+	// The name of the gallery Application Definition to be retrieved.
 	GalleryApplicationName string `pulumi:"galleryApplicationName"`
 	// The name of the gallery Application Version to be retrieved.
 	GalleryApplicationVersionName string `pulumi:"galleryApplicationVersionName"`
-	// The name of the Shared Application Gallery in which the Application Definition resides.
+	// The name of the Shared Image Gallery.
 	GalleryName string `pulumi:"galleryName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
@@ -43,11 +43,11 @@ type LookupGalleryApplicationVersionArgs struct {
 type LookupGalleryApplicationVersionResult struct {
 	// The Azure API version of the resource.
 	AzureApiVersion string `pulumi:"azureApiVersion"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The provisioning state, which only appears in the response.
 	ProvisioningState string `pulumi:"provisioningState"`
@@ -57,9 +57,11 @@ type LookupGalleryApplicationVersionResult struct {
 	ReplicationStatus ReplicationStatusResponse `pulumi:"replicationStatus"`
 	// The safety profile of the Gallery Application Version.
 	SafetyProfile *GalleryApplicationVersionSafetyProfileResponse `pulumi:"safetyProfile"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -75,13 +77,13 @@ func LookupGalleryApplicationVersionOutput(ctx *pulumi.Context, args LookupGalle
 type LookupGalleryApplicationVersionOutputArgs struct {
 	// The expand expression to apply on the operation.
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
-	// The name of the gallery Application Definition in which the Application Version resides.
+	// The name of the gallery Application Definition to be retrieved.
 	GalleryApplicationName pulumi.StringInput `pulumi:"galleryApplicationName"`
 	// The name of the gallery Application Version to be retrieved.
 	GalleryApplicationVersionName pulumi.StringInput `pulumi:"galleryApplicationVersionName"`
-	// The name of the Shared Application Gallery in which the Application Definition resides.
+	// The name of the Shared Image Gallery.
 	GalleryName pulumi.StringInput `pulumi:"galleryName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -109,17 +111,17 @@ func (o LookupGalleryApplicationVersionResultOutput) AzureApiVersion() pulumi.St
 	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) string { return v.AzureApiVersion }).(pulumi.StringOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupGalleryApplicationVersionResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupGalleryApplicationVersionResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupGalleryApplicationVersionResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -148,12 +150,17 @@ func (o LookupGalleryApplicationVersionResultOutput) SafetyProfile() GalleryAppl
 	}).(GalleryApplicationVersionSafetyProfileResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupGalleryApplicationVersionResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupGalleryApplicationVersionResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupGalleryApplicationVersionResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) string { return v.Type }).(pulumi.StringOutput)
 }

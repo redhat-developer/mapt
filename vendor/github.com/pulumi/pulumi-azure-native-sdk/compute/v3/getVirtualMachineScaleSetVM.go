@@ -27,11 +27,11 @@ func LookupVirtualMachineScaleSetVM(ctx *pulumi.Context, args *LookupVirtualMach
 }
 
 type LookupVirtualMachineScaleSetVMArgs struct {
-	// The expand expression to apply on the operation. 'InstanceView' will retrieve the instance view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine. 'resiliencyView' will retrieve the instance view of the Virtual machine (if applicable) and include 'resilientVMDeletionStatus' as part of it.
+	// The expand expression to apply on the operation. 'InstanceView' will retrieve the instance view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine.
 	Expand *string `pulumi:"expand"`
 	// The instance ID of the virtual machine.
 	InstanceId string `pulumi:"instanceId"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the VM scale set.
 	VmScaleSetName string `pulumi:"vmScaleSetName"`
@@ -51,7 +51,7 @@ type LookupVirtualMachineScaleSetVMResult struct {
 	Etag string `pulumi:"etag"`
 	// Specifies the hardware settings for the virtual machine.
 	HardwareProfile *HardwareProfileResponse `pulumi:"hardwareProfile"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The identity of the virtual machine, if configured.
 	Identity *VirtualMachineIdentityResponse `pulumi:"identity"`
@@ -63,11 +63,11 @@ type LookupVirtualMachineScaleSetVMResult struct {
 	LatestModelApplied bool `pulumi:"latestModelApplied"`
 	// Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15
 	LicenseType *string `pulumi:"licenseType"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
 	// Specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine.
 	ModelDefinitionApplied string `pulumi:"modelDefinitionApplied"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Specifies the network interfaces of the virtual machine.
 	NetworkProfile *NetworkProfileResponse `pulumi:"networkProfile"`
@@ -91,11 +91,13 @@ type LookupVirtualMachineScaleSetVMResult struct {
 	Sku SkuResponse `pulumi:"sku"`
 	// Specifies the storage settings for the virtual machine disks.
 	StorageProfile *StorageProfileResponse `pulumi:"storageProfile"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01.
 	TimeCreated string `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01
 	UserData *string `pulumi:"userData"`
@@ -115,11 +117,11 @@ func LookupVirtualMachineScaleSetVMOutput(ctx *pulumi.Context, args LookupVirtua
 }
 
 type LookupVirtualMachineScaleSetVMOutputArgs struct {
-	// The expand expression to apply on the operation. 'InstanceView' will retrieve the instance view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine. 'resiliencyView' will retrieve the instance view of the Virtual machine (if applicable) and include 'resilientVMDeletionStatus' as part of it.
+	// The expand expression to apply on the operation. 'InstanceView' will retrieve the instance view of the virtual machine. 'UserData' will retrieve the UserData of the virtual machine.
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
 	// The instance ID of the virtual machine.
 	InstanceId pulumi.StringInput `pulumi:"instanceId"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the VM scale set.
 	VmScaleSetName pulumi.StringInput `pulumi:"vmScaleSetName"`
@@ -176,7 +178,7 @@ func (o LookupVirtualMachineScaleSetVMResultOutput) HardwareProfile() HardwarePr
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) *HardwareProfileResponse { return v.HardwareProfile }).(HardwareProfileResponsePtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupVirtualMachineScaleSetVMResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -208,7 +210,7 @@ func (o LookupVirtualMachineScaleSetVMResultOutput) LicenseType() pulumi.StringP
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) *string { return v.LicenseType }).(pulumi.StringPtrOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupVirtualMachineScaleSetVMResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) string { return v.Location }).(pulumi.StringOutput)
 }
@@ -218,7 +220,7 @@ func (o LookupVirtualMachineScaleSetVMResultOutput) ModelDefinitionApplied() pul
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) string { return v.ModelDefinitionApplied }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupVirtualMachineScaleSetVMResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -282,7 +284,12 @@ func (o LookupVirtualMachineScaleSetVMResultOutput) StorageProfile() StorageProf
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) *StorageProfileResponse { return v.StorageProfile }).(StorageProfileResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupVirtualMachineScaleSetVMResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupVirtualMachineScaleSetVMResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -292,7 +299,7 @@ func (o LookupVirtualMachineScaleSetVMResultOutput) TimeCreated() pulumi.StringO
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) string { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupVirtualMachineScaleSetVMResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) string { return v.Type }).(pulumi.StringOutput)
 }

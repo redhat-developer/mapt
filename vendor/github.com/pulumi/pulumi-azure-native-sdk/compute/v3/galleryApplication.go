@@ -30,9 +30,9 @@ type GalleryApplication struct {
 	EndOfLifeDate pulumi.StringPtrOutput `pulumi:"endOfLifeDate"`
 	// The Eula agreement for the gallery Application Definition.
 	Eula pulumi.StringPtrOutput `pulumi:"eula"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The privacy statement uri.
 	PrivacyStatementUri pulumi.StringPtrOutput `pulumi:"privacyStatementUri"`
@@ -40,9 +40,11 @@ type GalleryApplication struct {
 	ReleaseNoteUri pulumi.StringPtrOutput `pulumi:"releaseNoteUri"`
 	// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
 	SupportedOSType pulumi.StringOutput `pulumi:"supportedOSType"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -139,21 +141,21 @@ type galleryApplicationArgs struct {
 	EndOfLifeDate *string `pulumi:"endOfLifeDate"`
 	// The Eula agreement for the gallery Application Definition.
 	Eula *string `pulumi:"eula"`
-	// The name of the gallery Application Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
+	// The name of the gallery Application Definition to be retrieved.
 	GalleryApplicationName *string `pulumi:"galleryApplicationName"`
-	// The name of the Shared Application Gallery in which the Application Definition is to be created.
+	// The name of the Shared Image Gallery.
 	GalleryName string `pulumi:"galleryName"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
 	// The privacy statement uri.
 	PrivacyStatementUri *string `pulumi:"privacyStatementUri"`
 	// The release note uri.
 	ReleaseNoteUri *string `pulumi:"releaseNoteUri"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
 	SupportedOSType OperatingSystemTypes `pulumi:"supportedOSType"`
-	// Resource tags
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 }
 
@@ -167,21 +169,21 @@ type GalleryApplicationArgs struct {
 	EndOfLifeDate pulumi.StringPtrInput
 	// The Eula agreement for the gallery Application Definition.
 	Eula pulumi.StringPtrInput
-	// The name of the gallery Application Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
+	// The name of the gallery Application Definition to be retrieved.
 	GalleryApplicationName pulumi.StringPtrInput
-	// The name of the Shared Application Gallery in which the Application Definition is to be created.
+	// The name of the Shared Image Gallery.
 	GalleryName pulumi.StringInput
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
 	// The privacy statement uri.
 	PrivacyStatementUri pulumi.StringPtrInput
 	// The release note uri.
 	ReleaseNoteUri pulumi.StringPtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
 	SupportedOSType OperatingSystemTypesInput
-	// Resource tags
+	// Resource tags.
 	Tags pulumi.StringMapInput
 }
 
@@ -247,12 +249,12 @@ func (o GalleryApplicationOutput) Eula() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *GalleryApplication) pulumi.StringPtrOutput { return v.Eula }).(pulumi.StringPtrOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o GalleryApplicationOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *GalleryApplication) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o GalleryApplicationOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *GalleryApplication) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -272,12 +274,17 @@ func (o GalleryApplicationOutput) SupportedOSType() pulumi.StringOutput {
 	return o.ApplyT(func(v *GalleryApplication) pulumi.StringOutput { return v.SupportedOSType }).(pulumi.StringOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o GalleryApplicationOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *GalleryApplication) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o GalleryApplicationOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *GalleryApplication) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o GalleryApplicationOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *GalleryApplication) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

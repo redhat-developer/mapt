@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-03-02. In version 2.x of the Azure Native provider, it used API version 2022-07-02.
 //
-// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02, 2025-01-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type Snapshot struct {
 	pulumi.CustomResourceState
 
@@ -50,11 +50,11 @@ type Snapshot struct {
 	Incremental pulumi.BoolPtrOutput `pulumi:"incremental"`
 	// Incremental snapshots for a disk share an incremental snapshot family id. The Get Page Range Diff API can only be called on incremental snapshots with the same family id.
 	IncrementalSnapshotFamilyId pulumi.StringOutput `pulumi:"incrementalSnapshotFamilyId"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
 	// Unused. Always Null.
 	ManagedBy pulumi.StringOutput `pulumi:"managedBy"`
-	// Resource name
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Policy for accessing the disk via network.
 	NetworkAccessPolicy pulumi.StringPtrOutput `pulumi:"networkAccessPolicy"`
@@ -65,7 +65,7 @@ type Snapshot struct {
 	// Policy for controlling export on the disk.
 	PublicNetworkAccess pulumi.StringPtrOutput `pulumi:"publicNetworkAccess"`
 	// Purchase plan information for the image from which the source disk for the snapshot was originally created.
-	PurchasePlan PurchasePlanResponsePtrOutput `pulumi:"purchasePlan"`
+	PurchasePlan DiskPurchasePlanResponsePtrOutput `pulumi:"purchasePlan"`
 	// Contains the security related information for the resource.
 	SecurityProfile DiskSecurityProfileResponsePtrOutput `pulumi:"securityProfile"`
 	// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
@@ -74,11 +74,13 @@ type Snapshot struct {
 	SupportedCapabilities SupportedCapabilitiesResponsePtrOutput `pulumi:"supportedCapabilities"`
 	// Indicates the OS on a snapshot supports hibernation.
 	SupportsHibernation pulumi.BoolPtrOutput `pulumi:"supportsHibernation"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The time when the snapshot was created.
 	TimeCreated pulumi.StringOutput `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// Unique Guid identifying the resource.
 	UniqueId pulumi.StringOutput `pulumi:"uniqueId"`
@@ -161,6 +163,9 @@ func NewSnapshot(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:compute/v20240302:Snapshot"),
 		},
+		{
+			Type: pulumi.String("azure-native:compute/v20250102:Snapshot"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)
@@ -218,7 +223,7 @@ type snapshotArgs struct {
 	HyperVGeneration *string `pulumi:"hyperVGeneration"`
 	// Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
 	Incremental *bool `pulumi:"incremental"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
 	// Policy for accessing the disk via network.
 	NetworkAccessPolicy *string `pulumi:"networkAccessPolicy"`
@@ -227,8 +232,8 @@ type snapshotArgs struct {
 	// Policy for controlling export on the disk.
 	PublicNetworkAccess *string `pulumi:"publicNetworkAccess"`
 	// Purchase plan information for the image from which the source disk for the snapshot was originally created.
-	PurchasePlan *PurchasePlan `pulumi:"purchasePlan"`
-	// The name of the resource group.
+	PurchasePlan *DiskPurchasePlan `pulumi:"purchasePlan"`
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Contains the security related information for the resource.
 	SecurityProfile *DiskSecurityProfile `pulumi:"securityProfile"`
@@ -240,7 +245,7 @@ type snapshotArgs struct {
 	SupportedCapabilities *SupportedCapabilities `pulumi:"supportedCapabilities"`
 	// Indicates the OS on a snapshot supports hibernation.
 	SupportsHibernation *bool `pulumi:"supportsHibernation"`
-	// Resource tags
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 }
 
@@ -268,7 +273,7 @@ type SnapshotArgs struct {
 	HyperVGeneration pulumi.StringPtrInput
 	// Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
 	Incremental pulumi.BoolPtrInput
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
 	// Policy for accessing the disk via network.
 	NetworkAccessPolicy pulumi.StringPtrInput
@@ -277,8 +282,8 @@ type SnapshotArgs struct {
 	// Policy for controlling export on the disk.
 	PublicNetworkAccess pulumi.StringPtrInput
 	// Purchase plan information for the image from which the source disk for the snapshot was originally created.
-	PurchasePlan PurchasePlanPtrInput
-	// The name of the resource group.
+	PurchasePlan DiskPurchasePlanPtrInput
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// Contains the security related information for the resource.
 	SecurityProfile DiskSecurityProfilePtrInput
@@ -290,7 +295,7 @@ type SnapshotArgs struct {
 	SupportedCapabilities SupportedCapabilitiesPtrInput
 	// Indicates the OS on a snapshot supports hibernation.
 	SupportsHibernation pulumi.BoolPtrInput
-	// Resource tags
+	// Resource tags.
 	Tags pulumi.StringMapInput
 }
 
@@ -406,7 +411,7 @@ func (o SnapshotOutput) IncrementalSnapshotFamilyId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Snapshot) pulumi.StringOutput { return v.IncrementalSnapshotFamilyId }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o SnapshotOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *Snapshot) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
@@ -416,7 +421,7 @@ func (o SnapshotOutput) ManagedBy() pulumi.StringOutput {
 	return o.ApplyT(func(v *Snapshot) pulumi.StringOutput { return v.ManagedBy }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o SnapshotOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *Snapshot) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -442,8 +447,8 @@ func (o SnapshotOutput) PublicNetworkAccess() pulumi.StringPtrOutput {
 }
 
 // Purchase plan information for the image from which the source disk for the snapshot was originally created.
-func (o SnapshotOutput) PurchasePlan() PurchasePlanResponsePtrOutput {
-	return o.ApplyT(func(v *Snapshot) PurchasePlanResponsePtrOutput { return v.PurchasePlan }).(PurchasePlanResponsePtrOutput)
+func (o SnapshotOutput) PurchasePlan() DiskPurchasePlanResponsePtrOutput {
+	return o.ApplyT(func(v *Snapshot) DiskPurchasePlanResponsePtrOutput { return v.PurchasePlan }).(DiskPurchasePlanResponsePtrOutput)
 }
 
 // Contains the security related information for the resource.
@@ -466,7 +471,12 @@ func (o SnapshotOutput) SupportsHibernation() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *Snapshot) pulumi.BoolPtrOutput { return v.SupportsHibernation }).(pulumi.BoolPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o SnapshotOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *Snapshot) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o SnapshotOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *Snapshot) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -476,7 +486,7 @@ func (o SnapshotOutput) TimeCreated() pulumi.StringOutput {
 	return o.ApplyT(func(v *Snapshot) pulumi.StringOutput { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o SnapshotOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *Snapshot) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

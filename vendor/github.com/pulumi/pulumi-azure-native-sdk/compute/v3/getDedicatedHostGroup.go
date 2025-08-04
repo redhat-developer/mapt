@@ -31,35 +31,37 @@ type LookupDedicatedHostGroupArgs struct {
 	Expand *string `pulumi:"expand"`
 	// The name of the dedicated host group.
 	HostGroupName string `pulumi:"hostGroupName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
 // Specifies information about the dedicated host group that the dedicated hosts should be assigned to. Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group.
 type LookupDedicatedHostGroupResult struct {
 	// Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01.
-	AdditionalCapabilities *DedicatedHostGroupPropertiesResponseAdditionalCapabilities `pulumi:"additionalCapabilities"`
+	AdditionalCapabilities *DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse `pulumi:"additionalCapabilities"`
 	// The Azure API version of the resource.
 	AzureApiVersion string `pulumi:"azureApiVersion"`
 	// A list of references to all dedicated hosts in the dedicated host group.
 	Hosts []SubResourceReadOnlyResponse `pulumi:"hosts"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The dedicated host group instance view, which has the list of instance view of the dedicated hosts under the dedicated host group.
 	InstanceView DedicatedHostGroupInstanceViewResponse `pulumi:"instanceView"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Number of fault domains that the host group can span.
 	PlatformFaultDomainCount int `pulumi:"platformFaultDomainCount"`
 	// Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. Minimum api-version: 2020-06-01.
 	SupportAutomaticPlacement *bool `pulumi:"supportAutomaticPlacement"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
-	// Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone.
+	// The availability zones.
 	Zones []string `pulumi:"zones"`
 }
 
@@ -77,7 +79,7 @@ type LookupDedicatedHostGroupOutputArgs struct {
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
 	// The name of the dedicated host group.
 	HostGroupName pulumi.StringInput `pulumi:"hostGroupName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -101,10 +103,10 @@ func (o LookupDedicatedHostGroupResultOutput) ToLookupDedicatedHostGroupResultOu
 }
 
 // Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01.
-func (o LookupDedicatedHostGroupResultOutput) AdditionalCapabilities() DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput {
-	return o.ApplyT(func(v LookupDedicatedHostGroupResult) *DedicatedHostGroupPropertiesResponseAdditionalCapabilities {
+func (o LookupDedicatedHostGroupResultOutput) AdditionalCapabilities() DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput {
+	return o.ApplyT(func(v LookupDedicatedHostGroupResult) *DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse {
 		return v.AdditionalCapabilities
-	}).(DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput)
+	}).(DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput)
 }
 
 // The Azure API version of the resource.
@@ -117,7 +119,7 @@ func (o LookupDedicatedHostGroupResultOutput) Hosts() SubResourceReadOnlyRespons
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) []SubResourceReadOnlyResponse { return v.Hosts }).(SubResourceReadOnlyResponseArrayOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupDedicatedHostGroupResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -127,12 +129,12 @@ func (o LookupDedicatedHostGroupResultOutput) InstanceView() DedicatedHostGroupI
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) DedicatedHostGroupInstanceViewResponse { return v.InstanceView }).(DedicatedHostGroupInstanceViewResponseOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupDedicatedHostGroupResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupDedicatedHostGroupResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -147,17 +149,22 @@ func (o LookupDedicatedHostGroupResultOutput) SupportAutomaticPlacement() pulumi
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) *bool { return v.SupportAutomaticPlacement }).(pulumi.BoolPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupDedicatedHostGroupResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupDedicatedHostGroupResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupDedicatedHostGroupResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupDedicatedHostGroupResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) string { return v.Type }).(pulumi.StringOutput)
 }
 
-// Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone.
+// The availability zones.
 func (o LookupDedicatedHostGroupResultOutput) Zones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupDedicatedHostGroupResult) []string { return v.Zones }).(pulumi.StringArrayOutput)
 }

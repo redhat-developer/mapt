@@ -30,9 +30,9 @@ type VirtualMachineExtension struct {
 	ForceUpdateTag pulumi.StringPtrOutput `pulumi:"forceUpdateTag"`
 	// The virtual machine extension instance view.
 	InstanceView VirtualMachineExtensionInstanceViewResponsePtrOutput `pulumi:"instanceView"`
-	// Resource location
-	Location pulumi.StringPtrOutput `pulumi:"location"`
-	// Resource name
+	// The geo-location where the resource lives
+	Location pulumi.StringOutput `pulumi:"location"`
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings pulumi.AnyOutput `pulumi:"protectedSettings"`
@@ -48,9 +48,11 @@ type VirtualMachineExtension struct {
 	Settings pulumi.AnyOutput `pulumi:"settings"`
 	// Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
 	SuppressFailures pulumi.BoolPtrOutput `pulumi:"suppressFailures"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// Specifies the version of the script handler.
 	TypeHandlerVersion pulumi.StringPtrOutput `pulumi:"typeHandlerVersion"`
@@ -191,7 +193,7 @@ type virtualMachineExtensionArgs struct {
 	ForceUpdateTag *string `pulumi:"forceUpdateTag"`
 	// The virtual machine extension instance view.
 	InstanceView *VirtualMachineExtensionInstanceView `pulumi:"instanceView"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings interface{} `pulumi:"protectedSettings"`
@@ -201,13 +203,13 @@ type virtualMachineExtensionArgs struct {
 	ProvisionAfterExtensions []string `pulumi:"provisionAfterExtensions"`
 	// The name of the extension handler publisher.
 	Publisher *string `pulumi:"publisher"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Json formatted public settings for the extension.
 	Settings interface{} `pulumi:"settings"`
 	// Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
 	SuppressFailures *bool `pulumi:"suppressFailures"`
-	// Resource tags
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Specifies the type of the extension; an example is "CustomScriptExtension".
 	Type *string `pulumi:"type"`
@@ -215,7 +217,7 @@ type virtualMachineExtensionArgs struct {
 	TypeHandlerVersion *string `pulumi:"typeHandlerVersion"`
 	// The name of the virtual machine extension.
 	VmExtensionName *string `pulumi:"vmExtensionName"`
-	// The name of the virtual machine where the extension should be created or updated.
+	// The name of the virtual machine.
 	VmName string `pulumi:"vmName"`
 }
 
@@ -229,7 +231,7 @@ type VirtualMachineExtensionArgs struct {
 	ForceUpdateTag pulumi.StringPtrInput
 	// The virtual machine extension instance view.
 	InstanceView VirtualMachineExtensionInstanceViewPtrInput
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings pulumi.Input
@@ -239,13 +241,13 @@ type VirtualMachineExtensionArgs struct {
 	ProvisionAfterExtensions pulumi.StringArrayInput
 	// The name of the extension handler publisher.
 	Publisher pulumi.StringPtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// Json formatted public settings for the extension.
 	Settings pulumi.Input
 	// Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
 	SuppressFailures pulumi.BoolPtrInput
-	// Resource tags
+	// Resource tags.
 	Tags pulumi.StringMapInput
 	// Specifies the type of the extension; an example is "CustomScriptExtension".
 	Type pulumi.StringPtrInput
@@ -253,7 +255,7 @@ type VirtualMachineExtensionArgs struct {
 	TypeHandlerVersion pulumi.StringPtrInput
 	// The name of the virtual machine extension.
 	VmExtensionName pulumi.StringPtrInput
-	// The name of the virtual machine where the extension should be created or updated.
+	// The name of the virtual machine.
 	VmName pulumi.StringInput
 }
 
@@ -321,12 +323,12 @@ func (o VirtualMachineExtensionOutput) InstanceView() VirtualMachineExtensionIns
 	}).(VirtualMachineExtensionInstanceViewResponsePtrOutput)
 }
 
-// Resource location
-func (o VirtualMachineExtensionOutput) Location() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *VirtualMachineExtension) pulumi.StringPtrOutput { return v.Location }).(pulumi.StringPtrOutput)
+// The geo-location where the resource lives
+func (o VirtualMachineExtensionOutput) Location() pulumi.StringOutput {
+	return o.ApplyT(func(v *VirtualMachineExtension) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o VirtualMachineExtensionOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachineExtension) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -368,12 +370,17 @@ func (o VirtualMachineExtensionOutput) SuppressFailures() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *VirtualMachineExtension) pulumi.BoolPtrOutput { return v.SuppressFailures }).(pulumi.BoolPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o VirtualMachineExtensionOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *VirtualMachineExtension) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o VirtualMachineExtensionOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VirtualMachineExtension) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o VirtualMachineExtensionOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachineExtension) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

@@ -27,7 +27,7 @@ func LookupSshPublicKey(ctx *pulumi.Context, args *LookupSshPublicKeyArgs, opts 
 }
 
 type LookupSshPublicKeyArgs struct {
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the SSH public key.
 	SshPublicKeyName string `pulumi:"sshPublicKeyName"`
@@ -37,17 +37,19 @@ type LookupSshPublicKeyArgs struct {
 type LookupSshPublicKeyResult struct {
 	// The Azure API version of the resource.
 	AzureApiVersion string `pulumi:"azureApiVersion"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// SSH public key used to authenticate to a virtual machine through ssh. If this property is not initially provided when the resource is created, the publicKey property will be populated when generateKeyPair is called. If the public key is provided upon resource creation, the provided public key needs to be at least 2048-bit and in ssh-rsa format.
 	PublicKey *string `pulumi:"publicKey"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -61,7 +63,7 @@ func LookupSshPublicKeyOutput(ctx *pulumi.Context, args LookupSshPublicKeyOutput
 }
 
 type LookupSshPublicKeyOutputArgs struct {
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the SSH public key.
 	SshPublicKeyName pulumi.StringInput `pulumi:"sshPublicKeyName"`
@@ -91,17 +93,17 @@ func (o LookupSshPublicKeyResultOutput) AzureApiVersion() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSshPublicKeyResult) string { return v.AzureApiVersion }).(pulumi.StringOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupSshPublicKeyResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSshPublicKeyResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupSshPublicKeyResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSshPublicKeyResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupSshPublicKeyResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSshPublicKeyResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -111,12 +113,17 @@ func (o LookupSshPublicKeyResultOutput) PublicKey() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupSshPublicKeyResult) *string { return v.PublicKey }).(pulumi.StringPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupSshPublicKeyResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupSshPublicKeyResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupSshPublicKeyResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupSshPublicKeyResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupSshPublicKeyResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSshPublicKeyResult) string { return v.Type }).(pulumi.StringOutput)
 }

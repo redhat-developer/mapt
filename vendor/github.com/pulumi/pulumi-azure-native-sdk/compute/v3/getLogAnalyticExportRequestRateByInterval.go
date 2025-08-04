@@ -43,7 +43,7 @@ type GetLogAnalyticExportRequestRateByIntervalArgs struct {
 	GroupByUserAgent *bool `pulumi:"groupByUserAgent"`
 	// Interval value in minutes used to create LogAnalytics call rate logs.
 	IntervalLength IntervalInMins `pulumi:"intervalLength"`
-	// The location upon which virtual-machine-sizes is queried.
+	// The name of Azure region.
 	Location string `pulumi:"location"`
 	// To time of the query
 	ToTime string `pulumi:"toTime"`
@@ -81,7 +81,7 @@ type GetLogAnalyticExportRequestRateByIntervalOutputArgs struct {
 	GroupByUserAgent pulumi.BoolPtrInput `pulumi:"groupByUserAgent"`
 	// Interval value in minutes used to create LogAnalytics call rate logs.
 	IntervalLength IntervalInMinsInput `pulumi:"intervalLength"`
-	// The location upon which virtual-machine-sizes is queried.
+	// The name of Azure region.
 	Location pulumi.StringInput `pulumi:"location"`
 	// To time of the query
 	ToTime pulumi.StringInput `pulumi:"toTime"`

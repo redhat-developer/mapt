@@ -40,9 +40,9 @@ type GalleryImage struct {
 	HyperVGeneration pulumi.StringPtrOutput `pulumi:"hyperVGeneration"`
 	// This is the gallery image definition identifier.
 	Identifier GalleryImageIdentifierResponseOutput `pulumi:"identifier"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.
 	OsState pulumi.StringOutput `pulumi:"osState"`
@@ -58,9 +58,11 @@ type GalleryImage struct {
 	Recommended RecommendedMachineConfigurationResponsePtrOutput `pulumi:"recommended"`
 	// The release note uri.
 	ReleaseNoteUri pulumi.StringPtrOutput `pulumi:"releaseNoteUri"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -172,15 +174,15 @@ type galleryImageArgs struct {
 	Eula *string `pulumi:"eula"`
 	// A list of gallery image features.
 	Features []GalleryImageFeature `pulumi:"features"`
-	// The name of the gallery image definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
+	// The name of the gallery image definition to be retrieved.
 	GalleryImageName *string `pulumi:"galleryImageName"`
-	// The name of the Shared Image Gallery in which the Image Definition is to be created.
+	// The name of the Shared Image Gallery.
 	GalleryName string `pulumi:"galleryName"`
 	// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *string `pulumi:"hyperVGeneration"`
 	// This is the gallery image definition identifier.
 	Identifier GalleryImageIdentifier `pulumi:"identifier"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
 	// This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.
 	OsState OperatingSystemStateTypes `pulumi:"osState"`
@@ -194,9 +196,9 @@ type galleryImageArgs struct {
 	Recommended *RecommendedMachineConfiguration `pulumi:"recommended"`
 	// The release note uri.
 	ReleaseNoteUri *string `pulumi:"releaseNoteUri"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
-	// Resource tags
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 }
 
@@ -216,15 +218,15 @@ type GalleryImageArgs struct {
 	Eula pulumi.StringPtrInput
 	// A list of gallery image features.
 	Features GalleryImageFeatureArrayInput
-	// The name of the gallery image definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
+	// The name of the gallery image definition to be retrieved.
 	GalleryImageName pulumi.StringPtrInput
-	// The name of the Shared Image Gallery in which the Image Definition is to be created.
+	// The name of the Shared Image Gallery.
 	GalleryName pulumi.StringInput
 	// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration pulumi.StringPtrInput
 	// This is the gallery image definition identifier.
 	Identifier GalleryImageIdentifierInput
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
 	// This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'.
 	OsState OperatingSystemStateTypesInput
@@ -238,9 +240,9 @@ type GalleryImageArgs struct {
 	Recommended RecommendedMachineConfigurationPtrInput
 	// The release note uri.
 	ReleaseNoteUri pulumi.StringPtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
-	// Resource tags
+	// Resource tags.
 	Tags pulumi.StringMapInput
 }
 
@@ -331,12 +333,12 @@ func (o GalleryImageOutput) Identifier() GalleryImageIdentifierResponseOutput {
 	return o.ApplyT(func(v *GalleryImage) GalleryImageIdentifierResponseOutput { return v.Identifier }).(GalleryImageIdentifierResponseOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o GalleryImageOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *GalleryImage) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o GalleryImageOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *GalleryImage) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -376,12 +378,17 @@ func (o GalleryImageOutput) ReleaseNoteUri() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *GalleryImage) pulumi.StringPtrOutput { return v.ReleaseNoteUri }).(pulumi.StringPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o GalleryImageOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *GalleryImage) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o GalleryImageOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *GalleryImage) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o GalleryImageOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *GalleryImage) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

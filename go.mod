@@ -24,13 +24,13 @@ require (
 	github.com/pulumi/pulumi-aws-native/sdk v1.31.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.2.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.0.0
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.5.1
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.5.1
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.5.1
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.5.1
-	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.5.1
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.5.1
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.5.1
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.6.1
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.6.1
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.6.1
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.6.1
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.6.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.6.1
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.6.1
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.1
 	golang.org/x/exp v0.0.0-20250718183923-645b1fa84792
 )
@@ -44,7 +44,7 @@ require (
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx v0.1.6 // indirect
 	github.com/pgavlin/fx/v2 v2.0.10 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.5.1 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.6.1 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
@@ -116,7 +116,7 @@ require (
 	github.com/pjbgf/sha1cd v0.4.0 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
-	github.com/pulumi/esc v0.16.0 // indirect
+	github.com/pulumi/esc v0.17.0 // indirect
 	// github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12 // indirect
 	github.com/sagikazarmark/locafero v0.10.0 // indirect
 	github.com/skeema/knownhosts v1.3.1 // indirect

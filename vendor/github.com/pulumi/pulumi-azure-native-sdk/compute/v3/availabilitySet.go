@@ -22,9 +22,9 @@ type AvailabilitySet struct {
 
 	// The Azure API version of the resource.
 	AzureApiVersion pulumi.StringOutput `pulumi:"azureApiVersion"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Fault Domain count.
 	PlatformFaultDomainCount pulumi.IntPtrOutput `pulumi:"platformFaultDomainCount"`
@@ -38,9 +38,11 @@ type AvailabilitySet struct {
 	Sku SkuResponsePtrOutput `pulumi:"sku"`
 	// The resource status information.
 	Statuses InstanceViewStatusResponseArrayOutput `pulumi:"statuses"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// Describes the migration properties on the Availability Set.
 	VirtualMachineScaleSetMigrationInfo VirtualMachineScaleSetMigrationInfoResponseOutput `pulumi:"virtualMachineScaleSetMigrationInfo"`
@@ -174,7 +176,7 @@ func (AvailabilitySetState) ElementType() reflect.Type {
 type availabilitySetArgs struct {
 	// The name of the availability set.
 	AvailabilitySetName *string `pulumi:"availabilitySetName"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
 	// Fault Domain count.
 	PlatformFaultDomainCount *int `pulumi:"platformFaultDomainCount"`
@@ -182,13 +184,13 @@ type availabilitySetArgs struct {
 	PlatformUpdateDomainCount *int `pulumi:"platformUpdateDomainCount"`
 	// Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01.
 	ProximityPlacementGroup *SubResource `pulumi:"proximityPlacementGroup"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set.
 	ScheduledEventsPolicy *ScheduledEventsPolicy `pulumi:"scheduledEventsPolicy"`
 	// Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'.
 	Sku *Sku `pulumi:"sku"`
-	// Resource tags
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// A list of references to all virtual machines in the availability set.
 	VirtualMachines []SubResource `pulumi:"virtualMachines"`
@@ -198,7 +200,7 @@ type availabilitySetArgs struct {
 type AvailabilitySetArgs struct {
 	// The name of the availability set.
 	AvailabilitySetName pulumi.StringPtrInput
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
 	// Fault Domain count.
 	PlatformFaultDomainCount pulumi.IntPtrInput
@@ -206,13 +208,13 @@ type AvailabilitySetArgs struct {
 	PlatformUpdateDomainCount pulumi.IntPtrInput
 	// Specifies information about the proximity placement group that the availability set should be assigned to. Minimum api-version: 2018-04-01.
 	ProximityPlacementGroup SubResourcePtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set.
 	ScheduledEventsPolicy ScheduledEventsPolicyPtrInput
 	// Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'.
 	Sku SkuPtrInput
-	// Resource tags
+	// Resource tags.
 	Tags pulumi.StringMapInput
 	// A list of references to all virtual machines in the availability set.
 	VirtualMachines SubResourceArrayInput
@@ -260,12 +262,12 @@ func (o AvailabilitySetOutput) AzureApiVersion() pulumi.StringOutput {
 	return o.ApplyT(func(v *AvailabilitySet) pulumi.StringOutput { return v.AzureApiVersion }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o AvailabilitySetOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *AvailabilitySet) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o AvailabilitySetOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *AvailabilitySet) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -300,12 +302,17 @@ func (o AvailabilitySetOutput) Statuses() InstanceViewStatusResponseArrayOutput 
 	return o.ApplyT(func(v *AvailabilitySet) InstanceViewStatusResponseArrayOutput { return v.Statuses }).(InstanceViewStatusResponseArrayOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o AvailabilitySetOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *AvailabilitySet) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o AvailabilitySetOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *AvailabilitySet) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o AvailabilitySetOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *AvailabilitySet) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }
