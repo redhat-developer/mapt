@@ -29,7 +29,7 @@ func LookupRestorePointCollection(ctx *pulumi.Context, args *LookupRestorePointC
 type LookupRestorePointCollectionArgs struct {
 	// The expand expression to apply on the operation. If expand=restorePoints, server will return all contained restore points in the restorePointCollection.
 	Expand *string `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the restore point collection.
 	RestorePointCollectionName string `pulumi:"restorePointCollectionName"`
@@ -39,11 +39,11 @@ type LookupRestorePointCollectionArgs struct {
 type LookupRestorePointCollectionResult struct {
 	// The Azure API version of the resource.
 	AzureApiVersion string `pulumi:"azureApiVersion"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The provisioning state of the restore point collection.
 	ProvisioningState string `pulumi:"provisioningState"`
@@ -53,9 +53,11 @@ type LookupRestorePointCollectionResult struct {
 	RestorePoints []RestorePointResponse `pulumi:"restorePoints"`
 	// The properties of the source resource that this restore point collection is created from.
 	Source *RestorePointCollectionSourcePropertiesResponse `pulumi:"source"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -71,7 +73,7 @@ func LookupRestorePointCollectionOutput(ctx *pulumi.Context, args LookupRestoreP
 type LookupRestorePointCollectionOutputArgs struct {
 	// The expand expression to apply on the operation. If expand=restorePoints, server will return all contained restore points in the restorePointCollection.
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the restore point collection.
 	RestorePointCollectionName pulumi.StringInput `pulumi:"restorePointCollectionName"`
@@ -101,17 +103,17 @@ func (o LookupRestorePointCollectionResultOutput) AzureApiVersion() pulumi.Strin
 	return o.ApplyT(func(v LookupRestorePointCollectionResult) string { return v.AzureApiVersion }).(pulumi.StringOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupRestorePointCollectionResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRestorePointCollectionResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupRestorePointCollectionResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRestorePointCollectionResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupRestorePointCollectionResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRestorePointCollectionResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -138,12 +140,17 @@ func (o LookupRestorePointCollectionResultOutput) Source() RestorePointCollectio
 	}).(RestorePointCollectionSourcePropertiesResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupRestorePointCollectionResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupRestorePointCollectionResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupRestorePointCollectionResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupRestorePointCollectionResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupRestorePointCollectionResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRestorePointCollectionResult) string { return v.Type }).(pulumi.StringOutput)
 }

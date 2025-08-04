@@ -28,7 +28,7 @@ type VirtualMachineScaleSetExtension struct {
 	EnableAutomaticUpgrade pulumi.BoolPtrOutput `pulumi:"enableAutomaticUpgrade"`
 	// If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.
 	ForceUpdateTag pulumi.StringPtrOutput `pulumi:"forceUpdateTag"`
-	// The name of the extension.
+	// Resource name
 	Name pulumi.StringPtrOutput `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings pulumi.AnyOutput `pulumi:"protectedSettings"`
@@ -174,7 +174,7 @@ type virtualMachineScaleSetExtensionArgs struct {
 	EnableAutomaticUpgrade *bool `pulumi:"enableAutomaticUpgrade"`
 	// If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.
 	ForceUpdateTag *string `pulumi:"forceUpdateTag"`
-	// The name of the extension.
+	// Resource name
 	Name *string `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings interface{} `pulumi:"protectedSettings"`
@@ -184,7 +184,7 @@ type virtualMachineScaleSetExtensionArgs struct {
 	ProvisionAfterExtensions []string `pulumi:"provisionAfterExtensions"`
 	// The name of the extension handler publisher.
 	Publisher *string `pulumi:"publisher"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Json formatted public settings for the extension.
 	Settings interface{} `pulumi:"settings"`
@@ -194,7 +194,7 @@ type virtualMachineScaleSetExtensionArgs struct {
 	Type *string `pulumi:"type"`
 	// Specifies the version of the script handler.
 	TypeHandlerVersion *string `pulumi:"typeHandlerVersion"`
-	// The name of the VM scale set where the extension should be create or updated.
+	// The name of the VM scale set.
 	VmScaleSetName string `pulumi:"vmScaleSetName"`
 	// The name of the VM scale set extension.
 	VmssExtensionName *string `pulumi:"vmssExtensionName"`
@@ -208,7 +208,7 @@ type VirtualMachineScaleSetExtensionArgs struct {
 	EnableAutomaticUpgrade pulumi.BoolPtrInput
 	// If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.
 	ForceUpdateTag pulumi.StringPtrInput
-	// The name of the extension.
+	// Resource name
 	Name pulumi.StringPtrInput
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings pulumi.Input
@@ -218,7 +218,7 @@ type VirtualMachineScaleSetExtensionArgs struct {
 	ProvisionAfterExtensions pulumi.StringArrayInput
 	// The name of the extension handler publisher.
 	Publisher pulumi.StringPtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// Json formatted public settings for the extension.
 	Settings pulumi.Input
@@ -228,7 +228,7 @@ type VirtualMachineScaleSetExtensionArgs struct {
 	Type pulumi.StringPtrInput
 	// Specifies the version of the script handler.
 	TypeHandlerVersion pulumi.StringPtrInput
-	// The name of the VM scale set where the extension should be create or updated.
+	// The name of the VM scale set.
 	VmScaleSetName pulumi.StringInput
 	// The name of the VM scale set extension.
 	VmssExtensionName pulumi.StringPtrInput
@@ -291,7 +291,7 @@ func (o VirtualMachineScaleSetExtensionOutput) ForceUpdateTag() pulumi.StringPtr
 	return o.ApplyT(func(v *VirtualMachineScaleSetExtension) pulumi.StringPtrOutput { return v.ForceUpdateTag }).(pulumi.StringPtrOutput)
 }
 
-// The name of the extension.
+// Resource name
 func (o VirtualMachineScaleSetExtensionOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VirtualMachineScaleSetExtension) pulumi.StringPtrOutput { return v.Name }).(pulumi.StringPtrOutput)
 }

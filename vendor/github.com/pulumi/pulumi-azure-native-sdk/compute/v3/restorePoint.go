@@ -28,7 +28,7 @@ type RestorePoint struct {
 	ExcludeDisks ApiEntityReferenceResponseArrayOutput `pulumi:"excludeDisks"`
 	// The restore point instance view.
 	InstanceView RestorePointInstanceViewResponseOutput `pulumi:"instanceView"`
-	// Resource name
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Gets the provisioning state of the restore point.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
@@ -36,9 +36,11 @@ type RestorePoint struct {
 	SourceMetadata RestorePointSourceMetadataResponsePtrOutput `pulumi:"sourceMetadata"`
 	// Resource Id of the source restore point from which a copy needs to be created.
 	SourceRestorePoint ApiEntityReferenceResponsePtrOutput `pulumi:"sourceRestorePoint"`
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// Gets the creation time of the restore point.
 	TimeCreated pulumi.StringPtrOutput `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -134,7 +136,7 @@ type restorePointArgs struct {
 	ConsistencyMode *string `pulumi:"consistencyMode"`
 	// List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included.
 	ExcludeDisks []ApiEntityReference `pulumi:"excludeDisks"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the restore point collection.
 	RestorePointCollectionName string `pulumi:"restorePointCollectionName"`
@@ -154,7 +156,7 @@ type RestorePointArgs struct {
 	ConsistencyMode pulumi.StringPtrInput
 	// List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included.
 	ExcludeDisks ApiEntityReferenceArrayInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// The name of the restore point collection.
 	RestorePointCollectionName pulumi.StringInput
@@ -225,7 +227,7 @@ func (o RestorePointOutput) InstanceView() RestorePointInstanceViewResponseOutpu
 	return o.ApplyT(func(v *RestorePoint) RestorePointInstanceViewResponseOutput { return v.InstanceView }).(RestorePointInstanceViewResponseOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o RestorePointOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *RestorePoint) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -245,12 +247,17 @@ func (o RestorePointOutput) SourceRestorePoint() ApiEntityReferenceResponsePtrOu
 	return o.ApplyT(func(v *RestorePoint) ApiEntityReferenceResponsePtrOutput { return v.SourceRestorePoint }).(ApiEntityReferenceResponsePtrOutput)
 }
 
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o RestorePointOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *RestorePoint) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
 // Gets the creation time of the restore point.
 func (o RestorePointOutput) TimeCreated() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *RestorePoint) pulumi.StringPtrOutput { return v.TimeCreated }).(pulumi.StringPtrOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o RestorePointOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *RestorePoint) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

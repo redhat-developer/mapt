@@ -29,11 +29,11 @@ func LookupVirtualMachineExtension(ctx *pulumi.Context, args *LookupVirtualMachi
 type LookupVirtualMachineExtensionArgs struct {
 	// The expand expression to apply on the operation.
 	Expand *string `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the virtual machine extension.
 	VmExtensionName string `pulumi:"vmExtensionName"`
-	// The name of the virtual machine containing the extension.
+	// The name of the virtual machine.
 	VmName string `pulumi:"vmName"`
 }
 
@@ -47,13 +47,13 @@ type LookupVirtualMachineExtensionResult struct {
 	EnableAutomaticUpgrade *bool `pulumi:"enableAutomaticUpgrade"`
 	// How the extension handler should be forced to update even if the extension configuration has not changed.
 	ForceUpdateTag *string `pulumi:"forceUpdateTag"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The virtual machine extension instance view.
 	InstanceView *VirtualMachineExtensionInstanceViewResponse `pulumi:"instanceView"`
-	// Resource location
-	Location *string `pulumi:"location"`
-	// Resource name
+	// The geo-location where the resource lives
+	Location string `pulumi:"location"`
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings interface{} `pulumi:"protectedSettings"`
@@ -69,9 +69,11 @@ type LookupVirtualMachineExtensionResult struct {
 	Settings interface{} `pulumi:"settings"`
 	// Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
 	SuppressFailures *bool `pulumi:"suppressFailures"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// Specifies the version of the script handler.
 	TypeHandlerVersion *string `pulumi:"typeHandlerVersion"`
@@ -89,11 +91,11 @@ func LookupVirtualMachineExtensionOutput(ctx *pulumi.Context, args LookupVirtual
 type LookupVirtualMachineExtensionOutputArgs struct {
 	// The expand expression to apply on the operation.
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the virtual machine extension.
 	VmExtensionName pulumi.StringInput `pulumi:"vmExtensionName"`
-	// The name of the virtual machine containing the extension.
+	// The name of the virtual machine.
 	VmName pulumi.StringInput `pulumi:"vmName"`
 }
 
@@ -136,7 +138,7 @@ func (o LookupVirtualMachineExtensionResultOutput) ForceUpdateTag() pulumi.Strin
 	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) *string { return v.ForceUpdateTag }).(pulumi.StringPtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupVirtualMachineExtensionResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -148,12 +150,12 @@ func (o LookupVirtualMachineExtensionResultOutput) InstanceView() VirtualMachine
 	}).(VirtualMachineExtensionInstanceViewResponsePtrOutput)
 }
 
-// Resource location
-func (o LookupVirtualMachineExtensionResultOutput) Location() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) *string { return v.Location }).(pulumi.StringPtrOutput)
+// The geo-location where the resource lives
+func (o LookupVirtualMachineExtensionResultOutput) Location() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupVirtualMachineExtensionResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -195,12 +197,17 @@ func (o LookupVirtualMachineExtensionResultOutput) SuppressFailures() pulumi.Boo
 	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) *bool { return v.SuppressFailures }).(pulumi.BoolPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupVirtualMachineExtensionResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupVirtualMachineExtensionResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupVirtualMachineExtensionResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineExtensionResult) string { return v.Type }).(pulumi.StringOutput)
 }

@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-03-02. In version 2.x of the Azure Native provider, it used API version 2022-07-02.
 //
-// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02, 2025-01-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type DiskAccess struct {
 	pulumi.CustomResourceState
 
@@ -24,19 +24,21 @@ type DiskAccess struct {
 	AzureApiVersion pulumi.StringOutput `pulumi:"azureApiVersion"`
 	// The extended location where the disk access will be created. Extended location cannot be changed.
 	ExtendedLocation ExtendedLocationResponsePtrOutput `pulumi:"extendedLocation"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// A readonly collection of private endpoint connections created on the disk. Currently only one endpoint connection is supported.
 	PrivateEndpointConnections PrivateEndpointConnectionResponseArrayOutput `pulumi:"privateEndpointConnections"`
 	// The disk access resource provisioning state.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The time when the disk access was created.
 	TimeCreated pulumi.StringOutput `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -90,6 +92,9 @@ func NewDiskAccess(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:compute/v20240302:DiskAccess"),
 		},
+		{
+			Type: pulumi.String("azure-native:compute/v20250102:DiskAccess"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)
@@ -129,11 +134,11 @@ type diskAccessArgs struct {
 	DiskAccessName *string `pulumi:"diskAccessName"`
 	// The extended location where the disk access will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation `pulumi:"extendedLocation"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
-	// Resource tags
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 }
 
@@ -143,11 +148,11 @@ type DiskAccessArgs struct {
 	DiskAccessName pulumi.StringPtrInput
 	// The extended location where the disk access will be created. Extended location cannot be changed.
 	ExtendedLocation ExtendedLocationPtrInput
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
-	// Resource tags
+	// Resource tags.
 	Tags pulumi.StringMapInput
 }
 
@@ -198,12 +203,12 @@ func (o DiskAccessOutput) ExtendedLocation() ExtendedLocationResponsePtrOutput {
 	return o.ApplyT(func(v *DiskAccess) ExtendedLocationResponsePtrOutput { return v.ExtendedLocation }).(ExtendedLocationResponsePtrOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o DiskAccessOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *DiskAccess) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o DiskAccessOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *DiskAccess) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -218,7 +223,12 @@ func (o DiskAccessOutput) ProvisioningState() pulumi.StringOutput {
 	return o.ApplyT(func(v *DiskAccess) pulumi.StringOutput { return v.ProvisioningState }).(pulumi.StringOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o DiskAccessOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *DiskAccess) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o DiskAccessOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *DiskAccess) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -228,7 +238,7 @@ func (o DiskAccessOutput) TimeCreated() pulumi.StringOutput {
 	return o.ApplyT(func(v *DiskAccess) pulumi.StringOutput { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o DiskAccessOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *DiskAccess) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

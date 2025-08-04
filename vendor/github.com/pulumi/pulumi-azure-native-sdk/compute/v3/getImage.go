@@ -31,7 +31,7 @@ type LookupImageArgs struct {
 	Expand *string `pulumi:"expand"`
 	// The name of the image.
 	ImageName string `pulumi:"imageName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
@@ -43,11 +43,11 @@ type LookupImageResult struct {
 	ExtendedLocation *ExtendedLocationResponse `pulumi:"extendedLocation"`
 	// Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource.
 	HyperVGeneration *string `pulumi:"hyperVGeneration"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The provisioning state.
 	ProvisioningState string `pulumi:"provisioningState"`
@@ -55,9 +55,11 @@ type LookupImageResult struct {
 	SourceVirtualMachine *SubResourceResponse `pulumi:"sourceVirtualMachine"`
 	// Specifies the storage settings for the virtual machine disks.
 	StorageProfile *ImageStorageProfileResponse `pulumi:"storageProfile"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -75,7 +77,7 @@ type LookupImageOutputArgs struct {
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
 	// The name of the image.
 	ImageName pulumi.StringInput `pulumi:"imageName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -113,17 +115,17 @@ func (o LookupImageResultOutput) HyperVGeneration() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupImageResult) *string { return v.HyperVGeneration }).(pulumi.StringPtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupImageResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupImageResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupImageResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupImageResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupImageResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupImageResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -143,12 +145,17 @@ func (o LookupImageResultOutput) StorageProfile() ImageStorageProfileResponsePtr
 	return o.ApplyT(func(v LookupImageResult) *ImageStorageProfileResponse { return v.StorageProfile }).(ImageStorageProfileResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupImageResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupImageResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupImageResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupImageResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupImageResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupImageResult) string { return v.Type }).(pulumi.StringOutput)
 }

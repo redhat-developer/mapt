@@ -1436,11 +1436,11 @@ func (o AdditionalReplicaSetResponseArrayOutput) Index(i pulumi.IntInput) Additi
 // Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent struct {
 	// The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-	ComponentName *ComponentNames `pulumi:"componentName"`
+	ComponentName *ComponentName `pulumi:"componentName"`
 	// Specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted.
 	Content *string `pulumi:"content"`
 	// The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *PassNames `pulumi:"passName"`
+	PassName *PassName `pulumi:"passName"`
 	// Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon.
 	SettingName *SettingNames `pulumi:"settingName"`
 }
@@ -1459,11 +1459,11 @@ type AdditionalUnattendContentInput interface {
 // Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContentArgs struct {
 	// The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-	ComponentName ComponentNamesPtrInput `pulumi:"componentName"`
+	ComponentName ComponentNamePtrInput `pulumi:"componentName"`
 	// Specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted.
 	Content pulumi.StringPtrInput `pulumi:"content"`
 	// The pass name. Currently, the only allowable value is OobeSystem.
-	PassName PassNamesPtrInput `pulumi:"passName"`
+	PassName PassNamePtrInput `pulumi:"passName"`
 	// Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon.
 	SettingName SettingNamesPtrInput `pulumi:"settingName"`
 }
@@ -1521,8 +1521,8 @@ func (o AdditionalUnattendContentOutput) ToAdditionalUnattendContentOutputWithCo
 }
 
 // The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-func (o AdditionalUnattendContentOutput) ComponentName() ComponentNamesPtrOutput {
-	return o.ApplyT(func(v AdditionalUnattendContent) *ComponentNames { return v.ComponentName }).(ComponentNamesPtrOutput)
+func (o AdditionalUnattendContentOutput) ComponentName() ComponentNamePtrOutput {
+	return o.ApplyT(func(v AdditionalUnattendContent) *ComponentName { return v.ComponentName }).(ComponentNamePtrOutput)
 }
 
 // Specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted.
@@ -1531,8 +1531,8 @@ func (o AdditionalUnattendContentOutput) Content() pulumi.StringPtrOutput {
 }
 
 // The pass name. Currently, the only allowable value is OobeSystem.
-func (o AdditionalUnattendContentOutput) PassName() PassNamesPtrOutput {
-	return o.ApplyT(func(v AdditionalUnattendContent) *PassNames { return v.PassName }).(PassNamesPtrOutput)
+func (o AdditionalUnattendContentOutput) PassName() PassNamePtrOutput {
+	return o.ApplyT(func(v AdditionalUnattendContent) *PassName { return v.PassName }).(PassNamePtrOutput)
 }
 
 // Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon.
@@ -7961,7 +7961,7 @@ type DataDisk struct {
 	CreateOption string `pulumi:"createOption"`
 	// Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**.
 	DeleteOption *string `pulumi:"deleteOption"`
-	// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
+	// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
 	DetachOption *string `pulumi:"detachOption"`
 	// Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023.
 	DiskSizeGB *int `pulumi:"diskSizeGB"`
@@ -8002,7 +8002,7 @@ type DataDiskArgs struct {
 	CreateOption pulumi.StringInput `pulumi:"createOption"`
 	// Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**.
 	DeleteOption pulumi.StringPtrInput `pulumi:"deleteOption"`
-	// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
+	// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
 	DetachOption pulumi.StringPtrInput `pulumi:"detachOption"`
 	// Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023.
 	DiskSizeGB pulumi.IntPtrInput `pulumi:"diskSizeGB"`
@@ -8091,7 +8091,7 @@ func (o DataDiskOutput) DeleteOption() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v DataDisk) *string { return v.DeleteOption }).(pulumi.StringPtrOutput)
 }
 
-// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
+// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
 func (o DataDiskOutput) DetachOption() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v DataDisk) *string { return v.DetachOption }).(pulumi.StringPtrOutput)
 }
@@ -8331,7 +8331,7 @@ type DataDiskResponse struct {
 	CreateOption string `pulumi:"createOption"`
 	// Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**.
 	DeleteOption *string `pulumi:"deleteOption"`
-	// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
+	// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
 	DetachOption *string `pulumi:"detachOption"`
 	// Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
 	DiskIOPSReadWrite float64 `pulumi:"diskIOPSReadWrite"`
@@ -8387,7 +8387,7 @@ func (o DataDiskResponseOutput) DeleteOption() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v DataDiskResponse) *string { return v.DeleteOption }).(pulumi.StringPtrOutput)
 }
 
-// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
+// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
 func (o DataDiskResponseOutput) DetachOption() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v DataDiskResponse) *string { return v.DetachOption }).(pulumi.StringPtrOutput)
 }
@@ -8749,58 +8749,58 @@ func (o DedicatedHostGroupPropertiesAdditionalCapabilitiesPtrOutput) UltraSSDEna
 }
 
 // Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01.
-type DedicatedHostGroupPropertiesResponseAdditionalCapabilities struct {
+type DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse struct {
 	// The flag that enables or disables a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group. For the Virtual Machines to be UltraSSD Enabled, UltraSSDEnabled flag for the resource needs to be set true as well. The value is defaulted to 'false' when not provided. Please refer to https://docs.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd for more details on Ultra SSD feature. **Note:** The ultraSSDEnabled setting can only be enabled for Host Groups that are created as zonal. Minimum api-version: 2022-03-01.
 	UltraSSDEnabled *bool `pulumi:"ultraSSDEnabled"`
 }
 
 // Enables or disables a capability on the dedicated host group. Minimum api-version: 2022-03-01.
-type DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput struct{ *pulumi.OutputState }
+type DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput struct{ *pulumi.OutputState }
 
-func (DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*DedicatedHostGroupPropertiesResponseAdditionalCapabilities)(nil)).Elem()
+func (DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse)(nil)).Elem()
 }
 
-func (o DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput) ToDedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput() DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput {
+func (o DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput) ToDedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput() DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput {
 	return o
 }
 
-func (o DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput) ToDedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutputWithContext(ctx context.Context) DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput {
+func (o DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput) ToDedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutputWithContext(ctx context.Context) DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput {
 	return o
 }
 
 // The flag that enables or disables a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group. For the Virtual Machines to be UltraSSD Enabled, UltraSSDEnabled flag for the resource needs to be set true as well. The value is defaulted to 'false' when not provided. Please refer to https://docs.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd for more details on Ultra SSD feature. **Note:** The ultraSSDEnabled setting can only be enabled for Host Groups that are created as zonal. Minimum api-version: 2022-03-01.
-func (o DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput) UltraSSDEnabled() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v DedicatedHostGroupPropertiesResponseAdditionalCapabilities) *bool { return v.UltraSSDEnabled }).(pulumi.BoolPtrOutput)
+func (o DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput) UltraSSDEnabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse) *bool { return v.UltraSSDEnabled }).(pulumi.BoolPtrOutput)
 }
 
-type DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput struct{ *pulumi.OutputState }
+type DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput struct{ *pulumi.OutputState }
 
-func (DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**DedicatedHostGroupPropertiesResponseAdditionalCapabilities)(nil)).Elem()
+func (DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse)(nil)).Elem()
 }
 
-func (o DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput) ToDedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput() DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput {
+func (o DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput) ToDedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput() DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput {
 	return o
 }
 
-func (o DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput) ToDedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutputWithContext(ctx context.Context) DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput {
+func (o DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput) ToDedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutputWithContext(ctx context.Context) DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput {
 	return o
 }
 
-func (o DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput) Elem() DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput {
-	return o.ApplyT(func(v *DedicatedHostGroupPropertiesResponseAdditionalCapabilities) DedicatedHostGroupPropertiesResponseAdditionalCapabilities {
+func (o DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput) Elem() DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput {
+	return o.ApplyT(func(v *DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse) DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse {
 		if v != nil {
 			return *v
 		}
-		var ret DedicatedHostGroupPropertiesResponseAdditionalCapabilities
+		var ret DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse
 		return ret
-	}).(DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput)
+	}).(DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput)
 }
 
 // The flag that enables or disables a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group. For the Virtual Machines to be UltraSSD Enabled, UltraSSDEnabled flag for the resource needs to be set true as well. The value is defaulted to 'false' when not provided. Please refer to https://docs.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd for more details on Ultra SSD feature. **Note:** The ultraSSDEnabled setting can only be enabled for Host Groups that are created as zonal. Minimum api-version: 2022-03-01.
-func (o DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput) UltraSSDEnabled() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *DedicatedHostGroupPropertiesResponseAdditionalCapabilities) *bool {
+func (o DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput) UltraSSDEnabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *DedicatedHostGroupPropertiesAdditionalCapabilitiesResponse) *bool {
 		if v == nil {
 			return nil
 		}
@@ -8921,9 +8921,9 @@ func (o DedicatedHostInstanceViewWithNameResponseArrayOutput) Index(i pulumi.Int
 
 // Indicates the target Virtual Machine ScaleSet properties upon triggering a seamless migration without downtime of the VMs via the ConvertToVirtualMachineScaleSet API.
 type DefaultVirtualMachineScaleSetInfoResponse struct {
-	//  Indicates if the the maximum capacity of the default migrated Virtual Machine Scale Set after its migration will be constrained to a limited number of VMs.
+	// Indicates if the the maximum capacity of the default migrated Virtual Machine Scale Set after its migration will be constrained to a limited number of VMs.
 	ConstrainedMaximumCapacity bool `pulumi:"constrainedMaximumCapacity"`
-	//  The default Virtual Machine ScaleSet Uri that the Availability Set will be moved to upon triggering a seamless migration via the ConvertToVirtualMachineScaleSet API.
+	// The default Virtual Machine ScaleSet Uri that the Availability Set will be moved to upon triggering a seamless migration via the ConvertToVirtualMachineScaleSet API.
 	DefaultVirtualMachineScaleSet SubResourceResponse `pulumi:"defaultVirtualMachineScaleSet"`
 }
 
@@ -10140,6 +10140,314 @@ func (o DiskInstanceViewResponseArrayOutput) Index(i pulumi.IntInput) DiskInstan
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) DiskInstanceViewResponse {
 		return vs[0].([]DiskInstanceViewResponse)[vs[1].(int)]
 	}).(DiskInstanceViewResponseOutput)
+}
+
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+type DiskPurchasePlan struct {
+	// The plan ID.
+	Name string `pulumi:"name"`
+	// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+	Product string `pulumi:"product"`
+	// The Offer Promotion Code.
+	PromotionCode *string `pulumi:"promotionCode"`
+	// The publisher ID.
+	Publisher string `pulumi:"publisher"`
+}
+
+// DiskPurchasePlanInput is an input type that accepts DiskPurchasePlanArgs and DiskPurchasePlanOutput values.
+// You can construct a concrete instance of `DiskPurchasePlanInput` via:
+//
+//	DiskPurchasePlanArgs{...}
+type DiskPurchasePlanInput interface {
+	pulumi.Input
+
+	ToDiskPurchasePlanOutput() DiskPurchasePlanOutput
+	ToDiskPurchasePlanOutputWithContext(context.Context) DiskPurchasePlanOutput
+}
+
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+type DiskPurchasePlanArgs struct {
+	// The plan ID.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+	Product pulumi.StringInput `pulumi:"product"`
+	// The Offer Promotion Code.
+	PromotionCode pulumi.StringPtrInput `pulumi:"promotionCode"`
+	// The publisher ID.
+	Publisher pulumi.StringInput `pulumi:"publisher"`
+}
+
+func (DiskPurchasePlanArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*DiskPurchasePlan)(nil)).Elem()
+}
+
+func (i DiskPurchasePlanArgs) ToDiskPurchasePlanOutput() DiskPurchasePlanOutput {
+	return i.ToDiskPurchasePlanOutputWithContext(context.Background())
+}
+
+func (i DiskPurchasePlanArgs) ToDiskPurchasePlanOutputWithContext(ctx context.Context) DiskPurchasePlanOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DiskPurchasePlanOutput)
+}
+
+func (i DiskPurchasePlanArgs) ToDiskPurchasePlanPtrOutput() DiskPurchasePlanPtrOutput {
+	return i.ToDiskPurchasePlanPtrOutputWithContext(context.Background())
+}
+
+func (i DiskPurchasePlanArgs) ToDiskPurchasePlanPtrOutputWithContext(ctx context.Context) DiskPurchasePlanPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DiskPurchasePlanOutput).ToDiskPurchasePlanPtrOutputWithContext(ctx)
+}
+
+// DiskPurchasePlanPtrInput is an input type that accepts DiskPurchasePlanArgs, DiskPurchasePlanPtr and DiskPurchasePlanPtrOutput values.
+// You can construct a concrete instance of `DiskPurchasePlanPtrInput` via:
+//
+//	        DiskPurchasePlanArgs{...}
+//
+//	or:
+//
+//	        nil
+type DiskPurchasePlanPtrInput interface {
+	pulumi.Input
+
+	ToDiskPurchasePlanPtrOutput() DiskPurchasePlanPtrOutput
+	ToDiskPurchasePlanPtrOutputWithContext(context.Context) DiskPurchasePlanPtrOutput
+}
+
+type diskPurchasePlanPtrType DiskPurchasePlanArgs
+
+func DiskPurchasePlanPtr(v *DiskPurchasePlanArgs) DiskPurchasePlanPtrInput {
+	return (*diskPurchasePlanPtrType)(v)
+}
+
+func (*diskPurchasePlanPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**DiskPurchasePlan)(nil)).Elem()
+}
+
+func (i *diskPurchasePlanPtrType) ToDiskPurchasePlanPtrOutput() DiskPurchasePlanPtrOutput {
+	return i.ToDiskPurchasePlanPtrOutputWithContext(context.Background())
+}
+
+func (i *diskPurchasePlanPtrType) ToDiskPurchasePlanPtrOutputWithContext(ctx context.Context) DiskPurchasePlanPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DiskPurchasePlanPtrOutput)
+}
+
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+type DiskPurchasePlanOutput struct{ *pulumi.OutputState }
+
+func (DiskPurchasePlanOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DiskPurchasePlan)(nil)).Elem()
+}
+
+func (o DiskPurchasePlanOutput) ToDiskPurchasePlanOutput() DiskPurchasePlanOutput {
+	return o
+}
+
+func (o DiskPurchasePlanOutput) ToDiskPurchasePlanOutputWithContext(ctx context.Context) DiskPurchasePlanOutput {
+	return o
+}
+
+func (o DiskPurchasePlanOutput) ToDiskPurchasePlanPtrOutput() DiskPurchasePlanPtrOutput {
+	return o.ToDiskPurchasePlanPtrOutputWithContext(context.Background())
+}
+
+func (o DiskPurchasePlanOutput) ToDiskPurchasePlanPtrOutputWithContext(ctx context.Context) DiskPurchasePlanPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v DiskPurchasePlan) *DiskPurchasePlan {
+		return &v
+	}).(DiskPurchasePlanPtrOutput)
+}
+
+// The plan ID.
+func (o DiskPurchasePlanOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v DiskPurchasePlan) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+func (o DiskPurchasePlanOutput) Product() pulumi.StringOutput {
+	return o.ApplyT(func(v DiskPurchasePlan) string { return v.Product }).(pulumi.StringOutput)
+}
+
+// The Offer Promotion Code.
+func (o DiskPurchasePlanOutput) PromotionCode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DiskPurchasePlan) *string { return v.PromotionCode }).(pulumi.StringPtrOutput)
+}
+
+// The publisher ID.
+func (o DiskPurchasePlanOutput) Publisher() pulumi.StringOutput {
+	return o.ApplyT(func(v DiskPurchasePlan) string { return v.Publisher }).(pulumi.StringOutput)
+}
+
+type DiskPurchasePlanPtrOutput struct{ *pulumi.OutputState }
+
+func (DiskPurchasePlanPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**DiskPurchasePlan)(nil)).Elem()
+}
+
+func (o DiskPurchasePlanPtrOutput) ToDiskPurchasePlanPtrOutput() DiskPurchasePlanPtrOutput {
+	return o
+}
+
+func (o DiskPurchasePlanPtrOutput) ToDiskPurchasePlanPtrOutputWithContext(ctx context.Context) DiskPurchasePlanPtrOutput {
+	return o
+}
+
+func (o DiskPurchasePlanPtrOutput) Elem() DiskPurchasePlanOutput {
+	return o.ApplyT(func(v *DiskPurchasePlan) DiskPurchasePlan {
+		if v != nil {
+			return *v
+		}
+		var ret DiskPurchasePlan
+		return ret
+	}).(DiskPurchasePlanOutput)
+}
+
+// The plan ID.
+func (o DiskPurchasePlanPtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *DiskPurchasePlan) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+func (o DiskPurchasePlanPtrOutput) Product() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *DiskPurchasePlan) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Product
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Offer Promotion Code.
+func (o DiskPurchasePlanPtrOutput) PromotionCode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *DiskPurchasePlan) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PromotionCode
+	}).(pulumi.StringPtrOutput)
+}
+
+// The publisher ID.
+func (o DiskPurchasePlanPtrOutput) Publisher() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *DiskPurchasePlan) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Publisher
+	}).(pulumi.StringPtrOutput)
+}
+
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+type DiskPurchasePlanResponse struct {
+	// The plan ID.
+	Name string `pulumi:"name"`
+	// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+	Product string `pulumi:"product"`
+	// The Offer Promotion Code.
+	PromotionCode *string `pulumi:"promotionCode"`
+	// The publisher ID.
+	Publisher string `pulumi:"publisher"`
+}
+
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+type DiskPurchasePlanResponseOutput struct{ *pulumi.OutputState }
+
+func (DiskPurchasePlanResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DiskPurchasePlanResponse)(nil)).Elem()
+}
+
+func (o DiskPurchasePlanResponseOutput) ToDiskPurchasePlanResponseOutput() DiskPurchasePlanResponseOutput {
+	return o
+}
+
+func (o DiskPurchasePlanResponseOutput) ToDiskPurchasePlanResponseOutputWithContext(ctx context.Context) DiskPurchasePlanResponseOutput {
+	return o
+}
+
+// The plan ID.
+func (o DiskPurchasePlanResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v DiskPurchasePlanResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+func (o DiskPurchasePlanResponseOutput) Product() pulumi.StringOutput {
+	return o.ApplyT(func(v DiskPurchasePlanResponse) string { return v.Product }).(pulumi.StringOutput)
+}
+
+// The Offer Promotion Code.
+func (o DiskPurchasePlanResponseOutput) PromotionCode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DiskPurchasePlanResponse) *string { return v.PromotionCode }).(pulumi.StringPtrOutput)
+}
+
+// The publisher ID.
+func (o DiskPurchasePlanResponseOutput) Publisher() pulumi.StringOutput {
+	return o.ApplyT(func(v DiskPurchasePlanResponse) string { return v.Publisher }).(pulumi.StringOutput)
+}
+
+type DiskPurchasePlanResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (DiskPurchasePlanResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**DiskPurchasePlanResponse)(nil)).Elem()
+}
+
+func (o DiskPurchasePlanResponsePtrOutput) ToDiskPurchasePlanResponsePtrOutput() DiskPurchasePlanResponsePtrOutput {
+	return o
+}
+
+func (o DiskPurchasePlanResponsePtrOutput) ToDiskPurchasePlanResponsePtrOutputWithContext(ctx context.Context) DiskPurchasePlanResponsePtrOutput {
+	return o
+}
+
+func (o DiskPurchasePlanResponsePtrOutput) Elem() DiskPurchasePlanResponseOutput {
+	return o.ApplyT(func(v *DiskPurchasePlanResponse) DiskPurchasePlanResponse {
+		if v != nil {
+			return *v
+		}
+		var ret DiskPurchasePlanResponse
+		return ret
+	}).(DiskPurchasePlanResponseOutput)
+}
+
+// The plan ID.
+func (o DiskPurchasePlanResponsePtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *DiskPurchasePlanResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+func (o DiskPurchasePlanResponsePtrOutput) Product() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *DiskPurchasePlanResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Product
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Offer Promotion Code.
+func (o DiskPurchasePlanResponsePtrOutput) PromotionCode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *DiskPurchasePlanResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PromotionCode
+	}).(pulumi.StringPtrOutput)
+}
+
+// The publisher ID.
+func (o DiskPurchasePlanResponsePtrOutput) Publisher() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *DiskPurchasePlanResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Publisher
+	}).(pulumi.StringPtrOutput)
 }
 
 // Disk Restore Point details.
@@ -11822,7 +12130,7 @@ type EncryptionSetIdentityResponse struct {
 	// The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.
 	Type *string `pulumi:"type"`
 	// The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserAssignedIdentitiesResponseUserAssignedIdentities `pulumi:"userAssignedIdentities"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
 }
 
 // The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.
@@ -11856,10 +12164,10 @@ func (o EncryptionSetIdentityResponseOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o EncryptionSetIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
-	return o.ApplyT(func(v EncryptionSetIdentityResponse) map[string]UserAssignedIdentitiesResponseUserAssignedIdentities {
+func (o EncryptionSetIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v EncryptionSetIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		return v.UserAssignedIdentities
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 type EncryptionSetIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -11917,13 +12225,13 @@ func (o EncryptionSetIdentityResponsePtrOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o EncryptionSetIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
-	return o.ApplyT(func(v *EncryptionSetIdentityResponse) map[string]UserAssignedIdentitiesResponseUserAssignedIdentities {
+func (o EncryptionSetIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v *EncryptionSetIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		if v == nil {
 			return nil
 		}
 		return v.UserAssignedIdentities
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 // Encryption settings for disk or snapshot
@@ -15116,7 +15424,7 @@ type GalleryIdentityResponse struct {
 	// The type of identity used for the gallery. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove all identities from the gallery.
 	Type *string `pulumi:"type"`
 	// The list of user identities associated with the gallery. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserAssignedIdentitiesResponseUserAssignedIdentities `pulumi:"userAssignedIdentities"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
 }
 
 // Identity for the virtual machine.
@@ -15150,10 +15458,10 @@ func (o GalleryIdentityResponseOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the gallery. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o GalleryIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
-	return o.ApplyT(func(v GalleryIdentityResponse) map[string]UserAssignedIdentitiesResponseUserAssignedIdentities {
+func (o GalleryIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v GalleryIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		return v.UserAssignedIdentities
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 type GalleryIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -15211,13 +15519,13 @@ func (o GalleryIdentityResponsePtrOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the gallery. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o GalleryIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
-	return o.ApplyT(func(v *GalleryIdentityResponse) map[string]UserAssignedIdentitiesResponseUserAssignedIdentities {
+func (o GalleryIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v *GalleryIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		if v == nil {
 			return nil
 		}
 		return v.UserAssignedIdentities
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 // A feature for gallery image.
@@ -27258,9 +27566,9 @@ func (o PriorityMixPolicyResponsePtrOutput) RegularPriorityPercentageAboveBase()
 
 // The Private Endpoint Connection resource.
 type PrivateEndpointConnectionResponse struct {
-	// private endpoint connection Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// private endpoint connection name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The resource of private end point.
 	PrivateEndpoint PrivateEndpointResponse `pulumi:"privateEndpoint"`
@@ -27268,7 +27576,9 @@ type PrivateEndpointConnectionResponse struct {
 	PrivateLinkServiceConnectionState PrivateLinkServiceConnectionStateResponse `pulumi:"privateLinkServiceConnectionState"`
 	// The provisioning state of the private endpoint connection resource.
 	ProvisioningState string `pulumi:"provisioningState"`
-	// private endpoint connection type
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -27287,12 +27597,12 @@ func (o PrivateEndpointConnectionResponseOutput) ToPrivateEndpointConnectionResp
 	return o
 }
 
-// private endpoint connection Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o PrivateEndpointConnectionResponseOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v PrivateEndpointConnectionResponse) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// private endpoint connection name
+// The name of the resource
 func (o PrivateEndpointConnectionResponseOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v PrivateEndpointConnectionResponse) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -27314,7 +27624,12 @@ func (o PrivateEndpointConnectionResponseOutput) ProvisioningState() pulumi.Stri
 	return o.ApplyT(func(v PrivateEndpointConnectionResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
 }
 
-// private endpoint connection type
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o PrivateEndpointConnectionResponseOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v PrivateEndpointConnectionResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o PrivateEndpointConnectionResponseOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v PrivateEndpointConnectionResponse) string { return v.Type }).(pulumi.StringOutput)
 }
@@ -27645,58 +27960,58 @@ func (o ProximityPlacementGroupPropertiesIntentPtrOutput) VmSizes() pulumi.Strin
 }
 
 // Specifies the user intent of the proximity placement group.
-type ProximityPlacementGroupPropertiesResponseIntent struct {
+type ProximityPlacementGroupPropertiesIntentResponse struct {
 	// Specifies possible sizes of virtual machines that can be created in the proximity placement group.
 	VmSizes []string `pulumi:"vmSizes"`
 }
 
 // Specifies the user intent of the proximity placement group.
-type ProximityPlacementGroupPropertiesResponseIntentOutput struct{ *pulumi.OutputState }
+type ProximityPlacementGroupPropertiesIntentResponseOutput struct{ *pulumi.OutputState }
 
-func (ProximityPlacementGroupPropertiesResponseIntentOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*ProximityPlacementGroupPropertiesResponseIntent)(nil)).Elem()
+func (ProximityPlacementGroupPropertiesIntentResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ProximityPlacementGroupPropertiesIntentResponse)(nil)).Elem()
 }
 
-func (o ProximityPlacementGroupPropertiesResponseIntentOutput) ToProximityPlacementGroupPropertiesResponseIntentOutput() ProximityPlacementGroupPropertiesResponseIntentOutput {
+func (o ProximityPlacementGroupPropertiesIntentResponseOutput) ToProximityPlacementGroupPropertiesIntentResponseOutput() ProximityPlacementGroupPropertiesIntentResponseOutput {
 	return o
 }
 
-func (o ProximityPlacementGroupPropertiesResponseIntentOutput) ToProximityPlacementGroupPropertiesResponseIntentOutputWithContext(ctx context.Context) ProximityPlacementGroupPropertiesResponseIntentOutput {
+func (o ProximityPlacementGroupPropertiesIntentResponseOutput) ToProximityPlacementGroupPropertiesIntentResponseOutputWithContext(ctx context.Context) ProximityPlacementGroupPropertiesIntentResponseOutput {
 	return o
 }
 
 // Specifies possible sizes of virtual machines that can be created in the proximity placement group.
-func (o ProximityPlacementGroupPropertiesResponseIntentOutput) VmSizes() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v ProximityPlacementGroupPropertiesResponseIntent) []string { return v.VmSizes }).(pulumi.StringArrayOutput)
+func (o ProximityPlacementGroupPropertiesIntentResponseOutput) VmSizes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ProximityPlacementGroupPropertiesIntentResponse) []string { return v.VmSizes }).(pulumi.StringArrayOutput)
 }
 
-type ProximityPlacementGroupPropertiesResponseIntentPtrOutput struct{ *pulumi.OutputState }
+type ProximityPlacementGroupPropertiesIntentResponsePtrOutput struct{ *pulumi.OutputState }
 
-func (ProximityPlacementGroupPropertiesResponseIntentPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**ProximityPlacementGroupPropertiesResponseIntent)(nil)).Elem()
+func (ProximityPlacementGroupPropertiesIntentResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ProximityPlacementGroupPropertiesIntentResponse)(nil)).Elem()
 }
 
-func (o ProximityPlacementGroupPropertiesResponseIntentPtrOutput) ToProximityPlacementGroupPropertiesResponseIntentPtrOutput() ProximityPlacementGroupPropertiesResponseIntentPtrOutput {
+func (o ProximityPlacementGroupPropertiesIntentResponsePtrOutput) ToProximityPlacementGroupPropertiesIntentResponsePtrOutput() ProximityPlacementGroupPropertiesIntentResponsePtrOutput {
 	return o
 }
 
-func (o ProximityPlacementGroupPropertiesResponseIntentPtrOutput) ToProximityPlacementGroupPropertiesResponseIntentPtrOutputWithContext(ctx context.Context) ProximityPlacementGroupPropertiesResponseIntentPtrOutput {
+func (o ProximityPlacementGroupPropertiesIntentResponsePtrOutput) ToProximityPlacementGroupPropertiesIntentResponsePtrOutputWithContext(ctx context.Context) ProximityPlacementGroupPropertiesIntentResponsePtrOutput {
 	return o
 }
 
-func (o ProximityPlacementGroupPropertiesResponseIntentPtrOutput) Elem() ProximityPlacementGroupPropertiesResponseIntentOutput {
-	return o.ApplyT(func(v *ProximityPlacementGroupPropertiesResponseIntent) ProximityPlacementGroupPropertiesResponseIntent {
+func (o ProximityPlacementGroupPropertiesIntentResponsePtrOutput) Elem() ProximityPlacementGroupPropertiesIntentResponseOutput {
+	return o.ApplyT(func(v *ProximityPlacementGroupPropertiesIntentResponse) ProximityPlacementGroupPropertiesIntentResponse {
 		if v != nil {
 			return *v
 		}
-		var ret ProximityPlacementGroupPropertiesResponseIntent
+		var ret ProximityPlacementGroupPropertiesIntentResponse
 		return ret
-	}).(ProximityPlacementGroupPropertiesResponseIntentOutput)
+	}).(ProximityPlacementGroupPropertiesIntentResponseOutput)
 }
 
 // Specifies possible sizes of virtual machines that can be created in the proximity placement group.
-func (o ProximityPlacementGroupPropertiesResponseIntentPtrOutput) VmSizes() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *ProximityPlacementGroupPropertiesResponseIntent) []string {
+func (o ProximityPlacementGroupPropertiesIntentResponsePtrOutput) VmSizes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ProximityPlacementGroupPropertiesIntentResponse) []string {
 		if v == nil {
 			return nil
 		}
@@ -28281,314 +28596,6 @@ func (o PublicIPAddressSkuResponsePtrOutput) Tier() pulumi.StringPtrOutput {
 			return nil
 		}
 		return v.Tier
-	}).(pulumi.StringPtrOutput)
-}
-
-// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-type PurchasePlan struct {
-	// The plan ID.
-	Name string `pulumi:"name"`
-	// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-	Product string `pulumi:"product"`
-	// The Offer Promotion Code.
-	PromotionCode *string `pulumi:"promotionCode"`
-	// The publisher ID.
-	Publisher string `pulumi:"publisher"`
-}
-
-// PurchasePlanInput is an input type that accepts PurchasePlanArgs and PurchasePlanOutput values.
-// You can construct a concrete instance of `PurchasePlanInput` via:
-//
-//	PurchasePlanArgs{...}
-type PurchasePlanInput interface {
-	pulumi.Input
-
-	ToPurchasePlanOutput() PurchasePlanOutput
-	ToPurchasePlanOutputWithContext(context.Context) PurchasePlanOutput
-}
-
-// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-type PurchasePlanArgs struct {
-	// The plan ID.
-	Name pulumi.StringInput `pulumi:"name"`
-	// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-	Product pulumi.StringInput `pulumi:"product"`
-	// The Offer Promotion Code.
-	PromotionCode pulumi.StringPtrInput `pulumi:"promotionCode"`
-	// The publisher ID.
-	Publisher pulumi.StringInput `pulumi:"publisher"`
-}
-
-func (PurchasePlanArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*PurchasePlan)(nil)).Elem()
-}
-
-func (i PurchasePlanArgs) ToPurchasePlanOutput() PurchasePlanOutput {
-	return i.ToPurchasePlanOutputWithContext(context.Background())
-}
-
-func (i PurchasePlanArgs) ToPurchasePlanOutputWithContext(ctx context.Context) PurchasePlanOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PurchasePlanOutput)
-}
-
-func (i PurchasePlanArgs) ToPurchasePlanPtrOutput() PurchasePlanPtrOutput {
-	return i.ToPurchasePlanPtrOutputWithContext(context.Background())
-}
-
-func (i PurchasePlanArgs) ToPurchasePlanPtrOutputWithContext(ctx context.Context) PurchasePlanPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PurchasePlanOutput).ToPurchasePlanPtrOutputWithContext(ctx)
-}
-
-// PurchasePlanPtrInput is an input type that accepts PurchasePlanArgs, PurchasePlanPtr and PurchasePlanPtrOutput values.
-// You can construct a concrete instance of `PurchasePlanPtrInput` via:
-//
-//	        PurchasePlanArgs{...}
-//
-//	or:
-//
-//	        nil
-type PurchasePlanPtrInput interface {
-	pulumi.Input
-
-	ToPurchasePlanPtrOutput() PurchasePlanPtrOutput
-	ToPurchasePlanPtrOutputWithContext(context.Context) PurchasePlanPtrOutput
-}
-
-type purchasePlanPtrType PurchasePlanArgs
-
-func PurchasePlanPtr(v *PurchasePlanArgs) PurchasePlanPtrInput {
-	return (*purchasePlanPtrType)(v)
-}
-
-func (*purchasePlanPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**PurchasePlan)(nil)).Elem()
-}
-
-func (i *purchasePlanPtrType) ToPurchasePlanPtrOutput() PurchasePlanPtrOutput {
-	return i.ToPurchasePlanPtrOutputWithContext(context.Background())
-}
-
-func (i *purchasePlanPtrType) ToPurchasePlanPtrOutputWithContext(ctx context.Context) PurchasePlanPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PurchasePlanPtrOutput)
-}
-
-// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-type PurchasePlanOutput struct{ *pulumi.OutputState }
-
-func (PurchasePlanOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PurchasePlan)(nil)).Elem()
-}
-
-func (o PurchasePlanOutput) ToPurchasePlanOutput() PurchasePlanOutput {
-	return o
-}
-
-func (o PurchasePlanOutput) ToPurchasePlanOutputWithContext(ctx context.Context) PurchasePlanOutput {
-	return o
-}
-
-func (o PurchasePlanOutput) ToPurchasePlanPtrOutput() PurchasePlanPtrOutput {
-	return o.ToPurchasePlanPtrOutputWithContext(context.Background())
-}
-
-func (o PurchasePlanOutput) ToPurchasePlanPtrOutputWithContext(ctx context.Context) PurchasePlanPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v PurchasePlan) *PurchasePlan {
-		return &v
-	}).(PurchasePlanPtrOutput)
-}
-
-// The plan ID.
-func (o PurchasePlanOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v PurchasePlan) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-func (o PurchasePlanOutput) Product() pulumi.StringOutput {
-	return o.ApplyT(func(v PurchasePlan) string { return v.Product }).(pulumi.StringOutput)
-}
-
-// The Offer Promotion Code.
-func (o PurchasePlanOutput) PromotionCode() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PurchasePlan) *string { return v.PromotionCode }).(pulumi.StringPtrOutput)
-}
-
-// The publisher ID.
-func (o PurchasePlanOutput) Publisher() pulumi.StringOutput {
-	return o.ApplyT(func(v PurchasePlan) string { return v.Publisher }).(pulumi.StringOutput)
-}
-
-type PurchasePlanPtrOutput struct{ *pulumi.OutputState }
-
-func (PurchasePlanPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PurchasePlan)(nil)).Elem()
-}
-
-func (o PurchasePlanPtrOutput) ToPurchasePlanPtrOutput() PurchasePlanPtrOutput {
-	return o
-}
-
-func (o PurchasePlanPtrOutput) ToPurchasePlanPtrOutputWithContext(ctx context.Context) PurchasePlanPtrOutput {
-	return o
-}
-
-func (o PurchasePlanPtrOutput) Elem() PurchasePlanOutput {
-	return o.ApplyT(func(v *PurchasePlan) PurchasePlan {
-		if v != nil {
-			return *v
-		}
-		var ret PurchasePlan
-		return ret
-	}).(PurchasePlanOutput)
-}
-
-// The plan ID.
-func (o PurchasePlanPtrOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PurchasePlan) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Name
-	}).(pulumi.StringPtrOutput)
-}
-
-// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-func (o PurchasePlanPtrOutput) Product() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PurchasePlan) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Product
-	}).(pulumi.StringPtrOutput)
-}
-
-// The Offer Promotion Code.
-func (o PurchasePlanPtrOutput) PromotionCode() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PurchasePlan) *string {
-		if v == nil {
-			return nil
-		}
-		return v.PromotionCode
-	}).(pulumi.StringPtrOutput)
-}
-
-// The publisher ID.
-func (o PurchasePlanPtrOutput) Publisher() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PurchasePlan) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Publisher
-	}).(pulumi.StringPtrOutput)
-}
-
-// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-type PurchasePlanResponse struct {
-	// The plan ID.
-	Name string `pulumi:"name"`
-	// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-	Product string `pulumi:"product"`
-	// The Offer Promotion Code.
-	PromotionCode *string `pulumi:"promotionCode"`
-	// The publisher ID.
-	Publisher string `pulumi:"publisher"`
-}
-
-// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
-type PurchasePlanResponseOutput struct{ *pulumi.OutputState }
-
-func (PurchasePlanResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PurchasePlanResponse)(nil)).Elem()
-}
-
-func (o PurchasePlanResponseOutput) ToPurchasePlanResponseOutput() PurchasePlanResponseOutput {
-	return o
-}
-
-func (o PurchasePlanResponseOutput) ToPurchasePlanResponseOutputWithContext(ctx context.Context) PurchasePlanResponseOutput {
-	return o
-}
-
-// The plan ID.
-func (o PurchasePlanResponseOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v PurchasePlanResponse) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-func (o PurchasePlanResponseOutput) Product() pulumi.StringOutput {
-	return o.ApplyT(func(v PurchasePlanResponse) string { return v.Product }).(pulumi.StringOutput)
-}
-
-// The Offer Promotion Code.
-func (o PurchasePlanResponseOutput) PromotionCode() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PurchasePlanResponse) *string { return v.PromotionCode }).(pulumi.StringPtrOutput)
-}
-
-// The publisher ID.
-func (o PurchasePlanResponseOutput) Publisher() pulumi.StringOutput {
-	return o.ApplyT(func(v PurchasePlanResponse) string { return v.Publisher }).(pulumi.StringOutput)
-}
-
-type PurchasePlanResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PurchasePlanResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PurchasePlanResponse)(nil)).Elem()
-}
-
-func (o PurchasePlanResponsePtrOutput) ToPurchasePlanResponsePtrOutput() PurchasePlanResponsePtrOutput {
-	return o
-}
-
-func (o PurchasePlanResponsePtrOutput) ToPurchasePlanResponsePtrOutputWithContext(ctx context.Context) PurchasePlanResponsePtrOutput {
-	return o
-}
-
-func (o PurchasePlanResponsePtrOutput) Elem() PurchasePlanResponseOutput {
-	return o.ApplyT(func(v *PurchasePlanResponse) PurchasePlanResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PurchasePlanResponse
-		return ret
-	}).(PurchasePlanResponseOutput)
-}
-
-// The plan ID.
-func (o PurchasePlanResponsePtrOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PurchasePlanResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Name
-	}).(pulumi.StringPtrOutput)
-}
-
-// Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
-func (o PurchasePlanResponsePtrOutput) Product() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PurchasePlanResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Product
-	}).(pulumi.StringPtrOutput)
-}
-
-// The Offer Promotion Code.
-func (o PurchasePlanResponsePtrOutput) PromotionCode() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PurchasePlanResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.PromotionCode
-	}).(pulumi.StringPtrOutput)
-}
-
-// The publisher ID.
-func (o PurchasePlanResponsePtrOutput) Publisher() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PurchasePlanResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Publisher
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -30593,11 +30600,11 @@ type RestorePointResponse struct {
 	ConsistencyMode *string `pulumi:"consistencyMode"`
 	// List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included.
 	ExcludeDisks []ApiEntityReferenceResponse `pulumi:"excludeDisks"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The restore point instance view.
 	InstanceView RestorePointInstanceViewResponse `pulumi:"instanceView"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Gets the provisioning state of the restore point.
 	ProvisioningState string `pulumi:"provisioningState"`
@@ -30605,9 +30612,11 @@ type RestorePointResponse struct {
 	SourceMetadata *RestorePointSourceMetadataResponse `pulumi:"sourceMetadata"`
 	// Resource Id of the source restore point from which a copy needs to be created.
 	SourceRestorePoint *ApiEntityReferenceResponse `pulumi:"sourceRestorePoint"`
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
 	// Gets the creation time of the restore point.
 	TimeCreated *string `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -30636,7 +30645,7 @@ func (o RestorePointResponseOutput) ExcludeDisks() ApiEntityReferenceResponseArr
 	return o.ApplyT(func(v RestorePointResponse) []ApiEntityReferenceResponse { return v.ExcludeDisks }).(ApiEntityReferenceResponseArrayOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o RestorePointResponseOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v RestorePointResponse) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -30646,7 +30655,7 @@ func (o RestorePointResponseOutput) InstanceView() RestorePointInstanceViewRespo
 	return o.ApplyT(func(v RestorePointResponse) RestorePointInstanceViewResponse { return v.InstanceView }).(RestorePointInstanceViewResponseOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o RestorePointResponseOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v RestorePointResponse) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -30666,12 +30675,17 @@ func (o RestorePointResponseOutput) SourceRestorePoint() ApiEntityReferenceRespo
 	return o.ApplyT(func(v RestorePointResponse) *ApiEntityReferenceResponse { return v.SourceRestorePoint }).(ApiEntityReferenceResponsePtrOutput)
 }
 
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o RestorePointResponseOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v RestorePointResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
 // Gets the creation time of the restore point.
 func (o RestorePointResponseOutput) TimeCreated() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v RestorePointResponse) *string { return v.TimeCreated }).(pulumi.StringPtrOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o RestorePointResponseOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v RestorePointResponse) string { return v.Type }).(pulumi.StringOutput)
 }
@@ -37746,15 +37760,23 @@ func (o SupportedCapabilitiesResponsePtrOutput) DiskControllerTypes() pulumi.Str
 	}).(pulumi.StringPtrOutput)
 }
 
-// The system meta data relating to this resource.
+// Metadata pertaining to creation and last modification of the resource.
 type SystemDataResponse struct {
-	// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
-	CreatedAt string `pulumi:"createdAt"`
-	// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
-	LastModifiedAt string `pulumi:"lastModifiedAt"`
+	// The timestamp of resource creation (UTC).
+	CreatedAt *string `pulumi:"createdAt"`
+	// The identity that created the resource.
+	CreatedBy *string `pulumi:"createdBy"`
+	// The type of identity that created the resource.
+	CreatedByType *string `pulumi:"createdByType"`
+	// The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `pulumi:"lastModifiedAt"`
+	// The identity that last modified the resource.
+	LastModifiedBy *string `pulumi:"lastModifiedBy"`
+	// The type of identity that last modified the resource.
+	LastModifiedByType *string `pulumi:"lastModifiedByType"`
 }
 
-// The system meta data relating to this resource.
+// Metadata pertaining to creation and last modification of the resource.
 type SystemDataResponseOutput struct{ *pulumi.OutputState }
 
 func (SystemDataResponseOutput) ElementType() reflect.Type {
@@ -37769,14 +37791,34 @@ func (o SystemDataResponseOutput) ToSystemDataResponseOutputWithContext(ctx cont
 	return o
 }
 
-// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
-func (o SystemDataResponseOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v SystemDataResponse) string { return v.CreatedAt }).(pulumi.StringOutput)
+// The timestamp of resource creation (UTC).
+func (o SystemDataResponseOutput) CreatedAt() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedAt }).(pulumi.StringPtrOutput)
 }
 
-// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
-func (o SystemDataResponseOutput) LastModifiedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v SystemDataResponse) string { return v.LastModifiedAt }).(pulumi.StringOutput)
+// The identity that created the resource.
+func (o SystemDataResponseOutput) CreatedBy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedBy }).(pulumi.StringPtrOutput)
+}
+
+// The type of identity that created the resource.
+func (o SystemDataResponseOutput) CreatedByType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedByType }).(pulumi.StringPtrOutput)
+}
+
+// The timestamp of resource last modification (UTC)
+func (o SystemDataResponseOutput) LastModifiedAt() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedAt }).(pulumi.StringPtrOutput)
+}
+
+// The identity that last modified the resource.
+func (o SystemDataResponseOutput) LastModifiedBy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedBy }).(pulumi.StringPtrOutput)
+}
+
+// The type of identity that last modified the resource.
+func (o SystemDataResponseOutput) LastModifiedByType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedByType }).(pulumi.StringPtrOutput)
 }
 
 type SystemDataResponsePtrOutput struct{ *pulumi.OutputState }
@@ -37803,23 +37845,63 @@ func (o SystemDataResponsePtrOutput) Elem() SystemDataResponseOutput {
 	}).(SystemDataResponseOutput)
 }
 
-// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
+// The timestamp of resource creation (UTC).
 func (o SystemDataResponsePtrOutput) CreatedAt() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SystemDataResponse) *string {
 		if v == nil {
 			return nil
 		}
-		return &v.CreatedAt
+		return v.CreatedAt
 	}).(pulumi.StringPtrOutput)
 }
 
-// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
+// The identity that created the resource.
+func (o SystemDataResponsePtrOutput) CreatedBy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SystemDataResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CreatedBy
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of identity that created the resource.
+func (o SystemDataResponsePtrOutput) CreatedByType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SystemDataResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CreatedByType
+	}).(pulumi.StringPtrOutput)
+}
+
+// The timestamp of resource last modification (UTC)
 func (o SystemDataResponsePtrOutput) LastModifiedAt() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SystemDataResponse) *string {
 		if v == nil {
 			return nil
 		}
-		return &v.LastModifiedAt
+		return v.LastModifiedAt
+	}).(pulumi.StringPtrOutput)
+}
+
+// The identity that last modified the resource.
+func (o SystemDataResponsePtrOutput) LastModifiedBy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SystemDataResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.LastModifiedBy
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of identity that last modified the resource.
+func (o SystemDataResponsePtrOutput) LastModifiedByType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SystemDataResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.LastModifiedByType
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -40033,55 +40115,55 @@ func (o UserArtifactSourceResponseOutput) MediaLink() pulumi.StringOutput {
 	return o.ApplyT(func(v UserArtifactSourceResponse) string { return v.MediaLink }).(pulumi.StringOutput)
 }
 
-type UserAssignedIdentitiesResponseUserAssignedIdentities struct {
+type UserAssignedIdentitiesValueResponse struct {
 	// The client id of user assigned identity.
 	ClientId string `pulumi:"clientId"`
 	// The principal id of user assigned identity.
 	PrincipalId string `pulumi:"principalId"`
 }
 
-type UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput struct{ *pulumi.OutputState }
+type UserAssignedIdentitiesValueResponseOutput struct{ *pulumi.OutputState }
 
-func (UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*UserAssignedIdentitiesResponseUserAssignedIdentities)(nil)).Elem()
+func (UserAssignedIdentitiesValueResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*UserAssignedIdentitiesValueResponse)(nil)).Elem()
 }
 
-func (o UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput) ToUserAssignedIdentitiesResponseUserAssignedIdentitiesOutput() UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput {
+func (o UserAssignedIdentitiesValueResponseOutput) ToUserAssignedIdentitiesValueResponseOutput() UserAssignedIdentitiesValueResponseOutput {
 	return o
 }
 
-func (o UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput) ToUserAssignedIdentitiesResponseUserAssignedIdentitiesOutputWithContext(ctx context.Context) UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput {
+func (o UserAssignedIdentitiesValueResponseOutput) ToUserAssignedIdentitiesValueResponseOutputWithContext(ctx context.Context) UserAssignedIdentitiesValueResponseOutput {
 	return o
 }
 
 // The client id of user assigned identity.
-func (o UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput) ClientId() pulumi.StringOutput {
-	return o.ApplyT(func(v UserAssignedIdentitiesResponseUserAssignedIdentities) string { return v.ClientId }).(pulumi.StringOutput)
+func (o UserAssignedIdentitiesValueResponseOutput) ClientId() pulumi.StringOutput {
+	return o.ApplyT(func(v UserAssignedIdentitiesValueResponse) string { return v.ClientId }).(pulumi.StringOutput)
 }
 
 // The principal id of user assigned identity.
-func (o UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput) PrincipalId() pulumi.StringOutput {
-	return o.ApplyT(func(v UserAssignedIdentitiesResponseUserAssignedIdentities) string { return v.PrincipalId }).(pulumi.StringOutput)
+func (o UserAssignedIdentitiesValueResponseOutput) PrincipalId() pulumi.StringOutput {
+	return o.ApplyT(func(v UserAssignedIdentitiesValueResponse) string { return v.PrincipalId }).(pulumi.StringOutput)
 }
 
-type UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput struct{ *pulumi.OutputState }
+type UserAssignedIdentitiesValueResponseMapOutput struct{ *pulumi.OutputState }
 
-func (UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*map[string]UserAssignedIdentitiesResponseUserAssignedIdentities)(nil)).Elem()
+func (UserAssignedIdentitiesValueResponseMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]UserAssignedIdentitiesValueResponse)(nil)).Elem()
 }
 
-func (o UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput) ToUserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
+func (o UserAssignedIdentitiesValueResponseMapOutput) ToUserAssignedIdentitiesValueResponseMapOutput() UserAssignedIdentitiesValueResponseMapOutput {
 	return o
 }
 
-func (o UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput) ToUserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutputWithContext(ctx context.Context) UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
+func (o UserAssignedIdentitiesValueResponseMapOutput) ToUserAssignedIdentitiesValueResponseMapOutputWithContext(ctx context.Context) UserAssignedIdentitiesValueResponseMapOutput {
 	return o
 }
 
-func (o UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput) MapIndex(k pulumi.StringInput) UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput {
-	return pulumi.All(o, k).ApplyT(func(vs []interface{}) UserAssignedIdentitiesResponseUserAssignedIdentities {
-		return vs[0].(map[string]UserAssignedIdentitiesResponseUserAssignedIdentities)[vs[1].(string)]
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput)
+func (o UserAssignedIdentitiesValueResponseMapOutput) MapIndex(k pulumi.StringInput) UserAssignedIdentitiesValueResponseOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) UserAssignedIdentitiesValueResponse {
+		return vs[0].(map[string]UserAssignedIdentitiesValueResponse)[vs[1].(string)]
+	}).(UserAssignedIdentitiesValueResponseOutput)
 }
 
 // Specifies Reboot related Scheduled Event related configurations.
@@ -42274,13 +42356,13 @@ type VirtualMachineExtensionResponse struct {
 	EnableAutomaticUpgrade *bool `pulumi:"enableAutomaticUpgrade"`
 	// How the extension handler should be forced to update even if the extension configuration has not changed.
 	ForceUpdateTag *string `pulumi:"forceUpdateTag"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The virtual machine extension instance view.
 	InstanceView *VirtualMachineExtensionInstanceViewResponse `pulumi:"instanceView"`
-	// Resource location
-	Location *string `pulumi:"location"`
-	// Resource name
+	// The geo-location where the resource lives
+	Location string `pulumi:"location"`
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings interface{} `pulumi:"protectedSettings"`
@@ -42296,9 +42378,11 @@ type VirtualMachineExtensionResponse struct {
 	Settings interface{} `pulumi:"settings"`
 	// Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
 	SuppressFailures *bool `pulumi:"suppressFailures"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// Specifies the version of the script handler.
 	TypeHandlerVersion *string `pulumi:"typeHandlerVersion"`
@@ -42334,7 +42418,7 @@ func (o VirtualMachineExtensionResponseOutput) ForceUpdateTag() pulumi.StringPtr
 	return o.ApplyT(func(v VirtualMachineExtensionResponse) *string { return v.ForceUpdateTag }).(pulumi.StringPtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o VirtualMachineExtensionResponseOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v VirtualMachineExtensionResponse) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -42346,12 +42430,12 @@ func (o VirtualMachineExtensionResponseOutput) InstanceView() VirtualMachineExte
 	}).(VirtualMachineExtensionInstanceViewResponsePtrOutput)
 }
 
-// Resource location
-func (o VirtualMachineExtensionResponseOutput) Location() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v VirtualMachineExtensionResponse) *string { return v.Location }).(pulumi.StringPtrOutput)
+// The geo-location where the resource lives
+func (o VirtualMachineExtensionResponseOutput) Location() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualMachineExtensionResponse) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o VirtualMachineExtensionResponseOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v VirtualMachineExtensionResponse) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -42393,12 +42477,17 @@ func (o VirtualMachineExtensionResponseOutput) SuppressFailures() pulumi.BoolPtr
 	return o.ApplyT(func(v VirtualMachineExtensionResponse) *bool { return v.SuppressFailures }).(pulumi.BoolPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o VirtualMachineExtensionResponseOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v VirtualMachineExtensionResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o VirtualMachineExtensionResponseOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v VirtualMachineExtensionResponse) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o VirtualMachineExtensionResponseOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v VirtualMachineExtensionResponse) string { return v.Type }).(pulumi.StringOutput)
 }
@@ -42622,7 +42711,7 @@ type VirtualMachineIdentityResponse struct {
 	// The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
 	Type *string `pulumi:"type"`
 	// The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserAssignedIdentitiesResponseUserAssignedIdentities `pulumi:"userAssignedIdentities"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
 }
 
 // Identity for the virtual machine.
@@ -42656,10 +42745,10 @@ func (o VirtualMachineIdentityResponseOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o VirtualMachineIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
-	return o.ApplyT(func(v VirtualMachineIdentityResponse) map[string]UserAssignedIdentitiesResponseUserAssignedIdentities {
+func (o VirtualMachineIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v VirtualMachineIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		return v.UserAssignedIdentities
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 type VirtualMachineIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -42717,13 +42806,13 @@ func (o VirtualMachineIdentityResponsePtrOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o VirtualMachineIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
-	return o.ApplyT(func(v *VirtualMachineIdentityResponse) map[string]UserAssignedIdentitiesResponseUserAssignedIdentities {
+func (o VirtualMachineIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v *VirtualMachineIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		if v == nil {
 			return nil
 		}
 		return v.UserAssignedIdentities
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 // The instance view of a virtual machine.
@@ -42760,7 +42849,7 @@ type VirtualMachineInstanceViewResponse struct {
 	Statuses []InstanceViewStatusResponse `pulumi:"statuses"`
 	// The VM Agent running on the virtual machine.
 	VmAgent *VirtualMachineAgentInstanceViewResponse `pulumi:"vmAgent"`
-	// The application health status for the VM, provided through Application Health Extension.
+	// The health status for the VM.
 	VmHealth VirtualMachineHealthStatusResponse `pulumi:"vmHealth"`
 }
 
@@ -42865,7 +42954,7 @@ func (o VirtualMachineInstanceViewResponseOutput) VmAgent() VirtualMachineAgentI
 	return o.ApplyT(func(v VirtualMachineInstanceViewResponse) *VirtualMachineAgentInstanceViewResponse { return v.VmAgent }).(VirtualMachineAgentInstanceViewResponsePtrOutput)
 }
 
-// The application health status for the VM, provided through Application Health Extension.
+// The health status for the VM.
 func (o VirtualMachineInstanceViewResponseOutput) VmHealth() VirtualMachineHealthStatusResponseOutput {
 	return o.ApplyT(func(v VirtualMachineInstanceViewResponse) VirtualMachineHealthStatusResponse { return v.VmHealth }).(VirtualMachineHealthStatusResponseOutput)
 }
@@ -45376,7 +45465,7 @@ type VirtualMachineScaleSetExtensionType struct {
 	EnableAutomaticUpgrade *bool `pulumi:"enableAutomaticUpgrade"`
 	// If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.
 	ForceUpdateTag *string `pulumi:"forceUpdateTag"`
-	// The name of the extension.
+	// Resource name
 	Name *string `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings interface{} `pulumi:"protectedSettings"`
@@ -45415,7 +45504,7 @@ type VirtualMachineScaleSetExtensionTypeArgs struct {
 	EnableAutomaticUpgrade pulumi.BoolPtrInput `pulumi:"enableAutomaticUpgrade"`
 	// If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.
 	ForceUpdateTag pulumi.StringPtrInput `pulumi:"forceUpdateTag"`
-	// The name of the extension.
+	// Resource name
 	Name pulumi.StringPtrInput `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings pulumi.Input `pulumi:"protectedSettings"`
@@ -45502,7 +45591,7 @@ func (o VirtualMachineScaleSetExtensionTypeOutput) ForceUpdateTag() pulumi.Strin
 	return o.ApplyT(func(v VirtualMachineScaleSetExtensionType) *string { return v.ForceUpdateTag }).(pulumi.StringPtrOutput)
 }
 
-// The name of the extension.
+// Resource name
 func (o VirtualMachineScaleSetExtensionTypeOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineScaleSetExtensionType) *string { return v.Name }).(pulumi.StringPtrOutput)
 }
@@ -45819,7 +45908,7 @@ type VirtualMachineScaleSetExtensionResponse struct {
 	ForceUpdateTag *string `pulumi:"forceUpdateTag"`
 	// Resource Id
 	Id string `pulumi:"id"`
-	// The name of the extension.
+	// Resource name
 	Name *string `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings interface{} `pulumi:"protectedSettings"`
@@ -45876,7 +45965,7 @@ func (o VirtualMachineScaleSetExtensionResponseOutput) Id() pulumi.StringOutput 
 	return o.ApplyT(func(v VirtualMachineScaleSetExtensionResponse) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// The name of the extension.
+// Resource name
 func (o VirtualMachineScaleSetExtensionResponseOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineScaleSetExtensionResponse) *string { return v.Name }).(pulumi.StringPtrOutput)
 }
@@ -46606,7 +46695,7 @@ type VirtualMachineScaleSetIdentityResponse struct {
 	// The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
 	Type *string `pulumi:"type"`
 	// The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserAssignedIdentitiesResponseUserAssignedIdentities `pulumi:"userAssignedIdentities"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
 }
 
 // Identity for the virtual machine scale set.
@@ -46640,10 +46729,10 @@ func (o VirtualMachineScaleSetIdentityResponseOutput) Type() pulumi.StringPtrOut
 }
 
 // The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o VirtualMachineScaleSetIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
-	return o.ApplyT(func(v VirtualMachineScaleSetIdentityResponse) map[string]UserAssignedIdentitiesResponseUserAssignedIdentities {
+func (o VirtualMachineScaleSetIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v VirtualMachineScaleSetIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		return v.UserAssignedIdentities
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 type VirtualMachineScaleSetIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -46701,13 +46790,13 @@ func (o VirtualMachineScaleSetIdentityResponsePtrOutput) Type() pulumi.StringPtr
 }
 
 // The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o VirtualMachineScaleSetIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput {
-	return o.ApplyT(func(v *VirtualMachineScaleSetIdentityResponse) map[string]UserAssignedIdentitiesResponseUserAssignedIdentities {
+func (o VirtualMachineScaleSetIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v *VirtualMachineScaleSetIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		if v == nil {
 			return nil
 		}
 		return v.UserAssignedIdentities
-	}).(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 // Contains the IP tag associated with the public IP address.
@@ -47723,7 +47812,7 @@ func (o VirtualMachineScaleSetNetworkConfigurationResponseArrayOutput) Index(i p
 type VirtualMachineScaleSetNetworkProfile struct {
 	// A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
 	HealthProbe *ApiEntityReference `pulumi:"healthProbe"`
-	// Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'.
+	// specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
 	NetworkApiVersion *string `pulumi:"networkApiVersion"`
 	// The list of network configurations.
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration `pulumi:"networkInterfaceConfigurations"`
@@ -47744,7 +47833,7 @@ type VirtualMachineScaleSetNetworkProfileInput interface {
 type VirtualMachineScaleSetNetworkProfileArgs struct {
 	// A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
 	HealthProbe ApiEntityReferencePtrInput `pulumi:"healthProbe"`
-	// Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'.
+	// specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
 	NetworkApiVersion pulumi.StringPtrInput `pulumi:"networkApiVersion"`
 	// The list of network configurations.
 	NetworkInterfaceConfigurations VirtualMachineScaleSetNetworkConfigurationArrayInput `pulumi:"networkInterfaceConfigurations"`
@@ -47833,7 +47922,7 @@ func (o VirtualMachineScaleSetNetworkProfileOutput) HealthProbe() ApiEntityRefer
 	return o.ApplyT(func(v VirtualMachineScaleSetNetworkProfile) *ApiEntityReference { return v.HealthProbe }).(ApiEntityReferencePtrOutput)
 }
 
-// Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'.
+// specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
 func (o VirtualMachineScaleSetNetworkProfileOutput) NetworkApiVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineScaleSetNetworkProfile) *string { return v.NetworkApiVersion }).(pulumi.StringPtrOutput)
 }
@@ -47879,7 +47968,7 @@ func (o VirtualMachineScaleSetNetworkProfilePtrOutput) HealthProbe() ApiEntityRe
 	}).(ApiEntityReferencePtrOutput)
 }
 
-// Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'.
+// specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
 func (o VirtualMachineScaleSetNetworkProfilePtrOutput) NetworkApiVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VirtualMachineScaleSetNetworkProfile) *string {
 		if v == nil {
@@ -47903,7 +47992,7 @@ func (o VirtualMachineScaleSetNetworkProfilePtrOutput) NetworkInterfaceConfigura
 type VirtualMachineScaleSetNetworkProfileResponse struct {
 	// A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'.
 	HealthProbe *ApiEntityReferenceResponse `pulumi:"healthProbe"`
-	// Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'.
+	// specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
 	NetworkApiVersion *string `pulumi:"networkApiVersion"`
 	// The list of network configurations.
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfigurationResponse `pulumi:"networkInterfaceConfigurations"`
@@ -47929,7 +48018,7 @@ func (o VirtualMachineScaleSetNetworkProfileResponseOutput) HealthProbe() ApiEnt
 	return o.ApplyT(func(v VirtualMachineScaleSetNetworkProfileResponse) *ApiEntityReferenceResponse { return v.HealthProbe }).(ApiEntityReferenceResponsePtrOutput)
 }
 
-// Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'.
+// specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
 func (o VirtualMachineScaleSetNetworkProfileResponseOutput) NetworkApiVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineScaleSetNetworkProfileResponse) *string { return v.NetworkApiVersion }).(pulumi.StringPtrOutput)
 }
@@ -47975,7 +48064,7 @@ func (o VirtualMachineScaleSetNetworkProfileResponsePtrOutput) HealthProbe() Api
 	}).(ApiEntityReferenceResponsePtrOutput)
 }
 
-// Specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. For support of all network properties, use '2022-11-01'.
+// specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
 func (o VirtualMachineScaleSetNetworkProfileResponsePtrOutput) NetworkApiVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VirtualMachineScaleSetNetworkProfileResponse) *string {
 		if v == nil {
@@ -49762,8 +49851,9 @@ func (o VirtualMachineScaleSetPublicIPAddressConfigurationResponsePtrOutput) Sku
 // Describes a virtual machine scale set storage profile.
 type VirtualMachineScaleSetStorageProfile struct {
 	// Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks          []VirtualMachineScaleSetDataDisk `pulumi:"dataDisks"`
-	DiskControllerType *string                          `pulumi:"diskControllerType"`
+	DataDisks []VirtualMachineScaleSetDataDisk `pulumi:"dataDisks"`
+	// Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01
+	DiskControllerType *string `pulumi:"diskControllerType"`
 	// Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
 	ImageReference *ImageReference `pulumi:"imageReference"`
 	// Specifies information about the operating system disk used by the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
@@ -49784,8 +49874,9 @@ type VirtualMachineScaleSetStorageProfileInput interface {
 // Describes a virtual machine scale set storage profile.
 type VirtualMachineScaleSetStorageProfileArgs struct {
 	// Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks          VirtualMachineScaleSetDataDiskArrayInput `pulumi:"dataDisks"`
-	DiskControllerType pulumi.StringPtrInput                    `pulumi:"diskControllerType"`
+	DataDisks VirtualMachineScaleSetDataDiskArrayInput `pulumi:"dataDisks"`
+	// Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01
+	DiskControllerType pulumi.StringPtrInput `pulumi:"diskControllerType"`
 	// Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
 	ImageReference ImageReferencePtrInput `pulumi:"imageReference"`
 	// Specifies information about the operating system disk used by the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
@@ -49875,6 +49966,7 @@ func (o VirtualMachineScaleSetStorageProfileOutput) DataDisks() VirtualMachineSc
 	return o.ApplyT(func(v VirtualMachineScaleSetStorageProfile) []VirtualMachineScaleSetDataDisk { return v.DataDisks }).(VirtualMachineScaleSetDataDiskArrayOutput)
 }
 
+// Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01
 func (o VirtualMachineScaleSetStorageProfileOutput) DiskControllerType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineScaleSetStorageProfile) *string { return v.DiskControllerType }).(pulumi.StringPtrOutput)
 }
@@ -49923,6 +50015,7 @@ func (o VirtualMachineScaleSetStorageProfilePtrOutput) DataDisks() VirtualMachin
 	}).(VirtualMachineScaleSetDataDiskArrayOutput)
 }
 
+// Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01
 func (o VirtualMachineScaleSetStorageProfilePtrOutput) DiskControllerType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VirtualMachineScaleSetStorageProfile) *string {
 		if v == nil {
@@ -49955,8 +50048,9 @@ func (o VirtualMachineScaleSetStorageProfilePtrOutput) OsDisk() VirtualMachineSc
 // Describes a virtual machine scale set storage profile.
 type VirtualMachineScaleSetStorageProfileResponse struct {
 	// Specifies the parameters that are used to add data disks to the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks          []VirtualMachineScaleSetDataDiskResponse `pulumi:"dataDisks"`
-	DiskControllerType *string                                  `pulumi:"diskControllerType"`
+	DataDisks []VirtualMachineScaleSetDataDiskResponse `pulumi:"dataDisks"`
+	// Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01
+	DiskControllerType *string `pulumi:"diskControllerType"`
 	// Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.
 	ImageReference *ImageReferenceResponse `pulumi:"imageReference"`
 	// Specifies information about the operating system disk used by the virtual machines in the scale set. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
@@ -49985,6 +50079,7 @@ func (o VirtualMachineScaleSetStorageProfileResponseOutput) DataDisks() VirtualM
 	}).(VirtualMachineScaleSetDataDiskResponseArrayOutput)
 }
 
+// Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01
 func (o VirtualMachineScaleSetStorageProfileResponseOutput) DiskControllerType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineScaleSetStorageProfileResponse) *string { return v.DiskControllerType }).(pulumi.StringPtrOutput)
 }
@@ -50035,6 +50130,7 @@ func (o VirtualMachineScaleSetStorageProfileResponsePtrOutput) DataDisks() Virtu
 	}).(VirtualMachineScaleSetDataDiskResponseArrayOutput)
 }
 
+// Specifies the disk controller type configured for the virtual machines in the scale set. Minimum api-version: 2022-08-01
 func (o VirtualMachineScaleSetStorageProfileResponsePtrOutput) DiskControllerType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VirtualMachineScaleSetStorageProfileResponse) *string {
 		if v == nil {
@@ -50096,7 +50192,7 @@ type VirtualMachineScaleSetVMInstanceViewResponse struct {
 	Statuses []InstanceViewStatusResponse `pulumi:"statuses"`
 	// The VM Agent running on the virtual machine.
 	VmAgent *VirtualMachineAgentInstanceViewResponse `pulumi:"vmAgent"`
-	// The application health status for the VM, provided through Application Health Extension or Load Balancer Health Probes.
+	// The health status for the VM.
 	VmHealth VirtualMachineHealthStatusResponse `pulumi:"vmHealth"`
 }
 
@@ -50198,7 +50294,7 @@ func (o VirtualMachineScaleSetVMInstanceViewResponseOutput) VmAgent() VirtualMac
 	}).(VirtualMachineAgentInstanceViewResponsePtrOutput)
 }
 
-// The application health status for the VM, provided through Application Health Extension or Load Balancer Health Probes.
+// The health status for the VM.
 func (o VirtualMachineScaleSetVMInstanceViewResponseOutput) VmHealth() VirtualMachineHealthStatusResponseOutput {
 	return o.ApplyT(func(v VirtualMachineScaleSetVMInstanceViewResponse) VirtualMachineHealthStatusResponse {
 		return v.VmHealth
@@ -52614,8 +52710,8 @@ func init() {
 	pulumi.RegisterOutputType(DedicatedHostGroupInstanceViewResponseOutput{})
 	pulumi.RegisterOutputType(DedicatedHostGroupPropertiesAdditionalCapabilitiesOutput{})
 	pulumi.RegisterOutputType(DedicatedHostGroupPropertiesAdditionalCapabilitiesPtrOutput{})
-	pulumi.RegisterOutputType(DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesOutput{})
-	pulumi.RegisterOutputType(DedicatedHostGroupPropertiesResponseAdditionalCapabilitiesPtrOutput{})
+	pulumi.RegisterOutputType(DedicatedHostGroupPropertiesAdditionalCapabilitiesResponseOutput{})
+	pulumi.RegisterOutputType(DedicatedHostGroupPropertiesAdditionalCapabilitiesResponsePtrOutput{})
 	pulumi.RegisterOutputType(DedicatedHostInstanceViewResponseOutput{})
 	pulumi.RegisterOutputType(DedicatedHostInstanceViewWithNameResponseOutput{})
 	pulumi.RegisterOutputType(DedicatedHostInstanceViewWithNameResponseArrayOutput{})
@@ -52643,6 +52739,10 @@ func init() {
 	pulumi.RegisterOutputType(DiskEncryptionSettingsResponseArrayOutput{})
 	pulumi.RegisterOutputType(DiskInstanceViewResponseOutput{})
 	pulumi.RegisterOutputType(DiskInstanceViewResponseArrayOutput{})
+	pulumi.RegisterOutputType(DiskPurchasePlanOutput{})
+	pulumi.RegisterOutputType(DiskPurchasePlanPtrOutput{})
+	pulumi.RegisterOutputType(DiskPurchasePlanResponseOutput{})
+	pulumi.RegisterOutputType(DiskPurchasePlanResponsePtrOutput{})
 	pulumi.RegisterOutputType(DiskRestorePointAttributesOutput{})
 	pulumi.RegisterOutputType(DiskRestorePointAttributesPtrOutput{})
 	pulumi.RegisterOutputType(DiskRestorePointAttributesResponseOutput{})
@@ -52918,8 +53018,8 @@ func init() {
 	pulumi.RegisterOutputType(PropertyUpdatesInProgressResponseOutput{})
 	pulumi.RegisterOutputType(ProximityPlacementGroupPropertiesIntentOutput{})
 	pulumi.RegisterOutputType(ProximityPlacementGroupPropertiesIntentPtrOutput{})
-	pulumi.RegisterOutputType(ProximityPlacementGroupPropertiesResponseIntentOutput{})
-	pulumi.RegisterOutputType(ProximityPlacementGroupPropertiesResponseIntentPtrOutput{})
+	pulumi.RegisterOutputType(ProximityPlacementGroupPropertiesIntentResponseOutput{})
+	pulumi.RegisterOutputType(ProximityPlacementGroupPropertiesIntentResponsePtrOutput{})
 	pulumi.RegisterOutputType(ProxyAgentSettingsOutput{})
 	pulumi.RegisterOutputType(ProxyAgentSettingsPtrOutput{})
 	pulumi.RegisterOutputType(ProxyAgentSettingsResponseOutput{})
@@ -52928,10 +53028,6 @@ func init() {
 	pulumi.RegisterOutputType(PublicIPAddressSkuPtrOutput{})
 	pulumi.RegisterOutputType(PublicIPAddressSkuResponseOutput{})
 	pulumi.RegisterOutputType(PublicIPAddressSkuResponsePtrOutput{})
-	pulumi.RegisterOutputType(PurchasePlanOutput{})
-	pulumi.RegisterOutputType(PurchasePlanPtrOutput{})
-	pulumi.RegisterOutputType(PurchasePlanResponseOutput{})
-	pulumi.RegisterOutputType(PurchasePlanResponsePtrOutput{})
 	pulumi.RegisterOutputType(RecommendedMachineConfigurationOutput{})
 	pulumi.RegisterOutputType(RecommendedMachineConfigurationPtrOutput{})
 	pulumi.RegisterOutputType(RecommendedMachineConfigurationResponseOutput{})
@@ -53129,8 +53225,8 @@ func init() {
 	pulumi.RegisterOutputType(UserArtifactSettingsResponsePtrOutput{})
 	pulumi.RegisterOutputType(UserArtifactSourceOutput{})
 	pulumi.RegisterOutputType(UserArtifactSourceResponseOutput{})
-	pulumi.RegisterOutputType(UserAssignedIdentitiesResponseUserAssignedIdentitiesOutput{})
-	pulumi.RegisterOutputType(UserAssignedIdentitiesResponseUserAssignedIdentitiesMapOutput{})
+	pulumi.RegisterOutputType(UserAssignedIdentitiesValueResponseOutput{})
+	pulumi.RegisterOutputType(UserAssignedIdentitiesValueResponseMapOutput{})
 	pulumi.RegisterOutputType(UserInitiatedRebootOutput{})
 	pulumi.RegisterOutputType(UserInitiatedRebootPtrOutput{})
 	pulumi.RegisterOutputType(UserInitiatedRebootResponseOutput{})

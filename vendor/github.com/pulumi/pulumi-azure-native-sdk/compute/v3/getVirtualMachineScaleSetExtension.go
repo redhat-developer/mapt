@@ -29,9 +29,9 @@ func LookupVirtualMachineScaleSetExtension(ctx *pulumi.Context, args *LookupVirt
 type LookupVirtualMachineScaleSetExtensionArgs struct {
 	// The expand expression to apply on the operation.
 	Expand *string `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
-	// The name of the VM scale set containing the extension.
+	// The name of the VM scale set.
 	VmScaleSetName string `pulumi:"vmScaleSetName"`
 	// The name of the VM scale set extension.
 	VmssExtensionName string `pulumi:"vmssExtensionName"`
@@ -49,7 +49,7 @@ type LookupVirtualMachineScaleSetExtensionResult struct {
 	ForceUpdateTag *string `pulumi:"forceUpdateTag"`
 	// Resource Id
 	Id string `pulumi:"id"`
-	// The name of the extension.
+	// Resource name
 	Name *string `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings interface{} `pulumi:"protectedSettings"`
@@ -83,9 +83,9 @@ func LookupVirtualMachineScaleSetExtensionOutput(ctx *pulumi.Context, args Looku
 type LookupVirtualMachineScaleSetExtensionOutputArgs struct {
 	// The expand expression to apply on the operation.
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
-	// The name of the VM scale set containing the extension.
+	// The name of the VM scale set.
 	VmScaleSetName pulumi.StringInput `pulumi:"vmScaleSetName"`
 	// The name of the VM scale set extension.
 	VmssExtensionName pulumi.StringInput `pulumi:"vmssExtensionName"`
@@ -135,7 +135,7 @@ func (o LookupVirtualMachineScaleSetExtensionResultOutput) Id() pulumi.StringOut
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetExtensionResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// The name of the extension.
+// Resource name
 func (o LookupVirtualMachineScaleSetExtensionResultOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetExtensionResult) *string { return v.Name }).(pulumi.StringPtrOutput)
 }

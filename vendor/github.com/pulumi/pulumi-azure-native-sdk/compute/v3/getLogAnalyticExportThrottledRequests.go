@@ -41,7 +41,7 @@ type GetLogAnalyticExportThrottledRequestsArgs struct {
 	GroupByThrottlePolicy *bool `pulumi:"groupByThrottlePolicy"`
 	// Group query result by User Agent.
 	GroupByUserAgent *bool `pulumi:"groupByUserAgent"`
-	// The location upon which virtual-machine-sizes is queried.
+	// The name of Azure region.
 	Location string `pulumi:"location"`
 	// To time of the query
 	ToTime string `pulumi:"toTime"`
@@ -77,7 +77,7 @@ type GetLogAnalyticExportThrottledRequestsOutputArgs struct {
 	GroupByThrottlePolicy pulumi.BoolPtrInput `pulumi:"groupByThrottlePolicy"`
 	// Group query result by User Agent.
 	GroupByUserAgent pulumi.BoolPtrInput `pulumi:"groupByUserAgent"`
-	// The location upon which virtual-machine-sizes is queried.
+	// The name of Azure region.
 	Location pulumi.StringInput `pulumi:"location"`
 	// To time of the query
 	ToTime pulumi.StringInput `pulumi:"toTime"`

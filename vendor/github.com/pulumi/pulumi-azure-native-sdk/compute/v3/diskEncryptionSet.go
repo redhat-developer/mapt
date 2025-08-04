@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-03-02. In version 2.x of the Azure Native provider, it used API version 2022-07-02.
 //
-// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02, 2025-01-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type DiskEncryptionSet struct {
 	pulumi.CustomResourceState
 
@@ -34,9 +34,9 @@ type DiskEncryptionSet struct {
 	Identity EncryptionSetIdentityResponsePtrOutput `pulumi:"identity"`
 	// The time when the active key of this disk encryption set was updated.
 	LastKeyRotationTimestamp pulumi.StringOutput `pulumi:"lastKeyRotationTimestamp"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.
 	PreviousKeys KeyForDiskEncryptionSetResponseArrayOutput `pulumi:"previousKeys"`
@@ -44,9 +44,11 @@ type DiskEncryptionSet struct {
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.
 	RotationToLatestKeyVersionEnabled pulumi.BoolPtrOutput `pulumi:"rotationToLatestKeyVersionEnabled"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -106,6 +108,9 @@ func NewDiskEncryptionSet(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:compute/v20240302:DiskEncryptionSet"),
 		},
+		{
+			Type: pulumi.String("azure-native:compute/v20250102:DiskEncryptionSet"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)
@@ -151,13 +156,13 @@ type diskEncryptionSetArgs struct {
 	FederatedClientId *string `pulumi:"federatedClientId"`
 	// The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.
 	Identity *EncryptionSetIdentity `pulumi:"identity"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.
 	RotationToLatestKeyVersionEnabled *bool `pulumi:"rotationToLatestKeyVersionEnabled"`
-	// Resource tags
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 }
 
@@ -173,13 +178,13 @@ type DiskEncryptionSetArgs struct {
 	FederatedClientId pulumi.StringPtrInput
 	// The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.
 	Identity EncryptionSetIdentityPtrInput
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.
 	RotationToLatestKeyVersionEnabled pulumi.BoolPtrInput
-	// Resource tags
+	// Resource tags.
 	Tags pulumi.StringMapInput
 }
 
@@ -255,12 +260,12 @@ func (o DiskEncryptionSetOutput) LastKeyRotationTimestamp() pulumi.StringOutput 
 	return o.ApplyT(func(v *DiskEncryptionSet) pulumi.StringOutput { return v.LastKeyRotationTimestamp }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o DiskEncryptionSetOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *DiskEncryptionSet) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o DiskEncryptionSetOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *DiskEncryptionSet) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -280,12 +285,17 @@ func (o DiskEncryptionSetOutput) RotationToLatestKeyVersionEnabled() pulumi.Bool
 	return o.ApplyT(func(v *DiskEncryptionSet) pulumi.BoolPtrOutput { return v.RotationToLatestKeyVersionEnabled }).(pulumi.BoolPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o DiskEncryptionSetOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *DiskEncryptionSet) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o DiskEncryptionSetOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *DiskEncryptionSet) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o DiskEncryptionSetOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *DiskEncryptionSet) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

@@ -32,7 +32,7 @@ type VirtualMachineScaleSetVMExtension struct {
 	InstanceView VirtualMachineExtensionInstanceViewResponsePtrOutput `pulumi:"instanceView"`
 	// The location of the extension.
 	Location pulumi.StringPtrOutput `pulumi:"location"`
-	// The name of the extension.
+	// Resource name
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings pulumi.AnyOutput `pulumi:"protectedSettings"`
@@ -177,7 +177,7 @@ type virtualMachineScaleSetVMExtensionArgs struct {
 	ProvisionAfterExtensions []string `pulumi:"provisionAfterExtensions"`
 	// The name of the extension handler publisher.
 	Publisher *string `pulumi:"publisher"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Json formatted public settings for the extension.
 	Settings interface{} `pulumi:"settings"`
@@ -215,7 +215,7 @@ type VirtualMachineScaleSetVMExtensionArgs struct {
 	ProvisionAfterExtensions pulumi.StringArrayInput
 	// The name of the extension handler publisher.
 	Publisher pulumi.StringPtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// Json formatted public settings for the extension.
 	Settings pulumi.Input
@@ -300,7 +300,7 @@ func (o VirtualMachineScaleSetVMExtensionOutput) Location() pulumi.StringPtrOutp
 	return o.ApplyT(func(v *VirtualMachineScaleSetVMExtension) pulumi.StringPtrOutput { return v.Location }).(pulumi.StringPtrOutput)
 }
 
-// The name of the extension.
+// Resource name
 func (o VirtualMachineScaleSetVMExtensionOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachineScaleSetVMExtension) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }

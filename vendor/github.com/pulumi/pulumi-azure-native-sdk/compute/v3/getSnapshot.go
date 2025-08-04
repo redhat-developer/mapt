@@ -15,7 +15,7 @@ import (
 //
 // Uses Azure REST API version 2024-03-02.
 //
-// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02, 2025-01-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupSnapshot(ctx *pulumi.Context, args *LookupSnapshotArgs, opts ...pulumi.InvokeOption) (*LookupSnapshotResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupSnapshotResult
@@ -27,7 +27,7 @@ func LookupSnapshot(ctx *pulumi.Context, args *LookupSnapshotArgs, opts ...pulum
 }
 
 type LookupSnapshotArgs struct {
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name length is 80 characters.
 	SnapshotName string `pulumi:"snapshotName"`
@@ -61,17 +61,17 @@ type LookupSnapshotResult struct {
 	ExtendedLocation *ExtendedLocationResponse `pulumi:"extendedLocation"`
 	// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *string `pulumi:"hyperVGeneration"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
 	Incremental *bool `pulumi:"incremental"`
 	// Incremental snapshots for a disk share an incremental snapshot family id. The Get Page Range Diff API can only be called on incremental snapshots with the same family id.
 	IncrementalSnapshotFamilyId string `pulumi:"incrementalSnapshotFamilyId"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
 	// Unused. Always Null.
 	ManagedBy string `pulumi:"managedBy"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Policy for accessing the disk via network.
 	NetworkAccessPolicy *string `pulumi:"networkAccessPolicy"`
@@ -82,7 +82,7 @@ type LookupSnapshotResult struct {
 	// Policy for controlling export on the disk.
 	PublicNetworkAccess *string `pulumi:"publicNetworkAccess"`
 	// Purchase plan information for the image from which the source disk for the snapshot was originally created.
-	PurchasePlan *PurchasePlanResponse `pulumi:"purchasePlan"`
+	PurchasePlan *DiskPurchasePlanResponse `pulumi:"purchasePlan"`
 	// Contains the security related information for the resource.
 	SecurityProfile *DiskSecurityProfileResponse `pulumi:"securityProfile"`
 	// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
@@ -91,11 +91,13 @@ type LookupSnapshotResult struct {
 	SupportedCapabilities *SupportedCapabilitiesResponse `pulumi:"supportedCapabilities"`
 	// Indicates the OS on a snapshot supports hibernation.
 	SupportsHibernation *bool `pulumi:"supportsHibernation"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The time when the snapshot was created.
 	TimeCreated string `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// Unique Guid identifying the resource.
 	UniqueId string `pulumi:"uniqueId"`
@@ -111,7 +113,7 @@ func LookupSnapshotOutput(ctx *pulumi.Context, args LookupSnapshotOutputArgs, op
 }
 
 type LookupSnapshotOutputArgs struct {
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name length is 80 characters.
 	SnapshotName pulumi.StringInput `pulumi:"snapshotName"`
@@ -203,7 +205,7 @@ func (o LookupSnapshotResultOutput) HyperVGeneration() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) *string { return v.HyperVGeneration }).(pulumi.StringPtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupSnapshotResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -218,7 +220,7 @@ func (o LookupSnapshotResultOutput) IncrementalSnapshotFamilyId() pulumi.StringO
 	return o.ApplyT(func(v LookupSnapshotResult) string { return v.IncrementalSnapshotFamilyId }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupSnapshotResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) string { return v.Location }).(pulumi.StringOutput)
 }
@@ -228,7 +230,7 @@ func (o LookupSnapshotResultOutput) ManagedBy() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) string { return v.ManagedBy }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupSnapshotResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -254,8 +256,8 @@ func (o LookupSnapshotResultOutput) PublicNetworkAccess() pulumi.StringPtrOutput
 }
 
 // Purchase plan information for the image from which the source disk for the snapshot was originally created.
-func (o LookupSnapshotResultOutput) PurchasePlan() PurchasePlanResponsePtrOutput {
-	return o.ApplyT(func(v LookupSnapshotResult) *PurchasePlanResponse { return v.PurchasePlan }).(PurchasePlanResponsePtrOutput)
+func (o LookupSnapshotResultOutput) PurchasePlan() DiskPurchasePlanResponsePtrOutput {
+	return o.ApplyT(func(v LookupSnapshotResult) *DiskPurchasePlanResponse { return v.PurchasePlan }).(DiskPurchasePlanResponsePtrOutput)
 }
 
 // Contains the security related information for the resource.
@@ -278,7 +280,12 @@ func (o LookupSnapshotResultOutput) SupportsHibernation() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) *bool { return v.SupportsHibernation }).(pulumi.BoolPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupSnapshotResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupSnapshotResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupSnapshotResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -288,7 +295,7 @@ func (o LookupSnapshotResultOutput) TimeCreated() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) string { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupSnapshotResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupSnapshotResult) string { return v.Type }).(pulumi.StringOutput)
 }

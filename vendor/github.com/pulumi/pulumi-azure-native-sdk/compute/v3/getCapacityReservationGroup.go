@@ -31,7 +31,7 @@ type LookupCapacityReservationGroupArgs struct {
 	CapacityReservationGroupName string `pulumi:"capacityReservationGroupName"`
 	// The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the capacity reservations under the capacity reservation group which is a snapshot of the runtime properties of a capacity reservation that is managed by the platform and can change outside of control plane operations.
 	Expand *string `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
@@ -41,23 +41,25 @@ type LookupCapacityReservationGroupResult struct {
 	AzureApiVersion string `pulumi:"azureApiVersion"`
 	// A list of all capacity reservation resource ids that belong to capacity reservation group.
 	CapacityReservations []SubResourceReadOnlyResponse `pulumi:"capacityReservations"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The capacity reservation group instance view which has the list of instance views for all the capacity reservations that belong to the capacity reservation group.
 	InstanceView CapacityReservationGroupInstanceViewResponse `pulumi:"instanceView"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 	SharingProfile *ResourceSharingProfileResponse `pulumi:"sharingProfile"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// A list of references to all virtual machines associated to the capacity reservation group.
 	VirtualMachinesAssociated []SubResourceReadOnlyResponse `pulumi:"virtualMachinesAssociated"`
-	// Availability Zones to use for this capacity reservation group. The zones can be assigned only during creation. If not provided, the group supports only regional resources in the region. If provided, enforces each capacity reservation in the group to be in one of the zones.
+	// The availability zones.
 	Zones []string `pulumi:"zones"`
 }
 
@@ -75,7 +77,7 @@ type LookupCapacityReservationGroupOutputArgs struct {
 	CapacityReservationGroupName pulumi.StringInput `pulumi:"capacityReservationGroupName"`
 	// The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the capacity reservations under the capacity reservation group which is a snapshot of the runtime properties of a capacity reservation that is managed by the platform and can change outside of control plane operations.
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -110,7 +112,7 @@ func (o LookupCapacityReservationGroupResultOutput) CapacityReservations() SubRe
 	}).(SubResourceReadOnlyResponseArrayOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupCapacityReservationGroupResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupCapacityReservationGroupResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -122,12 +124,12 @@ func (o LookupCapacityReservationGroupResultOutput) InstanceView() CapacityReser
 	}).(CapacityReservationGroupInstanceViewResponseOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupCapacityReservationGroupResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupCapacityReservationGroupResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupCapacityReservationGroupResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupCapacityReservationGroupResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -137,12 +139,17 @@ func (o LookupCapacityReservationGroupResultOutput) SharingProfile() ResourceSha
 	return o.ApplyT(func(v LookupCapacityReservationGroupResult) *ResourceSharingProfileResponse { return v.SharingProfile }).(ResourceSharingProfileResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupCapacityReservationGroupResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupCapacityReservationGroupResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupCapacityReservationGroupResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupCapacityReservationGroupResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupCapacityReservationGroupResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupCapacityReservationGroupResult) string { return v.Type }).(pulumi.StringOutput)
 }
@@ -154,7 +161,7 @@ func (o LookupCapacityReservationGroupResultOutput) VirtualMachinesAssociated() 
 	}).(SubResourceReadOnlyResponseArrayOutput)
 }
 
-// Availability Zones to use for this capacity reservation group. The zones can be assigned only during creation. If not provided, the group supports only regional resources in the region. If provided, enforces each capacity reservation in the group to be in one of the zones.
+// The availability zones.
 func (o LookupCapacityReservationGroupResultOutput) Zones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupCapacityReservationGroupResult) []string { return v.Zones }).(pulumi.StringArrayOutput)
 }

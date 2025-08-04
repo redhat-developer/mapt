@@ -1359,6 +1359,174 @@ func (in *deletePolicyPtr) ToDeletePolicyPtrOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, in).(DeletePolicyPtrOutput)
 }
 
+// The deployment safeguards level. Possible values are Warn and Enforce
+type DeploymentSafeguardsLevel string
+
+const (
+	// Best practice violations will only show warnings
+	DeploymentSafeguardsLevelWarn = DeploymentSafeguardsLevel("Warn")
+	// Best practice violations will be denied
+	DeploymentSafeguardsLevelEnforce = DeploymentSafeguardsLevel("Enforce")
+)
+
+func (DeploymentSafeguardsLevel) ElementType() reflect.Type {
+	return reflect.TypeOf((*DeploymentSafeguardsLevel)(nil)).Elem()
+}
+
+func (e DeploymentSafeguardsLevel) ToDeploymentSafeguardsLevelOutput() DeploymentSafeguardsLevelOutput {
+	return pulumi.ToOutput(e).(DeploymentSafeguardsLevelOutput)
+}
+
+func (e DeploymentSafeguardsLevel) ToDeploymentSafeguardsLevelOutputWithContext(ctx context.Context) DeploymentSafeguardsLevelOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(DeploymentSafeguardsLevelOutput)
+}
+
+func (e DeploymentSafeguardsLevel) ToDeploymentSafeguardsLevelPtrOutput() DeploymentSafeguardsLevelPtrOutput {
+	return e.ToDeploymentSafeguardsLevelPtrOutputWithContext(context.Background())
+}
+
+func (e DeploymentSafeguardsLevel) ToDeploymentSafeguardsLevelPtrOutputWithContext(ctx context.Context) DeploymentSafeguardsLevelPtrOutput {
+	return DeploymentSafeguardsLevel(e).ToDeploymentSafeguardsLevelOutputWithContext(ctx).ToDeploymentSafeguardsLevelPtrOutputWithContext(ctx)
+}
+
+func (e DeploymentSafeguardsLevel) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DeploymentSafeguardsLevel) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DeploymentSafeguardsLevel) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e DeploymentSafeguardsLevel) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type DeploymentSafeguardsLevelOutput struct{ *pulumi.OutputState }
+
+func (DeploymentSafeguardsLevelOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DeploymentSafeguardsLevel)(nil)).Elem()
+}
+
+func (o DeploymentSafeguardsLevelOutput) ToDeploymentSafeguardsLevelOutput() DeploymentSafeguardsLevelOutput {
+	return o
+}
+
+func (o DeploymentSafeguardsLevelOutput) ToDeploymentSafeguardsLevelOutputWithContext(ctx context.Context) DeploymentSafeguardsLevelOutput {
+	return o
+}
+
+func (o DeploymentSafeguardsLevelOutput) ToDeploymentSafeguardsLevelPtrOutput() DeploymentSafeguardsLevelPtrOutput {
+	return o.ToDeploymentSafeguardsLevelPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentSafeguardsLevelOutput) ToDeploymentSafeguardsLevelPtrOutputWithContext(ctx context.Context) DeploymentSafeguardsLevelPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v DeploymentSafeguardsLevel) *DeploymentSafeguardsLevel {
+		return &v
+	}).(DeploymentSafeguardsLevelPtrOutput)
+}
+
+func (o DeploymentSafeguardsLevelOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o DeploymentSafeguardsLevelOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentSafeguardsLevel) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o DeploymentSafeguardsLevelOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentSafeguardsLevelOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentSafeguardsLevel) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type DeploymentSafeguardsLevelPtrOutput struct{ *pulumi.OutputState }
+
+func (DeploymentSafeguardsLevelPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**DeploymentSafeguardsLevel)(nil)).Elem()
+}
+
+func (o DeploymentSafeguardsLevelPtrOutput) ToDeploymentSafeguardsLevelPtrOutput() DeploymentSafeguardsLevelPtrOutput {
+	return o
+}
+
+func (o DeploymentSafeguardsLevelPtrOutput) ToDeploymentSafeguardsLevelPtrOutputWithContext(ctx context.Context) DeploymentSafeguardsLevelPtrOutput {
+	return o
+}
+
+func (o DeploymentSafeguardsLevelPtrOutput) Elem() DeploymentSafeguardsLevelOutput {
+	return o.ApplyT(func(v *DeploymentSafeguardsLevel) DeploymentSafeguardsLevel {
+		if v != nil {
+			return *v
+		}
+		var ret DeploymentSafeguardsLevel
+		return ret
+	}).(DeploymentSafeguardsLevelOutput)
+}
+
+func (o DeploymentSafeguardsLevelPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentSafeguardsLevelPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *DeploymentSafeguardsLevel) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// DeploymentSafeguardsLevelInput is an input type that accepts values of the DeploymentSafeguardsLevel enum
+// A concrete instance of `DeploymentSafeguardsLevelInput` can be one of the following:
+//
+//	DeploymentSafeguardsLevelWarn
+//	DeploymentSafeguardsLevelEnforce
+type DeploymentSafeguardsLevelInput interface {
+	pulumi.Input
+
+	ToDeploymentSafeguardsLevelOutput() DeploymentSafeguardsLevelOutput
+	ToDeploymentSafeguardsLevelOutputWithContext(context.Context) DeploymentSafeguardsLevelOutput
+}
+
+var deploymentSafeguardsLevelPtrType = reflect.TypeOf((**DeploymentSafeguardsLevel)(nil)).Elem()
+
+type DeploymentSafeguardsLevelPtrInput interface {
+	pulumi.Input
+
+	ToDeploymentSafeguardsLevelPtrOutput() DeploymentSafeguardsLevelPtrOutput
+	ToDeploymentSafeguardsLevelPtrOutputWithContext(context.Context) DeploymentSafeguardsLevelPtrOutput
+}
+
+type deploymentSafeguardsLevelPtr string
+
+func DeploymentSafeguardsLevelPtr(v string) DeploymentSafeguardsLevelPtrInput {
+	return (*deploymentSafeguardsLevelPtr)(&v)
+}
+
+func (*deploymentSafeguardsLevelPtr) ElementType() reflect.Type {
+	return deploymentSafeguardsLevelPtrType
+}
+
+func (in *deploymentSafeguardsLevelPtr) ToDeploymentSafeguardsLevelPtrOutput() DeploymentSafeguardsLevelPtrOutput {
+	return pulumi.ToOutput(in).(DeploymentSafeguardsLevelPtrOutput)
+}
+
+func (in *deploymentSafeguardsLevelPtr) ToDeploymentSafeguardsLevelPtrOutputWithContext(ctx context.Context) DeploymentSafeguardsLevelPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(DeploymentSafeguardsLevelPtrOutput)
+}
+
 // If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 type Expander string
 
@@ -8166,6 +8334,8 @@ func init() {
 	pulumi.RegisterOutputType(ConnectionStatusPtrOutput{})
 	pulumi.RegisterOutputType(DeletePolicyOutput{})
 	pulumi.RegisterOutputType(DeletePolicyPtrOutput{})
+	pulumi.RegisterOutputType(DeploymentSafeguardsLevelOutput{})
+	pulumi.RegisterOutputType(DeploymentSafeguardsLevelPtrOutput{})
 	pulumi.RegisterOutputType(ExpanderOutput{})
 	pulumi.RegisterOutputType(ExpanderPtrOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationTypesOutput{})

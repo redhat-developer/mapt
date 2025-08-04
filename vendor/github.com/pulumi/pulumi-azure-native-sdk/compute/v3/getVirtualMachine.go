@@ -29,7 +29,7 @@ func LookupVirtualMachine(ctx *pulumi.Context, args *LookupVirtualMachineArgs, o
 type LookupVirtualMachineArgs struct {
 	// The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the virtual machine that is managed by the platform and can change outside of control plane operations. 'UserData' retrieves the UserData property as part of the VM model view that was provided by the user during the VM Create/Update operation.
 	Expand *string `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the virtual machine.
 	VmName string `pulumi:"vmName"`
@@ -65,7 +65,7 @@ type LookupVirtualMachineResult struct {
 	Host *SubResourceResponse `pulumi:"host"`
 	// Specifies information about the dedicated host group that the virtual machine resides in. **Note:** User cannot specify both host and hostGroup properties. Minimum api-version: 2020-06-01.
 	HostGroup *SubResourceResponse `pulumi:"hostGroup"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The identity of the virtual machine, if configured.
 	Identity *VirtualMachineIdentityResponse `pulumi:"identity"`
@@ -73,11 +73,11 @@ type LookupVirtualMachineResult struct {
 	InstanceView VirtualMachineInstanceViewResponse `pulumi:"instanceView"`
 	// Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15
 	LicenseType *string `pulumi:"licenseType"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
 	// ManagedBy is set to Virtual Machine Scale Set(VMSS) flex ARM resourceID, if the VM is part of the VMSS. This property is used by platform for internal resource group delete optimization.
 	ManagedBy string `pulumi:"managedBy"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Specifies the network interfaces of the virtual machine.
 	NetworkProfile *NetworkProfileResponse `pulumi:"networkProfile"`
@@ -105,11 +105,13 @@ type LookupVirtualMachineResult struct {
 	SecurityProfile *SecurityProfileResponse `pulumi:"securityProfile"`
 	// Specifies the storage settings for the virtual machine disks.
 	StorageProfile *StorageProfileResponse `pulumi:"storageProfile"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01.
 	TimeCreated string `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01.
 	UserData *string `pulumi:"userData"`
@@ -117,7 +119,7 @@ type LookupVirtualMachineResult struct {
 	VirtualMachineScaleSet *SubResourceResponse `pulumi:"virtualMachineScaleSet"`
 	// Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands.
 	VmId string `pulumi:"vmId"`
-	// The virtual machine zones.
+	// The availability zones.
 	Zones []string `pulumi:"zones"`
 }
 
@@ -133,7 +135,7 @@ func LookupVirtualMachineOutput(ctx *pulumi.Context, args LookupVirtualMachineOu
 type LookupVirtualMachineOutputArgs struct {
 	// The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the virtual machine that is managed by the platform and can change outside of control plane operations. 'UserData' retrieves the UserData property as part of the VM model view that was provided by the user during the VM Create/Update operation.
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the virtual machine.
 	VmName pulumi.StringInput `pulumi:"vmName"`
@@ -228,7 +230,7 @@ func (o LookupVirtualMachineResultOutput) HostGroup() SubResourceResponsePtrOutp
 	return o.ApplyT(func(v LookupVirtualMachineResult) *SubResourceResponse { return v.HostGroup }).(SubResourceResponsePtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupVirtualMachineResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -248,7 +250,7 @@ func (o LookupVirtualMachineResultOutput) LicenseType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) *string { return v.LicenseType }).(pulumi.StringPtrOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupVirtualMachineResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) string { return v.Location }).(pulumi.StringOutput)
 }
@@ -258,7 +260,7 @@ func (o LookupVirtualMachineResultOutput) ManagedBy() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) string { return v.ManagedBy }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupVirtualMachineResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -328,7 +330,12 @@ func (o LookupVirtualMachineResultOutput) StorageProfile() StorageProfileRespons
 	return o.ApplyT(func(v LookupVirtualMachineResult) *StorageProfileResponse { return v.StorageProfile }).(StorageProfileResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupVirtualMachineResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupVirtualMachineResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupVirtualMachineResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -338,7 +345,7 @@ func (o LookupVirtualMachineResultOutput) TimeCreated() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) string { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupVirtualMachineResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) string { return v.Type }).(pulumi.StringOutput)
 }
@@ -358,7 +365,7 @@ func (o LookupVirtualMachineResultOutput) VmId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) string { return v.VmId }).(pulumi.StringOutput)
 }
 
-// The virtual machine zones.
+// The availability zones.
 func (o LookupVirtualMachineResultOutput) Zones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupVirtualMachineResult) []string { return v.Zones }).(pulumi.StringArrayOutput)
 }

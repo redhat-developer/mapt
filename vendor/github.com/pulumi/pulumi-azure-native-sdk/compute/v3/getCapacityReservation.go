@@ -33,7 +33,7 @@ type LookupCapacityReservationArgs struct {
 	CapacityReservationName string `pulumi:"capacityReservationName"`
 	// The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations.
 	Expand *string `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
@@ -41,13 +41,13 @@ type LookupCapacityReservationArgs struct {
 type LookupCapacityReservationResult struct {
 	// The Azure API version of the resource.
 	AzureApiVersion string `pulumi:"azureApiVersion"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The Capacity reservation instance view.
 	InstanceView CapacityReservationInstanceViewResponse `pulumi:"instanceView"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Specifies the value of fault domain count that Capacity Reservation supports for requested VM size. **Note:** The fault domain count specified for a resource (like virtual machines scale set) must be less than or equal to this value if it deploys using capacity reservation. Minimum api-version: 2022-08-01.
 	PlatformFaultDomainCount int `pulumi:"platformFaultDomainCount"`
@@ -59,15 +59,17 @@ type LookupCapacityReservationResult struct {
 	ReservationId string `pulumi:"reservationId"`
 	// SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values.
 	Sku SkuResponse `pulumi:"sku"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Specifies the time at which the Capacity Reservation resource was created. Minimum api-version: 2021-11-01.
 	TimeCreated string `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// A list of all virtual machine resource ids that are associated with the capacity reservation.
 	VirtualMachinesAssociated []SubResourceReadOnlyResponse `pulumi:"virtualMachinesAssociated"`
-	// Availability Zone to use for this capacity reservation. The zone has to be single value and also should be part for the list of zones specified during the capacity reservation group creation. The zone can be assigned only during creation. If not provided, the reservation supports only non-zonal deployments. If provided, enforces VM/VMSS using this capacity reservation to be in same zone.
+	// The availability zones.
 	Zones []string `pulumi:"zones"`
 }
 
@@ -87,7 +89,7 @@ type LookupCapacityReservationOutputArgs struct {
 	CapacityReservationName pulumi.StringInput `pulumi:"capacityReservationName"`
 	// The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations.
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -115,7 +117,7 @@ func (o LookupCapacityReservationResultOutput) AzureApiVersion() pulumi.StringOu
 	return o.ApplyT(func(v LookupCapacityReservationResult) string { return v.AzureApiVersion }).(pulumi.StringOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupCapacityReservationResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupCapacityReservationResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -125,12 +127,12 @@ func (o LookupCapacityReservationResultOutput) InstanceView() CapacityReservatio
 	return o.ApplyT(func(v LookupCapacityReservationResult) CapacityReservationInstanceViewResponse { return v.InstanceView }).(CapacityReservationInstanceViewResponseOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupCapacityReservationResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupCapacityReservationResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupCapacityReservationResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupCapacityReservationResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -160,7 +162,12 @@ func (o LookupCapacityReservationResultOutput) Sku() SkuResponseOutput {
 	return o.ApplyT(func(v LookupCapacityReservationResult) SkuResponse { return v.Sku }).(SkuResponseOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupCapacityReservationResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupCapacityReservationResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupCapacityReservationResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupCapacityReservationResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -170,7 +177,7 @@ func (o LookupCapacityReservationResultOutput) TimeCreated() pulumi.StringOutput
 	return o.ApplyT(func(v LookupCapacityReservationResult) string { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupCapacityReservationResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupCapacityReservationResult) string { return v.Type }).(pulumi.StringOutput)
 }
@@ -182,7 +189,7 @@ func (o LookupCapacityReservationResultOutput) VirtualMachinesAssociated() SubRe
 	}).(SubResourceReadOnlyResponseArrayOutput)
 }
 
-// Availability Zone to use for this capacity reservation. The zone has to be single value and also should be part for the list of zones specified during the capacity reservation group creation. The zone can be assigned only during creation. If not provided, the reservation supports only non-zonal deployments. If provided, enforces VM/VMSS using this capacity reservation to be in same zone.
+// The availability zones.
 func (o LookupCapacityReservationResultOutput) Zones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupCapacityReservationResult) []string { return v.Zones }).(pulumi.StringArrayOutput)
 }

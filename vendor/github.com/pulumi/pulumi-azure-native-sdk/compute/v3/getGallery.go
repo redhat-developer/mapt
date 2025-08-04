@@ -31,7 +31,7 @@ type LookupGalleryArgs struct {
 	Expand *string `pulumi:"expand"`
 	// The name of the Shared Image Gallery.
 	GalleryName string `pulumi:"galleryName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The select expression to apply on the operation.
 	Select *string `pulumi:"select"`
@@ -43,15 +43,15 @@ type LookupGalleryResult struct {
 	AzureApiVersion string `pulumi:"azureApiVersion"`
 	// The description of this Shared Image Gallery resource. This property is updatable.
 	Description *string `pulumi:"description"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// Describes the gallery unique name.
 	Identifier *GalleryIdentifierResponse `pulumi:"identifier"`
 	// The identity of the gallery, if configured.
 	Identity *GalleryIdentityResponse `pulumi:"identity"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The provisioning state, which only appears in the response.
 	ProvisioningState string `pulumi:"provisioningState"`
@@ -61,9 +61,11 @@ type LookupGalleryResult struct {
 	SharingStatus SharingStatusResponse `pulumi:"sharingStatus"`
 	// Contains information about the soft deletion policy of the gallery.
 	SoftDeletePolicy *SoftDeletePolicyResponse `pulumi:"softDeletePolicy"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -81,7 +83,7 @@ type LookupGalleryOutputArgs struct {
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
 	// The name of the Shared Image Gallery.
 	GalleryName pulumi.StringInput `pulumi:"galleryName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The select expression to apply on the operation.
 	Select pulumi.StringPtrInput `pulumi:"select"`
@@ -116,7 +118,7 @@ func (o LookupGalleryResultOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupGalleryResult) *string { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupGalleryResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -131,12 +133,12 @@ func (o LookupGalleryResultOutput) Identity() GalleryIdentityResponsePtrOutput {
 	return o.ApplyT(func(v LookupGalleryResult) *GalleryIdentityResponse { return v.Identity }).(GalleryIdentityResponsePtrOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupGalleryResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupGalleryResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -161,12 +163,17 @@ func (o LookupGalleryResultOutput) SoftDeletePolicy() SoftDeletePolicyResponsePt
 	return o.ApplyT(func(v LookupGalleryResult) *SoftDeletePolicyResponse { return v.SoftDeletePolicy }).(SoftDeletePolicyResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupGalleryResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupGalleryResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupGalleryResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupGalleryResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupGalleryResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupGalleryResult) string { return v.Type }).(pulumi.StringOutput)
 }

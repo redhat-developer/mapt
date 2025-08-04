@@ -31,7 +31,7 @@ type LookupVirtualMachineScaleSetVMExtensionArgs struct {
 	Expand *string `pulumi:"expand"`
 	// The instance ID of the virtual machine.
 	InstanceId string `pulumi:"instanceId"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the virtual machine extension.
 	VmExtensionName string `pulumi:"vmExtensionName"`
@@ -55,7 +55,7 @@ type LookupVirtualMachineScaleSetVMExtensionResult struct {
 	InstanceView *VirtualMachineExtensionInstanceViewResponse `pulumi:"instanceView"`
 	// The location of the extension.
 	Location *string `pulumi:"location"`
-	// The name of the extension.
+	// Resource name
 	Name string `pulumi:"name"`
 	// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
 	ProtectedSettings interface{} `pulumi:"protectedSettings"`
@@ -91,7 +91,7 @@ type LookupVirtualMachineScaleSetVMExtensionOutputArgs struct {
 	Expand pulumi.StringPtrInput `pulumi:"expand"`
 	// The instance ID of the virtual machine.
 	InstanceId pulumi.StringInput `pulumi:"instanceId"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the virtual machine extension.
 	VmExtensionName pulumi.StringInput `pulumi:"vmExtensionName"`
@@ -155,7 +155,7 @@ func (o LookupVirtualMachineScaleSetVMExtensionResultOutput) Location() pulumi.S
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMExtensionResult) *string { return v.Location }).(pulumi.StringPtrOutput)
 }
 
-// The name of the extension.
+// Resource name
 func (o LookupVirtualMachineScaleSetVMExtensionResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMExtensionResult) string { return v.Name }).(pulumi.StringOutput)
 }

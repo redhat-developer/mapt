@@ -25,6 +25,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &AgentPool{}
 	case "azure-native:containerservice:AutoUpgradeProfile":
 		r = &AutoUpgradeProfile{}
+	case "azure-native:containerservice:DeploymentSafeguard":
+		r = &DeploymentSafeguard{}
 	case "azure-native:containerservice:Fleet":
 		r = &Fleet{}
 	case "azure-native:containerservice:FleetMember":
@@ -39,6 +41,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ManagedCluster{}
 	case "azure-native:containerservice:ManagedClusterSnapshot":
 		r = &ManagedClusterSnapshot{}
+	case "azure-native:containerservice:ManagedNamespace":
+		r = &ManagedNamespace{}
 	case "azure-native:containerservice:Namespace":
 		r = &Namespace{}
 	case "azure-native:containerservice:PrivateEndpointConnection":

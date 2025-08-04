@@ -15,7 +15,7 @@ import (
 //
 // Uses Azure REST API version 2024-03-02.
 //
-// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2022-07-02, 2023-01-02, 2023-04-02, 2023-10-02, 2025-01-02. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupDiskEncryptionSet(ctx *pulumi.Context, args *LookupDiskEncryptionSetArgs, opts ...pulumi.InvokeOption) (*LookupDiskEncryptionSetResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupDiskEncryptionSetResult
@@ -29,7 +29,7 @@ func LookupDiskEncryptionSet(ctx *pulumi.Context, args *LookupDiskEncryptionSetA
 type LookupDiskEncryptionSetArgs struct {
 	// The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
 	DiskEncryptionSetName string `pulumi:"diskEncryptionSetName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
@@ -45,15 +45,15 @@ type LookupDiskEncryptionSetResult struct {
 	EncryptionType *string `pulumi:"encryptionType"`
 	// Multi-tenant application client id to access key vault in a different tenant. Setting the value to 'None' will clear the property.
 	FederatedClientId *string `pulumi:"federatedClientId"`
-	// Resource Id
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.
 	Identity *EncryptionSetIdentityResponse `pulumi:"identity"`
 	// The time when the active key of this disk encryption set was updated.
 	LastKeyRotationTimestamp string `pulumi:"lastKeyRotationTimestamp"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Resource name
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.
 	PreviousKeys []KeyForDiskEncryptionSetResponse `pulumi:"previousKeys"`
@@ -61,9 +61,11 @@ type LookupDiskEncryptionSetResult struct {
 	ProvisioningState string `pulumi:"provisioningState"`
 	// Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.
 	RotationToLatestKeyVersionEnabled *bool `pulumi:"rotationToLatestKeyVersionEnabled"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -79,7 +81,7 @@ func LookupDiskEncryptionSetOutput(ctx *pulumi.Context, args LookupDiskEncryptio
 type LookupDiskEncryptionSetOutputArgs struct {
 	// The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
 	DiskEncryptionSetName pulumi.StringInput `pulumi:"diskEncryptionSetName"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 }
 
@@ -127,7 +129,7 @@ func (o LookupDiskEncryptionSetResultOutput) FederatedClientId() pulumi.StringPt
 	return o.ApplyT(func(v LookupDiskEncryptionSetResult) *string { return v.FederatedClientId }).(pulumi.StringPtrOutput)
 }
 
-// Resource Id
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupDiskEncryptionSetResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDiskEncryptionSetResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -142,12 +144,12 @@ func (o LookupDiskEncryptionSetResultOutput) LastKeyRotationTimestamp() pulumi.S
 	return o.ApplyT(func(v LookupDiskEncryptionSetResult) string { return v.LastKeyRotationTimestamp }).(pulumi.StringOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o LookupDiskEncryptionSetResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDiskEncryptionSetResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o LookupDiskEncryptionSetResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDiskEncryptionSetResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -167,12 +169,17 @@ func (o LookupDiskEncryptionSetResultOutput) RotationToLatestKeyVersionEnabled()
 	return o.ApplyT(func(v LookupDiskEncryptionSetResult) *bool { return v.RotationToLatestKeyVersionEnabled }).(pulumi.BoolPtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupDiskEncryptionSetResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupDiskEncryptionSetResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o LookupDiskEncryptionSetResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupDiskEncryptionSetResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupDiskEncryptionSetResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDiskEncryptionSetResult) string { return v.Type }).(pulumi.StringOutput)
 }

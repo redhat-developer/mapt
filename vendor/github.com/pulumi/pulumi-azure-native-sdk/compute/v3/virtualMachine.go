@@ -54,11 +54,11 @@ type VirtualMachine struct {
 	InstanceView VirtualMachineInstanceViewResponseOutput `pulumi:"instanceView"`
 	// Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15
 	LicenseType pulumi.StringPtrOutput `pulumi:"licenseType"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
 	// ManagedBy is set to Virtual Machine Scale Set(VMSS) flex ARM resourceID, if the VM is part of the VMSS. This property is used by platform for internal resource group delete optimization.
 	ManagedBy pulumi.StringOutput `pulumi:"managedBy"`
-	// Resource name
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Specifies the network interfaces of the virtual machine.
 	NetworkProfile NetworkProfileResponsePtrOutput `pulumi:"networkProfile"`
@@ -86,11 +86,13 @@ type VirtualMachine struct {
 	SecurityProfile SecurityProfileResponsePtrOutput `pulumi:"securityProfile"`
 	// Specifies the storage settings for the virtual machine disks.
 	StorageProfile StorageProfileResponsePtrOutput `pulumi:"storageProfile"`
-	// Resource tags
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01.
 	TimeCreated pulumi.StringOutput `pulumi:"timeCreated"`
-	// Resource type
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01.
 	UserData pulumi.StringPtrOutput `pulumi:"userData"`
@@ -98,7 +100,7 @@ type VirtualMachine struct {
 	VirtualMachineScaleSet SubResourceResponsePtrOutput `pulumi:"virtualMachineScaleSet"`
 	// Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands.
 	VmId pulumi.StringOutput `pulumi:"vmId"`
-	// The virtual machine zones.
+	// The availability zones.
 	Zones pulumi.StringArrayOutput `pulumi:"zones"`
 }
 
@@ -254,7 +256,7 @@ type virtualMachineArgs struct {
 	Identity *VirtualMachineIdentity `pulumi:"identity"`
 	// Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15
 	LicenseType *string `pulumi:"licenseType"`
-	// Resource location
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
 	// Specifies the network interfaces of the virtual machine.
 	NetworkProfile *NetworkProfile `pulumi:"networkProfile"`
@@ -270,7 +272,7 @@ type virtualMachineArgs struct {
 	Priority *string `pulumi:"priority"`
 	// Specifies information about the proximity placement group that the virtual machine should be assigned to. Minimum api-version: 2018-04-01.
 	ProximityPlacementGroup *SubResource `pulumi:"proximityPlacementGroup"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine.
 	ScheduledEventsPolicy *ScheduledEventsPolicy `pulumi:"scheduledEventsPolicy"`
@@ -280,7 +282,7 @@ type virtualMachineArgs struct {
 	SecurityProfile *SecurityProfile `pulumi:"securityProfile"`
 	// Specifies the storage settings for the virtual machine disks.
 	StorageProfile *StorageProfile `pulumi:"storageProfile"`
-	// Resource tags
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01.
 	UserData *string `pulumi:"userData"`
@@ -288,7 +290,7 @@ type virtualMachineArgs struct {
 	VirtualMachineScaleSet *SubResource `pulumi:"virtualMachineScaleSet"`
 	// The name of the virtual machine.
 	VmName *string `pulumi:"vmName"`
-	// The virtual machine zones.
+	// The availability zones.
 	Zones []string `pulumi:"zones"`
 }
 
@@ -322,7 +324,7 @@ type VirtualMachineArgs struct {
 	Identity VirtualMachineIdentityPtrInput
 	// Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15
 	LicenseType pulumi.StringPtrInput
-	// Resource location
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
 	// Specifies the network interfaces of the virtual machine.
 	NetworkProfile NetworkProfilePtrInput
@@ -338,7 +340,7 @@ type VirtualMachineArgs struct {
 	Priority pulumi.StringPtrInput
 	// Specifies information about the proximity placement group that the virtual machine should be assigned to. Minimum api-version: 2018-04-01.
 	ProximityPlacementGroup SubResourcePtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine.
 	ScheduledEventsPolicy ScheduledEventsPolicyPtrInput
@@ -348,7 +350,7 @@ type VirtualMachineArgs struct {
 	SecurityProfile SecurityProfilePtrInput
 	// Specifies the storage settings for the virtual machine disks.
 	StorageProfile StorageProfilePtrInput
-	// Resource tags
+	// Resource tags.
 	Tags pulumi.StringMapInput
 	// UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01.
 	UserData pulumi.StringPtrInput
@@ -356,7 +358,7 @@ type VirtualMachineArgs struct {
 	VirtualMachineScaleSet SubResourcePtrInput
 	// The name of the virtual machine.
 	VmName pulumi.StringPtrInput
-	// The virtual machine zones.
+	// The availability zones.
 	Zones pulumi.StringArrayInput
 }
 
@@ -482,7 +484,7 @@ func (o VirtualMachineOutput) LicenseType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringPtrOutput { return v.LicenseType }).(pulumi.StringPtrOutput)
 }
 
-// Resource location
+// The geo-location where the resource lives
 func (o VirtualMachineOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
@@ -492,7 +494,7 @@ func (o VirtualMachineOutput) ManagedBy() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringOutput { return v.ManagedBy }).(pulumi.StringOutput)
 }
 
-// Resource name
+// The name of the resource
 func (o VirtualMachineOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -562,7 +564,12 @@ func (o VirtualMachineOutput) StorageProfile() StorageProfileResponsePtrOutput {
 	return o.ApplyT(func(v *VirtualMachine) StorageProfileResponsePtrOutput { return v.StorageProfile }).(StorageProfileResponsePtrOutput)
 }
 
-// Resource tags
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o VirtualMachineOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *VirtualMachine) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// Resource tags.
 func (o VirtualMachineOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
@@ -572,7 +579,7 @@ func (o VirtualMachineOutput) TimeCreated() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringOutput { return v.TimeCreated }).(pulumi.StringOutput)
 }
 
-// Resource type
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o VirtualMachineOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }
@@ -592,7 +599,7 @@ func (o VirtualMachineOutput) VmId() pulumi.StringOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringOutput { return v.VmId }).(pulumi.StringOutput)
 }
 
-// The virtual machine zones.
+// The availability zones.
 func (o VirtualMachineOutput) Zones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *VirtualMachine) pulumi.StringArrayOutput { return v.Zones }).(pulumi.StringArrayOutput)
 }
