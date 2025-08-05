@@ -26,7 +26,7 @@ var (
 	outputDeveloperPass  = "aosDeveloperPass"
 
 	commandReadiness    = "while [ ! -f /tmp/.crc-cluster-ready ]; do sleep 5; done"
-	commandCaServiceRan = "sudo bash -c 'until oc get node --kubeconfig /opt/kubeconfig --context system:admin; do sleep 5; done'"
+	commandCaServiceRan = "sudo bash -c 'until oc get node --kubeconfig /opt/kubeconfig --context system:admin || oc get node --kubeconfig /opt/crc/kubeconfig --context system:admin; do sleep 5; done'"
 
 	// portHTTP  = 80
 	portHTTPS = 443

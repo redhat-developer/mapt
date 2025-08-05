@@ -468,7 +468,7 @@ func kubeconfig(ctx *pulumi.Context,
 	}
 
 	// Get content for /opt/kubeconfig
-	getKCCmd := ("cat /opt/kubeconfig")
+	getKCCmd := ("sudo cat /opt/crc/kubeconfig")
 	getKC, err := c.RunCommand(ctx,
 		getKCCmd,
 		compute.NoLoggingCmdStd,
