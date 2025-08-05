@@ -153,7 +153,7 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 		ctx,
 		resourcesUtil.GetResourceName(*r.prefix, azureAKSID, "identity"),
 		&managedidentity.UserAssignedIdentityArgs{
-			Location:          rg.Location,
+			Location:          pulumi.String(*location),
 			ResourceGroupName: rg.Name,
 			Tags:              r.mCtx.ResourceTags(),
 		})
@@ -190,7 +190,7 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 	}
 	managedClusterArgs := &containerservice.ManagedClusterArgs{
 		ResourceGroupName: rg.Name,
-		Location:          rg.Location,
+		Location:          pulumi.String(*location),
 		Identity: &containerservice.ManagedClusterIdentityArgs{
 			Type: containerservice.ResourceIdentityTypeUserAssigned,
 			UserAssignedIdentities: pulumi.StringArray{

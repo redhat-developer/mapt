@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -25,7 +24,7 @@ func getCredentials() (cred *azidentity.DefaultAzureCredential, subscriptionID *
 func getGraphClientFactory() (*armresourcegraph.ClientFactory, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
-		return nil, fmt.Errorf("error getting the best spot price choice: %v", err)
+		return nil, err
 	}
 	// ResourceGraph client
 	return armresourcegraph.NewClientFactory(cred, nil)

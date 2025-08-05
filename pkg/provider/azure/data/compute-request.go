@@ -33,6 +33,39 @@ func (c *ComputeSelector) Select(
 	return getAzureVMSKUs(args)
 }
 
+func FilterComputeSizesByLocation(location *string, computeSizes []string) ([]string, error) {
+	creds, subscriptionID, err := getCredentials()
+	if err != nil {
+		return nil, err
+	}
+	client, err := armcompute.NewResourceSKUsClient(*subscriptionID, creds, nil)
+	if err != nil {
+		return nil, err
+	}
+	pager := client.NewListPager(nil)
+	supportedSizes := []string{}
+	for pager.More() {
+		page, err := pager.NextPage(context.Background())
+		if err != nil {
+			return nil, err
+		}
+		for _, sku := range page.Value {
+			if sku.ResourceType != nil &&
+				*sku.ResourceType == string(RTVirtualMachines) {
+				if sku.Name != nil && slices.Contains(computeSizes, *sku.Name) {
+					for _, loc := range sku.Locations {
+						if strings.EqualFold(*loc, *location) {
+							supportedSizes = append(supportedSizes, *sku.Name)
+							break
+						}
+					}
+				}
+			}
+		}
+	}
+	return supportedSizes, nil
+}
+
 func getAzureVMSKUs(args *cr.ComputeRequestArgs) ([]string, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
