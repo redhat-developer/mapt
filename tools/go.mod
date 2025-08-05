@@ -2,7 +2,7 @@ module github.com/redhat-developer/mapt/tools
 
 go 1.23.6
 
-require github.com/golangci/golangci-lint/v2 v2.3.0
+require github.com/golangci/golangci-lint/v2 v2.3.1
 
 require (
 	github.com/alfatraining/structtag v1.0.0 // indirect
