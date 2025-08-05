@@ -135,6 +135,7 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 		NamePrefix: pulumi.String(r.ID),
 		ImageId:    pulumi.String(r.AMI.Id),
 		KeyName:    r.KeyResources.AWSKeyPair.KeyName,
+		EbsOptimized: pulumi.String("true"),
 		NetworkInterfaces: ec2.LaunchTemplateNetworkInterfaceArray{
 			&ec2.LaunchTemplateNetworkInterfaceArgs{
 				SecurityGroups:           r.SecurityGroups,
