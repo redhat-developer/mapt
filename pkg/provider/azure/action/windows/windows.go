@@ -22,9 +22,9 @@ import (
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
-	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
-	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
-	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/allocation"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/network"
+	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/modules/virtual-machine"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/azure/services/network/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
@@ -54,18 +54,14 @@ type WindowsArgs struct {
 }
 
 type windowsRequest struct {
-	mCtx                *mc.Context `validate:"required"`
-	prefix              *string
-	location            *string
-	vmSizes             []string
-	version             *string
-	feature             *string
-	username            *string
-	adminUsername       *string
-	spot                *bool
-	spotTolerance       *spot.Tolerance
-	spotExcludedRegions []string
-	profiles            []string
+	mCtx           *mc.Context `validate:"required"`
+	prefix         *string
+	allocationData *allocation.AllocationResult
+	version        *string
+	feature        *string
+	username       *string
+	adminUsername  *string
+	profiles       []string
 }
 
 func (r *windowsRequest) validate() error {
@@ -90,27 +86,26 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsArgs) (err error) {
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := &windowsRequest{
-		mCtx:                mCtx,
-		prefix:              &prefix,
-		location:            &args.Location,
-		version:             &args.Version,
-		username:            &args.Username,
-		spot:                &args.Spot,
-		spotTolerance:       &args.SpotTolerance,
-		spotExcludedRegions: args.SpotExcludedRegions,
-		feature:             &args.Feature,
-		adminUsername:       &args.AdminUsername,
-		profiles:            args.Profiles,
+		mCtx:          mCtx,
+		prefix:        &prefix,
+		version:       &args.Version,
+		feature:       &args.Feature,
+		username:      &args.Username,
+		adminUsername: &args.AdminUsername,
+		profiles:      args.Profiles,
 	}
-	if len(args.ComputeRequest.ComputeSizes) > 0 {
-		r.vmSizes = args.ComputeRequest.ComputeSizes
-	} else {
-		vmSizes, err :=
-			data.NewComputeSelector().Select(args.ComputeRequest)
-		if err != nil {
-			return err
-		}
-		r.vmSizes = vmSizes
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			ComputeRequest: args.ComputeRequest,
+			OSType:         "windows",
+			// ImageRef:              ir,
+			Location:              &args.Location,
+			Spot:                  args.Spot,
+			SpotTolerance:         &args.SpotTolerance,
+			SpotExcludedLocations: args.SpotExcludedRegions,
+		})
+	if err != nil {
+		return err
 	}
 	cs := manager.Stack{
 		StackName:           mCtx.StackNameByProject(stackCreateWindowsDesktop),
@@ -138,14 +133,14 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 	if err := r.validate(); err != nil {
 		return err
 	}
-	logging.Debugf("Using these VM types for Spot price query: %v", r.vmSizes)
-	// Get values for spot machine
-	location, vmType, spotPrice, err := r.valuesCheckingSpot()
-	if err != nil {
-		return err
-	}
+	// logging.Debugf("Using these VM types for Spot price query: %v", r.vmSizes)
+	// // Get values for spot machine
+	// location, vmType, spotPrice, err := r.valuesCheckingSpot()
+	// if err != nil {
+	// 	return err
+	// }
 	// Get location for creating Resource Group
-	rgLocation := azure.GetSuitableLocationForResourceGroup(*location)
+	rgLocation := azure.GetSuitableLocationForResourceGroup(*r.allocationData.Location)
 	rg, err := resources.NewResourceGroup(ctx,
 		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "rg"),
 		&resources.ResourceGroupArgs{
@@ -157,7 +152,7 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 	// Networking
-	sg, err := securityGroups(ctx, r.mCtx, r.prefix, location, rg)
+	sg, err := securityGroups(ctx, r.mCtx, r.prefix, r.allocationData.Location, rg)
 	if err != nil {
 		return err
 	}
@@ -166,7 +161,7 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 			Prefix:        *r.prefix,
 			ComponentID:   azureWindowsDesktopID,
 			ResourceGroup: rg,
-			Location:      location,
+			Location:      r.allocationData.Location,
 			SecurityGroup: sg,
 		})
 	if err != nil {
@@ -190,14 +185,15 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 			ComponentID:     azureWindowsDesktopID,
 			ResourceGroup:   rg,
 			NetworkInteface: n.NetworkInterface,
-			VMSize:          vmType,
-			Publisher:       "MicrosoftWindowsDesktop",
-			Offer:           fmt.Sprintf("windows-%s", *r.version),
-			Sku:             fmt.Sprintf("win%s-%s", *r.version, *r.feature),
-			AdminUsername:   *r.adminUsername,
-			AdminPasswd:     adminPasswd,
-			SpotPrice:       spotPrice,
-			Location:        *location,
+			// Check this
+			VMSize:        r.allocationData.ComputeSizes[0],
+			Publisher:     "MicrosoftWindowsDesktop",
+			Offer:         fmt.Sprintf("windows-%s", *r.version),
+			Sku:           fmt.Sprintf("win%s-%s", *r.version, *r.feature),
+			AdminUsername: *r.adminUsername,
+			AdminPasswd:   adminPasswd,
+			SpotPrice:     r.allocationData.Price,
+			Location:      *r.allocationData.Location,
 		})
 	if err != nil {
 		return err
@@ -205,7 +201,7 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputAdminUsername), pulumi.String(*r.adminUsername))
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputAdminUserPassword), adminPasswd.Result)
 	// Setup machine on post init (may move too to virtual-machine pkg)
-	pk, vme, err := r.postInitSetup(ctx, rg, vm, *location)
+	pk, vme, err := r.postInitSetup(ctx, rg, vm, *r.allocationData.Location)
 	if err != nil {
 		return err
 	}
@@ -249,35 +245,6 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
 			IngressRules: []securityGroup.IngressRules{
 				sshIngressRule, rdpIngressRule},
 		})
-}
-
-func (r *windowsRequest) valuesCheckingSpot() (*string, string, *float64, error) {
-	if *r.spot {
-		bsc, err :=
-			data.SpotInfo(
-				r.mCtx,
-				&data.SpotInfoArgs{
-					ComputeSizes: util.If(len(r.vmSizes) > 0, r.vmSizes, []string{defaultVMSize}),
-					OSType:       "windows",
-					// EvictionRateTolerance: r.SpotTolerance,
-					ExcludedLocations: r.spotExcludedRegions,
-				})
-		logging.Debugf("Best spot price option found: %v", bsc)
-		if err != nil {
-			return nil, "", nil, err
-		}
-		return &bsc.HostingPlace, bsc.ComputeType, &bsc.Price, nil
-	}
-	// TODO we need to extend this to other azure targets (refactor this function)
-	// plus we probably would need to check prices for vmsizes and pick the cheaper
-	availableVMSizes, err := data.FilterVMSizeOfferedByLocation(r.vmSizes, *r.location)
-	if err != nil {
-		return nil, "", nil, err
-	}
-	if len(availableVMSizes) == 0 {
-		return nil, "", nil, fmt.Errorf("no vm size mathing expectations on current region")
-	}
-	return r.location, availableVMSizes[0], nil, nil
 }
 
 // Write exported values in context to files o a selected target folder
