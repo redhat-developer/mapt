@@ -65,7 +65,7 @@ func getSpotInfo(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResult
 
 type SpotInfoArgs struct {
 	ComputeSizes          []string
-	ImageRef              ImageReference
+	ImageRef              *ImageReference
 	OSType                string
 	ExcludedLocations     []string
 	SpotTolerance         *spot.Tolerance
@@ -86,16 +86,9 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	if args.SpotTolerance == nil {
 		args.SpotTolerance = &spot.DefaultTolerance
 	}
-	// Get all available locations for subscription allowing PublicIPs
-	locations, err := LocationsBySupportedResourceType(RTPublicIPAddresses)
+	locations, err := filterLocations(mCtx, args)
 	if err != nil {
 		return nil, err
-	}
-	if len(args.ExcludedLocations) > 0 {
-		locations = util.ArrayFilter(locations,
-			func(item string) bool {
-				return !slices.Contains(args.ExcludedLocations, item)
-			})
 	}
 	clientFactory, err := getGraphClientFactory()
 	if err != nil {
@@ -131,8 +124,6 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		&spotChoiceArgs{
 			evictionRates: evictionRates,
 			spotPricings:  spotPricings,
-			// TODO CHECK this
-			imageRef: &args.ImageRef,
 		})
 	if err != nil {
 		return nil, err
@@ -174,6 +165,32 @@ var evictionRatesToInt = map[string]int{
 	"10-15": 2,
 	"15-20": 3,
 	"20+":   4,
+}
+
+// filter locations suitable for running mapt targets on spot instances
+func filterLocations(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
+	// Get all available locations for subscription allowing PublicIPs
+	locations, err := LocationsBySupportedResourceType(RTPublicIPAddresses)
+	if err != nil {
+		return nil, err
+	}
+	if len(args.ExcludedLocations) > 0 {
+		locations = util.ArrayFilter(locations,
+			func(location string) bool {
+				return !slices.Contains(args.ExcludedLocations, location)
+			})
+	}
+	if args.ImageRef != nil {
+		locations = util.ArrayFilter(locations,
+			func(location string) bool {
+				return IsImageOffered(mCtx,
+					ImageRequest{
+						Region:         location,
+						ImageReference: *args.ImageRef,
+					})
+			})
+	}
+	return locations, err
 }
 
 func allowedER(spotTolerance spot.Tolerance) []string {
@@ -339,7 +356,6 @@ func spotPricingAsync(location string, args spotPricingArgs, c chan hostingPlace
 type spotChoiceArgs struct {
 	evictionRates map[string][]evictionRateResult
 	spotPricings  map[string][]spotPricingResult
-	imageRef      *ImageReference
 }
 
 // checkBestOption will cross data from prices (starting at lower prices)
@@ -353,22 +369,14 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 	result := make(map[string]*SpotInfoResult)
 	// Fix random error with graphql query not giving information for eviction rates
 	if len(args.evictionRates) == 0 {
-		return spotOnlyByPrices(args.spotPricings, args.imageRef.ID)
+		return spotOnlyByPrices(args.spotPricings)
 	}
 	// This can bexecuted async
 	for l, pss := range args.spotPricings {
-		validImage := true
-		if args.imageRef != nil {
-			validImage = IsImageOffered(
-				ImageRequest{
-					Region:         l,
-					ImageReference: *args.imageRef,
-				})
-		}
 		for _, ps := range pss {
 			idx := slices.IndexFunc(args.evictionRates[l],
 				func(evr evictionRateResult) bool {
-					return evr.Location == ps.Location && validImage
+					return evr.Location == ps.Location
 				})
 			if idx != -1 {
 				result[l] = &SpotInfoResult{
@@ -394,24 +402,15 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 // // This is a fallback function in case we need to get an option only based in price
 // // In order to add some type of distribution across the information we will 1/3 at beguining
 // // 1/3 at the end and then randomly we will pick one of the remaining
-func spotOnlyByPrices(s map[string][]spotPricingResult, imageID string) (*SpotInfoResult, error) {
+func spotOnlyByPrices(s map[string][]spotPricingResult) (*SpotInfoResult, error) {
 	var bsp []*SpotInfoResult
 	for location, prices := range s {
-		ir := ImageRequest{
-			Region: location,
-			ImageReference: ImageReference{
-				ID: imageID,
-			},
-		}
-		if IsImageOffered(ir) {
-			bsp = append(bsp,
-				&SpotInfoResult{
-					ComputeSize: prices[0].ComputeSize,
-					Location:    location,
-					Price:       prices[0].Price,
-				})
-
-		}
+		bsp = append(bsp,
+			&SpotInfoResult{
+				ComputeSize: prices[0].ComputeSize,
+				Location:    location,
+				Price:       prices[0].Price,
+			})
 	}
 	return util.RandomItemFromArray(bsp), nil
 }
