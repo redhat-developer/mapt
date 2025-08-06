@@ -49,7 +49,7 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 			OSType:       args.OSType,
 		}
 		if args.ImageRef != nil {
-			sArgs.ImageRef = *args.ImageRef
+			sArgs.ImageRef = args.ImageRef
 		}
 		bsc, err := data.SpotInfo(mCtx, sArgs)
 		if err != nil {
