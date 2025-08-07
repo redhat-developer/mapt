@@ -121,6 +121,8 @@ spec:
         The parameter is intended to add verbosity on the task execution and also print credentials on stdout
         to easily access to remote machice
       default: 'false'
+    - name: timeout
+      default: "8h"
   
   results:
     - name: host-access-secret
@@ -190,6 +192,9 @@ spec:
           # Spot tolerance only be applied if spot is enabled
           cmd+="--spot-eviction-tolerance $(params.spot-eviction-tolerance) "
           cmd+="--tags $(params.tags) "
+          if [[ $(params.timeout) != "" ]]; then
+            cmd+="--timeout $(params.timeout) "
+          fi
         fi
         eval "${cmd}"  
       resources:      
