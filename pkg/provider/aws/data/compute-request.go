@@ -58,6 +58,7 @@ func getInstanceTypes(args *computerequest.ComputeRequestArgs) ([]string, error)
 		maxResults := computerequest.MaxResults
 		filters.MaxResults = &maxResults
 	}
+	filters.BareMetal = &args.NestedVirt
 	//nolint:staticcheck // following method is deprecated but no replacement yet
 	instanceTypesSlice, err := instanceSelector.Filter(
 		context.Background(),
