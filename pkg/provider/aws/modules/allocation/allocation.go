@@ -40,16 +40,17 @@ func AllocationDataOnSpot(mCtx *mc.Context, prefix, amiProductDescription, amiNa
 	if err != nil {
 		return nil, err
 	}
-	availableInstaceTypes, err :=
-		data.FilterInstaceTypesOfferedByRegion(computeTypes, so.Region)
-	if err != nil {
-		return nil, err
-	}
+	// TODO check not needed anymore??
+	// availableInstaceTypes, err :=
+	// 	data.FilterInstaceTypesOfferedByRegion(computeTypes, so.Region)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	return &AllocationData{
 		Region:        &so.Region,
 		AZ:            &so.AvailabilityZone,
 		SpotPrice:     &so.Price,
-		InstanceTypes: availableInstaceTypes,
+		InstanceTypes: so.InstanceType,
 	}, nil
 }
 

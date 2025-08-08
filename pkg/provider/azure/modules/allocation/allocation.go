@@ -59,7 +59,7 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 			ImageRef:     args.ImageRef,
 			Location:     &bsc.HostingPlace,
 			Price:        &bsc.Price,
-			ComputeSizes: []string{bsc.ComputeType},
+			ComputeSizes: bsc.ComputeType,
 		}, nil
 
 	} else {

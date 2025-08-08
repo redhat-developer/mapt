@@ -1,4 +1,4 @@
-package types
+package spot
 
 import (
 	"strings"
@@ -27,7 +27,7 @@ var (
 
 	DefaultTolerance = Lowest
 
-	defaultSpotPriceIncreaseRate = 20
+	defaultSpotPriceIncreaseRate = 30
 )
 
 func ParseTolerance(str string) (Tolerance, bool) {
@@ -46,7 +46,7 @@ type SpotRequestArgs struct {
 }
 
 type SpotResults struct {
-	ComputeType      string
+	ComputeType      []string
 	Price            float64
 	HostingPlace     string
 	AvailabilityZone string
