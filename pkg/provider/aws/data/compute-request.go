@@ -32,39 +32,50 @@ func getInstanceTypes(args *computerequest.ComputeRequestArgs) ([]string, error)
 	if err != nil {
 		return nil, err
 	}
-	var filters selector.Filters
+	//nolint:staticcheck // following method is deprecated but no replacement yet
+	instanceTypesSlice, err := instanceSelector.Filter(
+		context.Background(),
+		filters(args))
+	if err != nil {
+		return nil, err
+	}
+	return instanceTypesSlice, nil
+}
+
+func filters(args *computerequest.ComputeRequestArgs) (f selector.Filters) {
+	if args.NestedVirt {
+		f.CPUArchitecture = arch(args.Arch)
+		f.BareMetal = &args.NestedVirt
+		return
+	}
 	if len(args.GPUManufacturer) > 0 {
-		filters.GPUManufacturer = &args.GPUManufacturer
+		f.GPUManufacturer = &args.GPUManufacturer
 		// filters.GpuMemoryRange = &selector.ByteQuantityRangeFilter{
 		// 	LowerBound: mbq,
 		// 	UpperBound: mbq,
 		// }
 	} else {
-		filters.VCpusRange = &selector.Int32RangeFilter{
+		f.VCpusRange = &selector.Int32RangeFilter{
 			LowerBound: args.CPUs,
 			UpperBound: args.CPUs,
 		}
 		mbq := bytequantity.FromGiB(
 			uint64(args.MemoryGib))
-		filters.MemoryRange = &selector.ByteQuantityRangeFilter{
+		f.MemoryRange = &selector.ByteQuantityRangeFilter{
 			LowerBound: mbq,
 			UpperBound: mbq,
 		}
-		arch := ec2types.ArchitectureTypeX8664
-		if args.Arch == computerequest.Arm64 {
-			arch = ec2types.ArchitectureTypeArm64
-		}
-		filters.CPUArchitecture = &arch
+		f.CPUArchitecture = arch(args.Arch)
 		maxResults := computerequest.MaxResults
-		filters.MaxResults = &maxResults
+		f.MaxResults = &maxResults
 	}
-	filters.BareMetal = &args.NestedVirt
-	//nolint:staticcheck // following method is deprecated but no replacement yet
-	instanceTypesSlice, err := instanceSelector.Filter(
-		context.Background(),
-		filters)
-	if err != nil {
-		return nil, err
+	return
+}
+
+func arch(ca computerequest.Arch) *ec2types.ArchitectureType {
+	arch := ec2types.ArchitectureTypeX8664
+	if ca == computerequest.Arm64 {
+		arch = ec2types.ArchitectureTypeArm64
 	}
-	return instanceTypesSlice, nil
+	return &arch
 }

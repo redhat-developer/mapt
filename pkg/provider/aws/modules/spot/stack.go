@@ -11,6 +11,7 @@ import (
 	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/util"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -30,6 +31,7 @@ func (r *SpotOptionRequest) validate() error {
 type SpotOptionResult struct {
 	Region           string
 	AvailabilityZone string
+	InstanceType     []string
 	Price            float64
 	Score            int64
 }
@@ -122,8 +124,10 @@ func (r SpotOptionRequest) createStack() (*SpotOptionResult, error) {
 	return &SpotOptionResult{
 		Region:           stackResult.Outputs["region"].Value.(string),
 		AvailabilityZone: stackResult.Outputs["az"].Value.(string),
-		Price:            stackResult.Outputs["max"].Value.(float64),
-		Score:            int64(stackResult.Outputs["score"].Value.(float64))}, nil
+		InstanceType: util.ArrayCast[string](
+			stackResult.Outputs["instancetypes"].Value.([]interface{})),
+		Price: stackResult.Outputs["max"].Value.(float64),
+		Score: int64(stackResult.Outputs["score"].Value.(float64))}, nil
 }
 
 // deployer function to create the logic to get the best spot option
@@ -137,6 +141,7 @@ func (r SpotOptionRequest) deployer(ctx *pulumi.Context) error {
 	}
 	ctx.Export("region", pulumi.String(so.HostingPlace))
 	ctx.Export("az", pulumi.String(so.AvailabilityZone))
+	ctx.Export("instancetypes", pulumi.ToStringArray(so.ComputeType))
 	ctx.Export("max", pulumi.Float64(so.Price))
 	ctx.Export("score", pulumi.Float64(so.ChanceLevel))
 	return nil
@@ -155,5 +160,14 @@ func getOutputs(stack *auto.Stack) (*SpotOptionResult, error) {
 		Region:           outputs["region"].Value.(string),
 		AvailabilityZone: outputs["az"].Value.(string),
 		Price:            outputs["max"].Value.(float64),
-		Score:            int64(outputs["score"].Value.(float64))}, nil
+		InstanceType: util.ArrayCast[string](
+			outputs["instancetypes"].Value.([]interface{})),
+		Score: int64(outputs["score"].Value.(float64))}, nil
+
 }
+
+// InstanceType: util.ArrayConvert(
+// 	stackResult.Outputs["instancetypes"].Value.([]interface{}),
+// 	func(i interface{}) string {
+// 		return i.(string)
+// 	}),

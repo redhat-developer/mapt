@@ -135,7 +135,7 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		return nil, fmt.Errorf("couldn't find the best price for instance types %v", args.ComputeSizes)
 	}
 	sr := spot.SpotResults{
-		ComputeType:  c.ComputeSize,
+		ComputeType:  []string{c.ComputeSize},
 		HostingPlace: c.Location,
 		Price: spot.SafePrice(c.Price,
 			args.SpotPriceIncreaseRate),
