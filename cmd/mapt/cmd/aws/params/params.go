@@ -1,8 +1,6 @@
-package constants
+package params
 
 import (
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"
 )
 
@@ -22,23 +20,4 @@ const (
 	MACFixedLocationDesc string = "if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)"
 	MACDHID              string = "dedicated-host-id"
 	MACDHIDDesc          string = "id for the dedicated host"
-
-	Spot            string = "spot"
-	SpotDesc        string = "if spot is set the spot prices across all regions will be checked and machine will be started on best spot option (price / eviction)"
 )
-
-func MACArchAsCirrusArch(arch string) *cirrus.Arch {
-	switch arch {
-	case "x86":
-		return &cirrus.Amd64
-	}
-	return &cirrus.Arm64
-}
-
-func MACArchAsGithubArch(arch string) *github.Arch {
-	switch arch {
-	case "x86_64":
-		return &github.Amd64
-	}
-	return &github.Arm64
-}

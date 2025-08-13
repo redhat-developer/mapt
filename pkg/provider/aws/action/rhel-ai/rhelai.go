@@ -11,6 +11,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -37,7 +38,7 @@ type RHELAIArgs struct {
 	ComputeRequest *cr.ComputeRequestArgs
 	SubsUsername   string
 	SubsUserpass   string
-	Spot           bool
+	Spot           *spotTypes.SpotArgs
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -47,11 +48,11 @@ type rhelAIRequest struct {
 	prefix         *string
 	version        *string
 	arch           *string
-	spot           *bool
+	spot           bool
 	subsUsername   *string
 	subsUserpass   *string
 	timeout        *string
-	allocationData *allocation.AllocationData
+	allocationData *allocation.AllocationResult
 }
 
 func (r *rhelAIRequest) validate() error {
@@ -79,17 +80,18 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELAIArgs) (err error) {
 		prefix:       &prefix,
 		version:      &args.Version,
 		arch:         &args.Arch,
-		spot:         &args.Spot,
 		timeout:      &args.Timeout,
 		subsUsername: &args.SubsUsername,
 		subsUserpass: &args.SubsUserpass}
-	r.allocationData, err = util.IfWithError(args.Spot,
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(mCtx,
-				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
-		},
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnDemand()
+	if args.Spot != nil {
+		r.spot = args.Spot.Spot
+	}
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			Prefix:                &args.Prefix,
+			ComputeRequest:        args.ComputeRequest,
+			AMIProductDescription: &amiProduct,
+			Spot:                  args.Spot,
 		})
 	if err != nil {
 		return err

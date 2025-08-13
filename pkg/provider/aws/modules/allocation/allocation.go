@@ -1,52 +1,67 @@
 package allocation
 
 import (
+	"fmt"
 	"os"
 
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
 )
 
-type AllocationData struct {
-	// location and price (if Spot is enable)
+var ErrNoSupportedInstaceTypes = fmt.Errorf("the current region does not support any of the requested instance types")
+
+type AllocationArgs struct {
+	ComputeRequest *cr.ComputeRequestArgs
+	Prefix,
+	AMIProductDescription,
+	AMIName *string
+	Spot *spotTypes.SpotArgs
+}
+
+type AllocationResult struct {
 	Region        *string
 	AZ            *string
 	SpotPrice     *float64
 	InstanceTypes []string
 }
 
-func AllocationDataOnSpot(mCtx *mc.Context, prefix, amiProductDescription, amiName *string, computeRequest *cr.ComputeRequestArgs) (*AllocationData, error) {
+func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, error) {
 	var err error
-	computeTypes := computeRequest.ComputeSizes
-	if len(computeTypes) == 0 {
-		computeTypes, err =
-			data.NewComputeSelector().Select(computeRequest)
+	instancesTypes := args.ComputeRequest.ComputeSizes
+	if len(instancesTypes) == 0 {
+		instancesTypes, err =
+			data.NewComputeSelector().Select(args.ComputeRequest)
 		if err != nil {
 			return nil, err
 		}
 	}
-	sr := spot.SpotOptionRequest{
-		MCtx:               mCtx,
-		Prefix:             *prefix,
-		ProductDescription: *amiProductDescription,
-		InstaceTypes:       computeTypes,
+	if args.Spot != nil && args.Spot.Spot {
+		sr := &spot.SpotStackArgs{
+			Prefix:       *args.Prefix,
+			InstaceTypes: instancesTypes,
+			Spot:         args.Spot,
+		}
+		if args.AMIName != nil {
+			sr.AMIName = *args.AMIName
+		}
+		if args.AMIProductDescription != nil {
+			sr.ProductDescription = *args.AMIProductDescription
+		}
+		return allocationSpot(mCtx, sr)
 	}
-	if amiName != nil {
-		sr.AMIName = *amiName
-	}
-	so, err := sr.Create()
+	return allocationOnDemand(instancesTypes)
+}
+
+func allocationSpot(mCtx *mc.Context,
+	args *spot.SpotStackArgs) (*AllocationResult, error) {
+	so, err := spot.Create(mCtx, args)
 	if err != nil {
 		return nil, err
 	}
-	// TODO check not needed anymore??
-	// availableInstaceTypes, err :=
-	// 	data.FilterInstaceTypesOfferedByRegion(computeTypes, so.Region)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	return &AllocationData{
+	return &AllocationResult{
 		Region:        &so.Region,
 		AZ:            &so.AvailabilityZone,
 		SpotPrice:     &so.Price,
@@ -54,10 +69,23 @@ func AllocationDataOnSpot(mCtx *mc.Context, prefix, amiProductDescription, amiNa
 	}, nil
 }
 
-func AllocationDataOnDemand() (ad *AllocationData, err error) {
-	ad = &AllocationData{}
+func allocationOnDemand(instancesTypes []string) (*AllocationResult, error) {
 	region := os.Getenv("AWS_DEFAULT_REGION")
-	ad.Region = &region
-	ad.AZ, err = data.GetRandomAvailabilityZone(region, nil)
-	return
+	supportedInstancesType, err :=
+		data.FilterInstaceTypesOfferedByRegion(instancesTypes, region)
+	if err != nil {
+		return nil, err
+	}
+	if len(supportedInstancesType) == 0 {
+		return nil, ErrNoSupportedInstaceTypes
+	}
+	az, err := data.GetRandomAvailabilityZone(region, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &AllocationResult{
+		Region:        &region,
+		AZ:            az,
+		InstanceTypes: supportedInstancesType,
+	}, nil
 }

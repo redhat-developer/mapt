@@ -58,8 +58,8 @@ func getSpotInfo(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResult
 		&SpotInfoArgs{
 			ComputeSizes:      css,
 			OSType:            osType(args.OS),
-			ExcludedLocations: args.ExcludedHostingPlaces,
-			SpotTolerance:     &args.SpotTolerance,
+			ExcludedLocations: args.SpotParams.ExcludedHostingPlaces,
+			SpotTolerance:     &args.SpotParams.Tolerance,
 		})
 }
 

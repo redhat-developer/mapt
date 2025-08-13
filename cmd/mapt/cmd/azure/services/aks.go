@@ -1,7 +1,6 @@
 package services
 
 import (
-	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureAKS "github.com/redhat-developer/mapt/pkg/provider/azure/action/aks"
@@ -17,12 +16,18 @@ const (
 
 	paramVersion              = "version"
 	paramVersionDesc          = "AKS K8s cluster version"
-	paramVMSizeDesc           = "VMSize to be used on the user pool. Typically this is used to provision spot node pools"
 	defaultVersion            = "1.31"
 	paramOnlySystemPool       = "only-system-pool"
 	paramOnlySystemPoolDesc   = "if we do not need bunch of resources we can run only the systempool. More info https://learn.microsoft.com/es-es/azure/aks/use-system-pools?tabs=azure-cli#system-and-user-node-pools"
 	paramEnableAppRouting     = "enable-app-routing"
 	paramEnableAppRoutingDesc = "enable application routing add-on with NGINX"
+
+	paramLocation        = "location"
+	paramLocationDesc    = "location for created resources in case spot flag (if available) is not passed"
+	paramLocationDefault = "West US"
+	paramVMSize          = "vmsize"
+	paramVMSizeDesc      = "VMSize to be used on the user pool. Typically this is used to provision spot node pools"
+	paramVMSizeDefault   = "Standard_D8as_v5"
 )
 
 func GetAKSCmd() *cobra.Command {
@@ -49,11 +54,6 @@ func getCreateAKS() *cobra.Command {
 				return err
 			}
 
-			spotToleranceValue, err := azparams.SpotTolerance()
-			if err != nil {
-				return err
-			}
-
 			if err := azureAKS.Create(
 				&maptContext.ContextArgs{
 					ProjectName:   viper.GetString(params.ProjectName),
@@ -64,14 +64,12 @@ func getCreateAKS() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&azureAKS.AKSArgs{
-					Location:            viper.GetString(azparams.ParamLocation),
-					KubernetesVersion:   viper.GetString(paramVersion),
-					OnlySystemPool:      viper.IsSet(paramOnlySystemPool),
-					EnableAppRouting:    viper.IsSet(paramEnableAppRouting),
-					VMSize:              viper.GetString(azparams.ParamVMSize),
-					Spot:                viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:       *spotToleranceValue,
-					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
+					Spot:              params.SpotArgs(),
+					Location:          viper.GetString(paramLocation),
+					KubernetesVersion: viper.GetString(paramVersion),
+					OnlySystemPool:    viper.IsSet(paramOnlySystemPool),
+					EnableAppRouting:  viper.IsSet(paramEnableAppRouting),
+					VMSize:            viper.GetString(paramVMSize)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -80,14 +78,12 @@ func getCreateAKS() *cobra.Command {
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.StringP(azparams.ParamLocation, "", azparams.DefaultLocation, azparams.ParamLocationDesc)
-	flagSet.StringP(azparams.ParamVMSize, "", azparams.DefaultVMSize, paramVMSizeDesc)
+	flagSet.StringP(paramLocation, "", paramLocationDefault, paramLocationDesc)
+	flagSet.StringP(paramVMSize, "", paramVMSizeDefault, paramVMSizeDesc)
 	flagSet.StringP(paramVersion, "", defaultVersion, paramVersionDesc)
-	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
 	flagSet.Bool(paramOnlySystemPool, false, paramOnlySystemPoolDesc)
 	flagSet.Bool(paramEnableAppRouting, false, paramEnableAppRoutingDesc)
-	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
-	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
+	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

@@ -11,6 +11,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
@@ -38,7 +39,7 @@ type RHELArgs struct {
 	SubsUsername   string
 	SubsUserpass   string
 	ProfileSNC     bool
-	Spot           bool
+	Spot           *spotTypes.SpotArgs
 	Airgap         bool
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
@@ -49,12 +50,12 @@ type rhelRequest struct {
 	prefix         *string
 	version        *string
 	arch           *string
-	spot           *bool
+	spot           bool
 	subsUsername   *string
 	subsUserpass   *string
 	profileSNC     *bool
 	timeout        *string
-	allocationData *allocation.AllocationData
+	allocationData *allocation.AllocationResult
 	airgap         *bool
 	// internal management
 	// For airgap scenario there is an orchestation of
@@ -88,19 +89,20 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELArgs) (err error) {
 		prefix:       &prefix,
 		version:      &args.Version,
 		arch:         &args.Arch,
-		spot:         &args.Spot,
 		timeout:      &args.Timeout,
 		subsUsername: &args.SubsUsername,
 		subsUserpass: &args.SubsUserpass,
 		profileSNC:   &args.ProfileSNC,
 		airgap:       &args.Airgap}
-	r.allocationData, err = util.IfWithError(args.Spot,
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(mCtx,
-				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
-		},
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnDemand()
+	if args.Spot != nil {
+		r.spot = args.Spot.Spot
+	}
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			Prefix:                &args.Prefix,
+			ComputeRequest:        args.ComputeRequest,
+			AMIProductDescription: &amiProduct,
+			Spot:                  args.Spot,
 		})
 	if err != nil {
 		return err
@@ -192,7 +194,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		Region: *r.allocationData.Region,
 		AZ:     *r.allocationData.AZ,
 		// LB is required if we use as which is used for spot feature
-		CreateLoadBalancer:      r.spot,
+		CreateLoadBalancer:      &r.spot,
 		Airgap:                  *r.airgap,
 		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
 	}

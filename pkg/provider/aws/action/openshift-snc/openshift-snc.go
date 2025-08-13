@@ -13,6 +13,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -40,7 +41,7 @@ type OpenshiftSNCArgs struct {
 	Version        string
 	Arch           string
 	PullSecretFile string
-	Spot           bool
+	Spot           *spotTypes.SpotArgs
 	Timeout        string
 }
 
@@ -49,9 +50,10 @@ type openshiftSNCRequest struct {
 	prefix         *string
 	version        *string
 	arch           *string
+	spot           bool
 	timeout        *string
 	pullSecretFile *string
-	allocationData *allocation.AllocationData
+	allocationData *allocation.AllocationResult
 }
 
 func (r *openshiftSNCRequest) validate() error {
@@ -91,13 +93,15 @@ func Create(mCtxArgs *mc.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncRe
 		arch:           &args.Arch,
 		pullSecretFile: &args.PullSecretFile,
 		timeout:        &args.Timeout}
-	r.allocationData, err = util.IfWithError(args.Spot,
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(mCtx,
-				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
-		},
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnDemand()
+	if args.Spot != nil {
+		r.spot = args.Spot.Spot
+	}
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			Prefix:                &args.Prefix,
+			ComputeRequest:        args.ComputeRequest,
+			AMIProductDescription: &amiProduct,
+			Spot:                  args.Spot,
 		})
 	if err != nil {
 		return nil, err

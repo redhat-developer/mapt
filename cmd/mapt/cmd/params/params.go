@@ -4,6 +4,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -67,14 +68,14 @@ const (
 	CreateCmdName  string = "create"
 	DestroyCmdName string = "destroy"
 
-	GHActionsRunnerToken  string = "ghactions-runner-token"
-	GHActionsRunnerRepo   string = "ghactions-runner-repo"
-	GHActionsRunnerLabels string = "ghactions-runner-labels"
+	ghActionsRunnerToken  string = "ghactions-runner-token"
+	ghActionsRunnerRepo   string = "ghactions-runner-repo"
+	ghActionsRunnerLabels string = "ghactions-runner-labels"
 
-	CirrusPWToken      string = "it-cirrus-pw-token"
-	CirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
-	CirrusPWLabels     string = "it-cirrus-pw-labels"
-	CirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
+	cirrusPWToken      string = "it-cirrus-pw-token"
+	cirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
+	cirrusPWLabels     string = "it-cirrus-pw-labels"
+	cirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
 
 	//RHEL
 	SubsUsername         string = "rh-subscription-username"
@@ -109,35 +110,50 @@ const (
 	KindExtraPortMappingsDesc = "Additional port mappings for the Kind cluster. Value should be a JSON array of objects with containerPort, hostPort, and protocol properties. Example: '[{\"containerPort\": 8080, \"hostPort\": 8080, \"protocol\": \"TCP\"}]'"
 
 	// Spot
-	SpotPriceIncreaseRate        = "spot-increase-rate"
-	SpotPriceIncreaseRateDesc    = "Percentage to be added on top of the current calculated spot price to increase chances to get the machine"
-	SpotPriceIncreaseRateDefault = 20
-	
-	// Excluded Zone IDs
-	ExcludedZoneIDs     = "excluded-zone-ids"
-	ExcludedZoneIDsDesc = "Comma-separated list of zone IDs to exclude from availability zone selection"
+	spot                         = "spot"
+	spotDesc                     = "if spot is set the spot prices across all regions will be checked and machine will be started on best spot option (price / eviction)"
+	spotTolerance                = "spot-eviction-tolerance"
+	spotToleranceDesc            = "if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest"
+	spotToleranceDefault         = "medium"
+	spotPriceIncreaseRate        = "spot-increase-rate"
+	spotPriceIncreaseRateDesc    = "Percentage to be added on top of the current calculated spot price to increase chances to get the machine"
+	spotPriceIncreaseRateDefault = 30
+	spotExcludedHostedZones      = "spot-excluded-regions"
+	spotExcludedHostedZonesDesc  = "Comma-separated list of zone IDs to exclude from spot selection"
 )
 
-func GetGHActionsFlagset() *pflag.FlagSet {
-	flagSet := pflag.NewFlagSet(CreateCmdName, pflag.ExitOnError)
-	flagSet.StringP(GHActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
-	flagSet.StringP(GHActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
-	flagSet.StringSlice(GHActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)
-	return flagSet
+func AddSpotFlags(fs *pflag.FlagSet) {
+	fs.Bool(spot, false, spotDesc)
+	fs.StringP(spotTolerance, "", spotToleranceDefault, spotToleranceDesc)
+	fs.IntP(spotPriceIncreaseRate, "", spotPriceIncreaseRateDefault, spotPriceIncreaseRateDesc)
+	fs.StringSliceP(spotExcludedHostedZones, "", []string{}, spotExcludedHostedZonesDesc)
 }
 
-func GetCpusAndMemoryFlagset() *pflag.FlagSet {
-	flagSet := pflag.NewFlagSet(CreateCmdName, pflag.ExitOnError)
-	flagSet.Int32P(cpus, "", 8, cpusDesc)
-	flagSet.Int32P(gpus, "", 0, gpusDesc)
-	flagSet.StringP(gpuManufacturer, "", "", gpuManufacturerDesc)
-	flagSet.Int32P(memory, "", 64, memoryDesc)
-	flagSet.BoolP(nestedVirt, "", false, nestedVirtDesc)
-	flagSet.StringSliceP(computeSizes, "", []string{}, computeSizesDesc)
-	return flagSet
+func SpotArgs() *spotTypes.SpotArgs {
+	if viper.IsSet(spot) {
+		sa := &spotTypes.SpotArgs{
+			Spot:                  viper.IsSet(spot),
+			IncreaseRate:          viper.GetInt(spotPriceIncreaseRate),
+			ExcludedHostingPlaces: viper.GetStringSlice(spotExcludedHostedZones),
+		}
+		if t, b := spotTypes.ParseTolerance(viper.GetString(spotTolerance)); b {
+			sa.Tolerance = t
+		}
+		return sa
+	}
+	return nil
 }
 
-func GetComputeRequest() *cr.ComputeRequestArgs {
+func AddComputeRequestFlags(fs *pflag.FlagSet) {
+	fs.Int32P(cpus, "", 8, cpusDesc)
+	fs.Int32P(gpus, "", 0, gpusDesc)
+	fs.StringP(gpuManufacturer, "", "", gpuManufacturerDesc)
+	fs.Int32P(memory, "", 64, memoryDesc)
+	fs.BoolP(nestedVirt, "", false, nestedVirtDesc)
+	fs.StringSliceP(computeSizes, "", []string{}, computeSizesDesc)
+}
+
+func ComputeRequestArgs() *cr.ComputeRequestArgs {
 	return &cr.ComputeRequestArgs{
 		CPUs:            viper.GetInt32(cpus),
 		GPUs:            viper.GetInt32(gpus),
@@ -160,12 +176,45 @@ func AddDebugFlags(fs *pflag.FlagSet) {
 	fs.Uint(DebugLevel, DebugLevelDefault, DebugLevelDesc)
 }
 
-func AddCirrusFlags(fs *pflag.FlagSet) {
-	fs.StringP(CirrusPWToken, "", "", CirrusPWTokenDesc)
-	fs.StringToStringP(CirrusPWLabels, "", nil, CirrusPWLabelsDesc)
+func AddGHActionsFlags(fs *pflag.FlagSet) {
+	fs.StringP(ghActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
+	fs.StringP(ghActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
+	fs.StringSlice(ghActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)
 }
 
-func LinuxArchAsCirrusArch(arch string) *cirrus.Arch {
+func GithubRunnerArgs() *github.GithubRunnerArgs {
+	if viper.IsSet(ghActionsRunnerToken) {
+		return &github.GithubRunnerArgs{
+			Token:    viper.GetString(ghActionsRunnerToken),
+			RepoURL:  viper.GetString(ghActionsRunnerRepo),
+			Labels:   viper.GetStringSlice(ghActionsRunnerLabels),
+			Platform: &github.Linux,
+			Arch: linuxArchAsGithubActionsArch(
+				viper.GetString(LinuxArch)),
+		}
+	}
+	return nil
+}
+
+func AddCirrusFlags(fs *pflag.FlagSet) {
+	fs.StringP(cirrusPWToken, "", "", cirrusPWTokenDesc)
+	fs.StringToStringP(cirrusPWLabels, "", nil, cirrusPWLabelsDesc)
+}
+
+func CirrusPersistentWorkerArgs() *cirrus.PersistentWorkerArgs {
+	if viper.IsSet(cirrusPWToken) {
+		return &cirrus.PersistentWorkerArgs{
+			Token:    viper.GetString(cirrusPWToken),
+			Labels:   viper.GetStringMapString(cirrusPWLabels),
+			Platform: &cirrus.Linux,
+			Arch: linuxArchAsCirrusArch(
+				viper.GetString(LinuxArch)),
+		}
+	}
+	return nil
+}
+
+func linuxArchAsCirrusArch(arch string) *cirrus.Arch {
 	switch arch {
 	case "x86_64":
 		return &cirrus.Amd64
@@ -173,10 +222,18 @@ func LinuxArchAsCirrusArch(arch string) *cirrus.Arch {
 	return &cirrus.Arm64
 }
 
-func LinuxArchAsGithubActionsArch(arch string) *github.Arch {
+func linuxArchAsGithubActionsArch(arch string) *github.Arch {
 	switch arch {
 	case "x86_64":
 		return &github.Amd64
 	}
 	return &github.Arm64
+}
+
+func MACArchAsCirrusArch(arch string) *cirrus.Arch {
+	switch arch {
+	case "x86":
+		return &cirrus.Amd64
+	}
+	return &cirrus.Arm64
 }

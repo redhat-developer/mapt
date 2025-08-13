@@ -46,8 +46,6 @@ type ContextArgs struct {
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
-	// Spot Bid Safe Limit
-	SpotPriceIncreaseRate int
 }
 
 type Context struct {

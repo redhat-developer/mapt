@@ -12,6 +12,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
@@ -35,7 +36,7 @@ type KindArgs struct {
 	ComputeRequest    *cr.ComputeRequestArgs
 	Version           string
 	Arch              string
-	Spot              bool
+	Spot              *spotTypes.SpotArgs
 	Timeout           string
 	ExtraPortMappings []kindCloudConfig.PortMapping
 }
@@ -45,8 +46,9 @@ type kindRequest struct {
 	prefix            *string
 	version           *string
 	arch              *string
+	spot              bool
 	timeout           *string
-	allocationData    *allocation.AllocationData
+	allocationData    *allocation.AllocationResult
 	extraPortMappings []kindCloudConfig.PortMapping
 }
 
@@ -83,18 +85,19 @@ func Create(mCtxArgs *mc.ContextArgs, args *KindArgs) (kr *KindResultsMetadata, 
 		arch:              &args.Arch,
 		timeout:           &args.Timeout,
 		extraPortMappings: args.ExtraPortMappings}
-	r.allocationData, err = util.IfWithError(args.Spot,
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(mCtx, &args.Prefix,
-				&amiProduct, nil, args.ComputeRequest)
-		},
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnDemand()
+	if args.Spot != nil {
+		r.spot = args.Spot.Spot
+	}
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			Prefix:                &args.Prefix,
+			ComputeRequest:        args.ComputeRequest,
+			AMIProductDescription: &amiProduct,
+			Spot:                  args.Spot,
 		})
 	if err != nil {
 		return nil, err
 	}
-
 	return r.createHost()
 }
 

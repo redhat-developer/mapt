@@ -35,14 +35,29 @@ var (
 		"fedora":  &amiProductLinux,
 		defaultOS: &amiProductLinux,
 	}
-
-	// TODO we need to match tolerance from spot with this value
-	// 1-4
-	// 4-6
-	// 6-8
-	// 8-10
-	tolerance int32 = 3
 )
+
+type placementScoreSpec struct {
+	spot.Tolerance
+	minPlacementScore int32
+}
+
+// Ordered list of placement scores rates
+var placementScores = []placementScoreSpec{
+	{spot.Lowest, 7},
+	{spot.Low, 5},
+	{spot.Medium, 3},
+	{spot.High, 2},
+	{spot.Highest, 1},
+}
+
+func minPlacementScore(spotTolerance spot.Tolerance) int32 {
+	idx := slices.IndexFunc(placementScores,
+		func(e placementScoreSpec) bool {
+			return e.Tolerance == spotTolerance
+		})
+	return placementScores[idx].minPlacementScore
+}
 
 type SpotSelector struct{}
 
@@ -155,8 +170,9 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 
 	placementScores, err := hostingPlaces.RunOnHostingPlaces(regions,
 		placementScoreArgs{
-			instanceTypes: args.InstaceTypes,
-			capacity:      1,
+			minPlacementScore: minPlacementScore(*args.SpotTolerance),
+			instanceTypes:     args.InstaceTypes,
+			capacity:          1,
 		},
 		placementScoresAsync)
 	if err != nil {
@@ -256,12 +272,10 @@ func aggregateSpotChoice(s []*SpotInfoResult) *SpotInfoResult {
 		AvailabilityZone: s[0].AvailabilityZone,
 		Price:            s[4].Price,
 		Score:            s[4].Score,
-		InstanceType: []string{
-			s[0].InstanceType[0],
-			s[1].InstanceType[0],
-			s[2].InstanceType[0],
-			s[3].InstanceType[0],
-			s[4].InstanceType[0]},
+		InstanceType: util.ArrayConvert(s[:4],
+			func(s *SpotInfoResult) string {
+				return s.InstanceType[0]
+			}),
 	}
 }
 
@@ -342,8 +356,9 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 }
 
 type placementScoreArgs struct {
-	instanceTypes []string
-	capacity      int32
+	minPlacementScore int32
+	instanceTypes     []string
+	capacity          int32
 }
 
 type placementScoreResult struct {
@@ -381,7 +396,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlace
 	}
 	var results []placementScoreResult
 	for _, ps := range sps.SpotPlacementScores {
-		if *ps.Score >= tolerance {
+		if *ps.Score >= args.minPlacementScore {
 			azName, err := getZoneName(*ps.AvailabilityZoneId, azsByRegion[*ps.Region])
 			if err != nil {
 				hostingPlaces.SendAsyncErr(c, err)

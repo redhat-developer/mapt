@@ -3,7 +3,6 @@ package services
 import (
 	"fmt"
 
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/kind"
@@ -25,7 +24,7 @@ func GetKindCmd() *cobra.Command {
 			return nil
 		},
 	}
-	flagSet := pflag.NewFlagSet(cmdOpenshiftSNC, pflag.ExitOnError)
+	flagSet := pflag.NewFlagSet(params.KindCmd, pflag.ExitOnError)
 	params.AddCommonFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	c.AddCommand(createKind(), destroyKind())
@@ -55,19 +54,18 @@ func createKind() *cobra.Command {
 
 			if _, err := kind.Create(
 				&maptContext.ContextArgs{
-					ProjectName:           viper.GetString(params.ProjectName),
-					BackedURL:             viper.GetString(params.BackedURL),
-					ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-					Debug:                 viper.IsSet(params.Debug),
-					DebugLevel:            viper.GetUint(params.DebugLevel),
-					SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
-					Tags:                  viper.GetStringMapString(params.Tags),
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&kind.KindArgs{
-					ComputeRequest:    params.GetComputeRequest(),
+					ComputeRequest:    params.ComputeRequestArgs(),
+					Spot:              params.SpotArgs(),
 					Version:           viper.GetString(params.KindK8SVersion),
 					Arch:              viper.GetString(params.LinuxArch),
-					Spot:              viper.IsSet(awsParams.Spot),
 					Timeout:           viper.GetString(params.Timeout),
 					ExtraPortMappings: extraPortMappings}); err != nil {
 				logging.Error(err)
@@ -80,11 +78,10 @@ func createKind() *cobra.Command {
 	flagSet.StringP(params.KindK8SVersion, "", "", params.KindK8SVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(params.KindExtraPortMappings, "", "", params.KindExtraPortMappingsDesc)
-	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

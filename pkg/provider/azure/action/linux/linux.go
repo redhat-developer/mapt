@@ -13,7 +13,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/allocation"
@@ -38,18 +38,16 @@ const (
 )
 
 type LinuxArgs struct {
-	Prefix              string
-	Location            string
-	Arch                string
-	ComputeRequest      *cr.ComputeRequestArgs
-	OSType              data.OSType
-	Version             string
-	Username            string
-	Spot                bool
-	SpotTolerance       spot.Tolerance
-	SpotExcludedRegions []string
-	GetUserdata         func() (string, error)
-	ReadinessCommand    string
+	Prefix           string
+	Location         string
+	Arch             string
+	ComputeRequest   *cr.ComputeRequestArgs
+	OSType           data.OSType
+	Version          string
+	Username         string
+	Spot             *spotTypes.SpotArgs
+	GetUserdata      func() (string, error)
+	ReadinessCommand string
 }
 
 type linuxRequest struct {
@@ -96,14 +94,11 @@ func Create(mCtxArgs *mc.ContextArgs, args *LinuxArgs) (err error) {
 	}
 	r.allocationData, err = allocation.Allocation(mCtx,
 		&allocation.AllocationArgs{
-			ComputeRequest:        args.ComputeRequest,
-			OSType:                "linux",
-			ImageRef:              ir,
-			Location:              &args.Location,
-			Spot:                  args.Spot,
-			SpotTolerance:         &args.SpotTolerance,
-			SpotExcludedLocations: args.SpotExcludedRegions,
-		})
+			ComputeRequest: args.ComputeRequest,
+			OSType:         "linux",
+			ImageRef:       ir,
+			Location:       &args.Location,
+			Spot:           args.Spot})
 	if err != nil {
 		return err
 	}

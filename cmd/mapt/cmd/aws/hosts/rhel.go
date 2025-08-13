@@ -1,10 +1,7 @@
 package hosts
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -48,34 +45,14 @@ func getRHELCreate() *cobra.Command {
 			}
 
 			ctx := &maptContext.ContextArgs{
-				ProjectName:           viper.GetString(params.ProjectName),
-				BackedURL:             viper.GetString(params.BackedURL),
-				ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-				Debug:                 viper.IsSet(params.Debug),
-				DebugLevel:            viper.GetUint(params.DebugLevel),
-				SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
-				Tags:                  viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.CirrusPWToken) {
-				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
-					Token:    viper.GetString(params.CirrusPWToken),
-					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
-					Platform: &cirrus.Linux,
-					Arch: params.LinuxArchAsCirrusArch(
-						viper.GetString(params.LinuxArch)),
-				}
-			}
-
-			if viper.IsSet(params.GHActionsRunnerToken) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:    viper.GetString(params.GHActionsRunnerToken),
-					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
-					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
-					Platform: &github.Linux,
-					Arch: params.LinuxArchAsGithubActionsArch(
-						viper.GetString(params.LinuxArch)),
-				}
+				ProjectName:   viper.GetString(params.ProjectName),
+				BackedURL:     viper.GetString(params.BackedURL),
+				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+				Debug:         viper.IsSet(params.Debug),
+				DebugLevel:    viper.GetUint(params.DebugLevel),
+				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+				GHRunnerArgs:  params.GithubRunnerArgs(),
+				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
 			// Run create
@@ -85,11 +62,11 @@ func getRHELCreate() *cobra.Command {
 					Prefix:         "main",
 					Version:        viper.GetString(params.RhelVersion),
 					Arch:           viper.GetString(params.LinuxArch),
-					ComputeRequest: params.GetComputeRequest(),
+					ComputeRequest: params.ComputeRequestArgs(),
 					SubsUsername:   viper.GetString(params.SubsUsername),
 					SubsUserpass:   viper.GetString(params.SubsUserpass),
 					ProfileSNC:     viper.IsSet(params.ProfileSNC),
-					Spot:           viper.IsSet(awsParams.Spot),
+					Spot:           params.SpotArgs(),
 					Timeout:        viper.GetString(params.Timeout),
 					Airgap:         viper.IsSet(airgap),
 				}); err != nil {
@@ -106,13 +83,12 @@ func getRHELCreate() *cobra.Command {
 	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)
 	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
-	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
+	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

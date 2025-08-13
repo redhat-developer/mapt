@@ -21,6 +21,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -41,7 +42,7 @@ type EKSArgs struct {
 	ScalingDesiredSize     int
 	ScalingMaxSize         int
 	ScalingMinSize         int
-	Spot                   bool
+	Spot                   *spotTypes.SpotArgs
 	Addons                 []string
 	LoadBalancerController bool
 	ExcludedZoneIDs        []string
@@ -54,10 +55,10 @@ type eksRequest struct {
 	scalingDesiredSize     *int
 	scalingMaxSize         *int
 	scalingMinSize         *int
-	spot                   *bool
+	spot                   bool
 	addons                 []string
 	loadBalancerController *bool
-	allocationData         *allocation.AllocationData
+	allocationData         *allocation.AllocationResult
 	availabilityZones      []string
 	excludedZoneIDs        []string
 }
@@ -82,7 +83,6 @@ func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
 		mCtx:                   mCtx,
 		prefix:                 &prefix,
 		kubernetesVersion:      &args.KubernetesVersion,
-		spot:                   &args.Spot,
 		scalingDesiredSize:     &args.ScalingDesiredSize,
 		scalingMaxSize:         &args.ScalingMaxSize,
 		scalingMinSize:         &args.ScalingMinSize,
@@ -90,13 +90,15 @@ func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
 		addons:                 args.Addons,
 		excludedZoneIDs:        args.ExcludedZoneIDs,
 	}
-	r.allocationData, err = util.IfWithError(args.Spot,
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(mCtx,
-				&args.Prefix, &amiProduct, nil, args.ComputeRequest)
-		},
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnDemand()
+	if args.Spot != nil {
+		r.spot = args.Spot.Spot
+	}
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			Prefix:                &args.Prefix,
+			ComputeRequest:        args.ComputeRequest,
+			AMIProductDescription: &amiProduct,
+			Spot:                  args.Spot,
 		})
 	if err != nil {
 		return err
@@ -142,14 +144,14 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 	}
 	// Networking
 	nr, err := network.NetworkRequest{
-		MCtx:                r.mCtx,
-		Name:                resourcesUtil.GetResourceName(*r.prefix, awsEKSID, "net"),
-		CIDR:                network.DefaultCIDRNetwork,
-		AvailabilityZones:   r.availabilityZones,
-		PublicSubnetsCIDRs:  network.GeneratePublicSubnetCIDRs(len(r.availabilityZones)),
-		Region:              *r.allocationData.Region,
-		SingleNatGateway:    true,
-		MapPublicIp:         true,
+		MCtx:               r.mCtx,
+		Name:               resourcesUtil.GetResourceName(*r.prefix, awsEKSID, "net"),
+		CIDR:               network.DefaultCIDRNetwork,
+		AvailabilityZones:  r.availabilityZones,
+		PublicSubnetsCIDRs: network.GeneratePublicSubnetCIDRs(len(r.availabilityZones)),
+		Region:             *r.allocationData.Region,
+		SingleNatGateway:   true,
+		MapPublicIp:        true,
 	}.CreateNetwork(ctx)
 	if err != nil {
 		return err

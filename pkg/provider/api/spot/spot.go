@@ -25,7 +25,7 @@ var (
 		"high":    High,
 		"highest": Highest}
 
-	DefaultTolerance = Lowest
+	DefaultTolerance = Medium
 
 	defaultSpotPriceIncreaseRate = 30
 )
@@ -35,14 +35,18 @@ func ParseTolerance(str string) (Tolerance, bool) {
 	return c, ok
 }
 
-type SpotRequestArgs struct {
-	ComputeRequest        *cr.ComputeRequestArgs
-	OS                    *string
-	ImageName             *string
-	SpotTolerance         Tolerance
-	SpotPriceIncreaseRate *int
-	MaxResults            int
+type SpotArgs struct {
+	Spot                  bool
+	Tolerance             Tolerance
+	IncreaseRate          int
 	ExcludedHostingPlaces []string
+}
+
+type SpotRequestArgs struct {
+	ComputeRequest *cr.ComputeRequestArgs
+	OS             *string
+	ImageName      *string
+	SpotParams     *SpotArgs
 }
 
 type SpotResults struct {
