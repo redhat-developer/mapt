@@ -1,7 +1,6 @@
 package services
 
 import (
-	awsparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	awsEKS "github.com/redhat-developer/mapt/pkg/provider/aws/action/eks"
@@ -32,6 +31,8 @@ const (
 	defaultAddons                   = ""
 	paramLoadBalancerController     = "load-balancer-controller"
 	paramLoadBalancerControllerDesc = "Install AWS Load Balancer Controller"
+	excludedZoneIDs                 = "excluded-zone-ids"
+	excludedZoneIDsDesc             = "Comma-separated list of zone IDs to exclude from availability zone selection"
 )
 
 func GetEKSCmd() *cobra.Command {
@@ -60,24 +61,23 @@ func getCreateEKS() *cobra.Command {
 
 			if err := awsEKS.Create(
 				&maptContext.ContextArgs{
-					ProjectName:           viper.GetString(params.ProjectName),
-					BackedURL:             viper.GetString(params.BackedURL),
-					ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-					Debug:                 viper.IsSet(params.Debug),
-					DebugLevel:            viper.GetUint(params.DebugLevel),
-					Tags:                  viper.GetStringMapString(params.Tags),
-					SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&awsEKS.EKSArgs{
-					ComputeRequest:         params.GetComputeRequest(),
+					ComputeRequest:         params.ComputeRequestArgs(),
+					Spot:                   params.SpotArgs(),
 					KubernetesVersion:      viper.GetString(paramVersion),
 					ScalingDesiredSize:     viper.GetInt(paramScalingDesiredSize),
 					ScalingMaxSize:         viper.GetInt(paramScalingMaxSize),
 					ScalingMinSize:         viper.GetInt(paramScalingMinSize),
-					Spot:                   viper.IsSet(awsparams.Spot),
 					Addons:                 viper.GetStringSlice(paramAddons),
 					LoadBalancerController: viper.IsSet(paramLoadBalancerController),
-					ExcludedZoneIDs:        viper.GetStringSlice(params.ExcludedZoneIDs),
+					ExcludedZoneIDs:        viper.GetStringSlice(excludedZoneIDs),
 				}); err != nil {
 				logging.Error(err)
 			}
@@ -93,11 +93,10 @@ func getCreateEKS() *cobra.Command {
 	flagSet.StringP(paramScalingMinSize, "", defaultScalingMinSize, paramScalingMinSizeDesc)
 	flagSet.StringSliceP(paramAddons, "", []string{}, paramAddonsDesc)
 	flagSet.Bool(paramLoadBalancerController, false, paramLoadBalancerControllerDesc)
-	flagSet.StringSliceP(params.ExcludedZoneIDs, "", []string{}, params.ExcludedZoneIDsDesc)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
+	flagSet.StringSliceP(excludedZoneIDs, "", []string{}, excludedZoneIDsDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
-	flagSet.Bool(awsparams.Spot, false, awsparams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

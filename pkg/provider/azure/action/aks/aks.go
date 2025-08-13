@@ -7,7 +7,6 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v3"
 
-	// containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2/v20240801"
 	containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3"
 	"github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3"
 	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
@@ -16,7 +15,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
-	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
@@ -30,12 +29,10 @@ type AKSArgs struct {
 	Location string
 	VMSize   string
 	// "1.26.3"
-	KubernetesVersion   string
-	OnlySystemPool      bool
-	EnableAppRouting    bool
-	Spot                bool
-	SpotTolerance       spot.Tolerance
-	SpotExcludedRegions []string
+	KubernetesVersion string
+	OnlySystemPool    bool
+	EnableAppRouting  bool
+	Spot              *spotTypes.SpotArgs
 }
 
 type aksRequest struct {
@@ -44,12 +41,10 @@ type aksRequest struct {
 	location *string
 	vmSize   *string
 	// "1.26.3"
-	kubernetesVersion   *string
-	onlySystemPool      *bool
-	enableAppRouting    *bool
-	spot                *bool
-	spotTolerance       *spot.Tolerance
-	spotExcludedRegions []string
+	kubernetesVersion *string
+	onlySystemPool    *bool
+	enableAppRouting  *bool
+	spot              *spotTypes.SpotArgs
 }
 
 func (r *aksRequest) validate() error {
@@ -70,16 +65,14 @@ func Create(mCtxArgs *mc.ContextArgs, args *AKSArgs) (err error) {
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := &aksRequest{
-		mCtx:                mCtx,
-		prefix:              &prefix,
-		location:            &args.Location,
-		vmSize:              &args.VMSize,
-		kubernetesVersion:   &args.KubernetesVersion,
-		onlySystemPool:      &args.OnlySystemPool,
-		enableAppRouting:    &args.EnableAppRouting,
-		spot:                &args.Spot,
-		spotTolerance:       &args.SpotTolerance,
-		spotExcludedRegions: args.SpotExcludedRegions,
+		mCtx:              mCtx,
+		prefix:            &prefix,
+		location:          &args.Location,
+		vmSize:            &args.VMSize,
+		kubernetesVersion: &args.KubernetesVersion,
+		onlySystemPool:    &args.OnlySystemPool,
+		enableAppRouting:  &args.EnableAppRouting,
+		spot:              args.Spot,
 	}
 	cs := manager.Stack{
 		StackName:           mCtx.StackNameByProject(stackAKS),
@@ -258,16 +251,16 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 }
 
 func (r *aksRequest) valuesCheckingSpot() (*string, *float64, error) {
-	if *r.spot {
+	if r.spot != nil && r.spot.Spot {
 		bsc, err :=
 			data.SpotInfo(
 				r.mCtx,
 				&data.SpotInfoArgs{
-					ComputeSizes: []string{*r.vmSize},
-					OSType:       "linux",
-					// TODO review this
-					// EvictionRateTolerance: r.SpotTolerance,
-					ExcludedLocations: r.spotExcludedRegions,
+					ComputeSizes:          []string{*r.vmSize},
+					OSType:                "linux",
+					SpotPriceIncreaseRate: &r.spot.IncreaseRate,
+					SpotTolerance:         &r.spot.Tolerance,
+					ExcludedLocations:     r.spot.ExcludedHostingPlaces,
 				})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {

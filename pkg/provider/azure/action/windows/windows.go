@@ -20,7 +20,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/allocation"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/network"
@@ -40,17 +40,15 @@ import (
 var RHQPCISetupScript []byte
 
 type WindowsArgs struct {
-	Prefix              string
-	Location            string
-	ComputeRequest      *cr.ComputeRequestArgs
-	Version             string
-	Feature             string
-	Username            string
-	AdminUsername       string
-	Spot                bool
-	SpotTolerance       spot.Tolerance
-	SpotExcludedRegions []string
-	Profiles            []string
+	Prefix         string
+	Location       string
+	ComputeRequest *cr.ComputeRequestArgs
+	Version        string
+	Feature        string
+	Username       string
+	AdminUsername  string
+	Spot           *spotTypes.SpotArgs
+	Profiles       []string
 }
 
 type windowsRequest struct {
@@ -99,10 +97,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsArgs) (err error) {
 			ComputeRequest: args.ComputeRequest,
 			OSType:         "windows",
 			// ImageRef:              ir,
-			Location:              &args.Location,
-			Spot:                  args.Spot,
-			SpotTolerance:         &args.SpotTolerance,
-			SpotExcludedLocations: args.SpotExcludedRegions,
+			Location: &args.Location,
+			Spot:     args.Spot,
 		})
 	if err != nil {
 		return err

@@ -1,7 +1,6 @@
 package services
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/openshift-snc"
@@ -50,20 +49,19 @@ func createSNC() *cobra.Command {
 			}
 			if _, err := openshiftsnc.Create(
 				&maptContext.ContextArgs{
-					ProjectName:           viper.GetString(params.ProjectName),
-					BackedURL:             viper.GetString(params.BackedURL),
-					ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-					Debug:                 viper.IsSet(params.Debug),
-					DebugLevel:            viper.GetUint(params.DebugLevel),
-					SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
-					Tags:                  viper.GetStringMapString(params.Tags),
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&openshiftsnc.OpenshiftSNCArgs{
-					ComputeRequest: params.GetComputeRequest(),
+					ComputeRequest: params.ComputeRequestArgs(),
+					Spot:           params.SpotArgs(),
 					Version:        viper.GetString(ocpVersion),
 					Arch:           viper.GetString(params.LinuxArch),
 					PullSecretFile: viper.GetString(pullSecretFile),
-					Spot:           viper.IsSet(awsParams.Spot),
 					Timeout:        viper.GetString(params.Timeout)}); err != nil {
 				logging.Error(err)
 			}
@@ -75,11 +73,10 @@ func createSNC() *cobra.Command {
 	flagSet.StringP(ocpVersion, "", "", ocpVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(pullSecretFile, "", "", pullSecretFileDesc)
-	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

@@ -1,10 +1,7 @@
 package hosts
 
 import (
-	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -55,54 +52,29 @@ func getCreateWindowsDesktop() *cobra.Command {
 				return err
 			}
 
-			spotToleranceValue, err := azparams.SpotTolerance()
-			if err != nil {
-				return err
-			}
-
 			ctx := &maptContext.ContextArgs{
 				ProjectName:   viper.GetString(params.ProjectName),
 				BackedURL:     viper.GetString(params.BackedURL),
 				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 				Debug:         viper.IsSet(params.Debug),
 				DebugLevel:    viper.GetUint(params.DebugLevel),
+				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+				GHRunnerArgs:  params.GithubRunnerArgs(),
 				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.CirrusPWToken) {
-				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
-					Token:    viper.GetString(params.CirrusPWToken),
-					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
-					Platform: &cirrus.Windows,
-					// Currently we only provide amd64 support for windows
-					Arch: &cirrus.Amd64,
-				}
-			}
-
-			if viper.IsSet(params.GHActionsRunnerToken) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:    viper.GetString(params.GHActionsRunnerToken),
-					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
-					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
-					Platform: &github.Windows,
-					Arch:     &github.Amd64,
-				}
 			}
 
 			if err := azureWindows.Create(
 				ctx,
 				&azureWindows.WindowsArgs{
-					Prefix:              viper.GetString(params.ProjectName),
-					Location:            viper.GetString(paramLocation),
-					ComputeRequest:      params.GetComputeRequest(),
-					Version:             viper.GetString(paramWindowsVersion),
-					Feature:             viper.GetString(paramFeature),
-					Username:            viper.GetString(paramUsername),
-					AdminUsername:       viper.GetString(paramAdminUsername),
-					Profiles:            viper.GetStringSlice(paramProfile),
-					Spot:                viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:       *spotToleranceValue,
-					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions)}); err != nil {
+					ComputeRequest: params.ComputeRequestArgs(),
+					Spot:           params.SpotArgs(),
+					Prefix:         viper.GetString(params.ProjectName),
+					Location:       viper.GetString(paramLocation),
+					Version:        viper.GetString(paramWindowsVersion),
+					Feature:        viper.GetString(paramFeature),
+					Username:       viper.GetString(paramUsername),
+					AdminUsername:  viper.GetString(paramAdminUsername),
+					Profiles:       viper.GetStringSlice(paramProfile)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -117,12 +89,10 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
 	flagSet.StringP(paramAdminUsername, "", defaultAdminUsername, paramAdminUsernameDesc)
 	flagSet.StringSliceP(paramProfile, "", []string{}, paramProfileDesc)
-	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
-	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
-	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
+	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

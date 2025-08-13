@@ -1,9 +1,8 @@
 package hosts
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -47,18 +46,8 @@ func getMacRequest() *cobra.Command {
 				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 				Debug:         viper.IsSet(params.Debug),
 				DebugLevel:    viper.GetUint(params.DebugLevel),
+				GHRunnerArgs:  params.GithubRunnerArgs(),
 				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.GHActionsRunnerToken) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:    viper.GetString(params.GHActionsRunnerToken),
-					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
-					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
-					Platform: &github.Linux,
-					Arch: awsParams.MACArchAsGithubArch(
-						viper.GetString(awsParams.MACArch)),
-				}
 			}
 
 			// Run create
@@ -83,7 +72,7 @@ func getMacRequest() *cobra.Command {
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
 	flagSet.Bool(awsParams.MACFixedLocation, false, awsParams.MACFixedLocationDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddGHActionsFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

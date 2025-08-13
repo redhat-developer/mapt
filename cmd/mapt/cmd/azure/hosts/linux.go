@@ -1,7 +1,6 @@
 package hosts
 
 import (
-	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
@@ -52,11 +51,6 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 				return err
 			}
 
-			spotToleranceValue, err := azparams.SpotTolerance()
-			if err != nil {
-				return err
-			}
-
 			ctx := &maptContext.ContextArgs{
 				ProjectName:   viper.GetString(params.ProjectName),
 				BackedURL:     viper.GetString(params.BackedURL),
@@ -69,14 +63,13 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 			if err := azureLinux.Create(
 				ctx,
 				&azureLinux.LinuxArgs{
+					ComputeRequest: params.ComputeRequestArgs(),
+					Spot:           params.SpotArgs(),
 					Location:       viper.GetString(paramLocation),
-					ComputeRequest: params.GetComputeRequest(),
 					Version:        viper.GetString(paramLinuxVersion),
 					Arch:           viper.GetString(params.LinuxArch),
 					OSType:         ostype,
-					Username:       viper.GetString(paramUsername),
-					Spot:           viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:  *spotToleranceValue}); err != nil {
+					Username:       viper.GetString(paramUsername)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -89,10 +82,8 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(paramLinuxVersion, "", defaultOSVersion, paramLinuxVersionDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)
-	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
-	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
-	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

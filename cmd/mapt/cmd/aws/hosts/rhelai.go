@@ -1,7 +1,6 @@
 package hosts
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	rhelai "github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel-ai"
@@ -46,13 +45,12 @@ func getRHELAICreate() *cobra.Command {
 			}
 
 			ctx := &maptContext.ContextArgs{
-				ProjectName:           viper.GetString(params.ProjectName),
-				BackedURL:             viper.GetString(params.BackedURL),
-				ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-				Debug:                 viper.IsSet(params.Debug),
-				DebugLevel:            viper.GetUint(params.DebugLevel),
-				SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
-				Tags:                  viper.GetStringMapString(params.Tags),
+				ProjectName:   viper.GetString(params.ProjectName),
+				BackedURL:     viper.GetString(params.BackedURL),
+				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+				Debug:         viper.IsSet(params.Debug),
+				DebugLevel:    viper.GetUint(params.DebugLevel),
+				Tags:          viper.GetStringMapString(params.Tags),
 			}
 
 			// Run create
@@ -63,8 +61,8 @@ func getRHELAICreate() *cobra.Command {
 					Version:        viper.GetString(params.RhelAIVersion),
 					SubsUsername:   viper.GetString(params.SubsUsername),
 					SubsUserpass:   viper.GetString(params.SubsUserpass),
-					ComputeRequest: params.GetComputeRequest(),
-					Spot:           viper.IsSet(awsParams.Spot),
+					ComputeRequest: params.ComputeRequestArgs(),
+					Spot:           params.SpotArgs(),
 					Timeout:        viper.GetString(params.Timeout),
 				}); err != nil {
 				logging.Error(err)
@@ -78,10 +76,9 @@ func getRHELAICreate() *cobra.Command {
 	flagSet.StringP(params.RhelAIVersion, "", params.RhelAIVersionDefault, params.RhelAIVersionDesc)
 	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)
 	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
-	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

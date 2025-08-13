@@ -1,10 +1,7 @@
 package hosts
 
 import (
-	azparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureRHEL "github.com/redhat-developer/mapt/pkg/provider/azure/action/rhel"
 
@@ -43,56 +40,29 @@ func getCreateRHEL() *cobra.Command {
 				return err
 			}
 
-			spotToleranceValue, err := azparams.SpotTolerance()
-			if err != nil {
-				return err
-			}
-
 			ctx := &maptContext.ContextArgs{
 				ProjectName:   viper.GetString(params.ProjectName),
 				BackedURL:     viper.GetString(params.BackedURL),
 				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 				Debug:         viper.IsSet(params.Debug),
 				DebugLevel:    viper.GetUint(params.DebugLevel),
+				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+				GHRunnerArgs:  params.GithubRunnerArgs(),
 				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.CirrusPWToken) {
-				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
-					Token:    viper.GetString(params.CirrusPWToken),
-					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
-					Platform: &cirrus.Linux,
-					Arch: params.LinuxArchAsCirrusArch(
-						viper.GetString(params.LinuxArch)),
-				}
-			}
-
-			if viper.IsSet(params.GHActionsRunnerToken) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:    viper.GetString(params.GHActionsRunnerToken),
-					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
-					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
-					Platform: &github.Linux,
-					Arch: params.LinuxArchAsGithubActionsArch(
-						viper.GetString(params.LinuxArch)),
-				}
 			}
 
 			if err := azureRHEL.Create(
 				ctx,
 				&azureRHEL.RhelArgs{
-					Location:            viper.GetString(paramLocation),
-					ComputeRequest:      params.GetComputeRequest(),
-					Version:             viper.GetString(paramLinuxVersion),
-					Arch:                viper.GetString(params.LinuxArch),
-					SubsUsername:        viper.GetString(params.SubsUsername),
-					SubsUserpass:        viper.GetString(params.SubsUserpass),
-					ProfileSNC:          viper.IsSet(params.ProfileSNC),
-					Username:            viper.GetString(paramUsername),
-					Spot:                viper.IsSet(azparams.ParamSpot),
-					SpotTolerance:       *spotToleranceValue,
-					SpotExcludedRegions: viper.GetStringSlice(azparams.ParamSpotExcludedRegions),
-				}); err != nil {
+					ComputeRequest: params.ComputeRequestArgs(),
+					Spot:           params.SpotArgs(),
+					Location:       viper.GetString(paramLocation),
+					Version:        viper.GetString(paramLinuxVersion),
+					Arch:           viper.GetString(params.LinuxArch),
+					SubsUsername:   viper.GetString(params.SubsUsername),
+					SubsUserpass:   viper.GetString(params.SubsUserpass),
+					ProfileSNC:     viper.IsSet(params.ProfileSNC),
+					Username:       viper.GetString(paramUsername)}); err != nil {
 				logging.Error(err)
 			}
 			return nil
@@ -108,12 +78,10 @@ func getCreateRHEL() *cobra.Command {
 	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)
 	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
 	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
-	flagSet.Bool(azparams.ParamSpot, false, azparams.ParamSpotDesc)
-	flagSet.StringP(azparams.ParamSpotTolerance, "", azparams.DefaultSpotTolerance, azparams.ParamSpotToleranceDesc)
-	flagSet.StringSliceP(azparams.ParamSpotExcludedRegions, "", []string{}, azparams.ParamSpotExcludedRegionsDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
+	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

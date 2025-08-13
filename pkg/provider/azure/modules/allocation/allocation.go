@@ -3,7 +3,7 @@ package allocation
 import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 )
 
@@ -12,23 +12,12 @@ type AllocationArgs struct {
 	OSType         string
 	ImageRef       *data.ImageReference
 	Location       *string
-	// Need to move this to Context
-	Spot                  bool
-	SpotExcludedLocations []string
-	SpotTolerance         *spot.Tolerance
+	Spot           *spotTypes.SpotArgs
 }
 
 type AllocationResult struct {
-	// location and price (if Spot is enable)
-	// Region        *string
-	// AZ            *string
-	// SpotPrice     *float64
-	Location *string
-	// ComputeType      string
-	Price *float64
-	// HostingPlace     string
-	// AvailabilityZone string
-	// ChanceLevel      int
+	Location     *string
+	Price        *float64
 	ComputeSizes []string
 	ImageRef     *data.ImageReference
 }
@@ -43,10 +32,13 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 			return nil, err
 		}
 	}
-	if args.Spot {
+	if args.Spot != nil && args.Spot.Spot {
 		sArgs := &data.SpotInfoArgs{
-			ComputeSizes: computeSizes,
-			OSType:       args.OSType,
+			ComputeSizes:          computeSizes,
+			OSType:                args.OSType,
+			SpotTolerance:         &args.Spot.Tolerance,
+			ExcludedLocations:     args.Spot.ExcludedHostingPlaces,
+			SpotPriceIncreaseRate: &args.Spot.IncreaseRate,
 		}
 		if args.ImageRef != nil {
 			sArgs.ImageRef = args.ImageRef

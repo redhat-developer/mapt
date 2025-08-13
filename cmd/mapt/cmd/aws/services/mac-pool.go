@@ -1,10 +1,8 @@
 package services
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	macpool "github.com/redhat-developer/mapt/pkg/provider/aws/action/mac-pool"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -177,28 +175,9 @@ func request() *cobra.Command {
 				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 				Debug:         viper.IsSet(params.Debug),
 				DebugLevel:    viper.GetUint(params.DebugLevel),
+				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+				GHRunnerArgs:  params.GithubRunnerArgs(),
 				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.GHActionsRunnerToken) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:    viper.GetString(params.GHActionsRunnerToken),
-					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
-					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
-					Platform: &github.Linux,
-					Arch: awsParams.MACArchAsGithubArch(
-						viper.GetString(awsParams.MACArch)),
-				}
-			}
-
-			if viper.IsSet(params.CirrusPWToken) {
-				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
-					Token:    viper.GetString(params.CirrusPWToken),
-					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
-					Platform: &cirrus.Darwin,
-					Arch: awsParams.MACArchAsCirrusArch(
-						viper.GetString(awsParams.MACArch)),
-				}
 			}
 
 			if err := macpool.Request(
@@ -221,7 +200,7 @@ func request() *cobra.Command {
 	flagSet.StringP(awsParams.MACArch, "", awsParams.MACArchDefault, awsParams.MACArchDesc)
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
