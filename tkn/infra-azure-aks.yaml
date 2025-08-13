@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-azure-aks
   labels:
-    app.kubernetes.io/version: "1.0.0-dev"
+    app.kubernetes.io/version: "0.9.6"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -129,7 +129,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      image: quay.io/redhat-developer/mapt:v0.9.6
       imagePullPolicy: Always
       volumeMounts:
         - name: az-credentials
