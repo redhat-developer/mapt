@@ -4,7 +4,6 @@ import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureAKS "github.com/redhat-developer/mapt/pkg/provider/azure/action/aks"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -53,8 +52,7 @@ func getCreateAKS() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := azureAKS.Create(
+			return azureAKS.Create(
 				&maptContext.ContextArgs{
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
@@ -69,10 +67,7 @@ func getCreateAKS() *cobra.Command {
 					KubernetesVersion: viper.GetString(paramVersion),
 					OnlySystemPool:    viper.IsSet(paramOnlySystemPool),
 					EnableAppRouting:  viper.IsSet(paramEnableAppRouting),
-					VMSize:            viper.GetString(paramVMSize)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					VMSize:            viper.GetString(paramVMSize)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -96,16 +91,13 @@ func getDestroyAKS() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := azureAKS.Destroy(
+			return azureAKS.Destroy(
 				&maptContext.ContextArgs{
 					ProjectName: viper.GetString(params.ProjectName),
 					BackedURL:   viper.GetString(params.BackedURL),
 					Debug:       viper.IsSet(params.Debug),
 					DebugLevel:  viper.GetUint(params.DebugLevel),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 }

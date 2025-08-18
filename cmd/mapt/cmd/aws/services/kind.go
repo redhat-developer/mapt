@@ -7,7 +7,6 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/kind"
 	kindCloudConfig "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/kind"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -68,7 +67,7 @@ func createKind() *cobra.Command {
 					Arch:              viper.GetString(params.LinuxArch),
 					Timeout:           viper.GetString(params.Timeout),
 					ExtraPortMappings: extraPortMappings}); err != nil {
-				logging.Error(err)
+				return err
 			}
 			return nil
 		},
@@ -94,18 +93,14 @@ func destroyKind() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := kind.Destroy(&maptContext.ContextArgs{
+			return kind.Destroy(&maptContext.ContextArgs{
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),
 				DebugLevel:   viper.GetUint(params.DebugLevel),
 				Serverless:   viper.IsSet(params.Serverless),
 				ForceDestroy: viper.IsSet(params.ForceDestroy),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

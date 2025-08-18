@@ -51,20 +51,17 @@ func getCreateWindowsDesktop() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-				GHRunnerArgs:  params.GithubRunnerArgs(),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if err := azureWindows.Create(
-				ctx,
+			return azureWindows.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&azureWindows.WindowsArgs{
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
@@ -74,10 +71,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 					Feature:        viper.GetString(paramFeature),
 					Username:       viper.GetString(paramUsername),
 					AdminUsername:  viper.GetString(paramAdminUsername),
-					Profiles:       viper.GetStringSlice(paramProfile)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					Profiles:       viper.GetStringSlice(paramProfile)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
