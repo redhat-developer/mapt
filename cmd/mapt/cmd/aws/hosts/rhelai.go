@@ -4,7 +4,6 @@ import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	rhelai "github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel-ai"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -43,19 +42,15 @@ func getRHELAICreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			// Run create
-			if err := rhelai.Create(
-				ctx,
+			return rhelai.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&rhelai.RHELAIArgs{
 					Prefix:         "main",
 					Version:        viper.GetString(params.RhelAIVersion),
@@ -64,10 +59,7 @@ func getRHELAICreate() *cobra.Command {
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
 					Timeout:        viper.GetString(params.Timeout),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -91,18 +83,14 @@ func getRHELAIDestroy() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := rhelai.Destroy(&maptContext.ContextArgs{
+			return rhelai.Destroy(&maptContext.ContextArgs{
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),
 				DebugLevel:   viper.GetUint(params.DebugLevel),
 				Serverless:   viper.IsSet(params.Serverless),
 				ForceDestroy: viper.IsSet(params.ForceDestroy),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

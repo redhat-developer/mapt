@@ -39,29 +39,22 @@ func getMacRequest() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				GHRunnerArgs:  params.GithubRunnerArgs(),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			// Run create
-			if err := mac.Request(
-				ctx,
+			return mac.Request(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&mac.MacRequestArgs{
 					Prefix:        "main",
 					Architecture:  viper.GetString(awsParams.MACArch),
 					Version:       viper.GetString(awsParams.MACOSVersion),
 					FixedLocation: viper.IsSet(awsParams.MACFixedLocation),
-					Airgap:        viper.IsSet(airgap)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					Airgap:        viper.IsSet(airgap)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACRequestCmd, pflag.ExitOnError)
@@ -86,17 +79,12 @@ func getMacRelease() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			// Run create
-			if err := mac.Release(
+			return mac.Release(
 				&maptContext.ContextArgs{
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 				},
-				viper.GetString(awsParams.MACDHID)); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				viper.GetString(awsParams.MACDHID))
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACReleaseCmd, pflag.ExitOnError)
@@ -117,16 +105,12 @@ func getMacDestroy() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := mac.Destroy(
+			return mac.Destroy(
 				&maptContext.ContextArgs{
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 				},
-				viper.GetString(awsParams.MACDHID)); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				viper.GetString(awsParams.MACDHID))
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

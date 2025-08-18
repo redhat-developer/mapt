@@ -56,7 +56,7 @@ func createMP() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := macpool.Create(
+			return macpool.Create(
 				&maptContext.ContextArgs{
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
@@ -72,10 +72,7 @@ func createMP() *cobra.Command {
 					OSVersion:       viper.GetString(awsParams.MACOSVersion),
 					OfferedCapacity: viper.GetInt(paramOfferedCapacity),
 					MaxSize:         viper.GetInt(paramMaxSize),
-					FixedLocation:   viper.IsSet(awsParams.MACFixedLocation)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					FixedLocation:   viper.IsSet(awsParams.MACFixedLocation)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -100,16 +97,12 @@ func destroyMP() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := macpool.Destroy(&maptContext.ContextArgs{
+			return macpool.Destroy(&maptContext.ContextArgs{
 				ProjectName: viper.GetString(params.ProjectName),
 				BackedURL:   viper.GetString(params.BackedURL),
 				Debug:       viper.IsSet(params.Debug),
 				DebugLevel:  viper.GetUint(params.DebugLevel),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -126,8 +119,7 @@ func houseKeep() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := macpool.HouseKeeper(
+			return macpool.HouseKeeper(
 				&maptContext.ContextArgs{
 					ProjectName: viper.GetString(params.ProjectName),
 					BackedURL:   viper.GetString(params.BackedURL),
@@ -143,10 +135,7 @@ func houseKeep() *cobra.Command {
 					OSVersion:       viper.GetString(awsParams.MACOSVersion),
 					OfferedCapacity: viper.GetInt(paramOfferedCapacity),
 					MaxSize:         viper.GetInt(paramMaxSize),
-					FixedLocation:   viper.IsSet(awsParams.MACFixedLocation)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					FixedLocation:   viper.IsSet(awsParams.MACFixedLocation)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -170,27 +159,21 @@ func request() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-				GHRunnerArgs:  params.GithubRunnerArgs(),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if err := macpool.Request(
-				ctx,
+			return macpool.Request(
+				&maptContext.ContextArgs{
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&macpool.RequestMachineArgs{
 					PoolName:     viper.GetString(paramName),
 					Architecture: viper.GetString(awsParams.MACArch),
 					OSVersion:    viper.GetString(awsParams.MACOSVersion),
 					Timeout:      viper.GetString(params.Timeout),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACRequestCmd, pflag.ExitOnError)
@@ -214,17 +197,13 @@ func release() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := macpool.Release(
+			return macpool.Release(
 				&maptContext.ContextArgs{
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 					Serverless: viper.IsSet(params.Serverless),
 				},
-				viper.GetString(awsParams.MACDHID)); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				viper.GetString(awsParams.MACDHID))
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACReleaseCmd, pflag.ExitOnError)

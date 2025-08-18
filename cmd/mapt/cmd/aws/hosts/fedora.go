@@ -4,7 +4,6 @@ import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/fedora"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -47,21 +46,17 @@ func getFedoraCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-				GHRunnerArgs:  params.GithubRunnerArgs(),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			// Run create
-			if err := fedora.Create(
-				ctx,
+			return fedora.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&fedora.FedoraArgs{
 					Prefix:         "main",
 					Version:        viper.GetString(fedoraVersion),
@@ -69,10 +64,7 @@ func getFedoraCreate() *cobra.Command {
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
 					Timeout:        viper.GetString(params.Timeout),
-					Airgap:         viper.IsSet(airgap)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					Airgap:         viper.IsSet(airgap)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -98,18 +90,14 @@ func getFedoraDestroy() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := fedora.Destroy(&maptContext.ContextArgs{
+			return fedora.Destroy(&maptContext.ContextArgs{
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),
 				DebugLevel:   viper.GetUint(params.DebugLevel),
 				Serverless:   viper.IsSet(params.Serverless),
 				ForceDestroy: viper.IsSet(params.ForceDestroy),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

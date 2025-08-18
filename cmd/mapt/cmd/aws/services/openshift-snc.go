@@ -4,7 +4,6 @@ import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/openshift-snc"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -63,7 +62,7 @@ func createSNC() *cobra.Command {
 					Arch:           viper.GetString(params.LinuxArch),
 					PullSecretFile: viper.GetString(pullSecretFile),
 					Timeout:        viper.GetString(params.Timeout)}); err != nil {
-				logging.Error(err)
+				return err
 			}
 			return nil
 		},
@@ -89,17 +88,13 @@ func destroySNC() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := openshiftsnc.Destroy(&maptContext.ContextArgs{
+			return openshiftsnc.Destroy(&maptContext.ContextArgs{
 				ProjectName: viper.GetString(params.ProjectName),
 				BackedURL:   viper.GetString(params.BackedURL),
 				Debug:       viper.IsSet(params.Debug),
 				DebugLevel:  viper.GetUint(params.DebugLevel),
 				Serverless:  viper.IsSet(params.Serverless),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

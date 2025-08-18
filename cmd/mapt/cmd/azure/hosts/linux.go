@@ -6,7 +6,6 @@ import (
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -50,18 +49,15 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if err := azureLinux.Create(
-				ctx,
+			return azureLinux.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&azureLinux.LinuxArgs{
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
@@ -69,10 +65,7 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 					Version:        viper.GetString(paramLinuxVersion),
 					Arch:           viper.GetString(params.LinuxArch),
 					OSType:         ostype,
-					Username:       viper.GetString(paramUsername)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					Username:       viper.GetString(paramUsername)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -96,16 +89,13 @@ func getDestroyLinux() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := azureLinux.Destroy(
+			return azureLinux.Destroy(
 				&maptContext.ContextArgs{
 					ProjectName: viper.GetString(params.ProjectName),
 					BackedURL:   viper.GetString(params.BackedURL),
 					Debug:       viper.IsSet(params.Debug),
 					DebugLevel:  viper.GetUint(params.DebugLevel),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 }

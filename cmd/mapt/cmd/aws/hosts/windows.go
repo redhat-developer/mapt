@@ -4,7 +4,6 @@ import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/windows"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -56,21 +55,17 @@ func getWindowsCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-				GHRunnerArgs:  params.GithubRunnerArgs(),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			// Run create
-			if err := windows.Create(
-				ctx,
+			return windows.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&windows.WindowsServerArgs{
 					Prefix:      "main",
 					AMIName:     viper.GetString(amiName),
@@ -81,10 +76,7 @@ func getWindowsCreate() *cobra.Command {
 					Spot:        params.SpotArgs(),
 					Airgap:      viper.IsSet(airgap),
 					Timeout:     viper.GetString(params.Timeout),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -109,20 +101,13 @@ func getWindowsDestroy() *cobra.Command {
 		Use:   params.DestroyCmdName,
 		Short: params.DestroyCmdName,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if err := viper.BindPFlags(cmd.Flags()); err != nil {
-				return err
-			}
-
-			if err := windows.Destroy(&maptContext.ContextArgs{
+			return windows.Destroy(&maptContext.ContextArgs{
 				ProjectName: viper.GetString(params.ProjectName),
 				BackedURL:   viper.GetString(params.BackedURL),
 				Debug:       viper.IsSet(params.Debug),
 				DebugLevel:  viper.GetUint(params.DebugLevel),
 				Serverless:  viper.IsSet(params.Serverless),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

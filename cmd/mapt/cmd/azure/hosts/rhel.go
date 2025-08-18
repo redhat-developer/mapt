@@ -5,7 +5,6 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureRHEL "github.com/redhat-developer/mapt/pkg/provider/azure/action/rhel"
 
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -39,20 +38,17 @@ func getCreateRHEL() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-				GHRunnerArgs:  params.GithubRunnerArgs(),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if err := azureRHEL.Create(
-				ctx,
+			return azureRHEL.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&azureRHEL.RhelArgs{
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
@@ -62,10 +58,7 @@ func getCreateRHEL() *cobra.Command {
 					SubsUsername:   viper.GetString(params.SubsUsername),
 					SubsUserpass:   viper.GetString(params.SubsUserpass),
 					ProfileSNC:     viper.IsSet(params.ProfileSNC),
-					Username:       viper.GetString(paramUsername)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					Username:       viper.GetString(paramUsername)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -94,16 +87,13 @@ func getDestroyRHEL() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := azureRHEL.Destroy(
+			return azureRHEL.Destroy(
 				&maptContext.ContextArgs{
 					ProjectName: viper.GetString(params.ProjectName),
 					BackedURL:   viper.GetString(params.BackedURL),
 					Debug:       viper.IsSet(params.Debug),
 					DebugLevel:  viper.GetUint(params.DebugLevel),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 }

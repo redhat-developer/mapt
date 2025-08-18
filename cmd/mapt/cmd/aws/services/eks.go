@@ -4,7 +4,6 @@ import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	awsEKS "github.com/redhat-developer/mapt/pkg/provider/aws/action/eks"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -59,7 +58,7 @@ func getCreateEKS() *cobra.Command {
 				return err
 			}
 
-			if err := awsEKS.Create(
+			return awsEKS.Create(
 				&maptContext.ContextArgs{
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
@@ -78,10 +77,7 @@ func getCreateEKS() *cobra.Command {
 					Addons:                 viper.GetStringSlice(paramAddons),
 					LoadBalancerController: viper.IsSet(paramLoadBalancerController),
 					ExcludedZoneIDs:        viper.GetStringSlice(excludedZoneIDs),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -109,16 +105,13 @@ func getDestroyEKS() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := awsEKS.Destroy(
+			return awsEKS.Destroy(
 				&maptContext.ContextArgs{
 					ProjectName: viper.GetString(params.ProjectName),
 					BackedURL:   viper.GetString(params.BackedURL),
 					Debug:       viper.IsSet(params.Debug),
 					DebugLevel:  viper.GetUint(params.DebugLevel),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 }
