@@ -51,6 +51,11 @@ var placementScores = []placementScoreSpec{
 	{spot.Highest, 1},
 }
 
+// While calculating the spot price and the types of machines
+// to be requested we use the first n number of types per Az
+// to control how many types will be used this var is used
+var numberOfTypesForSpot = 5
+
 func minPlacementScore(spotTolerance spot.Tolerance) int32 {
 	idx := slices.IndexFunc(placementScores,
 		func(e placementScoreSpec) bool {
@@ -248,7 +253,7 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 						InstanceType:     []string{ps.InstanceType},
 					})
 			}
-			if len(resultByAZ[ps.AvailabilityZone]) == 5 {
+			if len(resultByAZ[ps.AvailabilityZone]) == numberOfTypesForSpot {
 				result[r] = aggregateSpotChoice(resultByAZ[ps.AvailabilityZone])
 				break
 			}
@@ -270,9 +275,9 @@ func aggregateSpotChoice(s []*SpotInfoResult) *SpotInfoResult {
 	return &SpotInfoResult{
 		Region:           s[0].Region,
 		AvailabilityZone: s[0].AvailabilityZone,
-		Price:            s[4].Price,
-		Score:            s[4].Score,
-		InstanceType: util.ArrayConvert(s[:4],
+		Price:            s[numberOfTypesForSpot-1].Price,
+		Score:            s[numberOfTypesForSpot-1].Score,
+		InstanceType: util.ArrayConvert(s[:numberOfTypesForSpot],
 			func(s *SpotInfoResult) string {
 				return s.InstanceType[0]
 			}),
@@ -349,6 +354,10 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 		groupInfo.Region = r
 		results = append(results, groupInfo)
 	}
+	utilSlices.SortbyFloat(results,
+		func(s spotPrincingResults) float64 {
+			return s.Price
+		})
 	c <- hostingPlaces.HostingPlaceData[[]spotPrincingResults]{
 		Region: r,
 		Value:  results,
