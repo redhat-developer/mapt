@@ -3,43 +3,52 @@ package data
 import (
 	"context"
 
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
 var (
-	locatioRegion string = "region"
-	locationAZ    string = "availability-zone"
+	locationTypeRegion string = "region"
+	locationTypeAZ     string = "availability-zone"
 
 	filternameLocation     string = "location"
 	filternameInstanceType string = "instance-type"
 )
 
-func IsInstanceTypeOfferedByRegion(instanceType, region string) (bool, error) {
-	offerings, err := FilterInstaceTypesOfferedByRegion([]string{instanceType}, region)
+type LocationArgs struct {
+	Region, Az *string
+}
+
+// Check if InstanceType is offered on current location
+// it is valid for Regions or Azs
+// if az is nill it will check on region
+func IsInstanceTypeOfferedByLocation(instanceType string, args *LocationArgs) (bool, error) {
+	offerings, err := FilterInstaceTypesOfferedByLocation([]string{instanceType}, args)
 	return len(offerings) == 1, err
 }
 
 // Get InstanceTypes offerings on current location
-func FilterInstaceTypesOfferedByRegion(instanceTypes []string, region string) ([]string, error) {
-	var cfgOpts config.LoadOptionsFunc
-	if len(region) > 0 {
-		cfgOpts = config.WithRegion(region)
-	}
-	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
+// it is valid for Regions or Azs
+func FilterInstaceTypesOfferedByLocation(instanceTypes []string, args *LocationArgs) ([]string, error) {
+	cfg, err := getConfig(*args.Region)
 	if err != nil {
 		return nil, err
+	}
+	location := *args.Region
+	locationType := locationTypeRegion
+	if args.Az != nil {
+		location = *args.Az
+		locationType = locationTypeAZ
 	}
 	client := ec2.NewFromConfig(cfg)
 	o, err := client.DescribeInstanceTypeOfferings(
 		context.Background(),
 		&ec2.DescribeInstanceTypeOfferingsInput{
-			LocationType: ec2Types.LocationType(locatioRegion),
+			LocationType: ec2Types.LocationType(locationType),
 			Filters: []ec2Types.Filter{
 				{
 					Name:   &filternameLocation,
-					Values: []string{region}},
+					Values: []string{location}},
 				{
 					Name:   &filternameInstanceType,
 					Values: instanceTypes},
@@ -54,33 +63,33 @@ func FilterInstaceTypesOfferedByRegion(instanceTypes []string, region string) ([
 	return offerings, nil
 }
 
-func IsInstanceTypeOfferedByAZ(region, instanceType, az string) (bool, error) {
-	var cfgOpts config.LoadOptionsFunc
-	if len(region) > 0 {
-		cfgOpts = config.WithRegion(region)
-	}
-	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
-	if err != nil {
-		return false, err
-	}
-	client := ec2.NewFromConfig(cfg)
-	o, err := client.DescribeInstanceTypeOfferings(
-		context.Background(),
-		&ec2.DescribeInstanceTypeOfferingsInput{
-			LocationType: ec2Types.LocationType(locationAZ),
-			Filters: []ec2Types.Filter{
-				{
-					Name:   &filternameLocation,
-					Values: []string{az}},
-				{
-					Name:   &filternameInstanceType,
-					Values: []string{instanceType}},
-			}})
-	if err != nil {
-		return false, err
-	}
-	return len(o.InstanceTypeOfferings) == 1, nil
-}
+// func IsInstanceTypeOfferedByAZ(region, instanceType, az string) (bool, error) {
+// 	var cfgOpts config.LoadOptionsFunc
+// 	if len(region) > 0 {
+// 		cfgOpts = config.WithRegion(region)
+// 	}
+// 	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
+// 	if err != nil {
+// 		return false, err
+// 	}
+// 	client := ec2.NewFromConfig(cfg)
+// 	o, err := client.DescribeInstanceTypeOfferings(
+// 		context.Background(),
+// 		&ec2.DescribeInstanceTypeOfferingsInput{
+// 			LocationType: ec2Types.LocationType(locationAZ),
+// 			Filters: []ec2Types.Filter{
+// 				{
+// 					Name:   &filternameLocation,
+// 					Values: []string{az}},
+// 				{
+// 					Name:   &filternameInstanceType,
+// 					Values: []string{instanceType}},
+// 			}})
+// 	if err != nil {
+// 		return false, err
+// 	}
+// 	return len(o.InstanceTypeOfferings) == 1, nil
+// }
 
 // Check on all regions which offers the type of instance got one having it
 func LokupRegionOfferingInstanceType(instanceType string) (*string, error) {
@@ -93,9 +102,11 @@ func LokupRegionOfferingInstanceType(instanceType string) (*string, error) {
 	for _, region := range regions {
 		lRegion := region
 		go func(c chan string) {
-			if is, err := IsInstanceTypeOfferedByRegion(
+			if is, err := IsInstanceTypeOfferedByLocation(
 				instanceType,
-				lRegion); err == nil && is {
+				&LocationArgs{
+					Region: &lRegion,
+				}); err == nil && is {
 				c <- lRegion
 			}
 		}(c)
