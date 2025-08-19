@@ -178,18 +178,15 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	// Networking
-	lbEnable := true
-	nr := network.NetworkRequest{
-		Prefix: *r.prefix,
-		ID:     awsOCPSNCID,
-		Region: *r.allocationData.Region,
-		AZ:     *r.allocationData.AZ,
-		// LB is required if we use as which is used for spot feature
-		CreateLoadBalancer: &lbEnable,
-		Airgap:             false,
-	}
-	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
+	nw, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:             *r.prefix,
+			ID:                 awsOCPSNCID,
+			Region:             *r.allocationData.Region,
+			AZ:                 *r.allocationData.AZ,
+			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
+			Airgap:             false,
+		})
 	if err != nil {
 		return err
 	}
@@ -211,7 +208,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 			})
 	}
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
 	if err != nil {
 		return err
 	}
@@ -221,7 +218,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Userdata
-	udB64, kaPass, devPass, udDependecies, err := r.userData(ctx, &keyResources.PrivateKey.PublicKeyOpenssh, &lbEIP.PublicIp)
+	udB64, kaPass, devPass, udDependecies, err := r.userData(ctx, &keyResources.PrivateKey.PublicKeyOpenssh, &nw.Eip.PublicIp)
 	if err != nil {
 		return err
 	}
@@ -234,15 +231,15 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
 		ID:               awsOCPSNCID,
-		VPC:              vpc,
-		Subnet:           targetSubnet,
+		VPC:              nw.Vpc,
+		Subnet:           nw.Subnet,
 		AMI:              ami,
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     r.allocationData.InstanceTypes,
 		DiskSize:         &diskSize,
-		LB:               lb,
-		LBEIP:            lbEIP,
+		LB:               nw.LoadBalancer,
+		Eip:              nw.Eip,
 		LBTargetGroups:   []int{securityGroup.SSH_PORT, portHTTPS, portAPI},
 		SpotPrice:        *r.allocationData.SpotPrice,
 		Spot:             true,
@@ -481,7 +478,7 @@ func kubeconfig(ctx *pulumi.Context,
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
-	kubeconfig := pulumi.All(getKC.Stdout, c.LBEIP.PublicIp).ApplyT(
+	kubeconfig := pulumi.All(getKC.Stdout, c.Eip.PublicIp).ApplyT(
 		func(args []interface{}) string {
 			return strings.ReplaceAll(args[0].(string),
 				"https://api.crc.testing:6443",

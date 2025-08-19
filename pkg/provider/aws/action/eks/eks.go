@@ -150,7 +150,7 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		AvailabilityZones:  r.availabilityZones,
 		PublicSubnetsCIDRs: network.GeneratePublicSubnetCIDRs(len(r.availabilityZones)),
 		Region:             *r.allocationData.Region,
-		SingleNatGateway:   true,
+		NatGatewayMode:     &network.NatGatewayModeSingle,
 		MapPublicIp:        true,
 	}.CreateNetwork(ctx)
 	if err != nil {

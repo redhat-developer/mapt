@@ -25,7 +25,7 @@ func Create(mCtxArgs *mc.ContextArgs, cidr string,
 		PublicSubnetsCIDRs:  publicSubnets,
 		PrivateSubnetsCIDRs: privateSubnets,
 		IntraSubnetsCIDRs:   intraSubnets,
-		SingleNatGateway:    false}
+		NatGatewayMode:      &NatGatewayModeHA}
 	stack := manager.Stack{
 		StackName:           StackCreateNetworkName,
 		ProjectName:         mCtx.ProjectName(),

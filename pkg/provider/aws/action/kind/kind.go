@@ -162,15 +162,14 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 
 	// Networking
 	// LB is required if we use as which is used for spot feature
-	createLB := r.allocationData.SpotPrice != nil
-	nr := network.NetworkRequest{
-		Prefix:             *r.prefix,
-		ID:                 awsKindID,
-		Region:             *r.allocationData.Region,
-		AZ:                 *r.allocationData.AZ,
-		CreateLoadBalancer: &createLB,
-	}
-	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
+	nw, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:             *r.prefix,
+			ID:                 awsKindID,
+			Region:             *r.allocationData.Region,
+			AZ:                 *r.allocationData.AZ,
+			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
+		})
 	if err != nil {
 		return err
 	}
@@ -186,13 +185,13 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		keyResources.PrivateKey.PrivateKeyPem)
 
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, vpc, extraHostPorts)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc, extraHostPorts)
 	if err != nil {
 		return err
 	}
 
 	// Userdata
-	udB64, err := userData(r.arch, r.version, r.extraPortMappings, &lbEIP.PublicIp)
+	udB64, err := userData(r.arch, r.version, r.extraPortMappings, &nw.Eip.PublicIp)
 	if err != nil {
 		return err
 	}
@@ -204,16 +203,16 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
 		ID:               awsKindID,
-		VPC:              vpc,
-		Subnet:           targetSubnet,
+		VPC:              nw.Vpc,
+		Subnet:           nw.Subnet,
 		AMI:              ami,
 		KeyResources:     keyResources,
 		UserDataAsBase64: udB64,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     r.allocationData.InstanceTypes,
 		DiskSize:         &diskSize,
-		LB:               lb,
-		LBEIP:            lbEIP,
+		LB:               nw.LoadBalancer,
+		Eip:              nw.Eip,
 		LBTargetGroups:   lbTargetGroups,
 	}
 	if r.allocationData.SpotPrice != nil {
@@ -396,7 +395,7 @@ func kubeconfig(ctx *pulumi.Context,
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
-	kubeconfig := pulumi.All(getKC.Stdout, c.LBEIP.PublicIp).ApplyT(
+	kubeconfig := pulumi.All(getKC.Stdout, c.Eip.PublicIp).ApplyT(
 		func(args []interface{}) string {
 			re := regexp.MustCompile(`https://[^:]+:\d+`)
 			return re.ReplaceAllString(

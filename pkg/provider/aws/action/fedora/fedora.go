@@ -183,18 +183,16 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	// Networking
-	nr := network.NetworkRequest{
+	nw, err := network.Create(ctx, r.mCtx, &network.NetworkArgs{
 		Prefix: *r.prefix,
 		ID:     awsFedoraDedicatedID,
 		Region: *r.allocationData.Region,
 		AZ:     *r.allocationData.AZ,
 		// LB is required if we use as which is used for spot feature
-		CreateLoadBalancer:      &r.spot,
+		CreateLoadBalancer:      r.spot,
 		Airgap:                  *r.airgap,
 		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-	}
-	vpc, targetSubnet, _, bastion, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
+	})
 	if err != nil {
 		return err
 	}
@@ -209,7 +207,7 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
 	if err != nil {
 		return err
 	}
@@ -221,8 +219,8 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
 		ID:               awsFedoraDedicatedID,
-		VPC:              vpc,
-		Subnet:           targetSubnet,
+		VPC:              nw.Vpc,
+		Subnet:           nw.Subnet,
 		AMI:              ami,
 		KeyResources:     keyResources,
 		UserDataAsBase64: userDataB64,
@@ -230,8 +228,8 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		InstaceTypes:     r.allocationData.InstanceTypes,
 		DiskSize:         &diskSize,
 		Airgap:           *r.airgap,
-		LB:               lb,
-		LBEIP:            lbEIP,
+		LB:               nw.LoadBalancer,
+		Eip:              nw.Eip,
 		LBTargetGroups:   []int{22},
 	}
 	if r.spot {
@@ -259,7 +257,7 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		}
 	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsFedoraDedicatedID,
-		keyResources.PrivateKey, amiUserDefault, bastion, c.Dependencies)
+		keyResources.PrivateKey, amiUserDefault, nw.Bastion, c.Dependencies)
 }
 
 // Write exported values in context to files o a selected target folder
