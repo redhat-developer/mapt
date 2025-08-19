@@ -117,7 +117,7 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		args.IamInstanceProfile = r.InstanceProfile
 	}
 	if r.UserDataAsBase64 != nil {
-		args.UserData = r.UserDataAsBase64
+		args.UserDataBase64 = r.UserDataAsBase64
 	}
 	if r.Airgap {
 		args.AssociatePublicIpAddress = pulumi.Bool(false)
@@ -133,7 +133,7 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance-eip"),
 		&ec2.EipAssociationArgs{
 			InstanceId:   instance.ID(),
-			AllocationId: r.Eip.ID(), // use eip.ID() if it's in VPC
+			AllocationId: r.Eip.ID(),
 		})
 	if err != nil {
 		return nil, err
