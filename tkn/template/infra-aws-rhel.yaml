@@ -122,7 +122,7 @@ spec:
       description: | 
         if spot is enable we can define the minimum tolerance level of eviction. 
         Allowed value are: lowest, low, medium, high or highest
-      default: 'high'
+      default: 'lowest'
 
     # RHEL params
     - name: version

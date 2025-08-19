@@ -25,7 +25,7 @@ var (
 		"high":    High,
 		"highest": Highest}
 
-	DefaultTolerance = Medium
+	DefaultTolerance = Lowest
 
 	defaultSpotPriceIncreaseRate = 30
 )

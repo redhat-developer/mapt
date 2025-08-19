@@ -114,7 +114,7 @@ const (
 	spotDesc                     = "if spot is set the spot prices across all regions will be checked and machine will be started on best spot option (price / eviction)"
 	spotTolerance                = "spot-eviction-tolerance"
 	spotToleranceDesc            = "if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest"
-	spotToleranceDefault         = "medium"
+	spotToleranceDefault         = "lowest"
 	spotPriceIncreaseRate        = "spot-increase-rate"
 	spotPriceIncreaseRateDesc    = "Percentage to be added on top of the current calculated spot price to increase chances to get the machine"
 	spotPriceIncreaseRateDefault = 30
