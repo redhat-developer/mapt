@@ -162,17 +162,14 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Networking
-	lbEnable := true
-	nr := network.NetworkRequest{
-		Prefix: *r.prefix,
-		ID:     awsRHELDedicatedID,
-		Region: *r.allocationData.Region,
-		AZ:     *r.allocationData.AZ,
-		// LB is required if we use as which is used for spot feature
-		CreateLoadBalancer: &lbEnable,
-		Airgap:             false,
-	}
-	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
+	nw, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:             *r.prefix,
+			ID:                 awsRHELDedicatedID,
+			Region:             *r.allocationData.Region,
+			AZ:                 *r.allocationData.AZ,
+			CreateLoadBalancer: true,
+		})
 	if err != nil {
 		return err
 	}
@@ -187,7 +184,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := r.securityGroups(ctx, r.mCtx, vpc)
+	securityGroups, err := r.securityGroups(ctx, r.mCtx, nw.Vpc)
 	if err != nil {
 		return err
 	}
@@ -195,15 +192,15 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		MCtx:           r.mCtx,
 		Prefix:         *r.prefix,
 		ID:             awsRHELDedicatedID,
-		VPC:            vpc,
-		Subnet:         targetSubnet,
+		VPC:            nw.Vpc,
+		Subnet:         nw.Subnet,
 		AMI:            ami,
 		KeyResources:   keyResources,
 		SecurityGroups: securityGroups,
 		InstaceTypes:   r.allocationData.InstanceTypes,
 		DiskSize:       &diskSize,
-		LB:             lb,
-		LBEIP:          lbEIP,
+		LB:             nw.LoadBalancer,
+		Eip:            nw.Eip,
 		LBTargetGroups: []int{22}}
 	if r.allocationData.SpotPrice != nil {
 		cr.Spot = true

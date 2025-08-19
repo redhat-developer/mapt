@@ -1,13 +1,11 @@
 package network
 
 import (
-	"fmt"
-
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/lb"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
-	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
+	bastion "github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	na "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/airgap"
 	ns "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -27,7 +25,7 @@ const (
 	OFF
 )
 
-type NetworkRequest struct {
+type NetworkArgs struct {
 	Prefix string
 	ID     string
 	Region string
@@ -35,121 +33,140 @@ type NetworkRequest struct {
 	// Create a load balancer
 	// If !airgap lb will be public facing
 	// If airgap lb will be internal
-	CreateLoadBalancer      *bool
-	LoadBalancerIp          bool
+	CreateLoadBalancer bool
+	// LoadBalancerIp          bool
 	Airgap                  bool
 	AirgapPhaseConnectivity Connectivity
 }
 
-func (r *NetworkRequest) Network(ctx *pulumi.Context, mCtx *mc.Context) (
-	vpc *ec2.Vpc,
-	targetSubnet *ec2.Subnet,
-	targetRouteTableAssociation *ec2.RouteTableAssociation,
-	b *bastion.Bastion,
-	lb *lb.LoadBalancer,
-	lbEIP *ec2.Eip,
-	err error) {
-	if !r.Airgap {
-		vpc, targetSubnet, err = r.manageNetworking(ctx, mCtx)
-	} else {
-		var publicSubnet *ec2.Subnet
-		if vpc, publicSubnet, targetSubnet, targetRouteTableAssociation, err =
-			r.manageAirgapNetworking(ctx, mCtx); err != nil {
-			return nil, nil, nil, nil, nil, nil, err
-		}
-		br := bastion.BastionRequest{
-			Prefix: r.Prefix,
-			VPC:    vpc,
-			Subnet: publicSubnet,
-			// private key for bastion will be exported with this key
-			OutputKeyPrivateKey: fmt.Sprintf("%s-%s", r.Prefix, bastion.OutputBastionUserPrivateKey),
-			OutputKeyUsername:   fmt.Sprintf("%s-%s", r.Prefix, bastion.OutputBastionUsername),
-			OutputKeyHost:       fmt.Sprintf("%s-%s", r.Prefix, bastion.OutputBastionHost),
-		}
-		b, err = br.Create(ctx, mCtx)
-	}
-	if r.CreateLoadBalancer != nil && *r.CreateLoadBalancer {
-		lb, lbEIP, err = r.createLoadBalancer(ctx, targetSubnet)
-	}
-	return
+type NetworkResult struct {
+	Vpc                         *ec2.Vpc
+	Subnet                      *ec2.Subnet
+	SubnetRouteTableAssociation *ec2.RouteTableAssociation
+	Eip                         *ec2.Eip
+	LoadBalancer                *lb.LoadBalancer
+	// If Airgap true on args
+	Bastion *bastion.BastionResult
 }
 
-// Create a standard network (only one public subnet)
-func (r *NetworkRequest) manageNetworking(ctx *pulumi.Context, mCtx *mc.Context) (*ec2.Vpc, *ec2.Subnet, error) {
+func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, error) {
+	var err error
+	result := &NetworkResult{}
+	if !args.Airgap {
+		result, err = standardNetwork(ctx, mCtx, args)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		var publicSubnet *ec2.Subnet
+		result, publicSubnet, err =
+			airgapNetworking(ctx, mCtx, args)
+		if err != nil {
+			return nil, err
+		}
+		result.Bastion, err = bastion.Create(ctx, mCtx,
+			&bastion.BastionArgs{
+				Prefix: args.Prefix,
+				VPC:    result.Vpc,
+				Subnet: publicSubnet,
+			})
+		if err != nil {
+			return nil, err
+		}
+	}
+	result.Eip, err = ec2.NewEip(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ID, "lbeip"),
+		&ec2.EipArgs{})
+	if err != nil {
+		return nil, err
+	}
+	if args.CreateLoadBalancer {
+		lba := &loadBalancerArgs{
+			prefix: &args.Prefix,
+			id:     &args.ID,
+			subnet: result.Subnet,
+		}
+		if args.Airgap {
+			lba.eip = result.Eip
+		}
+		result.LoadBalancer, err = loadBalancer(ctx, lba)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return result, nil
+}
+
+func standardNetwork(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, error) {
 	net, err := ns.NetworkRequest{
 		MCtx:               mCtx,
 		CIDR:               cidrVN,
-		Name:               resourcesUtil.GetResourceName(r.Prefix, r.ID, "net"),
-		Region:             r.Region,
-		AvailabilityZones:  []string{r.AZ},
+		Name:               resourcesUtil.GetResourceName(args.Prefix, args.ID, "net"),
+		Region:             args.Region,
+		AvailabilityZones:  []string{args.AZ},
 		PublicSubnetsCIDRs: []string{cidrPublicSN},
-		SingleNatGateway:   true,
+		NatGatewayMode:     &ns.NatGatewayModeNone,
 	}.CreateNetwork(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &NetworkResult{
+		Vpc:    net.VPCResources.VPC,
+		Subnet: net.PublicSNResources[0].Subnet,
+	}, nil
+}
+
+func airgapNetworking(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, *ec2.Subnet, error) {
+	net, err := na.AirgapNetworkRequest{
+		CIDR:             cidrVN,
+		Name:             resourcesUtil.GetResourceName(args.Prefix, args.ID, "net"),
+		Region:           args.Region,
+		AvailabilityZone: args.AZ,
+		PublicSubnetCIDR: cidrPublicSN,
+		TargetSubnetCIDR: cidrIntraSN,
+		SetAsAirgap:      args.AirgapPhaseConnectivity == OFF}.CreateNetwork(ctx, mCtx)
 	if err != nil {
 		return nil, nil, err
 	}
-	return net.VPCResources.VPC,
-		net.PublicSNResources[0].Subnet,
-		nil
+	return &NetworkResult{
+		Vpc:                         net.VPCResources.VPC,
+		Subnet:                      net.TargetSubnet.Subnet,
+		SubnetRouteTableAssociation: net.TargetSubnet.RouteTableAssociation,
+	}, net.PublicSubnet.Subnet, nil
 }
 
-// Create an airgap scenario (on and off phases will be executed to remove the nat gateway on the off phase)
-func (r *NetworkRequest) manageAirgapNetworking(ctx *pulumi.Context, mCtx *mc.Context) (
-	vpc *ec2.Vpc,
-	publicSubnet *ec2.Subnet,
-	targetSubnet *ec2.Subnet,
-	targetRouteTableAssociation *ec2.RouteTableAssociation,
-	err error) {
-	net, err := na.AirgapNetworkRequest{
-		CIDR:             cidrVN,
-		Name:             resourcesUtil.GetResourceName(r.Prefix, r.ID, "net"),
-		Region:           r.Region,
-		AvailabilityZone: r.AZ,
-		PublicSubnetCIDR: cidrPublicSN,
-		TargetSubnetCIDR: cidrIntraSN,
-		SetAsAirgap:      r.AirgapPhaseConnectivity == OFF}.CreateNetwork(ctx, mCtx)
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-	return net.VPCResources.VPC,
-		net.PublicSubnet.Subnet,
-		net.TargetSubnet.Subnet,
-		net.TargetSubnet.RouteTableAssociation,
-		nil
+type loadBalancerArgs struct {
+	prefix, id *string
+	subnet     *ec2.Subnet
+	// If eip != nil it means it is not airgap
+	eip *ec2.Eip
 }
 
-func (r *NetworkRequest) createLoadBalancer(ctx *pulumi.Context,
-	subnet *ec2.Subnet) (*lb.LoadBalancer, *ec2.Eip, error) {
+func (a *loadBalancerArgs) airgap() bool { return a.eip == nil }
+
+func loadBalancer(ctx *pulumi.Context, args *loadBalancerArgs) (*lb.LoadBalancer, error) {
 	lbArgs := &lb.LoadBalancerArgs{
 		LoadBalancerType:         pulumi.String("network"),
 		EnableDeletionProtection: pulumi.Bool(false),
 	}
 	snMapping := &lb.LoadBalancerSubnetMappingArgs{
-		SubnetId: subnet.ID()}
+		SubnetId: args.subnet.ID()}
 	lbArgs.SubnetMappings = lb.LoadBalancerSubnetMappingArray{
 		snMapping,
 	}
-	var lbEIP *ec2.Eip
-	var err error
-	if r.Airgap {
+	if args.airgap() {
 		// If airgap the load balancer is internal facing
 		snMapping.PrivateIpv4Address = pulumi.String(internalLBIp)
 		lbArgs.Internal = pulumi.Bool(true)
 	} else {
 		// It load balancer is public facing
-		lbEIP, err = ec2.NewEip(ctx,
-			resourcesUtil.GetResourceName(r.Prefix, r.ID, "lbeip"),
-			&ec2.EipArgs{})
-		if err != nil {
-			return nil, nil, err
-		}
-		snMapping.AllocationId = lbEIP.ID()
+		snMapping.AllocationId = args.eip.ID()
 	}
 	lb, err := lb.NewLoadBalancer(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ID, "lb"),
+		resourcesUtil.GetResourceName(*args.prefix, *args.id, "lb"),
 		lbArgs)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	return lb, lbEIP, nil
+	return lb, nil
 }

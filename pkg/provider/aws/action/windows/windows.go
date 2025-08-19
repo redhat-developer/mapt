@@ -237,18 +237,17 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Networking
-	nr := network.NetworkRequest{
-		Prefix: *r.prefix,
-		ID:     awsWindowsDedicatedID,
-		Region: *r.allocationData.Region,
-		AZ:     *r.allocationData.AZ,
-		// LB is required if we use as which is used for spot feature
-		CreateLoadBalancer:      &r.spot,
-		Airgap:                  *r.airgap,
-		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-	}
-	// vpc, targetSubnet, targetRouteTableAssociation, bastion, lb, err := nr.Network(ctx)
-	vpc, targetSubnet, _, bastion, lb, lbEIP, err := nr.Network(ctx, r.mCtx)
+
+	nw, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:                  *r.prefix,
+			ID:                      awsWindowsDedicatedID,
+			Region:                  *r.allocationData.Region,
+			AZ:                      *r.allocationData.AZ,
+			CreateLoadBalancer:      r.spot,
+			Airgap:                  *r.airgap,
+			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
+		})
 	if err != nil {
 		return err
 	}
@@ -263,7 +262,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
 	if err != nil {
 		return err
 	}
@@ -282,8 +281,8 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
 		ID:               awsWindowsDedicatedID,
-		VPC:              vpc,
-		Subnet:           targetSubnet,
+		VPC:              nw.Vpc,
+		Subnet:           nw.Subnet,
 		AMI:              ami,
 		UserDataAsBase64: userDataB64,
 		KeyResources:     keyResources,
@@ -291,8 +290,8 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		InstaceTypes:     requiredInstanceTypes,
 		DiskSize:         &diskSize,
 		Airgap:           *r.airgap,
-		LB:               lb,
-		LBEIP:            lbEIP,
+		LB:               nw.LoadBalancer,
+		Eip:              nw.Eip,
 		LBTargetGroups:   []int{22, 3389}}
 	if r.allocationData.SpotPrice != nil {
 		cr.Spot = true
@@ -321,7 +320,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		}
 	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsWindowsDedicatedID,
-		keyResources.PrivateKey, *r.amiUser, bastion, c.Dependencies)
+		keyResources.PrivateKey, *r.amiUser, nw.Bastion, c.Dependencies)
 }
 
 // Write exported values in context to files o a selected target folder

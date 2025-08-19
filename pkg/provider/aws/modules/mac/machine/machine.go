@@ -184,15 +184,16 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	nr := network.NetworkRequest{
-		Prefix:                  r.Prefix,
-		ID:                      awsMacMachineID,
-		Region:                  *r.Region,
-		AZ:                      *r.AvailabilityZone,
-		Airgap:                  r.Airgap,
-		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-	}
-	vpc, targetSubnet, targetRouteTableAssociation, bastion, _, _, err := nr.Network(ctx, r.MCtx)
+	// Networking
+	nw, err := network.Create(ctx, r.MCtx,
+		&network.NetworkArgs{
+			Prefix:                  r.Prefix,
+			ID:                      awsMacMachineID,
+			Region:                  *r.Region,
+			AZ:                      *r.AvailabilityZone,
+			Airgap:                  r.Airgap,
+			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
+		})
 	if err != nil {
 		return err
 	}
@@ -208,12 +209,12 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputMachinePrivateKey),
 		machineKeyPairResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := r.securityGroups(ctx, vpc)
+	securityGroups, err := r.securityGroups(ctx, nw.Vpc)
 	if err != nil {
 		return err
 	}
 	// Create instance
-	i, err := r.instance(ctx, targetSubnet, ami, machineKeyPairResources, securityGroups)
+	i, err := r.instance(ctx, nw.Subnet, ami, machineKeyPairResources, securityGroups)
 	if err != nil {
 		return err
 	}
@@ -228,19 +229,19 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	}
 	// Bootstrap script
 	bSDependecies := []pulumi.Resource{i}
-	if bastion != nil {
+	if nw.Bastion != nil {
 		bSDependecies = append(bSDependecies,
-			[]pulumi.Resource{bastion.Instance, targetRouteTableAssociation}...)
+			[]pulumi.Resource{nw.Bastion.Instance, nw.SubnetRouteTableAssociation}...)
 	}
 	bc, userPassword, ukp, err := r.bootstrapscript(
-		ctx, i, machineKeyPairResources.PrivateKey, bastion, bSDependecies)
+		ctx, i, machineKeyPairResources.PrivateKey, nw.Bastion, bSDependecies)
 	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPassword), userPassword.Result)
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey),
 		ukp.PrivateKey.PrivateKeyPem)
-	readiness, err := r.readiness(ctx, i, ukp.PrivateKey, bastion, []pulumi.Resource{bc})
+	readiness, err := r.readiness(ctx, i, ukp.PrivateKey, nw.Bastion, []pulumi.Resource{bc})
 	if err != nil {
 		return err
 	}
@@ -368,7 +369,7 @@ func (r *Request) instance(ctx *pulumi.Context,
 func (r *Request) bootstrapscript(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
-	b *bastion.Bastion,
+	b *bastion.BastionResult,
 	dependecies []pulumi.Resource) (
 	*remote.Command,
 	*random.RandomPassword,
@@ -443,7 +444,7 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 func (r *Request) readiness(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
-	b *bastion.Bastion,
+	b *bastion.BastionResult,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
 	timeout := util.If(len(r.sshConnectionTimeout) > 0, r.sshConnectionTimeout, defaultTimeout)
 	return remote.NewCommand(ctx,
@@ -464,7 +465,7 @@ func (r *Request) readiness(ctx *pulumi.Context,
 func remoteCommandArgs(
 	m *ec2.Instance,
 	pk pulumi.StringPtrInput,
-	b *bastion.Bastion) remote.ConnectionArgs {
+	b *bastion.BastionResult) remote.ConnectionArgs {
 	ca := remote.ConnectionArgs{
 		Host:           m.PublicIp,
 		PrivateKey:     pk,

@@ -51,6 +51,15 @@ func generateCIDRBlocks(baseCIDR string, count int, offset int) []string {
 	return cidrs
 }
 
+type NatGatewayMode string
+
+var (
+	NatGatewayModeNone   NatGatewayMode = "none"
+	NatGatewayModeSingle NatGatewayMode = "single"
+	NatGatewayModeHA     NatGatewayMode = "ha"
+	NatGatewayModeCustom NatGatewayMode = "ha"
+)
+
 type NetworkRequest struct {
 	MCtx                *mc.Context
 	CIDR                string
@@ -60,7 +69,7 @@ type NetworkRequest struct {
 	PublicSubnetsCIDRs  []string
 	PrivateSubnetsCIDRs []string
 	IntraSubnetsCIDRs   []string
-	SingleNatGateway    bool
+	NatGatewayMode      *NatGatewayMode
 	PublicToIntra       *bool
 	MapPublicIp         bool
 }
@@ -84,7 +93,7 @@ func DefaultNetworkRequest(name, regionName string) NetworkRequest {
 		PublicSubnetsCIDRs:  GeneratePublicSubnetCIDRs(azCount),
 		PrivateSubnetsCIDRs: GeneratePrivateSubnetCIDRs(azCount),
 		IntraSubnetsCIDRs:   GenerateIntraSubnetCIDRs(azCount),
-		SingleNatGateway:    false,
+		NatGatewayMode:      &NatGatewayModeSingle,
 		MapPublicIp:         false,
 	}
 }
@@ -174,11 +183,11 @@ func (r NetworkRequest) managePublicSubnets(mCtx *mc.Context, vpc *ec2.Vpc,
 
 func (r NetworkRequest) managePrivateSubnets(mCtx *mc.Context, vpc *ec2.Vpc,
 	ngws []*ec2.NatGateway, ctx *pulumi.Context, namePrefix string) (subnets []*subnet.PrivateSubnetResources, err error) {
-	return managePrivateSubnets(mCtx, vpc, ngws, ctx, r.PrivateSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.SingleNatGateway)
+	return managePrivateSubnets(mCtx, vpc, ngws, ctx, r.PrivateSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.NatGatewayMode == &NatGatewayModeSingle)
 }
 
 func (r NetworkRequest) manageIntraSubnets(mCtx *mc.Context, vpc *ec2.Vpc, ctx *pulumi.Context, namePrefix string) (subnets []*subnet.PrivateSubnetResources, err error) {
-	return managePrivateSubnets(mCtx, vpc, nil, ctx, r.IntraSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.SingleNatGateway)
+	return managePrivateSubnets(mCtx, vpc, nil, ctx, r.IntraSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.NatGatewayMode == &NatGatewayModeSingle)
 }
 
 func managePrivateSubnets(mCtx *mc.Context, vpc *ec2.Vpc, ngws []*ec2.NatGateway, ctx *pulumi.Context,
@@ -203,7 +212,7 @@ func managePrivateSubnets(mCtx *mc.Context, vpc *ec2.Vpc, ngws []*ec2.NatGateway
 }
 
 func (r NetworkRequest) checkIfNatGatewayRequired(i int) bool {
-	return r.SingleNatGateway && i == 0 || len(r.PrivateSubnetsCIDRs) > 0
+	return r.NatGatewayMode == &NatGatewayModeSingle && i == 0 || len(r.PrivateSubnetsCIDRs) > 0
 }
 
 func getNatGateways(source []*subnet.PublicSubnetResources) (ngws []*ec2.NatGateway) {
