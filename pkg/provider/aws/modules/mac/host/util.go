@@ -98,12 +98,15 @@ func getTagValue(tags []ec2Types.Tag, tagKey string) *string {
 // if not offered and machine should be created on the region it will return an error
 // if not offered and machine could be created anywhere it will get a region offering the machine and return its name
 func getRegion(arch string, fixedLocation bool) (*string, error) {
+	region := os.Getenv("AWS_DEFAULT_REGION")
 	logging.Debugf("checking if %s is offered at %s",
 		arch,
-		os.Getenv("AWS_DEFAULT_REGION"))
-	isOffered, err := data.IsInstanceTypeOfferedByRegion(
+		region)
+	isOffered, err := data.IsInstanceTypeOfferedByLocation(
 		mac.TypesByArch[arch],
-		os.Getenv("AWS_DEFAULT_REGION"))
+		&data.LocationArgs{
+			Region: &region,
+		})
 	if err != nil {
 		return nil, err
 	}
@@ -134,9 +137,12 @@ func getAZ(region, arch string) (az *string, err error) {
 		if err != nil {
 			return nil, err
 		}
-		isOffered, err = data.IsInstanceTypeOfferedByAZ(
-			region,
-			mac.TypesByArch[arch], *az)
+		isOffered, err = data.IsInstanceTypeOfferedByLocation(
+			mac.TypesByArch[arch],
+			&data.LocationArgs{
+				Region: &region,
+				Az:     az,
+			})
 		if err != nil {
 			return nil, err
 		}

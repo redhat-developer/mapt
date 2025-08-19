@@ -8,6 +8,7 @@ import (
 	bastion "github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	na "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/airgap"
 	ns "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
+	utilNetwork "github.com/redhat-developer/mapt/pkg/util/network"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -15,7 +16,6 @@ const (
 	cidrVN       = "10.0.0.0/16"
 	cidrPublicSN = "10.0.2.0/24"
 	cidrIntraSN  = "10.0.101.0/24"
-	internalLBIp = "10.0.101.15"
 )
 
 type Connectivity int
@@ -33,8 +33,7 @@ type NetworkArgs struct {
 	// Create a load balancer
 	// If !airgap lb will be public facing
 	// If airgap lb will be internal
-	CreateLoadBalancer bool
-	// LoadBalancerIp          bool
+	CreateLoadBalancer      bool
 	Airgap                  bool
 	AirgapPhaseConnectivity Connectivity
 }
@@ -86,7 +85,7 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 			id:     &args.ID,
 			subnet: result.Subnet,
 		}
-		if args.Airgap {
+		if !args.Airgap {
 			lba.eip = result.Eip
 		}
 		result.LoadBalancer, err = loadBalancer(ctx, lba)
@@ -156,7 +155,11 @@ func loadBalancer(ctx *pulumi.Context, args *loadBalancerArgs) (*lb.LoadBalancer
 	}
 	if args.airgap() {
 		// If airgap the load balancer is internal facing
-		snMapping.PrivateIpv4Address = pulumi.String(internalLBIp)
+		internalLBIp, err := utilNetwork.RandomIp(cidrIntraSN)
+		if err != nil {
+			return nil, err
+		}
+		snMapping.PrivateIpv4Address = pulumi.String(*internalLBIp)
 		lbArgs.Internal = pulumi.Bool(true)
 	} else {
 		// It load balancer is public facing
