@@ -96,6 +96,11 @@ spec:
     - name: spot-increase-rate
       description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
       default: '20'
+    - name: spot-eviction-tolerance
+      description: | 
+        if spot is enable we can define the minimum tolerance level of eviction. 
+        Allowed value are: lowest, low, medium, high or highest
+      default: 'high'
       
     - name: airgap
       description: |
@@ -184,7 +189,7 @@ spec:
           cmd+="--ami-owner $(params.ami-owner) "
           cmd+="--ami-lang $(params.ami-lang) "
           if [[ $(params.spot) == "true" ]]; then 
-            cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) " 
+            cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) --spot-eviction-tolerance $(params.spot-eviction-tolerance) " 
           fi
           if [[ $(params.airgap) == "true" ]]; then cmd+="--airgap "; fi
           cmd+="--tags $(params.tags) "
