@@ -141,7 +141,7 @@ github.com/cespare/xxhash/v2
 # github.com/charithe/durationcheck v0.0.10
 ## explicit; go 1.14
 github.com/charithe/durationcheck
-# github.com/charmbracelet/colorprofile v0.3.1
+# github.com/charmbracelet/colorprofile v0.3.2
 ## explicit; go 1.23.0
 github.com/charmbracelet/colorprofile
 # github.com/charmbracelet/lipgloss v1.1.0
@@ -741,8 +741,8 @@ github.com/sashamelentyev/interfacebloat/pkg/analyzer
 ## explicit; go 1.23.0
 github.com/sashamelentyev/usestdlibvars/pkg/analyzer
 github.com/sashamelentyev/usestdlibvars/pkg/analyzer/internal/mapping
-# github.com/securego/gosec/v2 v2.22.7
-## explicit; go 1.23.0
+# github.com/securego/gosec/v2 v2.22.8
+## explicit; go 1.24.0
 github.com/securego/gosec/v2
 github.com/securego/gosec/v2/analyzers
 github.com/securego/gosec/v2/cwe
@@ -875,7 +875,7 @@ go-simpler.org/sloglint
 # go.augendre.info/arangolint v0.2.0
 ## explicit; go 1.23.0
 go.augendre.info/arangolint/pkg/analyzer
-# go.augendre.info/fatcontext v0.8.0
+# go.augendre.info/fatcontext v0.8.1
 ## explicit; go 1.23.0
 go.augendre.info/fatcontext/pkg/analyzer
 # go.uber.org/automaxprocs v1.6.0

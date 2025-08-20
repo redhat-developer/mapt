@@ -299,7 +299,7 @@ github.com/charmbracelet/bubbles/viewport
 # github.com/charmbracelet/bubbletea v1.3.6
 ## explicit; go 1.23.0
 github.com/charmbracelet/bubbletea
-# github.com/charmbracelet/colorprofile v0.3.1
+# github.com/charmbracelet/colorprofile v0.3.2
 ## explicit; go 1.23.0
 github.com/charmbracelet/colorprofile
 # github.com/charmbracelet/lipgloss v1.1.0
@@ -639,8 +639,8 @@ github.com/pulumi/pulumi-azure-native-sdk/v3/utilities
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
-# github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.3
-## explicit; go 1.21.7
+# github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.12
+## explicit; go 1.24.1
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
 # github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0
