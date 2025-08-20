@@ -8,7 +8,7 @@ const (
 	Amd64 Arch = iota + 1
 	Arm64
 
-	MaxResults = 15 // maximum number of VM types to fetch
+	MaxResults = 20 // maximum number of VM types to fetch
 )
 
 type Arch int

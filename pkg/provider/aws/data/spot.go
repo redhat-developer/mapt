@@ -54,7 +54,7 @@ var placementScores = []placementScoreSpec{
 // While calculating the spot price and the types of machines
 // to be requested we use the first n number of types per Az
 // to control how many types will be used this var is used
-var numberOfTypesForSpot = 5
+var numberOfTypesForSpot = 8
 
 func minPlacementScore(spotTolerance spot.Tolerance) int32 {
 	idx := slices.IndexFunc(placementScores,
@@ -186,6 +186,7 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	regionsWithPlacementScore := utilMaps.Keys(placementScores)
 	spotPricing, err := hostingPlaces.RunOnHostingPlaces(regionsWithPlacementScore,
 		spotPricingArgs{
+			mCtx:               mCtx,
 			productDescription: *args.ProductDescription,
 			instanceTypes:      args.InstaceTypes,
 		},
@@ -285,6 +286,7 @@ func aggregateSpotChoice(s []*SpotInfoResult) *SpotInfoResult {
 }
 
 type spotPricingArgs struct {
+	mCtx               *mc.Context
 	productDescription string
 	instanceTypes      []string
 }
@@ -334,10 +336,11 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 				InstanceType:     string(priceData.InstanceType),
 			}
 		})
-
-	for _, v := range spotPriceGroups {
-		for _, sp := range v {
-			logging.Debugf("Found InstanceType %s at Availability Zone %s with spot price %s", string(sp.InstanceType), *sp.AvailabilityZone, *sp.SpotPrice)
+	if args.mCtx.Debug() {
+		for _, v := range spotPriceGroups {
+			for _, sp := range v {
+				logging.Debugf("Found InstanceType %s at Availability Zone %s with spot price %s", string(sp.InstanceType), *sp.AvailabilityZone, *sp.SpotPrice)
+			}
 		}
 	}
 	var results []spotPrincingResults
@@ -419,7 +422,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlace
 	}
 	slices.SortFunc(results,
 		func(a, b placementScoreResult) int {
-			return int(*a.sps.Score - *b.sps.Score)
+			return int(*b.sps.Score - *a.sps.Score)
 		})
 	c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
 		Region: r,
