@@ -6275,6 +6275,403 @@ func (o IPTagResponseArrayOutput) Index(i pulumi.IntInput) IPTagResponseOutput {
 	}).(IPTagResponseOutput)
 }
 
+// Managed identity profile for the identity binding.
+type IdentityBindingManagedIdentityProfile struct {
+	// The resource ID of the managed identity.
+	ResourceId string `pulumi:"resourceId"`
+}
+
+// IdentityBindingManagedIdentityProfileInput is an input type that accepts IdentityBindingManagedIdentityProfileArgs and IdentityBindingManagedIdentityProfileOutput values.
+// You can construct a concrete instance of `IdentityBindingManagedIdentityProfileInput` via:
+//
+//	IdentityBindingManagedIdentityProfileArgs{...}
+type IdentityBindingManagedIdentityProfileInput interface {
+	pulumi.Input
+
+	ToIdentityBindingManagedIdentityProfileOutput() IdentityBindingManagedIdentityProfileOutput
+	ToIdentityBindingManagedIdentityProfileOutputWithContext(context.Context) IdentityBindingManagedIdentityProfileOutput
+}
+
+// Managed identity profile for the identity binding.
+type IdentityBindingManagedIdentityProfileArgs struct {
+	// The resource ID of the managed identity.
+	ResourceId pulumi.StringInput `pulumi:"resourceId"`
+}
+
+func (IdentityBindingManagedIdentityProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IdentityBindingManagedIdentityProfile)(nil)).Elem()
+}
+
+func (i IdentityBindingManagedIdentityProfileArgs) ToIdentityBindingManagedIdentityProfileOutput() IdentityBindingManagedIdentityProfileOutput {
+	return i.ToIdentityBindingManagedIdentityProfileOutputWithContext(context.Background())
+}
+
+func (i IdentityBindingManagedIdentityProfileArgs) ToIdentityBindingManagedIdentityProfileOutputWithContext(ctx context.Context) IdentityBindingManagedIdentityProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IdentityBindingManagedIdentityProfileOutput)
+}
+
+func (i IdentityBindingManagedIdentityProfileArgs) ToIdentityBindingManagedIdentityProfilePtrOutput() IdentityBindingManagedIdentityProfilePtrOutput {
+	return i.ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(context.Background())
+}
+
+func (i IdentityBindingManagedIdentityProfileArgs) ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(ctx context.Context) IdentityBindingManagedIdentityProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IdentityBindingManagedIdentityProfileOutput).ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(ctx)
+}
+
+// IdentityBindingManagedIdentityProfilePtrInput is an input type that accepts IdentityBindingManagedIdentityProfileArgs, IdentityBindingManagedIdentityProfilePtr and IdentityBindingManagedIdentityProfilePtrOutput values.
+// You can construct a concrete instance of `IdentityBindingManagedIdentityProfilePtrInput` via:
+//
+//	        IdentityBindingManagedIdentityProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type IdentityBindingManagedIdentityProfilePtrInput interface {
+	pulumi.Input
+
+	ToIdentityBindingManagedIdentityProfilePtrOutput() IdentityBindingManagedIdentityProfilePtrOutput
+	ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(context.Context) IdentityBindingManagedIdentityProfilePtrOutput
+}
+
+type identityBindingManagedIdentityProfilePtrType IdentityBindingManagedIdentityProfileArgs
+
+func IdentityBindingManagedIdentityProfilePtr(v *IdentityBindingManagedIdentityProfileArgs) IdentityBindingManagedIdentityProfilePtrInput {
+	return (*identityBindingManagedIdentityProfilePtrType)(v)
+}
+
+func (*identityBindingManagedIdentityProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IdentityBindingManagedIdentityProfile)(nil)).Elem()
+}
+
+func (i *identityBindingManagedIdentityProfilePtrType) ToIdentityBindingManagedIdentityProfilePtrOutput() IdentityBindingManagedIdentityProfilePtrOutput {
+	return i.ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *identityBindingManagedIdentityProfilePtrType) ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(ctx context.Context) IdentityBindingManagedIdentityProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IdentityBindingManagedIdentityProfilePtrOutput)
+}
+
+// Managed identity profile for the identity binding.
+type IdentityBindingManagedIdentityProfileOutput struct{ *pulumi.OutputState }
+
+func (IdentityBindingManagedIdentityProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IdentityBindingManagedIdentityProfile)(nil)).Elem()
+}
+
+func (o IdentityBindingManagedIdentityProfileOutput) ToIdentityBindingManagedIdentityProfileOutput() IdentityBindingManagedIdentityProfileOutput {
+	return o
+}
+
+func (o IdentityBindingManagedIdentityProfileOutput) ToIdentityBindingManagedIdentityProfileOutputWithContext(ctx context.Context) IdentityBindingManagedIdentityProfileOutput {
+	return o
+}
+
+func (o IdentityBindingManagedIdentityProfileOutput) ToIdentityBindingManagedIdentityProfilePtrOutput() IdentityBindingManagedIdentityProfilePtrOutput {
+	return o.ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(context.Background())
+}
+
+func (o IdentityBindingManagedIdentityProfileOutput) ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(ctx context.Context) IdentityBindingManagedIdentityProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IdentityBindingManagedIdentityProfile) *IdentityBindingManagedIdentityProfile {
+		return &v
+	}).(IdentityBindingManagedIdentityProfilePtrOutput)
+}
+
+// The resource ID of the managed identity.
+func (o IdentityBindingManagedIdentityProfileOutput) ResourceId() pulumi.StringOutput {
+	return o.ApplyT(func(v IdentityBindingManagedIdentityProfile) string { return v.ResourceId }).(pulumi.StringOutput)
+}
+
+type IdentityBindingManagedIdentityProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (IdentityBindingManagedIdentityProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IdentityBindingManagedIdentityProfile)(nil)).Elem()
+}
+
+func (o IdentityBindingManagedIdentityProfilePtrOutput) ToIdentityBindingManagedIdentityProfilePtrOutput() IdentityBindingManagedIdentityProfilePtrOutput {
+	return o
+}
+
+func (o IdentityBindingManagedIdentityProfilePtrOutput) ToIdentityBindingManagedIdentityProfilePtrOutputWithContext(ctx context.Context) IdentityBindingManagedIdentityProfilePtrOutput {
+	return o
+}
+
+func (o IdentityBindingManagedIdentityProfilePtrOutput) Elem() IdentityBindingManagedIdentityProfileOutput {
+	return o.ApplyT(func(v *IdentityBindingManagedIdentityProfile) IdentityBindingManagedIdentityProfile {
+		if v != nil {
+			return *v
+		}
+		var ret IdentityBindingManagedIdentityProfile
+		return ret
+	}).(IdentityBindingManagedIdentityProfileOutput)
+}
+
+// The resource ID of the managed identity.
+func (o IdentityBindingManagedIdentityProfilePtrOutput) ResourceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IdentityBindingManagedIdentityProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ResourceId
+	}).(pulumi.StringPtrOutput)
+}
+
+// Managed identity profile for the identity binding.
+type IdentityBindingManagedIdentityProfileResponse struct {
+	// The client ID of the managed identity.
+	ClientId string `pulumi:"clientId"`
+	// The object ID of the managed identity.
+	ObjectId string `pulumi:"objectId"`
+	// The resource ID of the managed identity.
+	ResourceId string `pulumi:"resourceId"`
+	// The tenant ID of the managed identity.
+	TenantId string `pulumi:"tenantId"`
+}
+
+// Managed identity profile for the identity binding.
+type IdentityBindingManagedIdentityProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (IdentityBindingManagedIdentityProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IdentityBindingManagedIdentityProfileResponse)(nil)).Elem()
+}
+
+func (o IdentityBindingManagedIdentityProfileResponseOutput) ToIdentityBindingManagedIdentityProfileResponseOutput() IdentityBindingManagedIdentityProfileResponseOutput {
+	return o
+}
+
+func (o IdentityBindingManagedIdentityProfileResponseOutput) ToIdentityBindingManagedIdentityProfileResponseOutputWithContext(ctx context.Context) IdentityBindingManagedIdentityProfileResponseOutput {
+	return o
+}
+
+// The client ID of the managed identity.
+func (o IdentityBindingManagedIdentityProfileResponseOutput) ClientId() pulumi.StringOutput {
+	return o.ApplyT(func(v IdentityBindingManagedIdentityProfileResponse) string { return v.ClientId }).(pulumi.StringOutput)
+}
+
+// The object ID of the managed identity.
+func (o IdentityBindingManagedIdentityProfileResponseOutput) ObjectId() pulumi.StringOutput {
+	return o.ApplyT(func(v IdentityBindingManagedIdentityProfileResponse) string { return v.ObjectId }).(pulumi.StringOutput)
+}
+
+// The resource ID of the managed identity.
+func (o IdentityBindingManagedIdentityProfileResponseOutput) ResourceId() pulumi.StringOutput {
+	return o.ApplyT(func(v IdentityBindingManagedIdentityProfileResponse) string { return v.ResourceId }).(pulumi.StringOutput)
+}
+
+// The tenant ID of the managed identity.
+func (o IdentityBindingManagedIdentityProfileResponseOutput) TenantId() pulumi.StringOutput {
+	return o.ApplyT(func(v IdentityBindingManagedIdentityProfileResponse) string { return v.TenantId }).(pulumi.StringOutput)
+}
+
+// IdentityBinding OIDC issuer profile.
+type IdentityBindingOidcIssuerProfileResponse struct {
+	// The OIDC issuer URL of the IdentityBinding.
+	OidcIssuerUrl string `pulumi:"oidcIssuerUrl"`
+}
+
+// IdentityBinding OIDC issuer profile.
+type IdentityBindingOidcIssuerProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (IdentityBindingOidcIssuerProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IdentityBindingOidcIssuerProfileResponse)(nil)).Elem()
+}
+
+func (o IdentityBindingOidcIssuerProfileResponseOutput) ToIdentityBindingOidcIssuerProfileResponseOutput() IdentityBindingOidcIssuerProfileResponseOutput {
+	return o
+}
+
+func (o IdentityBindingOidcIssuerProfileResponseOutput) ToIdentityBindingOidcIssuerProfileResponseOutputWithContext(ctx context.Context) IdentityBindingOidcIssuerProfileResponseOutput {
+	return o
+}
+
+// The OIDC issuer URL of the IdentityBinding.
+func (o IdentityBindingOidcIssuerProfileResponseOutput) OidcIssuerUrl() pulumi.StringOutput {
+	return o.ApplyT(func(v IdentityBindingOidcIssuerProfileResponse) string { return v.OidcIssuerUrl }).(pulumi.StringOutput)
+}
+
+// IdentityBinding properties.
+type IdentityBindingProperties struct {
+	// Managed identity profile for the identity binding.
+	ManagedIdentity IdentityBindingManagedIdentityProfile `pulumi:"managedIdentity"`
+}
+
+// IdentityBindingPropertiesInput is an input type that accepts IdentityBindingPropertiesArgs and IdentityBindingPropertiesOutput values.
+// You can construct a concrete instance of `IdentityBindingPropertiesInput` via:
+//
+//	IdentityBindingPropertiesArgs{...}
+type IdentityBindingPropertiesInput interface {
+	pulumi.Input
+
+	ToIdentityBindingPropertiesOutput() IdentityBindingPropertiesOutput
+	ToIdentityBindingPropertiesOutputWithContext(context.Context) IdentityBindingPropertiesOutput
+}
+
+// IdentityBinding properties.
+type IdentityBindingPropertiesArgs struct {
+	// Managed identity profile for the identity binding.
+	ManagedIdentity IdentityBindingManagedIdentityProfileInput `pulumi:"managedIdentity"`
+}
+
+func (IdentityBindingPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IdentityBindingProperties)(nil)).Elem()
+}
+
+func (i IdentityBindingPropertiesArgs) ToIdentityBindingPropertiesOutput() IdentityBindingPropertiesOutput {
+	return i.ToIdentityBindingPropertiesOutputWithContext(context.Background())
+}
+
+func (i IdentityBindingPropertiesArgs) ToIdentityBindingPropertiesOutputWithContext(ctx context.Context) IdentityBindingPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IdentityBindingPropertiesOutput)
+}
+
+func (i IdentityBindingPropertiesArgs) ToIdentityBindingPropertiesPtrOutput() IdentityBindingPropertiesPtrOutput {
+	return i.ToIdentityBindingPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i IdentityBindingPropertiesArgs) ToIdentityBindingPropertiesPtrOutputWithContext(ctx context.Context) IdentityBindingPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IdentityBindingPropertiesOutput).ToIdentityBindingPropertiesPtrOutputWithContext(ctx)
+}
+
+// IdentityBindingPropertiesPtrInput is an input type that accepts IdentityBindingPropertiesArgs, IdentityBindingPropertiesPtr and IdentityBindingPropertiesPtrOutput values.
+// You can construct a concrete instance of `IdentityBindingPropertiesPtrInput` via:
+//
+//	        IdentityBindingPropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type IdentityBindingPropertiesPtrInput interface {
+	pulumi.Input
+
+	ToIdentityBindingPropertiesPtrOutput() IdentityBindingPropertiesPtrOutput
+	ToIdentityBindingPropertiesPtrOutputWithContext(context.Context) IdentityBindingPropertiesPtrOutput
+}
+
+type identityBindingPropertiesPtrType IdentityBindingPropertiesArgs
+
+func IdentityBindingPropertiesPtr(v *IdentityBindingPropertiesArgs) IdentityBindingPropertiesPtrInput {
+	return (*identityBindingPropertiesPtrType)(v)
+}
+
+func (*identityBindingPropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IdentityBindingProperties)(nil)).Elem()
+}
+
+func (i *identityBindingPropertiesPtrType) ToIdentityBindingPropertiesPtrOutput() IdentityBindingPropertiesPtrOutput {
+	return i.ToIdentityBindingPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *identityBindingPropertiesPtrType) ToIdentityBindingPropertiesPtrOutputWithContext(ctx context.Context) IdentityBindingPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IdentityBindingPropertiesPtrOutput)
+}
+
+// IdentityBinding properties.
+type IdentityBindingPropertiesOutput struct{ *pulumi.OutputState }
+
+func (IdentityBindingPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IdentityBindingProperties)(nil)).Elem()
+}
+
+func (o IdentityBindingPropertiesOutput) ToIdentityBindingPropertiesOutput() IdentityBindingPropertiesOutput {
+	return o
+}
+
+func (o IdentityBindingPropertiesOutput) ToIdentityBindingPropertiesOutputWithContext(ctx context.Context) IdentityBindingPropertiesOutput {
+	return o
+}
+
+func (o IdentityBindingPropertiesOutput) ToIdentityBindingPropertiesPtrOutput() IdentityBindingPropertiesPtrOutput {
+	return o.ToIdentityBindingPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o IdentityBindingPropertiesOutput) ToIdentityBindingPropertiesPtrOutputWithContext(ctx context.Context) IdentityBindingPropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IdentityBindingProperties) *IdentityBindingProperties {
+		return &v
+	}).(IdentityBindingPropertiesPtrOutput)
+}
+
+// Managed identity profile for the identity binding.
+func (o IdentityBindingPropertiesOutput) ManagedIdentity() IdentityBindingManagedIdentityProfileOutput {
+	return o.ApplyT(func(v IdentityBindingProperties) IdentityBindingManagedIdentityProfile { return v.ManagedIdentity }).(IdentityBindingManagedIdentityProfileOutput)
+}
+
+type IdentityBindingPropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (IdentityBindingPropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IdentityBindingProperties)(nil)).Elem()
+}
+
+func (o IdentityBindingPropertiesPtrOutput) ToIdentityBindingPropertiesPtrOutput() IdentityBindingPropertiesPtrOutput {
+	return o
+}
+
+func (o IdentityBindingPropertiesPtrOutput) ToIdentityBindingPropertiesPtrOutputWithContext(ctx context.Context) IdentityBindingPropertiesPtrOutput {
+	return o
+}
+
+func (o IdentityBindingPropertiesPtrOutput) Elem() IdentityBindingPropertiesOutput {
+	return o.ApplyT(func(v *IdentityBindingProperties) IdentityBindingProperties {
+		if v != nil {
+			return *v
+		}
+		var ret IdentityBindingProperties
+		return ret
+	}).(IdentityBindingPropertiesOutput)
+}
+
+// Managed identity profile for the identity binding.
+func (o IdentityBindingPropertiesPtrOutput) ManagedIdentity() IdentityBindingManagedIdentityProfilePtrOutput {
+	return o.ApplyT(func(v *IdentityBindingProperties) *IdentityBindingManagedIdentityProfile {
+		if v == nil {
+			return nil
+		}
+		return &v.ManagedIdentity
+	}).(IdentityBindingManagedIdentityProfilePtrOutput)
+}
+
+// IdentityBinding properties.
+type IdentityBindingPropertiesResponse struct {
+	// Managed identity profile for the identity binding.
+	ManagedIdentity IdentityBindingManagedIdentityProfileResponse `pulumi:"managedIdentity"`
+	// The OIDC issuer URL of the IdentityBinding.
+	OidcIssuer IdentityBindingOidcIssuerProfileResponse `pulumi:"oidcIssuer"`
+	// The status of the last operation.
+	ProvisioningState string `pulumi:"provisioningState"`
+}
+
+// IdentityBinding properties.
+type IdentityBindingPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (IdentityBindingPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IdentityBindingPropertiesResponse)(nil)).Elem()
+}
+
+func (o IdentityBindingPropertiesResponseOutput) ToIdentityBindingPropertiesResponseOutput() IdentityBindingPropertiesResponseOutput {
+	return o
+}
+
+func (o IdentityBindingPropertiesResponseOutput) ToIdentityBindingPropertiesResponseOutputWithContext(ctx context.Context) IdentityBindingPropertiesResponseOutput {
+	return o
+}
+
+// Managed identity profile for the identity binding.
+func (o IdentityBindingPropertiesResponseOutput) ManagedIdentity() IdentityBindingManagedIdentityProfileResponseOutput {
+	return o.ApplyT(func(v IdentityBindingPropertiesResponse) IdentityBindingManagedIdentityProfileResponse {
+		return v.ManagedIdentity
+	}).(IdentityBindingManagedIdentityProfileResponseOutput)
+}
+
+// The OIDC issuer URL of the IdentityBinding.
+func (o IdentityBindingPropertiesResponseOutput) OidcIssuer() IdentityBindingOidcIssuerProfileResponseOutput {
+	return o.ApplyT(func(v IdentityBindingPropertiesResponse) IdentityBindingOidcIssuerProfileResponse {
+		return v.OidcIssuer
+	}).(IdentityBindingOidcIssuerProfileResponseOutput)
+}
+
+// The status of the last operation.
+func (o IdentityBindingPropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v IdentityBindingPropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
 // Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca
 type IstioCertificateAuthority struct {
 	// Plugin certificates information for Service Mesh.
@@ -28678,6 +29075,13 @@ func init() {
 	pulumi.RegisterOutputType(IPTagArrayOutput{})
 	pulumi.RegisterOutputType(IPTagResponseOutput{})
 	pulumi.RegisterOutputType(IPTagResponseArrayOutput{})
+	pulumi.RegisterOutputType(IdentityBindingManagedIdentityProfileOutput{})
+	pulumi.RegisterOutputType(IdentityBindingManagedIdentityProfilePtrOutput{})
+	pulumi.RegisterOutputType(IdentityBindingManagedIdentityProfileResponseOutput{})
+	pulumi.RegisterOutputType(IdentityBindingOidcIssuerProfileResponseOutput{})
+	pulumi.RegisterOutputType(IdentityBindingPropertiesOutput{})
+	pulumi.RegisterOutputType(IdentityBindingPropertiesPtrOutput{})
+	pulumi.RegisterOutputType(IdentityBindingPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(IstioCertificateAuthorityOutput{})
 	pulumi.RegisterOutputType(IstioCertificateAuthorityPtrOutput{})
 	pulumi.RegisterOutputType(IstioCertificateAuthorityResponseOutput{})

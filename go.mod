@@ -1,12 +1,14 @@
 module github.com/redhat-developer/mapt
 
-go 1.23.11
+go 1.24.0
+
+toolchain go1.24.6
 
 require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.3
-	github.com/pulumi/pulumi/sdk/v3 v3.188.0
+	github.com/pulumi/pulumi/sdk/v3 v3.190.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.9.1
 )
@@ -20,20 +22,20 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.1
 	github.com/aws/aws-sdk-go-v2 v1.38.0
 	github.com/aws/aws-sdk-go-v2/config v1.31.0
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.243.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.245.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.87.0
-	github.com/pulumi/pulumi-aws-native/sdk v1.31.0
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.3.1
+	github.com/pulumi/pulumi-aws-native/sdk v1.32.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.4.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.0.0
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.6.1
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.6.1
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.6.1
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.6.1
-	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.6.1
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.6.1
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.6.1
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.7.1
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.7.1
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.7.1
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.7.1
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.7.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.7.1
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.7.1
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.1
-	golang.org/x/exp v0.0.0-20250811191247-51f88131bc50
+	golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b
 )
 
 require (
@@ -45,7 +47,7 @@ require (
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx v0.1.6 // indirect
 	github.com/pgavlin/fx/v2 v2.0.10 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.6.1 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.7.1 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.8.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
 )
@@ -127,7 +129,7 @@ require (
 	github.com/zclconf/go-cty v1.16.3 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250811230008-5f3141c8851a // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250818200422-3122310a409c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -152,7 +154,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
-	github.com/kevinburke/ssh_config v1.2.0 // indirect
+	github.com/kevinburke/ssh_config v1.4.0 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/mitchellh/go-ps v1.0.0 // indirect
 	github.com/nxadm/tail v1.4.11 // indirect
@@ -177,7 +179,7 @@ require (
 	golang.org/x/sys v0.35.0 // indirect
 	golang.org/x/term v0.34.0 // indirect
 	golang.org/x/text v0.28.0 // indirect
-	google.golang.org/grpc v1.74.2 // indirect
+	google.golang.org/grpc v1.75.0 // indirect
 	google.golang.org/protobuf v1.36.7 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
