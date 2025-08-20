@@ -71,20 +71,31 @@ func allocationSpot(mCtx *mc.Context,
 
 func allocationOnDemand(instancesTypes []string) (*AllocationResult, error) {
 	region := os.Getenv("AWS_DEFAULT_REGION")
-	az, err := data.GetRandomAvailabilityZone(region, nil)
-	if err != nil {
-		return nil, err
-	}
-	supportedInstancesType, err :=
-		data.FilterInstaceTypesOfferedByLocation(instancesTypes, &data.LocationArgs{
-			Region: &region,
-			Az:     az,
-		})
-	if err != nil {
-		return nil, err
-	}
-	if len(supportedInstancesType) == 0 {
-		return nil, ErrNoSupportedInstaceTypes
+	excludedAZs := []string{}
+	var err error
+	var az *string
+	var supportedInstancesType []string
+	azs := data.GetAvailabilityZones(region, nil)
+	for {
+		az, err = data.GetRandomAvailabilityZone(region, excludedAZs)
+		if err != nil {
+			return nil, err
+		}
+		supportedInstancesType, err =
+			data.FilterInstaceTypesOfferedByLocation(instancesTypes, &data.LocationArgs{
+				Region: &region,
+				Az:     az,
+			})
+		if err != nil {
+			return nil, err
+		}
+		if len(supportedInstancesType) > 0 {
+			break
+		}
+		excludedAZs = append(excludedAZs, *az)
+		if len(excludedAZs) == len(azs) {
+			return nil, ErrNoSupportedInstaceTypes
+		}
 	}
 	return &AllocationResult{
 		Region:        &region,
