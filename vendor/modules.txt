@@ -188,7 +188,7 @@ github.com/aws/aws-sdk-go-v2/internal/ini
 github.com/aws/aws-sdk-go-v2/internal/v4a
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4
-# github.com/aws/aws-sdk-go-v2/service/ec2 v1.243.0
+# github.com/aws/aws-sdk-go-v2/service/ec2 v1.245.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
@@ -480,8 +480,8 @@ github.com/iwdgo/sigintwindows
 # github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99
 ## explicit
 github.com/jbenet/go-context/io
-# github.com/kevinburke/ssh_config v1.2.0
-## explicit
+# github.com/kevinburke/ssh_config v1.4.0
+## explicit; go 1.18
 github.com/kevinburke/ssh_config
 # github.com/kylelemons/godebug v1.1.0
 ## explicit; go 1.11
@@ -588,13 +588,13 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
-# github.com/pulumi/pulumi-aws-native/sdk v1.31.0
+# github.com/pulumi/pulumi-aws-native/sdk v1.32.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/ssm
-# github.com/pulumi/pulumi-aws/sdk/v7 v7.3.1
+# github.com/pulumi/pulumi-aws/sdk/v7 v7.4.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/autoscaling
@@ -611,28 +611,28 @@ github.com/pulumi/pulumi-aws/sdk/v7/go/aws/s3
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/awsx
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/ecs
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/internal
-# github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.6.1
+# github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.7.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/authorization/v3
-# github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.6.1
+# github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.7.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/compute/v3
-# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.6.1
+# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.7.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3
-# github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.6.1
+# github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.7.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3
-# github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.6.1
+# github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.7.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/network/v3
-# github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.6.1
+# github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.7.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/resources/v3
-# github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.6.1
+# github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.7.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/storage/v3
-# github.com/pulumi/pulumi-azure-native-sdk/v3 v3.6.1
+# github.com/pulumi/pulumi-azure-native-sdk/v3 v3.7.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/v3/utilities
 # github.com/pulumi/pulumi-command/sdk v1.1.0
@@ -723,7 +723,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.188.0
+# github.com/pulumi/pulumi/sdk/v3 v3.190.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -909,8 +909,8 @@ golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
-# golang.org/x/exp v0.0.0-20250811191247-51f88131bc50
-## explicit; go 1.23.0
+# golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b
+## explicit; go 1.24.0
 golang.org/x/exp/maps
 golang.org/x/exp/slices
 # golang.org/x/mod v0.27.0
@@ -980,10 +980,10 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20250811230008-5f3141c8851a
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20250818200422-3122310a409c
 ## explicit; go 1.23.0
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.74.2
+# google.golang.org/grpc v1.75.0
 ## explicit; go 1.23.0
 google.golang.org/grpc
 google.golang.org/grpc/attributes

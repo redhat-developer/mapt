@@ -48,7 +48,7 @@ func RunOnHostingPlaces[X, Y any](hps []string, data X,
 	}()
 	for rr := range c {
 		if rr.Err != nil {
-			logging.Warnf(rr.Err.Error())
+			logging.Warn(rr.Err.Error())
 			hasErr = true
 		} else {
 			result[rr.Region] = rr.Value

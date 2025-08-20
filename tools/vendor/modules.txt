@@ -7,6 +7,16 @@
 # codeberg.org/chavacava/garif v0.2.0
 ## explicit; go 1.23
 codeberg.org/chavacava/garif
+# dev.gaijin.team/go/exhaustruct/v4 v4.0.0
+## explicit; go 1.24
+dev.gaijin.team/go/exhaustruct/v4/analyzer
+dev.gaijin.team/go/exhaustruct/v4/internal/comment
+dev.gaijin.team/go/exhaustruct/v4/internal/pattern
+dev.gaijin.team/go/exhaustruct/v4/internal/structure
+# dev.gaijin.team/go/golib v0.6.0
+## explicit; go 1.24
+dev.gaijin.team/go/golib/e
+dev.gaijin.team/go/golib/fields
 # github.com/4meepo/tagalign v1.4.3
 ## explicit; go 1.22.0
 github.com/4meepo/tagalign
@@ -37,12 +47,6 @@ github.com/BurntSushi/toml/internal
 # github.com/Djarvur/go-err113 v0.1.0
 ## explicit; go 1.13
 github.com/Djarvur/go-err113
-# github.com/GaijinEntertainment/go-exhaustruct/v3 v3.3.1
-## explicit; go 1.23.0
-github.com/GaijinEntertainment/go-exhaustruct/v3/analyzer
-github.com/GaijinEntertainment/go-exhaustruct/v3/internal/comment
-github.com/GaijinEntertainment/go-exhaustruct/v3/internal/pattern
-github.com/GaijinEntertainment/go-exhaustruct/v3/internal/structure
 # github.com/Masterminds/semver/v3 v3.4.0
 ## explicit; go 1.21
 github.com/Masterminds/semver/v3
@@ -273,8 +277,8 @@ github.com/golangci/go-printf-func-name/pkg/analyzer
 # github.com/golangci/gofmt v0.0.0-20250704145412-3e58ba0443c6
 ## explicit; go 1.23.0
 github.com/golangci/gofmt/gofmt
-# github.com/golangci/golangci-lint/v2 v2.3.1
-## explicit; go 1.23.0
+# github.com/golangci/golangci-lint/v2 v2.4.0
+## explicit; go 1.24.0
 github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 github.com/golangci/golangci-lint/v2/internal/cache
 github.com/golangci/golangci-lint/v2/internal/errorutil
@@ -893,8 +897,8 @@ go.uber.org/zap/internal/exit
 go.uber.org/zap/internal/pool
 go.uber.org/zap/internal/stacktrace
 go.uber.org/zap/zapcore
-# golang.org/x/exp/typeparams v0.0.0-20250811191247-51f88131bc50
-## explicit; go 1.23.0
+# golang.org/x/exp/typeparams v0.0.0-20250819193227-8b4c13bb791b
+## explicit; go 1.24.0
 golang.org/x/exp/typeparams
 # golang.org/x/mod v0.27.0
 ## explicit; go 1.23.0
