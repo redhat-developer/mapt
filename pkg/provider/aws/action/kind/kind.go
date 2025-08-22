@@ -11,8 +11,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
-	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
+	kindApi "github.com/redhat-developer/mapt/pkg/provider/api/k8s/kind"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
@@ -23,23 +22,12 @@ import (
 	amiSVC "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
-	kindCloudConfig "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/kind"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
-
-type KindArgs struct {
-	Prefix            string
-	ComputeRequest    *cr.ComputeRequestArgs
-	Version           string
-	Arch              string
-	Spot              *spotTypes.SpotArgs
-	Timeout           string
-	ExtraPortMappings []kindCloudConfig.PortMapping
-}
 
 type kindRequest struct {
 	mCtx              *mc.Context
@@ -49,7 +37,7 @@ type kindRequest struct {
 	spot              bool
 	timeout           *string
 	allocationData    *allocation.AllocationResult
-	extraPortMappings []kindCloudConfig.PortMapping
+	extraPortMappings []kindApi.PortMapping
 }
 
 func (r *kindRequest) validate() error {
@@ -61,18 +49,10 @@ func (r *kindRequest) validate() error {
 	return v.Struct(r)
 }
 
-type KindResultsMetadata struct {
-	Username   string   `json:"username"`
-	PrivateKey string   `json:"private_key"`
-	Host       string   `json:"host"`
-	Kubeconfig string   `json:"kubeconfig"`
-	SpotPrice  *float64 `json:"spot_price,omitempty"`
-}
-
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(mCtxArgs *mc.ContextArgs, args *KindArgs) (kr *KindResultsMetadata, err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *kindApi.KindArgs) (kr *kindApi.KindResults, err error) {
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return nil, err
@@ -116,7 +96,7 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	return nil
 }
 
-func (r *kindRequest) createHost() (*KindResultsMetadata, error) {
+func (r *kindRequest) createHost() (*kindApi.KindResults, error) {
 	cs := manager.Stack{
 		StackName:   r.mCtx.StackNameByProject(stackName),
 		ProjectName: r.mCtx.ProjectName(),
@@ -196,7 +176,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Build LB target groups including both default and extra ports
-	lbTargetGroups := []int{22, portAPI, portHTTP, portHTTPS}
+	lbTargetGroups := []int{22, kindApi.PortAPI, kindApi.PortHTTP, kindApi.PortHTTPS}
 	lbTargetGroups = append(lbTargetGroups, extraHostPorts...)
 
 	cr := compute.ComputeRequest{
@@ -253,7 +233,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *kindRequest) manageResults(stackResult auto.UpResult, prefix *string) (*KindResultsMetadata, error) {
+func (r *kindRequest) manageResults(stackResult auto.UpResult, prefix *string) (*kindApi.KindResults, error) {
 	username, err := getResultOutput(outputUsername, stackResult, prefix)
 	if err != nil {
 		return nil, err
@@ -271,7 +251,7 @@ func (r *kindRequest) manageResults(stackResult auto.UpResult, prefix *string) (
 		return nil, err
 	}
 
-	metadataResults := &KindResultsMetadata{
+	metadataResults := &kindApi.KindResults{
 		Username:   username,
 		PrivateKey: privateKey,
 		Host:       host,
@@ -315,9 +295,9 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	// Build ingress rules including both default and extra ports
 	ingressRules := []securityGroup.IngressRules{
 		securityGroup.SSH_TCP,
-		{Description: "HTTPS", FromPort: portHTTPS, ToPort: portHTTPS, Protocol: "tcp"},
-		{Description: "HTTP", FromPort: portHTTP, ToPort: portHTTP, Protocol: "tcp"},
-		{Description: "API", FromPort: portAPI, ToPort: portAPI, Protocol: "tcp"},
+		{Description: "HTTPS", FromPort: kindApi.PortHTTPS, ToPort: kindApi.PortHTTPS, Protocol: "tcp"},
+		{Description: "HTTP", FromPort: kindApi.PortHTTP, ToPort: kindApi.PortHTTP, Protocol: "tcp"},
+		{Description: "API", FromPort: kindApi.PortAPI, ToPort: kindApi.PortAPI, Protocol: "tcp"},
 	}
 
 	// Add extra ports to ingress rules
@@ -348,16 +328,16 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func userData(arch, k8sVersion *string, parsedPortMappings []kindCloudConfig.PortMapping, lbEIP *pulumi.StringOutput) (pulumi.StringPtrInput, error) {
+func userData(arch, k8sVersion *string, parsedPortMappings []kindApi.PortMapping, lbEIP *pulumi.StringOutput) (pulumi.StringPtrInput, error) {
 	ccB64 := lbEIP.ApplyT(
 		func(publicIP string) (string, error) {
-			ccB64, err := kindCloudConfig.CloudConfig(
-				&kindCloudConfig.DataValues{
+			ccB64, err := kindApi.CloudConfig(
+				&kindApi.DataValues{
 					Arch: util.If(*arch == "x86_64",
-						kindCloudConfig.X86_64,
-						kindCloudConfig.Arm64),
-					KindVersion:       KindK8sVersions[*k8sVersion].kindVersion,
-					KindImage:         KindK8sVersions[*k8sVersion].KindImage,
+						kindApi.X86_64,
+						kindApi.Arm64),
+					KindVersion:       kindApi.KindK8sVersions[*k8sVersion].KindVersion,
+					KindImage:         kindApi.KindK8sVersions[*k8sVersion].KindImage,
 					Username:          amiUserDefault,
 					PublicIP:          publicIP,
 					ExtraPortMappings: parsedPortMappings})
