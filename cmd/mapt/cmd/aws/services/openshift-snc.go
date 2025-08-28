@@ -3,6 +3,7 @@ package services
 import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	sncAPI "github.com/redhat-developer/mapt/pkg/provider/api/openshift-snc"
 	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/openshift-snc"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -55,9 +56,8 @@ func createSNC() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
-				&openshiftsnc.OpenshiftSNCArgs{
+				&sncAPI.OpenshiftSNCArgs{
 					ComputeRequest: params.ComputeRequestArgs(),
-					Spot:           params.SpotArgs(),
 					Version:        viper.GetString(ocpVersion),
 					Arch:           viper.GetString(params.LinuxArch),
 					PullSecretFile: viper.GetString(pullSecretFile),
