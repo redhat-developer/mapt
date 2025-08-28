@@ -5,31 +5,36 @@ import (
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
-func Create(projectName, backedURL, cidr string,
+func Create(mCtxArgs *mc.ContextArgs, cidr string,
 	azs, publicSubnets, privateSubnets, intraSubnets []string) error {
-
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
+		return err
+	}
 	request := NetworkRequest{
+		MCtx:                mCtx,
 		CIDR:                cidr,
-		Name:                projectName,
+		Name:                mCtx.ProjectName(),
 		AvailabilityZones:   azs,
 		PublicSubnetsCIDRs:  publicSubnets,
 		PrivateSubnetsCIDRs: privateSubnets,
 		IntraSubnetsCIDRs:   intraSubnets,
-		SingleNatGateway:    false}
+		NatGatewayMode:      &NatGatewayModeHA}
 	stack := manager.Stack{
 		StackName:           StackCreateNetworkName,
-		ProjectName:         projectName,
-		BackedURL:           backedURL,
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials,
 		DeployFunc:          request.Deployer,
 	}
 	// Exec stack
-	stackResult, err := manager.UpStack(stack)
+	stackResult, err := manager.UpStack(mCtx, stack)
 	if err != nil {
 		return err
 	}
@@ -42,17 +47,24 @@ func Create(projectName, backedURL, cidr string,
 }
 
 func (r NetworkRequest) Deployer(ctx *pulumi.Context) (err error) {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	_, err = r.CreateNetwork(ctx)
 	return
 }
 
-func Destroy(projectName, backedURL string) (err error) {
+func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
+		return err
+	}
 	stack := manager.Stack{
 		StackName:           StackCreateNetworkName,
-		ProjectName:         projectName,
-		BackedURL:           backedURL,
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials}
-	err = manager.DestroyStack(stack)
+	err = manager.DestroyStack(mCtx, stack)
 	if err == nil {
 		logging.Debugf("VPC has been destroyed")
 	}

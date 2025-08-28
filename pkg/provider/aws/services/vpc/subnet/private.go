@@ -3,9 +3,9 @@ package subnet
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 )
 
@@ -25,7 +25,7 @@ type PrivateSubnetResources struct {
 	RouteTableAssociation *ec2.RouteTableAssociation
 }
 
-func (r PrivateSubnetRequest) Create(ctx *pulumi.Context) (*PrivateSubnetResources, error) {
+func (r PrivateSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*PrivateSubnetResources, error) {
 	snName := fmt.Sprintf("%s-%s", "subnet", r.Name)
 	sn, err := ec2.NewSubnet(ctx,
 		snName,
@@ -33,7 +33,7 @@ func (r PrivateSubnetRequest) Create(ctx *pulumi.Context) (*PrivateSubnetResourc
 			VpcId:            r.VPC.ID(),
 			CidrBlock:        pulumi.String(r.CIDR),
 			AvailabilityZone: pulumi.String(r.AvailabilityZone),
-			Tags:             maptContext.ResourceTags(),
+			Tags:             mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (r PrivateSubnetRequest) Create(ctx *pulumi.Context) (*PrivateSubnetResourc
 		&ec2.RouteTableArgs{
 			VpcId:  r.VPC.ID(),
 			Routes: getRoutes(r.NatGateway),
-			Tags:   maptContext.ResourceTags(),
+			Tags:   mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err

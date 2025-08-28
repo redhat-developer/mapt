@@ -1,10 +1,10 @@
 package keypair
 
 import (
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -18,9 +18,9 @@ type KeyPairResources struct {
 	PrivateKey *tls.PrivateKey
 }
 
-func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
-	kr, err := r.create(ctx, r.Name, nil)
-	if maptContext.Debug() {
+func (r KeyPairRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*KeyPairResources, error) {
+	kr, err := r.create(ctx, mCtx, r.Name, nil)
+	if mCtx.Debug() {
 		kr.PrivateKey.PrivateKeyPem.ApplyT(
 			func(privateKey string) (*string, error) {
 				logging.Debugf("%s", privateKey)
@@ -31,13 +31,13 @@ func (r KeyPairRequest) Create(ctx *pulumi.Context) (*KeyPairResources, error) {
 }
 
 // This will create the private on each update even when no changes are applied
-func (r KeyPairRequest) CreateAlways(ctx *pulumi.Context) (*KeyPairResources, error) {
-	return r.create(ctx, util.RandomID(r.Name), []pulumi.ResourceOption{
+func (r KeyPairRequest) CreateAlways(ctx *pulumi.Context, mCtx *mc.Context) (*KeyPairResources, error) {
+	return r.create(ctx, mCtx, util.RandomID(r.Name), []pulumi.ResourceOption{
 		pulumi.ReplaceOnChanges([]string{"name"}),
 		pulumi.Aliases([]pulumi.Alias{{Name: pulumi.String(r.Name)}})})
 }
 
-func (r KeyPairRequest) create(ctx *pulumi.Context, name string,
+func (r KeyPairRequest) create(ctx *pulumi.Context, mCtx *mc.Context, name string,
 	options []pulumi.ResourceOption) (*KeyPairResources, error) {
 	privateKey, err := tls.NewPrivateKey(
 		ctx,
@@ -54,7 +54,7 @@ func (r KeyPairRequest) create(ctx *pulumi.Context, name string,
 		r.Name,
 		&ec2.KeyPairArgs{
 			PublicKey: privateKey.PublicKeyOpenssh,
-			Tags:      maptContext.ResourceTags()})
+			Tags:      mCtx.ResourceTags()})
 	if err != nil {
 		return nil, err
 	}

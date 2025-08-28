@@ -45,8 +45,7 @@ type DescribeTasksInput struct {
 
 	// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the
 	// task or tasks to describe. If you do not specify a cluster, the default cluster
-	// is assumed. This parameter is required. If you do not specify a value, the
-	// default cluster is used.
+	// is assumed.
 	Cluster *string
 
 	// Specifies whether you want to see the resource tags for the task. If TAGS is
@@ -157,6 +156,36 @@ func (c *Client) addOperationDescribeTasksMiddlewares(stack *middleware.Stack, o
 		return err
 	}
 	if err = addDisableHTTPSMiddleware(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptBeforeRetryLoop(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptAttempt(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptExecution(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptBeforeSerialization(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptAfterSerialization(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptBeforeSigning(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptAfterSigning(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptTransmit(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptBeforeDeserialization(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptAfterDeserialization(stack, options); err != nil {
 		return err
 	}
 	if err = addSpanInitializeStart(stack); err != nil {

@@ -1,64 +1,105 @@
 package allocation
 
 import (
+	"fmt"
 	"os"
 
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
-	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
-type AllocationData struct {
-	// location and price (if Spot is enable)
+var ErrNoSupportedInstaceTypes = fmt.Errorf("the current region does not support any of the requested instance types")
+
+type AllocationArgs struct {
+	ComputeRequest *cr.ComputeRequestArgs
+	Prefix,
+	AMIProductDescription,
+	AMIName *string
+	Spot *spotTypes.SpotArgs
+}
+
+type AllocationResult struct {
 	Region        *string
 	AZ            *string
 	SpotPrice     *float64
 	InstanceTypes []string
 }
 
-func AllocationDataOnSpot(prefix, amiProductDescription, amiName *string, instanceTypes []string) (*AllocationData, error) {
-	sr := spot.SpotOptionRequest{
-		// do not need to filter the AMI as if it does not exist on the target region
-		// mapt will copy it
-		Prefix:             *prefix,
-		ProductDescription: *amiProductDescription,
-		InstaceTypes:       instanceTypes,
+func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, error) {
+	var err error
+	instancesTypes := args.ComputeRequest.ComputeSizes
+	if len(instancesTypes) == 0 {
+		instancesTypes, err =
+			data.NewComputeSelector().Select(args.ComputeRequest)
+		if err != nil {
+			return nil, err
+		}
 	}
-	if amiName != nil {
-		sr.AMIName = *amiName
+	if args.Spot != nil && args.Spot.Spot {
+		sr := &spot.SpotStackArgs{
+			Prefix:       *args.Prefix,
+			InstaceTypes: instancesTypes,
+			Spot:         args.Spot,
+		}
+		if args.AMIName != nil {
+			sr.AMIName = *args.AMIName
+		}
+		if args.AMIProductDescription != nil {
+			sr.ProductDescription = *args.AMIProductDescription
+		}
+		return allocationSpot(mCtx, sr)
 	}
-	so, err := sr.Create()
+	return allocationOnDemand(instancesTypes)
+}
+
+func allocationSpot(mCtx *mc.Context,
+	args *spot.SpotStackArgs) (*AllocationResult, error) {
+	so, err := spot.Create(mCtx, args)
 	if err != nil {
 		return nil, err
 	}
-	availableInstaceTypes, err :=
-		data.FilterInstaceTypesOfferedByRegion(instanceTypes, so.Region)
-	if err != nil {
-		return nil, err
-	}
-	spSafe := spotPriceBid(so.MaxPrice)
-	logging.Debugf("Due to the spot increase rate at %d we will request the spot at %f", maptContext.SpotPriceIncreaseRate(), spSafe)
-	return &AllocationData{
+	return &AllocationResult{
 		Region:        &so.Region,
 		AZ:            &so.AvailabilityZone,
-		SpotPrice:     &spSafe,
-		InstanceTypes: availableInstaceTypes,
+		SpotPrice:     &so.Price,
+		InstanceTypes: so.InstanceType,
 	}, nil
 }
 
-func AllocationDataOnDemand() (ad *AllocationData, err error) {
-	ad = &AllocationData{}
+func allocationOnDemand(instancesTypes []string) (*AllocationResult, error) {
 	region := os.Getenv("AWS_DEFAULT_REGION")
-	ad.Region = &region
-	ad.AZ, err = data.GetRandomAvailabilityZone(region, nil)
-	return
-}
-
-// Calculate a bid price for spot using a increased rate set by user
-func spotPriceBid(basePrice float64) float64 {
-	return util.If(maptContext.SpotPriceIncreaseRate() > 0,
-		basePrice*(1+float64(maptContext.SpotPriceIncreaseRate())/100),
-		basePrice)
+	excludedAZs := []string{}
+	var err error
+	var az *string
+	var supportedInstancesType []string
+	azs := data.GetAvailabilityZones(region, nil)
+	for {
+		az, err = data.GetRandomAvailabilityZone(region, excludedAZs)
+		if err != nil {
+			return nil, err
+		}
+		supportedInstancesType, err =
+			data.FilterInstaceTypesOfferedByLocation(instancesTypes, &data.LocationArgs{
+				Region: &region,
+				Az:     az,
+			})
+		if err != nil {
+			return nil, err
+		}
+		if len(supportedInstancesType) > 0 {
+			break
+		}
+		excludedAZs = append(excludedAZs, *az)
+		if len(excludedAZs) == len(azs) {
+			return nil, ErrNoSupportedInstaceTypes
+		}
+	}
+	return &AllocationResult{
+		Region:        &region,
+		AZ:            az,
+		InstanceTypes: supportedInstancesType,
+	}, nil
 }

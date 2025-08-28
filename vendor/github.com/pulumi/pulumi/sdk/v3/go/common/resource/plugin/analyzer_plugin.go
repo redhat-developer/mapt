@@ -243,6 +243,7 @@ func NewPolicyAnalyzer(
 			Stack:        opts.Stack,
 			Project:      opts.Project,
 			Organization: opts.Organization,
+			Tags:         opts.Tags,
 		}
 		mconfig := make(map[string]string, len(opts.Config))
 		for k, v := range opts.Config {
@@ -448,11 +449,17 @@ func (a *analyzer) Remediate(r AnalyzerResource) ([]Remediation, error) {
 			return nil, err
 		}
 
+		// The version from PulumiPolicy.yaml is used, if set, over the version from the diagnostic.
+		policyPackVersion := r.GetPolicyPackVersion()
+		if a.version != "" {
+			policyPackVersion = a.version
+		}
+
 		results[i] = Remediation{
 			PolicyName:        r.GetPolicyName(),
 			Description:       r.GetDescription(),
 			PolicyPackName:    r.GetPolicyPackName(),
-			PolicyPackVersion: r.GetPolicyPackVersion(),
+			PolicyPackVersion: policyPackVersion,
 			Properties:        tprops,
 			Diagnostic:        r.GetDiagnostic(),
 		}
@@ -603,6 +610,23 @@ func (a *analyzer) Configure(policyConfig map[string]AnalyzerPolicyConfig) error
 // Close tears down the underlying plugin RPC connection and process.
 func (a *analyzer) Close() error {
 	return a.plug.Close()
+}
+
+// Cancel signals the analyzer to gracefully shut down and abort any ongoing analysis operations.
+func (a *analyzer) Cancel(ctx context.Context) error {
+	label := a.label() + ".Cancel()"
+	logging.V(7).Infof("%s executing", label)
+
+	_, err := a.client.Cancel(ctx, &emptypb.Empty{})
+	if err != nil {
+		rpcError := rpcerror.Convert(err)
+		logging.V(8).Infof("%s failed: err=%v", label, rpcError)
+		if rpcError.Code() == codes.Unimplemented {
+			return nil
+		}
+	}
+
+	return err
 }
 
 func analyzerPluginDialOptions(ctx *Context, name string) []grpc.DialOption {

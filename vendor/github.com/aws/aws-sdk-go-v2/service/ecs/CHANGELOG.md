@@ -1,3 +1,64 @@
+# v1.63.2 (2025-08-21)
+
+* **Documentation**: This is a documentation only release that adds additional information for the update-service request parameters.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.63.1 (2025-08-20)
+
+* **Bug Fix**: Remove unused deserialization code.
+
+# v1.63.0 (2025-08-11)
+
+* **Feature**: Add support for configuring per-service Options via callback on global config.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.62.0 (2025-08-04)
+
+* **Feature**: Support configurable auth scheme preferences in service clients via AWS_AUTH_SCHEME_PREFERENCE in the environment, auth_scheme_preference in the config file, and through in-code settings on LoadDefaultConfig and client constructor methods.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.61.1 (2025-07-30)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.61.0 (2025-07-28)
+
+* **Feature**: Add support for HTTP interceptors.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.60.1 (2025-07-19)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.60.0 (2025-07-16)
+
+* **Feature**: This release removes hookDetails for the Amazon ECS native blue/green deployments.
+
+# v1.59.0 (2025-07-15)
+
+* **Feature**: Amazon ECS supports native blue/green deployments, allowing you to validate new service revisions before directing production traffic to them.
+
+# v1.58.1 (2025-06-25)
+
+* **Documentation**: Updates for change to Amazon ECS default log driver mode from blocking to non-blocking
+
+# v1.58.0 (2025-06-20)
+
+* **Feature**: Add ECS support for Windows Server 2025
+
+# v1.57.6 (2025-06-17)
+
+* **Dependency Update**: Update to smithy-go v1.22.4.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.57.5 (2025-06-12)
+
+* **Documentation**: This Amazon ECS  release supports updating the capacityProviderStrategy parameter in update-service.
+
+# v1.57.4 (2025-06-10)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
 # v1.57.3 (2025-06-06)
 
 * No change notes available for this release.

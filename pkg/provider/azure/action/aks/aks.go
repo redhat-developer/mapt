@@ -4,66 +4,102 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v2"
-	containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v2/v20240801"
-	"github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	"github.com/go-playground/validator/v10"
+	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v3"
+
+	containerservice "github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-type AKSRequest struct {
+type AKSArgs struct {
 	Prefix   string
 	Location string
 	VMSize   string
 	// "1.26.3"
-	KubernetesVersion   string
-	OnlySystemPool      bool
-	EnableAppRouting    bool
-	Spot                bool
-	SpotTolerance       spotAzure.EvictionRate
-	SpotExcludedRegions []string
+	KubernetesVersion string
+	OnlySystemPool    bool
+	EnableAppRouting  bool
+	Spot              *spotTypes.SpotArgs
 }
 
-func Create(ctx *maptContext.ContextArgs, r *AKSRequest) (err error) {
-	// Create mapt Context
-	logging.Debug("Creating AKS")
-	if err := maptContext.Init(ctx, azure.Provider()); err != nil {
+type aksRequest struct {
+	mCtx     *mc.Context `validate:"required"`
+	prefix   *string
+	location *string
+	vmSize   *string
+	// "1.26.3"
+	kubernetesVersion *string
+	onlySystemPool    *bool
+	enableAppRouting  *bool
+	spot              *spotTypes.SpotArgs
+}
+
+func (r *aksRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
 		return err
 	}
+	return v.Struct(r)
+}
+
+func Create(mCtxArgs *mc.ContextArgs, args *AKSArgs) (err error) {
+	// Create mapt Context
+	logging.Debug("Creating AKS")
+	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
+	if err != nil {
+		return err
+	}
+	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
+	r := &aksRequest{
+		mCtx:              mCtx,
+		prefix:            &prefix,
+		location:          &args.Location,
+		vmSize:            &args.VMSize,
+		kubernetesVersion: &args.KubernetesVersion,
+		onlySystemPool:    &args.OnlySystemPool,
+		enableAppRouting:  &args.EnableAppRouting,
+		spot:              args.Spot,
+	}
 	cs := manager.Stack{
-		StackName:           maptContext.StackNameByProject(stackAKS),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:           mCtx.StackNameByProject(stackAKS),
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: azure.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
-	sr, _ := manager.UpStack(cs)
+	sr, _ := manager.UpStack(mCtx, cs)
 	return r.manageResults(sr)
 }
 
-func Destroy(ctx *maptContext.ContextArgs) error {
+func Destroy(mCtxArgs *mc.ContextArgs) error {
 	// Create mapt Context
 	logging.Debug("Destroy AKS")
-	if err := maptContext.Init(ctx, azure.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
+	if err != nil {
 		return err
 	}
-	return azure.Destroy(
-		maptContext.ProjectName(),
-		maptContext.BackedURL(),
-		maptContext.StackNameByProject(stackAKS))
+	return azure.Destroy(mCtx, stackAKS)
 }
 
 // Main function to deploy all requried resources to azure
-func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
+func (r *aksRequest) deployer(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Get values for spot machine
 	location, spotPrice, err := r.valuesCheckingSpot()
 	if err != nil {
@@ -72,11 +108,11 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 	// Get location for creating Resouce Group
 	rgLocation := azure.GetSuitableLocationForResourceGroup(*location)
 	rg, err := resources.NewResourceGroup(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureAKSID, "rg"),
+		resourcesUtil.GetResourceName(*r.prefix, azureAKSID, "rg"),
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(rgLocation),
-			ResourceGroupName: pulumi.String(maptContext.RunID()),
-			Tags:              maptContext.ResourceTags(),
+			ResourceGroupName: pulumi.String(r.mCtx.RunID()),
+			Tags:              r.mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return err
@@ -96,7 +132,7 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 
 	privateKey, err := tls.NewPrivateKey(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureAKSID, "privatekey"),
+		resourcesUtil.GetResourceName(*r.prefix, azureAKSID, "privatekey"),
 		&tls.PrivateKeyArgs{
 			Algorithm: pulumi.String("RSA"),
 			RsaBits:   pulumi.Int(4096),
@@ -108,17 +144,16 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 	// create a user assigned identity to use for the cluster
 	identity, err := managedidentity.NewUserAssignedIdentity(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureAKSID, "identity"),
+		resourcesUtil.GetResourceName(*r.prefix, azureAKSID, "identity"),
 		&managedidentity.UserAssignedIdentityArgs{
-			Location:          rg.Location,
+			Location:          pulumi.String(*location),
 			ResourceGroupName: rg.Name,
-			Tags:              maptContext.ResourceTags(),
+			Tags:              r.mCtx.ResourceTags(),
 		})
 
 	if err != nil {
 		return err
 	}
-
 	// create the cluster
 	agentPoolProfiles := containerservice.ManagedClusterAgentPoolProfileArray{
 		&containerservice.ManagedClusterAgentPoolProfileArgs{
@@ -131,13 +166,13 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 			Type:         pulumi.String("VirtualMachineScaleSets"),
 		},
 	}
-	if !r.OnlySystemPool {
+	if !*r.onlySystemPool {
 		agentPoolProfiles = append(agentPoolProfiles,
 			&containerservice.ManagedClusterAgentPoolProfileArgs{
 				Name:         pulumi.String("userpool"),
 				Mode:         containerservice.AgentPoolModeUser,
 				Count:        pulumi.Int(1),
-				VmSize:       pulumi.String(r.VMSize),
+				VmSize:       pulumi.String(*r.vmSize),
 				OsType:       pulumi.String("Linux"),
 				OsDiskSizeGB: pulumi.Int(100),
 				Type:         pulumi.String("VirtualMachineScaleSets"),
@@ -148,14 +183,14 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 	}
 	managedClusterArgs := &containerservice.ManagedClusterArgs{
 		ResourceGroupName: rg.Name,
-		Location:          rg.Location,
+		Location:          pulumi.String(*location),
 		Identity: &containerservice.ManagedClusterIdentityArgs{
 			Type: containerservice.ResourceIdentityTypeUserAssigned,
 			UserAssignedIdentities: pulumi.StringArray{
 				identity.ID(),
 			},
 		},
-		KubernetesVersion: pulumi.String(r.KubernetesVersion),
+		KubernetesVersion: pulumi.String(*r.kubernetesVersion),
 		DnsPrefix:         pulumi.String("mapt"),
 		EnableRBAC:        pulumi.Bool(true),
 		AgentPoolProfiles: agentPoolProfiles,
@@ -169,10 +204,10 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 				},
 			},
 		},
-		Tags: maptContext.ResourceTags(),
+		Tags: r.mCtx.ResourceTags(),
 	}
 	// Enable app routing if required
-	if r.EnableAppRouting {
+	if *r.enableAppRouting {
 		managedClusterArgs.IngressProfile = containerservice.ManagedClusterIngressProfileArgs{
 			WebAppRouting: containerservice.ManagedClusterIngressProfileWebAppRoutingArgs{
 				Enabled: pulumi.Bool(true),
@@ -181,7 +216,7 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 	}
 	cluster, err := containerservice.NewManagedCluster(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureAKSID, "cluster"),
+		resourcesUtil.GetResourceName(*r.prefix, azureAKSID, "cluster"),
 		managedClusterArgs)
 	if err != nil {
 		return err
@@ -210,32 +245,35 @@ func (r *AKSRequest) deployer(ctx *pulumi.Context) error {
 			value, _ := base64.StdEncoding.DecodeString(adminCredentials.Kubeconfigs[0].Value)
 			return pulumi.String(value), nil
 		}).(pulumi.StringOutput)
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputKubeconfig), kubeconfig)
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig), kubeconfig)
 	return nil
 
 }
 
-func (r *AKSRequest) valuesCheckingSpot() (*string, *float64, error) {
-	if r.Spot {
+func (r *aksRequest) valuesCheckingSpot() (*string, *float64, error) {
+	if r.spot != nil && r.spot.Spot {
 		bsc, err :=
-			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
-				VMTypes:               []string{r.VMSize},
-				OSType:                "linux",
-				EvictionRateTolerance: r.SpotTolerance,
-				ExcludedRegions:       r.SpotExcludedRegions,
-			})
+			data.SpotInfo(
+				r.mCtx,
+				&data.SpotInfoArgs{
+					ComputeSizes:          []string{*r.vmSize},
+					OSType:                "linux",
+					SpotPriceIncreaseRate: &r.spot.IncreaseRate,
+					SpotTolerance:         &r.spot.Tolerance,
+					ExcludedLocations:     r.spot.ExcludedHostingPlaces,
+				})
 		logging.Debugf("Best spot price option found: %v", bsc)
 		if err != nil {
 			return nil, nil, err
 		}
-		return &bsc.Location, &bsc.Price, nil
+		return &bsc.HostingPlace, &bsc.Price, nil
 	}
-	return &r.Location, nil, nil
+	return r.location, nil, nil
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *AKSRequest) manageResults(stackResult auto.UpResult) error {
-	return output.Write(stackResult, maptContext.GetResultsOutputPath(), map[string]string{
-		fmt.Sprintf("%s-%s", r.Prefix, outputKubeconfig): "kubeconfig",
+func (r *aksRequest) manageResults(stackResult auto.UpResult) error {
+	return output.Write(stackResult, r.mCtx.GetResultsOutputPath(), map[string]string{
+		fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig): "kubeconfig",
 	})
 }

@@ -3,9 +3,9 @@ package subnet
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 )
 
@@ -23,11 +23,11 @@ type PublicSubnetResources struct {
 	Subnet                *ec2.Subnet
 	RouteTable            *ec2.RouteTable
 	RouteTableAssociation *ec2.RouteTableAssociation
-	EIP                   *ec2.Eip
 	NatGateway            *ec2.NatGateway
+	NatGatewayEip         *ec2.Eip
 }
 
-func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources, error) {
+func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*PublicSubnetResources, error) {
 	snName := fmt.Sprintf("%s-%s", "subnet", r.Name)
 	sn, err := ec2.NewSubnet(ctx,
 		snName,
@@ -35,30 +35,30 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 			VpcId:               r.VPC.ID(),
 			CidrBlock:           pulumi.String(r.CIDR),
 			AvailabilityZone:    pulumi.String(r.AvailabilityZone),
-			Tags:                maptContext.ResourceTags(),
+			Tags:                mCtx.ResourceTags(),
 			MapPublicIpOnLaunch: pulumi.Bool(r.MapPublicIp),
 		})
 	if err != nil {
 		return nil, err
 	}
-	eipName := fmt.Sprintf("%s-%s", "eip", r.Name)
-	eip, err := ec2.NewEip(ctx,
-		eipName,
-		&ec2.EipArgs{
-			Vpc: pulumi.Bool(true),
-		})
-	if err != nil {
-		return nil, err
-	}
+	var nEip *ec2.Eip
 	var n *ec2.NatGateway
 	if r.AddNatGateway {
+		nEip, err := ec2.NewEip(ctx,
+			fmt.Sprintf("%s-%s", "eip", r.Name),
+			&ec2.EipArgs{
+				Domain: pulumi.String("vpc"),
+			})
+		if err != nil {
+			return nil, err
+		}
 		nName := fmt.Sprintf("%s-%s", "natgateway", r.Name)
 		n, err = ec2.NewNatGateway(ctx,
 			nName,
 			&ec2.NatGatewayArgs{
-				AllocationId: eip.ID(),
+				AllocationId: nEip.ID(),
 				SubnetId:     sn.ID(),
-				Tags:         maptContext.ResourceTags(),
+				Tags:         mCtx.ResourceTags(),
 			})
 		if err != nil {
 			return nil, err
@@ -75,7 +75,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 					GatewayId: r.InternetGateway.ID(),
 				},
 			},
-			Tags: maptContext.ResourceTags(),
+			Tags: mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context) (*PublicSubnetResources
 			Subnet:                sn,
 			RouteTable:            rt,
 			RouteTableAssociation: rta,
-			EIP:                   eip,
-			NatGateway:            n},
+			NatGateway:            n,
+			NatGatewayEip:         nEip},
 		nil
 }

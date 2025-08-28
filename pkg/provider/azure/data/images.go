@@ -7,7 +7,8 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v7"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
@@ -47,9 +48,11 @@ func GetImage(req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResp
 	return nil, nil
 }
 
-func IsImageOffered(req ImageRequest) bool {
+func IsImageOffered(mCtx *mc.Context, req ImageRequest) bool {
 	if _, err := GetImage(req); err != nil {
-		logging.Debugf("error while checking if image available at location: %v", err)
+		if mCtx.Debug() {
+			logging.Debugf("error while checking if image available at location: %v", err)
+		}
 		return false
 	}
 	return true

@@ -1,13 +1,12 @@
 package services
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"fmt"
+
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/kind"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
+	kindCloudConfig "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/kind"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -24,7 +23,7 @@ func GetKindCmd() *cobra.Command {
 			return nil
 		},
 	}
-	flagSet := pflag.NewFlagSet(cmdOpenshiftSNC, pflag.ExitOnError)
+	flagSet := pflag.NewFlagSet(params.KindCmd, pflag.ExitOnError)
 	params.AddCommonFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	c.AddCommand(createKind(), destroyKind())
@@ -40,29 +39,35 @@ func createKind() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := kind.Create(
+
+			// Parse extra port mappings from JSON string to PortMapping struct
+			var extraPortMappings []kindCloudConfig.PortMapping
+			extraPortMappingsStr := viper.GetString(params.KindExtraPortMappings)
+			if extraPortMappingsStr != "" {
+				var err error
+				extraPortMappings, err = kindCloudConfig.ParseExtraPortMappings(extraPortMappingsStr)
+				if err != nil {
+					return fmt.Errorf("failed to parse 'extra-port-mappings' flag: %w", err)
+				}
+			}
+
+			if _, err := kind.Create(
 				&maptContext.ContextArgs{
-					ProjectName:           viper.GetString(params.ProjectName),
-					BackedURL:             viper.GetString(params.BackedURL),
-					ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-					Debug:                 viper.IsSet(params.Debug),
-					DebugLevel:            viper.GetUint(params.DebugLevel),
-					SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
-					Tags:                  viper.GetStringMapString(params.Tags),
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&kind.KindArgs{
-					InstanceRequest: &instancetypes.AwsInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
-						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
-							instancetypes.Arm64, instancetypes.Amd64),
-						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
-					},
-					Version: viper.GetString(params.KindK8SVersion),
-					Arch:    viper.GetString(params.LinuxArch),
-					Spot:    viper.IsSet(awsParams.Spot),
-					Timeout: viper.GetString(params.Timeout)}); err != nil {
-				logging.Error(err)
+					ComputeRequest:    params.ComputeRequestArgs(),
+					Spot:              params.SpotArgs(),
+					Version:           viper.GetString(params.KindK8SVersion),
+					Arch:              viper.GetString(params.LinuxArch),
+					Timeout:           viper.GetString(params.Timeout),
+					ExtraPortMappings: extraPortMappings}); err != nil {
+				return err
 			}
 			return nil
 		},
@@ -71,11 +76,11 @@ func createKind() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringP(params.KindK8SVersion, "", "", params.KindK8SVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
-	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
+	flagSet.StringP(params.KindExtraPortMappings, "", "", params.KindExtraPortMappingsDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -88,18 +93,14 @@ func destroyKind() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := kind.Destroy(&maptContext.ContextArgs{
+			return kind.Destroy(&maptContext.ContextArgs{
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),
 				DebugLevel:   viper.GetUint(params.DebugLevel),
 				Serverless:   viper.IsSet(params.Serverless),
 				ForceDestroy: viper.IsSet(params.ForceDestroy),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

@@ -341,6 +341,36 @@ func (DeploymentControllerType) Values() []DeploymentControllerType {
 	}
 }
 
+type DeploymentLifecycleHookStage string
+
+// Enum values for DeploymentLifecycleHookStage
+const (
+	DeploymentLifecycleHookStageReconcileService           DeploymentLifecycleHookStage = "RECONCILE_SERVICE"
+	DeploymentLifecycleHookStagePreScaleUp                 DeploymentLifecycleHookStage = "PRE_SCALE_UP"
+	DeploymentLifecycleHookStagePostScaleUp                DeploymentLifecycleHookStage = "POST_SCALE_UP"
+	DeploymentLifecycleHookStageTestTrafficShift           DeploymentLifecycleHookStage = "TEST_TRAFFIC_SHIFT"
+	DeploymentLifecycleHookStagePostTestTrafficShift       DeploymentLifecycleHookStage = "POST_TEST_TRAFFIC_SHIFT"
+	DeploymentLifecycleHookStageProductionTrafficShift     DeploymentLifecycleHookStage = "PRODUCTION_TRAFFIC_SHIFT"
+	DeploymentLifecycleHookStagePostProductionTrafficShift DeploymentLifecycleHookStage = "POST_PRODUCTION_TRAFFIC_SHIFT"
+)
+
+// Values returns all known values for DeploymentLifecycleHookStage. Note that
+// this can be expanded in the future, and so it is only as up to date as the
+// client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (DeploymentLifecycleHookStage) Values() []DeploymentLifecycleHookStage {
+	return []DeploymentLifecycleHookStage{
+		"RECONCILE_SERVICE",
+		"PRE_SCALE_UP",
+		"POST_SCALE_UP",
+		"TEST_TRAFFIC_SHIFT",
+		"POST_TEST_TRAFFIC_SHIFT",
+		"PRODUCTION_TRAFFIC_SHIFT",
+		"POST_PRODUCTION_TRAFFIC_SHIFT",
+	}
+}
+
 type DeploymentRolloutState string
 
 // Enum values for DeploymentRolloutState
@@ -359,6 +389,25 @@ func (DeploymentRolloutState) Values() []DeploymentRolloutState {
 		"COMPLETED",
 		"FAILED",
 		"IN_PROGRESS",
+	}
+}
+
+type DeploymentStrategy string
+
+// Enum values for DeploymentStrategy
+const (
+	DeploymentStrategyRolling   DeploymentStrategy = "ROLLING"
+	DeploymentStrategyBlueGreen DeploymentStrategy = "BLUE_GREEN"
+)
+
+// Values returns all known values for DeploymentStrategy. Note that this can be
+// expanded in the future, and so it is only as up to date as the client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (DeploymentStrategy) Values() []DeploymentStrategy {
+	return []DeploymentStrategy{
+		"ROLLING",
+		"BLUE_GREEN",
 	}
 }
 
@@ -758,6 +807,8 @@ const (
 	OSFamilyWindowsServer2004Core OSFamily = "WINDOWS_SERVER_2004_CORE"
 	OSFamilyWindowsServer2022Core OSFamily = "WINDOWS_SERVER_2022_CORE"
 	OSFamilyWindowsServer2022Full OSFamily = "WINDOWS_SERVER_2022_FULL"
+	OSFamilyWindowsServer2025Core OSFamily = "WINDOWS_SERVER_2025_CORE"
+	OSFamilyWindowsServer2025Full OSFamily = "WINDOWS_SERVER_2025_FULL"
 	OSFamilyWindowsServer20h2Core OSFamily = "WINDOWS_SERVER_20H2_CORE"
 	OSFamilyLinux                 OSFamily = "LINUX"
 )
@@ -774,6 +825,8 @@ func (OSFamily) Values() []OSFamily {
 		"WINDOWS_SERVER_2004_CORE",
 		"WINDOWS_SERVER_2022_CORE",
 		"WINDOWS_SERVER_2022_FULL",
+		"WINDOWS_SERVER_2025_CORE",
+		"WINDOWS_SERVER_2025_FULL",
 		"WINDOWS_SERVER_20H2_CORE",
 		"LINUX",
 	}
@@ -964,6 +1017,42 @@ func (Scope) Values() []Scope {
 	return []Scope{
 		"task",
 		"shared",
+	}
+}
+
+type ServiceDeploymentLifecycleStage string
+
+// Enum values for ServiceDeploymentLifecycleStage
+const (
+	ServiceDeploymentLifecycleStageReconcileService           ServiceDeploymentLifecycleStage = "RECONCILE_SERVICE"
+	ServiceDeploymentLifecycleStagePreScaleUp                 ServiceDeploymentLifecycleStage = "PRE_SCALE_UP"
+	ServiceDeploymentLifecycleStageScaleUp                    ServiceDeploymentLifecycleStage = "SCALE_UP"
+	ServiceDeploymentLifecycleStagePostScaleUp                ServiceDeploymentLifecycleStage = "POST_SCALE_UP"
+	ServiceDeploymentLifecycleStageTestTrafficShift           ServiceDeploymentLifecycleStage = "TEST_TRAFFIC_SHIFT"
+	ServiceDeploymentLifecycleStagePostTestTrafficShift       ServiceDeploymentLifecycleStage = "POST_TEST_TRAFFIC_SHIFT"
+	ServiceDeploymentLifecycleStageProductionTrafficShift     ServiceDeploymentLifecycleStage = "PRODUCTION_TRAFFIC_SHIFT"
+	ServiceDeploymentLifecycleStagePostProductionTrafficShift ServiceDeploymentLifecycleStage = "POST_PRODUCTION_TRAFFIC_SHIFT"
+	ServiceDeploymentLifecycleStageBakeTime                   ServiceDeploymentLifecycleStage = "BAKE_TIME"
+	ServiceDeploymentLifecycleStageCleanUp                    ServiceDeploymentLifecycleStage = "CLEAN_UP"
+)
+
+// Values returns all known values for ServiceDeploymentLifecycleStage. Note that
+// this can be expanded in the future, and so it is only as up to date as the
+// client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (ServiceDeploymentLifecycleStage) Values() []ServiceDeploymentLifecycleStage {
+	return []ServiceDeploymentLifecycleStage{
+		"RECONCILE_SERVICE",
+		"PRE_SCALE_UP",
+		"SCALE_UP",
+		"POST_SCALE_UP",
+		"TEST_TRAFFIC_SHIFT",
+		"POST_TEST_TRAFFIC_SHIFT",
+		"PRODUCTION_TRAFFIC_SHIFT",
+		"POST_PRODUCTION_TRAFFIC_SHIFT",
+		"BAKE_TIME",
+		"CLEAN_UP",
 	}
 }
 

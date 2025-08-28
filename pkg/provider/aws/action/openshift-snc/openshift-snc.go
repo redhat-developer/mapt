@@ -5,12 +5,15 @@ import (
 	"os"
 	"strings"
 
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/go-playground/validator/v10"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -25,7 +28,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ssm"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -34,112 +36,139 @@ import (
 )
 
 type OpenshiftSNCArgs struct {
-	Prefix          string
-	InstanceRequest instancetypes.InstanceRequest
-	Version         string
-	Arch            string
-	PullSecretFile  string
-	Spot            bool
-	Timeout         string
+	Prefix         string
+	ComputeRequest *cr.ComputeRequestArgs
+	Version        string
+	Arch           string
+	PullSecretFile string
+	Spot           *spotTypes.SpotArgs
+	Timeout        string
 }
 
 type openshiftSNCRequest struct {
+	mCtx           *mc.Context
 	prefix         *string
 	version        *string
 	arch           *string
+	spot           bool
 	timeout        *string
 	pullSecretFile *string
-	allocationData *allocation.AllocationData
+	allocationData *allocation.AllocationResult
+}
+
+func (r *openshiftSNCRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
+		return err
+	}
+	return v.Struct(r)
+}
+
+type OpenshiftSncResultsMetadata struct {
+	Username      string   `json:"username"`
+	PrivateKey    string   `json:"private_key"`
+	Host          string   `json:"host"`
+	Kubeconfig    string   `json:"kubeconfig"`
+	KubeadminPass string   `json:"kubeadmin_pass"`
+	SpotPrice     *float64 `json:"spot_price,omitempty"`
+	ConsoleUrl    string   `json:"console_url,omitempty"`
 }
 
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *maptContext.ContextArgs, args *OpenshiftSNCArgs) error {
+func Create(mCtxArgs *mc.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncResultsMetadata, err error) {
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
-		return err
-	}
-	// Get instance types matching requirements
-	instanceTypes, err := args.InstanceRequest.GetMachineTypes()
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
-		return err
-	}
-	if len(instanceTypes) == 0 {
-		return fmt.Errorf("no instances matching criteria")
+		return nil, err
 	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := openshiftSNCRequest{
+		mCtx:           mCtx,
 		prefix:         &prefix,
 		version:        &args.Version,
 		arch:           &args.Arch,
 		pullSecretFile: &args.PullSecretFile,
 		timeout:        &args.Timeout}
-	r.allocationData, err = util.IfWithError(args.Spot,
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnSpot(
-				&args.Prefix, &amiProduct, nil, instanceTypes)
-		},
-		func() (*allocation.AllocationData, error) {
-			return allocation.AllocationDataOnDemand()
+	if args.Spot != nil {
+		r.spot = args.Spot.Spot
+	}
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			Prefix:                &args.Prefix,
+			ComputeRequest:        args.ComputeRequest,
+			AMIProductDescription: &amiProduct,
+			Spot:                  args.Spot,
 		})
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// Manage AMI offering / replication
 	amiName := amiName(&args.Version, &args.Arch)
-	if err = manageAMIReplication(&args.Prefix,
+	if err = manageAMIReplication(mCtx, &args.Prefix,
 		&amiName, r.allocationData.Region, &args.Arch); err != nil {
-		return err
+		return nil, err
 	}
 	return r.createCluster()
 }
 
 // Will destroy resources related to machine
-func Destroy(ctx *maptContext.ContextArgs) (err error) {
+func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	logging.Debug("Run openshift destroy")
 	// Create mapt Context
-	if err = maptContext.Init(ctx, aws.Provider()); err != nil {
+	// Create mapt Context
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 	// Destroy fedora related resources
 	if err = aws.DestroyStack(
+		mCtx,
 		aws.DestroyStackRequest{
 			Stackname: stackName,
 		}); err != nil {
 		return err
 	}
 	// AMI Copy
-	if amiCopy.Exist() {
-		err = amiCopy.Destroy()
+	if amiCopy.Exist(mCtx) {
+		err = amiCopy.Destroy(mCtx)
 		if err != nil {
 			return
 		}
 	}
 	// Destroy spot orchestrated stack
-	if spot.Exist() {
-		return spot.Destroy()
+	if spot.Exist(mCtx) {
+		return spot.Destroy(mCtx)
 	}
 	return nil
 }
 
-func (r *openshiftSNCRequest) createCluster() error {
+func (r *openshiftSNCRequest) createCluster() (*OpenshiftSncResultsMetadata, error) {
 	cs := manager.Stack{
-		StackName:   maptContext.StackNameByProject(stackName),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL(),
+		StackName:   r.mCtx.StackNameByProject(stackName),
+		ProjectName: r.mCtx.ProjectName(),
+		BackedURL:   r.mCtx.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
 			map[string]string{
 				awsConstants.CONFIG_AWS_REGION:        *r.allocationData.Region,
 				awsConstants.CONFIG_AWS_NATIVE_REGION: *r.allocationData.Region}),
 		DeployFunc: r.deploy,
 	}
-	sr, _ := manager.UpStack(cs)
-	return manageResults(sr, r.prefix)
+	sr, err := manager.UpStack(r.mCtx, cs)
+	if err != nil {
+		return nil, fmt.Errorf("stack creation failed: %w", err)
+	}
+
+	return r.manageResults(sr, r.prefix)
 }
 
 func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf("%s*", amiName(r.version, r.arch)),
@@ -149,18 +178,15 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	// Networking
-	lbEnable := true
-	nr := network.NetworkRequest{
-		Prefix: *r.prefix,
-		ID:     awsOCPSNCID,
-		Region: *r.allocationData.Region,
-		AZ:     *r.allocationData.AZ,
-		// LB is required if we use as which is used for spot feature
-		CreateLoadBalancer: &lbEnable,
-		Airgap:             false,
-	}
-	vpc, targetSubnet, _, _, lb, lbEIP, err := nr.Network(ctx)
+	nw, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:             *r.prefix,
+			ID:                 awsOCPSNCID,
+			Region:             *r.allocationData.Region,
+			AZ:                 *r.allocationData.AZ,
+			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
+			Airgap:             false,
+		})
 	if err != nil {
 		return err
 	}
@@ -168,13 +194,13 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	kpr := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
 			*r.prefix, awsOCPSNCID, "pk")}
-	keyResources, err := kpr.Create(ctx)
+	keyResources, err := kpr.Create(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
-	if maptContext.Debug() {
+	if r.mCtx.Debug() {
 		keyResources.PrivateKey.PrivateKeyPem.ApplyT(
 			func(privateKey string) (*string, error) {
 				logging.Debugf("%s", privateKey)
@@ -182,7 +208,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 			})
 	}
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.prefix, vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
 	if err != nil {
 		return err
 	}
@@ -192,7 +218,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Userdata
-	udB64, kaPass, devPass, udDependecies, err := r.userData(ctx, &keyResources.PrivateKey.PublicKeyOpenssh, &lbEIP.PublicIp)
+	udB64, kaPass, devPass, udDependecies, err := r.userData(ctx, &keyResources.PrivateKey.PublicKeyOpenssh, &nw.Eip.PublicIp)
 	if err != nil {
 		return err
 	}
@@ -202,17 +228,18 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		devPass)
 	// Create instance
 	cr := compute.ComputeRequest{
+		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
 		ID:               awsOCPSNCID,
-		VPC:              vpc,
-		Subnet:           targetSubnet,
+		VPC:              nw.Vpc,
+		Subnet:           nw.Subnet,
 		AMI:              ami,
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     r.allocationData.InstanceTypes,
 		DiskSize:         &diskSize,
-		LB:               lb,
-		LBEIP:            lbEIP,
+		LB:               nw.LoadBalancer,
+		Eip:              nw.Eip,
 		LBTargetGroups:   []int{securityGroup.SSH_PORT, portHTTPS, portAPI},
 		SpotPrice:        *r.allocationData.SpotPrice,
 		Spot:             true,
@@ -229,13 +256,13 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
 		c.GetHostIP(true))
 	if len(*r.timeout) > 0 {
-		if err = serverless.OneTimeDelayedTask(ctx,
+		if err = serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
 			awsOCPSNCID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
 				"openshift-snc",
-				maptContext.ProjectName(),
-				maptContext.BackedURL()),
+				r.mCtx.ProjectName(),
+				r.mCtx.BackedURL()),
 			*r.timeout); err != nil {
 			return err
 		}
@@ -251,7 +278,28 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 }
 
 // Write exported values in context to files o a selected target folder
-func manageResults(stackResult auto.UpResult, prefix *string) error {
+func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *string) (*OpenshiftSncResultsMetadata, error) {
+	username, err := getResultOutput(outputUsername, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	privateKey, err := getResultOutput(outputUserPrivateKey, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	host, err := getResultOutput(outputHost, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	kubeconfig, err := getResultOutput(outputKubeconfig, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+	kubeAdminPass, err := getResultOutput(outputKubeAdminPass, stackResult, prefix)
+	if err != nil {
+		return nil, err
+	}
+
 	hostIPKey := fmt.Sprintf("%s-%s", *prefix, outputHost)
 	results := map[string]string{
 		fmt.Sprintf("%s-%s", *prefix, outputUsername):       "username",
@@ -261,22 +309,34 @@ func manageResults(stackResult auto.UpResult, prefix *string) error {
 		fmt.Sprintf("%s-%s", *prefix, outputKubeAdminPass): "kubeadmin_pass",
 		fmt.Sprintf("%s-%s", *prefix, outputDeveloperPass): "developer_pass",
 	}
-	if err := output.Write(
-		stackResult, maptContext.GetResultsOutputPath(), results); err != nil {
-		return err
+
+	outputPath := r.mCtx.GetResultsOutputPath()
+	if len(outputPath) == 0 {
+		logging.Warn("conn-details-output flag not set; skipping writing output files.")
+	} else {
+		if err := output.Write(stackResult, outputPath, results); err != nil {
+			return nil, fmt.Errorf("failed to write results: %w", err)
+		}
 	}
-	eip, ok := stackResult.Outputs[hostIPKey].Value.(string)
-	if ok {
-		fmt.Printf("Cluster has been started you can access console at: %s. You can check passwords at %s",
-			fmt.Sprintf(consoleURLRegex, eip),
-			maptContext.GetResultsOutputPath())
-		return nil
+
+	consoleURL := fmt.Sprintf(consoleURLRegex, host)
+	if eip, ok := stackResult.Outputs[hostIPKey].Value.(string); ok {
+		fmt.Printf("Cluster has been started you can access console at: %s.\n", fmt.Sprintf(consoleURLRegex, eip))
 	}
-	return fmt.Errorf("error getting value for cluster ip")
+
+	return &OpenshiftSncResultsMetadata{
+		Username:      username,
+		PrivateKey:    privateKey,
+		Host:          host,
+		Kubeconfig:    kubeconfig,
+		KubeadminPass: kubeAdminPass,
+		SpotPrice:     r.allocationData.SpotPrice,
+		ConsoleUrl:    consoleURL,
+	}, nil
 }
 
 // security group for Openshift
-func securityGroups(ctx *pulumi.Context, prefix *string,
+func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
@@ -286,7 +346,7 @@ func securityGroups(ctx *pulumi.Context, prefix *string,
 		IngressRules: []securityGroup.IngressRules{securityGroup.SSH_TCP,
 			{Description: "Console", FromPort: portHTTPS, ToPort: portHTTPS, Protocol: "tcp"},
 			{Description: "API", FromPort: portAPI, ToPort: portAPI, Protocol: "tcp"}},
-	}.Create(ctx)
+	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
@@ -298,7 +358,7 @@ func securityGroups(ctx *pulumi.Context, prefix *string,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func manageAMIReplication(prefix, amiName, region, arch *string) error {
+func manageAMIReplication(mCtx *mc.Context, prefix, amiName, region, arch *string) error {
 	isAMIOffered, _, err := data.IsAMIOffered(
 		data.ImageRequest{
 			Name:   amiName,
@@ -309,6 +369,7 @@ func manageAMIReplication(prefix, amiName, region, arch *string) error {
 	}
 	if !isAMIOffered {
 		acr := amiCopy.CopyAMIRequest{
+			MCtx:            mCtx,
 			Prefix:          *prefix,
 			ID:              awsOCPSNCID,
 			AMISourceName:   amiName,
@@ -393,7 +454,7 @@ func kubeconfig(ctx *pulumi.Context,
 		commandReadiness,
 		compute.LoggingCmdStd,
 		fmt.Sprintf("%s-ocp-readiness", *prefix), awsOCPSNCID,
-		mk, amiUserDefault, nil, nil)
+		mk, amiUserDefault, nil, c.Dependencies)
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
@@ -408,7 +469,7 @@ func kubeconfig(ctx *pulumi.Context,
 	}
 
 	// Get content for /opt/kubeconfig
-	getKCCmd := ("cat /opt/kubeconfig")
+	getKCCmd := ("sudo cat /opt/crc/kubeconfig")
 	getKC, err := c.RunCommand(ctx,
 		getKCCmd,
 		compute.NoLoggingCmdStd,
@@ -417,11 +478,24 @@ func kubeconfig(ctx *pulumi.Context,
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
-	kubeconfig := pulumi.All(getKC.Stdout, c.LBEIP.PublicIp).ApplyT(
+	kubeconfig := pulumi.All(getKC.Stdout, c.Eip.PublicIp).ApplyT(
 		func(args []interface{}) string {
 			return strings.ReplaceAll(args[0].(string),
 				"https://api.crc.testing:6443",
 				fmt.Sprintf("https://api.%s.nip.io:6443", args[1].(string)))
 		}).(pulumi.StringOutput)
 	return kubeconfig, nil
+}
+
+func getResultOutput(name string, sr auto.UpResult, prefix *string) (string, error) {
+	key := fmt.Sprintf("%s-%s", *prefix, name)
+	output, ok := sr.Outputs[key]
+	if !ok {
+		return "", fmt.Errorf("output not found: %s", key)
+	}
+	value, ok := output.Value.(string)
+	if !ok {
+		return "", fmt.Errorf("output for %s is not a string", key)
+	}
+	return value, nil
 }

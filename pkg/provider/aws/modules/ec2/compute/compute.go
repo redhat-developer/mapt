@@ -3,19 +3,22 @@ package compute
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/autoscaling"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam"
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/lb"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/autoscaling"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/lb"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -32,12 +35,15 @@ const (
 )
 
 type ComputeRequest struct {
+	MCtx   *mc.Context
 	Prefix string
 	ID     string
 	VPC    *ec2.Vpc
 	Subnet *ec2.Subnet
-	LB     *lb.LoadBalancer
-	LBEIP  *ec2.Eip
+	Eip    *ec2.Eip
+	// If LB is nill EIP should be associated to the machine
+	// to allow make use of it before creating the instance
+	LB *lb.LoadBalancer
 	// Array of TCP ports to be
 	// created as tg for the LB
 	LBTargetGroups  []int
@@ -63,8 +69,12 @@ type Compute struct {
 	// Spot instance is created through a mixedPolicy on a as group
 	// in case of asg it is accessed through the LB
 	AutoscalingGroup *autoscaling.Group
-	LB               *lb.LoadBalancer
-	LBEIP            *ec2.Eip
+	// If LB is nil Eip is used for machine otherwise for the instance
+	Eip *ec2.Eip
+	LB  *lb.LoadBalancer
+	// This can be used in case explicit
+	// dependencies on the Compute resources
+	Dependencies []pulumi.Resource
 }
 
 // Create compute resource based on requested args
@@ -79,10 +89,14 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 		return &Compute{
 			AutoscalingGroup: asg,
 			LB:               r.LB,
-			LBEIP:            r.LBEIP}, err
+			Eip:              r.Eip,
+			Dependencies:     []pulumi.Resource{asg, r.LB, r.Eip}}, err
 	}
 	i, err := r.onDemandInstance(ctx)
-	return &Compute{Instance: i}, err
+	return &Compute{
+		Instance:     i,
+		Eip:          r.Eip,
+		Dependencies: []pulumi.Resource{i, r.Eip}}, err
 }
 
 // Create on demand instance
@@ -97,29 +111,49 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: maptContext.ResourceTags(),
+		Tags: r.MCtx.ResourceTags(),
 	}
 	if r.InstanceProfile != nil {
 		args.IamInstanceProfile = r.InstanceProfile
 	}
 	if r.UserDataAsBase64 != nil {
-		args.UserData = r.UserDataAsBase64
+		args.UserDataBase64 = r.UserDataAsBase64
 	}
 	if r.Airgap {
 		args.AssociatePublicIpAddress = pulumi.Bool(false)
 	}
-	return ec2.NewInstance(ctx,
+	instance, err := ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance"),
 		&args,
 		pulumi.DependsOn(r.DependsOn))
+	if err != nil {
+		return nil, err
+	}
+	_, err = ec2.NewEipAssociation(ctx,
+		resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance-eip"),
+		&ec2.EipAssociationArgs{
+			InstanceId:   instance.ID(),
+			AllocationId: r.Eip.ID(),
+		})
+	if err != nil {
+		return nil, err
+	}
+	return instance, nil
 }
 
 // create asg with 1 instance forced by spot
 func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, error) {
+	// Logging information
+	r.Subnet.AvailabilityZone.ApplyT(func(az string) error {
+		logging.Debugf("Requesting a spot instance of types: %s at %s paying: %f",
+			strings.Join(r.InstaceTypes, ", "), az, r.SpotPrice)
+		return nil
+	})
 	args := &ec2.LaunchTemplateArgs{
-		NamePrefix: pulumi.String(r.ID),
-		ImageId:    pulumi.String(r.AMI.Id),
-		KeyName:    r.KeyResources.AWSKeyPair.KeyName,
+		NamePrefix:   pulumi.String(r.ID),
+		ImageId:      pulumi.String(r.AMI.Id),
+		KeyName:      r.KeyResources.AWSKeyPair.KeyName,
+		EbsOptimized: pulumi.String("true"),
 		NetworkInterfaces: ec2.LaunchTemplateNetworkInterfaceArray{
 			&ec2.LaunchTemplateNetworkInterfaceArgs{
 				SecurityGroups:           r.SecurityGroups,
@@ -135,7 +169,25 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 				},
 			},
 		},
-		Tags: maptContext.ResourceTags(),
+		Tags: r.MCtx.ResourceTags(),
+		TagSpecifications: ec2.LaunchTemplateTagSpecificationArray{
+			&ec2.LaunchTemplateTagSpecificationArgs{
+				ResourceType: pulumi.String(constants.PulumiAwsResourceInstance),
+				Tags:         r.MCtx.ResourceTags(),
+			},
+			&ec2.LaunchTemplateTagSpecificationArgs{
+				ResourceType: pulumi.String(constants.PulumiAwsResourceVolume),
+				Tags:         r.MCtx.ResourceTags(),
+			},
+			&ec2.LaunchTemplateTagSpecificationArgs{
+				ResourceType: pulumi.String(constants.PulumiAwsResourceNetworkInterface),
+				Tags:         r.MCtx.ResourceTags(),
+			},
+			&ec2.LaunchTemplateTagSpecificationArgs{
+				ResourceType: pulumi.String(constants.PulumiAwsResourceSpotInstanceRequest),
+				Tags:         r.MCtx.ResourceTags(),
+			},
+		},
 	}
 	if r.InstanceProfile != nil {
 		args.IamInstanceProfile = ec2.LaunchTemplateIamInstanceProfileArgs{
@@ -212,16 +264,10 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 
 // function returns the ip to access the target host
 func (c *Compute) GetHostIP(public bool) (ip pulumi.StringInput) {
-	if c.Instance != nil {
-		if public {
-			return c.Instance.PublicDns
-		}
-		return c.Instance.PrivateDns
+	if c.LB != nil {
+		return c.LB.DnsName
 	}
-	if c.LBEIP != nil {
-		return c.LBEIP.PublicIp
-	}
-	return c.LB.DnsName
+	return util.If(public, c.Eip.PublicDns, c.Eip.PrivateDns)
 }
 
 // Check if compute is healthy based on running a remote cmd
@@ -229,7 +275,7 @@ func (compute *Compute) Readiness(ctx *pulumi.Context,
 	cmd string,
 	prefix, id string,
 	mk *tls.PrivateKey, username string,
-	b *bastion.Bastion,
+	b *bastion.BastionResult,
 	dependecies []pulumi.Resource) error {
 	_, err := remote.NewCommand(ctx,
 		resourcesUtil.GetResourceName(prefix, id, "readiness-cmd"),
@@ -251,7 +297,7 @@ func (compute *Compute) RunCommand(ctx *pulumi.Context,
 	loggingCmdStd bool,
 	prefix, id string,
 	mk *tls.PrivateKey, username string,
-	b *bastion.Bastion,
+	b *bastion.BastionResult,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
 	ca := &remote.CommandArgs{
 		Connection: remoteCommandArgs(compute, mk, username, b),
@@ -276,7 +322,7 @@ func (compute *Compute) RunCommand(ctx *pulumi.Context,
 func remoteCommandArgs(
 	c *Compute,
 	mk *tls.PrivateKey, username string,
-	b *bastion.Bastion) remote.ConnectionArgs {
+	b *bastion.BastionResult) remote.ConnectionArgs {
 	ca := remote.ConnectionArgs{
 		Host:           c.GetHostIP(b == nil),
 		PrivateKey:     mk.PrivateKeyOpenssh,

@@ -7,6 +7,35 @@ import (
 	"time"
 )
 
+// The advanced settings for a load balancer used in blue/green deployments.
+// Specify the alternate target group, listener rules, and IAM role required for
+// traffic shifting during blue/green deployments. For more information, see [Required resources for Amazon ECS blue/green deployments]in
+// the Amazon Elastic Container Service Developer Guide.
+//
+// [Required resources for Amazon ECS blue/green deployments]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-deployment-implementation.html
+type AdvancedConfiguration struct {
+
+	// The Amazon Resource Name (ARN) of the alternate target group for Amazon ECS
+	// blue/green deployments.
+	AlternateTargetGroupArn *string
+
+	// The Amazon Resource Name (ARN) that that identifies the production listener
+	// rule (in the case of an Application Load Balancer) or listener (in the case for
+	// an Network Load Balancer) for routing production traffic.
+	ProductionListenerRule *string
+
+	// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS
+	// permission to call the Elastic Load Balancing APIs for you.
+	RoleArn *string
+
+	// The Amazon Resource Name (ARN) that identifies ) that identifies the test
+	// listener rule (in the case of an Application Load Balancer) or listener (in the
+	// case for an Network Load Balancer) for routing test traffic.
+	TestListenerRule *string
+
+	noSmithyDocumentSerde
+}
+
 // An object representing a container instance or task attachment.
 type Attachment struct {
 
@@ -292,9 +321,19 @@ type CapacityProviderStrategyItem struct {
 	CapacityProvider *string
 
 	// The base value designates how many tasks, at a minimum, to run on the specified
-	// capacity provider. Only one capacity provider in a capacity provider strategy
-	// can have a base defined. If no value is specified, the default value of 0 is
-	// used.
+	// capacity provider for each service. Only one capacity provider in a capacity
+	// provider strategy can have a base defined. If no value is specified, the default
+	// value of 0 is used.
+	//
+	// Base value characteristics:
+	//
+	//   - Only one capacity provider in a strategy can have a base defined
+	//
+	//   - Default value is 0 if not specified
+	//
+	//   - Valid range: 0 to 100,000
+	//
+	//   - Base requirements are satisfied first before weight distribution
 	Base int32
 
 	// The weight value designates the relative percentage of the total number of
@@ -310,12 +349,33 @@ type CapacityProviderStrategyItem struct {
 	// any RunTask or CreateService actions using the capacity provider strategy will
 	// fail.
 	//
-	// An example scenario for using weights is defining a strategy that contains two
-	// capacity providers and both have a weight of 1 , then when the base is
-	// satisfied, the tasks will be split evenly across the two capacity providers.
-	// Using that same logic, if you specify a weight of 1 for capacityProviderA and a
-	// weight of 4 for capacityProviderB, then for every one task that's run using
-	// capacityProviderA, four tasks would use capacityProviderB.
+	// Weight value characteristics:
+	//
+	//   - Weight is considered after the base value is satisfied
+	//
+	//   - Default value is 0 if not specified
+	//
+	//   - Valid range: 0 to 1,000
+	//
+	//   - At least one capacity provider must have a weight greater than zero
+	//
+	//   - Capacity providers with weight of 0 cannot place tasks
+	//
+	// Task distribution logic:
+	//
+	//   - Base satisfaction: The minimum number of tasks specified by the base value
+	//   are placed on that capacity provider
+	//
+	//   - Weight distribution: After base requirements are met, additional tasks are
+	//   distributed according to weight ratios
+	//
+	// Examples:
+	//
+	// Equal Distribution: Two capacity providers both with weight 1 will split tasks
+	// evenly after base requirements are met.
+	//
+	// Weighted Distribution: If capacityProviderA has weight 1 and capacityProviderB
+	// has weight 4 , then for every 1 task on A, 4 tasks will run on B.
 	Weight int32
 
 	noSmithyDocumentSerde
@@ -328,9 +388,9 @@ type CapacityProviderStrategyItem struct {
 type Cluster struct {
 
 	// The number of services that are running on the cluster in an ACTIVE state. You
-	// can view these services with [PListServices].
+	// can view these services with [ListServices].
 	//
-	// [PListServices]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html
+	// [ListServices]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html
 	ActiveServicesCount int32
 
 	// The resources attached to a cluster. When using a capacity provider with a
@@ -915,10 +975,15 @@ type ContainerDefinition struct {
 	// The image used to start a container. This string is passed directly to the
 	// Docker daemon. By default, images in the Docker Hub registry are available.
 	// Other repositories are specified with either repository-url/image:tag  or
-	// repository-url/image@digest . Up to 255 letters (uppercase and lowercase),
-	// numbers, hyphens, underscores, colons, periods, forward slashes, and number
-	// signs are allowed. This parameter maps to Image in the docker container create
-	// command and the IMAGE parameter of docker run.
+	// repository-url/image@digest . For images using tags (repository-url/image:tag),
+	// up to 255 characters total are allowed, including letters (uppercase and
+	// lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and
+	// number signs (#). For images using digests (repository-url/image@digest), the
+	// 255 character limit applies only to the repository URL and image name
+	// (everything before the @ sign). The only supported hash function is sha256, and
+	// the hash value after sha256: must be exactly 64 characters (only letters A-F,
+	// a-f, and numbers 0-9 are allowed). This parameter maps to Image in the docker
+	// container create command and the IMAGE parameter of docker run.
 	//
 	//   - When a new task starts, the Amazon ECS container agent pulls the latest
 	//   version of the specified image and tag for the container to use. However,
@@ -1778,7 +1843,7 @@ type Deployment struct {
 // to the last completed deployment after a failure.
 //
 // You can only use the DeploymentAlarms method to detect failures when the
-// DeploymentController is set to ECS (rolling update).
+// DeploymentController is set to ECS .
 //
 // For more information, see [Rolling update] in the Amazon Elastic Container Service Developer
 // Guide .
@@ -1846,6 +1911,12 @@ type DeploymentConfiguration struct {
 	// Information about the CloudWatch alarms.
 	Alarms *DeploymentAlarms
 
+	// The time period when both blue and green service revisions are running
+	// simultaneously after the production traffic has shifted.
+	//
+	// You must provide this parameter when you use the BLUE_GREEN deployment strategy.
+	BakeTimeInMinutes *int32
+
 	// The deployment circuit breaker can only be used for services using the rolling
 	// update ( ECS ) deployment type.
 	//
@@ -1859,6 +1930,10 @@ type DeploymentConfiguration struct {
 	//
 	// [Rolling update]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html
 	DeploymentCircuitBreaker *DeploymentCircuitBreaker
+
+	// An array of deployment lifecycle hook objects to run custom logic at specific
+	// stages of the deployment lifecycle.
+	LifecycleHooks []DeploymentLifecycleHook
 
 	// If a service is using the rolling update ( ECS ) deployment type, the
 	// maximumPercent parameter represents an upper limit on the number of your
@@ -1965,6 +2040,22 @@ type DeploymentConfiguration struct {
 	// [Amazon ECS services]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html
 	MinimumHealthyPercent *int32
 
+	// The deployment strategy for the service. Choose from these valid values:
+	//
+	//   - ROLLING - When you create a service which uses the rolling update ( ROLLING
+	//   ) deployment strategy, the Amazon ECS service scheduler replaces the currently
+	//   running tasks with new tasks. The number of tasks that Amazon ECS adds or
+	//   removes from the service during a rolling update is controlled by the service
+	//   deployment configuration.
+	//
+	//   - BLUE_GREEN - A blue/green deployment strategy ( BLUE_GREEN ) is a release
+	//   methodology that reduces downtime and risk by running two identical production
+	//   environments called blue and green. With Amazon ECS blue/green deployments, you
+	//   can validate new service revisions before directing production traffic to them.
+	//   This approach provides a safer way to deploy changes with the ability to quickly
+	//   roll back if needed.
+	Strategy DeploymentStrategy
+
 	noSmithyDocumentSerde
 }
 
@@ -1973,35 +2064,84 @@ type DeploymentController struct {
 
 	// The deployment controller type to use.
 	//
-	// There are three deployment controller types available:
+	// The deployment controller is the mechanism that determines how tasks are
+	// deployed for your service. The valid options are:
 	//
-	// ECS The rolling update ( ECS ) deployment type involves replacing the current
-	// running version of the container with the latest version. The number of
-	// containers Amazon ECS adds or removes from the service during a rolling update
-	// is controlled by adjusting the minimum and maximum number of healthy tasks
-	// allowed during a service deployment, as specified in the [DeploymentConfiguration].
+	//   - ECS
 	//
-	// For more information about rolling deployments, see [Deploy Amazon ECS services by replacing tasks] in the Amazon Elastic
-	// Container Service Developer Guide.
+	// When you create a service which uses the ECS deployment controller, you can
+	//   choose between the following deployment strategies:
 	//
-	// CODE_DEPLOY The blue/green ( CODE_DEPLOY ) deployment type uses the blue/green
-	// deployment model powered by CodeDeploy, which allows you to verify a new
-	// deployment of a service before sending production traffic to it.
+	//   - ROLLING : When you create a service which uses the rolling update ( ROLLING
+	//   ) deployment strategy, the Amazon ECS service scheduler replaces the currently
+	//   running tasks with new tasks. The number of tasks that Amazon ECS adds or
+	//   removes from the service during a rolling update is controlled by the service
+	//   deployment configuration.
 	//
-	// For more information about blue/green deployments, see [Validate the state of an Amazon ECS service before deployment] in the Amazon Elastic
-	// Container Service Developer Guide.
+	// Rolling update deployments are best suited for the following scenarios:
 	//
-	// EXTERNAL The external ( EXTERNAL ) deployment type enables you to use any
-	// third-party deployment controller for full control over the deployment process
-	// for an Amazon ECS service.
+	//   - Gradual service updates: You need to update your service incrementally
+	//   without taking the entire service offline at once.
 	//
-	// For more information about external deployments, see [Deploy Amazon ECS services using a third-party controller] in the Amazon Elastic
-	// Container Service Developer Guide.
+	//   - Limited resource requirements: You want to avoid the additional resource
+	//   costs of running two complete environments simultaneously (as required by
+	//   blue/green deployments).
 	//
-	// [Validate the state of an Amazon ECS service before deployment]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html
-	// [Deploy Amazon ECS services by replacing tasks]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html
-	// [Deploy Amazon ECS services using a third-party controller]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-external.html
-	// [DeploymentConfiguration]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentConfiguration.html
+	//   - Acceptable deployment time: Your application can tolerate a longer
+	//   deployment process, as rolling updates replace tasks one by one.
+	//
+	//   - No need for instant roll back: Your service can tolerate a rollback process
+	//   that takes minutes rather than seconds.
+	//
+	//   - Simple deployment process: You prefer a straightforward deployment approach
+	//   without the complexity of managing multiple environments, target groups, and
+	//   listeners.
+	//
+	//   - No load balancer requirement: Your service doesn't use or require a load
+	//   balancer, Application Load Balancer, Network Load Balancer, or Service Connect
+	//   (which are required for blue/green deployments).
+	//
+	//   - Stateful applications: Your application maintains state that makes it
+	//   difficult to run two parallel environments.
+	//
+	//   - Cost sensitivity: You want to minimize deployment costs by not running
+	//   duplicate environments during deployment.
+	//
+	// Rolling updates are the default deployment strategy for services and provide a
+	//   balance between deployment safety and resource efficiency for many common
+	//   application scenarios.
+	//
+	//   - BLUE_GREEN : A blue/green deployment strategy ( BLUE_GREEN ) is a release
+	//   methodology that reduces downtime and risk by running two identical production
+	//   environments called blue and green. With Amazon ECS blue/green deployments, you
+	//   can validate new service revisions before directing production traffic to them.
+	//   This approach provides a safer way to deploy changes with the ability to quickly
+	//   roll back if needed.
+	//
+	// Amazon ECS blue/green deployments are best suited for the following scenarios:
+	//
+	//   - Service validation: When you need to validate new service revisions before
+	//   directing production traffic to them
+	//
+	//   - Zero downtime: When your service requires zero-downtime deployments
+	//
+	//   - Instant roll back: When you need the ability to quickly roll back if issues
+	//   are detected
+	//
+	//   - Load balancer requirement: When your service uses Application Load
+	//   Balancer, Network Load Balancer, or Service Connect
+	//
+	//   - External
+	//
+	// Use a third-party deployment controller.
+	//
+	//   - Blue/green deployment (powered by CodeDeploy)
+	//
+	// CodeDeploy installs an updated version of the application as a new replacement
+	//   task set and reroutes production traffic from the original application task set
+	//   to the replacement task set. The original task set is terminated after a
+	//   successful deployment. Use this deployment controller to verify a new deployment
+	//   of a service before sending production traffic to it.
 	//
 	// This member is required.
 	Type DeploymentControllerType
@@ -2015,6 +2155,87 @@ type DeploymentEphemeralStorage struct {
 	// Specify an Key Management Service key ID to encrypt the ephemeral storage for
 	// deployment.
 	KmsKeyId *string
+
+	noSmithyDocumentSerde
+}
+
+// A deployment lifecycle hook runs custom logic at specific stages of the
+// deployment process. Currently, you can use Lambda functions as hook targets.
+//
+// For more information, see [Lifecycle hooks for Amazon ECS service deployments] in the Amazon Elastic Container Service Developer
+// Guide.
+//
+// [Lifecycle hooks for Amazon ECS service deployments]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html
+type DeploymentLifecycleHook struct {
+
+	// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda
+	// function ARNs are supported.
+	//
+	// You must provide this parameter when configuring a deployment lifecycle hook.
+	HookTargetArn *string
+
+	// The lifecycle stages at which to run the hook. Choose from these valid values:
+	//
+	//   - RECONCILE_SERVICE
+	//
+	// The reconciliation stage that only happens when you start a new service
+	//   deployment with more than 1 service revision in an ACTIVE state.
+	//
+	// You can use a lifecycle hook for this stage.
+	//
+	//   - PRE_SCALE_UP
+	//
+	// The green service revision has not started. The blue service revision is
+	//   handling 100% of the production traffic. There is no test traffic.
+	//
+	// You can use a lifecycle hook for this stage.
+	//
+	//   - POST_SCALE_UP
+	//
+	// The green service revision has started. The blue service revision is handling
+	//   100% of the production traffic. There is no test traffic.
+	//
+	// You can use a lifecycle hook for this stage.
+	//
+	//   - TEST_TRAFFIC_SHIFT
+	//
+	// The blue and green service revisions are running. The blue service revision
+	//   handles 100% of the production traffic. The green service revision is migrating
+	//   from 0% to 100% of test traffic.
+	//
+	// You can use a lifecycle hook for this stage.
+	//
+	//   - POST_TEST_TRAFFIC_SHIFT
+	//
+	// The test traffic shift is complete. The green service revision handles 100% of
+	//   the test traffic.
+	//
+	// You can use a lifecycle hook for this stage.
+	//
+	//   - PRODUCTION_TRAFFIC_SHIFT
+	//
+	// Production traffic is shifting to the green service revision. The green service
+	//   revision is migrating from 0% to 100% of production traffic.
+	//
+	// You can use a lifecycle hook for this stage.
+	//
+	//   - POST_PRODUCTION_TRAFFIC_SHIFT
+	//
+	// The production traffic shift is complete.
+	//
+	// You can use a lifecycle hook for this stage.
+	//
+	// You must provide this parameter when configuring a deployment lifecycle hook.
+	LifecycleStages []DeploymentLifecycleHookStage
+
+	// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS
+	// permission to call Lambda functions on your behalf.
+	//
+	// For more information, see [Permissions required for Lambda functions in Amazon ECS blue/green deployments] in the Amazon Elastic Container Service Developer
+	// Guide.
+	//
+	// [Permissions required for Lambda functions in Amazon ECS blue/green deployments]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-permissions.html
+	RoleArn *string
 
 	noSmithyDocumentSerde
 }
@@ -2481,6 +2702,41 @@ type FSxWindowsFileServerVolumeConfiguration struct {
 // service, if the task reports as unhealthy then the task will be stopped and the
 // service scheduler will replace it.
 //
+// When a container health check fails for a task that is part of a service, the
+// following process occurs:
+//
+//   - The task is marked as UNHEALTHY .
+//
+//   - The unhealthy task will be stopped, and during the stopping process, it
+//     will go through the following states:
+//
+//   - DEACTIVATING - In this state, Amazon ECS performs additional steps before
+//     stopping the task. For example, for tasks that are part of services configured
+//     to use Elastic Load Balancing target groups, target groups will be deregistered
+//     in this state.
+//
+//   - STOPPING - The task is in the process of being stopped.
+//
+//   - DEPROVISIONING - Resources associated with the task are being cleaned up.
+//
+//   - STOPPED - The task has been completely stopped.
+//
+//   - After the old task stops, a new task will be launched to ensure service
+//     operation, and the new task will go through the following lifecycle:
+//
+//   - PROVISIONING - Resources required for the task are being provisioned.
+//
+//   - PENDING - The task is waiting to be placed on a container instance.
+//
+//   - ACTIVATING - In this state, Amazon ECS pulls container images, creates
+//     containers, configures task networking, registers load balancer target groups,
+//     and configures service discovery status.
+//
+//   - RUNNING - The task is running and performing its work.
+//
+// For more detailed information about task lifecycle states, see [Task lifecycle] in the Amazon
+// Elastic Container Service Developer Guide.
+//
 // The following are notes about container health check support:
 //
 //   - If the Amazon ECS container agent becomes disconnected from the Amazon ECS
@@ -2506,6 +2762,7 @@ type FSxWindowsFileServerVolumeConfiguration struct {
 // Service Developer Guide.
 //
 // [Updating the Amazon ECS container agent]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html
+// [Task lifecycle]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-lifecycle-explanation.html
 // [Fargate platform versions]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html
 // [Container dependency]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency
 type HealthCheck struct {
@@ -2827,6 +3084,11 @@ type LinuxParameters struct {
 // [Using service-linked roles]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html
 type LoadBalancer struct {
 
+	// The advanced settings for the load balancer used in blue/green deployments.
+	// Specify the alternate target group, listener rules, and IAM role required for
+	// traffic shifting during blue/green deployments.
+	AdvancedConfiguration *AdvancedConfiguration
+
 	// The name of the container (as it appears in a container definition) to
 	// associate with the load balancer.
 	//
@@ -3048,12 +3310,12 @@ type LogConfiguration struct {
 	// You can set a default mode for all containers in a specific Amazon Web Services
 	// Region by using the defaultLogDriverMode account setting. If you don't specify
 	// the mode option or configure the account setting, Amazon ECS will default to
-	// the blocking mode. For more information about the account setting, see [Default log driver mode] in the
-	// Amazon Elastic Container Service Developer Guide.
+	// the non-blocking mode. For more information about the account setting, see [Default log driver mode] in
+	// the Amazon Elastic Container Service Developer Guide.
 	//
-	// On June 25, 2025, Amazon ECS is changing the default log driver mode from
-	// blocking to non-blocking to prioritize task availability over logging. To
-	// continue using the blocking mode after this change, do one of the following:
+	// On June 25, 2025, Amazon ECS changed the default log driver mode from blocking
+	// to non-blocking to prioritize task availability over logging. To continue using
+	// the blocking mode after this change, do one of the following:
 	//
 	//   - Set the mode option in your container definition's logConfiguration as
 	//   blocking .
@@ -3062,7 +3324,7 @@ type LogConfiguration struct {
 	//
 	// max-buffer-size Required: No
 	//
-	// Default value: 1m
+	// Default value: 10m
 	//
 	// When non-blocking mode is used, the max-buffer-size log option controls the
 	// size of the buffer that's used for intermediate message storage. Make sure to
@@ -3190,11 +3452,6 @@ type ManagedScaling struct {
 	// When additional capacity is required, Amazon ECS will scale up the minimum
 	// scaling step size even if the actual demand is less than the minimum scaling
 	// step size.
-	//
-	// If you use a capacity provider with an Auto Scaling group configured with more
-	// than one Amazon EC2 instance type or Availability Zone, Amazon ECS will scale up
-	// by the exact minimum scaling step size value and will ignore both the maximum
-	// scaling step size as well as the capacity demand.
 	MinimumScalingStepSize *int32
 
 	// Determines whether to use managed scaling for the capacity provider.
@@ -3696,6 +3953,18 @@ type RepositoryCredentials struct {
 	noSmithyDocumentSerde
 }
 
+// The resolved configuration for a service revision, which contains the actual
+// resources your service revision uses, such as which target groups serve traffic.
+type ResolvedConfiguration struct {
+
+	// The resolved load balancer configuration for the service revision. This
+	// includes information about which target groups serve traffic and which listener
+	// rules direct traffic to them.
+	LoadBalancers []ServiceRevisionLoadBalancer
+
+	noSmithyDocumentSerde
+}
+
 // Describes the resources available for a container instance.
 type Resource struct {
 
@@ -4091,6 +4360,12 @@ type ServiceConnectClientAlias struct {
 	// [Service Connect]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html
 	DnsName *string
 
+	// The configuration for test traffic routing rules used during blue/green
+	// deployments with Amazon ECS Service Connect. This allows you to route a portion
+	// of traffic to the new service revision of your service for testing before
+	// shifting all production traffic.
+	TestTrafficRules *ServiceConnectTestTrafficRules
+
 	noSmithyDocumentSerde
 }
 
@@ -4244,7 +4519,7 @@ type ServiceConnectService struct {
 // of clientAliases that you can use.
 type ServiceConnectServiceResource struct {
 
-	// The Amazon Resource Name (ARN) for the namespace in Cloud Map that matches the
+	// The Amazon Resource Name (ARN) for the service in Cloud Map that matches the
 	// discovery name for this Service Connect resource. You can use this ARN in other
 	// integrations with Cloud Map. However, Service Connect can't ensure connectivity
 	// outside of Amazon ECS.
@@ -4261,6 +4536,67 @@ type ServiceConnectServiceResource struct {
 	// If the discoveryName isn't specified, the port mapping name from the task
 	// definition is used in portName.namespace .
 	DiscoveryName *string
+
+	noSmithyDocumentSerde
+}
+
+// The header matching rules for test traffic routing in Amazon ECS blue/green
+// deployments. These rules determine how incoming requests are matched based on
+// HTTP headers to route test traffic to the new service revision.
+type ServiceConnectTestTrafficHeaderMatchRules struct {
+
+	// The exact value that the HTTP header must match for the test traffic routing
+	// rule to apply. This provides precise control over which requests are routed to
+	// the new service revision during blue/green deployments.
+	//
+	// This member is required.
+	Exact *string
+
+	noSmithyDocumentSerde
+}
+
+// The HTTP header rules used to identify and route test traffic during Amazon ECS
+// blue/green deployments. These rules specify which HTTP headers to examine and
+// what values to match for routing decisions.
+//
+// For more information, see [Service Connect for Amazon ECS blue/green deployments] in the Amazon Elastic Container Service Developer
+// Guide.
+//
+// [Service Connect for Amazon ECS blue/green deployments]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html
+type ServiceConnectTestTrafficHeaderRules struct {
+
+	// The name of the HTTP header to examine for test traffic routing. Common
+	// examples include custom headers like X-Test-Version or X-Canary-Request that
+	// can be used to identify test traffic.
+	//
+	// This member is required.
+	Name *string
+
+	// The header value matching configuration that determines how the HTTP header
+	// value is evaluated for test traffic routing decisions.
+	Value *ServiceConnectTestTrafficHeaderMatchRules
+
+	noSmithyDocumentSerde
+}
+
+// The test traffic routing configuration for Amazon ECS blue/green deployments.
+// This configuration allows you to define rules for routing specific traffic to
+// the new service revision during the deployment process, allowing for safe
+// testing before full production traffic shift.
+//
+// For more information, see [Service Connect for Amazon ECS blue/green deployments] in the Amazon Elastic Container Service Developer
+// Guide.
+//
+// [Service Connect for Amazon ECS blue/green deployments]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html
+type ServiceConnectTestTrafficRules struct {
+
+	// The HTTP header-based routing rules that determine which requests should be
+	// routed to the new service version during blue/green deployment testing. These
+	// rules provide fine-grained control over test traffic routing based on request
+	// headers.
+	//
+	// This member is required.
+	Header *ServiceConnectTestTrafficHeaderRules
 
 	noSmithyDocumentSerde
 }
@@ -4321,6 +4657,60 @@ type ServiceDeployment struct {
 	// The time the service deployment finished. The format is yyyy-MM-dd
 	// HH:mm:ss.SSSSSS.
 	FinishedAt *time.Time
+
+	// The current lifecycle stage of the deployment. Possible values include:
+	//
+	//   - RECONCILE_SERVICE
+	//
+	// The reconciliation stage that only happens when you start a new service
+	//   deployment with more than 1 service revision in an ACTIVE state.
+	//
+	//   - PRE_SCALE_UP
+	//
+	// The green service revision has not started. The blue service revision is
+	//   handling 100% of the production traffic. There is no test traffic.
+	//
+	//   - SCALE_UP
+	//
+	// The stage when the green service revision scales up to 100% and launches new
+	//   tasks. The green service revision is not serving any traffic at this point.
+	//
+	//   - POST_SCALE_UP
+	//
+	// The green service revision has started. The blue service revision is handling
+	//   100% of the production traffic. There is no test traffic.
+	//
+	//   - TEST_TRAFFIC_SHIFT
+	//
+	// The blue and green service revisions are running. The blue service revision
+	//   handles 100% of the production traffic. The green service revision is migrating
+	//   from 0% to 100% of test traffic.
+	//
+	//   - POST_TEST_TRAFFIC_SHIFT
+	//
+	// The test traffic shift is complete. The green service revision handles 100% of
+	//   the test traffic.
+	//
+	//   - PRODUCTION_TRAFFIC_SHIFT
+	//
+	// Production traffic is shifting to the green service revision. The green service
+	//   revision is migrating from 0% to 100% of production traffic.
+	//
+	//   - POST_PRODUCTION_TRAFFIC_SHIFT
+	//
+	// The production traffic shift is complete.
+	//
+	//   - BAKE_TIME
+	//
+	// The stage when both blue and green service revisions are running simultaneously
+	//   after the production traffic has shifted.
+	//
+	//   - CLEAN_UP
+	//
+	// The stage when the blue service revision has completely scaled down to 0
+	//   running tasks. The green service revision is now the production service revision
+	//   after this stage.
+	LifecycleStage ServiceDeploymentLifecycleStage
 
 	// The rollback options the service deployment uses when the deployment fails.
 	Rollback *Rollback
@@ -4722,6 +5112,10 @@ type ServiceRevision struct {
 	// For the Fargate launch type, the platform version the service revision uses.
 	PlatformVersion *string
 
+	// The resolved configuration for the service revision which contains the actual
+	// resources your service revision uses, such as which target groups serve traffic.
+	ResolvedConfiguration *ResolvedConfiguration
+
 	// The ARN of the service for the service revision.
 	ServiceArn *string
 
@@ -4753,6 +5147,22 @@ type ServiceRevision struct {
 
 	// The VPC Lattice configuration for the service revision.
 	VpcLatticeConfigurations []VpcLatticeConfiguration
+
+	noSmithyDocumentSerde
+}
+
+// The resolved load balancer configuration for a service revision. This includes
+// information about which target groups serve traffic and which listener rules
+// direct traffic to them.
+type ServiceRevisionLoadBalancer struct {
+
+	// The Amazon Resource Name (ARN) of the production listener rule or listener that
+	// directs traffic to the target group associated with the service revision.
+	ProductionListenerRule *string
+
+	// The Amazon Resource Name (ARN) of the target group associated with the service
+	// revision.
+	TargetGroupArn *string
 
 	noSmithyDocumentSerde
 }

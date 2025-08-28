@@ -3,13 +3,14 @@ package context
 import (
 	"fmt"
 
+	"maps"
+
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
-	"golang.org/x/exp/maps"
 )
 
 var (
@@ -27,8 +28,9 @@ const (
 )
 
 type ContextArgs struct {
-	ProjectName   string
-	BackedURL     string
+	ProjectName string
+	BackedURL   string
+	//Optional
 	ResultsOutput string
 	Debug         bool
 	DebugLevel    uint
@@ -44,127 +46,110 @@ type ContextArgs struct {
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
-	// Spot Bid Safe Limit
-	SpotPriceIncreaseRate int
 }
 
-type context struct {
-	runID                 string
-	projectName           string
-	backedURL             string
-	resultsOutput         string
-	debug                 bool
-	debugLevel            uint
-	serverless            bool
-	forceDestroy          bool
-	spotPriceIncreaseRate int
+type Context struct {
+	runID         string
+	projectName   string
+	backedURL     string
+	resultsOutput string
+	debug         bool
+	debugLevel    uint
+	serverless    bool
+	forceDestroy  bool
+	// spotPriceIncreaseRate int
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
 }
-
-// mapt context
-var mc *context
 
 type Provider interface {
 	Init(backedURL string) error
 }
 
-func Init(ca *ContextArgs, provider Provider) error {
-	mc = &context{
-		runID:                 CreateRunID(),
-		projectName:           ca.ProjectName,
-		backedURL:             ca.BackedURL,
-		resultsOutput:         ca.ResultsOutput,
-		debug:                 ca.Debug,
-		debugLevel:            ca.DebugLevel,
-		tags:                  ca.Tags,
-		serverless:            ca.Serverless,
-		forceDestroy:          ca.ForceDestroy,
-		spotPriceIncreaseRate: ca.SpotPriceIncreaseRate,
+func InitNoState() *Context { return &Context{} }
+
+func Init(ca *ContextArgs, provider Provider) (*Context, error) {
+	c := &Context{
+		runID:         util.RandomID(origin),
+		projectName:   ca.ProjectName,
+		backedURL:     ca.BackedURL,
+		resultsOutput: ca.ResultsOutput,
+		debug:         ca.Debug,
+		debugLevel:    ca.DebugLevel,
+		tags:          ca.Tags,
+		serverless:    ca.Serverless,
+		forceDestroy:  ca.ForceDestroy,
 	}
-	addCommonTags()
+	addCommonTags(c)
 	// Init provider
 	if err := provider.Init(ca.BackedURL); err != nil {
-		return err
+		return nil, err
 	}
 	// Manage integrations
-	if err := manageIntegration(ca); err != nil {
-		return err
+	if err := manageIntegration(c, ca); err != nil {
+		return nil, err
 	}
-	logging.Debugf("context initialized for %s", mc.runID)
-	return nil
+	logging.Debugf("context initialized for %s", c.runID)
+	return c, nil
 }
 
-func RunID() string { return mc.runID }
+func (c *Context) RunID() string { return c.runID }
 
-func ProjectName() string { return mc.projectName }
+func (c *Context) ProjectName() string { return c.projectName }
 
-func SetProjectName(projectName string) { mc.projectName = projectName }
+func (c *Context) SetProjectName(projectName string) { c.projectName = projectName }
 
-func BackedURL() string { return mc.backedURL }
+func (c *Context) BackedURL() string { return c.backedURL }
 
-func GetResultsOutputPath() string { return mc.resultsOutput }
+func (c *Context) GetResultsOutputPath() string { return c.resultsOutput }
 
-func GetTags() map[string]string { return mc.tags }
+func (c *Context) GetTags() map[string]string { return c.tags }
 
-func ResourceTags() pulumi.StringMap { return ResourceTagsWithCustom(nil) }
+func (c *Context) ResourceTags() pulumi.StringMap { return c.ResourceTagsWithCustom(nil) }
 
-func Debug() bool { return mc.debug }
+func (c *Context) Debug() bool { return c.debug }
 
-func DebugLevel() uint { return mc.debugLevel }
+func (c *Context) DebugLevel() uint { return c.debugLevel }
 
-func IsServerless() bool { return mc.serverless }
+func (c *Context) IsServerless() bool { return c.serverless }
 
-func IsForceDestroy() bool { return mc.forceDestroy }
-
-func SpotPriceIncreaseRate() int { return mc.spotPriceIncreaseRate }
-
-// It will create a runID
-// if context has been intialized it will set it as the runID for the context
-// otherwise it will return the value (one time value)
-func CreateRunID() string {
-	runID := util.RandomID(origin)
-	if mc != nil {
-		mc.runID = runID
-	}
-	return runID
-}
+func (c *Context) IsForceDestroy() bool { return c.forceDestroy }
 
 // Get tags ready to be added to any pulumi resource
 // in addition we cas set specific custom tags
-func ResourceTagsWithCustom(customTags map[string]string) pulumi.StringMap {
+func (c *Context) ResourceTagsWithCustom(customTags map[string]string) pulumi.StringMap {
 	lTags := make(map[string]string)
-	maps.Copy(lTags, mc.tags)
+	maps.Copy(lTags, c.tags)
 	if customTags != nil {
 		maps.Copy(lTags, customTags)
 	}
-	if mc.tagsAsPulumiStringMap == nil {
-		mc.tagsAsPulumiStringMap = utilMaps.Convert(lTags,
+	if c.tagsAsPulumiStringMap == nil {
+		c.tagsAsPulumiStringMap = utilMaps.Convert(lTags,
 			func(name string) string { return name },
 			func(value string) pulumi.StringInput { return pulumi.String(value) })
 	}
-	return mc.tagsAsPulumiStringMap
+	return c.tagsAsPulumiStringMap
 }
 
-func StackNameByProject(stackName string) string {
-	return fmt.Sprintf("%s-%s", stackName, mc.projectName)
+func (c *Context) StackNameByProject(stackName string) string {
+	return fmt.Sprintf("%s-%s", stackName, c.projectName)
 }
 
-func addCommonTags() {
-	if mc.tags == nil {
-		mc.tags = make(map[string]string)
+func addCommonTags(c *Context) {
+	if c.tags == nil {
+		c.tags = make(map[string]string)
 	}
-	mc.tags[tagKeyOrigin] = origin
-	mc.tags[TagKeyProjectName] = mc.projectName
+	c.tags[tagKeyOrigin] = origin
+	c.tags[TagKeyProjectName] = c.projectName
 }
 
-func manageIntegration(ca *ContextArgs) error {
+func manageIntegration(c *Context, ca *ContextArgs) error {
 	if ca.GHRunnerArgs != nil {
-		ca.GHRunnerArgs.Name = RunID()
+		ca.GHRunnerArgs.Name = c.RunID()
 		github.Init(ca.GHRunnerArgs)
 	}
 	if ca.CirrusPWArgs != nil {
-		ca.CirrusPWArgs.Name = RunID()
+		ca.CirrusPWArgs.Name = c.RunID()
 		cirrus.Init(ca.CirrusPWArgs)
 	}
 	return nil

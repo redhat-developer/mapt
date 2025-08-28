@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/compute/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
-	"github.com/pulumi/pulumi-azure-native-sdk/storage/v2"
+	"github.com/go-playground/validator/v10"
+	"github.com/pulumi/pulumi-azure-native-sdk/compute/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
+	"github.com/pulumi/pulumi-azure-native-sdk/storage/v3"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -16,16 +17,18 @@ import (
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
-	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
-	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
-	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/allocation"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/network"
+	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/modules/virtual-machine"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/azure/services/network/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -36,19 +39,36 @@ import (
 //go:embed rhqp-ci-setup.ps1
 var RHQPCISetupScript []byte
 
-type WindowsRequest struct {
-	Prefix              string
-	Location            string
-	VMSizes             []string
-	InstaceTypeRequest  instancetypes.InstanceRequest
-	Version             string
-	Feature             string
-	Username            string
-	AdminUsername       string
-	Spot                bool
-	SpotTolerance       spotAzure.EvictionRate
-	SpotExcludedRegions []string
-	Profiles            []string
+type WindowsArgs struct {
+	Prefix         string
+	Location       string
+	ComputeRequest *cr.ComputeRequestArgs
+	Version        string
+	Feature        string
+	Username       string
+	AdminUsername  string
+	Spot           *spotTypes.SpotArgs
+	Profiles       []string
+}
+
+type windowsRequest struct {
+	mCtx           *mc.Context `validate:"required"`
+	prefix         *string
+	allocationData *allocation.AllocationResult
+	version        *string
+	feature        *string
+	username       *string
+	adminUsername  *string
+	profiles       []string
+}
+
+func (r *windowsRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
+		return err
+	}
+	return v.Struct(r)
 }
 
 type ghActionsRunnerData struct {
@@ -56,75 +76,94 @@ type ghActionsRunnerData struct {
 	CirrusSnippet        string
 }
 
-func Create(ctx *maptContext.ContextArgs, r *WindowsRequest) (err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *WindowsArgs) (err error) {
 	// Create mapt Context
-	if err := maptContext.Init(ctx, azure.Provider()); err != nil {
-		return err
-	}
-
-	if len(r.VMSizes) == 0 {
-		vmSizes, err := r.InstaceTypeRequest.GetMachineTypes()
-		if err != nil {
-			logging.Debugf("Failed to get instance types: %v", err)
-		}
-		if len(vmSizes) > 0 {
-			r.VMSizes = append(r.VMSizes, vmSizes...)
-		}
-	}
-	cs := manager.Stack{
-		StackName:           maptContext.StackNameByProject(stackCreateWindowsDesktop),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
-		ProviderCredentials: azure.DefaultCredentials,
-		DeployFunc:          r.deployer,
-	}
-	sr, _ := manager.UpStack(cs)
-	return r.manageResults(sr)
-}
-
-func Destroy(ctx *maptContext.ContextArgs) error {
-	// Create mapt Context
-	if err := maptContext.Init(ctx, azure.Provider()); err != nil {
-		return err
-	}
-	// destroy
-	return azure.Destroy(
-		maptContext.ProjectName(),
-		maptContext.BackedURL(),
-		maptContext.StackNameByProject(stackCreateWindowsDesktop))
-}
-
-// Main function to deploy all requried resources to azure
-func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
-	logging.Debugf("Using these VM types for Spot price query: %v", r.VMSizes)
-	// Get values for spot machine
-	location, vmType, spotPrice, err := r.valuesCheckingSpot()
+	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
 	if err != nil {
 		return err
 	}
+	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
+	r := &windowsRequest{
+		mCtx:          mCtx,
+		prefix:        &prefix,
+		version:       &args.Version,
+		feature:       &args.Feature,
+		username:      &args.Username,
+		adminUsername: &args.AdminUsername,
+		profiles:      args.Profiles,
+	}
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			ComputeRequest: args.ComputeRequest,
+			OSType:         "windows",
+			// ImageRef:              ir,
+			Location: &args.Location,
+			Spot:     args.Spot,
+		})
+	if err != nil {
+		return err
+	}
+	cs := manager.Stack{
+		StackName:           mCtx.StackNameByProject(stackCreateWindowsDesktop),
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
+		ProviderCredentials: azure.DefaultCredentials,
+		DeployFunc:          r.deployer,
+	}
+	sr, _ := manager.UpStack(mCtx, cs)
+	return r.manageResults(sr)
+}
+
+func Destroy(mCtxArgs *mc.ContextArgs) error {
+	// Create mapt Context
+	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
+	if err != nil {
+		return err
+	}
+	// destroy
+	return azure.Destroy(mCtx, stackCreateWindowsDesktop)
+}
+
+// Main function to deploy all requried resources to azure
+func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
+	// logging.Debugf("Using these VM types for Spot price query: %v", r.vmSizes)
+	// // Get values for spot machine
+	// location, vmType, spotPrice, err := r.valuesCheckingSpot()
+	// if err != nil {
+	// 	return err
+	// }
 	// Get location for creating Resource Group
-	rgLocation := azure.GetSuitableLocationForResourceGroup(*location)
+	rgLocation := azure.GetSuitableLocationForResourceGroup(*r.allocationData.Location)
 	rg, err := resources.NewResourceGroup(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "rg"),
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "rg"),
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(rgLocation),
-			ResourceGroupName: pulumi.String(maptContext.RunID()),
-			Tags:              maptContext.ResourceTags(),
+			ResourceGroupName: pulumi.String(r.mCtx.RunID()),
+			Tags:              r.mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return err
 	}
 	// Networking
-	nr := network.NetworkRequest{
-		Prefix:        r.Prefix,
-		ComponentID:   azureWindowsDesktopID,
-		ResourceGroup: rg,
-	}
-	n, err := nr.Create(ctx)
+	sg, err := securityGroups(ctx, r.mCtx, r.prefix, r.allocationData.Location, rg)
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputHost), n.PublicIP.IpAddress)
+	n, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:        *r.prefix,
+			ComponentID:   azureWindowsDesktopID,
+			ResourceGroup: rg,
+			Location:      r.allocationData.Location,
+			SecurityGroup: sg,
+		})
+	if err != nil {
+		return err
+	}
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost), n.PublicIP.IpAddress)
 	// Virutal machine
 	// TODO check if validation should be moved to the top of the func?
 	if err := r.validateProfiles(); err != nil {
@@ -132,42 +171,43 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	}
 	adminPasswd, err := security.CreatePassword(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-adminuser"))
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "pswd-adminuser"))
 	if err != nil {
 		return err
 	}
-	vmr := virtualmachine.VirtualMachineRequest{
-		Prefix:          r.Prefix,
-		ComponentID:     azureWindowsDesktopID,
-		ResourceGroup:   rg,
-		NetworkInteface: n.NetworkInterface,
-		VMSize:          vmType,
-		Publisher:       "MicrosoftWindowsDesktop",
-		Offer:           fmt.Sprintf("windows-%s", r.Version),
-		Sku:             fmt.Sprintf("win%s-%s", r.Version, r.Feature),
-		AdminUsername:   r.AdminUsername,
-		AdminPasswd:     adminPasswd,
-		SpotPrice:       spotPrice,
-		Location:        rgLocation,
-	}
-	vm, err := vmr.Create(ctx)
+	vm, err := virtualmachine.Create(ctx, r.mCtx,
+		&virtualmachine.VirtualMachineArgs{
+			Prefix:          *r.prefix,
+			ComponentID:     azureWindowsDesktopID,
+			ResourceGroup:   rg,
+			NetworkInteface: n.NetworkInterface,
+			// Check this
+			VMSize:        r.allocationData.ComputeSizes[0],
+			Publisher:     "MicrosoftWindowsDesktop",
+			Offer:         fmt.Sprintf("windows-%s", *r.version),
+			Sku:           fmt.Sprintf("win%s-%s", *r.version, *r.feature),
+			AdminUsername: *r.adminUsername,
+			AdminPasswd:   adminPasswd,
+			SpotPrice:     r.allocationData.Price,
+			Location:      *r.allocationData.Location,
+		})
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername), pulumi.String(r.AdminUsername))
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword), adminPasswd.Result)
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputAdminUsername), pulumi.String(*r.adminUsername))
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputAdminUserPassword), adminPasswd.Result)
 	// Setup machine on post init (may move too to virtual-machine pkg)
-	pk, vme, err := r.postInitSetup(ctx, rg, vm, *location)
+	pk, vme, err := r.postInitSetup(ctx, rg, vm, *r.allocationData.Location)
 	if err != nil {
 		return err
 	}
 	_, err = remote.NewCommand(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "cmd"),
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "cmd"),
 		&remote.CommandArgs{
 			Connection: remote.ConnectionArgs{
 				Host:           n.PublicIP.IpAddress.Elem(),
 				PrivateKey:     pk.PrivateKeyOpenssh,
-				User:           pulumi.String(r.Username),
+				User:           pulumi.String(*r.username),
 				DialErrorLimit: pulumi.Int(-1),
 			},
 			Create: pulumi.String(command.CommandPing),
@@ -181,61 +221,56 @@ func (r *WindowsRequest) deployer(ctx *pulumi.Context) error {
 	return err
 }
 
-func (r *WindowsRequest) valuesCheckingSpot() (*string, string, *float64, error) {
-	if r.Spot {
-		bsc, err :=
-			spotAzure.GetBestSpotChoice(spotAzure.BestSpotChoiceRequest{
-				VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
-				OSType:                "windows",
-				EvictionRateTolerance: r.SpotTolerance,
-				ExcludedRegions:       r.SpotExcludedRegions,
-			})
-		logging.Debugf("Best spot price option found: %v", bsc)
-		if err != nil {
-			return nil, "", nil, err
-		}
-		return &bsc.Location, bsc.VMType, &bsc.Price, nil
-	}
-	// TODO we need to extend this to other azure targets (refactor this function)
-	// plus we probably would need to check prices for vmsizes and pick the cheaper
-	availableVMSizes, err := data.FilterVMSizeOfferedByLocation(r.VMSizes, r.Location)
-	if err != nil {
-		return nil, "", nil, err
-	}
-	if len(availableVMSizes) == 0 {
-		return nil, "", nil, fmt.Errorf("no vm size mathing expectations on current region")
-	}
-	return &r.Location, availableVMSizes[0], nil, nil
+// security group for mac machine with ingress rules for ssh and vnc
+func securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
+	prefix, location *string,
+	rg *resources.ResourceGroup) (securityGroup.SecurityGroup, error) {
+	// ingress for ssh access from 0.0.0.0
+	sshIngressRule := securityGroup.SSH_TCP
+	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	rdpIngressRule := securityGroup.RDP_TCP
+	rdpIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	// Create SG with ingress rules
+	return securityGroup.Create(
+		ctx,
+		mCtx,
+		&securityGroup.SecurityGroupArgs{
+			Name:     resourcesUtil.GetResourceName(*prefix, azureWindowsDesktopID, "sg"),
+			RG:       rg,
+			Location: location,
+			IngressRules: []securityGroup.IngressRules{
+				sshIngressRule, rdpIngressRule},
+		})
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *WindowsRequest) manageResults(stackResult auto.UpResult) error {
-	return output.Write(stackResult, maptContext.GetResultsOutputPath(), map[string]string{
-		fmt.Sprintf("%s-%s", r.Prefix, outputAdminUsername):     "adminusername",
-		fmt.Sprintf("%s-%s", r.Prefix, outputAdminUserPassword): "adminuserpassword",
-		fmt.Sprintf("%s-%s", r.Prefix, outputUsername):          "username",
-		fmt.Sprintf("%s-%s", r.Prefix, outputUserPassword):      "userpassword",
-		fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey):    "id_rsa",
-		fmt.Sprintf("%s-%s", r.Prefix, outputHost):              "host",
+func (r *windowsRequest) manageResults(stackResult auto.UpResult) error {
+	return output.Write(stackResult, r.mCtx.GetResultsOutputPath(), map[string]string{
+		fmt.Sprintf("%s-%s", *r.prefix, outputAdminUsername):     "adminusername",
+		fmt.Sprintf("%s-%s", *r.prefix, outputAdminUserPassword): "adminuserpassword",
+		fmt.Sprintf("%s-%s", *r.prefix, outputUsername):          "username",
+		fmt.Sprintf("%s-%s", *r.prefix, outputUserPassword):      "userpassword",
+		fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey):    "id_rsa",
+		fmt.Sprintf("%s-%s", *r.prefix, outputHost):              "host",
 	})
 }
 
 // run a post script to setup the machine as expected according to rhqp-ci-setup.ps1
 // it also exports to pulumi context user name, user password and user privatekey
-func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.ResourceGroup,
+func (r *windowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.ResourceGroup,
 	vm *compute.VirtualMachine, location string) (*tls.PrivateKey, *compute.VirtualMachineExtension, error) {
 	userPasswd, err := security.CreatePassword(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "pswd-user"))
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "pswd-user"))
 	if err != nil {
 		return nil, nil, err
 
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUsername), pulumi.String(r.Username))
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPassword), userPasswd.Result)
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUsername), pulumi.String(*r.username))
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPassword), userPasswd.Result)
 	privateKey, err := tls.NewPrivateKey(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "privatekey-user"),
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "privatekey-user"),
 		&tls.PrivateKeyArgs{
 			Algorithm: pulumi.String("RSA"),
 			RsaBits:   pulumi.Int(4096),
@@ -243,7 +278,7 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 	if err != nil {
 		return nil, nil, err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
 	// upload the script to a ephemeral blob container
 	b, err := r.uploadScript(ctx, rg, location)
 	if err != nil {
@@ -260,7 +295,7 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				scriptName,
 				r.profilesAsParams(),
 				password,
-				r.Username,
+				*r.username,
 				*hostname,
 				github.GetToken(),
 				cirrus.GetToken(),
@@ -273,7 +308,7 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 	// not be deleted leading to break all destroy operation on the resources.
 	vme, err := compute.NewVirtualMachineExtension(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "ext"),
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "ext"),
 		&compute.VirtualMachineExtensionArgs{
 			ResourceGroupName:  rg.Name,
 			Location:           pulumi.String(location),
@@ -287,19 +322,19 @@ func (r *WindowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				},
 				"commandToExecute": setupCommand,
 			},
-			Tags: maptContext.ResourceTags(),
+			Tags: r.mCtx.ResourceTags(),
 		},
 		pulumi.RetainOnDelete(true))
 	return privateKey, vme, err
 }
 
 // Upload scrip to blob container to be used within Microsoft Compute extension
-func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
+func (r *windowsRequest) uploadScript(ctx *pulumi.Context,
 	rg *resources.ResourceGroup, location string) (*storage.Blob, error) {
 	sa, err := storage.NewStorageAccount(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "sa"),
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "sa"),
 		&storage.StorageAccountArgs{
-			AccountName:           pulumi.String(maptContext.RunID()),
+			AccountName:           pulumi.String(r.mCtx.RunID()),
 			Kind:                  pulumi.String("BlockBlobStorage"),
 			ResourceGroupName:     rg.Name,
 			Location:              pulumi.String(location),
@@ -307,15 +342,15 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 			Sku: &storage.SkuArgs{
 				Name: pulumi.String("Premium_LRS"),
 			},
-			Tags: maptContext.ResourceTags(),
+			Tags: r.mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
 	}
 	c, err := storage.NewBlobContainer(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "co"),
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "co"),
 		&storage.BlobContainerArgs{
-			ContainerName:     pulumi.String(maptContext.RunID()),
+			ContainerName:     pulumi.String(r.mCtx.RunID()),
 			AccountName:       sa.Name,
 			ResourceGroupName: rg.Name,
 			PublicAccess:      storage.PublicAccessBlob,
@@ -323,11 +358,11 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
-	cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), r.Username)
+	cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), *r.username)
 	if err != nil {
 		return nil, err
 	}
-	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), r.Username)
+	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), *r.username)
 	if err != nil {
 		return nil, err
 	}
@@ -343,7 +378,7 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 	}
 
 	return storage.NewBlob(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureWindowsDesktopID, "bl"),
+		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "bl"),
 		&storage.BlobArgs{
 			AccountName:       sa.Name,
 			ContainerName:     c.Name,
@@ -354,8 +389,8 @@ func (r *WindowsRequest) uploadScript(ctx *pulumi.Context,
 }
 
 // Check if profiles for the target hosts are supported
-func (r *WindowsRequest) validateProfiles() error {
-	for _, p := range r.Profiles {
+func (r *windowsRequest) validateProfiles() error {
+	for _, p := range r.profiles {
 		if !slices.Contains(profiles, p) {
 			return fmt.Errorf("the profile %s is not supported", p)
 		}
@@ -364,9 +399,9 @@ func (r *WindowsRequest) validateProfiles() error {
 }
 
 // Check if a request contains a profile
-func (r *WindowsRequest) profilesAsParams() string {
+func (r *windowsRequest) profilesAsParams() string {
 	pp := util.ArrayConvert(
-		r.Profiles,
+		r.profiles,
 		func(p string) string {
 			return fmt.Sprintf("-%sProfile", p)
 		})

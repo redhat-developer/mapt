@@ -1,13 +1,9 @@
 package services
 
 import (
-	awsparams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	awsEKS "github.com/redhat-developer/mapt/pkg/provider/aws/action/eks"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -34,6 +30,8 @@ const (
 	defaultAddons                   = ""
 	paramLoadBalancerController     = "load-balancer-controller"
 	paramLoadBalancerControllerDesc = "Install AWS Load Balancer Controller"
+	excludedZoneIDs                 = "excluded-zone-ids"
+	excludedZoneIDsDesc             = "Comma-separated list of zone IDs to exclude from availability zone selection"
 )
 
 func GetEKSCmd() *cobra.Command {
@@ -60,35 +58,26 @@ func getCreateEKS() *cobra.Command {
 				return err
 			}
 
-			if err := awsEKS.Create(
+			return awsEKS.Create(
 				&maptContext.ContextArgs{
-					ProjectName:           viper.GetString(params.ProjectName),
-					BackedURL:             viper.GetString(params.BackedURL),
-					ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-					Debug:                 viper.IsSet(params.Debug),
-					DebugLevel:            viper.GetUint(params.DebugLevel),
-					Tags:                  viper.GetStringMapString(params.Tags),
-					SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
 				},
-				&awsEKS.EKSRequest{
-					Prefix: viper.GetString(params.ProjectName),
-					InstanceRequest: &instancetypes.AwsInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
-						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
-							instancetypes.Arm64, instancetypes.Amd64),
-					},
+				&awsEKS.EKSArgs{
+					ComputeRequest:         params.ComputeRequestArgs(),
+					Spot:                   params.SpotArgs(),
 					KubernetesVersion:      viper.GetString(paramVersion),
 					ScalingDesiredSize:     viper.GetInt(paramScalingDesiredSize),
 					ScalingMaxSize:         viper.GetInt(paramScalingMaxSize),
 					ScalingMinSize:         viper.GetInt(paramScalingMinSize),
-					Spot:                   viper.IsSet(awsparams.Spot),
 					Addons:                 viper.GetStringSlice(paramAddons),
 					LoadBalancerController: viper.IsSet(paramLoadBalancerController),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					ExcludedZoneIDs:        viper.GetStringSlice(excludedZoneIDs),
+				})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -100,10 +89,10 @@ func getCreateEKS() *cobra.Command {
 	flagSet.StringP(paramScalingMinSize, "", defaultScalingMinSize, paramScalingMinSizeDesc)
 	flagSet.StringSliceP(paramAddons, "", []string{}, paramAddonsDesc)
 	flagSet.Bool(paramLoadBalancerController, false, paramLoadBalancerControllerDesc)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
+	flagSet.StringSliceP(excludedZoneIDs, "", []string{}, excludedZoneIDsDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
-	flagSet.Bool(awsparams.Spot, false, awsparams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -116,16 +105,13 @@ func getDestroyEKS() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := awsEKS.Destroy(
+			return awsEKS.Destroy(
 				&maptContext.ContextArgs{
 					ProjectName: viper.GetString(params.ProjectName),
 					BackedURL:   viper.GetString(params.BackedURL),
 					Debug:       viper.IsSet(params.Debug),
 					DebugLevel:  viper.GetUint(params.DebugLevel),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 }

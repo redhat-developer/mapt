@@ -1,17 +1,18 @@
 #cloud-config
+bootcmd:
+  # Resize the partition (4 = /dev/nvme0n1p4 typically)
+  - growpart /dev/nvme0n1 4
+  # Resize the XFS filesystem on /sysroot
+  - xfs_growfs /sysroot
 runcmd:
   - systemctl enable --now kubelet
-  - pushd /tmp
-  - curl "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o "awscliv2.zip"
-  - podman run -it --rm --workdir /data --privileged -v ${PWD}:/data registry.access.redhat.com/ubi9/toolbox unzip awscliv2.zip
-  - ./aws/install
-  - export PS=$(aws ssm get-parameter --name "{{ .SSMPullSecretName }}" --with-decryption --query "Parameter.Value" --output text)
+  - export PS=$(podman run --rm docker.io/amazon/aws-cli ssm get-parameter --name "{{ .SSMPullSecretName }}" --with-decryption --query "Parameter.Value" --output text)
   - echo ${PS} > /opt/crc/pull-secret
   - chmod 0644 /opt/crc/pull-secret
-  - export KP=$(aws ssm get-parameter --name "{{ .SSMKubeAdminPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
+  - export KP=$(podman run --rm docker.io/amazon/aws-cli ssm get-parameter --name "{{ .SSMKubeAdminPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
   - echo ${KP} > /opt/crc/pass_kubeadmin
   - chmod 0644 /opt/crc/pass_kubeadmin
-  - export DV=$(aws ssm get-parameter --name "{{ .SSMDeveloperPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
+  - export DV=$(podman run --rm docker.io/amazon/aws-cli ssm get-parameter --name "{{ .SSMDeveloperPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
   - echo ${DV} > /opt/crc/pass_developer
   - chmod 0644 /opt/crc/pass_developer
   - echo "{{ .PublicIP }}" > /opt/crc/eip

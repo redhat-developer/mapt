@@ -1,9 +1,8 @@
 package hosts
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/mac"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -40,39 +39,22 @@ func getMacRequest() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:   viper.GetString(params.ProjectName),
-				BackedURL:     viper.GetString(params.BackedURL),
-				ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
-				Debug:         viper.IsSet(params.Debug),
-				DebugLevel:    viper.GetUint(params.DebugLevel),
-				Tags:          viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.GHActionsRunnerToken) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:    viper.GetString(params.GHActionsRunnerToken),
-					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
-					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
-					Platform: &github.Linux,
-					Arch: awsParams.MACArchAsGithubArch(
-						viper.GetString(awsParams.MACArch)),
-				}
-			}
-
-			// Run create
-			if err := mac.Request(
-				ctx,
+			return mac.Request(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&mac.MacRequestArgs{
 					Prefix:        "main",
 					Architecture:  viper.GetString(awsParams.MACArch),
 					Version:       viper.GetString(awsParams.MACOSVersion),
 					FixedLocation: viper.IsSet(awsParams.MACFixedLocation),
-					Airgap:        viper.IsSet(airgap)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					Airgap:        viper.IsSet(airgap)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACRequestCmd, pflag.ExitOnError)
@@ -83,7 +65,7 @@ func getMacRequest() *cobra.Command {
 	flagSet.StringP(awsParams.MACOSVersion, "", awsParams.MACOSVersion, awsParams.MACOSVersionDefault)
 	flagSet.Bool(awsParams.MACFixedLocation, false, awsParams.MACFixedLocationDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddGHActionsFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -97,17 +79,12 @@ func getMacRelease() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			// Run create
-			if err := mac.Release(
+			return mac.Release(
 				&maptContext.ContextArgs{
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 				},
-				viper.GetString(awsParams.MACDHID)); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				viper.GetString(awsParams.MACDHID))
 		},
 	}
 	flagSet := pflag.NewFlagSet(awsParams.MACReleaseCmd, pflag.ExitOnError)
@@ -128,16 +105,12 @@ func getMacDestroy() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := mac.Destroy(
+			return mac.Destroy(
 				&maptContext.ContextArgs{
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 				},
-				viper.GetString(awsParams.MACDHID)); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				viper.GetString(awsParams.MACDHID))
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

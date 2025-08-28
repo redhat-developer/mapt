@@ -1,13 +1,9 @@
 package hosts
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/windows"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -59,40 +55,17 @@ func getWindowsCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:           viper.GetString(params.ProjectName),
-				BackedURL:             viper.GetString(params.BackedURL),
-				ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-				Debug:                 viper.IsSet(params.Debug),
-				DebugLevel:            viper.GetUint(params.DebugLevel),
-				SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
-				Tags:                  viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.CirrusPWToken) {
-				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
-					Token:    viper.GetString(params.CirrusPWToken),
-					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
-					Platform: &cirrus.Windows,
-					// Currently we only provide amd64 support for windows
-					Arch: &cirrus.Amd64,
-				}
-			}
-
-			if viper.IsSet(params.GHActionsRunnerToken) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:    viper.GetString(params.GHActionsRunnerToken),
-					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
-					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
-					Platform: &github.Windows,
-					Arch:     &github.Amd64,
-				}
-			}
-
-			// Run create
-			if err := windows.Create(
-				ctx,
+			return windows.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&windows.WindowsServerArgs{
 					Prefix:      "main",
 					AMIName:     viper.GetString(amiName),
@@ -100,13 +73,10 @@ func getWindowsCreate() *cobra.Command {
 					AMIOwner:    viper.GetString(amiOwner),
 					AMILang:     viper.GetString(amiLang),
 					AMIKeepCopy: viper.IsSet(amiKeepCopy),
-					Spot:        viper.IsSet(awsParams.Spot),
+					Spot:        params.SpotArgs(),
 					Airgap:      viper.IsSet(airgap),
 					Timeout:     viper.GetString(params.Timeout),
-				}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+				})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -117,11 +87,10 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.StringP(amiOwner, "", amiOwnerDefault, amiOwnerDesc)
 	flagSet.StringP(amiLang, "", amiLangDefault, amiLangDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
-	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddSpotFlags(flagSet)
+	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
@@ -132,20 +101,13 @@ func getWindowsDestroy() *cobra.Command {
 		Use:   params.DestroyCmdName,
 		Short: params.DestroyCmdName,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if err := viper.BindPFlags(cmd.Flags()); err != nil {
-				return err
-			}
-
-			if err := windows.Destroy(&maptContext.ContextArgs{
+			return windows.Destroy(&maptContext.ContextArgs{
 				ProjectName: viper.GetString(params.ProjectName),
 				BackedURL:   viper.GetString(params.BackedURL),
 				Debug:       viper.IsSet(params.Debug),
 				DebugLevel:  viper.GetUint(params.DebugLevel),
 				Serverless:  viper.IsSet(params.Serverless),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)

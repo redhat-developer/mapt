@@ -2,14 +2,14 @@ package manager
 
 import (
 	"context"
-	"os"
+	"fmt"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/debug"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optdestroy"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto/optup"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
@@ -28,17 +28,24 @@ type ManagerOptions struct {
 	Baground bool
 }
 
-func UpStack(targetStack Stack, opts ...ManagerOptions) (auto.UpResult, error) {
-	return UpStackTargets(targetStack, nil, opts...)
+func UpStack(c *mc.Context, targetStack Stack, opts ...ManagerOptions) (auto.UpResult, error) {
+	return UpStackTargets(c, targetStack, nil, opts...)
 }
 
-func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptions) (auto.UpResult, error) {
+func UpStackTargets(mCtx *mc.Context, targetStack Stack, targetURNs []string, opts ...ManagerOptions) (auto.UpResult, error) {
 	logging.Debugf("managing stack %s", targetStack.StackName)
 	ctx := context.Background()
-	objectStack := getStack(ctx, targetStack)
-	// TODO add when loglevel debug control in place
-	w := logging.GetWritter()
 
+	objectStack, err := getStack(ctx, mCtx, targetStack)
+	if err != nil {
+		logging.Error(err)
+		if len(opts) == 1 && opts[0].Baground {
+			return auto.UpResult{}, err
+		}
+		return auto.UpResult{}, fmt.Errorf("failed to get stack: %w", err)
+	}
+
+	w := logging.GetWritter()
 	defer func() {
 		if err := w.Close(); err != nil {
 			logging.Error(err)
@@ -48,62 +55,81 @@ func UpStackTargets(targetStack Stack, targetURNs []string, opts ...ManagerOptio
 	mOpts := []optup.Option{
 		optup.ProgressStreams(w),
 	}
-	if maptContext.Debug() {
-		dl := maptContext.DebugLevel()
-		mOpts = append(mOpts, optup.DebugLogging(
-			debug.LoggingOptions{
-				LogLevel:      &dl,
-				Debug:         true,
-				FlowToPlugins: true,
-				LogToStdErr:   true}))
+	if mCtx.Debug() {
+		dl := mCtx.DebugLevel()
+		mOpts = append(mOpts, optup.DebugLogging(debug.LoggingOptions{
+			LogLevel:      &dl,
+			Debug:         true,
+			FlowToPlugins: true,
+			LogToStdErr:   true,
+		}))
 	}
 	if len(targetURNs) > 0 {
 		mOpts = append(mOpts, optup.Target(targetURNs))
 	}
-	r, err := objectStack.Up(ctx, mOpts...)
+
+	result, err := objectStack.Up(ctx, mOpts...)
 	if err != nil {
 		logging.Error(err)
 		if len(opts) == 1 && opts[0].Baground {
 			return auto.UpResult{}, err
 		}
-		os.Exit(1)
+		return auto.UpResult{}, fmt.Errorf("failed to update stack: %w", err)
 	}
-	return r, nil
+
+	return result, nil
 }
 
-func DestroyStack(targetStack Stack, opts ...ManagerOptions) (err error) {
+func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) error {
 	logging.Debugf("destroying stack %s", targetStack.StackName)
 	ctx := context.Background()
-	objectStack := getStack(ctx, targetStack)
+
+	objectStack, err := getStack(ctx, mCtx, targetStack)
+	if err != nil {
+		logging.Error(err)
+		if len(opts) == 1 && opts[0].Baground {
+			return err
+		}
+		return fmt.Errorf("failed to get stack: %w", err)
+	}
+
 	w := logging.GetWritter()
 	defer func() {
 		if err := w.Close(); err != nil {
 			logging.Error(err)
 		}
 	}()
-	// stdoutStreamer := optdestroy.ProgressStreams(w)
+
 	mOpts := []optdestroy.Option{
 		optdestroy.ProgressStreams(w),
 	}
-	if maptContext.Debug() {
-		dl := maptContext.DebugLevel()
+	if mCtx.Debug() {
+		dl := mCtx.DebugLevel()
 		mOpts = append(mOpts, optdestroy.DebugLogging(
 			debug.LoggingOptions{
 				LogLevel:      &dl,
 				FlowToPlugins: true,
 				LogToStdErr:   true}))
 	}
+
+	// Destroy resources
 	if _, err := objectStack.Destroy(ctx, mOpts...); err != nil {
 		logging.Error(err)
-		os.Exit(1)
+		if len(opts) == 1 && opts[0].Baground {
+			return err
+		}
+		return fmt.Errorf("failed to destroy stack resources: %w", err)
 	}
+
+	// Remove the stack from workspace
 	if err := objectStack.Workspace().RemoveStack(ctx, targetStack.StackName); err != nil {
 		logging.Error(err)
 		if len(opts) == 1 && opts[0].Baground {
 			return err
 		}
-		os.Exit(1)
+		return fmt.Errorf("failed to remove stack from workspace: %w", err)
 	}
+
 	return nil
 }
 

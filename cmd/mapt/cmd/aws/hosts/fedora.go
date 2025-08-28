@@ -1,15 +1,9 @@
 package hosts
 
 import (
-	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/constants"
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/constants"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
-	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/fedora"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
-	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -52,58 +46,25 @@ func getFedoraCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			ctx := &maptContext.ContextArgs{
-				ProjectName:           viper.GetString(params.ProjectName),
-				BackedURL:             viper.GetString(params.BackedURL),
-				ResultsOutput:         viper.GetString(params.ConnectionDetailsOutput),
-				Debug:                 viper.IsSet(params.Debug),
-				DebugLevel:            viper.GetUint(params.DebugLevel),
-				SpotPriceIncreaseRate: viper.GetInt(params.SpotPriceIncreaseRate),
-				Tags:                  viper.GetStringMapString(params.Tags),
-			}
-
-			if viper.IsSet(params.CirrusPWToken) {
-				ctx.CirrusPWArgs = &cirrus.PersistentWorkerArgs{
-					Token:    viper.GetString(params.CirrusPWToken),
-					Labels:   viper.GetStringMapString(params.CirrusPWLabels),
-					Platform: &cirrus.Linux,
-					Arch: params.LinuxArchAsCirrusArch(
-						viper.GetString(params.LinuxArch)),
-				}
-			}
-
-			if viper.IsSet(params.GHActionsRunnerToken) {
-				ctx.GHRunnerArgs = &github.GithubRunnerArgs{
-					Token:    viper.GetString(params.GHActionsRunnerToken),
-					RepoURL:  viper.GetString(params.GHActionsRunnerRepo),
-					Labels:   viper.GetStringSlice(params.GHActionsRunnerLabels),
-					Platform: &github.Linux,
-					Arch: params.LinuxArchAsGithubActionsArch(
-						viper.GetString(params.LinuxArch)),
-				}
-			}
-
-			// Run create
-			if err := fedora.Create(
-				ctx,
+			return fedora.Create(
+				&maptContext.ContextArgs{
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
 				&fedora.FedoraArgs{
-					Prefix:  "main",
-					Version: viper.GetString(fedoraVersion),
-					Arch:    viper.GetString(params.LinuxArch),
-					InstanceRequest: &instancetypes.AwsInstanceRequest{
-						CPUs:      viper.GetInt32(params.CPUs),
-						MemoryGib: viper.GetInt32(params.Memory),
-						Arch: util.If(viper.GetString(params.LinuxArch) == "arm64",
-							instancetypes.Arm64, instancetypes.Amd64),
-						NestedVirt: viper.GetBool(params.ProfileSNC) || viper.GetBool(params.NestedVirt),
-					},
-					Spot:    viper.IsSet(awsParams.Spot),
-					Timeout: viper.GetString(params.Timeout),
-					Airgap:  viper.IsSet(airgap)}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+					Prefix:         "main",
+					Version:        viper.GetString(fedoraVersion),
+					Arch:           viper.GetString(params.LinuxArch),
+					ComputeRequest: params.ComputeRequestArgs(),
+					Spot:           params.SpotArgs(),
+					Timeout:        viper.GetString(params.Timeout),
+					Airgap:         viper.IsSet(airgap)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -112,12 +73,11 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringP(fedoraVersion, "", fedoraVersionDefault, fedoraVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
-	flagSet.Bool(awsParams.Spot, false, awsParams.SpotDesc)
-	flagSet.IntP(params.SpotPriceIncreaseRate, "", params.SpotPriceIncreaseRateDefault, params.SpotPriceIncreaseRateDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
-	flagSet.AddFlagSet(params.GetGHActionsFlagset())
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
+	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
-	flagSet.AddFlagSet(params.GetCpusAndMemoryFlagset())
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -130,21 +90,19 @@ func getFedoraDestroy() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-
-			if err := fedora.Destroy(&maptContext.ContextArgs{
-				ProjectName: viper.GetString(params.ProjectName),
-				BackedURL:   viper.GetString(params.BackedURL),
-				Debug:       viper.IsSet(params.Debug),
-				DebugLevel:  viper.GetUint(params.DebugLevel),
-				Serverless:  viper.IsSet(params.Serverless),
-			}); err != nil {
-				logging.Error(err)
-			}
-			return nil
+			return fedora.Destroy(&maptContext.ContextArgs{
+				ProjectName:  viper.GetString(params.ProjectName),
+				BackedURL:    viper.GetString(params.BackedURL),
+				Debug:        viper.IsSet(params.Debug),
+				DebugLevel:   viper.GetUint(params.DebugLevel),
+				Serverless:   viper.IsSet(params.Serverless),
+				ForceDestroy: viper.IsSet(params.ForceDestroy),
+			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
+	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

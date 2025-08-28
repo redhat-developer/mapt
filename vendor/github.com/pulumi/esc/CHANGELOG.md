@@ -1,5 +1,55 @@
 # CHANGELOG
 
+## 0.17.0
+
+### Improvements
+
+- Move `--draft` out of preview for `env edit`, `env set`, `env version rollback`, `env run` and `env open`.
+  [#566](https://github.com/pulumi/esc/pull/566)
+- Internal improvements
+  [#569](https://github.com/pulumi/esc/pull/569)
+
+### Bug Fixes
+
+- Fix broken change request URL that links to web console when using `--draft` with `env set`, `env edit` and `env version rollback`.
+  [#571](https://github.com/pulumi/esc/pull/571)
+
+## 0.16.0
+
+### Improvements
+
+- Update a draft via `--draft=<change-request-id>` for `env edit`, `env set`, and `env version rollback`. **Warning: this feature is in preview, limited to specific orgs, and subject to change.**
+  [#565](https://github.com/pulumi/esc/pull/565)
+- Open a draft via `--draft=<change-request-id>` for `env run` and `env open`. **Warning: this feature is in preview, limited to specific orgs, and subject to change.**
+  [#565](https://github.com/pulumi/esc/pull/565)
+
+## 0.15.0
+
+### Improvements
+
+- `esc env set` now supports --file parameter to read content from a file or stdin [#556](https://github.com/pulumi/esc/pull/556)
+- `--draft` flag for `esc env set`, `esc env edit`, `esc env versions rollback` to create a change request rather than updating directly. **Warning: this feature is in preview, limited to specific orgs, and subject to change.**
+  [#552](https://github.com/pulumi/esc/pull/552)
+
+### Bug Fixes
+
+- Fix decryption error with keys with dashes
+  [#559](https://github.com/pulumi/esc/pull/559)
+
+## 0.14.3
+
+### Improvements
+
+- `esc run` expects environment to be passed before `--`
+  [#545](https://github.com/pulumi/esc/pull/546)
+- `esc env set` uses a more readable YAML format when setting a key in an empty map
+  [#548](https://github.com/pulumi/esc/pull/548)
+
+### Bug Fixes
+
+- Fix `esc version`
+ [#541](https://github.com/pulumi/esc/pull/541)
+
 ## 0.13.2
 
 ### Bug Fixes

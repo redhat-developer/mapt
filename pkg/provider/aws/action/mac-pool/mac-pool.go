@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/iam"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/mac"
@@ -24,39 +24,42 @@ import (
 // also the HouseKeep will take care of regulate the capacity
 
 // Even if we want to destroy the pool we will set params to max size 0
-func Create(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
+func Create(mCtxArgs *mc.ContextArgs, r *MacPoolRequestArgs) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
-	if err := r.addMachinesToPool(r.OfferedCapacity); err != nil {
+	if err := r.addMachinesToPool(mCtx, r.OfferedCapacity); err != nil {
 		return err
 	}
-	if err := r.scheduleHouseKeeper(); err != nil {
+	if err := r.scheduleHouseKeeper(mCtx); err != nil {
 		return err
 	}
-	return r.requestReleaserAccount()
+	return r.requestReleaserAccount(mCtx)
 }
 
 // TODO decide how to destroy machines in the pool as they may need to wait to reach 24 hours
-func Destroy(ctx *maptContext.ContextArgs) error {
+func Destroy(mCtxArgs *mc.ContextArgs) error {
 	// Create mapt Context
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
-	if err := iam.Destroy(); err != nil {
+	if err := iam.Destroy(mCtx); err != nil {
 		return err
 	}
-	return serverless.Destroy()
+	return serverless.Destroy(mCtx)
 }
 
 // House keeper is the function executed serverless to check if is there any
 // machine non locked which had been running more than 24h.
 // It should check if capacity allows to remove the machine
-func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
+func HouseKeeper(mCtxArgs *mc.ContextArgs, r *MacPoolRequestArgs) error {
 	// Create mapt Context, this is a special case where we need change the context
 	// based on the operation
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 
@@ -69,8 +72,8 @@ func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	if p.currentOfferedCapacity() < r.OfferedCapacity {
 		if p.currentPoolSize() < r.MaxSize {
 			logging.Debug("house keeper will try to add machines as offered capacity is lower than expected")
-			maptContext.SetProjectName(r.PoolName)
-			return r.addCapacity(p)
+			mCtx.SetProjectName(r.PoolName)
+			return r.addCapacity(mCtx, p)
 		}
 		// if number of machines in the pool + to max machines
 		// we do nothing
@@ -82,7 +85,7 @@ func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 		if len(p.destroyableMachines) > 0 {
 			logging.Debug("house keeper will try to destroy machines as offered capacity is higher than expected")
 			// Need to check if any offered can be destroy
-			return r.destroyCapacity(p)
+			return r.destroyCapacity(mCtx, p)
 		}
 	}
 	logging.Debug("house keeper will not do any action as offered capacity is met by the pool")
@@ -90,8 +93,8 @@ func HouseKeeper(ctx *maptContext.ContextArgs, r *MacPoolRequestArgs) error {
 	return nil
 }
 
-func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
-	// First get full info on the pool and the next machine for request
+func Request(mCtxArgs *mc.ContextArgs, r *RequestMachineArgs) error {
+	// First get full info on the pool and the next machine for requestmCtx *mc.Context
 	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
 	if err != nil {
 		return err
@@ -102,13 +105,15 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	}
 
 	// Create mapt Context
-	ctx.ProjectName = *hi.ProjectName
-	ctx.BackedURL = *hi.BackedURL
-	if err := maptContext.Init(ctx, aws.Provider()); err != nil {
+	mCtxArgs.ProjectName = *hi.ProjectName
+	mCtxArgs.BackedURL = *hi.BackedURL
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	if err != nil {
 		return err
 	}
 
 	mr := macMachine.Request{
+		MCtx:         mCtx,
 		Prefix:       *hi.Prefix,
 		Version:      *hi.OSVersion,
 		Architecture: *hi.Arch,
@@ -123,23 +128,23 @@ func Request(ctx *maptContext.ContextArgs, r *RequestMachineArgs) error {
 	}
 
 	// We update the runID on the dedicated host
-	return tag.Update(maptContext.TagKeyRunID,
-		maptContext.RunID(),
+	return tag.Update(mc.TagKeyRunID,
+		mCtx.RunID(),
 		*hi.Region,
 		*hi.Host.HostId)
 }
 
-func Release(ctx *maptContext.ContextArgs, hostID string) error {
-	return macUtil.Release(ctx, hostID)
+func Release(mCtxArgs *mc.ContextArgs, hostID string) error {
+	return macUtil.Release(mCtxArgs, hostID)
 }
 
-func (r *MacPoolRequestArgs) addMachinesToPool(n int) error {
-	if err := validateBackedURL(); err != nil {
+func (r *MacPoolRequestArgs) addMachinesToPool(mCtx *mc.Context, n int) error {
+	if err := validateBackedURL(mCtx); err != nil {
 		return err
 	}
 	for i := 0; i < n; i++ {
-		hr := r.fillHostRequest()
-		dh, err := macHost.CreatePoolDedicatedHost(hr)
+		hr := r.fillHostRequest(mCtx)
+		dh, err := macHost.CreatePoolDedicatedHost(mCtx, hr)
 		if err != nil {
 			return err
 		}
@@ -152,8 +157,9 @@ func (r *MacPoolRequestArgs) addMachinesToPool(n int) error {
 }
 
 // Run serverless operation for house keeping
-func (r *MacPoolRequestArgs) scheduleHouseKeeper() error {
+func (r *MacPoolRequestArgs) scheduleHouseKeeper(mCtx *mc.Context) error {
 	return serverless.Create(
+		mCtx,
 		getHouseKeepingCommand(
 			r.PoolName,
 			r.Architecture,
@@ -183,37 +189,41 @@ func getHouseKeepingCommand(poolName, arch, osVersion string,
 
 // If we need less or equal than the max allowed on the pool we create all of them
 // if need are more than allowed we can create just the allowed
-func (r *MacPoolRequestArgs) addCapacity(p *pool) error {
+func (r *MacPoolRequestArgs) addCapacity(mCtx *mc.Context, p *pool) error {
 	allowed := p.maxSize - p.offeredCapacity
 	needed := p.offeredCapacity - p.currentOfferedCapacity()
 	if needed <= allowed {
-		return r.addMachinesToPool(needed)
+		return r.addMachinesToPool(mCtx, needed)
 	}
-	return r.addMachinesToPool(allowed)
+	return r.addMachinesToPool(mCtx, allowed)
 }
 
 // If we need less or equal than the max allowed on the pool we create all of them
 // if need are more than allowed we can create just the allowed
 // TODO review allocation time is on the wrong order
-func (r *MacPoolRequestArgs) destroyCapacity(p *pool) error {
+func (r *MacPoolRequestArgs) destroyCapacity(mCtx *mc.Context, p *pool) error {
 	machinesToDestroy := p.currentOfferedCapacity() - r.OfferedCapacity
 	for i := 0; i < machinesToDestroy; i++ {
 		m := p.destroyableMachines[i]
 		// TODO change this
-		maptContext.SetProjectName(*m.ProjectName)
-		if err := aws.DestroyStack(aws.DestroyStackRequest{
-			Stackname: mac.StackMacMachine,
-			Region:    *m.Region,
-			BackedURL: *m.BackedURL,
-		}); err != nil {
+		mCtx.SetProjectName(*m.ProjectName)
+		if err := aws.DestroyStack(
+			mCtx,
+			aws.DestroyStackRequest{
+				Stackname: mac.StackMacMachine,
+				Region:    *m.Region,
+				BackedURL: *m.BackedURL,
+			}); err != nil {
 			return err
 		}
-		if err := aws.DestroyStack(aws.DestroyStackRequest{
-			Stackname: mac.StackDedicatedHost,
-			// TODO check if needed to add region for backedURL
-			Region:    *m.Region,
-			BackedURL: *m.BackedURL,
-		}); err != nil {
+		if err := aws.DestroyStack(
+			mCtx,
+			aws.DestroyStackRequest{
+				Stackname: mac.StackDedicatedHost,
+				// TODO check if needed to add region for backedURL
+				Region:    *m.Region,
+				BackedURL: *m.BackedURL,
+			}); err != nil {
 			return err
 		}
 	}
@@ -222,8 +232,8 @@ func (r *MacPoolRequestArgs) destroyCapacity(p *pool) error {
 
 // format for remote backed url when creating the dedicated host
 // the backed url from param is used as base and the ID is appended as sub path
-func validateBackedURL() error {
-	if strings.Contains(maptContext.BackedURL(), "file://") {
+func validateBackedURL(mCtx *mc.Context) error {
+	if strings.Contains(mCtx.BackedURL(), "file://") {
 		return fmt.Errorf("local backed url is not allowed for mac pool")
 	}
 	return nil
@@ -279,7 +289,7 @@ func (p *pool) getNextMachineForRequest() (*mac.HostInformation, error) {
 
 // transform pool request to host request
 // need if we need to expand the pool
-func (r *MacPoolRequestArgs) fillHostRequest() *macHost.PoolMacDedicatedHostRequestArgs {
+func (r *MacPoolRequestArgs) fillHostRequest(mCtx *mc.Context) *macHost.PoolMacDedicatedHostRequestArgs {
 	return &macHost.PoolMacDedicatedHostRequestArgs{
 		MacDedicatedHost: &macHost.MacDedicatedHostRequestArgs{
 			Prefix:        r.Prefix,
@@ -292,7 +302,7 @@ func (r *MacPoolRequestArgs) fillHostRequest() *macHost.PoolMacDedicatedHostRequ
 			OSVersion: r.OSVersion,
 		},
 		BackedURL: fmt.Sprintf("%s/%s",
-			maptContext.BackedURL(),
+			mCtx.BackedURL(),
 			util.RandomID("mapt")),
 	}
 }
@@ -311,12 +321,13 @@ func (r *MacPoolRequestArgs) fillMacRequest() *macMachine.Request {
 
 // Create an user and a pair of automation credentials to add on cicd system of choice
 // to execute request and release operation with minimum rights
-func (r *MacPoolRequestArgs) requestReleaserAccount() error {
-	pc, err := requestReleaserPolicy()
+func (r *MacPoolRequestArgs) requestReleaserAccount(mCtx *mc.Context) error {
+	pc, err := requestReleaserPolicy(mCtx)
 	if err != nil {
 		return err
 	}
 	return iam.Create(
+		mCtx,
 		fmt.Sprintf("%s-%s-%s",
 			r.PoolName,
 			r.Architecture,
@@ -327,10 +338,10 @@ func (r *MacPoolRequestArgs) requestReleaserAccount() error {
 // This is only used during create to create a policy content allowing to
 // run request and release operations. Helping to reduce the iam rights required
 // to make use for the mac pool service from an user point of view
-func requestReleaserPolicy() (*string, error) {
+func requestReleaserPolicy(mCtx *mc.Context) (*string, error) {
 	// For mac pool service all macs will be a sub path for the backed url
 	// set during create
-	bucketPath := strings.TrimPrefix(maptContext.BackedURL(), "s3://")
+	bucketPath := strings.TrimPrefix(mCtx.BackedURL(), "s3://")
 	bucket := strings.Split(bucketPath, "/")[0]
 	pc, err := json.Marshal(map[string]interface{}{
 		"Version": "2012-10-17",

@@ -3,9 +3,9 @@ package vpc
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 )
 
@@ -20,12 +20,12 @@ type VPCResources struct {
 	SecurityGroup   *ec2.SecurityGroup
 }
 
-func (s VPCRequest) CreateNetwork(ctx *pulumi.Context) (*VPCResources, error) {
+func (s VPCRequest) CreateNetwork(ctx *pulumi.Context, mCtx *mc.Context) (*VPCResources, error) {
 	vName := fmt.Sprintf("%s-%s", "vpc", s.Name)
 	v, err := ec2.NewVpc(ctx, vName,
 		&ec2.VpcArgs{
 			CidrBlock: pulumi.String(s.CIDR),
-			Tags:      maptContext.ResourceTags(),
+			Tags:      mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s VPCRequest) CreateNetwork(ctx *pulumi.Context) (*VPCResources, error) {
 		iName,
 		&ec2.InternetGatewayArgs{
 			VpcId: v.ID(),
-			Tags:  maptContext.ResourceTags(),
+			Tags:  mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s VPCRequest) CreateNetwork(ctx *pulumi.Context) (*VPCResources, error) {
 					},
 				},
 			},
-			Tags: maptContext.ResourceTags(),
+			Tags: mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err

@@ -28,7 +28,7 @@ import (
 // manually on specific container instances.
 //
 // You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume
-// when creating or updating a service. For more infomation, see [Amazon EBS volumes]in the Amazon
+// when creating or updating a service. For more information, see [Amazon EBS volumes]in the Amazon
 // Elastic Container Service Developer Guide.
 //
 // The Amazon ECS API follows an eventual consistency model. This is because of
@@ -399,6 +399,36 @@ func (c *Client) addOperationRunTaskMiddlewares(stack *middleware.Stack, options
 		return err
 	}
 	if err = addDisableHTTPSMiddleware(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptBeforeRetryLoop(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptAttempt(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptExecution(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptBeforeSerialization(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptAfterSerialization(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptBeforeSigning(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptAfterSigning(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptTransmit(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptBeforeDeserialization(stack, options); err != nil {
+		return err
+	}
+	if err = addInterceptAfterDeserialization(stack, options); err != nil {
 		return err
 	}
 	if err = addSpanInitializeStart(stack); err != nil {

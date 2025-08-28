@@ -57,6 +57,15 @@ type mockResourceMonitorWithRegisterResourceOutput interface {
 	RegisterResourceOutputs() (*emptypb.Empty, error)
 }
 
+// mockResourceMonitorWithSignalAndWaitForShutdown is a mock resource monitor
+// that also implements the SignalAndWaitForShutdown method. A new resource
+// monitor interface is created to avoid needing to implement additional methods
+// for existing implementations of MockResourceMonitor.
+type mockResourceMonitorWithSignalAndWaitForShutdown interface {
+	MockResourceMonitor
+	SignalAndWaitForShutdown() (*emptypb.Empty, error)
+}
+
 func WithMocks(project, stack string, mocks MockResourceMonitor) RunOption {
 	return func(info *RunInfo) {
 		info.Project, info.Stack, info.Mocks = project, stack, mocks
@@ -348,6 +357,12 @@ func (m *mockMonitor) RegisterStackInvokeTransform(ctx context.Context, in *pulu
 	panic("not implemented")
 }
 
+func (m *mockMonitor) RegisterResourceHook(ctx context.Context, in *pulumirpc.RegisterResourceHookRequest,
+	opts ...grpc.CallOption,
+) (*emptypb.Empty, error) {
+	panic("not implemented")
+}
+
 func (m *mockMonitor) RegisterPackage(ctx context.Context, in *pulumirpc.RegisterPackageRequest,
 	opts ...grpc.CallOption,
 ) (*pulumirpc.RegisterPackageResponse, error) {
@@ -355,6 +370,16 @@ func (m *mockMonitor) RegisterPackage(ctx context.Context, in *pulumirpc.Registe
 	return &pulumirpc.RegisterPackageResponse{
 		Ref: "mock-uuid",
 	}, nil
+}
+
+func (m *mockMonitor) SignalAndWaitForShutdown(ctx context.Context, req *emptypb.Empty,
+	opts ...grpc.CallOption,
+) (*emptypb.Empty, error) {
+	if m, ok := m.mocks.(mockResourceMonitorWithSignalAndWaitForShutdown); ok {
+		return m.SignalAndWaitForShutdown()
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
 type mockEngine struct {

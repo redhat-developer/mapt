@@ -11,7 +11,7 @@ var (
 	// This is managed by https://github.com/devtools-qe-incubator/cloud-importer
 	amiProduct = "Linux/UNIX"
 	// amiProductDescription = "Red Hat Enterprise Linux"
-	amiRegex       = "openshift-local-%s-%s"
+	amiRegex       = "openshift-local-%s-%s-*"
 	amiUserDefault = "core"
 	amiOwner       = "391597328979"
 	// amiOriginRegion       = "us-east-1"
@@ -26,7 +26,7 @@ var (
 	outputDeveloperPass  = "aosDeveloperPass"
 
 	commandReadiness    = "while [ ! -f /tmp/.crc-cluster-ready ]; do sleep 5; done"
-	commandCaServiceRan = "while [ $(sudo systemctl is-active ocp-cluster-ca.service) != inactive ]; do sleep 5; done"
+	commandCaServiceRan = "sudo bash -c 'until oc get node --kubeconfig /opt/kubeconfig --context system:admin || oc get node --kubeconfig /opt/crc/kubeconfig --context system:admin; do sleep 5; done'"
 
 	// portHTTP  = 80
 	portHTTPS = 443

@@ -1,5 +1,5 @@
 {
   "resource": true,
   "name": "docker-build",
-  "version": "0.0.3"
+  "version": "0.0.12"
 }

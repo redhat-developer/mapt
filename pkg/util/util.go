@@ -37,6 +37,8 @@ func IfNillable[T any](cond bool, vtrueNillable func() T, vfalse T) T {
 	return vfalse
 }
 
+// Return a new array list with those items from source which
+// return true from filter function
 func ArrayFilter[T any](source []T, filter func(item T) bool) []T {
 	var result []T
 	for _, item := range source {
@@ -67,22 +69,6 @@ func ArrayConvert[T any, Y any](source []Y,
 func SplitString(source, delimiter string) []string {
 	splitted := strings.Split(source, delimiter)
 	return If(len(splitted[0]) > 0, splitted, []string{})
-}
-
-// This function split a list based on a evaluation function
-// the result is a map of lists
-func SplitSlice[T any, Y comparable](source []T,
-	identification func(item T) Y) (m map[Y][]T) {
-	m = make(map[Y][]T)
-	for _, item := range source {
-		k := identification(item)
-		if l, found := m[k]; found {
-			m[k] = append(l, item)
-		} else {
-			m[k] = []T{item}
-		}
-	}
-	return
 }
 
 func Average(source []float64) float64 {

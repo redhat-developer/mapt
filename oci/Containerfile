@@ -1,12 +1,12 @@
 
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:2a88121395084eaa575e5758b903fffb43dbf9d9586b2878e51678f63235b587 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:d711f298464714173edda413164584ea69b77e9fdbed043c76c1a73a830fb378 as builder
 ARG TARGETARCH
 USER root
 WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.177.0
+ENV PULUMI_VERSION 3.190.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -19,7 +19,7 @@ RUN unset VERSION \
     && tar -xzvf pulumicli.tar.gz 
 
 # ubi 9.5-1732804088
-FROM registry.access.redhat.com/ubi9/ubi@sha256:861e833044a903f689ecfa404424494a7e387ab39cf7949c54843285d13a9774
+FROM registry.access.redhat.com/ubi9/ubi@sha256:8851294389a8641bd6efcd60f615c69e54fb0e2216ec8259448b35e3d9a11b06
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
 
@@ -34,25 +34,24 @@ ENV AWS_SDK_LOAD_CONFIG=1 \
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v6.82.1
+ARG PULUMI_AWS_VERSION=v7.4.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
-ARG PULUMI_AWSX_VERSION=v2.21.1
+ARG PULUMI_AWSX_VERSION=v3.0.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v3.5.1
+ARG PULUMI_AZURE_NATIVE_VERSION=v3.7.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v1.1.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
-ARG PULUMI_TLS_VERSION=v5.2.0
+ARG PULUMI_TLS_VERSION=v5.2.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
-ARG PULUMI_RANDOM_VERSION=v4.18.2
+ARG PULUMI_RANDOM_VERSION=v4.18.3
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.29.0
+ARG PULUMI_AWS_NATIVE_VERSION=v1.32.0
 
 ENV PULUMI_HOME "/opt/mapt/run" 
 WORKDIR ${PULUMI_HOME}
 
 RUN mkdir -p /opt/mapt/run \
-    && chmod -R 0777 /opt/mapt/run \
     && if [ "$TARGETARCH" = "arm64" ]; then export ARCH_N=aarch64; fi \
     && export AWS_CLI_URL="https://awscli.amazonaws.com/awscli-exe-linux-${ARCH_N}-${AWS_CLI_VERSION}.zip" \
     && export AZ_CLI_RPM="https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli-${AZ_CLI_VERSION}-1.el9.${ARCH_N}.rpm" \
@@ -72,8 +71,11 @@ RUN mkdir -p /opt/mapt/run \
     && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \
     && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION} \
     && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
-    && pulumi plugin install resource aws-native ${PULUMI_AWS_NATIVE_VERSION} 
-    
+    && pulumi plugin install resource aws-native ${PULUMI_AWS_NATIVE_VERSION} \
+    && chown -R 1001:0 /opt/mapt/run \
+    && chmod -R g=u /opt/mapt/run
+
+USER 1001
 ENTRYPOINT ["mapt"]
 CMD ["-h"]
 

@@ -7,7 +7,6 @@ import (
 
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -26,12 +25,13 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 )
 
@@ -43,7 +43,7 @@ type locked struct {
 // This function will use the information from the
 // dedicated host holding the mac machine will check if stack exists
 // if exists will get the lock value from it
-func ReplaceMachine(h *mac.HostInformation) error {
+func ReplaceMachine(mCtx *mc.Context, h *mac.HostInformation) error {
 	aN := fmt.Sprintf(amiRegex, *h.OSVersion)
 	bdt := blockDeviceType
 	ami, err := data.GetAMI(
@@ -68,6 +68,7 @@ func ReplaceMachine(h *mac.HostInformation) error {
 	}
 	// Set a default request
 	r := &Request{
+		MCtx:                 mCtx,
 		Prefix:               *h.Prefix,
 		Architecture:         *h.Arch,
 		Version:              *h.OSVersion,
@@ -141,9 +142,9 @@ func (r *Request) manageMacMachineTargets(h *mac.HostInformation, targetURNs []s
 	}
 	var sr auto.UpResult
 	if len(targetURNs) > 0 {
-		sr, _ = manager.UpStackTargets(cs, targetURNs)
+		sr, _ = manager.UpStackTargets(r.MCtx, cs, targetURNs)
 	} else {
-		sr, _ = manager.UpStack(cs)
+		sr, _ = manager.UpStack(r.MCtx, cs)
 	}
 	return r.manageResultsMachine(sr)
 }
@@ -161,6 +162,9 @@ func (r *Request) CreateAirgapMacMachine(h *mac.HostInformation) error {
 
 // Main function to deploy all requried resources to azure
 func (r *Request) deployerMachine(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Export information
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputRegion), pulumi.String(*r.Region))
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID), pulumi.String(*r.dedicatedHost.Host.HostId))
@@ -180,15 +184,16 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	nr := network.NetworkRequest{
-		Prefix:                  r.Prefix,
-		ID:                      awsMacMachineID,
-		Region:                  *r.Region,
-		AZ:                      *r.AvailabilityZone,
-		Airgap:                  r.Airgap,
-		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-	}
-	vpc, targetSubnet, targetRouteTableAssociation, bastion, _, _, err := nr.Network(ctx)
+	// Networking
+	nw, err := network.Create(ctx, r.MCtx,
+		&network.NetworkArgs{
+			Prefix:                  r.Prefix,
+			ID:                      awsMacMachineID,
+			Region:                  *r.Region,
+			AZ:                      *r.AvailabilityZone,
+			Airgap:                  r.Airgap,
+			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
+		})
 	if err != nil {
 		return err
 	}
@@ -196,7 +201,7 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	machineKeyPair := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
 			r.Prefix, awsMacMachineID, "pk-machine")}
-	machineKeyPairResources, err := machineKeyPair.Create(ctx)
+	machineKeyPairResources, err := machineKeyPair.Create(ctx, r.MCtx)
 	if err != nil {
 		return err
 	}
@@ -204,12 +209,12 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputMachinePrivateKey),
 		machineKeyPairResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := r.securityGroups(ctx, vpc)
+	securityGroups, err := r.securityGroups(ctx, nw.Vpc)
 	if err != nil {
 		return err
 	}
 	// Create instance
-	i, err := r.instance(ctx, targetSubnet, ami, machineKeyPairResources, securityGroups)
+	i, err := r.instance(ctx, nw.Subnet, ami, machineKeyPairResources, securityGroups)
 	if err != nil {
 		return err
 	}
@@ -224,19 +229,19 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 	}
 	// Bootstrap script
 	bSDependecies := []pulumi.Resource{i}
-	if bastion != nil {
+	if nw.Bastion != nil {
 		bSDependecies = append(bSDependecies,
-			[]pulumi.Resource{bastion.Instance, targetRouteTableAssociation}...)
+			[]pulumi.Resource{nw.Bastion.Instance, nw.SubnetRouteTableAssociation}...)
 	}
 	bc, userPassword, ukp, err := r.bootstrapscript(
-		ctx, i, machineKeyPairResources.PrivateKey, bastion, bSDependecies)
+		ctx, i, machineKeyPairResources.PrivateKey, nw.Bastion, bSDependecies)
 	if err != nil {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPassword), userPassword.Result)
 	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey),
 		ukp.PrivateKey.PrivateKeyPem)
-	readiness, err := r.readiness(ctx, i, ukp.PrivateKey, bastion, []pulumi.Resource{bc})
+	readiness, err := r.readiness(ctx, i, ukp.PrivateKey, nw.Bastion, []pulumi.Resource{bc})
 	if err != nil {
 		return err
 	}
@@ -244,7 +249,7 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 
 	// We offer serverless release so there should be a timeout and operation should be a request
 	if len(r.Timeout) > 0 && r.isRequestOperation {
-		if err = serverless.OneTimeDelayedTask(ctx,
+		if err = serverless.OneTimeDelayedTask(ctx, r.MCtx,
 			*r.Region, r.Prefix, awsMacMachineID,
 			fmt.Sprintf("aws mac-pool release --dedicated-host-id %s --serverless",
 				*r.dedicatedHost.Host.HostId),
@@ -270,12 +275,12 @@ func (r *Request) manageResultsMachine(stackResult auto.UpResult) error {
 		fmt.Sprintf("%s-%s", r.Prefix, outputDedicatedHostID):   "dedicated_host_id",
 	}
 	if r.Airgap {
-		err := bastion.WriteOutputs(stackResult, r.Prefix, maptContext.GetResultsOutputPath())
+		err := bastion.WriteOutputs(stackResult, r.Prefix, r.MCtx.GetResultsOutputPath())
 		if err != nil {
 			return err
 		}
 	}
-	return output.Write(stackResult, maptContext.GetResultsOutputPath(), results)
+	return output.Write(stackResult, r.MCtx.GetResultsOutputPath(), results)
 }
 
 // security group for mac machine with ingress rules for ssh and vnc
@@ -315,7 +320,7 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 		VPC:          vpc,
 		Description:  fmt.Sprintf("sg for %s", awsMacMachineID),
 		IngressRules: ingressRules,
-	}.Create(ctx)
+	}.Create(ctx, r.MCtx)
 	if err != nil {
 		return nil, err
 	}
@@ -345,7 +350,7 @@ func (r *Request) instance(ctx *pulumi.Context,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
 		},
-		Tags: maptContext.ResourceTags(),
+		Tags: r.MCtx.ResourceTags(),
 	}
 	if r.Airgap {
 		instanceArgs.AssociatePublicIpAddress = pulumi.Bool(false)
@@ -364,7 +369,7 @@ func (r *Request) instance(ctx *pulumi.Context,
 func (r *Request) bootstrapscript(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
-	b *bastion.Bastion,
+	b *bastion.BastionResult,
 	dependecies []pulumi.Resource) (
 	*remote.Command,
 	*random.RandomPassword,
@@ -406,7 +411,7 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 	ukpr := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
 			r.Prefix, awsMacMachineID, "pk-user")}
-	ukp, err := ukpr.CreateAlways(ctx)
+	ukp, err := ukpr.CreateAlways(ctx, r.MCtx)
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -439,7 +444,7 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 func (r *Request) readiness(ctx *pulumi.Context,
 	m *ec2.Instance,
 	mk *tls.PrivateKey,
-	b *bastion.Bastion,
+	b *bastion.BastionResult,
 	dependecies []pulumi.Resource) (*remote.Command, error) {
 	timeout := util.If(len(r.sshConnectionTimeout) > 0, r.sshConnectionTimeout, defaultTimeout)
 	return remote.NewCommand(ctx,
@@ -460,7 +465,7 @@ func (r *Request) readiness(ctx *pulumi.Context,
 func remoteCommandArgs(
 	m *ec2.Instance,
 	pk pulumi.StringPtrInput,
-	b *bastion.Bastion) remote.ConnectionArgs {
+	b *bastion.BastionResult) remote.ConnectionArgs {
 	ca := remote.ConnectionArgs{
 		Host:           m.PublicIp,
 		PrivateKey:     pk,

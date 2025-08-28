@@ -3,23 +3,26 @@ package linux
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/resources/v2"
+	"github.com/go-playground/validator/v10"
+	"github.com/pulumi/pulumi-azure-native-sdk/resources/v3"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	infra "github.com/redhat-developer/mapt/pkg/provider"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
-	"github.com/redhat-developer/mapt/pkg/provider/azure/module/network"
-	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/module/virtual-machine"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/allocation"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/network"
+	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/modules/virtual-machine"
+	securityGroup "github.com/redhat-developer/mapt/pkg/provider/azure/services/network/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/instancetypes"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
-	spotAzure "github.com/redhat-developer/mapt/pkg/spot/azure"
 	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -34,96 +37,130 @@ const (
 	defaultVMSize        = "Standard_D8as_v5"
 )
 
-type LinuxRequest struct {
-	Prefix              string
-	Location            string
-	VMSizes             []string
-	Arch                string
-	InstanceRequest     instancetypes.InstanceRequest
-	OSType              data.OSType
-	Version             string
-	Username            string
-	Spot                bool
-	SpotTolerance       spotAzure.EvictionRate
-	SpotExcludedRegions []string
-	GetUserdata         func() (string, error)
-	ReadinessCommand    string
+type LinuxArgs struct {
+	Prefix           string
+	Location         string
+	Arch             string
+	ComputeRequest   *cr.ComputeRequestArgs
+	OSType           data.OSType
+	Version          string
+	Username         string
+	Spot             *spotTypes.SpotArgs
+	GetUserdata      func() (string, error)
+	ReadinessCommand string
 }
 
-func Create(ctx *maptContext.ContextArgs, r *LinuxRequest) (err error) {
-	// Create mapt Context
-	if err := maptContext.Init(ctx, azure.Provider()); err != nil {
-		return err
-	}
-
-	if len(r.VMSizes) == 0 {
-		vmSizes, err := r.InstanceRequest.GetMachineTypes()
-		if err != nil {
-			logging.Debugf("Unable to fetch desired instance type: %v", err)
-		}
-		if len(vmSizes) > 0 {
-			r.VMSizes = append(r.VMSizes, vmSizes...)
-		}
-	}
-	logging.Debug("Creating Linux Server")
-	cs := manager.Stack{
-		StackName:           maptContext.StackNameByProject(stackAzureLinux),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
-		ProviderCredentials: azure.DefaultCredentials,
-		DeployFunc:          r.deployer,
-	}
-	sr, _ := manager.UpStack(cs)
-	return r.manageResults(sr)
+type linuxRequest struct {
+	mCtx             *mc.Context `validate:"required"`
+	prefix           *string
+	arch             *string
+	osType           *data.OSType
+	version          *string
+	allocationData   *allocation.AllocationResult
+	username         *string
+	getUserdata      func() (string, error)
+	readinessCommand *string
 }
 
-func Destroy(ctx *maptContext.ContextArgs) error {
-	// Create mapt Context
-	if err := maptContext.Init(ctx, azure.Provider()); err != nil {
-		return err
-	}
-	// destroy
-	return azure.Destroy(
-		maptContext.ProjectName(),
-		maptContext.BackedURL(),
-		maptContext.StackNameByProject(stackAzureLinux))
-}
-
-// Main function to deploy all requried resources to azure
-func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
-	// Get values for spot machine
-	location, vmType, spotPrice, err := r.valuesCheckingSpot()
+func (r *linuxRequest) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
 	if err != nil {
 		return err
 	}
+	return v.Struct(r)
+}
 
+func Create(mCtxArgs *mc.ContextArgs, args *LinuxArgs) (err error) {
+	// Create mapt Context
+	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
+	if err != nil {
+		return err
+	}
+	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
+	r := &linuxRequest{
+		mCtx:             mCtx,
+		prefix:           &prefix,
+		arch:             &args.Arch,
+		osType:           &args.OSType,
+		version:          &args.Version,
+		username:         &args.Username,
+		getUserdata:      args.GetUserdata,
+		readinessCommand: &args.ReadinessCommand,
+	}
+	ir, err := data.GetImageRef(*r.osType, *r.arch, *r.version)
+	if err != nil {
+		return err
+	}
+	r.allocationData, err = allocation.Allocation(mCtx,
+		&allocation.AllocationArgs{
+			ComputeRequest: args.ComputeRequest,
+			OSType:         "linux",
+			ImageRef:       ir,
+			Location:       &args.Location,
+			Spot:           args.Spot})
+	if err != nil {
+		return err
+	}
+	cs := manager.Stack{
+		StackName:           mCtx.StackNameByProject(stackAzureLinux),
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
+		ProviderCredentials: azure.DefaultCredentials,
+		DeployFunc:          r.deployer,
+	}
+	sr, _ := manager.UpStack(mCtx, cs)
+	return r.manageResults(sr)
+}
+
+func Destroy(mCtxArgs *mc.ContextArgs) error {
+	// Create mapt Context
+	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
+	if err != nil {
+		return err
+	}
+	// destroy
+	return azure.Destroy(mCtx, stackAzureLinux)
+}
+
+// Main function to deploy all requried resources to azure
+func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
+	if err := r.validate(); err != nil {
+		return err
+	}
 	// Get location for creating the Resource Group
-	rgLocation := azure.GetSuitableLocationForResourceGroup(*location)
+	rgLocation := azure.GetSuitableLocationForResourceGroup(*r.allocationData.Location)
 	rg, err := resources.NewResourceGroup(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureLinuxID, "rg"),
+		resourcesUtil.GetResourceName(*r.prefix, azureLinuxID, "rg"),
 		&resources.ResourceGroupArgs{
 			Location:          pulumi.String(rgLocation),
-			ResourceGroupName: pulumi.String(maptContext.RunID()),
-			Tags:              maptContext.ResourceTags(),
+			ResourceGroupName: pulumi.String(r.mCtx.RunID()),
+			Tags:              r.mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return err
 	}
 	// Networking
-	nr := network.NetworkRequest{
-		Prefix:        r.Prefix,
-		ComponentID:   azureLinuxID,
-		ResourceGroup: rg,
-	}
-	n, err := nr.Create(ctx)
+	sg, err := securityGroups(ctx, r.mCtx, r.prefix, r.allocationData.Location, rg)
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputHost), n.PublicIP.IpAddress)
+	n, err := network.Create(ctx, r.mCtx,
+		&network.NetworkArgs{
+			Prefix:        *r.prefix,
+			ComponentID:   azureLinuxID,
+			ResourceGroup: rg,
+			Location:      r.allocationData.Location,
+			SecurityGroup: sg,
+		})
+	if err != nil {
+		return err
+	}
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost), n.PublicIP.IpAddress)
 	// Virutal machine
 	privateKey, err := tls.NewPrivateKey(
 		ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureLinuxID, "privatekey-user"),
+		resourcesUtil.GetResourceName(*r.prefix, azureLinuxID, "privatekey-user"),
 		&tls.PrivateKeyArgs{
 			Algorithm: pulumi.String("RSA"),
 			RsaBits:   pulumi.Int(4096),
@@ -131,57 +168,56 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
 	// Image refence info
-	ir, err := data.GetImageRef(r.OSType, r.Arch, r.Version)
-	if err != nil {
-		return err
-	}
 	var userDataB64 string
-	if r.GetUserdata != nil {
+	if r.getUserdata != nil {
 		var err error
-		userDataB64, err = r.GetUserdata()
+		userDataB64, err = r.getUserdata()
 		if err != nil {
 			return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
 		}
 	}
-	vmr := virtualmachine.VirtualMachineRequest{
-		Prefix:          r.Prefix,
-		ComponentID:     azureLinuxID,
-		ResourceGroup:   rg,
-		NetworkInteface: n.NetworkInterface,
-		VMSize:          vmType,
-		Publisher:       ir.Publisher,
-		Offer:           ir.Offer,
-		Sku:             ir.Sku,
-		ImageID:         ir.ID,
-		AdminUsername:   r.Username,
-		PrivateKey:      privateKey,
-		SpotPrice:       spotPrice,
-		Userdata:        userDataB64,
-	}
-	vm, err := vmr.Create(ctx)
+
+	vm, err := virtualmachine.Create(ctx, r.mCtx,
+		&virtualmachine.VirtualMachineArgs{
+			Prefix:          *r.prefix,
+			ComponentID:     azureLinuxID,
+			ResourceGroup:   rg,
+			NetworkInteface: n.NetworkInterface,
+			// Check this
+			VMSize:        r.allocationData.ComputeSizes[0],
+			Publisher:     r.allocationData.ImageRef.Publisher,
+			Offer:         r.allocationData.ImageRef.Offer,
+			Sku:           r.allocationData.ImageRef.Sku,
+			ImageID:       r.allocationData.ImageRef.ID,
+			AdminUsername: *r.username,
+			PrivateKey:    privateKey,
+			SpotPrice:     r.allocationData.Price,
+			Userdata:      userDataB64,
+			Location:      *r.allocationData.Location,
+		})
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", r.Prefix, outputUsername), pulumi.String(r.Username))
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUsername), pulumi.String(*r.username))
 	_, err = remote.NewCommand(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, azureLinuxID, "cmd"),
+		resourcesUtil.GetResourceName(*r.prefix, azureLinuxID, "cmd"),
 		&remote.CommandArgs{
 			Connection: remote.ConnectionArgs{
 				Host:           n.PublicIP.IpAddress.Elem(),
 				PrivateKey:     privateKey.PrivateKeyOpenssh,
-				User:           pulumi.String(r.Username),
+				User:           pulumi.String(*r.username),
 				DialErrorLimit: pulumi.Int(-1),
 			},
 			Create: pulumi.String(util.If(
-				len(r.ReadinessCommand) == 0,
+				len(*r.readinessCommand) == 0,
 				command.CommandPing,
-				r.ReadinessCommand)),
+				*r.readinessCommand)),
 			Update: pulumi.String(util.If(
-				len(r.ReadinessCommand) == 0,
+				len(*r.readinessCommand) == 0,
 				command.CommandPing,
-				r.ReadinessCommand)),
+				*r.readinessCommand)),
 		},
 		pulumi.Timeouts(
 			&pulumi.CustomTimeouts{
@@ -191,35 +227,31 @@ func (r *LinuxRequest) deployer(ctx *pulumi.Context) error {
 	return err
 }
 
-func (r *LinuxRequest) valuesCheckingSpot() (*string, string, *float64, error) {
-	if r.Spot {
-		ir, err := data.GetImageRef(r.OSType, r.Arch, r.Version)
-		if err != nil {
-			return nil, "", nil, err
-		}
-		bsc, err :=
-			spotAzure.GetBestSpotChoice(
-				spotAzure.BestSpotChoiceRequest{
-					VMTypes:               util.If(len(r.VMSizes) > 0, r.VMSizes, []string{defaultVMSize}),
-					OSType:                "linux",
-					EvictionRateTolerance: r.SpotTolerance,
-					ImageRef:              *ir,
-					ExcludedRegions:       r.SpotExcludedRegions,
-				})
-		logging.Debugf("Best spot price option found: %v", bsc)
-		if err != nil {
-			return nil, "", nil, err
-		}
-		return &bsc.Location, bsc.VMType, &bsc.Price, nil
-	}
-	return &r.Location, "", nil, nil
+// security group for mac machine with ingress rules for ssh and vnc
+func securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
+	prefix, location *string,
+	rg *resources.ResourceGroup) (securityGroup.SecurityGroup, error) {
+	// ingress for ssh access from 0.0.0.0
+	sshIngressRule := securityGroup.SSH_TCP
+	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	// Create SG with ingress rules
+	return securityGroup.Create(
+		ctx,
+		mCtx,
+		&securityGroup.SecurityGroupArgs{
+			Name:     resourcesUtil.GetResourceName(*prefix, azureLinuxID, "sg"),
+			RG:       rg,
+			Location: location,
+			IngressRules: []securityGroup.IngressRules{
+				sshIngressRule},
+		})
 }
 
 // Write exported values in context to files o a selected target folder
-func (r *LinuxRequest) manageResults(stackResult auto.UpResult) error {
-	return output.Write(stackResult, maptContext.GetResultsOutputPath(), map[string]string{
-		fmt.Sprintf("%s-%s", r.Prefix, outputUsername):       "username",
-		fmt.Sprintf("%s-%s", r.Prefix, outputUserPrivateKey): "id_rsa",
-		fmt.Sprintf("%s-%s", r.Prefix, outputHost):           "host",
+func (r *linuxRequest) manageResults(stackResult auto.UpResult) error {
+	return output.Write(stackResult, r.mCtx.GetResultsOutputPath(), map[string]string{
+		fmt.Sprintf("%s-%s", *r.prefix, outputUsername):       "username",
+		fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey): "id_rsa",
+		fmt.Sprintf("%s-%s", *r.prefix, outputHost):           "host",
 	})
 }

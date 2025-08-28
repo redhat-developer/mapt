@@ -3,8 +3,10 @@ package standard
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/go-playground/validator/v10"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/vpc/subnet"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/vpc/vpc"
@@ -49,7 +51,17 @@ func generateCIDRBlocks(baseCIDR string, count int, offset int) []string {
 	return cidrs
 }
 
+type NatGatewayMode string
+
+var (
+	NatGatewayModeNone   NatGatewayMode = "none"
+	NatGatewayModeSingle NatGatewayMode = "single"
+	NatGatewayModeHA     NatGatewayMode = "ha"
+	NatGatewayModeCustom NatGatewayMode = "ha"
+)
+
 type NetworkRequest struct {
+	MCtx                *mc.Context
 	CIDR                string
 	Name                string
 	Region              string
@@ -57,7 +69,7 @@ type NetworkRequest struct {
 	PublicSubnetsCIDRs  []string
 	PrivateSubnetsCIDRs []string
 	IntraSubnetsCIDRs   []string
-	SingleNatGateway    bool
+	NatGatewayMode      *NatGatewayMode
 	PublicToIntra       *bool
 	MapPublicIp         bool
 }
@@ -72,7 +84,7 @@ type NetworkResources struct {
 }
 
 func DefaultNetworkRequest(name, regionName string) NetworkRequest {
-	azs := data.GetAvailabilityZones("")[:3]
+	azs := data.GetAvailabilityZones("", nil)[:3]
 	azCount := len(azs)
 	return NetworkRequest{
 		Name:                name,
@@ -81,7 +93,7 @@ func DefaultNetworkRequest(name, regionName string) NetworkRequest {
 		PublicSubnetsCIDRs:  GeneratePublicSubnetCIDRs(azCount),
 		PrivateSubnetsCIDRs: GeneratePrivateSubnetCIDRs(azCount),
 		IntraSubnetsCIDRs:   GenerateIntraSubnetCIDRs(azCount),
-		SingleNatGateway:    false,
+		NatGatewayMode:      &NatGatewayModeSingle,
 		MapPublicIp:         false,
 	}
 }
@@ -93,26 +105,26 @@ func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, e
 	}
 	// VPC creation
 	vpcRequest := vpc.VPCRequest{CIDR: r.CIDR, Name: r.Name}
-	vpcResult, err := vpcRequest.CreateNetwork(ctx)
+	vpcResult, err := vpcRequest.CreateNetwork(ctx, r.MCtx)
 	if err != nil {
 		return nil, err
 	}
 	ctx.Export(StackCreateNetworkOutputVPCID, vpcResult.VPC.ID())
 	// Manage Public Subnets
 	publicSNResults, err :=
-		r.managePublicSubnets(vpcResult.VPC, vpcResult.InternetGateway, ctx, "public")
+		r.managePublicSubnets(r.MCtx, vpcResult.VPC, vpcResult.InternetGateway, ctx, "public")
 	if err != nil {
 		return nil, err
 	}
 	// Manage Private Subnets
 	privateSNResults, err :=
-		r.managePrivateSubnets(vpcResult.VPC, getNatGateways(publicSNResults), ctx, "private")
+		r.managePrivateSubnets(r.MCtx, vpcResult.VPC, getNatGateways(publicSNResults), ctx, "private")
 	if err != nil {
 		return nil, err
 	}
 	// Manage Intra Subnets
 	intraSNResults, err :=
-		r.manageIntraSubnets(vpcResult.VPC, ctx, "intra")
+		r.manageIntraSubnets(r.MCtx, vpcResult.VPC, ctx, "intra")
 	if err != nil {
 		return nil, err
 	}
@@ -127,6 +139,9 @@ func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, e
 }
 
 func (r NetworkRequest) validate() error {
+	if err := validator.New(validator.WithRequiredStructEnabled()).Struct(r); err != nil {
+		return err
+	}
 	if len(r.PublicSubnetsCIDRs) > 0 &&
 		len(r.PublicSubnetsCIDRs) > len(r.AvailabilityZones) {
 		return fmt.Errorf("availability zones should be minimum same number as public subnets CIDRs blocks")
@@ -142,7 +157,7 @@ func (r NetworkRequest) validate() error {
 	return nil
 }
 
-func (r NetworkRequest) managePublicSubnets(vpc *ec2.Vpc,
+func (r NetworkRequest) managePublicSubnets(mCtx *mc.Context, vpc *ec2.Vpc,
 	igw *ec2.InternetGateway, ctx *pulumi.Context, namePrefix string) (subnets []*subnet.PublicSubnetResources, err error) {
 	if len(r.PublicSubnetsCIDRs) > 0 {
 		for i := 0; i < len(r.PublicSubnetsCIDRs); i++ {
@@ -156,7 +171,7 @@ func (r NetworkRequest) managePublicSubnets(vpc *ec2.Vpc,
 					AddNatGateway:    r.checkIfNatGatewayRequired(i),
 					MapPublicIp:      r.MapPublicIp,
 				}
-			subnet, err := publicSNRequest.Create(ctx)
+			subnet, err := publicSNRequest.Create(ctx, mCtx)
 			if err != nil {
 				return nil, err
 			}
@@ -166,16 +181,16 @@ func (r NetworkRequest) managePublicSubnets(vpc *ec2.Vpc,
 	return
 }
 
-func (r NetworkRequest) managePrivateSubnets(vpc *ec2.Vpc,
+func (r NetworkRequest) managePrivateSubnets(mCtx *mc.Context, vpc *ec2.Vpc,
 	ngws []*ec2.NatGateway, ctx *pulumi.Context, namePrefix string) (subnets []*subnet.PrivateSubnetResources, err error) {
-	return managePrivateSubnets(vpc, ngws, ctx, r.PrivateSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.SingleNatGateway)
+	return managePrivateSubnets(mCtx, vpc, ngws, ctx, r.PrivateSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.NatGatewayMode == &NatGatewayModeSingle)
 }
 
-func (r NetworkRequest) manageIntraSubnets(vpc *ec2.Vpc, ctx *pulumi.Context, namePrefix string) (subnets []*subnet.PrivateSubnetResources, err error) {
-	return managePrivateSubnets(vpc, nil, ctx, r.IntraSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.SingleNatGateway)
+func (r NetworkRequest) manageIntraSubnets(mCtx *mc.Context, vpc *ec2.Vpc, ctx *pulumi.Context, namePrefix string) (subnets []*subnet.PrivateSubnetResources, err error) {
+	return managePrivateSubnets(mCtx, vpc, nil, ctx, r.IntraSubnetsCIDRs, r.AvailabilityZones, r.Name, namePrefix, r.NatGatewayMode == &NatGatewayModeSingle)
 }
 
-func managePrivateSubnets(vpc *ec2.Vpc, ngws []*ec2.NatGateway, ctx *pulumi.Context,
+func managePrivateSubnets(mCtx *mc.Context, vpc *ec2.Vpc, ngws []*ec2.NatGateway, ctx *pulumi.Context,
 	snsCIDRs, azs []string, name, namePrefix string, singleNatGateway bool) (subnets []*subnet.PrivateSubnetResources, err error) {
 	if len(snsCIDRs) > 0 {
 		for i := 0; i < len(snsCIDRs); i++ {
@@ -186,7 +201,7 @@ func managePrivateSubnets(vpc *ec2.Vpc, ngws []*ec2.NatGateway, ctx *pulumi.Cont
 					CIDR:             snsCIDRs[i],
 					AvailabilityZone: azs[i],
 					Name:             fmt.Sprintf("%s%s%d", namePrefix, name, i)}
-			subnet, err := privateSNRequest.Create(ctx)
+			subnet, err := privateSNRequest.Create(ctx, mCtx)
 			if err != nil {
 				return nil, err
 			}
@@ -197,7 +212,7 @@ func managePrivateSubnets(vpc *ec2.Vpc, ngws []*ec2.NatGateway, ctx *pulumi.Cont
 }
 
 func (r NetworkRequest) checkIfNatGatewayRequired(i int) bool {
-	return r.SingleNatGateway && i == 0 || len(r.PrivateSubnetsCIDRs) > 0
+	return r.NatGatewayMode == &NatGatewayModeSingle && i == 0 || len(r.PrivateSubnetsCIDRs) > 0
 }
 
 func getNatGateways(source []*subnet.PublicSubnetResources) (ngws []*ec2.NatGateway) {

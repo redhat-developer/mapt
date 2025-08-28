@@ -3,53 +3,59 @@ package spot
 import (
 	"errors"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
-	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
-	awsSpot "github.com/redhat-developer/mapt/pkg/spot/aws"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
+	"github.com/redhat-developer/mapt/pkg/util"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-type SpotOptionRequest struct {
+type SpotStackArgs struct {
 	Prefix             string
 	ProductDescription string
 	InstaceTypes       []string
 	AMIName            string
 	AMIArch            string
+	Spot               *spotTypes.SpotArgs
 }
 
-type SpotOptionResult struct {
+type SpotStackResult struct {
 	Region           string
 	AvailabilityZone string
-	AVGPrice         float64
-	MaxPrice         float64
+	InstanceType     []string
+	Price            float64
 	Score            int64
 }
 
-type bestSpotOption struct {
-	pulumi.ResourceState
-	Option *awsSpot.SpotOptionInfo
+type spotStackRequest struct {
+	mCtx               *mc.Context
+	prefix             string
+	productDescription string
+	instaceTypes       []string
+	amiName            string
+	amiArch            string
+	spot               *spotTypes.SpotArgs
 }
 
-func NewBestSpotOption(ctx *pulumi.Context, name string,
-	productDescription string, instaceTypes []string,
-	amiName, amiArch string, opts ...pulumi.ResourceOption) (*awsSpot.SpotOptionInfo, error) {
-	spotOption, err := awsSpot.BestSpotOptionInfo(productDescription, instaceTypes, amiName, amiArch)
-	if err != nil {
-		return nil, err
+func (r *SpotStackArgs) validate() error {
+	return validator.New(validator.WithRequiredStructEnabled()).Struct(r)
+}
+
+func (r *SpotStackArgs) toRequest(mCtx *mc.Context) *spotStackRequest {
+	return &spotStackRequest{
+		mCtx:               mCtx,
+		prefix:             r.Prefix,
+		productDescription: r.ProductDescription,
+		instaceTypes:       r.InstaceTypes,
+		amiName:            r.AMIName,
+		amiArch:            r.AMIArch,
+		spot:               r.Spot,
 	}
-	err = ctx.RegisterComponentResource("rh:qe:aws:bso",
-		name,
-		&bestSpotOption{
-			Option: spotOption,
-		},
-		opts...)
-	if err != nil {
-		return nil, err
-	}
-	return spotOption, nil
 }
 
 // Create wil get the information for the best spot choice it is backed
@@ -60,11 +66,15 @@ func NewBestSpotOption(ctx *pulumi.Context, name string,
 // So create will check if stack with state already exists, if that is the case it will
 // pick info from its outputs
 // If stack does not exists it will create it
-func (r SpotOptionRequest) Create() (*SpotOptionResult, error) {
+func Create(mCtx *mc.Context, args *SpotStackArgs) (*SpotStackResult, error) {
+	if err := args.validate(); err != nil {
+		return nil, err
+	}
 	stack, err := manager.CheckStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject("spotOption"),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL()})
+		StackName:   mCtx.StackNameByProject("spotOption"),
+		ProjectName: mCtx.ProjectName(),
+		BackedURL:   mCtx.BackedURL()})
+	r := args.toRequest(mCtx)
 	if err != nil {
 		return r.createStack()
 	} else {
@@ -73,64 +83,76 @@ func (r SpotOptionRequest) Create() (*SpotOptionResult, error) {
 }
 
 // Check if spot option stack was created on the backed url
-func Exist() bool {
+func Exist(mCtx *mc.Context) bool {
 	s, err := manager.CheckStack(manager.Stack{
-		StackName:   maptContext.StackNameByProject("spotOption"),
-		ProjectName: maptContext.ProjectName(),
-		BackedURL:   maptContext.BackedURL()})
+		StackName:   mCtx.StackNameByProject("spotOption"),
+		ProjectName: mCtx.ProjectName(),
+		BackedURL:   mCtx.BackedURL()})
 	return err == nil && s != nil
 }
 
 // Destroy the stack
-func Destroy() (err error) {
+func Destroy(mCtx *mc.Context) (err error) {
 	stack := manager.Stack{
-		StackName:           maptContext.StackNameByProject("spotOption"),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:           mCtx.StackNameByProject("spotOption"),
+		ProjectName:         mCtx.ProjectName(),
+		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials}
-	return manager.DestroyStack(stack)
+	return manager.DestroyStack(mCtx, stack)
 }
 
 // function to create the stack
-func (r SpotOptionRequest) createStack() (*SpotOptionResult, error) {
+func (r *spotStackRequest) createStack() (*SpotStackResult, error) {
 	stack := manager.Stack{
-		StackName:           maptContext.StackNameByProject("spotOption"),
-		ProjectName:         maptContext.ProjectName(),
-		BackedURL:           maptContext.BackedURL(),
+		StackName:           r.mCtx.StackNameByProject("spotOption"),
+		ProjectName:         r.mCtx.ProjectName(),
+		BackedURL:           r.mCtx.BackedURL(),
 		ProviderCredentials: aws.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
-	stackResult, err := manager.UpStack(stack)
+	stackResult, err := manager.UpStack(r.mCtx, stack)
 	if err != nil {
 		return nil, err
 	}
-	return &SpotOptionResult{
+	return &SpotStackResult{
 		Region:           stackResult.Outputs["region"].Value.(string),
 		AvailabilityZone: stackResult.Outputs["az"].Value.(string),
-		MaxPrice:         stackResult.Outputs["max"].Value.(float64),
-		AVGPrice:         stackResult.Outputs["avg"].Value.(float64),
-		Score:            int64(stackResult.Outputs["score"].Value.(float64))}, nil
+		InstanceType: util.ArrayCast[string](
+			stackResult.Outputs["instancetypes"].Value.([]interface{})),
+		Price: stackResult.Outputs["max"].Value.(float64),
+		Score: int64(stackResult.Outputs["score"].Value.(float64))}, nil
 }
 
 // deployer function to create the logic to get the best spot option
 // and it will export the data from the best spot option to the stack state
-func (r SpotOptionRequest) deployer(ctx *pulumi.Context) error {
-	so, err := NewBestSpotOption(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, "bso", "bso"),
-		r.ProductDescription, r.InstaceTypes, r.AMIName, r.AMIArch)
+func (r *spotStackRequest) deployer(ctx *pulumi.Context) error {
+	sia := &data.SpotInfoArgs{
+		ProductDescription: &r.productDescription,
+		InstaceTypes:       r.instaceTypes,
+		AMIName:            &r.amiName,
+		AMIArch:            &r.amiArch,
+	}
+	if r.spot != nil {
+		sia.ExcludedRegions = r.spot.ExcludedHostingPlaces
+		sia.SpotPriceIncreaseRate = &r.spot.IncreaseRate
+		sia.SpotTolerance = &r.spot.Tolerance
+	}
+	so, err := NewBestSpotOption(ctx, r.mCtx,
+		resourcesUtil.GetResourceName(r.prefix, "bso", "bso"),
+		sia)
 	if err != nil {
 		return err
 	}
-	ctx.Export("region", pulumi.String(so.Region))
+	ctx.Export("region", pulumi.String(so.HostingPlace))
 	ctx.Export("az", pulumi.String(so.AvailabilityZone))
-	ctx.Export("max", pulumi.Float64(so.MaxPrice))
-	ctx.Export("avg", pulumi.Float64(so.AVGPrice))
-	ctx.Export("score", pulumi.Float64(so.Score))
+	ctx.Export("instancetypes", pulumi.ToStringArray(so.ComputeType))
+	ctx.Export("max", pulumi.Float64(so.Price))
+	ctx.Export("score", pulumi.Float64(so.ChanceLevel))
 	return nil
 }
 
 // function to get outputs from an existing stack
-func getOutputs(stack *auto.Stack) (*SpotOptionResult, error) {
+func getOutputs(stack *auto.Stack) (*SpotStackResult, error) {
 	outputs, err := manager.GetOutputs(stack)
 	if err != nil {
 		return nil, err
@@ -138,10 +160,12 @@ func getOutputs(stack *auto.Stack) (*SpotOptionResult, error) {
 	if len(outputs) == 0 {
 		return nil, errors.New("stack outputs are empty please destroy and re-create")
 	}
-	return &SpotOptionResult{
+	return &SpotStackResult{
 		Region:           outputs["region"].Value.(string),
 		AvailabilityZone: outputs["az"].Value.(string),
-		MaxPrice:         outputs["max"].Value.(float64),
-		AVGPrice:         outputs["avg"].Value.(float64),
-		Score:            int64(outputs["score"].Value.(float64))}, nil
+		Price:            outputs["max"].Value.(float64),
+		InstanceType: util.ArrayCast[string](
+			outputs["instancetypes"].Value.([]interface{})),
+		Score: int64(outputs["score"].Value.(float64))}, nil
+
 }

@@ -16,8 +16,8 @@ import (
 
 // Get all dedicated hosts matching the tags + arch
 // it will return the list ordered by allocation time
-func GetMatchingHostsInformation(arch string) ([]*mac.HostInformation, error) {
-	matchingTags := maptContext.GetTags()
+func GetMatchingHostsInformation(mCtx *maptContext.Context, arch string) ([]*mac.HostInformation, error) {
+	matchingTags := mCtx.GetTags()
 	matchingTags[tagKeyArch] = arch
 	return GetMatchingHostsInStateInformation(matchingTags, nil)
 }
@@ -37,11 +37,11 @@ func GetPoolDedicatedHostsInformation(id *PoolID) ([]*mac.HostInformation, error
 
 // format for remote backed url when creating the dedicated host
 // the backed url from param is used as base and the ID is appended as sub path
-func getBackedURL() string {
-	if strings.Contains(maptContext.BackedURL(), "file://") {
-		return maptContext.BackedURL()
+func getBackedURL(mCtx *maptContext.Context) string {
+	if strings.Contains(mCtx.BackedURL(), "file://") {
+		return mCtx.BackedURL()
 	}
-	return fmt.Sprintf("%s/%s", maptContext.BackedURL(), maptContext.RunID())
+	return fmt.Sprintf("%s/%s", mCtx.BackedURL(), mCtx.RunID())
 }
 
 // Get all dedicated hosts by tag and state
@@ -98,12 +98,15 @@ func getTagValue(tags []ec2Types.Tag, tagKey string) *string {
 // if not offered and machine should be created on the region it will return an error
 // if not offered and machine could be created anywhere it will get a region offering the machine and return its name
 func getRegion(arch string, fixedLocation bool) (*string, error) {
+	region := os.Getenv("AWS_DEFAULT_REGION")
 	logging.Debugf("checking if %s is offered at %s",
 		arch,
-		os.Getenv("AWS_DEFAULT_REGION"))
-	isOffered, err := data.IsInstanceTypeOfferedByRegion(
+		region)
+	isOffered, err := data.IsInstanceTypeOfferedByLocation(
 		mac.TypesByArch[arch],
-		os.Getenv("AWS_DEFAULT_REGION"))
+		&data.LocationArgs{
+			Region: &region,
+		})
 	if err != nil {
 		return nil, err
 	}
@@ -134,9 +137,12 @@ func getAZ(region, arch string) (az *string, err error) {
 		if err != nil {
 			return nil, err
 		}
-		isOffered, err = data.IsInstanceTypeOfferedByAZ(
-			region,
-			mac.TypesByArch[arch], *az)
+		isOffered, err = data.IsInstanceTypeOfferedByLocation(
+			mac.TypesByArch[arch],
+			&data.LocationArgs{
+				Region: &region,
+				Az:     az,
+			})
 		if err != nil {
 			return nil, err
 		}

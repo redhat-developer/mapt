@@ -1,5 +1,10 @@
 package host
 
+import (
+	"github.com/go-playground/validator/v10"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+)
+
 const (
 	// mapt internal ID for the component: nac dedicated host
 	awsMacHostID = "amh"
@@ -45,11 +50,21 @@ type PoolMacDedicatedHostRequestArgs struct {
 }
 
 type dedicatedHostArgs struct {
+	mCtx             *mc.Context `validate:"required"`
 	prefix           string
 	arch             string
 	region           *string
 	availabilityZone *string
 	tags             map[string]string
+}
+
+func (r *dedicatedHostArgs) validate() error {
+	v := validator.New(validator.WithRequiredStructEnabled())
+	err := v.Var(r.mCtx, "required")
+	if err != nil {
+		return err
+	}
+	return v.Struct(r)
 }
 
 var (

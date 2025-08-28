@@ -3,8 +3,9 @@ package airgap
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/vpc/subnet"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/vpc/vpc"
 )
@@ -31,18 +32,18 @@ type AirgapNetworkResources struct {
 	PublicSubnet     *subnet.PublicSubnetResources
 }
 
-func (r AirgapNetworkRequest) CreateNetwork(ctx *pulumi.Context) (*AirgapNetworkResources, error) {
+func (r AirgapNetworkRequest) CreateNetwork(ctx *pulumi.Context, mCtx *mc.Context) (*AirgapNetworkResources, error) {
 	var result = AirgapNetworkResources{}
 	var err error
 	// VPC creation
 	vpcRequest := vpc.VPCRequest{CIDR: r.CIDR, Name: r.Name}
-	result.VPCResources, err = vpcRequest.CreateNetwork(ctx)
+	result.VPCResources, err = vpcRequest.CreateNetwork(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
 	// Manage Public Subnet
 	result.PublicSubnet, err =
-		r.managePublicSubnet(ctx,
+		r.managePublicSubnet(ctx, mCtx,
 			result.VPCResources.VPC,
 			result.VPCResources.InternetGateway,
 			"public")
@@ -55,7 +56,7 @@ func (r AirgapNetworkRequest) CreateNetwork(ctx *pulumi.Context) (*AirgapNetwork
 	}
 	// Manage Private Subnets
 	result.TargetSubnet, err =
-		r.manageTargetSubnet(ctx,
+		r.manageTargetSubnet(ctx, mCtx,
 			result.VPCResources.VPC,
 			natGateway, "airgap")
 	if err != nil {
@@ -64,7 +65,7 @@ func (r AirgapNetworkRequest) CreateNetwork(ctx *pulumi.Context) (*AirgapNetwork
 	return &result, nil
 }
 
-func (r AirgapNetworkRequest) managePublicSubnet(ctx *pulumi.Context,
+func (r AirgapNetworkRequest) managePublicSubnet(ctx *pulumi.Context, mCtx *mc.Context,
 	vpc *ec2.Vpc, igw *ec2.InternetGateway, namePrefix string) (
 	*subnet.PublicSubnetResources, error) {
 	publicSNRequest :=
@@ -76,10 +77,10 @@ func (r AirgapNetworkRequest) managePublicSubnet(ctx *pulumi.Context,
 			Name:             fmt.Sprintf("%s%s", namePrefix, r.Name),
 			// Depending on the phase we create or not a NatGateway
 			AddNatGateway: !r.SetAsAirgap}
-	return publicSNRequest.Create(ctx)
+	return publicSNRequest.Create(ctx, mCtx)
 }
 
-func (r AirgapNetworkRequest) manageTargetSubnet(ctx *pulumi.Context,
+func (r AirgapNetworkRequest) manageTargetSubnet(ctx *pulumi.Context, mCtx *mc.Context,
 	vpc *ec2.Vpc, ngw *ec2.NatGateway,
 	namePrefix string) (
 	*subnet.PrivateSubnetResources, error) {
@@ -90,5 +91,5 @@ func (r AirgapNetworkRequest) manageTargetSubnet(ctx *pulumi.Context,
 			CIDR:             r.TargetSubnetCIDR,
 			AvailabilityZone: r.AvailabilityZone,
 			Name:             fmt.Sprintf("%s%s", namePrefix, r.Name)}
-	return privateSNRequest.Create(ctx)
+	return privateSNRequest.Create(ctx, mCtx)
 }

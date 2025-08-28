@@ -1293,6 +1293,54 @@ type CapacityAllocation struct {
 	noSmithyDocumentSerde
 }
 
+// Reserve powerful GPU instances on a future date to support your short duration
+// machine learning (ML) workloads. Instances that run inside a Capacity Block are
+// automatically placed close together inside [Amazon EC2 UltraClusters], for low-latency, petabit-scale,
+// non-blocking networking.
+//
+// You can also reserve Amazon EC2 UltraServers. UltraServers connect multiple EC2
+// instances using a low-latency, high-bandwidth accelerator interconnect
+// (NeuronLink). They are built to tackle very large-scale AI/ML workloads that
+// require significant processing power. For more information, see Amazon EC2
+// UltraServers.
+//
+// [Amazon EC2 UltraClusters]: http://aws.amazon.com/ec2/ultraclusters/
+type CapacityBlock struct {
+
+	// The Availability Zone of the Capacity Block.
+	AvailabilityZone *string
+
+	// The Availability Zone ID of the Capacity Block.
+	AvailabilityZoneId *string
+
+	// The ID of the Capacity Block.
+	CapacityBlockId *string
+
+	// The ID of the Capacity Reservation.
+	CapacityReservationIds []string
+
+	// The date and time at which the Capacity Block was created.
+	CreateDate *time.Time
+
+	// The date and time at which the Capacity Block expires. When a Capacity Block
+	// expires, all instances in the Capacity Block are terminated.
+	EndDate *time.Time
+
+	// The date and time at which the Capacity Block was started.
+	StartDate *time.Time
+
+	// The state of the Capacity Block.
+	State CapacityBlockResourceState
+
+	// The tags assigned to the Capacity Block.
+	Tags []Tag
+
+	// The EC2 UltraServer type of the Capacity Block.
+	UltraserverType *string
+
+	noSmithyDocumentSerde
+}
+
 // Describes a Capacity Block extension. With an extension, you can extend the
 // duration of time for an existing Capacity Block.
 type CapacityBlockExtension struct {
@@ -1442,8 +1490,48 @@ type CapacityBlockOffering struct {
 	// The tenancy of the Capacity Block.
 	Tenancy CapacityReservationTenancy
 
+	// The number of EC2 UltraServers in the offering.
+	UltraserverCount *int32
+
+	// The EC2 UltraServer type of the Capacity Block offering.
+	UltraserverType *string
+
 	// The total price to be paid up front.
 	UpfrontFee *string
+
+	noSmithyDocumentSerde
+}
+
+// Describes the availability of capacity for a Capacity Block.
+type CapacityBlockStatus struct {
+
+	// The ID of the Capacity Block.
+	CapacityBlockId *string
+
+	// The availability of capacity for the Capacity Block reservations.
+	CapacityReservationStatuses []CapacityReservationStatus
+
+	// The status of the high-bandwidth accelerator interconnect. Possible states
+	// include:
+	//
+	//   - ok the accelerator interconnect is healthy.
+	//
+	//   - impaired - accelerator interconnect communication is impaired.
+	//
+	//   - insufficient-data - insufficient data to determine accelerator interconnect
+	//   status.
+	InterconnectStatus CapacityBlockInterconnectStatus
+
+	// The remaining capacity. Indicates the number of resources that can be launched
+	// into the Capacity Block.
+	TotalAvailableCapacity *int32
+
+	// The combined amount of Available and Unavailable capacity in the Capacity Block.
+	TotalCapacity *int32
+
+	// The unavailable capacity. Indicates the instance capacity that is unavailable
+	// for use due to a system status check failure.
+	TotalUnavailableCapacity *int32
 
 	noSmithyDocumentSerde
 }
@@ -1463,6 +1551,9 @@ type CapacityReservation struct {
 
 	// Information about instance capacity usage.
 	CapacityAllocations []CapacityAllocation
+
+	// The ID of the Capacity Block.
+	CapacityBlockId *string
 
 	// The Amazon Resource Name (ARN) of the Capacity Reservation.
 	CapacityReservationArn *string
@@ -1924,6 +2015,27 @@ type CapacityReservationSpecificationResponse struct {
 	// Information about the targeted Capacity Reservation or Capacity Reservation
 	// group.
 	CapacityReservationTarget *CapacityReservationTargetResponse
+
+	noSmithyDocumentSerde
+}
+
+// Describes the availability of capacity for a Capacity Reservation.
+type CapacityReservationStatus struct {
+
+	// The ID of the Capacity Reservation.
+	CapacityReservationId *string
+
+	// The remaining capacity. Indicates the amount of resources that can be launched
+	// into the Capacity Reservation.
+	TotalAvailableCapacity *int32
+
+	// The combined amount of Available and Unavailable capacity in the Capacity
+	// Reservation.
+	TotalCapacity *int32
+
+	// The used capacity. Indicates that the capacity is in use by resources that are
+	// running in the Capacity Reservation.
+	TotalUnavailableCapacity *int32
 
 	noSmithyDocumentSerde
 }
@@ -3241,10 +3353,12 @@ type CustomerGateway struct {
 	// The name of customer gateway device.
 	DeviceName *string
 
-	//  IPv4 address for the customer gateway device's outside interface. The address
-	// must be static. If OutsideIpAddressType in your VPN connection options is set
-	// to PrivateIpv4 , you can use an RFC6598 or RFC1918 private IPv4 address. If
-	// OutsideIpAddressType is set to PublicIpv4 , you can use a public IPv4 address.
+	//  The IP address for the customer gateway device's outside interface. The
+	// address must be static. If OutsideIpAddressType in your VPN connection options
+	// is set to PrivateIpv4 , you can use an RFC6598 or RFC1918 private IPv4 address.
+	// If OutsideIpAddressType is set to PublicIpv4 , you can use a public IPv4
+	// address. If OutsideIpAddressType is set to Ipv6 , you can use a public IPv6
+	// address.
 	IpAddress *string
 
 	// The current state of the customer gateway ( pending | available | deleting |
@@ -3963,6 +4077,40 @@ type DnsServersOptionsModifyStructure struct {
 // Describes a block device for an EBS volume.
 type EbsBlockDevice struct {
 
+	// The Availability Zone where the EBS volume will be created (for example,
+	// us-east-1a ).
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both.
+	// If neither is specified, Amazon EC2 automatically selects an Availability Zone
+	// within the Region.
+	//
+	// This parameter is not supported when using [CreateFleet], [CreateImage], [DescribeImages], [RequestSpotFleet], [RequestSpotInstances], and [RunInstances].
+	//
+	// [DescribeImages]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html
+	// [CreateFleet]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet.html
+	// [RequestSpotInstances]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html
+	// [RunInstances]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html
+	// [CreateImage]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html
+	// [RequestSpotFleet]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotFleet.html
+	AvailabilityZone *string
+
+	// The ID of the Availability Zone where the EBS volume will be created (for
+	// example, use1-az1 ).
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both.
+	// If neither is specified, Amazon EC2 automatically selects an Availability Zone
+	// within the Region.
+	//
+	// This parameter is not supported when using [CreateFleet], [CreateImage], [DescribeImages], [RequestSpotFleet], [RequestSpotInstances], and [RunInstances].
+	//
+	// [DescribeImages]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html
+	// [CreateFleet]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet.html
+	// [RequestSpotInstances]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html
+	// [RunInstances]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html
+	// [CreateImage]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html
+	// [RequestSpotFleet]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotFleet.html
+	AvailabilityZoneId *string
+
 	// Indicates whether the EBS volume is deleted on instance termination. For more
 	// information, see [Preserving Amazon EBS volumes on instance termination]in the Amazon EC2 User Guide.
 	//
@@ -4173,7 +4321,8 @@ type EbsInfo struct {
 // Describes a parameter used to set up an EBS volume in a block device mapping.
 type EbsInstanceBlockDevice struct {
 
-	// The ARN of the Amazon ECS or Fargate task to which the volume is attached.
+	// The ARN of the Amazon Web Services-managed resource to which the volume is
+	// attached.
 	AssociatedResource *string
 
 	// The time stamp when the attachment initiated.
@@ -4193,7 +4342,8 @@ type EbsInstanceBlockDevice struct {
 
 	// The ID of the Amazon Web Services account that owns the volume.
 	//
-	// This parameter is returned only for volumes that are attached to Fargate tasks.
+	// This parameter is returned only for volumes that are attached to Amazon Web
+	// Services-managed resources.
 	VolumeOwnerId *string
 
 	noSmithyDocumentSerde
@@ -4277,7 +4427,8 @@ type Ec2InstanceConnectEndpoint struct {
 	// The DNS name of the EC2 Instance Connect Endpoint.
 	DnsName *string
 
-	//
+	// The Federal Information Processing Standards (FIPS) compliant DNS name of the
+	// EC2 Instance Connect Endpoint.
 	FipsDnsName *string
 
 	// The Amazon Resource Name (ARN) of the EC2 Instance Connect Endpoint.
@@ -4285,6 +4436,9 @@ type Ec2InstanceConnectEndpoint struct {
 
 	// The ID of the EC2 Instance Connect Endpoint.
 	InstanceConnectEndpointId *string
+
+	// The IP address type of the endpoint.
+	IpAddressType IpAddressType
 
 	// The ID of the elastic network interface that Amazon EC2 automatically created
 	// when creating the EC2 Instance Connect Endpoint.
@@ -4304,6 +4458,9 @@ type Ec2InstanceConnectEndpoint struct {
 	//
 	// Default: true
 	PreserveClientIp *bool
+
+	// The public DNS names of the endpoint.
+	PublicDnsNames *InstanceConnectEndpointPublicDnsNames
 
 	// The security groups associated with the endpoint. If you didn't specify a
 	// security group, the default security group for your VPC is associated with the
@@ -6664,6 +6821,14 @@ type Image struct {
 	// Specifies whether enhanced networking with ENA is enabled.
 	EnaSupport *bool
 
+	// Indicates whether the image is eligible for Amazon Web Services Free Tier.
+	//
+	//   - If true , the AMI is eligible for Free Tier and can be used to launch
+	//   instances under the Free Tier limits.
+	//
+	//   - If false , the AMI is not eligible for Free Tier.
+	FreeTierEligible *bool
+
 	// The hypervisor type of the image. Only xen is supported. ovm is not supported.
 	Hypervisor HypervisorType
 
@@ -6746,22 +6911,9 @@ type Image struct {
 	RootDeviceType DeviceType
 
 	// The ID of the source AMI from which the AMI was created.
-	//
-	// The ID only appears if the AMI was created using CreateImage, CopyImage, or CreateRestoreImageTask. The ID does not
-	// appear if the AMI was created using any other API. For some older AMIs, the ID
-	// might not be available. For more information, see [Identify the source AMI used to create a new Amazon EC2 AMI]in the Amazon EC2 User Guide.
-	//
-	// [Identify the source AMI used to create a new Amazon EC2 AMI]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify-source-ami-used-to-create-new-ami.html
 	SourceImageId *string
 
 	// The Region of the source AMI.
-	//
-	// The Region only appears if the AMI was created using CreateImage, CopyImage, or CreateRestoreImageTask. The Region does
-	// not appear if the AMI was created using any other API. For some older AMIs, the
-	// Region might not be available. For more information, see [Identify the source AMI used to create a new Amazon EC2 AMI]in the Amazon EC2 User
-	// Guide.
-	//
-	// [Identify the source AMI used to create a new Amazon EC2 AMI]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify-source-ami-used-to-create-new-ami.html
 	SourceImageRegion *string
 
 	// The ID of the instance that the AMI was created from if the AMI was created
@@ -7115,6 +7267,9 @@ type ImportInstanceVolumeDetailItem struct {
 	// The Availability Zone where the resulting instance will reside.
 	AvailabilityZone *string
 
+	// The ID of the Availability Zone where the resulting instance will reside.
+	AvailabilityZoneId *string
+
 	// The number of bytes converted so far.
 	BytesConverted *int64
 
@@ -7159,6 +7314,9 @@ type ImportVolumeTaskDetails struct {
 
 	// The Availability Zone where the resulting volume will reside.
 	AvailabilityZone *string
+
+	// The ID of the Availability Zone where the resulting volume will reside.
+	AvailabilityZoneId *string
 
 	// The number of bytes converted so far.
 	BytesConverted *int64
@@ -7221,6 +7379,34 @@ type InferenceDeviceMemoryInfo struct {
 	noSmithyDocumentSerde
 }
 
+// Information about the volume initialization. For more information, see [Initialize Amazon EBS volumes].
+//
+// [Initialize Amazon EBS volumes]: https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html
+type InitializationStatusDetails struct {
+
+	// The estimated remaining time, in seconds, for volume initialization to
+	// complete. Returns 0 when volume initialization has completed.
+	//
+	// Only available for volumes created with Amazon EBS Provisioned Rate for Volume
+	// Initialization.
+	EstimatedTimeToCompleteInSeconds *int64
+
+	// The method used for volume initialization. Possible values include:
+	//
+	//   - default - Volume initialized using the default volume initialization rate or
+	//   fast snapshot restore.
+	//
+	//   - provisioned-rate - Volume initialized using an Amazon EBS Provisioned Rate
+	//   for Volume Initialization.
+	InitializationType InitializationType
+
+	// The current volume initialization progress as a percentage (0-100). Returns 100
+	// when volume initialization has completed.
+	Progress *int64
+
+	noSmithyDocumentSerde
+}
+
 // Describes an instance.
 type Instance struct {
 
@@ -7245,6 +7431,12 @@ type Instance struct {
 	//
 	// [Boot modes]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html
 	BootMode BootModeValues
+
+	// The ID of the Capacity Block.
+	//
+	// For P5 instances, a Capacity Block ID refers to a group of instances. For Trn2u
+	// instances, a capacity block ID refers to an EC2 UltraServer.
+	CapacityBlockId *string
 
 	// The ID of the Capacity Reservation.
 	CapacityReservationId *string
@@ -7382,9 +7574,11 @@ type Instance struct {
 	// The product codes attached to this instance, if applicable.
 	ProductCodes []ProductCode
 
-	// [IPv4 only] The public DNS name assigned to the instance. This name is not
-	// available until the instance enters the running state. This name is only
-	// available if you've enabled DNS hostnames for your VPC.
+	// The public DNS name assigned to the instance. This name is not available until
+	// the instance enters the running state. This name is only available if you've
+	// enabled DNS hostnames for your VPC. The format of this name depends on the [public hostname type].
+	//
+	// [public hostname type]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hostname-types.html#public-hostnames
 	PublicDnsName *string
 
 	// The public IPv4 address, or the Carrier IP address assigned to the instance, if
@@ -7540,6 +7734,33 @@ type InstanceCapacity struct {
 	// The total number of instances that can be launched onto the Dedicated Host if
 	// there are no instances running on it.
 	TotalCapacity *int32
+
+	noSmithyDocumentSerde
+}
+
+// The DNS names of the endpoint.
+type InstanceConnectEndpointDnsNames struct {
+
+	// The DNS name of the EC2 Instance Connect Endpoint.
+	DnsName *string
+
+	// The Federal Information Processing Standards (FIPS) compliant DNS name of the
+	// EC2 Instance Connect Endpoint.
+	FipsDnsName *string
+
+	noSmithyDocumentSerde
+}
+
+// The public DNS names of the endpoint, including IPv4-only and dualstack DNS
+// names.
+type InstanceConnectEndpointPublicDnsNames struct {
+
+	// The dualstack DNS name of the EC2 Instance Connect Endpoint. A dualstack DNS
+	// name supports connections from both IPv4 and IPv6 clients.
+	Dualstack *InstanceConnectEndpointDnsNames
+
+	// The IPv4-only DNS name of the EC2 Instance Connect Endpoint.
+	Ipv4 *InstanceConnectEndpointDnsNames
 
 	noSmithyDocumentSerde
 }
@@ -9192,6 +9413,9 @@ type InstanceStatus struct {
 	// The Availability Zone of the instance.
 	AvailabilityZone *string
 
+	// The ID of the Availability Zone of the instance.
+	AvailabilityZoneId *string
+
 	// Any scheduled events associated with the instance.
 	Events []InstanceStatusEvent
 
@@ -9313,6 +9537,10 @@ type InstanceTopology struct {
 
 	// The name of the Availability Zone or Local Zone that the instance is in.
 	AvailabilityZone *string
+
+	// The ID of the Capacity Block. This parameter is only supported for Ultraserver
+	// instances and identifies instances within the Ultraserver domain.
+	CapacityBlockId *string
 
 	// The name of the placement group that the instance is in.
 	GroupName *string
@@ -11850,6 +12078,9 @@ type LaunchTemplatePlacement struct {
 	// The Availability Zone of the instance.
 	AvailabilityZone *string
 
+	// The ID of the Availability Zone of the instance.
+	AvailabilityZoneId *string
+
 	// The Group ID of the placement group. You must specify the Placement Group Group
 	// ID to launch an instance in a shared placement group.
 	GroupId *string
@@ -11884,7 +12115,14 @@ type LaunchTemplatePlacementRequest struct {
 	Affinity *string
 
 	// The Availability Zone for the instance.
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both
 	AvailabilityZone *string
+
+	// The ID of the Availability Zone for the instance.
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both
+	AvailabilityZoneId *string
 
 	// The Group Id of a placement group. You must specify the Placement Group Group
 	// Id to launch an instance in a shared placement group.
@@ -14805,13 +15043,25 @@ type Placement struct {
 
 	// The Availability Zone of the instance.
 	//
-	// If not specified, an Availability Zone will be automatically chosen for you
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both.
+	// If neither is specified, Amazon EC2 automatically selects an Availability Zone
 	// based on the load balancing criteria for the Region.
 	//
 	// This parameter is not supported for [CreateFleet].
 	//
 	// [CreateFleet]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet
 	AvailabilityZone *string
+
+	// The ID of the Availability Zone of the instance.
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both.
+	// If neither is specified, Amazon EC2 automatically selects an Availability Zone
+	// based on the load balancing criteria for the Region.
+	//
+	// This parameter is not supported for [CreateFleet].
+	//
+	// [CreateFleet]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet
+	AvailabilityZoneId *string
 
 	// The ID of the placement group that the instance is in. If you specify GroupId ,
 	// you can't specify GroupName .
@@ -15642,6 +15892,9 @@ type RequestLaunchTemplateData struct {
 	// Deprecated.
 	//
 	// Amazon Elastic Graphics reached end of life on January 8, 2024.
+	//
+	// Deprecated: Specifying Elastic Graphics accelerators is no longer supported on
+	// the RunInstances API.
 	ElasticGpuSpecifications []ElasticGpuSpecification
 
 	// Amazon Elastic Inference is no longer available.
@@ -15651,6 +15904,9 @@ type RequestLaunchTemplateData struct {
 	// instances to accelerate your Deep Learning (DL) inference workloads.
 	//
 	// You cannot specify accelerators from different generations in the same request.
+	//
+	// Deprecated: Specifying Elastic Inference accelerators is no longer supported on
+	// the RunInstances API.
 	ElasticInferenceAccelerators []LaunchTemplateElasticInferenceAccelerator
 
 	// Indicates whether the instance is enabled for Amazon Web Services Nitro
@@ -16548,6 +16804,10 @@ type Route struct {
 	// The ID of Amazon Web Services account that owns the instance.
 	InstanceOwnerId *string
 
+	// The next hop IP address for routes propagated by VPC Route Server into VPC
+	// route tables.
+	IpAddress *string
+
 	// The ID of the local gateway.
 	LocalGatewayId *string
 
@@ -16556,6 +16816,9 @@ type Route struct {
 
 	// The ID of the network interface.
 	NetworkInterfaceId *string
+
+	// The Amazon Resource Name (ARN) of the ODB network.
+	OdbNetworkArn *string
 
 	// Describes how the route was created.
 	//
@@ -16956,6 +17219,10 @@ type RouteTableAssociation struct {
 
 	// Indicates whether this is the main route table.
 	Main *bool
+
+	// The ID of a public IPv4 pool. A public IPv4 pool is a pool of IPv4 addresses
+	// that you've brought to Amazon Web Services with BYOIP.
+	PublicIpv4Pool *string
 
 	// The ID of the association.
 	RouteTableAssociationId *string
@@ -17706,6 +17973,9 @@ type SecurityGroupVpcAssociation struct {
 	// The association's security group ID.
 	GroupId *string
 
+	// The Amazon Web Services account ID of the owner of the security group.
+	GroupOwnerId *string
+
 	// The association's state.
 	State SecurityGroupVpcAssociationState
 
@@ -17728,7 +17998,14 @@ type ServiceConfiguration struct {
 	// endpoint to the service must first be accepted.
 	AcceptanceRequired *bool
 
+	// The IDs of the Availability Zones in which the service is available.
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both
+	AvailabilityZoneIds []string
+
 	// The Availability Zones in which the service is available.
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both
 	AvailabilityZones []string
 
 	// The DNS names for the service.
@@ -17788,7 +18065,14 @@ type ServiceDetail struct {
 	// accepted by the service owner.
 	AcceptanceRequired *bool
 
+	// The IDs of the Availability Zones in which the service is available.
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both
+	AvailabilityZoneIds []string
+
 	// The Availability Zones in which the service is available.
+	//
+	// Either AvailabilityZone or AvailabilityZoneId can be specified, but not both
 	AvailabilityZones []string
 
 	// The DNS names for the service.
@@ -18030,7 +18314,8 @@ type Snapshot struct {
 	TransferType TransferType
 
 	// The ID of the volume that was used to create the snapshot. Snapshots created by
-	// the CopySnapshotaction have an arbitrary volume ID that should not be used for any purpose.
+	// a copy snapshot operation have an arbitrary volume ID that you should not use
+	// for any purpose.
 	VolumeId *string
 
 	// The size of the volume, in GiB.
@@ -18762,7 +19047,16 @@ type SpotInstanceRequest struct {
 	LaunchSpecification *LaunchSpecification
 
 	// The Availability Zone in which the request is launched.
+	//
+	// Either launchedAvailabilityZone or launchedAvailabilityZoneId can be specified,
+	// but not both
 	LaunchedAvailabilityZone *string
+
+	// The ID of the Availability Zone in which the request is launched.
+	//
+	// Either launchedAvailabilityZone or launchedAvailabilityZoneId can be specified,
+	// but not both
+	LaunchedAvailabilityZoneId *string
 
 	// The product description associated with the Spot Instance.
 	ProductDescription RIProductDescription
@@ -19192,6 +19486,9 @@ type SpotPrice struct {
 
 	// The Availability Zone.
 	AvailabilityZone *string
+
+	// The ID of the Availability Zone.
+	AvailabilityZoneId *string
 
 	// The instance type.
 	InstanceType InstanceType
@@ -21996,6 +22293,9 @@ type Volume struct {
 	// The Availability Zone for the volume.
 	AvailabilityZone *string
 
+	// The ID of the Availability Zone for the volume.
+	AvailabilityZoneId *string
+
 	// The time stamp when volume creation was initiated.
 	CreateTime *time.Time
 
@@ -22063,7 +22363,8 @@ type Volume struct {
 // Describes volume attachment details.
 type VolumeAttachment struct {
 
-	// The ARN of the Amazon ECS or Fargate task to which the volume is attached.
+	// The ARN of the Amazon Web Services-managed resource to which the volume is
+	// attached.
 	AssociatedResource *string
 
 	// The time stamp when the attachment initiated.
@@ -22074,18 +22375,21 @@ type VolumeAttachment struct {
 
 	// The device name.
 	//
-	// If the volume is attached to a Fargate task, this parameter returns null .
+	// If the volume is attached to an Amazon Web Services-managed resource, this
+	// parameter returns null .
 	Device *string
 
 	// The ID of the instance.
 	//
-	// If the volume is attached to a Fargate task, this parameter returns null .
+	// If the volume is attached to an Amazon Web Services-managed resource, this
+	// parameter returns null .
 	InstanceId *string
 
-	// The service principal of Amazon Web Services service that owns the underlying
-	// instance to which the volume is attached.
+	// The service principal of the Amazon Web Services service that owns the
+	// underlying resource to which the volume is attached.
 	//
-	// This parameter is returned only for volumes that are attached to Fargate tasks.
+	// This parameter is returned only for volumes that are attached to Amazon Web
+	// Services-managed resources.
 	InstanceOwningService *string
 
 	// The attachment state of the volume.
@@ -22196,6 +22500,17 @@ type VolumeStatusAttachmentStatus struct {
 type VolumeStatusDetails struct {
 
 	// The name of the volume status.
+	//
+	//   - io-enabled - Indicates the volume I/O status. For more information, see [Amazon EBS volume status checks].
+	//
+	//   - io-performance - Indicates the volume performance status. For more
+	//   information, see [Amazon EBS volume status checks].
+	//
+	//   - initialization-state - Indicates the status of the volume initialization
+	//   process. For more information, see [Initialize Amazon EBS volumes].
+	//
+	// [Amazon EBS volume status checks]: https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-checks.html
+	// [Initialize Amazon EBS volumes]: https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html
 	Name VolumeStatusName
 
 	// The intended status of the volume status.
@@ -22257,6 +22572,17 @@ type VolumeStatusItem struct {
 
 	// A list of events associated with the volume.
 	Events []VolumeStatusEvent
+
+	// Information about the volume initialization. It can take up to 5 minutes for
+	// the volume initialization information to be updated.
+	//
+	// Only available for volumes created from snapshots. Not available for empty
+	// volumes created without a snapshot.
+	//
+	// For more information, see [Initialize Amazon EBS volumes].
+	//
+	// [Initialize Amazon EBS volumes]: https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html
+	InitializationStatusDetails *InitializationStatusDetails
 
 	// The Amazon Resource Name (ARN) of the Outpost.
 	OutpostArn *string
@@ -22896,7 +23222,7 @@ type VpnConnectionOptions struct {
 	// The type of IPv4 address assigned to the outside interface of the customer
 	// gateway.
 	//
-	// Valid values: PrivateIpv4 | PublicIpv4
+	// Valid values: PrivateIpv4 | PublicIpv4 | Ipv6
 	//
 	// Default: PublicIpv4
 	OutsideIpAddressType *string
@@ -22941,10 +23267,10 @@ type VpnConnectionOptionsSpecification struct {
 	// Default: ::/0
 	LocalIpv6NetworkCidr *string
 
-	// The type of IPv4 address assigned to the outside interface of the customer
+	// The type of IP address assigned to the outside interface of the customer
 	// gateway device.
 	//
-	// Valid values: PrivateIpv4 | PublicIpv4
+	// Valid values: PrivateIpv4 | PublicIpv4 | Ipv6
 	//
 	// Default: PublicIpv4
 	OutsideIpAddressType *string

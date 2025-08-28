@@ -32,9 +32,11 @@ import (
 	"sync"
 
 	multierror "github.com/hashicorp/go-multierror"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/promise"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/slice"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/cmdutil"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
@@ -70,6 +72,7 @@ type contextState struct {
 	supportsTransforms       bool         // true if remote transforms are supported by pulumi
 	supportsInvokeTransforms bool         // true if remote invoke transforms are supported by pulumi
 	supportsParameterization bool         // true if package references and parameterized providers are supported by pulumi
+	supportsResourceHooks    bool         // true if resource hooks are supported by pulumi
 	rpcs                     int          // the number of outstanding RPC requests.
 	rpcsDone                 *sync.Cond   // an event signaling completion of RPCs.
 	rpcsLock                 sync.Mutex   // a lock protecting the RPC count and event.
@@ -178,6 +181,11 @@ func NewContext(ctx context.Context, info RunInfo) (*Context, error) {
 		return nil, err
 	}
 
+	supportsResourceHooks, err := supportsFeature("resourceHooks")
+	if err != nil {
+		return nil, err
+	}
+
 	contextState := &contextState{
 		info:                     info,
 		exports:                  make(map[string]Input),
@@ -192,6 +200,7 @@ func NewContext(ctx context.Context, info RunInfo) (*Context, error) {
 		supportsTransforms:       supportsTransforms,
 		supportsInvokeTransforms: supportsInvokeTransforms,
 		supportsParameterization: supportsParameterization,
+		supportsResourceHooks:    supportsResourceHooks,
 		registeredOutputs:        make(map[URN]bool),
 	}
 	contextState.rpcsDone = sync.NewCond(&contextState.rpcsLock)
@@ -414,6 +423,16 @@ func (ctx *Context) registerTransform(t ResourceTransform) (*pulumirpc.Callback,
 			opts.ReplaceOnChanges = rpcReq.Options.ReplaceOnChanges
 			opts.RetainOnDelete = flatten(rpcReq.Options.RetainOnDelete)
 			opts.Version = rpcReq.Options.Version
+
+			if rpcReq.Options.Hooks != nil {
+				opts.Hooks = &ResourceHookBinding{}
+				opts.Hooks.BeforeCreate = makeStubHooks(rpcReq.Options.Hooks.GetBeforeCreate())
+				opts.Hooks.AfterCreate = makeStubHooks(rpcReq.Options.Hooks.GetAfterCreate())
+				opts.Hooks.BeforeUpdate = makeStubHooks(rpcReq.Options.Hooks.GetBeforeUpdate())
+				opts.Hooks.AfterUpdate = makeStubHooks(rpcReq.Options.Hooks.GetAfterUpdate())
+				opts.Hooks.BeforeDelete = makeStubHooks(rpcReq.Options.Hooks.GetBeforeDelete())
+				opts.Hooks.AfterDelete = makeStubHooks(rpcReq.Options.Hooks.GetAfterDelete())
+			}
 		}
 
 		args := &ResourceTransformArgs{
@@ -526,6 +545,14 @@ func (ctx *Context) registerTransform(t ResourceTransform) (*pulumirpc.Callback,
 			rpcRes.Options.ReplaceOnChanges = opts.ReplaceOnChanges
 			rpcRes.Options.RetainOnDelete = &opts.RetainOnDelete
 			rpcRes.Options.Version = opts.Version
+
+			if opts.Hooks != nil {
+				mHooks, err := marshalResourceHooks(ctx.ctx, opts.Hooks)
+				if err != nil {
+					return nil, fmt.Errorf("marshaling hooks: %w", err)
+				}
+				rpcRes.Options.Hooks = mHooks
+			}
 		}
 
 		return rpcRes, nil
@@ -1433,6 +1460,92 @@ func (ctx *Context) getResource(urn string) (*pulumirpc.RegisterResourceResponse
 	}, nil
 }
 
+// registerResourceHook starts up a callback server if not already running and registers the given hook function.
+func (ctx *Context) registerResourceHook(f ResourceHookFunction) (*pulumirpc.Callback, error) {
+	if !ctx.state.supportsResourceHooks {
+		return nil, errors.New("the Pulumi CLI does not support resource hooks. Please update the Pulumi CLI")
+	}
+
+	// Wrap the transform in a callback function.
+	callback := func(innerCtx context.Context, request []byte) (proto.Message, error) {
+		var req pulumirpc.ResourceHookRequest
+		err := proto.Unmarshal(request, &req)
+		if err != nil {
+			return nil, fmt.Errorf("unmarshaling request: %w", err)
+		}
+		var newInputs, oldInputs, newOutputs, oldOutputs resource.PropertyMap
+		mOpts := plugin.MarshalOptions{
+			KeepUnknowns:     true,
+			KeepSecrets:      true,
+			KeepResources:    true,
+			KeepOutputValues: true,
+		}
+		if req.NewInputs != nil {
+			newInputs, err = plugin.UnmarshalProperties(req.NewInputs, mOpts)
+			if err != nil {
+				return nil, fmt.Errorf("unmarshaling new inputs: %w", err)
+			}
+		}
+		if req.OldInputs != nil {
+			oldInputs, err = plugin.UnmarshalProperties(req.OldInputs, mOpts)
+			if err != nil {
+				return nil, fmt.Errorf("unmarshaling old inputs: %w", err)
+			}
+		}
+		if req.NewOutputs != nil {
+			newOutputs, err = plugin.UnmarshalProperties(req.NewOutputs, mOpts)
+			if err != nil {
+				return nil, fmt.Errorf("unmarshaling new outputs: %w", err)
+			}
+		}
+		if req.OldOutputs != nil {
+			oldOutputs, err = plugin.UnmarshalProperties(req.OldOutputs, mOpts)
+			if err != nil {
+				return nil, fmt.Errorf("unmarshaling old outputs: %w", err)
+			}
+		}
+		args := &ResourceHookArgs{
+			URN:        URN(req.Urn),
+			ID:         ID(req.Id),
+			Name:       req.Name,
+			Type:       tokens.Type(req.Type),
+			NewInputs:  newInputs,
+			OldInputs:  oldInputs,
+			NewOutputs: newOutputs,
+			OldOutputs: oldOutputs,
+		}
+		if err := f(args); err != nil {
+			return &pulumirpc.ResourceHookResponse{
+				Error: err.Error(),
+			}, nil
+		}
+		return &pulumirpc.ResourceHookResponse{}, nil
+	}
+
+	err := func() error {
+		ctx.state.callbacksLock.Lock()
+		defer ctx.state.callbacksLock.Unlock()
+		if ctx.state.callbacks == nil {
+			c, err := newCallbackServer()
+			if err != nil {
+				return fmt.Errorf("creating callback server: %w", err)
+			}
+			ctx.state.callbacks = c
+		}
+		return nil
+	}()
+	if err != nil {
+		return nil, err
+	}
+
+	cb, err := ctx.state.callbacks.RegisterCallback(callback)
+	if err != nil {
+		return nil, fmt.Errorf("registering callback: %w", err)
+	}
+
+	return cb, nil
+}
+
 func (ctx *Context) registerResource(
 	t, name string, props Input, resource Resource, remote bool, packageRef string, opts ...ResourceOption,
 ) error {
@@ -1563,6 +1676,17 @@ func (ctx *Context) registerResource(
 			transforms = append(transforms, cb)
 		}
 
+		// Collect all the hooks, waiting for their registrations.
+		var hooks *pulumirpc.RegisterResourceRequest_ResourceHooksBinding
+		if options.Hooks != nil {
+			mHooks, hooksErr := marshalResourceHooks(ctx.ctx, options.Hooks)
+			if hooksErr != nil {
+				logging.V(9).Infof("marshalResourceHooks(%s, %s): error: %v", t, name, err)
+				return
+			}
+			hooks = mHooks
+		}
+
 		// Prepare the inputs for an impending operation.
 		inputs, err = ctx.prepareResourceInputs(resource, props, t, options, resState, remote, custom)
 		if err != nil {
@@ -1633,6 +1757,7 @@ func (ctx *Context) registerResource(
 				Transforms:                 transforms,
 				SupportsResultReporting:    true,
 				PackageRef:                 packageRef,
+				Hooks:                      hooks,
 			})
 			if err != nil {
 				logging.V(9).Infof("RegisterResource(%s, %s): error: %v", t, name, err)
@@ -2612,6 +2737,40 @@ func (ctx *Context) RegisterInvokeTransform(t InvokeTransform) error {
 
 	_, err = ctx.state.monitor.RegisterStackInvokeTransform(ctx.ctx, cb)
 	return err
+}
+
+func (ctx *Context) RegisterResourceHook(
+	name string, callback ResourceHookFunction, opts *ResourceHookOptions,
+) (*ResourceHook, error) {
+	registered := &promise.CompletionSource[struct{}]{}
+	go func() {
+		cb, err := ctx.registerResourceHook(callback)
+		if err != nil {
+			registered.Reject(err)
+			return
+		}
+		onDryRun := false
+		if opts != nil {
+			onDryRun = opts.OnDryRun
+		}
+		req := &pulumirpc.RegisterResourceHookRequest{
+			Name:     name,
+			Callback: cb,
+			OnDryRun: onDryRun,
+		}
+		_, err = ctx.state.monitor.RegisterResourceHook(ctx.ctx, req)
+		if err != nil {
+			registered.Reject(err)
+		} else {
+			registered.Fulfill(struct{}{})
+		}
+	}()
+	hook := &ResourceHook{
+		Name:       name,
+		Callback:   callback,
+		registered: registered.Promise(),
+	}
+	return hook, nil
 }
 
 func (ctx *Context) newOutputState(elementType reflect.Type, deps ...Resource) *OutputState {
