@@ -116,7 +116,10 @@ type virtualMachine struct {
 	PremiumIO                    bool
 	AcceleratedNetworkingEnabled bool
 	EncryptionAtHostSupported    bool
+	DiskControllerTypes          []string
 }
+
+const DiskControllerTypeNVMe = "NVMe"
 
 func (vm *virtualMachine) nestedVirtSupported() bool {
 	dSeries := regexp.MustCompile(dSeriesPattern)
@@ -142,6 +145,13 @@ func (vm *virtualMachine) emptyDiskSupported() bool {
 func (vm *virtualMachine) baseFeaturesSupported() bool {
 	return vm.AcceleratedNetworkingEnabled && vm.PremiumIO && vm.EncryptionAtHostSupported &&
 		vm.emptyDiskSupported() && vm.hypervGen2Supported()
+}
+
+func (vm *virtualMachine) nvmeSupported() bool {
+	if len(vm.DiskControllerTypes) > 0 {
+		return slices.Contains(vm.DiskControllerTypes, DiskControllerTypeNVMe)
+	}
+	return false
 }
 
 func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
@@ -212,6 +222,8 @@ func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
 			vm.MaxResourceVolumeMB = int32(disk)
 		case "VMDeploymentTypes":
 			vm.VMDeploymentTypes = strings.Split(*capability.Value, ",")
+		case "DiskControllerTypes":
+			vm.DiskControllerTypes = strings.Split(*capability.Value, ",")
 		default:
 			continue
 		}
@@ -235,7 +247,8 @@ func filterCPUsAndMemory(args *cr.ComputeRequestArgs) filterFunc {
 			if vm.VCPUs >= args.CPUs &&
 				vm.Memory >= args.MemoryGib &&
 				vm.Arch == args.Arch.String() &&
-				vm.baseFeaturesSupported() {
+				vm.baseFeaturesSupported() &&
+				!vm.nvmeSupported() {
 				dSeries := regexp.MustCompile(lowerCpuPattern)
 				if !dSeries.Match([]byte(vm.Name)) {
 					vmCh <- vm.Name

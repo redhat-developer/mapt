@@ -178,7 +178,6 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 			return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
 		}
 	}
-
 	vm, err := virtualmachine.Create(ctx, r.mCtx,
 		&virtualmachine.VirtualMachineArgs{
 			Prefix:          *r.prefix,
@@ -194,7 +193,7 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 			AdminUsername: *r.username,
 			PrivateKey:    privateKey,
 			SpotPrice:     r.allocationData.Price,
-			Userdata:      userDataB64,
+			Userdata:      pulumi.String(userDataB64),
 			Location:      *r.allocationData.Location,
 		})
 	if err != nil {

@@ -8,7 +8,6 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v7"
-	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
@@ -17,7 +16,7 @@ type ImageRequest struct {
 	ImageReference
 }
 
-func GetImage(req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResponse, error) {
+func GetCommunityGalleryImage(req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResponse, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
@@ -48,11 +47,46 @@ func GetImage(req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResp
 	return nil, nil
 }
 
-func IsImageOffered(mCtx *mc.Context, req ImageRequest) bool {
-	if _, err := GetImage(req); err != nil {
-		if mCtx.Debug() {
-			logging.Debugf("error while checking if image available at location: %v", err)
+func GetCustomImage(req ImageRequest) (*armcompute.ImagesClientGetResponse, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	ctx := context.Background()
+	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
+
+	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(req.ID) > 0 {
+		// extract resource group and image name from ID url which looks like:
+		// /subscriptions/b0ad4737-8299-4c0a-9dd5-959cbcf8d81c/resourceGroups/cloud-importer-resourceGroup-a558d7c1/providers/Microsoft.Compute/images/openshift-local-%s-%s
+		parts := strings.Split(req.ID, "/")
+		if len(parts) != 9 {
+			return nil, fmt.Errorf("invalid custom image ID: %s", req.ID)
 		}
+
+		res, err := clientFactory.NewImagesClient().Get(ctx, parts[4], parts[8], nil)
+		if err != nil {
+			return nil, err
+		}
+		return &res, nil
+	}
+	return nil, nil
+}
+
+func IsImageOffered(req ImageRequest) bool {
+	if strings.Contains(req.ID, "CommunityGalleries") {
+		if _, err := GetCommunityGalleryImage(req); err != nil {
+			logging.Debugf("error while checking if image available at location: %v", err)
+			return false
+		}
+		return true
+	}
+	if _, err := GetCustomImage(req); err != nil {
+		logging.Debugf("error while checking if image available at location: %v", err)
 		return false
 	}
 	return true

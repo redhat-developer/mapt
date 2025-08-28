@@ -24,6 +24,7 @@ var (
 )
 
 type OpenshiftSNCArgs struct {
+	Location       string
 	Prefix         string
 	ComputeRequest *cr.ComputeRequestArgs
 	Version        string
