@@ -31,9 +31,15 @@ write_files:
       apiVersion: kubelet.config.k8s.io/v1beta1
       featureGates:
         MemoryQoS: true
+      podPidsLimit: 32768
       kubeReserved:
-        cpu: "1000m"
-        memory: "4Gi"
+        cpu: "3000m"
+        memory: "8Gi"
+      evictionHard:
+        memory.available: "1000Mi"
+        nodefs.available: "5%"
+        nodefs.inodesFree: "5%"
+        imagefs.available: "5%"
     nodes:
     - role: control-plane
       extraPortMappings:
@@ -49,6 +55,9 @@ write_files:
       - containerPort: {{ .ContainerPort }}
         hostPort: {{ .HostPort }}
         protocol: {{ .Protocol }}{{- end }}
+    - role: worker
+    - role: worker
+    - role: worker
   # owner: {{ .Username }}
   path: /root/kind-config.yaml
   permissions: '0644'
