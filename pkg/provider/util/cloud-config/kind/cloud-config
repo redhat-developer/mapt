@@ -9,6 +9,7 @@ ntp:
   config:
     service_name: chronyd.service
     check_exe: chronyd
+
 write_files:
 - content: |
     # kind-config.yaml
@@ -19,13 +20,26 @@ write_files:
       kind: ClusterConfiguration
       apiServer:
         certSANs:
-        - "{{ .PublicIP }}"
+          - "{{ .PublicIP }}"
     - |
       kind: InitConfiguration
       nodeRegistration:
         kubeletExtraArgs:
           node-labels: "ingress-ready=true"
-          system-reserved: memory=8Gi
+    - |
+      kind: KubeletConfiguration
+      apiVersion: kubelet.config.k8s.io/v1beta1
+      featureGates:
+        MemoryQoS: true
+      podPidsLimit: 32768
+      kubeReserved:
+        cpu: "3000m"
+        memory: "8Gi"
+      evictionHard:
+        memory.available: "1000Mi"
+        nodefs.available: "5%"
+        nodefs.inodesFree: "5%"
+        imagefs.available: "5%"
     nodes:
     - role: control-plane
       extraPortMappings:
@@ -41,10 +55,14 @@ write_files:
       - containerPort: {{ .ContainerPort }}
         hostPort: {{ .HostPort }}
         protocol: {{ .Protocol }}{{- end }}
+    - role: worker
+    - role: worker
+    - role: worker
   # owner: {{ .Username }}
   path: /root/kind-config.yaml
   permissions: '0644'
-runcmd:  
+
+runcmd:
   - dnf install -y podman kubectl
   - sysctl fs.inotify.max_user_watches=524288
   - sysctl fs.inotify.max_user_instances=512
@@ -52,8 +70,7 @@ runcmd:
   - chmod +x /usr/local/bin/kind
   - kind create cluster --name kind-mapt --config /root/kind-config.yaml --image {{ .KindImage }}
   - podman update --pids-limit 4096 kind-mapt-control-plane
-    # Validate cluster before export the final Kubeconfig
   - cmdKubeconfig="kind get kubeconfig --name kind-mapt > kubeconfig"
   - cmdCheckCluster="kubectl --request-timeout=3s --insecure-skip-tls-verify --kubeconfig kubeconfig get node >/dev/null 2>&1"
   - until eval $cmdCheckCluster; do eval $cmdKubeconfig; done
-  - kind get kubeconfig --name kind-mapt > /home/{{ .Username }}/kubeconfig  
+  - kind get kubeconfig --name kind-mapt > /home/{{ .Username }}/kubeconfig
