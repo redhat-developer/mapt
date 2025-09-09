@@ -5,8 +5,8 @@ import (
 
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
-	kindApi "github.com/redhat-developer/mapt/pkg/provider/api/k8s/kind"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/action/kind"
+	kindApi "github.com/redhat-developer/mapt/pkg/targets/service/kind"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"

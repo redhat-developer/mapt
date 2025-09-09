@@ -18,6 +18,11 @@ var KindK8sVersions map[string]KindK8SImages = map[string]KindK8SImages{
 	"v1.30": {"v0.29.0", "kindest/node:v1.30.13@sha256:397209b3d947d154f6641f2d0ce8d473732bd91c87d9575ade99049aa33cd648"},
 }
 
+const (
+	StackName = "stackKind"
+	KindID    = "knd"
+)
+
 // TODO check if allow customize this, specially ingress related ports
 var (
 	PortHTTP  = 8888
@@ -36,9 +41,9 @@ type KindArgs struct {
 }
 
 type KindResults struct {
-	Username   string   `json:"username"`
-	PrivateKey string   `json:"private_key"`
-	Host       string   `json:"host"`
-	Kubeconfig string   `json:"kubeconfig"`
+	Username   *string  `json:"username"`
+	PrivateKey *string  `json:"private_key"`
+	Host       *string  `json:"host"`
+	Kubeconfig *string  `json:"kubeconfig"`
 	SpotPrice  *float64 `json:"spot_price,omitempty"`
 }

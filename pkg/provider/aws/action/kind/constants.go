@@ -3,9 +3,6 @@ package kind
 import "fmt"
 
 var (
-	stackName = "stackKind"
-	awsKindID = "akd"
-
 	diskSize int = 200
 
 	// Official AMIs from Fedora use aarch64 format for arm64
@@ -17,11 +14,6 @@ var (
 	amiOwner       = "125523088429"
 	amiUserDefault = "fedora"
 	amiProduct     = "Linux/UNIX"
-
-	outputHost           = "akdHost"
-	outputUsername       = "akdUsername"
-	outputUserPrivateKey = "akdPrivatekey"
-	outputKubeconfig     = "akdKubeconfig"
 )
 
 // TODO check latest stable Fedora version
