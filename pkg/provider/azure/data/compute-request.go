@@ -17,11 +17,11 @@ import (
 const (
 	// standard D,E and F series are the VM families
 	// supporting nested virtualization
-	dSeriesPattern = `standardD.*v[3-6]Family$`
-	eSeriesPattern = `standardE.*v[3-6]Family$`
-	fSeriesPattern = `standardF.*v\dFamily$`
+	dSeriesPattern = `^[Ss]tandardD(?!CSv3Family)(?!Av4Family)(?!ASv4Family).*v[3-6]Family$`
+	eSeriesPattern = `^[Ss]tandardE(?!Av4Family)(?!ASv4Family).*v[3-6]Family$`
+	fSeriesPattern = `^[Ss]tandardF.*v\dFamily$`
 	//
-	lowerCpuPattern = `Standard.*-.*_v\d$`
+	lowerCpuPattern = `^[Ss]tandard.*-.*_v\d$`
 )
 
 type ComputeSelector struct{}
