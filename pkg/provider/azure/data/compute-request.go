@@ -17,9 +17,10 @@ import (
 const (
 	// standard D,E and F series are the VM families
 	// supporting nested virtualization
-	dSeriesPattern = `^[Ss]tandardD(?!CSv3Family)(?!Av4Family)(?!ASv4Family).*v[3-6]Family$`
-	eSeriesPattern = `^[Ss]tandardE(?!Av4Family)(?!ASv4Family).*v[3-6]Family$`
-	fSeriesPattern = `^[Ss]tandardF.*v\dFamily$`
+	excludedFamilies = "Av4Family,ASv4Family,CSv3Family"
+	dSeriesPattern   = `^[Ss]tandardD.*v[3-6]Family$`
+	eSeriesPattern   = `^[Ss]tandardE.*v[3-6]Family$`
+	fSeriesPattern   = `^[Ss]tandardF.*v\dFamily$`
 	//
 	lowerCpuPattern = `^[Ss]tandard.*-.*_v\d$`
 )
@@ -120,15 +121,25 @@ type virtualMachine struct {
 
 func (vm *virtualMachine) nestedVirtSupported() bool {
 	dSeries := regexp.MustCompile(dSeriesPattern)
-	if dSeries.Match([]byte(vm.Family)) {
-		return true
-	}
 	eSeries := regexp.MustCompile(eSeriesPattern)
-	if eSeries.Match([]byte(vm.Family)) {
+	fSeries := regexp.MustCompile(fSeriesPattern)
+
+	if (dSeries.Match([]byte(vm.Family)) ||
+		eSeries.Match([]byte(vm.Family)) ||
+		fSeries.Match([]byte(vm.Family))) && !isExcludedFamily(vm.Family) {
 		return true
 	}
-	fSeries := regexp.MustCompile(fSeriesPattern)
-	return fSeries.Match([]byte(vm.Family))
+	return false
+}
+
+func isExcludedFamily(family string) bool {
+	excluded := strings.Split(excludedFamilies, ",")
+	for _, ex := range excluded {
+		if strings.HasSuffix(family, strings.TrimSpace(ex)) {
+			return true
+		}
+	}
+	return false
 }
 
 func (vm *virtualMachine) hypervGen2Supported() bool {
