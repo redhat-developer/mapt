@@ -13,6 +13,7 @@ import (
 var (
 	optInStatusFilter      string = "opt-in-status"
 	optInStatusNorRequired string = "opt-in-not-required"
+	optInStatusOptedIn     string = "opted-in"
 )
 
 func GetRegions() ([]string, error) {
@@ -27,7 +28,7 @@ func GetRegions() ([]string, error) {
 			Filters: []ec2Types.Filter{
 				{
 					Name:   &optInStatusFilter,
-					Values: []string{optInStatusNorRequired},
+					Values: []string{optInStatusNorRequired, optInStatusOptedIn},
 				},
 			}})
 	if err != nil {
