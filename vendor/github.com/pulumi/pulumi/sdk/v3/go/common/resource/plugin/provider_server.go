@@ -796,6 +796,7 @@ func (p *providerServer) Construct(ctx context.Context,
 		DryRun:           req.GetDryRun(),
 		Parallel:         req.GetParallel(),
 		MonitorAddress:   req.GetMonitorEndpoint(),
+		StackTraceHandle: req.GetStackTraceHandle(),
 	}
 
 	aliases := make([]resource.Alias, len(req.GetAliases()))
@@ -818,7 +819,7 @@ func (p *providerServer) Construct(ctx context.Context,
 	var hooks map[resource.HookType][]string
 	binding := req.GetResourceHooks()
 	if binding != nil {
-		hooks := make(map[resource.HookType][]string)
+		hooks = make(map[resource.HookType][]string)
 		hooks[resource.BeforeCreate] = binding.GetBeforeCreate()
 		hooks[resource.AfterCreate] = binding.GetAfterCreate()
 		hooks[resource.BeforeUpdate] = binding.GetBeforeUpdate()
@@ -834,6 +835,7 @@ func (p *providerServer) Construct(ctx context.Context,
 		Providers:            req.GetProviders(),
 		PropertyDependencies: propertyDependencies,
 		ResourceHooks:        hooks,
+		DeletedWith:          resource.URN(req.DeletedWith),
 	}
 
 	resp, err := p.provider.Construct(ctx, ConstructRequest{
@@ -916,12 +918,13 @@ func (p *providerServer) Call(ctx context.Context, req *pulumirpc.CallRequest) (
 		cfg[configKey] = v
 	}
 	info := CallInfo{
-		Project:        req.GetProject(),
-		Stack:          req.GetStack(),
-		Config:         cfg,
-		DryRun:         req.GetDryRun(),
-		Parallel:       req.GetParallel(),
-		MonitorAddress: req.GetMonitorEndpoint(),
+		Project:          req.GetProject(),
+		Stack:            req.GetStack(),
+		Config:           cfg,
+		DryRun:           req.GetDryRun(),
+		Parallel:         req.GetParallel(),
+		MonitorAddress:   req.GetMonitorEndpoint(),
+		StackTraceHandle: req.GetStackTraceHandle(),
 	}
 	argDependencies := map[resource.PropertyKey][]resource.URN{}
 	for name, deps := range req.GetArgDependencies() {

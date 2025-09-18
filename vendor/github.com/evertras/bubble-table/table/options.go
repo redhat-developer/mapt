@@ -366,14 +366,19 @@ func (m Model) WithFilterInputValue(value string) Model {
 
 // WithFilterFunc adds a filter function to the model. If the function returns
 // true, the row will be included in the filtered results. If the function
-// is nil, the function won't be used. The filter input is passed as the second
-// argument to the function.
-func (m Model) WithFilterFunc(shouldInclude func(row Row, filterInput string) bool) Model {
+// is nil, the function won't be used and instead the default filtering will be applied,
+// if any.
+func (m Model) WithFilterFunc(shouldInclude FilterFunc) Model {
 	m.filterFunc = shouldInclude
 
 	m.visibleRowCacheUpdated = false
 
 	return m
+}
+
+// WithFuzzyFilter enables fuzzy filtering for the table.
+func (m Model) WithFuzzyFilter() Model {
+	return m.WithFilterFunc(filterFuncFuzzy)
 }
 
 // WithFooterVisibility sets the visibility of the footer.
@@ -491,6 +496,15 @@ func (m Model) WithAdditionalFullHelpKeys(keys []key.Binding) Model {
 	m.additionalFullHelpKeys = func() []key.Binding {
 		return keys
 	}
+
+	return m
+}
+
+// WithGlobalMetadata applies the given metadata to the table. This metadata is passed to
+// some functions in FilterFuncInput and StyleFuncInput to enable more advanced decisions,
+// such as setting some global theme variable to reference, etc. Has no effect otherwise.
+func (m Model) WithGlobalMetadata(metadata map[string]any) Model {
+	m.metadata = metadata
 
 	return m
 }
