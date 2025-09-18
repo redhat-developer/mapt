@@ -1,7 +1,7 @@
 # dario.cat/mergo v1.0.2
 ## explicit; go 1.13
 dario.cat/mergo
-# github.com/Azure/azure-sdk-for-go/sdk/azcore v1.18.2
+# github.com/Azure/azure-sdk-for-go/sdk/azcore v1.19.1
 ## explicit; go 1.23.0
 github.com/Azure/azure-sdk-for-go/sdk/azcore
 github.com/Azure/azure-sdk-for-go/sdk/azcore/arm
@@ -24,7 +24,7 @@ github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime
 github.com/Azure/azure-sdk-for-go/sdk/azcore/streaming
 github.com/Azure/azure-sdk-for-go/sdk/azcore/to
 github.com/Azure/azure-sdk-for-go/sdk/azcore/tracing
-# github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.11.0
+# github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.12.0
 ## explicit; go 1.23.0
 github.com/Azure/azure-sdk-for-go/sdk/azidentity
 github.com/Azure/azure-sdk-for-go/sdk/azidentity/internal
@@ -49,7 +49,7 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources
 # github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 ## explicit; go 1.18
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions
-# github.com/AzureAD/microsoft-authentication-library-for-go v1.4.2
+# github.com/AzureAD/microsoft-authentication-library-for-go v1.5.0
 ## explicit; go 1.18
 github.com/AzureAD/microsoft-authentication-library-for-go/apps/cache
 github.com/AzureAD/microsoft-authentication-library-for-go/apps/confidential
@@ -188,17 +188,19 @@ github.com/aws/aws-sdk-go-v2/internal/ini
 github.com/aws/aws-sdk-go-v2/internal/v4a
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto
 github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4
-# github.com/aws/aws-sdk-go-v2/service/ec2 v1.245.2
+# github.com/aws/aws-sdk-go-v2/service/ec2 v1.252.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ec2/types
-# github.com/aws/aws-sdk-go-v2/service/ecs v1.63.2
+# github.com/aws/aws-sdk-go-v2/service/ecs v1.64.0
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/ecs
+github.com/aws/aws-sdk-go-v2/service/ecs/document
+github.com/aws/aws-sdk-go-v2/service/ecs/internal/document
 github.com/aws/aws-sdk-go-v2/service/ecs/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ecs/types
-# github.com/aws/aws-sdk-go-v2/service/iam v1.46.0
+# github.com/aws/aws-sdk-go-v2/service/iam v1.47.5
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/iam
 github.com/aws/aws-sdk-go-v2/service/iam/internal/endpoints
@@ -217,12 +219,12 @@ github.com/aws/aws-sdk-go-v2/service/internal/presigned-url
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared/arn
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared/config
-# github.com/aws/aws-sdk-go-v2/service/pricing v1.38.0
+# github.com/aws/aws-sdk-go-v2/service/pricing v1.39.4
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/pricing
 github.com/aws/aws-sdk-go-v2/service/pricing/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/pricing/types
-# github.com/aws/aws-sdk-go-v2/service/s3 v1.87.1
+# github.com/aws/aws-sdk-go-v2/service/s3 v1.88.1
 ## explicit; go 1.22
 github.com/aws/aws-sdk-go-v2/service/s3
 github.com/aws/aws-sdk-go-v2/service/s3/internal/arn
@@ -253,6 +255,8 @@ github.com/aws/smithy-go/container/private/cache
 github.com/aws/smithy-go/container/private/cache/lru
 github.com/aws/smithy-go/context
 github.com/aws/smithy-go/document
+github.com/aws/smithy-go/document/internal/serde
+github.com/aws/smithy-go/document/json
 github.com/aws/smithy-go/encoding
 github.com/aws/smithy-go/encoding/httpbinding
 github.com/aws/smithy-go/encoding/json
@@ -352,7 +356,7 @@ github.com/emirpasic/gods/utils
 # github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f
 ## explicit; go 1.16
 github.com/erikgeiser/coninput
-# github.com/evertras/bubble-table v0.17.2
+# github.com/evertras/bubble-table v0.19.2
 ## explicit; go 1.18
 github.com/evertras/bubble-table/table
 # github.com/fsnotify/fsnotify v1.9.0
@@ -486,6 +490,9 @@ github.com/jbenet/go-context/io
 # github.com/kevinburke/ssh_config v1.4.0
 ## explicit; go 1.18
 github.com/kevinburke/ssh_config
+# github.com/klauspost/cpuid/v2 v2.3.0
+## explicit; go 1.22
+github.com/klauspost/cpuid/v2
 # github.com/kylelemons/godebug v1.1.0
 ## explicit; go 1.11
 github.com/kylelemons/godebug/diff
@@ -494,7 +501,7 @@ github.com/kylelemons/godebug/pretty
 ## explicit; go 1.18
 github.com/leodido/go-urn
 github.com/leodido/go-urn/scim/schema
-# github.com/lucasb-eyer/go-colorful v1.2.0
+# github.com/lucasb-eyer/go-colorful v1.3.0
 ## explicit; go 1.12
 github.com/lucasb-eyer/go-colorful
 # github.com/mattn/go-isatty v0.0.20
@@ -562,8 +569,8 @@ github.com/pelletier/go-toml/v2/unstable
 github.com/pgavlin/fx
 # github.com/pgavlin/fx/v2 v2.0.11
 ## explicit; go 1.23.0
-# github.com/pjbgf/sha1cd v0.4.0
-## explicit; go 1.21
+# github.com/pjbgf/sha1cd v0.5.0
+## explicit; go 1.22
 github.com/pjbgf/sha1cd
 github.com/pjbgf/sha1cd/internal
 github.com/pjbgf/sha1cd/ubc
@@ -581,8 +588,8 @@ github.com/pkg/term/termios
 github.com/pulumi/appdash
 github.com/pulumi/appdash/internal/wire
 github.com/pulumi/appdash/opentracing
-# github.com/pulumi/esc v0.17.0
-## explicit; go 1.23.0
+# github.com/pulumi/esc v0.18.0
+## explicit; go 1.23.11
 github.com/pulumi/esc
 github.com/pulumi/esc/ast
 github.com/pulumi/esc/diags
@@ -591,14 +598,14 @@ github.com/pulumi/esc/internal/util
 github.com/pulumi/esc/schema
 github.com/pulumi/esc/syntax
 github.com/pulumi/esc/syntax/encoding
-# github.com/pulumi/pulumi-aws-native/sdk v1.32.0
+# github.com/pulumi/pulumi-aws-native/sdk v1.34.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/ssm
-# github.com/pulumi/pulumi-aws/sdk/v7 v7.4.0
-## explicit; go 1.23.0
+# github.com/pulumi/pulumi-aws/sdk/v7 v7.7.0
+## explicit; go 1.23.11
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/autoscaling
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/cloudwatch
@@ -614,28 +621,28 @@ github.com/pulumi/pulumi-aws/sdk/v7/go/aws/s3
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/awsx
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/ecs
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/internal
-# github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.7.1
+# github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.8.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/authorization/v3
-# github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.7.1
+# github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.8.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/compute/v3
-# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.7.1
+# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.8.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3
-# github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.7.1
+# github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.8.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3
-# github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.7.1
+# github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.8.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/network/v3
-# github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.7.1
+# github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.8.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/resources/v3
-# github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.7.1
+# github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.8.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/storage/v3
-# github.com/pulumi/pulumi-azure-native-sdk/v3 v3.7.1
+# github.com/pulumi/pulumi-azure-native-sdk/v3 v3.8.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/v3/utilities
 # github.com/pulumi/pulumi-command/sdk v1.1.0
@@ -726,7 +733,7 @@ github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.190.0
+# github.com/pulumi/pulumi/sdk/v3 v3.197.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -802,7 +809,7 @@ github.com/rogpeppe/go-internal/lockedfile/internal/filelock
 # github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 ## explicit; go 1.13
 github.com/sabhiram/go-gitignore
-# github.com/sagikazarmark/locafero v0.10.0
+# github.com/sagikazarmark/locafero v0.11.0
 ## explicit; go 1.23.0
 github.com/sagikazarmark/locafero
 # github.com/sahilm/fuzzy v0.1.1
@@ -825,23 +832,23 @@ github.com/skeema/knownhosts
 github.com/sourcegraph/conc
 github.com/sourcegraph/conc/panics
 github.com/sourcegraph/conc/pool
-# github.com/spf13/afero v1.14.0
+# github.com/spf13/afero v1.15.0
 ## explicit; go 1.23.0
 github.com/spf13/afero
 github.com/spf13/afero/internal/common
 github.com/spf13/afero/mem
-# github.com/spf13/cast v1.9.2
+# github.com/spf13/cast v1.10.0
 ## explicit; go 1.21.0
 github.com/spf13/cast
 github.com/spf13/cast/internal
-# github.com/spf13/cobra v1.9.1
+# github.com/spf13/cobra v1.10.1
 ## explicit; go 1.15
 github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.10
 ## explicit; go 1.12
 github.com/spf13/pflag
-# github.com/spf13/viper v1.20.1
-## explicit; go 1.21.0
+# github.com/spf13/viper v1.21.0
+## explicit; go 1.23.0
 github.com/spf13/viper
 github.com/spf13/viper/internal/encoding/dotenv
 github.com/spf13/viper/internal/encoding/json
@@ -878,10 +885,11 @@ github.com/xanzy/ssh-agent
 # github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e
 ## explicit; go 1.19
 github.com/xo/terminfo
-# github.com/zclconf/go-cty v1.16.4
-## explicit; go 1.18
+# github.com/zclconf/go-cty v1.17.0
+## explicit; go 1.23
 github.com/zclconf/go-cty/cty
 github.com/zclconf/go-cty/cty/convert
+github.com/zclconf/go-cty/cty/ctymarks
 github.com/zclconf/go-cty/cty/ctystrings
 github.com/zclconf/go-cty/cty/function
 github.com/zclconf/go-cty/cty/set
@@ -891,8 +899,11 @@ go.uber.org/atomic
 # go.uber.org/multierr v1.11.0
 ## explicit; go 1.19
 go.uber.org/multierr
-# golang.org/x/crypto v0.41.0
-## explicit; go 1.23.0
+# go.yaml.in/yaml/v3 v3.0.4
+## explicit; go 1.16
+go.yaml.in/yaml/v3
+# golang.org/x/crypto v0.42.0
+## explicit; go 1.24.0
 golang.org/x/crypto/argon2
 golang.org/x/crypto/blake2b
 golang.org/x/crypto/blowfish
@@ -912,15 +923,15 @@ golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
-# golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b
+# golang.org/x/exp v0.0.0-20250911091902-df9299821621
 ## explicit; go 1.24.0
 golang.org/x/exp/maps
 golang.org/x/exp/slices
-# golang.org/x/mod v0.27.0
-## explicit; go 1.23.0
+# golang.org/x/mod v0.28.0
+## explicit; go 1.24.0
 golang.org/x/mod/semver
-# golang.org/x/net v0.43.0
-## explicit; go 1.23.0
+# golang.org/x/net v0.44.0
+## explicit; go 1.24.0
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2
@@ -931,8 +942,8 @@ golang.org/x/net/internal/socks
 golang.org/x/net/internal/timeseries
 golang.org/x/net/proxy
 golang.org/x/net/trace
-# golang.org/x/sync v0.16.0
-## explicit; go 1.23.0
+# golang.org/x/sync v0.17.0
+## explicit; go 1.24.0
 golang.org/x/sync/errgroup
 # golang.org/x/sys v0.36.0
 ## explicit; go 1.24.0
@@ -942,11 +953,11 @@ golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 golang.org/x/sys/windows/registry
-# golang.org/x/term v0.34.0
-## explicit; go 1.23.0
+# golang.org/x/term v0.35.0
+## explicit; go 1.24.0
 golang.org/x/term
-# golang.org/x/text v0.28.0
-## explicit; go 1.23.0
+# golang.org/x/text v0.29.0
+## explicit; go 1.24.0
 golang.org/x/text/encoding
 golang.org/x/text/encoding/internal
 golang.org/x/text/encoding/internal/identifier
@@ -961,8 +972,8 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# golang.org/x/tools v0.36.0
-## explicit; go 1.23.0
+# golang.org/x/tools v0.37.0
+## explicit; go 1.24.0
 golang.org/x/tools/cmd/stringer
 golang.org/x/tools/go/gcexportdata
 golang.org/x/tools/go/packages
@@ -981,8 +992,8 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20250818200422-3122310a409c
-## explicit; go 1.23.0
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20250908214217-97024824d090
+## explicit; go 1.24.0
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.75.1
 ## explicit; go 1.23.0

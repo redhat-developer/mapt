@@ -155,14 +155,20 @@ func evalEnvironment(
 		}
 	}
 
+	contextProperties, exportDiags := ec.myContext.export(name)
+	diags.Extend(exportDiags...)
+
 	executionContext := &esc.EvaluatedExecutionContext{
-		Properties: ec.myContext.export(name).Value.(map[string]esc.Value),
+		Properties: contextProperties.Value.(map[string]esc.Value),
 		Schema:     ec.myContext.schema,
 	}
 
+	envProperties, exportDiags := v.export(name)
+	diags.Extend(exportDiags...)
+
 	return &esc.Environment{
 		Exprs:            ec.root.export(name).Object,
-		Properties:       v.export(name).Value.(map[string]esc.Value),
+		Properties:       envProperties.Value.(map[string]esc.Value),
 		Schema:           s,
 		ExecutionContext: executionContext,
 	}, &ec.rotationResult, diags
@@ -270,6 +276,7 @@ type exprNode interface {
 // - {Null, Boolean, Number, String}Expr -> literalExpr
 // - InterpolateExpr                     -> interpolateExpr
 // - SymbolExpr                          -> symbolExpr
+// - ConcatExpr                          -> concatExpr
 // - FromBase64Expr                      -> fromBase64Expr
 // - FromJSONExpr                        -> fromJSONExpr
 // - JoinExpr                            -> joinExpr
@@ -318,6 +325,12 @@ func declare[Expr exprNode](e *evalContext, path string, x Expr, base *value) *e
 		}
 		property := &propertyAccess{accessors: accessors}
 		return newExpr(path, &symbolExpr{node: x, property: property}, schema.Always().Schema(), base)
+	case *ast.ConcatExpr:
+		repr := &concatExpr{
+			node:   x,
+			arrays: declare(e, "", x.Arrays, nil),
+		}
+		return newExpr(path, repr, schema.Array().Items(schema.Always()).Schema(), base)
 	case *ast.FromBase64Expr:
 		repr := &fromBase64Expr{node: x, string: declare(e, "", x.String, nil)}
 		return newExpr(path, repr, schema.String().Schema(), base)
@@ -578,6 +591,8 @@ func (e *evalContext) evaluateExpr(x *expr, accept *schema.Schema) *value {
 		val = e.evaluateInterpolate(x, repr)
 	case *symbolExpr:
 		val = e.evaluatePropertyAccess(x, repr.property.accessors, accept)
+	case *concatExpr:
+		val = e.evaluateBuiltinConcat(x, repr)
 	case *fromBase64Expr:
 		val = e.evaluateBuiltinFromBase64(x, repr)
 	case *fromJSONExpr:
@@ -1062,7 +1077,10 @@ func (e *evalContext) evaluateBuiltinOpen(x *expr, repr *openExpr) *value {
 		return v
 	}
 
-	output, err := provider.Open(e.ctx, inputs.export("").Value.(map[string]esc.Value), e.execContext)
+	inputsV, exportDiags := inputs.export("")
+	e.diags.Extend(exportDiags...)
+
+	output, err := provider.Open(e.ctx, inputsV.Value.(map[string]esc.Value), e.execContext)
 	if err != nil {
 		e.errorf(repr.syntax(), "%s", err.Error())
 		v.unknown = true
@@ -1125,12 +1143,18 @@ func (e *evalContext) evaluateBuiltinRotate(x *expr, repr *rotateExpr) *value {
 		return v
 	}
 
+	inputsV, exportDiags := inputs.export("")
+	e.diags.Extend(exportDiags...)
+
 	// if rotating, invoke prior to open
 	if e.shouldRotate(docPath) {
+		stateV, exportDiags := state.export("")
+		e.diags.Extend(exportDiags...)
+
 		newState, err := rotator.Rotate(
 			e.ctx,
-			inputs.export("").Value.(map[string]esc.Value),
-			asObjectOrNil(state.export("").Value),
+			inputsV.Value.(map[string]esc.Value),
+			asObjectOrNil(stateV.Value),
 			e.execContext,
 		)
 		if err != nil {
@@ -1165,10 +1189,13 @@ func (e *evalContext) evaluateBuiltinRotate(x *expr, repr *rotateExpr) *value {
 		state = unexport(newState, x)
 	}
 
+	stateV, exportDiags := state.export("")
+	e.diags.Extend(exportDiags...)
+
 	output, err := rotator.Open(
 		e.ctx,
-		inputs.export("").Value.(map[string]esc.Value),
-		asObjectOrNil(state.export("").Value),
+		inputsV.Value.(map[string]esc.Value),
+		asObjectOrNil(stateV.Value),
 		e.execContext,
 	)
 	if err != nil {
@@ -1198,6 +1225,27 @@ func (e *evalContext) shouldRotate(docPath string) bool {
 func asObjectOrNil(v any) map[string]esc.Value {
 	cast, _ := v.(map[string]esc.Value)
 	return cast
+}
+
+// evaluateBuiltinConcat evaluates a call to the fn::concat builtin.
+func (e *evalContext) evaluateBuiltinConcat(x *expr, repr *concatExpr) *value {
+	v := &value{def: x, schema: x.schema}
+
+	arrays, ok := e.evaluateTypedExpr(repr.arrays, schema.Array().Items(schema.Array().Items(schema.Always())).Schema())
+	if !ok {
+		v.unknown = true
+		return v
+	}
+
+	v.combine(arrays)
+	if !v.unknown {
+		var result []*value
+		for _, arrayVal := range arrays.repr.([]*value) {
+			result = append(result, arrayVal.repr.([]*value)...)
+		}
+		v.repr = result
+	}
+	return v
 }
 
 // evaluateBuiltinJoin evaluates a call to the fn::join builtin.
@@ -1307,7 +1355,10 @@ func (e *evalContext) evaluateBuiltinToJSON(x *expr, repr *toJSONExpr) *value {
 
 	v.combine(value)
 	if !v.unknown {
-		b, err := json.Marshal(value.export("").ToJSON(false))
+		valueV, exportDiags := value.export("")
+		e.diags.Extend(exportDiags...)
+
+		b, err := json.Marshal(valueV.ToJSON(false))
 		if err != nil {
 			e.errorf(repr.syntax(), "failed to encode JSON: %v", err)
 			v.unknown = true
