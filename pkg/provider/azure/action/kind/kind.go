@@ -1,4 +1,4 @@
-package linux
+package kind
 
 import (
 	"fmt"
@@ -12,9 +12,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
-	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	userDataApi "github.com/redhat-developer/mapt/pkg/provider/api/config/userdata"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/allocation"
@@ -27,31 +25,7 @@ import (
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
-const (
-	stackAzureLinux = "stackAzureLinux"
-
-	azureLinuxID = "als"
-
-	outputHost           = "alsHost"
-	outputUsername       = "alsUsername"
-	outputUserPrivateKey = "alsUserPrivatekey"
-	defaultVMSize        = "Standard_D8as_v5"
-)
-
-type LinuxArgs struct {
-	Prefix                string
-	Location              string
-	Arch                  string
-	ComputeRequest        *cr.ComputeRequestArgs
-	OSType                data.OSType
-	Version               string
-	Username              string
-	Spot                  *spotTypes.SpotArgs
-	CloudConfigAsUserData userDataApi.CloudConfig
-	ReadinessCommand      string
-}
-
-type linuxRequest struct {
+type kindRequest struct {
 	mCtx                  *mc.Context `validate:"required"`
 	prefix                *string
 	arch                  *string

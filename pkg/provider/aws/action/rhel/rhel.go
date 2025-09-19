@@ -23,9 +23,9 @@ import (
 	amiSVC "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
-	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/rhel"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	rhelApi "github.com/redhat-developer/mapt/pkg/targets/host/rhel"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -217,12 +217,12 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Compute
-	rhelCloudConfig := &cloudConfigRHEL.RequestArgs{
+	rhelCloudConfig := &rhelApi.CloudConfigArgs{
 		SNCProfile:   *r.profileSNC,
 		SubsUsername: *r.subsUsername,
 		SubsPassword: *r.subsUserpass,
 		Username:     amiUserDefault}
-	userDataB64, err := rhelCloudConfig.GetAsUserdata()
+	userDataB64, err := rhelCloudConfig.CloudConfig()
 	if err != nil {
 		return err
 	}
@@ -233,7 +233,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		VPC:              nw.Vpc,
 		Subnet:           nw.Subnet,
 		AMI:              ami,
-		UserDataAsBase64: pulumi.String(userDataB64),
+		UserDataAsBase64: pulumi.String(*userDataB64),
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     r.allocationData.InstanceTypes,
