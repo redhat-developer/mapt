@@ -11,6 +11,7 @@ const (
 	Ubuntu OSType = iota + 1
 	RHEL
 	Fedora
+	OpenShiftSNC
 )
 
 const fedoraImageGalleryBase = "/CommunityGalleries/Fedora-5e266ba4-2250-406d-adad-5d73860d958f/Images/"
@@ -19,7 +20,7 @@ type ImageReference struct {
 	Publisher string
 	Offer     string
 	Sku       string
-	// community gallery image ID
+	// community gallery image or custom image ID
 	ID string
 }
 
@@ -52,6 +53,14 @@ var (
 				ID: fedoraImageGalleryBase + "Fedora-Cloud-%s-Arm64/Versions/latest",
 			},
 		},
+		OpenShiftSNC: {
+			"x86_64": {
+				ID: "/subscriptions/b0ad4737-8299-4c0a-9dd5-959cbcf8d81c/resourceGroups/cloud-importer-resourceGroup-a558d7c1/providers/Microsoft.Compute/images/openshift-local-%s-%s",
+			},
+			"arm64": {
+				ID: "",
+			},
+		},
 	}
 )
 
@@ -75,6 +84,10 @@ func GetImageRef(osTarget OSType, arch string, version string) (*ImageReference,
 	case Fedora:
 		return &ImageReference{
 			ID: fmt.Sprintf(ir.ID, versions[0]),
+		}, nil
+	case OpenShiftSNC:
+		return &ImageReference{
+			ID: fmt.Sprintf(ir.ID, version, arch),
 		}, nil
 	}
 	return nil, fmt.Errorf("os type not supported")

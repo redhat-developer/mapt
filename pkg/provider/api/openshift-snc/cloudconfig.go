@@ -7,7 +7,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/file"
 )
 
-type dataValues struct {
+type CloudConfigDataValues struct {
 	// user auth information
 	Username string
 	PubKey   string
@@ -17,15 +17,16 @@ type dataValues struct {
 	SSMPullSecretName        string
 	SSMKubeAdminPasswordName string
 	SSMDeveloperPasswordName string
+	// Unprotected, used for azure
+	PullSecret    string
+	PassDeveloper string
+	PassKubeadmin string
 }
 
-//go:embed cloud-config
-var CloudConfig []byte
+var AWSCloudConfigRequiredProfiles = []string{"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"}
 
-var cloudConfigRequiredProfiles = []string{"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"}
-
-func cloudConfig(data dataValues) (*string, error) {
-	templateConfig := string(CloudConfig[:])
+func GenCloudConfig(data CloudConfigDataValues, cloudConfig []byte) (*string, error) {
+	templateConfig := string(cloudConfig[:])
 	cc, err := file.Template(data, templateConfig)
 	if err != nil {
 		return nil, err

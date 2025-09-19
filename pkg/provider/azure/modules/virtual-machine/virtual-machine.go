@@ -2,6 +2,7 @@ package virtualmachine
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pulumi/pulumi-azure-native-sdk/compute/v3"
 	"github.com/pulumi/pulumi-azure-native-sdk/network/v3"
@@ -11,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
+	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -38,8 +40,9 @@ type VirtualMachineArgs struct {
 	PrivateKey  *tls.PrivateKey
 	AdminPasswd *random.RandomPassword
 	// Linux optional
-	Userdata string
-	Location string
+	Userdata   pulumi.StringInput
+	Location   string
+	DiskSizeGB int
 }
 
 type VirtualMachine = *compute.VirtualMachine
@@ -49,8 +52,7 @@ type VirtualMachine = *compute.VirtualMachine
 func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (VirtualMachine, error) {
 	var imageReferenceArgs compute.ImageReferenceArgs
 	if len(args.ImageID) > 0 {
-		imageReferenceArgs = compute.ImageReferenceArgs{
-			CommunityGalleryImageId: pulumi.String(args.ImageID)}
+		imageReferenceArgs = getImageRefArgs(args.ImageID)
 	} else {
 		finalSku, err := data.SkuG2Support(args.Location, args.Publisher, args.Offer, args.Sku)
 		if err != nil {
@@ -81,7 +83,7 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 			ImageReference: imageReferenceArgs,
 			OsDisk: compute.OSDiskArgs{
 				Name:         pulumi.String(mCtx.RunID()),
-				DiskSizeGB:   pulumi.Int(diskSize),
+				DiskSizeGB:   util.If(args.DiskSizeGB > 0, pulumi.Int(args.DiskSizeGB), pulumi.Int(diskSize)),
 				CreateOption: pulumi.String("FromImage"),
 				Caching:      compute.CachingTypesReadWrite,
 				ManagedDisk: compute.ManagedDiskParametersArgs{
@@ -98,15 +100,13 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 
 		OsProfile: osProfile(mCtx.RunID(), args),
 		Tags:      mCtx.ResourceTags(),
+		UserData:  args.Userdata,
 	}
 	if args.SpotPrice != nil {
 		vmArgs.Priority = pulumi.String(prioritySpot)
 		vmArgs.BillingProfile = compute.BillingProfileArgs{
 			MaxPrice: pulumi.Float64(*args.SpotPrice),
 		}
-	}
-	if len(args.Userdata) > 0 {
-		vmArgs.UserData = pulumi.String(args.Userdata)
 	}
 	logging.Debug("About to create the VM with compute.NewVirtualMachine")
 	return compute.NewVirtualMachine(ctx,
@@ -137,4 +137,15 @@ func osProfile(computerName string, args *VirtualMachineArgs) compute.OSProfileA
 		}
 	}
 	return osProfile
+}
+
+func getImageRefArgs(imageID string) compute.ImageReferenceArgs {
+	if strings.Contains(imageID, "Community") {
+		return compute.ImageReferenceArgs{
+			CommunityGalleryImageId: pulumi.String(imageID),
+		}
+	}
+	return compute.ImageReferenceArgs{
+		Id: pulumi.String(imageID),
+	}
 }

@@ -40,9 +40,6 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *SecurityGroupArgs) (Sec
 	if err != nil {
 		return nil, err
 	}
-	if err != nil {
-		return nil, err
-	}
 	return nsg, nil
 }
 
