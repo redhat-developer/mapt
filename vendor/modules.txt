@@ -117,8 +117,8 @@ github.com/apparentlymart/go-textseg/v15/textseg
 # github.com/atotto/clipboard v0.1.4
 ## explicit
 github.com/atotto/clipboard
-# github.com/aws/amazon-ec2-instance-selector/v3 v3.1.1
-## explicit; go 1.23
+# github.com/aws/amazon-ec2-instance-selector/v3 v3.1.2
+## explicit; go 1.24.0
 github.com/aws/amazon-ec2-instance-selector/v3/pkg/awsapi
 github.com/aws/amazon-ec2-instance-selector/v3/pkg/bytequantity
 github.com/aws/amazon-ec2-instance-selector/v3/pkg/ec2pricing
@@ -300,7 +300,7 @@ github.com/charmbracelet/bubbles/runeutil
 github.com/charmbracelet/bubbles/spinner
 github.com/charmbracelet/bubbles/textinput
 github.com/charmbracelet/bubbles/viewport
-# github.com/charmbracelet/bubbletea v1.3.9
+# github.com/charmbracelet/bubbletea v1.3.10
 ## explicit; go 1.24.0
 github.com/charmbracelet/bubbletea
 # github.com/charmbracelet/colorprofile v0.3.2
