@@ -7,9 +7,10 @@ import (
 	"go/types"
 
 	"golang.org/x/tools/go/analysis"
+	"golang.org/x/tools/go/ast/inspector"
 )
 
-func inspectComparision(pass *analysis.Pass, n ast.Node) bool { // nolint: unparam
+func inspectComparision(file *ast.File, pass *analysis.Pass, n ast.Node) bool { // nolint: unparam
 	// check whether the call expression matches time.Now().Sub()
 	be, ok := n.(*ast.BinaryExpr)
 	if !ok {
@@ -25,6 +26,18 @@ func inspectComparision(pass *analysis.Pass, n ast.Node) bool { // nolint: unpar
 		return true
 	}
 
+	root := inspector.New([]*ast.File{file}).Root()
+	c, ok := root.FindNode(n)
+	if !ok {
+		panic(fmt.Errorf("could not find node %T in inspector for file %q", n, file.Name.Name))
+	}
+
+	for cur := c.Parent(); cur != root; cur = cur.Parent() {
+		if isMethodNamed(cur, pass, "Is") {
+			return true
+		}
+	}
+
 	oldExpr := render(pass.Fset, be)
 
 	negate := ""
@@ -32,12 +45,12 @@ func inspectComparision(pass *analysis.Pass, n ast.Node) bool { // nolint: unpar
 		negate = "!"
 	}
 
-	newExpr := fmt.Sprintf("%s%s.Is(%s, %s)", negate, "errors", be.X, be.Y)
+	newExpr := fmt.Sprintf("%s%s.Is(%s, %s)", negate, "errors", rawString(be.X), rawString(be.Y))
 
 	pass.Report(
 		analysis.Diagnostic{
 			Pos:     be.Pos(),
-			Message: fmt.Sprintf("do not compare errors directly, use errors.Is() instead: %q", oldExpr),
+			Message: fmt.Sprintf("do not compare errors directly %q, use %q instead", oldExpr, newExpr),
 			SuggestedFixes: []analysis.SuggestedFix{
 				{
 					Message: fmt.Sprintf("should replace %q with %q", oldExpr, newExpr),
@@ -54,6 +67,23 @@ func inspectComparision(pass *analysis.Pass, n ast.Node) bool { // nolint: unpar
 	)
 
 	return true
+}
+
+var errorType = types.Universe.Lookup("error").Type().Underlying().(*types.Interface)
+
+func isMethodNamed(cur inspector.Cursor, pass *analysis.Pass, name string) bool {
+	funcNode, ok := cur.Node().(*ast.FuncDecl)
+
+	if !ok || funcNode.Name == nil || funcNode.Name.Name != name {
+		return false
+	}
+
+	if funcNode.Recv == nil && len(funcNode.Recv.List) != 1 {
+		return false
+	}
+
+	typ := pass.TypesInfo.Types[funcNode.Recv.List[0].Type]
+	return typ.Type != nil && types.Implements(typ.Type, errorType)
 }
 
 func isError(v ast.Expr, info *types.Info) bool {
@@ -108,4 +138,16 @@ func areBothErrors(x, y ast.Expr, typesInfo *types.Info) bool {
 	}
 
 	return true
+}
+
+func rawString(x ast.Expr) string {
+	switch t := x.(type) {
+	case *ast.Ident:
+		return t.Name
+	case *ast.SelectorExpr:
+		return fmt.Sprintf("%s.%s", rawString(t.X), t.Sel.Name)
+	case *ast.CallExpr:
+		return fmt.Sprintf("%s()", rawString(t.Fun))
+	}
+	return fmt.Sprintf("%s", x)
 }

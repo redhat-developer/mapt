@@ -26,7 +26,7 @@ var (
 	}
 
 	// Special tags in comments like "//nolint:", or "//+k8s:".
-	tags = regexp.MustCompile(`^\+?[a-z0-9]+:`)
+	tags = regexp.MustCompile(`^\+?[a-z0-9-]+:`)
 
 	// Special hashtags in comments like "// #nosec".
 	hashtags = regexp.MustCompile(`^#[a-z]+($|\s)`)
@@ -34,12 +34,6 @@ var (
 	// URL at the end of the line.
 	endURL = regexp.MustCompile(`[a-z]+://[^\s]+$`)
 )
-
-// position is a position inside a comment (might be multiline comment).
-type position struct {
-	line   int // starts at 1
-	column int // starts at 1, byte count
-}
 
 // checkComments checks every comment accordings to the rules from
 // `settings` argument.
@@ -62,12 +56,30 @@ func checkComments(comments []comment, settings Settings) []Issue {
 
 // checkPeriod checks that the last sentense of the comment ends
 // in a period.
+//
+//nolint:cyclop
 func checkPeriod(c comment) *Issue {
+	lines := strings.Split(c.text, "\n")
+
+	// Check if the comment has any letters. Comments like "---" should not
+	// be checked at all.
+	var hasLetters bool
+	for _, line := range lines {
+		for _, c := range line {
+			if unicode.IsLetter(c) {
+				hasLetters = true
+				break
+			}
+		}
+	}
+	if !hasLetters {
+		return nil
+	}
+
 	// Check last non-empty line
 	var found bool
 	var line string
 	var pos position
-	lines := strings.Split(c.text, "\n")
 	for i := len(lines) - 1; i >= 0; i-- {
 		line = strings.TrimRightFunc(lines[i], unicode.IsSpace)
 		if line == "" {
