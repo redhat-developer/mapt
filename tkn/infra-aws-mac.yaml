@@ -178,6 +178,10 @@ spec:
         cmd="mapt aws mac $(params.operation) "
         cmd+="--project-name mapt-mac-$(params.id) "
         cmd+="--backed-url s3://${BUCKET}/mapt/mac/$(params.id) "
+
+        if [[ $(params.debug) == "true" ]]; then
+          cmd+="--debug "
+        fi
         if [[ $(params.only-host) == "true" ]]; then
           cmd+="--only-host "
         fi

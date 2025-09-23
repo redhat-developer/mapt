@@ -216,6 +216,11 @@ spec:
         cmd="mapt aws rhel $(params.operation) "
         cmd+="--project-name mapt-rhel-$(params.id) "
         cmd+="--backed-url s3://${BUCKET}/mapt/rhel/$(params.id) "
+
+        if [[ $(params.debug) == "true" ]]; then
+          cmd+="--debug "
+        fi
+
         if [[ $(params.operation) == "create" ]]; then
           cmd+="--conn-details-output /opt/host-info "
           cmd+="--arch $(params.arch) "

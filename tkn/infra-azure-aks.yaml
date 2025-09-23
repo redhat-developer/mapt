@@ -167,6 +167,11 @@ spec:
         cmd="mapt azure aks $(params.operation) "
         cmd+="--project-name mapt-aks-$(params.id) "
         cmd+="--backed-url azblob://${BLOB}/aks-$(params.id) "
+
+        if [[ $(params.debug) == "true" ]]; then
+          cmd+="--debug "
+        fi
+
         if [[ $(params.operation) == "create" ]]; then
           cmd+="--conn-details-output /opt/cluster-info "
           cmd+="--version $(params.k8s-version) "

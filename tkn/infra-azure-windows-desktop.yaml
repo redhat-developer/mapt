@@ -181,6 +181,11 @@ spec:
         cmd="mapt azure windows $(params.operation) "
         cmd+="--project-name mapt-windows-$(params.id) "
         cmd+="--backed-url azblob://${BLOB}/windows-$(params.id) "
+
+        if [[ $(params.debug) == "true" ]]; then
+          cmd+="--debug "
+        fi
+
         if [[ $(params.operation) == "create" ]]; then
           cmd+="--conn-details-output /opt/host-info "
           cmd+="--windows-featurepack $(params.windows-featurepack) "
