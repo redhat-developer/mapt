@@ -379,11 +379,15 @@ type placementScoreResult struct {
 	azName string
 }
 
+// Every async run will use same region to request data
+// as API is not available on all regions.
+const PLACEMENT_SCORE_API_REGION = "us-east-2"
+
 // This will get placement scores grouped on map per region
 // only scores over tolerance will be added
 func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlaces.HostingPlaceData[[]placementScoreResult]) {
 	azsByRegion := describeAvailabilityZonesByRegions([]string{r})
-	cfg, err := getConfig(r)
+	cfg, err := getConfig(PLACEMENT_SCORE_API_REGION)
 	if err != nil {
 		hostingPlaces.SendAsyncErr(c, err)
 		return
