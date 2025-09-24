@@ -27,7 +27,7 @@ write_files:
   owner: root:root
   permissions: '0644'
 - content: |
-      CRC_CLOUD=1
+      CRC_SELF_SUFFICIENT=1
       CRC_NETWORK_MODE_USER=0
   owner: root:root
   path: /etc/sysconfig/crc-env
