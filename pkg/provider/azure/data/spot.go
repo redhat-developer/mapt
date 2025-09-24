@@ -183,7 +183,7 @@ func filterLocations(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
 	if args.ImageRef != nil {
 		locations = util.ArrayFilter(locations,
 			func(location string) bool {
-				return IsImageOffered(mCtx,
+				return IsImageOffered(
 					ImageRequest{
 						Region:         location,
 						ImageReference: *args.ImageRef,

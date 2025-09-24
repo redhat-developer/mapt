@@ -1,10 +1,11 @@
 package services
 
 import (
-	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	sncAPI "github.com/redhat-developer/mapt/pkg/provider/api/openshift-snc"
-	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/openshift-snc"
+	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/azure/action/openshift-snc"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -18,6 +19,10 @@ const (
 	ocpVersionDesc     = "version for Openshift. If not set it will pick latest available version"
 	pullSecretFile     = "pull-secret-file"
 	pullSecretFileDesc = "file path of image pull secret (download from https://console.redhat.com/openshift/create/local)"
+
+	location        = "location"
+	locationDesc    = "If spot is passed location will be calculated based on spot results. Otherwise localtion will be used to create resources."
+	defaultLocation = "centralindia"
 )
 
 func GetOpenshiftSNCCmd() *cobra.Command {
@@ -47,7 +52,8 @@ func createSNC() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if _, err := openshiftsnc.Create(
+
+			if err := openshiftsnc.Create(
 				&maptContext.ContextArgs{
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
@@ -61,8 +67,10 @@ func createSNC() *cobra.Command {
 					Version:        viper.GetString(ocpVersion),
 					Arch:           viper.GetString(params.LinuxArch),
 					PullSecretFile: viper.GetString(pullSecretFile),
+					Spot:           params.SpotArgs(),
+					Location:       viper.GetString(location),
 					Timeout:        viper.GetString(params.Timeout)}); err != nil {
-				return err
+				logging.Error(err)
 			}
 			return nil
 		},
@@ -73,6 +81,7 @@ func createSNC() *cobra.Command {
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(pullSecretFile, "", "", pullSecretFileDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
+	flagSet.StringP(location, "", defaultLocation, locationDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
@@ -88,13 +97,17 @@ func destroySNC() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			return openshiftsnc.Destroy(&maptContext.ContextArgs{
+
+			if err := openshiftsnc.Destroy(&maptContext.ContextArgs{
 				ProjectName: viper.GetString(params.ProjectName),
 				BackedURL:   viper.GetString(params.BackedURL),
 				Debug:       viper.IsSet(params.Debug),
 				DebugLevel:  viper.GetUint(params.DebugLevel),
 				Serverless:  viper.IsSet(params.Serverless),
-			})
+			}); err != nil {
+				logging.Error(err)
+			}
+			return nil
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
