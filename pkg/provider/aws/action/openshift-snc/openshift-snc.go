@@ -241,12 +241,15 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		LB:               nw.LoadBalancer,
 		Eip:              nw.Eip,
 		LBTargetGroups:   []int{securityGroup.SSH_PORT, portHTTPS, portAPI},
-		SpotPrice:        *r.allocationData.SpotPrice,
-		Spot:             true,
 		InstanceProfile:  iProfile,
 		UserDataAsBase64: udB64,
 		DependsOn:        udDependecies,
 	}
+	if r.spot && r.allocationData.SpotPrice != nil {
+		cr.SpotPrice = *r.allocationData.SpotPrice
+		cr.Spot = true
+	}
+
 	c, err := cr.NewCompute(ctx)
 	if err != nil {
 		return err
