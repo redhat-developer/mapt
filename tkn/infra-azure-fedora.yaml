@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: infra-azure-rhel
+  name: infra-azure-fedora
   labels:
     app.kubernetes.io/version: "1.0.0-dev"
   annotations:
@@ -45,17 +45,17 @@ spec:
           blob: ${blob}
     - name: id
       description: identifier for the provisioned environment
-    - name: operation 
+    - name: operation
       description: operation to execute within the infrastructure. Current values (create, destroy)
 
-    # Secret result 
+    # Secret result
     # naming
     - name: host-access-secret-name
       type: string
-      default: "''"
+      default: '""'
       description: |
-        Once the target is provisioned the config to connect is addded to a secret 
-        check resutls. If this param is set the secret will be created with the name set 
+        Once the target is provisioned the config to connect is addded to a secret
+        check resutls. If this param is set the secret will be created with the name set
         otherwise it will be created with a random name.
     # ownership
     - name: ownerKind
@@ -67,64 +67,77 @@ spec:
         Supported values: `PipelineRun`, `TaskRun`.
     - name: ownerName
       type: string
-      default: "''"
+      default: '""'
       description: |
         The name of the resource that should own the generated SpaceRequest.
         This should either be passed the value of `$(context.pipelineRun.name)`
         or `$(context.taskRun.name)` depending on the value of `ownerKind`.
     - name: ownerUid
       type: string
-      default: "''"
+      default: '""'
       description: |
         The uid of the resource that should own the generated SpaceRequest.
         This should either be passed the value of `$(context.pipelineRun.uid)`
         or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
-    
+
     # VM type params
     - name: arch
       description: architecture for the target machine. Allowed x86_64 or arm64 (default "x86_64")
       default: 'x86_64'
-    - name: vmsize
-      description: size for the machine
-      default: "''"
+    - name: compute-sizes
+      description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
+      default: '""'
     - name: cpus
       description: number of cpus for the machine
       default: '8'
+    - name: gpu-manufacturer
+      description: Manufacturer company name for GPU. (i.e. NVIDIA)
+      default: '""'
+    - name: gpus
+      description: Number of GPUs for the cloud instance (default 0)
+      default: '0'
+    - name: location
+      description: If spot is passed location will be calculated based on spot results. Otherwise localtion will be used to create resources.
+      default: 'westeurope'
     - name: memory
       description: amount of ram in GB for the machine
       default: '64'
     - name: nested-virt
-      description: nested virtualization support on the machine
+      description: Nested virtualization support on the machine
       default: 'false'
     - name: spot
       description: in case spot is set to true it 'ill check for best spot price and create the VM on the target region
       default: 'true'
     - name: spot-eviction-tolerance
-      description: 'if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest'
+      description: |
+        If spot is enabled we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest
       default: 'lowest'
+    - name: spot-excluded-regions
+      description: Comma-separated list of zone IDs to exclude from spot selection
+      default: '""'
     - name: spot-increase-rate
-      description: 'Percentage to be added on top of the current calculated spot price to increase chances to get the machine'
+      description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine
       default: '30'
 
     # Fedora params
     - name: version
-      description: this task will spin a Fedora image. This param will set the version for it. Default 40.0.
-      default: '40.0'
+      description: Version of the Fedora OS to use (default 40.0)
+      default: '42.0'
     
     # Metadata params
     - name: tags
-      description: tags for the resources created on the providers
-      default: "''"
-    
+      description: Tags for the resources created on the providers
+      default: '""'
+
     # Control params
     - name: debug
       description: |
-        Warning setting this param to true expose credentials 
-        
+        Warning setting this param to true expose credentials
+
         The parameter is intended to add verbosity on the task execution and also print credentials on stdout
         to easily access to remote machice
       default: 'false'
-    
+
   results:
     - name: host-access-secret
       description: |
@@ -155,9 +168,9 @@ spec:
 
         # If debug add verbosity
         if [[ $(params.debug) == "true" ]]; then
-          set -xuo   
+          set -xuo
         fi
-        
+
         # Credentials
         export ARM_TENANT_ID=$(cat /opt/az-credentials/tenant_id)
         export ARM_SUBSCRIPTION_ID=$(cat /opt/az-credentials/subscription_id)
@@ -185,16 +198,26 @@ spec:
 
         if [[ $(params.operation) == "create" ]]; then
           cmd+="--conn-details-output /opt/host-info "
-          cmd+="--arch $(params.arch) --cpus $(params.cpus) "
-          cmd+="--memory $(params.memory) --version $(params.version) "
+          if [[ $(params.compute-sizes) != "" ]]; then
+            cmd+="--compute-sizes $(params.compute-sizes) "
+          else
+            cmd+="--arch $(params.arch) "
+            cmd+="--cpus $(params.cpus) "
+            cmd+="--memory $(params.memory) "
+            cmd+="--gpus $(params.gpus) "
+            cmd+="--gpu-manufacturer $(params.gpu-manufacturer) "
+          fi
           if [[ $(params.nested-virt) == "true" ]]; then
             cmd+="--nested-virt "
           fi
-          if [[ $(params.vmsize) != "" ]]; then
-            cmd+="--vmsize $(params.vmsize) "
-          fi
+          cmd+="--version $(params.version) "
           if [[ $(params.spot) == "true" ]]; then
-            cmd+="--spot --spot-eviction-tolerance $(params.spot-eviction-tolerance) --spot-increase-rate $(params.spot-increase-rate) "
+            cmd+="--spot "
+            cmd+="--spot-eviction-tolerance $(params.spot-eviction-tolerance) "
+            cmd+="--spot-increase-rate $(params.spot-increase-rate) "
+            cmd+="--spot-excluded-regions $(params.spot-excluded-regions) "
+          else
+            cmd+="--location $(params.location) "
           fi
           cmd+="--tags $(params.tags) "
         fi
@@ -216,7 +239,7 @@ spec:
         - name: OWNER_NAME
           value: $(params.ownerName)
         - name: OWNER_UID
-          value: $(params.ownerUid)  
+          value: $(params.ownerUid)
       volumeMounts:
         - name: host-info
           mountPath: /opt/host-info
@@ -249,8 +272,7 @@ spec:
         if [[ $(params.debug) == "true" ]]; then
           cat /opt/host-info/*
         fi
-        
-        NAME=$(oc create -f host-info.yaml -o=jsonpath='{.metadata.name}')
-        echo -n "${NAME}" | tee $(results.host-access-secret.path)   
-        fi
 
+        NAME=$(oc create -f host-info.yaml -o=jsonpath='{.metadata.name}')
+        echo -n "${NAME}" | tee $(results.host-access-secret.path)
+        fi

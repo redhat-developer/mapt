@@ -21,9 +21,9 @@ spec:
         secretName: $(params.secret-aws-credentials)
     - name: host-info
       emptyDir: {}
-      
+
   params:
-    # mapt params 
+    # mapt params
     - name: secret-aws-credentials
       description: |
         ocp secret holding the aws credentials. Secret should be accessible to this task.
@@ -44,17 +44,17 @@ spec:
           bucket: ${bucket}
     - name: id
       description: identifier for the provisioned environment
-    - name: operation 
+    - name: operation
       description: operation to execute within the infrastructure. Current values (create, destroy)
 
-    # Secret result 
+    # Secret result
     # naming
     - name: host-access-secret-name
       type: string
-      default: "''"
+      default: '""'
       description: |
-        Once the target is provisioned the config to connect is addded to a secret 
-        check resutls. If this param is set the secret will be created with the name set 
+        Once the target is provisioned the config to connect is addded to a secret
+        check resutls. If this param is set the secret will be created with the name set
         otherwise it will be created with a random name.
     # ownership
     - name: ownerKind
@@ -66,14 +66,14 @@ spec:
         Supported values: `PipelineRun`, `TaskRun`.
     - name: ownerName
       type: string
-      default: "''"
+      default: '""'
       description: |
         The name of the resource that should own the generated SpaceRequest.
         This should either be passed the value of `$(context.pipelineRun.name)`
         or `$(context.taskRun.name)` depending on the value of `ownerKind`.
     - name: ownerUid
       type: string
-      default: "''"
+      default: '""'
       description: |
         The uid of the resource that should own the generated SpaceRequest.
         This should either be passed the value of `$(context.pipelineRun.uid)`
@@ -83,9 +83,18 @@ spec:
     - name: arch
       description: Architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
       default: 'x86_64'
-    - name: cpus 
+    - name: compute-sizes
+      description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
+      default: '""'
+    - name: cpus
       description: Number of CPUs for the cloud instance (default 8)
       default: '8'
+    - name: gpu-manufacturer
+      description: Manufacturer company name for GPU. (i.e. NVIDIA)
+      default: '""'
+    - name: gpus
+      description: Number of GPUs for the cloud instance (default 0)
+      default: '0'
     - name: memory
       description: Amount of RAM for the cloud instance in GiB (default 64)
       default: '64'
@@ -95,41 +104,44 @@ spec:
     - name: spot
       description: Check best spot option to spin the machine and will create resources on that region.
       default: 'true'
+    - name: spot-eviction-tolerance
+      description: | 
+        If spot is enabled we can define the minimum tolerance level of eviction. 
+        Allowed value are: lowest, low, medium, high or highest
+      default: 'lowest'
+    - name: spot-excluded-regions
+      description: Comma-separated list of zone IDs to exclude from spot selection
+      default: '""'
     - name: spot-increase-rate
       description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
       default: '20'
-    - name: spot-eviction-tolerance
-      description: | 
-        if spot is enable we can define the minimum tolerance level of eviction. 
-        Allowed value are: lowest, low, medium, high or highest
-      default: 'lowest'
     
     # Fedora params
     - name: version
-      description: this task will spin a Fedora-Cloud image. This param will set the version for it. Default 41.
-      default: '41'
+      description: Version of the Fedora OS to use (default 42)
+      default: '42'
     
     # Topology params
     - name: airgap
       description: |
-          Set the machine on an airgap scenario. 
+        Set the machine on an airgap scenario.
 
-          If airgap is set an extra VM is created acting as bastion, information to access bastion is also
-          added to the output folder.
+        If airgap is set an extra VM is created acting as bastion, information to access bastion is also
+        added to the output folder.
 
-          To access the target machine we need to go through the bastion
+        To access the target machine we need to go through the bastion
       default: 'false'
     
     # Metadata params
     - name: tags
-      description: tags for the resources created on the providers
-      default: "''"
+      description: Tags for the resources created on the providers
+      default: '""'
 
     # Control params
     - name: debug
       description: |
-        Warning setting this param to true expose credentials 
-        
+        Warning setting this param to true expose credentials
+
         The parameter is intended to add verbosity on the task execution and also print credentials on stdout
         to easily access to remote machice
       default: 'false'
@@ -195,14 +207,31 @@ spec:
         fi
 
         if [[ $(params.operation) == "create" ]]; then
-          cmd+="--conn-details-output /opt/host-info " 
-          cmd+="--arch $(params.arch) "
-          cmd+="--cpus $(params.cpus) "
-          cmd+="--memory $(params.memory) "
+          cmd+="--conn-details-output /opt/host-info "
+          if [[ $(params.compute-sizes) != "" ]]; then
+            cmd+="--compute-sizes $(params.compute-sizes) "
+          else
+            cmd+="--arch $(params.arch) "
+            cmd+="--cpus $(params.cpus) "
+            cmd+="--memory $(params.memory) "
+            cmd+="--gpus $(params.gpus) "
+            cmd+="--gpu-manufacturer $(params.gpu-manufacturer) "
+          fi
+          if [[ $(params.nested-virt) == "true" ]]; then
+            cmd+="--nested-virt "
+          fi
           cmd+="--version $(params.version) "
-          if  $($(params.nested-virt)); then cmd+="--nested-virt "; fi
+          if [[ -f /opt/rh-account-secret/user ]]; then
+            cmd+="--rh-subscription-username $(cat /opt/rh-account-secret/user) "
+          fi
+          if [[ -f /opt/rh-account-secret/password ]]; then
+            cmd+="--rh-subscription-password $(cat /opt/rh-account-secret/password) "
+          fi
           if [[ $(params.spot) == "true" ]]; then 
-            cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) --spot-eviction-tolerance $(params.spot-eviction-tolerance) " 
+            cmd+="--spot "
+            cmd+="--spot-increase-rate $(params.spot-increase-rate) "
+            cmd+="--spot-eviction-tolerance $(params.spot-eviction-tolerance) "
+            cmd+="--spot-excluded-regions $(params.spot-excluded-regions) "
           fi
           if [[ $(params.airgap) == "true" ]]; then
             cmd+="--airgap "
@@ -210,7 +239,7 @@ spec:
           cmd+="--tags $(params.tags) "
         fi
         eval "${cmd}"
-      resources:      
+      resources:
         requests:
           memory: "200Mi"
           cpu: "100m"
@@ -227,7 +256,7 @@ spec:
         - name: OWNER_NAME
           value: $(params.ownerName)
         - name: OWNER_UID
-          value: $(params.ownerUid)  
+          value: $(params.ownerUid)
       volumeMounts:
         - name: host-info
           mountPath: /opt/host-info
@@ -267,8 +296,8 @@ spec:
         if [[ $(params.debug) == "true" ]]; then
           cat /opt/host-info/*
         fi
-        
+
         NAME=$(oc create -f host-info.yaml -o=jsonpath='{.metadata.name}')
-        echo -n "${NAME}" | tee $(results.host-access-secret.path)   
+        echo -n "${NAME}" | tee $(results.host-access-secret.path)
         fi
 
