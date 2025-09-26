@@ -18,7 +18,6 @@ import (
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
-	amiCopy "github.com/redhat-developer/mapt/pkg/provider/aws/modules/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/iam"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
@@ -106,10 +105,9 @@ func Create(mCtxArgs *mc.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncRe
 	if err != nil {
 		return nil, err
 	}
-	// Manage AMI offering / replication
+	// check if AMI exists
 	amiName := amiName(&args.Version, &args.Arch)
-	if err = manageAMIReplication(mCtx, &args.Prefix,
-		&amiName, r.allocationData.Region, &args.Arch); err != nil {
+	if err = checkAMIExists(&amiName, r.allocationData.Region, &args.Arch); err != nil {
 		return nil, err
 	}
 	return r.createCluster()
@@ -131,13 +129,6 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 			Stackname: stackName,
 		}); err != nil {
 		return err
-	}
-	// AMI Copy
-	if amiCopy.Exist(mCtx) {
-		err = amiCopy.Destroy(mCtx)
-		if err != nil {
-			return
-		}
 	}
 	// Destroy spot orchestrated stack
 	if spot.Exist(mCtx) {
@@ -361,29 +352,18 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func manageAMIReplication(mCtx *mc.Context, prefix, amiName, region, arch *string) error {
+func checkAMIExists(amiName, region, arch *string) error {
 	isAMIOffered, _, err := data.IsAMIOffered(
 		data.ImageRequest{
 			Name:   amiName,
+			Arch:   arch,
 			Region: region,
 			Owner:  &amiOwner})
 	if err != nil {
 		return err
 	}
 	if !isAMIOffered {
-		acr := amiCopy.CopyAMIRequest{
-			MCtx:            mCtx,
-			Prefix:          *prefix,
-			ID:              awsOCPSNCID,
-			AMISourceName:   amiName,
-			AMISourceArch:   arch,
-			AMITargetRegion: region,
-			// TODO add this as param
-			AMIKeepCopy: true,
-		}
-		if err := acr.Create(); err != nil {
-			return err
-		}
+		return fmt.Errorf("AMI %s could not be found in region: %s", *amiName, *region)
 	}
 	return nil
 }
