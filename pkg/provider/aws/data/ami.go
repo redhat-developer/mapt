@@ -58,7 +58,8 @@ func GetAMI(r ImageRequest) (*ImageInfo, error) {
 			Values: []string{*r.BlockDeviceType}})
 	}
 	input := &ec2.DescribeImagesInput{
-		Filters: filters}
+		ExecutableUsers: []string{"self"},
+		Filters:         filters}
 	if r.Owner != nil {
 		input.Owners = []string{*r.Owner}
 	}
