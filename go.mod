@@ -8,7 +8,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.3
-	github.com/pulumi/pulumi/sdk/v3 v3.197.0
+	github.com/pulumi/pulumi/sdk/v3 v3.198.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.10.1
 )
@@ -22,9 +22,9 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.2
 	github.com/aws/aws-sdk-go-v2 v1.39.2
 	github.com/aws/aws-sdk-go-v2/config v1.31.11
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.253.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.254.1
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.88.3
-	github.com/pulumi/pulumi-aws-native/sdk v1.34.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.35.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.7.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.0.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.8.0
@@ -48,7 +48,7 @@ require (
 	github.com/pgavlin/fx v0.1.6 // indirect
 	github.com/pgavlin/fx/v2 v2.0.11 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.8.0 // indirect
-	github.com/pulumi/pulumi-docker/sdk/v4 v4.8.2 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.9.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
 )
 
@@ -98,7 +98,7 @@ require (
 	github.com/charmbracelet/x/cellbuf v0.0.13 // indirect
 	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/cloudflare/circl v1.6.1 // indirect
-	github.com/cyphar/filepath-securejoin v0.4.1 // indirect
+	github.com/cyphar/filepath-securejoin v0.5.0 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
@@ -130,7 +130,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/sync v0.17.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250908214217-97024824d090 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250922171735-9219d122eba9 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -166,7 +166,6 @@ require (
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.23.0
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
-	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.21.0
