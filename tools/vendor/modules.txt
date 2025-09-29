@@ -565,8 +565,8 @@ github.com/lasiar/canonicalheader
 # github.com/ldez/exptostd v0.4.4
 ## explicit; go 1.23.0
 github.com/ldez/exptostd
-# github.com/ldez/gomoddirectives v0.7.0
-## explicit; go 1.23.0
+# github.com/ldez/gomoddirectives v0.7.1
+## explicit; go 1.24.0
 github.com/ldez/gomoddirectives
 # github.com/ldez/grignotin v0.10.1
 ## explicit; go 1.24.0
@@ -615,7 +615,7 @@ github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.20
 ## explicit; go 1.15
 github.com/mattn/go-isatty
-# github.com/mattn/go-runewidth v0.0.16
+# github.com/mattn/go-runewidth v0.0.17
 ## explicit; go 1.9
 github.com/mattn/go-runewidth
 # github.com/mgechev/revive v1.12.0
@@ -703,7 +703,7 @@ github.com/prometheus/common/model
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
-# github.com/quasilyte/go-ruleguard v0.4.4
+# github.com/quasilyte/go-ruleguard v0.4.5
 ## explicit; go 1.22.0
 github.com/quasilyte/go-ruleguard/internal/goenv
 github.com/quasilyte/go-ruleguard/internal/golist
@@ -720,7 +720,7 @@ github.com/quasilyte/go-ruleguard/ruleguard/quasigo/stdlib/qstrconv
 github.com/quasilyte/go-ruleguard/ruleguard/quasigo/stdlib/qstrings
 github.com/quasilyte/go-ruleguard/ruleguard/textmatch
 github.com/quasilyte/go-ruleguard/ruleguard/typematch
-# github.com/quasilyte/go-ruleguard/dsl v0.3.22
+# github.com/quasilyte/go-ruleguard/dsl v0.3.23
 ## explicit; go 1.15
 github.com/quasilyte/go-ruleguard/dsl
 github.com/quasilyte/go-ruleguard/dsl/types
