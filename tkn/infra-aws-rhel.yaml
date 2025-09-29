@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-aws-rhel
   labels:
-    app.kubernetes.io/version: "1.0.0-dev"
+    app.kubernetes.io/version: "0.9.8"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -190,7 +190,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      image: quay.io/redhat-developer/mapt:v0.9.8
       imagePullPolicy: Always
       volumeMounts:
         - name: aws-credentials
