@@ -31,6 +31,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -432,12 +433,22 @@ func kubeconfig(ctx *pulumi.Context,
 	// then we replace the internal access with the public IP
 	// the resulting kubeconfig file can be used to access the cluster
 
+	// Check SSH connectivity first
+	sshReadyCmd, err := c.RunCommand(ctx,
+		command.CommandPing,
+		compute.LoggingCmdStd,
+		fmt.Sprintf("%s-ssh-readiness", *prefix), awsOCPSNCID,
+		mk, amiUserDefault, nil, c.Dependencies)
+	if err != nil {
+		return pulumi.StringOutput{}, err
+	}
+
 	// Check cluster is ready
 	ocpReadyCmd, err := c.RunCommand(ctx,
-		commandReadiness,
+		commandCrcReadiness,
 		compute.LoggingCmdStd,
 		fmt.Sprintf("%s-ocp-readiness", *prefix), awsOCPSNCID,
-		mk, amiUserDefault, nil, c.Dependencies)
+		mk, amiUserDefault, nil, []pulumi.Resource{sshReadyCmd})
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
