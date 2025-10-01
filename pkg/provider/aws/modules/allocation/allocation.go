@@ -2,7 +2,6 @@ package allocation
 
 import (
 	"fmt"
-	"os"
 
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
@@ -52,7 +51,7 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 		}
 		return allocationSpot(mCtx, sr)
 	}
-	return allocationOnDemand(instancesTypes)
+	return allocationOnDemand(mCtx, instancesTypes)
 }
 
 func allocationSpot(mCtx *mc.Context,
@@ -69,8 +68,8 @@ func allocationSpot(mCtx *mc.Context,
 	}, nil
 }
 
-func allocationOnDemand(instancesTypes []string) (*AllocationResult, error) {
-	region := os.Getenv("AWS_DEFAULT_REGION")
+func allocationOnDemand(mCtx *mc.Context, instancesTypes []string) (*AllocationResult, error) {
+	region := mCtx.TargetHostingPlace()
 	excludedAZs := []string{}
 	var err error
 	var az *string

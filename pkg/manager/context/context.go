@@ -60,10 +60,14 @@ type Context struct {
 	// spotPriceIncreaseRate int
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
+	// if non-spot we will use this when creating
+	// as we may need to change it during state file check / createe
+	targetHostingPlace string
 }
 
 type Provider interface {
 	Init(backedURL string) error
+	DefaultHostingPlace() (*string, error)
 }
 
 func InitNoState() *Context { return &Context{} }
@@ -81,7 +85,12 @@ func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 		forceDestroy:  ca.ForceDestroy,
 	}
 	addCommonTags(c)
-	// Init provider
+	hp, err := provider.DefaultHostingPlace()
+	if err != nil {
+		return nil, err
+	}
+	c.targetHostingPlace = *hp
+	// Manage
 	if err := provider.Init(ca.BackedURL); err != nil {
 		return nil, err
 	}
@@ -114,6 +123,8 @@ func (c *Context) DebugLevel() uint { return c.debugLevel }
 func (c *Context) IsServerless() bool { return c.serverless }
 
 func (c *Context) IsForceDestroy() bool { return c.forceDestroy }
+
+func (c *Context) TargetHostingPlace() string { return c.targetHostingPlace }
 
 // Get tags ready to be added to any pulumi resource
 // in addition we cas set specific custom tags
