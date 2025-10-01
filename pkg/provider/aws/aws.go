@@ -32,6 +32,18 @@ func (a *AWS) Init(backedURL string) error {
 	return manageRemoteState(backedURL)
 }
 
+func (a *AWS) DefaultHostingPlace() (*string, error) {
+	hp := os.Getenv("AWS_DEFAULT_REGION")
+	if len(hp) > 0 {
+		return &hp, nil
+	}
+	hp = os.Getenv("AWS_REGION")
+	if len(hp) > 0 {
+		return &hp, nil
+	}
+	return nil, fmt.Errorf("missing default value for AWS Region")
+}
+
 func Provider() *AWS {
 	return &AWS{}
 }

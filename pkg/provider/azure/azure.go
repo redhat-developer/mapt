@@ -29,6 +29,10 @@ func (a *Azure) Init(backedURL string) error {
 	return nil
 }
 
+func (a *Azure) DefaultHostingPlace() (*string, error) {
+	return nil, nil
+}
+
 // Envs required for auth with go sdk
 // https://learn.microsoft.com/es-es/azure/developer/go/azure-sdk-authentication?tabs=bash#service-principal-with-a-secret
 // do not match standard envs for pulumi envs for auth with native sdk
