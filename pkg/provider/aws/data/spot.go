@@ -172,9 +172,14 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	// Placement Socres
+	nOpInRegions, err := GetRegionsByOptInStatus([]string{OptInStatusNotRequired})
+	if err != nil {
+		return nil, err
+	}
 	placementScores, err := hostingPlaces.RunOnHostingPlaces(regions,
 		placementScoreArgs{
+			apiRegion:         util.RandomItemFromArray(nOpInRegions),
 			minPlacementScore: minPlacementScore(*args.SpotTolerance),
 			instanceTypes:     args.InstaceTypes,
 			capacity:          1,
@@ -368,6 +373,10 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 }
 
 type placementScoreArgs struct {
+	// Not all regions offered the API to get
+	// data about placement score, we need set which one
+	// will be used
+	apiRegion         string
 	minPlacementScore int32
 	instanceTypes     []string
 	capacity          int32
@@ -379,15 +388,11 @@ type placementScoreResult struct {
 	azName string
 }
 
-// Every async run will use same region to request data
-// as API is not available on all regions.
-const PLACEMENT_SCORE_API_REGION = "us-east-2"
-
 // This will get placement scores grouped on map per region
 // only scores over tolerance will be added
 func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlaces.HostingPlaceData[[]placementScoreResult]) {
 	azsByRegion := describeAvailabilityZonesByRegions([]string{r})
-	cfg, err := getConfig(PLACEMENT_SCORE_API_REGION)
+	cfg, err := getConfig(args.apiRegion)
 	if err != nil {
 		hostingPlaces.SendAsyncErr(c, err)
 		return
