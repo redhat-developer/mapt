@@ -89,7 +89,9 @@ func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 	if err != nil {
 		return nil, err
 	}
-	c.targetHostingPlace = *hp
+	if hp != nil {
+		c.targetHostingPlace = *hp
+	}
 	// Manage
 	if err := provider.Init(ca.BackedURL); err != nil {
 		return nil, err
