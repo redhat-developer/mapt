@@ -23,7 +23,7 @@ type PortMapping struct {
 	Protocol      string `json:"protocol"`
 }
 
-type DataValues struct {
+type CloudConfigArgs struct {
 	Arch              kindArch
 	KindVersion       string
 	KindImage         string
@@ -35,11 +35,14 @@ type DataValues struct {
 //go:embed cloud-config
 var CloudConfigTemplate []byte
 
-func CloudConfig(data *DataValues) (*string, error) {
+func (args *CloudConfigArgs) CloudConfig() (*string, error) {
 	templateConfig := string(CloudConfigTemplate[:])
-	userdata, err := file.Template(data, templateConfig)
+	userdata, err := file.Template(args, templateConfig)
+	if err != nil {
+		return nil, err
+	}
 	ccB64 := base64.StdEncoding.EncodeToString([]byte(userdata))
-	return &ccB64, err
+	return &ccB64, nil
 }
 
 func ParseExtraPortMappings(extraPortMappingsJSON string) ([]PortMapping, error) {

@@ -6,8 +6,8 @@ import (
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
-	cloudConfigRHEL "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/rhel"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
+	rhelApi "github.com/redhat-developer/mapt/pkg/targets/host/rhel"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
@@ -26,7 +26,7 @@ type RhelArgs struct {
 
 func Create(ctx *maptContext.ContextArgs, r *RhelArgs) (err error) {
 	logging.Debug("Creating RHEL Server")
-	rhelCloudConfig := &cloudConfigRHEL.RequestArgs{
+	rhelCloudConfig := &rhelApi.CloudConfigArgs{
 		SNCProfile:   r.ProfileSNC,
 		SubsUsername: r.SubsUsername,
 		SubsPassword: r.SubsUserpass,
@@ -41,9 +41,9 @@ func Create(ctx *maptContext.ContextArgs, r *RhelArgs) (err error) {
 			Arch:           r.Arch,
 			OSType:         data.RHEL,
 			Username:       r.Username,
-			GetUserdata:    rhelCloudConfig.GetAsUserdata,
 			// As RHEL now is set with cloud init this is the ReadinessCommand to check
-			ReadinessCommand: command.CommandCloudInitWait}
+			CloudConfigAsUserData: rhelCloudConfig,
+			ReadinessCommand:      command.CommandCloudInitWait}
 	return azureLinux.Create(ctx, azureLinuxRequest)
 }
 

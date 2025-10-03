@@ -13,6 +13,10 @@ const (
 	Fedora
 )
 
+var (
+	FedoraDefaultVersion string = "42"
+)
+
 const fedoraImageGalleryBase = "/CommunityGalleries/Fedora-5e266ba4-2250-406d-adad-5d73860d958f/Images/"
 
 type ImageReference struct {

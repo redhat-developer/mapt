@@ -37,9 +37,9 @@ type VirtualMachineArgs struct {
 	// Linux required
 	PrivateKey  *tls.PrivateKey
 	AdminPasswd *random.RandomPassword
-	// Linux optional
-	Userdata string
-	Location string
+	// Only required if we need to set userdata
+	UserDataAsBase64 pulumi.StringPtrInput
+	Location         string
 }
 
 type VirtualMachine = *compute.VirtualMachine
@@ -67,6 +67,7 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 		VmName:            pulumi.String(mCtx.RunID()),
 		Location:          pulumi.String(args.Location),
 		ResourceGroupName: args.ResourceGroup.Name,
+		UserData:          args.UserDataAsBase64,
 		NetworkProfile: compute.NetworkProfileArgs{
 			NetworkInterfaces: compute.NetworkInterfaceReferenceArray{
 				compute.NetworkInterfaceReferenceArgs{
@@ -104,9 +105,6 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 		vmArgs.BillingProfile = compute.BillingProfileArgs{
 			MaxPrice: pulumi.Float64(*args.SpotPrice),
 		}
-	}
-	if len(args.Userdata) > 0 {
-		vmArgs.UserData = pulumi.String(args.Userdata)
 	}
 	logging.Debug("About to create the VM with compute.NewVirtualMachine")
 	return compute.NewVirtualMachine(ctx,
