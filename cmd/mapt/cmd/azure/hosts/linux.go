@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	azureParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
@@ -61,7 +62,7 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 				&azureLinux.LinuxArgs{
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
-					Location:       viper.GetString(paramLocation),
+					Location:       viper.GetString(azureParams.Location),
 					Version:        viper.GetString(paramLinuxVersion),
 					Arch:           viper.GetString(params.LinuxArch),
 					OSType:         ostype,
@@ -71,7 +72,7 @@ func getCreateLinux(ostype data.OSType, defaultOSVersion string) *cobra.Command 
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
+	flagSet.StringP(azureParams.Location, "", azureParams.LocationDefault, azureParams.LocationDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(paramLinuxVersion, "", defaultOSVersion, paramLinuxVersionDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)

@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	azureParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
@@ -66,7 +67,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
 					Prefix:         viper.GetString(params.ProjectName),
-					Location:       viper.GetString(paramLocation),
+					Location:       viper.GetString(azureParams.Location),
 					Version:        viper.GetString(paramWindowsVersion),
 					Feature:        viper.GetString(paramFeature),
 					Username:       viper.GetString(paramUsername),
@@ -77,7 +78,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
-	flagSet.StringP(paramLocation, "", defaultLocation, paramLocationDesc)
+	flagSet.StringP(azureParams.Location, "", azureParams.LocationDefault, azureParams.LocationDesc)
 	flagSet.StringP(paramWindowsVersion, "", defaultWindowsVersion, paramWindowsVersionDesc)
 	flagSet.StringP(paramFeature, "", defaultFeature, paramFeatureDesc)
 	flagSet.StringP(paramUsername, "", defaultUsername, paramUsernameDesc)

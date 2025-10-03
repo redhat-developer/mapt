@@ -13,6 +13,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	userDataApi "github.com/redhat-developer/mapt/pkg/provider/api/config/userdata"
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
@@ -38,28 +39,28 @@ const (
 )
 
 type LinuxArgs struct {
-	Prefix           string
-	Location         string
-	Arch             string
-	ComputeRequest   *cr.ComputeRequestArgs
-	OSType           data.OSType
-	Version          string
-	Username         string
-	Spot             *spotTypes.SpotArgs
-	GetUserdata      func() (string, error)
-	ReadinessCommand string
+	Prefix                string
+	Location              string
+	Arch                  string
+	ComputeRequest        *cr.ComputeRequestArgs
+	OSType                data.OSType
+	Version               string
+	Username              string
+	Spot                  *spotTypes.SpotArgs
+	CloudConfigAsUserData userDataApi.CloudConfig
+	ReadinessCommand      string
 }
 
 type linuxRequest struct {
-	mCtx             *mc.Context `validate:"required"`
-	prefix           *string
-	arch             *string
-	osType           *data.OSType
-	version          *string
-	allocationData   *allocation.AllocationResult
-	username         *string
-	getUserdata      func() (string, error)
-	readinessCommand *string
+	mCtx                  *mc.Context `validate:"required"`
+	prefix                *string
+	arch                  *string
+	osType                *data.OSType
+	version               *string
+	allocationData        *allocation.AllocationResult
+	username              *string
+	cloudConfigAsUserData userDataApi.CloudConfig
+	readinessCommand      *string
 }
 
 func (r *linuxRequest) validate() error {
@@ -79,14 +80,14 @@ func Create(mCtxArgs *mc.ContextArgs, args *LinuxArgs) (err error) {
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := &linuxRequest{
-		mCtx:             mCtx,
-		prefix:           &prefix,
-		arch:             &args.Arch,
-		osType:           &args.OSType,
-		version:          &args.Version,
-		username:         &args.Username,
-		getUserdata:      args.GetUserdata,
-		readinessCommand: &args.ReadinessCommand,
+		mCtx:                  mCtx,
+		prefix:                &prefix,
+		arch:                  &args.Arch,
+		osType:                &args.OSType,
+		version:               &args.Version,
+		username:              &args.Username,
+		cloudConfigAsUserData: args.CloudConfigAsUserData,
+		readinessCommand:      &args.ReadinessCommand,
 	}
 	ir, err := data.GetImageRef(*r.osType, *r.arch, *r.version)
 	if err != nil {
@@ -109,7 +110,10 @@ func Create(mCtxArgs *mc.ContextArgs, args *LinuxArgs) (err error) {
 		ProviderCredentials: azure.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
-	sr, _ := manager.UpStack(mCtx, cs)
+	sr, err := manager.UpStack(mCtx, cs)
+	if err != nil {
+		return err
+	}
 	return r.manageResults(sr)
 }
 
@@ -170,10 +174,10 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
 	// Image refence info
-	var userDataB64 string
-	if r.getUserdata != nil {
+	var userDataB64 *string
+	if r.cloudConfigAsUserData != nil {
 		var err error
-		userDataB64, err = r.getUserdata()
+		userDataB64, err = r.cloudConfigAsUserData.CloudConfig()
 		if err != nil {
 			return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
 		}
@@ -186,16 +190,16 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 			ResourceGroup:   rg,
 			NetworkInteface: n.NetworkInterface,
 			// Check this
-			VMSize:        r.allocationData.ComputeSizes[0],
-			Publisher:     r.allocationData.ImageRef.Publisher,
-			Offer:         r.allocationData.ImageRef.Offer,
-			Sku:           r.allocationData.ImageRef.Sku,
-			ImageID:       r.allocationData.ImageRef.ID,
-			AdminUsername: *r.username,
-			PrivateKey:    privateKey,
-			SpotPrice:     r.allocationData.Price,
-			Userdata:      userDataB64,
-			Location:      *r.allocationData.Location,
+			VMSize:           r.allocationData.ComputeSizes[0],
+			Publisher:        r.allocationData.ImageRef.Publisher,
+			Offer:            r.allocationData.ImageRef.Offer,
+			Sku:              r.allocationData.ImageRef.Sku,
+			ImageID:          r.allocationData.ImageRef.ID,
+			AdminUsername:    *r.username,
+			PrivateKey:       privateKey,
+			SpotPrice:        r.allocationData.Price,
+			UserDataAsBase64: pulumi.String(*userDataB64),
+			Location:         *r.allocationData.Location,
 		})
 	if err != nil {
 		return err

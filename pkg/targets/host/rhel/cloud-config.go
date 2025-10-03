@@ -10,7 +10,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/file"
 )
 
-type RequestArgs struct {
+type CloudConfigArgs struct {
 	SNCProfile                 bool
 	SubsUsername, SubsPassword string
 	Username                   string
@@ -30,18 +30,18 @@ var CloudConfigBase []byte
 //go:embed cloud-config-snc
 var CloudConfigSNC []byte
 
-func (r *RequestArgs) GetAsUserdata() (string, error) {
+func (r *CloudConfigArgs) CloudConfig() (*string, error) {
 	templateConfig := string(CloudConfigBase[:])
 	if r.SNCProfile {
 		templateConfig = string(CloudConfigSNC[:])
 	}
 	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), r.Username)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), r.Username)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	userdata, err := file.Template(
 		userDataValues{
@@ -51,6 +51,9 @@ func (r *RequestArgs) GetAsUserdata() (string, error) {
 			*ghActionsRunnerSnippet,
 			*cirrusSnippet},
 		templateConfig)
-	// return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
-	return base64.StdEncoding.EncodeToString([]byte(userdata)), err
+	if err != nil {
+		return nil, err
+	}
+	ccB64 := base64.StdEncoding.EncodeToString([]byte(userdata))
+	return &ccB64, nil
 }

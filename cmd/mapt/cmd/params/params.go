@@ -106,6 +106,7 @@ const (
 	KindCmdDesc               = "Manage a Kind cluster. This is not intended for production use"
 	KindK8SVersion            = "version"
 	KindK8SVersionDesc        = "version for k8s offered through Kind."
+	KindK8SVersionDefault     = "v1.34"
 	KindExtraPortMappings     = "extra-port-mappings"
 	KindExtraPortMappingsDesc = "Additional port mappings for the Kind cluster. Value should be a JSON array of objects with containerPort, hostPort, and protocol properties. Example: '[{\"containerPort\": 8080, \"hostPort\": 8080, \"protocol\": \"TCP\"}]'"
 
