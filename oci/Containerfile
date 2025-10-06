@@ -40,7 +40,7 @@ ARG PULUMI_AWSX_VERSION=v3.0.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
 ARG PULUMI_AZURE_NATIVE_VERSION=v3.8.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
-ARG PULUMI_COMMAND_VERSION=v1.1.1
+ARG PULUMI_COMMAND_VERSION=v1.1.3
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
 ARG PULUMI_TLS_VERSION=v5.2.2
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
