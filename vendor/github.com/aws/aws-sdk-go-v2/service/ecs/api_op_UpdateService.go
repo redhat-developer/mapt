@@ -265,6 +265,9 @@ type UpdateServiceInput struct {
 	// status. This grace period can prevent the service scheduler from marking tasks
 	// as unhealthy and stopping them before they have time to come up.
 	//
+	// If your service has more running tasks than desired, unhealthy tasks in the
+	// grace period might be stopped to reach the desired count.
+	//
 	// This parameter doesn't trigger a new service deployment.
 	HealthCheckGracePeriodSeconds *int32
 

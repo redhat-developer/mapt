@@ -254,11 +254,14 @@ type CreateServiceInput struct {
 	// in the service tasks.
 	EnableExecuteCommand bool
 
-	// The period of time, in seconds, that the Amazon Amazon ECS service scheduler
-	// ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health
-	// checks after a task has first started. If you do not specify a health check
-	// grace period value, the default value of 0 is used. If you do not use any of the
-	// health checks, then healthCheckGracePeriodSeconds is unused.
+	// The period of time, in seconds, that the Amazon ECS service scheduler ignores
+	// unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after
+	// a task has first started. If you do not specify a health check grace period
+	// value, the default value of 0 is used. If you do not use any of the health
+	// checks, then healthCheckGracePeriodSeconds is unused.
+	//
+	// If your service has more running tasks than desired, unhealthy tasks in the
+	// grace period might be stopped to reach the desired count.
 	HealthCheckGracePeriodSeconds *int32
 
 	// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types] in
