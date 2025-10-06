@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.3
-	github.com/pulumi/pulumi/sdk/v3 v3.198.0
+	github.com/pulumi/pulumi/sdk/v3 v3.200.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.10.1
 )
@@ -22,7 +22,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.31.11
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.254.1
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.88.3
-	github.com/pulumi/pulumi-aws-native/sdk v1.35.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.36.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.7.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.0.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.8.0
@@ -33,7 +33,7 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.8.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.8.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.2
-	golang.org/x/exp v0.0.0-20250911091902-df9299821621
+	golang.org/x/exp v0.0.0-20251002181428-27f1f14c8bb9
 )
 
 require (
@@ -128,7 +128,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/sync v0.17.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250922171735-9219d122eba9 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251002232023-7c0ddcbb5797 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -136,7 +136,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.3.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.64.2
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.65.1
 	github.com/aws/aws-sdk-go-v2/service/iam v1.47.7
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect
@@ -145,7 +145,7 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-git/go-billy/v5 v5.6.2 // indirect
 	github.com/go-git/go-git/v5 v5.16.2 // indirect
-	github.com/go-playground/validator/v10 v10.27.0
+	github.com/go-playground/validator/v10 v10.28.0
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/glog v1.2.5 // indirect
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645 // indirect
