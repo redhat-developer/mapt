@@ -16,7 +16,6 @@ import (
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
-	amiCopy "github.com/redhat-developer/mapt/pkg/provider/aws/modules/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/serverless"
@@ -97,8 +96,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELAIArgs) (err error) {
 		return err
 	}
 	amiName := amiName(&args.Version)
-	if err = manageAMIReplication(mCtx, &args.Prefix,
-		&amiName, r.allocationData.Region); err != nil {
+	if err = checkAMIExists(&amiName, r.allocationData.Region, &amiArch); err != nil {
 		return err
 	}
 	return r.createMachine()
@@ -155,7 +153,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		amiName(r.version),
-		[]string{amiOwnerSelf},
+		[]string{amiOwner},
 		map[string]string{
 			"architecture": amiArch})
 	if err != nil {
@@ -265,29 +263,18 @@ func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func manageAMIReplication(mCtx *mc.Context, prefix, amiName, region *string) error {
+func checkAMIExists(amiName, region, arch *string) error {
 	isAMIOffered, _, err := data.IsAMIOffered(
 		data.ImageRequest{
 			Name:   amiName,
+			Arch:   arch,
 			Region: region,
 			Owner:  &amiOwner})
 	if err != nil {
 		return err
 	}
 	if !isAMIOffered {
-		acr := amiCopy.CopyAMIRequest{
-			MCtx:            mCtx,
-			Prefix:          *prefix,
-			ID:              awsRHELDedicatedID,
-			AMISourceName:   amiName,
-			AMISourceArch:   &amiArch,
-			AMITargetRegion: region,
-			// TODO add this as param
-			AMIKeepCopy: true,
-		}
-		if err := acr.Create(); err != nil {
-			return err
-		}
+		return fmt.Errorf("AMI %s could not be found in region: %s", *amiName, *region)
 	}
 	return nil
 }

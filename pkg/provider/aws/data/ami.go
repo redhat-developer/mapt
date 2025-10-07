@@ -45,7 +45,7 @@ func GetAMI(r ImageRequest) (*ImageInfo, error) {
 		{
 			Name:   &filterName,
 			Values: []string{*r.Name}}}
-	if r.Arch != nil {
+	if r.Arch != nil && len(*r.Arch) > 0 {
 		filter := "architecture"
 		filters = append(filters, ec2Types.Filter{
 			Name:   &filter,
@@ -58,10 +58,17 @@ func GetAMI(r ImageRequest) (*ImageInfo, error) {
 			Values: []string{*r.BlockDeviceType}})
 	}
 	input := &ec2.DescribeImagesInput{
-		ExecutableUsers: []string{"self"},
-		Filters:         filters}
-	if r.Owner != nil {
+		Filters: filters}
+
+	if r.Owner != nil && len(*r.Owner) > 0 {
 		input.Owners = []string{*r.Owner}
+		aId, err := accountId()
+		if err != nil {
+			return nil, err
+		}
+		if *aId != *r.Owner {
+			input.ExecutableUsers = []string{"self"}
+		}
 	}
 	result, err := client.DescribeImages(
 		context.Background(), input)
