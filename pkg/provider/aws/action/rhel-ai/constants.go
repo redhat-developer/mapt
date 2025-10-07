@@ -8,10 +8,11 @@ var (
 
 	diskSize int = 2000
 
-	amiProduct     = "Red Hat Enterprise Linux"
-	amiRegex       = "rhel-ai-nvidia-aws-%s*"
-	amiOwner       = "391597328979"
-	amiOwnerSelf   = "self"
+	// amiProduct     = "Red Hat Enterprise Linux"
+	amiProduct = "Linux/UNIX"
+	amiRegex   = "rhel-ai-nvidia-aws-%s-*"
+	amiOwner   = "610952687893"
+	// amiOwnerSelf   = "self"
 	amiArch        = "x86_64"
 	amiUserDefault = "cloud-user"
 
