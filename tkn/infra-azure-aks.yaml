@@ -110,10 +110,10 @@ spec:
     # Control params
     - name: debug
       description: |
-        Warning setting this param to true expose credentials 
-        
-        The parameter is intended to add verbosity on the task execution and also print credentials on stdout
-        to easily access to remote machice
+        Warning setting this param to true exposes partially masked credentials
+
+        The parameter is intended to add verbosity on the task execution and also print masked credentials
+        (showing first and last character with *** in the middle) on stdout to help with debugging
       default: 'false'
     
   results:
@@ -142,12 +142,20 @@ spec:
       script: |
         #!/bin/sh
 
-        # If debug add verbosity
-        if [[ $(params.debug) == "true" ]]; then
-          set -xuo   
-        fi
-        
-        # Credentials
+        set -euo pipefail
+
+        # Function to mask credentials (show first and last char, hide middle)
+        mask_credential() {
+          local cred="$1"
+          local len=${#cred}
+          if [ $len -le 2 ]; then
+            echo "***"
+          else
+            echo "${cred:0:1}***${cred: -1}"
+          fi
+        }
+
+        # Credentials - set these BEFORE enabling debug mode
         export ARM_TENANT_ID=$(cat /opt/az-credentials/tenant_id)
         export ARM_SUBSCRIPTION_ID=$(cat /opt/az-credentials/subscription_id)
         export ARM_CLIENT_ID=$(cat /opt/az-credentials/client_id)
@@ -155,6 +163,18 @@ spec:
         export AZURE_STORAGE_ACCOUNT=$(cat /opt/az-credentials/storage_account)
         export AZURE_STORAGE_KEY=$(cat /opt/az-credentials/storage_key)
         BLOB=$(cat /opt/az-credentials/blob)
+
+        # If debug add verbosity and print masked credentials
+        if [[ $(params.debug) == "true" ]]; then
+          echo "ARM_TENANT_ID=$(mask_credential "$ARM_TENANT_ID")"
+          echo "ARM_SUBSCRIPTION_ID=$(mask_credential "$ARM_SUBSCRIPTION_ID")"
+          echo "ARM_CLIENT_ID=$(mask_credential "$ARM_CLIENT_ID")"
+          echo "ARM_CLIENT_SECRET=$(mask_credential "$ARM_CLIENT_SECRET")"
+          echo "AZURE_STORAGE_ACCOUNT=$(mask_credential "$AZURE_STORAGE_ACCOUNT")"
+          echo "AZURE_STORAGE_KEY=$(mask_credential "$AZURE_STORAGE_KEY")"
+          echo "BLOB=$BLOB"
+          set -xeuo pipefail
+        fi
 
         if [[ $(params.operation) == "create"  ]]; then
           if [[ $(params.ownerName) == "" || $(params.ownerUid) == "" ]]; then
