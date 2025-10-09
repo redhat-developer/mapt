@@ -2,8 +2,6 @@
 bootcmd:
   # Resize the partition (4 = /dev/nvme0n1p4 typically)
   - growpart /dev/nvme0n1 4
-  # Resize the XFS filesystem on /sysroot
-  - xfs_growfs /sysroot
 runcmd:
   - systemctl enable --now kubelet
   - export PS=$(podman run --rm docker.io/amazon/aws-cli ssm get-parameter --name "{{ .SSMPullSecretName }}" --with-decryption --query "Parameter.Value" --output text)
