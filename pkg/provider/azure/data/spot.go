@@ -23,14 +23,14 @@ import (
 const (
 	querySpotPrice = "SpotResources | where type =~ 'microsoft.compute/skuspotpricehistory/ostype/location' " +
 		"and sku.name in~ ({{range $index, $v := .ComputeSizes}}{{if $index}},{{end}}'{{$v}}'{{end}}) and properties.osType =~ '{{.OSType}}'" +
-		"and location =~ '{{.Location}}' " +
+		"and location in~ ({{range $index, $l := .Locations}}{{if $index}},{{end}}'{{$l}}'{{end}}) " +
 		"| project skuName=tostring(sku.name),osType=tostring(properties.osType)," +
 		"location,latestSpotPriceUSD=todouble(properties.spotPrices[0].priceUSD)" +
 		"| order by latestSpotPriceUSD asc"
 
 	queryEvictionRate = "SpotResources | where type =~ 'microsoft.compute/skuspotevictionrate/location' " +
 		"and sku.name in~ ({{range $index, $v := .ComputeSizes}}{{if $index}},{{end}}'{{$v}}'{{end}})" +
-		"and location =~ '{{.Location}}' " +
+		"and location in~ ({{range $index, $l := .Locations}}{{if $index}},{{end}}'{{$l}}'{{end}}) " +
 		"and tostring(properties.evictionRate) in~ ({{range $index, $e := .AllowedER}}{{if $index}},{{end}}'{{$e}}'{{end}}) " +
 		"| project skuName=tostring(sku.name),location,spotEvictionRate=tostring(properties.evictionRate) "
 )
@@ -94,11 +94,18 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	if err != nil {
 		return nil, err
 	}
-	evictionRates, err := hostingPlaces.RunOnHostingPlaces(locations,
-		evictionRatesArgs{
+	allEvictionRates, err := checkEvictionRates(locations,
+		checkEvictionRatesArgs{
 			computeSizes:  args.ComputeSizes,
 			clientFactory: clientFactory,
 			allowedER:     allowedER(*args.SpotTolerance),
+		})
+	if err != nil {
+		return nil, err
+	}
+	evictionRates, err := hostingPlaces.RunOnHostingPlaces(locations,
+		evictionRatesArgs{
+			evr: allEvictionRates,
 		},
 		evictionRatesAsync)
 	if err != nil {
@@ -110,11 +117,17 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		locations = utilMaps.Keys(evictionRates)
 	}
 	// prices
+	allSpotPricings, err := checkSpotPricing(locations, checkSpotPricingArgs{
+		computeSizes:  args.ComputeSizes,
+		clientFactory: clientFactory,
+		osType:        args.OSType,
+	})
+	if err != nil {
+		return nil, err
+	}
 	spotPricings, err := hostingPlaces.RunOnHostingPlaces(locations,
 		spotPricingArgs{
-			computeSizes:  args.ComputeSizes,
-			clientFactory: clientFactory,
-			osType:        args.OSType,
+			sp: allSpotPricings,
 		},
 		spotPricingAsync)
 	if err != nil {
@@ -205,11 +218,15 @@ func allowedER(spotTolerance spot.Tolerance) []string {
 		})
 }
 
-type evictionRatesArgs struct {
+type checkEvictionRatesArgs struct {
 	clientFactory *armresourcegraph.ClientFactory
 	computeSizes  []string
 	allowedER     []string
 	// capacity     int32
+}
+
+type evictionRatesArgs struct {
+	evr map[string][]evictionRateResult
 }
 
 type evictionRateResult struct {
@@ -220,27 +237,23 @@ type evictionRateResult struct {
 
 type queryERData struct {
 	ComputeSizes []string
-	Location     string
+	Locations    []string
 	AllowedER    []string
 }
 
-// This will get evictionrates grouped on map per region
-// only scores over tolerance will be added
-func evictionRatesAsync(location string, args evictionRatesArgs, c chan hostingPlaces.HostingPlaceData[[]evictionRateResult]) {
+func checkEvictionRates(locations []string, args checkEvictionRatesArgs) (map[string][]evictionRateResult, error) {
 	tmpl, err := template.New("graphQuery").Parse(queryEvictionRate)
 	if err != nil {
-		hostingPlaces.SendAsyncErr(c, err)
-		return
+		return nil, err
 	}
 	buffer := new(bytes.Buffer)
 	err = tmpl.Execute(buffer, queryERData{
 		ComputeSizes: args.computeSizes,
-		Location:     location,
+		Locations:    locations,
 		AllowedER:    args.allowedER,
 	})
 	if err != nil {
-		hostingPlaces.SendAsyncErr(c, err)
-		return
+		return nil, err
 	}
 	evrr := buffer.String()
 	qr, err := args.clientFactory.NewClient().Resources(context.Background(),
@@ -249,23 +262,31 @@ func evictionRatesAsync(location string, args evictionRatesArgs, c chan hostingP
 		},
 		nil)
 	if err != nil {
-		hostingPlaces.SendAsyncErr(c, err)
-		return
+		return nil, err
 	}
 	var results []evictionRateResult
 	for _, r := range qr.Data.([]interface{}) {
 		rJSON, err := json.Marshal(r)
 		if err != nil {
-			hostingPlaces.SendAsyncErr(c, err)
-			return
+			return nil, err
 		}
 		rStruct := evictionRateResult{}
 		if err := json.Unmarshal(rJSON, &rStruct); err != nil {
-			hostingPlaces.SendAsyncErr(c, err)
-			return
+			return nil, err
 		}
 		results = append(results, rStruct)
 	}
+	return utilSlices.Split(
+		results,
+		func(e evictionRateResult) string {
+			return e.Location
+		}), nil
+}
+
+// This will get evictionrates grouped on map per region
+// only scores over tolerance will be added
+func evictionRatesAsync(location string, args evictionRatesArgs, c chan hostingPlaces.HostingPlaceData[[]evictionRateResult]) {
+	results := args.evr[location]
 	// Order by eviction rate
 	slices.SortFunc(results,
 		func(a, b evictionRateResult) int {
@@ -277,11 +298,15 @@ func evictionRatesAsync(location string, args evictionRatesArgs, c chan hostingP
 		Value:  results}
 }
 
-type spotPricingArgs struct {
+type checkSpotPricingArgs struct {
 	clientFactory *armresourcegraph.ClientFactory
 	computeSizes  []string
 	osType        string
 	// capacity     int32
+}
+
+type spotPricingArgs struct {
+	sp map[string][]spotPricingResult
 }
 
 type spotPricingResult struct {
@@ -293,26 +318,24 @@ type spotPricingResult struct {
 
 type querySpotPriceData struct {
 	ComputeSizes []string
-	Location     string
+	Locations    []string
 	OSType       string
 }
 
 // This function will return a slice of values with price ordered from minor prices to major
-func spotPricingAsync(location string, args spotPricingArgs, c chan hostingPlaces.HostingPlaceData[[]spotPricingResult]) {
+func checkSpotPricing(locations []string, args checkSpotPricingArgs) (map[string][]spotPricingResult, error) {
 	tmpl, err := template.New("graphQuery").Parse(querySpotPrice)
 	if err != nil {
-		hostingPlaces.SendAsyncErr(c, err)
-		return
+		return nil, err
 	}
 	buffer := new(bytes.Buffer)
 	err = tmpl.Execute(buffer, querySpotPriceData{
 		ComputeSizes: args.computeSizes,
-		Location:     location,
+		Locations:    locations,
 		OSType:       args.osType,
 	})
 	if err != nil {
-		hostingPlaces.SendAsyncErr(c, err)
-		return
+		return nil, err
 	}
 	spr := buffer.String()
 	qr, err := args.clientFactory.NewClient().Resources(context.Background(),
@@ -321,25 +344,32 @@ func spotPricingAsync(location string, args spotPricingArgs, c chan hostingPlace
 		},
 		nil)
 	if err != nil {
-		hostingPlaces.SendAsyncErr(c, err)
-		return
+		return nil, err
 	}
 	var results []spotPricingResult
 	for _, r := range qr.Data.([]interface{}) {
 		rJSON, err := json.Marshal(r)
 		if err != nil {
-			hostingPlaces.SendAsyncErr(c, err)
-			return
+			return nil, err
 		}
 		rStruct := spotPricingResult{}
 		if err := json.Unmarshal(rJSON, &rStruct); err != nil {
-			hostingPlaces.SendAsyncErr(c, err)
-			return
+			return nil, err
 		}
 		logging.Debugf("Found ComputeSize %s at Location %s with spot price %.2f",
 			string(rStruct.ComputeSize), rStruct.Location, rStruct.Price)
 		results = append(results, rStruct)
 	}
+	return utilSlices.Split(
+		results,
+		func(s spotPricingResult) string {
+			return s.Location
+		}), nil
+}
+
+// This function will return a slice of values with price ordered from minor prices to major
+func spotPricingAsync(location string, args spotPricingArgs, c chan hostingPlaces.HostingPlaceData[[]spotPricingResult]) {
+	results := args.sp[location]
 	// Order by price
 	if len(results) > 0 {
 		utilSlices.SortbyFloat(results,
@@ -350,7 +380,6 @@ func spotPricingAsync(location string, args spotPricingArgs, c chan hostingPlace
 	c <- hostingPlaces.HostingPlaceData[[]spotPricingResult]{
 		Region: location,
 		Value:  results}
-
 }
 
 type spotChoiceArgs struct {
