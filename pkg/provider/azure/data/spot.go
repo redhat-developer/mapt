@@ -117,11 +117,12 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		locations = utilMaps.Keys(evictionRates)
 	}
 	// prices
-	allSpotPricings, err := checkSpotPricing(locations, checkSpotPricingArgs{
-		computeSizes:  args.ComputeSizes,
-		clientFactory: clientFactory,
-		osType:        args.OSType,
-	})
+	allSpotPricings, err := checkSpotPricing(mCtx, locations,
+		checkSpotPricingArgs{
+			computeSizes:  args.ComputeSizes,
+			clientFactory: clientFactory,
+			osType:        args.OSType,
+		})
 	if err != nil {
 		return nil, err
 	}
@@ -323,7 +324,7 @@ type querySpotPriceData struct {
 }
 
 // This function will return a slice of values with price ordered from minor prices to major
-func checkSpotPricing(locations []string, args checkSpotPricingArgs) (map[string][]spotPricingResult, error) {
+func checkSpotPricing(mCtx *mc.Context, locations []string, args checkSpotPricingArgs) (map[string][]spotPricingResult, error) {
 	tmpl, err := template.New("graphQuery").Parse(querySpotPrice)
 	if err != nil {
 		return nil, err
@@ -356,8 +357,10 @@ func checkSpotPricing(locations []string, args checkSpotPricingArgs) (map[string
 		if err := json.Unmarshal(rJSON, &rStruct); err != nil {
 			return nil, err
 		}
-		logging.Debugf("Found ComputeSize %s at Location %s with spot price %.2f",
-			string(rStruct.ComputeSize), rStruct.Location, rStruct.Price)
+		if mCtx.Debug() {
+			logging.Debugf("Found ComputeSize %s at Location %s with spot price %.2f",
+				string(rStruct.ComputeSize), rStruct.Location, rStruct.Price)
+		}
 		results = append(results, rStruct)
 	}
 	return utilSlices.Split(
