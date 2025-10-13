@@ -1,7 +1,6 @@
 package azure
 
 import (
-	"fmt"
 	"os"
 	"slices"
 	"strings"
@@ -39,7 +38,8 @@ func (a *Azure) DefaultHostingPlace() (*string, error) {
 	if len(hp) > 0 {
 		return &hp, nil
 	}
-	return nil, fmt.Errorf("missing default value for Azure Location")
+	logging.Infof("missing default value for Azure Location, if needed it should set using ARM_LOCATION_NAME or AZURE_DEFAULTS_LOCATION")
+	return nil, nil
 }
 
 // Envs required for auth with go sdk
