@@ -266,9 +266,9 @@ type Service struct {
 	Alarms ServiceAlarmsPtrOutput `pulumi:"alarms"`
 	// ARN that identifies the service.
 	Arn pulumi.StringOutput `pulumi:"arn"`
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
-	AvailabilityZoneRebalancing pulumi.StringPtrOutput `pulumi:"availabilityZoneRebalancing"`
-	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
+	AvailabilityZoneRebalancing pulumi.StringOutput `pulumi:"availabilityZoneRebalancing"`
+	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies ServiceCapacityProviderStrategyArrayOutput `pulumi:"capacityProviderStrategies"`
 	// ARN of an ECS cluster.
 	Cluster pulumi.StringOutput `pulumi:"cluster"`
@@ -375,9 +375,9 @@ type serviceState struct {
 	Alarms *ServiceAlarms `pulumi:"alarms"`
 	// ARN that identifies the service.
 	Arn *string `pulumi:"arn"`
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
 	AvailabilityZoneRebalancing *string `pulumi:"availabilityZoneRebalancing"`
-	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
+	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies []ServiceCapacityProviderStrategy `pulumi:"capacityProviderStrategies"`
 	// ARN of an ECS cluster.
 	Cluster *string `pulumi:"cluster"`
@@ -455,9 +455,9 @@ type ServiceState struct {
 	Alarms ServiceAlarmsPtrInput
 	// ARN that identifies the service.
 	Arn pulumi.StringPtrInput
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
 	AvailabilityZoneRebalancing pulumi.StringPtrInput
-	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
+	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies ServiceCapacityProviderStrategyArrayInput
 	// ARN of an ECS cluster.
 	Cluster pulumi.StringPtrInput
@@ -537,9 +537,9 @@ func (ServiceState) ElementType() reflect.Type {
 type serviceArgs struct {
 	// Information about the CloudWatch alarms. See below.
 	Alarms *ServiceAlarms `pulumi:"alarms"`
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
 	AvailabilityZoneRebalancing *string `pulumi:"availabilityZoneRebalancing"`
-	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
+	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies []ServiceCapacityProviderStrategy `pulumi:"capacityProviderStrategies"`
 	// ARN of an ECS cluster.
 	Cluster *string `pulumi:"cluster"`
@@ -614,9 +614,9 @@ type serviceArgs struct {
 type ServiceArgs struct {
 	// Information about the CloudWatch alarms. See below.
 	Alarms ServiceAlarmsPtrInput
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
 	AvailabilityZoneRebalancing pulumi.StringPtrInput
-	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
+	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies ServiceCapacityProviderStrategyArrayInput
 	// ARN of an ECS cluster.
 	Cluster pulumi.StringPtrInput
@@ -784,12 +784,12 @@ func (o ServiceOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v *Service) pulumi.StringOutput { return v.Arn }).(pulumi.StringOutput)
 }
 
-// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
-func (o ServiceOutput) AvailabilityZoneRebalancing() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *Service) pulumi.StringPtrOutput { return v.AvailabilityZoneRebalancing }).(pulumi.StringPtrOutput)
+// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
+func (o ServiceOutput) AvailabilityZoneRebalancing() pulumi.StringOutput {
+	return o.ApplyT(func(v *Service) pulumi.StringOutput { return v.AvailabilityZoneRebalancing }).(pulumi.StringOutput)
 }
 
-// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
+// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
 func (o ServiceOutput) CapacityProviderStrategies() ServiceCapacityProviderStrategyArrayOutput {
 	return o.ApplyT(func(v *Service) ServiceCapacityProviderStrategyArrayOutput { return v.CapacityProviderStrategies }).(ServiceCapacityProviderStrategyArrayOutput)
 }
