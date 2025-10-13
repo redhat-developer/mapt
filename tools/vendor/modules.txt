@@ -566,8 +566,8 @@ github.com/kunwardeep/paralleltest/pkg/paralleltest
 # github.com/lasiar/canonicalheader v1.1.2
 ## explicit; go 1.22.0
 github.com/lasiar/canonicalheader
-# github.com/ldez/exptostd v0.4.4
-## explicit; go 1.23.0
+# github.com/ldez/exptostd v0.4.5
+## explicit; go 1.24.0
 github.com/ldez/exptostd
 # github.com/ldez/gomoddirectives v0.7.1
 ## explicit; go 1.24.0
@@ -656,7 +656,7 @@ github.com/nishanths/exhaustive
 # github.com/nishanths/predeclared v0.2.2
 ## explicit; go 1.14
 github.com/nishanths/predeclared/passes/predeclared
-# github.com/nunnatsa/ginkgolinter v0.21.0
+# github.com/nunnatsa/ginkgolinter v0.21.2
 ## explicit; go 1.24.0
 github.com/nunnatsa/ginkgolinter
 github.com/nunnatsa/ginkgolinter/config
@@ -825,7 +825,7 @@ github.com/ssgreg/nlreturn/v2/pkg/nlreturn
 # github.com/stbenjam/no-sprintf-host-port v0.2.0
 ## explicit; go 1.18
 github.com/stbenjam/no-sprintf-host-port/pkg/analyzer
-# github.com/stretchr/objx v0.5.2
+# github.com/stretchr/objx v0.5.3
 ## explicit; go 1.20
 github.com/stretchr/objx
 # github.com/stretchr/testify v1.11.1
@@ -934,7 +934,7 @@ go.yaml.in/yaml/v3
 # golang.org/x/exp/typeparams v0.0.0-20251002181428-27f1f14c8bb9
 ## explicit; go 1.24.0
 golang.org/x/exp/typeparams
-# golang.org/x/mod v0.28.0
+# golang.org/x/mod v0.29.0
 ## explicit; go 1.24.0
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/modfile
@@ -945,7 +945,7 @@ golang.org/x/mod/sumdb/dirhash
 ## explicit; go 1.24.0
 golang.org/x/sync/errgroup
 golang.org/x/sync/semaphore
-# golang.org/x/sys v0.36.0
+# golang.org/x/sys v0.37.0
 ## explicit; go 1.24.0
 golang.org/x/sys/unix
 golang.org/x/sys/windows
