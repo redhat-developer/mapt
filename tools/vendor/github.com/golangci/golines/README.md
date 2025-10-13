@@ -2,17 +2,6 @@
 
 This is a fork of [golines](https://github.com/segmentio/golines) to be usable as a library.
 
-I considered other options before deciding to fork, but there are no straightforward or non-invasive changes.
-
-Simply isolating some code within a package will not address the root issue unless the code is converted to a dedicated module and all debug/graph-related code is removed.
-Realistically, this is not possible.
-
-Issues should be open either on the original [golines repository](https://github.com/segmentio/golines) or on [golangci-lint repository](https://github.com/golangci/golangci-lint).
-
-**No modifications will be accepted other than the synchronization of the fork.**
-
-The synchronization of the fork will be done by the golangci-lint maintainers only.
-
 ## Modifications
 
 - The original code is under the `main` package -> uses `golines` package.
@@ -32,8 +21,10 @@ The synchronization of the fork will be done by the golangci-lint maintainers on
   - The code related to graph has been removed.
 - The module name has been changed to `github.com/golangci/golines` to avoid replacement directives inside golangci-lint.
 
+**No modifications will be accepted other than the synchronization of the fork.**
+
+The synchronization of the fork will be done by the golangci-lint maintainers only.
+
 ## History
 
 - sync with fc305205784a70b4cfc17397654f4c94e3153ce4 (after v0.12.2)
-- sync with v0.13.0 (no changes)
-
