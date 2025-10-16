@@ -90,8 +90,8 @@ spec:
     - name: nested-virt
       description: Use cloud instance that has nested virtualization support
       default: 'false'
-    - name: vmsize
-      description: size for the machine
+    - name: compute-sizes
+      description: Comma separated list of sizes for the machine
       default: "''"
     - name: spot
       description: in case spot is set to true it will check for best spot price and create the VM on the target region
@@ -213,7 +213,7 @@ spec:
           cmd+="--cpus $(params.cpus) "
           cmd+="--memory $(params.memory) "
           if [[ $(params.nested-virt) == "true" ]]; then cmd+="--nested-virt "; fi
-          if [[ -z $(params.vmsize) ]]; then cmd+="--vmsize $(params.vmsize) "; fi
+          if [[ -n $(params.compute-sizes) ]]; then cmd+="--compute-sizes $(params.compute-sizes) "; fi
           if [[ $(params.spot) == "true" ]]; then
             cmd+="--spot --spot-eviction-tolerance $(params.spot-eviction-tolerance) --spot-increase-rate $(params.spot-increase-rate) "
           fi
