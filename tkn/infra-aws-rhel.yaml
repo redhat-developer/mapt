@@ -230,8 +230,8 @@ spec:
           set -xeuo pipefail
         fi
 
-        if [[ $(params.operation) == "create"  ]]; then
-          if [[ $(params.ownerName) == "" || $(params.ownerUid) == "" ]]; then
+        if [[ "$(params.operation)" == "create"  ]]; then
+          if [[ "$(params.ownerName)" == "" || "$(params.ownerUid)" == "" ]]; then
             echo "Parameter ownerName and ownerUid is required for create instance"
             exit 1
           fi
@@ -267,7 +267,7 @@ spec:
           if [[ -f /opt/rh-account-secret/password ]]; then
             cmd+="--rh-subscription-password '$(cat /opt/rh-account-secret/password)' "
           fi
-          if [[ $(params.spot) == "true" ]]; then 
+          if [[ "$(params.spot)" == "true" ]]; then
             cmd+="--spot "
             cmd+="--spot-increase-rate '$(params.spot-increase-rate)' "
             cmd+="--spot-eviction-tolerance '$(params.spot-eviction-tolerance)' "
@@ -276,7 +276,7 @@ spec:
           if [[ "$(params.airgap)" == "true" ]]; then
             cmd+="--airgap "
           fi
-          if [[ $(params.profile-snc) == "true" ]]; then
+          if [[ "$(params.profile-snc)" == "true" ]]; then
             cmd+="--snc "
           fi
           cmd+="--tags '$(params.tags)' "
