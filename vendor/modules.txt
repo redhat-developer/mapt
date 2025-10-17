@@ -615,17 +615,20 @@ github.com/pulumi/esc/syntax/encoding
 # github.com/pulumi/pulumi-aws-native/sdk v1.36.0
 ## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws-native/sdk/go/aws
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/autoscaling
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/ecs
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/eks
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/elasticloadbalancingv2
+github.com/pulumi/pulumi-aws-native/sdk/go/aws/iam
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/internal
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler
 github.com/pulumi/pulumi-aws-native/sdk/go/aws/ssm
-# github.com/pulumi/pulumi-aws/sdk/v7 v7.8.0
-## explicit; go 1.23.11
-github.com/pulumi/pulumi-aws/sdk/v7/go/aws
-github.com/pulumi/pulumi-aws/sdk/v7/go/aws/autoscaling
+# github.com/pulumi/pulumi-aws/sdk/v7 v7.0.0
+## explicit; go 1.23.0
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/cloudwatch
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ecs
-github.com/pulumi/pulumi-aws/sdk/v7/go/aws/eks
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/internal
 github.com/pulumi/pulumi-aws/sdk/v7/go/aws/lb

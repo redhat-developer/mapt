@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
@@ -179,7 +179,8 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		fmt.Sprintf(amiRegex[*r.arch], *r.version),
 		[]string{amiOwner},
 		map[string]string{
-			"architecture": *r.arch})
+			"architecture": *r.arch},
+		*r.allocationData.Region)
 	if err != nil {
 		return err
 	}

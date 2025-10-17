@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(while read file)",
+      "Bash(for:*)",
+      "Bash(do)",
+      "Bash(echo \"Updating $file\")",
+      "Bash(sed:*)",
+      "Bash(done)",
+      "Bash(go build:*)",
+      "Bash(go list:*)",
+      "WebFetch(domain:www.pulumi.com)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

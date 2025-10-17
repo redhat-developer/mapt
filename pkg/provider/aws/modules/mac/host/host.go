@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"maps"
 
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -99,13 +99,13 @@ func (r *dedicatedHostArgs) deploy(ctx *pulumi.Context) (err error) {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputRegion), pulumi.String(*r.region))
-	dh, err := ec2.NewDedicatedHost(ctx,
+	dh, err := ec2.NewHost(ctx,
 		resourcesUtil.GetResourceName(r.prefix, awsMacHostID, "dh"),
-		&ec2.DedicatedHostArgs{
+		&ec2.HostArgs{
 			AutoPlacement:    pulumi.String("off"),
 			AvailabilityZone: pulumi.String(*r.availabilityZone),
 			InstanceType:     pulumi.String(mac.TypesByArch[r.arch]),
-			Tags:             r.mCtx.ResourceTagsWithCustom(r.tags),
+			// Tags: r.mCtx.ResourceTagsWithCustom(r.tags), // TODO: Convert to AWS Native tag format
 		})
 	ctx.Export(fmt.Sprintf("%s-%s", r.prefix, outputDedicatedHostID),
 		dh.ID())
