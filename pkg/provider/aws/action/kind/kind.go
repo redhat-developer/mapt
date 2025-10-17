@@ -7,12 +7,9 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
-	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
-	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
@@ -23,23 +20,12 @@ import (
 	amiSVC "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
-	kindCloudConfig "github.com/redhat-developer/mapt/pkg/provider/util/cloud-config/kind"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	utilKind "github.com/redhat-developer/mapt/pkg/targets/service/kind"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
-
-type KindArgs struct {
-	Prefix            string
-	ComputeRequest    *cr.ComputeRequestArgs
-	Version           string
-	Arch              string
-	Spot              *spotTypes.SpotArgs
-	Timeout           string
-	ExtraPortMappings []kindCloudConfig.PortMapping
-}
 
 type kindRequest struct {
 	mCtx              *mc.Context
@@ -49,7 +35,7 @@ type kindRequest struct {
 	spot              bool
 	timeout           *string
 	allocationData    *allocation.AllocationResult
-	extraPortMappings []kindCloudConfig.PortMapping
+	extraPortMappings []utilKind.PortMapping
 }
 
 func (r *kindRequest) validate() error {
@@ -61,18 +47,10 @@ func (r *kindRequest) validate() error {
 	return v.Struct(r)
 }
 
-type KindResultsMetadata struct {
-	Username   string   `json:"username"`
-	PrivateKey string   `json:"private_key"`
-	Host       string   `json:"host"`
-	Kubeconfig string   `json:"kubeconfig"`
-	SpotPrice  *float64 `json:"spot_price,omitempty"`
-}
-
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(mCtxArgs *mc.ContextArgs, args *KindArgs) (kr *KindResultsMetadata, err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (kr *utilKind.KindResults, err error) {
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return nil, err
@@ -107,7 +85,7 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	if err := aws.DestroyStack(mCtx, aws.DestroyStackRequest{Stackname: stackName}); err != nil {
+	if err := aws.DestroyStack(mCtx, aws.DestroyStackRequest{Stackname: utilKind.StackName}); err != nil {
 		return err
 	}
 	if spot.Exist(mCtx) {
@@ -116,9 +94,9 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	return nil
 }
 
-func (r *kindRequest) createHost() (*KindResultsMetadata, error) {
+func (r *kindRequest) createHost() (*utilKind.KindResults, error) {
 	cs := manager.Stack{
-		StackName:   r.mCtx.StackNameByProject(stackName),
+		StackName:   r.mCtx.StackNameByProject(utilKind.StackName),
 		ProjectName: r.mCtx.ProjectName(),
 		BackedURL:   r.mCtx.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
@@ -133,7 +111,7 @@ func (r *kindRequest) createHost() (*KindResultsMetadata, error) {
 		return nil, fmt.Errorf("stack creation failed: %w", err)
 	}
 
-	metadataResults, err := r.manageResults(sr, r.prefix)
+	metadataResults, err := utilKind.Results(r.mCtx, sr, r.prefix)
 	if err != nil {
 		return nil, fmt.Errorf("failed to manage results: %w", err)
 	}
@@ -145,6 +123,8 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	if err := r.validate(); err != nil {
 		return err
 	}
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, utilKind.OKSpotPrice),
+		pulumi.Float64(*r.allocationData.SpotPrice))
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		amiName(r.arch),
@@ -165,7 +145,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	nw, err := network.Create(ctx, r.mCtx,
 		&network.NetworkArgs{
 			Prefix:             *r.prefix,
-			ID:                 awsKindID,
+			ID:                 utilKind.KindID,
 			Region:             *r.allocationData.Region,
 			AZ:                 *r.allocationData.AZ,
 			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
@@ -176,12 +156,12 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 
 	// Create Keypair
 	kpr := keypair.KeyPairRequest{
-		Name: resourcesUtil.GetResourceName(*r.prefix, awsKindID, "pk")}
+		Name: resourcesUtil.GetResourceName(*r.prefix, utilKind.KindID, "pk")}
 	keyResources, err := kpr.Create(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, utilKind.OKPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 
 	// Security groups
@@ -196,13 +176,13 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Build LB target groups including both default and extra ports
-	lbTargetGroups := []int{22, portAPI, portHTTP, portHTTPS}
+	lbTargetGroups := []int{22, utilKind.PortAPI, utilKind.PortHTTP, utilKind.PortHTTPS}
 	lbTargetGroups = append(lbTargetGroups, extraHostPorts...)
 
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
-		ID:               awsKindID,
+		ID:               utilKind.KindID,
 		VPC:              nw.Vpc,
 		Subnet:           nw.Subnet,
 		AMI:              ami,
@@ -224,16 +204,16 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUsername),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, utilKind.OKUsername),
 		pulumi.String(amiUserDefault))
 
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, utilKind.OKHost),
 		c.GetHostIP(true))
 
 	if len(*r.timeout) > 0 {
 		err := serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
-			awsKindID,
+			utilKind.KindID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless --force-destroy",
 				"kind", r.mCtx.ProjectName(), r.mCtx.BackedURL()),
 			*r.timeout)
@@ -246,67 +226,10 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, utilKind.OKKubeconfig),
 		pulumi.ToSecret(kubeconfig))
 
 	return nil
-}
-
-// Write exported values in context to files o a selected target folder
-func (r *kindRequest) manageResults(stackResult auto.UpResult, prefix *string) (*KindResultsMetadata, error) {
-	username, err := getResultOutput(outputUsername, stackResult, prefix)
-	if err != nil {
-		return nil, err
-	}
-	privateKey, err := getResultOutput(outputUserPrivateKey, stackResult, prefix)
-	if err != nil {
-		return nil, err
-	}
-	host, err := getResultOutput(outputHost, stackResult, prefix)
-	if err != nil {
-		return nil, err
-	}
-	kubeconfig, err := getResultOutput(outputKubeconfig, stackResult, prefix)
-	if err != nil {
-		return nil, err
-	}
-
-	metadataResults := &KindResultsMetadata{
-		Username:   username,
-		PrivateKey: privateKey,
-		Host:       host,
-		Kubeconfig: kubeconfig,
-		SpotPrice:  r.allocationData.SpotPrice,
-	}
-
-	hostIPKey := fmt.Sprintf("%s-%s", *prefix, outputHost)
-	results := map[string]string{
-		fmt.Sprintf("%s-%s", *prefix, outputUsername):       "username",
-		fmt.Sprintf("%s-%s", *prefix, outputUserPrivateKey): "id_rsa",
-		hostIPKey: "host",
-		fmt.Sprintf("%s-%s", *prefix, outputKubeconfig): "kubeconfig",
-	}
-
-	if r.mCtx.GetResultsOutputPath() != "" {
-		if err := output.Write(stackResult, r.mCtx.GetResultsOutputPath(), results); err != nil {
-			return nil, fmt.Errorf("failed to write results: %w", err)
-		}
-	}
-
-	return metadataResults, nil
-}
-
-func getResultOutput(name string, sr auto.UpResult, prefix *string) (string, error) {
-	key := fmt.Sprintf("%s-%s", *prefix, name)
-	output, ok := sr.Outputs[key]
-	if !ok {
-		return "", fmt.Errorf("output not found: %s", key)
-	}
-	value, ok := output.Value.(string)
-	if !ok {
-		return "", fmt.Errorf("output for %s is not a string", key)
-	}
-	return value, nil
 }
 
 // security group for Openshift
@@ -315,9 +238,9 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	// Build ingress rules including both default and extra ports
 	ingressRules := []securityGroup.IngressRules{
 		securityGroup.SSH_TCP,
-		{Description: "HTTPS", FromPort: portHTTPS, ToPort: portHTTPS, Protocol: "tcp"},
-		{Description: "HTTP", FromPort: portHTTP, ToPort: portHTTP, Protocol: "tcp"},
-		{Description: "API", FromPort: portAPI, ToPort: portAPI, Protocol: "tcp"},
+		{Description: "HTTPS", FromPort: utilKind.PortHTTPS, ToPort: utilKind.PortHTTPS, Protocol: "tcp"},
+		{Description: "HTTP", FromPort: utilKind.PortHTTP, ToPort: utilKind.PortHTTP, Protocol: "tcp"},
+		{Description: "API", FromPort: utilKind.PortAPI, ToPort: utilKind.PortAPI, Protocol: "tcp"},
 	}
 
 	// Add extra ports to ingress rules
@@ -332,9 +255,9 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
-		Name:         resourcesUtil.GetResourceName(*prefix, awsKindID, "sg"),
+		Name:         resourcesUtil.GetResourceName(*prefix, utilKind.KindID, "sg"),
 		VPC:          vpc,
-		Description:  fmt.Sprintf("sg for %s", awsKindID),
+		Description:  fmt.Sprintf("sg for %s", utilKind.KindID),
 		IngressRules: ingressRules,
 	}.Create(ctx, mCtx)
 	if err != nil {
@@ -348,22 +271,21 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func userData(arch, k8sVersion *string, parsedPortMappings []kindCloudConfig.PortMapping, lbEIP *pulumi.StringOutput) (pulumi.StringPtrInput, error) {
+func userData(arch, k8sVersion *string, parsedPortMappings []utilKind.PortMapping, lbEIP *pulumi.StringOutput) (pulumi.StringPtrInput, error) {
 	ccB64 := lbEIP.ApplyT(
 		func(publicIP string) (string, error) {
-			ccB64, err := kindCloudConfig.CloudConfig(
-				&kindCloudConfig.DataValues{
-					Arch: util.If(*arch == "x86_64",
-						kindCloudConfig.X86_64,
-						kindCloudConfig.Arm64),
-					KindVersion:       KindK8sVersions[*k8sVersion].kindVersion,
-					KindImage:         KindK8sVersions[*k8sVersion].KindImage,
-					Username:          amiUserDefault,
-					PublicIP:          publicIP,
-					ExtraPortMappings: parsedPortMappings})
+			cc := &utilKind.CloudConfigArgs{
+				Arch: util.If(*arch == "x86_64",
+					utilKind.X86_64,
+					utilKind.Arm64),
+				KindVersion:       utilKind.KindK8sVersions[*k8sVersion].KindVersion,
+				KindImage:         utilKind.KindK8sVersions[*k8sVersion].KindImage,
+				Username:          amiUserDefault,
+				PublicIP:          publicIP,
+				ExtraPortMappings: parsedPortMappings}
+			ccB64, err := cc.CloudConfig()
 			return *ccB64, err
 		}).(pulumi.StringOutput)
-
 	return ccB64, nil
 }
 
@@ -380,7 +302,7 @@ func kubeconfig(ctx *pulumi.Context,
 	kindReadyCmd, err := c.RunCommand(ctx,
 		command.CommandCloudInitWait,
 		compute.LoggingCmdStd,
-		fmt.Sprintf("%s-kind-readiness", *prefix), awsKindID,
+		fmt.Sprintf("%s-kind-readiness", *prefix), utilKind.KindID,
 		mk, amiUserDefault, nil, c.Dependencies)
 	if err != nil {
 		return pulumi.StringOutput{}, err
@@ -390,7 +312,7 @@ func kubeconfig(ctx *pulumi.Context,
 	getKC, err := c.RunCommand(ctx,
 		getKCCmd,
 		compute.NoLoggingCmdStd,
-		fmt.Sprintf("%s-kubeconfig", *prefix), awsKindID, mk, amiUserDefault,
+		fmt.Sprintf("%s-kubeconfig", *prefix), utilKind.KindID, mk, amiUserDefault,
 		nil, []pulumi.Resource{kindReadyCmd})
 	if err != nil {
 		return pulumi.StringOutput{}, err

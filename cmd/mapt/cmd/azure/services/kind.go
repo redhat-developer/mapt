@@ -3,9 +3,10 @@ package services
 import (
 	"fmt"
 
+	azureParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
-	"github.com/redhat-developer/mapt/pkg/provider/aws/action/kind"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/action/kind"
 	kindApi "github.com/redhat-developer/mapt/pkg/targets/service/kind"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -63,9 +64,9 @@ func createKind() *cobra.Command {
 				&kindApi.KindArgs{
 					ComputeRequest:    params.ComputeRequestArgs(),
 					Spot:              params.SpotArgs(),
+					HostingPlace:      viper.GetString(azureParams.Location),
 					Version:           viper.GetString(params.KindK8SVersion),
 					Arch:              viper.GetString(params.LinuxArch),
-					Timeout:           viper.GetString(params.Timeout),
 					ExtraPortMappings: extraPortMappings}); err != nil {
 				return err
 			}
@@ -77,7 +78,7 @@ func createKind() *cobra.Command {
 	flagSet.StringP(params.KindK8SVersion, "", params.KindK8SVersionDefault, params.KindK8SVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(params.KindExtraPortMappings, "", "", params.KindExtraPortMappingsDesc)
-	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
+	flagSet.StringP(azureParams.Location, "", azureParams.LocationDefault, azureParams.LocationDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
