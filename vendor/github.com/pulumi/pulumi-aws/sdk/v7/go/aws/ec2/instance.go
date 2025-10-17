@@ -54,7 +54,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewInstance(ctx, "example", &ec2.InstanceArgs{
+//			_, err = ec2.NewInstance(ctx, "web", &ec2.InstanceArgs{
 //				Ami:          pulumi.String(ubuntu.Id),
 //				InstanceType: pulumi.String(ec2.InstanceType_T3_Micro),
 //				Tags: pulumi.StringMap{
@@ -84,7 +84,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := ec2.NewInstance(ctx, "example", &ec2.InstanceArgs{
+//			_, err := ec2.NewInstance(ctx, "web", &ec2.InstanceArgs{
 //				Ami:          pulumi.String("resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"),
 //				InstanceType: pulumi.String(ec2.InstanceType_T3_Micro),
 //				Tags: pulumi.StringMap{
@@ -114,7 +114,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			example, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
+//			this, err := ec2.LookupAmi(ctx, &ec2.LookupAmiArgs{
 //				MostRecent: pulumi.BoolRef(true),
 //				Owners: []string{
 //					"amazon",
@@ -137,8 +137,8 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewInstance(ctx, "example", &ec2.InstanceArgs{
-//				Ami: pulumi.String(example.Id),
+//			_, err = ec2.NewInstance(ctx, "this", &ec2.InstanceArgs{
+//				Ami: pulumi.String(this.Id),
 //				InstanceMarketOptions: &ec2.InstanceInstanceMarketOptionsArgs{
 //					MarketType: pulumi.String("spot"),
 //					SpotOptions: &ec2.InstanceInstanceMarketOptionsSpotOptionsArgs{
@@ -193,7 +193,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			example, err := ec2.NewNetworkInterface(ctx, "example", &ec2.NetworkInterfaceArgs{
+//			foo, err := ec2.NewNetworkInterface(ctx, "foo", &ec2.NetworkInterfaceArgs{
 //				SubnetId: mySubnet.ID(),
 //				PrivateIps: pulumi.StringArray{
 //					pulumi.String("172.16.10.100"),
@@ -205,11 +205,14 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			_, err = ec2.NewInstance(ctx, "example", &ec2.InstanceArgs{
+//			_, err = ec2.NewInstance(ctx, "foo", &ec2.InstanceArgs{
 //				Ami:          pulumi.String("ami-005e54dee72cc1d00"),
 //				InstanceType: pulumi.String(ec2.InstanceType_T2_Micro),
-//				PrimaryNetworkInterface: &ec2.InstancePrimaryNetworkInterfaceArgs{
-//					NetworkInterfaceId: example.ID(),
+//				NetworkInterfaces: ec2.InstanceNetworkInterfaceArray{
+//					&ec2.InstanceNetworkInterfaceArgs{
+//						NetworkInterfaceId: foo.ID(),
+//						DeviceIndex:        pulumi.Int(0),
+//					},
 //				},
 //				CreditSpecification: &ec2.InstanceCreditSpecificationArgs{
 //					CpuCredits: pulumi.String("unlimited"),
@@ -343,23 +346,11 @@ import (
 //
 // ## Import
 //
-// ### Identity Schema
-//
-// #### Required
-//
-// * `id` - (String) ID of the instance.
-//
-// #### Optional
-//
-// * `account_id` (String) AWS Account where this resource is managed.
-//
-// * `region` (String) Region where this resource is managed.
-//
 // Using `pulumi import`, import instances using the `id`. For example:
 //
-// console
-//
-// % pulumi import aws_instance.web i-12345678
+// ```sh
+// $ pulumi import aws:ec2/instance:Instance web i-12345678
+// ```
 type Instance struct {
 	pulumi.CustomResourceState
 
@@ -391,8 +382,6 @@ type Instance struct {
 	EnclaveOptions InstanceEnclaveOptionsOutput `pulumi:"enclaveOptions"`
 	// One or more configuration blocks to customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details. When accessing this as an attribute reference, it is a set of objects.
 	EphemeralBlockDevices InstanceEphemeralBlockDeviceArrayOutput `pulumi:"ephemeralBlockDevices"`
-	// Destroys instance even if `disableApiTermination` or `disableApiStop` is set to `true`. Defaults to `false`. Once this parameter is set to `true`, a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the instance or destroying the instance, this flag will not work. Additionally when importing an instance, a successful `pulumi up` is required to set this value in state before it will take effect on a destroy operation.
-	ForceDestroy pulumi.BoolPtrOutput `pulumi:"forceDestroy"`
 	// If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the `passwordData` attribute. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 	GetPasswordData pulumi.BoolPtrOutput `pulumi:"getPasswordData"`
 	// If true, the launched EC2 instance will support hibernation.
@@ -428,21 +417,15 @@ type Instance struct {
 	// If true, the launched EC2 instance will have detailed monitoring enabled. (Available since v0.6.0)
 	Monitoring pulumi.BoolOutput `pulumi:"monitoring"`
 	// Customize network interfaces to be attached at instance boot time. See Network Interfaces below for more details.
-	//
-	// Deprecated: network_interface is deprecated. To specify the primary network interface, use primaryNetworkInterface instead. To attach additional network interfaces, use the ec2.NetworkInterfaceAttachment resource.
 	NetworkInterfaces InstanceNetworkInterfaceArrayOutput `pulumi:"networkInterfaces"`
 	// ARN of the Outpost the instance is assigned to.
 	OutpostArn pulumi.StringOutput `pulumi:"outpostArn"`
 	// Base-64 encoded encrypted password data for the instance. Useful for getting the administrator password for instances running Microsoft Windows. This attribute is only exported if `getPasswordData` is true. Note that this encrypted value will be stored in the state file, as with all exported attributes. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 	PasswordData pulumi.StringOutput `pulumi:"passwordData"`
-	// Placement Group to start the instance in. Conflicts with `placementGroupId`.
+	// Placement Group to start the instance in.
 	PlacementGroup pulumi.StringOutput `pulumi:"placementGroup"`
-	// Placement Group ID to start the instance in. Conflicts with `placementGroup`.
-	PlacementGroupId pulumi.StringOutput `pulumi:"placementGroupId"`
 	// Number of the partition the instance is in. Valid only if the `ec2.PlacementGroup` resource's `strategy` argument is set to `"partition"`.
 	PlacementPartitionNumber pulumi.IntOutput `pulumi:"placementPartitionNumber"`
-	// The primary network interface. See Primary Network Interface below.
-	PrimaryNetworkInterface InstancePrimaryNetworkInterfaceOutput `pulumi:"primaryNetworkInterface"`
 	// ID of the instance's primary network interface.
 	PrimaryNetworkInterfaceId pulumi.StringOutput `pulumi:"primaryNetworkInterfaceId"`
 	// Private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC.
@@ -551,8 +534,6 @@ type instanceState struct {
 	EnclaveOptions *InstanceEnclaveOptions `pulumi:"enclaveOptions"`
 	// One or more configuration blocks to customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details. When accessing this as an attribute reference, it is a set of objects.
 	EphemeralBlockDevices []InstanceEphemeralBlockDevice `pulumi:"ephemeralBlockDevices"`
-	// Destroys instance even if `disableApiTermination` or `disableApiStop` is set to `true`. Defaults to `false`. Once this parameter is set to `true`, a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the instance or destroying the instance, this flag will not work. Additionally when importing an instance, a successful `pulumi up` is required to set this value in state before it will take effect on a destroy operation.
-	ForceDestroy *bool `pulumi:"forceDestroy"`
 	// If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the `passwordData` attribute. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 	GetPasswordData *bool `pulumi:"getPasswordData"`
 	// If true, the launched EC2 instance will support hibernation.
@@ -588,21 +569,15 @@ type instanceState struct {
 	// If true, the launched EC2 instance will have detailed monitoring enabled. (Available since v0.6.0)
 	Monitoring *bool `pulumi:"monitoring"`
 	// Customize network interfaces to be attached at instance boot time. See Network Interfaces below for more details.
-	//
-	// Deprecated: network_interface is deprecated. To specify the primary network interface, use primaryNetworkInterface instead. To attach additional network interfaces, use the ec2.NetworkInterfaceAttachment resource.
 	NetworkInterfaces []InstanceNetworkInterface `pulumi:"networkInterfaces"`
 	// ARN of the Outpost the instance is assigned to.
 	OutpostArn *string `pulumi:"outpostArn"`
 	// Base-64 encoded encrypted password data for the instance. Useful for getting the administrator password for instances running Microsoft Windows. This attribute is only exported if `getPasswordData` is true. Note that this encrypted value will be stored in the state file, as with all exported attributes. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 	PasswordData *string `pulumi:"passwordData"`
-	// Placement Group to start the instance in. Conflicts with `placementGroupId`.
+	// Placement Group to start the instance in.
 	PlacementGroup *string `pulumi:"placementGroup"`
-	// Placement Group ID to start the instance in. Conflicts with `placementGroup`.
-	PlacementGroupId *string `pulumi:"placementGroupId"`
 	// Number of the partition the instance is in. Valid only if the `ec2.PlacementGroup` resource's `strategy` argument is set to `"partition"`.
 	PlacementPartitionNumber *int `pulumi:"placementPartitionNumber"`
-	// The primary network interface. See Primary Network Interface below.
-	PrimaryNetworkInterface *InstancePrimaryNetworkInterface `pulumi:"primaryNetworkInterface"`
 	// ID of the instance's primary network interface.
 	PrimaryNetworkInterfaceId *string `pulumi:"primaryNetworkInterfaceId"`
 	// Private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC.
@@ -682,8 +657,6 @@ type InstanceState struct {
 	EnclaveOptions InstanceEnclaveOptionsPtrInput
 	// One or more configuration blocks to customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details. When accessing this as an attribute reference, it is a set of objects.
 	EphemeralBlockDevices InstanceEphemeralBlockDeviceArrayInput
-	// Destroys instance even if `disableApiTermination` or `disableApiStop` is set to `true`. Defaults to `false`. Once this parameter is set to `true`, a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the instance or destroying the instance, this flag will not work. Additionally when importing an instance, a successful `pulumi up` is required to set this value in state before it will take effect on a destroy operation.
-	ForceDestroy pulumi.BoolPtrInput
 	// If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the `passwordData` attribute. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 	GetPasswordData pulumi.BoolPtrInput
 	// If true, the launched EC2 instance will support hibernation.
@@ -719,21 +692,15 @@ type InstanceState struct {
 	// If true, the launched EC2 instance will have detailed monitoring enabled. (Available since v0.6.0)
 	Monitoring pulumi.BoolPtrInput
 	// Customize network interfaces to be attached at instance boot time. See Network Interfaces below for more details.
-	//
-	// Deprecated: network_interface is deprecated. To specify the primary network interface, use primaryNetworkInterface instead. To attach additional network interfaces, use the ec2.NetworkInterfaceAttachment resource.
 	NetworkInterfaces InstanceNetworkInterfaceArrayInput
 	// ARN of the Outpost the instance is assigned to.
 	OutpostArn pulumi.StringPtrInput
 	// Base-64 encoded encrypted password data for the instance. Useful for getting the administrator password for instances running Microsoft Windows. This attribute is only exported if `getPasswordData` is true. Note that this encrypted value will be stored in the state file, as with all exported attributes. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 	PasswordData pulumi.StringPtrInput
-	// Placement Group to start the instance in. Conflicts with `placementGroupId`.
+	// Placement Group to start the instance in.
 	PlacementGroup pulumi.StringPtrInput
-	// Placement Group ID to start the instance in. Conflicts with `placementGroup`.
-	PlacementGroupId pulumi.StringPtrInput
 	// Number of the partition the instance is in. Valid only if the `ec2.PlacementGroup` resource's `strategy` argument is set to `"partition"`.
 	PlacementPartitionNumber pulumi.IntPtrInput
-	// The primary network interface. See Primary Network Interface below.
-	PrimaryNetworkInterface InstancePrimaryNetworkInterfacePtrInput
 	// ID of the instance's primary network interface.
 	PrimaryNetworkInterfaceId pulumi.StringPtrInput
 	// Private DNS name assigned to the instance. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC.
@@ -815,8 +782,6 @@ type instanceArgs struct {
 	EnclaveOptions *InstanceEnclaveOptions `pulumi:"enclaveOptions"`
 	// One or more configuration blocks to customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details. When accessing this as an attribute reference, it is a set of objects.
 	EphemeralBlockDevices []InstanceEphemeralBlockDevice `pulumi:"ephemeralBlockDevices"`
-	// Destroys instance even if `disableApiTermination` or `disableApiStop` is set to `true`. Defaults to `false`. Once this parameter is set to `true`, a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the instance or destroying the instance, this flag will not work. Additionally when importing an instance, a successful `pulumi up` is required to set this value in state before it will take effect on a destroy operation.
-	ForceDestroy *bool `pulumi:"forceDestroy"`
 	// If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the `passwordData` attribute. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 	GetPasswordData *bool `pulumi:"getPasswordData"`
 	// If true, the launched EC2 instance will support hibernation.
@@ -848,17 +813,11 @@ type instanceArgs struct {
 	// If true, the launched EC2 instance will have detailed monitoring enabled. (Available since v0.6.0)
 	Monitoring *bool `pulumi:"monitoring"`
 	// Customize network interfaces to be attached at instance boot time. See Network Interfaces below for more details.
-	//
-	// Deprecated: network_interface is deprecated. To specify the primary network interface, use primaryNetworkInterface instead. To attach additional network interfaces, use the ec2.NetworkInterfaceAttachment resource.
 	NetworkInterfaces []InstanceNetworkInterface `pulumi:"networkInterfaces"`
-	// Placement Group to start the instance in. Conflicts with `placementGroupId`.
+	// Placement Group to start the instance in.
 	PlacementGroup *string `pulumi:"placementGroup"`
-	// Placement Group ID to start the instance in. Conflicts with `placementGroup`.
-	PlacementGroupId *string `pulumi:"placementGroupId"`
 	// Number of the partition the instance is in. Valid only if the `ec2.PlacementGroup` resource's `strategy` argument is set to `"partition"`.
 	PlacementPartitionNumber *int `pulumi:"placementPartitionNumber"`
-	// The primary network interface. See Primary Network Interface below.
-	PrimaryNetworkInterface *InstancePrimaryNetworkInterface `pulumi:"primaryNetworkInterface"`
 	// Options for the instance hostname. The default values are inherited from the subnet. See Private DNS Name Options below for more details.
 	PrivateDnsNameOptions *InstancePrivateDnsNameOptions `pulumi:"privateDnsNameOptions"`
 	// Private IP address to associate with the instance in a VPC.
@@ -925,8 +884,6 @@ type InstanceArgs struct {
 	EnclaveOptions InstanceEnclaveOptionsPtrInput
 	// One or more configuration blocks to customize Ephemeral (also known as "Instance Store") volumes on the instance. See Block Devices below for details. When accessing this as an attribute reference, it is a set of objects.
 	EphemeralBlockDevices InstanceEphemeralBlockDeviceArrayInput
-	// Destroys instance even if `disableApiTermination` or `disableApiStop` is set to `true`. Defaults to `false`. Once this parameter is set to `true`, a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the instance or destroying the instance, this flag will not work. Additionally when importing an instance, a successful `pulumi up` is required to set this value in state before it will take effect on a destroy operation.
-	ForceDestroy pulumi.BoolPtrInput
 	// If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the `passwordData` attribute. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 	GetPasswordData pulumi.BoolPtrInput
 	// If true, the launched EC2 instance will support hibernation.
@@ -958,17 +915,11 @@ type InstanceArgs struct {
 	// If true, the launched EC2 instance will have detailed monitoring enabled. (Available since v0.6.0)
 	Monitoring pulumi.BoolPtrInput
 	// Customize network interfaces to be attached at instance boot time. See Network Interfaces below for more details.
-	//
-	// Deprecated: network_interface is deprecated. To specify the primary network interface, use primaryNetworkInterface instead. To attach additional network interfaces, use the ec2.NetworkInterfaceAttachment resource.
 	NetworkInterfaces InstanceNetworkInterfaceArrayInput
-	// Placement Group to start the instance in. Conflicts with `placementGroupId`.
+	// Placement Group to start the instance in.
 	PlacementGroup pulumi.StringPtrInput
-	// Placement Group ID to start the instance in. Conflicts with `placementGroup`.
-	PlacementGroupId pulumi.StringPtrInput
 	// Number of the partition the instance is in. Valid only if the `ec2.PlacementGroup` resource's `strategy` argument is set to `"partition"`.
 	PlacementPartitionNumber pulumi.IntPtrInput
-	// The primary network interface. See Primary Network Interface below.
-	PrimaryNetworkInterface InstancePrimaryNetworkInterfacePtrInput
 	// Options for the instance hostname. The default values are inherited from the subnet. See Private DNS Name Options below for more details.
 	PrivateDnsNameOptions InstancePrivateDnsNameOptionsPtrInput
 	// Private IP address to associate with the instance in a VPC.
@@ -1166,11 +1117,6 @@ func (o InstanceOutput) EphemeralBlockDevices() InstanceEphemeralBlockDeviceArra
 	return o.ApplyT(func(v *Instance) InstanceEphemeralBlockDeviceArrayOutput { return v.EphemeralBlockDevices }).(InstanceEphemeralBlockDeviceArrayOutput)
 }
 
-// Destroys instance even if `disableApiTermination` or `disableApiStop` is set to `true`. Defaults to `false`. Once this parameter is set to `true`, a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the instance or destroying the instance, this flag will not work. Additionally when importing an instance, a successful `pulumi up` is required to set this value in state before it will take effect on a destroy operation.
-func (o InstanceOutput) ForceDestroy() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *Instance) pulumi.BoolPtrOutput { return v.ForceDestroy }).(pulumi.BoolPtrOutput)
-}
-
 // If true, wait for password data to become available and retrieve it. Useful for getting the administrator password for instances running Microsoft Windows. The password data is exported to the `passwordData` attribute. See [GetPasswordData](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetPasswordData.html) for more information.
 func (o InstanceOutput) GetPasswordData() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *Instance) pulumi.BoolPtrOutput { return v.GetPasswordData }).(pulumi.BoolPtrOutput)
@@ -1257,8 +1203,6 @@ func (o InstanceOutput) Monitoring() pulumi.BoolOutput {
 }
 
 // Customize network interfaces to be attached at instance boot time. See Network Interfaces below for more details.
-//
-// Deprecated: network_interface is deprecated. To specify the primary network interface, use primaryNetworkInterface instead. To attach additional network interfaces, use the ec2.NetworkInterfaceAttachment resource.
 func (o InstanceOutput) NetworkInterfaces() InstanceNetworkInterfaceArrayOutput {
 	return o.ApplyT(func(v *Instance) InstanceNetworkInterfaceArrayOutput { return v.NetworkInterfaces }).(InstanceNetworkInterfaceArrayOutput)
 }
@@ -1273,24 +1217,14 @@ func (o InstanceOutput) PasswordData() pulumi.StringOutput {
 	return o.ApplyT(func(v *Instance) pulumi.StringOutput { return v.PasswordData }).(pulumi.StringOutput)
 }
 
-// Placement Group to start the instance in. Conflicts with `placementGroupId`.
+// Placement Group to start the instance in.
 func (o InstanceOutput) PlacementGroup() pulumi.StringOutput {
 	return o.ApplyT(func(v *Instance) pulumi.StringOutput { return v.PlacementGroup }).(pulumi.StringOutput)
-}
-
-// Placement Group ID to start the instance in. Conflicts with `placementGroup`.
-func (o InstanceOutput) PlacementGroupId() pulumi.StringOutput {
-	return o.ApplyT(func(v *Instance) pulumi.StringOutput { return v.PlacementGroupId }).(pulumi.StringOutput)
 }
 
 // Number of the partition the instance is in. Valid only if the `ec2.PlacementGroup` resource's `strategy` argument is set to `"partition"`.
 func (o InstanceOutput) PlacementPartitionNumber() pulumi.IntOutput {
 	return o.ApplyT(func(v *Instance) pulumi.IntOutput { return v.PlacementPartitionNumber }).(pulumi.IntOutput)
-}
-
-// The primary network interface. See Primary Network Interface below.
-func (o InstanceOutput) PrimaryNetworkInterface() InstancePrimaryNetworkInterfaceOutput {
-	return o.ApplyT(func(v *Instance) InstancePrimaryNetworkInterfaceOutput { return v.PrimaryNetworkInterface }).(InstancePrimaryNetworkInterfaceOutput)
 }
 
 // ID of the instance's primary network interface.

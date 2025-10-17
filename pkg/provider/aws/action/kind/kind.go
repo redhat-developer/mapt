@@ -5,7 +5,7 @@ import (
 	"regexp"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -149,7 +149,8 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	ami, err := amiSVC.GetAMIByName(ctx,
 		amiName(r.arch),
 		[]string{amiOwner},
-		map[string]string{"architecture": *r.arch})
+		map[string]string{"architecture": *r.arch},
+		*r.allocationData.Region)
 	if err != nil {
 		return err
 	}

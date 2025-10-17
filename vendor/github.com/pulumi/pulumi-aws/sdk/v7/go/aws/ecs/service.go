@@ -189,38 +189,6 @@ import (
 //
 // ```
 //
-// ### Blue/Green Deployment with SIGINT Rollback
-//
-// ```go
-// package main
-//
-// import (
-//
-//	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ecs"
-//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-//
-// )
-//
-//	func main() {
-//		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := ecs.NewService(ctx, "example", &ecs.ServiceArgs{
-//				Name:    pulumi.String("example"),
-//				Cluster: pulumi.Any(exampleAwsEcsCluster.Id),
-//				DeploymentConfiguration: &ecs.ServiceDeploymentConfigurationArgs{
-//					Strategy: pulumi.String("BLUE_GREEN"),
-//				},
-//				SigintRollback:     pulumi.Bool(true),
-//				WaitForSteadyState: pulumi.Bool(true),
-//			})
-//			if err != nil {
-//				return err
-//			}
-//			return nil
-//		})
-//	}
-//
-// ```
-//
 // ### Redeploy Service On Every Apply
 //
 // The key used with `triggers` is arbitrary.
@@ -266,16 +234,14 @@ type Service struct {
 	Alarms ServiceAlarmsPtrOutput `pulumi:"alarms"`
 	// ARN that identifies the service.
 	Arn pulumi.StringOutput `pulumi:"arn"`
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
-	AvailabilityZoneRebalancing pulumi.StringOutput `pulumi:"availabilityZoneRebalancing"`
-	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
+	AvailabilityZoneRebalancing pulumi.StringPtrOutput `pulumi:"availabilityZoneRebalancing"`
+	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies ServiceCapacityProviderStrategyArrayOutput `pulumi:"capacityProviderStrategies"`
 	// ARN of an ECS cluster.
 	Cluster pulumi.StringOutput `pulumi:"cluster"`
 	// Configuration block for deployment circuit breaker. See below.
 	DeploymentCircuitBreaker ServiceDeploymentCircuitBreakerPtrOutput `pulumi:"deploymentCircuitBreaker"`
-	// Configuration block for deployment settings. See below.
-	DeploymentConfiguration ServiceDeploymentConfigurationOutput `pulumi:"deploymentConfiguration"`
 	// Configuration block for deployment controller configuration. See below.
 	DeploymentController ServiceDeploymentControllerPtrOutput `pulumi:"deploymentController"`
 	// Upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Not valid when using the `DAEMON` scheduling strategy.
@@ -323,8 +289,6 @@ type Service struct {
 	ServiceConnectConfiguration ServiceServiceConnectConfigurationPtrOutput `pulumi:"serviceConnectConfiguration"`
 	// Service discovery registries for the service. The maximum number of `serviceRegistries` blocks is `1`. See below.
 	ServiceRegistries ServiceServiceRegistriesPtrOutput `pulumi:"serviceRegistries"`
-	// Whether to enable graceful termination of deployments using SIGINT signals. When enabled, allows customers to safely cancel an in-progress deployment and automatically trigger a rollback to the previous stable state. Defaults to `false`. Only applicable when using `ECS` deployment controller and requires `waitForSteadyState = true`.
-	SigintRollback pulumi.BoolPtrOutput `pulumi:"sigintRollback"`
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
@@ -375,16 +339,14 @@ type serviceState struct {
 	Alarms *ServiceAlarms `pulumi:"alarms"`
 	// ARN that identifies the service.
 	Arn *string `pulumi:"arn"`
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
 	AvailabilityZoneRebalancing *string `pulumi:"availabilityZoneRebalancing"`
-	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
+	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies []ServiceCapacityProviderStrategy `pulumi:"capacityProviderStrategies"`
 	// ARN of an ECS cluster.
 	Cluster *string `pulumi:"cluster"`
 	// Configuration block for deployment circuit breaker. See below.
 	DeploymentCircuitBreaker *ServiceDeploymentCircuitBreaker `pulumi:"deploymentCircuitBreaker"`
-	// Configuration block for deployment settings. See below.
-	DeploymentConfiguration *ServiceDeploymentConfiguration `pulumi:"deploymentConfiguration"`
 	// Configuration block for deployment controller configuration. See below.
 	DeploymentController *ServiceDeploymentController `pulumi:"deploymentController"`
 	// Upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Not valid when using the `DAEMON` scheduling strategy.
@@ -432,8 +394,6 @@ type serviceState struct {
 	ServiceConnectConfiguration *ServiceServiceConnectConfiguration `pulumi:"serviceConnectConfiguration"`
 	// Service discovery registries for the service. The maximum number of `serviceRegistries` blocks is `1`. See below.
 	ServiceRegistries *ServiceServiceRegistries `pulumi:"serviceRegistries"`
-	// Whether to enable graceful termination of deployments using SIGINT signals. When enabled, allows customers to safely cancel an in-progress deployment and automatically trigger a rollback to the previous stable state. Defaults to `false`. Only applicable when using `ECS` deployment controller and requires `waitForSteadyState = true`.
-	SigintRollback *bool `pulumi:"sigintRollback"`
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
@@ -455,16 +415,14 @@ type ServiceState struct {
 	Alarms ServiceAlarmsPtrInput
 	// ARN that identifies the service.
 	Arn pulumi.StringPtrInput
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
 	AvailabilityZoneRebalancing pulumi.StringPtrInput
-	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
+	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies ServiceCapacityProviderStrategyArrayInput
 	// ARN of an ECS cluster.
 	Cluster pulumi.StringPtrInput
 	// Configuration block for deployment circuit breaker. See below.
 	DeploymentCircuitBreaker ServiceDeploymentCircuitBreakerPtrInput
-	// Configuration block for deployment settings. See below.
-	DeploymentConfiguration ServiceDeploymentConfigurationPtrInput
 	// Configuration block for deployment controller configuration. See below.
 	DeploymentController ServiceDeploymentControllerPtrInput
 	// Upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Not valid when using the `DAEMON` scheduling strategy.
@@ -512,8 +470,6 @@ type ServiceState struct {
 	ServiceConnectConfiguration ServiceServiceConnectConfigurationPtrInput
 	// Service discovery registries for the service. The maximum number of `serviceRegistries` blocks is `1`. See below.
 	ServiceRegistries ServiceServiceRegistriesPtrInput
-	// Whether to enable graceful termination of deployments using SIGINT signals. When enabled, allows customers to safely cancel an in-progress deployment and automatically trigger a rollback to the previous stable state. Defaults to `false`. Only applicable when using `ECS` deployment controller and requires `waitForSteadyState = true`.
-	SigintRollback pulumi.BoolPtrInput
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
@@ -537,16 +493,14 @@ func (ServiceState) ElementType() reflect.Type {
 type serviceArgs struct {
 	// Information about the CloudWatch alarms. See below.
 	Alarms *ServiceAlarms `pulumi:"alarms"`
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
 	AvailabilityZoneRebalancing *string `pulumi:"availabilityZoneRebalancing"`
-	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
+	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies []ServiceCapacityProviderStrategy `pulumi:"capacityProviderStrategies"`
 	// ARN of an ECS cluster.
 	Cluster *string `pulumi:"cluster"`
 	// Configuration block for deployment circuit breaker. See below.
 	DeploymentCircuitBreaker *ServiceDeploymentCircuitBreaker `pulumi:"deploymentCircuitBreaker"`
-	// Configuration block for deployment settings. See below.
-	DeploymentConfiguration *ServiceDeploymentConfiguration `pulumi:"deploymentConfiguration"`
 	// Configuration block for deployment controller configuration. See below.
 	DeploymentController *ServiceDeploymentController `pulumi:"deploymentController"`
 	// Upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Not valid when using the `DAEMON` scheduling strategy.
@@ -594,8 +548,6 @@ type serviceArgs struct {
 	ServiceConnectConfiguration *ServiceServiceConnectConfiguration `pulumi:"serviceConnectConfiguration"`
 	// Service discovery registries for the service. The maximum number of `serviceRegistries` blocks is `1`. See below.
 	ServiceRegistries *ServiceServiceRegistries `pulumi:"serviceRegistries"`
-	// Whether to enable graceful termination of deployments using SIGINT signals. When enabled, allows customers to safely cancel an in-progress deployment and automatically trigger a rollback to the previous stable state. Defaults to `false`. Only applicable when using `ECS` deployment controller and requires `waitForSteadyState = true`.
-	SigintRollback *bool `pulumi:"sigintRollback"`
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
 	// Family and revision (`family:revision`) or full ARN of the task definition that you want to run in your service. Required unless using the `EXTERNAL` deployment controller. If a revision is not specified, the latest `ACTIVE` revision is used.
@@ -614,16 +566,14 @@ type serviceArgs struct {
 type ServiceArgs struct {
 	// Information about the CloudWatch alarms. See below.
 	Alarms ServiceAlarmsPtrInput
-	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
+	// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
 	AvailabilityZoneRebalancing pulumi.StringPtrInput
-	// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
+	// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
 	CapacityProviderStrategies ServiceCapacityProviderStrategyArrayInput
 	// ARN of an ECS cluster.
 	Cluster pulumi.StringPtrInput
 	// Configuration block for deployment circuit breaker. See below.
 	DeploymentCircuitBreaker ServiceDeploymentCircuitBreakerPtrInput
-	// Configuration block for deployment settings. See below.
-	DeploymentConfiguration ServiceDeploymentConfigurationPtrInput
 	// Configuration block for deployment controller configuration. See below.
 	DeploymentController ServiceDeploymentControllerPtrInput
 	// Upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Not valid when using the `DAEMON` scheduling strategy.
@@ -671,8 +621,6 @@ type ServiceArgs struct {
 	ServiceConnectConfiguration ServiceServiceConnectConfigurationPtrInput
 	// Service discovery registries for the service. The maximum number of `serviceRegistries` blocks is `1`. See below.
 	ServiceRegistries ServiceServiceRegistriesPtrInput
-	// Whether to enable graceful termination of deployments using SIGINT signals. When enabled, allows customers to safely cancel an in-progress deployment and automatically trigger a rollback to the previous stable state. Defaults to `false`. Only applicable when using `ECS` deployment controller and requires `waitForSteadyState = true`.
-	SigintRollback pulumi.BoolPtrInput
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
 	// Family and revision (`family:revision`) or full ARN of the task definition that you want to run in your service. Required unless using the `EXTERNAL` deployment controller. If a revision is not specified, the latest `ACTIVE` revision is used.
@@ -784,12 +732,12 @@ func (o ServiceOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v *Service) pulumi.StringOutput { return v.Arn }).(pulumi.StringOutput)
 }
 
-// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. When creating a new service, if no value is specified, it defaults to `ENABLED` if the service is compatible with AvailabilityZoneRebalancing. When updating an existing service, if no value is specified it defaults to the existing service's AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as `DISABLED`.
-func (o ServiceOutput) AvailabilityZoneRebalancing() pulumi.StringOutput {
-	return o.ApplyT(func(v *Service) pulumi.StringOutput { return v.AvailabilityZoneRebalancing }).(pulumi.StringOutput)
+// ECS automatically redistributes tasks within a service across Availability Zones (AZs) to mitigate the risk of impaired application availability due to underlying infrastructure failures and task lifecycle activities. The valid values are `ENABLED` and `DISABLED`. Defaults to `DISABLED`.
+func (o ServiceOutput) AvailabilityZoneRebalancing() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Service) pulumi.StringPtrOutput { return v.AvailabilityZoneRebalancing }).(pulumi.StringPtrOutput)
 }
 
-// Capacity provider strategies to use for the service. Can be one or more. Updating this argument requires `forceNewDeployment = true`. See below. Conflicts with `launchType`.
+// Capacity provider strategies to use for the service. Can be one or more. These can be updated without destroying and recreating the service only if `forceNewDeployment = true` and not changing from 0 `capacityProviderStrategy` blocks to greater than 0, or vice versa. See below. Conflicts with `launchType`.
 func (o ServiceOutput) CapacityProviderStrategies() ServiceCapacityProviderStrategyArrayOutput {
 	return o.ApplyT(func(v *Service) ServiceCapacityProviderStrategyArrayOutput { return v.CapacityProviderStrategies }).(ServiceCapacityProviderStrategyArrayOutput)
 }
@@ -802,11 +750,6 @@ func (o ServiceOutput) Cluster() pulumi.StringOutput {
 // Configuration block for deployment circuit breaker. See below.
 func (o ServiceOutput) DeploymentCircuitBreaker() ServiceDeploymentCircuitBreakerPtrOutput {
 	return o.ApplyT(func(v *Service) ServiceDeploymentCircuitBreakerPtrOutput { return v.DeploymentCircuitBreaker }).(ServiceDeploymentCircuitBreakerPtrOutput)
-}
-
-// Configuration block for deployment settings. See below.
-func (o ServiceOutput) DeploymentConfiguration() ServiceDeploymentConfigurationOutput {
-	return o.ApplyT(func(v *Service) ServiceDeploymentConfigurationOutput { return v.DeploymentConfiguration }).(ServiceDeploymentConfigurationOutput)
 }
 
 // Configuration block for deployment controller configuration. See below.
@@ -920,11 +863,6 @@ func (o ServiceOutput) ServiceConnectConfiguration() ServiceServiceConnectConfig
 // Service discovery registries for the service. The maximum number of `serviceRegistries` blocks is `1`. See below.
 func (o ServiceOutput) ServiceRegistries() ServiceServiceRegistriesPtrOutput {
 	return o.ApplyT(func(v *Service) ServiceServiceRegistriesPtrOutput { return v.ServiceRegistries }).(ServiceServiceRegistriesPtrOutput)
-}
-
-// Whether to enable graceful termination of deployments using SIGINT signals. When enabled, allows customers to safely cancel an in-progress deployment and automatically trigger a rollback to the previous stable state. Defaults to `false`. Only applicable when using `ECS` deployment controller and requires `waitForSteadyState = true`.
-func (o ServiceOutput) SigintRollback() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *Service) pulumi.BoolPtrOutput { return v.SigintRollback }).(pulumi.BoolPtrOutput)
 }
 
 // Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.

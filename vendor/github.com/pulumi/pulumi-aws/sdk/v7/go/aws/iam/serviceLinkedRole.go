@@ -42,17 +42,11 @@ import (
 //
 // ## Import
 //
-// ### Identity Schema
-//
-// #### Required
-//
-// - `arn` (String) Amazon Resource Name (ARN) of the IAM service-linked role.
-//
 // Using `pulumi import`, import IAM service-linked roles using role ARN. For example:
 //
-// console
-//
-// % pulumi import aws_iam_service_linked_role.elasticbeanstalk arn:aws:iam::123456789012:role/aws-service-role/elasticbeanstalk.amazonaws.com/AWSServiceRoleForElasticBeanstalk
+// ```sh
+// $ pulumi import aws:iam/serviceLinkedRole:ServiceLinkedRole elasticbeanstalk arn:aws:iam::123456789012:role/aws-service-role/elasticbeanstalk.amazonaws.com/AWSServiceRoleForElasticBeanstalk
+// ```
 type ServiceLinkedRole struct {
 	pulumi.CustomResourceState
 

@@ -3,7 +3,7 @@ package subnet
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -22,9 +22,10 @@ type PublicSubnetRequest struct {
 type PublicSubnetResources struct {
 	Subnet                *ec2.Subnet
 	RouteTable            *ec2.RouteTable
-	RouteTableAssociation *ec2.RouteTableAssociation
+	RouteTableAssociation *ec2.SubnetRouteTableAssociation
 	NatGateway            *ec2.NatGateway
 	NatGatewayEip         *ec2.Eip
+	Route                 *ec2.Route
 }
 
 func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*PublicSubnetResources, error) {
@@ -35,7 +36,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Pub
 			VpcId:               r.VPC.ID(),
 			CidrBlock:           pulumi.String(r.CIDR),
 			AvailabilityZone:    pulumi.String(r.AvailabilityZone),
-			Tags:                mCtx.ResourceTags(),
+			// Tags: mCtx.ResourceTags() // TODO: Convert to AWS Native tag format,
 			MapPublicIpOnLaunch: pulumi.Bool(r.MapPublicIp),
 		})
 	if err != nil {
@@ -58,7 +59,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Pub
 			&ec2.NatGatewayArgs{
 				AllocationId: nEip.ID(),
 				SubnetId:     sn.ID(),
-				Tags:         mCtx.ResourceTags(),
+				// Tags: mCtx.ResourceTags() // TODO: Convert to AWS Native tag format,
 			})
 		if err != nil {
 			return nil, err
@@ -69,31 +70,39 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Pub
 		rtName,
 		&ec2.RouteTableArgs{
 			VpcId: r.VPC.ID(),
-			Routes: ec2.RouteTableRouteArray{
-				&ec2.RouteTableRouteArgs{
-					CidrBlock: pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4),
-					GatewayId: r.InternetGateway.ID(),
-				},
-			},
-			Tags: mCtx.ResourceTags(),
+			// Tags: mCtx.ResourceTags() // TODO: Convert to AWS Native tag format,
 		})
 	if err != nil {
 		return nil, err
 	}
-	rta, err := ec2.NewRouteTableAssociation(ctx,
+	rta, err := ec2.NewSubnetRouteTableAssociation(ctx,
 		fmt.Sprintf("%s-%s", "routeTableAssociation", r.Name),
-		&ec2.RouteTableAssociationArgs{
+		&ec2.SubnetRouteTableAssociationArgs{
 			SubnetId:     sn.ID(),
 			RouteTableId: rt.ID(),
 		})
 	if err != nil {
 		return nil, err
 	}
+
+	// Create route to internet gateway
+	route, err := ec2.NewRoute(ctx,
+		fmt.Sprintf("%s-%s", "route", r.Name),
+		&ec2.RouteArgs{
+			RouteTableId:         rt.ID(),
+			DestinationCidrBlock: pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4),
+			GatewayId:           r.InternetGateway.ID(),
+		})
+	if err != nil {
+		return nil, err
+	}
+
 	return &PublicSubnetResources{
 			Subnet:                sn,
 			RouteTable:            rt,
 			RouteTableAssociation: rta,
 			NatGateway:            n,
-			NatGatewayEip:         nEip},
+			NatGatewayEip:         nEip,
+			Route:                 route},
 		nil
 }
