@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/scheduler"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ecs"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ecs"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/iam"
 	"github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/awsx"
 	awsxecs "github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/ecs"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -168,8 +168,8 @@ func getClusterArn(ctx *pulumi.Context, mCtx *mc.Context, region, prefix, compon
 			if cluster, err := ecs.NewCluster(ctx,
 				resourcesUtil.GetResourceName(prefix, componentID, "cluster"),
 				&ecs.ClusterArgs{
-					Tags: mCtx.ResourceTags(),
-					Name: pulumi.String(clusterName),
+					// Tags: mCtx.ResourceTags() // TODO: Convert to AWS Native tag format,
+					ClusterName: pulumi.String(clusterName),
 				},
 				pulumi.RetainOnDelete(true)); err != nil {
 				return nil, err
@@ -222,9 +222,9 @@ func createTaskRole(ctx *pulumi.Context, mCtx *mc.Context, roleName, prefix, com
 	r, err := iam.NewRole(ctx,
 		resourcesUtil.GetResourceName(prefix, componentID, "role"),
 		&iam.RoleArgs{
-			Name:             pulumi.String(roleName),
-			AssumeRolePolicy: pulumi.String(string(trustPolicyContent)),
-			Tags:             mCtx.ResourceTags(),
+			RoleName:                 pulumi.String(roleName),
+			AssumeRolePolicyDocument: pulumi.String(string(trustPolicyContent)),
+			// Tags: mCtx.ResourceTags() // TODO: Convert to AWS Native tag format,
 		},
 		pulumi.RetainOnDelete(true),
 	)
@@ -256,8 +256,8 @@ func createTaskRole(ctx *pulumi.Context, mCtx *mc.Context, roleName, prefix, com
 	if _, err = iam.NewRolePolicy(ctx,
 		resourcesUtil.GetResourceName(prefix, componentID, "ecs-role-policy"),
 		&iam.RolePolicyArgs{
-			Role:   r.ID(),
-			Policy: pulumi.String(string(policyContent)),
+			RoleName:       pulumi.String(roleName),
+			PolicyDocument: pulumi.String(string(policyContent)),
 		},
 		pulumi.RetainOnDelete(true)); err != nil {
 		return nil, err
@@ -302,9 +302,9 @@ func createSchedulerRole(ctx *pulumi.Context, mCtx *mc.Context, roleName, prefix
 	r, err := iam.NewRole(ctx,
 		resourcesUtil.GetResourceName(prefix, componentID, "sch-role"),
 		&iam.RoleArgs{
-			Name:             pulumi.String(roleName),
-			AssumeRolePolicy: pulumi.String(string(trustPolicyContent)),
-			Tags:             mCtx.ResourceTags(),
+			RoleName:                 pulumi.String(roleName),
+			AssumeRolePolicyDocument: pulumi.String(string(trustPolicyContent)),
+			// Tags: mCtx.ResourceTags() // TODO: Convert to AWS Native tag format,
 		},
 		pulumi.RetainOnDelete(true))
 	if err != nil {
@@ -337,8 +337,8 @@ func createSchedulerRole(ctx *pulumi.Context, mCtx *mc.Context, roleName, prefix
 	if _, err = iam.NewRolePolicy(ctx,
 		resourcesUtil.GetResourceName(prefix, componentID, "sche-role-policy"),
 		&iam.RolePolicyArgs{
-			Role:   r.ID(),
-			Policy: pulumi.String(string(policyContent)),
+			RoleName:       pulumi.String(roleName),
+			PolicyDocument: pulumi.String(string(policyContent)),
 		},
 		pulumi.RetainOnDelete(true)); err != nil {
 		return nil, err

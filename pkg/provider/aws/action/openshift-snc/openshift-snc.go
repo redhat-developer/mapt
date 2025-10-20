@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -27,11 +27,11 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ssm"
+	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
-	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -166,7 +166,8 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		fmt.Sprintf("%s*", amiName(r.version, r.arch)),
 		[]string{"self", amiOwner},
 		map[string]string{
-			"architecture": *r.arch})
+			"architecture": *r.arch},
+		*r.allocationData.Region)
 	if err != nil {
 		return err
 	}

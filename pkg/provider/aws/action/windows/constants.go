@@ -16,10 +16,6 @@ var (
 	amiLangNonEng        = "non-eng"
 	amiNonEngNameDefault = "Windows_Server-2022-Spanish-Full-HyperV-RHQE"
 
-	// Fastlaunch config
-	amiFastLaunch            = true
-	amiFastLaunchMaxParallel = 6
-
 	requiredInstanceTypes = []string{"c5.metal", "c5d.metal", "c5n.metal"}
 
 	outputHost           = "awdHost"

@@ -74,9 +74,7 @@ type LookupServiceResult struct {
 	Id string `pulumi:"id"`
 	// Launch type for the ECS Service
 	LaunchType string `pulumi:"launchType"`
-	// Load balancers for the ECS Service. See `loadBalancer` Block for details.
-	LoadBalancers []GetServiceLoadBalancer `pulumi:"loadBalancers"`
-	Region        string                   `pulumi:"region"`
+	Region     string `pulumi:"region"`
 	// Scheduling strategy for the ECS Service
 	SchedulingStrategy string `pulumi:"schedulingStrategy"`
 	ServiceName        string `pulumi:"serviceName"`
@@ -152,11 +150,6 @@ func (o LookupServiceResultOutput) Id() pulumi.StringOutput {
 // Launch type for the ECS Service
 func (o LookupServiceResultOutput) LaunchType() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupServiceResult) string { return v.LaunchType }).(pulumi.StringOutput)
-}
-
-// Load balancers for the ECS Service. See `loadBalancer` Block for details.
-func (o LookupServiceResultOutput) LoadBalancers() GetServiceLoadBalancerArrayOutput {
-	return o.ApplyT(func(v LookupServiceResult) []GetServiceLoadBalancer { return v.LoadBalancers }).(GetServiceLoadBalancerArrayOutput)
 }
 
 func (o LookupServiceResultOutput) Region() pulumi.StringOutput {
