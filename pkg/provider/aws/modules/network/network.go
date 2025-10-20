@@ -1,8 +1,8 @@
 package network
 
 import (
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/lb"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
+	lb "github.com/pulumi/pulumi-aws-native/sdk/go/aws/elasticloadbalancingv2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	bastion "github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
@@ -41,7 +41,8 @@ type NetworkArgs struct {
 type NetworkResult struct {
 	Vpc                         *ec2.Vpc
 	Subnet                      *ec2.Subnet
-	SubnetRouteTableAssociation *ec2.RouteTableAssociation
+	SubnetRouteTableAssociation *ec2.SubnetRouteTableAssociation
+	VpcGatewayAttachment        *ec2.VpcGatewayAttachment
 	Eip                         *ec2.Eip
 	LoadBalancer                *lb.LoadBalancer
 	// If Airgap true on args
@@ -81,9 +82,10 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 	}
 	if args.CreateLoadBalancer {
 		lba := &loadBalancerArgs{
-			prefix: &args.Prefix,
-			id:     &args.ID,
-			subnet: result.Subnet,
+			prefix:               &args.Prefix,
+			id:                   &args.ID,
+			subnet:               result.Subnet,
+			vpcGatewayAttachment: result.VpcGatewayAttachment,
 		}
 		if !args.Airgap {
 			lba.eip = result.Eip
@@ -105,13 +107,15 @@ func standardNetwork(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (
 		AvailabilityZones:  []string{args.AZ},
 		PublicSubnetsCIDRs: []string{cidrPublicSN},
 		NatGatewayMode:     &ns.NatGatewayModeNone,
+		MapPublicIp:        true,
 	}.CreateNetwork(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return &NetworkResult{
-		Vpc:    net.VPCResources.VPC,
-		Subnet: net.PublicSNResources[0].Subnet,
+		Vpc:                  net.VPCResources.VPC,
+		Subnet:               net.PublicSNResources[0].Subnet,
+		VpcGatewayAttachment: net.VPCResources.VpcGatewayAttachment,
 	}, nil
 }
 
@@ -131,12 +135,14 @@ func airgapNetworking(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) 
 		Vpc:                         net.VPCResources.VPC,
 		Subnet:                      net.TargetSubnet.Subnet,
 		SubnetRouteTableAssociation: net.TargetSubnet.RouteTableAssociation,
+		VpcGatewayAttachment:        net.VPCResources.VpcGatewayAttachment,
 	}, net.PublicSubnet.Subnet, nil
 }
 
 type loadBalancerArgs struct {
-	prefix, id *string
-	subnet     *ec2.Subnet
+	prefix, id           *string
+	subnet               *ec2.Subnet
+	vpcGatewayAttachment *ec2.VpcGatewayAttachment
 	// If eip != nil it means it is not airgap
 	eip *ec2.Eip
 }
@@ -145,8 +151,7 @@ func (a *loadBalancerArgs) airgap() bool { return a.eip == nil }
 
 func loadBalancer(ctx *pulumi.Context, args *loadBalancerArgs) (*lb.LoadBalancer, error) {
 	lbArgs := &lb.LoadBalancerArgs{
-		LoadBalancerType:         pulumi.String("network"),
-		EnableDeletionProtection: pulumi.Bool(false),
+		Type: pulumi.String("network"),
 	}
 	snMapping := &lb.LoadBalancerSubnetMappingArgs{
 		SubnetId: args.subnet.ID()}
@@ -159,15 +164,20 @@ func loadBalancer(ctx *pulumi.Context, args *loadBalancerArgs) (*lb.LoadBalancer
 		if err != nil {
 			return nil, err
 		}
-		snMapping.PrivateIpv4Address = pulumi.String(*internalLBIp)
-		lbArgs.Internal = pulumi.Bool(true)
+		snMapping.PrivateIPv4Address = pulumi.String(*internalLBIp)
+		lbArgs.Scheme = pulumi.String("internal")
 	} else {
 		// It load balancer is public facing
-		snMapping.AllocationId = args.eip.ID()
+		snMapping.AllocationId = args.eip.AllocationId
+	}
+	var dependsOn []pulumi.Resource
+	if args.vpcGatewayAttachment != nil {
+		dependsOn = append(dependsOn, args.vpcGatewayAttachment)
 	}
 	lb, err := lb.NewLoadBalancer(ctx,
 		resourcesUtil.GetResourceName(*args.prefix, *args.id, "lb"),
-		lbArgs)
+		lbArgs,
+		pulumi.DependsOn(dependsOn))
 	if err != nil {
 		return nil, err
 	}

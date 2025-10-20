@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -155,7 +155,8 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		amiName(r.version),
 		[]string{amiOwner},
 		map[string]string{
-			"architecture": amiArch})
+			"architecture": amiArch},
+		*r.allocationData.Region)
 	if err != nil {
 		return err
 	}

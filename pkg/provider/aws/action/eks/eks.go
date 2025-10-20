@@ -6,10 +6,10 @@ import (
 	"net/url"
 
 	"github.com/go-playground/validator/v10"
-	awsProvider "github.com/pulumi/pulumi-aws/sdk/v7/go/aws"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/eks"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam"
+	awsProvider "github.com/pulumi/pulumi-aws-native/sdk/go/aws"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/eks"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/iam"
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
 	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
 	helmv3 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3"
@@ -181,7 +181,7 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 	// Create EKS Cluster
 	eksCluster, err := eks.NewCluster(ctx, "eks-cluster", &eks.ClusterArgs{
 		RoleArn: eksRole.Arn,
-		VpcConfig: &eks.ClusterVpcConfigArgs{
+		ResourcesVpcConfig: &eks.ClusterResourcesVpcConfigArgs{
 			PublicAccessCidrs: pulumi.StringArray{
 				pulumi.String("0.0.0.0/0"),
 			},
@@ -194,7 +194,7 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 
-	kubeconfig := generateKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthority.Data().Elem(), eksCluster.Name)
+	kubeconfig := generateKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthorityData, eksCluster.Name.Elem())
 	// Create a Kubernetes provider instance
 	k8sProvider, err := kubernetes.NewProvider(ctx, "k8sProvider", &kubernetes.ProviderArgs{
 		Kubeconfig: kubeconfig,
@@ -203,15 +203,15 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 
-	currentAws, err := awsProvider.GetCallerIdentity(ctx, &awsProvider.GetCallerIdentityArgs{}, nil)
+	currentAws, err := awsProvider.GetAccountId(ctx)
 	if err != nil {
 		return err
 	}
 	accountId := currentAws.AccountId
 
-	oidcIssuerUrl := eksCluster.Identities.Index(pulumi.Int(0)).Oidcs().Index(pulumi.Int(0)).Issuer().Elem()
-	_, err = iam.NewOpenIdConnectProvider(ctx, "my-oidc-provider", &iam.OpenIdConnectProviderArgs{
-		ClientIdLists: pulumi.StringArray{
+	oidcIssuerUrl := eksCluster.OpenIdConnectIssuerUrl
+	_, err = iam.NewOidcProvider(ctx, "my-oidc-provider", &iam.OidcProviderArgs{
+		ClientIdList: pulumi.StringArray{
 			pulumi.String("sts.amazonaws.com"),
 		},
 		Url: oidcIssuerUrl,
@@ -236,17 +236,17 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 
-	nodeGroup0, err := eks.NewNodeGroup(ctx, "node-group-0", &eks.NodeGroupArgs{
-		ClusterName:   eksCluster.Name,
-		NodeGroupName: pulumi.String("eks-nodegroup-0"),
-		NodeRoleArn:   nodeGroupRole.Arn,
-		SubnetIds:     subnetIds,
+	nodeGroup0, err := eks.NewNodegroup(ctx, "node-group-0", &eks.NodegroupArgs{
+		ClusterName:   eksCluster.Name.Elem(),
+		NodegroupName: pulumi.String("eks-nodegroup-0"),
+		NodeRole:      nodeGroupRole.Arn,
+		Subnets:       subnetIds,
 		InstanceTypes: pulumi.StringArray(util.ArrayConvert(
 			r.allocationData.InstanceTypes,
 			func(s string) pulumi.StringInput {
 				return pulumi.String(s)
 			})),
-		ScalingConfig: &eks.NodeGroupScalingConfigArgs{
+		ScalingConfig: &eks.NodegroupScalingConfigArgs{
 			DesiredSize: pulumi.Int(*r.scalingDesiredSize),
 			MaxSize:     pulumi.Int(*r.scalingMaxSize),
 			MinSize:     pulumi.Int(*r.scalingMinSize),
@@ -343,24 +343,20 @@ func (*eksRequest) createEksRole(ctx *pulumi.Context) (*iam.Role, error) {
 	if err != nil {
 		return nil, err
 	}
-	eksRole, err := iam.NewRole(ctx, "eks-iam-eksRole", &iam.RoleArgs{
-		AssumeRolePolicy: pulumi.String(eksRolePolicyJSON),
-	})
-	if err != nil {
-		return nil, err
-	}
 	eksPolicies := []string{
 		"arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
 		"arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
 	}
-	for i, eksPolicy := range eksPolicies {
-		_, err := iam.NewRolePolicyAttachment(ctx, fmt.Sprintf("rpa-%d", i), &iam.RolePolicyAttachmentArgs{
-			PolicyArn: pulumi.String(eksPolicy),
-			Role:      eksRole.Name,
-		})
-		if err != nil {
-			return nil, err
-		}
+	eksRole, err := iam.NewRole(ctx, "eks-iam-eksRole", &iam.RoleArgs{
+		AssumeRolePolicyDocument: pulumi.String(eksRolePolicyJSON),
+		ManagedPolicyArns: pulumi.StringArray(util.ArrayConvert(
+			eksPolicies,
+			func(s string) pulumi.StringInput {
+				return pulumi.String(s)
+			})),
+	})
+	if err != nil {
+		return nil, err
 	}
 	return eksRole, nil
 }
@@ -381,35 +377,31 @@ func (*eksRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error) {
 	if err != nil {
 		return nil, err
 	}
-	nodeGroupRole, err := iam.NewRole(ctx, "nodegroup-iam-role", &iam.RoleArgs{
-		AssumeRolePolicy: pulumi.String(nodeGroupAssumeRolePolicyJSON),
-	})
-	if err != nil {
-		return nil, err
-	}
 	nodeGroupPolicies := []string{
 		"arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
 		"arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
 		"arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
 	}
-	for i, nodeGroupPolicy := range nodeGroupPolicies {
-		_, err := iam.NewRolePolicyAttachment(ctx, fmt.Sprintf("ngpa-%d", i), &iam.RolePolicyAttachmentArgs{
-			Role:      nodeGroupRole.Name,
-			PolicyArn: pulumi.String(nodeGroupPolicy),
-		}, pulumi.DependsOn([]pulumi.Resource{nodeGroupRole}))
-		if err != nil {
-			return nil, err
-		}
+	nodeGroupRole, err := iam.NewRole(ctx, "nodegroup-iam-role", &iam.RoleArgs{
+		AssumeRolePolicyDocument: pulumi.String(nodeGroupAssumeRolePolicyJSON),
+		ManagedPolicyArns: pulumi.StringArray(util.ArrayConvert(
+			nodeGroupPolicies,
+			func(s string) pulumi.StringInput {
+				return pulumi.String(s)
+			})),
+	})
+	if err != nil {
+		return nil, err
 	}
 	return nodeGroupRole, nil
 }
 
-func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcIssuerHostPath pulumi.StringOutput, accountId string, k8sProvider *kubernetes.Provider, eksCluster *eks.Cluster, vpc *ec2.Vpc, nodeGroup0 *eks.NodeGroup) error {
+func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcIssuerHostPath pulumi.StringOutput, accountId string, k8sProvider *kubernetes.Provider, eksCluster *eks.Cluster, vpc *ec2.Vpc, nodeGroup0 *eks.Nodegroup) error {
 	policyDocumentJSON := getAwsLoadBalancerControllerIamPolicy()
 
 	// Create IAM policy
-	albControllerPolicyAttachment, err := iam.NewPolicy(ctx, "loadBalancerControllerPolicy", &iam.PolicyArgs{
-		Policy: pulumi.String(policyDocumentJSON),
+	albControllerPolicyAttachment, err := iam.NewManagedPolicy(ctx, "loadBalancerControllerPolicy", &iam.ManagedPolicyArgs{
+		PolicyDocument: pulumi.Any(policyDocumentJSON),
 	})
 	if err != nil {
 		return err
@@ -444,17 +436,11 @@ func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcI
 	}).(pulumi.StringOutput)
 
 	iamRole, err := iam.NewRole(ctx, "loadBalancerControllerRole", &iam.RoleArgs{
-		NamePrefix:       pulumi.String("MaptLBCRole-"),
-		AssumeRolePolicy: assumeRolePolicyJSON,
-	})
-	if err != nil {
-		return err
-	}
-
-	// Attach policy to role
-	_, err = iam.NewRolePolicyAttachment(ctx, "loadBalancerControllerPolicyAttachment", &iam.RolePolicyAttachmentArgs{
-		Role:      iamRole.Name,
-		PolicyArn: albControllerPolicyAttachment.Arn,
+		RoleName:                 pulumi.String("MaptLBCRole"),
+		AssumeRolePolicyDocument: assumeRolePolicyJSON,
+		ManagedPolicyArns: pulumi.StringArray{
+			albControllerPolicyAttachment.PolicyArn,
+		},
 	})
 	if err != nil {
 		return err
@@ -529,15 +515,11 @@ func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, account
 			}).(pulumi.StringOutput)
 
 			awsEbsCsiDriverRole, err := iam.NewRole(ctx, "AmazonEKS_EBS_CSI_DriverRole", &iam.RoleArgs{
-				NamePrefix:       pulumi.String("MaptEBSCSIDriverRole-"),
-				AssumeRolePolicy: assumeRolePolicyJSON,
-			})
-			if err != nil {
-				return err
-			}
-			_, err = iam.NewRolePolicyAttachment(ctx, "AmazonEBSCSIDriverPolicyAttachment", &iam.RolePolicyAttachmentArgs{
-				PolicyArn: pulumi.String("arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"),
-				Role:      awsEbsCsiDriverRole.Name,
+				RoleName:                 pulumi.String("MaptEBSCSIDriverRole"),
+				AssumeRolePolicyDocument: assumeRolePolicyJSON,
+				ManagedPolicyArns: pulumi.StringArray{
+					pulumi.String("arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"),
+				},
 			})
 			if err != nil {
 				return err
@@ -553,7 +535,7 @@ func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, account
 				return err
 			}
 			_, err = eks.NewAddon(ctx, addon, &eks.AddonArgs{
-				ClusterName:           eksCluster.Name,
+				ClusterName:           eksCluster.Name.Elem(),
 				AddonName:             pulumi.String(addon),
 				ServiceAccountRoleArn: awsEbsCsiDriverRole.Arn,
 				ConfigurationValues:   pulumi.String(configValues),
@@ -564,7 +546,7 @@ func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, account
 
 		} else {
 			_, err := eks.NewAddon(ctx, addon, &eks.AddonArgs{
-				ClusterName: eksCluster.Name,
+				ClusterName: eksCluster.Name.Elem(),
 				AddonName:   pulumi.String(addon),
 			}, pulumi.DeletedWith(eksCluster))
 			if err != nil {

@@ -64,10 +64,9 @@ type LookupNetworkInterfaceArgs struct {
 type LookupNetworkInterfaceResult struct {
 	// ARN of the network interface.
 	Arn string `pulumi:"arn"`
-	// Association information for an Elastic IP address (IPv4) associated with the network interface. See association below.
-	Associations []GetNetworkInterfaceAssociation `pulumi:"associations"`
-	// Attachment of the ENI. See attachment below.
-	Attachments []GetNetworkInterfaceAttachmentType `pulumi:"attachments"`
+	// Association information for an Elastic IP address (IPv4) associated with the network interface. See supported fields below.
+	Associations []GetNetworkInterfaceAssociation    `pulumi:"associations"`
+	Attachments  []GetNetworkInterfaceAttachmentType `pulumi:"attachments"`
 	// Availability Zone.
 	AvailabilityZone string `pulumi:"availabilityZone"`
 	// Description of the network interface.
@@ -148,12 +147,11 @@ func (o LookupNetworkInterfaceResultOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupNetworkInterfaceResult) string { return v.Arn }).(pulumi.StringOutput)
 }
 
-// Association information for an Elastic IP address (IPv4) associated with the network interface. See association below.
+// Association information for an Elastic IP address (IPv4) associated with the network interface. See supported fields below.
 func (o LookupNetworkInterfaceResultOutput) Associations() GetNetworkInterfaceAssociationArrayOutput {
 	return o.ApplyT(func(v LookupNetworkInterfaceResult) []GetNetworkInterfaceAssociation { return v.Associations }).(GetNetworkInterfaceAssociationArrayOutput)
 }
 
-// Attachment of the ENI. See attachment below.
 func (o LookupNetworkInterfaceResultOutput) Attachments() GetNetworkInterfaceAttachmentTypeArrayOutput {
 	return o.ApplyT(func(v LookupNetworkInterfaceResult) []GetNetworkInterfaceAttachmentType { return v.Attachments }).(GetNetworkInterfaceAttachmentTypeArrayOutput)
 }

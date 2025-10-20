@@ -16,25 +16,18 @@ RUN unset VERSION \
     && if [ "$TARGETARCH" = "arm64" ]; then export PULUMI_URL="${PULUMI_BASE_URL}-linux-arm64.tar.gz"; fi \
     && echo ${PULUMI_URL} \
     && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
-    && tar -xzvf pulumicli.tar.gz 
+    && tar -xzvf pulumicli.tar.gz
 
-# ubi 9.5-1732804088
-FROM registry.access.redhat.com/ubi9/ubi@sha256:dec374e05cc13ebbc0975c9f521f3db6942d27f8ccdf06b180160490eef8bdbc
+# ubi-minimal 9.6-1760515502
+FROM registry.access.redhat.com/ubi9-minimal@sha256:34880b64c07f28f64d95737f82f891516de9a3b43583f39970f7bf8e4cfa48b7
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
 
 COPY --from=builder /workspace/out/mapt /workspace/pulumi/pulumi /usr/local/bin/
 
-ENV PULUMI_CONFIG_PASSPHRASE "passphrase" 
+ENV PULUMI_CONFIG_PASSPHRASE "passphrase"
 
-ENV AWS_SDK_LOAD_CONFIG=1 \
-    AWS_CLI_VERSION=2.16.7 \
-    AZ_CLI_VERSION=2.61.0 \
-    ARCH_N=x86_64
-
-# Pulumi plugins
-# renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v7.8.0
+# Pulumi plugins for native providers and essential utilities
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
 ARG PULUMI_AWSX_VERSION=v3.0.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
@@ -48,32 +41,18 @@ ARG PULUMI_RANDOM_VERSION=v4.18.4
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
 ARG PULUMI_AWS_NATIVE_VERSION=v1.36.0
 
-ENV PULUMI_HOME "/opt/mapt/run" 
+ENV PULUMI_HOME "/opt/mapt/run"
 WORKDIR ${PULUMI_HOME}
 
 RUN mkdir -p /opt/mapt/run \
-    && if [ "$TARGETARCH" = "arm64" ]; then export ARCH_N=aarch64; fi \
-    && export AWS_CLI_URL="https://awscli.amazonaws.com/awscli-exe-linux-${ARCH_N}-${AWS_CLI_VERSION}.zip" \
-    && export AZ_CLI_RPM="https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli-${AZ_CLI_VERSION}-1.el9.${ARCH_N}.rpm" \
-    && echo ${AWS_CLI_URL} ${AZ_CLI_RPM} \
-    && curl ${AWS_CLI_URL} -o awscliv2.zip \
-    && dnf install -y unzip \
-    && unzip -qq awscliv2.zip \
-    && ./aws/install \
-    && curl -L ${AZ_CLI_RPM} -o azure-cli.rpm \
-    && dnf install -y azure-cli.rpm \
-    && rm -rf aws awscliv2.zip azure-cli.rpm \
-    && dnf clean all \
-  	&& rm -rf /var/cache/yum \
-    && pulumi plugin install resource aws ${PULUMI_AWS_VERSION} \
     && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
     && pulumi plugin install resource tls ${PULUMI_TLS_VERSION} \
     && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION} \
-    && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
     && pulumi plugin install resource aws-native ${PULUMI_AWS_NATIVE_VERSION} \
+    && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
     && chown -R 1001:0 /opt/mapt/run \
-    && chmod -R g=u /opt/mapt/run
+    && chmod -R ug+rwx /opt/mapt/run 
 
 USER 1001
 ENTRYPOINT ["mapt"]

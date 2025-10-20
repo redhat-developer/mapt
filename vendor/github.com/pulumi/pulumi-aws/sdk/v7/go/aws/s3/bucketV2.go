@@ -51,23 +51,11 @@ import (
 //
 // ## Import
 //
-// ### Identity Schema
-//
-// #### Required
-//
-// * `bucket` (String) Name of the S3 bucket.
-//
-// #### Optional
-//
-// * `account_id` (String) AWS Account where this resource is managed.
-//
-// * `region` (String) Region where this resource is managed.
-//
 // Using `pulumi import`, import S3 bucket using the `bucket`. For example:
 //
-// console
-//
-// % pulumi import aws_s3_bucket.example bucket-name
+// ```sh
+// $ pulumi import aws:s3/bucketV2:BucketV2 bucket bucket-name
+// ```
 //
 // Deprecated: s3.BucketV2 has been deprecated in favor of s3.Bucket
 type BucketV2 struct {

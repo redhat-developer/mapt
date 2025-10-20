@@ -93,17 +93,11 @@ import (
 //
 // ## Import
 //
-// ### Identity Schema
-//
-// #### Required
-//
-// - `arn` (String) Amazon Resource Name (ARN) of the load balancer.
-//
 // Using `pulumi import`, import LBs using their ARN. For example:
 //
-// console
-//
-// % pulumi import aws_lb.bar arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188
+// ```sh
+// $ pulumi import aws:lb/loadBalancer:LoadBalancer bar arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188
+// ```
 type LoadBalancer struct {
 	pulumi.CustomResourceState
 
@@ -164,8 +158,6 @@ type LoadBalancer struct {
 	PreserveHostHeader pulumi.BoolPtrOutput `pulumi:"preserveHostHeader"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringOutput `pulumi:"region"`
-	// The number of secondary IP addresses to configure for your load balancer nodes. Only valid for Load Balancers of type `network`. The valid range is 0-7. When decreased, this will force a recreation of the resource. Default: `0`.
-	SecondaryIpsAutoAssignedPerSubnet pulumi.IntOutput `pulumi:"secondaryIpsAutoAssignedPerSubnet"`
 	// List of security group IDs to assign to the LB. Only valid for Load Balancers of type `application` or `network`. For load balancers of type `network` security groups cannot be added if none are currently present, and cannot all be removed once added. If either of these conditions are met, this will force a recreation of the resource.
 	SecurityGroups pulumi.StringArrayOutput `pulumi:"securityGroups"`
 	// Subnet mapping block. See below. For Load Balancers of type `network` subnet mappings can only be added.
@@ -280,8 +272,6 @@ type loadBalancerState struct {
 	PreserveHostHeader *bool `pulumi:"preserveHostHeader"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region *string `pulumi:"region"`
-	// The number of secondary IP addresses to configure for your load balancer nodes. Only valid for Load Balancers of type `network`. The valid range is 0-7. When decreased, this will force a recreation of the resource. Default: `0`.
-	SecondaryIpsAutoAssignedPerSubnet *int `pulumi:"secondaryIpsAutoAssignedPerSubnet"`
 	// List of security group IDs to assign to the LB. Only valid for Load Balancers of type `application` or `network`. For load balancers of type `network` security groups cannot be added if none are currently present, and cannot all be removed once added. If either of these conditions are met, this will force a recreation of the resource.
 	SecurityGroups []string `pulumi:"securityGroups"`
 	// Subnet mapping block. See below. For Load Balancers of type `network` subnet mappings can only be added.
@@ -361,8 +351,6 @@ type LoadBalancerState struct {
 	PreserveHostHeader pulumi.BoolPtrInput
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringPtrInput
-	// The number of secondary IP addresses to configure for your load balancer nodes. Only valid for Load Balancers of type `network`. The valid range is 0-7. When decreased, this will force a recreation of the resource. Default: `0`.
-	SecondaryIpsAutoAssignedPerSubnet pulumi.IntPtrInput
 	// List of security group IDs to assign to the LB. Only valid for Load Balancers of type `application` or `network`. For load balancers of type `network` security groups cannot be added if none are currently present, and cannot all be removed once added. If either of these conditions are met, this will force a recreation of the resource.
 	SecurityGroups pulumi.StringArrayInput
 	// Subnet mapping block. See below. For Load Balancers of type `network` subnet mappings can only be added.
@@ -439,8 +427,6 @@ type loadBalancerArgs struct {
 	PreserveHostHeader *bool `pulumi:"preserveHostHeader"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region *string `pulumi:"region"`
-	// The number of secondary IP addresses to configure for your load balancer nodes. Only valid for Load Balancers of type `network`. The valid range is 0-7. When decreased, this will force a recreation of the resource. Default: `0`.
-	SecondaryIpsAutoAssignedPerSubnet *int `pulumi:"secondaryIpsAutoAssignedPerSubnet"`
 	// List of security group IDs to assign to the LB. Only valid for Load Balancers of type `application` or `network`. For load balancers of type `network` security groups cannot be added if none are currently present, and cannot all be removed once added. If either of these conditions are met, this will force a recreation of the resource.
 	SecurityGroups []string `pulumi:"securityGroups"`
 	// Subnet mapping block. See below. For Load Balancers of type `network` subnet mappings can only be added.
@@ -509,8 +495,6 @@ type LoadBalancerArgs struct {
 	PreserveHostHeader pulumi.BoolPtrInput
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringPtrInput
-	// The number of secondary IP addresses to configure for your load balancer nodes. Only valid for Load Balancers of type `network`. The valid range is 0-7. When decreased, this will force a recreation of the resource. Default: `0`.
-	SecondaryIpsAutoAssignedPerSubnet pulumi.IntPtrInput
 	// List of security group IDs to assign to the LB. Only valid for Load Balancers of type `application` or `network`. For load balancers of type `network` security groups cannot be added if none are currently present, and cannot all be removed once added. If either of these conditions are met, this will force a recreation of the resource.
 	SecurityGroups pulumi.StringArrayInput
 	// Subnet mapping block. See below. For Load Balancers of type `network` subnet mappings can only be added.
@@ -757,11 +741,6 @@ func (o LoadBalancerOutput) PreserveHostHeader() pulumi.BoolPtrOutput {
 // Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 func (o LoadBalancerOutput) Region() pulumi.StringOutput {
 	return o.ApplyT(func(v *LoadBalancer) pulumi.StringOutput { return v.Region }).(pulumi.StringOutput)
-}
-
-// The number of secondary IP addresses to configure for your load balancer nodes. Only valid for Load Balancers of type `network`. The valid range is 0-7. When decreased, this will force a recreation of the resource. Default: `0`.
-func (o LoadBalancerOutput) SecondaryIpsAutoAssignedPerSubnet() pulumi.IntOutput {
-	return o.ApplyT(func(v *LoadBalancer) pulumi.IntOutput { return v.SecondaryIpsAutoAssignedPerSubnet }).(pulumi.IntOutput)
 }
 
 // List of security group IDs to assign to the LB. Only valid for Load Balancers of type `application` or `network`. For load balancers of type `network` security groups cannot be added if none are currently present, and cannot all be removed once added. If either of these conditions are met, this will force a recreation of the resource.

@@ -1,8 +1,6 @@
 package securitygroup
 
 import (
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 )
 
@@ -15,13 +13,17 @@ var (
 	RDP_TCP      = IngressRules{Description: "RDP", FromPort: RDP_PORT, ToPort: RDP_PORT, Protocol: "tcp"}
 )
 
-var egressAll = &ec2.SecurityGroupEgressArgs{
-	FromPort: pulumi.Int(0),
-	ToPort:   pulumi.Int(0),
-	Protocol: pulumi.String("-1"),
-	CidrBlocks: pulumi.StringArray{
-		pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4),
-	},
-	Ipv6CidrBlocks: pulumi.StringArray{
-		pulumi.String(infra.NETWORKING_CIDR_ANY_IPV6),
-	}}
+// EgressAll represents the egress rule for all traffic
+type EgressAllRule struct {
+	FromPort   int
+	ToPort     int
+	IpProtocol string
+	CidrIp     string
+}
+
+var EgressAll = EgressAllRule{
+	FromPort:   0,
+	ToPort:     0,
+	IpProtocol: "-1",
+	CidrIp:     infra.NETWORKING_CIDR_ANY_IPV4,
+}

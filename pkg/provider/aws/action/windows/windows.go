@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -17,7 +17,6 @@ import (
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
-	amiCopy "github.com/redhat-developer/mapt/pkg/provider/aws/modules/ami"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
@@ -135,20 +134,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 	}
 	// If it is not offered need to create a copy on the target region
 	if !isAMIOffered {
-		acr := amiCopy.CopyAMIRequest{
-			MCtx:            mCtx,
-			Prefix:          *r.prefix,
-			ID:              awsWindowsDedicatedID,
-			AMISourceName:   r.amiName,
-			AMISourceArch:   nil,
-			AMITargetRegion: r.allocationData.Region,
-			AMIKeepCopy:     *r.amiKeepCopy,
-			FastLaunch:      amiFastLaunch,
-			MaxParallel:     int32(amiFastLaunchMaxParallel),
-		}
-		if err := acr.Create(); err != nil {
-			return err
-		}
+		return fmt.Errorf("ami is not offered, need to have it replicated to each region")
 	}
 	// if not only host the mac machine will be created
 	if !*r.airgap {
@@ -173,12 +159,6 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 			Stackname: stackName,
 		}); err != nil {
 		return err
-	}
-	if amiCopy.Exist(mCtx) {
-		err = amiCopy.Destroy(mCtx)
-		if err != nil {
-			return
-		}
 	}
 	if spot.Exist(mCtx) {
 		return spot.Destroy(mCtx)
@@ -231,7 +211,8 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 	// ami, err := amiSVC.GetAMIByName(ctx, r.AMIName, r.AMIOwner, nil)
 	ami, err := amiSVC.GetAMIByName(ctx,
 		fmt.Sprintf("%s*", *r.amiName),
-		[]string{*r.amiOwner}, nil)
+		[]string{*r.amiOwner}, nil,
+		*r.allocationData.Region)
 
 	if err != nil {
 		return err

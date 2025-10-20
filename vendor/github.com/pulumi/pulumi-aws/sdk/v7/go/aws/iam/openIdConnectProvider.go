@@ -79,17 +79,11 @@ import (
 //
 // ## Import
 //
-// ### Identity Schema
-//
-// #### Required
-//
-// - `arn` (String) Amazon Resource Name (ARN) of the IAM OpenID Connect provider.
-//
 // Using `pulumi import`, import IAM OpenID Connect Providers using the `arn`. For example:
 //
-// console
-//
-// % pulumi import aws_iam_openid_connect_provider.default arn:aws:iam::123456789012:oidc-provider/accounts.google.com
+// ```sh
+// $ pulumi import aws:iam/openIdConnectProvider:OpenIdConnectProvider default arn:aws:iam::123456789012:oidc-provider/accounts.google.com
+// ```
 type OpenIdConnectProvider struct {
 	pulumi.CustomResourceState
 

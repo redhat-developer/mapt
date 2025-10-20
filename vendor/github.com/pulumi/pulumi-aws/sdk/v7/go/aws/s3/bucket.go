@@ -51,23 +51,11 @@ import (
 //
 // ## Import
 //
-// ### Identity Schema
-//
-// #### Required
-//
-// * `bucket` (String) Name of the S3 bucket.
-//
-// #### Optional
-//
-// * `account_id` (String) AWS Account where this resource is managed.
-//
-// * `region` (String) Region where this resource is managed.
-//
 // Using `pulumi import`, import S3 bucket using the `bucket`. For example:
 //
-// console
-//
-// % pulumi import aws_s3_bucket.example bucket-name
+// ```sh
+// $ pulumi import aws:s3/bucket:Bucket bucket bucket-name
+// ```
 type Bucket struct {
 	pulumi.CustomResourceState
 

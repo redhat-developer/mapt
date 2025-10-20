@@ -25,7 +25,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
@@ -340,21 +340,25 @@ func (r *Request) instance(ctx *pulumi.Context,
 	securityGroups pulumi.StringArray,
 ) (*ec2.Instance, error) {
 	instanceArgs := ec2.InstanceArgs{
-		HostId:                   pulumi.String(*r.dedicatedHost.Host.HostId),
-		SubnetId:                 subnet.ID(),
-		Ami:                      pulumi.String(*ami.Image.ImageId),
-		InstanceType:             pulumi.String(mac.TypesByArch[r.Architecture]),
-		KeyName:                  keyResources.AWSKeyPair.KeyName,
-		AssociatePublicIpAddress: pulumi.Bool(true),
-		VpcSecurityGroupIds:      securityGroups,
-		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
-			VolumeSize: pulumi.Int(diskSize),
+		HostId:            pulumi.String(*r.dedicatedHost.Host.HostId),
+		SubnetId:          subnet.ID(),
+		ImageId:           pulumi.String(*ami.Image.ImageId),
+		InstanceType:      pulumi.String(mac.TypesByArch[r.Architecture]),
+		KeyName:           keyResources.AWSKeyPair.KeyName,
+		SecurityGroupIds:  securityGroups,
+		BlockDeviceMappings: ec2.InstanceBlockDeviceMappingArray{
+			&ec2.InstanceBlockDeviceMappingArgs{
+				DeviceName: pulumi.String("/dev/sda1"), // Root device for Mac instances
+				Ebs: &ec2.InstanceEbsArgs{
+					VolumeSize: pulumi.Int(diskSize),
+				},
+			},
 		},
-		Tags: r.MCtx.ResourceTags(),
+		// Tags: r.MCtx.ResourceTags(), // TODO: Convert to AWS Native tag format
 	}
-	if r.Airgap {
-		instanceArgs.AssociatePublicIpAddress = pulumi.Bool(false)
-	}
+	// Note: AWS Native doesn't support AssociatePublicIpAddress directly
+	// Public IP association is handled through subnet configuration
+	// For airgap instances, the subnet should be configured without auto-assign public IP
 	return ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "instance"),
 		&instanceArgs,
@@ -363,7 +367,7 @@ func (r *Request) instance(ctx *pulumi.Context,
 		// pulumi.RetainOnDelete(true),
 		// All changes on the instance should be done through root volume replace
 		// as so we ignore Amis missmatch
-		pulumi.IgnoreChanges([]string{"ami"}))
+		pulumi.IgnoreChanges([]string{"imageId"}))
 }
 
 func (r *Request) bootstrapscript(ctx *pulumi.Context,

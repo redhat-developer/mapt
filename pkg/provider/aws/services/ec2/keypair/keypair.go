@@ -1,7 +1,7 @@
 package keypair
 
 import (
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
@@ -53,8 +53,9 @@ func (r KeyPairRequest) create(ctx *pulumi.Context, mCtx *mc.Context, name strin
 	k, err := ec2.NewKeyPair(ctx,
 		r.Name,
 		&ec2.KeyPairArgs{
-			PublicKey: privateKey.PublicKeyOpenssh,
-			Tags:      mCtx.ResourceTags()})
+			KeyName:           pulumi.String(r.Name),
+			PublicKeyMaterial: privateKey.PublicKeyOpenssh,
+		})
 	if err != nil {
 		return nil, err
 	}

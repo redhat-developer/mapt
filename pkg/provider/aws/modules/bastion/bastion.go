@@ -3,7 +3,7 @@ package bastion
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+	"github.com/pulumi/pulumi-aws-native/sdk/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -116,21 +116,25 @@ type instaceArgs struct {
 }
 
 func instance(ctx *pulumi.Context, mCtx *mc.Context, args *instaceArgs) (*ec2.Instance, error) {
-	ami, err := ami.GetAMIByName(ctx, amiRegex, nil, nil)
+	ami, err := ami.GetAMIByName(ctx, amiRegex, nil, nil, mCtx.TargetHostingPlace())
 	if err != nil {
 		return nil, err
 	}
 	instanceArgs := ec2.InstanceArgs{
-		SubnetId:                 args.subnet.ID(),
-		Ami:                      pulumi.String(ami.Id),
-		InstanceType:             pulumi.String(instanceType),
-		KeyName:                  args.keyResources.AWSKeyPair.KeyName,
-		AssociatePublicIpAddress: pulumi.Bool(true),
-		VpcSecurityGroupIds:      args.securityGroups,
-		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
-			VolumeSize: pulumi.Int(diskSize),
+		SubnetId:         args.subnet.ID(),
+		ImageId:          pulumi.String(ami.ImageId),
+		InstanceType:     pulumi.String(instanceType),
+		KeyName:          args.keyResources.AWSKeyPair.KeyName,
+		SecurityGroupIds: args.securityGroups,
+		BlockDeviceMappings: ec2.InstanceBlockDeviceMappingArray{
+			&ec2.InstanceBlockDeviceMappingArgs{
+				DeviceName: pulumi.String("/dev/sda1"),
+				Ebs: &ec2.InstanceEbsArgs{
+					VolumeSize: pulumi.Int(diskSize),
+				},
+			},
 		},
-		Tags: mCtx.ResourceTags(),
+		// Tags: mCtx.ResourceTags() // TODO: Convert to AWS Native tag format,
 	}
 	i, err := ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(args.prefix, bastionMachineID, "instance"),

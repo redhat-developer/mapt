@@ -271,23 +271,11 @@ import (
 //
 // ## Import
 //
-// ### Identity Schema
-//
-// #### Required
-//
-// * `alarm_name` (String) Name of the CloudWatch metric alarm.
-//
-// #### Optional
-//
-// * `account_id` (String) AWS Account where this resource is managed.
-//
-// * `region` (String) Region where this resource is managed.
-//
 // Using `pulumi import`, import CloudWatch Metric Alarm using the `alarm_name`. For example:
 //
-// console
-//
-// % pulumi import aws_cloudwatch_metric_alarm.example alarm-12345
+// ```sh
+// $ pulumi import aws:cloudwatch/metricAlarm:MetricAlarm test alarm-12345
+// ```
 type MetricAlarm struct {
 	pulumi.CustomResourceState
 

@@ -24,7 +24,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.88.5
 	github.com/aws/aws-sdk-go-v2/service/sts v1.38.7
 	github.com/pulumi/pulumi-aws-native/sdk v1.36.0
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.8.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.0.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.8.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.8.0
@@ -118,6 +117,7 @@ require (
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.18.0 // indirect
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.0.0 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.15 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/skeema/knownhosts v1.3.2 // indirect

@@ -22,100 +22,6 @@ import (
 //
 // ## Example Usage
 //
-// ### Grant permission by using bucket policy
-//
-// ```go
-// package main
-//
-// import (
-//
-//	"fmt"
-//
-//	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws"
-//	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam"
-//	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/s3"
-//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-//
-// )
-// func main() {
-// pulumi.Run(func(ctx *pulumi.Context) error {
-// current, err := aws.GetCallerIdentity(ctx, &aws.GetCallerIdentityArgs{
-// }, nil);
-// if err != nil {
-// return err
-// }
-// logging, err := s3.NewBucket(ctx, "logging", &s3.BucketArgs{
-// Bucket: pulumi.String("access-logging-bucket"),
-// })
-// if err != nil {
-// return err
-// }
-// loggingBucketPolicy := logging.Arn.ApplyT(func(arn string) (iam.GetPolicyDocumentResult, error) {
-// return iam.GetPolicyDocumentResult(iam.GetPolicyDocument(ctx, &iam.GetPolicyDocumentArgs{
-// Statements: []iam.GetPolicyDocumentStatement{
-// {
-// Principals: []iam.GetPolicyDocumentStatementPrincipal{
-// {
-// Identifiers: []string{
-// "logging.s3.amazonaws.com",
-// },
-// Type: "Service",
-// },
-// },
-// Actions: []string{
-// "s3:PutObject",
-// },
-// Resources: []string{
-// fmt.Sprintf("%v/*", arn),
-// },
-// Conditions: []iam.GetPolicyDocumentStatementCondition{
-// {
-// Test: "StringEquals",
-// Variable: "aws:SourceAccount",
-// Values: interface{}{
-// current.AccountId,
-// },
-// },
-// },
-// },
-// },
-// }, nil)), nil
-// }).(iam.GetPolicyDocumentResultOutput)
-// _, err = s3.NewBucketPolicy(ctx, "logging", &s3.BucketPolicyArgs{
-// Bucket: logging.Bucket,
-// Policy: pulumi.String(loggingBucketPolicy.Json),
-// })
-// if err != nil {
-// return err
-// }
-// example, err := s3.NewBucket(ctx, "example", &s3.BucketArgs{
-// Bucket: pulumi.String("example-bucket"),
-// })
-// if err != nil {
-// return err
-// }
-// _, err = s3.NewBucketLogging(ctx, "example", &s3.BucketLoggingArgs{
-// Bucket: example.Bucket,
-// TargetBucket: logging.Bucket,
-// TargetPrefix: pulumi.String("log/"),
-// TargetObjectKeyFormat: &s3.BucketLoggingTargetObjectKeyFormatArgs{
-// PartitionedPrefix: &s3.BucketLoggingTargetObjectKeyFormatPartitionedPrefixArgs{
-// PartitionDateSource: pulumi.String("EventTime"),
-// },
-// },
-// })
-// if err != nil {
-// return err
-// }
-// return nil
-// })
-// }
-// ```
-//
-// ### Grant permission by using bucket ACL
-//
-// The [AWS Documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html) does not recommend using the ACL.
-//
 // ```go
 // package main
 //
@@ -170,45 +76,20 @@ import (
 //
 // ## Import
 //
-// ### Identity Schema
-//
-// #### Required
-//
-// * `bucket` (String) S3 bucket name.
-//
-// #### Optional
-//
-// * `account_id` (String) AWS Account where this resource is managed.
-//
-// * `expected_bucket_owner` (String) Account ID of the expected bucket owner.
-//
-// * `region` (String) Region where this resource is managed.
-//
 // If the owner (account ID) of the source bucket differs from the account used to configure the AWS Provider, import using the `bucket` and `expected_bucket_owner` separated by a comma (`,`):
 //
-// terraform
-//
-// import {
-//
-//	to = aws_s3_bucket_logging.example
-//
-//	id = "bucket-name,123456789012"
-//
-// }
-//
-// **Using `pulumi import` to import** S3 bucket logging using the `bucket` or using the `bucket` and `expected_bucket_owner` separated by a comma (`,`). For example:
+// __Using `pulumi import` to import__ S3 bucket logging using the `bucket` or using the `bucket` and `expected_bucket_owner` separated by a comma (`,`). For example:
 //
 // If the owner (account ID) of the source bucket is the same account used to configure the AWS Provider, import using the `bucket`:
 //
-// console
-//
-// % pulumi import aws_s3_bucket_logging.example bucket-name
-//
+// ```sh
+// $ pulumi import aws:s3/bucketLoggingV2:BucketLoggingV2 example bucket-name
+// ```
 // If the owner (account ID) of the source bucket differs from the account used to configure the AWS Provider, import using the `bucket` and `expected_bucket_owner` separated by a comma (`,`):
 //
-// console
-//
-// % pulumi import aws_s3_bucket_logging.example bucket-name,123456789012
+// ```sh
+// $ pulumi import aws:s3/bucketLoggingV2:BucketLoggingV2 example bucket-name,123456789012
+// ```
 //
 // Deprecated: aws.s3/bucketloggingv2.BucketLoggingV2 has been deprecated in favor of aws.s3/bucketlogging.BucketLogging
 type BucketLoggingV2 struct {

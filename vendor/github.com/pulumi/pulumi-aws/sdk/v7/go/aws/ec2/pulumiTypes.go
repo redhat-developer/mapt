@@ -8360,162 +8360,6 @@ func (o InstanceNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) InstanceNe
 	}).(InstanceNetworkInterfaceOutput)
 }
 
-type InstancePrimaryNetworkInterface struct {
-	// Whether the network interface will be deleted when the instance terminates.
-	DeleteOnTermination *bool `pulumi:"deleteOnTermination"`
-	// ID of the network interface to attach.
-	NetworkInterfaceId string `pulumi:"networkInterfaceId"`
-}
-
-// InstancePrimaryNetworkInterfaceInput is an input type that accepts InstancePrimaryNetworkInterfaceArgs and InstancePrimaryNetworkInterfaceOutput values.
-// You can construct a concrete instance of `InstancePrimaryNetworkInterfaceInput` via:
-//
-//	InstancePrimaryNetworkInterfaceArgs{...}
-type InstancePrimaryNetworkInterfaceInput interface {
-	pulumi.Input
-
-	ToInstancePrimaryNetworkInterfaceOutput() InstancePrimaryNetworkInterfaceOutput
-	ToInstancePrimaryNetworkInterfaceOutputWithContext(context.Context) InstancePrimaryNetworkInterfaceOutput
-}
-
-type InstancePrimaryNetworkInterfaceArgs struct {
-	// Whether the network interface will be deleted when the instance terminates.
-	DeleteOnTermination pulumi.BoolPtrInput `pulumi:"deleteOnTermination"`
-	// ID of the network interface to attach.
-	NetworkInterfaceId pulumi.StringInput `pulumi:"networkInterfaceId"`
-}
-
-func (InstancePrimaryNetworkInterfaceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*InstancePrimaryNetworkInterface)(nil)).Elem()
-}
-
-func (i InstancePrimaryNetworkInterfaceArgs) ToInstancePrimaryNetworkInterfaceOutput() InstancePrimaryNetworkInterfaceOutput {
-	return i.ToInstancePrimaryNetworkInterfaceOutputWithContext(context.Background())
-}
-
-func (i InstancePrimaryNetworkInterfaceArgs) ToInstancePrimaryNetworkInterfaceOutputWithContext(ctx context.Context) InstancePrimaryNetworkInterfaceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(InstancePrimaryNetworkInterfaceOutput)
-}
-
-func (i InstancePrimaryNetworkInterfaceArgs) ToInstancePrimaryNetworkInterfacePtrOutput() InstancePrimaryNetworkInterfacePtrOutput {
-	return i.ToInstancePrimaryNetworkInterfacePtrOutputWithContext(context.Background())
-}
-
-func (i InstancePrimaryNetworkInterfaceArgs) ToInstancePrimaryNetworkInterfacePtrOutputWithContext(ctx context.Context) InstancePrimaryNetworkInterfacePtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(InstancePrimaryNetworkInterfaceOutput).ToInstancePrimaryNetworkInterfacePtrOutputWithContext(ctx)
-}
-
-// InstancePrimaryNetworkInterfacePtrInput is an input type that accepts InstancePrimaryNetworkInterfaceArgs, InstancePrimaryNetworkInterfacePtr and InstancePrimaryNetworkInterfacePtrOutput values.
-// You can construct a concrete instance of `InstancePrimaryNetworkInterfacePtrInput` via:
-//
-//	        InstancePrimaryNetworkInterfaceArgs{...}
-//
-//	or:
-//
-//	        nil
-type InstancePrimaryNetworkInterfacePtrInput interface {
-	pulumi.Input
-
-	ToInstancePrimaryNetworkInterfacePtrOutput() InstancePrimaryNetworkInterfacePtrOutput
-	ToInstancePrimaryNetworkInterfacePtrOutputWithContext(context.Context) InstancePrimaryNetworkInterfacePtrOutput
-}
-
-type instancePrimaryNetworkInterfacePtrType InstancePrimaryNetworkInterfaceArgs
-
-func InstancePrimaryNetworkInterfacePtr(v *InstancePrimaryNetworkInterfaceArgs) InstancePrimaryNetworkInterfacePtrInput {
-	return (*instancePrimaryNetworkInterfacePtrType)(v)
-}
-
-func (*instancePrimaryNetworkInterfacePtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**InstancePrimaryNetworkInterface)(nil)).Elem()
-}
-
-func (i *instancePrimaryNetworkInterfacePtrType) ToInstancePrimaryNetworkInterfacePtrOutput() InstancePrimaryNetworkInterfacePtrOutput {
-	return i.ToInstancePrimaryNetworkInterfacePtrOutputWithContext(context.Background())
-}
-
-func (i *instancePrimaryNetworkInterfacePtrType) ToInstancePrimaryNetworkInterfacePtrOutputWithContext(ctx context.Context) InstancePrimaryNetworkInterfacePtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(InstancePrimaryNetworkInterfacePtrOutput)
-}
-
-type InstancePrimaryNetworkInterfaceOutput struct{ *pulumi.OutputState }
-
-func (InstancePrimaryNetworkInterfaceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*InstancePrimaryNetworkInterface)(nil)).Elem()
-}
-
-func (o InstancePrimaryNetworkInterfaceOutput) ToInstancePrimaryNetworkInterfaceOutput() InstancePrimaryNetworkInterfaceOutput {
-	return o
-}
-
-func (o InstancePrimaryNetworkInterfaceOutput) ToInstancePrimaryNetworkInterfaceOutputWithContext(ctx context.Context) InstancePrimaryNetworkInterfaceOutput {
-	return o
-}
-
-func (o InstancePrimaryNetworkInterfaceOutput) ToInstancePrimaryNetworkInterfacePtrOutput() InstancePrimaryNetworkInterfacePtrOutput {
-	return o.ToInstancePrimaryNetworkInterfacePtrOutputWithContext(context.Background())
-}
-
-func (o InstancePrimaryNetworkInterfaceOutput) ToInstancePrimaryNetworkInterfacePtrOutputWithContext(ctx context.Context) InstancePrimaryNetworkInterfacePtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v InstancePrimaryNetworkInterface) *InstancePrimaryNetworkInterface {
-		return &v
-	}).(InstancePrimaryNetworkInterfacePtrOutput)
-}
-
-// Whether the network interface will be deleted when the instance terminates.
-func (o InstancePrimaryNetworkInterfaceOutput) DeleteOnTermination() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v InstancePrimaryNetworkInterface) *bool { return v.DeleteOnTermination }).(pulumi.BoolPtrOutput)
-}
-
-// ID of the network interface to attach.
-func (o InstancePrimaryNetworkInterfaceOutput) NetworkInterfaceId() pulumi.StringOutput {
-	return o.ApplyT(func(v InstancePrimaryNetworkInterface) string { return v.NetworkInterfaceId }).(pulumi.StringOutput)
-}
-
-type InstancePrimaryNetworkInterfacePtrOutput struct{ *pulumi.OutputState }
-
-func (InstancePrimaryNetworkInterfacePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**InstancePrimaryNetworkInterface)(nil)).Elem()
-}
-
-func (o InstancePrimaryNetworkInterfacePtrOutput) ToInstancePrimaryNetworkInterfacePtrOutput() InstancePrimaryNetworkInterfacePtrOutput {
-	return o
-}
-
-func (o InstancePrimaryNetworkInterfacePtrOutput) ToInstancePrimaryNetworkInterfacePtrOutputWithContext(ctx context.Context) InstancePrimaryNetworkInterfacePtrOutput {
-	return o
-}
-
-func (o InstancePrimaryNetworkInterfacePtrOutput) Elem() InstancePrimaryNetworkInterfaceOutput {
-	return o.ApplyT(func(v *InstancePrimaryNetworkInterface) InstancePrimaryNetworkInterface {
-		if v != nil {
-			return *v
-		}
-		var ret InstancePrimaryNetworkInterface
-		return ret
-	}).(InstancePrimaryNetworkInterfaceOutput)
-}
-
-// Whether the network interface will be deleted when the instance terminates.
-func (o InstancePrimaryNetworkInterfacePtrOutput) DeleteOnTermination() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *InstancePrimaryNetworkInterface) *bool {
-		if v == nil {
-			return nil
-		}
-		return v.DeleteOnTermination
-	}).(pulumi.BoolPtrOutput)
-}
-
-// ID of the network interface to attach.
-func (o InstancePrimaryNetworkInterfacePtrOutput) NetworkInterfaceId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *InstancePrimaryNetworkInterface) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.NetworkInterfaceId
-	}).(pulumi.StringPtrOutput)
-}
-
 type InstancePrivateDnsNameOptions struct {
 	// Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
 	EnableResourceNameDnsARecord *bool `pulumi:"enableResourceNameDnsARecord"`
@@ -10097,7 +9941,7 @@ func (o LaunchTemplateBlockDeviceMappingEbsPtrOutput) VolumeType() pulumi.String
 }
 
 type LaunchTemplateCapacityReservationSpecification struct {
-	// Indicates the instance's Capacity Reservation preferences. Can be `capacity-reservations-only`, `open` or `none`. If `capacityReservationId` or `capacityReservationResourceGroupArn` is specified in `capacityReservationTarget` block, either omit `capacityReservationPreference` or set it to `capacity-reservations-only`.
+	// Indicates the instance's Capacity Reservation preferences. Can be `open` or `none`. (Default `none`).
 	CapacityReservationPreference *string `pulumi:"capacityReservationPreference"`
 	// Used to target a specific Capacity Reservation:
 	CapacityReservationTarget *LaunchTemplateCapacityReservationSpecificationCapacityReservationTarget `pulumi:"capacityReservationTarget"`
@@ -10115,7 +9959,7 @@ type LaunchTemplateCapacityReservationSpecificationInput interface {
 }
 
 type LaunchTemplateCapacityReservationSpecificationArgs struct {
-	// Indicates the instance's Capacity Reservation preferences. Can be `capacity-reservations-only`, `open` or `none`. If `capacityReservationId` or `capacityReservationResourceGroupArn` is specified in `capacityReservationTarget` block, either omit `capacityReservationPreference` or set it to `capacity-reservations-only`.
+	// Indicates the instance's Capacity Reservation preferences. Can be `open` or `none`. (Default `none`).
 	CapacityReservationPreference pulumi.StringPtrInput `pulumi:"capacityReservationPreference"`
 	// Used to target a specific Capacity Reservation:
 	CapacityReservationTarget LaunchTemplateCapacityReservationSpecificationCapacityReservationTargetPtrInput `pulumi:"capacityReservationTarget"`
@@ -10198,7 +10042,7 @@ func (o LaunchTemplateCapacityReservationSpecificationOutput) ToLaunchTemplateCa
 	}).(LaunchTemplateCapacityReservationSpecificationPtrOutput)
 }
 
-// Indicates the instance's Capacity Reservation preferences. Can be `capacity-reservations-only`, `open` or `none`. If `capacityReservationId` or `capacityReservationResourceGroupArn` is specified in `capacityReservationTarget` block, either omit `capacityReservationPreference` or set it to `capacity-reservations-only`.
+// Indicates the instance's Capacity Reservation preferences. Can be `open` or `none`. (Default `none`).
 func (o LaunchTemplateCapacityReservationSpecificationOutput) CapacityReservationPreference() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LaunchTemplateCapacityReservationSpecification) *string { return v.CapacityReservationPreference }).(pulumi.StringPtrOutput)
 }
@@ -10234,7 +10078,7 @@ func (o LaunchTemplateCapacityReservationSpecificationPtrOutput) Elem() LaunchTe
 	}).(LaunchTemplateCapacityReservationSpecificationOutput)
 }
 
-// Indicates the instance's Capacity Reservation preferences. Can be `capacity-reservations-only`, `open` or `none`. If `capacityReservationId` or `capacityReservationResourceGroupArn` is specified in `capacityReservationTarget` block, either omit `capacityReservationPreference` or set it to `capacity-reservations-only`.
+// Indicates the instance's Capacity Reservation preferences. Can be `open` or `none`. (Default `none`).
 func (o LaunchTemplateCapacityReservationSpecificationPtrOutput) CapacityReservationPreference() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LaunchTemplateCapacityReservationSpecification) *string {
 		if v == nil {
@@ -14974,9 +14818,7 @@ type LaunchTemplatePlacement struct {
 	Affinity *string `pulumi:"affinity"`
 	// The Availability Zone for the instance.
 	AvailabilityZone *string `pulumi:"availabilityZone"`
-	// The ID of the placement group for the instance. Conflicts with `groupName`.
-	GroupId *string `pulumi:"groupId"`
-	// The name of the placement group for the instance. Conflicts with `groupId`.
+	// The name of the placement group for the instance.
 	GroupName *string `pulumi:"groupName"`
 	// The ID of the Dedicated Host for the instance.
 	HostId *string `pulumi:"hostId"`
@@ -15006,9 +14848,7 @@ type LaunchTemplatePlacementArgs struct {
 	Affinity pulumi.StringPtrInput `pulumi:"affinity"`
 	// The Availability Zone for the instance.
 	AvailabilityZone pulumi.StringPtrInput `pulumi:"availabilityZone"`
-	// The ID of the placement group for the instance. Conflicts with `groupName`.
-	GroupId pulumi.StringPtrInput `pulumi:"groupId"`
-	// The name of the placement group for the instance. Conflicts with `groupId`.
+	// The name of the placement group for the instance.
 	GroupName pulumi.StringPtrInput `pulumi:"groupName"`
 	// The ID of the Dedicated Host for the instance.
 	HostId pulumi.StringPtrInput `pulumi:"hostId"`
@@ -15109,12 +14949,7 @@ func (o LaunchTemplatePlacementOutput) AvailabilityZone() pulumi.StringPtrOutput
 	return o.ApplyT(func(v LaunchTemplatePlacement) *string { return v.AvailabilityZone }).(pulumi.StringPtrOutput)
 }
 
-// The ID of the placement group for the instance. Conflicts with `groupName`.
-func (o LaunchTemplatePlacementOutput) GroupId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v LaunchTemplatePlacement) *string { return v.GroupId }).(pulumi.StringPtrOutput)
-}
-
-// The name of the placement group for the instance. Conflicts with `groupId`.
+// The name of the placement group for the instance.
 func (o LaunchTemplatePlacementOutput) GroupName() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LaunchTemplatePlacement) *string { return v.GroupName }).(pulumi.StringPtrOutput)
 }
@@ -15188,17 +15023,7 @@ func (o LaunchTemplatePlacementPtrOutput) AvailabilityZone() pulumi.StringPtrOut
 	}).(pulumi.StringPtrOutput)
 }
 
-// The ID of the placement group for the instance. Conflicts with `groupName`.
-func (o LaunchTemplatePlacementPtrOutput) GroupId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *LaunchTemplatePlacement) *string {
-		if v == nil {
-			return nil
-		}
-		return v.GroupId
-	}).(pulumi.StringPtrOutput)
-}
-
-// The name of the placement group for the instance. Conflicts with `groupId`.
+// The name of the placement group for the instance.
 func (o LaunchTemplatePlacementPtrOutput) GroupName() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LaunchTemplatePlacement) *string {
 		if v == nil {
@@ -15643,162 +15468,6 @@ func (o ManagedPrefixListEntryTypeArrayOutput) Index(i pulumi.IntInput) ManagedP
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ManagedPrefixListEntryType {
 		return vs[0].([]ManagedPrefixListEntryType)[vs[1].(int)]
 	}).(ManagedPrefixListEntryTypeOutput)
-}
-
-type NatGatewayEipAssociationTimeouts struct {
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-	Create *string `pulumi:"create"`
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-	Delete *string `pulumi:"delete"`
-}
-
-// NatGatewayEipAssociationTimeoutsInput is an input type that accepts NatGatewayEipAssociationTimeoutsArgs and NatGatewayEipAssociationTimeoutsOutput values.
-// You can construct a concrete instance of `NatGatewayEipAssociationTimeoutsInput` via:
-//
-//	NatGatewayEipAssociationTimeoutsArgs{...}
-type NatGatewayEipAssociationTimeoutsInput interface {
-	pulumi.Input
-
-	ToNatGatewayEipAssociationTimeoutsOutput() NatGatewayEipAssociationTimeoutsOutput
-	ToNatGatewayEipAssociationTimeoutsOutputWithContext(context.Context) NatGatewayEipAssociationTimeoutsOutput
-}
-
-type NatGatewayEipAssociationTimeoutsArgs struct {
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-	Create pulumi.StringPtrInput `pulumi:"create"`
-	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-	Delete pulumi.StringPtrInput `pulumi:"delete"`
-}
-
-func (NatGatewayEipAssociationTimeoutsArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*NatGatewayEipAssociationTimeouts)(nil)).Elem()
-}
-
-func (i NatGatewayEipAssociationTimeoutsArgs) ToNatGatewayEipAssociationTimeoutsOutput() NatGatewayEipAssociationTimeoutsOutput {
-	return i.ToNatGatewayEipAssociationTimeoutsOutputWithContext(context.Background())
-}
-
-func (i NatGatewayEipAssociationTimeoutsArgs) ToNatGatewayEipAssociationTimeoutsOutputWithContext(ctx context.Context) NatGatewayEipAssociationTimeoutsOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(NatGatewayEipAssociationTimeoutsOutput)
-}
-
-func (i NatGatewayEipAssociationTimeoutsArgs) ToNatGatewayEipAssociationTimeoutsPtrOutput() NatGatewayEipAssociationTimeoutsPtrOutput {
-	return i.ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(context.Background())
-}
-
-func (i NatGatewayEipAssociationTimeoutsArgs) ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(ctx context.Context) NatGatewayEipAssociationTimeoutsPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(NatGatewayEipAssociationTimeoutsOutput).ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(ctx)
-}
-
-// NatGatewayEipAssociationTimeoutsPtrInput is an input type that accepts NatGatewayEipAssociationTimeoutsArgs, NatGatewayEipAssociationTimeoutsPtr and NatGatewayEipAssociationTimeoutsPtrOutput values.
-// You can construct a concrete instance of `NatGatewayEipAssociationTimeoutsPtrInput` via:
-//
-//	        NatGatewayEipAssociationTimeoutsArgs{...}
-//
-//	or:
-//
-//	        nil
-type NatGatewayEipAssociationTimeoutsPtrInput interface {
-	pulumi.Input
-
-	ToNatGatewayEipAssociationTimeoutsPtrOutput() NatGatewayEipAssociationTimeoutsPtrOutput
-	ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(context.Context) NatGatewayEipAssociationTimeoutsPtrOutput
-}
-
-type natGatewayEipAssociationTimeoutsPtrType NatGatewayEipAssociationTimeoutsArgs
-
-func NatGatewayEipAssociationTimeoutsPtr(v *NatGatewayEipAssociationTimeoutsArgs) NatGatewayEipAssociationTimeoutsPtrInput {
-	return (*natGatewayEipAssociationTimeoutsPtrType)(v)
-}
-
-func (*natGatewayEipAssociationTimeoutsPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**NatGatewayEipAssociationTimeouts)(nil)).Elem()
-}
-
-func (i *natGatewayEipAssociationTimeoutsPtrType) ToNatGatewayEipAssociationTimeoutsPtrOutput() NatGatewayEipAssociationTimeoutsPtrOutput {
-	return i.ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(context.Background())
-}
-
-func (i *natGatewayEipAssociationTimeoutsPtrType) ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(ctx context.Context) NatGatewayEipAssociationTimeoutsPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(NatGatewayEipAssociationTimeoutsPtrOutput)
-}
-
-type NatGatewayEipAssociationTimeoutsOutput struct{ *pulumi.OutputState }
-
-func (NatGatewayEipAssociationTimeoutsOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*NatGatewayEipAssociationTimeouts)(nil)).Elem()
-}
-
-func (o NatGatewayEipAssociationTimeoutsOutput) ToNatGatewayEipAssociationTimeoutsOutput() NatGatewayEipAssociationTimeoutsOutput {
-	return o
-}
-
-func (o NatGatewayEipAssociationTimeoutsOutput) ToNatGatewayEipAssociationTimeoutsOutputWithContext(ctx context.Context) NatGatewayEipAssociationTimeoutsOutput {
-	return o
-}
-
-func (o NatGatewayEipAssociationTimeoutsOutput) ToNatGatewayEipAssociationTimeoutsPtrOutput() NatGatewayEipAssociationTimeoutsPtrOutput {
-	return o.ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(context.Background())
-}
-
-func (o NatGatewayEipAssociationTimeoutsOutput) ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(ctx context.Context) NatGatewayEipAssociationTimeoutsPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v NatGatewayEipAssociationTimeouts) *NatGatewayEipAssociationTimeouts {
-		return &v
-	}).(NatGatewayEipAssociationTimeoutsPtrOutput)
-}
-
-// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-func (o NatGatewayEipAssociationTimeoutsOutput) Create() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v NatGatewayEipAssociationTimeouts) *string { return v.Create }).(pulumi.StringPtrOutput)
-}
-
-// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-func (o NatGatewayEipAssociationTimeoutsOutput) Delete() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v NatGatewayEipAssociationTimeouts) *string { return v.Delete }).(pulumi.StringPtrOutput)
-}
-
-type NatGatewayEipAssociationTimeoutsPtrOutput struct{ *pulumi.OutputState }
-
-func (NatGatewayEipAssociationTimeoutsPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**NatGatewayEipAssociationTimeouts)(nil)).Elem()
-}
-
-func (o NatGatewayEipAssociationTimeoutsPtrOutput) ToNatGatewayEipAssociationTimeoutsPtrOutput() NatGatewayEipAssociationTimeoutsPtrOutput {
-	return o
-}
-
-func (o NatGatewayEipAssociationTimeoutsPtrOutput) ToNatGatewayEipAssociationTimeoutsPtrOutputWithContext(ctx context.Context) NatGatewayEipAssociationTimeoutsPtrOutput {
-	return o
-}
-
-func (o NatGatewayEipAssociationTimeoutsPtrOutput) Elem() NatGatewayEipAssociationTimeoutsOutput {
-	return o.ApplyT(func(v *NatGatewayEipAssociationTimeouts) NatGatewayEipAssociationTimeouts {
-		if v != nil {
-			return *v
-		}
-		var ret NatGatewayEipAssociationTimeouts
-		return ret
-	}).(NatGatewayEipAssociationTimeoutsOutput)
-}
-
-// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
-func (o NatGatewayEipAssociationTimeoutsPtrOutput) Create() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *NatGatewayEipAssociationTimeouts) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Create
-	}).(pulumi.StringPtrOutput)
-}
-
-// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
-func (o NatGatewayEipAssociationTimeoutsPtrOutput) Delete() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *NatGatewayEipAssociationTimeouts) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Delete
-	}).(pulumi.StringPtrOutput)
 }
 
 type NetworkAclEgress struct {
@@ -26801,8 +26470,6 @@ type NetworkInterfaceAttachmentType struct {
 	DeviceIndex int `pulumi:"deviceIndex"`
 	// ID of the instance to attach to.
 	Instance string `pulumi:"instance"`
-	// Index of the network card. Specify a value greater than 0 when using multiple network cards, which are supported by [some instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#network-cards). The default is 0.
-	NetworkCardIndex *int `pulumi:"networkCardIndex"`
 }
 
 // NetworkInterfaceAttachmentTypeInput is an input type that accepts NetworkInterfaceAttachmentTypeArgs and NetworkInterfaceAttachmentTypeOutput values.
@@ -26822,8 +26489,6 @@ type NetworkInterfaceAttachmentTypeArgs struct {
 	DeviceIndex pulumi.IntInput `pulumi:"deviceIndex"`
 	// ID of the instance to attach to.
 	Instance pulumi.StringInput `pulumi:"instance"`
-	// Index of the network card. Specify a value greater than 0 when using multiple network cards, which are supported by [some instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#network-cards). The default is 0.
-	NetworkCardIndex pulumi.IntPtrInput `pulumi:"networkCardIndex"`
 }
 
 func (NetworkInterfaceAttachmentTypeArgs) ElementType() reflect.Type {
@@ -26889,11 +26554,6 @@ func (o NetworkInterfaceAttachmentTypeOutput) DeviceIndex() pulumi.IntOutput {
 // ID of the instance to attach to.
 func (o NetworkInterfaceAttachmentTypeOutput) Instance() pulumi.StringOutput {
 	return o.ApplyT(func(v NetworkInterfaceAttachmentType) string { return v.Instance }).(pulumi.StringOutput)
-}
-
-// Index of the network card. Specify a value greater than 0 when using multiple network cards, which are supported by [some instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#network-cards). The default is 0.
-func (o NetworkInterfaceAttachmentTypeOutput) NetworkCardIndex() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v NetworkInterfaceAttachmentType) *int { return v.NetworkCardIndex }).(pulumi.IntPtrOutput)
 }
 
 type NetworkInterfaceAttachmentTypeArrayOutput struct{ *pulumi.OutputState }
@@ -32993,112 +32653,6 @@ func (o SpotInstanceRequestNetworkInterfaceArrayOutput) Index(i pulumi.IntInput)
 	}).(SpotInstanceRequestNetworkInterfaceOutput)
 }
 
-type SpotInstanceRequestPrimaryNetworkInterface struct {
-	// Whether the network interface will be deleted when the instance terminates.
-	DeleteOnTermination *bool `pulumi:"deleteOnTermination"`
-	// ID of the network interface to attach.
-	NetworkInterfaceId *string `pulumi:"networkInterfaceId"`
-}
-
-// SpotInstanceRequestPrimaryNetworkInterfaceInput is an input type that accepts SpotInstanceRequestPrimaryNetworkInterfaceArgs and SpotInstanceRequestPrimaryNetworkInterfaceOutput values.
-// You can construct a concrete instance of `SpotInstanceRequestPrimaryNetworkInterfaceInput` via:
-//
-//	SpotInstanceRequestPrimaryNetworkInterfaceArgs{...}
-type SpotInstanceRequestPrimaryNetworkInterfaceInput interface {
-	pulumi.Input
-
-	ToSpotInstanceRequestPrimaryNetworkInterfaceOutput() SpotInstanceRequestPrimaryNetworkInterfaceOutput
-	ToSpotInstanceRequestPrimaryNetworkInterfaceOutputWithContext(context.Context) SpotInstanceRequestPrimaryNetworkInterfaceOutput
-}
-
-type SpotInstanceRequestPrimaryNetworkInterfaceArgs struct {
-	// Whether the network interface will be deleted when the instance terminates.
-	DeleteOnTermination pulumi.BoolPtrInput `pulumi:"deleteOnTermination"`
-	// ID of the network interface to attach.
-	NetworkInterfaceId pulumi.StringPtrInput `pulumi:"networkInterfaceId"`
-}
-
-func (SpotInstanceRequestPrimaryNetworkInterfaceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*SpotInstanceRequestPrimaryNetworkInterface)(nil)).Elem()
-}
-
-func (i SpotInstanceRequestPrimaryNetworkInterfaceArgs) ToSpotInstanceRequestPrimaryNetworkInterfaceOutput() SpotInstanceRequestPrimaryNetworkInterfaceOutput {
-	return i.ToSpotInstanceRequestPrimaryNetworkInterfaceOutputWithContext(context.Background())
-}
-
-func (i SpotInstanceRequestPrimaryNetworkInterfaceArgs) ToSpotInstanceRequestPrimaryNetworkInterfaceOutputWithContext(ctx context.Context) SpotInstanceRequestPrimaryNetworkInterfaceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(SpotInstanceRequestPrimaryNetworkInterfaceOutput)
-}
-
-// SpotInstanceRequestPrimaryNetworkInterfaceArrayInput is an input type that accepts SpotInstanceRequestPrimaryNetworkInterfaceArray and SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput values.
-// You can construct a concrete instance of `SpotInstanceRequestPrimaryNetworkInterfaceArrayInput` via:
-//
-//	SpotInstanceRequestPrimaryNetworkInterfaceArray{ SpotInstanceRequestPrimaryNetworkInterfaceArgs{...} }
-type SpotInstanceRequestPrimaryNetworkInterfaceArrayInput interface {
-	pulumi.Input
-
-	ToSpotInstanceRequestPrimaryNetworkInterfaceArrayOutput() SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput
-	ToSpotInstanceRequestPrimaryNetworkInterfaceArrayOutputWithContext(context.Context) SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput
-}
-
-type SpotInstanceRequestPrimaryNetworkInterfaceArray []SpotInstanceRequestPrimaryNetworkInterfaceInput
-
-func (SpotInstanceRequestPrimaryNetworkInterfaceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]SpotInstanceRequestPrimaryNetworkInterface)(nil)).Elem()
-}
-
-func (i SpotInstanceRequestPrimaryNetworkInterfaceArray) ToSpotInstanceRequestPrimaryNetworkInterfaceArrayOutput() SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput {
-	return i.ToSpotInstanceRequestPrimaryNetworkInterfaceArrayOutputWithContext(context.Background())
-}
-
-func (i SpotInstanceRequestPrimaryNetworkInterfaceArray) ToSpotInstanceRequestPrimaryNetworkInterfaceArrayOutputWithContext(ctx context.Context) SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput)
-}
-
-type SpotInstanceRequestPrimaryNetworkInterfaceOutput struct{ *pulumi.OutputState }
-
-func (SpotInstanceRequestPrimaryNetworkInterfaceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*SpotInstanceRequestPrimaryNetworkInterface)(nil)).Elem()
-}
-
-func (o SpotInstanceRequestPrimaryNetworkInterfaceOutput) ToSpotInstanceRequestPrimaryNetworkInterfaceOutput() SpotInstanceRequestPrimaryNetworkInterfaceOutput {
-	return o
-}
-
-func (o SpotInstanceRequestPrimaryNetworkInterfaceOutput) ToSpotInstanceRequestPrimaryNetworkInterfaceOutputWithContext(ctx context.Context) SpotInstanceRequestPrimaryNetworkInterfaceOutput {
-	return o
-}
-
-// Whether the network interface will be deleted when the instance terminates.
-func (o SpotInstanceRequestPrimaryNetworkInterfaceOutput) DeleteOnTermination() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v SpotInstanceRequestPrimaryNetworkInterface) *bool { return v.DeleteOnTermination }).(pulumi.BoolPtrOutput)
-}
-
-// ID of the network interface to attach.
-func (o SpotInstanceRequestPrimaryNetworkInterfaceOutput) NetworkInterfaceId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SpotInstanceRequestPrimaryNetworkInterface) *string { return v.NetworkInterfaceId }).(pulumi.StringPtrOutput)
-}
-
-type SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
-
-func (SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]SpotInstanceRequestPrimaryNetworkInterface)(nil)).Elem()
-}
-
-func (o SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput) ToSpotInstanceRequestPrimaryNetworkInterfaceArrayOutput() SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput {
-	return o
-}
-
-func (o SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput) ToSpotInstanceRequestPrimaryNetworkInterfaceArrayOutputWithContext(ctx context.Context) SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput {
-	return o
-}
-
-func (o SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) SpotInstanceRequestPrimaryNetworkInterfaceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SpotInstanceRequestPrimaryNetworkInterface {
-		return vs[0].([]SpotInstanceRequestPrimaryNetworkInterface)[vs[1].(int)]
-	}).(SpotInstanceRequestPrimaryNetworkInterfaceOutput)
-}
-
 type SpotInstanceRequestPrivateDnsNameOptions struct {
 	// Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
 	EnableResourceNameDnsARecord *bool `pulumi:"enableResourceNameDnsARecord"`
@@ -34653,8 +34207,7 @@ type VpcEndpointSubnetConfiguration struct {
 	// The IPv4 address to assign to the endpoint network interface in the subnet. You must provide an IPv4 address if the VPC endpoint supports IPv4.
 	Ipv4 *string `pulumi:"ipv4"`
 	// The IPv6 address to assign to the endpoint network interface in the subnet. You must provide an IPv6 address if the VPC endpoint supports IPv6.
-	Ipv6 *string `pulumi:"ipv6"`
-	// The ID of the subnet. Must have a corresponding subnet in the `subnetIds` argument.
+	Ipv6     *string `pulumi:"ipv6"`
 	SubnetId *string `pulumi:"subnetId"`
 }
 
@@ -34673,8 +34226,7 @@ type VpcEndpointSubnetConfigurationArgs struct {
 	// The IPv4 address to assign to the endpoint network interface in the subnet. You must provide an IPv4 address if the VPC endpoint supports IPv4.
 	Ipv4 pulumi.StringPtrInput `pulumi:"ipv4"`
 	// The IPv6 address to assign to the endpoint network interface in the subnet. You must provide an IPv6 address if the VPC endpoint supports IPv6.
-	Ipv6 pulumi.StringPtrInput `pulumi:"ipv6"`
-	// The ID of the subnet. Must have a corresponding subnet in the `subnetIds` argument.
+	Ipv6     pulumi.StringPtrInput `pulumi:"ipv6"`
 	SubnetId pulumi.StringPtrInput `pulumi:"subnetId"`
 }
 
@@ -34739,7 +34291,6 @@ func (o VpcEndpointSubnetConfigurationOutput) Ipv6() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VpcEndpointSubnetConfiguration) *string { return v.Ipv6 }).(pulumi.StringPtrOutput)
 }
 
-// The ID of the subnet. Must have a corresponding subnet in the `subnetIds` argument.
 func (o VpcEndpointSubnetConfigurationOutput) SubnetId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VpcEndpointSubnetConfiguration) *string { return v.SubnetId }).(pulumi.StringPtrOutput)
 }
@@ -38117,10 +37668,7 @@ func (o GetInstanceEphemeralBlockDeviceArrayOutput) Index(i pulumi.IntInput) Get
 }
 
 type GetInstanceFilter struct {
-	// Name of the filter.
-	// For a full reference of filter names, see [describe-instances in the AWS CLI reference][1].
-	Name string `pulumi:"name"`
-	// One or more values to match.
+	Name   string   `pulumi:"name"`
 	Values []string `pulumi:"values"`
 }
 
@@ -38136,10 +37684,7 @@ type GetInstanceFilterInput interface {
 }
 
 type GetInstanceFilterArgs struct {
-	// Name of the filter.
-	// For a full reference of filter names, see [describe-instances in the AWS CLI reference][1].
-	Name pulumi.StringInput `pulumi:"name"`
-	// One or more values to match.
+	Name   pulumi.StringInput      `pulumi:"name"`
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -38194,13 +37739,10 @@ func (o GetInstanceFilterOutput) ToGetInstanceFilterOutputWithContext(ctx contex
 	return o
 }
 
-// Name of the filter.
-// For a full reference of filter names, see [describe-instances in the AWS CLI reference][1].
 func (o GetInstanceFilterOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v GetInstanceFilter) string { return v.Name }).(pulumi.StringOutput)
 }
 
-// One or more values to match.
 func (o GetInstanceFilterOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v GetInstanceFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -39866,10 +39408,7 @@ func (o GetInstanceTypesFilterArrayOutput) Index(i pulumi.IntInput) GetInstanceT
 }
 
 type GetInstancesFilter struct {
-	// Name of the filter.
-	// For a full reference of filter names, see [describe-instances in the AWS CLI reference][1].
-	Name string `pulumi:"name"`
-	// One or more values to match.
+	Name   string   `pulumi:"name"`
 	Values []string `pulumi:"values"`
 }
 
@@ -39885,10 +39424,7 @@ type GetInstancesFilterInput interface {
 }
 
 type GetInstancesFilterArgs struct {
-	// Name of the filter.
-	// For a full reference of filter names, see [describe-instances in the AWS CLI reference][1].
-	Name pulumi.StringInput `pulumi:"name"`
-	// One or more values to match.
+	Name   pulumi.StringInput      `pulumi:"name"`
 	Values pulumi.StringArrayInput `pulumi:"values"`
 }
 
@@ -39943,13 +39479,10 @@ func (o GetInstancesFilterOutput) ToGetInstancesFilterOutputWithContext(ctx cont
 	return o
 }
 
-// Name of the filter.
-// For a full reference of filter names, see [describe-instances in the AWS CLI reference][1].
 func (o GetInstancesFilterOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v GetInstancesFilter) string { return v.Name }).(pulumi.StringOutput)
 }
 
-// One or more values to match.
 func (o GetInstancesFilterOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v GetInstancesFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -43990,7 +43523,6 @@ func (o GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationArrayOut
 type GetLaunchTemplatePlacement struct {
 	Affinity             string `pulumi:"affinity"`
 	AvailabilityZone     string `pulumi:"availabilityZone"`
-	GroupId              string `pulumi:"groupId"`
 	GroupName            string `pulumi:"groupName"`
 	HostId               string `pulumi:"hostId"`
 	HostResourceGroupArn string `pulumi:"hostResourceGroupArn"`
@@ -44013,7 +43545,6 @@ type GetLaunchTemplatePlacementInput interface {
 type GetLaunchTemplatePlacementArgs struct {
 	Affinity             pulumi.StringInput `pulumi:"affinity"`
 	AvailabilityZone     pulumi.StringInput `pulumi:"availabilityZone"`
-	GroupId              pulumi.StringInput `pulumi:"groupId"`
 	GroupName            pulumi.StringInput `pulumi:"groupName"`
 	HostId               pulumi.StringInput `pulumi:"hostId"`
 	HostResourceGroupArn pulumi.StringInput `pulumi:"hostResourceGroupArn"`
@@ -44079,10 +43610,6 @@ func (o GetLaunchTemplatePlacementOutput) Affinity() pulumi.StringOutput {
 
 func (o GetLaunchTemplatePlacementOutput) AvailabilityZone() pulumi.StringOutput {
 	return o.ApplyT(func(v GetLaunchTemplatePlacement) string { return v.AvailabilityZone }).(pulumi.StringOutput)
-}
-
-func (o GetLaunchTemplatePlacementOutput) GroupId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetLaunchTemplatePlacement) string { return v.GroupId }).(pulumi.StringOutput)
 }
 
 func (o GetLaunchTemplatePlacementOutput) GroupName() pulumi.StringOutput {
@@ -56390,16 +55917,10 @@ func (o GetNetworkInterfaceAssociationArrayOutput) Index(i pulumi.IntInput) GetN
 }
 
 type GetNetworkInterfaceAttachmentType struct {
-	// ID of the network interface attachment.
-	AttachmentId string `pulumi:"attachmentId"`
-	// Device index of the network interface attachment on the instance.
-	DeviceIndex int `pulumi:"deviceIndex"`
-	// ID of the instance.
-	InstanceId string `pulumi:"instanceId"`
-	// AWS account ID of the owner of the instance.
+	AttachmentId    string `pulumi:"attachmentId"`
+	DeviceIndex     int    `pulumi:"deviceIndex"`
+	InstanceId      string `pulumi:"instanceId"`
 	InstanceOwnerId string `pulumi:"instanceOwnerId"`
-	// Index of the network card.
-	NetworkCardIndex int `pulumi:"networkCardIndex"`
 }
 
 // GetNetworkInterfaceAttachmentTypeInput is an input type that accepts GetNetworkInterfaceAttachmentTypeArgs and GetNetworkInterfaceAttachmentTypeOutput values.
@@ -56414,16 +55935,10 @@ type GetNetworkInterfaceAttachmentTypeInput interface {
 }
 
 type GetNetworkInterfaceAttachmentTypeArgs struct {
-	// ID of the network interface attachment.
-	AttachmentId pulumi.StringInput `pulumi:"attachmentId"`
-	// Device index of the network interface attachment on the instance.
-	DeviceIndex pulumi.IntInput `pulumi:"deviceIndex"`
-	// ID of the instance.
-	InstanceId pulumi.StringInput `pulumi:"instanceId"`
-	// AWS account ID of the owner of the instance.
+	AttachmentId    pulumi.StringInput `pulumi:"attachmentId"`
+	DeviceIndex     pulumi.IntInput    `pulumi:"deviceIndex"`
+	InstanceId      pulumi.StringInput `pulumi:"instanceId"`
 	InstanceOwnerId pulumi.StringInput `pulumi:"instanceOwnerId"`
-	// Index of the network card.
-	NetworkCardIndex pulumi.IntInput `pulumi:"networkCardIndex"`
 }
 
 func (GetNetworkInterfaceAttachmentTypeArgs) ElementType() reflect.Type {
@@ -56477,29 +55992,20 @@ func (o GetNetworkInterfaceAttachmentTypeOutput) ToGetNetworkInterfaceAttachment
 	return o
 }
 
-// ID of the network interface attachment.
 func (o GetNetworkInterfaceAttachmentTypeOutput) AttachmentId() pulumi.StringOutput {
 	return o.ApplyT(func(v GetNetworkInterfaceAttachmentType) string { return v.AttachmentId }).(pulumi.StringOutput)
 }
 
-// Device index of the network interface attachment on the instance.
 func (o GetNetworkInterfaceAttachmentTypeOutput) DeviceIndex() pulumi.IntOutput {
 	return o.ApplyT(func(v GetNetworkInterfaceAttachmentType) int { return v.DeviceIndex }).(pulumi.IntOutput)
 }
 
-// ID of the instance.
 func (o GetNetworkInterfaceAttachmentTypeOutput) InstanceId() pulumi.StringOutput {
 	return o.ApplyT(func(v GetNetworkInterfaceAttachmentType) string { return v.InstanceId }).(pulumi.StringOutput)
 }
 
-// AWS account ID of the owner of the instance.
 func (o GetNetworkInterfaceAttachmentTypeOutput) InstanceOwnerId() pulumi.StringOutput {
 	return o.ApplyT(func(v GetNetworkInterfaceAttachmentType) string { return v.InstanceOwnerId }).(pulumi.StringOutput)
-}
-
-// Index of the network card.
-func (o GetNetworkInterfaceAttachmentTypeOutput) NetworkCardIndex() pulumi.IntOutput {
-	return o.ApplyT(func(v GetNetworkInterfaceAttachmentType) int { return v.NetworkCardIndex }).(pulumi.IntOutput)
 }
 
 type GetNetworkInterfaceAttachmentTypeArrayOutput struct{ *pulumi.OutputState }
@@ -59943,8 +59449,7 @@ type GetVpcIpamsIpam struct {
 	// ID of the IPAM resource.
 	Id string `pulumi:"id"`
 	// Region that the IPAM exists in.
-	IpamRegion     string `pulumi:"ipamRegion"`
-	MeteredAccount string `pulumi:"meteredAccount"`
+	IpamRegion string `pulumi:"ipamRegion"`
 	// Regions that the IPAM is configured to operate in.
 	OperatingRegions []GetVpcIpamsIpamOperatingRegion `pulumi:"operatingRegions"`
 	// ID of the account that owns this IPAM.
@@ -59990,8 +59495,7 @@ type GetVpcIpamsIpamArgs struct {
 	// ID of the IPAM resource.
 	Id pulumi.StringInput `pulumi:"id"`
 	// Region that the IPAM exists in.
-	IpamRegion     pulumi.StringInput `pulumi:"ipamRegion"`
-	MeteredAccount pulumi.StringInput `pulumi:"meteredAccount"`
+	IpamRegion pulumi.StringInput `pulumi:"ipamRegion"`
 	// Regions that the IPAM is configured to operate in.
 	OperatingRegions GetVpcIpamsIpamOperatingRegionArrayInput `pulumi:"operatingRegions"`
 	// ID of the account that owns this IPAM.
@@ -60096,10 +59600,6 @@ func (o GetVpcIpamsIpamOutput) Id() pulumi.StringOutput {
 // Region that the IPAM exists in.
 func (o GetVpcIpamsIpamOutput) IpamRegion() pulumi.StringOutput {
 	return o.ApplyT(func(v GetVpcIpamsIpam) string { return v.IpamRegion }).(pulumi.StringOutput)
-}
-
-func (o GetVpcIpamsIpamOutput) MeteredAccount() pulumi.StringOutput {
-	return o.ApplyT(func(v GetVpcIpamsIpam) string { return v.MeteredAccount }).(pulumi.StringOutput)
 }
 
 // Regions that the IPAM is configured to operate in.
@@ -61188,8 +60688,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceMetadataOptionsPtrInput)(nil)).Elem(), InstanceMetadataOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceNetworkInterfaceInput)(nil)).Elem(), InstanceNetworkInterfaceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceNetworkInterfaceArrayInput)(nil)).Elem(), InstanceNetworkInterfaceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*InstancePrimaryNetworkInterfaceInput)(nil)).Elem(), InstancePrimaryNetworkInterfaceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*InstancePrimaryNetworkInterfacePtrInput)(nil)).Elem(), InstancePrimaryNetworkInterfaceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstancePrivateDnsNameOptionsInput)(nil)).Elem(), InstancePrivateDnsNameOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstancePrivateDnsNameOptionsPtrInput)(nil)).Elem(), InstancePrivateDnsNameOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceRootBlockDeviceInput)(nil)).Elem(), InstanceRootBlockDeviceArgs{})
@@ -61268,8 +60766,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchTemplateTagSpecificationArrayInput)(nil)).Elem(), LaunchTemplateTagSpecificationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ManagedPrefixListEntryTypeInput)(nil)).Elem(), ManagedPrefixListEntryTypeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ManagedPrefixListEntryTypeArrayInput)(nil)).Elem(), ManagedPrefixListEntryTypeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*NatGatewayEipAssociationTimeoutsInput)(nil)).Elem(), NatGatewayEipAssociationTimeoutsArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*NatGatewayEipAssociationTimeoutsPtrInput)(nil)).Elem(), NatGatewayEipAssociationTimeoutsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*NetworkAclEgressInput)(nil)).Elem(), NetworkAclEgressArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*NetworkAclEgressArrayInput)(nil)).Elem(), NetworkAclEgressArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*NetworkAclIngressInput)(nil)).Elem(), NetworkAclIngressArgs{})
@@ -61519,8 +61015,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestMetadataOptionsPtrInput)(nil)).Elem(), SpotInstanceRequestMetadataOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestNetworkInterfaceInput)(nil)).Elem(), SpotInstanceRequestNetworkInterfaceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestNetworkInterfaceArrayInput)(nil)).Elem(), SpotInstanceRequestNetworkInterfaceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestPrimaryNetworkInterfaceInput)(nil)).Elem(), SpotInstanceRequestPrimaryNetworkInterfaceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestPrimaryNetworkInterfaceArrayInput)(nil)).Elem(), SpotInstanceRequestPrimaryNetworkInterfaceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestPrivateDnsNameOptionsInput)(nil)).Elem(), SpotInstanceRequestPrivateDnsNameOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestPrivateDnsNameOptionsPtrInput)(nil)).Elem(), SpotInstanceRequestPrivateDnsNameOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestRootBlockDeviceInput)(nil)).Elem(), SpotInstanceRequestRootBlockDeviceArgs{})
@@ -62083,8 +61577,6 @@ func init() {
 	pulumi.RegisterOutputType(InstanceMetadataOptionsPtrOutput{})
 	pulumi.RegisterOutputType(InstanceNetworkInterfaceOutput{})
 	pulumi.RegisterOutputType(InstanceNetworkInterfaceArrayOutput{})
-	pulumi.RegisterOutputType(InstancePrimaryNetworkInterfaceOutput{})
-	pulumi.RegisterOutputType(InstancePrimaryNetworkInterfacePtrOutput{})
 	pulumi.RegisterOutputType(InstancePrivateDnsNameOptionsOutput{})
 	pulumi.RegisterOutputType(InstancePrivateDnsNameOptionsPtrOutput{})
 	pulumi.RegisterOutputType(InstanceRootBlockDeviceOutput{})
@@ -62163,8 +61655,6 @@ func init() {
 	pulumi.RegisterOutputType(LaunchTemplateTagSpecificationArrayOutput{})
 	pulumi.RegisterOutputType(ManagedPrefixListEntryTypeOutput{})
 	pulumi.RegisterOutputType(ManagedPrefixListEntryTypeArrayOutput{})
-	pulumi.RegisterOutputType(NatGatewayEipAssociationTimeoutsOutput{})
-	pulumi.RegisterOutputType(NatGatewayEipAssociationTimeoutsPtrOutput{})
 	pulumi.RegisterOutputType(NetworkAclEgressOutput{})
 	pulumi.RegisterOutputType(NetworkAclEgressArrayOutput{})
 	pulumi.RegisterOutputType(NetworkAclIngressOutput{})
@@ -62414,8 +61904,6 @@ func init() {
 	pulumi.RegisterOutputType(SpotInstanceRequestMetadataOptionsPtrOutput{})
 	pulumi.RegisterOutputType(SpotInstanceRequestNetworkInterfaceOutput{})
 	pulumi.RegisterOutputType(SpotInstanceRequestNetworkInterfaceArrayOutput{})
-	pulumi.RegisterOutputType(SpotInstanceRequestPrimaryNetworkInterfaceOutput{})
-	pulumi.RegisterOutputType(SpotInstanceRequestPrimaryNetworkInterfaceArrayOutput{})
 	pulumi.RegisterOutputType(SpotInstanceRequestPrivateDnsNameOptionsOutput{})
 	pulumi.RegisterOutputType(SpotInstanceRequestPrivateDnsNameOptionsPtrOutput{})
 	pulumi.RegisterOutputType(SpotInstanceRequestRootBlockDeviceOutput{})
