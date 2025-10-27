@@ -228,7 +228,7 @@ github.com/fzipp/gocyclo
 # github.com/ghostiam/protogetter v0.3.17
 ## explicit; go 1.24.0
 github.com/ghostiam/protogetter
-# github.com/go-critic/go-critic v0.13.0
+# github.com/go-critic/go-critic v0.14.0
 ## explicit; go 1.23.0
 github.com/go-critic/go-critic/checkers
 github.com/go-critic/go-critic/checkers/internal/astwalk
@@ -900,8 +900,8 @@ go-simpler.org/musttag
 # go-simpler.org/sloglint v0.11.1
 ## explicit; go 1.23.0
 go-simpler.org/sloglint
-# go.augendre.info/arangolint v0.2.0
-## explicit; go 1.23.0
+# go.augendre.info/arangolint v0.3.1
+## explicit; go 1.24.0
 go.augendre.info/arangolint/pkg/analyzer
 # go.augendre.info/fatcontext v0.9.0
 ## explicit; go 1.23.0
@@ -931,7 +931,7 @@ go.yaml.in/yaml/v2
 # go.yaml.in/yaml/v3 v3.0.4
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20251009144603-d2f985daa21b
+# golang.org/x/exp/typeparams v0.0.0-20251017212417-90e834f514db
 ## explicit; go 1.24.0
 golang.org/x/exp/typeparams
 # golang.org/x/mod v0.29.0
