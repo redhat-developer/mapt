@@ -90,6 +90,8 @@ const (
 	RhelAIVersion        string = "version"
 	RhelAIVersionDesc    string = "version for the RHELAI OS"
 	RhelAIVersionDefault string = "1.5.0"
+	RhelAIAMICustom      string = "custom-ami"
+	RhelAIAMICustomDesc  string = "custom AMI to spin RHEL AI OS"
 
 	// Serverless
 	Timeout        string = "timeout"
