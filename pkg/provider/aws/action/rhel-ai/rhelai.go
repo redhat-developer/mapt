@@ -33,6 +33,7 @@ import (
 type RHELAIArgs struct {
 	Prefix         string
 	Version        string
+	CustomAMI      string
 	Arch           string
 	ComputeRequest *cr.ComputeRequestArgs
 	SubsUsername   string
@@ -96,6 +97,9 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELAIArgs) (err error) {
 		return err
 	}
 	amiName := amiName(&args.Version)
+	if len(args.CustomAMI) != 0 {
+		amiName = fmt.Sprintf("%s*", args.CustomAMI)
+	}
 	if err = checkAMIExists(&amiName, r.allocationData.Region, &amiArch); err != nil {
 		return err
 	}
