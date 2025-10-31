@@ -13,6 +13,7 @@ type PublicSubnetRequest struct {
 	VPC              *ec2.Vpc
 	InternetGateway  *ec2.InternetGateway
 	CIDR             string
+	Region           string
 	AvailabilityZone string
 	Name             string
 	AddNatGateway    bool
@@ -85,6 +86,18 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Pub
 		&ec2.RouteTableAssociationArgs{
 			SubnetId:     sn.ID(),
 			RouteTableId: rt.ID(),
+		})
+	if err != nil {
+		return nil, err
+	}
+	// Create the S3 VPC endpoint (Gateway type)
+	_, err = ec2.NewVpcEndpoint(ctx,
+		fmt.Sprintf("%s-%s", "s3", r.Name),
+		&ec2.VpcEndpointArgs{
+			VpcId:           r.VPC.ID(),
+			ServiceName:     pulumi.Sprintf("com.amazonaws.%s.s3", r.Region),
+			VpcEndpointType: pulumi.String("Gateway"),
+			RouteTableIds:   pulumi.StringArray{rt.ID()},
 		})
 	if err != nil {
 		return nil, err
