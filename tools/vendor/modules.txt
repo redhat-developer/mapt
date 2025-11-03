@@ -163,8 +163,8 @@ github.com/charmbracelet/x/ansi/parser
 # github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd
 ## explicit; go 1.18
 github.com/charmbracelet/x/cellbuf
-# github.com/charmbracelet/x/term v0.2.1
-## explicit; go 1.18
+# github.com/charmbracelet/x/term v0.2.2
+## explicit; go 1.24.0
 github.com/charmbracelet/x/term
 # github.com/ckaznocha/intrange v0.3.1
 ## explicit; go 1.23.0
@@ -228,8 +228,8 @@ github.com/fzipp/gocyclo
 # github.com/ghostiam/protogetter v0.3.17
 ## explicit; go 1.24.0
 github.com/ghostiam/protogetter
-# github.com/go-critic/go-critic v0.14.0
-## explicit; go 1.23.0
+# github.com/go-critic/go-critic v0.14.2
+## explicit; go 1.24.0
 github.com/go-critic/go-critic/checkers
 github.com/go-critic/go-critic/checkers/internal/astwalk
 github.com/go-critic/go-critic/checkers/internal/lintutil
@@ -548,8 +548,8 @@ github.com/jjti/go-spancheck
 # github.com/julz/importas v0.2.0
 ## explicit; go 1.20
 github.com/julz/importas
-# github.com/karamaru-alpha/copyloopvar v1.2.1
-## explicit; go 1.21
+# github.com/karamaru-alpha/copyloopvar v1.2.2
+## explicit; go 1.24.0
 github.com/karamaru-alpha/copyloopvar
 # github.com/kisielk/errcheck v1.9.0
 ## explicit; go 1.22.0
@@ -698,7 +698,7 @@ github.com/prometheus/client_golang/prometheus/testutil/promlint/validations
 # github.com/prometheus/client_model v0.6.2
 ## explicit; go 1.22.0
 github.com/prometheus/client_model/go
-# github.com/prometheus/common v0.67.1
+# github.com/prometheus/common v0.67.2
 ## explicit; go 1.24.0
 github.com/prometheus/common/expfmt
 github.com/prometheus/common/model
@@ -931,7 +931,7 @@ go.yaml.in/yaml/v2
 # go.yaml.in/yaml/v3 v3.0.4
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20251017212417-90e834f514db
+# golang.org/x/exp/typeparams v0.0.0-20251023183803-a4bb9ffd2546
 ## explicit; go 1.24.0
 golang.org/x/exp/typeparams
 # golang.org/x/mod v0.29.0
