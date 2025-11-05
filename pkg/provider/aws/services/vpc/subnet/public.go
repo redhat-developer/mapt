@@ -13,6 +13,7 @@ type PublicSubnetRequest struct {
 	VPC              *ec2.Vpc
 	InternetGateway  *ec2.InternetGateway
 	CIDR             string
+	Region           string
 	AvailabilityZone string
 	Name             string
 	AddNatGateway    bool
@@ -89,6 +90,11 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Pub
 	if err != nil {
 		return nil, err
 	}
+	// Manage endpoints
+	err = endpoints(ctx, r.Name, r.Region, r.VPC, sn, rt)
+	if err != nil {
+		return nil, err
+	}
 	return &PublicSubnetResources{
 			Subnet:                sn,
 			RouteTable:            rt,
@@ -96,4 +102,61 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Pub
 			NatGateway:            n,
 			NatGatewayEip:         nEip},
 		nil
+}
+
+func endpoints(ctx *pulumi.Context, name, region string,
+	vpc *ec2.Vpc, sn *ec2.Subnet, rt *ec2.RouteTable) error {
+	sg, err := ec2.NewSecurityGroup(ctx,
+		fmt.Sprintf("%s-%s", "sg-endpoints", name),
+		&ec2.SecurityGroupArgs{
+			VpcId: vpc.ID(),
+			Ingress: ec2.SecurityGroupIngressArray{
+				&ec2.SecurityGroupIngressArgs{
+					Protocol:   pulumi.String("tcp"),
+					FromPort:   pulumi.Int(443),
+					ToPort:     pulumi.Int(443),
+					CidrBlocks: pulumi.StringArray{vpc.CidrBlock},
+				},
+			},
+		})
+	if err != nil {
+		return err
+	}
+	_, err = ec2.NewVpcEndpoint(ctx,
+		fmt.Sprintf("%s-%s", "endpoint-s3", name),
+		&ec2.VpcEndpointArgs{
+			VpcId:            vpc.ID(),
+			ServiceName:      pulumi.Sprintf("com.amazonaws.%s.s3", region),
+			VpcEndpointType:  pulumi.String("Gateway"),
+			RouteTableIds:    pulumi.StringArray{rt.ID()},
+			SecurityGroupIds: pulumi.StringArray{sg.ID()},
+		})
+	if err != nil {
+		return err
+	}
+	_, err = ec2.NewVpcEndpoint(ctx,
+		fmt.Sprintf("%s-%s", "endpoint-ecr", name),
+		&ec2.VpcEndpointArgs{
+			VpcId:            vpc.ID(),
+			ServiceName:      pulumi.Sprintf("com.amazonaws.%s.ecr.dkr", region),
+			VpcEndpointType:  pulumi.String("Interface"),
+			SubnetIds:        pulumi.StringArray{sn.ID()},
+			SecurityGroupIds: pulumi.StringArray{sg.ID()},
+		})
+	if err != nil {
+		return err
+	}
+	_, err = ec2.NewVpcEndpoint(ctx,
+		fmt.Sprintf("%s-%s", "endpoint-ssm", name),
+		&ec2.VpcEndpointArgs{
+			VpcId:            vpc.ID(),
+			ServiceName:      pulumi.Sprintf("com.amazonaws.%s.ssm", region),
+			VpcEndpointType:  pulumi.String("Interface"),
+			SubnetIds:        pulumi.StringArray{sn.ID()},
+			SecurityGroupIds: pulumi.StringArray{sg.ID()},
+		})
+	if err != nil {
+		return err
+	}
+	return nil
 }
