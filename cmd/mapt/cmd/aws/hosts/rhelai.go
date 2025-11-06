@@ -54,6 +54,7 @@ func getRHELAICreate() *cobra.Command {
 				&rhelai.RHELAIArgs{
 					Prefix:         "main",
 					Version:        viper.GetString(params.RhelAIVersion),
+					CustomAMI:      viper.GetString(params.RhelAIAMICustom),
 					SubsUsername:   viper.GetString(params.SubsUsername),
 					SubsUserpass:   viper.GetString(params.SubsUserpass),
 					ComputeRequest: params.ComputeRequestArgs(),
@@ -66,6 +67,7 @@ func getRHELAICreate() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(params.RhelAIVersion, "", params.RhelAIVersionDefault, params.RhelAIVersionDesc)
+	flagSet.StringP(params.RhelAIAMICustom, "", "", params.RhelAIAMICustomDesc)
 	flagSet.StringP(params.SubsUsername, "", "", params.SubsUsernameDesc)
 	flagSet.StringP(params.SubsUserpass, "", "", params.SubsUserpassDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
