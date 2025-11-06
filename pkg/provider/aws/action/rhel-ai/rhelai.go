@@ -33,6 +33,7 @@ import (
 type RHELAIArgs struct {
 	Prefix         string
 	Version        string
+	CustomAMI      string
 	Arch           string
 	ComputeRequest *cr.ComputeRequestArgs
 	SubsUsername   string
@@ -45,7 +46,7 @@ type RHELAIArgs struct {
 type rhelAIRequest struct {
 	mCtx           *mc.Context
 	prefix         *string
-	version        *string
+	amiName        *string
 	arch           *string
 	spot           bool
 	subsUsername   *string
@@ -73,11 +74,15 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELAIArgs) (err error) {
 		return err
 	}
 	// Compose request
+	amiName := amiName(&args.Version)
+	if len(args.CustomAMI) != 0 {
+		amiName = fmt.Sprintf("%s*", args.CustomAMI)
+	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelAIRequest{
 		mCtx:         mCtx,
 		prefix:       &prefix,
-		version:      &args.Version,
+		amiName:      &amiName,
 		arch:         &args.Arch,
 		timeout:      &args.Timeout,
 		subsUsername: &args.SubsUsername,
@@ -95,7 +100,6 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELAIArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	amiName := amiName(&args.Version)
 	if err = checkAMIExists(&amiName, r.allocationData.Region, &amiArch); err != nil {
 		return err
 	}
@@ -152,7 +156,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	}
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
-		amiName(r.version),
+		*r.amiName,
 		[]string{amiOwner},
 		map[string]string{
 			"architecture": amiArch})
