@@ -107,7 +107,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Pub
 func endpoints(ctx *pulumi.Context, name, region string,
 	vpc *ec2.Vpc, sn *ec2.Subnet, rt *ec2.RouteTable) error {
 	sg, err := ec2.NewSecurityGroup(ctx,
-		fmt.Sprintf("%s-%s", "sg-endpoints", name),
+		fmt.Sprintf("%s-%s", "endpoints", name),
 		&ec2.SecurityGroupArgs{
 			VpcId: vpc.ID(),
 			Ingress: ec2.SecurityGroupIngressArray{
@@ -125,11 +125,10 @@ func endpoints(ctx *pulumi.Context, name, region string,
 	_, err = ec2.NewVpcEndpoint(ctx,
 		fmt.Sprintf("%s-%s", "endpoint-s3", name),
 		&ec2.VpcEndpointArgs{
-			VpcId:            vpc.ID(),
-			ServiceName:      pulumi.Sprintf("com.amazonaws.%s.s3", region),
-			VpcEndpointType:  pulumi.String("Gateway"),
-			RouteTableIds:    pulumi.StringArray{rt.ID()},
-			SecurityGroupIds: pulumi.StringArray{sg.ID()},
+			VpcId:           vpc.ID(),
+			ServiceName:     pulumi.Sprintf("com.amazonaws.%s.s3", region),
+			VpcEndpointType: pulumi.String("Gateway"),
+			RouteTableIds:   pulumi.StringArray{rt.ID()},
 		})
 	if err != nil {
 		return err
