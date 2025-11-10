@@ -130,7 +130,7 @@ github.com/butuzov/ireturn/analyzer/internal/types
 ## explicit; go 1.19
 github.com/butuzov/mirror
 github.com/butuzov/mirror/internal/checker
-# github.com/catenacyber/perfsprint v0.10.0
+# github.com/catenacyber/perfsprint v0.10.1
 ## explicit; go 1.24.0
 github.com/catenacyber/perfsprint/analyzer
 # github.com/ccojocar/zxcvbn-go v1.0.4
@@ -150,14 +150,14 @@ github.com/cespare/xxhash/v2
 # github.com/charithe/durationcheck v0.0.11
 ## explicit; go 1.16
 github.com/charithe/durationcheck
-# github.com/charmbracelet/colorprofile v0.3.2
-## explicit; go 1.23.0
+# github.com/charmbracelet/colorprofile v0.3.3
+## explicit; go 1.24.2
 github.com/charmbracelet/colorprofile
 # github.com/charmbracelet/lipgloss v1.1.0
 ## explicit; go 1.18
 github.com/charmbracelet/lipgloss
-# github.com/charmbracelet/x/ansi v0.10.2
-## explicit; go 1.24.0
+# github.com/charmbracelet/x/ansi v0.10.3
+## explicit; go 1.24.2
 github.com/charmbracelet/x/ansi
 github.com/charmbracelet/x/ansi/parser
 # github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd
@@ -169,7 +169,13 @@ github.com/charmbracelet/x/term
 # github.com/ckaznocha/intrange v0.3.1
 ## explicit; go 1.23.0
 github.com/ckaznocha/intrange
-# github.com/clipperhouse/uax29/v2 v2.2.0
+# github.com/clipperhouse/displaywidth v0.4.1
+## explicit; go 1.18
+github.com/clipperhouse/displaywidth
+# github.com/clipperhouse/stringish v0.1.1
+## explicit; go 1.18
+github.com/clipperhouse/stringish
+# github.com/clipperhouse/uax29/v2 v2.3.0
 ## explicit; go 1.18
 github.com/clipperhouse/uax29/v2/graphemes
 github.com/clipperhouse/uax29/v2/internal/iterators
@@ -604,11 +610,11 @@ github.com/manuelarte/embeddedstructfieldcheck/internal
 ## explicit; go 1.23.0
 github.com/manuelarte/funcorder/analyzer
 github.com/manuelarte/funcorder/internal
-# github.com/maratori/testableexamples v1.0.0
-## explicit; go 1.19
+# github.com/maratori/testableexamples v1.0.1
+## explicit; go 1.22.0
 github.com/maratori/testableexamples/pkg/testableexamples
-# github.com/maratori/testpackage v1.1.1
-## explicit; go 1.20
+# github.com/maratori/testpackage v1.1.2
+## explicit; go 1.22.0
 github.com/maratori/testpackage/pkg/testpackage
 # github.com/matoous/godox v1.1.0
 ## explicit; go 1.18
