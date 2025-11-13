@@ -268,6 +268,28 @@ type BaselineEbsBandwidthMbpsRequest struct {
 	noSmithyDocumentSerde
 }
 
+// Configuration for a canary deployment strategy that shifts a fixed percentage
+// of traffic to the new service revision, waits for a specified bake time, then
+// shifts the remaining traffic.
+//
+// This is only valid when you run CreateService or UpdateService with
+// deploymentController set to ECS and a deploymentConfiguration with a strategy
+// set to CANARY .
+type CanaryConfiguration struct {
+
+	// The amount of time in minutes to wait during the canary phase before shifting
+	// the remaining production traffic to the new service revision. Valid values are 0
+	// to 1440 minutes (24 hours). The default value is 10.
+	CanaryBakeTimeInMinutes *int32
+
+	// The percentage of production traffic to shift to the new service revision
+	// during the canary phase. Valid values are multiples of 0.1 from 0.1 to 100.0.
+	// The default value is 5.0.
+	CanaryPercent *float64
+
+	noSmithyDocumentSerde
+}
+
 // The details for a capacity provider.
 type CapacityProvider struct {
 
@@ -280,6 +302,8 @@ type CapacityProvider struct {
 	// The cluster that this capacity provider is associated with. Managed instances
 	// capacity providers are cluster-scoped, meaning they can only be used within
 	// their associated cluster.
+	//
+	// This is required for Managed instances.
 	Cluster *string
 
 	// The configuration for the Amazon ECS Managed Instances provider. This includes
@@ -393,9 +417,9 @@ type CapacityProviderStrategyItem struct {
 	//
 	//   - Only one capacity provider in a strategy can have a base defined
 	//
-	//   - Default value is 0 if not specified
+	//   - The default value is 0 if not specified
 	//
-	//   - Valid range: 0 to 100,000
+	//   - The valid range is 0 to 100,000
 	//
 	//   - Base requirements are satisfied first before weight distribution
 	Base int32
@@ -417,9 +441,9 @@ type CapacityProviderStrategyItem struct {
 	//
 	//   - Weight is considered after the base value is satisfied
 	//
-	//   - Default value is 0 if not specified
+	//   - The default value is 0 if not specified
 	//
-	//   - Valid range: 0 to 1,000
+	//   - The valid range is 0 to 1,000
 	//
 	//   - At least one capacity provider must have a weight greater than zero
 	//
@@ -792,7 +816,7 @@ type ContainerDefinition struct {
 	Command []string
 
 	// The number of cpu units reserved for the container. This parameter maps to
-	// CpuShares in the docker container create commandand the --cpu-shares option to
+	// CpuShares in the docker container create command and the --cpu-shares option to
 	// docker run.
 	//
 	// This field is optional for tasks using the Fargate launch type, and the only
@@ -2019,6 +2043,12 @@ type DeploymentConfiguration struct {
 	// You must provide this parameter when you use the BLUE_GREEN deployment strategy.
 	BakeTimeInMinutes *int32
 
+	// Configuration for canary deployment strategy. Only valid when the deployment
+	// strategy is CANARY . This configuration enables shifting a fixed percentage of
+	// traffic for testing, followed by shifting the remaining traffic after a bake
+	// period.
+	CanaryConfiguration *CanaryConfiguration
+
 	// The deployment circuit breaker can only be used for services using the rolling
 	// update ( ECS ) deployment type.
 	//
@@ -2036,6 +2066,11 @@ type DeploymentConfiguration struct {
 	// An array of deployment lifecycle hook objects to run custom logic at specific
 	// stages of the deployment lifecycle.
 	LifecycleHooks []DeploymentLifecycleHook
+
+	// Configuration for linear deployment strategy. Only valid when the deployment
+	// strategy is LINEAR . This configuration enables progressive traffic shifting in
+	// equal percentage increments with configurable bake times between each step.
+	LinearConfiguration *LinearConfiguration
 
 	// If a service is using the rolling update ( ECS ) deployment type, the
 	// maximumPercent parameter represents an upper limit on the number of your
@@ -2156,6 +2191,17 @@ type DeploymentConfiguration struct {
 	//   can validate new service revisions before directing production traffic to them.
 	//   This approach provides a safer way to deploy changes with the ability to quickly
 	//   roll back if needed.
+	//
+	//   - LINEAR - A linear deployment strategy ( LINEAR ) gradually shifts traffic
+	//   from the current production environment to a new environment in equal
+	//   percentages over time. With Amazon ECS linear deployments, you can control the
+	//   pace of traffic shifting and validate new service revisions with increasing
+	//   amounts of production traffic.
+	//
+	//   - CANARY - A canary deployment strategy ( CANARY ) shifts a small percentage
+	//   of traffic to the new service revision first, then shifts the remaining traffic
+	//   all at once after a specified time period. This allows you to test the new
+	//   version with a subset of users before full deployment.
 	Strategy DeploymentStrategy
 
 	noSmithyDocumentSerde
@@ -3315,6 +3361,26 @@ type KeyValuePair struct {
 	// The value of the key-value pair. For environment variables, this is the value
 	// of the environment variable.
 	Value *string
+
+	noSmithyDocumentSerde
+}
+
+// Configuration for linear deployment strategy that shifts production traffic in
+// equal percentage increments with configurable wait times between each step until
+// 100% of traffic is shifted to the new service revision. This is only valid when
+// you run CreateService or UpdateService with deploymentController set to ECS and
+// a deploymentConfiguration with a strategy set to LINEAR .
+type LinearConfiguration struct {
+
+	// The amount of time in minutes to wait between each traffic shifting step during
+	// a linear deployment. Valid values are 0 to 1440 minutes (24 hours). The default
+	// value is 6. This bake time is not applied after reaching 100 percent traffic.
+	StepBakeTimeInMinutes *int32
+
+	// The percentage of production traffic to shift in each step during a linear
+	// deployment. Valid values are multiples of 0.1 from 3.0 to 100.0. The default
+	// value is 10.0.
+	StepPercent *float64
 
 	noSmithyDocumentSerde
 }
@@ -4508,8 +4574,8 @@ type RuntimePlatform struct {
 	// The CPU architecture.
 	//
 	// You can run your Linux tasks on an ARM-based platform by setting the value to
-	// ARM64 . This option is available for tasks that run on Linux Amazon EC2 instance
-	// or Linux containers on Fargate.
+	// ARM64 . This option is available for tasks that run on Linux Amazon EC2
+	// instance, Amazon ECS Managed Instances, or Linux containers on Fargate.
 	CpuArchitecture CPUArchitecture
 
 	// The operating system.
@@ -4785,6 +4851,32 @@ type Service struct {
 	noSmithyDocumentSerde
 }
 
+// Configuration for Service Connect access logging. Access logs provide detailed
+// information about requests made to your service, including request patterns,
+// response codes, and timing data for debugging and monitoring purposes.
+//
+// To enable access logs, you must also specify a logConfiguration in the
+// serviceConnectConfiguration .
+type ServiceConnectAccessLogConfiguration struct {
+
+	// The format for Service Connect access log output. Choose TEXT for
+	// human-readable logs or JSON for structured data that integrates well with log
+	// analysis tools.
+	//
+	// This member is required.
+	Format ServiceConnectAccessLoggingFormat
+
+	// Specifies whether to include query parameters in Service Connect access logs.
+	//
+	// When enabled, query parameters from HTTP requests are included in the access
+	// logs. Consider security and privacy implications when enabling this feature, as
+	// query parameters may contain sensitive information such as request IDs and
+	// tokens. By default, this parameter is DISABLED .
+	IncludeQueryParameters ServiceConnectIncludeQueryParameters
+
+	noSmithyDocumentSerde
+}
+
 // Each alias ("endpoint") is a fully-qualified name and port number that other
 // tasks ("clients") can use to connect to this service.
 //
@@ -4858,6 +4950,16 @@ type ServiceConnectConfiguration struct {
 	//
 	// This member is required.
 	Enabled bool
+
+	// The configuration for Service Connect access logging. Access logs capture
+	// detailed information about requests made to your service, including request
+	// patterns, response codes, and timing data. They can be useful for debugging
+	// connectivity issues, monitoring service performance, and auditing
+	// service-to-service communication for security and compliance purposes.
+	//
+	// To enable access logs, you must also specify a logConfiguration in the
+	// serviceConnectConfiguration .
+	AccessLogConfiguration *ServiceConnectAccessLogConfiguration
 
 	// The log configuration for the container. This parameter maps to LogConfig in
 	// the docker container create command and the --log-driver option to docker run.
@@ -5648,8 +5750,18 @@ type ServiceRevisionSummary struct {
 	// The number of pending tasks for the service revision.
 	PendingTaskCount int32
 
+	// The percentage of production traffic that is directed to this service revision.
+	// This value represents a snapshot of the traffic distribution and may not reflect
+	// real-time changes during active deployments. Valid values are 0.0 to 100.0.
+	RequestedProductionTrafficWeight *float64
+
 	// The number of requested tasks for the service revision.
 	RequestedTaskCount int32
+
+	// The percentage of test traffic that is directed to this service revision. This
+	// value represents a snapshot of the traffic distribution and may not reflect
+	// real-time changes during active deployments. Valid values are 0.0 to 100.0.
+	RequestedTestTrafficWeight *float64
 
 	// The number of running tasks for the service revision.
 	RunningTaskCount int32
@@ -6225,7 +6337,8 @@ type TaskDefinition struct {
 	// If task is specified, all containers within the specified task share the same
 	// process namespace.
 	//
-	// If no value is specified, the default is a private namespace for each container.
+	// If no value is specified, the The default is a private namespace for each
+	// container.
 	//
 	// If the host PID mode is used, there's a heightened risk of undesired process
 	// namespace exposure.
@@ -6275,8 +6388,8 @@ type TaskDefinition struct {
 	RequiresAttributes []Attribute
 
 	// The task launch types the task definition was validated against. The valid
-	// values are EC2 , FARGATE , and EXTERNAL . For more information, see [Amazon ECS launch types] in the
-	// Amazon Elastic Container Service Developer Guide.
+	// values are MANAGED_INSTANCES , EC2 , FARGATE , and EXTERNAL . For more
+	// information, see [Amazon ECS launch types]in the Amazon Elastic Container Service Developer Guide.
 	//
 	// [Amazon ECS launch types]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html
 	RequiresCompatibilities []Compatibility

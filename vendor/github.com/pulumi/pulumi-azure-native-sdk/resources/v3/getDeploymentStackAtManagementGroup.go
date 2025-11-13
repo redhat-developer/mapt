@@ -11,7 +11,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-// Gets a Deployment stack with a given name at Management Group scope.
+// Gets the Deployment stack with the given name.
 //
 // Uses Azure REST API version 2024-03-01.
 //
@@ -29,7 +29,7 @@ func LookupDeploymentStackAtManagementGroup(ctx *pulumi.Context, args *LookupDep
 type LookupDeploymentStackAtManagementGroupArgs struct {
 	// Name of the deployment stack.
 	DeploymentStackName string `pulumi:"deploymentStackName"`
-	// Management Group id.
+	// The name of the management group. The name is case insensitive.
 	ManagementGroupId string `pulumi:"managementGroupId"`
 }
 
@@ -61,11 +61,11 @@ type LookupDeploymentStackAtManagementGroupResult struct {
 	Error *ErrorDetailResponse `pulumi:"error"`
 	// An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
 	FailedResources []ResourceReferenceExtendedResponse `pulumi:"failedResources"`
-	// String Id used to locate any resource on Azure.
+	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id string `pulumi:"id"`
-	// The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations.
+	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 	Location *string `pulumi:"location"`
-	// Name of this resource.
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The outputs of the deployment resource created by the deployment stack.
 	Outputs interface{} `pulumi:"outputs"`
@@ -79,9 +79,9 @@ type LookupDeploymentStackAtManagementGroupResult struct {
 	Resources []ManagedResourceReferenceResponse `pulumi:"resources"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData SystemDataResponse `pulumi:"systemData"`
-	// Deployment stack resource tags.
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
-	// Type of this resource.
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -97,7 +97,7 @@ func LookupDeploymentStackAtManagementGroupOutput(ctx *pulumi.Context, args Look
 type LookupDeploymentStackAtManagementGroupOutputArgs struct {
 	// Name of the deployment stack.
 	DeploymentStackName pulumi.StringInput `pulumi:"deploymentStackName"`
-	// Management Group id.
+	// The name of the management group. The name is case insensitive.
 	ManagementGroupId pulumi.StringInput `pulumi:"managementGroupId"`
 }
 
@@ -195,17 +195,17 @@ func (o LookupDeploymentStackAtManagementGroupResultOutput) FailedResources() Re
 	}).(ResourceReferenceExtendedResponseArrayOutput)
 }
 
-// String Id used to locate any resource on Azure.
+// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 func (o LookupDeploymentStackAtManagementGroupResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDeploymentStackAtManagementGroupResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations.
+// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 func (o LookupDeploymentStackAtManagementGroupResultOutput) Location() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupDeploymentStackAtManagementGroupResult) *string { return v.Location }).(pulumi.StringPtrOutput)
 }
 
-// Name of this resource.
+// The name of the resource
 func (o LookupDeploymentStackAtManagementGroupResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDeploymentStackAtManagementGroupResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -246,12 +246,12 @@ func (o LookupDeploymentStackAtManagementGroupResultOutput) SystemData() SystemD
 	return o.ApplyT(func(v LookupDeploymentStackAtManagementGroupResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
 }
 
-// Deployment stack resource tags.
+// Resource tags.
 func (o LookupDeploymentStackAtManagementGroupResultOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v LookupDeploymentStackAtManagementGroupResult) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Type of this resource.
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupDeploymentStackAtManagementGroupResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupDeploymentStackAtManagementGroupResult) string { return v.Type }).(pulumi.StringOutput)
 }

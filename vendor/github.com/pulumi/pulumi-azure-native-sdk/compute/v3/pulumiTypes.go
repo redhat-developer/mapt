@@ -26642,13 +26642,13 @@ func (o PatchSettingsResponsePtrOutput) PatchMode() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Describes the user-defined constraints for virtual machine hardware placement.
+// Describes the user-defined constraints for resource hardware placement.
 type Placement struct {
-	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
+	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
 	ExcludeZones []string `pulumi:"excludeZones"`
-	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
+	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
 	IncludeZones []string `pulumi:"includeZones"`
-	// Specifies the policy for virtual machine's placement in availability zone. Possible values are: **Any** - An availability zone will be automatically picked by system as part of virtual machine creation.
+	// Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation.
 	ZonePlacementPolicy *string `pulumi:"zonePlacementPolicy"`
 }
 
@@ -26663,13 +26663,13 @@ type PlacementInput interface {
 	ToPlacementOutputWithContext(context.Context) PlacementOutput
 }
 
-// Describes the user-defined constraints for virtual machine hardware placement.
+// Describes the user-defined constraints for resource hardware placement.
 type PlacementArgs struct {
-	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
+	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
 	ExcludeZones pulumi.StringArrayInput `pulumi:"excludeZones"`
-	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
+	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
 	IncludeZones pulumi.StringArrayInput `pulumi:"includeZones"`
-	// Specifies the policy for virtual machine's placement in availability zone. Possible values are: **Any** - An availability zone will be automatically picked by system as part of virtual machine creation.
+	// Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation.
 	ZonePlacementPolicy pulumi.StringPtrInput `pulumi:"zonePlacementPolicy"`
 }
 
@@ -26726,7 +26726,7 @@ func (i *placementPtrType) ToPlacementPtrOutputWithContext(ctx context.Context) 
 	return pulumi.ToOutputWithContext(ctx, i).(PlacementPtrOutput)
 }
 
-// Describes the user-defined constraints for virtual machine hardware placement.
+// Describes the user-defined constraints for resource hardware placement.
 type PlacementOutput struct{ *pulumi.OutputState }
 
 func (PlacementOutput) ElementType() reflect.Type {
@@ -26751,17 +26751,17 @@ func (o PlacementOutput) ToPlacementPtrOutputWithContext(ctx context.Context) Pl
 	}).(PlacementPtrOutput)
 }
 
-// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
+// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
 func (o PlacementOutput) ExcludeZones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v Placement) []string { return v.ExcludeZones }).(pulumi.StringArrayOutput)
 }
 
-// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
+// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
 func (o PlacementOutput) IncludeZones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v Placement) []string { return v.IncludeZones }).(pulumi.StringArrayOutput)
 }
 
-// Specifies the policy for virtual machine's placement in availability zone. Possible values are: **Any** - An availability zone will be automatically picked by system as part of virtual machine creation.
+// Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation.
 func (o PlacementOutput) ZonePlacementPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v Placement) *string { return v.ZonePlacementPolicy }).(pulumi.StringPtrOutput)
 }
@@ -26790,7 +26790,7 @@ func (o PlacementPtrOutput) Elem() PlacementOutput {
 	}).(PlacementOutput)
 }
 
-// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
+// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
 func (o PlacementPtrOutput) ExcludeZones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *Placement) []string {
 		if v == nil {
@@ -26800,7 +26800,7 @@ func (o PlacementPtrOutput) ExcludeZones() pulumi.StringArrayOutput {
 	}).(pulumi.StringArrayOutput)
 }
 
-// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
+// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
 func (o PlacementPtrOutput) IncludeZones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *Placement) []string {
 		if v == nil {
@@ -26810,7 +26810,7 @@ func (o PlacementPtrOutput) IncludeZones() pulumi.StringArrayOutput {
 	}).(pulumi.StringArrayOutput)
 }
 
-// Specifies the policy for virtual machine's placement in availability zone. Possible values are: **Any** - An availability zone will be automatically picked by system as part of virtual machine creation.
+// Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation.
 func (o PlacementPtrOutput) ZonePlacementPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Placement) *string {
 		if v == nil {
@@ -26820,17 +26820,17 @@ func (o PlacementPtrOutput) ZonePlacementPolicy() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Describes the user-defined constraints for virtual machine hardware placement.
+// Describes the user-defined constraints for resource hardware placement.
 type PlacementResponse struct {
-	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
+	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
 	ExcludeZones []string `pulumi:"excludeZones"`
-	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
+	// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
 	IncludeZones []string `pulumi:"includeZones"`
-	// Specifies the policy for virtual machine's placement in availability zone. Possible values are: **Any** - An availability zone will be automatically picked by system as part of virtual machine creation.
+	// Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation.
 	ZonePlacementPolicy *string `pulumi:"zonePlacementPolicy"`
 }
 
-// Describes the user-defined constraints for virtual machine hardware placement.
+// Describes the user-defined constraints for resource hardware placement.
 type PlacementResponseOutput struct{ *pulumi.OutputState }
 
 func (PlacementResponseOutput) ElementType() reflect.Type {
@@ -26845,17 +26845,17 @@ func (o PlacementResponseOutput) ToPlacementResponseOutputWithContext(ctx contex
 	return o
 }
 
-// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
+// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
 func (o PlacementResponseOutput) ExcludeZones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v PlacementResponse) []string { return v.ExcludeZones }).(pulumi.StringArrayOutput)
 }
 
-// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
+// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
 func (o PlacementResponseOutput) IncludeZones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v PlacementResponse) []string { return v.IncludeZones }).(pulumi.StringArrayOutput)
 }
 
-// Specifies the policy for virtual machine's placement in availability zone. Possible values are: **Any** - An availability zone will be automatically picked by system as part of virtual machine creation.
+// Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation.
 func (o PlacementResponseOutput) ZonePlacementPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v PlacementResponse) *string { return v.ZonePlacementPolicy }).(pulumi.StringPtrOutput)
 }
@@ -26884,7 +26884,7 @@ func (o PlacementResponsePtrOutput) Elem() PlacementResponseOutput {
 	}).(PlacementResponseOutput)
 }
 
-// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
+// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must not be present in the list of availability zones passed with 'excludeZones'. If 'excludeZones' is not provided, all availability zones in region will be considered for selection.
 func (o PlacementResponsePtrOutput) ExcludeZones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *PlacementResponse) []string {
 		if v == nil {
@@ -26894,7 +26894,7 @@ func (o PlacementResponsePtrOutput) ExcludeZones() pulumi.StringArrayOutput {
 	}).(pulumi.StringArrayOutput)
 }
 
-// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
+// This property supplements the 'zonePlacementPolicy' property. If 'zonePlacementPolicy' is set to 'Any'/'Auto', availability zone selected by the system must be present in the list of availability zones passed with 'includeZones'. If 'includeZones' is not provided, all availability zones in region will be considered for selection.
 func (o PlacementResponsePtrOutput) IncludeZones() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *PlacementResponse) []string {
 		if v == nil {
@@ -26904,7 +26904,7 @@ func (o PlacementResponsePtrOutput) IncludeZones() pulumi.StringArrayOutput {
 	}).(pulumi.StringArrayOutput)
 }
 
-// Specifies the policy for virtual machine's placement in availability zone. Possible values are: **Any** - An availability zone will be automatically picked by system as part of virtual machine creation.
+// Specifies the policy for resource's placement in availability zone. Possible values are: **Any** (used for Virtual Machines), **Auto** (used for Virtual Machine Scale Sets) - An availability zone will be automatically picked by system as part of resource creation.
 func (o PlacementResponsePtrOutput) ZonePlacementPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *PlacementResponse) *string {
 		if v == nil {
@@ -29910,7 +29910,7 @@ func (o ResourceRangeResponsePtrOutput) Min() pulumi.IntPtrOutput {
 }
 
 type ResourceSharingProfile struct {
-	// Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+	// Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block Capacity Reservations does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 	SubscriptionIds []SubResource `pulumi:"subscriptionIds"`
 }
 
@@ -29926,7 +29926,7 @@ type ResourceSharingProfileInput interface {
 }
 
 type ResourceSharingProfileArgs struct {
-	// Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+	// Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block Capacity Reservations does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 	SubscriptionIds SubResourceArrayInput `pulumi:"subscriptionIds"`
 }
 
@@ -30007,7 +30007,7 @@ func (o ResourceSharingProfileOutput) ToResourceSharingProfilePtrOutputWithConte
 	}).(ResourceSharingProfilePtrOutput)
 }
 
-// Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+// Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block Capacity Reservations does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 func (o ResourceSharingProfileOutput) SubscriptionIds() SubResourceArrayOutput {
 	return o.ApplyT(func(v ResourceSharingProfile) []SubResource { return v.SubscriptionIds }).(SubResourceArrayOutput)
 }
@@ -30036,7 +30036,7 @@ func (o ResourceSharingProfilePtrOutput) Elem() ResourceSharingProfileOutput {
 	}).(ResourceSharingProfileOutput)
 }
 
-// Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+// Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block Capacity Reservations does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 func (o ResourceSharingProfilePtrOutput) SubscriptionIds() SubResourceArrayOutput {
 	return o.ApplyT(func(v *ResourceSharingProfile) []SubResource {
 		if v == nil {
@@ -30047,7 +30047,7 @@ func (o ResourceSharingProfilePtrOutput) SubscriptionIds() SubResourceArrayOutpu
 }
 
 type ResourceSharingProfileResponse struct {
-	// Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+	// Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block Capacity Reservations does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 	SubscriptionIds []SubResourceResponse `pulumi:"subscriptionIds"`
 }
 
@@ -30065,7 +30065,7 @@ func (o ResourceSharingProfileResponseOutput) ToResourceSharingProfileResponseOu
 	return o
 }
 
-// Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+// Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block Capacity Reservations does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 func (o ResourceSharingProfileResponseOutput) SubscriptionIds() SubResourceResponseArrayOutput {
 	return o.ApplyT(func(v ResourceSharingProfileResponse) []SubResourceResponse { return v.SubscriptionIds }).(SubResourceResponseArrayOutput)
 }
@@ -30094,7 +30094,7 @@ func (o ResourceSharingProfileResponsePtrOutput) Elem() ResourceSharingProfileRe
 	}).(ResourceSharingProfileResponseOutput)
 }
 
-// Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+// Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block Capacity Reservations does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 func (o ResourceSharingProfileResponsePtrOutput) SubscriptionIds() SubResourceResponseArrayOutput {
 	return o.ApplyT(func(v *ResourceSharingProfileResponse) []SubResourceResponse {
 		if v == nil {
@@ -44851,9 +44851,9 @@ func (o VirtualMachineRunCommandInstanceViewResponseOutput) Statuses() InstanceV
 	return o.ApplyT(func(v VirtualMachineRunCommandInstanceViewResponse) []InstanceViewStatusResponse { return v.Statuses }).(InstanceViewStatusResponseArrayOutput)
 }
 
-// Describes the script sources for run command. Use only one of script, scriptUri, commandId.
+// Describes the script sources for run command. Use only one of these script sources: script, scriptUri, commandId, galleryScriptReferenceId.
 type VirtualMachineRunCommandScriptSource struct {
-	// Specifies a commandId of predefined built-in script.
+	// Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands.
 	CommandId *string `pulumi:"commandId"`
 	// Specifies the script content to be executed on the VM.
 	Script *string `pulumi:"script"`
@@ -44874,9 +44874,9 @@ type VirtualMachineRunCommandScriptSourceInput interface {
 	ToVirtualMachineRunCommandScriptSourceOutputWithContext(context.Context) VirtualMachineRunCommandScriptSourceOutput
 }
 
-// Describes the script sources for run command. Use only one of script, scriptUri, commandId.
+// Describes the script sources for run command. Use only one of these script sources: script, scriptUri, commandId, galleryScriptReferenceId.
 type VirtualMachineRunCommandScriptSourceArgs struct {
-	// Specifies a commandId of predefined built-in script.
+	// Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands.
 	CommandId pulumi.StringPtrInput `pulumi:"commandId"`
 	// Specifies the script content to be executed on the VM.
 	Script pulumi.StringPtrInput `pulumi:"script"`
@@ -44939,7 +44939,7 @@ func (i *virtualMachineRunCommandScriptSourcePtrType) ToVirtualMachineRunCommand
 	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineRunCommandScriptSourcePtrOutput)
 }
 
-// Describes the script sources for run command. Use only one of script, scriptUri, commandId.
+// Describes the script sources for run command. Use only one of these script sources: script, scriptUri, commandId, galleryScriptReferenceId.
 type VirtualMachineRunCommandScriptSourceOutput struct{ *pulumi.OutputState }
 
 func (VirtualMachineRunCommandScriptSourceOutput) ElementType() reflect.Type {
@@ -44964,7 +44964,7 @@ func (o VirtualMachineRunCommandScriptSourceOutput) ToVirtualMachineRunCommandSc
 	}).(VirtualMachineRunCommandScriptSourcePtrOutput)
 }
 
-// Specifies a commandId of predefined built-in script.
+// Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands.
 func (o VirtualMachineRunCommandScriptSourceOutput) CommandId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineRunCommandScriptSource) *string { return v.CommandId }).(pulumi.StringPtrOutput)
 }
@@ -45010,7 +45010,7 @@ func (o VirtualMachineRunCommandScriptSourcePtrOutput) Elem() VirtualMachineRunC
 	}).(VirtualMachineRunCommandScriptSourceOutput)
 }
 
-// Specifies a commandId of predefined built-in script.
+// Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands.
 func (o VirtualMachineRunCommandScriptSourcePtrOutput) CommandId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VirtualMachineRunCommandScriptSource) *string {
 		if v == nil {
@@ -45050,9 +45050,9 @@ func (o VirtualMachineRunCommandScriptSourcePtrOutput) ScriptUriManagedIdentity(
 	}).(RunCommandManagedIdentityPtrOutput)
 }
 
-// Describes the script sources for run command. Use only one of script, scriptUri, commandId.
+// Describes the script sources for run command. Use only one of these script sources: script, scriptUri, commandId, galleryScriptReferenceId.
 type VirtualMachineRunCommandScriptSourceResponse struct {
-	// Specifies a commandId of predefined built-in script.
+	// Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands.
 	CommandId *string `pulumi:"commandId"`
 	// Specifies the script content to be executed on the VM.
 	Script *string `pulumi:"script"`
@@ -45062,7 +45062,7 @@ type VirtualMachineRunCommandScriptSourceResponse struct {
 	ScriptUriManagedIdentity *RunCommandManagedIdentityResponse `pulumi:"scriptUriManagedIdentity"`
 }
 
-// Describes the script sources for run command. Use only one of script, scriptUri, commandId.
+// Describes the script sources for run command. Use only one of these script sources: script, scriptUri, commandId, galleryScriptReferenceId.
 type VirtualMachineRunCommandScriptSourceResponseOutput struct{ *pulumi.OutputState }
 
 func (VirtualMachineRunCommandScriptSourceResponseOutput) ElementType() reflect.Type {
@@ -45077,7 +45077,7 @@ func (o VirtualMachineRunCommandScriptSourceResponseOutput) ToVirtualMachineRunC
 	return o
 }
 
-// Specifies a commandId of predefined built-in script.
+// Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands.
 func (o VirtualMachineRunCommandScriptSourceResponseOutput) CommandId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineRunCommandScriptSourceResponse) *string { return v.CommandId }).(pulumi.StringPtrOutput)
 }
@@ -45123,7 +45123,7 @@ func (o VirtualMachineRunCommandScriptSourceResponsePtrOutput) Elem() VirtualMac
 	}).(VirtualMachineRunCommandScriptSourceResponseOutput)
 }
 
-// Specifies a commandId of predefined built-in script.
+// Specifies a commandId of predefined built-in script. Command IDs available for Linux are listed at https://aka.ms/RunCommandManagedLinux#available-commands, Windows at https://aka.ms/RunCommandManagedWindows#available-commands.
 func (o VirtualMachineRunCommandScriptSourceResponsePtrOutput) CommandId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *VirtualMachineRunCommandScriptSourceResponse) *string {
 		if v == nil {

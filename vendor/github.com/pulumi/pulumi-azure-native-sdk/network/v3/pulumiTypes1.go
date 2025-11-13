@@ -13,6 +13,87 @@ import (
 
 var _ = utilities.GetEnvOrDefault
 
+// A collective group of information about the record set information.
+type RecordSetResponse struct {
+	// Fqdn that resolves to private endpoint ip address.
+	Fqdn *string `pulumi:"fqdn"`
+	// The private ip address of the private endpoint.
+	IpAddresses []string `pulumi:"ipAddresses"`
+	// The provisioning state of the recordset.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// Recordset name.
+	RecordSetName *string `pulumi:"recordSetName"`
+	// Resource record type.
+	RecordType *string `pulumi:"recordType"`
+	// Recordset time to live.
+	Ttl *int `pulumi:"ttl"`
+}
+
+// A collective group of information about the record set information.
+type RecordSetResponseOutput struct{ *pulumi.OutputState }
+
+func (RecordSetResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RecordSetResponse)(nil)).Elem()
+}
+
+func (o RecordSetResponseOutput) ToRecordSetResponseOutput() RecordSetResponseOutput {
+	return o
+}
+
+func (o RecordSetResponseOutput) ToRecordSetResponseOutputWithContext(ctx context.Context) RecordSetResponseOutput {
+	return o
+}
+
+// Fqdn that resolves to private endpoint ip address.
+func (o RecordSetResponseOutput) Fqdn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RecordSetResponse) *string { return v.Fqdn }).(pulumi.StringPtrOutput)
+}
+
+// The private ip address of the private endpoint.
+func (o RecordSetResponseOutput) IpAddresses() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v RecordSetResponse) []string { return v.IpAddresses }).(pulumi.StringArrayOutput)
+}
+
+// The provisioning state of the recordset.
+func (o RecordSetResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v RecordSetResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// Recordset name.
+func (o RecordSetResponseOutput) RecordSetName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RecordSetResponse) *string { return v.RecordSetName }).(pulumi.StringPtrOutput)
+}
+
+// Resource record type.
+func (o RecordSetResponseOutput) RecordType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RecordSetResponse) *string { return v.RecordType }).(pulumi.StringPtrOutput)
+}
+
+// Recordset time to live.
+func (o RecordSetResponseOutput) Ttl() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v RecordSetResponse) *int { return v.Ttl }).(pulumi.IntPtrOutput)
+}
+
+type RecordSetResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (RecordSetResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]RecordSetResponse)(nil)).Elem()
+}
+
+func (o RecordSetResponseArrayOutput) ToRecordSetResponseArrayOutput() RecordSetResponseArrayOutput {
+	return o
+}
+
+func (o RecordSetResponseArrayOutput) ToRecordSetResponseArrayOutputWithContext(ctx context.Context) RecordSetResponseArrayOutput {
+	return o
+}
+
+func (o RecordSetResponseArrayOutput) Index(i pulumi.IntInput) RecordSetResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) RecordSetResponse {
+		return vs[0].([]RecordSetResponse)[vs[1].(int)]
+	}).(RecordSetResponseOutput)
+}
+
 // Reference to a public IP address.
 type ReferencedPublicIpAddressResponse struct {
 	// The PublicIPAddress Reference.
@@ -20431,6 +20512,8 @@ func (o WebApplicationFirewallScrubbingRulesResponseArrayOutput) Index(i pulumi.
 }
 
 func init() {
+	pulumi.RegisterOutputType(RecordSetResponseOutput{})
+	pulumi.RegisterOutputType(RecordSetResponseArrayOutput{})
 	pulumi.RegisterOutputType(ReferencedPublicIpAddressResponseOutput{})
 	pulumi.RegisterOutputType(ReferencedPublicIpAddressResponseArrayOutput{})
 	pulumi.RegisterOutputType(ResiliencyRecommendationComponentsResponseOutput{})

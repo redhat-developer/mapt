@@ -1527,6 +1527,175 @@ func (in *deploymentSafeguardsLevelPtr) ToDeploymentSafeguardsLevelPtrOutputWith
 	return pulumi.ToOutputWithContext(ctx, in).(DeploymentSafeguardsLevelPtrOutput)
 }
 
+// The stage at which the script is executed.
+// Specifying `NodeImageBuildTime` will ensure changes are persisted into the node image.
+type ExecutionPoint string
+
+const (
+	// Execute during node image build time.
+	ExecutionPointNodeImageBuildTime = ExecutionPoint("NodeImageBuildTime")
+	// Execute during node provisioning time.
+	ExecutionPointNodeProvisionTime = ExecutionPoint("NodeProvisionTime")
+)
+
+func (ExecutionPoint) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExecutionPoint)(nil)).Elem()
+}
+
+func (e ExecutionPoint) ToExecutionPointOutput() ExecutionPointOutput {
+	return pulumi.ToOutput(e).(ExecutionPointOutput)
+}
+
+func (e ExecutionPoint) ToExecutionPointOutputWithContext(ctx context.Context) ExecutionPointOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ExecutionPointOutput)
+}
+
+func (e ExecutionPoint) ToExecutionPointPtrOutput() ExecutionPointPtrOutput {
+	return e.ToExecutionPointPtrOutputWithContext(context.Background())
+}
+
+func (e ExecutionPoint) ToExecutionPointPtrOutputWithContext(ctx context.Context) ExecutionPointPtrOutput {
+	return ExecutionPoint(e).ToExecutionPointOutputWithContext(ctx).ToExecutionPointPtrOutputWithContext(ctx)
+}
+
+func (e ExecutionPoint) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ExecutionPoint) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ExecutionPoint) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ExecutionPoint) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ExecutionPointOutput struct{ *pulumi.OutputState }
+
+func (ExecutionPointOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ExecutionPoint)(nil)).Elem()
+}
+
+func (o ExecutionPointOutput) ToExecutionPointOutput() ExecutionPointOutput {
+	return o
+}
+
+func (o ExecutionPointOutput) ToExecutionPointOutputWithContext(ctx context.Context) ExecutionPointOutput {
+	return o
+}
+
+func (o ExecutionPointOutput) ToExecutionPointPtrOutput() ExecutionPointPtrOutput {
+	return o.ToExecutionPointPtrOutputWithContext(context.Background())
+}
+
+func (o ExecutionPointOutput) ToExecutionPointPtrOutputWithContext(ctx context.Context) ExecutionPointPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ExecutionPoint) *ExecutionPoint {
+		return &v
+	}).(ExecutionPointPtrOutput)
+}
+
+func (o ExecutionPointOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ExecutionPointOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ExecutionPoint) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ExecutionPointOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ExecutionPointOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ExecutionPoint) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ExecutionPointPtrOutput struct{ *pulumi.OutputState }
+
+func (ExecutionPointPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ExecutionPoint)(nil)).Elem()
+}
+
+func (o ExecutionPointPtrOutput) ToExecutionPointPtrOutput() ExecutionPointPtrOutput {
+	return o
+}
+
+func (o ExecutionPointPtrOutput) ToExecutionPointPtrOutputWithContext(ctx context.Context) ExecutionPointPtrOutput {
+	return o
+}
+
+func (o ExecutionPointPtrOutput) Elem() ExecutionPointOutput {
+	return o.ApplyT(func(v *ExecutionPoint) ExecutionPoint {
+		if v != nil {
+			return *v
+		}
+		var ret ExecutionPoint
+		return ret
+	}).(ExecutionPointOutput)
+}
+
+func (o ExecutionPointPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ExecutionPointPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ExecutionPoint) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ExecutionPointInput is an input type that accepts values of the ExecutionPoint enum
+// A concrete instance of `ExecutionPointInput` can be one of the following:
+//
+//	ExecutionPointNodeImageBuildTime
+//	ExecutionPointNodeProvisionTime
+type ExecutionPointInput interface {
+	pulumi.Input
+
+	ToExecutionPointOutput() ExecutionPointOutput
+	ToExecutionPointOutputWithContext(context.Context) ExecutionPointOutput
+}
+
+var executionPointPtrType = reflect.TypeOf((**ExecutionPoint)(nil)).Elem()
+
+type ExecutionPointPtrInput interface {
+	pulumi.Input
+
+	ToExecutionPointPtrOutput() ExecutionPointPtrOutput
+	ToExecutionPointPtrOutputWithContext(context.Context) ExecutionPointPtrOutput
+}
+
+type executionPointPtr string
+
+func ExecutionPointPtr(v string) ExecutionPointPtrInput {
+	return (*executionPointPtr)(&v)
+}
+
+func (*executionPointPtr) ElementType() reflect.Type {
+	return executionPointPtrType
+}
+
+func (in *executionPointPtr) ToExecutionPointPtrOutput() ExecutionPointPtrOutput {
+	return pulumi.ToOutput(in).(ExecutionPointPtrOutput)
+}
+
+func (in *executionPointPtr) ToExecutionPointPtrOutputWithContext(ctx context.Context) ExecutionPointPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ExecutionPointPtrOutput)
+}
+
 // If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 type Expander string
 
@@ -7286,6 +7455,174 @@ func (in *scaleSetPriorityPtr) ToScaleSetPriorityPtrOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, in).(ScaleSetPriorityPtrOutput)
 }
 
+// The runtime environment for the script (e.g. Bash).
+type ScriptType string
+
+const (
+	// Bash script.
+	ScriptTypeBash = ScriptType("Bash")
+	// PowerShell script.
+	ScriptTypePowerShell = ScriptType("PowerShell")
+)
+
+func (ScriptType) ElementType() reflect.Type {
+	return reflect.TypeOf((*ScriptType)(nil)).Elem()
+}
+
+func (e ScriptType) ToScriptTypeOutput() ScriptTypeOutput {
+	return pulumi.ToOutput(e).(ScriptTypeOutput)
+}
+
+func (e ScriptType) ToScriptTypeOutputWithContext(ctx context.Context) ScriptTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ScriptTypeOutput)
+}
+
+func (e ScriptType) ToScriptTypePtrOutput() ScriptTypePtrOutput {
+	return e.ToScriptTypePtrOutputWithContext(context.Background())
+}
+
+func (e ScriptType) ToScriptTypePtrOutputWithContext(ctx context.Context) ScriptTypePtrOutput {
+	return ScriptType(e).ToScriptTypeOutputWithContext(ctx).ToScriptTypePtrOutputWithContext(ctx)
+}
+
+func (e ScriptType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ScriptType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ScriptType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ScriptType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ScriptTypeOutput struct{ *pulumi.OutputState }
+
+func (ScriptTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ScriptType)(nil)).Elem()
+}
+
+func (o ScriptTypeOutput) ToScriptTypeOutput() ScriptTypeOutput {
+	return o
+}
+
+func (o ScriptTypeOutput) ToScriptTypeOutputWithContext(ctx context.Context) ScriptTypeOutput {
+	return o
+}
+
+func (o ScriptTypeOutput) ToScriptTypePtrOutput() ScriptTypePtrOutput {
+	return o.ToScriptTypePtrOutputWithContext(context.Background())
+}
+
+func (o ScriptTypeOutput) ToScriptTypePtrOutputWithContext(ctx context.Context) ScriptTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ScriptType) *ScriptType {
+		return &v
+	}).(ScriptTypePtrOutput)
+}
+
+func (o ScriptTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ScriptTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ScriptType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ScriptTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ScriptTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ScriptType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ScriptTypePtrOutput struct{ *pulumi.OutputState }
+
+func (ScriptTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ScriptType)(nil)).Elem()
+}
+
+func (o ScriptTypePtrOutput) ToScriptTypePtrOutput() ScriptTypePtrOutput {
+	return o
+}
+
+func (o ScriptTypePtrOutput) ToScriptTypePtrOutputWithContext(ctx context.Context) ScriptTypePtrOutput {
+	return o
+}
+
+func (o ScriptTypePtrOutput) Elem() ScriptTypeOutput {
+	return o.ApplyT(func(v *ScriptType) ScriptType {
+		if v != nil {
+			return *v
+		}
+		var ret ScriptType
+		return ret
+	}).(ScriptTypeOutput)
+}
+
+func (o ScriptTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ScriptTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ScriptType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ScriptTypeInput is an input type that accepts values of the ScriptType enum
+// A concrete instance of `ScriptTypeInput` can be one of the following:
+//
+//	ScriptTypeBash
+//	ScriptTypePowerShell
+type ScriptTypeInput interface {
+	pulumi.Input
+
+	ToScriptTypeOutput() ScriptTypeOutput
+	ToScriptTypeOutputWithContext(context.Context) ScriptTypeOutput
+}
+
+var scriptTypePtrType = reflect.TypeOf((**ScriptType)(nil)).Elem()
+
+type ScriptTypePtrInput interface {
+	pulumi.Input
+
+	ToScriptTypePtrOutput() ScriptTypePtrOutput
+	ToScriptTypePtrOutputWithContext(context.Context) ScriptTypePtrOutput
+}
+
+type scriptTypePtr string
+
+func ScriptTypePtr(v string) ScriptTypePtrInput {
+	return (*scriptTypePtr)(&v)
+}
+
+func (*scriptTypePtr) ElementType() reflect.Type {
+	return scriptTypePtrType
+}
+
+func (in *scriptTypePtr) ToScriptTypePtrOutput() ScriptTypePtrOutput {
+	return pulumi.ToOutput(in).(ScriptTypePtrOutput)
+}
+
+func (in *scriptTypePtr) ToScriptTypePtrOutputWithContext(ctx context.Context) ScriptTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ScriptTypePtrOutput)
+}
+
 // Mode of the service mesh.
 type ServiceMeshMode string
 
@@ -8336,6 +8673,8 @@ func init() {
 	pulumi.RegisterOutputType(DeletePolicyPtrOutput{})
 	pulumi.RegisterOutputType(DeploymentSafeguardsLevelOutput{})
 	pulumi.RegisterOutputType(DeploymentSafeguardsLevelPtrOutput{})
+	pulumi.RegisterOutputType(ExecutionPointOutput{})
+	pulumi.RegisterOutputType(ExecutionPointPtrOutput{})
 	pulumi.RegisterOutputType(ExpanderOutput{})
 	pulumi.RegisterOutputType(ExpanderPtrOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationTypesOutput{})
@@ -8404,6 +8743,8 @@ func init() {
 	pulumi.RegisterOutputType(ScaleSetEvictionPolicyPtrOutput{})
 	pulumi.RegisterOutputType(ScaleSetPriorityOutput{})
 	pulumi.RegisterOutputType(ScaleSetPriorityPtrOutput{})
+	pulumi.RegisterOutputType(ScriptTypeOutput{})
+	pulumi.RegisterOutputType(ScriptTypePtrOutput{})
 	pulumi.RegisterOutputType(ServiceMeshModeOutput{})
 	pulumi.RegisterOutputType(ServiceMeshModePtrOutput{})
 	pulumi.RegisterOutputType(SnapshotTypeOutput{})

@@ -14,6 +14,8 @@ import (
 // Retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual Appliance.
 //
 // Uses Azure REST API version 2024-07-01.
+//
+// Other available API versions: 2024-10-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func GetNetworkVirtualApplianceBootDiagnosticLogs(ctx *pulumi.Context, args *GetNetworkVirtualApplianceBootDiagnosticLogsArgs, opts ...pulumi.InvokeOption) (*GetNetworkVirtualApplianceBootDiagnosticLogsResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv GetNetworkVirtualApplianceBootDiagnosticLogsResult

@@ -205,6 +205,9 @@ func NewInterfaceEndpoint(ctx *pulumi.Context,
 			Type: pulumi.String("azure-native:network/v20240701:InterfaceEndpoint"),
 		},
 		{
+			Type: pulumi.String("azure-native:network/v20241001:InterfaceEndpoint"),
+		},
+		{
 			Type: pulumi.String("azure-native:network:PrivateEndpoint"),
 		},
 	})

@@ -581,6 +581,8 @@ type DeploymentStrategy string
 const (
 	DeploymentStrategyRolling   DeploymentStrategy = "ROLLING"
 	DeploymentStrategyBlueGreen DeploymentStrategy = "BLUE_GREEN"
+	DeploymentStrategyLinear    DeploymentStrategy = "LINEAR"
+	DeploymentStrategyCanary    DeploymentStrategy = "CANARY"
 )
 
 // Values returns all known values for DeploymentStrategy. Note that this can be
@@ -591,6 +593,8 @@ func (DeploymentStrategy) Values() []DeploymentStrategy {
 	return []DeploymentStrategy{
 		"ROLLING",
 		"BLUE_GREEN",
+		"LINEAR",
+		"CANARY",
 	}
 }
 
@@ -1300,6 +1304,46 @@ func (Scope) Values() []Scope {
 	return []Scope{
 		"task",
 		"shared",
+	}
+}
+
+type ServiceConnectAccessLoggingFormat string
+
+// Enum values for ServiceConnectAccessLoggingFormat
+const (
+	ServiceConnectAccessLoggingFormatText ServiceConnectAccessLoggingFormat = "TEXT"
+	ServiceConnectAccessLoggingFormatJson ServiceConnectAccessLoggingFormat = "JSON"
+)
+
+// Values returns all known values for ServiceConnectAccessLoggingFormat. Note
+// that this can be expanded in the future, and so it is only as up to date as the
+// client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (ServiceConnectAccessLoggingFormat) Values() []ServiceConnectAccessLoggingFormat {
+	return []ServiceConnectAccessLoggingFormat{
+		"TEXT",
+		"JSON",
+	}
+}
+
+type ServiceConnectIncludeQueryParameters string
+
+// Enum values for ServiceConnectIncludeQueryParameters
+const (
+	ServiceConnectIncludeQueryParametersDisabled ServiceConnectIncludeQueryParameters = "DISABLED"
+	ServiceConnectIncludeQueryParametersEnabled  ServiceConnectIncludeQueryParameters = "ENABLED"
+)
+
+// Values returns all known values for ServiceConnectIncludeQueryParameters. Note
+// that this can be expanded in the future, and so it is only as up to date as the
+// client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (ServiceConnectIncludeQueryParameters) Values() []ServiceConnectIncludeQueryParameters {
+	return []ServiceConnectIncludeQueryParameters{
+		"DISABLED",
+		"ENABLED",
 	}
 }
 

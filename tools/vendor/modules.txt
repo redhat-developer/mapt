@@ -54,7 +54,7 @@ github.com/Djarvur/go-err113
 # github.com/Masterminds/semver/v3 v3.4.0
 ## explicit; go 1.21
 github.com/Masterminds/semver/v3
-# github.com/MirrexOne/unqueryvet v1.2.1
+# github.com/MirrexOne/unqueryvet v1.3.0
 ## explicit; go 1.24.0
 github.com/MirrexOne/unqueryvet
 github.com/MirrexOne/unqueryvet/internal/analyzer
@@ -91,11 +91,11 @@ github.com/alingse/asasalint
 ## explicit; go 1.22.0
 github.com/alingse/nilnesserr
 github.com/alingse/nilnesserr/internal/typeparams
-# github.com/ashanbrown/forbidigo/v2 v2.1.0
-## explicit; go 1.18
+# github.com/ashanbrown/forbidigo/v2 v2.3.0
+## explicit; go 1.24.0
 github.com/ashanbrown/forbidigo/v2/forbidigo
-# github.com/ashanbrown/makezero/v2 v2.0.1
-## explicit; go 1.18
+# github.com/ashanbrown/makezero/v2 v2.1.0
+## explicit; go 1.24.0
 github.com/ashanbrown/makezero/v2/makezero
 # github.com/aymanbagabas/go-osc52/v2 v2.0.1
 ## explicit; go 1.16
@@ -315,7 +315,7 @@ github.com/golangci/go-printf-func-name/pkg/analyzer
 # github.com/golangci/gofmt v0.0.0-20250704145412-3e58ba0443c6
 ## explicit; go 1.23.0
 github.com/golangci/gofmt/gofmt
-# github.com/golangci/golangci-lint/v2 v2.5.0
+# github.com/golangci/golangci-lint/v2 v2.6.1
 ## explicit; go 1.24.0
 github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 github.com/golangci/golangci-lint/v2/internal/cache
@@ -426,6 +426,7 @@ github.com/golangci/golangci-lint/v2/pkg/golinters/makezero
 github.com/golangci/golangci-lint/v2/pkg/golinters/mirror
 github.com/golangci/golangci-lint/v2/pkg/golinters/misspell
 github.com/golangci/golangci-lint/v2/pkg/golinters/mnd
+github.com/golangci/golangci-lint/v2/pkg/golinters/modernize
 github.com/golangci/golangci-lint/v2/pkg/golinters/musttag
 github.com/golangci/golangci-lint/v2/pkg/golinters/nakedret
 github.com/golangci/golangci-lint/v2/pkg/golinters/nestif
@@ -489,9 +490,6 @@ github.com/golangci/golines
 # github.com/golangci/misspell v0.7.0
 ## explicit; go 1.23.0
 github.com/golangci/misspell
-# github.com/golangci/nilerr v0.0.0-20250918000102-015671e622fe
-## explicit; go 1.24.0
-github.com/golangci/nilerr
 # github.com/golangci/plugin-module-register v0.1.2
 ## explicit; go 1.23.0
 github.com/golangci/plugin-module-register/register
@@ -524,6 +522,9 @@ github.com/gostaticanalysis/comment/passes/commentmap
 # github.com/gostaticanalysis/forcetypeassert v0.2.0
 ## explicit; go 1.23.0
 github.com/gostaticanalysis/forcetypeassert
+# github.com/gostaticanalysis/nilerr v0.1.2
+## explicit; go 1.23.0
+github.com/gostaticanalysis/nilerr
 # github.com/hashicorp/go-immutable-radix/v2 v2.1.0
 ## explicit; go 1.18
 github.com/hashicorp/go-immutable-radix/v2
@@ -708,8 +709,8 @@ github.com/prometheus/client_model/go
 ## explicit; go 1.24.0
 github.com/prometheus/common/expfmt
 github.com/prometheus/common/model
-# github.com/prometheus/procfs v0.17.0
-## explicit; go 1.23.0
+# github.com/prometheus/procfs v0.19.2
+## explicit; go 1.24.0
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
@@ -828,8 +829,8 @@ github.com/spf13/viper/internal/features
 # github.com/ssgreg/nlreturn/v2 v2.2.1
 ## explicit; go 1.13
 github.com/ssgreg/nlreturn/v2/pkg/nlreturn
-# github.com/stbenjam/no-sprintf-host-port v0.2.0
-## explicit; go 1.18
+# github.com/stbenjam/no-sprintf-host-port v0.3.1
+## explicit; go 1.24.0
 github.com/stbenjam/no-sprintf-host-port/pkg/analyzer
 # github.com/stretchr/objx v0.5.3
 ## explicit; go 1.20
@@ -1008,6 +1009,7 @@ golang.org/x/tools/go/analysis/passes/inspect
 golang.org/x/tools/go/analysis/passes/internal/analysisutil
 golang.org/x/tools/go/analysis/passes/loopclosure
 golang.org/x/tools/go/analysis/passes/lostcancel
+golang.org/x/tools/go/analysis/passes/modernize
 golang.org/x/tools/go/analysis/passes/nilfunc
 golang.org/x/tools/go/analysis/passes/nilness
 golang.org/x/tools/go/analysis/passes/pkgfact
@@ -1047,6 +1049,7 @@ golang.org/x/tools/go/types/typeutil
 golang.org/x/tools/imports
 golang.org/x/tools/internal/aliases
 golang.org/x/tools/internal/analysisinternal
+golang.org/x/tools/internal/analysisinternal/generated
 golang.org/x/tools/internal/analysisinternal/typeindex
 golang.org/x/tools/internal/astutil
 golang.org/x/tools/internal/event
@@ -1057,6 +1060,7 @@ golang.org/x/tools/internal/fmtstr
 golang.org/x/tools/internal/gcimporter
 golang.org/x/tools/internal/gocommand
 golang.org/x/tools/internal/gopathwalk
+golang.org/x/tools/internal/goplsexport
 golang.org/x/tools/internal/imports
 golang.org/x/tools/internal/modindex
 golang.org/x/tools/internal/moreiters
@@ -1301,6 +1305,6 @@ mvdan.cc/gofumpt/internal/govendor/go/doc/comment
 mvdan.cc/gofumpt/internal/govendor/go/format
 mvdan.cc/gofumpt/internal/govendor/go/printer
 mvdan.cc/gofumpt/internal/version
-# mvdan.cc/unparam v0.0.0-20250301125049-0df0534333a4
-## explicit; go 1.23
+# mvdan.cc/unparam v0.0.0-20251027182757-5beb8c8f8f15
+## explicit; go 1.24.0
 mvdan.cc/unparam/check

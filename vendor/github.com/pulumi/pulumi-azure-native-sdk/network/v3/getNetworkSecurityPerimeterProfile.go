@@ -15,7 +15,7 @@ import (
 //
 // Uses Azure REST API version 2024-06-01-preview.
 //
-// Other available API versions: 2024-07-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2024-07-01, 2024-10-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupNetworkSecurityPerimeterProfile(ctx *pulumi.Context, args *LookupNetworkSecurityPerimeterProfileArgs, opts ...pulumi.InvokeOption) (*LookupNetworkSecurityPerimeterProfileResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupNetworkSecurityPerimeterProfileResult
