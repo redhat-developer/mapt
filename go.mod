@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.4
-	github.com/pulumi/pulumi/sdk/v3 v3.203.0
+	github.com/pulumi/pulumi/sdk/v3 v3.205.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.10.1
 )
@@ -20,21 +20,21 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.2
 	github.com/aws/aws-sdk-go-v2 v1.39.6
 	github.com/aws/aws-sdk-go-v2/config v1.31.17
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.254.1
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.88.7
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.261.1
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.89.2
 	github.com/aws/aws-sdk-go-v2/service/sts v1.39.1
 	github.com/pulumi/pulumi-aws-native/sdk v1.37.0
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.8.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.10.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.0.1
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.8.0
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.8.0
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.8.0
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.8.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.8.0
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.8.0
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.8.0
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.10.0
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.10.0
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.10.0
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.10.0
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.10.0
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.10.0
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.10.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.2
-	golang.org/x/exp v0.0.0-20251017212417-90e834f514db
+	golang.org/x/exp v0.0.0-20251023183803-a4bb9ffd2546
 )
 
 require (
@@ -43,7 +43,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx/v2 v2.0.12 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.8.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.10.0 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.9.0 // indirect
 )
 
@@ -97,7 +97,7 @@ require (
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
 	github.com/cloudflare/circl v1.6.1 // indirect
-	github.com/cyphar/filepath-securejoin v0.5.1 // indirect
+	github.com/cyphar/filepath-securejoin v0.6.0 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
@@ -119,7 +119,7 @@ require (
 	github.com/pjbgf/sha1cd v0.5.0 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
-	github.com/pulumi/esc v0.19.0 // indirect
+	github.com/pulumi/esc v0.20.0 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.15 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
@@ -132,7 +132,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/sync v0.17.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251014184007-4626949a642f // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251103181224-f26f9409b101 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -140,8 +140,8 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.3.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.65.4
-	github.com/aws/aws-sdk-go-v2/service/iam v1.47.8
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.67.2
+	github.com/aws/aws-sdk-go-v2/service/iam v1.49.2
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect
 	github.com/djherbis/times v1.6.0 // indirect

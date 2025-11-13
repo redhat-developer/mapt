@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-05-01. In version 2.x of the Azure Native provider, it used API version 2024-03-01.
 //
-// Other available API versions: 2024-03-01, 2024-07-01, 2024-09-01-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2024-03-01, 2024-07-01, 2024-09-01-preview, 2024-10-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type RoutingRuleCollection struct {
 	pulumi.CustomResourceState
 
@@ -73,6 +73,9 @@ func NewRoutingRuleCollection(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:network/v20240901preview:RoutingRuleCollection"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20241001:RoutingRuleCollection"),
 		},
 	})
 	opts = append(opts, aliases)

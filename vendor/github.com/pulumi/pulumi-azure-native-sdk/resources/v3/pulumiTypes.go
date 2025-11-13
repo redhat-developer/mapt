@@ -4222,7 +4222,7 @@ func (o LinkedTemplateArtifactResponseArrayOutput) Index(i pulumi.IntInput) Link
 type ManagedResourceReferenceResponse struct {
 	// denyAssignment settings applied to the resource.
 	DenyStatus *string `pulumi:"denyStatus"`
-	// The resourceId of a resource managed by the deployment stack.
+	// The ARM Resource ID of a resource managed by the deployment stack.
 	Id string `pulumi:"id"`
 	// Current management state of the resource in the deployment stack.
 	Status *string `pulumi:"status"`
@@ -4261,7 +4261,7 @@ func (o ManagedResourceReferenceResponseOutput) DenyStatus() pulumi.StringPtrOut
 	return o.ApplyT(func(v ManagedResourceReferenceResponse) *string { return v.DenyStatus }).(pulumi.StringPtrOutput)
 }
 
-// The resourceId of a resource managed by the deployment stack.
+// The ARM Resource ID of a resource managed by the deployment stack.
 func (o ManagedResourceReferenceResponseOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v ManagedResourceReferenceResponse) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -5559,7 +5559,7 @@ func (o ResourceGroupPropertiesResponseOutput) ProvisioningState() pulumi.String
 type ResourceReferenceExtendedResponse struct {
 	// The error detail.
 	Error *ErrorDetailResponse `pulumi:"error"`
-	// The resourceId of a resource managed by the deployment stack.
+	// The ARM Resource ID of a resource managed by the deployment stack.
 	Id string `pulumi:"id"`
 }
 
@@ -5583,7 +5583,7 @@ func (o ResourceReferenceExtendedResponseOutput) Error() ErrorDetailResponsePtrO
 	return o.ApplyT(func(v ResourceReferenceExtendedResponse) *ErrorDetailResponse { return v.Error }).(ErrorDetailResponsePtrOutput)
 }
 
-// The resourceId of a resource managed by the deployment stack.
+// The ARM Resource ID of a resource managed by the deployment stack.
 func (o ResourceReferenceExtendedResponseOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v ResourceReferenceExtendedResponse) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -5610,7 +5610,7 @@ func (o ResourceReferenceExtendedResponseArrayOutput) Index(i pulumi.IntInput) R
 
 // The resourceId model.
 type ResourceReferenceResponse struct {
-	// The resourceId of a resource managed by the deployment stack.
+	// The ARM Resource ID of a resource managed by the deployment stack.
 	Id string `pulumi:"id"`
 }
 
@@ -5629,7 +5629,7 @@ func (o ResourceReferenceResponseOutput) ToResourceReferenceResponseOutputWithCo
 	return o
 }
 
-// The resourceId of a resource managed by the deployment stack.
+// The ARM Resource ID of a resource managed by the deployment stack.
 func (o ResourceReferenceResponseOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v ResourceReferenceResponse) string { return v.Id }).(pulumi.StringOutput)
 }

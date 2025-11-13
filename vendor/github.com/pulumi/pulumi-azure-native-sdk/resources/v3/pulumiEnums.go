@@ -519,7 +519,9 @@ func (in *deploymentModePtr) ToDeploymentModePtrOutputWithContext(ctx context.Co
 type DeploymentStacksDeleteDetachEnum string
 
 const (
+	// Delete the specified resources from Azure
 	DeploymentStacksDeleteDetachEnumDelete = DeploymentStacksDeleteDetachEnum("delete")
+	// Keep the specified resources in Azure
 	DeploymentStacksDeleteDetachEnumDetach = DeploymentStacksDeleteDetachEnum("detach")
 )
 

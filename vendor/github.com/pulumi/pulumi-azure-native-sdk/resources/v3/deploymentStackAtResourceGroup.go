@@ -46,9 +46,9 @@ type DeploymentStackAtResourceGroup struct {
 	Error ErrorDetailResponsePtrOutput `pulumi:"error"`
 	// An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
 	FailedResources ResourceReferenceExtendedResponseArrayOutput `pulumi:"failedResources"`
-	// The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations.
+	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 	Location pulumi.StringPtrOutput `pulumi:"location"`
-	// Name of this resource.
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The outputs of the deployment resource created by the deployment stack.
 	Outputs pulumi.AnyOutput `pulumi:"outputs"`
@@ -62,9 +62,9 @@ type DeploymentStackAtResourceGroup struct {
 	Resources ManagedResourceReferenceResponseArrayOutput `pulumi:"resources"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData SystemDataResponseOutput `pulumi:"systemData"`
-	// Deployment stack resource tags.
+	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
-	// Type of this resource.
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -140,7 +140,7 @@ type deploymentStackAtResourceGroupArgs struct {
 	DeploymentStackName *string `pulumi:"deploymentStackName"`
 	// Deployment stack description. Max length of 4096 characters.
 	Description *string `pulumi:"description"`
-	// The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations.
+	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 	Location *string `pulumi:"location"`
 	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
 	Parameters map[string]DeploymentParameter `pulumi:"parameters"`
@@ -148,7 +148,7 @@ type deploymentStackAtResourceGroupArgs struct {
 	ParametersLink *DeploymentStacksParametersLink `pulumi:"parametersLink"`
 	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
-	// Deployment stack resource tags.
+	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both.
 	Template interface{} `pulumi:"template"`
@@ -172,7 +172,7 @@ type DeploymentStackAtResourceGroupArgs struct {
 	DeploymentStackName pulumi.StringPtrInput
 	// Deployment stack description. Max length of 4096 characters.
 	Description pulumi.StringPtrInput
-	// The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations.
+	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 	Location pulumi.StringPtrInput
 	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
 	Parameters DeploymentParameterMapInput
@@ -180,7 +180,7 @@ type DeploymentStackAtResourceGroupArgs struct {
 	ParametersLink DeploymentStacksParametersLinkPtrInput
 	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
-	// Deployment stack resource tags.
+	// Resource tags.
 	Tags pulumi.StringMapInput
 	// The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both.
 	Template pulumi.Input
@@ -298,12 +298,12 @@ func (o DeploymentStackAtResourceGroupOutput) FailedResources() ResourceReferenc
 	}).(ResourceReferenceExtendedResponseArrayOutput)
 }
 
-// The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations.
+// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 func (o DeploymentStackAtResourceGroupOutput) Location() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) pulumi.StringPtrOutput { return v.Location }).(pulumi.StringPtrOutput)
 }
 
-// Name of this resource.
+// The name of the resource
 func (o DeploymentStackAtResourceGroupOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -342,12 +342,12 @@ func (o DeploymentStackAtResourceGroupOutput) SystemData() SystemDataResponseOut
 	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
-// Deployment stack resource tags.
+// Resource tags.
 func (o DeploymentStackAtResourceGroupOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// Type of this resource.
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o DeploymentStackAtResourceGroupOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

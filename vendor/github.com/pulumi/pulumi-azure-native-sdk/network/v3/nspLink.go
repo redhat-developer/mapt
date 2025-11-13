@@ -79,6 +79,9 @@ func NewNspLink(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:network/v20240701:NspLink"),
 		},
+		{
+			Type: pulumi.String("azure-native:network/v20241001:NspLink"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)

@@ -61694,6 +61694,59 @@ func (o QosPortRangeResponseArrayOutput) Index(i pulumi.IntInput) QosPortRangeRe
 	}).(QosPortRangeResponseOutput)
 }
 
+// Gateway or VpnServerConfiguration Radius server with radius secret details
+type RadiusAuthServerResponse struct {
+	// Radius server IPAddress
+	RadiusServerAddress *string `pulumi:"radiusServerAddress"`
+	// Radius server secret
+	RadiusServerSecret *string `pulumi:"radiusServerSecret"`
+}
+
+// Gateway or VpnServerConfiguration Radius server with radius secret details
+type RadiusAuthServerResponseOutput struct{ *pulumi.OutputState }
+
+func (RadiusAuthServerResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RadiusAuthServerResponse)(nil)).Elem()
+}
+
+func (o RadiusAuthServerResponseOutput) ToRadiusAuthServerResponseOutput() RadiusAuthServerResponseOutput {
+	return o
+}
+
+func (o RadiusAuthServerResponseOutput) ToRadiusAuthServerResponseOutputWithContext(ctx context.Context) RadiusAuthServerResponseOutput {
+	return o
+}
+
+// Radius server IPAddress
+func (o RadiusAuthServerResponseOutput) RadiusServerAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RadiusAuthServerResponse) *string { return v.RadiusServerAddress }).(pulumi.StringPtrOutput)
+}
+
+// Radius server secret
+func (o RadiusAuthServerResponseOutput) RadiusServerSecret() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RadiusAuthServerResponse) *string { return v.RadiusServerSecret }).(pulumi.StringPtrOutput)
+}
+
+type RadiusAuthServerResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (RadiusAuthServerResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]RadiusAuthServerResponse)(nil)).Elem()
+}
+
+func (o RadiusAuthServerResponseArrayOutput) ToRadiusAuthServerResponseArrayOutput() RadiusAuthServerResponseArrayOutput {
+	return o
+}
+
+func (o RadiusAuthServerResponseArrayOutput) ToRadiusAuthServerResponseArrayOutputWithContext(ctx context.Context) RadiusAuthServerResponseArrayOutput {
+	return o
+}
+
+func (o RadiusAuthServerResponseArrayOutput) Index(i pulumi.IntInput) RadiusAuthServerResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) RadiusAuthServerResponse {
+		return vs[0].([]RadiusAuthServerResponse)[vs[1].(int)]
+	}).(RadiusAuthServerResponseOutput)
+}
+
 // Radius Server Settings.
 type RadiusServer struct {
 	// The address of this radius server.
@@ -62117,87 +62170,6 @@ func (o ReachabilityAnalysisRunPropertiesResponseOutput) IntentId() pulumi.Strin
 // Provisioning states of a resource.
 func (o ReachabilityAnalysisRunPropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
 	return o.ApplyT(func(v ReachabilityAnalysisRunPropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
-}
-
-// A collective group of information about the record set information.
-type RecordSetResponse struct {
-	// Fqdn that resolves to private endpoint ip address.
-	Fqdn *string `pulumi:"fqdn"`
-	// The private ip address of the private endpoint.
-	IpAddresses []string `pulumi:"ipAddresses"`
-	// The provisioning state of the recordset.
-	ProvisioningState string `pulumi:"provisioningState"`
-	// Recordset name.
-	RecordSetName *string `pulumi:"recordSetName"`
-	// Resource record type.
-	RecordType *string `pulumi:"recordType"`
-	// Recordset time to live.
-	Ttl *int `pulumi:"ttl"`
-}
-
-// A collective group of information about the record set information.
-type RecordSetResponseOutput struct{ *pulumi.OutputState }
-
-func (RecordSetResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*RecordSetResponse)(nil)).Elem()
-}
-
-func (o RecordSetResponseOutput) ToRecordSetResponseOutput() RecordSetResponseOutput {
-	return o
-}
-
-func (o RecordSetResponseOutput) ToRecordSetResponseOutputWithContext(ctx context.Context) RecordSetResponseOutput {
-	return o
-}
-
-// Fqdn that resolves to private endpoint ip address.
-func (o RecordSetResponseOutput) Fqdn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v RecordSetResponse) *string { return v.Fqdn }).(pulumi.StringPtrOutput)
-}
-
-// The private ip address of the private endpoint.
-func (o RecordSetResponseOutput) IpAddresses() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v RecordSetResponse) []string { return v.IpAddresses }).(pulumi.StringArrayOutput)
-}
-
-// The provisioning state of the recordset.
-func (o RecordSetResponseOutput) ProvisioningState() pulumi.StringOutput {
-	return o.ApplyT(func(v RecordSetResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
-}
-
-// Recordset name.
-func (o RecordSetResponseOutput) RecordSetName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v RecordSetResponse) *string { return v.RecordSetName }).(pulumi.StringPtrOutput)
-}
-
-// Resource record type.
-func (o RecordSetResponseOutput) RecordType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v RecordSetResponse) *string { return v.RecordType }).(pulumi.StringPtrOutput)
-}
-
-// Recordset time to live.
-func (o RecordSetResponseOutput) Ttl() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v RecordSetResponse) *int { return v.Ttl }).(pulumi.IntPtrOutput)
-}
-
-type RecordSetResponseArrayOutput struct{ *pulumi.OutputState }
-
-func (RecordSetResponseArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]RecordSetResponse)(nil)).Elem()
-}
-
-func (o RecordSetResponseArrayOutput) ToRecordSetResponseArrayOutput() RecordSetResponseArrayOutput {
-	return o
-}
-
-func (o RecordSetResponseArrayOutput) ToRecordSetResponseArrayOutputWithContext(ctx context.Context) RecordSetResponseArrayOutput {
-	return o
-}
-
-func (o RecordSetResponseArrayOutput) Index(i pulumi.IntInput) RecordSetResponseOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) RecordSetResponse {
-		return vs[0].([]RecordSetResponse)[vs[1].(int)]
-	}).(RecordSetResponseOutput)
 }
 
 type RouteSourceDetailsResponseArrayMapOutput struct{ *pulumi.OutputState }
@@ -63181,6 +63153,8 @@ func init() {
 	pulumi.RegisterOutputType(QosPortRangeArrayOutput{})
 	pulumi.RegisterOutputType(QosPortRangeResponseOutput{})
 	pulumi.RegisterOutputType(QosPortRangeResponseArrayOutput{})
+	pulumi.RegisterOutputType(RadiusAuthServerResponseOutput{})
+	pulumi.RegisterOutputType(RadiusAuthServerResponseArrayOutput{})
 	pulumi.RegisterOutputType(RadiusServerOutput{})
 	pulumi.RegisterOutputType(RadiusServerArrayOutput{})
 	pulumi.RegisterOutputType(RadiusServerResponseOutput{})
@@ -63189,7 +63163,5 @@ func init() {
 	pulumi.RegisterOutputType(ReachabilityAnalysisIntentPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(ReachabilityAnalysisRunPropertiesOutput{})
 	pulumi.RegisterOutputType(ReachabilityAnalysisRunPropertiesResponseOutput{})
-	pulumi.RegisterOutputType(RecordSetResponseOutput{})
-	pulumi.RegisterOutputType(RecordSetResponseArrayOutput{})
 	pulumi.RegisterOutputType(RouteSourceDetailsResponseArrayMapOutput{})
 }

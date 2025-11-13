@@ -8032,6 +8032,906 @@ func (o IstioServiceMeshResponsePtrOutput) Revisions() pulumi.StringArrayOutput 
 	}).(pulumi.StringArrayOutput)
 }
 
+// The claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingExpression struct {
+	// The CEL expression used to access token claims.
+	Expression string `pulumi:"expression"`
+}
+
+// JWTAuthenticatorClaimMappingExpressionInput is an input type that accepts JWTAuthenticatorClaimMappingExpressionArgs and JWTAuthenticatorClaimMappingExpressionOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorClaimMappingExpressionInput` via:
+//
+//	JWTAuthenticatorClaimMappingExpressionArgs{...}
+type JWTAuthenticatorClaimMappingExpressionInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorClaimMappingExpressionOutput() JWTAuthenticatorClaimMappingExpressionOutput
+	ToJWTAuthenticatorClaimMappingExpressionOutputWithContext(context.Context) JWTAuthenticatorClaimMappingExpressionOutput
+}
+
+// The claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingExpressionArgs struct {
+	// The CEL expression used to access token claims.
+	Expression pulumi.StringInput `pulumi:"expression"`
+}
+
+func (JWTAuthenticatorClaimMappingExpressionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorClaimMappingExpression)(nil)).Elem()
+}
+
+func (i JWTAuthenticatorClaimMappingExpressionArgs) ToJWTAuthenticatorClaimMappingExpressionOutput() JWTAuthenticatorClaimMappingExpressionOutput {
+	return i.ToJWTAuthenticatorClaimMappingExpressionOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorClaimMappingExpressionArgs) ToJWTAuthenticatorClaimMappingExpressionOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingExpressionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorClaimMappingExpressionOutput)
+}
+
+func (i JWTAuthenticatorClaimMappingExpressionArgs) ToJWTAuthenticatorClaimMappingExpressionPtrOutput() JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return i.ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorClaimMappingExpressionArgs) ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorClaimMappingExpressionOutput).ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(ctx)
+}
+
+// JWTAuthenticatorClaimMappingExpressionPtrInput is an input type that accepts JWTAuthenticatorClaimMappingExpressionArgs, JWTAuthenticatorClaimMappingExpressionPtr and JWTAuthenticatorClaimMappingExpressionPtrOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorClaimMappingExpressionPtrInput` via:
+//
+//	        JWTAuthenticatorClaimMappingExpressionArgs{...}
+//
+//	or:
+//
+//	        nil
+type JWTAuthenticatorClaimMappingExpressionPtrInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorClaimMappingExpressionPtrOutput() JWTAuthenticatorClaimMappingExpressionPtrOutput
+	ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(context.Context) JWTAuthenticatorClaimMappingExpressionPtrOutput
+}
+
+type jwtauthenticatorClaimMappingExpressionPtrType JWTAuthenticatorClaimMappingExpressionArgs
+
+func JWTAuthenticatorClaimMappingExpressionPtr(v *JWTAuthenticatorClaimMappingExpressionArgs) JWTAuthenticatorClaimMappingExpressionPtrInput {
+	return (*jwtauthenticatorClaimMappingExpressionPtrType)(v)
+}
+
+func (*jwtauthenticatorClaimMappingExpressionPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**JWTAuthenticatorClaimMappingExpression)(nil)).Elem()
+}
+
+func (i *jwtauthenticatorClaimMappingExpressionPtrType) ToJWTAuthenticatorClaimMappingExpressionPtrOutput() JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return i.ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(context.Background())
+}
+
+func (i *jwtauthenticatorClaimMappingExpressionPtrType) ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorClaimMappingExpressionPtrOutput)
+}
+
+// The claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingExpressionOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorClaimMappingExpressionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorClaimMappingExpression)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionOutput) ToJWTAuthenticatorClaimMappingExpressionOutput() JWTAuthenticatorClaimMappingExpressionOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionOutput) ToJWTAuthenticatorClaimMappingExpressionOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingExpressionOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionOutput) ToJWTAuthenticatorClaimMappingExpressionPtrOutput() JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return o.ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(context.Background())
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionOutput) ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v JWTAuthenticatorClaimMappingExpression) *JWTAuthenticatorClaimMappingExpression {
+		return &v
+	}).(JWTAuthenticatorClaimMappingExpressionPtrOutput)
+}
+
+// The CEL expression used to access token claims.
+func (o JWTAuthenticatorClaimMappingExpressionOutput) Expression() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappingExpression) string { return v.Expression }).(pulumi.StringOutput)
+}
+
+type JWTAuthenticatorClaimMappingExpressionPtrOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorClaimMappingExpressionPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**JWTAuthenticatorClaimMappingExpression)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionPtrOutput) ToJWTAuthenticatorClaimMappingExpressionPtrOutput() JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionPtrOutput) ToJWTAuthenticatorClaimMappingExpressionPtrOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionPtrOutput) Elem() JWTAuthenticatorClaimMappingExpressionOutput {
+	return o.ApplyT(func(v *JWTAuthenticatorClaimMappingExpression) JWTAuthenticatorClaimMappingExpression {
+		if v != nil {
+			return *v
+		}
+		var ret JWTAuthenticatorClaimMappingExpression
+		return ret
+	}).(JWTAuthenticatorClaimMappingExpressionOutput)
+}
+
+// The CEL expression used to access token claims.
+func (o JWTAuthenticatorClaimMappingExpressionPtrOutput) Expression() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *JWTAuthenticatorClaimMappingExpression) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Expression
+	}).(pulumi.StringPtrOutput)
+}
+
+// The claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingExpressionResponse struct {
+	// The CEL expression used to access token claims.
+	Expression string `pulumi:"expression"`
+}
+
+// The claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingExpressionResponseOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorClaimMappingExpressionResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorClaimMappingExpressionResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionResponseOutput) ToJWTAuthenticatorClaimMappingExpressionResponseOutput() JWTAuthenticatorClaimMappingExpressionResponseOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionResponseOutput) ToJWTAuthenticatorClaimMappingExpressionResponseOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingExpressionResponseOutput {
+	return o
+}
+
+// The CEL expression used to access token claims.
+func (o JWTAuthenticatorClaimMappingExpressionResponseOutput) Expression() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappingExpressionResponse) string { return v.Expression }).(pulumi.StringOutput)
+}
+
+type JWTAuthenticatorClaimMappingExpressionResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorClaimMappingExpressionResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**JWTAuthenticatorClaimMappingExpressionResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionResponsePtrOutput) ToJWTAuthenticatorClaimMappingExpressionResponsePtrOutput() JWTAuthenticatorClaimMappingExpressionResponsePtrOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionResponsePtrOutput) ToJWTAuthenticatorClaimMappingExpressionResponsePtrOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingExpressionResponsePtrOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingExpressionResponsePtrOutput) Elem() JWTAuthenticatorClaimMappingExpressionResponseOutput {
+	return o.ApplyT(func(v *JWTAuthenticatorClaimMappingExpressionResponse) JWTAuthenticatorClaimMappingExpressionResponse {
+		if v != nil {
+			return *v
+		}
+		var ret JWTAuthenticatorClaimMappingExpressionResponse
+		return ret
+	}).(JWTAuthenticatorClaimMappingExpressionResponseOutput)
+}
+
+// The CEL expression used to access token claims.
+func (o JWTAuthenticatorClaimMappingExpressionResponsePtrOutput) Expression() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *JWTAuthenticatorClaimMappingExpressionResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Expression
+	}).(pulumi.StringPtrOutput)
+}
+
+// The claim mappings for JWTAuthenticator.
+type JWTAuthenticatorClaimMappings struct {
+	// The expression to extract extra attribute from the token claims. When not provided, no extra attributes are extracted from the token claims.
+	Extra []JWTAuthenticatorExtraClaimMappingExpression `pulumi:"extra"`
+	// The expression to extract groups attribute from the token claims. When not provided, no groups are extracted from the token claims.
+	Groups *JWTAuthenticatorClaimMappingExpression `pulumi:"groups"`
+	// The expression to extract uid attribute from the token claims. When not provided, no uid is extracted from the token claims.
+	Uid *JWTAuthenticatorClaimMappingExpression `pulumi:"uid"`
+	// The expression to extract username attribute from the token claims.
+	Username JWTAuthenticatorClaimMappingExpression `pulumi:"username"`
+}
+
+// JWTAuthenticatorClaimMappingsInput is an input type that accepts JWTAuthenticatorClaimMappingsArgs and JWTAuthenticatorClaimMappingsOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorClaimMappingsInput` via:
+//
+//	JWTAuthenticatorClaimMappingsArgs{...}
+type JWTAuthenticatorClaimMappingsInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorClaimMappingsOutput() JWTAuthenticatorClaimMappingsOutput
+	ToJWTAuthenticatorClaimMappingsOutputWithContext(context.Context) JWTAuthenticatorClaimMappingsOutput
+}
+
+// The claim mappings for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingsArgs struct {
+	// The expression to extract extra attribute from the token claims. When not provided, no extra attributes are extracted from the token claims.
+	Extra JWTAuthenticatorExtraClaimMappingExpressionArrayInput `pulumi:"extra"`
+	// The expression to extract groups attribute from the token claims. When not provided, no groups are extracted from the token claims.
+	Groups JWTAuthenticatorClaimMappingExpressionPtrInput `pulumi:"groups"`
+	// The expression to extract uid attribute from the token claims. When not provided, no uid is extracted from the token claims.
+	Uid JWTAuthenticatorClaimMappingExpressionPtrInput `pulumi:"uid"`
+	// The expression to extract username attribute from the token claims.
+	Username JWTAuthenticatorClaimMappingExpressionInput `pulumi:"username"`
+}
+
+func (JWTAuthenticatorClaimMappingsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorClaimMappings)(nil)).Elem()
+}
+
+func (i JWTAuthenticatorClaimMappingsArgs) ToJWTAuthenticatorClaimMappingsOutput() JWTAuthenticatorClaimMappingsOutput {
+	return i.ToJWTAuthenticatorClaimMappingsOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorClaimMappingsArgs) ToJWTAuthenticatorClaimMappingsOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorClaimMappingsOutput)
+}
+
+// The claim mappings for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingsOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorClaimMappingsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorClaimMappings)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorClaimMappingsOutput) ToJWTAuthenticatorClaimMappingsOutput() JWTAuthenticatorClaimMappingsOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingsOutput) ToJWTAuthenticatorClaimMappingsOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingsOutput {
+	return o
+}
+
+// The expression to extract extra attribute from the token claims. When not provided, no extra attributes are extracted from the token claims.
+func (o JWTAuthenticatorClaimMappingsOutput) Extra() JWTAuthenticatorExtraClaimMappingExpressionArrayOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappings) []JWTAuthenticatorExtraClaimMappingExpression { return v.Extra }).(JWTAuthenticatorExtraClaimMappingExpressionArrayOutput)
+}
+
+// The expression to extract groups attribute from the token claims. When not provided, no groups are extracted from the token claims.
+func (o JWTAuthenticatorClaimMappingsOutput) Groups() JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappings) *JWTAuthenticatorClaimMappingExpression { return v.Groups }).(JWTAuthenticatorClaimMappingExpressionPtrOutput)
+}
+
+// The expression to extract uid attribute from the token claims. When not provided, no uid is extracted from the token claims.
+func (o JWTAuthenticatorClaimMappingsOutput) Uid() JWTAuthenticatorClaimMappingExpressionPtrOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappings) *JWTAuthenticatorClaimMappingExpression { return v.Uid }).(JWTAuthenticatorClaimMappingExpressionPtrOutput)
+}
+
+// The expression to extract username attribute from the token claims.
+func (o JWTAuthenticatorClaimMappingsOutput) Username() JWTAuthenticatorClaimMappingExpressionOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappings) JWTAuthenticatorClaimMappingExpression { return v.Username }).(JWTAuthenticatorClaimMappingExpressionOutput)
+}
+
+// The claim mappings for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingsResponse struct {
+	// The expression to extract extra attribute from the token claims. When not provided, no extra attributes are extracted from the token claims.
+	Extra []JWTAuthenticatorExtraClaimMappingExpressionResponse `pulumi:"extra"`
+	// The expression to extract groups attribute from the token claims. When not provided, no groups are extracted from the token claims.
+	Groups *JWTAuthenticatorClaimMappingExpressionResponse `pulumi:"groups"`
+	// The expression to extract uid attribute from the token claims. When not provided, no uid is extracted from the token claims.
+	Uid *JWTAuthenticatorClaimMappingExpressionResponse `pulumi:"uid"`
+	// The expression to extract username attribute from the token claims.
+	Username JWTAuthenticatorClaimMappingExpressionResponse `pulumi:"username"`
+}
+
+// The claim mappings for JWTAuthenticator.
+type JWTAuthenticatorClaimMappingsResponseOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorClaimMappingsResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorClaimMappingsResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorClaimMappingsResponseOutput) ToJWTAuthenticatorClaimMappingsResponseOutput() JWTAuthenticatorClaimMappingsResponseOutput {
+	return o
+}
+
+func (o JWTAuthenticatorClaimMappingsResponseOutput) ToJWTAuthenticatorClaimMappingsResponseOutputWithContext(ctx context.Context) JWTAuthenticatorClaimMappingsResponseOutput {
+	return o
+}
+
+// The expression to extract extra attribute from the token claims. When not provided, no extra attributes are extracted from the token claims.
+func (o JWTAuthenticatorClaimMappingsResponseOutput) Extra() JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappingsResponse) []JWTAuthenticatorExtraClaimMappingExpressionResponse {
+		return v.Extra
+	}).(JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput)
+}
+
+// The expression to extract groups attribute from the token claims. When not provided, no groups are extracted from the token claims.
+func (o JWTAuthenticatorClaimMappingsResponseOutput) Groups() JWTAuthenticatorClaimMappingExpressionResponsePtrOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappingsResponse) *JWTAuthenticatorClaimMappingExpressionResponse {
+		return v.Groups
+	}).(JWTAuthenticatorClaimMappingExpressionResponsePtrOutput)
+}
+
+// The expression to extract uid attribute from the token claims. When not provided, no uid is extracted from the token claims.
+func (o JWTAuthenticatorClaimMappingsResponseOutput) Uid() JWTAuthenticatorClaimMappingExpressionResponsePtrOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappingsResponse) *JWTAuthenticatorClaimMappingExpressionResponse {
+		return v.Uid
+	}).(JWTAuthenticatorClaimMappingExpressionResponsePtrOutput)
+}
+
+// The expression to extract username attribute from the token claims.
+func (o JWTAuthenticatorClaimMappingsResponseOutput) Username() JWTAuthenticatorClaimMappingExpressionResponseOutput {
+	return o.ApplyT(func(v JWTAuthenticatorClaimMappingsResponse) JWTAuthenticatorClaimMappingExpressionResponse {
+		return v.Username
+	}).(JWTAuthenticatorClaimMappingExpressionResponseOutput)
+}
+
+// The extra claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorExtraClaimMappingExpression struct {
+	// The key of the extra attribute.
+	Key string `pulumi:"key"`
+	// The CEL expression used to extract the value of the extra attribute.
+	ValueExpression string `pulumi:"valueExpression"`
+}
+
+// JWTAuthenticatorExtraClaimMappingExpressionInput is an input type that accepts JWTAuthenticatorExtraClaimMappingExpressionArgs and JWTAuthenticatorExtraClaimMappingExpressionOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorExtraClaimMappingExpressionInput` via:
+//
+//	JWTAuthenticatorExtraClaimMappingExpressionArgs{...}
+type JWTAuthenticatorExtraClaimMappingExpressionInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorExtraClaimMappingExpressionOutput() JWTAuthenticatorExtraClaimMappingExpressionOutput
+	ToJWTAuthenticatorExtraClaimMappingExpressionOutputWithContext(context.Context) JWTAuthenticatorExtraClaimMappingExpressionOutput
+}
+
+// The extra claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorExtraClaimMappingExpressionArgs struct {
+	// The key of the extra attribute.
+	Key pulumi.StringInput `pulumi:"key"`
+	// The CEL expression used to extract the value of the extra attribute.
+	ValueExpression pulumi.StringInput `pulumi:"valueExpression"`
+}
+
+func (JWTAuthenticatorExtraClaimMappingExpressionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorExtraClaimMappingExpression)(nil)).Elem()
+}
+
+func (i JWTAuthenticatorExtraClaimMappingExpressionArgs) ToJWTAuthenticatorExtraClaimMappingExpressionOutput() JWTAuthenticatorExtraClaimMappingExpressionOutput {
+	return i.ToJWTAuthenticatorExtraClaimMappingExpressionOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorExtraClaimMappingExpressionArgs) ToJWTAuthenticatorExtraClaimMappingExpressionOutputWithContext(ctx context.Context) JWTAuthenticatorExtraClaimMappingExpressionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorExtraClaimMappingExpressionOutput)
+}
+
+// JWTAuthenticatorExtraClaimMappingExpressionArrayInput is an input type that accepts JWTAuthenticatorExtraClaimMappingExpressionArray and JWTAuthenticatorExtraClaimMappingExpressionArrayOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorExtraClaimMappingExpressionArrayInput` via:
+//
+//	JWTAuthenticatorExtraClaimMappingExpressionArray{ JWTAuthenticatorExtraClaimMappingExpressionArgs{...} }
+type JWTAuthenticatorExtraClaimMappingExpressionArrayInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorExtraClaimMappingExpressionArrayOutput() JWTAuthenticatorExtraClaimMappingExpressionArrayOutput
+	ToJWTAuthenticatorExtraClaimMappingExpressionArrayOutputWithContext(context.Context) JWTAuthenticatorExtraClaimMappingExpressionArrayOutput
+}
+
+type JWTAuthenticatorExtraClaimMappingExpressionArray []JWTAuthenticatorExtraClaimMappingExpressionInput
+
+func (JWTAuthenticatorExtraClaimMappingExpressionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]JWTAuthenticatorExtraClaimMappingExpression)(nil)).Elem()
+}
+
+func (i JWTAuthenticatorExtraClaimMappingExpressionArray) ToJWTAuthenticatorExtraClaimMappingExpressionArrayOutput() JWTAuthenticatorExtraClaimMappingExpressionArrayOutput {
+	return i.ToJWTAuthenticatorExtraClaimMappingExpressionArrayOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorExtraClaimMappingExpressionArray) ToJWTAuthenticatorExtraClaimMappingExpressionArrayOutputWithContext(ctx context.Context) JWTAuthenticatorExtraClaimMappingExpressionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorExtraClaimMappingExpressionArrayOutput)
+}
+
+// The extra claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorExtraClaimMappingExpressionOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorExtraClaimMappingExpressionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorExtraClaimMappingExpression)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionOutput) ToJWTAuthenticatorExtraClaimMappingExpressionOutput() JWTAuthenticatorExtraClaimMappingExpressionOutput {
+	return o
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionOutput) ToJWTAuthenticatorExtraClaimMappingExpressionOutputWithContext(ctx context.Context) JWTAuthenticatorExtraClaimMappingExpressionOutput {
+	return o
+}
+
+// The key of the extra attribute.
+func (o JWTAuthenticatorExtraClaimMappingExpressionOutput) Key() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorExtraClaimMappingExpression) string { return v.Key }).(pulumi.StringOutput)
+}
+
+// The CEL expression used to extract the value of the extra attribute.
+func (o JWTAuthenticatorExtraClaimMappingExpressionOutput) ValueExpression() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorExtraClaimMappingExpression) string { return v.ValueExpression }).(pulumi.StringOutput)
+}
+
+type JWTAuthenticatorExtraClaimMappingExpressionArrayOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorExtraClaimMappingExpressionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]JWTAuthenticatorExtraClaimMappingExpression)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionArrayOutput) ToJWTAuthenticatorExtraClaimMappingExpressionArrayOutput() JWTAuthenticatorExtraClaimMappingExpressionArrayOutput {
+	return o
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionArrayOutput) ToJWTAuthenticatorExtraClaimMappingExpressionArrayOutputWithContext(ctx context.Context) JWTAuthenticatorExtraClaimMappingExpressionArrayOutput {
+	return o
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionArrayOutput) Index(i pulumi.IntInput) JWTAuthenticatorExtraClaimMappingExpressionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) JWTAuthenticatorExtraClaimMappingExpression {
+		return vs[0].([]JWTAuthenticatorExtraClaimMappingExpression)[vs[1].(int)]
+	}).(JWTAuthenticatorExtraClaimMappingExpressionOutput)
+}
+
+// The extra claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorExtraClaimMappingExpressionResponse struct {
+	// The key of the extra attribute.
+	Key string `pulumi:"key"`
+	// The CEL expression used to extract the value of the extra attribute.
+	ValueExpression string `pulumi:"valueExpression"`
+}
+
+// The extra claim mapping expression for JWTAuthenticator.
+type JWTAuthenticatorExtraClaimMappingExpressionResponseOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorExtraClaimMappingExpressionResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorExtraClaimMappingExpressionResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionResponseOutput) ToJWTAuthenticatorExtraClaimMappingExpressionResponseOutput() JWTAuthenticatorExtraClaimMappingExpressionResponseOutput {
+	return o
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionResponseOutput) ToJWTAuthenticatorExtraClaimMappingExpressionResponseOutputWithContext(ctx context.Context) JWTAuthenticatorExtraClaimMappingExpressionResponseOutput {
+	return o
+}
+
+// The key of the extra attribute.
+func (o JWTAuthenticatorExtraClaimMappingExpressionResponseOutput) Key() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorExtraClaimMappingExpressionResponse) string { return v.Key }).(pulumi.StringOutput)
+}
+
+// The CEL expression used to extract the value of the extra attribute.
+func (o JWTAuthenticatorExtraClaimMappingExpressionResponseOutput) ValueExpression() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorExtraClaimMappingExpressionResponse) string { return v.ValueExpression }).(pulumi.StringOutput)
+}
+
+type JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]JWTAuthenticatorExtraClaimMappingExpressionResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput) ToJWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput() JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput {
+	return o
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput) ToJWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutputWithContext(ctx context.Context) JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput {
+	return o
+}
+
+func (o JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput) Index(i pulumi.IntInput) JWTAuthenticatorExtraClaimMappingExpressionResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) JWTAuthenticatorExtraClaimMappingExpressionResponse {
+		return vs[0].([]JWTAuthenticatorExtraClaimMappingExpressionResponse)[vs[1].(int)]
+	}).(JWTAuthenticatorExtraClaimMappingExpressionResponseOutput)
+}
+
+// The OIDC issuer details for JWTAuthenticator.
+type JWTAuthenticatorIssuer struct {
+	// The set of acceptable audiences the JWT must be issued to. At least one is required. When multiple is set, AudienceMatchPolicy is used in API Server configuration.
+	Audiences []string `pulumi:"audiences"`
+	// The issuer URL. The URL must begin with the scheme https and cannot contain a query string or fragment. This must match the "iss" claim in the presented JWT, and the issuer returned from discovery.
+	Url string `pulumi:"url"`
+}
+
+// JWTAuthenticatorIssuerInput is an input type that accepts JWTAuthenticatorIssuerArgs and JWTAuthenticatorIssuerOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorIssuerInput` via:
+//
+//	JWTAuthenticatorIssuerArgs{...}
+type JWTAuthenticatorIssuerInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorIssuerOutput() JWTAuthenticatorIssuerOutput
+	ToJWTAuthenticatorIssuerOutputWithContext(context.Context) JWTAuthenticatorIssuerOutput
+}
+
+// The OIDC issuer details for JWTAuthenticator.
+type JWTAuthenticatorIssuerArgs struct {
+	// The set of acceptable audiences the JWT must be issued to. At least one is required. When multiple is set, AudienceMatchPolicy is used in API Server configuration.
+	Audiences pulumi.StringArrayInput `pulumi:"audiences"`
+	// The issuer URL. The URL must begin with the scheme https and cannot contain a query string or fragment. This must match the "iss" claim in the presented JWT, and the issuer returned from discovery.
+	Url pulumi.StringInput `pulumi:"url"`
+}
+
+func (JWTAuthenticatorIssuerArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorIssuer)(nil)).Elem()
+}
+
+func (i JWTAuthenticatorIssuerArgs) ToJWTAuthenticatorIssuerOutput() JWTAuthenticatorIssuerOutput {
+	return i.ToJWTAuthenticatorIssuerOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorIssuerArgs) ToJWTAuthenticatorIssuerOutputWithContext(ctx context.Context) JWTAuthenticatorIssuerOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorIssuerOutput)
+}
+
+// The OIDC issuer details for JWTAuthenticator.
+type JWTAuthenticatorIssuerOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorIssuerOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorIssuer)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorIssuerOutput) ToJWTAuthenticatorIssuerOutput() JWTAuthenticatorIssuerOutput {
+	return o
+}
+
+func (o JWTAuthenticatorIssuerOutput) ToJWTAuthenticatorIssuerOutputWithContext(ctx context.Context) JWTAuthenticatorIssuerOutput {
+	return o
+}
+
+// The set of acceptable audiences the JWT must be issued to. At least one is required. When multiple is set, AudienceMatchPolicy is used in API Server configuration.
+func (o JWTAuthenticatorIssuerOutput) Audiences() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v JWTAuthenticatorIssuer) []string { return v.Audiences }).(pulumi.StringArrayOutput)
+}
+
+// The issuer URL. The URL must begin with the scheme https and cannot contain a query string or fragment. This must match the "iss" claim in the presented JWT, and the issuer returned from discovery.
+func (o JWTAuthenticatorIssuerOutput) Url() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorIssuer) string { return v.Url }).(pulumi.StringOutput)
+}
+
+// The OIDC issuer details for JWTAuthenticator.
+type JWTAuthenticatorIssuerResponse struct {
+	// The set of acceptable audiences the JWT must be issued to. At least one is required. When multiple is set, AudienceMatchPolicy is used in API Server configuration.
+	Audiences []string `pulumi:"audiences"`
+	// The issuer URL. The URL must begin with the scheme https and cannot contain a query string or fragment. This must match the "iss" claim in the presented JWT, and the issuer returned from discovery.
+	Url string `pulumi:"url"`
+}
+
+// The OIDC issuer details for JWTAuthenticator.
+type JWTAuthenticatorIssuerResponseOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorIssuerResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorIssuerResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorIssuerResponseOutput) ToJWTAuthenticatorIssuerResponseOutput() JWTAuthenticatorIssuerResponseOutput {
+	return o
+}
+
+func (o JWTAuthenticatorIssuerResponseOutput) ToJWTAuthenticatorIssuerResponseOutputWithContext(ctx context.Context) JWTAuthenticatorIssuerResponseOutput {
+	return o
+}
+
+// The set of acceptable audiences the JWT must be issued to. At least one is required. When multiple is set, AudienceMatchPolicy is used in API Server configuration.
+func (o JWTAuthenticatorIssuerResponseOutput) Audiences() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v JWTAuthenticatorIssuerResponse) []string { return v.Audiences }).(pulumi.StringArrayOutput)
+}
+
+// The issuer URL. The URL must begin with the scheme https and cannot contain a query string or fragment. This must match the "iss" claim in the presented JWT, and the issuer returned from discovery.
+func (o JWTAuthenticatorIssuerResponseOutput) Url() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorIssuerResponse) string { return v.Url }).(pulumi.StringOutput)
+}
+
+// The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs.
+type JWTAuthenticatorProperties struct {
+	// The mappings that define how user attributes are extracted from the token claims.
+	ClaimMappings JWTAuthenticatorClaimMappings `pulumi:"claimMappings"`
+	// The rules that are applied to validate token claims to authenticate users. All the expressions must evaluate to true for validation to succeed.
+	ClaimValidationRules []JWTAuthenticatorValidationRule `pulumi:"claimValidationRules"`
+	// The JWT OIDC issuer details.
+	Issuer JWTAuthenticatorIssuer `pulumi:"issuer"`
+	// The rules that are applied to the mapped user before completing authentication. All the expressions must evaluate to true for validation to succeed.
+	UserValidationRules []JWTAuthenticatorValidationRule `pulumi:"userValidationRules"`
+}
+
+// JWTAuthenticatorPropertiesInput is an input type that accepts JWTAuthenticatorPropertiesArgs and JWTAuthenticatorPropertiesOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorPropertiesInput` via:
+//
+//	JWTAuthenticatorPropertiesArgs{...}
+type JWTAuthenticatorPropertiesInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorPropertiesOutput() JWTAuthenticatorPropertiesOutput
+	ToJWTAuthenticatorPropertiesOutputWithContext(context.Context) JWTAuthenticatorPropertiesOutput
+}
+
+// The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs.
+type JWTAuthenticatorPropertiesArgs struct {
+	// The mappings that define how user attributes are extracted from the token claims.
+	ClaimMappings JWTAuthenticatorClaimMappingsInput `pulumi:"claimMappings"`
+	// The rules that are applied to validate token claims to authenticate users. All the expressions must evaluate to true for validation to succeed.
+	ClaimValidationRules JWTAuthenticatorValidationRuleArrayInput `pulumi:"claimValidationRules"`
+	// The JWT OIDC issuer details.
+	Issuer JWTAuthenticatorIssuerInput `pulumi:"issuer"`
+	// The rules that are applied to the mapped user before completing authentication. All the expressions must evaluate to true for validation to succeed.
+	UserValidationRules JWTAuthenticatorValidationRuleArrayInput `pulumi:"userValidationRules"`
+}
+
+func (JWTAuthenticatorPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorProperties)(nil)).Elem()
+}
+
+func (i JWTAuthenticatorPropertiesArgs) ToJWTAuthenticatorPropertiesOutput() JWTAuthenticatorPropertiesOutput {
+	return i.ToJWTAuthenticatorPropertiesOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorPropertiesArgs) ToJWTAuthenticatorPropertiesOutputWithContext(ctx context.Context) JWTAuthenticatorPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorPropertiesOutput)
+}
+
+// The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs.
+type JWTAuthenticatorPropertiesOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorProperties)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorPropertiesOutput) ToJWTAuthenticatorPropertiesOutput() JWTAuthenticatorPropertiesOutput {
+	return o
+}
+
+func (o JWTAuthenticatorPropertiesOutput) ToJWTAuthenticatorPropertiesOutputWithContext(ctx context.Context) JWTAuthenticatorPropertiesOutput {
+	return o
+}
+
+// The mappings that define how user attributes are extracted from the token claims.
+func (o JWTAuthenticatorPropertiesOutput) ClaimMappings() JWTAuthenticatorClaimMappingsOutput {
+	return o.ApplyT(func(v JWTAuthenticatorProperties) JWTAuthenticatorClaimMappings { return v.ClaimMappings }).(JWTAuthenticatorClaimMappingsOutput)
+}
+
+// The rules that are applied to validate token claims to authenticate users. All the expressions must evaluate to true for validation to succeed.
+func (o JWTAuthenticatorPropertiesOutput) ClaimValidationRules() JWTAuthenticatorValidationRuleArrayOutput {
+	return o.ApplyT(func(v JWTAuthenticatorProperties) []JWTAuthenticatorValidationRule { return v.ClaimValidationRules }).(JWTAuthenticatorValidationRuleArrayOutput)
+}
+
+// The JWT OIDC issuer details.
+func (o JWTAuthenticatorPropertiesOutput) Issuer() JWTAuthenticatorIssuerOutput {
+	return o.ApplyT(func(v JWTAuthenticatorProperties) JWTAuthenticatorIssuer { return v.Issuer }).(JWTAuthenticatorIssuerOutput)
+}
+
+// The rules that are applied to the mapped user before completing authentication. All the expressions must evaluate to true for validation to succeed.
+func (o JWTAuthenticatorPropertiesOutput) UserValidationRules() JWTAuthenticatorValidationRuleArrayOutput {
+	return o.ApplyT(func(v JWTAuthenticatorProperties) []JWTAuthenticatorValidationRule { return v.UserValidationRules }).(JWTAuthenticatorValidationRuleArrayOutput)
+}
+
+// The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs.
+type JWTAuthenticatorPropertiesResponse struct {
+	// The mappings that define how user attributes are extracted from the token claims.
+	ClaimMappings JWTAuthenticatorClaimMappingsResponse `pulumi:"claimMappings"`
+	// The rules that are applied to validate token claims to authenticate users. All the expressions must evaluate to true for validation to succeed.
+	ClaimValidationRules []JWTAuthenticatorValidationRuleResponse `pulumi:"claimValidationRules"`
+	// The JWT OIDC issuer details.
+	Issuer JWTAuthenticatorIssuerResponse `pulumi:"issuer"`
+	// The current provisioning state of the JWT authenticator.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// The rules that are applied to the mapped user before completing authentication. All the expressions must evaluate to true for validation to succeed.
+	UserValidationRules []JWTAuthenticatorValidationRuleResponse `pulumi:"userValidationRules"`
+}
+
+// The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs.
+type JWTAuthenticatorPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorPropertiesResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorPropertiesResponseOutput) ToJWTAuthenticatorPropertiesResponseOutput() JWTAuthenticatorPropertiesResponseOutput {
+	return o
+}
+
+func (o JWTAuthenticatorPropertiesResponseOutput) ToJWTAuthenticatorPropertiesResponseOutputWithContext(ctx context.Context) JWTAuthenticatorPropertiesResponseOutput {
+	return o
+}
+
+// The mappings that define how user attributes are extracted from the token claims.
+func (o JWTAuthenticatorPropertiesResponseOutput) ClaimMappings() JWTAuthenticatorClaimMappingsResponseOutput {
+	return o.ApplyT(func(v JWTAuthenticatorPropertiesResponse) JWTAuthenticatorClaimMappingsResponse {
+		return v.ClaimMappings
+	}).(JWTAuthenticatorClaimMappingsResponseOutput)
+}
+
+// The rules that are applied to validate token claims to authenticate users. All the expressions must evaluate to true for validation to succeed.
+func (o JWTAuthenticatorPropertiesResponseOutput) ClaimValidationRules() JWTAuthenticatorValidationRuleResponseArrayOutput {
+	return o.ApplyT(func(v JWTAuthenticatorPropertiesResponse) []JWTAuthenticatorValidationRuleResponse {
+		return v.ClaimValidationRules
+	}).(JWTAuthenticatorValidationRuleResponseArrayOutput)
+}
+
+// The JWT OIDC issuer details.
+func (o JWTAuthenticatorPropertiesResponseOutput) Issuer() JWTAuthenticatorIssuerResponseOutput {
+	return o.ApplyT(func(v JWTAuthenticatorPropertiesResponse) JWTAuthenticatorIssuerResponse { return v.Issuer }).(JWTAuthenticatorIssuerResponseOutput)
+}
+
+// The current provisioning state of the JWT authenticator.
+func (o JWTAuthenticatorPropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorPropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// The rules that are applied to the mapped user before completing authentication. All the expressions must evaluate to true for validation to succeed.
+func (o JWTAuthenticatorPropertiesResponseOutput) UserValidationRules() JWTAuthenticatorValidationRuleResponseArrayOutput {
+	return o.ApplyT(func(v JWTAuthenticatorPropertiesResponse) []JWTAuthenticatorValidationRuleResponse {
+		return v.UserValidationRules
+	}).(JWTAuthenticatorValidationRuleResponseArrayOutput)
+}
+
+// The validation rule for JWTAuthenticator.
+type JWTAuthenticatorValidationRule struct {
+	// The CEL expression used to validate the claim or attribute.
+	Expression string `pulumi:"expression"`
+	// The validation error message.
+	Message *string `pulumi:"message"`
+}
+
+// JWTAuthenticatorValidationRuleInput is an input type that accepts JWTAuthenticatorValidationRuleArgs and JWTAuthenticatorValidationRuleOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorValidationRuleInput` via:
+//
+//	JWTAuthenticatorValidationRuleArgs{...}
+type JWTAuthenticatorValidationRuleInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorValidationRuleOutput() JWTAuthenticatorValidationRuleOutput
+	ToJWTAuthenticatorValidationRuleOutputWithContext(context.Context) JWTAuthenticatorValidationRuleOutput
+}
+
+// The validation rule for JWTAuthenticator.
+type JWTAuthenticatorValidationRuleArgs struct {
+	// The CEL expression used to validate the claim or attribute.
+	Expression pulumi.StringInput `pulumi:"expression"`
+	// The validation error message.
+	Message pulumi.StringPtrInput `pulumi:"message"`
+}
+
+func (JWTAuthenticatorValidationRuleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorValidationRule)(nil)).Elem()
+}
+
+func (i JWTAuthenticatorValidationRuleArgs) ToJWTAuthenticatorValidationRuleOutput() JWTAuthenticatorValidationRuleOutput {
+	return i.ToJWTAuthenticatorValidationRuleOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorValidationRuleArgs) ToJWTAuthenticatorValidationRuleOutputWithContext(ctx context.Context) JWTAuthenticatorValidationRuleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorValidationRuleOutput)
+}
+
+// JWTAuthenticatorValidationRuleArrayInput is an input type that accepts JWTAuthenticatorValidationRuleArray and JWTAuthenticatorValidationRuleArrayOutput values.
+// You can construct a concrete instance of `JWTAuthenticatorValidationRuleArrayInput` via:
+//
+//	JWTAuthenticatorValidationRuleArray{ JWTAuthenticatorValidationRuleArgs{...} }
+type JWTAuthenticatorValidationRuleArrayInput interface {
+	pulumi.Input
+
+	ToJWTAuthenticatorValidationRuleArrayOutput() JWTAuthenticatorValidationRuleArrayOutput
+	ToJWTAuthenticatorValidationRuleArrayOutputWithContext(context.Context) JWTAuthenticatorValidationRuleArrayOutput
+}
+
+type JWTAuthenticatorValidationRuleArray []JWTAuthenticatorValidationRuleInput
+
+func (JWTAuthenticatorValidationRuleArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]JWTAuthenticatorValidationRule)(nil)).Elem()
+}
+
+func (i JWTAuthenticatorValidationRuleArray) ToJWTAuthenticatorValidationRuleArrayOutput() JWTAuthenticatorValidationRuleArrayOutput {
+	return i.ToJWTAuthenticatorValidationRuleArrayOutputWithContext(context.Background())
+}
+
+func (i JWTAuthenticatorValidationRuleArray) ToJWTAuthenticatorValidationRuleArrayOutputWithContext(ctx context.Context) JWTAuthenticatorValidationRuleArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(JWTAuthenticatorValidationRuleArrayOutput)
+}
+
+// The validation rule for JWTAuthenticator.
+type JWTAuthenticatorValidationRuleOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorValidationRuleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorValidationRule)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorValidationRuleOutput) ToJWTAuthenticatorValidationRuleOutput() JWTAuthenticatorValidationRuleOutput {
+	return o
+}
+
+func (o JWTAuthenticatorValidationRuleOutput) ToJWTAuthenticatorValidationRuleOutputWithContext(ctx context.Context) JWTAuthenticatorValidationRuleOutput {
+	return o
+}
+
+// The CEL expression used to validate the claim or attribute.
+func (o JWTAuthenticatorValidationRuleOutput) Expression() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorValidationRule) string { return v.Expression }).(pulumi.StringOutput)
+}
+
+// The validation error message.
+func (o JWTAuthenticatorValidationRuleOutput) Message() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v JWTAuthenticatorValidationRule) *string { return v.Message }).(pulumi.StringPtrOutput)
+}
+
+type JWTAuthenticatorValidationRuleArrayOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorValidationRuleArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]JWTAuthenticatorValidationRule)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorValidationRuleArrayOutput) ToJWTAuthenticatorValidationRuleArrayOutput() JWTAuthenticatorValidationRuleArrayOutput {
+	return o
+}
+
+func (o JWTAuthenticatorValidationRuleArrayOutput) ToJWTAuthenticatorValidationRuleArrayOutputWithContext(ctx context.Context) JWTAuthenticatorValidationRuleArrayOutput {
+	return o
+}
+
+func (o JWTAuthenticatorValidationRuleArrayOutput) Index(i pulumi.IntInput) JWTAuthenticatorValidationRuleOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) JWTAuthenticatorValidationRule {
+		return vs[0].([]JWTAuthenticatorValidationRule)[vs[1].(int)]
+	}).(JWTAuthenticatorValidationRuleOutput)
+}
+
+// The validation rule for JWTAuthenticator.
+type JWTAuthenticatorValidationRuleResponse struct {
+	// The CEL expression used to validate the claim or attribute.
+	Expression string `pulumi:"expression"`
+	// The validation error message.
+	Message *string `pulumi:"message"`
+}
+
+// The validation rule for JWTAuthenticator.
+type JWTAuthenticatorValidationRuleResponseOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorValidationRuleResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*JWTAuthenticatorValidationRuleResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorValidationRuleResponseOutput) ToJWTAuthenticatorValidationRuleResponseOutput() JWTAuthenticatorValidationRuleResponseOutput {
+	return o
+}
+
+func (o JWTAuthenticatorValidationRuleResponseOutput) ToJWTAuthenticatorValidationRuleResponseOutputWithContext(ctx context.Context) JWTAuthenticatorValidationRuleResponseOutput {
+	return o
+}
+
+// The CEL expression used to validate the claim or attribute.
+func (o JWTAuthenticatorValidationRuleResponseOutput) Expression() pulumi.StringOutput {
+	return o.ApplyT(func(v JWTAuthenticatorValidationRuleResponse) string { return v.Expression }).(pulumi.StringOutput)
+}
+
+// The validation error message.
+func (o JWTAuthenticatorValidationRuleResponseOutput) Message() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v JWTAuthenticatorValidationRuleResponse) *string { return v.Message }).(pulumi.StringPtrOutput)
+}
+
+type JWTAuthenticatorValidationRuleResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (JWTAuthenticatorValidationRuleResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]JWTAuthenticatorValidationRuleResponse)(nil)).Elem()
+}
+
+func (o JWTAuthenticatorValidationRuleResponseArrayOutput) ToJWTAuthenticatorValidationRuleResponseArrayOutput() JWTAuthenticatorValidationRuleResponseArrayOutput {
+	return o
+}
+
+func (o JWTAuthenticatorValidationRuleResponseArrayOutput) ToJWTAuthenticatorValidationRuleResponseArrayOutputWithContext(ctx context.Context) JWTAuthenticatorValidationRuleResponseArrayOutput {
+	return o
+}
+
+func (o JWTAuthenticatorValidationRuleResponseArrayOutput) Index(i pulumi.IntInput) JWTAuthenticatorValidationRuleResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) JWTAuthenticatorValidationRuleResponse {
+		return vs[0].([]JWTAuthenticatorValidationRuleResponse)[vs[1].(int)]
+	}).(JWTAuthenticatorValidationRuleResponseOutput)
+}
+
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig struct {
 	// Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
@@ -23161,6 +24061,450 @@ func (o NetworkProfileForSnapshotResponseOutput) NetworkPolicy() pulumi.StringPt
 	return o.ApplyT(func(v NetworkProfileForSnapshotResponse) *string { return v.NetworkPolicy }).(pulumi.StringPtrOutput)
 }
 
+// The properties of the Node Customization resource.
+type NodeCustomizationProperties struct {
+	// The list of container images to cache on nodes. See https://kubernetes.io/docs/concepts/containers/images/#image-names
+	ContainerImages []string `pulumi:"containerImages"`
+	// The scripts to customize the node before or after image capture.
+	CustomizationScripts []NodeCustomizationScript `pulumi:"customizationScripts"`
+}
+
+// NodeCustomizationPropertiesInput is an input type that accepts NodeCustomizationPropertiesArgs and NodeCustomizationPropertiesOutput values.
+// You can construct a concrete instance of `NodeCustomizationPropertiesInput` via:
+//
+//	NodeCustomizationPropertiesArgs{...}
+type NodeCustomizationPropertiesInput interface {
+	pulumi.Input
+
+	ToNodeCustomizationPropertiesOutput() NodeCustomizationPropertiesOutput
+	ToNodeCustomizationPropertiesOutputWithContext(context.Context) NodeCustomizationPropertiesOutput
+}
+
+// The properties of the Node Customization resource.
+type NodeCustomizationPropertiesArgs struct {
+	// The list of container images to cache on nodes. See https://kubernetes.io/docs/concepts/containers/images/#image-names
+	ContainerImages pulumi.StringArrayInput `pulumi:"containerImages"`
+	// The scripts to customize the node before or after image capture.
+	CustomizationScripts NodeCustomizationScriptArrayInput `pulumi:"customizationScripts"`
+}
+
+func (NodeCustomizationPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeCustomizationProperties)(nil)).Elem()
+}
+
+func (i NodeCustomizationPropertiesArgs) ToNodeCustomizationPropertiesOutput() NodeCustomizationPropertiesOutput {
+	return i.ToNodeCustomizationPropertiesOutputWithContext(context.Background())
+}
+
+func (i NodeCustomizationPropertiesArgs) ToNodeCustomizationPropertiesOutputWithContext(ctx context.Context) NodeCustomizationPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NodeCustomizationPropertiesOutput)
+}
+
+func (i NodeCustomizationPropertiesArgs) ToNodeCustomizationPropertiesPtrOutput() NodeCustomizationPropertiesPtrOutput {
+	return i.ToNodeCustomizationPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i NodeCustomizationPropertiesArgs) ToNodeCustomizationPropertiesPtrOutputWithContext(ctx context.Context) NodeCustomizationPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NodeCustomizationPropertiesOutput).ToNodeCustomizationPropertiesPtrOutputWithContext(ctx)
+}
+
+// NodeCustomizationPropertiesPtrInput is an input type that accepts NodeCustomizationPropertiesArgs, NodeCustomizationPropertiesPtr and NodeCustomizationPropertiesPtrOutput values.
+// You can construct a concrete instance of `NodeCustomizationPropertiesPtrInput` via:
+//
+//	        NodeCustomizationPropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type NodeCustomizationPropertiesPtrInput interface {
+	pulumi.Input
+
+	ToNodeCustomizationPropertiesPtrOutput() NodeCustomizationPropertiesPtrOutput
+	ToNodeCustomizationPropertiesPtrOutputWithContext(context.Context) NodeCustomizationPropertiesPtrOutput
+}
+
+type nodeCustomizationPropertiesPtrType NodeCustomizationPropertiesArgs
+
+func NodeCustomizationPropertiesPtr(v *NodeCustomizationPropertiesArgs) NodeCustomizationPropertiesPtrInput {
+	return (*nodeCustomizationPropertiesPtrType)(v)
+}
+
+func (*nodeCustomizationPropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**NodeCustomizationProperties)(nil)).Elem()
+}
+
+func (i *nodeCustomizationPropertiesPtrType) ToNodeCustomizationPropertiesPtrOutput() NodeCustomizationPropertiesPtrOutput {
+	return i.ToNodeCustomizationPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *nodeCustomizationPropertiesPtrType) ToNodeCustomizationPropertiesPtrOutputWithContext(ctx context.Context) NodeCustomizationPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NodeCustomizationPropertiesPtrOutput)
+}
+
+// The properties of the Node Customization resource.
+type NodeCustomizationPropertiesOutput struct{ *pulumi.OutputState }
+
+func (NodeCustomizationPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeCustomizationProperties)(nil)).Elem()
+}
+
+func (o NodeCustomizationPropertiesOutput) ToNodeCustomizationPropertiesOutput() NodeCustomizationPropertiesOutput {
+	return o
+}
+
+func (o NodeCustomizationPropertiesOutput) ToNodeCustomizationPropertiesOutputWithContext(ctx context.Context) NodeCustomizationPropertiesOutput {
+	return o
+}
+
+func (o NodeCustomizationPropertiesOutput) ToNodeCustomizationPropertiesPtrOutput() NodeCustomizationPropertiesPtrOutput {
+	return o.ToNodeCustomizationPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o NodeCustomizationPropertiesOutput) ToNodeCustomizationPropertiesPtrOutputWithContext(ctx context.Context) NodeCustomizationPropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v NodeCustomizationProperties) *NodeCustomizationProperties {
+		return &v
+	}).(NodeCustomizationPropertiesPtrOutput)
+}
+
+// The list of container images to cache on nodes. See https://kubernetes.io/docs/concepts/containers/images/#image-names
+func (o NodeCustomizationPropertiesOutput) ContainerImages() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v NodeCustomizationProperties) []string { return v.ContainerImages }).(pulumi.StringArrayOutput)
+}
+
+// The scripts to customize the node before or after image capture.
+func (o NodeCustomizationPropertiesOutput) CustomizationScripts() NodeCustomizationScriptArrayOutput {
+	return o.ApplyT(func(v NodeCustomizationProperties) []NodeCustomizationScript { return v.CustomizationScripts }).(NodeCustomizationScriptArrayOutput)
+}
+
+type NodeCustomizationPropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (NodeCustomizationPropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**NodeCustomizationProperties)(nil)).Elem()
+}
+
+func (o NodeCustomizationPropertiesPtrOutput) ToNodeCustomizationPropertiesPtrOutput() NodeCustomizationPropertiesPtrOutput {
+	return o
+}
+
+func (o NodeCustomizationPropertiesPtrOutput) ToNodeCustomizationPropertiesPtrOutputWithContext(ctx context.Context) NodeCustomizationPropertiesPtrOutput {
+	return o
+}
+
+func (o NodeCustomizationPropertiesPtrOutput) Elem() NodeCustomizationPropertiesOutput {
+	return o.ApplyT(func(v *NodeCustomizationProperties) NodeCustomizationProperties {
+		if v != nil {
+			return *v
+		}
+		var ret NodeCustomizationProperties
+		return ret
+	}).(NodeCustomizationPropertiesOutput)
+}
+
+// The list of container images to cache on nodes. See https://kubernetes.io/docs/concepts/containers/images/#image-names
+func (o NodeCustomizationPropertiesPtrOutput) ContainerImages() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *NodeCustomizationProperties) []string {
+		if v == nil {
+			return nil
+		}
+		return v.ContainerImages
+	}).(pulumi.StringArrayOutput)
+}
+
+// The scripts to customize the node before or after image capture.
+func (o NodeCustomizationPropertiesPtrOutput) CustomizationScripts() NodeCustomizationScriptArrayOutput {
+	return o.ApplyT(func(v *NodeCustomizationProperties) []NodeCustomizationScript {
+		if v == nil {
+			return nil
+		}
+		return v.CustomizationScripts
+	}).(NodeCustomizationScriptArrayOutput)
+}
+
+// The properties of the Node Customization resource.
+type NodeCustomizationPropertiesResponse struct {
+	// The list of container images to cache on nodes. See https://kubernetes.io/docs/concepts/containers/images/#image-names
+	ContainerImages []string `pulumi:"containerImages"`
+	// The scripts to customize the node before or after image capture.
+	CustomizationScripts []NodeCustomizationScriptResponse `pulumi:"customizationScripts"`
+	// The identity used to execute node customization tasks during image build time and provisioning time.
+	// If not specified the default agentpool identity will be used.
+	// This does not affect provisioned nodes.
+	IdentityProfile *UserAssignedIdentityResponse `pulumi:"identityProfile"`
+	// The provisioning state of the node customization.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// An auto-generated value that changes when the other fields of the image customization are changed.
+	Version string `pulumi:"version"`
+}
+
+// The properties of the Node Customization resource.
+type NodeCustomizationPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (NodeCustomizationPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeCustomizationPropertiesResponse)(nil)).Elem()
+}
+
+func (o NodeCustomizationPropertiesResponseOutput) ToNodeCustomizationPropertiesResponseOutput() NodeCustomizationPropertiesResponseOutput {
+	return o
+}
+
+func (o NodeCustomizationPropertiesResponseOutput) ToNodeCustomizationPropertiesResponseOutputWithContext(ctx context.Context) NodeCustomizationPropertiesResponseOutput {
+	return o
+}
+
+// The list of container images to cache on nodes. See https://kubernetes.io/docs/concepts/containers/images/#image-names
+func (o NodeCustomizationPropertiesResponseOutput) ContainerImages() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v NodeCustomizationPropertiesResponse) []string { return v.ContainerImages }).(pulumi.StringArrayOutput)
+}
+
+// The scripts to customize the node before or after image capture.
+func (o NodeCustomizationPropertiesResponseOutput) CustomizationScripts() NodeCustomizationScriptResponseArrayOutput {
+	return o.ApplyT(func(v NodeCustomizationPropertiesResponse) []NodeCustomizationScriptResponse {
+		return v.CustomizationScripts
+	}).(NodeCustomizationScriptResponseArrayOutput)
+}
+
+// The identity used to execute node customization tasks during image build time and provisioning time.
+// If not specified the default agentpool identity will be used.
+// This does not affect provisioned nodes.
+func (o NodeCustomizationPropertiesResponseOutput) IdentityProfile() UserAssignedIdentityResponsePtrOutput {
+	return o.ApplyT(func(v NodeCustomizationPropertiesResponse) *UserAssignedIdentityResponse { return v.IdentityProfile }).(UserAssignedIdentityResponsePtrOutput)
+}
+
+// The provisioning state of the node customization.
+func (o NodeCustomizationPropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v NodeCustomizationPropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// An auto-generated value that changes when the other fields of the image customization are changed.
+func (o NodeCustomizationPropertiesResponseOutput) Version() pulumi.StringOutput {
+	return o.ApplyT(func(v NodeCustomizationPropertiesResponse) string { return v.Version }).(pulumi.StringOutput)
+}
+
+// Node customization script
+type NodeCustomizationScript struct {
+	// The stage at which the script is executed.
+	// Specifying `NodeImageBuildTime` will ensure changes are persisted into the node image.
+	ExecutionPoint string `pulumi:"executionPoint"`
+	// The name for the customization script.
+	// Must be unique within the node customization resource.
+	// Can only contain lowercase alphanumeric,'-' or '.' characters.
+	Name string `pulumi:"name"`
+	// Whether the node should reboot after successful script execution.
+	RebootAfter *bool `pulumi:"rebootAfter"`
+	// The script content to be executed in plain text. Do not include secrets.
+	Script *string `pulumi:"script"`
+	// The runtime environment for the script (e.g. Bash).
+	ScriptType string `pulumi:"scriptType"`
+}
+
+// NodeCustomizationScriptInput is an input type that accepts NodeCustomizationScriptArgs and NodeCustomizationScriptOutput values.
+// You can construct a concrete instance of `NodeCustomizationScriptInput` via:
+//
+//	NodeCustomizationScriptArgs{...}
+type NodeCustomizationScriptInput interface {
+	pulumi.Input
+
+	ToNodeCustomizationScriptOutput() NodeCustomizationScriptOutput
+	ToNodeCustomizationScriptOutputWithContext(context.Context) NodeCustomizationScriptOutput
+}
+
+// Node customization script
+type NodeCustomizationScriptArgs struct {
+	// The stage at which the script is executed.
+	// Specifying `NodeImageBuildTime` will ensure changes are persisted into the node image.
+	ExecutionPoint pulumi.StringInput `pulumi:"executionPoint"`
+	// The name for the customization script.
+	// Must be unique within the node customization resource.
+	// Can only contain lowercase alphanumeric,'-' or '.' characters.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Whether the node should reboot after successful script execution.
+	RebootAfter pulumi.BoolPtrInput `pulumi:"rebootAfter"`
+	// The script content to be executed in plain text. Do not include secrets.
+	Script pulumi.StringPtrInput `pulumi:"script"`
+	// The runtime environment for the script (e.g. Bash).
+	ScriptType pulumi.StringInput `pulumi:"scriptType"`
+}
+
+func (NodeCustomizationScriptArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeCustomizationScript)(nil)).Elem()
+}
+
+func (i NodeCustomizationScriptArgs) ToNodeCustomizationScriptOutput() NodeCustomizationScriptOutput {
+	return i.ToNodeCustomizationScriptOutputWithContext(context.Background())
+}
+
+func (i NodeCustomizationScriptArgs) ToNodeCustomizationScriptOutputWithContext(ctx context.Context) NodeCustomizationScriptOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NodeCustomizationScriptOutput)
+}
+
+// NodeCustomizationScriptArrayInput is an input type that accepts NodeCustomizationScriptArray and NodeCustomizationScriptArrayOutput values.
+// You can construct a concrete instance of `NodeCustomizationScriptArrayInput` via:
+//
+//	NodeCustomizationScriptArray{ NodeCustomizationScriptArgs{...} }
+type NodeCustomizationScriptArrayInput interface {
+	pulumi.Input
+
+	ToNodeCustomizationScriptArrayOutput() NodeCustomizationScriptArrayOutput
+	ToNodeCustomizationScriptArrayOutputWithContext(context.Context) NodeCustomizationScriptArrayOutput
+}
+
+type NodeCustomizationScriptArray []NodeCustomizationScriptInput
+
+func (NodeCustomizationScriptArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]NodeCustomizationScript)(nil)).Elem()
+}
+
+func (i NodeCustomizationScriptArray) ToNodeCustomizationScriptArrayOutput() NodeCustomizationScriptArrayOutput {
+	return i.ToNodeCustomizationScriptArrayOutputWithContext(context.Background())
+}
+
+func (i NodeCustomizationScriptArray) ToNodeCustomizationScriptArrayOutputWithContext(ctx context.Context) NodeCustomizationScriptArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NodeCustomizationScriptArrayOutput)
+}
+
+// Node customization script
+type NodeCustomizationScriptOutput struct{ *pulumi.OutputState }
+
+func (NodeCustomizationScriptOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeCustomizationScript)(nil)).Elem()
+}
+
+func (o NodeCustomizationScriptOutput) ToNodeCustomizationScriptOutput() NodeCustomizationScriptOutput {
+	return o
+}
+
+func (o NodeCustomizationScriptOutput) ToNodeCustomizationScriptOutputWithContext(ctx context.Context) NodeCustomizationScriptOutput {
+	return o
+}
+
+// The stage at which the script is executed.
+// Specifying `NodeImageBuildTime` will ensure changes are persisted into the node image.
+func (o NodeCustomizationScriptOutput) ExecutionPoint() pulumi.StringOutput {
+	return o.ApplyT(func(v NodeCustomizationScript) string { return v.ExecutionPoint }).(pulumi.StringOutput)
+}
+
+// The name for the customization script.
+// Must be unique within the node customization resource.
+// Can only contain lowercase alphanumeric,'-' or '.' characters.
+func (o NodeCustomizationScriptOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v NodeCustomizationScript) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Whether the node should reboot after successful script execution.
+func (o NodeCustomizationScriptOutput) RebootAfter() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v NodeCustomizationScript) *bool { return v.RebootAfter }).(pulumi.BoolPtrOutput)
+}
+
+// The script content to be executed in plain text. Do not include secrets.
+func (o NodeCustomizationScriptOutput) Script() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NodeCustomizationScript) *string { return v.Script }).(pulumi.StringPtrOutput)
+}
+
+// The runtime environment for the script (e.g. Bash).
+func (o NodeCustomizationScriptOutput) ScriptType() pulumi.StringOutput {
+	return o.ApplyT(func(v NodeCustomizationScript) string { return v.ScriptType }).(pulumi.StringOutput)
+}
+
+type NodeCustomizationScriptArrayOutput struct{ *pulumi.OutputState }
+
+func (NodeCustomizationScriptArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]NodeCustomizationScript)(nil)).Elem()
+}
+
+func (o NodeCustomizationScriptArrayOutput) ToNodeCustomizationScriptArrayOutput() NodeCustomizationScriptArrayOutput {
+	return o
+}
+
+func (o NodeCustomizationScriptArrayOutput) ToNodeCustomizationScriptArrayOutputWithContext(ctx context.Context) NodeCustomizationScriptArrayOutput {
+	return o
+}
+
+func (o NodeCustomizationScriptArrayOutput) Index(i pulumi.IntInput) NodeCustomizationScriptOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) NodeCustomizationScript {
+		return vs[0].([]NodeCustomizationScript)[vs[1].(int)]
+	}).(NodeCustomizationScriptOutput)
+}
+
+// Node customization script
+type NodeCustomizationScriptResponse struct {
+	// The stage at which the script is executed.
+	// Specifying `NodeImageBuildTime` will ensure changes are persisted into the node image.
+	ExecutionPoint string `pulumi:"executionPoint"`
+	// The name for the customization script.
+	// Must be unique within the node customization resource.
+	// Can only contain lowercase alphanumeric,'-' or '.' characters.
+	Name string `pulumi:"name"`
+	// Whether the node should reboot after successful script execution.
+	RebootAfter *bool `pulumi:"rebootAfter"`
+	// The script content to be executed in plain text. Do not include secrets.
+	Script *string `pulumi:"script"`
+	// The runtime environment for the script (e.g. Bash).
+	ScriptType string `pulumi:"scriptType"`
+}
+
+// Node customization script
+type NodeCustomizationScriptResponseOutput struct{ *pulumi.OutputState }
+
+func (NodeCustomizationScriptResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeCustomizationScriptResponse)(nil)).Elem()
+}
+
+func (o NodeCustomizationScriptResponseOutput) ToNodeCustomizationScriptResponseOutput() NodeCustomizationScriptResponseOutput {
+	return o
+}
+
+func (o NodeCustomizationScriptResponseOutput) ToNodeCustomizationScriptResponseOutputWithContext(ctx context.Context) NodeCustomizationScriptResponseOutput {
+	return o
+}
+
+// The stage at which the script is executed.
+// Specifying `NodeImageBuildTime` will ensure changes are persisted into the node image.
+func (o NodeCustomizationScriptResponseOutput) ExecutionPoint() pulumi.StringOutput {
+	return o.ApplyT(func(v NodeCustomizationScriptResponse) string { return v.ExecutionPoint }).(pulumi.StringOutput)
+}
+
+// The name for the customization script.
+// Must be unique within the node customization resource.
+// Can only contain lowercase alphanumeric,'-' or '.' characters.
+func (o NodeCustomizationScriptResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v NodeCustomizationScriptResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Whether the node should reboot after successful script execution.
+func (o NodeCustomizationScriptResponseOutput) RebootAfter() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v NodeCustomizationScriptResponse) *bool { return v.RebootAfter }).(pulumi.BoolPtrOutput)
+}
+
+// The script content to be executed in plain text. Do not include secrets.
+func (o NodeCustomizationScriptResponseOutput) Script() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NodeCustomizationScriptResponse) *string { return v.Script }).(pulumi.StringPtrOutput)
+}
+
+// The runtime environment for the script (e.g. Bash).
+func (o NodeCustomizationScriptResponseOutput) ScriptType() pulumi.StringOutput {
+	return o.ApplyT(func(v NodeCustomizationScriptResponse) string { return v.ScriptType }).(pulumi.StringOutput)
+}
+
+type NodeCustomizationScriptResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (NodeCustomizationScriptResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]NodeCustomizationScriptResponse)(nil)).Elem()
+}
+
+func (o NodeCustomizationScriptResponseArrayOutput) ToNodeCustomizationScriptResponseArrayOutput() NodeCustomizationScriptResponseArrayOutput {
+	return o
+}
+
+func (o NodeCustomizationScriptResponseArrayOutput) ToNodeCustomizationScriptResponseArrayOutputWithContext(ctx context.Context) NodeCustomizationScriptResponseArrayOutput {
+	return o
+}
+
+func (o NodeCustomizationScriptResponseArrayOutput) Index(i pulumi.IntInput) NodeCustomizationScriptResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) NodeCustomizationScriptResponse {
+		return vs[0].([]NodeCustomizationScriptResponse)[vs[1].(int)]
+	}).(NodeCustomizationScriptResponseOutput)
+}
+
 // The node image upgrade to be applied to the target nodes in update run.
 type NodeImageSelection struct {
 	// The node image upgrade type.
@@ -28298,19 +29642,19 @@ func (o UserAssignedIdentityMapOutput) MapIndex(k pulumi.StringInput) UserAssign
 	}).(UserAssignedIdentityOutput)
 }
 
-// Details about a user assigned identity.
+// User assigned identity properties
 type UserAssignedIdentityResponse struct {
-	// The client ID of the user assigned identity.
-	ClientId *string `pulumi:"clientId"`
+	// The client ID of the assigned identity.
+	ClientId string `pulumi:"clientId"`
 	// The object ID of the user assigned identity.
 	ObjectId *string `pulumi:"objectId"`
 	// The principal ID of the assigned identity.
-	PrincipalId *string `pulumi:"principalId"`
+	PrincipalId string `pulumi:"principalId"`
 	// The resource ID of the user assigned identity.
 	ResourceId *string `pulumi:"resourceId"`
 }
 
-// Details about a user assigned identity.
+// User assigned identity properties
 type UserAssignedIdentityResponseOutput struct{ *pulumi.OutputState }
 
 func (UserAssignedIdentityResponseOutput) ElementType() reflect.Type {
@@ -28325,9 +29669,9 @@ func (o UserAssignedIdentityResponseOutput) ToUserAssignedIdentityResponseOutput
 	return o
 }
 
-// The client ID of the user assigned identity.
-func (o UserAssignedIdentityResponseOutput) ClientId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v UserAssignedIdentityResponse) *string { return v.ClientId }).(pulumi.StringPtrOutput)
+// The client ID of the assigned identity.
+func (o UserAssignedIdentityResponseOutput) ClientId() pulumi.StringOutput {
+	return o.ApplyT(func(v UserAssignedIdentityResponse) string { return v.ClientId }).(pulumi.StringOutput)
 }
 
 // The object ID of the user assigned identity.
@@ -28336,8 +29680,8 @@ func (o UserAssignedIdentityResponseOutput) ObjectId() pulumi.StringPtrOutput {
 }
 
 // The principal ID of the assigned identity.
-func (o UserAssignedIdentityResponseOutput) PrincipalId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v UserAssignedIdentityResponse) *string { return v.PrincipalId }).(pulumi.StringPtrOutput)
+func (o UserAssignedIdentityResponseOutput) PrincipalId() pulumi.StringOutput {
+	return o.ApplyT(func(v UserAssignedIdentityResponse) string { return v.PrincipalId }).(pulumi.StringOutput)
 }
 
 // The resource ID of the user assigned identity.
@@ -28369,13 +29713,13 @@ func (o UserAssignedIdentityResponsePtrOutput) Elem() UserAssignedIdentityRespon
 	}).(UserAssignedIdentityResponseOutput)
 }
 
-// The client ID of the user assigned identity.
+// The client ID of the assigned identity.
 func (o UserAssignedIdentityResponsePtrOutput) ClientId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *UserAssignedIdentityResponse) *string {
 		if v == nil {
 			return nil
 		}
-		return v.ClientId
+		return &v.ClientId
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -28395,7 +29739,7 @@ func (o UserAssignedIdentityResponsePtrOutput) PrincipalId() pulumi.StringPtrOut
 		if v == nil {
 			return nil
 		}
-		return v.PrincipalId
+		return &v.PrincipalId
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -29106,6 +30450,24 @@ func init() {
 	pulumi.RegisterOutputType(IstioServiceMeshPtrOutput{})
 	pulumi.RegisterOutputType(IstioServiceMeshResponseOutput{})
 	pulumi.RegisterOutputType(IstioServiceMeshResponsePtrOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorClaimMappingExpressionOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorClaimMappingExpressionPtrOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorClaimMappingExpressionResponseOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorClaimMappingExpressionResponsePtrOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorClaimMappingsOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorClaimMappingsResponseOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorExtraClaimMappingExpressionOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorExtraClaimMappingExpressionArrayOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorExtraClaimMappingExpressionResponseOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorExtraClaimMappingExpressionResponseArrayOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorIssuerOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorIssuerResponseOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorPropertiesOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorPropertiesResponseOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorValidationRuleOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorValidationRuleArrayOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorValidationRuleResponseOutput{})
+	pulumi.RegisterOutputType(JWTAuthenticatorValidationRuleResponseArrayOutput{})
 	pulumi.RegisterOutputType(KubeletConfigOutput{})
 	pulumi.RegisterOutputType(KubeletConfigPtrOutput{})
 	pulumi.RegisterOutputType(KubeletConfigResponseOutput{})
@@ -29322,6 +30684,13 @@ func init() {
 	pulumi.RegisterOutputType(NetworkPoliciesResponseOutput{})
 	pulumi.RegisterOutputType(NetworkPoliciesResponsePtrOutput{})
 	pulumi.RegisterOutputType(NetworkProfileForSnapshotResponseOutput{})
+	pulumi.RegisterOutputType(NodeCustomizationPropertiesOutput{})
+	pulumi.RegisterOutputType(NodeCustomizationPropertiesPtrOutput{})
+	pulumi.RegisterOutputType(NodeCustomizationPropertiesResponseOutput{})
+	pulumi.RegisterOutputType(NodeCustomizationScriptOutput{})
+	pulumi.RegisterOutputType(NodeCustomizationScriptArrayOutput{})
+	pulumi.RegisterOutputType(NodeCustomizationScriptResponseOutput{})
+	pulumi.RegisterOutputType(NodeCustomizationScriptResponseArrayOutput{})
 	pulumi.RegisterOutputType(NodeImageSelectionOutput{})
 	pulumi.RegisterOutputType(NodeImageSelectionPtrOutput{})
 	pulumi.RegisterOutputType(NodeImageSelectionResponseOutput{})

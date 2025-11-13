@@ -14,6 +14,8 @@ import (
 // The IdentityBinding resource.
 //
 // Uses Azure REST API version 2025-06-02-preview.
+//
+// Other available API versions: 2025-07-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupIdentityBinding(ctx *pulumi.Context, args *LookupIdentityBindingArgs, opts ...pulumi.InvokeOption) (*LookupIdentityBindingResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupIdentityBindingResult
