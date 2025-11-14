@@ -257,6 +257,7 @@ spec:
       volumeMounts:
         - name: cluster-info
           mountPath: /opt/cluster-info
+      workingDir: /opt/cluster-info
       script: |
         #!/bin/bash
         set -eo pipefail
