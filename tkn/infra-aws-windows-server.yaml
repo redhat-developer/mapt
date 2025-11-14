@@ -237,6 +237,7 @@ spec:
       volumeMounts:
         - name: host-info
           mountPath: /opt/host-info
+      workingDir: /opt/host-info
       script: |
         #!/bin/bash
         set -eo pipefail
