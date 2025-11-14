@@ -10,7 +10,7 @@ var (
 
 	// amiProduct     = "Red Hat Enterprise Linux"
 	amiProduct = "Linux/UNIX"
-	amiRegex   = "rhel-ai-nvidia-aws-%s-*"
+	amiRegex   = "rhel-ai-cuda-aws-%s-*"
 	amiOwner   = "610952687893"
 	// amiOwnerSelf   = "self"
 	amiArch        = "x86_64"
