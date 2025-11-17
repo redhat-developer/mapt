@@ -1,7 +1,7 @@
 # dario.cat/mergo v1.0.2
 ## explicit; go 1.13
 dario.cat/mergo
-# github.com/Azure/azure-sdk-for-go/sdk/azcore v1.19.1
+# github.com/Azure/azure-sdk-for-go/sdk/azcore v1.20.0
 ## explicit; go 1.23.0
 github.com/Azure/azure-sdk-for-go/sdk/azcore
 github.com/Azure/azure-sdk-for-go/sdk/azcore/arm
@@ -24,7 +24,7 @@ github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime
 github.com/Azure/azure-sdk-for-go/sdk/azcore/streaming
 github.com/Azure/azure-sdk-for-go/sdk/azcore/to
 github.com/Azure/azure-sdk-for-go/sdk/azcore/tracing
-# github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.13.0
+# github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.13.1
 ## explicit; go 1.23.0
 github.com/Azure/azure-sdk-for-go/sdk/azidentity
 github.com/Azure/azure-sdk-for-go/sdk/azidentity/internal
@@ -51,7 +51,7 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources
 # github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 ## explicit; go 1.18
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions
-# github.com/AzureAD/microsoft-authentication-library-for-go v1.5.0
+# github.com/AzureAD/microsoft-authentication-library-for-go v1.6.0
 ## explicit; go 1.18
 github.com/AzureAD/microsoft-authentication-library-for-go/apps/cache
 github.com/AzureAD/microsoft-authentication-library-for-go/apps/confidential
@@ -160,10 +160,10 @@ github.com/aws/aws-sdk-go-v2/internal/timeconv
 ## explicit; go 1.23
 github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream
 github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi
-# github.com/aws/aws-sdk-go-v2/config v1.31.17
+# github.com/aws/aws-sdk-go-v2/config v1.31.20
 ## explicit; go 1.23
 github.com/aws/aws-sdk-go-v2/config
-# github.com/aws/aws-sdk-go-v2/credentials v1.18.21
+# github.com/aws/aws-sdk-go-v2/credentials v1.18.24
 ## explicit; go 1.23
 github.com/aws/aws-sdk-go-v2/credentials
 github.com/aws/aws-sdk-go-v2/credentials/ec2rolecreds
@@ -195,7 +195,7 @@ github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4
 github.com/aws/aws-sdk-go-v2/service/ec2
 github.com/aws/aws-sdk-go-v2/service/ec2/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ec2/types
-# github.com/aws/aws-sdk-go-v2/service/ecs v1.67.2
+# github.com/aws/aws-sdk-go-v2/service/ecs v1.67.4
 ## explicit; go 1.23
 github.com/aws/aws-sdk-go-v2/service/ecs
 github.com/aws/aws-sdk-go-v2/service/ecs/document
@@ -221,7 +221,7 @@ github.com/aws/aws-sdk-go-v2/service/internal/presigned-url
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared/arn
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared/config
-# github.com/aws/aws-sdk-go-v2/service/pricing v1.40.3
+# github.com/aws/aws-sdk-go-v2/service/pricing v1.40.5
 ## explicit; go 1.23
 github.com/aws/aws-sdk-go-v2/service/pricing
 github.com/aws/aws-sdk-go-v2/service/pricing/internal/endpoints
@@ -233,17 +233,17 @@ github.com/aws/aws-sdk-go-v2/service/s3/internal/arn
 github.com/aws/aws-sdk-go-v2/service/s3/internal/customizations
 github.com/aws/aws-sdk-go-v2/service/s3/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/s3/types
-# github.com/aws/aws-sdk-go-v2/service/sso v1.30.1
+# github.com/aws/aws-sdk-go-v2/service/sso v1.30.3
 ## explicit; go 1.23
 github.com/aws/aws-sdk-go-v2/service/sso
 github.com/aws/aws-sdk-go-v2/service/sso/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/sso/types
-# github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.5
+# github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.7
 ## explicit; go 1.23
 github.com/aws/aws-sdk-go-v2/service/ssooidc
 github.com/aws/aws-sdk-go-v2/service/ssooidc/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ssooidc/types
-# github.com/aws/aws-sdk-go-v2/service/sts v1.39.1
+# github.com/aws/aws-sdk-go-v2/service/sts v1.40.2
 ## explicit; go 1.23
 github.com/aws/aws-sdk-go-v2/service/sts
 github.com/aws/aws-sdk-go-v2/service/sts/internal/endpoints
@@ -311,12 +311,12 @@ github.com/charmbracelet/colorprofile
 # github.com/charmbracelet/lipgloss v1.1.0
 ## explicit; go 1.18
 github.com/charmbracelet/lipgloss
-# github.com/charmbracelet/x/ansi v0.10.3
+# github.com/charmbracelet/x/ansi v0.11.0
 ## explicit; go 1.24.2
 github.com/charmbracelet/x/ansi
 github.com/charmbracelet/x/ansi/parser
-# github.com/charmbracelet/x/cellbuf v0.0.13
-## explicit; go 1.18
+# github.com/charmbracelet/x/cellbuf v0.0.14
+## explicit; go 1.24.2
 github.com/charmbracelet/x/cellbuf
 # github.com/charmbracelet/x/term v0.2.2
 ## explicit; go 1.24.0
@@ -638,28 +638,28 @@ github.com/pulumi/pulumi-aws/sdk/v7/go/aws/s3
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/awsx
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/ecs
 github.com/pulumi/pulumi-awsx/sdk/v3/go/awsx/internal
-# github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.10.0
+# github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.10.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/authorization/v3
-# github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.10.0
+# github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.10.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/compute/v3
-# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.10.0
+# github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.10.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3
-# github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.10.0
+# github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.10.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3
-# github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.10.0
+# github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.10.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/network/v3
-# github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.10.0
+# github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.10.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/resources/v3
-# github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.10.0
+# github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.10.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/storage/v3
-# github.com/pulumi/pulumi-azure-native-sdk/v3 v3.10.0
+# github.com/pulumi/pulumi-azure-native-sdk/v3 v3.10.1
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-azure-native-sdk/v3/utilities
 # github.com/pulumi/pulumi-command/sdk v1.1.3
@@ -746,11 +746,11 @@ github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/yaml
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-random/sdk/v4/go/random
 github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
-# github.com/pulumi/pulumi-tls/sdk/v5 v5.2.2
+# github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls
 github.com/pulumi/pulumi-tls/sdk/v5/go/tls/internal
-# github.com/pulumi/pulumi/sdk/v3 v3.205.0
+# github.com/pulumi/pulumi/sdk/v3 v3.207.0
 ## explicit; go 1.23.11
 github.com/pulumi/pulumi/sdk/v3
 github.com/pulumi/pulumi/sdk/v3/go/auto
@@ -776,6 +776,7 @@ github.com/pulumi/pulumi/sdk/v3/go/common/diag/colors
 github.com/pulumi/pulumi/sdk/v3/go/common/encoding
 github.com/pulumi/pulumi/sdk/v3/go/common/env
 github.com/pulumi/pulumi/sdk/v3/go/common/promise
+github.com/pulumi/pulumi/sdk/v3/go/common/providers
 github.com/pulumi/pulumi/sdk/v3/go/common/resource
 github.com/pulumi/pulumi/sdk/v3/go/common/resource/archive
 github.com/pulumi/pulumi/sdk/v3/go/common/resource/asset
