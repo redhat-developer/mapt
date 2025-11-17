@@ -89,7 +89,7 @@ const (
 	RhelVersionDefault   string = "9.4"
 	RhelAIVersion        string = "version"
 	RhelAIVersionDesc    string = "version for the RHELAI OS"
-	RhelAIVersionDefault string = "1.5.0"
+	RhelAIVersionDefault string = "3.0.0"
 	RhelAIAMICustom      string = "custom-ami"
 	RhelAIAMICustomDesc  string = "custom AMI to spin RHEL AI OS"
 
