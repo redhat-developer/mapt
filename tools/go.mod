@@ -2,7 +2,7 @@ module github.com/redhat-developer/mapt/tools
 
 go 1.24.6
 
-require github.com/golangci/golangci-lint/v2 v2.6.1
+require github.com/golangci/golangci-lint/v2 v2.6.2
 
 require (
 	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
@@ -208,7 +208,7 @@ require (
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/exp/typeparams v0.0.0-20251023183803-a4bb9ffd2546 // indirect
 	golang.org/x/mod v0.29.0 // indirect
-	golang.org/x/sync v0.17.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
 	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/tools v0.38.0 // indirect
