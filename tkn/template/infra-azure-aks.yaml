@@ -178,8 +178,7 @@ spec:
 
         if [[ $(params.operation) == "create"  ]]; then
           if [[ $(params.ownerName) == "" || $(params.ownerUid) == "" ]]; then
-            echo "Parameter ownerName and ownerUid is required for create instance"
-            exit 1
+            echo "Parameter ownerName and ownerUid is recommended when creating instance"
           fi
         fi
         
@@ -237,17 +236,23 @@ spec:
         if [[ $(params.host-access-secret-name) != "" ]]; then
           export SECRETNAME="name: $(params.host-access-secret-name)"
         fi
-        cat <<EOF > host-info.yaml
+        cat <<EOF > cluster-info.yaml
         apiVersion: v1
         kind: Secret
         metadata:
           $SECRETNAME
           namespace: $NAMESPACE
+        EOF
+        if [[ "$OWNER_NAME" != "" && "$OWNER_UID" != "" ]]; then
+        cat <<EOF >> cluster-info.yaml
           ownerReferences:
           - apiVersion: tekton.dev/v1
             kind: $OWNER_KIND
             name: $OWNER_NAME
             uid: $OWNER_UID
+        EOF
+        fi
+        cat <<EOF >> cluster-info.yaml
         type: Opaque
         data:
           kubeconfig: $(cat /opt/cluster-info/kubeconfig | base64 -w0)
