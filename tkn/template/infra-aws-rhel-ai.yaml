@@ -1,0 +1,322 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-aws-rhel-ai
+  labels:
+    app.kubernetes.io/version: "<VERSION>"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.44.x"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, aws, rhelai
+    tekton.dev/displayName: "aws manager"
+    tekton.dev/platforms: "linux/amd64, linux/arm64"
+spec:
+  description: |
+    Task provision a RHEL AI dedicated on host on AWS
+
+  volumes:
+    - name: aws-credentials
+      secret:
+        secretName: $(params.secret-aws-credentials)
+    - name: rh-credentials
+      secret:
+        secretName: $(params.secret-rh-credentials)
+        optional: true
+    - name: host-info
+      emptyDir: {}
+
+  params:
+    - name: secret-aws-credentials
+      description: |
+        ocp secret holding the aws credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: aws-${name}
+        type: Opaque
+        data:
+          access-key: ${access_key}
+          secret-key: ${secret_key}
+          region: ${region}
+          bucket: ${bucket}
+    - name: secret-rh-credentials
+      default: "non-existent-secret"
+      description: |
+        ocp secret holding the credentials for a rh user to manage RHEL subscription.
+
+        As this credentials are optional we set a non-existent name for the secret which 
+        will be mounted as an empty volume
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: credentials-${configname}
+        type: Opaque
+        data:
+          user: ${user}
+          password: ${password}
+    - name: id
+      description: identifier for the provisioned environment
+    - name: operation
+      description: operation to execute within the infrastructure. Current values (create, destroy)
+
+    # Secret result
+    # naming
+    - name: host-access-secret-name
+      type: string
+      default: ""
+      description: |
+        Once the target is provisioned the config to connect is addded to a secret 
+        check resutls. If this param is set the secret will be created with the name set 
+        otherwise it will be created with a random name.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: "PipelineRun"
+      description: |
+        The type of resource that should own the generated SpaceRequest.
+        Deletion of this resource will trigger deletion of the SpaceRequest.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      default: ""
+      description: |
+        The name of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.name)`
+        or `$(context.taskRun.name)` depending on the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      default: ""
+      description: |
+        The uid of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.uid)`
+        or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
+
+    # VM type params
+    - name: compute-sizes
+      description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
+      default: ""
+    - name: cpus
+      description: Number of CPUs for the cloud instance (default 8)
+      default: "8"
+    - name: custom-ami
+      description: Custom AMI to use for the cloud instance
+      default: ""
+    - name: gpu-manufacturer
+      description: Manufacturer company name for GPU. (i.e. NVIDIA)
+      default: ""
+    - name: gpus
+      description: Number of GPUs for the cloud instance (default 0)
+      default: "0"
+    - name: memory
+      description: Amount of RAM for the cloud instance in GiB (default 64)
+      default: "64"
+    - name: nested-virt
+      description: Use cloud instance that has nested virtualization support
+      default: "false"
+    - name: spot
+      description: Check best spot option to spin the machine and will create resources on that region.
+      default: "true"
+    - name: spot-eviction-tolerance
+      description: | 
+        If spot is enabled we can define the minimum tolerance level of eviction. 
+        Allowed value are: lowest, low, medium, high or highest
+      default: "lowest"
+    - name: spot-excluded-regions
+      description: Comma-separated list of zone IDs to exclude from spot selection
+      default: ""
+    - name: spot-increase-rate
+      description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
+      default: "20"
+
+    # RHEL AI params
+    - name: version
+      description: Version of RHEL AI OS (default 1.5.0)
+      default: "1.5.0"
+    
+    # Metadata params
+    - name: tags
+      description: tags for the resources created on the providers
+      default: ""
+
+    # Control params
+    - name: debug
+      description: |
+        Warning setting this param to true exposes partially masked credentials
+
+        The parameter is intended to add verbosity on the task execution and also print masked credentials
+        (showing first and last character with *** in the middle) on stdout to help with debugging
+      default: "false"
+
+  results:
+    - name: host-access-secret
+      description: |
+        ocp secret holding the information to connect with the target machine.
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+            labels:
+          type: Opaque
+          data:
+            host: ${host}
+            username: ${username}
+            id_rsa: ${id_rsa}
+            # If airgap data for bastion host
+            bastion-host: ${bastion-host}
+            bastion-username: ${bastion-username}
+            bastion-id_rsa: ${bastion-id_rsa}
+
+  steps:
+    - name: provisioner
+      image: <IMAGE>
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: aws-credentials
+          mountPath: /opt/aws-credentials
+        - name: rh-credentials
+          mountPath: /opt/rh-account-secret
+        - name: host-info
+          mountPath: /opt/host-info
+      script: |
+        #!/bin/sh
+
+        set -euo pipefail
+
+        # Function to mask credentials (show first and last char, hide middle)
+        mask_credential() {
+          local cred="$1"
+          local len=${#cred}
+          if [ $len -le 2 ]; then
+            echo "***"
+          else
+            echo "${cred:0:1}***${cred: -1}"
+          fi
+        }
+
+        # Credentials - set these BEFORE enabling debug mode
+        export AWS_ACCESS_KEY_ID=$(cat /opt/aws-credentials/access-key)
+        export AWS_SECRET_ACCESS_KEY=$(cat /opt/aws-credentials/secret-key)
+        export AWS_DEFAULT_REGION=$(cat /opt/aws-credentials/region)
+        BUCKET=$(cat /opt/aws-credentials/bucket)
+
+        # If debug add verbosity and print masked credentials
+        if [[ "$(params.debug)" == "true" ]]; then
+          echo "AWS_ACCESS_KEY_ID=$(mask_credential "$AWS_ACCESS_KEY_ID")"
+          echo "AWS_SECRET_ACCESS_KEY=$(mask_credential "$AWS_SECRET_ACCESS_KEY")"
+          echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
+          echo "BUCKET=$BUCKET"
+          set -xeuo pipefail
+        fi
+
+        if [[ "$(params.operation)" == "create"  ]]; then
+          if [[ "$(params.ownerName)" == "" || "$(params.ownerUid)" == "" ]]; then
+            echo "Parameter ownerName and ownerUid is required for create instance"
+            exit 1
+          fi
+        fi
+
+        # Run mapt
+        cmd="mapt aws rhel-ai $(params.operation) "
+        cmd+="--project-name mapt-rhel-ai-$(params.id) "
+        cmd+="--backed-url s3://${BUCKET}/mapt/rhel-ai/$(params.id) "
+
+        if [[ "$(params.debug)" == "true" ]]; then
+          cmd+="--debug "
+        fi
+
+        if [[ "$(params.operation)" == "create" ]]; then
+          cmd+="--conn-details-output /opt/host-info "
+          if [[ "$(params.compute-sizes)" != "" ]]; then
+            cmd+="--compute-sizes '$(params.compute-sizes)' "
+          else
+            cmd+="--cpus '$(params.cpus)' "
+            cmd+="--memory '$(params.memory)' "
+            cmd+="--gpus '$(params.gpus)' "
+            cmd+="--gpu-manufacturer '$(params.gpu-manufacturer)' "
+          fi
+          if [[ "$(params.nested-virt)" == "true" ]]; then
+            cmd+="--nested-virt "
+          fi
+          if [[ "$(params.custom-ami)" != "" ]]; then
+            cmd+="--custom-ami '$(params.custom-ami)' "
+          else
+            cmd+="--version '$(params.version)' "
+          fi
+          if [[ -f /opt/rh-account-secret/user ]]; then
+            cmd+="--rh-subscription-username '$(cat /opt/rh-account-secret/user)' "
+          fi
+          if [[ -f /opt/rh-account-secret/password ]]; then
+            cmd+="--rh-subscription-password '$(cat /opt/rh-account-secret/password)' "
+          fi
+          if [[ "$(params.spot)" == "true" ]]; then
+            cmd+="--spot "
+            cmd+="--spot-increase-rate '$(params.spot-increase-rate)' "
+            cmd+="--spot-eviction-tolerance '$(params.spot-eviction-tolerance)' "
+            cmd+="--spot-excluded-regions '$(params.spot-excluded-regions)' "
+          fi
+          cmd+="--tags '$(params.tags)' "
+        fi
+        eval "${cmd}"
+        
+      resources:
+        requests:
+          memory: "200Mi"
+          cpu: "100m"
+        limits:
+          memory: "600Mi"
+          cpu: "300m"
+    - name: host-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:4.13@sha256:e70eb2be867f1236b19f5cbfeb8e0625737ce0ec1369e32a4f9f146aaaf68d49
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)
+      volumeMounts:
+        - name: host-info
+          mountPath: /opt/host-info
+      workingDir: /opt/host-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ "$(params.operation)" == "create" ]]; then
+        export SECRETNAME="generateName: mapt-aws-rhel-ai-"
+        if [[ "$(params.host-access-secret-name)" != "" ]]; then
+          export SECRETNAME="name: $(params.host-access-secret-name)"
+        fi
+        cat <<EOF > host-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: $NAMESPACE
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: $OWNER_KIND
+            name: $OWNER_NAME
+            uid: $OWNER_UID
+        type: Opaque
+        data:
+          host: $(cat /opt/host-info/host | base64 -w0)
+          username: $(cat /opt/host-info/username | base64 -w0)
+          id_rsa: $(cat /opt/host-info/id_rsa | base64 -w0)
+        EOF
+
+        if [[ "$(params.debug)" == "true" ]]; then
+          cat /opt/host-info/*
+        fi
+        
+        NAME=$(oc create -f host-info.yaml -o=jsonpath='{.metadata.name}')
+        echo -n "${NAME}" | tee $(results.host-access-secret.path)   
+        fi
