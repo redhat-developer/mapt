@@ -54,7 +54,7 @@ var placementScores = []placementScoreSpec{
 // While calculating the spot price and the types of machines
 // to be requested we use the first n number of types per Az
 // to control how many types will be used this var is used
-var numberOfTypesForSpot = 8
+var maxNumberOfTypesForSpot = 8
 
 func minPlacementScore(spotTolerance spot.Tolerance) int32 {
 	idx := slices.IndexFunc(placementScores,
@@ -199,11 +199,16 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	if err != nil {
 		return nil, err
 	}
+	numberOfTypesForSpot := util.If(
+		len(args.InstaceTypes) < maxNumberOfTypesForSpot,
+		len(args.InstaceTypes),
+		maxNumberOfTypesForSpot)
 	c, err := selectSpotChoice(
 		&spotChoiceArgs{
 			placementScores: placementScores,
 			spotPricing:     spotPricing,
-		})
+		},
+		numberOfTypesForSpot)
 	if err != nil {
 		return nil, err
 	}
@@ -239,7 +244,7 @@ type spotChoiceArgs struct {
 // # Also function take cares to transfrom from AzID to AZName
 //
 // first option matching the requirements will be returned
-func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
+func selectSpotChoice(args *spotChoiceArgs, numberOfTypesForSpot int) (*SpotInfoResult, error) {
 	result := make(map[string]*SpotInfoResult)
 	// This can bexecuted async
 	for r, pss := range args.spotPricing {
@@ -260,7 +265,7 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 					})
 			}
 			if len(resultByAZ[ps.AvailabilityZone]) == numberOfTypesForSpot {
-				result[r] = aggregateSpotChoice(resultByAZ[ps.AvailabilityZone])
+				result[r] = aggregateSpotChoice(resultByAZ[ps.AvailabilityZone], numberOfTypesForSpot)
 				break
 			}
 		}
@@ -277,7 +282,7 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 }
 
 // previously we pick 3 values per Az we aggregate its data
-func aggregateSpotChoice(s []*SpotInfoResult) *SpotInfoResult {
+func aggregateSpotChoice(s []*SpotInfoResult, numberOfTypesForSpot int) *SpotInfoResult {
 	return &SpotInfoResult{
 		Region:           s[0].Region,
 		AvailabilityZone: s[0].AvailabilityZone,
