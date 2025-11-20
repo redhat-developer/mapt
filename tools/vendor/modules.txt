@@ -169,7 +169,7 @@ github.com/charmbracelet/x/term
 # github.com/ckaznocha/intrange v0.3.1
 ## explicit; go 1.23.0
 github.com/ckaznocha/intrange
-# github.com/clipperhouse/displaywidth v0.4.1
+# github.com/clipperhouse/displaywidth v0.6.0
 ## explicit; go 1.18
 github.com/clipperhouse/displaywidth
 # github.com/clipperhouse/stringish v0.1.1

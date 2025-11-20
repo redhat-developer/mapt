@@ -914,6 +914,46 @@ type AvailabilityZone struct {
 	noSmithyDocumentSerde
 }
 
+// For regional NAT gateways only: The configuration specifying which Elastic IP
+// address (EIP) to use for handling outbound NAT traffic from a specific
+// Availability Zone.
+//
+// A regional NAT gateway is a single NAT Gateway that works across multiple
+// availability zones (AZs) in your VPC, providing redundancy, scalability and
+// availability across all the AZs in a Region.
+//
+// For more information, see [Regional NAT gateways for automatic multi-AZ expansion] in the Amazon VPC User Guide.
+//
+// [Regional NAT gateways for automatic multi-AZ expansion]: https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateways-regional.html
+type AvailabilityZoneAddress struct {
+
+	// The allocation IDs of the Elastic IP addresses (EIPs) to be used for handling
+	// outbound NAT traffic in this specific Availability Zone.
+	AllocationIds []string
+
+	// For regional NAT gateways only: The Availability Zone where this specific NAT
+	// gateway configuration will be active. Each AZ in a regional NAT gateway has its
+	// own configuration to handle outbound NAT traffic from that AZ.
+	//
+	// A regional NAT gateway is a single NAT Gateway that works across multiple
+	// availability zones (AZs) in your VPC, providing redundancy, scalability and
+	// availability across all the AZs in a Region.
+	AvailabilityZone *string
+
+	// For regional NAT gateways only: The ID of the Availability Zone where this
+	// specific NAT gateway configuration will be active. Each AZ in a regional NAT
+	// gateway has its own configuration to handle outbound NAT traffic from that AZ.
+	// Use this instead of AvailabilityZone for consistent identification of AZs across
+	// Amazon Web Services Regions.
+	//
+	// A regional NAT gateway is a single NAT Gateway that works across multiple
+	// availability zones (AZs) in your VPC, providing redundancy, scalability and
+	// availability across all the AZs in a Region.
+	AvailabilityZoneId *string
+
+	noSmithyDocumentSerde
+}
+
 // Describes a message about an Availability Zone, Local Zone, or Wavelength Zone.
 type AvailabilityZoneMessage struct {
 
@@ -3883,6 +3923,9 @@ type DescribeFastSnapshotRestoreSuccessItem struct {
 	// The Availability Zone.
 	AvailabilityZone *string
 
+	// The ID of the Availability Zone.
+	AvailabilityZoneId *string
+
 	// The time at which fast snapshot restores entered the disabled state.
 	DisabledTime *time.Time
 
@@ -4122,6 +4165,9 @@ type DisableFastSnapshotRestoreStateErrorItem struct {
 	// The Availability Zone.
 	AvailabilityZone *string
 
+	// The ID of the Availability Zone.
+	AvailabilityZoneId *string
+
 	// The error.
 	Error *DisableFastSnapshotRestoreStateError
 
@@ -4133,6 +4179,9 @@ type DisableFastSnapshotRestoreSuccessItem struct {
 
 	// The Availability Zone.
 	AvailabilityZone *string
+
+	// The ID of the Availability Zone.
+	AvailabilityZoneId *string
 
 	// The time at which fast snapshot restores entered the disabled state.
 	DisabledTime *time.Time
@@ -4294,6 +4343,32 @@ type DnsOptions struct {
 	// Indicates whether to enable private DNS only for inbound endpoints.
 	PrivateDnsOnlyForInboundResolverEndpoint *bool
 
+	//  The preference for which private domains have a private hosted zone created
+	// for and associated with the specified VPC. Only supported when private DNS is
+	// enabled and when the VPC endpoint type is ServiceNetwork or Resource.
+	//
+	//   - ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom
+	//   domain names.
+	//
+	//   - VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if
+	//   custom domain name has been verified by the provider.
+	//
+	//   - VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private
+	//   hosted zones for all verified custom domain names and other domain names that
+	//   the resource consumer specifies. The resource consumer specifies the domain
+	//   names in the PrivateDnsSpecifiedDomains parameter.
+	//
+	//   - SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for
+	//   domain names specified by the resource consumer. The resource consumer specifies
+	//   the domain names in the PrivateDnsSpecifiedDomains parameter.
+	PrivateDnsPreference *string
+
+	//  Indicates which of the private domains to create private hosted zones for and
+	// associate with the specified VPC. Only supported when private DNS is enabled and
+	// the private DNS preference is VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS or
+	// SPECIFIED_DOMAINS_ONLY .
+	PrivateDnsSpecifiedDomains []string
+
 	noSmithyDocumentSerde
 }
 
@@ -4308,6 +4383,32 @@ type DnsOptionsSpecification struct {
 	// endpoints. It routes traffic that originates from the VPC to the gateway
 	// endpoint and traffic that originates from on-premises to the interface endpoint.
 	PrivateDnsOnlyForInboundResolverEndpoint *bool
+
+	//  The preference for which private domains have a private hosted zone created
+	// for and associated with the specified VPC. Only supported when private DNS is
+	// enabled and when the VPC endpoint type is ServiceNetwork or Resource.
+	//
+	//   - ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom
+	//   domain names.
+	//
+	//   - VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if
+	//   custom domain name has been verified by the provider.
+	//
+	//   - VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private
+	//   hosted zones for all verified custom domain names and other domain names that
+	//   the resource consumer specifies. The resource consumer specifies the domain
+	//   names in the PrivateDnsSpecifiedDomains parameter.
+	//
+	//   - SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for
+	//   domain names specified by the resource consumer. The resource consumer specifies
+	//   the domain names in the PrivateDnsSpecifiedDomains parameter.
+	PrivateDnsPreference *string
+
+	//  Indicates which of the private domains to create private hosted zones for and
+	// associate with the specified VPC. Only supported when private DNS is enabled and
+	// the private DNS preference is verified-domains-and-specified-domains or
+	// specified-domains-only.
+	PrivateDnsSpecifiedDomains []string
 
 	noSmithyDocumentSerde
 }
@@ -4688,6 +4789,9 @@ type Ec2InstanceConnectEndpoint struct {
 	// The Availability Zone of the EC2 Instance Connect Endpoint.
 	AvailabilityZone *string
 
+	// The ID of the Availability Zone of the EC2 Instance Connect Endpoint.
+	AvailabilityZoneId *string
+
 	// The date and time that the EC2 Instance Connect Endpoint was created.
 	CreatedAt *time.Time
 
@@ -4938,6 +5042,9 @@ type EnableFastSnapshotRestoreStateErrorItem struct {
 	// The Availability Zone.
 	AvailabilityZone *string
 
+	// The ID of the Availability Zone.
+	AvailabilityZoneId *string
+
 	// The error.
 	Error *EnableFastSnapshotRestoreStateError
 
@@ -4949,6 +5056,9 @@ type EnableFastSnapshotRestoreSuccessItem struct {
 
 	// The Availability Zone.
 	AvailabilityZone *string
+
+	// The ID of the Availability Zone.
+	AvailabilityZoneId *string
 
 	// The time at which fast snapshot restores entered the disabled state.
 	DisabledTime *time.Time
@@ -5482,6 +5592,26 @@ type ExportToS3TaskSpecification struct {
 	// The image is written to a single object in the Amazon S3 bucket at the S3 key
 	// s3prefix + exportTaskId + '.' + diskImageFormat.
 	S3Prefix *string
+
+	noSmithyDocumentSerde
+}
+
+// The configuration that links an Amazon VPC IPAM scope to an external authority
+// system. It specifies the type of external system and the external resource
+// identifier that identifies your account or instance in that system.
+//
+// For more information, see [Integrate VPC IPAM with Infoblox infrastructure] in the Amazon VPC IPAM User Guide.
+//
+// [Integrate VPC IPAM with Infoblox infrastructure]: https://docs.aws.amazon.com/vpc/latest/ipam/integrate-infoblox-ipam.html
+type ExternalAuthorityConfiguration struct {
+
+	// The identifier for the external resource managing this scope. For Infoblox
+	// integrations, this is the Infoblox resource identifier in the format
+	// .identity.account.. .
+	ExternalResourceIdentifier *string
+
+	// The type of external authority.
+	Type IpamScopeExternalAuthorityType
 
 	noSmithyDocumentSerde
 }
@@ -7231,6 +7361,29 @@ type Image struct {
 
 	// The type of virtualization of the AMI.
 	VirtualizationType VirtualizationType
+
+	noSmithyDocumentSerde
+}
+
+// Information about a single AMI in the ancestry chain and its source (parent)
+// AMI.
+type ImageAncestryEntry struct {
+
+	// The date and time when this AMI was created.
+	CreationDate *time.Time
+
+	// The ID of this AMI.
+	ImageId *string
+
+	// The owner alias ( amazon | aws-backup-vault | aws-marketplace ) of this AMI, if
+	// one is assigned. Otherwise, the value is null .
+	ImageOwnerAlias *string
+
+	// The ID of the parent AMI.
+	SourceImageId *string
+
+	// The Amazon Web Services Region of the parent AMI.
+	SourceImageRegion *string
 
 	noSmithyDocumentSerde
 }
@@ -9146,17 +9299,34 @@ type InstanceRequirements struct {
 	//   - For instance types with Amazon Web Services Inferentia chips, specify
 	//   inferentia .
 	//
+	//   - For instance types with Amazon Web Services Inferentia2 chips, specify
+	//   inferentia2 .
+	//
+	//   - For instance types with Habana Gaudi HL-205 GPUs, specify gaudi-hl-205 .
+	//
 	//   - For instance types with NVIDIA GRID K520 GPUs, specify k520 .
 	//
 	//   - For instance types with NVIDIA K80 GPUs, specify k80 .
+	//
+	//   - For instance types with NVIDIA L4 GPUs, specify l4 .
+	//
+	//   - For instance types with NVIDIA L40S GPUs, specify l40s .
 	//
 	//   - For instance types with NVIDIA M60 GPUs, specify m60 .
 	//
 	//   - For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520 .
 	//
+	//   - For instance types with Amazon Web Services Trainium chips, specify trainium
+	//   .
+	//
+	//   - For instance types with Amazon Web Services Trainium2 chips, specify
+	//   trainium2 .
+	//
 	//   - For instance types with NVIDIA T4 GPUs, specify t4 .
 	//
 	//   - For instance types with NVIDIA T4G GPUs, specify t4g .
+	//
+	//   - For instance types with Xilinx U30 cards, specify u30 .
 	//
 	//   - For instance types with Xilinx VU9P FPGAs, specify vu9p .
 	//
@@ -9177,6 +9347,8 @@ type InstanceRequirements struct {
 	//   - For instance types with GPU accelerators, specify gpu .
 	//
 	//   - For instance types with Inference accelerators, specify inference .
+	//
+	//   - For instance types with Media accelerators, specify media .
 	//
 	// Default: Any accelerator type
 	AcceleratorTypes []AcceleratorType
@@ -9382,6 +9554,15 @@ type InstanceRequirements struct {
 	// [GetInstanceTypesFromInstanceRequirements]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html
 	OnDemandMaxPricePercentageOverLowestPrice *int32
 
+	// Specifies whether instance types must support encrypting in-transit traffic
+	// between instances. For more information, including the supported instance types,
+	// see [Encryption in transit]in the Amazon EC2 User Guide.
+	//
+	// Default: false
+	//
+	// [Encryption in transit]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.html#encryption-transit
+	RequireEncryptionInTransit *bool
+
 	// Indicates whether instance types must support hibernation for On-Demand
 	// Instances.
 	//
@@ -9517,17 +9698,34 @@ type InstanceRequirementsRequest struct {
 	//   - For instance types with Amazon Web Services Inferentia chips, specify
 	//   inferentia .
 	//
+	//   - For instance types with Amazon Web Services Inferentia2 chips, specify
+	//   inferentia2 .
+	//
+	//   - For instance types with Habana Gaudi HL-205 GPUs, specify gaudi-hl-205 .
+	//
 	//   - For instance types with NVIDIA GRID K520 GPUs, specify k520 .
 	//
 	//   - For instance types with NVIDIA K80 GPUs, specify k80 .
+	//
+	//   - For instance types with NVIDIA L4 GPUs, specify l4 .
+	//
+	//   - For instance types with NVIDIA L40S GPUs, specify l40s .
 	//
 	//   - For instance types with NVIDIA M60 GPUs, specify m60 .
 	//
 	//   - For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520 .
 	//
+	//   - For instance types with Amazon Web Services Trainium chips, specify trainium
+	//   .
+	//
+	//   - For instance types with Amazon Web Services Trainium2 chips, specify
+	//   trainium2 .
+	//
 	//   - For instance types with NVIDIA T4 GPUs, specify t4 .
 	//
 	//   - For instance types with NVIDIA T4G GPUs, specify t4g .
+	//
+	//   - For instance types with Xilinx U30 cards, specify u30 .
 	//
 	//   - For instance types with Xilinx VU9P FPGAs, specify vu9p .
 	//
@@ -9548,6 +9746,8 @@ type InstanceRequirementsRequest struct {
 	//   - For instance types with GPU accelerators, specify gpu .
 	//
 	//   - For instance types with Inference accelerators, specify inference .
+	//
+	//   - For instance types with Media accelerators, specify media .
 	//
 	// Default: Any accelerator type
 	AcceleratorTypes []AcceleratorType
@@ -9751,6 +9951,15 @@ type InstanceRequirementsRequest struct {
 	// [GetSpotPlacementScores]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html
 	// [GetInstanceTypesFromInstanceRequirements]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html
 	OnDemandMaxPricePercentageOverLowestPrice *int32
+
+	// Specifies whether instance types must support encrypting in-transit traffic
+	// between instances. For more information, including the supported instance types,
+	// see [Encryption in transit]in the Amazon EC2 User Guide.
+	//
+	// Default: false
+	//
+	// [Encryption in transit]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.html#encryption-transit
+	RequireEncryptionInTransit *bool
 
 	// Indicates whether instance types must support hibernation for On-Demand
 	// Instances.
@@ -10691,6 +10900,113 @@ type IpamOrganizationalUnitExclusion struct {
 	noSmithyDocumentSerde
 }
 
+// Information about an IPAM policy.
+//
+// An IPAM policy is a set of rules that define how public IPv4 addresses from
+// IPAM pools are allocated to Amazon Web Services resources. Each rule maps an
+// Amazon Web Services service to IPAM pools that the service will use to get IP
+// addresses. A single policy can have multiple rules and be applied to multiple
+// Amazon Web Services Regions. If the IPAM pool run out of addresses then the
+// services fallback to Amazon-provided IP addresses. A policy can be applied to an
+// individual Amazon Web Services account or an entity within Amazon Web Services
+// Organizations.
+type IpamPolicy struct {
+
+	// The ID of the IPAM this policy belongs to.
+	IpamId *string
+
+	// The Amazon Resource Name (ARN) of the IPAM policy.
+	IpamPolicyArn *string
+
+	// The ID of the IPAM policy.
+	IpamPolicyId *string
+
+	// The Region of the IPAM policy.
+	IpamPolicyRegion *string
+
+	// The account ID that owns the IPAM policy.
+	OwnerId *string
+
+	// The state of the IPAM policy.
+	State IpamPolicyState
+
+	// A message about the state of the IPAM policy.
+	StateMessage *string
+
+	// The tags assigned to the IPAM policy.
+	Tags []Tag
+
+	noSmithyDocumentSerde
+}
+
+// Information about an IPAM policy allocation rule.
+//
+// Allocation rules are optional configurations within an IPAM policy that map
+// Amazon Web Services resource types to specific IPAM pools. If no rules are
+// defined, the resource types default to using Amazon-provided IP addresses.
+type IpamPolicyAllocationRule struct {
+
+	// The ID of the source IPAM pool for the allocation rule.
+	//
+	// An IPAM pool is a collection of IP addresses in IPAM that can be allocated to
+	// Amazon Web Services resources.
+	SourceIpamPoolId *string
+
+	noSmithyDocumentSerde
+}
+
+// Information about a requested IPAM policy allocation rule.
+//
+// Allocation rules are optional configurations within an IPAM policy that map
+// Amazon Web Services resource types to specific IPAM pools. If no rules are
+// defined, the resource types default to using Amazon-provided IP addresses.
+type IpamPolicyAllocationRuleRequest struct {
+
+	// The ID of the source IPAM pool for the requested allocation rule.
+	//
+	// An IPAM pool is a collection of IP addresses in IPAM that can be allocated to
+	// Amazon Web Services resources.
+	SourceIpamPoolId *string
+
+	noSmithyDocumentSerde
+}
+
+// Information about an IPAM policy.
+type IpamPolicyDocument struct {
+
+	// The allocation rules in the IPAM policy document.
+	//
+	// Allocation rules are optional configurations within an IPAM policy that map
+	// Amazon Web Services resource types to specific IPAM pools. If no rules are
+	// defined, the resource types default to using Amazon-provided IP addresses.
+	AllocationRules []IpamPolicyAllocationRule
+
+	// The ID of the IPAM policy.
+	IpamPolicyId *string
+
+	// The locale of the IPAM policy document.
+	Locale *string
+
+	// The resource type of the IPAM policy document.
+	//
+	// The Amazon Web Services service or resource type that can use IP addresses
+	// through IPAM policies. Supported services and resource types include:
+	//
+	//   - Elastic IP addresses
+	ResourceType IpamPolicyResourceType
+
+	noSmithyDocumentSerde
+}
+
+// The Amazon Web Services Organizations target for an IPAM policy.
+type IpamPolicyOrganizationTarget struct {
+
+	// The ID of a Amazon Web Services Organizations target for an IPAM policy.
+	OrganizationTargetId *string
+
+	noSmithyDocumentSerde
+}
+
 // In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools enable
 // you to organize your IP addresses according to your routing and security needs.
 // For example, if you have separate routing and security needs for development and
@@ -11033,27 +11349,25 @@ type IpamPrefixListResolverRule struct {
 // prefix list resolver without any CIDR selection rules, but it will generate
 // empty versions (containing no CIDRs) until you add rules.
 //
-// There are three rule types:
+// There are three rule types. Only 2 of the 3 rule types support conditions -
+// IPAM pool CIDR and Scope resource CIDR. Static CIDR rules cannot have
+// conditions.
 //
 //   - Static CIDR: A fixed list of CIDRs that do not change (like a manual list
-//     replicated across Regions).
+//     replicated across Regions)
 //
 //   - IPAM pool CIDR: CIDRs from specific IPAM pools (like all CIDRs from your
-//     IPAM production pool).
+//     IPAM production pool)
 //
-//   - Scope resource CIDR: CIDRs for Amazon Web Services resources like VPCs,
-//     subnets, and EIPs within a specific IPAM scope.
+// If you choose this option, choose the following:
 //
-// Condition availability by resource type:
+//   - IPAM scope: Select the IPAM scope to search for resources
 //
-//   - Only 2 of the 3 rule types support conditions - IPAM pool CIDR and Scope
-//     resource CIDR. Static CIDR rules cannot have conditions.
+//   - Conditions:
 //
-//   - Condition available for the IPAM pool CIDR resource type:
+//   - Property
 //
-//   - Property:
-//
-//   - IPAM Pool ID
+//   - IPAM pool ID: Select an IPAM pool that contains the resources
 //
 //   - CIDR (like 10.24.34.0/23)
 //
@@ -11061,13 +11375,20 @@ type IpamPrefixListResolverRule struct {
 //
 //   - Value: The value on which to match the condition
 //
-//   - Conditions for the Scope resource CIDR resource type:
+//   - Scope resource CIDR: CIDRs from Amazon Web Services resources like VPCs,
+//     subnets, EIPs within an IPAM scope
+//
+// If you choose this option, choose the following:
+//
+//   - IPAM scope: Select the IPAM scope to search for resources
+//
+//   - Resource type: Select a resource, like a VPC or subnet.
+//
+//   - Conditions:
 //
 //   - Property:
 //
 //   - Resource ID: The unique ID of a resource (like vpc-1234567890abcdef0)
-//
-//   - Resource type (like VPC or Subnet)
 //
 //   - Resource owner (like 111122223333)
 //
@@ -11080,8 +11401,6 @@ type IpamPrefixListResolverRule struct {
 //   - Operation: Equals/Not equals
 //
 //   - Value: The value on which to match the condition
-//
-//   - When setting conditions for a rule, one or more conditions is required.
 type IpamPrefixListResolverRuleCondition struct {
 
 	// A CIDR block to match against. This condition selects CIDRs that fall within or
@@ -11123,27 +11442,25 @@ type IpamPrefixListResolverRuleCondition struct {
 // prefix list resolver without any CIDR selection rules, but it will generate
 // empty versions (containing no CIDRs) until you add rules.
 //
-// There are three rule types:
+// There are three rule types. Only 2 of the 3 rule types support conditions -
+// IPAM pool CIDR and Scope resource CIDR. Static CIDR rules cannot have
+// conditions.
 //
 //   - Static CIDR: A fixed list of CIDRs that do not change (like a manual list
-//     replicated across Regions).
+//     replicated across Regions)
 //
 //   - IPAM pool CIDR: CIDRs from specific IPAM pools (like all CIDRs from your
-//     IPAM production pool).
+//     IPAM production pool)
 //
-//   - Scope resource CIDR: CIDRs for Amazon Web Services resources like VPCs,
-//     subnets, and EIPs within a specific IPAM scope.
+// If you choose this option, choose the following:
 //
-// Condition availability by resource type:
+//   - IPAM scope: Select the IPAM scope to search for resources
 //
-//   - Only 2 of the 3 rule types support conditions - IPAM pool CIDR and Scope
-//     resource CIDR. Static CIDR rules cannot have conditions.
+//   - Conditions:
 //
-//   - Condition available for the IPAM pool CIDR resource type:
+//   - Property
 //
-//   - Property:
-//
-//   - IPAM Pool ID
+//   - IPAM pool ID: Select an IPAM pool that contains the resources
 //
 //   - CIDR (like 10.24.34.0/23)
 //
@@ -11151,13 +11468,20 @@ type IpamPrefixListResolverRuleCondition struct {
 //
 //   - Value: The value on which to match the condition
 //
-//   - Conditions for the Scope resource CIDR resource type:
+//   - Scope resource CIDR: CIDRs from Amazon Web Services resources like VPCs,
+//     subnets, EIPs within an IPAM scope
+//
+// If you choose this option, choose the following:
+//
+//   - IPAM scope: Select the IPAM scope to search for resources
+//
+//   - Resource type: Select a resource, like a VPC or subnet.
+//
+//   - Conditions:
 //
 //   - Property:
 //
 //   - Resource ID: The unique ID of a resource (like vpc-1234567890abcdef0)
-//
-//   - Resource type (like VPC or Subnet)
 //
 //   - Resource owner (like 111122223333)
 //
@@ -11170,8 +11494,6 @@ type IpamPrefixListResolverRuleCondition struct {
 //   - Operation: Equals/Not equals
 //
 //   - Value: The value on which to match the condition
-//
-//   - When setting conditions for a rule, one or more conditions is required.
 type IpamPrefixListResolverRuleConditionRequest struct {
 
 	// The operation to perform when evaluating this condition.
@@ -11215,27 +11537,25 @@ type IpamPrefixListResolverRuleConditionRequest struct {
 // prefix list resolver without any CIDR selection rules, but it will generate
 // empty versions (containing no CIDRs) until you add rules.
 //
-// There are three rule types:
+// There are three rule types. Only 2 of the 3 rule types support conditions -
+// IPAM pool CIDR and Scope resource CIDR. Static CIDR rules cannot have
+// conditions.
 //
 //   - Static CIDR: A fixed list of CIDRs that do not change (like a manual list
-//     replicated across Regions).
+//     replicated across Regions)
 //
 //   - IPAM pool CIDR: CIDRs from specific IPAM pools (like all CIDRs from your
-//     IPAM production pool).
+//     IPAM production pool)
 //
-//   - Scope resource CIDR: CIDRs for Amazon Web Services resources like VPCs,
-//     subnets, and EIPs within a specific IPAM scope.
+// If you choose this option, choose the following:
 //
-// Condition availability by resource type:
+//   - IPAM scope: Select the IPAM scope to search for resources
 //
-//   - Only 2 of the 3 rule types support conditions - IPAM pool CIDR and Scope
-//     resource CIDR. Static CIDR rules cannot have conditions.
+//   - Conditions:
 //
-//   - Condition available for the IPAM pool CIDR resource type:
+//   - Property
 //
-//   - Property:
-//
-//   - IPAM Pool ID
+//   - IPAM pool ID: Select an IPAM pool that contains the resources
 //
 //   - CIDR (like 10.24.34.0/23)
 //
@@ -11243,13 +11563,20 @@ type IpamPrefixListResolverRuleConditionRequest struct {
 //
 //   - Value: The value on which to match the condition
 //
-//   - Conditions for the Scope resource CIDR resource type:
+//   - Scope resource CIDR: CIDRs from Amazon Web Services resources like VPCs,
+//     subnets, EIPs within an IPAM scope
+//
+// If you choose this option, choose the following:
+//
+//   - IPAM scope: Select the IPAM scope to search for resources
+//
+//   - Resource type: Select a resource, like a VPC or subnet.
+//
+//   - Conditions:
 //
 //   - Property:
 //
 //   - Resource ID: The unique ID of a resource (like vpc-1234567890abcdef0)
-//
-//   - Resource type (like VPC or Subnet)
 //
 //   - Resource owner (like 111122223333)
 //
@@ -11262,8 +11589,6 @@ type IpamPrefixListResolverRuleConditionRequest struct {
 //   - Operation: Equals/Not equals
 //
 //   - Value: The value on which to match the condition
-//
-//   - When setting conditions for a rule, one or more conditions is required.
 type IpamPrefixListResolverRuleRequest struct {
 
 	// The type of CIDR selection rule. Valid values include include for selecting
@@ -11687,6 +12012,19 @@ type IpamScope struct {
 	// The description of the scope.
 	Description *string
 
+	// The external authority configuration for this IPAM scope, if configured.
+	//
+	// The configuration that links an Amazon VPC IPAM scope to an external authority
+	// system. It specifies the type of external system and the external resource
+	// identifier that identifies your account or instance in that system.
+	//
+	// In IPAM, an external authority is a third-party IP address management system
+	// that provides CIDR blocks when you provision address space for top-level IPAM
+	// pools. This allows you to use your existing IP management system to control
+	// which address ranges are allocated to Amazon Web Services while using Amazon VPC
+	// IPAM to manage subnets within those ranges.
+	ExternalAuthorityConfiguration *IpamScopeExternalAuthorityConfiguration
+
 	// The ARN of the IPAM.
 	IpamArn *string
 
@@ -11719,6 +12057,29 @@ type IpamScope struct {
 	// resources that have a tag with the key Owner and the value TeamA , specify
 	// tag:Owner for the filter name and TeamA for the filter value.
 	Tags []Tag
+
+	noSmithyDocumentSerde
+}
+
+// The configuration that links an Amazon VPC IPAM scope to an external authority
+// system. It specifies the type of external system and the external resource
+// identifier that identifies your account or instance in that system.
+//
+// In IPAM, an external authority is a third-party IP address management system
+// that provides CIDR blocks when you provision address space for top-level IPAM
+// pools. This allows you to use your existing IP management system to control
+// which address ranges are allocated to Amazon Web Services while using Amazon VPC
+// IPAM to manage subnets within those ranges.
+type IpamScopeExternalAuthorityConfiguration struct {
+
+	// The identifier for the external resource managing this scope. For Infoblox
+	// integrations, this is the Infoblox resource identifier in the format
+	// .identity.account.. .
+	ExternalResourceIdentifier *string
+
+	// The type of external authority managing this scope. Currently supports Infoblox
+	// for integration with Infoblox Universal DDI.
+	Type IpamScopeExternalAuthorityType
 
 	noSmithyDocumentSerde
 }
@@ -14449,6 +14810,46 @@ type MovingAddressStatus struct {
 // Describes a NAT gateway.
 type NatGateway struct {
 
+	// For regional NAT gateways only: Indicates whether Amazon Web Services
+	// automatically manages AZ coverage. When enabled, the NAT gateway associates EIPs
+	// in all AZs where your VPC has subnets to handle outbound NAT traffic, expands to
+	// new AZs when you create subnets there, and retracts from AZs where you've
+	// removed all subnets. When disabled, you must manually manage which AZs the NAT
+	// gateway supports and their corresponding EIPs.
+	//
+	// A regional NAT gateway is a single NAT Gateway that works across multiple
+	// availability zones (AZs) in your VPC, providing redundancy, scalability and
+	// availability across all the AZs in a Region.
+	//
+	// For more information, see [Regional NAT gateways for automatic multi-AZ expansion] in the Amazon VPC User Guide.
+	//
+	// [Regional NAT gateways for automatic multi-AZ expansion]: https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateways-regional.html
+	AutoProvisionZones AutoProvisionZonesState
+
+	// For regional NAT gateways only: Indicates whether Amazon Web Services
+	// automatically allocates additional Elastic IP addresses (EIPs) in an AZ when the
+	// NAT gateway needs more ports due to increased concurrent connections to a single
+	// destination from that AZ.
+	//
+	// For more information, see [Regional NAT gateways for automatic multi-AZ expansion] in the Amazon VPC User Guide.
+	//
+	// [Regional NAT gateways for automatic multi-AZ expansion]: https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateways-regional.html
+	AutoScalingIps AutoScalingIpsState
+
+	// Indicates whether this is a zonal (single-AZ) or regional (multi-AZ) NAT
+	// gateway.
+	//
+	// A zonal NAT gateway is a NAT Gateway that provides redundancy and scalability
+	// within a single availability zone. A regional NAT gateway is a single NAT
+	// Gateway that works across multiple availability zones (AZs) in your VPC,
+	// providing redundancy, scalability and availability across all the AZs in a
+	// Region.
+	//
+	// For more information, see [Regional NAT gateways for automatic multi-AZ expansion] in the Amazon VPC User Guide.
+	//
+	// [Regional NAT gateways for automatic multi-AZ expansion]: https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateways-regional.html
+	AvailabilityMode AvailabilityMode
+
 	// Indicates whether the NAT gateway supports public or private connectivity.
 	ConnectivityType ConnectivityType
 
@@ -14499,6 +14900,9 @@ type NatGateway struct {
 	// [documented limits]: https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-gateways
 	ProvisionedBandwidth *ProvisionedBandwidth
 
+	// For regional NAT gateways only, this is the ID of the NAT gateway.
+	RouteTableId *string
+
 	// The state of the NAT gateway.
 	//
 	//   - pending : The NAT gateway is being created and is not ready to process
@@ -14540,6 +14944,15 @@ type NatGatewayAddress struct {
 	// [Public NAT gateway only] The association ID of the Elastic IP address that's
 	// associated with the NAT gateway.
 	AssociationId *string
+
+	// The Availability Zone where this Elastic IP address (EIP) is being used to
+	// handle outbound NAT traffic.
+	AvailabilityZone *string
+
+	// The ID of the Availability Zone where this Elastic IP address (EIP) is being
+	// used to handle outbound NAT traffic. Use this instead of AvailabilityZone for
+	// consistent identification of AZs across Amazon Web Services Regions.
+	AvailabilityZoneId *string
 
 	// The address failure message.
 	FailureMessage *string
@@ -16340,7 +16753,7 @@ type PrivateDnsNameConfiguration struct {
 
 	// The verification state of the VPC endpoint service.
 	//
-	// >Consumers of the endpoint service can use the private name only when the state
+	// Consumers of the endpoint service can use the private name only when the state
 	// is verified .
 	State DnsNameState
 
@@ -16694,6 +17107,60 @@ type RegionalSummary struct {
 
 	// The Amazon Web Services Region.
 	RegionName *string
+
+	noSmithyDocumentSerde
+}
+
+// Describes an Amazon EC2 instance that is enabled for SQL Server High
+// Availability standby detection monitoring.
+type RegisteredInstance struct {
+
+	// The SQL Server High Availability status of the instance. Valid values are:
+	//
+	//   - processing - The SQL Server High Availability status for the SQL Server High
+	//   Availability instance is being updated.
+	//
+	//   - active - The SQL Server High Availability instance is an active node in an
+	//   SQL Server High Availability cluster.
+	//
+	//   - standby - The SQL Server High Availability instance is a standby failover
+	//   node in an SQL Server High Availability cluster.
+	//
+	//   - invalid - An error occurred due to misconfigured permissions, or unable to
+	//   dertemine SQL Server High Availability status for the SQL Server High
+	//   Availability instance.
+	HaStatus HaStatus
+
+	// The ID of the SQL Server High Availability instance.
+	InstanceId *string
+
+	// The date and time when the instance's SQL Server High Availability status was
+	// last updated, in the ISO 8601 format in the UTC time zone (
+	// YYYY-MM-DDThh:mm:ss.sssZ ).
+	LastUpdatedTime *time.Time
+
+	// A brief description of the SQL Server High Availability status. If the instance
+	// is in the invalid High Availability status, this parameter includes the error
+	// message.
+	ProcessingStatus *string
+
+	// The ARN of the Secrets Manager secret containing the SQL Server access
+	// credentials for the SQL Server High Availability instance. If not specified,
+	// deafult local user credentials will be used by the Amazon Web Services Systems
+	// Manager agent.
+	SqlServerCredentials *string
+
+	// The license type for the SQL Server license. Valid values include:
+	//
+	//   - full - The SQL Server High Availability instance is using a full SQL Server
+	//   license.
+	//
+	//   - waived - The SQL Server High Availability instance is waived from the SQL
+	//   Server license.
+	SqlServerLicenseUsage SqlServerLicenseUsage
+
+	// The tags assigned to the SQL Server High Availability instance.
+	Tags []Tag
 
 	noSmithyDocumentSerde
 }
@@ -24199,6 +24666,30 @@ type VpcPeeringConnectionVpcInfo struct {
 	noSmithyDocumentSerde
 }
 
+// Describes a VPN concentrator.
+type VpnConcentrator struct {
+
+	// The current state of the VPN concentrator.
+	State *string
+
+	// Any tags assigned to the VPN concentrator.
+	Tags []Tag
+
+	// The ID of the transit gateway attachment for the VPN concentrator.
+	TransitGatewayAttachmentId *string
+
+	// The ID of the transit gateway associated with the VPN concentrator.
+	TransitGatewayId *string
+
+	// The type of VPN concentrator.
+	Type *string
+
+	// The ID of the VPN concentrator.
+	VpnConcentratorId *string
+
+	noSmithyDocumentSerde
+}
+
 // Describes a VPN connection.
 type VpnConnection struct {
 
@@ -24249,6 +24740,9 @@ type VpnConnection struct {
 
 	// Information about the VPN tunnel.
 	VgwTelemetry []VgwTelemetry
+
+	// The ID of the VPN concentrator associated with the VPN connection.
+	VpnConcentratorId *string
 
 	// The ID of the VPN connection.
 	VpnConnectionId *string
@@ -24316,6 +24810,13 @@ type VpnConnectionOptions struct {
 	// The transit gateway attachment ID in use for the VPN tunnel.
 	TransportTransitGatewayAttachmentId *string
 
+	//  The configured bandwidth for the VPN tunnel. Represents the current throughput
+	// capacity setting for the tunnel connection. standard tunnel bandwidth supports
+	// up to 1.25 Gbps per tunnel while large supports up to 5 Gbps per tunnel. If no
+	// tunnel bandwidth was specified for the connection, standard is used as the
+	// default value.
+	TunnelBandwidth VpnTunnelBandwidth
+
 	// Indicates whether the VPN tunnels process IPv4 or IPv6 traffic.
 	TunnelInsideIpVersion TunnelInsideIpVersion
 
@@ -24372,6 +24873,13 @@ type VpnConnectionOptionsSpecification struct {
 	//
 	// Required if OutsideIpAddressType is set to PrivateIpv4 .
 	TransportTransitGatewayAttachmentId *string
+
+	//  The desired bandwidth specification for the VPN tunnel, used when creating or
+	// modifying VPN connection options to set the tunnel's throughput capacity.
+	// standard supports up to 1.25 Gbps per tunnel, while large supports up to 5 Gbps
+	// per tunnel. The default value is standard . Existing VPN connections without a
+	// bandwidth setting will automatically default to standard .
+	TunnelBandwidth VpnTunnelBandwidth
 
 	// Indicate whether the VPN tunnels process IPv4 or IPv6 traffic.
 	//
