@@ -7,34 +7,46 @@ import (
 	"github.com/clipperhouse/uax29/v2/graphemes"
 )
 
-// String calculates the display width of a string
-// using the [DefaultOptions]
+// String calculates the display width of a string,
+// by iterating over grapheme clusters in the string
+// and summing their widths.
 func String(s string) int {
 	return DefaultOptions.String(s)
 }
 
-// Bytes calculates the display width of a []byte
-// using the [DefaultOptions]
+// Bytes calculates the display width of a []byte,
+// by iterating over grapheme clusters in the byte slice
+// and summing their widths.
 func Bytes(s []byte) int {
 	return DefaultOptions.Bytes(s)
 }
 
+// Rune calculates the display width of a rune. You
+// should almost certainly use [String] or [Bytes] for
+// most purposes.
+//
+// The smallest unit of display width is a grapheme
+// cluster, not a rune. Iterating over runes to measure
+// width is incorrect in most cases.
 func Rune(r rune) int {
 	return DefaultOptions.Rune(r)
 }
 
+// Options allows you to specify the treatment of ambiguous East Asian
+// characters. When EastAsianWidth is false (default), ambiguous East Asian
+// characters are treated as width 1. When EastAsianWidth is true, ambiguous
+// East Asian characters are treated as width 2.
 type Options struct {
-	EastAsianWidth     bool
-	StrictEmojiNeutral bool
+	EastAsianWidth bool
 }
 
-var DefaultOptions = Options{
-	EastAsianWidth:     false,
-	StrictEmojiNeutral: true,
-}
+// DefaultOptions is the default options for the display width
+// calculation, which is EastAsianWidth: false.
+var DefaultOptions = Options{EastAsianWidth: false}
 
-// String calculates the display width of a string
-// for the given options
+// String calculates the display width of a string,
+// for the given options, by iterating over grapheme clusters
+// and summing their widths.
 func (options Options) String(s string) int {
 	if len(s) == 0 {
 		return 0
@@ -43,16 +55,15 @@ func (options Options) String(s string) int {
 	total := 0
 	g := graphemes.FromString(s)
 	for g.Next() {
-		// The first character in the grapheme cluster determines the width;
-		// we use lookupProperties which can consider immediate VS15/VS16.
 		props := lookupProperties(g.Value())
 		total += props.width(options)
 	}
 	return total
 }
 
-// BytesOptions calculates the display width of a []byte
-// for the given options
+// Bytes calculates the display width of a []byte,
+// for the given options, by iterating over grapheme
+// clusters in the byte slice and summing their widths.
 func (options Options) Bytes(s []byte) int {
 	if len(s) == 0 {
 		return 0
@@ -61,14 +72,18 @@ func (options Options) Bytes(s []byte) int {
 	total := 0
 	g := graphemes.FromBytes(s)
 	for g.Next() {
-		// The first character in the grapheme cluster determines the width;
-		// we use lookupProperties which can consider immediate VS15/VS16.
 		props := lookupProperties(g.Value())
 		total += props.width(options)
 	}
 	return total
 }
 
+// Rune calculates the display width of a rune,
+// for the given options.
+//
+// The smallest unit of display width is a grapheme
+// cluster, not a rune. Iterating over runes to measure
+// width is incorrect in most cases.
 func (options Options) Rune(r rune) int {
 	// Fast path for ASCII
 	if r < utf8.RuneSelf {
@@ -99,61 +114,56 @@ func isASCIIControl(b byte) bool {
 	return b < 0x20 || b == 0x7F
 }
 
-const defaultWidth = 1
+// isRIPrefix checks if the slice matches the Regional Indicator prefix
+// (F0 9F 87). It assumes len(s) >= 3.
+func isRIPrefix[T stringish.Interface](s T) bool {
+	return s[0] == 0xF0 && s[1] == 0x9F && s[2] == 0x87
+}
 
-// is returns true if the property flag is set
-func (p property) is(flag property) bool {
-	return p&flag != 0
+// isVS16 checks if the slice matches VS16 (U+FE0F) UTF-8 encoding
+// (EF B8 8F). It assumes len(s) >= 3.
+func isVS16[T stringish.Interface](s T) bool {
+	return s[0] == 0xEF && s[1] == 0xB8 && s[2] == 0x8F
 }
 
 // lookupProperties returns the properties for the first character in a string
 func lookupProperties[T stringish.Interface](s T) property {
-	if len(s) == 0 {
+	l := len(s)
+
+	if l == 0 {
 		return 0
 	}
 
 	b := s[0]
 	if isASCIIControl(b) {
-		return _ZeroWidth
+		return _Zero_Width
 	}
 
-	l := len(s)
-
-	if b < utf8.RuneSelf { // Single-byte ASCII
+	if b < utf8.RuneSelf {
 		// Check for variation selector after ASCII (e.g., keycap sequences like 1️⃣)
-		var p property
 		if l >= 4 {
-			// Create a subslice to help the compiler eliminate bounds checks
+			// Subslice may help eliminate bounds checks
 			vs := s[1:4]
-			if vs[0] == 0xEF && vs[1] == 0xB8 {
-				switch vs[2] {
-				case 0x8E:
-					p |= _VS15
-				case 0x8F:
-					p |= _VS16
-				}
+			if isVS16(vs) {
+				// VS16 requests emoji presentation (width 2)
+				return _Emoji
 			}
+			// VS15 (0x8E) requests text presentation but does not affect width,
+			// in my reading of Unicode TR51. Falls through to _Default.
 		}
-		return p // ASCII characters are width 1 by default, or 2 with VS16
+		return _Default
 	}
 
-	// Regional indicator pair (flag) - detect early before trie lookup.
-	// Formed by two Regional Indicator symbols (U+1F1E6–U+1F1FF),
-	// each encoded as F0 9F 87 A6–BF. Always width 2, no trie lookup needed.
+	// Regional indicator pair (flag)
 	if l >= 8 {
-		// Create a subslice to help the compiler eliminate bounds checks
+		// Subslice may help eliminate bounds checks
 		ri := s[:8]
-		if ri[0] == 0xF0 &&
-			ri[1] == 0x9F &&
-			ri[2] == 0x87 {
+		if isRIPrefix(ri[0:3]) {
 			b3 := ri[3]
-			if b3 >= 0xA6 && b3 <= 0xBF &&
-				ri[4] == 0xF0 &&
-				ri[5] == 0x9F &&
-				ri[6] == 0x87 {
+			if b3 >= 0xA6 && b3 <= 0xBF && isRIPrefix(ri[4:7]) {
 				b7 := ri[7]
 				if b7 >= 0xA6 && b7 <= 0xBF {
-					return _RI_PAIR
+					return _Emoji
 				}
 			}
 		}
@@ -164,61 +174,37 @@ func lookupProperties[T stringish.Interface](s T) property {
 
 	// Variation Selectors
 	if size > 0 && l >= size+3 {
-		// Create a subslice to help the compiler eliminate bounds checks
+		// Subslice may help eliminate bounds checks
 		vs := s[size : size+3]
-		if vs[0] == 0xEF && vs[1] == 0xB8 {
-			switch vs[2] {
-			case 0x8E:
-				p |= _VS15
-			case 0x8F:
-				p |= _VS16
-			}
+		if isVS16(vs) {
+			// VS16 requests emoji presentation (width 2)
+			return _Emoji
 		}
+		// VS15 (0x8E) requests text presentation but does not affect width,
+		// in my reading of Unicode TR51. Falls through to return the base
+		// character's property (p).
 	}
 
 	return p
 }
 
+const _Default property = 0
+
+// a jump table of sorts, instead of a switch
+var widthTable = [5]int{
+	_Default:              1,
+	_Zero_Width:           0,
+	_East_Asian_Wide:      2,
+	_East_Asian_Ambiguous: 1,
+	_Emoji:                2,
+}
+
 // width determines the display width of a character based on its properties
 // and configuration options
 func (p property) width(options Options) int {
-	if p == 0 {
-		// Character not in trie, use default behavior
-		return defaultWidth
-	}
-
-	if p.is(_ZeroWidth) {
-		return 0
-	}
-
-	// Explicit presentation overrides from VS come first.
-	if p.is(_VS16) {
-		return 2
-	}
-	if p.is(_VS15) {
-		return 1
-	}
-
-	// Regional indicator pair (flag) grapheme cluster
-	// returns 1 under StrictEmojiNeutral=false, which
-	// is compatible with go-runewidth & uniseg.
-	if p.is(_RI_PAIR) && options.StrictEmojiNeutral {
+	if options.EastAsianWidth && p == _East_Asian_Ambiguous {
 		return 2
 	}
 
-	if options.EastAsianWidth {
-		if p.is(_East_Asian_Ambiguous) {
-			return 2
-		}
-		if p.is(_East_Asian_Ambiguous|_Emoji) && !options.StrictEmojiNeutral {
-			return 2
-		}
-	}
-
-	if p.is(_East_Asian_Full_Wide) {
-		return 2
-	}
-
-	// Default width for all other characters
-	return defaultWidth
+	return widthTable[p]
 }
