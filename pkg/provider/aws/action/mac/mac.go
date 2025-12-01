@@ -124,14 +124,19 @@ func Destroy(mCtxArgs *mc.ContextArgs, hostID string) error {
 			}); err != nil {
 			return err
 		}
-		return aws.DestroyStack(
+		if err := aws.DestroyStack(
 			mCtx,
 			aws.DestroyStackRequest{
 				Stackname: mac.StackDedicatedHost,
 				// TODO check if needed to add region for backedURL
 				Region:    *hi.Region,
 				BackedURL: *hi.BackedURL,
-			})
+			}); err != nil {
+			return err
+		}
+
+		// Cleanup S3 state after all stacks have been destroyed
+		return aws.CleanupState(mCtx)
 	}
 	logging.Debug("nothing to be destroyed")
 	return nil

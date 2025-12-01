@@ -98,7 +98,7 @@ func getCreateEKS() *cobra.Command {
 }
 
 func getDestroyEKS() *cobra.Command {
-	return &cobra.Command{
+	c := &cobra.Command{
 		Use:   params.DestroyCmdName,
 		Short: params.DestroyCmdName,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -107,11 +107,16 @@ func getDestroyEKS() *cobra.Command {
 			}
 			return awsEKS.Destroy(
 				&maptContext.ContextArgs{
-					ProjectName: viper.GetString(params.ProjectName),
-					BackedURL:   viper.GetString(params.BackedURL),
-					Debug:       viper.IsSet(params.Debug),
-					DebugLevel:  viper.GetUint(params.DebugLevel),
+					ProjectName:  viper.GetString(params.ProjectName),
+					BackedURL:    viper.GetString(params.BackedURL),
+					Debug:        viper.IsSet(params.Debug),
+					DebugLevel:   viper.GetUint(params.DebugLevel),
+					CleanupState: viper.IsSet(params.CleanupState),
 				})
 		},
 	}
+	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
+	flagSet.Bool(params.CleanupState, true, params.CleanupStateDesc)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	return c
 }

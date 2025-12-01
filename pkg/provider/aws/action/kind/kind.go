@@ -89,9 +89,13 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 		return err
 	}
 	if spot.Exist(mCtx) {
-		return spot.Destroy(mCtx)
+		if err := spot.Destroy(mCtx); err != nil {
+			return err
+		}
 	}
-	return nil
+
+	// Cleanup S3 state after all stacks have been destroyed
+	return aws.CleanupState(mCtx)
 }
 
 func (r *kindRequest) createHost() (*utilKind.KindResults, error) {

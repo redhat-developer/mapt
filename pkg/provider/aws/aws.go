@@ -219,3 +219,27 @@ func parseS3BackedURL(mCtx *mc.Context) (*string, *string, error) {
 	key := strings.TrimPrefix(u.Path, "/")
 	return &u.Host, &key, nil
 }
+
+// CleanupState removes Pulumi state files from S3 backend after successful destroy
+// This should be called AFTER all stacks for a project have been destroyed
+func CleanupState(mCtx *mc.Context) error {
+	if !mCtx.IsCleanupState() {
+		return nil
+	}
+
+	bucket, key, parseErr := parseS3BackedURL(mCtx)
+	if parseErr != nil {
+		logging.Warnf("Failed to parse S3 backend URL, skipping state cleanup: %v", parseErr)
+		return nil // Don't fail the operation
+	}
+
+	logging.Infof("Cleaning up Pulumi state from s3://%s/%s", *bucket, *key)
+	if deleteErr := s3.Delete(bucket, key); deleteErr != nil {
+		logging.Warnf("Failed to cleanup S3 state: %v", deleteErr)
+		// Don't return error - resources are already destroyed
+	} else {
+		logging.Info("Successfully cleaned up Pulumi state from S3")
+	}
+
+	return nil
+}

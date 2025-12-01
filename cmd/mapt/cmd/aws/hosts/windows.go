@@ -101,17 +101,22 @@ func getWindowsDestroy() *cobra.Command {
 		Use:   params.DestroyCmdName,
 		Short: params.DestroyCmdName,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := viper.BindPFlags(cmd.Flags()); err != nil {
+				return err
+			}
 			return windows.Destroy(&maptContext.ContextArgs{
-				ProjectName: viper.GetString(params.ProjectName),
-				BackedURL:   viper.GetString(params.BackedURL),
-				Debug:       viper.IsSet(params.Debug),
-				DebugLevel:  viper.GetUint(params.DebugLevel),
-				Serverless:  viper.IsSet(params.Serverless),
+				ProjectName:  viper.GetString(params.ProjectName),
+				BackedURL:    viper.GetString(params.BackedURL),
+				Debug:        viper.IsSet(params.Debug),
+				DebugLevel:   viper.GetUint(params.DebugLevel),
+				Serverless:   viper.IsSet(params.Serverless),
+				CleanupState: viper.IsSet(params.CleanupState),
 			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
+	flagSet.Bool(params.CleanupState, true, params.CleanupStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
