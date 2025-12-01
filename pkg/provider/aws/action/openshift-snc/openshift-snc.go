@@ -133,9 +133,13 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	}
 	// Destroy spot orchestrated stack
 	if spot.Exist(mCtx) {
-		return spot.Destroy(mCtx)
+		if err := spot.Destroy(mCtx); err != nil {
+			return err
+		}
 	}
-	return nil
+
+	// Cleanup S3 state after all stacks have been destroyed
+	return aws.CleanupState(mCtx)
 }
 
 func (r *openshiftSNCRequest) createCluster() (*OpenshiftSncResultsMetadata, error) {

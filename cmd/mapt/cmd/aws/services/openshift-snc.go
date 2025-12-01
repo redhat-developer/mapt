@@ -89,16 +89,18 @@ func destroySNC() *cobra.Command {
 				return err
 			}
 			return openshiftsnc.Destroy(&maptContext.ContextArgs{
-				ProjectName: viper.GetString(params.ProjectName),
-				BackedURL:   viper.GetString(params.BackedURL),
-				Debug:       viper.IsSet(params.Debug),
-				DebugLevel:  viper.GetUint(params.DebugLevel),
-				Serverless:  viper.IsSet(params.Serverless),
+				ProjectName:  viper.GetString(params.ProjectName),
+				BackedURL:    viper.GetString(params.BackedURL),
+				Debug:        viper.IsSet(params.Debug),
+				DebugLevel:   viper.GetUint(params.DebugLevel),
+				Serverless:   viper.IsSet(params.Serverless),
+				CleanupState: viper.IsSet(params.CleanupState),
 			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
+	flagSet.Bool(params.CleanupState, true, params.CleanupStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

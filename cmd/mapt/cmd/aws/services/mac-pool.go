@@ -98,15 +98,17 @@ func destroyMP() *cobra.Command {
 				return err
 			}
 			return macpool.Destroy(&maptContext.ContextArgs{
-				ProjectName: viper.GetString(params.ProjectName),
-				BackedURL:   viper.GetString(params.BackedURL),
-				Debug:       viper.IsSet(params.Debug),
-				DebugLevel:  viper.GetUint(params.DebugLevel),
+				ProjectName:  viper.GetString(params.ProjectName),
+				BackedURL:    viper.GetString(params.BackedURL),
+				Debug:        viper.IsSet(params.Debug),
+				DebugLevel:   viper.GetUint(params.DebugLevel),
+				CleanupState: viper.IsSet(params.CleanupState),
 			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	params.AddCommonFlags(flagSet)
+	flagSet.Bool(params.CleanupState, true, params.CleanupStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

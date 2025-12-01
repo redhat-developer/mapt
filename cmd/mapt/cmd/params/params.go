@@ -99,9 +99,11 @@ const (
 	Serverless     string = "serverless"
 	ServerlessDesc string = "if serverless is set the command will be executed as a serverless action."
 
-	// Desytoy
+	// Destroy
 	ForceDestroy     string = "force-destroy"
 	ForceDestroyDesc string = "if force-destroy is set the command will destroy even if there is a lock."
+	CleanupState     string = "cleanup-state"
+	CleanupStateDesc string = "automatically remove Pulumi state files from S3 backend after successful destroy"
 
 	// Kind
 	KindCmd                   = "kind"

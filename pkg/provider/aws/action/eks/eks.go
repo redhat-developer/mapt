@@ -129,12 +129,17 @@ func Destroy(ctx *mc.ContextArgs) error {
 	if err != nil {
 		return err
 	}
-	return aws.DestroyStack(
+	if err := aws.DestroyStack(
 		mCtx,
 		aws.DestroyStackRequest{
 			BackedURL: mCtx.BackedURL(),
 			Stackname: stackName,
-		})
+		}); err != nil {
+		return err
+	}
+
+	// Cleanup S3 state after all stacks have been destroyed
+	return aws.CleanupState(mCtx)
 }
 
 // Main function to deploy all requried resources to AWS

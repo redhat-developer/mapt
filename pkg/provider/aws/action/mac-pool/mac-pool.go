@@ -49,7 +49,12 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 	if err := iam.Destroy(mCtx); err != nil {
 		return err
 	}
-	return serverless.Destroy(mCtx)
+	if err := serverless.Destroy(mCtx); err != nil {
+		return err
+	}
+
+	// Cleanup S3 state after all stacks have been destroyed
+	return aws.CleanupState(mCtx)
 }
 
 // House keeper is the function executed serverless to check if is there any
