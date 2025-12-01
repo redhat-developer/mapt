@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.4
-	github.com/pulumi/pulumi/sdk/v3 v3.207.0
+	github.com/pulumi/pulumi/sdk/v3 v3.208.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.10.1
 )
@@ -26,13 +26,13 @@ require (
 	github.com/pulumi/pulumi-aws-native/sdk v1.37.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.10.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.0.1
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.10.1
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.10.1
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.10.1
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.10.1
-	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.10.1
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.10.1
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.10.1
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.10.2
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.10.2
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.10.2
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.10.2
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.10.2
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.10.2
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.10.2
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
 	golang.org/x/exp v0.0.0-20251023183803-a4bb9ffd2546
 )
@@ -43,7 +43,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx/v2 v2.0.12 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.10.1 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.10.2 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.9.0 // indirect
 )
 
@@ -53,7 +53,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.14 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.14 // indirect
-	github.com/aws/aws-sdk-go-v2/service/pricing v1.40.6 // indirect
+	github.com/aws/aws-sdk-go-v2/service/pricing v1.40.7 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/evertras/bubble-table v0.19.2 // indirect
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
@@ -81,8 +81,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.14 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.30.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.9 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.30.5 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.10 // indirect
 	github.com/aws/smithy-go v1.23.2 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -90,10 +90,10 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.10 // indirect
 	github.com/charmbracelet/colorprofile v0.3.3 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
-	github.com/charmbracelet/x/ansi v0.11.1 // indirect
+	github.com/charmbracelet/x/ansi v0.11.2 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.14 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
-	github.com/clipperhouse/displaywidth v0.5.0 // indirect
+	github.com/clipperhouse/displaywidth v0.6.0 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
 	github.com/cloudflare/circl v1.6.1 // indirect

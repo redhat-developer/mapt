@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0]
+
+[Compare](https://github.com/clipperhouse/displaywidth/compare/v0.5.0...v0.6.0)
+
+### Added
+- New `StringGraphemes` and `BytesGraphemes` methods, for iterating over the
+widths of grapheme clusters.
+
+### Changed
+- Added ASCII fast paths
+
 ## [0.5.0]
 
 [Compare](https://github.com/clipperhouse/displaywidth/compare/v0.4.1...v0.5.0)
