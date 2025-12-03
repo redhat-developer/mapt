@@ -17,12 +17,11 @@ type ImageRequest struct {
 	ImageReference
 }
 
-func GetImage(req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResponse, error) {
+func GetImage(ctx context.Context, req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResponse, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-	ctx := context.Background()
 	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
 
 	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
@@ -49,7 +48,7 @@ func GetImage(req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResp
 }
 
 func IsImageOffered(mCtx *mc.Context, req ImageRequest) bool {
-	if _, err := GetImage(req); err != nil {
+	if _, err := GetImage(mCtx.Context(), req); err != nil {
 		if mCtx.Debug() {
 			logging.Debugf("error while checking if image available at location: %v", err)
 		}
@@ -58,7 +57,7 @@ func IsImageOffered(mCtx *mc.Context, req ImageRequest) bool {
 	return true
 }
 
-func SkuG2Support(location string, publisher string, offer string, sku string) (string, error) {
+func SkuG2Support(ctx context.Context, location string, publisher string, offer string, sku string) (string, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return "", err
@@ -70,10 +69,10 @@ func SkuG2Support(location string, publisher string, offer string, sku string) (
 		return "", err
 	}
 	imagesClient := clientFactory.NewVirtualMachineImagesClient()
-	if !verify_g2(imagesClient, location, publisher, offer, sku) {
-		finalSKU, err := get_g2_sku(imagesClient, location, publisher, offer, sku)
+	if !verify_g2(ctx, imagesClient, location, publisher, offer, sku) {
+		finalSKU, err := get_g2_sku(ctx, imagesClient, location, publisher, offer, sku)
 		if err == nil && finalSKU != "" {
-			if verify_g2(imagesClient, location, publisher, offer, finalSKU) {
+			if verify_g2(ctx, imagesClient, location, publisher, offer, finalSKU) {
 				fmt.Printf("%s is g1, Using SKU %s\n", sku, finalSKU)
 				return finalSKU, nil
 			}
@@ -84,23 +83,23 @@ func SkuG2Support(location string, publisher string, offer string, sku string) (
 	return "", fmt.Errorf("the SKU %s is not support for G2", sku)
 }
 
-func verify_g2(imagesClient *armcompute.VirtualMachineImagesClient, location string, publisher string, offer string, sku string) bool {
+func verify_g2(ctx context.Context, imagesClient *armcompute.VirtualMachineImagesClient, location string, publisher string, offer string, sku string) bool {
 	// List available image versions
-	resp, err := imagesClient.List(context.Background(), location, publisher, offer, sku, nil)
+	resp, err := imagesClient.List(ctx, location, publisher, offer, sku, nil)
 	if err != nil {
 		return false
 	}
 
 	image := resp.VirtualMachineImageResourceArray[0]
 	version := *image.Name
-	resps, _ := imagesClient.Get(context.Background(), location, publisher, offer, sku, version, nil)
+	resps, _ := imagesClient.Get(ctx, location, publisher, offer, sku, version, nil)
 	info := resps.VirtualMachineImage
 	generation := *info.Properties.HyperVGeneration
 	return generation == "V2"
 }
 
-func get_g2_sku(imagesClient *armcompute.VirtualMachineImagesClient, location string, publisher string, offer string, originSKU string) (string, error) {
-	resp, err := imagesClient.ListSKUs(context.Background(), location, publisher, offer, nil)
+func get_g2_sku(ctx context.Context, imagesClient *armcompute.VirtualMachineImagesClient, location string, publisher string, offer string, originSKU string) (string, error) {
+	resp, err := imagesClient.ListSKUs(ctx, location, publisher, offer, nil)
 	if err != nil {
 		return "", err
 	}

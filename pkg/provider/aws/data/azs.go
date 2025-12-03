@@ -13,8 +13,8 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-func GetRandomAvailabilityZone(region string, excludedAZs []string) (*string, error) {
-	azs, err := DescribeAvailabilityZones(region)
+func GetRandomAvailabilityZone(ctx context.Context, region string, excludedAZs []string) (*string, error) {
+	azs, err := DescribeAvailabilityZones(ctx, region)
 	if err != nil {
 		return nil, err
 	}
@@ -26,8 +26,8 @@ func GetRandomAvailabilityZone(region string, excludedAZs []string) (*string, er
 	return azs[util.Random(len(azs)-1, 0)].ZoneName, nil
 }
 
-func GetAvailabilityZones(region string, excludedZoneIDs []string) []string {
-	azs, err := describeAvailabilityZones(region, excludedZoneIDs)
+func GetAvailabilityZones(ctx context.Context, region string, excludedZoneIDs []string) []string {
+	azs, err := describeAvailabilityZones(ctx, region, excludedZoneIDs)
 	if err != nil {
 		logging.Error(err)
 		return nil
@@ -42,24 +42,24 @@ type AvailabilityZonesResult struct {
 	Err               error
 }
 
-func describeAvailabilityZonesAsync(regionName string, c chan AvailabilityZonesResult) {
-	data, err := DescribeAvailabilityZones(regionName)
+func describeAvailabilityZonesAsync(ctx context.Context, regionName string, c chan AvailabilityZonesResult) {
+	data, err := DescribeAvailabilityZones(ctx, regionName)
 	c <- AvailabilityZonesResult{
 		AvailabilityZones: data,
 		Err:               err}
 
 }
 
-func DescribeAvailabilityZones(regionName string) ([]ec2Types.AvailabilityZone, error) {
-	return describeAvailabilityZones(regionName, nil)
+func DescribeAvailabilityZones(ctx context.Context, regionName string) ([]ec2Types.AvailabilityZone, error) {
+	return describeAvailabilityZones(ctx, regionName, nil)
 }
 
-func describeAvailabilityZones(regionName string, excludedZoneIDs []string) ([]ec2Types.AvailabilityZone, error) {
+func describeAvailabilityZones(ctx context.Context, regionName string, excludedZoneIDs []string) ([]ec2Types.AvailabilityZone, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(regionName) > 0 {
 		cfgOpts = config.WithRegion(regionName)
 	}
-	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
+	cfg, err := config.LoadDefaultConfig(ctx, cfgOpts)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func describeAvailabilityZones(regionName string, excludedZoneIDs []string) ([]e
 			Values: []string{"availability-zone"},
 		},
 	}
-	resultAZs, err := client.DescribeAvailabilityZones(context.Background(), &input)
+	resultAZs, err := client.DescribeAvailabilityZones(ctx, &input)
 	if err != nil {
 		return nil, err
 	}
@@ -112,11 +112,12 @@ func getZoneName(azID string, azDescriptions []ec2Types.AvailabilityZone) (strin
 // user 1 Name: us-west-1a ID: us-west-11, Name: us-west-1b ID: us-west-12
 // user 2 Name: us-west-1a ID: us-west-12, Name: us-west-1b ID: us-west-11
 // This allowsa a better distribution among users
-func describeAvailabilityZonesByRegions(regions []string) map[string][]ec2Types.AvailabilityZone {
+func describeAvailabilityZonesByRegions(ctx context.Context, regions []string) map[string][]ec2Types.AvailabilityZone {
 	result := make(map[string][]ec2Types.AvailabilityZone)
 	c := make(chan AvailabilityZonesResult)
 	for _, region := range regions {
-		go describeAvailabilityZonesAsync(region, c)
+		lRegion := region
+		go describeAvailabilityZonesAsync(ctx, lRegion, c)
 	}
 	for i := 0; i < len(regions); i++ {
 		availabilityZonesResult := <-c

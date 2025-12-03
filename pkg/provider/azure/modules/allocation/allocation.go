@@ -27,7 +27,7 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 	computeSizes := args.ComputeRequest.ComputeSizes
 	if len(computeSizes) == 0 {
 		computeSizes, err =
-			data.NewComputeSelector().Select(args.ComputeRequest)
+			data.NewComputeSelector().Select(mCtx.Context(), args.ComputeRequest)
 		if err != nil {
 			return nil, err
 		}
@@ -57,7 +57,7 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 	} else {
 		// Filter for current location the computesizes
 		supportedComputeSizes, err := data.FilterComputeSizesByLocation(
-			args.Location, computeSizes)
+			mCtx.Context(), args.Location, computeSizes)
 		if err != nil {
 			return nil, err
 		}

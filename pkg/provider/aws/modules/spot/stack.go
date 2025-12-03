@@ -70,7 +70,7 @@ func Create(mCtx *mc.Context, args *SpotStackArgs) (*SpotStackResult, error) {
 	if err := args.validate(); err != nil {
 		return nil, err
 	}
-	stack, err := manager.CheckStack(manager.Stack{
+	stack, err := manager.CheckStack(mCtx, manager.Stack{
 		StackName:   mCtx.StackNameByProject("spotOption"),
 		ProjectName: mCtx.ProjectName(),
 		BackedURL:   mCtx.BackedURL()})
@@ -78,13 +78,13 @@ func Create(mCtx *mc.Context, args *SpotStackArgs) (*SpotStackResult, error) {
 	if err != nil {
 		return r.createStack()
 	} else {
-		return getOutputs(stack)
+		return getOutputs(mCtx, stack)
 	}
 }
 
 // Check if spot option stack was created on the backed url
 func Exist(mCtx *mc.Context) bool {
-	s, err := manager.CheckStack(manager.Stack{
+	s, err := manager.CheckStack(mCtx, manager.Stack{
 		StackName:   mCtx.StackNameByProject("spotOption"),
 		ProjectName: mCtx.ProjectName(),
 		BackedURL:   mCtx.BackedURL()})
@@ -152,8 +152,8 @@ func (r *spotStackRequest) deployer(ctx *pulumi.Context) error {
 }
 
 // function to get outputs from an existing stack
-func getOutputs(stack *auto.Stack) (*SpotStackResult, error) {
-	outputs, err := manager.GetOutputs(stack)
+func getOutputs(mCtx *mc.Context, stack *auto.Stack) (*SpotStackResult, error) {
+	outputs, err := manager.GetOutputs(mCtx, stack)
 	if err != nil {
 		return nil, err
 	}

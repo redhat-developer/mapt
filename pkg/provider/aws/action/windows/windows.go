@@ -88,7 +88,6 @@ func (r *windowsServerRequest) validate() error {
 // Then it will run the stack for windows dedicated host
 func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 	// Create mapt Context
-	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
@@ -127,6 +126,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 		return err
 	}
 	isAMIOffered, _, err := data.IsAMIOffered(
+		mCtx.Context(),
 		data.ImageRequest{
 			Name:   r.amiName,
 			Region: r.allocationData.Region})

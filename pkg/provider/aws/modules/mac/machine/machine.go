@@ -47,6 +47,7 @@ func ReplaceMachine(mCtx *mc.Context, h *mac.HostInformation) error {
 	aN := fmt.Sprintf(amiRegex, *h.OSVersion)
 	bdt := blockDeviceType
 	ami, err := data.GetAMI(
+		mCtx.Context(),
 		data.ImageRequest{
 			Name:            &aN,
 			Arch:            h.Arch,
@@ -57,6 +58,7 @@ func ReplaceMachine(mCtx *mc.Context, h *mac.HostInformation) error {
 	}
 	logging.Debugf("Replacing root volume for AMI %s", *ami.Image.ImageId)
 	if _, err = qEC2.ReplaceRootVolume(
+		mCtx.Context(),
 		qEC2.ReplaceRootVolumeRequest{
 			Region:     *h.Region,
 			InstanceID: *h.Host.Instances[0].InstanceId,
@@ -116,7 +118,7 @@ func (r *Request) manageMacMachineTargets(h *mac.HostInformation, targetURNs []s
 	r.AvailabilityZone = h.Host.AvailabilityZone
 	r.dedicatedHost = h
 	r.Region = h.Region
-	cpk, cp, err := currentCredentials(*h.ProjectName, *h.BackedURL, *h.Prefix)
+	cpk, cp, err := currentCredentials(r.MCtx, *h.ProjectName, *h.BackedURL, *h.Prefix)
 	if err != nil {
 		logging.Debugf("%v", err)
 	}
@@ -176,6 +178,7 @@ func (r *Request) deployerMachine(ctx *pulumi.Context) error {
 		r.Architecture,
 		awsArchIDbyArch[r.Architecture])
 	ami, err := data.GetAMI(
+		r.MCtx.Context(),
 		data.ImageRequest{
 			Name:            &aN,
 			Arch:            &arch,
@@ -509,9 +512,9 @@ func machineLock(ctx *pulumi.Context, name string, lockedValue bool, opts ...pul
 
 // In order to change the user credentials the old value for the user private key is required
 // this behavior is not offered by pulumi, but we can rely on inspecting previous state file
-func currentCredentials(projecName, backedURL, prefix string) (
+func currentCredentials(mCtx *mc.Context, projecName, backedURL, prefix string) (
 	pk, pass *string, err error) {
-	stack, err := manager.CheckStack(manager.Stack{
+	stack, err := manager.CheckStack(mCtx, manager.Stack{
 		StackName: fmt.Sprintf("%s-%s",
 			mac.StackMacMachine, projecName),
 		ProjectName: projecName,
@@ -519,13 +522,13 @@ func currentCredentials(projecName, backedURL, prefix string) (
 	if err != nil {
 		return nil, nil, err
 	}
-	return getCredentialsFromStack(stack, prefix)
+	return getCredentialsFromStack(mCtx, stack, prefix)
 }
 
 // Function to get secrets for current user o
-func getCredentialsFromStack(stack *auto.Stack, prefix string) (
+func getCredentialsFromStack(mCtx *mc.Context, stack *auto.Stack, prefix string) (
 	pk, pass *string, err error) {
-	outputs, err := manager.GetOutputs(stack)
+	outputs, err := manager.GetOutputs(mCtx, stack)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -10,23 +10,22 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
-func Delete(bucket, key *string) error {
-	ctx := context.Background()
+func Delete(ctx context.Context, bucket, key *string) error {
 	cfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {
 		return err
 	}
-	return delete(s3.NewFromConfig(cfg), bucket, key)
+	return delete(ctx, s3.NewFromConfig(cfg), bucket, key)
 }
 
-func delete(client *s3.Client, bucket, key *string) error {
-	isFolder, err := isFolder(client, bucket, key)
+func delete(ctx context.Context, client *s3.Client, bucket, key *string) error {
+	isFolder, err := isFolder(ctx, client, bucket, key)
 	if err != nil {
 		return err
 	}
 	if !isFolder {
 		_, err = client.DeleteObject(
-			context.Background(),
+			ctx,
 			&s3.DeleteObjectInput{
 				Bucket: aws.String(*bucket),
 				Key:    aws.String(*key),
@@ -35,12 +34,12 @@ func delete(client *s3.Client, bucket, key *string) error {
 		return err
 	}
 	// TODO recursive
-	childrenKeys, err := listObjectKeys(client, bucket, key)
+	childrenKeys, err := listObjectKeys(ctx, client, bucket, key)
 	if err != nil {
 		return err
 	}
 	for _, cKey := range childrenKeys {
-		err = delete(client, bucket, &cKey)
+		err = delete(ctx, client, bucket, &cKey)
 		if err != nil {
 			logging.Error(err)
 		}
@@ -48,9 +47,9 @@ func delete(client *s3.Client, bucket, key *string) error {
 	return nil
 }
 
-func isFolder(client *s3.Client, bucket, key *string) (bool, error) {
+func isFolder(ctx context.Context, client *s3.Client, bucket, key *string) (bool, error) {
 	var maxKeys int32 = 1
-	out, err := client.ListObjectsV2(context.Background(),
+	out, err := client.ListObjectsV2(ctx,
 		&s3.ListObjectsV2Input{
 			Bucket:  aws.String(*bucket),
 			Prefix:  aws.String(fmt.Sprintf("%s/", *key)),
@@ -62,7 +61,7 @@ func isFolder(client *s3.Client, bucket, key *string) (bool, error) {
 	return len(out.Contents) > 0, nil
 }
 
-func listObjectKeys(client *s3.Client, bucket, key *string) ([]string, error) {
+func listObjectKeys(ctx context.Context, client *s3.Client, bucket, key *string) ([]string, error) {
 	var keys []string
 	paginator := s3.NewListObjectsV2Paginator(
 		client,
@@ -72,8 +71,7 @@ func listObjectKeys(client *s3.Client, bucket, key *string) ([]string, error) {
 		})
 
 	for paginator.HasMorePages() {
-		output, err := paginator.NextPage(
-			context.Background())
+		output, err := paginator.NextPage(ctx)
 		if err != nil {
 			return nil, fmt.Errorf("error listing objects: %w", err)
 		}

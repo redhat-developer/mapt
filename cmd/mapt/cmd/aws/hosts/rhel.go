@@ -44,6 +44,7 @@ func getRHELCreate() *cobra.Command {
 			}
 			return rhel.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -94,6 +95,7 @@ func getRHELDestroy() *cobra.Command {
 				return err
 			}
 			return rhel.Destroy(&maptContext.ContextArgs{
+				Context:       cmd.Context(),
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),

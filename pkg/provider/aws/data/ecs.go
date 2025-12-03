@@ -9,14 +9,14 @@ import (
 
 var ErrECSClusterNotFound = fmt.Errorf("cluster not found")
 
-func GetCluster(clusterName, region string) (*string, error) {
-	cfg, err := getConfig(region)
+func GetCluster(ctx context.Context, clusterName, region string) (*string, error) {
+	cfg, err := getConfig(ctx, region)
 	if err != nil {
 		return nil, err
 	}
 	client := ecs.NewFromConfig(cfg)
 	listClustersOutput, err := client.ListClusters(
-		context.TODO(),
+		ctx,
 		&ecs.ListClustersInput{})
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func GetCluster(clusterName, region string) (*string, error) {
 		return nil, ErrECSClusterNotFound
 	}
 	cls, err := client.DescribeClusters(
-		context.TODO(),
+		ctx,
 		&ecs.DescribeClustersInput{
 			Clusters: listClustersOutput.ClusterArns,
 		})

@@ -41,6 +41,7 @@ func getMacRequest() *cobra.Command {
 			}
 			return mac.Request(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -81,6 +82,7 @@ func getMacRelease() *cobra.Command {
 			}
 			return mac.Release(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 				},
@@ -107,6 +109,7 @@ func getMacDestroy() *cobra.Command {
 			}
 			return mac.Destroy(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					Debug:        viper.IsSet(params.Debug),
 					DebugLevel:   viper.GetUint(params.DebugLevel),
 					KeepState:    viper.IsSet(params.KeepState),

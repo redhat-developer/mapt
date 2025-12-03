@@ -7,14 +7,14 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/iam"
 )
 
-func GetRole(roleName string) (*string, error) {
-	cfg, err := getGlobalConfig()
+func GetRole(ctx context.Context, roleName string) (*string, error) {
+	cfg, err := getGlobalConfig(ctx)
 	if err != nil {
 		return nil, err
 	}
 	client := iam.NewFromConfig(cfg)
 	roleOutput, err := client.GetRole(
-		context.TODO(), &iam.GetRoleInput{
+		ctx, &iam.GetRoleInput{
 			RoleName: aws.String(roleName),
 		})
 	if err != nil {

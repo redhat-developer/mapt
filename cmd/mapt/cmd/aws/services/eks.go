@@ -60,6 +60,7 @@ func getCreateEKS() *cobra.Command {
 
 			return awsEKS.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -107,6 +108,7 @@ func getDestroyEKS() *cobra.Command {
 			}
 			return awsEKS.Destroy(
 				&maptContext.ContextArgs{
+					Context:      cmd.Context(),
 					ProjectName:  viper.GetString(params.ProjectName),
 					BackedURL:    viper.GetString(params.BackedURL),
 					Debug:        viper.IsSet(params.Debug),

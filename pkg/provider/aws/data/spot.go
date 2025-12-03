@@ -77,7 +77,7 @@ func getSpotInfo(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResult
 	computeTypes := args.ComputeRequest.ComputeSizes
 	if len(computeTypes) == 0 {
 		computeTypes, err =
-			NewComputeSelector().Select(args.ComputeRequest)
+			NewComputeSelector().Select(mCtx.Context(), args.ComputeRequest)
 		if err != nil {
 			return nil, err
 		}
@@ -128,7 +128,7 @@ type SpotInfoResult struct {
 
 // filter regions suitable for running mapt targets on spot instances
 func filterRegions(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
-	regions, err := GetRegions()
+	regions, err := GetRegions(mCtx.Context())
 	if err != nil {
 		return nil, err
 	}
@@ -142,6 +142,7 @@ func filterRegions(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
 		regions = util.ArrayFilter(regions,
 			func(region string) bool {
 				validAMI, _, err := IsAMIOffered(
+					mCtx.Context(),
 					ImageRequest{
 						Name:   args.AMIName,
 						Arch:   args.AMIArch,
@@ -176,12 +177,13 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		return nil, err
 	}
 	// Placement Socres
-	nOpInRegions, err := GetRegionsByOptInStatus([]string{OptInStatusNotRequired})
+	nOpInRegions, err := GetRegionsByOptInStatus(mCtx.Context(), []string{OptInStatusNotRequired})
 	if err != nil {
 		return nil, err
 	}
 	placementScores, err := hostingPlaces.RunOnHostingPlaces(regions,
 		placementScoreArgs{
+			ctx:               mCtx.Context(),
 			apiRegion:         util.RandomItemFromArray(nOpInRegions),
 			minPlacementScore: minPlacementScore(*args.SpotTolerance),
 			instanceTypes:     args.InstaceTypes,
@@ -194,6 +196,7 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	regionsWithPlacementScore := utilMaps.Keys(placementScores)
 	spotPricing, err := hostingPlaces.RunOnHostingPlaces(regionsWithPlacementScore,
 		spotPricingArgs{
+			ctx:                mCtx.Context(),
 			mCtx:               mCtx,
 			productDescription: *args.ProductDescription,
 			instanceTypes:      args.InstaceTypes,
@@ -306,6 +309,7 @@ func aggregateSpotChoice(s []*SpotInfoResult, numberOfTypesForSpot int) *SpotInf
 }
 
 type spotPricingArgs struct {
+	ctx                context.Context
 	mCtx               *mc.Context
 	productDescription string
 	instanceTypes      []string
@@ -320,7 +324,7 @@ type spotPrincingResults struct {
 }
 
 func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.HostingPlaceData[[]spotPrincingResults]) {
-	cfg, err := getConfig(r)
+	cfg, err := getConfig(args.ctx, r)
 	if err != nil {
 		hostingPlaces.SendAsyncErr(c, err)
 		return
@@ -329,7 +333,7 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 	starTime := time.Now().Add(-1 * time.Hour)
 	endTime := time.Now()
 	history, err := client.DescribeSpotPriceHistory(
-		context.Background(),
+		args.ctx,
 		&ec2.DescribeSpotPriceHistoryInput{
 			InstanceTypes: util.ArrayConvert(args.instanceTypes,
 				func(i string) ec2Types.InstanceType {
@@ -388,6 +392,7 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 }
 
 type placementScoreArgs struct {
+	ctx context.Context
 	// Not all regions offered the API to get
 	// data about placement score, we need set which one
 	// will be used
@@ -406,15 +411,15 @@ type placementScoreResult struct {
 // This will get placement scores grouped on map per region
 // only scores over tolerance will be added
 func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlaces.HostingPlaceData[[]placementScoreResult]) {
-	azsByRegion := describeAvailabilityZonesByRegions([]string{r})
-	cfg, err := getConfig(args.apiRegion)
+	azsByRegion := describeAvailabilityZonesByRegions(args.ctx, []string{r})
+	cfg, err := getConfig(args.ctx, args.apiRegion)
 	if err != nil {
 		hostingPlaces.SendAsyncErr(c, err)
 		return
 	}
 	client := ec2.NewFromConfig(cfg)
 	sps, err := client.GetSpotPlacementScores(
-		context.Background(),
+		args.ctx,
 		&ec2.GetSpotPlacementScoresInput{
 			SingleAvailabilityZone: aws.Bool(true),
 			InstanceTypes:          args.instanceTypes,

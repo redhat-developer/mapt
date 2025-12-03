@@ -53,6 +53,7 @@ func createKind() *cobra.Command {
 
 			if _, err := kind.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -94,6 +95,7 @@ func destroyKind() *cobra.Command {
 				return err
 			}
 			return kind.Destroy(&maptContext.ContextArgs{
+				Context:       cmd.Context(),
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),

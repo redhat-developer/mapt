@@ -22,15 +22,15 @@ func allTagsMatches(tags map[string]string, tTags []ec2Types.Tag) bool {
 	return count == len(tags)
 }
 
-func getGlobalConfig() (aws.Config, error) {
-	return getConfig("")
+func getGlobalConfig(ctx context.Context) (aws.Config, error) {
+	return getConfig(ctx, "")
 }
 
-func getConfig(region string) (aws.Config, error) {
+func getConfig(ctx context.Context, region string) (aws.Config, error) {
 	if len(region) > 0 {
 		return config.LoadDefaultConfig(
-			context.Background(),
+			ctx,
 			config.WithRegion(region))
 	}
-	return config.LoadDefaultConfig(context.Background())
+	return config.LoadDefaultConfig(ctx)
 }

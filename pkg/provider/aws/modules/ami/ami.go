@@ -57,7 +57,7 @@ func DestroyReplica(mCtxArgs *mc.ContextArgs) (err error) {
 }
 
 func manageReplica(r *replicateRequest, operation string) (err error) {
-	regions, err := data.GetRegions()
+	regions, err := data.GetRegions(r.mCtx.Context())
 	if err != nil {
 		return err
 	}

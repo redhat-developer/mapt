@@ -16,16 +16,16 @@ const (
 
 func ValidateS3Path(p string) bool { return strings.HasPrefix(p, s3Prefix) }
 
-func GetBucketLocationFromS3Path(p string) (*string, error) {
+func GetBucketLocationFromS3Path(ctx context.Context, p string) (*string, error) {
 	bucket, err := getBucketFromS3Path(p)
 	if err != nil {
 		return nil, err
 	}
-	return GetBucketLocation(*bucket)
+	return GetBucketLocation(ctx, *bucket)
 }
 
-func GetBucketLocation(bucketName string) (*string, error) {
-	cfg, err := getGlobalConfig()
+func GetBucketLocation(ctx context.Context, bucketName string) (*string, error) {
+	cfg, err := getGlobalConfig(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func GetBucketLocation(bucketName string) (*string, error) {
 	// 		Bucket: &bucketName,
 	// 	})
 	b, err := client.GetBucketLocation(
-		context.Background(),
+		ctx,
 		&s3.GetBucketLocationInput{
 			Bucket: &bucketName,
 		})

@@ -15,19 +15,19 @@ type InstanceResquest struct {
 	Tags map[string]string
 }
 
-func GetInstanceByRegion(r InstanceResquest, regionName string) ([]ec2Types.Instance, error) {
+func GetInstanceByRegion(ctx context.Context, r InstanceResquest, regionName string) ([]ec2Types.Instance, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(regionName) > 0 {
 		cfgOpts = config.WithRegion(regionName)
 	}
-	cfg, err := config.LoadDefaultConfig(context.Background(), cfgOpts)
+	cfg, err := config.LoadDefaultConfig(ctx, cfgOpts)
 	if err != nil {
 		return nil, err
 	}
 	client := ec2.NewFromConfig(cfg)
 	tagKey := "tag-key"
 	i, err := client.DescribeInstances(
-		context.Background(),
+		ctx,
 		&ec2.DescribeInstancesInput{
 			Filters: []ec2Types.Filter{
 				{

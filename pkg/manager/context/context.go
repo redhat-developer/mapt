@@ -1,6 +1,7 @@
 package context
 
 import (
+	"context"
 	"fmt"
 
 	"maps"
@@ -28,6 +29,7 @@ const (
 )
 
 type ContextArgs struct {
+	Context     context.Context
 	ProjectName string
 	BackedURL   string
 	//Optional
@@ -51,6 +53,7 @@ type ContextArgs struct {
 }
 
 type Context struct {
+	ctx           context.Context
 	runID         string
 	projectName   string
 	backedURL     string
@@ -69,14 +72,22 @@ type Context struct {
 }
 
 type Provider interface {
-	Init(backedURL string) error
+	Init(ctx context.Context, backedURL string) error
 	DefaultHostingPlace() (*string, error)
 }
 
 func InitNoState() *Context { return &Context{} }
 
 func Init(ca *ContextArgs, provider Provider) (*Context, error) {
+	// Default to context.Background() if no context is provided
+	ctx := ca.Context
+	if ctx == nil {
+		logging.Warn("no context provided to ContextArgs; falling back to context.Background()")
+		ctx = context.Background()
+	}
+
 	c := &Context{
+		ctx:           ctx,
 		runID:         util.RandomID(origin),
 		projectName:   ca.ProjectName,
 		backedURL:     ca.BackedURL,
@@ -97,7 +108,7 @@ func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 		c.targetHostingPlace = *hp
 	}
 	// Manage
-	if err := provider.Init(ca.BackedURL); err != nil {
+	if err := provider.Init(ctx, ca.BackedURL); err != nil {
 		return nil, err
 	}
 	// Manage integrations
@@ -107,6 +118,8 @@ func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 	logging.Debugf("context initialized for %s", c.runID)
 	return c, nil
 }
+
+func (c *Context) Context() context.Context { return c.ctx }
 
 func (c *Context) RunID() string { return c.runID }
 

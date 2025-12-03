@@ -10,12 +10,11 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 )
 
-func Locations() ([]string, error) {
+func Locations(ctx context.Context) ([]string, error) {
 	cred, subscriptionID, err := getCredentials()
 	if err != nil {
 		return nil, err
 	}
-	ctx := context.Background()
 	client, err := armsubscriptions.NewClient(cred, nil)
 	if err != nil {
 		return nil, err
@@ -34,7 +33,7 @@ func Locations() ([]string, error) {
 	return locations, nil
 }
 
-func LocationsBySupportedResourceType(rt ResourceType) ([]string, error) {
+func LocationsBySupportedResourceType(ctx context.Context, rt ResourceType) ([]string, error) {
 	cred, subscriptionID, err := getCredentials()
 	if err != nil {
 		return nil, err
@@ -43,7 +42,7 @@ func LocationsBySupportedResourceType(rt ResourceType) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := client.Get(context.Background(), "Microsoft.Network", nil)
+	resp, err := client.Get(ctx, "Microsoft.Network", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -55,10 +54,10 @@ func LocationsBySupportedResourceType(rt ResourceType) ([]string, error) {
 			}
 		}
 	}
-	return translate(cred, subscriptionID, locationsDN)
+	return translate(ctx, cred, subscriptionID, locationsDN)
 }
 
-func translate(cred *azidentity.DefaultAzureCredential,
+func translate(ctx context.Context, cred *azidentity.DefaultAzureCredential,
 	subscriptionID *string, lDisplayName []string) ([]string, error) {
 	locationsClient, err := armsubscriptions.NewClient(cred, nil)
 	if err != nil {
@@ -67,7 +66,7 @@ func translate(cred *azidentity.DefaultAzureCredential,
 	locationPager := locationsClient.NewListLocationsPager(*subscriptionID, nil)
 	var locationsMap = make(map[string]string)
 	for locationPager.More() {
-		page, err := locationPager.NextPage(context.Background())
+		page, err := locationPager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}

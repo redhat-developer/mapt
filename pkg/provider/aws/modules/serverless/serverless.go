@@ -120,7 +120,7 @@ func (r *serverlessRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	subnetID, err := data.GetRandomPublicSubnet(r.region)
+	subnetID, err := data.GetRandomPublicSubnet(r.mCtx.Context(), r.region)
 	if err != nil {
 		return err
 	}
@@ -162,7 +162,7 @@ func (r *serverlessRequest) deploy(ctx *pulumi.Context) error {
 // it exists it will pick the cluster otherwise it will create and will not be deleted
 func getClusterArn(ctx *pulumi.Context, mCtx *mc.Context, region, prefix, componentID string) (*pulumi.StringOutput, error) {
 	clusterName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "cluster")
-	clusterArn, err := data.GetCluster(clusterName, region)
+	clusterArn, err := data.GetCluster(mCtx.Context(), clusterName, region)
 	if err != nil {
 		if err == data.ErrECSClusterNotFound {
 			if cluster, err := ecs.NewCluster(ctx,
@@ -188,7 +188,7 @@ func getClusterArn(ctx *pulumi.Context, mCtx *mc.Context, region, prefix, compon
 // it exists it will pick the role otherwise it will create and will not be deleted
 func getTaskRole(ctx *pulumi.Context, mCtx *mc.Context, prefix, componentID string) (*pulumi.StringOutput, error) {
 	roleName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "role")
-	roleArn, err := data.GetRole(roleName)
+	roleArn, err := data.GetRole(mCtx.Context(), roleName)
 	if err != nil {
 		if role, err := createTaskRole(ctx, mCtx, roleName, prefix, componentID); err != nil {
 			return nil, err
@@ -269,7 +269,7 @@ func createTaskRole(ctx *pulumi.Context, mCtx *mc.Context, roleName, prefix, com
 // it exists it will pick the role otherwise it will create and will not be deleted
 func getSchedulerRole(ctx *pulumi.Context, mCtx *mc.Context, prefix, componentID string) (*pulumi.StringOutput, error) {
 	roleName := fmt.Sprintf("%s-%s", maptServerlessDefaultPrefix, "sch-role")
-	roleArn, err := data.GetRole(roleName)
+	roleArn, err := data.GetRole(mCtx.Context(), roleName)
 	if err != nil {
 		if role, err := createSchedulerRole(ctx, mCtx, roleName, prefix, componentID); err != nil {
 			return nil, err

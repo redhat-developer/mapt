@@ -8,9 +8,8 @@ import (
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 )
 
-func Update(tagKey, tagValue, region, resourceID string) error {
+func Update(ctx context.Context, tagKey, tagValue, region, resourceID string) error {
 	var cfgOpts config.LoadOptionsFunc
-	ctx := context.Background()
 	if len(region) > 0 {
 		cfgOpts = config.WithRegion(region)
 	}

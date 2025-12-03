@@ -25,11 +25,11 @@ const pulumiLocksPath = ".pulumi/locks"
 
 type AWS struct{}
 
-func (a *AWS) Init(backedURL string) error {
+func (a *AWS) Init(ctx context.Context, backedURL string) error {
 	// Manage remote state requirements, if backedURL
 	// is on a different region we need to change to that region
 	// in order to interact with the state
-	return manageRemoteState(backedURL)
+	return manageRemoteState(ctx, backedURL)
 }
 
 func (a *AWS) DefaultHostingPlace() (*string, error) {
@@ -53,9 +53,9 @@ func Provider() *AWS {
 
 // This function will check if backed url is remote and if so change initial values to be able to
 // use it.
-func manageRemoteState(backedURL string) error {
+func manageRemoteState(ctx context.Context, backedURL string) error {
 	if data.ValidateS3Path(backedURL) {
-		awsRegion, err := data.GetBucketLocationFromS3Path(backedURL)
+		awsRegion, err := data.GetBucketLocationFromS3Path(ctx, backedURL)
 		if err != nil {
 			return err
 		}
@@ -129,7 +129,7 @@ func DestroyStack(mCtx *mc.Context, s DestroyStackRequest) error {
 		}
 		// TODO add lock key
 		lockPathKey := fmt.Sprintf("%s/%s", *key, pulumiLocksPath)
-		err = s3.Delete(bucket, &lockPathKey)
+		err = s3.Delete(mCtx.Context(), bucket, &lockPathKey)
 		if err != nil {
 			// Do not exit
 			logging.Error(err)
@@ -234,7 +234,7 @@ func CleanupState(mCtx *mc.Context) error {
 	}
 
 	logging.Infof("Cleaning up Pulumi state from s3://%s/%s", *bucket, *key)
-	if deleteErr := s3.Delete(bucket, key); deleteErr != nil {
+	if deleteErr := s3.Delete(mCtx.Context() , bucket, key); deleteErr != nil {
 		logging.Warnf("Failed to cleanup S3 state: %v", deleteErr)
 		// Don't return error - resources are already destroyed
 	} else {

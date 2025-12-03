@@ -49,18 +49,18 @@ func GetAMIByName(ctx *pulumi.Context,
 }
 
 // Enable Fast Launchon AMI, it will only work with Windows instances
-func EnableFastLaunch(region *string, amiID *string, maxParallel *int32) error {
+func EnableFastLaunch(ctx context.Context, region *string, amiID *string, maxParallel *int32) error {
 	logging.Debugf("Enabling fast launch for ami %s", *amiID)
 	var cfgOpts config.LoadOptionsFunc
 	if len(*region) > 0 {
 		cfgOpts = config.WithRegion(*region)
 	}
-	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
+	cfg, err := config.LoadDefaultConfig(ctx, cfgOpts)
 	if err != nil {
 		return err
 	}
 	client := awsEC2.NewFromConfig(cfg)
-	o, err := client.EnableFastLaunch(context.Background(),
+	o, err := client.EnableFastLaunch(ctx,
 		&awsEC2.EnableFastLaunchInput{
 			ImageId:             amiID,
 			MaxParallelLaunches: maxParallel,
@@ -71,7 +71,7 @@ func EnableFastLaunch(region *string, amiID *string, maxParallel *int32) error {
 	fastLaunchState := o.State
 	for fastLaunchState != awsEC2Types.FastLaunchStateCodeEnabled {
 		dfl, err := client.DescribeFastLaunchImages(
-			context.Background(),
+			ctx,
 			&awsEC2.DescribeFastLaunchImagesInput{
 				ImageIds: []string{*amiID},
 			})

@@ -6,7 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
+    "os/signal"
+    "syscall"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
@@ -64,14 +65,17 @@ func init() {
 }
 
 func Execute() {
-	attachMiddleware([]string{}, rootCmd)
+    attachMiddleware([]string{}, rootCmd)
 
-	if err := rootCmd.ExecuteContext(context.Background()); err != nil {
-		runPostrun()
-		_, _ = fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(defaultErrorExitCode)
-	}
-	runPostrun()
+    ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+    defer stop()
+
+    if err := rootCmd.ExecuteContext(ctx); err != nil {
+        runPostrun()
+        _, _ = fmt.Fprintln(os.Stderr, err.Error())
+        os.Exit(defaultErrorExitCode)
+    }
+    runPostrun()
 }
 
 func attachMiddleware(names []string, cmd *cobra.Command) {

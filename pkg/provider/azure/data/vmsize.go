@@ -10,19 +10,18 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 )
 
-func IsVMSizeOfferedByLocation(vmSize, location string) (bool, error) {
-	offerings, err := FilterVMSizeOfferedByLocation([]string{vmSize}, location)
+func IsVMSizeOfferedByLocation(ctx context.Context, vmSize, location string) (bool, error) {
+	offerings, err := FilterVMSizeOfferedByLocation(ctx, []string{vmSize}, location)
 	return len(offerings) == 1, err
 }
 
 // Get InstanceTypes offerings on current location
-func FilterVMSizeOfferedByLocation(vmSizes []string, location string) ([]string, error) {
+func FilterVMSizeOfferedByLocation(ctx context.Context, vmSizes []string, location string) ([]string, error) {
 	// Create a new Azure credential (uses environment variables or managed identity)
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-	ctx := context.Background()
 	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
 	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
 	if err != nil {

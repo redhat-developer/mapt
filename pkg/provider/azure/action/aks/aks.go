@@ -57,8 +57,8 @@ func (r *aksRequest) validate() error {
 }
 
 func Create(mCtxArgs *mc.ContextArgs, args *AKSArgs) (err error) {
-	// Create mapt Context
 	logging.Debug("Creating AKS")
+	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
 	if err != nil {
 		return err
@@ -86,8 +86,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *AKSArgs) (err error) {
 }
 
 func Destroy(mCtxArgs *mc.ContextArgs) error {
-	// Create mapt Context
 	logging.Debug("Destroy AKS")
+	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
 	if err != nil {
 		return err

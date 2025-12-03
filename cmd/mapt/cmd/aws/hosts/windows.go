@@ -57,6 +57,7 @@ func getWindowsCreate() *cobra.Command {
 			}
 			return windows.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -105,6 +106,7 @@ func getWindowsDestroy() *cobra.Command {
 				return err
 			}
 			return windows.Destroy(&maptContext.ContextArgs{
+				Context:       cmd.Context(),
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),
