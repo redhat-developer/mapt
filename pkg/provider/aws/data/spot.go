@@ -151,6 +151,9 @@ func filterRegions(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
 						logging.Warn(err.Error())
 					}
 				}
+				if !validAMI {
+					logging.Debugf("AMI %s is not available in region %s", *args.AMIName, region)
+				}
 				return validAMI
 			})
 	}
@@ -278,6 +281,13 @@ func selectSpotChoice(args *spotChoiceArgs, numberOfTypesForSpot int) (*SpotInfo
 	if len(spis) == 0 {
 		return nil, fmt.Errorf("no good choice was found")
 	}
+	logging.Debugf("Sorted %d spot options by price", len(spis))
+	for i, spi := range spis {
+		logging.Debugf("  Option %d: Region %s, AZ %s, Price $%.4f, Score %d, Instance types: %v",
+			i+1, spi.Region, spi.AvailabilityZone, spi.Price, spi.Score, spi.InstanceType)
+	}
+	logging.Debugf("Selected cheapest option - Region %s, AZ %s, Price $%.4f, Score %d, Instance types: %v",
+		spis[0].Region, spis[0].AvailabilityZone, spis[0].Price, spis[0].Score, spis[0].InstanceType)
 	return spis[0], nil
 }
 
@@ -417,7 +427,7 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlace
 		return
 	}
 	if len(sps.SpotPlacementScores) == 0 {
-		hostingPlaces.SendAsyncErr(c, fmt.Errorf("non available scores"))
+		hostingPlaces.SendAsyncErr(c, fmt.Errorf("non available scores for region %s", r))
 		return
 	}
 	var results []placementScoreResult
@@ -432,6 +442,9 @@ func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlace
 				sps:    ps,
 				azName: azName,
 			})
+		} else {
+			logging.Debugf("Availability zone %s in region %s filtered out (score %d < minimum %d)",
+				*ps.AvailabilityZoneId, *ps.Region, *ps.Score, args.minPlacementScore)
 		}
 	}
 	slices.SortFunc(results,
