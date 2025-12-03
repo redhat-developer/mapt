@@ -32,7 +32,7 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 	instancesTypes := args.ComputeRequest.ComputeSizes
 	if len(instancesTypes) == 0 {
 		instancesTypes, err =
-			data.NewComputeSelector().Select(args.ComputeRequest)
+			data.NewComputeSelector().Select(mCtx.Context(), args.ComputeRequest)
 		if err != nil {
 			return nil, err
 		}
@@ -74,14 +74,14 @@ func allocationOnDemand(mCtx *mc.Context, instancesTypes []string) (*AllocationR
 	var err error
 	var az *string
 	var supportedInstancesType []string
-	azs := data.GetAvailabilityZones(region, nil)
+	azs := data.GetAvailabilityZones(mCtx.Context(), region, nil)
 	for {
-		az, err = data.GetRandomAvailabilityZone(region, excludedAZs)
+		az, err = data.GetRandomAvailabilityZone(mCtx.Context(), region, excludedAZs)
 		if err != nil {
 			return nil, err
 		}
 		supportedInstancesType, err =
-			data.FilterInstaceTypesOfferedByLocation(instancesTypes, &data.LocationArgs{
+			data.FilterInstaceTypesOfferedByLocation(mCtx.Context(), instancesTypes, &data.LocationArgs{
 				Region: &region,
 				Az:     az,
 			})

@@ -71,9 +71,9 @@ func (r *fedoraRequest) validate() error {
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(ctx *mc.ContextArgs, args *FedoraArgs) (err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) (err error) {
 	// Create mapt Context
-	mCtx, err := mc.Init(ctx, aws.Provider())
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
 	}
@@ -108,10 +108,10 @@ func Create(ctx *mc.ContextArgs, args *FedoraArgs) (err error) {
 }
 
 // Will destroy resources related to machine
-func Destroy(c *mc.ContextArgs) (err error) {
+func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	logging.Debug("Run fedora destroy")
 	// Create mapt Context
-	mCtx, err := mc.Init(c, aws.Provider())
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
 	}

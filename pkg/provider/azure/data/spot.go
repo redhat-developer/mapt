@@ -49,7 +49,7 @@ func getSpotInfo(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResult
 	css := args.ComputeRequest.ComputeSizes
 	if len(css) == 0 {
 		css, err =
-			NewComputeSelector().Select(args.ComputeRequest)
+			NewComputeSelector().Select(mCtx.Context(), args.ComputeRequest)
 		if err != nil {
 			return nil, err
 		}
@@ -94,8 +94,9 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	if err != nil {
 		return nil, err
 	}
-	allEvictionRates, err := checkEvictionRates(locations,
+	allEvictionRates, err := checkEvictionRates(mCtx.Context(), locations,
 		checkEvictionRatesArgs{
+			ctx:           mCtx.Context(),
 			computeSizes:  args.ComputeSizes,
 			clientFactory: clientFactory,
 			allowedER:     allowedER(*args.SpotTolerance),
@@ -117,8 +118,9 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		locations = utilMaps.Keys(evictionRates)
 	}
 	// prices
-	allSpotPricings, err := checkSpotPricing(mCtx, locations,
+	allSpotPricings, err := checkSpotPricing(mCtx.Context(), mCtx, locations,
 		checkSpotPricingArgs{
+			ctx:           mCtx.Context(),
 			computeSizes:  args.ComputeSizes,
 			clientFactory: clientFactory,
 			osType:        args.OSType,
@@ -184,7 +186,7 @@ var evictionRatesToInt = map[string]int{
 // filter locations suitable for running mapt targets on spot instances
 func filterLocations(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
 	// Get all available locations for subscription allowing PublicIPs
-	locations, err := LocationsBySupportedResourceType(RTPublicIPAddresses)
+	locations, err := LocationsBySupportedResourceType(mCtx.Context(), RTPublicIPAddresses)
 	if err != nil {
 		return nil, err
 	}
@@ -220,6 +222,7 @@ func allowedER(spotTolerance spot.Tolerance) []string {
 }
 
 type checkEvictionRatesArgs struct {
+	ctx           context.Context
 	clientFactory *armresourcegraph.ClientFactory
 	computeSizes  []string
 	allowedER     []string
@@ -242,7 +245,7 @@ type queryERData struct {
 	AllowedER    []string
 }
 
-func checkEvictionRates(locations []string, args checkEvictionRatesArgs) (map[string][]evictionRateResult, error) {
+func checkEvictionRates(ctx context.Context, locations []string, args checkEvictionRatesArgs) (map[string][]evictionRateResult, error) {
 	tmpl, err := template.New("graphQuery").Parse(queryEvictionRate)
 	if err != nil {
 		return nil, err
@@ -257,7 +260,7 @@ func checkEvictionRates(locations []string, args checkEvictionRatesArgs) (map[st
 		return nil, err
 	}
 	evrr := buffer.String()
-	qr, err := args.clientFactory.NewClient().Resources(context.Background(),
+	qr, err := args.clientFactory.NewClient().Resources(ctx,
 		armresourcegraph.QueryRequest{
 			Query: to.Ptr(evrr),
 		},
@@ -300,6 +303,7 @@ func evictionRatesAsync(location string, args evictionRatesArgs, c chan hostingP
 }
 
 type checkSpotPricingArgs struct {
+	ctx           context.Context
 	clientFactory *armresourcegraph.ClientFactory
 	computeSizes  []string
 	osType        string
@@ -324,7 +328,7 @@ type querySpotPriceData struct {
 }
 
 // This function will return a slice of values with price ordered from minor prices to major
-func checkSpotPricing(mCtx *mc.Context, locations []string, args checkSpotPricingArgs) (map[string][]spotPricingResult, error) {
+func checkSpotPricing(ctx context.Context, mCtx *mc.Context, locations []string, args checkSpotPricingArgs) (map[string][]spotPricingResult, error) {
 	tmpl, err := template.New("graphQuery").Parse(querySpotPrice)
 	if err != nil {
 		return nil, err
@@ -339,7 +343,7 @@ func checkSpotPricing(mCtx *mc.Context, locations []string, args checkSpotPricin
 		return nil, err
 	}
 	spr := buffer.String()
-	qr, err := args.clientFactory.NewClient().Resources(context.Background(),
+	qr, err := args.clientFactory.NewClient().Resources(ctx,
 		armresourcegraph.QueryRequest{
 			Query: to.Ptr(spr),
 		},

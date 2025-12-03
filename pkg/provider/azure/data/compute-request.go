@@ -29,12 +29,11 @@ type ComputeSelector struct{}
 
 func NewComputeSelector() *ComputeSelector { return &ComputeSelector{} }
 
-func (c *ComputeSelector) Select(
-	args *cr.ComputeRequestArgs) ([]string, error) {
-	return getAzureVMSKUs(args)
+func (c *ComputeSelector) Select(ctx context.Context, args *cr.ComputeRequestArgs) ([]string, error) {
+    return getAzureVMSKUs(ctx, args)
 }
 
-func FilterComputeSizesByLocation(location *string, computeSizes []string) ([]string, error) {
+func FilterComputeSizesByLocation(ctx context.Context, location *string, computeSizes []string) ([]string, error) {
 	creds, subscriptionID, err := getCredentials()
 	if err != nil {
 		return nil, err
@@ -46,7 +45,7 @@ func FilterComputeSizesByLocation(location *string, computeSizes []string) ([]st
 	pager := client.NewListPager(nil)
 	supportedSizes := []string{}
 	for pager.More() {
-		page, err := pager.NextPage(context.Background())
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
@@ -67,12 +66,11 @@ func FilterComputeSizesByLocation(location *string, computeSizes []string) ([]st
 	return supportedSizes, nil
 }
 
-func getAzureVMSKUs(args *cr.ComputeRequestArgs) ([]string, error) {
+func getAzureVMSKUs(ctx context.Context, args *cr.ComputeRequestArgs) ([]string, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-	ctx := context.Background()
 	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
 	clientFactory, err := armcompute.NewClientFactory(
 		subscriptionId, cred, nil)
@@ -91,7 +89,7 @@ func getAzureVMSKUs(args *cr.ComputeRequestArgs) ([]string, error) {
 			return nil, err
 		}
 		vmTypes = append(vmTypes,
-			filterVMs(page,
+			filterVMs(ctx, page,
 				filterCPUsAndMemory(args))...)
 	}
 	return vmTypes, nil
@@ -259,12 +257,12 @@ func filterCPUsAndMemory(args *cr.ComputeRequestArgs) filterFunc {
 // sort the VirtualMachine slice based on vcpus
 // for the above to happen need to have a slice of VirtualMachines in memory first
 // so no go routines needed
-func filterVMs(skus armcompute.ResourceSKUsClientListResponse, filter filterFunc) []string {
+func filterVMs(ctx context.Context, skus armcompute.ResourceSKUsClientListResponse, filter filterFunc) []string {
 	chVmTypes := make(chan string, cr.MaxResults)
 	vmTypes := []string{}
 	virtualMachines := []*virtualMachine{}
 	wg := &sync.WaitGroup{}
-	ctx, cancelFn := context.WithCancel(context.Background())
+	childCtx, cancelFn := context.WithCancel(ctx)
 
 	for _, v := range skus.Value {
 		vm := resourceSKUToVirtualMachine(v)
@@ -285,7 +283,7 @@ func filterVMs(skus armcompute.ResourceSKUsClientListResponse, filter filterFunc
 
 	for _, v := range virtualMachines {
 		wg.Add(1)
-		go filter(ctx, v, wg, chVmTypes)
+		go filter(childCtx, v, wg, chVmTypes)
 	}
 	c := make(chan int)
 

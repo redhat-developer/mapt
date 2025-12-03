@@ -40,7 +40,7 @@ func (r CopyAMIRequest) Create() error {
 	if err := r.validate(); err != nil {
 		return err
 	}
-	_, err := manager.CheckStack(manager.Stack{
+	_, err := manager.CheckStack(r.MCtx,manager.Stack{
 		StackName:   r.MCtx.StackNameByProject("copyAMI"),
 		ProjectName: r.MCtx.ProjectName(),
 		BackedURL:   r.MCtx.BackedURL()})
@@ -52,7 +52,7 @@ func (r CopyAMIRequest) Create() error {
 
 // Check if spot option stack was created on the backed url
 func Exist(mCtx *mc.Context) bool {
-	s, err := manager.CheckStack(manager.Stack{
+	s, err := manager.CheckStack(mCtx, manager.Stack{
 		StackName:   mCtx.StackNameByProject("copyAMI"),
 		ProjectName: mCtx.ProjectName(),
 		BackedURL:   mCtx.BackedURL()})
@@ -92,7 +92,7 @@ func (r CopyAMIRequest) createStack(mCtx *mc.Context) error {
 // and it will export the data from the best spot option to the stack state
 func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 	// find were the ami is
-	amiInfo, err := data.FindAMI(r.AMISourceName, r.AMISourceArch)
+	amiInfo, err := data.FindAMI(r.MCtx.Context(), r.AMISourceName, r.AMISourceArch)
 	if err != nil {
 		return err
 	}
@@ -116,6 +116,7 @@ func (r CopyAMIRequest) deployer(ctx *pulumi.Context) error {
 		if r.FastLaunch {
 			_ = ami.ID().ApplyT(func(amiID string) error {
 				return amiSVC.EnableFastLaunch(
+					r.MCtx.Context(),
 					r.AMITargetRegion,
 					&amiID,
 					&r.MaxParallel)

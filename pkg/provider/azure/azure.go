@@ -1,6 +1,7 @@
 package azure
 
 import (
+	"context"
 	"os"
 	"slices"
 	"strings"
@@ -24,7 +25,7 @@ func Provider() *Azure {
 	return &Azure{}
 }
 
-func (a *Azure) Init(backedURL string) error {
+func (a *Azure) Init(ctx context.Context, backedURL string) error {
 	setAZIdentityEnvs()
 	return nil
 }

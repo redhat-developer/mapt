@@ -1,6 +1,7 @@
 package rhelai
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/go-playground/validator/v10"
@@ -100,7 +101,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELAIArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	if err = checkAMIExists(&amiName, r.allocationData.Region, &amiArch); err != nil {
+	if err = checkAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &amiArch); err != nil {
 		return err
 	}
 	return r.createMachine()
@@ -271,8 +272,9 @@ func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func checkAMIExists(amiName, region, arch *string) error {
+func checkAMIExists(ctx context.Context, amiName, region, arch *string) error {
 	isAMIOffered, _, err := data.IsAMIOffered(
+		ctx,
 		data.ImageRequest{
 			Name:   amiName,
 			Arch:   arch,

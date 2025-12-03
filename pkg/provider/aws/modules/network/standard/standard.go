@@ -1,6 +1,7 @@
 package standard
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/go-playground/validator/v10"
@@ -83,8 +84,8 @@ type NetworkResources struct {
 	IntraSNResources   []*subnet.PrivateSubnetResources
 }
 
-func DefaultNetworkRequest(name, regionName string) NetworkRequest {
-	azs := data.GetAvailabilityZones("", nil)[:3]
+func DefaultNetworkRequest(ctx context.Context, name, regionName string) NetworkRequest {
+	azs := data.GetAvailabilityZones(ctx, "", nil)[:3]
 	azCount := len(azs)
 	return NetworkRequest{
 		Name:                name,

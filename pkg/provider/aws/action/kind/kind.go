@@ -51,6 +51,7 @@ func (r *kindRequest) validate() error {
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
 func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (kr *utilKind.KindResults, err error) {
+	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return nil, err
@@ -81,6 +82,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (kr *utilKind.Kin
 
 func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	logging.Debug("Run openshift destroy")
+	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err

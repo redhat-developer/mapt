@@ -54,6 +54,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 			}
 			return azureWindows.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -100,13 +101,13 @@ func getDestroyWindowsDesktop() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			if err := azureWindows.Destroy(
-				&maptContext.ContextArgs{
-					ProjectName: viper.GetString(params.ProjectName),
-					BackedURL:   viper.GetString(params.BackedURL),
-					Debug:       viper.IsSet(params.Debug),
-					DebugLevel:  viper.GetUint(params.DebugLevel),
-				}); err != nil {
+			if err := azureWindows.Destroy(&maptContext.ContextArgs{
+				Context:       cmd.Context(),
+				ProjectName: viper.GetString(params.ProjectName),
+				BackedURL:   viper.GetString(params.BackedURL),
+				Debug:       viper.IsSet(params.Debug),
+				DebugLevel:  viper.GetUint(params.DebugLevel),
+			}); err != nil {
 				logging.Error(err)
 			}
 			return nil

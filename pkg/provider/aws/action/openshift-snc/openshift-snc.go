@@ -1,6 +1,7 @@
 package openshiftsnc
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -108,7 +109,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncRe
 	}
 	// check if AMI exists
 	amiName := amiName(&args.Version, &args.Arch)
-	if err = checkAMIExists(&amiName, r.allocationData.Region, &args.Arch); err != nil {
+	if err = checkAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &args.Arch); err != nil {
 		return nil, err
 	}
 	return r.createCluster()
@@ -117,7 +118,6 @@ func Create(mCtxArgs *mc.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncRe
 // Will destroy resources related to machine
 func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	logging.Debug("Run openshift destroy")
-	// Create mapt Context
 	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
@@ -357,8 +357,9 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func checkAMIExists(amiName, region, arch *string) error {
+func checkAMIExists(ctx context.Context, amiName, region, arch *string) error {
 	isAMIOffered, _, err := data.IsAMIOffered(
+		ctx,
 		data.ImageRequest{
 			Name:   amiName,
 			Arch:   arch,

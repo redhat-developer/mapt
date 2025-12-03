@@ -1,6 +1,7 @@
 package host
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"sort"
@@ -19,13 +20,13 @@ import (
 func GetMatchingHostsInformation(mCtx *maptContext.Context, arch string) ([]*mac.HostInformation, error) {
 	matchingTags := mCtx.GetTags()
 	matchingTags[tagKeyArch] = arch
-	return GetMatchingHostsInStateInformation(matchingTags, nil)
+	return GetMatchingHostsInStateInformation(mCtx.Context(), matchingTags, nil)
 }
 
 // Get all dedicated hosts matching the tags + arch
 // it will return the list ordered by allocation time
-func GetPoolDedicatedHostsInformation(id *PoolID) ([]*mac.HostInformation, error) {
-	return GetMatchingHostsInStateInformation(id.asTags(), nil)
+func GetPoolDedicatedHostsInformation(ctx context.Context, id *PoolID) ([]*mac.HostInformation, error) {
+	return GetMatchingHostsInStateInformation(ctx, id.asTags(), nil)
 }
 
 // Get all dedicated hosts in available state ordered based on the allocation time
@@ -45,8 +46,8 @@ func getBackedURL(mCtx *maptContext.Context) string {
 }
 
 // Get all dedicated hosts by tag and state
-func GetMatchingHostsInStateInformation(matchingTags map[string]string, state *ec2Types.AllocationState) ([]*mac.HostInformation, error) {
-	hosts, err := data.GetDedicatedHosts(data.DedicatedHostResquest{
+func GetMatchingHostsInStateInformation(ctx context.Context, matchingTags map[string]string, state *ec2Types.AllocationState) ([]*mac.HostInformation, error) {
+	hosts, err := data.GetDedicatedHosts(ctx, data.DedicatedHostResquest{
 		Tags: matchingTags,
 	})
 	if err != nil {
@@ -97,12 +98,13 @@ func getTagValue(tags []ec2Types.Tag, tagKey string) *string {
 // if it available it returns the region name
 // if not offered and machine should be created on the region it will return an error
 // if not offered and machine could be created anywhere it will get a region offering the machine and return its name
-func getRegion(arch string, fixedLocation bool) (*string, error) {
+func getRegion(ctx context.Context, arch string, fixedLocation bool) (*string, error) {
 	region := os.Getenv("AWS_DEFAULT_REGION")
 	logging.Debugf("checking if %s is offered at %s",
 		arch,
 		region)
 	isOffered, err := data.IsInstanceTypeOfferedByLocation(
+		ctx,
 		mac.TypesByArch[arch],
 		&data.LocationArgs{
 			Region: &region,
@@ -125,19 +127,21 @@ func getRegion(arch string, fixedLocation bool) (*string, error) {
 	logging.Debugf("%s is not offered, a new region offering it will be used instead",
 		os.Getenv("AWS_DEFAULT_REGION"))
 	return data.LokupRegionOfferingInstanceType(
+		ctx,
 		mac.TypesByArch[arch])
 }
 
 // Get a random AZ from the requested region, it ensures the az offers the instance type
-func getAZ(region, arch string) (az *string, err error) {
+func getAZ(ctx context.Context, region, arch string) (az *string, err error) {
 	isOffered := false
 	var excludedAZs []string
 	for !isOffered {
-		az, err = data.GetRandomAvailabilityZone(region, excludedAZs)
+		az, err = data.GetRandomAvailabilityZone(ctx, region, excludedAZs)
 		if err != nil {
 			return nil, err
 		}
 		isOffered, err = data.IsInstanceTypeOfferedByLocation(
+			ctx,
 			mac.TypesByArch[arch],
 			&data.LocationArgs{
 				Region: &region,

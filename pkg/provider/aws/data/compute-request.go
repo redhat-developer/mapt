@@ -14,27 +14,27 @@ type ComputeSelector struct{}
 func NewComputeSelector() *ComputeSelector { return &ComputeSelector{} }
 
 func (c *ComputeSelector) Select(
-	args *computerequest.ComputeRequestArgs) ([]string, error) {
-	return getInstanceTypes(args)
+	ctx context.Context, args *computerequest.ComputeRequestArgs) ([]string, error) {
+	return getInstanceTypes(ctx, args)
 }
 
-func getInstanceTypes(args *computerequest.ComputeRequestArgs) ([]string, error) {
+func getInstanceTypes(ctx context.Context, args *computerequest.ComputeRequestArgs) ([]string, error) {
 	// if err := validate(r.CPUs, r.MemoryGib, r.Arch); err != nil {
 	// 	return nil, err
 	// }
-	cfg, err := getGlobalConfig()
+	cfg, err := getGlobalConfig(ctx)
 	if err != nil {
 		return nil, err
 	}
 	instanceSelector, err := selector.New(
-		context.Background(),
+		ctx,
 		cfg)
 	if err != nil {
 		return nil, err
 	}
 	//nolint:staticcheck // following method is deprecated but no replacement yet
 	instanceTypesSlice, err := instanceSelector.Filter(
-		context.Background(),
+		ctx,
 		filters(args))
 	if err != nil {
 		return nil, err

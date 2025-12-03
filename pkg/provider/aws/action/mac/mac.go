@@ -27,9 +27,9 @@ import (
 // create the machine
 //
 //	...
-func Request(ctx *mc.ContextArgs, r *MacRequestArgs) error {
+func Request(mCtxArgs *mc.ContextArgs, r *MacRequestArgs) error {
 	// Create mapt Context
-	mCtx, err := mc.Init(ctx, aws.Provider())
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
 	}
@@ -47,7 +47,7 @@ func Request(ctx *mc.ContextArgs, r *MacRequestArgs) error {
 	// and replcae (create fresh env)
 	// If for whatever reason the mac has no been created
 	// stack does nt exist pick will require create not replace
-	hi, err := macUtil.PickHost(r.Prefix, his)
+	hi, err := macUtil.PickHost(mCtx, r.Prefix, his)
 	if err != nil {
 		if hi == nil {
 			return err
@@ -61,7 +61,8 @@ func Request(ctx *mc.ContextArgs, r *MacRequestArgs) error {
 		return err
 	}
 	// We update the runID on the dedicated host
-	return tag.Update(mc.TagKeyRunID,
+	return tag.Update(mCtx.Context(),
+		mc.TagKeyRunID,
 		mCtx.RunID(),
 		*hi.Region,
 		*hi.Host.HostId)
@@ -76,7 +77,7 @@ func Request(ctx *mc.ContextArgs, r *MacRequestArgs) error {
 // run release update on it
 func Release(mCtxArgs *mc.ContextArgs, hostID string) error {
 	// Get host as context will be fullfilled with info coming from the tags on the host
-	host, err := data.GetDedicatedHost(hostID)
+	host, err := data.GetDedicatedHost(mCtxArgs.Context, hostID)
 	if err != nil {
 		return err
 	}
@@ -96,7 +97,7 @@ func Release(mCtxArgs *mc.ContextArgs, hostID string) error {
 // If we request destroy mac machine it will look for any machine
 // and check if it is locked if not locked it will destroy it
 func Destroy(mCtxArgs *mc.ContextArgs, hostID string) error {
-	host, err := data.GetDedicatedHost(hostID)
+	host, err := data.GetDedicatedHost(mCtxArgs.Context, hostID)
 	if err != nil {
 		return err
 	}
@@ -110,7 +111,7 @@ func Destroy(mCtxArgs *mc.ContextArgs, hostID string) error {
 	}
 	// Dedicated host is not on a valid state to be deleted
 	// With same backedURL check if machine is locked
-	machineLocked, err := macUtil.IsMachineLocked(hi)
+	machineLocked, err := macUtil.IsMachineLocked(mCtx, hi)
 	if err != nil {
 		return err
 	}

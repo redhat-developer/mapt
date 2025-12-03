@@ -52,7 +52,7 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 		imageReferenceArgs = compute.ImageReferenceArgs{
 			CommunityGalleryImageId: pulumi.String(args.ImageID)}
 	} else {
-		finalSku, err := data.SkuG2Support(args.Location, args.Publisher, args.Offer, args.Sku)
+		finalSku, err := data.SkuG2Support(mCtx.Context(), args.Location, args.Publisher, args.Offer, args.Sku)
 		if err != nil {
 			return nil, err
 		}

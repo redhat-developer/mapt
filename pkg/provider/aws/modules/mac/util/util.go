@@ -28,9 +28,9 @@ const (
 // - TODO Remove those with allocation time > 24 h as they may destroyed
 // - if none left use them again
 // - if more available pick in order the first without lock
-func PickHost(prefix string, his []*mac.HostInformation) (*mac.HostInformation, error) {
+func PickHost(mCtx *mc.Context, prefix string, his []*mac.HostInformation) (*mac.HostInformation, error) {
 	for _, h := range his {
-		isLocked, err := IsMachineLocked(h)
+		isLocked, err := IsMachineLocked(mCtx, h)
 		if err != nil {
 			logging.Errorf("error checking if machine %s is locked", *h.Host.HostId)
 			if strings.Contains(err.Error(), "no stack") {
@@ -44,8 +44,8 @@ func PickHost(prefix string, his []*mac.HostInformation) (*mac.HostInformation, 
 	return nil, fmt.Errorf("all hosts are locked at the moment")
 }
 
-func IsMachineLocked(h *mac.HostInformation) (bool, error) {
-	s, err := manager.CheckStack(manager.Stack{
+func IsMachineLocked(mCtx *mc.Context, h *mac.HostInformation) (bool, error) {
+	s, err := manager.CheckStack(mCtx, manager.Stack{
 		StackName:   fmt.Sprintf("%s-%s", StackMacMachine, *h.ProjectName),
 		ProjectName: *h.ProjectName,
 		BackedURL:   *h.BackedURL,
@@ -56,7 +56,7 @@ func IsMachineLocked(h *mac.HostInformation) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	outputs, err := manager.GetOutputs(s)
+	outputs, err := manager.GetOutputs(mCtx, s)
 	if err != nil {
 		return false, err
 	}
@@ -73,17 +73,17 @@ func IsMachineLocked(h *mac.HostInformation) (bool, error) {
 // get projectName (tag on the dh)
 // load machine stack based on those params
 // run release update on it
-func Release(ctx *mc.ContextArgs, hostID string) error {
+func Release(mCtxArgs *mc.ContextArgs, hostID string) error {
 	// Get host as context will be fullfilled with info coming from the tags on the host
-	host, err := data.GetDedicatedHost(hostID)
+	host, err := data.GetDedicatedHost(mCtxArgs.Context, hostID)
 	if err != nil {
 		return err
 	}
 	hi := macHost.GetHostInformation(*host)
 	// Create mapt Context
-	ctx.ProjectName = *hi.ProjectName
-	ctx.BackedURL = *hi.BackedURL
-	mCtx, err := mc.Init(ctx, aws.Provider())
+	mCtxArgs.ProjectName = *hi.ProjectName
+	mCtxArgs.BackedURL = *hi.BackedURL
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
 	}

@@ -22,15 +22,15 @@ type LocationArgs struct {
 // Check if InstanceType is offered on current location
 // it is valid for Regions or Azs
 // if az is nill it will check on region
-func IsInstanceTypeOfferedByLocation(instanceType string, args *LocationArgs) (bool, error) {
-	offerings, err := FilterInstaceTypesOfferedByLocation([]string{instanceType}, args)
+func IsInstanceTypeOfferedByLocation(ctx context.Context, instanceType string, args *LocationArgs) (bool, error) {
+	offerings, err := FilterInstaceTypesOfferedByLocation(ctx, []string{instanceType}, args)
 	return len(offerings) == 1, err
 }
 
 // Get InstanceTypes offerings on current location
 // it is valid for Regions or Azs
-func FilterInstaceTypesOfferedByLocation(instanceTypes []string, args *LocationArgs) ([]string, error) {
-	cfg, err := getConfig(*args.Region)
+func FilterInstaceTypesOfferedByLocation(ctx context.Context, instanceTypes []string, args *LocationArgs) ([]string, error) {
+	cfg, err := getConfig(ctx, *args.Region)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func FilterInstaceTypesOfferedByLocation(instanceTypes []string, args *LocationA
 	}
 	client := ec2.NewFromConfig(cfg)
 	o, err := client.DescribeInstanceTypeOfferings(
-		context.Background(),
+		ctx,
 		&ec2.DescribeInstanceTypeOfferingsInput{
 			LocationType: ec2Types.LocationType(locationType),
 			Filters: []ec2Types.Filter{
@@ -92,9 +92,9 @@ func FilterInstaceTypesOfferedByLocation(instanceTypes []string, args *LocationA
 // }
 
 // Check on all regions which offers the type of instance got one having it
-func LokupRegionOfferingInstanceType(instanceType string) (*string, error) {
+func LokupRegionOfferingInstanceType(ctx context.Context, instanceType string) (*string, error) {
 	// We need to check on all regions
-	regions, err := GetRegions()
+	regions, err := GetRegions(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -103,6 +103,7 @@ func LokupRegionOfferingInstanceType(instanceType string) (*string, error) {
 		lRegion := region
 		go func(c chan string) {
 			if is, err := IsInstanceTypeOfferedByLocation(
+				ctx,
 				instanceType,
 				&LocationArgs{
 					Region: &lRegion,

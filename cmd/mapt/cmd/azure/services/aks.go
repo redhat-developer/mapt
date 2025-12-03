@@ -54,6 +54,7 @@ func getCreateAKS() *cobra.Command {
 			}
 			return azureAKS.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -91,13 +92,13 @@ func getDestroyAKS() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			return azureAKS.Destroy(
-				&maptContext.ContextArgs{
-					ProjectName: viper.GetString(params.ProjectName),
-					BackedURL:   viper.GetString(params.BackedURL),
-					Debug:       viper.IsSet(params.Debug),
-					DebugLevel:  viper.GetUint(params.DebugLevel),
-				})
+			return azureAKS.Destroy(&maptContext.ContextArgs{
+				Context:       cmd.Context(),
+				ProjectName: viper.GetString(params.ProjectName),
+				BackedURL:   viper.GetString(params.BackedURL),
+				Debug:       viper.IsSet(params.Debug),
+				DebugLevel:  viper.GetUint(params.DebugLevel),
+			})
 		},
 	}
 }

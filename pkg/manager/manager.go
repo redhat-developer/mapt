@@ -1,7 +1,6 @@
 package manager
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -34,7 +33,7 @@ func UpStack(c *mc.Context, targetStack Stack, opts ...ManagerOptions) (auto.UpR
 
 func UpStackTargets(mCtx *mc.Context, targetStack Stack, targetURNs []string, opts ...ManagerOptions) (auto.UpResult, error) {
 	logging.Debugf("managing stack %s", targetStack.StackName)
-	ctx := context.Background()
+	ctx := mCtx.Context()
 
 	objectStack, err := getStack(ctx, mCtx, targetStack)
 	if err != nil {
@@ -82,7 +81,7 @@ func UpStackTargets(mCtx *mc.Context, targetStack Stack, targetURNs []string, op
 
 func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) error {
 	logging.Debugf("destroying stack %s", targetStack.StackName)
-	ctx := context.Background()
+	ctx := mCtx.Context()
 
 	objectStack, err := getStack(ctx, mCtx, targetStack)
 	if err != nil {
@@ -133,9 +132,9 @@ func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) e
 	return nil
 }
 
-func CheckStack(target Stack) (*auto.Stack, error) {
+func CheckStack(mCtx *mc.Context, target Stack) (*auto.Stack, error) {
 	logging.Debugf("checking stack %s", target.StackName)
-	stack, err := auto.SelectStackInlineSource(context.Background(), target.StackName,
+	stack, err := auto.SelectStackInlineSource(mCtx.Context(), target.StackName,
 		target.ProjectName, target.DeployFunc, getOpts(target)...)
 	if err != nil {
 		return nil, err
@@ -143,6 +142,6 @@ func CheckStack(target Stack) (*auto.Stack, error) {
 	return &stack, err
 }
 
-func GetOutputs(stack *auto.Stack) (auto.OutputMap, error) {
-	return stack.Outputs(context.Background())
+func GetOutputs(mCtx *mc.Context, stack *auto.Stack) (auto.OutputMap, error) {
+	return stack.Outputs(mCtx.Context())
 }

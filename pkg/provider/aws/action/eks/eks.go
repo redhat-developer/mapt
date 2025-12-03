@@ -74,6 +74,7 @@ func (r *eksRequest) validate() error {
 
 func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
 	logging.Debug("Creating EKS")
+	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
@@ -122,10 +123,10 @@ func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
 	return r.manageResults(mCtx, sr)
 }
 
-func Destroy(ctx *mc.ContextArgs) error {
-	// Create mapt Context
+func Destroy(mCtxArgs *mc.ContextArgs) error {
 	logging.Debug("Destroy EKS")
-	mCtx, err := mc.Init(ctx, aws.Provider())
+	// Create mapt Context
+	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
 	}
@@ -285,7 +286,7 @@ func (r *eksRequest) getAvailabilityZonesForEKS(region string, excludedZoneIDs [
 		// These zone IDs are known to be unsupported by EKS as documented at https://repost.aws/knowledge-center/eks-cluster-creation-errors
 		excludedZoneIDs = []string{"use1-az3", "usw1-az2", "cac1-az3"}
 	}
-	azs := data.GetAvailabilityZones(*r.allocationData.Region, excludedZoneIDs)
+	azs := data.GetAvailabilityZones(r.mCtx.Context(), *r.allocationData.Region, excludedZoneIDs)
 	logging.Debugf("Got availability zones: %v", azs)
 	return azs
 }

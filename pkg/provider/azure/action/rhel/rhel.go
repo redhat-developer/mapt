@@ -24,7 +24,7 @@ type RhelArgs struct {
 	Spot           *spotTypes.SpotArgs
 }
 
-func Create(ctx *maptContext.ContextArgs, r *RhelArgs) (err error) {
+func Create(mCtxArgs *maptContext.ContextArgs, r *RhelArgs) (err error) {
 	logging.Debug("Creating RHEL Server")
 	rhelCloudConfig := &rhelApi.CloudConfigArgs{
 		SNCProfile:   r.ProfileSNC,
@@ -44,9 +44,9 @@ func Create(ctx *maptContext.ContextArgs, r *RhelArgs) (err error) {
 			// As RHEL now is set with cloud init this is the ReadinessCommand to check
 			CloudConfigAsUserData: rhelCloudConfig,
 			ReadinessCommand:      command.CommandCloudInitWait}
-	return azureLinux.Create(ctx, azureLinuxRequest)
+	return azureLinux.Create(mCtxArgs, azureLinuxRequest)
 }
 
-func Destroy(ctx *maptContext.ContextArgs) error {
-	return azureLinux.Destroy(ctx)
+func Destroy(mCtxArgs *maptContext.ContextArgs) error {
+	return azureLinux.Destroy(mCtxArgs)
 }

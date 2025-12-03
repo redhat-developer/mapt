@@ -48,6 +48,7 @@ func getFedoraCreate() *cobra.Command {
 			}
 			return fedora.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -91,6 +92,7 @@ func getFedoraDestroy() *cobra.Command {
 				return err
 			}
 			return fedora.Destroy(&maptContext.ContextArgs{
+				Context:       cmd.Context(),
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),

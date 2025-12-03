@@ -21,14 +21,14 @@ var (
 	ErrNoRouteTableBySubnetID = fmt.Errorf("no Route table by association.subnet-id")
 )
 
-func GetRandomPublicSubnet(region string) (*string, error) {
-	cfg, err := getConfig(region)
+func GetRandomPublicSubnet(ctx context.Context, region string) (*string, error) {
+	cfg, err := getConfig(ctx, region)
 	if err != nil {
 		return nil, err
 	}
 	ec2Client := ec2.NewFromConfig(cfg)
 	vpcsOutput, err := ec2Client.DescribeVpcs(
-		context.TODO(), &ec2.DescribeVpcsInput{
+		ctx, &ec2.DescribeVpcsInput{
 			Filters: []ec2types.Filter{
 				{
 					Name:   aws.String("isDefault"),
@@ -43,7 +43,7 @@ func GetRandomPublicSubnet(region string) (*string, error) {
 		return nil, ErrNoDefaultVPC
 	}
 	for _, v := range vpcsOutput.Vpcs {
-		ps, err := getPublicSubnets(ec2Client, *v.VpcId)
+		ps, err := getPublicSubnets(ctx, ec2Client, *v.VpcId)
 		if err != nil {
 			logging.Error(err)
 			break
@@ -55,9 +55,9 @@ func GetRandomPublicSubnet(region string) (*string, error) {
 	return nil, fmt.Errorf("no public subnet can be found on a default VPC")
 }
 
-func getPublicSubnets(client *ec2.Client, vpcID string) (subnets []*string, err error) {
+func getPublicSubnets(ctx context.Context, client *ec2.Client, vpcID string) (subnets []*string, err error) {
 	subnetsOutput, err := client.DescribeSubnets(
-		context.TODO(), &ec2.DescribeSubnetsInput{
+		ctx, &ec2.DescribeSubnetsInput{
 			Filters: []ec2types.Filter{
 				{
 					Name:   aws.String(filterVPCID),
@@ -70,7 +70,7 @@ func getPublicSubnets(client *ec2.Client, vpcID string) (subnets []*string, err 
 	}
 	noSubnetRoutetableCounter := 0
 	for _, s := range subnetsOutput.Subnets {
-		err := isPublic(client, *s.SubnetId)
+		err := isPublic(ctx, client, *s.SubnetId)
 		if err == nil {
 			subnets = append(subnets, s.SubnetId)
 			break
@@ -90,9 +90,9 @@ func getPublicSubnets(client *ec2.Client, vpcID string) (subnets []*string, err 
 	return
 }
 
-func isPublic(client *ec2.Client, subnetID string) error {
+func isPublic(ctx context.Context, client *ec2.Client, subnetID string) error {
 	routeTablesOutput, err := client.DescribeRouteTables(
-		context.TODO(),
+		ctx,
 		&ec2.DescribeRouteTablesInput{
 			Filters: []ec2types.Filter{
 				{

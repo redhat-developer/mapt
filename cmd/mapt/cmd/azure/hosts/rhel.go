@@ -41,6 +41,7 @@ func getCreateRHEL() *cobra.Command {
 			}
 			return azureRHEL.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -88,13 +89,13 @@ func getDestroyRHEL() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			return azureRHEL.Destroy(
-				&maptContext.ContextArgs{
-					ProjectName: viper.GetString(params.ProjectName),
-					BackedURL:   viper.GetString(params.BackedURL),
-					Debug:       viper.IsSet(params.Debug),
-					DebugLevel:  viper.GetUint(params.DebugLevel),
-				})
+			return azureRHEL.Destroy(&maptContext.ContextArgs{
+				Context:       cmd.Context(),
+				ProjectName: viper.GetString(params.ProjectName),
+				BackedURL:   viper.GetString(params.BackedURL),
+				Debug:       viper.IsSet(params.Debug),
+				DebugLevel:  viper.GetUint(params.DebugLevel),
+			})
 		},
 	}
 }

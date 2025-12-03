@@ -58,6 +58,7 @@ func createMP() *cobra.Command {
 			}
 			return macpool.Create(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName:   viper.GetString(params.ProjectName),
 					BackedURL:     viper.GetString(params.BackedURL),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
@@ -98,6 +99,7 @@ func destroyMP() *cobra.Command {
 				return err
 			}
 			return macpool.Destroy(&maptContext.ContextArgs{
+				Context:       cmd.Context(),
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),
@@ -123,6 +125,7 @@ func houseKeep() *cobra.Command {
 			}
 			return macpool.HouseKeeper(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ProjectName: viper.GetString(params.ProjectName),
 					BackedURL:   viper.GetString(params.BackedURL),
 					Serverless:  viper.IsSet(params.Serverless),
@@ -163,6 +166,7 @@ func request() *cobra.Command {
 			}
 			return macpool.Request(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
@@ -201,6 +205,7 @@ func release() *cobra.Command {
 			}
 			return macpool.Release(
 				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 					Serverless: viper.IsSet(params.Serverless),

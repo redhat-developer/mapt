@@ -69,7 +69,7 @@ func HouseKeeper(mCtxArgs *mc.ContextArgs, r *MacPoolRequestArgs) error {
 	}
 
 	// Get full info on the pool
-	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
+	p, err := getPool(mCtx, r.PoolName, r.Architecture, r.OSVersion)
 	if err != nil {
 		return err
 	}
@@ -99,8 +99,16 @@ func HouseKeeper(mCtxArgs *mc.ContextArgs, r *MacPoolRequestArgs) error {
 }
 
 func Request(mCtxArgs *mc.ContextArgs, r *RequestMachineArgs) error {
-	// First get full info on the pool and the next machine for requestmCtx *mc.Context
-	p, err := getPool(r.PoolName, r.Architecture, r.OSVersion)
+	// First create a temporary mCtx to load pool metadata
+	// (we make a copy so we don't mutate the original Args)
+	tempArgs := *mCtxArgs
+	tmpCtx, err := mc.Init(&tempArgs, aws.Provider())
+	if err != nil {
+		return err
+	}
+
+	// Get full info on the pool and the next machine for requestmCtx *mc.Context
+	p, err := getPool(tmpCtx, r.PoolName, r.Architecture, r.OSVersion)
 	if err != nil {
 		return err
 	}
@@ -110,9 +118,12 @@ func Request(mCtxArgs *mc.ContextArgs, r *RequestMachineArgs) error {
 	}
 
 	// Create mapt Context
-	mCtxArgs.ProjectName = *hi.ProjectName
-	mCtxArgs.BackedURL = *hi.BackedURL
-	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
+	// (use a fresh copy so we don't mutate mCtxArgs from the caller)
+	finalArgs := *mCtxArgs
+	finalArgs.ProjectName = *hi.ProjectName
+	finalArgs.BackedURL = *hi.BackedURL
+
+	mCtx, err := mc.Init(&finalArgs, aws.Provider())
 	if err != nil {
 		return err
 	}
@@ -133,7 +144,8 @@ func Request(mCtxArgs *mc.ContextArgs, r *RequestMachineArgs) error {
 	}
 
 	// We update the runID on the dedicated host
-	return tag.Update(mc.TagKeyRunID,
+	return tag.Update(mCtx.Context(),
+		mc.TagKeyRunID,
 		mCtx.RunID(),
 		*hi.Region,
 		*hi.Host.HostId)
@@ -247,7 +259,7 @@ func validateBackedURL(mCtx *mc.Context) error {
 // This function will fill information about machines in the pool
 // depending on their state and age full fill the struct to easily
 // manage them
-func getPool(poolName, arch, osVersion string) (*pool, error) {
+func getPool(mCtx *mc.Context, poolName, arch, osVersion string) (*pool, error) {
 	// Get machines in the pool
 	poolID := &macHost.PoolID{
 		PoolName:  poolName,
@@ -256,14 +268,14 @@ func getPool(poolName, arch, osVersion string) (*pool, error) {
 	}
 	var p pool
 	var err error
-	p.machines, err = macHost.GetPoolDedicatedHostsInformation(poolID)
+	p.machines, err = macHost.GetPoolDedicatedHostsInformation(mCtx.Context(), poolID)
 	if err != nil {
 		return nil, err
 	}
 	// non-locked
 	p.currentOfferedMachines = util.ArrayFilter(p.machines,
 		func(h *mac.HostInformation) bool {
-			isLocked, err := macUtil.IsMachineLocked(h)
+			isLocked, err := macUtil.IsMachineLocked(mCtx, h)
 			if err != nil {
 				logging.Errorf("error checking locking for machine %s", *h.Host.AssetId)
 				return false

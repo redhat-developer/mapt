@@ -60,12 +60,12 @@ func createDedicatedHost(mCtx *mc.Context, args *MacDedicatedHostRequestArgs,
 		arch:   args.Architecture,
 		tags:   tags,
 	}
-	dHArgs.region, err = getRegion(args.Architecture, args.FixedLocation)
+	dHArgs.region, err = getRegion(mCtx.Context(), args.Architecture, args.FixedLocation)
 	if err != nil {
 		return nil, err
 	}
 	// pick random az from region ensuring machine is offered (sometimes machines are not offered on each az from a region)
-	dHArgs.availabilityZone, err = getAZ(*dHArgs.region, args.Architecture)
+	dHArgs.availabilityZone, err = getAZ(mCtx.Context(), *dHArgs.region, args.Architecture)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func createDedicatedHost(mCtx *mc.Context, args *MacDedicatedHostRequestArgs,
 		return nil, err
 	}
 	logging.Debugf("mac dedicated host with host id %s has been created successfully", *dhID)
-	host, err := data.GetDedicatedHost(*dhID)
+	host, err := data.GetDedicatedHost(mCtx.Context(), *dhID)
 	if err != nil {
 		return nil, err
 	}

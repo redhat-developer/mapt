@@ -20,8 +20,7 @@ type ReplaceRootVolumeRequest struct {
 // and will delete the replaced volume
 // If wait flag is true on request the funcion will wait until the replace task succeed
 // otherwise it will trigger the task and return the id to reference it
-func ReplaceRootVolume(r ReplaceRootVolumeRequest) (*string, error) {
-	ctx := context.Background()
+func ReplaceRootVolume(ctx context.Context, r ReplaceRootVolumeRequest) (*string, error) {
 	cfg, err := config.LoadDefaultConfig(
 		ctx,
 		config.WithRegion(r.Region))

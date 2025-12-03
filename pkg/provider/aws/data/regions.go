@@ -16,18 +16,18 @@ var (
 	OptInStatusOptedIn     string = "opted-in"
 )
 
-func GetRegions() ([]string, error) {
-	return GetRegionsByOptInStatus([]string{OptInStatusNotRequired, OptInStatusOptedIn})
+func GetRegions(ctx context.Context) ([]string, error) {
+	return GetRegionsByOptInStatus(ctx, []string{OptInStatusNotRequired, OptInStatusOptedIn})
 }
 
-func GetRegionsByOptInStatus(optInStaus []string) ([]string, error) {
-	cfg, err := config.LoadDefaultConfig(context.TODO())
+func GetRegionsByOptInStatus(ctx context.Context, optInStaus []string) ([]string, error) {
+	cfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {
 		return nil, err
 	}
 	client := ec2.NewFromConfig(cfg)
 	regions, err := client.DescribeRegions(
-		context.Background(),
+		ctx,
 		&ec2.DescribeRegionsInput{
 			Filters: []ec2Types.Filter{
 				{

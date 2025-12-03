@@ -18,8 +18,8 @@ type DedicatedHostResquest struct {
 	Tags   map[string]string
 }
 
-func GetDedicatedHost(hostID string) (*ec2Types.Host, error) {
-	hosts, err := GetDedicatedHosts(DedicatedHostResquest{
+func GetDedicatedHost(ctx context.Context, hostID string) (*ec2Types.Host, error) {
+	hosts, err := GetDedicatedHosts(ctx, DedicatedHostResquest{
 		HostID: hostID,
 	})
 	if err != nil {
@@ -33,8 +33,8 @@ func GetDedicatedHost(hostID string) (*ec2Types.Host, error) {
 
 // This function check on all regions for the dedicated host
 // and return the list of hosts matching the request params
-func GetDedicatedHosts(r DedicatedHostResquest) ([]ec2Types.Host, error) {
-	regions, err := GetRegions()
+func GetDedicatedHosts(ctx context.Context, r DedicatedHostResquest) ([]ec2Types.Host, error) {
+	regions, err := GetRegions(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func GetDedicatedHosts(r DedicatedHostResquest) ([]ec2Types.Host, error) {
 		go func(h chan []ec2Types.Host) {
 			defer wg.Done()
 			if hosts, err := getDedicatedHostByRegion(
-				r, lRegion); err == nil {
+				ctx, r, lRegion); err == nil {
 				h <- hosts
 			}
 		}(h)
@@ -74,12 +74,12 @@ func GetDedicatedHosts(r DedicatedHostResquest) ([]ec2Types.Host, error) {
 	return hosts, nil
 }
 
-func getDedicatedHostByRegion(r DedicatedHostResquest, regionName string) ([]ec2Types.Host, error) {
+func getDedicatedHostByRegion(ctx context.Context, r DedicatedHostResquest, regionName string) ([]ec2Types.Host, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(regionName) > 0 {
 		cfgOpts = config.WithRegion(regionName)
 	}
-	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
+	cfg, err := config.LoadDefaultConfig(ctx, cfgOpts)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +107,7 @@ func getDedicatedHostByRegion(r DedicatedHostResquest, regionName string) ([]ec2
 				Name:   &tagKey,
 				Values: maps.Keys(r.Tags)})
 	}
-	h, err := client.DescribeHosts(context.Background(), dhi)
+	h, err := client.DescribeHosts(ctx, dhi)
 	if err != nil {
 		return nil, err
 	}

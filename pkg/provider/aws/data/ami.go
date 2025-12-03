@@ -30,12 +30,12 @@ const ERROR_NO_AMI = "no AMI"
 
 // GetAMI based on params defined by request
 // In case multiple AMIs it will return the newest
-func GetAMI(r ImageRequest) (*ImageInfo, error) {
+func GetAMI(ctx context.Context, r ImageRequest) (*ImageInfo, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(*r.Region) > 0 {
 		cfgOpts = config.WithRegion(*r.Region)
 	}
-	cfg, err := config.LoadDefaultConfig(context.TODO(), cfgOpts)
+	cfg, err := config.LoadDefaultConfig(ctx, cfgOpts)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func GetAMI(r ImageRequest) (*ImageInfo, error) {
 
 	if r.Owner != nil && len(*r.Owner) > 0 {
 		input.Owners = []string{*r.Owner}
-		aId, err := accountId()
+		aId, err := accountId(ctx)
 		if err != nil {
 			return nil, err
 		}
@@ -71,7 +71,7 @@ func GetAMI(r ImageRequest) (*ImageInfo, error) {
 		}
 	}
 	result, err := client.DescribeImages(
-		context.Background(), input)
+		ctx, input)
 	if err != nil {
 		logging.Debugf("error checking %s in %s error is %v", *r.Name, *r.Region, err)
 		return nil, err
@@ -104,8 +104,8 @@ func GetAMI(r ImageRequest) (*ImageInfo, error) {
 }
 
 // IsAMIOffered checks if an ami based on its Name is offered on a specific region
-func IsAMIOffered(r ImageRequest) (bool, *ImageInfo, error) {
-	ami, err := GetAMI(r)
+func IsAMIOffered(ctx context.Context, r ImageRequest) (bool, *ImageInfo, error) {
+	ami, err := GetAMI(ctx, r)
 	if err != nil && strings.Contains(err.Error(), ERROR_NO_AMI) {
 		// If there is no AMI for this function this is not considered an error
 		return false, nil, nil
@@ -115,8 +115,8 @@ func IsAMIOffered(r ImageRequest) (bool, *ImageInfo, error) {
 
 // This function check all regions to get the AMI filter by its name
 // it will return the first region where the AMI is offered
-func FindAMI(amiName, amiArch *string) (*ImageInfo, error) {
-	regions, err := GetRegions()
+func FindAMI(ctx context.Context, amiName, amiArch *string) (*ImageInfo, error) {
+	regions, err := GetRegions(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -136,8 +136,11 @@ func FindAMI(amiName, amiArch *string) (*ImageInfo, error) {
 			select {
 			case <-closeCh:
 				return
+			case <-ctx.Done():
+				return
 			default:
 				if isOffered, i, _ := IsAMIOffered(
+					ctx,
 					ImageRequest{
 						Name:   amiName,
 						Arch:   amiArch,
