@@ -270,6 +270,10 @@ func (c *Compute) GetHostDnsName(public bool) (ip pulumi.StringInput) {
 	return util.If(public, c.Eip.PublicDns, c.Eip.PrivateDns)
 }
 
+func (c *Compute) GetHostIP(public bool) (ip pulumi.StringOutput) {
+	return util.If(public, c.Eip.PublicIp, c.Eip.PrivateIp)
+}
+
 // Check if compute is healthy based on running a remote cmd
 func (compute *Compute) Readiness(ctx *pulumi.Context,
 	cmd string,
