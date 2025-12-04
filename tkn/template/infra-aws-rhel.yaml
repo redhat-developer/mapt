@@ -166,6 +166,11 @@ spec:
         The parameter is intended to add verbosity on the task execution and also print masked credentials
         (showing first and last character with *** in the middle) on stdout to help with debugging
       default: "false"
+    - name: keep-state
+      description: |
+        Keep Pulumi state files in S3 backend after successful destroy (by default, state files are removed). Only used when operation is destroy.
+        Allowed values: true, false
+      default: "false"
 
   results:
     - name: host-access-secret
@@ -280,6 +285,11 @@ spec:
           fi
           cmd+="--tags '$(params.tags)' "
         fi
+
+        if [[ "$(params.operation)" == "destroy" && "$(params.keep-state)" == "true" ]]; then
+          cmd+="--keep-state "
+        fi
+
         eval "${cmd}"
         
       resources:
