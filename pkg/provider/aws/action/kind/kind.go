@@ -208,7 +208,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		pulumi.String(amiUserDefault))
 
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, utilKind.OKHost),
-		c.GetHostIP(true))
+		c.GetHostDnsName(true))
 
 	if len(*r.timeout) > 0 {
 		err := serverless.OneTimeDelayedTask(ctx, r.mCtx,
