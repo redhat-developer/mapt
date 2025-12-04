@@ -43,8 +43,8 @@ type ContextArgs struct {
 	Serverless bool
 	// This forces destroy even when lock exists
 	ForceDestroy bool
-	// Automatically remove Pulumi state files from backend after successful destroy
-	CleanupState bool
+	// Keep Pulumi state files in backend after successful destroy (by default, state files are removed)
+	KeepState bool
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
@@ -59,7 +59,7 @@ type Context struct {
 	debugLevel    uint
 	serverless    bool
 	forceDestroy  bool
-	cleanupState  bool
+	keepState     bool
 	// spotPriceIncreaseRate int
 	tags                  map[string]string
 	tagsAsPulumiStringMap pulumi.StringMap
@@ -86,7 +86,7 @@ func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 		tags:          ca.Tags,
 		serverless:    ca.Serverless,
 		forceDestroy:  ca.ForceDestroy,
-		cleanupState:  ca.CleanupState,
+		keepState:     ca.KeepState,
 	}
 	addCommonTags(c)
 	hp, err := provider.DefaultHostingPlace()
@@ -130,7 +130,7 @@ func (c *Context) IsServerless() bool { return c.serverless }
 
 func (c *Context) IsForceDestroy() bool { return c.forceDestroy }
 
-func (c *Context) IsCleanupState() bool { return c.cleanupState }
+func (c *Context) IsKeepState() bool { return c.keepState }
 
 func (c *Context) TargetHostingPlace() string { return c.targetHostingPlace }
 

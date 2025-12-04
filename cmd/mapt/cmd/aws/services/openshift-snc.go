@@ -94,13 +94,13 @@ func destroySNC() *cobra.Command {
 				Debug:        viper.IsSet(params.Debug),
 				DebugLevel:   viper.GetUint(params.DebugLevel),
 				Serverless:   viper.IsSet(params.Serverless),
-				CleanupState: viper.IsSet(params.CleanupState),
+				KeepState:    viper.IsSet(params.KeepState),
 			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
-	flagSet.Bool(params.CleanupState, true, params.CleanupStateDesc)
+	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

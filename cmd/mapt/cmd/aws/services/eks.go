@@ -111,12 +111,12 @@ func getDestroyEKS() *cobra.Command {
 					BackedURL:    viper.GetString(params.BackedURL),
 					Debug:        viper.IsSet(params.Debug),
 					DebugLevel:   viper.GetUint(params.DebugLevel),
-					CleanupState: viper.IsSet(params.CleanupState),
+					KeepState:    viper.IsSet(params.KeepState),
 				})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
-	flagSet.Bool(params.CleanupState, true, params.CleanupStateDesc)
+	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

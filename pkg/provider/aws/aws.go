@@ -223,7 +223,7 @@ func parseS3BackedURL(mCtx *mc.Context) (*string, *string, error) {
 // CleanupState removes Pulumi state files from S3 backend after successful destroy
 // This should be called AFTER all stacks for a project have been destroyed
 func CleanupState(mCtx *mc.Context) error {
-	if !mCtx.IsCleanupState() {
+	if mCtx.IsKeepState() {
 		return nil
 	}
 
