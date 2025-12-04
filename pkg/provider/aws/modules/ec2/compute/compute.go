@@ -263,7 +263,7 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 }
 
 // function returns the ip to access the target host
-func (c *Compute) GetHostIP(public bool) (ip pulumi.StringInput) {
+func (c *Compute) GetHostDnsName(public bool) (ip pulumi.StringInput) {
 	if c.LB != nil {
 		return c.LB.DnsName
 	}
@@ -324,7 +324,7 @@ func remoteCommandArgs(
 	mk *tls.PrivateKey, username string,
 	b *bastion.BastionResult) remote.ConnectionArgs {
 	ca := remote.ConnectionArgs{
-		Host:           c.GetHostIP(b == nil),
+		Host:           c.GetHostDnsName(b == nil),
 		PrivateKey:     mk.PrivateKeyOpenssh,
 		User:           pulumi.String(username),
 		Port:           pulumi.Float64(22),

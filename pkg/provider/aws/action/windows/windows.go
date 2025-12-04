@@ -310,7 +310,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPassword),
 		password.Result)
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
-		c.GetHostIP(!*r.airgap))
+		c.GetHostDnsName(!*r.airgap))
 	if len(*r.timeout) > 0 {
 		if err = serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,

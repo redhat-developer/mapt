@@ -219,7 +219,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUsername),
 		pulumi.String(amiUserDefault))
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
-		c.GetHostIP(true))
+		c.GetHostDnsName(true))
 	if len(*r.timeout) > 0 {
 		if err = serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
