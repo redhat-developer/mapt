@@ -253,7 +253,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUsername),
 		pulumi.String(amiUserDefault))
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
-		c.GetHostDnsName(true))
+		c.GetHostIP(true))
 	if len(*r.timeout) > 0 {
 		if err = serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
