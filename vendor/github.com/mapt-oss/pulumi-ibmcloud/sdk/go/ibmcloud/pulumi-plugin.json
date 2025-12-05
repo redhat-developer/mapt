@@ -1,0 +1,6 @@
+{
+  "resource": true,
+  "name": "ibmcloud",
+  "version": "0.0.9",
+  "server": "https://github.com/mapt-oss/pulumi-ibmcloud/releases/download/v${VERSION}/"
+}
