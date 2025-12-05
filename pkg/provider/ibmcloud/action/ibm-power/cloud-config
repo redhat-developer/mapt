@@ -1,0 +1,11 @@
+#cloud-config
+write_files:
+  - path: /etc/resolv.conf
+    content: |
+      search redhat.com
+      nameserver 161.26.0.10
+      nameserver 161.26.0.11
+
+runcmd:
+  - ip route add 10.0.0.0/8 via ${local.powervs_gateway} dev eth0
+  - echo "10.0.0.0/8 via ${local.powervs_gateway} dev eth0" >> /etc/sysconfig/network-scripts/route-eth0
