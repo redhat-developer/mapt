@@ -22,7 +22,7 @@ require (
 	github.com/bombsimon/wsl/v5 v5.3.0 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
-	github.com/godoc-lint/godoc-lint v0.10.1 // indirect
+	github.com/godoc-lint/godoc-lint v0.10.2 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
 	github.com/golangci/golines v0.0.0-20250217134842-442fd0091d95 // indirect
 	github.com/gostaticanalysis/nilerr v0.1.2 // indirect
@@ -176,7 +176,7 @@ require (
 	github.com/sourcegraph/go-diff v0.7.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
-	github.com/spf13/cobra v1.10.1 // indirect
+	github.com/spf13/cobra v1.10.2 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/spf13/viper v1.21.0 // indirect
 	github.com/ssgreg/nlreturn/v2 v2.2.1 // indirect
