@@ -1,3 +1,32 @@
+# v1.69.4 (2025-12-08)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.69.3 (2025-12-05)
+
+* **Documentation**: Updating stop-task API to encapsulate containers with custom stop signal
+
+# v1.69.2 (2025-12-02)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+* **Dependency Update**: Upgrade to smithy-go v1.24.0. Notably this version of the library reduces the allocation footprint of the middleware system. We observe a ~10% reduction in allocations per SDK call with this change.
+
+# v1.69.1 (2025-11-25)
+
+* **Bug Fix**: Add error check for endpoint param binding during auth scheme resolution to fix panic reported in #3234
+
+# v1.69.0 (2025-11-20)
+
+* **Feature**: Launching Amazon ECS Express Mode - a new feature that enables developers to quickly launch highly available, scalable containerized applications with a single command.
+
+# v1.68.1 (2025-11-19.2)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.68.0 (2025-11-19)
+
+* **Feature**: Added support for Amazon ECS Managed Instances infrastructure optimization configuration.
+
 # v1.67.4 (2025-11-12)
 
 * **Bug Fix**: Further reduce allocation overhead when the metrics system isn't in-use.

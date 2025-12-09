@@ -1,12 +1,12 @@
 
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:7b1828de52c3bac600a71b81996bf748776a456181a45e2b329b39702cf6486f as builder
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:75cb847263e05b395c171795d771570994019a8d9d0340ab6ef0e1b02b01bdb4 as builder
 ARG TARGETARCH
 USER root
 WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.205.0
+ENV PULUMI_VERSION 3.210.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -19,7 +19,7 @@ RUN unset VERSION \
     && tar -xzvf pulumicli.tar.gz 
 
 # ubi 9.5-1732804088
-FROM registry.access.redhat.com/ubi9/ubi@sha256:dec374e05cc13ebbc0975c9f521f3db6942d27f8ccdf06b180160490eef8bdbc
+FROM registry.access.redhat.com/ubi9/ubi@sha256:d4feb579a84ead49894ec71fe54f14300992e202f3491d9bb22b62cc57affd49
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
 
@@ -34,11 +34,11 @@ ENV AWS_SDK_LOAD_CONFIG=1 \
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v7.10.0
+ARG PULUMI_AWS_VERSION=v7.12.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
-ARG PULUMI_AWSX_VERSION=v3.0.1
+ARG PULUMI_AWSX_VERSION=v3.1.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v3.10.2
+ARG PULUMI_AZURE_NATIVE_VERSION=v3.11.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v1.1.3
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
@@ -46,7 +46,7 @@ ARG PULUMI_TLS_VERSION=v5.2.3
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.18.4
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.37.0
+ARG PULUMI_AWS_NATIVE_VERSION=v1.39.0
 
 ENV PULUMI_HOME "/opt/mapt/run" 
 WORKDIR ${PULUMI_HOME}

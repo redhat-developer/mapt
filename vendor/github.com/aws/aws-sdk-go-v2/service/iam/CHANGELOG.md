@@ -1,3 +1,46 @@
+# v1.53.1 (2025-12-08)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.0 (2025-12-05)
+
+* **Feature**: Adding the ExpirationTime attribute to the delegation request resource.
+
+# v1.52.3 (2025-12-02)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+* **Dependency Update**: Upgrade to smithy-go v1.24.0. Notably this version of the library reduces the allocation footprint of the middleware system. We observe a ~10% reduction in allocations per SDK call with this change.
+
+# v1.52.2 (2025-11-25)
+
+* **Bug Fix**: Add error check for endpoint param binding during auth scheme resolution to fix panic reported in #3234
+
+# v1.52.1 (2025-11-19.2)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.52.0 (2025-11-19)
+
+* **Feature**: Added the EnableOutboundWebIdentityFederation, DisableOutboundWebIdentityFederation and GetOutboundWebIdentityFederationInfo APIs for the IAM outbound federation feature.
+
+# v1.51.0 (2025-11-18)
+
+* **Feature**: Added the AssociateDelegationRequest, GetDelegationRequest, AcceptDelegationRequest, RejectDelegatonRequest, ListDelegationRequests, UpdateDelegationRequest, SendDelegationToken and GetHumanReadableSummary APIs for the IAM temporary delegation feature.
+
+# v1.50.2 (2025-11-12)
+
+* **Bug Fix**: Further reduce allocation overhead when the metrics system isn't in-use.
+* **Bug Fix**: Reduce allocation overhead when the client doesn't have any HTTP interceptors configured.
+* **Bug Fix**: Remove blank trace spans towards the beginning of the request that added no additional information. This conveys a slight reduction in overall allocations.
+
+# v1.50.1 (2025-11-11)
+
+* **Bug Fix**: Return validation error if input region is not a valid host label.
+
+# v1.50.0 (2025-11-10)
+
+* **Feature**: Added CreateDelegationRequest API, which is not available for general use at this time.
+
 # v1.49.2 (2025-11-04)
 
 * **Dependency Update**: Updated to the latest SDK module versions

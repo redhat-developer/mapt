@@ -21,7 +21,7 @@ jobs:
         rm_cmd: "rmz"
 
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Build image for PR
       if: ${{ github.event_name == 'pull_request' }}
