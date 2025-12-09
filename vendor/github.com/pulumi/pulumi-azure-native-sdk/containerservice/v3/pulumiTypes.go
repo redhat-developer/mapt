@@ -995,6 +995,8 @@ func (o AdvancedNetworkingResponsePtrOutput) Security() AdvancedNetworkingSecuri
 
 // Security profile to enable security features on cilium based cluster.
 type AdvancedNetworkingSecurity struct {
+	// Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true.
+	AdvancedNetworkPolicies *string `pulumi:"advancedNetworkPolicies"`
 	// This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false.
 	Enabled *bool `pulumi:"enabled"`
 }
@@ -1012,6 +1014,8 @@ type AdvancedNetworkingSecurityInput interface {
 
 // Security profile to enable security features on cilium based cluster.
 type AdvancedNetworkingSecurityArgs struct {
+	// Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true.
+	AdvancedNetworkPolicies pulumi.StringPtrInput `pulumi:"advancedNetworkPolicies"`
 	// This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false.
 	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
 }
@@ -1094,6 +1098,11 @@ func (o AdvancedNetworkingSecurityOutput) ToAdvancedNetworkingSecurityPtrOutputW
 	}).(AdvancedNetworkingSecurityPtrOutput)
 }
 
+// Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true.
+func (o AdvancedNetworkingSecurityOutput) AdvancedNetworkPolicies() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AdvancedNetworkingSecurity) *string { return v.AdvancedNetworkPolicies }).(pulumi.StringPtrOutput)
+}
+
 // This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false.
 func (o AdvancedNetworkingSecurityOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v AdvancedNetworkingSecurity) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
@@ -1123,6 +1132,16 @@ func (o AdvancedNetworkingSecurityPtrOutput) Elem() AdvancedNetworkingSecurityOu
 	}).(AdvancedNetworkingSecurityOutput)
 }
 
+// Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true.
+func (o AdvancedNetworkingSecurityPtrOutput) AdvancedNetworkPolicies() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *AdvancedNetworkingSecurity) *string {
+		if v == nil {
+			return nil
+		}
+		return v.AdvancedNetworkPolicies
+	}).(pulumi.StringPtrOutput)
+}
+
 // This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false.
 func (o AdvancedNetworkingSecurityPtrOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AdvancedNetworkingSecurity) *bool {
@@ -1135,6 +1154,8 @@ func (o AdvancedNetworkingSecurityPtrOutput) Enabled() pulumi.BoolPtrOutput {
 
 // Security profile to enable security features on cilium based cluster.
 type AdvancedNetworkingSecurityResponse struct {
+	// Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true.
+	AdvancedNetworkPolicies *string `pulumi:"advancedNetworkPolicies"`
 	// This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false.
 	Enabled *bool `pulumi:"enabled"`
 }
@@ -1152,6 +1173,11 @@ func (o AdvancedNetworkingSecurityResponseOutput) ToAdvancedNetworkingSecurityRe
 
 func (o AdvancedNetworkingSecurityResponseOutput) ToAdvancedNetworkingSecurityResponseOutputWithContext(ctx context.Context) AdvancedNetworkingSecurityResponseOutput {
 	return o
+}
+
+// Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true.
+func (o AdvancedNetworkingSecurityResponseOutput) AdvancedNetworkPolicies() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AdvancedNetworkingSecurityResponse) *string { return v.AdvancedNetworkPolicies }).(pulumi.StringPtrOutput)
 }
 
 // This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false.
@@ -1183,6 +1209,16 @@ func (o AdvancedNetworkingSecurityResponsePtrOutput) Elem() AdvancedNetworkingSe
 	}).(AdvancedNetworkingSecurityResponseOutput)
 }
 
+// Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true.
+func (o AdvancedNetworkingSecurityResponsePtrOutput) AdvancedNetworkPolicies() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *AdvancedNetworkingSecurityResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.AdvancedNetworkPolicies
+	}).(pulumi.StringPtrOutput)
+}
+
 // This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false.
 func (o AdvancedNetworkingSecurityResponsePtrOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AdvancedNetworkingSecurityResponse) *bool {
@@ -1191,6 +1227,243 @@ func (o AdvancedNetworkingSecurityResponsePtrOutput) Enabled() pulumi.BoolPtrOut
 		}
 		return v.Enabled
 	}).(pulumi.BoolPtrOutput)
+}
+
+// Profile of the managed cluster gateway agent pool.
+type AgentPoolGatewayProfile struct {
+	// The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31.
+	PublicIPPrefixSize *int `pulumi:"publicIPPrefixSize"`
+}
+
+// Defaults sets the appropriate defaults for AgentPoolGatewayProfile
+func (val *AgentPoolGatewayProfile) Defaults() *AgentPoolGatewayProfile {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.PublicIPPrefixSize == nil {
+		publicIPPrefixSize_ := 31
+		tmp.PublicIPPrefixSize = &publicIPPrefixSize_
+	}
+	return &tmp
+}
+
+// AgentPoolGatewayProfileInput is an input type that accepts AgentPoolGatewayProfileArgs and AgentPoolGatewayProfileOutput values.
+// You can construct a concrete instance of `AgentPoolGatewayProfileInput` via:
+//
+//	AgentPoolGatewayProfileArgs{...}
+type AgentPoolGatewayProfileInput interface {
+	pulumi.Input
+
+	ToAgentPoolGatewayProfileOutput() AgentPoolGatewayProfileOutput
+	ToAgentPoolGatewayProfileOutputWithContext(context.Context) AgentPoolGatewayProfileOutput
+}
+
+// Profile of the managed cluster gateway agent pool.
+type AgentPoolGatewayProfileArgs struct {
+	// The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31.
+	PublicIPPrefixSize pulumi.IntPtrInput `pulumi:"publicIPPrefixSize"`
+}
+
+// Defaults sets the appropriate defaults for AgentPoolGatewayProfileArgs
+func (val *AgentPoolGatewayProfileArgs) Defaults() *AgentPoolGatewayProfileArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.PublicIPPrefixSize == nil {
+		tmp.PublicIPPrefixSize = pulumi.IntPtr(31)
+	}
+	return &tmp
+}
+func (AgentPoolGatewayProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*AgentPoolGatewayProfile)(nil)).Elem()
+}
+
+func (i AgentPoolGatewayProfileArgs) ToAgentPoolGatewayProfileOutput() AgentPoolGatewayProfileOutput {
+	return i.ToAgentPoolGatewayProfileOutputWithContext(context.Background())
+}
+
+func (i AgentPoolGatewayProfileArgs) ToAgentPoolGatewayProfileOutputWithContext(ctx context.Context) AgentPoolGatewayProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AgentPoolGatewayProfileOutput)
+}
+
+func (i AgentPoolGatewayProfileArgs) ToAgentPoolGatewayProfilePtrOutput() AgentPoolGatewayProfilePtrOutput {
+	return i.ToAgentPoolGatewayProfilePtrOutputWithContext(context.Background())
+}
+
+func (i AgentPoolGatewayProfileArgs) ToAgentPoolGatewayProfilePtrOutputWithContext(ctx context.Context) AgentPoolGatewayProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AgentPoolGatewayProfileOutput).ToAgentPoolGatewayProfilePtrOutputWithContext(ctx)
+}
+
+// AgentPoolGatewayProfilePtrInput is an input type that accepts AgentPoolGatewayProfileArgs, AgentPoolGatewayProfilePtr and AgentPoolGatewayProfilePtrOutput values.
+// You can construct a concrete instance of `AgentPoolGatewayProfilePtrInput` via:
+//
+//	        AgentPoolGatewayProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type AgentPoolGatewayProfilePtrInput interface {
+	pulumi.Input
+
+	ToAgentPoolGatewayProfilePtrOutput() AgentPoolGatewayProfilePtrOutput
+	ToAgentPoolGatewayProfilePtrOutputWithContext(context.Context) AgentPoolGatewayProfilePtrOutput
+}
+
+type agentPoolGatewayProfilePtrType AgentPoolGatewayProfileArgs
+
+func AgentPoolGatewayProfilePtr(v *AgentPoolGatewayProfileArgs) AgentPoolGatewayProfilePtrInput {
+	return (*agentPoolGatewayProfilePtrType)(v)
+}
+
+func (*agentPoolGatewayProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**AgentPoolGatewayProfile)(nil)).Elem()
+}
+
+func (i *agentPoolGatewayProfilePtrType) ToAgentPoolGatewayProfilePtrOutput() AgentPoolGatewayProfilePtrOutput {
+	return i.ToAgentPoolGatewayProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *agentPoolGatewayProfilePtrType) ToAgentPoolGatewayProfilePtrOutputWithContext(ctx context.Context) AgentPoolGatewayProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AgentPoolGatewayProfilePtrOutput)
+}
+
+// Profile of the managed cluster gateway agent pool.
+type AgentPoolGatewayProfileOutput struct{ *pulumi.OutputState }
+
+func (AgentPoolGatewayProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AgentPoolGatewayProfile)(nil)).Elem()
+}
+
+func (o AgentPoolGatewayProfileOutput) ToAgentPoolGatewayProfileOutput() AgentPoolGatewayProfileOutput {
+	return o
+}
+
+func (o AgentPoolGatewayProfileOutput) ToAgentPoolGatewayProfileOutputWithContext(ctx context.Context) AgentPoolGatewayProfileOutput {
+	return o
+}
+
+func (o AgentPoolGatewayProfileOutput) ToAgentPoolGatewayProfilePtrOutput() AgentPoolGatewayProfilePtrOutput {
+	return o.ToAgentPoolGatewayProfilePtrOutputWithContext(context.Background())
+}
+
+func (o AgentPoolGatewayProfileOutput) ToAgentPoolGatewayProfilePtrOutputWithContext(ctx context.Context) AgentPoolGatewayProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v AgentPoolGatewayProfile) *AgentPoolGatewayProfile {
+		return &v
+	}).(AgentPoolGatewayProfilePtrOutput)
+}
+
+// The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31.
+func (o AgentPoolGatewayProfileOutput) PublicIPPrefixSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v AgentPoolGatewayProfile) *int { return v.PublicIPPrefixSize }).(pulumi.IntPtrOutput)
+}
+
+type AgentPoolGatewayProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (AgentPoolGatewayProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AgentPoolGatewayProfile)(nil)).Elem()
+}
+
+func (o AgentPoolGatewayProfilePtrOutput) ToAgentPoolGatewayProfilePtrOutput() AgentPoolGatewayProfilePtrOutput {
+	return o
+}
+
+func (o AgentPoolGatewayProfilePtrOutput) ToAgentPoolGatewayProfilePtrOutputWithContext(ctx context.Context) AgentPoolGatewayProfilePtrOutput {
+	return o
+}
+
+func (o AgentPoolGatewayProfilePtrOutput) Elem() AgentPoolGatewayProfileOutput {
+	return o.ApplyT(func(v *AgentPoolGatewayProfile) AgentPoolGatewayProfile {
+		if v != nil {
+			return *v
+		}
+		var ret AgentPoolGatewayProfile
+		return ret
+	}).(AgentPoolGatewayProfileOutput)
+}
+
+// The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31.
+func (o AgentPoolGatewayProfilePtrOutput) PublicIPPrefixSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *AgentPoolGatewayProfile) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PublicIPPrefixSize
+	}).(pulumi.IntPtrOutput)
+}
+
+// Profile of the managed cluster gateway agent pool.
+type AgentPoolGatewayProfileResponse struct {
+	// The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31.
+	PublicIPPrefixSize *int `pulumi:"publicIPPrefixSize"`
+}
+
+// Defaults sets the appropriate defaults for AgentPoolGatewayProfileResponse
+func (val *AgentPoolGatewayProfileResponse) Defaults() *AgentPoolGatewayProfileResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.PublicIPPrefixSize == nil {
+		publicIPPrefixSize_ := 31
+		tmp.PublicIPPrefixSize = &publicIPPrefixSize_
+	}
+	return &tmp
+}
+
+// Profile of the managed cluster gateway agent pool.
+type AgentPoolGatewayProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (AgentPoolGatewayProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AgentPoolGatewayProfileResponse)(nil)).Elem()
+}
+
+func (o AgentPoolGatewayProfileResponseOutput) ToAgentPoolGatewayProfileResponseOutput() AgentPoolGatewayProfileResponseOutput {
+	return o
+}
+
+func (o AgentPoolGatewayProfileResponseOutput) ToAgentPoolGatewayProfileResponseOutputWithContext(ctx context.Context) AgentPoolGatewayProfileResponseOutput {
+	return o
+}
+
+// The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31.
+func (o AgentPoolGatewayProfileResponseOutput) PublicIPPrefixSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v AgentPoolGatewayProfileResponse) *int { return v.PublicIPPrefixSize }).(pulumi.IntPtrOutput)
+}
+
+type AgentPoolGatewayProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (AgentPoolGatewayProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AgentPoolGatewayProfileResponse)(nil)).Elem()
+}
+
+func (o AgentPoolGatewayProfileResponsePtrOutput) ToAgentPoolGatewayProfileResponsePtrOutput() AgentPoolGatewayProfileResponsePtrOutput {
+	return o
+}
+
+func (o AgentPoolGatewayProfileResponsePtrOutput) ToAgentPoolGatewayProfileResponsePtrOutputWithContext(ctx context.Context) AgentPoolGatewayProfileResponsePtrOutput {
+	return o
+}
+
+func (o AgentPoolGatewayProfileResponsePtrOutput) Elem() AgentPoolGatewayProfileResponseOutput {
+	return o.ApplyT(func(v *AgentPoolGatewayProfileResponse) AgentPoolGatewayProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret AgentPoolGatewayProfileResponse
+		return ret
+	}).(AgentPoolGatewayProfileResponseOutput)
+}
+
+// The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31.
+func (o AgentPoolGatewayProfileResponsePtrOutput) PublicIPPrefixSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *AgentPoolGatewayProfileResponse) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PublicIPPrefixSize
+	}).(pulumi.IntPtrOutput)
 }
 
 // Network settings of an agent pool.
@@ -1471,6 +1744,8 @@ type AgentPoolSecurityProfile struct {
 	EnableSecureBoot *bool `pulumi:"enableSecureBoot"`
 	// vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false.
 	EnableVTPM *bool `pulumi:"enableVTPM"`
+	// SSH access method of an agent pool.
+	SshAccess *string `pulumi:"sshAccess"`
 }
 
 // AgentPoolSecurityProfileInput is an input type that accepts AgentPoolSecurityProfileArgs and AgentPoolSecurityProfileOutput values.
@@ -1490,6 +1765,8 @@ type AgentPoolSecurityProfileArgs struct {
 	EnableSecureBoot pulumi.BoolPtrInput `pulumi:"enableSecureBoot"`
 	// vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false.
 	EnableVTPM pulumi.BoolPtrInput `pulumi:"enableVTPM"`
+	// SSH access method of an agent pool.
+	SshAccess pulumi.StringPtrInput `pulumi:"sshAccess"`
 }
 
 func (AgentPoolSecurityProfileArgs) ElementType() reflect.Type {
@@ -1580,6 +1857,11 @@ func (o AgentPoolSecurityProfileOutput) EnableVTPM() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v AgentPoolSecurityProfile) *bool { return v.EnableVTPM }).(pulumi.BoolPtrOutput)
 }
 
+// SSH access method of an agent pool.
+func (o AgentPoolSecurityProfileOutput) SshAccess() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AgentPoolSecurityProfile) *string { return v.SshAccess }).(pulumi.StringPtrOutput)
+}
+
 type AgentPoolSecurityProfilePtrOutput struct{ *pulumi.OutputState }
 
 func (AgentPoolSecurityProfilePtrOutput) ElementType() reflect.Type {
@@ -1624,12 +1906,24 @@ func (o AgentPoolSecurityProfilePtrOutput) EnableVTPM() pulumi.BoolPtrOutput {
 	}).(pulumi.BoolPtrOutput)
 }
 
+// SSH access method of an agent pool.
+func (o AgentPoolSecurityProfilePtrOutput) SshAccess() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *AgentPoolSecurityProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.SshAccess
+	}).(pulumi.StringPtrOutput)
+}
+
 // The security settings of an agent pool.
 type AgentPoolSecurityProfileResponse struct {
 	// Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and drivers can boot. For more details, see aka.ms/aks/trustedlaunch.  If not specified, the default is false.
 	EnableSecureBoot *bool `pulumi:"enableSecureBoot"`
 	// vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false.
 	EnableVTPM *bool `pulumi:"enableVTPM"`
+	// SSH access method of an agent pool.
+	SshAccess *string `pulumi:"sshAccess"`
 }
 
 // The security settings of an agent pool.
@@ -1655,6 +1949,11 @@ func (o AgentPoolSecurityProfileResponseOutput) EnableSecureBoot() pulumi.BoolPt
 // vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false.
 func (o AgentPoolSecurityProfileResponseOutput) EnableVTPM() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v AgentPoolSecurityProfileResponse) *bool { return v.EnableVTPM }).(pulumi.BoolPtrOutput)
+}
+
+// SSH access method of an agent pool.
+func (o AgentPoolSecurityProfileResponseOutput) SshAccess() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AgentPoolSecurityProfileResponse) *string { return v.SshAccess }).(pulumi.StringPtrOutput)
 }
 
 type AgentPoolSecurityProfileResponsePtrOutput struct{ *pulumi.OutputState }
@@ -1701,14 +2000,88 @@ func (o AgentPoolSecurityProfileResponsePtrOutput) EnableVTPM() pulumi.BoolPtrOu
 	}).(pulumi.BoolPtrOutput)
 }
 
+// SSH access method of an agent pool.
+func (o AgentPoolSecurityProfileResponsePtrOutput) SshAccess() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *AgentPoolSecurityProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.SshAccess
+	}).(pulumi.StringPtrOutput)
+}
+
+// Contains read-only information about the Agent Pool.
+type AgentPoolStatusResponse struct {
+	// The error detail information of the agent pool. Preserves the detailed info of failure. If there was no error, this field is omitted.
+	ProvisioningError ErrorDetailResponse `pulumi:"provisioningError"`
+}
+
+// Contains read-only information about the Agent Pool.
+type AgentPoolStatusResponseOutput struct{ *pulumi.OutputState }
+
+func (AgentPoolStatusResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AgentPoolStatusResponse)(nil)).Elem()
+}
+
+func (o AgentPoolStatusResponseOutput) ToAgentPoolStatusResponseOutput() AgentPoolStatusResponseOutput {
+	return o
+}
+
+func (o AgentPoolStatusResponseOutput) ToAgentPoolStatusResponseOutputWithContext(ctx context.Context) AgentPoolStatusResponseOutput {
+	return o
+}
+
+// The error detail information of the agent pool. Preserves the detailed info of failure. If there was no error, this field is omitted.
+func (o AgentPoolStatusResponseOutput) ProvisioningError() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v AgentPoolStatusResponse) ErrorDetailResponse { return v.ProvisioningError }).(ErrorDetailResponseOutput)
+}
+
+type AgentPoolStatusResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (AgentPoolStatusResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AgentPoolStatusResponse)(nil)).Elem()
+}
+
+func (o AgentPoolStatusResponsePtrOutput) ToAgentPoolStatusResponsePtrOutput() AgentPoolStatusResponsePtrOutput {
+	return o
+}
+
+func (o AgentPoolStatusResponsePtrOutput) ToAgentPoolStatusResponsePtrOutputWithContext(ctx context.Context) AgentPoolStatusResponsePtrOutput {
+	return o
+}
+
+func (o AgentPoolStatusResponsePtrOutput) Elem() AgentPoolStatusResponseOutput {
+	return o.ApplyT(func(v *AgentPoolStatusResponse) AgentPoolStatusResponse {
+		if v != nil {
+			return *v
+		}
+		var ret AgentPoolStatusResponse
+		return ret
+	}).(AgentPoolStatusResponseOutput)
+}
+
+// The error detail information of the agent pool. Preserves the detailed info of failure. If there was no error, this field is omitted.
+func (o AgentPoolStatusResponsePtrOutput) ProvisioningError() ErrorDetailResponsePtrOutput {
+	return o.ApplyT(func(v *AgentPoolStatusResponse) *ErrorDetailResponse {
+		if v == nil {
+			return nil
+		}
+		return &v.ProvisioningError
+	}).(ErrorDetailResponsePtrOutput)
+}
+
 // Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings struct {
-	// The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
+	// The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
 	DrainTimeoutInMinutes *int `pulumi:"drainTimeoutInMinutes"`
-	// This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
+	// The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
 	MaxSurge *string `pulumi:"maxSurge"`
-	// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
+	// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
+	MaxUnavailable *string `pulumi:"maxUnavailable"`
+	// The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
 	NodeSoakDurationInMinutes *int `pulumi:"nodeSoakDurationInMinutes"`
+	// Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
+	UndrainableNodeBehavior *string `pulumi:"undrainableNodeBehavior"`
 }
 
 // AgentPoolUpgradeSettingsInput is an input type that accepts AgentPoolUpgradeSettingsArgs and AgentPoolUpgradeSettingsOutput values.
@@ -1724,12 +2097,16 @@ type AgentPoolUpgradeSettingsInput interface {
 
 // Settings for upgrading an agentpool
 type AgentPoolUpgradeSettingsArgs struct {
-	// The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
+	// The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
 	DrainTimeoutInMinutes pulumi.IntPtrInput `pulumi:"drainTimeoutInMinutes"`
-	// This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
+	// The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
 	MaxSurge pulumi.StringPtrInput `pulumi:"maxSurge"`
-	// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
+	// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
+	MaxUnavailable pulumi.StringPtrInput `pulumi:"maxUnavailable"`
+	// The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
 	NodeSoakDurationInMinutes pulumi.IntPtrInput `pulumi:"nodeSoakDurationInMinutes"`
+	// Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
+	UndrainableNodeBehavior pulumi.StringPtrInput `pulumi:"undrainableNodeBehavior"`
 }
 
 func (AgentPoolUpgradeSettingsArgs) ElementType() reflect.Type {
@@ -1810,19 +2187,29 @@ func (o AgentPoolUpgradeSettingsOutput) ToAgentPoolUpgradeSettingsPtrOutputWithC
 	}).(AgentPoolUpgradeSettingsPtrOutput)
 }
 
-// The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
+// The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
 func (o AgentPoolUpgradeSettingsOutput) DrainTimeoutInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v AgentPoolUpgradeSettings) *int { return v.DrainTimeoutInMinutes }).(pulumi.IntPtrOutput)
 }
 
-// This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
+// The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
 func (o AgentPoolUpgradeSettingsOutput) MaxSurge() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v AgentPoolUpgradeSettings) *string { return v.MaxSurge }).(pulumi.StringPtrOutput)
 }
 
-// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
+// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
+func (o AgentPoolUpgradeSettingsOutput) MaxUnavailable() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AgentPoolUpgradeSettings) *string { return v.MaxUnavailable }).(pulumi.StringPtrOutput)
+}
+
+// The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
 func (o AgentPoolUpgradeSettingsOutput) NodeSoakDurationInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v AgentPoolUpgradeSettings) *int { return v.NodeSoakDurationInMinutes }).(pulumi.IntPtrOutput)
+}
+
+// Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
+func (o AgentPoolUpgradeSettingsOutput) UndrainableNodeBehavior() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AgentPoolUpgradeSettings) *string { return v.UndrainableNodeBehavior }).(pulumi.StringPtrOutput)
 }
 
 type AgentPoolUpgradeSettingsPtrOutput struct{ *pulumi.OutputState }
@@ -1849,7 +2236,7 @@ func (o AgentPoolUpgradeSettingsPtrOutput) Elem() AgentPoolUpgradeSettingsOutput
 	}).(AgentPoolUpgradeSettingsOutput)
 }
 
-// The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
+// The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
 func (o AgentPoolUpgradeSettingsPtrOutput) DrainTimeoutInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *AgentPoolUpgradeSettings) *int {
 		if v == nil {
@@ -1859,7 +2246,7 @@ func (o AgentPoolUpgradeSettingsPtrOutput) DrainTimeoutInMinutes() pulumi.IntPtr
 	}).(pulumi.IntPtrOutput)
 }
 
-// This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
+// The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
 func (o AgentPoolUpgradeSettingsPtrOutput) MaxSurge() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AgentPoolUpgradeSettings) *string {
 		if v == nil {
@@ -1869,7 +2256,17 @@ func (o AgentPoolUpgradeSettingsPtrOutput) MaxSurge() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
+// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
+func (o AgentPoolUpgradeSettingsPtrOutput) MaxUnavailable() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *AgentPoolUpgradeSettings) *string {
+		if v == nil {
+			return nil
+		}
+		return v.MaxUnavailable
+	}).(pulumi.StringPtrOutput)
+}
+
+// The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
 func (o AgentPoolUpgradeSettingsPtrOutput) NodeSoakDurationInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *AgentPoolUpgradeSettings) *int {
 		if v == nil {
@@ -1879,14 +2276,28 @@ func (o AgentPoolUpgradeSettingsPtrOutput) NodeSoakDurationInMinutes() pulumi.In
 	}).(pulumi.IntPtrOutput)
 }
 
+// Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
+func (o AgentPoolUpgradeSettingsPtrOutput) UndrainableNodeBehavior() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *AgentPoolUpgradeSettings) *string {
+		if v == nil {
+			return nil
+		}
+		return v.UndrainableNodeBehavior
+	}).(pulumi.StringPtrOutput)
+}
+
 // Settings for upgrading an agentpool
 type AgentPoolUpgradeSettingsResponse struct {
-	// The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
+	// The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
 	DrainTimeoutInMinutes *int `pulumi:"drainTimeoutInMinutes"`
-	// This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
+	// The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
 	MaxSurge *string `pulumi:"maxSurge"`
-	// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
+	// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
+	MaxUnavailable *string `pulumi:"maxUnavailable"`
+	// The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
 	NodeSoakDurationInMinutes *int `pulumi:"nodeSoakDurationInMinutes"`
+	// Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
+	UndrainableNodeBehavior *string `pulumi:"undrainableNodeBehavior"`
 }
 
 // Settings for upgrading an agentpool
@@ -1904,19 +2315,29 @@ func (o AgentPoolUpgradeSettingsResponseOutput) ToAgentPoolUpgradeSettingsRespon
 	return o
 }
 
-// The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
+// The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
 func (o AgentPoolUpgradeSettingsResponseOutput) DrainTimeoutInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v AgentPoolUpgradeSettingsResponse) *int { return v.DrainTimeoutInMinutes }).(pulumi.IntPtrOutput)
 }
 
-// This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
+// The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
 func (o AgentPoolUpgradeSettingsResponseOutput) MaxSurge() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v AgentPoolUpgradeSettingsResponse) *string { return v.MaxSurge }).(pulumi.StringPtrOutput)
 }
 
-// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
+// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
+func (o AgentPoolUpgradeSettingsResponseOutput) MaxUnavailable() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AgentPoolUpgradeSettingsResponse) *string { return v.MaxUnavailable }).(pulumi.StringPtrOutput)
+}
+
+// The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
 func (o AgentPoolUpgradeSettingsResponseOutput) NodeSoakDurationInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v AgentPoolUpgradeSettingsResponse) *int { return v.NodeSoakDurationInMinutes }).(pulumi.IntPtrOutput)
+}
+
+// Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
+func (o AgentPoolUpgradeSettingsResponseOutput) UndrainableNodeBehavior() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v AgentPoolUpgradeSettingsResponse) *string { return v.UndrainableNodeBehavior }).(pulumi.StringPtrOutput)
 }
 
 type AgentPoolUpgradeSettingsResponsePtrOutput struct{ *pulumi.OutputState }
@@ -1943,7 +2364,7 @@ func (o AgentPoolUpgradeSettingsResponsePtrOutput) Elem() AgentPoolUpgradeSettin
 	}).(AgentPoolUpgradeSettingsResponseOutput)
 }
 
-// The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
+// The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes.
 func (o AgentPoolUpgradeSettingsResponsePtrOutput) DrainTimeoutInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *AgentPoolUpgradeSettingsResponse) *int {
 		if v == nil {
@@ -1953,7 +2374,7 @@ func (o AgentPoolUpgradeSettingsResponsePtrOutput) DrainTimeoutInMinutes() pulum
 	}).(pulumi.IntPtrOutput)
 }
 
-// This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
+// The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
 func (o AgentPoolUpgradeSettingsResponsePtrOutput) MaxSurge() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AgentPoolUpgradeSettingsResponse) *string {
 		if v == nil {
@@ -1963,7 +2384,17 @@ func (o AgentPoolUpgradeSettingsResponsePtrOutput) MaxSurge() pulumi.StringPtrOu
 	}).(pulumi.StringPtrOutput)
 }
 
-// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
+// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster
+func (o AgentPoolUpgradeSettingsResponsePtrOutput) MaxUnavailable() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *AgentPoolUpgradeSettingsResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.MaxUnavailable
+	}).(pulumi.StringPtrOutput)
+}
+
+// The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes.
 func (o AgentPoolUpgradeSettingsResponsePtrOutput) NodeSoakDurationInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *AgentPoolUpgradeSettingsResponse) *int {
 		if v == nil {
@@ -1973,9 +2404,19 @@ func (o AgentPoolUpgradeSettingsResponsePtrOutput) NodeSoakDurationInMinutes() p
 	}).(pulumi.IntPtrOutput)
 }
 
+// Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
+func (o AgentPoolUpgradeSettingsResponsePtrOutput) UndrainableNodeBehavior() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *AgentPoolUpgradeSettingsResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.UndrainableNodeBehavior
+	}).(pulumi.StringPtrOutput)
+}
+
 // The Windows agent pool's specific profile.
 type AgentPoolWindowsProfile struct {
-	// The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
+	// Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
 	DisableOutboundNat *bool `pulumi:"disableOutboundNat"`
 }
 
@@ -1992,7 +2433,7 @@ type AgentPoolWindowsProfileInput interface {
 
 // The Windows agent pool's specific profile.
 type AgentPoolWindowsProfileArgs struct {
-	// The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
+	// Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
 	DisableOutboundNat pulumi.BoolPtrInput `pulumi:"disableOutboundNat"`
 }
 
@@ -2074,7 +2515,7 @@ func (o AgentPoolWindowsProfileOutput) ToAgentPoolWindowsProfilePtrOutputWithCon
 	}).(AgentPoolWindowsProfilePtrOutput)
 }
 
-// The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
+// Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
 func (o AgentPoolWindowsProfileOutput) DisableOutboundNat() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v AgentPoolWindowsProfile) *bool { return v.DisableOutboundNat }).(pulumi.BoolPtrOutput)
 }
@@ -2103,7 +2544,7 @@ func (o AgentPoolWindowsProfilePtrOutput) Elem() AgentPoolWindowsProfileOutput {
 	}).(AgentPoolWindowsProfileOutput)
 }
 
-// The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
+// Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
 func (o AgentPoolWindowsProfilePtrOutput) DisableOutboundNat() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AgentPoolWindowsProfile) *bool {
 		if v == nil {
@@ -2115,7 +2556,7 @@ func (o AgentPoolWindowsProfilePtrOutput) DisableOutboundNat() pulumi.BoolPtrOut
 
 // The Windows agent pool's specific profile.
 type AgentPoolWindowsProfileResponse struct {
-	// The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
+	// Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
 	DisableOutboundNat *bool `pulumi:"disableOutboundNat"`
 }
 
@@ -2134,7 +2575,7 @@ func (o AgentPoolWindowsProfileResponseOutput) ToAgentPoolWindowsProfileResponse
 	return o
 }
 
-// The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
+// Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
 func (o AgentPoolWindowsProfileResponseOutput) DisableOutboundNat() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v AgentPoolWindowsProfileResponse) *bool { return v.DisableOutboundNat }).(pulumi.BoolPtrOutput)
 }
@@ -2163,7 +2604,7 @@ func (o AgentPoolWindowsProfileResponsePtrOutput) Elem() AgentPoolWindowsProfile
 	}).(AgentPoolWindowsProfileResponseOutput)
 }
 
-// The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
+// Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled.
 func (o AgentPoolWindowsProfileResponsePtrOutput) DisableOutboundNat() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *AgentPoolWindowsProfileResponse) *bool {
 		if v == nil {
@@ -2615,7 +3056,7 @@ type AzureKeyVaultKms struct {
 	Enabled *bool `pulumi:"enabled"`
 	// Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty.
 	KeyId *string `pulumi:"keyId"`
-	// Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
+	// Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
 	KeyVaultNetworkAccess *string `pulumi:"keyVaultNetworkAccess"`
 	// Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty.
 	KeyVaultResourceId *string `pulumi:"keyVaultResourceId"`
@@ -2651,7 +3092,7 @@ type AzureKeyVaultKmsArgs struct {
 	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
 	// Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty.
 	KeyId pulumi.StringPtrInput `pulumi:"keyId"`
-	// Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
+	// Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
 	KeyVaultNetworkAccess pulumi.StringPtrInput `pulumi:"keyVaultNetworkAccess"`
 	// Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty.
 	KeyVaultResourceId pulumi.StringPtrInput `pulumi:"keyVaultResourceId"`
@@ -2756,7 +3197,7 @@ func (o AzureKeyVaultKmsOutput) KeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v AzureKeyVaultKms) *string { return v.KeyId }).(pulumi.StringPtrOutput)
 }
 
-// Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
+// Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
 func (o AzureKeyVaultKmsOutput) KeyVaultNetworkAccess() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v AzureKeyVaultKms) *string { return v.KeyVaultNetworkAccess }).(pulumi.StringPtrOutput)
 }
@@ -2810,7 +3251,7 @@ func (o AzureKeyVaultKmsPtrOutput) KeyId() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
+// Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
 func (o AzureKeyVaultKmsPtrOutput) KeyVaultNetworkAccess() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AzureKeyVaultKms) *string {
 		if v == nil {
@@ -2836,7 +3277,7 @@ type AzureKeyVaultKmsResponse struct {
 	Enabled *bool `pulumi:"enabled"`
 	// Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty.
 	KeyId *string `pulumi:"keyId"`
-	// Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
+	// Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
 	KeyVaultNetworkAccess *string `pulumi:"keyVaultNetworkAccess"`
 	// Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty.
 	KeyVaultResourceId *string `pulumi:"keyVaultResourceId"`
@@ -2880,7 +3321,7 @@ func (o AzureKeyVaultKmsResponseOutput) KeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v AzureKeyVaultKmsResponse) *string { return v.KeyId }).(pulumi.StringPtrOutput)
 }
 
-// Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
+// Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
 func (o AzureKeyVaultKmsResponseOutput) KeyVaultNetworkAccess() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v AzureKeyVaultKmsResponse) *string { return v.KeyVaultNetworkAccess }).(pulumi.StringPtrOutput)
 }
@@ -2934,7 +3375,7 @@ func (o AzureKeyVaultKmsResponsePtrOutput) KeyId() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
+// Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
 func (o AzureKeyVaultKmsResponsePtrOutput) KeyVaultNetworkAccess() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AzureKeyVaultKmsResponse) *string {
 		if v == nil {
@@ -3396,17 +3837,17 @@ type ContainerServiceNetworkProfile struct {
 	AdvancedNetworking *AdvancedNetworking `pulumi:"advancedNetworking"`
 	// An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
 	DnsServiceIP *string `pulumi:"dnsServiceIP"`
-	// IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
+	// The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
 	IpFamilies []string `pulumi:"ipFamilies"`
 	// Profile of the cluster load balancer.
 	LoadBalancerProfile *ManagedClusterLoadBalancerProfile `pulumi:"loadBalancerProfile"`
-	// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
+	// The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 	LoadBalancerSku *string `pulumi:"loadBalancerSku"`
 	// Profile of the cluster NAT gateway.
 	NatGatewayProfile *ManagedClusterNATGatewayProfile `pulumi:"natGatewayProfile"`
 	// Network dataplane used in the Kubernetes cluster.
 	NetworkDataplane *string `pulumi:"networkDataplane"`
-	// This cannot be specified if networkPlugin is anything other than 'azure'.
+	// The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'.
 	NetworkMode *string `pulumi:"networkMode"`
 	// Network plugin used for building the Kubernetes network.
 	NetworkPlugin *string `pulumi:"networkPlugin"`
@@ -3414,16 +3855,18 @@ type ContainerServiceNetworkProfile struct {
 	NetworkPluginMode *string `pulumi:"networkPluginMode"`
 	// Network policy used for building the Kubernetes network.
 	NetworkPolicy *string `pulumi:"networkPolicy"`
-	// This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+	// The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 	OutboundType *string `pulumi:"outboundType"`
 	// A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr *string `pulumi:"podCidr"`
-	// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
+	// The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
 	PodCidrs []string `pulumi:"podCidrs"`
 	// A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
 	ServiceCidr *string `pulumi:"serviceCidr"`
-	// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+	// The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
 	ServiceCidrs []string `pulumi:"serviceCidrs"`
+	// The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.
+	StaticEgressGatewayProfile *ManagedClusterStaticEgressGatewayProfile `pulumi:"staticEgressGatewayProfile"`
 }
 
 // Defaults sets the appropriate defaults for ContainerServiceNetworkProfile
@@ -3472,17 +3915,17 @@ type ContainerServiceNetworkProfileArgs struct {
 	AdvancedNetworking AdvancedNetworkingPtrInput `pulumi:"advancedNetworking"`
 	// An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
 	DnsServiceIP pulumi.StringPtrInput `pulumi:"dnsServiceIP"`
-	// IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
+	// The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
 	IpFamilies pulumi.StringArrayInput `pulumi:"ipFamilies"`
 	// Profile of the cluster load balancer.
 	LoadBalancerProfile ManagedClusterLoadBalancerProfilePtrInput `pulumi:"loadBalancerProfile"`
-	// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
+	// The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 	LoadBalancerSku pulumi.StringPtrInput `pulumi:"loadBalancerSku"`
 	// Profile of the cluster NAT gateway.
 	NatGatewayProfile ManagedClusterNATGatewayProfilePtrInput `pulumi:"natGatewayProfile"`
 	// Network dataplane used in the Kubernetes cluster.
 	NetworkDataplane pulumi.StringPtrInput `pulumi:"networkDataplane"`
-	// This cannot be specified if networkPlugin is anything other than 'azure'.
+	// The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'.
 	NetworkMode pulumi.StringPtrInput `pulumi:"networkMode"`
 	// Network plugin used for building the Kubernetes network.
 	NetworkPlugin pulumi.StringPtrInput `pulumi:"networkPlugin"`
@@ -3490,16 +3933,18 @@ type ContainerServiceNetworkProfileArgs struct {
 	NetworkPluginMode pulumi.StringPtrInput `pulumi:"networkPluginMode"`
 	// Network policy used for building the Kubernetes network.
 	NetworkPolicy pulumi.StringPtrInput `pulumi:"networkPolicy"`
-	// This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+	// The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 	OutboundType pulumi.StringPtrInput `pulumi:"outboundType"`
 	// A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr pulumi.StringPtrInput `pulumi:"podCidr"`
-	// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
+	// The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
 	PodCidrs pulumi.StringArrayInput `pulumi:"podCidrs"`
 	// A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
 	ServiceCidr pulumi.StringPtrInput `pulumi:"serviceCidr"`
-	// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+	// The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
 	ServiceCidrs pulumi.StringArrayInput `pulumi:"serviceCidrs"`
+	// The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.
+	StaticEgressGatewayProfile ManagedClusterStaticEgressGatewayProfilePtrInput `pulumi:"staticEgressGatewayProfile"`
 }
 
 // Defaults sets the appropriate defaults for ContainerServiceNetworkProfileArgs
@@ -3611,7 +4056,7 @@ func (o ContainerServiceNetworkProfileOutput) DnsServiceIP() pulumi.StringPtrOut
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) *string { return v.DnsServiceIP }).(pulumi.StringPtrOutput)
 }
 
-// IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
+// The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
 func (o ContainerServiceNetworkProfileOutput) IpFamilies() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) []string { return v.IpFamilies }).(pulumi.StringArrayOutput)
 }
@@ -3623,7 +4068,7 @@ func (o ContainerServiceNetworkProfileOutput) LoadBalancerProfile() ManagedClust
 	}).(ManagedClusterLoadBalancerProfilePtrOutput)
 }
 
-// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
+// The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 func (o ContainerServiceNetworkProfileOutput) LoadBalancerSku() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) *string { return v.LoadBalancerSku }).(pulumi.StringPtrOutput)
 }
@@ -3638,7 +4083,7 @@ func (o ContainerServiceNetworkProfileOutput) NetworkDataplane() pulumi.StringPt
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) *string { return v.NetworkDataplane }).(pulumi.StringPtrOutput)
 }
 
-// This cannot be specified if networkPlugin is anything other than 'azure'.
+// The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'.
 func (o ContainerServiceNetworkProfileOutput) NetworkMode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) *string { return v.NetworkMode }).(pulumi.StringPtrOutput)
 }
@@ -3658,7 +4103,7 @@ func (o ContainerServiceNetworkProfileOutput) NetworkPolicy() pulumi.StringPtrOu
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) *string { return v.NetworkPolicy }).(pulumi.StringPtrOutput)
 }
 
-// This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+// The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 func (o ContainerServiceNetworkProfileOutput) OutboundType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) *string { return v.OutboundType }).(pulumi.StringPtrOutput)
 }
@@ -3668,7 +4113,7 @@ func (o ContainerServiceNetworkProfileOutput) PodCidr() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) *string { return v.PodCidr }).(pulumi.StringPtrOutput)
 }
 
-// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
+// The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
 func (o ContainerServiceNetworkProfileOutput) PodCidrs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) []string { return v.PodCidrs }).(pulumi.StringArrayOutput)
 }
@@ -3678,9 +4123,16 @@ func (o ContainerServiceNetworkProfileOutput) ServiceCidr() pulumi.StringPtrOutp
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) *string { return v.ServiceCidr }).(pulumi.StringPtrOutput)
 }
 
-// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+// The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
 func (o ContainerServiceNetworkProfileOutput) ServiceCidrs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfile) []string { return v.ServiceCidrs }).(pulumi.StringArrayOutput)
+}
+
+// The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.
+func (o ContainerServiceNetworkProfileOutput) StaticEgressGatewayProfile() ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return o.ApplyT(func(v ContainerServiceNetworkProfile) *ManagedClusterStaticEgressGatewayProfile {
+		return v.StaticEgressGatewayProfile
+	}).(ManagedClusterStaticEgressGatewayProfilePtrOutput)
 }
 
 type ContainerServiceNetworkProfilePtrOutput struct{ *pulumi.OutputState }
@@ -3727,7 +4179,7 @@ func (o ContainerServiceNetworkProfilePtrOutput) DnsServiceIP() pulumi.StringPtr
 	}).(pulumi.StringPtrOutput)
 }
 
-// IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
+// The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
 func (o ContainerServiceNetworkProfilePtrOutput) IpFamilies() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfile) []string {
 		if v == nil {
@@ -3747,7 +4199,7 @@ func (o ContainerServiceNetworkProfilePtrOutput) LoadBalancerProfile() ManagedCl
 	}).(ManagedClusterLoadBalancerProfilePtrOutput)
 }
 
-// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
+// The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 func (o ContainerServiceNetworkProfilePtrOutput) LoadBalancerSku() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfile) *string {
 		if v == nil {
@@ -3777,7 +4229,7 @@ func (o ContainerServiceNetworkProfilePtrOutput) NetworkDataplane() pulumi.Strin
 	}).(pulumi.StringPtrOutput)
 }
 
-// This cannot be specified if networkPlugin is anything other than 'azure'.
+// The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'.
 func (o ContainerServiceNetworkProfilePtrOutput) NetworkMode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfile) *string {
 		if v == nil {
@@ -3817,7 +4269,7 @@ func (o ContainerServiceNetworkProfilePtrOutput) NetworkPolicy() pulumi.StringPt
 	}).(pulumi.StringPtrOutput)
 }
 
-// This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+// The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 func (o ContainerServiceNetworkProfilePtrOutput) OutboundType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfile) *string {
 		if v == nil {
@@ -3837,7 +4289,7 @@ func (o ContainerServiceNetworkProfilePtrOutput) PodCidr() pulumi.StringPtrOutpu
 	}).(pulumi.StringPtrOutput)
 }
 
-// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
+// The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
 func (o ContainerServiceNetworkProfilePtrOutput) PodCidrs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfile) []string {
 		if v == nil {
@@ -3857,7 +4309,7 @@ func (o ContainerServiceNetworkProfilePtrOutput) ServiceCidr() pulumi.StringPtrO
 	}).(pulumi.StringPtrOutput)
 }
 
-// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+// The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
 func (o ContainerServiceNetworkProfilePtrOutput) ServiceCidrs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfile) []string {
 		if v == nil {
@@ -3867,23 +4319,33 @@ func (o ContainerServiceNetworkProfilePtrOutput) ServiceCidrs() pulumi.StringArr
 	}).(pulumi.StringArrayOutput)
 }
 
+// The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.
+func (o ContainerServiceNetworkProfilePtrOutput) StaticEgressGatewayProfile() ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return o.ApplyT(func(v *ContainerServiceNetworkProfile) *ManagedClusterStaticEgressGatewayProfile {
+		if v == nil {
+			return nil
+		}
+		return v.StaticEgressGatewayProfile
+	}).(ManagedClusterStaticEgressGatewayProfilePtrOutput)
+}
+
 // Profile of network configuration.
 type ContainerServiceNetworkProfileResponse struct {
 	// Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking.
 	AdvancedNetworking *AdvancedNetworkingResponse `pulumi:"advancedNetworking"`
 	// An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
 	DnsServiceIP *string `pulumi:"dnsServiceIP"`
-	// IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
+	// The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
 	IpFamilies []string `pulumi:"ipFamilies"`
 	// Profile of the cluster load balancer.
 	LoadBalancerProfile *ManagedClusterLoadBalancerProfileResponse `pulumi:"loadBalancerProfile"`
-	// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
+	// The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 	LoadBalancerSku *string `pulumi:"loadBalancerSku"`
 	// Profile of the cluster NAT gateway.
 	NatGatewayProfile *ManagedClusterNATGatewayProfileResponse `pulumi:"natGatewayProfile"`
 	// Network dataplane used in the Kubernetes cluster.
 	NetworkDataplane *string `pulumi:"networkDataplane"`
-	// This cannot be specified if networkPlugin is anything other than 'azure'.
+	// The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'.
 	NetworkMode *string `pulumi:"networkMode"`
 	// Network plugin used for building the Kubernetes network.
 	NetworkPlugin *string `pulumi:"networkPlugin"`
@@ -3891,16 +4353,18 @@ type ContainerServiceNetworkProfileResponse struct {
 	NetworkPluginMode *string `pulumi:"networkPluginMode"`
 	// Network policy used for building the Kubernetes network.
 	NetworkPolicy *string `pulumi:"networkPolicy"`
-	// This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+	// The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 	OutboundType *string `pulumi:"outboundType"`
 	// A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr *string `pulumi:"podCidr"`
-	// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
+	// The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
 	PodCidrs []string `pulumi:"podCidrs"`
 	// A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
 	ServiceCidr *string `pulumi:"serviceCidr"`
-	// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+	// The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
 	ServiceCidrs []string `pulumi:"serviceCidrs"`
+	// The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.
+	StaticEgressGatewayProfile *ManagedClusterStaticEgressGatewayProfileResponse `pulumi:"staticEgressGatewayProfile"`
 }
 
 // Defaults sets the appropriate defaults for ContainerServiceNetworkProfileResponse
@@ -3959,7 +4423,7 @@ func (o ContainerServiceNetworkProfileResponseOutput) DnsServiceIP() pulumi.Stri
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *string { return v.DnsServiceIP }).(pulumi.StringPtrOutput)
 }
 
-// IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
+// The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
 func (o ContainerServiceNetworkProfileResponseOutput) IpFamilies() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) []string { return v.IpFamilies }).(pulumi.StringArrayOutput)
 }
@@ -3971,7 +4435,7 @@ func (o ContainerServiceNetworkProfileResponseOutput) LoadBalancerProfile() Mana
 	}).(ManagedClusterLoadBalancerProfileResponsePtrOutput)
 }
 
-// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
+// The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 func (o ContainerServiceNetworkProfileResponseOutput) LoadBalancerSku() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *string { return v.LoadBalancerSku }).(pulumi.StringPtrOutput)
 }
@@ -3988,7 +4452,7 @@ func (o ContainerServiceNetworkProfileResponseOutput) NetworkDataplane() pulumi.
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *string { return v.NetworkDataplane }).(pulumi.StringPtrOutput)
 }
 
-// This cannot be specified if networkPlugin is anything other than 'azure'.
+// The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'.
 func (o ContainerServiceNetworkProfileResponseOutput) NetworkMode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *string { return v.NetworkMode }).(pulumi.StringPtrOutput)
 }
@@ -4008,7 +4472,7 @@ func (o ContainerServiceNetworkProfileResponseOutput) NetworkPolicy() pulumi.Str
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *string { return v.NetworkPolicy }).(pulumi.StringPtrOutput)
 }
 
-// This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+// The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 func (o ContainerServiceNetworkProfileResponseOutput) OutboundType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *string { return v.OutboundType }).(pulumi.StringPtrOutput)
 }
@@ -4018,7 +4482,7 @@ func (o ContainerServiceNetworkProfileResponseOutput) PodCidr() pulumi.StringPtr
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *string { return v.PodCidr }).(pulumi.StringPtrOutput)
 }
 
-// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
+// The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
 func (o ContainerServiceNetworkProfileResponseOutput) PodCidrs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) []string { return v.PodCidrs }).(pulumi.StringArrayOutput)
 }
@@ -4028,9 +4492,16 @@ func (o ContainerServiceNetworkProfileResponseOutput) ServiceCidr() pulumi.Strin
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *string { return v.ServiceCidr }).(pulumi.StringPtrOutput)
 }
 
-// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+// The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
 func (o ContainerServiceNetworkProfileResponseOutput) ServiceCidrs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) []string { return v.ServiceCidrs }).(pulumi.StringArrayOutput)
+}
+
+// The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.
+func (o ContainerServiceNetworkProfileResponseOutput) StaticEgressGatewayProfile() ManagedClusterStaticEgressGatewayProfileResponsePtrOutput {
+	return o.ApplyT(func(v ContainerServiceNetworkProfileResponse) *ManagedClusterStaticEgressGatewayProfileResponse {
+		return v.StaticEgressGatewayProfile
+	}).(ManagedClusterStaticEgressGatewayProfileResponsePtrOutput)
 }
 
 type ContainerServiceNetworkProfileResponsePtrOutput struct{ *pulumi.OutputState }
@@ -4077,7 +4548,7 @@ func (o ContainerServiceNetworkProfileResponsePtrOutput) DnsServiceIP() pulumi.S
 	}).(pulumi.StringPtrOutput)
 }
 
-// IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
+// The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
 func (o ContainerServiceNetworkProfileResponsePtrOutput) IpFamilies() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfileResponse) []string {
 		if v == nil {
@@ -4097,7 +4568,7 @@ func (o ContainerServiceNetworkProfileResponsePtrOutput) LoadBalancerProfile() M
 	}).(ManagedClusterLoadBalancerProfileResponsePtrOutput)
 }
 
-// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
+// The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 func (o ContainerServiceNetworkProfileResponsePtrOutput) LoadBalancerSku() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfileResponse) *string {
 		if v == nil {
@@ -4127,7 +4598,7 @@ func (o ContainerServiceNetworkProfileResponsePtrOutput) NetworkDataplane() pulu
 	}).(pulumi.StringPtrOutput)
 }
 
-// This cannot be specified if networkPlugin is anything other than 'azure'.
+// The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'.
 func (o ContainerServiceNetworkProfileResponsePtrOutput) NetworkMode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfileResponse) *string {
 		if v == nil {
@@ -4167,7 +4638,7 @@ func (o ContainerServiceNetworkProfileResponsePtrOutput) NetworkPolicy() pulumi.
 	}).(pulumi.StringPtrOutput)
 }
 
-// This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+// The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 func (o ContainerServiceNetworkProfileResponsePtrOutput) OutboundType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfileResponse) *string {
 		if v == nil {
@@ -4187,7 +4658,7 @@ func (o ContainerServiceNetworkProfileResponsePtrOutput) PodCidr() pulumi.String
 	}).(pulumi.StringPtrOutput)
 }
 
-// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
+// The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking.
 func (o ContainerServiceNetworkProfileResponsePtrOutput) PodCidrs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfileResponse) []string {
 		if v == nil {
@@ -4207,7 +4678,7 @@ func (o ContainerServiceNetworkProfileResponsePtrOutput) ServiceCidr() pulumi.St
 	}).(pulumi.StringPtrOutput)
 }
 
-// One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+// The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
 func (o ContainerServiceNetworkProfileResponsePtrOutput) ServiceCidrs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ContainerServiceNetworkProfileResponse) []string {
 		if v == nil {
@@ -4215,6 +4686,16 @@ func (o ContainerServiceNetworkProfileResponsePtrOutput) ServiceCidrs() pulumi.S
 		}
 		return v.ServiceCidrs
 	}).(pulumi.StringArrayOutput)
+}
+
+// The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway.
+func (o ContainerServiceNetworkProfileResponsePtrOutput) StaticEgressGatewayProfile() ManagedClusterStaticEgressGatewayProfileResponsePtrOutput {
+	return o.ApplyT(func(v *ContainerServiceNetworkProfileResponse) *ManagedClusterStaticEgressGatewayProfileResponse {
+		if v == nil {
+			return nil
+		}
+		return v.StaticEgressGatewayProfile
+	}).(ManagedClusterStaticEgressGatewayProfileResponsePtrOutput)
 }
 
 // SSH configuration for Linux-based VMs running on Azure.
@@ -5018,7 +5499,7 @@ func (o DailyScheduleResponsePtrOutput) IntervalDays() pulumi.IntPtrOutput {
 	}).(pulumi.IntPtrOutput)
 }
 
-// For example, between '2022-12-23' and '2023-01-05'.
+// A date range. For example, between '2022-12-23' and '2023-01-05'.
 type DateSpan struct {
 	// The end date of the date span.
 	End string `pulumi:"end"`
@@ -5037,7 +5518,7 @@ type DateSpanInput interface {
 	ToDateSpanOutputWithContext(context.Context) DateSpanOutput
 }
 
-// For example, between '2022-12-23' and '2023-01-05'.
+// A date range. For example, between '2022-12-23' and '2023-01-05'.
 type DateSpanArgs struct {
 	// The end date of the date span.
 	End pulumi.StringInput `pulumi:"end"`
@@ -5082,7 +5563,7 @@ func (i DateSpanArray) ToDateSpanArrayOutputWithContext(ctx context.Context) Dat
 	return pulumi.ToOutputWithContext(ctx, i).(DateSpanArrayOutput)
 }
 
-// For example, between '2022-12-23' and '2023-01-05'.
+// A date range. For example, between '2022-12-23' and '2023-01-05'.
 type DateSpanOutput struct{ *pulumi.OutputState }
 
 func (DateSpanOutput) ElementType() reflect.Type {
@@ -5127,7 +5608,7 @@ func (o DateSpanArrayOutput) Index(i pulumi.IntInput) DateSpanOutput {
 	}).(DateSpanOutput)
 }
 
-// For example, between '2022-12-23' and '2023-01-05'.
+// A date range. For example, between '2022-12-23' and '2023-01-05'.
 type DateSpanResponse struct {
 	// The end date of the date span.
 	End string `pulumi:"end"`
@@ -5135,7 +5616,7 @@ type DateSpanResponse struct {
 	Start string `pulumi:"start"`
 }
 
-// For example, between '2022-12-23' and '2023-01-05'.
+// A date range. For example, between '2022-12-23' and '2023-01-05'.
 type DateSpanResponseOutput struct{ *pulumi.OutputState }
 
 func (DateSpanResponseOutput) ElementType() reflect.Type {
@@ -5479,6 +5960,80 @@ func (o ErrorDetailResponseOutput) Message() pulumi.StringOutput {
 // The error target.
 func (o ErrorDetailResponseOutput) Target() pulumi.StringOutput {
 	return o.ApplyT(func(v ErrorDetailResponse) string { return v.Target }).(pulumi.StringOutput)
+}
+
+type ErrorDetailResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ErrorDetailResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ErrorDetailResponse)(nil)).Elem()
+}
+
+func (o ErrorDetailResponsePtrOutput) ToErrorDetailResponsePtrOutput() ErrorDetailResponsePtrOutput {
+	return o
+}
+
+func (o ErrorDetailResponsePtrOutput) ToErrorDetailResponsePtrOutputWithContext(ctx context.Context) ErrorDetailResponsePtrOutput {
+	return o
+}
+
+func (o ErrorDetailResponsePtrOutput) Elem() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) ErrorDetailResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ErrorDetailResponse
+		return ret
+	}).(ErrorDetailResponseOutput)
+}
+
+// The error additional info.
+func (o ErrorDetailResponsePtrOutput) AdditionalInfo() ErrorAdditionalInfoResponseArrayOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) []ErrorAdditionalInfoResponse {
+		if v == nil {
+			return nil
+		}
+		return v.AdditionalInfo
+	}).(ErrorAdditionalInfoResponseArrayOutput)
+}
+
+// The error code.
+func (o ErrorDetailResponsePtrOutput) Code() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Code
+	}).(pulumi.StringPtrOutput)
+}
+
+// The error details.
+func (o ErrorDetailResponsePtrOutput) Details() ErrorDetailResponseArrayOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) []ErrorDetailResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Details
+	}).(ErrorDetailResponseArrayOutput)
+}
+
+// The error message.
+func (o ErrorDetailResponsePtrOutput) Message() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Message
+	}).(pulumi.StringPtrOutput)
+}
+
+// The error target.
+func (o ErrorDetailResponsePtrOutput) Target() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Target
+	}).(pulumi.StringPtrOutput)
 }
 
 type ErrorDetailResponseArrayOutput struct{ *pulumi.OutputState }
@@ -6110,6 +6665,206 @@ func (o FleetHubProfileResponsePtrOutput) PortalFqdn() pulumi.StringPtrOutput {
 			return nil
 		}
 		return &v.PortalFqdn
+	}).(pulumi.StringPtrOutput)
+}
+
+// GPU settings for the Agent Pool.
+type GPUProfile struct {
+	// Whether to install GPU drivers. When it's not specified, default is Install.
+	Driver *string `pulumi:"driver"`
+}
+
+// GPUProfileInput is an input type that accepts GPUProfileArgs and GPUProfileOutput values.
+// You can construct a concrete instance of `GPUProfileInput` via:
+//
+//	GPUProfileArgs{...}
+type GPUProfileInput interface {
+	pulumi.Input
+
+	ToGPUProfileOutput() GPUProfileOutput
+	ToGPUProfileOutputWithContext(context.Context) GPUProfileOutput
+}
+
+// GPU settings for the Agent Pool.
+type GPUProfileArgs struct {
+	// Whether to install GPU drivers. When it's not specified, default is Install.
+	Driver pulumi.StringPtrInput `pulumi:"driver"`
+}
+
+func (GPUProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GPUProfile)(nil)).Elem()
+}
+
+func (i GPUProfileArgs) ToGPUProfileOutput() GPUProfileOutput {
+	return i.ToGPUProfileOutputWithContext(context.Background())
+}
+
+func (i GPUProfileArgs) ToGPUProfileOutputWithContext(ctx context.Context) GPUProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GPUProfileOutput)
+}
+
+func (i GPUProfileArgs) ToGPUProfilePtrOutput() GPUProfilePtrOutput {
+	return i.ToGPUProfilePtrOutputWithContext(context.Background())
+}
+
+func (i GPUProfileArgs) ToGPUProfilePtrOutputWithContext(ctx context.Context) GPUProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GPUProfileOutput).ToGPUProfilePtrOutputWithContext(ctx)
+}
+
+// GPUProfilePtrInput is an input type that accepts GPUProfileArgs, GPUProfilePtr and GPUProfilePtrOutput values.
+// You can construct a concrete instance of `GPUProfilePtrInput` via:
+//
+//	        GPUProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type GPUProfilePtrInput interface {
+	pulumi.Input
+
+	ToGPUProfilePtrOutput() GPUProfilePtrOutput
+	ToGPUProfilePtrOutputWithContext(context.Context) GPUProfilePtrOutput
+}
+
+type gpuprofilePtrType GPUProfileArgs
+
+func GPUProfilePtr(v *GPUProfileArgs) GPUProfilePtrInput {
+	return (*gpuprofilePtrType)(v)
+}
+
+func (*gpuprofilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**GPUProfile)(nil)).Elem()
+}
+
+func (i *gpuprofilePtrType) ToGPUProfilePtrOutput() GPUProfilePtrOutput {
+	return i.ToGPUProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *gpuprofilePtrType) ToGPUProfilePtrOutputWithContext(ctx context.Context) GPUProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GPUProfilePtrOutput)
+}
+
+// GPU settings for the Agent Pool.
+type GPUProfileOutput struct{ *pulumi.OutputState }
+
+func (GPUProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GPUProfile)(nil)).Elem()
+}
+
+func (o GPUProfileOutput) ToGPUProfileOutput() GPUProfileOutput {
+	return o
+}
+
+func (o GPUProfileOutput) ToGPUProfileOutputWithContext(ctx context.Context) GPUProfileOutput {
+	return o
+}
+
+func (o GPUProfileOutput) ToGPUProfilePtrOutput() GPUProfilePtrOutput {
+	return o.ToGPUProfilePtrOutputWithContext(context.Background())
+}
+
+func (o GPUProfileOutput) ToGPUProfilePtrOutputWithContext(ctx context.Context) GPUProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GPUProfile) *GPUProfile {
+		return &v
+	}).(GPUProfilePtrOutput)
+}
+
+// Whether to install GPU drivers. When it's not specified, default is Install.
+func (o GPUProfileOutput) Driver() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GPUProfile) *string { return v.Driver }).(pulumi.StringPtrOutput)
+}
+
+type GPUProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (GPUProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GPUProfile)(nil)).Elem()
+}
+
+func (o GPUProfilePtrOutput) ToGPUProfilePtrOutput() GPUProfilePtrOutput {
+	return o
+}
+
+func (o GPUProfilePtrOutput) ToGPUProfilePtrOutputWithContext(ctx context.Context) GPUProfilePtrOutput {
+	return o
+}
+
+func (o GPUProfilePtrOutput) Elem() GPUProfileOutput {
+	return o.ApplyT(func(v *GPUProfile) GPUProfile {
+		if v != nil {
+			return *v
+		}
+		var ret GPUProfile
+		return ret
+	}).(GPUProfileOutput)
+}
+
+// Whether to install GPU drivers. When it's not specified, default is Install.
+func (o GPUProfilePtrOutput) Driver() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GPUProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Driver
+	}).(pulumi.StringPtrOutput)
+}
+
+// GPU settings for the Agent Pool.
+type GPUProfileResponse struct {
+	// Whether to install GPU drivers. When it's not specified, default is Install.
+	Driver *string `pulumi:"driver"`
+}
+
+// GPU settings for the Agent Pool.
+type GPUProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (GPUProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GPUProfileResponse)(nil)).Elem()
+}
+
+func (o GPUProfileResponseOutput) ToGPUProfileResponseOutput() GPUProfileResponseOutput {
+	return o
+}
+
+func (o GPUProfileResponseOutput) ToGPUProfileResponseOutputWithContext(ctx context.Context) GPUProfileResponseOutput {
+	return o
+}
+
+// Whether to install GPU drivers. When it's not specified, default is Install.
+func (o GPUProfileResponseOutput) Driver() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GPUProfileResponse) *string { return v.Driver }).(pulumi.StringPtrOutput)
+}
+
+type GPUProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (GPUProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GPUProfileResponse)(nil)).Elem()
+}
+
+func (o GPUProfileResponsePtrOutput) ToGPUProfileResponsePtrOutput() GPUProfileResponsePtrOutput {
+	return o
+}
+
+func (o GPUProfileResponsePtrOutput) ToGPUProfileResponsePtrOutputWithContext(ctx context.Context) GPUProfileResponsePtrOutput {
+	return o
+}
+
+func (o GPUProfileResponsePtrOutput) Elem() GPUProfileResponseOutput {
+	return o.ApplyT(func(v *GPUProfileResponse) GPUProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret GPUProfileResponse
+		return ret
+	}).(GPUProfileResponseOutput)
+}
+
+// Whether to install GPU drivers. When it's not specified, default is Install.
+func (o GPUProfileResponsePtrOutput) Driver() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GPUProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Driver
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -8932,7 +9687,7 @@ func (o JWTAuthenticatorValidationRuleResponseArrayOutput) Index(i pulumi.IntInp
 	}).(JWTAuthenticatorValidationRuleResponseOutput)
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// Kubelet configurations of agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig struct {
 	// Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `pulumi:"allowedUnsafeSysctls"`
@@ -8940,21 +9695,21 @@ type KubeletConfig struct {
 	ContainerLogMaxFiles *int `pulumi:"containerLogMaxFiles"`
 	// The maximum size (e.g. 10Mi) of container log file before it is rotated.
 	ContainerLogMaxSizeMB *int `pulumi:"containerLogMaxSizeMB"`
-	// The default is true.
+	// If CPU CFS quota enforcement is enabled for containers that specify CPU limits. The default is true.
 	CpuCfsQuota *bool `pulumi:"cpuCfsQuota"`
-	// The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
+	// The CPU CFS quota period value. The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 	CpuCfsQuotaPeriod *string `pulumi:"cpuCfsQuotaPeriod"`
-	// The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
+	// The CPU Manager policy to use. The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
 	CpuManagerPolicy *string `pulumi:"cpuManagerPolicy"`
 	// If set to true it will make the Kubelet fail to start if swap is enabled on the node.
 	FailSwapOn *bool `pulumi:"failSwapOn"`
-	// To disable image garbage collection, set to 100. The default is 85%
+	// The percent of disk usage after which image garbage collection is always run. To disable image garbage collection, set to 100. The default is 85%
 	ImageGcHighThreshold *int `pulumi:"imageGcHighThreshold"`
-	// This cannot be set higher than imageGcHighThreshold. The default is 80%
+	// The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageGcHighThreshold. The default is 80%
 	ImageGcLowThreshold *int `pulumi:"imageGcLowThreshold"`
 	// The maximum number of processes per pod.
 	PodMaxPids *int `pulumi:"podMaxPids"`
-	// For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
+	// The Topology Manager policy to use. For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
 	TopologyManagerPolicy *string `pulumi:"topologyManagerPolicy"`
 }
 
@@ -8969,7 +9724,7 @@ type KubeletConfigInput interface {
 	ToKubeletConfigOutputWithContext(context.Context) KubeletConfigOutput
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// Kubelet configurations of agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfigArgs struct {
 	// Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls pulumi.StringArrayInput `pulumi:"allowedUnsafeSysctls"`
@@ -8977,21 +9732,21 @@ type KubeletConfigArgs struct {
 	ContainerLogMaxFiles pulumi.IntPtrInput `pulumi:"containerLogMaxFiles"`
 	// The maximum size (e.g. 10Mi) of container log file before it is rotated.
 	ContainerLogMaxSizeMB pulumi.IntPtrInput `pulumi:"containerLogMaxSizeMB"`
-	// The default is true.
+	// If CPU CFS quota enforcement is enabled for containers that specify CPU limits. The default is true.
 	CpuCfsQuota pulumi.BoolPtrInput `pulumi:"cpuCfsQuota"`
-	// The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
+	// The CPU CFS quota period value. The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 	CpuCfsQuotaPeriod pulumi.StringPtrInput `pulumi:"cpuCfsQuotaPeriod"`
-	// The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
+	// The CPU Manager policy to use. The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
 	CpuManagerPolicy pulumi.StringPtrInput `pulumi:"cpuManagerPolicy"`
 	// If set to true it will make the Kubelet fail to start if swap is enabled on the node.
 	FailSwapOn pulumi.BoolPtrInput `pulumi:"failSwapOn"`
-	// To disable image garbage collection, set to 100. The default is 85%
+	// The percent of disk usage after which image garbage collection is always run. To disable image garbage collection, set to 100. The default is 85%
 	ImageGcHighThreshold pulumi.IntPtrInput `pulumi:"imageGcHighThreshold"`
-	// This cannot be set higher than imageGcHighThreshold. The default is 80%
+	// The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageGcHighThreshold. The default is 80%
 	ImageGcLowThreshold pulumi.IntPtrInput `pulumi:"imageGcLowThreshold"`
 	// The maximum number of processes per pod.
 	PodMaxPids pulumi.IntPtrInput `pulumi:"podMaxPids"`
-	// For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
+	// The Topology Manager policy to use. For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
 	TopologyManagerPolicy pulumi.StringPtrInput `pulumi:"topologyManagerPolicy"`
 }
 
@@ -9048,7 +9803,7 @@ func (i *kubeletConfigPtrType) ToKubeletConfigPtrOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(KubeletConfigPtrOutput)
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// Kubelet configurations of agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfigOutput struct{ *pulumi.OutputState }
 
 func (KubeletConfigOutput) ElementType() reflect.Type {
@@ -9088,17 +9843,17 @@ func (o KubeletConfigOutput) ContainerLogMaxSizeMB() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *int { return v.ContainerLogMaxSizeMB }).(pulumi.IntPtrOutput)
 }
 
-// The default is true.
+// If CPU CFS quota enforcement is enabled for containers that specify CPU limits. The default is true.
 func (o KubeletConfigOutput) CpuCfsQuota() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *bool { return v.CpuCfsQuota }).(pulumi.BoolPtrOutput)
 }
 
-// The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
+// The CPU CFS quota period value. The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 func (o KubeletConfigOutput) CpuCfsQuotaPeriod() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *string { return v.CpuCfsQuotaPeriod }).(pulumi.StringPtrOutput)
 }
 
-// The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
+// The CPU Manager policy to use. The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
 func (o KubeletConfigOutput) CpuManagerPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *string { return v.CpuManagerPolicy }).(pulumi.StringPtrOutput)
 }
@@ -9108,12 +9863,12 @@ func (o KubeletConfigOutput) FailSwapOn() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *bool { return v.FailSwapOn }).(pulumi.BoolPtrOutput)
 }
 
-// To disable image garbage collection, set to 100. The default is 85%
+// The percent of disk usage after which image garbage collection is always run. To disable image garbage collection, set to 100. The default is 85%
 func (o KubeletConfigOutput) ImageGcHighThreshold() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *int { return v.ImageGcHighThreshold }).(pulumi.IntPtrOutput)
 }
 
-// This cannot be set higher than imageGcHighThreshold. The default is 80%
+// The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageGcHighThreshold. The default is 80%
 func (o KubeletConfigOutput) ImageGcLowThreshold() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *int { return v.ImageGcLowThreshold }).(pulumi.IntPtrOutput)
 }
@@ -9123,7 +9878,7 @@ func (o KubeletConfigOutput) PodMaxPids() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *int { return v.PodMaxPids }).(pulumi.IntPtrOutput)
 }
 
-// For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
+// The Topology Manager policy to use. For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
 func (o KubeletConfigOutput) TopologyManagerPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v KubeletConfig) *string { return v.TopologyManagerPolicy }).(pulumi.StringPtrOutput)
 }
@@ -9182,7 +9937,7 @@ func (o KubeletConfigPtrOutput) ContainerLogMaxSizeMB() pulumi.IntPtrOutput {
 	}).(pulumi.IntPtrOutput)
 }
 
-// The default is true.
+// If CPU CFS quota enforcement is enabled for containers that specify CPU limits. The default is true.
 func (o KubeletConfigPtrOutput) CpuCfsQuota() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *KubeletConfig) *bool {
 		if v == nil {
@@ -9192,7 +9947,7 @@ func (o KubeletConfigPtrOutput) CpuCfsQuota() pulumi.BoolPtrOutput {
 	}).(pulumi.BoolPtrOutput)
 }
 
-// The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
+// The CPU CFS quota period value. The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 func (o KubeletConfigPtrOutput) CpuCfsQuotaPeriod() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *KubeletConfig) *string {
 		if v == nil {
@@ -9202,7 +9957,7 @@ func (o KubeletConfigPtrOutput) CpuCfsQuotaPeriod() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
+// The CPU Manager policy to use. The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
 func (o KubeletConfigPtrOutput) CpuManagerPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *KubeletConfig) *string {
 		if v == nil {
@@ -9222,7 +9977,7 @@ func (o KubeletConfigPtrOutput) FailSwapOn() pulumi.BoolPtrOutput {
 	}).(pulumi.BoolPtrOutput)
 }
 
-// To disable image garbage collection, set to 100. The default is 85%
+// The percent of disk usage after which image garbage collection is always run. To disable image garbage collection, set to 100. The default is 85%
 func (o KubeletConfigPtrOutput) ImageGcHighThreshold() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *KubeletConfig) *int {
 		if v == nil {
@@ -9232,7 +9987,7 @@ func (o KubeletConfigPtrOutput) ImageGcHighThreshold() pulumi.IntPtrOutput {
 	}).(pulumi.IntPtrOutput)
 }
 
-// This cannot be set higher than imageGcHighThreshold. The default is 80%
+// The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageGcHighThreshold. The default is 80%
 func (o KubeletConfigPtrOutput) ImageGcLowThreshold() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *KubeletConfig) *int {
 		if v == nil {
@@ -9252,7 +10007,7 @@ func (o KubeletConfigPtrOutput) PodMaxPids() pulumi.IntPtrOutput {
 	}).(pulumi.IntPtrOutput)
 }
 
-// For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
+// The Topology Manager policy to use. For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
 func (o KubeletConfigPtrOutput) TopologyManagerPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *KubeletConfig) *string {
 		if v == nil {
@@ -9262,7 +10017,7 @@ func (o KubeletConfigPtrOutput) TopologyManagerPolicy() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// Kubelet configurations of agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfigResponse struct {
 	// Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `pulumi:"allowedUnsafeSysctls"`
@@ -9270,25 +10025,25 @@ type KubeletConfigResponse struct {
 	ContainerLogMaxFiles *int `pulumi:"containerLogMaxFiles"`
 	// The maximum size (e.g. 10Mi) of container log file before it is rotated.
 	ContainerLogMaxSizeMB *int `pulumi:"containerLogMaxSizeMB"`
-	// The default is true.
+	// If CPU CFS quota enforcement is enabled for containers that specify CPU limits. The default is true.
 	CpuCfsQuota *bool `pulumi:"cpuCfsQuota"`
-	// The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
+	// The CPU CFS quota period value. The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 	CpuCfsQuotaPeriod *string `pulumi:"cpuCfsQuotaPeriod"`
-	// The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
+	// The CPU Manager policy to use. The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
 	CpuManagerPolicy *string `pulumi:"cpuManagerPolicy"`
 	// If set to true it will make the Kubelet fail to start if swap is enabled on the node.
 	FailSwapOn *bool `pulumi:"failSwapOn"`
-	// To disable image garbage collection, set to 100. The default is 85%
+	// The percent of disk usage after which image garbage collection is always run. To disable image garbage collection, set to 100. The default is 85%
 	ImageGcHighThreshold *int `pulumi:"imageGcHighThreshold"`
-	// This cannot be set higher than imageGcHighThreshold. The default is 80%
+	// The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageGcHighThreshold. The default is 80%
 	ImageGcLowThreshold *int `pulumi:"imageGcLowThreshold"`
 	// The maximum number of processes per pod.
 	PodMaxPids *int `pulumi:"podMaxPids"`
-	// For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
+	// The Topology Manager policy to use. For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
 	TopologyManagerPolicy *string `pulumi:"topologyManagerPolicy"`
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// Kubelet configurations of agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfigResponseOutput struct{ *pulumi.OutputState }
 
 func (KubeletConfigResponseOutput) ElementType() reflect.Type {
@@ -9318,17 +10073,17 @@ func (o KubeletConfigResponseOutput) ContainerLogMaxSizeMB() pulumi.IntPtrOutput
 	return o.ApplyT(func(v KubeletConfigResponse) *int { return v.ContainerLogMaxSizeMB }).(pulumi.IntPtrOutput)
 }
 
-// The default is true.
+// If CPU CFS quota enforcement is enabled for containers that specify CPU limits. The default is true.
 func (o KubeletConfigResponseOutput) CpuCfsQuota() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v KubeletConfigResponse) *bool { return v.CpuCfsQuota }).(pulumi.BoolPtrOutput)
 }
 
-// The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
+// The CPU CFS quota period value. The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 func (o KubeletConfigResponseOutput) CpuCfsQuotaPeriod() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v KubeletConfigResponse) *string { return v.CpuCfsQuotaPeriod }).(pulumi.StringPtrOutput)
 }
 
-// The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
+// The CPU Manager policy to use. The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
 func (o KubeletConfigResponseOutput) CpuManagerPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v KubeletConfigResponse) *string { return v.CpuManagerPolicy }).(pulumi.StringPtrOutput)
 }
@@ -9338,12 +10093,12 @@ func (o KubeletConfigResponseOutput) FailSwapOn() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v KubeletConfigResponse) *bool { return v.FailSwapOn }).(pulumi.BoolPtrOutput)
 }
 
-// To disable image garbage collection, set to 100. The default is 85%
+// The percent of disk usage after which image garbage collection is always run. To disable image garbage collection, set to 100. The default is 85%
 func (o KubeletConfigResponseOutput) ImageGcHighThreshold() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v KubeletConfigResponse) *int { return v.ImageGcHighThreshold }).(pulumi.IntPtrOutput)
 }
 
-// This cannot be set higher than imageGcHighThreshold. The default is 80%
+// The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageGcHighThreshold. The default is 80%
 func (o KubeletConfigResponseOutput) ImageGcLowThreshold() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v KubeletConfigResponse) *int { return v.ImageGcLowThreshold }).(pulumi.IntPtrOutput)
 }
@@ -9353,7 +10108,7 @@ func (o KubeletConfigResponseOutput) PodMaxPids() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v KubeletConfigResponse) *int { return v.PodMaxPids }).(pulumi.IntPtrOutput)
 }
 
-// For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
+// The Topology Manager policy to use. For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
 func (o KubeletConfigResponseOutput) TopologyManagerPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v KubeletConfigResponse) *string { return v.TopologyManagerPolicy }).(pulumi.StringPtrOutput)
 }
@@ -9412,7 +10167,7 @@ func (o KubeletConfigResponsePtrOutput) ContainerLogMaxSizeMB() pulumi.IntPtrOut
 	}).(pulumi.IntPtrOutput)
 }
 
-// The default is true.
+// If CPU CFS quota enforcement is enabled for containers that specify CPU limits. The default is true.
 func (o KubeletConfigResponsePtrOutput) CpuCfsQuota() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *KubeletConfigResponse) *bool {
 		if v == nil {
@@ -9422,7 +10177,7 @@ func (o KubeletConfigResponsePtrOutput) CpuCfsQuota() pulumi.BoolPtrOutput {
 	}).(pulumi.BoolPtrOutput)
 }
 
-// The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
+// The CPU CFS quota period value. The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 func (o KubeletConfigResponsePtrOutput) CpuCfsQuotaPeriod() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *KubeletConfigResponse) *string {
 		if v == nil {
@@ -9432,7 +10187,7 @@ func (o KubeletConfigResponsePtrOutput) CpuCfsQuotaPeriod() pulumi.StringPtrOutp
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
+// The CPU Manager policy to use. The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'.
 func (o KubeletConfigResponsePtrOutput) CpuManagerPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *KubeletConfigResponse) *string {
 		if v == nil {
@@ -9452,7 +10207,7 @@ func (o KubeletConfigResponsePtrOutput) FailSwapOn() pulumi.BoolPtrOutput {
 	}).(pulumi.BoolPtrOutput)
 }
 
-// To disable image garbage collection, set to 100. The default is 85%
+// The percent of disk usage after which image garbage collection is always run. To disable image garbage collection, set to 100. The default is 85%
 func (o KubeletConfigResponsePtrOutput) ImageGcHighThreshold() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *KubeletConfigResponse) *int {
 		if v == nil {
@@ -9462,7 +10217,7 @@ func (o KubeletConfigResponsePtrOutput) ImageGcHighThreshold() pulumi.IntPtrOutp
 	}).(pulumi.IntPtrOutput)
 }
 
-// This cannot be set higher than imageGcHighThreshold. The default is 80%
+// The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageGcHighThreshold. The default is 80%
 func (o KubeletConfigResponsePtrOutput) ImageGcLowThreshold() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *KubeletConfigResponse) *int {
 		if v == nil {
@@ -9482,7 +10237,7 @@ func (o KubeletConfigResponsePtrOutput) PodMaxPids() pulumi.IntPtrOutput {
 	}).(pulumi.IntPtrOutput)
 }
 
-// For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
+// The Topology Manager policy to use. For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'.
 func (o KubeletConfigResponsePtrOutput) TopologyManagerPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *KubeletConfigResponse) *string {
 		if v == nil {
@@ -9906,15 +10661,15 @@ func (o LabelSelectorResponsePtrOutput) MatchLabels() pulumi.StringArrayOutput {
 	}).(pulumi.StringArrayOutput)
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig struct {
 	// The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `pulumi:"swapFileSizeMB"`
 	// Sysctl settings for Linux agent nodes.
 	Sysctls *SysctlConfig `pulumi:"sysctls"`
-	// Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+	// Whether the kernel should make aggressive use of memory compaction to make more hugepages available. Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageDefrag *string `pulumi:"transparentHugePageDefrag"`
-	// Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+	// Whether transparent hugepages are enabled. Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageEnabled *string `pulumi:"transparentHugePageEnabled"`
 }
 
@@ -9929,15 +10684,15 @@ type LinuxOSConfigInput interface {
 	ToLinuxOSConfigOutputWithContext(context.Context) LinuxOSConfigOutput
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfigArgs struct {
 	// The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB pulumi.IntPtrInput `pulumi:"swapFileSizeMB"`
 	// Sysctl settings for Linux agent nodes.
 	Sysctls SysctlConfigPtrInput `pulumi:"sysctls"`
-	// Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+	// Whether the kernel should make aggressive use of memory compaction to make more hugepages available. Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageDefrag pulumi.StringPtrInput `pulumi:"transparentHugePageDefrag"`
-	// Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+	// Whether transparent hugepages are enabled. Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageEnabled pulumi.StringPtrInput `pulumi:"transparentHugePageEnabled"`
 }
 
@@ -9994,7 +10749,7 @@ func (i *linuxOSConfigPtrType) ToLinuxOSConfigPtrOutputWithContext(ctx context.C
 	return pulumi.ToOutputWithContext(ctx, i).(LinuxOSConfigPtrOutput)
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfigOutput struct{ *pulumi.OutputState }
 
 func (LinuxOSConfigOutput) ElementType() reflect.Type {
@@ -10029,12 +10784,12 @@ func (o LinuxOSConfigOutput) Sysctls() SysctlConfigPtrOutput {
 	return o.ApplyT(func(v LinuxOSConfig) *SysctlConfig { return v.Sysctls }).(SysctlConfigPtrOutput)
 }
 
-// Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+// Whether the kernel should make aggressive use of memory compaction to make more hugepages available. Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 func (o LinuxOSConfigOutput) TransparentHugePageDefrag() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LinuxOSConfig) *string { return v.TransparentHugePageDefrag }).(pulumi.StringPtrOutput)
 }
 
-// Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+// Whether transparent hugepages are enabled. Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 func (o LinuxOSConfigOutput) TransparentHugePageEnabled() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LinuxOSConfig) *string { return v.TransparentHugePageEnabled }).(pulumi.StringPtrOutput)
 }
@@ -10083,7 +10838,7 @@ func (o LinuxOSConfigPtrOutput) Sysctls() SysctlConfigPtrOutput {
 	}).(SysctlConfigPtrOutput)
 }
 
-// Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+// Whether the kernel should make aggressive use of memory compaction to make more hugepages available. Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 func (o LinuxOSConfigPtrOutput) TransparentHugePageDefrag() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LinuxOSConfig) *string {
 		if v == nil {
@@ -10093,7 +10848,7 @@ func (o LinuxOSConfigPtrOutput) TransparentHugePageDefrag() pulumi.StringPtrOutp
 	}).(pulumi.StringPtrOutput)
 }
 
-// Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+// Whether transparent hugepages are enabled. Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 func (o LinuxOSConfigPtrOutput) TransparentHugePageEnabled() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LinuxOSConfig) *string {
 		if v == nil {
@@ -10103,19 +10858,19 @@ func (o LinuxOSConfigPtrOutput) TransparentHugePageEnabled() pulumi.StringPtrOut
 	}).(pulumi.StringPtrOutput)
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfigResponse struct {
 	// The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `pulumi:"swapFileSizeMB"`
 	// Sysctl settings for Linux agent nodes.
 	Sysctls *SysctlConfigResponse `pulumi:"sysctls"`
-	// Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+	// Whether the kernel should make aggressive use of memory compaction to make more hugepages available. Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageDefrag *string `pulumi:"transparentHugePageDefrag"`
-	// Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+	// Whether transparent hugepages are enabled. Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageEnabled *string `pulumi:"transparentHugePageEnabled"`
 }
 
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
+// OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfigResponseOutput struct{ *pulumi.OutputState }
 
 func (LinuxOSConfigResponseOutput) ElementType() reflect.Type {
@@ -10140,12 +10895,12 @@ func (o LinuxOSConfigResponseOutput) Sysctls() SysctlConfigResponsePtrOutput {
 	return o.ApplyT(func(v LinuxOSConfigResponse) *SysctlConfigResponse { return v.Sysctls }).(SysctlConfigResponsePtrOutput)
 }
 
-// Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+// Whether the kernel should make aggressive use of memory compaction to make more hugepages available. Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 func (o LinuxOSConfigResponseOutput) TransparentHugePageDefrag() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LinuxOSConfigResponse) *string { return v.TransparentHugePageDefrag }).(pulumi.StringPtrOutput)
 }
 
-// Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+// Whether transparent hugepages are enabled. Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 func (o LinuxOSConfigResponseOutput) TransparentHugePageEnabled() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LinuxOSConfigResponse) *string { return v.TransparentHugePageEnabled }).(pulumi.StringPtrOutput)
 }
@@ -10194,7 +10949,7 @@ func (o LinuxOSConfigResponsePtrOutput) Sysctls() SysctlConfigResponsePtrOutput 
 	}).(SysctlConfigResponsePtrOutput)
 }
 
-// Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+// Whether the kernel should make aggressive use of memory compaction to make more hugepages available. Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 func (o LinuxOSConfigResponsePtrOutput) TransparentHugePageDefrag() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LinuxOSConfigResponse) *string {
 		if v == nil {
@@ -10204,7 +10959,7 @@ func (o LinuxOSConfigResponsePtrOutput) TransparentHugePageDefrag() pulumi.Strin
 	}).(pulumi.StringPtrOutput)
 }
 
-// Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
+// Whether transparent hugepages are enabled. Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 func (o LinuxOSConfigResponsePtrOutput) TransparentHugePageEnabled() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *LinuxOSConfigResponse) *string {
 		if v == nil {
@@ -10629,7 +11384,7 @@ func (o MaintenanceWindowResponsePtrOutput) UtcOffset() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+// AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile struct {
 	// The list of AAD group object IDs that will have admin role of the cluster.
 	AdminGroupObjectIDs []string `pulumi:"adminGroupObjectIDs"`
@@ -10658,7 +11413,7 @@ type ManagedClusterAADProfileInput interface {
 	ToManagedClusterAADProfileOutputWithContext(context.Context) ManagedClusterAADProfileOutput
 }
 
-// For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+// AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfileArgs struct {
 	// The list of AAD group object IDs that will have admin role of the cluster.
 	AdminGroupObjectIDs pulumi.StringArrayInput `pulumi:"adminGroupObjectIDs"`
@@ -10729,7 +11484,7 @@ func (i *managedClusterAADProfilePtrType) ToManagedClusterAADProfilePtrOutputWit
 	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterAADProfilePtrOutput)
 }
 
-// For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+// AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfileOutput struct{ *pulumi.OutputState }
 
 func (ManagedClusterAADProfileOutput) ElementType() reflect.Type {
@@ -10883,7 +11638,7 @@ func (o ManagedClusterAADProfilePtrOutput) TenantID() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+// AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfileResponse struct {
 	// The list of AAD group object IDs that will have admin role of the cluster.
 	AdminGroupObjectIDs []string `pulumi:"adminGroupObjectIDs"`
@@ -10901,7 +11656,7 @@ type ManagedClusterAADProfileResponse struct {
 	TenantID *string `pulumi:"tenantID"`
 }
 
-// For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+// AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfileResponseOutput struct{ *pulumi.OutputState }
 
 func (ManagedClusterAADProfileResponseOutput) ElementType() reflect.Type {
@@ -11045,18 +11800,222 @@ func (o ManagedClusterAADProfileResponsePtrOutput) TenantID() pulumi.StringPtrOu
 	}).(pulumi.StringPtrOutput)
 }
 
+// When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and enables distributed inference against them.
+type ManagedClusterAIToolchainOperatorProfile struct {
+	// Whether to enable AI toolchain operator to the cluster. Indicates if AI toolchain operator  enabled or not.
+	Enabled *bool `pulumi:"enabled"`
+}
+
+// ManagedClusterAIToolchainOperatorProfileInput is an input type that accepts ManagedClusterAIToolchainOperatorProfileArgs and ManagedClusterAIToolchainOperatorProfileOutput values.
+// You can construct a concrete instance of `ManagedClusterAIToolchainOperatorProfileInput` via:
+//
+//	ManagedClusterAIToolchainOperatorProfileArgs{...}
+type ManagedClusterAIToolchainOperatorProfileInput interface {
+	pulumi.Input
+
+	ToManagedClusterAIToolchainOperatorProfileOutput() ManagedClusterAIToolchainOperatorProfileOutput
+	ToManagedClusterAIToolchainOperatorProfileOutputWithContext(context.Context) ManagedClusterAIToolchainOperatorProfileOutput
+}
+
+// When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and enables distributed inference against them.
+type ManagedClusterAIToolchainOperatorProfileArgs struct {
+	// Whether to enable AI toolchain operator to the cluster. Indicates if AI toolchain operator  enabled or not.
+	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
+}
+
+func (ManagedClusterAIToolchainOperatorProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterAIToolchainOperatorProfile)(nil)).Elem()
+}
+
+func (i ManagedClusterAIToolchainOperatorProfileArgs) ToManagedClusterAIToolchainOperatorProfileOutput() ManagedClusterAIToolchainOperatorProfileOutput {
+	return i.ToManagedClusterAIToolchainOperatorProfileOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterAIToolchainOperatorProfileArgs) ToManagedClusterAIToolchainOperatorProfileOutputWithContext(ctx context.Context) ManagedClusterAIToolchainOperatorProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterAIToolchainOperatorProfileOutput)
+}
+
+func (i ManagedClusterAIToolchainOperatorProfileArgs) ToManagedClusterAIToolchainOperatorProfilePtrOutput() ManagedClusterAIToolchainOperatorProfilePtrOutput {
+	return i.ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterAIToolchainOperatorProfileArgs) ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(ctx context.Context) ManagedClusterAIToolchainOperatorProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterAIToolchainOperatorProfileOutput).ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(ctx)
+}
+
+// ManagedClusterAIToolchainOperatorProfilePtrInput is an input type that accepts ManagedClusterAIToolchainOperatorProfileArgs, ManagedClusterAIToolchainOperatorProfilePtr and ManagedClusterAIToolchainOperatorProfilePtrOutput values.
+// You can construct a concrete instance of `ManagedClusterAIToolchainOperatorProfilePtrInput` via:
+//
+//	        ManagedClusterAIToolchainOperatorProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type ManagedClusterAIToolchainOperatorProfilePtrInput interface {
+	pulumi.Input
+
+	ToManagedClusterAIToolchainOperatorProfilePtrOutput() ManagedClusterAIToolchainOperatorProfilePtrOutput
+	ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(context.Context) ManagedClusterAIToolchainOperatorProfilePtrOutput
+}
+
+type managedClusterAIToolchainOperatorProfilePtrType ManagedClusterAIToolchainOperatorProfileArgs
+
+func ManagedClusterAIToolchainOperatorProfilePtr(v *ManagedClusterAIToolchainOperatorProfileArgs) ManagedClusterAIToolchainOperatorProfilePtrInput {
+	return (*managedClusterAIToolchainOperatorProfilePtrType)(v)
+}
+
+func (*managedClusterAIToolchainOperatorProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterAIToolchainOperatorProfile)(nil)).Elem()
+}
+
+func (i *managedClusterAIToolchainOperatorProfilePtrType) ToManagedClusterAIToolchainOperatorProfilePtrOutput() ManagedClusterAIToolchainOperatorProfilePtrOutput {
+	return i.ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *managedClusterAIToolchainOperatorProfilePtrType) ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(ctx context.Context) ManagedClusterAIToolchainOperatorProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterAIToolchainOperatorProfilePtrOutput)
+}
+
+// When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and enables distributed inference against them.
+type ManagedClusterAIToolchainOperatorProfileOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterAIToolchainOperatorProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterAIToolchainOperatorProfile)(nil)).Elem()
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileOutput) ToManagedClusterAIToolchainOperatorProfileOutput() ManagedClusterAIToolchainOperatorProfileOutput {
+	return o
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileOutput) ToManagedClusterAIToolchainOperatorProfileOutputWithContext(ctx context.Context) ManagedClusterAIToolchainOperatorProfileOutput {
+	return o
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileOutput) ToManagedClusterAIToolchainOperatorProfilePtrOutput() ManagedClusterAIToolchainOperatorProfilePtrOutput {
+	return o.ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(context.Background())
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileOutput) ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(ctx context.Context) ManagedClusterAIToolchainOperatorProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ManagedClusterAIToolchainOperatorProfile) *ManagedClusterAIToolchainOperatorProfile {
+		return &v
+	}).(ManagedClusterAIToolchainOperatorProfilePtrOutput)
+}
+
+// Whether to enable AI toolchain operator to the cluster. Indicates if AI toolchain operator  enabled or not.
+func (o ManagedClusterAIToolchainOperatorProfileOutput) Enabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ManagedClusterAIToolchainOperatorProfile) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
+}
+
+type ManagedClusterAIToolchainOperatorProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterAIToolchainOperatorProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterAIToolchainOperatorProfile)(nil)).Elem()
+}
+
+func (o ManagedClusterAIToolchainOperatorProfilePtrOutput) ToManagedClusterAIToolchainOperatorProfilePtrOutput() ManagedClusterAIToolchainOperatorProfilePtrOutput {
+	return o
+}
+
+func (o ManagedClusterAIToolchainOperatorProfilePtrOutput) ToManagedClusterAIToolchainOperatorProfilePtrOutputWithContext(ctx context.Context) ManagedClusterAIToolchainOperatorProfilePtrOutput {
+	return o
+}
+
+func (o ManagedClusterAIToolchainOperatorProfilePtrOutput) Elem() ManagedClusterAIToolchainOperatorProfileOutput {
+	return o.ApplyT(func(v *ManagedClusterAIToolchainOperatorProfile) ManagedClusterAIToolchainOperatorProfile {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterAIToolchainOperatorProfile
+		return ret
+	}).(ManagedClusterAIToolchainOperatorProfileOutput)
+}
+
+// Whether to enable AI toolchain operator to the cluster. Indicates if AI toolchain operator  enabled or not.
+func (o ManagedClusterAIToolchainOperatorProfilePtrOutput) Enabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterAIToolchainOperatorProfile) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.Enabled
+	}).(pulumi.BoolPtrOutput)
+}
+
+// When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and enables distributed inference against them.
+type ManagedClusterAIToolchainOperatorProfileResponse struct {
+	// Whether to enable AI toolchain operator to the cluster. Indicates if AI toolchain operator  enabled or not.
+	Enabled *bool `pulumi:"enabled"`
+}
+
+// When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and enables distributed inference against them.
+type ManagedClusterAIToolchainOperatorProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterAIToolchainOperatorProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterAIToolchainOperatorProfileResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileResponseOutput) ToManagedClusterAIToolchainOperatorProfileResponseOutput() ManagedClusterAIToolchainOperatorProfileResponseOutput {
+	return o
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileResponseOutput) ToManagedClusterAIToolchainOperatorProfileResponseOutputWithContext(ctx context.Context) ManagedClusterAIToolchainOperatorProfileResponseOutput {
+	return o
+}
+
+// Whether to enable AI toolchain operator to the cluster. Indicates if AI toolchain operator  enabled or not.
+func (o ManagedClusterAIToolchainOperatorProfileResponseOutput) Enabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ManagedClusterAIToolchainOperatorProfileResponse) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
+}
+
+type ManagedClusterAIToolchainOperatorProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterAIToolchainOperatorProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterAIToolchainOperatorProfileResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileResponsePtrOutput) ToManagedClusterAIToolchainOperatorProfileResponsePtrOutput() ManagedClusterAIToolchainOperatorProfileResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileResponsePtrOutput) ToManagedClusterAIToolchainOperatorProfileResponsePtrOutputWithContext(ctx context.Context) ManagedClusterAIToolchainOperatorProfileResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterAIToolchainOperatorProfileResponsePtrOutput) Elem() ManagedClusterAIToolchainOperatorProfileResponseOutput {
+	return o.ApplyT(func(v *ManagedClusterAIToolchainOperatorProfileResponse) ManagedClusterAIToolchainOperatorProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterAIToolchainOperatorProfileResponse
+		return ret
+	}).(ManagedClusterAIToolchainOperatorProfileResponseOutput)
+}
+
+// Whether to enable AI toolchain operator to the cluster. Indicates if AI toolchain operator  enabled or not.
+func (o ManagedClusterAIToolchainOperatorProfileResponsePtrOutput) Enabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterAIToolchainOperatorProfileResponse) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.Enabled
+	}).(pulumi.BoolPtrOutput)
+}
+
 // Access profile for managed cluster API server.
 type ManagedClusterAPIServerAccessProfile struct {
-	// IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+	// The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 	AuthorizedIPRanges []string `pulumi:"authorizedIPRanges"`
 	// Whether to disable run command for the cluster or not.
 	DisableRunCommand *bool `pulumi:"disableRunCommand"`
-	// For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+	// Whether to create the cluster as a private cluster or not. For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 	EnablePrivateCluster *bool `pulumi:"enablePrivateCluster"`
 	// Whether to create additional public FQDN for private cluster or not.
 	EnablePrivateClusterPublicFQDN *bool `pulumi:"enablePrivateClusterPublicFQDN"`
-	// The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
+	// Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details.
+	EnableVnetIntegration *bool `pulumi:"enableVnetIntegration"`
+	// The private DNS zone mode for the cluster. The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
 	PrivateDNSZone *string `pulumi:"privateDNSZone"`
+	// The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration.
+	SubnetId *string `pulumi:"subnetId"`
 }
 
 // ManagedClusterAPIServerAccessProfileInput is an input type that accepts ManagedClusterAPIServerAccessProfileArgs and ManagedClusterAPIServerAccessProfileOutput values.
@@ -11072,16 +12031,20 @@ type ManagedClusterAPIServerAccessProfileInput interface {
 
 // Access profile for managed cluster API server.
 type ManagedClusterAPIServerAccessProfileArgs struct {
-	// IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+	// The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 	AuthorizedIPRanges pulumi.StringArrayInput `pulumi:"authorizedIPRanges"`
 	// Whether to disable run command for the cluster or not.
 	DisableRunCommand pulumi.BoolPtrInput `pulumi:"disableRunCommand"`
-	// For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+	// Whether to create the cluster as a private cluster or not. For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 	EnablePrivateCluster pulumi.BoolPtrInput `pulumi:"enablePrivateCluster"`
 	// Whether to create additional public FQDN for private cluster or not.
 	EnablePrivateClusterPublicFQDN pulumi.BoolPtrInput `pulumi:"enablePrivateClusterPublicFQDN"`
-	// The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
+	// Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details.
+	EnableVnetIntegration pulumi.BoolPtrInput `pulumi:"enableVnetIntegration"`
+	// The private DNS zone mode for the cluster. The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
 	PrivateDNSZone pulumi.StringPtrInput `pulumi:"privateDNSZone"`
+	// The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration.
+	SubnetId pulumi.StringPtrInput `pulumi:"subnetId"`
 }
 
 func (ManagedClusterAPIServerAccessProfileArgs) ElementType() reflect.Type {
@@ -11162,7 +12125,7 @@ func (o ManagedClusterAPIServerAccessProfileOutput) ToManagedClusterAPIServerAcc
 	}).(ManagedClusterAPIServerAccessProfilePtrOutput)
 }
 
-// IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+// The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 func (o ManagedClusterAPIServerAccessProfileOutput) AuthorizedIPRanges() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfile) []string { return v.AuthorizedIPRanges }).(pulumi.StringArrayOutput)
 }
@@ -11172,7 +12135,7 @@ func (o ManagedClusterAPIServerAccessProfileOutput) DisableRunCommand() pulumi.B
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfile) *bool { return v.DisableRunCommand }).(pulumi.BoolPtrOutput)
 }
 
-// For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+// Whether to create the cluster as a private cluster or not. For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 func (o ManagedClusterAPIServerAccessProfileOutput) EnablePrivateCluster() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfile) *bool { return v.EnablePrivateCluster }).(pulumi.BoolPtrOutput)
 }
@@ -11182,9 +12145,19 @@ func (o ManagedClusterAPIServerAccessProfileOutput) EnablePrivateClusterPublicFQ
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfile) *bool { return v.EnablePrivateClusterPublicFQDN }).(pulumi.BoolPtrOutput)
 }
 
-// The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
+// Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details.
+func (o ManagedClusterAPIServerAccessProfileOutput) EnableVnetIntegration() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfile) *bool { return v.EnableVnetIntegration }).(pulumi.BoolPtrOutput)
+}
+
+// The private DNS zone mode for the cluster. The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
 func (o ManagedClusterAPIServerAccessProfileOutput) PrivateDNSZone() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfile) *string { return v.PrivateDNSZone }).(pulumi.StringPtrOutput)
+}
+
+// The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration.
+func (o ManagedClusterAPIServerAccessProfileOutput) SubnetId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfile) *string { return v.SubnetId }).(pulumi.StringPtrOutput)
 }
 
 type ManagedClusterAPIServerAccessProfilePtrOutput struct{ *pulumi.OutputState }
@@ -11211,7 +12184,7 @@ func (o ManagedClusterAPIServerAccessProfilePtrOutput) Elem() ManagedClusterAPIS
 	}).(ManagedClusterAPIServerAccessProfileOutput)
 }
 
-// IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+// The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 func (o ManagedClusterAPIServerAccessProfilePtrOutput) AuthorizedIPRanges() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfile) []string {
 		if v == nil {
@@ -11231,7 +12204,7 @@ func (o ManagedClusterAPIServerAccessProfilePtrOutput) DisableRunCommand() pulum
 	}).(pulumi.BoolPtrOutput)
 }
 
-// For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+// Whether to create the cluster as a private cluster or not. For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 func (o ManagedClusterAPIServerAccessProfilePtrOutput) EnablePrivateCluster() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfile) *bool {
 		if v == nil {
@@ -11251,7 +12224,17 @@ func (o ManagedClusterAPIServerAccessProfilePtrOutput) EnablePrivateClusterPubli
 	}).(pulumi.BoolPtrOutput)
 }
 
-// The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
+// Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details.
+func (o ManagedClusterAPIServerAccessProfilePtrOutput) EnableVnetIntegration() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfile) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EnableVnetIntegration
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The private DNS zone mode for the cluster. The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
 func (o ManagedClusterAPIServerAccessProfilePtrOutput) PrivateDNSZone() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfile) *string {
 		if v == nil {
@@ -11261,18 +12244,32 @@ func (o ManagedClusterAPIServerAccessProfilePtrOutput) PrivateDNSZone() pulumi.S
 	}).(pulumi.StringPtrOutput)
 }
 
+// The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration.
+func (o ManagedClusterAPIServerAccessProfilePtrOutput) SubnetId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.SubnetId
+	}).(pulumi.StringPtrOutput)
+}
+
 // Access profile for managed cluster API server.
 type ManagedClusterAPIServerAccessProfileResponse struct {
-	// IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+	// The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 	AuthorizedIPRanges []string `pulumi:"authorizedIPRanges"`
 	// Whether to disable run command for the cluster or not.
 	DisableRunCommand *bool `pulumi:"disableRunCommand"`
-	// For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+	// Whether to create the cluster as a private cluster or not. For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 	EnablePrivateCluster *bool `pulumi:"enablePrivateCluster"`
 	// Whether to create additional public FQDN for private cluster or not.
 	EnablePrivateClusterPublicFQDN *bool `pulumi:"enablePrivateClusterPublicFQDN"`
-	// The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
+	// Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details.
+	EnableVnetIntegration *bool `pulumi:"enableVnetIntegration"`
+	// The private DNS zone mode for the cluster. The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
 	PrivateDNSZone *string `pulumi:"privateDNSZone"`
+	// The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration.
+	SubnetId *string `pulumi:"subnetId"`
 }
 
 // Access profile for managed cluster API server.
@@ -11290,7 +12287,7 @@ func (o ManagedClusterAPIServerAccessProfileResponseOutput) ToManagedClusterAPIS
 	return o
 }
 
-// IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+// The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 func (o ManagedClusterAPIServerAccessProfileResponseOutput) AuthorizedIPRanges() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfileResponse) []string { return v.AuthorizedIPRanges }).(pulumi.StringArrayOutput)
 }
@@ -11300,7 +12297,7 @@ func (o ManagedClusterAPIServerAccessProfileResponseOutput) DisableRunCommand() 
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfileResponse) *bool { return v.DisableRunCommand }).(pulumi.BoolPtrOutput)
 }
 
-// For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+// Whether to create the cluster as a private cluster or not. For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 func (o ManagedClusterAPIServerAccessProfileResponseOutput) EnablePrivateCluster() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfileResponse) *bool { return v.EnablePrivateCluster }).(pulumi.BoolPtrOutput)
 }
@@ -11310,9 +12307,19 @@ func (o ManagedClusterAPIServerAccessProfileResponseOutput) EnablePrivateCluster
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfileResponse) *bool { return v.EnablePrivateClusterPublicFQDN }).(pulumi.BoolPtrOutput)
 }
 
-// The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
+// Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details.
+func (o ManagedClusterAPIServerAccessProfileResponseOutput) EnableVnetIntegration() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfileResponse) *bool { return v.EnableVnetIntegration }).(pulumi.BoolPtrOutput)
+}
+
+// The private DNS zone mode for the cluster. The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
 func (o ManagedClusterAPIServerAccessProfileResponseOutput) PrivateDNSZone() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfileResponse) *string { return v.PrivateDNSZone }).(pulumi.StringPtrOutput)
+}
+
+// The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration.
+func (o ManagedClusterAPIServerAccessProfileResponseOutput) SubnetId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterAPIServerAccessProfileResponse) *string { return v.SubnetId }).(pulumi.StringPtrOutput)
 }
 
 type ManagedClusterAPIServerAccessProfileResponsePtrOutput struct{ *pulumi.OutputState }
@@ -11339,7 +12346,7 @@ func (o ManagedClusterAPIServerAccessProfileResponsePtrOutput) Elem() ManagedClu
 	}).(ManagedClusterAPIServerAccessProfileResponseOutput)
 }
 
-// IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
+// The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
 func (o ManagedClusterAPIServerAccessProfileResponsePtrOutput) AuthorizedIPRanges() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfileResponse) []string {
 		if v == nil {
@@ -11359,7 +12366,7 @@ func (o ManagedClusterAPIServerAccessProfileResponsePtrOutput) DisableRunCommand
 	}).(pulumi.BoolPtrOutput)
 }
 
-// For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
+// Whether to create the cluster as a private cluster or not. For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters).
 func (o ManagedClusterAPIServerAccessProfileResponsePtrOutput) EnablePrivateCluster() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfileResponse) *bool {
 		if v == nil {
@@ -11379,13 +12386,33 @@ func (o ManagedClusterAPIServerAccessProfileResponsePtrOutput) EnablePrivateClus
 	}).(pulumi.BoolPtrOutput)
 }
 
-// The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
+// Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details.
+func (o ManagedClusterAPIServerAccessProfileResponsePtrOutput) EnableVnetIntegration() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfileResponse) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EnableVnetIntegration
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The private DNS zone mode for the cluster. The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'.
 func (o ManagedClusterAPIServerAccessProfileResponsePtrOutput) PrivateDNSZone() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfileResponse) *string {
 		if v == nil {
 			return nil
 		}
 		return v.PrivateDNSZone
+	}).(pulumi.StringPtrOutput)
+}
+
+// The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration.
+func (o ManagedClusterAPIServerAccessProfileResponsePtrOutput) SubnetId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterAPIServerAccessProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.SubnetId
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -11612,17 +12639,21 @@ type ManagedClusterAgentPoolProfile struct {
 	CreationData *CreationData `pulumi:"creationData"`
 	// Whether to enable auto-scaler
 	EnableAutoScaling *bool `pulumi:"enableAutoScaling"`
-	// This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
+	// Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
 	EnableEncryptionAtHost *bool `pulumi:"enableEncryptionAtHost"`
-	// See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
+	// Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
 	EnableFIPS *bool `pulumi:"enableFIPS"`
-	// Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
+	// Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
 	EnableNodePublicIP *bool `pulumi:"enableNodePublicIP"`
 	// Whether to enable UltraSSD
 	EnableUltraSSD *bool `pulumi:"enableUltraSSD"`
+	// Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway.
+	GatewayProfile *AgentPoolGatewayProfile `pulumi:"gatewayProfile"`
 	// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 	GpuInstanceProfile *string `pulumi:"gpuInstanceProfile"`
-	// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
+	// GPU settings for the Agent Pool.
+	GpuProfile *GPUProfile `pulumi:"gpuProfile"`
+	// The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
 	HostGroupID *string `pulumi:"hostGroupID"`
 	// The Kubelet configuration on the agent pool nodes.
 	KubeletConfig *KubeletConfig `pulumi:"kubeletConfig"`
@@ -11634,47 +12665,49 @@ type ManagedClusterAgentPoolProfile struct {
 	MaxCount *int `pulumi:"maxCount"`
 	// The maximum number of pods that can run on a node.
 	MaxPods *int `pulumi:"maxPods"`
-	// A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
+	// Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
 	MessageOfTheDay *string `pulumi:"messageOfTheDay"`
 	// The minimum number of nodes for auto-scaling
 	MinCount *int `pulumi:"minCount"`
-	// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+	// The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 	Mode *string `pulumi:"mode"`
-	// Windows agent pool names must be 6 characters or less.
+	// Unique name of the agent pool profile in the context of the subscription and resource group. Windows agent pool names must be 6 characters or less.
 	Name string `pulumi:"name"`
 	// Network-related settings of an agent pool.
 	NetworkProfile *AgentPoolNetworkProfile `pulumi:"networkProfile"`
 	// The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `pulumi:"nodeLabels"`
-	// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
+	// The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixID *string `pulumi:"nodePublicIPPrefixID"`
 	// The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
 	NodeTaints []string `pulumi:"nodeTaints"`
-	// Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
+	// The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 	OrchestratorVersion *string `pulumi:"orchestratorVersion"`
 	// OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
 	OsDiskSizeGB *int `pulumi:"osDiskSizeGB"`
-	// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+	// The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 	OsDiskType *string `pulumi:"osDiskType"`
 	// Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows.
 	OsSKU *string `pulumi:"osSKU"`
 	// The operating system type. The default is Linux.
 	OsType *string `pulumi:"osType"`
-	// If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+	// Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
+	PodIPAllocationMode *string `pulumi:"podIPAllocationMode"`
+	// The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetID *string `pulumi:"podSubnetID"`
-	// When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
+	// Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
 	PowerState *PowerState `pulumi:"powerState"`
 	// The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `pulumi:"proximityPlacementGroupID"`
-	// This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
+	// The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
 	ScaleDownMode *string `pulumi:"scaleDownMode"`
-	// This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
+	// The Virtual Machine Scale Set eviction policy to use. This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
 	ScaleSetEvictionPolicy *string `pulumi:"scaleSetEvictionPolicy"`
 	// The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
 	ScaleSetPriority *string `pulumi:"scaleSetPriority"`
 	// The security settings of an agent pool.
 	SecurityProfile *AgentPoolSecurityProfile `pulumi:"securityProfile"`
-	// Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
+	// The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 	SpotMaxPrice *float64 `pulumi:"spotMaxPrice"`
 	// The tags to be persisted on the agent pool virtual machine scale set.
 	Tags map[string]string `pulumi:"tags"`
@@ -11682,14 +12715,29 @@ type ManagedClusterAgentPoolProfile struct {
 	Type *string `pulumi:"type"`
 	// Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings `pulumi:"upgradeSettings"`
-	// VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. If this field is not specified, AKS will attempt to find an appropriate VM SKU for your pool, based on quota and capacity. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
+	// The status of nodes in a VirtualMachines agent pool.
+	VirtualMachineNodesStatus []VirtualMachineNodes `pulumi:"virtualMachineNodesStatus"`
+	// Specifications on VirtualMachines agent pool.
+	VirtualMachinesProfile *VirtualMachinesProfile `pulumi:"virtualMachinesProfile"`
+	// The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize *string `pulumi:"vmSize"`
-	// If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+	// The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetID *string `pulumi:"vnetSubnetID"`
 	// The Windows agent pool's specific profile.
 	WindowsProfile *AgentPoolWindowsProfile `pulumi:"windowsProfile"`
 	// Determines the type of workload a node can run.
 	WorkloadRuntime *string `pulumi:"workloadRuntime"`
+}
+
+// Defaults sets the appropriate defaults for ManagedClusterAgentPoolProfile
+func (val *ManagedClusterAgentPoolProfile) Defaults() *ManagedClusterAgentPoolProfile {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	tmp.GatewayProfile = tmp.GatewayProfile.Defaults()
+
+	return &tmp
 }
 
 // ManagedClusterAgentPoolProfileInput is an input type that accepts ManagedClusterAgentPoolProfileArgs and ManagedClusterAgentPoolProfileOutput values.
@@ -11715,17 +12763,21 @@ type ManagedClusterAgentPoolProfileArgs struct {
 	CreationData CreationDataPtrInput `pulumi:"creationData"`
 	// Whether to enable auto-scaler
 	EnableAutoScaling pulumi.BoolPtrInput `pulumi:"enableAutoScaling"`
-	// This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
+	// Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
 	EnableEncryptionAtHost pulumi.BoolPtrInput `pulumi:"enableEncryptionAtHost"`
-	// See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
+	// Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
 	EnableFIPS pulumi.BoolPtrInput `pulumi:"enableFIPS"`
-	// Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
+	// Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
 	EnableNodePublicIP pulumi.BoolPtrInput `pulumi:"enableNodePublicIP"`
 	// Whether to enable UltraSSD
 	EnableUltraSSD pulumi.BoolPtrInput `pulumi:"enableUltraSSD"`
+	// Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway.
+	GatewayProfile AgentPoolGatewayProfilePtrInput `pulumi:"gatewayProfile"`
 	// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 	GpuInstanceProfile pulumi.StringPtrInput `pulumi:"gpuInstanceProfile"`
-	// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
+	// GPU settings for the Agent Pool.
+	GpuProfile GPUProfilePtrInput `pulumi:"gpuProfile"`
+	// The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
 	HostGroupID pulumi.StringPtrInput `pulumi:"hostGroupID"`
 	// The Kubelet configuration on the agent pool nodes.
 	KubeletConfig KubeletConfigPtrInput `pulumi:"kubeletConfig"`
@@ -11737,47 +12789,49 @@ type ManagedClusterAgentPoolProfileArgs struct {
 	MaxCount pulumi.IntPtrInput `pulumi:"maxCount"`
 	// The maximum number of pods that can run on a node.
 	MaxPods pulumi.IntPtrInput `pulumi:"maxPods"`
-	// A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
+	// Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
 	MessageOfTheDay pulumi.StringPtrInput `pulumi:"messageOfTheDay"`
 	// The minimum number of nodes for auto-scaling
 	MinCount pulumi.IntPtrInput `pulumi:"minCount"`
-	// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+	// The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 	Mode pulumi.StringPtrInput `pulumi:"mode"`
-	// Windows agent pool names must be 6 characters or less.
+	// Unique name of the agent pool profile in the context of the subscription and resource group. Windows agent pool names must be 6 characters or less.
 	Name pulumi.StringInput `pulumi:"name"`
 	// Network-related settings of an agent pool.
 	NetworkProfile AgentPoolNetworkProfilePtrInput `pulumi:"networkProfile"`
 	// The node labels to be persisted across all nodes in agent pool.
 	NodeLabels pulumi.StringMapInput `pulumi:"nodeLabels"`
-	// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
+	// The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixID pulumi.StringPtrInput `pulumi:"nodePublicIPPrefixID"`
 	// The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
 	NodeTaints pulumi.StringArrayInput `pulumi:"nodeTaints"`
-	// Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
+	// The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 	OrchestratorVersion pulumi.StringPtrInput `pulumi:"orchestratorVersion"`
 	// OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
 	OsDiskSizeGB pulumi.IntPtrInput `pulumi:"osDiskSizeGB"`
-	// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+	// The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 	OsDiskType pulumi.StringPtrInput `pulumi:"osDiskType"`
 	// Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows.
 	OsSKU pulumi.StringPtrInput `pulumi:"osSKU"`
 	// The operating system type. The default is Linux.
 	OsType pulumi.StringPtrInput `pulumi:"osType"`
-	// If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+	// Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
+	PodIPAllocationMode pulumi.StringPtrInput `pulumi:"podIPAllocationMode"`
+	// The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetID pulumi.StringPtrInput `pulumi:"podSubnetID"`
-	// When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
+	// Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
 	PowerState PowerStatePtrInput `pulumi:"powerState"`
 	// The ID for Proximity Placement Group.
 	ProximityPlacementGroupID pulumi.StringPtrInput `pulumi:"proximityPlacementGroupID"`
-	// This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
+	// The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
 	ScaleDownMode pulumi.StringPtrInput `pulumi:"scaleDownMode"`
-	// This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
+	// The Virtual Machine Scale Set eviction policy to use. This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
 	ScaleSetEvictionPolicy pulumi.StringPtrInput `pulumi:"scaleSetEvictionPolicy"`
 	// The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
 	ScaleSetPriority pulumi.StringPtrInput `pulumi:"scaleSetPriority"`
 	// The security settings of an agent pool.
 	SecurityProfile AgentPoolSecurityProfilePtrInput `pulumi:"securityProfile"`
-	// Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
+	// The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 	SpotMaxPrice pulumi.Float64PtrInput `pulumi:"spotMaxPrice"`
 	// The tags to be persisted on the agent pool virtual machine scale set.
 	Tags pulumi.StringMapInput `pulumi:"tags"`
@@ -11785,9 +12839,13 @@ type ManagedClusterAgentPoolProfileArgs struct {
 	Type pulumi.StringPtrInput `pulumi:"type"`
 	// Settings for upgrading the agentpool
 	UpgradeSettings AgentPoolUpgradeSettingsPtrInput `pulumi:"upgradeSettings"`
-	// VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. If this field is not specified, AKS will attempt to find an appropriate VM SKU for your pool, based on quota and capacity. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
+	// The status of nodes in a VirtualMachines agent pool.
+	VirtualMachineNodesStatus VirtualMachineNodesArrayInput `pulumi:"virtualMachineNodesStatus"`
+	// Specifications on VirtualMachines agent pool.
+	VirtualMachinesProfile VirtualMachinesProfilePtrInput `pulumi:"virtualMachinesProfile"`
+	// The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize pulumi.StringPtrInput `pulumi:"vmSize"`
-	// If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+	// The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetID pulumi.StringPtrInput `pulumi:"vnetSubnetID"`
 	// The Windows agent pool's specific profile.
 	WindowsProfile AgentPoolWindowsProfilePtrInput `pulumi:"windowsProfile"`
@@ -11795,6 +12853,15 @@ type ManagedClusterAgentPoolProfileArgs struct {
 	WorkloadRuntime pulumi.StringPtrInput `pulumi:"workloadRuntime"`
 }
 
+// Defaults sets the appropriate defaults for ManagedClusterAgentPoolProfileArgs
+func (val *ManagedClusterAgentPoolProfileArgs) Defaults() *ManagedClusterAgentPoolProfileArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+
+	return &tmp
+}
 func (ManagedClusterAgentPoolProfileArgs) ElementType() reflect.Type {
 	return reflect.TypeOf((*ManagedClusterAgentPoolProfile)(nil)).Elem()
 }
@@ -11872,17 +12939,17 @@ func (o ManagedClusterAgentPoolProfileOutput) EnableAutoScaling() pulumi.BoolPtr
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *bool { return v.EnableAutoScaling }).(pulumi.BoolPtrOutput)
 }
 
-// This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
+// Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
 func (o ManagedClusterAgentPoolProfileOutput) EnableEncryptionAtHost() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *bool { return v.EnableEncryptionAtHost }).(pulumi.BoolPtrOutput)
 }
 
-// See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
+// Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
 func (o ManagedClusterAgentPoolProfileOutput) EnableFIPS() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *bool { return v.EnableFIPS }).(pulumi.BoolPtrOutput)
 }
 
-// Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
+// Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
 func (o ManagedClusterAgentPoolProfileOutput) EnableNodePublicIP() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *bool { return v.EnableNodePublicIP }).(pulumi.BoolPtrOutput)
 }
@@ -11892,12 +12959,22 @@ func (o ManagedClusterAgentPoolProfileOutput) EnableUltraSSD() pulumi.BoolPtrOut
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *bool { return v.EnableUltraSSD }).(pulumi.BoolPtrOutput)
 }
 
+// Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway.
+func (o ManagedClusterAgentPoolProfileOutput) GatewayProfile() AgentPoolGatewayProfilePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *AgentPoolGatewayProfile { return v.GatewayProfile }).(AgentPoolGatewayProfilePtrOutput)
+}
+
 // GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 func (o ManagedClusterAgentPoolProfileOutput) GpuInstanceProfile() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.GpuInstanceProfile }).(pulumi.StringPtrOutput)
 }
 
-// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
+// GPU settings for the Agent Pool.
+func (o ManagedClusterAgentPoolProfileOutput) GpuProfile() GPUProfilePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *GPUProfile { return v.GpuProfile }).(GPUProfilePtrOutput)
+}
+
+// The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
 func (o ManagedClusterAgentPoolProfileOutput) HostGroupID() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.HostGroupID }).(pulumi.StringPtrOutput)
 }
@@ -11927,7 +13004,7 @@ func (o ManagedClusterAgentPoolProfileOutput) MaxPods() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *int { return v.MaxPods }).(pulumi.IntPtrOutput)
 }
 
-// A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
+// Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
 func (o ManagedClusterAgentPoolProfileOutput) MessageOfTheDay() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.MessageOfTheDay }).(pulumi.StringPtrOutput)
 }
@@ -11937,12 +13014,12 @@ func (o ManagedClusterAgentPoolProfileOutput) MinCount() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *int { return v.MinCount }).(pulumi.IntPtrOutput)
 }
 
-// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+// The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 func (o ManagedClusterAgentPoolProfileOutput) Mode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.Mode }).(pulumi.StringPtrOutput)
 }
 
-// Windows agent pool names must be 6 characters or less.
+// Unique name of the agent pool profile in the context of the subscription and resource group. Windows agent pool names must be 6 characters or less.
 func (o ManagedClusterAgentPoolProfileOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -11957,7 +13034,7 @@ func (o ManagedClusterAgentPoolProfileOutput) NodeLabels() pulumi.StringMapOutpu
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) map[string]string { return v.NodeLabels }).(pulumi.StringMapOutput)
 }
 
-// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
+// The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 func (o ManagedClusterAgentPoolProfileOutput) NodePublicIPPrefixID() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.NodePublicIPPrefixID }).(pulumi.StringPtrOutput)
 }
@@ -11967,7 +13044,7 @@ func (o ManagedClusterAgentPoolProfileOutput) NodeTaints() pulumi.StringArrayOut
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) []string { return v.NodeTaints }).(pulumi.StringArrayOutput)
 }
 
-// Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
+// The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 func (o ManagedClusterAgentPoolProfileOutput) OrchestratorVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.OrchestratorVersion }).(pulumi.StringPtrOutput)
 }
@@ -11977,7 +13054,7 @@ func (o ManagedClusterAgentPoolProfileOutput) OsDiskSizeGB() pulumi.IntPtrOutput
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *int { return v.OsDiskSizeGB }).(pulumi.IntPtrOutput)
 }
 
-// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+// The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 func (o ManagedClusterAgentPoolProfileOutput) OsDiskType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.OsDiskType }).(pulumi.StringPtrOutput)
 }
@@ -11992,12 +13069,17 @@ func (o ManagedClusterAgentPoolProfileOutput) OsType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.OsType }).(pulumi.StringPtrOutput)
 }
 
-// If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+// Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
+func (o ManagedClusterAgentPoolProfileOutput) PodIPAllocationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.PodIPAllocationMode }).(pulumi.StringPtrOutput)
+}
+
+// The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 func (o ManagedClusterAgentPoolProfileOutput) PodSubnetID() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.PodSubnetID }).(pulumi.StringPtrOutput)
 }
 
-// When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
+// Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
 func (o ManagedClusterAgentPoolProfileOutput) PowerState() PowerStatePtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *PowerState { return v.PowerState }).(PowerStatePtrOutput)
 }
@@ -12007,12 +13089,12 @@ func (o ManagedClusterAgentPoolProfileOutput) ProximityPlacementGroupID() pulumi
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.ProximityPlacementGroupID }).(pulumi.StringPtrOutput)
 }
 
-// This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
+// The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
 func (o ManagedClusterAgentPoolProfileOutput) ScaleDownMode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.ScaleDownMode }).(pulumi.StringPtrOutput)
 }
 
-// This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
+// The Virtual Machine Scale Set eviction policy to use. This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
 func (o ManagedClusterAgentPoolProfileOutput) ScaleSetEvictionPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.ScaleSetEvictionPolicy }).(pulumi.StringPtrOutput)
 }
@@ -12027,7 +13109,7 @@ func (o ManagedClusterAgentPoolProfileOutput) SecurityProfile() AgentPoolSecurit
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *AgentPoolSecurityProfile { return v.SecurityProfile }).(AgentPoolSecurityProfilePtrOutput)
 }
 
-// Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
+// The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 func (o ManagedClusterAgentPoolProfileOutput) SpotMaxPrice() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *float64 { return v.SpotMaxPrice }).(pulumi.Float64PtrOutput)
 }
@@ -12047,12 +13129,22 @@ func (o ManagedClusterAgentPoolProfileOutput) UpgradeSettings() AgentPoolUpgrade
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *AgentPoolUpgradeSettings { return v.UpgradeSettings }).(AgentPoolUpgradeSettingsPtrOutput)
 }
 
-// VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. If this field is not specified, AKS will attempt to find an appropriate VM SKU for your pool, based on quota and capacity. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
+// The status of nodes in a VirtualMachines agent pool.
+func (o ManagedClusterAgentPoolProfileOutput) VirtualMachineNodesStatus() VirtualMachineNodesArrayOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) []VirtualMachineNodes { return v.VirtualMachineNodesStatus }).(VirtualMachineNodesArrayOutput)
+}
+
+// Specifications on VirtualMachines agent pool.
+func (o ManagedClusterAgentPoolProfileOutput) VirtualMachinesProfile() VirtualMachinesProfilePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *VirtualMachinesProfile { return v.VirtualMachinesProfile }).(VirtualMachinesProfilePtrOutput)
+}
+
+// The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
 func (o ManagedClusterAgentPoolProfileOutput) VmSize() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.VmSize }).(pulumi.StringPtrOutput)
 }
 
-// If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+// The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 func (o ManagedClusterAgentPoolProfileOutput) VnetSubnetID() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *string { return v.VnetSubnetID }).(pulumi.StringPtrOutput)
 }
@@ -12097,23 +13189,27 @@ type ManagedClusterAgentPoolProfileResponse struct {
 	Count *int `pulumi:"count"`
 	// CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.
 	CreationData *CreationDataResponse `pulumi:"creationData"`
-	// If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used.
+	// The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used.
 	CurrentOrchestratorVersion string `pulumi:"currentOrchestratorVersion"`
 	// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
 	ETag string `pulumi:"eTag"`
 	// Whether to enable auto-scaler
 	EnableAutoScaling *bool `pulumi:"enableAutoScaling"`
-	// This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
+	// Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
 	EnableEncryptionAtHost *bool `pulumi:"enableEncryptionAtHost"`
-	// See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
+	// Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
 	EnableFIPS *bool `pulumi:"enableFIPS"`
-	// Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
+	// Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
 	EnableNodePublicIP *bool `pulumi:"enableNodePublicIP"`
 	// Whether to enable UltraSSD
 	EnableUltraSSD *bool `pulumi:"enableUltraSSD"`
+	// Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway.
+	GatewayProfile *AgentPoolGatewayProfileResponse `pulumi:"gatewayProfile"`
 	// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 	GpuInstanceProfile *string `pulumi:"gpuInstanceProfile"`
-	// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
+	// GPU settings for the Agent Pool.
+	GpuProfile *GPUProfileResponse `pulumi:"gpuProfile"`
+	// The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
 	HostGroupID *string `pulumi:"hostGroupID"`
 	// The Kubelet configuration on the agent pool nodes.
 	KubeletConfig *KubeletConfigResponse `pulumi:"kubeletConfig"`
@@ -12125,13 +13221,13 @@ type ManagedClusterAgentPoolProfileResponse struct {
 	MaxCount *int `pulumi:"maxCount"`
 	// The maximum number of pods that can run on a node.
 	MaxPods *int `pulumi:"maxPods"`
-	// A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
+	// Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
 	MessageOfTheDay *string `pulumi:"messageOfTheDay"`
 	// The minimum number of nodes for auto-scaling
 	MinCount *int `pulumi:"minCount"`
-	// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+	// The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 	Mode *string `pulumi:"mode"`
-	// Windows agent pool names must be 6 characters or less.
+	// Unique name of the agent pool profile in the context of the subscription and resource group. Windows agent pool names must be 6 characters or less.
 	Name string `pulumi:"name"`
 	// Network-related settings of an agent pool.
 	NetworkProfile *AgentPoolNetworkProfileResponse `pulumi:"networkProfile"`
@@ -12139,52 +13235,71 @@ type ManagedClusterAgentPoolProfileResponse struct {
 	NodeImageVersion string `pulumi:"nodeImageVersion"`
 	// The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `pulumi:"nodeLabels"`
-	// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
+	// The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixID *string `pulumi:"nodePublicIPPrefixID"`
 	// The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
 	NodeTaints []string `pulumi:"nodeTaints"`
-	// Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
+	// The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 	OrchestratorVersion *string `pulumi:"orchestratorVersion"`
 	// OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
 	OsDiskSizeGB *int `pulumi:"osDiskSizeGB"`
-	// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+	// The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 	OsDiskType *string `pulumi:"osDiskType"`
 	// Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows.
 	OsSKU *string `pulumi:"osSKU"`
 	// The operating system type. The default is Linux.
 	OsType *string `pulumi:"osType"`
-	// If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+	// Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
+	PodIPAllocationMode *string `pulumi:"podIPAllocationMode"`
+	// The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetID *string `pulumi:"podSubnetID"`
-	// When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
+	// Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
 	PowerState *PowerStateResponse `pulumi:"powerState"`
 	// The current deployment or provisioning state.
 	ProvisioningState string `pulumi:"provisioningState"`
 	// The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `pulumi:"proximityPlacementGroupID"`
-	// This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
+	// The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
 	ScaleDownMode *string `pulumi:"scaleDownMode"`
-	// This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
+	// The Virtual Machine Scale Set eviction policy to use. This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
 	ScaleSetEvictionPolicy *string `pulumi:"scaleSetEvictionPolicy"`
 	// The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
 	ScaleSetPriority *string `pulumi:"scaleSetPriority"`
 	// The security settings of an agent pool.
 	SecurityProfile *AgentPoolSecurityProfileResponse `pulumi:"securityProfile"`
-	// Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
+	// The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 	SpotMaxPrice *float64 `pulumi:"spotMaxPrice"`
+	// Contains read-only information about the Agent Pool.
+	Status *AgentPoolStatusResponse `pulumi:"status"`
 	// The tags to be persisted on the agent pool virtual machine scale set.
 	Tags map[string]string `pulumi:"tags"`
 	// The type of Agent Pool.
 	Type *string `pulumi:"type"`
 	// Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettingsResponse `pulumi:"upgradeSettings"`
-	// VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. If this field is not specified, AKS will attempt to find an appropriate VM SKU for your pool, based on quota and capacity. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
+	// The status of nodes in a VirtualMachines agent pool.
+	VirtualMachineNodesStatus []VirtualMachineNodesResponse `pulumi:"virtualMachineNodesStatus"`
+	// Specifications on VirtualMachines agent pool.
+	VirtualMachinesProfile *VirtualMachinesProfileResponse `pulumi:"virtualMachinesProfile"`
+	// The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize *string `pulumi:"vmSize"`
-	// If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+	// The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetID *string `pulumi:"vnetSubnetID"`
 	// The Windows agent pool's specific profile.
 	WindowsProfile *AgentPoolWindowsProfileResponse `pulumi:"windowsProfile"`
 	// Determines the type of workload a node can run.
 	WorkloadRuntime *string `pulumi:"workloadRuntime"`
+}
+
+// Defaults sets the appropriate defaults for ManagedClusterAgentPoolProfileResponse
+func (val *ManagedClusterAgentPoolProfileResponse) Defaults() *ManagedClusterAgentPoolProfileResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	tmp.GatewayProfile = tmp.GatewayProfile.Defaults()
+
+	return &tmp
 }
 
 // Profile for the container service agent pool.
@@ -12222,7 +13337,7 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) CreationData() CreationDat
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *CreationDataResponse { return v.CreationData }).(CreationDataResponsePtrOutput)
 }
 
-// If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used.
+// The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used.
 func (o ManagedClusterAgentPoolProfileResponseOutput) CurrentOrchestratorVersion() pulumi.StringOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) string { return v.CurrentOrchestratorVersion }).(pulumi.StringOutput)
 }
@@ -12237,17 +13352,17 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) EnableAutoScaling() pulumi
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *bool { return v.EnableAutoScaling }).(pulumi.BoolPtrOutput)
 }
 
-// This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
+// Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption
 func (o ManagedClusterAgentPoolProfileResponseOutput) EnableEncryptionAtHost() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *bool { return v.EnableEncryptionAtHost }).(pulumi.BoolPtrOutput)
 }
 
-// See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
+// Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details.
 func (o ManagedClusterAgentPoolProfileResponseOutput) EnableFIPS() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *bool { return v.EnableFIPS }).(pulumi.BoolPtrOutput)
 }
 
-// Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
+// Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false.
 func (o ManagedClusterAgentPoolProfileResponseOutput) EnableNodePublicIP() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *bool { return v.EnableNodePublicIP }).(pulumi.BoolPtrOutput)
 }
@@ -12257,12 +13372,24 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) EnableUltraSSD() pulumi.Bo
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *bool { return v.EnableUltraSSD }).(pulumi.BoolPtrOutput)
 }
 
+// Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway.
+func (o ManagedClusterAgentPoolProfileResponseOutput) GatewayProfile() AgentPoolGatewayProfileResponsePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *AgentPoolGatewayProfileResponse {
+		return v.GatewayProfile
+	}).(AgentPoolGatewayProfileResponsePtrOutput)
+}
+
 // GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 func (o ManagedClusterAgentPoolProfileResponseOutput) GpuInstanceProfile() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.GpuInstanceProfile }).(pulumi.StringPtrOutput)
 }
 
-// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
+// GPU settings for the Agent Pool.
+func (o ManagedClusterAgentPoolProfileResponseOutput) GpuProfile() GPUProfileResponsePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *GPUProfileResponse { return v.GpuProfile }).(GPUProfileResponsePtrOutput)
+}
+
+// The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts).
 func (o ManagedClusterAgentPoolProfileResponseOutput) HostGroupID() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.HostGroupID }).(pulumi.StringPtrOutput)
 }
@@ -12292,7 +13419,7 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) MaxPods() pulumi.IntPtrOut
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *int { return v.MaxPods }).(pulumi.IntPtrOutput)
 }
 
-// A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
+// Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script).
 func (o ManagedClusterAgentPoolProfileResponseOutput) MessageOfTheDay() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.MessageOfTheDay }).(pulumi.StringPtrOutput)
 }
@@ -12302,12 +13429,12 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) MinCount() pulumi.IntPtrOu
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *int { return v.MinCount }).(pulumi.IntPtrOutput)
 }
 
-// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+// The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 func (o ManagedClusterAgentPoolProfileResponseOutput) Mode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.Mode }).(pulumi.StringPtrOutput)
 }
 
-// Windows agent pool names must be 6 characters or less.
+// Unique name of the agent pool profile in the context of the subscription and resource group. Windows agent pool names must be 6 characters or less.
 func (o ManagedClusterAgentPoolProfileResponseOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -12329,7 +13456,7 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) NodeLabels() pulumi.String
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) map[string]string { return v.NodeLabels }).(pulumi.StringMapOutput)
 }
 
-// This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
+// The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 func (o ManagedClusterAgentPoolProfileResponseOutput) NodePublicIPPrefixID() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.NodePublicIPPrefixID }).(pulumi.StringPtrOutput)
 }
@@ -12339,7 +13466,7 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) NodeTaints() pulumi.String
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) []string { return v.NodeTaints }).(pulumi.StringArrayOutput)
 }
 
-// Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
+// The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 func (o ManagedClusterAgentPoolProfileResponseOutput) OrchestratorVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.OrchestratorVersion }).(pulumi.StringPtrOutput)
 }
@@ -12349,7 +13476,7 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) OsDiskSizeGB() pulumi.IntP
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *int { return v.OsDiskSizeGB }).(pulumi.IntPtrOutput)
 }
 
-// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+// The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 func (o ManagedClusterAgentPoolProfileResponseOutput) OsDiskType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.OsDiskType }).(pulumi.StringPtrOutput)
 }
@@ -12364,12 +13491,17 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) OsType() pulumi.StringPtrO
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.OsType }).(pulumi.StringPtrOutput)
 }
 
-// If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+// Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
+func (o ManagedClusterAgentPoolProfileResponseOutput) PodIPAllocationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.PodIPAllocationMode }).(pulumi.StringPtrOutput)
+}
+
+// The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 func (o ManagedClusterAgentPoolProfileResponseOutput) PodSubnetID() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.PodSubnetID }).(pulumi.StringPtrOutput)
 }
 
-// When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
+// Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded
 func (o ManagedClusterAgentPoolProfileResponseOutput) PowerState() PowerStateResponsePtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *PowerStateResponse { return v.PowerState }).(PowerStateResponsePtrOutput)
 }
@@ -12384,12 +13516,12 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) ProximityPlacementGroupID(
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.ProximityPlacementGroupID }).(pulumi.StringPtrOutput)
 }
 
-// This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
+// The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
 func (o ManagedClusterAgentPoolProfileResponseOutput) ScaleDownMode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.ScaleDownMode }).(pulumi.StringPtrOutput)
 }
 
-// This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
+// The Virtual Machine Scale Set eviction policy to use. This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
 func (o ManagedClusterAgentPoolProfileResponseOutput) ScaleSetEvictionPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.ScaleSetEvictionPolicy }).(pulumi.StringPtrOutput)
 }
@@ -12406,9 +13538,14 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) SecurityProfile() AgentPoo
 	}).(AgentPoolSecurityProfileResponsePtrOutput)
 }
 
-// Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
+// The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 func (o ManagedClusterAgentPoolProfileResponseOutput) SpotMaxPrice() pulumi.Float64PtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *float64 { return v.SpotMaxPrice }).(pulumi.Float64PtrOutput)
+}
+
+// Contains read-only information about the Agent Pool.
+func (o ManagedClusterAgentPoolProfileResponseOutput) Status() AgentPoolStatusResponsePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *AgentPoolStatusResponse { return v.Status }).(AgentPoolStatusResponsePtrOutput)
 }
 
 // The tags to be persisted on the agent pool virtual machine scale set.
@@ -12428,12 +13565,26 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) UpgradeSettings() AgentPoo
 	}).(AgentPoolUpgradeSettingsResponsePtrOutput)
 }
 
-// VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. If this field is not specified, AKS will attempt to find an appropriate VM SKU for your pool, based on quota and capacity. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
+// The status of nodes in a VirtualMachines agent pool.
+func (o ManagedClusterAgentPoolProfileResponseOutput) VirtualMachineNodesStatus() VirtualMachineNodesResponseArrayOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) []VirtualMachineNodesResponse {
+		return v.VirtualMachineNodesStatus
+	}).(VirtualMachineNodesResponseArrayOutput)
+}
+
+// Specifications on VirtualMachines agent pool.
+func (o ManagedClusterAgentPoolProfileResponseOutput) VirtualMachinesProfile() VirtualMachinesProfileResponsePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *VirtualMachinesProfileResponse {
+		return v.VirtualMachinesProfile
+	}).(VirtualMachinesProfileResponsePtrOutput)
+}
+
+// The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions
 func (o ManagedClusterAgentPoolProfileResponseOutput) VmSize() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.VmSize }).(pulumi.StringPtrOutput)
 }
 
-// If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
+// The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 func (o ManagedClusterAgentPoolProfileResponseOutput) VnetSubnetID() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *string { return v.VnetSubnetID }).(pulumi.StringPtrOutput)
 }
@@ -12472,9 +13623,9 @@ func (o ManagedClusterAgentPoolProfileResponseArrayOutput) Index(i pulumi.IntInp
 
 // Auto upgrade profile for a managed cluster.
 type ManagedClusterAutoUpgradeProfile struct {
-	// Manner in which the OS on your nodes is updated. The default is NodeImage.
+	// Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage.
 	NodeOSUpgradeChannel *string `pulumi:"nodeOSUpgradeChannel"`
-	// For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+	// The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 	UpgradeChannel *string `pulumi:"upgradeChannel"`
 }
 
@@ -12491,9 +13642,9 @@ type ManagedClusterAutoUpgradeProfileInput interface {
 
 // Auto upgrade profile for a managed cluster.
 type ManagedClusterAutoUpgradeProfileArgs struct {
-	// Manner in which the OS on your nodes is updated. The default is NodeImage.
+	// Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage.
 	NodeOSUpgradeChannel pulumi.StringPtrInput `pulumi:"nodeOSUpgradeChannel"`
-	// For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+	// The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 	UpgradeChannel pulumi.StringPtrInput `pulumi:"upgradeChannel"`
 }
 
@@ -12575,12 +13726,12 @@ func (o ManagedClusterAutoUpgradeProfileOutput) ToManagedClusterAutoUpgradeProfi
 	}).(ManagedClusterAutoUpgradeProfilePtrOutput)
 }
 
-// Manner in which the OS on your nodes is updated. The default is NodeImage.
+// Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage.
 func (o ManagedClusterAutoUpgradeProfileOutput) NodeOSUpgradeChannel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAutoUpgradeProfile) *string { return v.NodeOSUpgradeChannel }).(pulumi.StringPtrOutput)
 }
 
-// For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+// The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 func (o ManagedClusterAutoUpgradeProfileOutput) UpgradeChannel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAutoUpgradeProfile) *string { return v.UpgradeChannel }).(pulumi.StringPtrOutput)
 }
@@ -12609,7 +13760,7 @@ func (o ManagedClusterAutoUpgradeProfilePtrOutput) Elem() ManagedClusterAutoUpgr
 	}).(ManagedClusterAutoUpgradeProfileOutput)
 }
 
-// Manner in which the OS on your nodes is updated. The default is NodeImage.
+// Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage.
 func (o ManagedClusterAutoUpgradeProfilePtrOutput) NodeOSUpgradeChannel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterAutoUpgradeProfile) *string {
 		if v == nil {
@@ -12619,7 +13770,7 @@ func (o ManagedClusterAutoUpgradeProfilePtrOutput) NodeOSUpgradeChannel() pulumi
 	}).(pulumi.StringPtrOutput)
 }
 
-// For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+// The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 func (o ManagedClusterAutoUpgradeProfilePtrOutput) UpgradeChannel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterAutoUpgradeProfile) *string {
 		if v == nil {
@@ -12631,9 +13782,9 @@ func (o ManagedClusterAutoUpgradeProfilePtrOutput) UpgradeChannel() pulumi.Strin
 
 // Auto upgrade profile for a managed cluster.
 type ManagedClusterAutoUpgradeProfileResponse struct {
-	// Manner in which the OS on your nodes is updated. The default is NodeImage.
+	// Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage.
 	NodeOSUpgradeChannel *string `pulumi:"nodeOSUpgradeChannel"`
-	// For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+	// The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 	UpgradeChannel *string `pulumi:"upgradeChannel"`
 }
 
@@ -12652,12 +13803,12 @@ func (o ManagedClusterAutoUpgradeProfileResponseOutput) ToManagedClusterAutoUpgr
 	return o
 }
 
-// Manner in which the OS on your nodes is updated. The default is NodeImage.
+// Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage.
 func (o ManagedClusterAutoUpgradeProfileResponseOutput) NodeOSUpgradeChannel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAutoUpgradeProfileResponse) *string { return v.NodeOSUpgradeChannel }).(pulumi.StringPtrOutput)
 }
 
-// For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+// The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 func (o ManagedClusterAutoUpgradeProfileResponseOutput) UpgradeChannel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAutoUpgradeProfileResponse) *string { return v.UpgradeChannel }).(pulumi.StringPtrOutput)
 }
@@ -12686,7 +13837,7 @@ func (o ManagedClusterAutoUpgradeProfileResponsePtrOutput) Elem() ManagedCluster
 	}).(ManagedClusterAutoUpgradeProfileResponseOutput)
 }
 
-// Manner in which the OS on your nodes is updated. The default is NodeImage.
+// Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage.
 func (o ManagedClusterAutoUpgradeProfileResponsePtrOutput) NodeOSUpgradeChannel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterAutoUpgradeProfileResponse) *string {
 		if v == nil {
@@ -12696,7 +13847,7 @@ func (o ManagedClusterAutoUpgradeProfileResponsePtrOutput) NodeOSUpgradeChannel(
 	}).(pulumi.StringPtrOutput)
 }
 
-// For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+// The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 func (o ManagedClusterAutoUpgradeProfileResponsePtrOutput) UpgradeChannel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterAutoUpgradeProfileResponse) *string {
 		if v == nil {
@@ -13388,9 +14539,282 @@ func (o ManagedClusterAzureMonitorProfileResponsePtrOutput) Metrics() ManagedClu
 	}).(ManagedClusterAzureMonitorProfileMetricsResponsePtrOutput)
 }
 
+// The bootstrap profile.
+type ManagedClusterBootstrapProfile struct {
+	// The artifact source. The source where the artifacts are downloaded from.
+	ArtifactSource *string `pulumi:"artifactSource"`
+	// The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy.
+	ContainerRegistryId *string `pulumi:"containerRegistryId"`
+}
+
+// Defaults sets the appropriate defaults for ManagedClusterBootstrapProfile
+func (val *ManagedClusterBootstrapProfile) Defaults() *ManagedClusterBootstrapProfile {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.ArtifactSource == nil {
+		artifactSource_ := "Direct"
+		tmp.ArtifactSource = &artifactSource_
+	}
+	return &tmp
+}
+
+// ManagedClusterBootstrapProfileInput is an input type that accepts ManagedClusterBootstrapProfileArgs and ManagedClusterBootstrapProfileOutput values.
+// You can construct a concrete instance of `ManagedClusterBootstrapProfileInput` via:
+//
+//	ManagedClusterBootstrapProfileArgs{...}
+type ManagedClusterBootstrapProfileInput interface {
+	pulumi.Input
+
+	ToManagedClusterBootstrapProfileOutput() ManagedClusterBootstrapProfileOutput
+	ToManagedClusterBootstrapProfileOutputWithContext(context.Context) ManagedClusterBootstrapProfileOutput
+}
+
+// The bootstrap profile.
+type ManagedClusterBootstrapProfileArgs struct {
+	// The artifact source. The source where the artifacts are downloaded from.
+	ArtifactSource pulumi.StringPtrInput `pulumi:"artifactSource"`
+	// The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy.
+	ContainerRegistryId pulumi.StringPtrInput `pulumi:"containerRegistryId"`
+}
+
+// Defaults sets the appropriate defaults for ManagedClusterBootstrapProfileArgs
+func (val *ManagedClusterBootstrapProfileArgs) Defaults() *ManagedClusterBootstrapProfileArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.ArtifactSource == nil {
+		tmp.ArtifactSource = pulumi.StringPtr("Direct")
+	}
+	return &tmp
+}
+func (ManagedClusterBootstrapProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterBootstrapProfile)(nil)).Elem()
+}
+
+func (i ManagedClusterBootstrapProfileArgs) ToManagedClusterBootstrapProfileOutput() ManagedClusterBootstrapProfileOutput {
+	return i.ToManagedClusterBootstrapProfileOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterBootstrapProfileArgs) ToManagedClusterBootstrapProfileOutputWithContext(ctx context.Context) ManagedClusterBootstrapProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterBootstrapProfileOutput)
+}
+
+func (i ManagedClusterBootstrapProfileArgs) ToManagedClusterBootstrapProfilePtrOutput() ManagedClusterBootstrapProfilePtrOutput {
+	return i.ToManagedClusterBootstrapProfilePtrOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterBootstrapProfileArgs) ToManagedClusterBootstrapProfilePtrOutputWithContext(ctx context.Context) ManagedClusterBootstrapProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterBootstrapProfileOutput).ToManagedClusterBootstrapProfilePtrOutputWithContext(ctx)
+}
+
+// ManagedClusterBootstrapProfilePtrInput is an input type that accepts ManagedClusterBootstrapProfileArgs, ManagedClusterBootstrapProfilePtr and ManagedClusterBootstrapProfilePtrOutput values.
+// You can construct a concrete instance of `ManagedClusterBootstrapProfilePtrInput` via:
+//
+//	        ManagedClusterBootstrapProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type ManagedClusterBootstrapProfilePtrInput interface {
+	pulumi.Input
+
+	ToManagedClusterBootstrapProfilePtrOutput() ManagedClusterBootstrapProfilePtrOutput
+	ToManagedClusterBootstrapProfilePtrOutputWithContext(context.Context) ManagedClusterBootstrapProfilePtrOutput
+}
+
+type managedClusterBootstrapProfilePtrType ManagedClusterBootstrapProfileArgs
+
+func ManagedClusterBootstrapProfilePtr(v *ManagedClusterBootstrapProfileArgs) ManagedClusterBootstrapProfilePtrInput {
+	return (*managedClusterBootstrapProfilePtrType)(v)
+}
+
+func (*managedClusterBootstrapProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterBootstrapProfile)(nil)).Elem()
+}
+
+func (i *managedClusterBootstrapProfilePtrType) ToManagedClusterBootstrapProfilePtrOutput() ManagedClusterBootstrapProfilePtrOutput {
+	return i.ToManagedClusterBootstrapProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *managedClusterBootstrapProfilePtrType) ToManagedClusterBootstrapProfilePtrOutputWithContext(ctx context.Context) ManagedClusterBootstrapProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterBootstrapProfilePtrOutput)
+}
+
+// The bootstrap profile.
+type ManagedClusterBootstrapProfileOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterBootstrapProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterBootstrapProfile)(nil)).Elem()
+}
+
+func (o ManagedClusterBootstrapProfileOutput) ToManagedClusterBootstrapProfileOutput() ManagedClusterBootstrapProfileOutput {
+	return o
+}
+
+func (o ManagedClusterBootstrapProfileOutput) ToManagedClusterBootstrapProfileOutputWithContext(ctx context.Context) ManagedClusterBootstrapProfileOutput {
+	return o
+}
+
+func (o ManagedClusterBootstrapProfileOutput) ToManagedClusterBootstrapProfilePtrOutput() ManagedClusterBootstrapProfilePtrOutput {
+	return o.ToManagedClusterBootstrapProfilePtrOutputWithContext(context.Background())
+}
+
+func (o ManagedClusterBootstrapProfileOutput) ToManagedClusterBootstrapProfilePtrOutputWithContext(ctx context.Context) ManagedClusterBootstrapProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ManagedClusterBootstrapProfile) *ManagedClusterBootstrapProfile {
+		return &v
+	}).(ManagedClusterBootstrapProfilePtrOutput)
+}
+
+// The artifact source. The source where the artifacts are downloaded from.
+func (o ManagedClusterBootstrapProfileOutput) ArtifactSource() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterBootstrapProfile) *string { return v.ArtifactSource }).(pulumi.StringPtrOutput)
+}
+
+// The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy.
+func (o ManagedClusterBootstrapProfileOutput) ContainerRegistryId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterBootstrapProfile) *string { return v.ContainerRegistryId }).(pulumi.StringPtrOutput)
+}
+
+type ManagedClusterBootstrapProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterBootstrapProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterBootstrapProfile)(nil)).Elem()
+}
+
+func (o ManagedClusterBootstrapProfilePtrOutput) ToManagedClusterBootstrapProfilePtrOutput() ManagedClusterBootstrapProfilePtrOutput {
+	return o
+}
+
+func (o ManagedClusterBootstrapProfilePtrOutput) ToManagedClusterBootstrapProfilePtrOutputWithContext(ctx context.Context) ManagedClusterBootstrapProfilePtrOutput {
+	return o
+}
+
+func (o ManagedClusterBootstrapProfilePtrOutput) Elem() ManagedClusterBootstrapProfileOutput {
+	return o.ApplyT(func(v *ManagedClusterBootstrapProfile) ManagedClusterBootstrapProfile {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterBootstrapProfile
+		return ret
+	}).(ManagedClusterBootstrapProfileOutput)
+}
+
+// The artifact source. The source where the artifacts are downloaded from.
+func (o ManagedClusterBootstrapProfilePtrOutput) ArtifactSource() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterBootstrapProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ArtifactSource
+	}).(pulumi.StringPtrOutput)
+}
+
+// The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy.
+func (o ManagedClusterBootstrapProfilePtrOutput) ContainerRegistryId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterBootstrapProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ContainerRegistryId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The bootstrap profile.
+type ManagedClusterBootstrapProfileResponse struct {
+	// The artifact source. The source where the artifacts are downloaded from.
+	ArtifactSource *string `pulumi:"artifactSource"`
+	// The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy.
+	ContainerRegistryId *string `pulumi:"containerRegistryId"`
+}
+
+// Defaults sets the appropriate defaults for ManagedClusterBootstrapProfileResponse
+func (val *ManagedClusterBootstrapProfileResponse) Defaults() *ManagedClusterBootstrapProfileResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.ArtifactSource == nil {
+		artifactSource_ := "Direct"
+		tmp.ArtifactSource = &artifactSource_
+	}
+	return &tmp
+}
+
+// The bootstrap profile.
+type ManagedClusterBootstrapProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterBootstrapProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterBootstrapProfileResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterBootstrapProfileResponseOutput) ToManagedClusterBootstrapProfileResponseOutput() ManagedClusterBootstrapProfileResponseOutput {
+	return o
+}
+
+func (o ManagedClusterBootstrapProfileResponseOutput) ToManagedClusterBootstrapProfileResponseOutputWithContext(ctx context.Context) ManagedClusterBootstrapProfileResponseOutput {
+	return o
+}
+
+// The artifact source. The source where the artifacts are downloaded from.
+func (o ManagedClusterBootstrapProfileResponseOutput) ArtifactSource() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterBootstrapProfileResponse) *string { return v.ArtifactSource }).(pulumi.StringPtrOutput)
+}
+
+// The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy.
+func (o ManagedClusterBootstrapProfileResponseOutput) ContainerRegistryId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterBootstrapProfileResponse) *string { return v.ContainerRegistryId }).(pulumi.StringPtrOutput)
+}
+
+type ManagedClusterBootstrapProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterBootstrapProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterBootstrapProfileResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterBootstrapProfileResponsePtrOutput) ToManagedClusterBootstrapProfileResponsePtrOutput() ManagedClusterBootstrapProfileResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterBootstrapProfileResponsePtrOutput) ToManagedClusterBootstrapProfileResponsePtrOutputWithContext(ctx context.Context) ManagedClusterBootstrapProfileResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterBootstrapProfileResponsePtrOutput) Elem() ManagedClusterBootstrapProfileResponseOutput {
+	return o.ApplyT(func(v *ManagedClusterBootstrapProfileResponse) ManagedClusterBootstrapProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterBootstrapProfileResponse
+		return ret
+	}).(ManagedClusterBootstrapProfileResponseOutput)
+}
+
+// The artifact source. The source where the artifacts are downloaded from.
+func (o ManagedClusterBootstrapProfileResponsePtrOutput) ArtifactSource() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterBootstrapProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ArtifactSource
+	}).(pulumi.StringPtrOutput)
+}
+
+// The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy.
+func (o ManagedClusterBootstrapProfileResponsePtrOutput) ContainerRegistryId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterBootstrapProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ContainerRegistryId
+	}).(pulumi.StringPtrOutput)
+}
+
 // The cost analysis configuration for the cluster
 type ManagedClusterCostAnalysis struct {
-	// The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
+	// Whether to enable cost analysis. The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
 	Enabled *bool `pulumi:"enabled"`
 }
 
@@ -13407,7 +14831,7 @@ type ManagedClusterCostAnalysisInput interface {
 
 // The cost analysis configuration for the cluster
 type ManagedClusterCostAnalysisArgs struct {
-	// The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
+	// Whether to enable cost analysis. The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
 	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
 }
 
@@ -13489,7 +14913,7 @@ func (o ManagedClusterCostAnalysisOutput) ToManagedClusterCostAnalysisPtrOutputW
 	}).(ManagedClusterCostAnalysisPtrOutput)
 }
 
-// The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
+// Whether to enable cost analysis. The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
 func (o ManagedClusterCostAnalysisOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterCostAnalysis) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
 }
@@ -13518,7 +14942,7 @@ func (o ManagedClusterCostAnalysisPtrOutput) Elem() ManagedClusterCostAnalysisOu
 	}).(ManagedClusterCostAnalysisOutput)
 }
 
-// The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
+// Whether to enable cost analysis. The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
 func (o ManagedClusterCostAnalysisPtrOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterCostAnalysis) *bool {
 		if v == nil {
@@ -13530,7 +14954,7 @@ func (o ManagedClusterCostAnalysisPtrOutput) Enabled() pulumi.BoolPtrOutput {
 
 // The cost analysis configuration for the cluster
 type ManagedClusterCostAnalysisResponse struct {
-	// The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
+	// Whether to enable cost analysis. The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
 	Enabled *bool `pulumi:"enabled"`
 }
 
@@ -13549,7 +14973,7 @@ func (o ManagedClusterCostAnalysisResponseOutput) ToManagedClusterCostAnalysisRe
 	return o
 }
 
-// The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
+// Whether to enable cost analysis. The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
 func (o ManagedClusterCostAnalysisResponseOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterCostAnalysisResponse) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
 }
@@ -13578,7 +15002,7 @@ func (o ManagedClusterCostAnalysisResponsePtrOutput) Elem() ManagedClusterCostAn
 	}).(ManagedClusterCostAnalysisResponseOutput)
 }
 
-// The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
+// Whether to enable cost analysis. The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis.
 func (o ManagedClusterCostAnalysisResponsePtrOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterCostAnalysisResponse) *bool {
 		if v == nil {
@@ -13900,9 +15324,9 @@ func (o ManagedClusterHTTPProxyConfigResponsePtrOutput) TrustedCa() pulumi.Strin
 type ManagedClusterIdentity struct {
 	// The delegated identity resources assigned to this managed cluster. This can only be set by another Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only.
 	DelegatedResources map[string]DelegatedResource `pulumi:"delegatedResources"`
-	// For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+	// The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 	Type *ResourceIdentityType `pulumi:"type"`
-	// The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	// The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 	UserAssignedIdentities []string `pulumi:"userAssignedIdentities"`
 }
 
@@ -13921,9 +15345,9 @@ type ManagedClusterIdentityInput interface {
 type ManagedClusterIdentityArgs struct {
 	// The delegated identity resources assigned to this managed cluster. This can only be set by another Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only.
 	DelegatedResources DelegatedResourceMapInput `pulumi:"delegatedResources"`
-	// For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+	// The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 	Type ResourceIdentityTypePtrInput `pulumi:"type"`
-	// The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	// The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 	UserAssignedIdentities pulumi.StringArrayInput `pulumi:"userAssignedIdentities"`
 }
 
@@ -14010,12 +15434,12 @@ func (o ManagedClusterIdentityOutput) DelegatedResources() DelegatedResourceMapO
 	return o.ApplyT(func(v ManagedClusterIdentity) map[string]DelegatedResource { return v.DelegatedResources }).(DelegatedResourceMapOutput)
 }
 
-// For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+// The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 func (o ManagedClusterIdentityOutput) Type() ResourceIdentityTypePtrOutput {
 	return o.ApplyT(func(v ManagedClusterIdentity) *ResourceIdentityType { return v.Type }).(ResourceIdentityTypePtrOutput)
 }
 
-// The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+// The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 func (o ManagedClusterIdentityOutput) UserAssignedIdentities() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v ManagedClusterIdentity) []string { return v.UserAssignedIdentities }).(pulumi.StringArrayOutput)
 }
@@ -14054,7 +15478,7 @@ func (o ManagedClusterIdentityPtrOutput) DelegatedResources() DelegatedResourceM
 	}).(DelegatedResourceMapOutput)
 }
 
-// For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+// The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 func (o ManagedClusterIdentityPtrOutput) Type() ResourceIdentityTypePtrOutput {
 	return o.ApplyT(func(v *ManagedClusterIdentity) *ResourceIdentityType {
 		if v == nil {
@@ -14064,7 +15488,7 @@ func (o ManagedClusterIdentityPtrOutput) Type() ResourceIdentityTypePtrOutput {
 	}).(ResourceIdentityTypePtrOutput)
 }
 
-// The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+// The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 func (o ManagedClusterIdentityPtrOutput) UserAssignedIdentities() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *ManagedClusterIdentity) []string {
 		if v == nil {
@@ -14082,9 +15506,9 @@ type ManagedClusterIdentityResponse struct {
 	PrincipalId string `pulumi:"principalId"`
 	// The tenant id of the system assigned identity which is used by master components.
 	TenantId string `pulumi:"tenantId"`
-	// For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+	// The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 	Type *string `pulumi:"type"`
-	// The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	// The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 	UserAssignedIdentities map[string]ManagedClusterIdentityResponseUserAssignedIdentities `pulumi:"userAssignedIdentities"`
 }
 
@@ -14120,12 +15544,12 @@ func (o ManagedClusterIdentityResponseOutput) TenantId() pulumi.StringOutput {
 	return o.ApplyT(func(v ManagedClusterIdentityResponse) string { return v.TenantId }).(pulumi.StringOutput)
 }
 
-// For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+// The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 func (o ManagedClusterIdentityResponseOutput) Type() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterIdentityResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
 }
 
-// The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+// The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 func (o ManagedClusterIdentityResponseOutput) UserAssignedIdentities() ManagedClusterIdentityResponseUserAssignedIdentitiesMapOutput {
 	return o.ApplyT(func(v ManagedClusterIdentityResponse) map[string]ManagedClusterIdentityResponseUserAssignedIdentities {
 		return v.UserAssignedIdentities
@@ -14186,7 +15610,7 @@ func (o ManagedClusterIdentityResponsePtrOutput) TenantId() pulumi.StringPtrOutp
 	}).(pulumi.StringPtrOutput)
 }
 
-// For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+// The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 func (o ManagedClusterIdentityResponsePtrOutput) Type() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterIdentityResponse) *string {
 		if v == nil {
@@ -14196,7 +15620,7 @@ func (o ManagedClusterIdentityResponsePtrOutput) Type() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+// The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 func (o ManagedClusterIdentityResponsePtrOutput) UserAssignedIdentities() ManagedClusterIdentityResponseUserAssignedIdentitiesMapOutput {
 	return o.ApplyT(func(v *ManagedClusterIdentityResponse) map[string]ManagedClusterIdentityResponseUserAssignedIdentities {
 		if v == nil {
@@ -14399,6 +15823,201 @@ func (o ManagedClusterIngressProfilePtrOutput) WebAppRouting() ManagedClusterIng
 	}).(ManagedClusterIngressProfileWebAppRoutingPtrOutput)
 }
 
+type ManagedClusterIngressProfileNginx struct {
+	// Ingress type for the default NginxIngressController custom resource
+	DefaultIngressControllerType *string `pulumi:"defaultIngressControllerType"`
+}
+
+// ManagedClusterIngressProfileNginxInput is an input type that accepts ManagedClusterIngressProfileNginxArgs and ManagedClusterIngressProfileNginxOutput values.
+// You can construct a concrete instance of `ManagedClusterIngressProfileNginxInput` via:
+//
+//	ManagedClusterIngressProfileNginxArgs{...}
+type ManagedClusterIngressProfileNginxInput interface {
+	pulumi.Input
+
+	ToManagedClusterIngressProfileNginxOutput() ManagedClusterIngressProfileNginxOutput
+	ToManagedClusterIngressProfileNginxOutputWithContext(context.Context) ManagedClusterIngressProfileNginxOutput
+}
+
+type ManagedClusterIngressProfileNginxArgs struct {
+	// Ingress type for the default NginxIngressController custom resource
+	DefaultIngressControllerType pulumi.StringPtrInput `pulumi:"defaultIngressControllerType"`
+}
+
+func (ManagedClusterIngressProfileNginxArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterIngressProfileNginx)(nil)).Elem()
+}
+
+func (i ManagedClusterIngressProfileNginxArgs) ToManagedClusterIngressProfileNginxOutput() ManagedClusterIngressProfileNginxOutput {
+	return i.ToManagedClusterIngressProfileNginxOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterIngressProfileNginxArgs) ToManagedClusterIngressProfileNginxOutputWithContext(ctx context.Context) ManagedClusterIngressProfileNginxOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterIngressProfileNginxOutput)
+}
+
+func (i ManagedClusterIngressProfileNginxArgs) ToManagedClusterIngressProfileNginxPtrOutput() ManagedClusterIngressProfileNginxPtrOutput {
+	return i.ToManagedClusterIngressProfileNginxPtrOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterIngressProfileNginxArgs) ToManagedClusterIngressProfileNginxPtrOutputWithContext(ctx context.Context) ManagedClusterIngressProfileNginxPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterIngressProfileNginxOutput).ToManagedClusterIngressProfileNginxPtrOutputWithContext(ctx)
+}
+
+// ManagedClusterIngressProfileNginxPtrInput is an input type that accepts ManagedClusterIngressProfileNginxArgs, ManagedClusterIngressProfileNginxPtr and ManagedClusterIngressProfileNginxPtrOutput values.
+// You can construct a concrete instance of `ManagedClusterIngressProfileNginxPtrInput` via:
+//
+//	        ManagedClusterIngressProfileNginxArgs{...}
+//
+//	or:
+//
+//	        nil
+type ManagedClusterIngressProfileNginxPtrInput interface {
+	pulumi.Input
+
+	ToManagedClusterIngressProfileNginxPtrOutput() ManagedClusterIngressProfileNginxPtrOutput
+	ToManagedClusterIngressProfileNginxPtrOutputWithContext(context.Context) ManagedClusterIngressProfileNginxPtrOutput
+}
+
+type managedClusterIngressProfileNginxPtrType ManagedClusterIngressProfileNginxArgs
+
+func ManagedClusterIngressProfileNginxPtr(v *ManagedClusterIngressProfileNginxArgs) ManagedClusterIngressProfileNginxPtrInput {
+	return (*managedClusterIngressProfileNginxPtrType)(v)
+}
+
+func (*managedClusterIngressProfileNginxPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterIngressProfileNginx)(nil)).Elem()
+}
+
+func (i *managedClusterIngressProfileNginxPtrType) ToManagedClusterIngressProfileNginxPtrOutput() ManagedClusterIngressProfileNginxPtrOutput {
+	return i.ToManagedClusterIngressProfileNginxPtrOutputWithContext(context.Background())
+}
+
+func (i *managedClusterIngressProfileNginxPtrType) ToManagedClusterIngressProfileNginxPtrOutputWithContext(ctx context.Context) ManagedClusterIngressProfileNginxPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterIngressProfileNginxPtrOutput)
+}
+
+type ManagedClusterIngressProfileNginxOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterIngressProfileNginxOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterIngressProfileNginx)(nil)).Elem()
+}
+
+func (o ManagedClusterIngressProfileNginxOutput) ToManagedClusterIngressProfileNginxOutput() ManagedClusterIngressProfileNginxOutput {
+	return o
+}
+
+func (o ManagedClusterIngressProfileNginxOutput) ToManagedClusterIngressProfileNginxOutputWithContext(ctx context.Context) ManagedClusterIngressProfileNginxOutput {
+	return o
+}
+
+func (o ManagedClusterIngressProfileNginxOutput) ToManagedClusterIngressProfileNginxPtrOutput() ManagedClusterIngressProfileNginxPtrOutput {
+	return o.ToManagedClusterIngressProfileNginxPtrOutputWithContext(context.Background())
+}
+
+func (o ManagedClusterIngressProfileNginxOutput) ToManagedClusterIngressProfileNginxPtrOutputWithContext(ctx context.Context) ManagedClusterIngressProfileNginxPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ManagedClusterIngressProfileNginx) *ManagedClusterIngressProfileNginx {
+		return &v
+	}).(ManagedClusterIngressProfileNginxPtrOutput)
+}
+
+// Ingress type for the default NginxIngressController custom resource
+func (o ManagedClusterIngressProfileNginxOutput) DefaultIngressControllerType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterIngressProfileNginx) *string { return v.DefaultIngressControllerType }).(pulumi.StringPtrOutput)
+}
+
+type ManagedClusterIngressProfileNginxPtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterIngressProfileNginxPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterIngressProfileNginx)(nil)).Elem()
+}
+
+func (o ManagedClusterIngressProfileNginxPtrOutput) ToManagedClusterIngressProfileNginxPtrOutput() ManagedClusterIngressProfileNginxPtrOutput {
+	return o
+}
+
+func (o ManagedClusterIngressProfileNginxPtrOutput) ToManagedClusterIngressProfileNginxPtrOutputWithContext(ctx context.Context) ManagedClusterIngressProfileNginxPtrOutput {
+	return o
+}
+
+func (o ManagedClusterIngressProfileNginxPtrOutput) Elem() ManagedClusterIngressProfileNginxOutput {
+	return o.ApplyT(func(v *ManagedClusterIngressProfileNginx) ManagedClusterIngressProfileNginx {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterIngressProfileNginx
+		return ret
+	}).(ManagedClusterIngressProfileNginxOutput)
+}
+
+// Ingress type for the default NginxIngressController custom resource
+func (o ManagedClusterIngressProfileNginxPtrOutput) DefaultIngressControllerType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterIngressProfileNginx) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultIngressControllerType
+	}).(pulumi.StringPtrOutput)
+}
+
+type ManagedClusterIngressProfileNginxResponse struct {
+	// Ingress type for the default NginxIngressController custom resource
+	DefaultIngressControllerType *string `pulumi:"defaultIngressControllerType"`
+}
+
+type ManagedClusterIngressProfileNginxResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterIngressProfileNginxResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterIngressProfileNginxResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterIngressProfileNginxResponseOutput) ToManagedClusterIngressProfileNginxResponseOutput() ManagedClusterIngressProfileNginxResponseOutput {
+	return o
+}
+
+func (o ManagedClusterIngressProfileNginxResponseOutput) ToManagedClusterIngressProfileNginxResponseOutputWithContext(ctx context.Context) ManagedClusterIngressProfileNginxResponseOutput {
+	return o
+}
+
+// Ingress type for the default NginxIngressController custom resource
+func (o ManagedClusterIngressProfileNginxResponseOutput) DefaultIngressControllerType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterIngressProfileNginxResponse) *string { return v.DefaultIngressControllerType }).(pulumi.StringPtrOutput)
+}
+
+type ManagedClusterIngressProfileNginxResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterIngressProfileNginxResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterIngressProfileNginxResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterIngressProfileNginxResponsePtrOutput) ToManagedClusterIngressProfileNginxResponsePtrOutput() ManagedClusterIngressProfileNginxResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterIngressProfileNginxResponsePtrOutput) ToManagedClusterIngressProfileNginxResponsePtrOutputWithContext(ctx context.Context) ManagedClusterIngressProfileNginxResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterIngressProfileNginxResponsePtrOutput) Elem() ManagedClusterIngressProfileNginxResponseOutput {
+	return o.ApplyT(func(v *ManagedClusterIngressProfileNginxResponse) ManagedClusterIngressProfileNginxResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterIngressProfileNginxResponse
+		return ret
+	}).(ManagedClusterIngressProfileNginxResponseOutput)
+}
+
+// Ingress type for the default NginxIngressController custom resource
+func (o ManagedClusterIngressProfileNginxResponsePtrOutput) DefaultIngressControllerType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterIngressProfileNginxResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultIngressControllerType
+	}).(pulumi.StringPtrOutput)
+}
+
 // Ingress profile for the container service cluster.
 type ManagedClusterIngressProfileResponse struct {
 	// App Routing settings for the ingress profile. You can find an overview and onboarding guide for this feature at https://learn.microsoft.com/en-us/azure/aks/app-routing?tabs=default%2Cdeploy-app-default.
@@ -14467,6 +16086,8 @@ type ManagedClusterIngressProfileWebAppRouting struct {
 	DnsZoneResourceIds []string `pulumi:"dnsZoneResourceIds"`
 	// Whether to enable the Application Routing add-on.
 	Enabled *bool `pulumi:"enabled"`
+	// Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
+	Nginx *ManagedClusterIngressProfileNginx `pulumi:"nginx"`
 }
 
 // ManagedClusterIngressProfileWebAppRoutingInput is an input type that accepts ManagedClusterIngressProfileWebAppRoutingArgs and ManagedClusterIngressProfileWebAppRoutingOutput values.
@@ -14486,6 +16107,8 @@ type ManagedClusterIngressProfileWebAppRoutingArgs struct {
 	DnsZoneResourceIds pulumi.StringArrayInput `pulumi:"dnsZoneResourceIds"`
 	// Whether to enable the Application Routing add-on.
 	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
+	// Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
+	Nginx ManagedClusterIngressProfileNginxPtrInput `pulumi:"nginx"`
 }
 
 func (ManagedClusterIngressProfileWebAppRoutingArgs) ElementType() reflect.Type {
@@ -14576,6 +16199,11 @@ func (o ManagedClusterIngressProfileWebAppRoutingOutput) Enabled() pulumi.BoolPt
 	return o.ApplyT(func(v ManagedClusterIngressProfileWebAppRouting) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
 }
 
+// Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
+func (o ManagedClusterIngressProfileWebAppRoutingOutput) Nginx() ManagedClusterIngressProfileNginxPtrOutput {
+	return o.ApplyT(func(v ManagedClusterIngressProfileWebAppRouting) *ManagedClusterIngressProfileNginx { return v.Nginx }).(ManagedClusterIngressProfileNginxPtrOutput)
+}
+
 type ManagedClusterIngressProfileWebAppRoutingPtrOutput struct{ *pulumi.OutputState }
 
 func (ManagedClusterIngressProfileWebAppRoutingPtrOutput) ElementType() reflect.Type {
@@ -14620,6 +16248,16 @@ func (o ManagedClusterIngressProfileWebAppRoutingPtrOutput) Enabled() pulumi.Boo
 	}).(pulumi.BoolPtrOutput)
 }
 
+// Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
+func (o ManagedClusterIngressProfileWebAppRoutingPtrOutput) Nginx() ManagedClusterIngressProfileNginxPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterIngressProfileWebAppRouting) *ManagedClusterIngressProfileNginx {
+		if v == nil {
+			return nil
+		}
+		return v.Nginx
+	}).(ManagedClusterIngressProfileNginxPtrOutput)
+}
+
 // Application Routing add-on settings for the ingress profile.
 type ManagedClusterIngressProfileWebAppRoutingResponse struct {
 	// Resource IDs of the DNS zones to be associated with the Application Routing add-on. Used only when Application Routing add-on is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group.
@@ -14628,6 +16266,8 @@ type ManagedClusterIngressProfileWebAppRoutingResponse struct {
 	Enabled *bool `pulumi:"enabled"`
 	// Managed identity of the Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
 	Identity UserAssignedIdentityResponse `pulumi:"identity"`
+	// Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
+	Nginx *ManagedClusterIngressProfileNginxResponse `pulumi:"nginx"`
 }
 
 // Application Routing add-on settings for the ingress profile.
@@ -14660,6 +16300,13 @@ func (o ManagedClusterIngressProfileWebAppRoutingResponseOutput) Identity() User
 	return o.ApplyT(func(v ManagedClusterIngressProfileWebAppRoutingResponse) UserAssignedIdentityResponse {
 		return v.Identity
 	}).(UserAssignedIdentityResponseOutput)
+}
+
+// Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
+func (o ManagedClusterIngressProfileWebAppRoutingResponseOutput) Nginx() ManagedClusterIngressProfileNginxResponsePtrOutput {
+	return o.ApplyT(func(v ManagedClusterIngressProfileWebAppRoutingResponse) *ManagedClusterIngressProfileNginxResponse {
+		return v.Nginx
+	}).(ManagedClusterIngressProfileNginxResponsePtrOutput)
 }
 
 type ManagedClusterIngressProfileWebAppRoutingResponsePtrOutput struct{ *pulumi.OutputState }
@@ -14716,14 +16363,22 @@ func (o ManagedClusterIngressProfileWebAppRoutingResponsePtrOutput) Identity() U
 	}).(UserAssignedIdentityResponsePtrOutput)
 }
 
+// Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
+func (o ManagedClusterIngressProfileWebAppRoutingResponsePtrOutput) Nginx() ManagedClusterIngressProfileNginxResponsePtrOutput {
+	return o.ApplyT(func(v *ManagedClusterIngressProfileWebAppRoutingResponse) *ManagedClusterIngressProfileNginxResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Nginx
+	}).(ManagedClusterIngressProfileNginxResponsePtrOutput)
+}
+
 // Profile of the managed cluster load balancer.
 type ManagedClusterLoadBalancerProfile struct {
 	// The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
 	AllocatedOutboundPorts *int `pulumi:"allocatedOutboundPorts"`
 	// The type of the managed inbound Load Balancer BackendPool.
 	BackendPoolType *string `pulumi:"backendPoolType"`
-	// The effective outbound IP resources of the cluster load balancer.
-	EffectiveOutboundIPs []ResourceReference `pulumi:"effectiveOutboundIPs"`
 	// Enable multiple standard load balancers per AKS cluster or not.
 	EnableMultipleStandardLoadBalancers *bool `pulumi:"enableMultipleStandardLoadBalancers"`
 	// Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 30 minutes.
@@ -14776,8 +16431,6 @@ type ManagedClusterLoadBalancerProfileArgs struct {
 	AllocatedOutboundPorts pulumi.IntPtrInput `pulumi:"allocatedOutboundPorts"`
 	// The type of the managed inbound Load Balancer BackendPool.
 	BackendPoolType pulumi.StringPtrInput `pulumi:"backendPoolType"`
-	// The effective outbound IP resources of the cluster load balancer.
-	EffectiveOutboundIPs ResourceReferenceArrayInput `pulumi:"effectiveOutboundIPs"`
 	// Enable multiple standard load balancers per AKS cluster or not.
 	EnableMultipleStandardLoadBalancers pulumi.BoolPtrInput `pulumi:"enableMultipleStandardLoadBalancers"`
 	// Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 30 minutes.
@@ -14896,11 +16549,6 @@ func (o ManagedClusterLoadBalancerProfileOutput) BackendPoolType() pulumi.String
 	return o.ApplyT(func(v ManagedClusterLoadBalancerProfile) *string { return v.BackendPoolType }).(pulumi.StringPtrOutput)
 }
 
-// The effective outbound IP resources of the cluster load balancer.
-func (o ManagedClusterLoadBalancerProfileOutput) EffectiveOutboundIPs() ResourceReferenceArrayOutput {
-	return o.ApplyT(func(v ManagedClusterLoadBalancerProfile) []ResourceReference { return v.EffectiveOutboundIPs }).(ResourceReferenceArrayOutput)
-}
-
 // Enable multiple standard load balancers per AKS cluster or not.
 func (o ManagedClusterLoadBalancerProfileOutput) EnableMultipleStandardLoadBalancers() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterLoadBalancerProfile) *bool { return v.EnableMultipleStandardLoadBalancers }).(pulumi.BoolPtrOutput)
@@ -14974,16 +16622,6 @@ func (o ManagedClusterLoadBalancerProfilePtrOutput) BackendPoolType() pulumi.Str
 		}
 		return v.BackendPoolType
 	}).(pulumi.StringPtrOutput)
-}
-
-// The effective outbound IP resources of the cluster load balancer.
-func (o ManagedClusterLoadBalancerProfilePtrOutput) EffectiveOutboundIPs() ResourceReferenceArrayOutput {
-	return o.ApplyT(func(v *ManagedClusterLoadBalancerProfile) []ResourceReference {
-		if v == nil {
-			return nil
-		}
-		return v.EffectiveOutboundIPs
-	}).(ResourceReferenceArrayOutput)
 }
 
 // Enable multiple standard load balancers per AKS cluster or not.
@@ -16175,7 +17813,7 @@ func (o ManagedClusterManagedOutboundIPProfileResponsePtrOutput) Count() pulumi.
 
 // The metrics profile for the ManagedCluster.
 type ManagedClusterMetricsProfile struct {
-	// The cost analysis configuration for the cluster
+	// The configuration for detailed per-Kubernetes resource cost analysis.
 	CostAnalysis *ManagedClusterCostAnalysis `pulumi:"costAnalysis"`
 }
 
@@ -16192,7 +17830,7 @@ type ManagedClusterMetricsProfileInput interface {
 
 // The metrics profile for the ManagedCluster.
 type ManagedClusterMetricsProfileArgs struct {
-	// The cost analysis configuration for the cluster
+	// The configuration for detailed per-Kubernetes resource cost analysis.
 	CostAnalysis ManagedClusterCostAnalysisPtrInput `pulumi:"costAnalysis"`
 }
 
@@ -16274,7 +17912,7 @@ func (o ManagedClusterMetricsProfileOutput) ToManagedClusterMetricsProfilePtrOut
 	}).(ManagedClusterMetricsProfilePtrOutput)
 }
 
-// The cost analysis configuration for the cluster
+// The configuration for detailed per-Kubernetes resource cost analysis.
 func (o ManagedClusterMetricsProfileOutput) CostAnalysis() ManagedClusterCostAnalysisPtrOutput {
 	return o.ApplyT(func(v ManagedClusterMetricsProfile) *ManagedClusterCostAnalysis { return v.CostAnalysis }).(ManagedClusterCostAnalysisPtrOutput)
 }
@@ -16303,7 +17941,7 @@ func (o ManagedClusterMetricsProfilePtrOutput) Elem() ManagedClusterMetricsProfi
 	}).(ManagedClusterMetricsProfileOutput)
 }
 
-// The cost analysis configuration for the cluster
+// The configuration for detailed per-Kubernetes resource cost analysis.
 func (o ManagedClusterMetricsProfilePtrOutput) CostAnalysis() ManagedClusterCostAnalysisPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterMetricsProfile) *ManagedClusterCostAnalysis {
 		if v == nil {
@@ -16315,7 +17953,7 @@ func (o ManagedClusterMetricsProfilePtrOutput) CostAnalysis() ManagedClusterCost
 
 // The metrics profile for the ManagedCluster.
 type ManagedClusterMetricsProfileResponse struct {
-	// The cost analysis configuration for the cluster
+	// The configuration for detailed per-Kubernetes resource cost analysis.
 	CostAnalysis *ManagedClusterCostAnalysisResponse `pulumi:"costAnalysis"`
 }
 
@@ -16334,7 +17972,7 @@ func (o ManagedClusterMetricsProfileResponseOutput) ToManagedClusterMetricsProfi
 	return o
 }
 
-// The cost analysis configuration for the cluster
+// The configuration for detailed per-Kubernetes resource cost analysis.
 func (o ManagedClusterMetricsProfileResponseOutput) CostAnalysis() ManagedClusterCostAnalysisResponsePtrOutput {
 	return o.ApplyT(func(v ManagedClusterMetricsProfileResponse) *ManagedClusterCostAnalysisResponse {
 		return v.CostAnalysis
@@ -16365,7 +18003,7 @@ func (o ManagedClusterMetricsProfileResponsePtrOutput) Elem() ManagedClusterMetr
 	}).(ManagedClusterMetricsProfileResponseOutput)
 }
 
-// The cost analysis configuration for the cluster
+// The configuration for detailed per-Kubernetes resource cost analysis.
 func (o ManagedClusterMetricsProfileResponsePtrOutput) CostAnalysis() ManagedClusterCostAnalysisResponsePtrOutput {
 	return o.ApplyT(func(v *ManagedClusterMetricsProfileResponse) *ManagedClusterCostAnalysisResponse {
 		if v == nil {
@@ -16377,8 +18015,6 @@ func (o ManagedClusterMetricsProfileResponsePtrOutput) CostAnalysis() ManagedClu
 
 // Profile of the managed cluster NAT gateway.
 type ManagedClusterNATGatewayProfile struct {
-	// The effective outbound IP resources of the cluster NAT gateway.
-	EffectiveOutboundIPs []ResourceReference `pulumi:"effectiveOutboundIPs"`
 	// Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes.
 	IdleTimeoutInMinutes *int `pulumi:"idleTimeoutInMinutes"`
 	// Profile of the managed outbound IP resources of the cluster NAT gateway.
@@ -16413,8 +18049,6 @@ type ManagedClusterNATGatewayProfileInput interface {
 
 // Profile of the managed cluster NAT gateway.
 type ManagedClusterNATGatewayProfileArgs struct {
-	// The effective outbound IP resources of the cluster NAT gateway.
-	EffectiveOutboundIPs ResourceReferenceArrayInput `pulumi:"effectiveOutboundIPs"`
 	// Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes.
 	IdleTimeoutInMinutes pulumi.IntPtrInput `pulumi:"idleTimeoutInMinutes"`
 	// Profile of the managed outbound IP resources of the cluster NAT gateway.
@@ -16511,11 +18145,6 @@ func (o ManagedClusterNATGatewayProfileOutput) ToManagedClusterNATGatewayProfile
 	}).(ManagedClusterNATGatewayProfilePtrOutput)
 }
 
-// The effective outbound IP resources of the cluster NAT gateway.
-func (o ManagedClusterNATGatewayProfileOutput) EffectiveOutboundIPs() ResourceReferenceArrayOutput {
-	return o.ApplyT(func(v ManagedClusterNATGatewayProfile) []ResourceReference { return v.EffectiveOutboundIPs }).(ResourceReferenceArrayOutput)
-}
-
 // Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes.
 func (o ManagedClusterNATGatewayProfileOutput) IdleTimeoutInMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v ManagedClusterNATGatewayProfile) *int { return v.IdleTimeoutInMinutes }).(pulumi.IntPtrOutput)
@@ -16550,16 +18179,6 @@ func (o ManagedClusterNATGatewayProfilePtrOutput) Elem() ManagedClusterNATGatewa
 		var ret ManagedClusterNATGatewayProfile
 		return ret
 	}).(ManagedClusterNATGatewayProfileOutput)
-}
-
-// The effective outbound IP resources of the cluster NAT gateway.
-func (o ManagedClusterNATGatewayProfilePtrOutput) EffectiveOutboundIPs() ResourceReferenceArrayOutput {
-	return o.ApplyT(func(v *ManagedClusterNATGatewayProfile) []ResourceReference {
-		if v == nil {
-			return nil
-		}
-		return v.EffectiveOutboundIPs
-	}).(ResourceReferenceArrayOutput)
 }
 
 // Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes.
@@ -16693,6 +18312,274 @@ func (o ManagedClusterNATGatewayProfileResponsePtrOutput) ManagedOutboundIPProfi
 		}
 		return v.ManagedOutboundIPProfile
 	}).(ManagedClusterManagedOutboundIPProfileResponsePtrOutput)
+}
+
+type ManagedClusterNodeProvisioningProfile struct {
+	// The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools.
+	DefaultNodePools *string `pulumi:"defaultNodePools"`
+	// The node provisioning mode. If not specified, the default is Manual.
+	Mode *string `pulumi:"mode"`
+}
+
+// Defaults sets the appropriate defaults for ManagedClusterNodeProvisioningProfile
+func (val *ManagedClusterNodeProvisioningProfile) Defaults() *ManagedClusterNodeProvisioningProfile {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.DefaultNodePools == nil {
+		defaultNodePools_ := "Auto"
+		tmp.DefaultNodePools = &defaultNodePools_
+	}
+	return &tmp
+}
+
+// ManagedClusterNodeProvisioningProfileInput is an input type that accepts ManagedClusterNodeProvisioningProfileArgs and ManagedClusterNodeProvisioningProfileOutput values.
+// You can construct a concrete instance of `ManagedClusterNodeProvisioningProfileInput` via:
+//
+//	ManagedClusterNodeProvisioningProfileArgs{...}
+type ManagedClusterNodeProvisioningProfileInput interface {
+	pulumi.Input
+
+	ToManagedClusterNodeProvisioningProfileOutput() ManagedClusterNodeProvisioningProfileOutput
+	ToManagedClusterNodeProvisioningProfileOutputWithContext(context.Context) ManagedClusterNodeProvisioningProfileOutput
+}
+
+type ManagedClusterNodeProvisioningProfileArgs struct {
+	// The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools.
+	DefaultNodePools pulumi.StringPtrInput `pulumi:"defaultNodePools"`
+	// The node provisioning mode. If not specified, the default is Manual.
+	Mode pulumi.StringPtrInput `pulumi:"mode"`
+}
+
+// Defaults sets the appropriate defaults for ManagedClusterNodeProvisioningProfileArgs
+func (val *ManagedClusterNodeProvisioningProfileArgs) Defaults() *ManagedClusterNodeProvisioningProfileArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.DefaultNodePools == nil {
+		tmp.DefaultNodePools = pulumi.StringPtr("Auto")
+	}
+	return &tmp
+}
+func (ManagedClusterNodeProvisioningProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterNodeProvisioningProfile)(nil)).Elem()
+}
+
+func (i ManagedClusterNodeProvisioningProfileArgs) ToManagedClusterNodeProvisioningProfileOutput() ManagedClusterNodeProvisioningProfileOutput {
+	return i.ToManagedClusterNodeProvisioningProfileOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterNodeProvisioningProfileArgs) ToManagedClusterNodeProvisioningProfileOutputWithContext(ctx context.Context) ManagedClusterNodeProvisioningProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterNodeProvisioningProfileOutput)
+}
+
+func (i ManagedClusterNodeProvisioningProfileArgs) ToManagedClusterNodeProvisioningProfilePtrOutput() ManagedClusterNodeProvisioningProfilePtrOutput {
+	return i.ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterNodeProvisioningProfileArgs) ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(ctx context.Context) ManagedClusterNodeProvisioningProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterNodeProvisioningProfileOutput).ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(ctx)
+}
+
+// ManagedClusterNodeProvisioningProfilePtrInput is an input type that accepts ManagedClusterNodeProvisioningProfileArgs, ManagedClusterNodeProvisioningProfilePtr and ManagedClusterNodeProvisioningProfilePtrOutput values.
+// You can construct a concrete instance of `ManagedClusterNodeProvisioningProfilePtrInput` via:
+//
+//	        ManagedClusterNodeProvisioningProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type ManagedClusterNodeProvisioningProfilePtrInput interface {
+	pulumi.Input
+
+	ToManagedClusterNodeProvisioningProfilePtrOutput() ManagedClusterNodeProvisioningProfilePtrOutput
+	ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(context.Context) ManagedClusterNodeProvisioningProfilePtrOutput
+}
+
+type managedClusterNodeProvisioningProfilePtrType ManagedClusterNodeProvisioningProfileArgs
+
+func ManagedClusterNodeProvisioningProfilePtr(v *ManagedClusterNodeProvisioningProfileArgs) ManagedClusterNodeProvisioningProfilePtrInput {
+	return (*managedClusterNodeProvisioningProfilePtrType)(v)
+}
+
+func (*managedClusterNodeProvisioningProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterNodeProvisioningProfile)(nil)).Elem()
+}
+
+func (i *managedClusterNodeProvisioningProfilePtrType) ToManagedClusterNodeProvisioningProfilePtrOutput() ManagedClusterNodeProvisioningProfilePtrOutput {
+	return i.ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *managedClusterNodeProvisioningProfilePtrType) ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(ctx context.Context) ManagedClusterNodeProvisioningProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterNodeProvisioningProfilePtrOutput)
+}
+
+type ManagedClusterNodeProvisioningProfileOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterNodeProvisioningProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterNodeProvisioningProfile)(nil)).Elem()
+}
+
+func (o ManagedClusterNodeProvisioningProfileOutput) ToManagedClusterNodeProvisioningProfileOutput() ManagedClusterNodeProvisioningProfileOutput {
+	return o
+}
+
+func (o ManagedClusterNodeProvisioningProfileOutput) ToManagedClusterNodeProvisioningProfileOutputWithContext(ctx context.Context) ManagedClusterNodeProvisioningProfileOutput {
+	return o
+}
+
+func (o ManagedClusterNodeProvisioningProfileOutput) ToManagedClusterNodeProvisioningProfilePtrOutput() ManagedClusterNodeProvisioningProfilePtrOutput {
+	return o.ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(context.Background())
+}
+
+func (o ManagedClusterNodeProvisioningProfileOutput) ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(ctx context.Context) ManagedClusterNodeProvisioningProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ManagedClusterNodeProvisioningProfile) *ManagedClusterNodeProvisioningProfile {
+		return &v
+	}).(ManagedClusterNodeProvisioningProfilePtrOutput)
+}
+
+// The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools.
+func (o ManagedClusterNodeProvisioningProfileOutput) DefaultNodePools() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterNodeProvisioningProfile) *string { return v.DefaultNodePools }).(pulumi.StringPtrOutput)
+}
+
+// The node provisioning mode. If not specified, the default is Manual.
+func (o ManagedClusterNodeProvisioningProfileOutput) Mode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterNodeProvisioningProfile) *string { return v.Mode }).(pulumi.StringPtrOutput)
+}
+
+type ManagedClusterNodeProvisioningProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterNodeProvisioningProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterNodeProvisioningProfile)(nil)).Elem()
+}
+
+func (o ManagedClusterNodeProvisioningProfilePtrOutput) ToManagedClusterNodeProvisioningProfilePtrOutput() ManagedClusterNodeProvisioningProfilePtrOutput {
+	return o
+}
+
+func (o ManagedClusterNodeProvisioningProfilePtrOutput) ToManagedClusterNodeProvisioningProfilePtrOutputWithContext(ctx context.Context) ManagedClusterNodeProvisioningProfilePtrOutput {
+	return o
+}
+
+func (o ManagedClusterNodeProvisioningProfilePtrOutput) Elem() ManagedClusterNodeProvisioningProfileOutput {
+	return o.ApplyT(func(v *ManagedClusterNodeProvisioningProfile) ManagedClusterNodeProvisioningProfile {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterNodeProvisioningProfile
+		return ret
+	}).(ManagedClusterNodeProvisioningProfileOutput)
+}
+
+// The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools.
+func (o ManagedClusterNodeProvisioningProfilePtrOutput) DefaultNodePools() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterNodeProvisioningProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultNodePools
+	}).(pulumi.StringPtrOutput)
+}
+
+// The node provisioning mode. If not specified, the default is Manual.
+func (o ManagedClusterNodeProvisioningProfilePtrOutput) Mode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterNodeProvisioningProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Mode
+	}).(pulumi.StringPtrOutput)
+}
+
+type ManagedClusterNodeProvisioningProfileResponse struct {
+	// The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools.
+	DefaultNodePools *string `pulumi:"defaultNodePools"`
+	// The node provisioning mode. If not specified, the default is Manual.
+	Mode *string `pulumi:"mode"`
+}
+
+// Defaults sets the appropriate defaults for ManagedClusterNodeProvisioningProfileResponse
+func (val *ManagedClusterNodeProvisioningProfileResponse) Defaults() *ManagedClusterNodeProvisioningProfileResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.DefaultNodePools == nil {
+		defaultNodePools_ := "Auto"
+		tmp.DefaultNodePools = &defaultNodePools_
+	}
+	return &tmp
+}
+
+type ManagedClusterNodeProvisioningProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterNodeProvisioningProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterNodeProvisioningProfileResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterNodeProvisioningProfileResponseOutput) ToManagedClusterNodeProvisioningProfileResponseOutput() ManagedClusterNodeProvisioningProfileResponseOutput {
+	return o
+}
+
+func (o ManagedClusterNodeProvisioningProfileResponseOutput) ToManagedClusterNodeProvisioningProfileResponseOutputWithContext(ctx context.Context) ManagedClusterNodeProvisioningProfileResponseOutput {
+	return o
+}
+
+// The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools.
+func (o ManagedClusterNodeProvisioningProfileResponseOutput) DefaultNodePools() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterNodeProvisioningProfileResponse) *string { return v.DefaultNodePools }).(pulumi.StringPtrOutput)
+}
+
+// The node provisioning mode. If not specified, the default is Manual.
+func (o ManagedClusterNodeProvisioningProfileResponseOutput) Mode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedClusterNodeProvisioningProfileResponse) *string { return v.Mode }).(pulumi.StringPtrOutput)
+}
+
+type ManagedClusterNodeProvisioningProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterNodeProvisioningProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterNodeProvisioningProfileResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterNodeProvisioningProfileResponsePtrOutput) ToManagedClusterNodeProvisioningProfileResponsePtrOutput() ManagedClusterNodeProvisioningProfileResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterNodeProvisioningProfileResponsePtrOutput) ToManagedClusterNodeProvisioningProfileResponsePtrOutputWithContext(ctx context.Context) ManagedClusterNodeProvisioningProfileResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterNodeProvisioningProfileResponsePtrOutput) Elem() ManagedClusterNodeProvisioningProfileResponseOutput {
+	return o.ApplyT(func(v *ManagedClusterNodeProvisioningProfileResponse) ManagedClusterNodeProvisioningProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterNodeProvisioningProfileResponse
+		return ret
+	}).(ManagedClusterNodeProvisioningProfileResponseOutput)
+}
+
+// The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools.
+func (o ManagedClusterNodeProvisioningProfileResponsePtrOutput) DefaultNodePools() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterNodeProvisioningProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultNodePools
+	}).(pulumi.StringPtrOutput)
+}
+
+// The node provisioning mode. If not specified, the default is Manual.
+func (o ManagedClusterNodeProvisioningProfileResponsePtrOutput) Mode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterNodeProvisioningProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Mode
+	}).(pulumi.StringPtrOutput)
 }
 
 // Node resource group lockdown profile for a managed cluster.
@@ -17239,7 +19126,7 @@ func (o ManagedClusterPodIdentityArrayOutput) Index(i pulumi.IntInput) ManagedCl
 	}).(ManagedClusterPodIdentityOutput)
 }
 
-// See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
+// A pod identity exception, which allows pods with certain labels to access the Azure Instance Metadata Service (IMDS) endpoint without being intercepted by the node-managed identity (NMI) server. See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityException struct {
 	// The name of the pod identity exception.
 	Name string `pulumi:"name"`
@@ -17260,7 +19147,7 @@ type ManagedClusterPodIdentityExceptionInput interface {
 	ToManagedClusterPodIdentityExceptionOutputWithContext(context.Context) ManagedClusterPodIdentityExceptionOutput
 }
 
-// See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
+// A pod identity exception, which allows pods with certain labels to access the Azure Instance Metadata Service (IMDS) endpoint without being intercepted by the node-managed identity (NMI) server. See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityExceptionArgs struct {
 	// The name of the pod identity exception.
 	Name pulumi.StringInput `pulumi:"name"`
@@ -17307,7 +19194,7 @@ func (i ManagedClusterPodIdentityExceptionArray) ToManagedClusterPodIdentityExce
 	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterPodIdentityExceptionArrayOutput)
 }
 
-// See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
+// A pod identity exception, which allows pods with certain labels to access the Azure Instance Metadata Service (IMDS) endpoint without being intercepted by the node-managed identity (NMI) server. See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityExceptionOutput struct{ *pulumi.OutputState }
 
 func (ManagedClusterPodIdentityExceptionOutput) ElementType() reflect.Type {
@@ -17357,7 +19244,7 @@ func (o ManagedClusterPodIdentityExceptionArrayOutput) Index(i pulumi.IntInput) 
 	}).(ManagedClusterPodIdentityExceptionOutput)
 }
 
-// See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
+// A pod identity exception, which allows pods with certain labels to access the Azure Instance Metadata Service (IMDS) endpoint without being intercepted by the node-managed identity (NMI) server. See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityExceptionResponse struct {
 	// The name of the pod identity exception.
 	Name string `pulumi:"name"`
@@ -17367,7 +19254,7 @@ type ManagedClusterPodIdentityExceptionResponse struct {
 	PodLabels map[string]string `pulumi:"podLabels"`
 }
 
-// See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
+// A pod identity exception, which allows pods with certain labels to access the Azure Instance Metadata Service (IMDS) endpoint without being intercepted by the node-managed identity (NMI) server. See [disable AAD Pod Identity for a specific Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityExceptionResponseOutput struct{ *pulumi.OutputState }
 
 func (ManagedClusterPodIdentityExceptionResponseOutput) ElementType() reflect.Type {
@@ -17417,9 +19304,9 @@ func (o ManagedClusterPodIdentityExceptionResponseArrayOutput) Index(i pulumi.In
 	}).(ManagedClusterPodIdentityExceptionResponseOutput)
 }
 
-// See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
+// The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
 type ManagedClusterPodIdentityProfile struct {
-	// Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
+	// Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
 	AllowNetworkPluginKubenet *bool `pulumi:"allowNetworkPluginKubenet"`
 	// Whether the pod identity addon is enabled.
 	Enabled *bool `pulumi:"enabled"`
@@ -17440,9 +19327,9 @@ type ManagedClusterPodIdentityProfileInput interface {
 	ToManagedClusterPodIdentityProfileOutputWithContext(context.Context) ManagedClusterPodIdentityProfileOutput
 }
 
-// See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
+// The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
 type ManagedClusterPodIdentityProfileArgs struct {
-	// Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
+	// Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
 	AllowNetworkPluginKubenet pulumi.BoolPtrInput `pulumi:"allowNetworkPluginKubenet"`
 	// Whether the pod identity addon is enabled.
 	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
@@ -17505,7 +19392,7 @@ func (i *managedClusterPodIdentityProfilePtrType) ToManagedClusterPodIdentityPro
 	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterPodIdentityProfilePtrOutput)
 }
 
-// See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
+// The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
 type ManagedClusterPodIdentityProfileOutput struct{ *pulumi.OutputState }
 
 func (ManagedClusterPodIdentityProfileOutput) ElementType() reflect.Type {
@@ -17530,7 +19417,7 @@ func (o ManagedClusterPodIdentityProfileOutput) ToManagedClusterPodIdentityProfi
 	}).(ManagedClusterPodIdentityProfilePtrOutput)
 }
 
-// Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
+// Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
 func (o ManagedClusterPodIdentityProfileOutput) AllowNetworkPluginKubenet() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPodIdentityProfile) *bool { return v.AllowNetworkPluginKubenet }).(pulumi.BoolPtrOutput)
 }
@@ -17576,7 +19463,7 @@ func (o ManagedClusterPodIdentityProfilePtrOutput) Elem() ManagedClusterPodIdent
 	}).(ManagedClusterPodIdentityProfileOutput)
 }
 
-// Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
+// Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
 func (o ManagedClusterPodIdentityProfilePtrOutput) AllowNetworkPluginKubenet() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPodIdentityProfile) *bool {
 		if v == nil {
@@ -17616,9 +19503,9 @@ func (o ManagedClusterPodIdentityProfilePtrOutput) UserAssignedIdentityException
 	}).(ManagedClusterPodIdentityExceptionArrayOutput)
 }
 
-// See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
+// The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
 type ManagedClusterPodIdentityProfileResponse struct {
-	// Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
+	// Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
 	AllowNetworkPluginKubenet *bool `pulumi:"allowNetworkPluginKubenet"`
 	// Whether the pod identity addon is enabled.
 	Enabled *bool `pulumi:"enabled"`
@@ -17628,7 +19515,7 @@ type ManagedClusterPodIdentityProfileResponse struct {
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityExceptionResponse `pulumi:"userAssignedIdentityExceptions"`
 }
 
-// See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
+// The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration.
 type ManagedClusterPodIdentityProfileResponseOutput struct{ *pulumi.OutputState }
 
 func (ManagedClusterPodIdentityProfileResponseOutput) ElementType() reflect.Type {
@@ -17643,7 +19530,7 @@ func (o ManagedClusterPodIdentityProfileResponseOutput) ToManagedClusterPodIdent
 	return o
 }
 
-// Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
+// Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
 func (o ManagedClusterPodIdentityProfileResponseOutput) AllowNetworkPluginKubenet() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPodIdentityProfileResponse) *bool { return v.AllowNetworkPluginKubenet }).(pulumi.BoolPtrOutput)
 }
@@ -17691,7 +19578,7 @@ func (o ManagedClusterPodIdentityProfileResponsePtrOutput) Elem() ManagedCluster
 	}).(ManagedClusterPodIdentityProfileResponseOutput)
 }
 
-// Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
+// Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information.
 func (o ManagedClusterPodIdentityProfileResponsePtrOutput) AllowNetworkPluginKubenet() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPodIdentityProfileResponse) *bool {
 		if v == nil {
@@ -18035,45 +19922,45 @@ func (o ManagedClusterPodIdentityResponseProvisioningInfoOutput) Error() Managed
 
 // Parameters to be applied to the cluster-autoscaler when enabled
 type ManagedClusterPropertiesAutoScalerProfile struct {
-	// Valid values are 'true' and 'false'
+	// Detects similar node pools and balances the number of nodes between them. Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups *string `pulumi:"balanceSimilarNodeGroups"`
-	// If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+	// DaemonSet pods will be gracefully terminated from empty nodes. If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 	DaemonsetEvictionForEmptyNodes *bool `pulumi:"daemonsetEvictionForEmptyNodes"`
-	// If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+	// DaemonSet pods will be gracefully terminated from non-empty nodes. If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 	DaemonsetEvictionForOccupiedNodes *bool `pulumi:"daemonsetEvictionForOccupiedNodes"`
-	// If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
+	// The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 	Expander *string `pulumi:"expander"`
-	// If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
+	// Should CA ignore DaemonSet pods when calculating resource utilization for scaling down. If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
 	IgnoreDaemonsetsUtilization *bool `pulumi:"ignoreDaemonsetsUtilization"`
-	// The default is 10.
+	// The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer. The default is 10.
 	MaxEmptyBulkDelete *string `pulumi:"maxEmptyBulkDelete"`
-	// The default is 600.
+	// The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. The default is 600.
 	MaxGracefulTerminationSec *string `pulumi:"maxGracefulTerminationSec"`
-	// The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// The maximum time the autoscaler waits for a node to be provisioned. The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	MaxNodeProvisionTime *string `pulumi:"maxNodeProvisionTime"`
-	// The default is 45. The maximum is 100 and the minimum is 0.
+	// The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations. The default is 45. The maximum is 100 and the minimum is 0.
 	MaxTotalUnreadyPercentage *string `pulumi:"maxTotalUnreadyPercentage"`
-	// For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
+	// Ignore unscheduled pods before they're a certain age. For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
 	NewPodScaleUpDelay *string `pulumi:"newPodScaleUpDelay"`
-	// This must be an integer. The default is 3.
+	// The number of allowed unready nodes, irrespective of max-total-unready-percentage. This must be an integer. The default is 3.
 	OkTotalUnreadyCount *string `pulumi:"okTotalUnreadyCount"`
-	// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after scale up that scale down evaluation resumes. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterAdd *string `pulumi:"scaleDownDelayAfterAdd"`
-	// The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after node deletion that scale down evaluation resumes. The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterDelete *string `pulumi:"scaleDownDelayAfterDelete"`
-	// The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after scale down failure that scale down evaluation resumes. The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterFailure *string `pulumi:"scaleDownDelayAfterFailure"`
-	// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long a node should be unneeded before it is eligible for scale down. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownUnneededTime *string `pulumi:"scaleDownUnneededTime"`
-	// The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long an unready node should be unneeded before it is eligible for scale down. The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownUnreadyTime *string `pulumi:"scaleDownUnreadyTime"`
-	// The default is '0.5'.
+	// Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. The default is '0.5'.
 	ScaleDownUtilizationThreshold *string `pulumi:"scaleDownUtilizationThreshold"`
-	// The default is '10'. Values must be an integer number of seconds.
+	// How often cluster is reevaluated for scale up or down. The default is '10'. Values must be an integer number of seconds.
 	ScanInterval *string `pulumi:"scanInterval"`
-	// The default is true.
+	// If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath. The default is true.
 	SkipNodesWithLocalStorage *string `pulumi:"skipNodesWithLocalStorage"`
-	// The default is true.
+	// If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods). The default is true.
 	SkipNodesWithSystemPods *string `pulumi:"skipNodesWithSystemPods"`
 }
 
@@ -18090,45 +19977,45 @@ type ManagedClusterPropertiesAutoScalerProfileInput interface {
 
 // Parameters to be applied to the cluster-autoscaler when enabled
 type ManagedClusterPropertiesAutoScalerProfileArgs struct {
-	// Valid values are 'true' and 'false'
+	// Detects similar node pools and balances the number of nodes between them. Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups pulumi.StringPtrInput `pulumi:"balanceSimilarNodeGroups"`
-	// If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+	// DaemonSet pods will be gracefully terminated from empty nodes. If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 	DaemonsetEvictionForEmptyNodes pulumi.BoolPtrInput `pulumi:"daemonsetEvictionForEmptyNodes"`
-	// If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+	// DaemonSet pods will be gracefully terminated from non-empty nodes. If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 	DaemonsetEvictionForOccupiedNodes pulumi.BoolPtrInput `pulumi:"daemonsetEvictionForOccupiedNodes"`
-	// If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
+	// The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 	Expander pulumi.StringPtrInput `pulumi:"expander"`
-	// If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
+	// Should CA ignore DaemonSet pods when calculating resource utilization for scaling down. If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
 	IgnoreDaemonsetsUtilization pulumi.BoolPtrInput `pulumi:"ignoreDaemonsetsUtilization"`
-	// The default is 10.
+	// The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer. The default is 10.
 	MaxEmptyBulkDelete pulumi.StringPtrInput `pulumi:"maxEmptyBulkDelete"`
-	// The default is 600.
+	// The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. The default is 600.
 	MaxGracefulTerminationSec pulumi.StringPtrInput `pulumi:"maxGracefulTerminationSec"`
-	// The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// The maximum time the autoscaler waits for a node to be provisioned. The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	MaxNodeProvisionTime pulumi.StringPtrInput `pulumi:"maxNodeProvisionTime"`
-	// The default is 45. The maximum is 100 and the minimum is 0.
+	// The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations. The default is 45. The maximum is 100 and the minimum is 0.
 	MaxTotalUnreadyPercentage pulumi.StringPtrInput `pulumi:"maxTotalUnreadyPercentage"`
-	// For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
+	// Ignore unscheduled pods before they're a certain age. For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
 	NewPodScaleUpDelay pulumi.StringPtrInput `pulumi:"newPodScaleUpDelay"`
-	// This must be an integer. The default is 3.
+	// The number of allowed unready nodes, irrespective of max-total-unready-percentage. This must be an integer. The default is 3.
 	OkTotalUnreadyCount pulumi.StringPtrInput `pulumi:"okTotalUnreadyCount"`
-	// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after scale up that scale down evaluation resumes. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterAdd pulumi.StringPtrInput `pulumi:"scaleDownDelayAfterAdd"`
-	// The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after node deletion that scale down evaluation resumes. The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterDelete pulumi.StringPtrInput `pulumi:"scaleDownDelayAfterDelete"`
-	// The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after scale down failure that scale down evaluation resumes. The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterFailure pulumi.StringPtrInput `pulumi:"scaleDownDelayAfterFailure"`
-	// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long a node should be unneeded before it is eligible for scale down. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownUnneededTime pulumi.StringPtrInput `pulumi:"scaleDownUnneededTime"`
-	// The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long an unready node should be unneeded before it is eligible for scale down. The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownUnreadyTime pulumi.StringPtrInput `pulumi:"scaleDownUnreadyTime"`
-	// The default is '0.5'.
+	// Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. The default is '0.5'.
 	ScaleDownUtilizationThreshold pulumi.StringPtrInput `pulumi:"scaleDownUtilizationThreshold"`
-	// The default is '10'. Values must be an integer number of seconds.
+	// How often cluster is reevaluated for scale up or down. The default is '10'. Values must be an integer number of seconds.
 	ScanInterval pulumi.StringPtrInput `pulumi:"scanInterval"`
-	// The default is true.
+	// If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath. The default is true.
 	SkipNodesWithLocalStorage pulumi.StringPtrInput `pulumi:"skipNodesWithLocalStorage"`
-	// The default is true.
+	// If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods). The default is true.
 	SkipNodesWithSystemPods pulumi.StringPtrInput `pulumi:"skipNodesWithSystemPods"`
 }
 
@@ -18210,102 +20097,102 @@ func (o ManagedClusterPropertiesAutoScalerProfileOutput) ToManagedClusterPropert
 	}).(ManagedClusterPropertiesAutoScalerProfilePtrOutput)
 }
 
-// Valid values are 'true' and 'false'
+// Detects similar node pools and balances the number of nodes between them. Valid values are 'true' and 'false'
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) BalanceSimilarNodeGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.BalanceSimilarNodeGroups }).(pulumi.StringPtrOutput)
 }
 
-// If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+// DaemonSet pods will be gracefully terminated from empty nodes. If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) DaemonsetEvictionForEmptyNodes() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *bool { return v.DaemonsetEvictionForEmptyNodes }).(pulumi.BoolPtrOutput)
 }
 
-// If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+// DaemonSet pods will be gracefully terminated from non-empty nodes. If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) DaemonsetEvictionForOccupiedNodes() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *bool { return v.DaemonsetEvictionForOccupiedNodes }).(pulumi.BoolPtrOutput)
 }
 
-// If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
+// The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) Expander() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.Expander }).(pulumi.StringPtrOutput)
 }
 
-// If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
+// Should CA ignore DaemonSet pods when calculating resource utilization for scaling down. If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) IgnoreDaemonsetsUtilization() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *bool { return v.IgnoreDaemonsetsUtilization }).(pulumi.BoolPtrOutput)
 }
 
-// The default is 10.
+// The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer. The default is 10.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) MaxEmptyBulkDelete() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.MaxEmptyBulkDelete }).(pulumi.StringPtrOutput)
 }
 
-// The default is 600.
+// The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. The default is 600.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) MaxGracefulTerminationSec() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.MaxGracefulTerminationSec }).(pulumi.StringPtrOutput)
 }
 
-// The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// The maximum time the autoscaler waits for a node to be provisioned. The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) MaxNodeProvisionTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.MaxNodeProvisionTime }).(pulumi.StringPtrOutput)
 }
 
-// The default is 45. The maximum is 100 and the minimum is 0.
+// The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations. The default is 45. The maximum is 100 and the minimum is 0.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) MaxTotalUnreadyPercentage() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.MaxTotalUnreadyPercentage }).(pulumi.StringPtrOutput)
 }
 
-// For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
+// Ignore unscheduled pods before they're a certain age. For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) NewPodScaleUpDelay() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.NewPodScaleUpDelay }).(pulumi.StringPtrOutput)
 }
 
-// This must be an integer. The default is 3.
+// The number of allowed unready nodes, irrespective of max-total-unready-percentage. This must be an integer. The default is 3.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) OkTotalUnreadyCount() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.OkTotalUnreadyCount }).(pulumi.StringPtrOutput)
 }
 
-// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after scale up that scale down evaluation resumes. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) ScaleDownDelayAfterAdd() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.ScaleDownDelayAfterAdd }).(pulumi.StringPtrOutput)
 }
 
-// The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after node deletion that scale down evaluation resumes. The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) ScaleDownDelayAfterDelete() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.ScaleDownDelayAfterDelete }).(pulumi.StringPtrOutput)
 }
 
-// The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after scale down failure that scale down evaluation resumes. The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) ScaleDownDelayAfterFailure() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.ScaleDownDelayAfterFailure }).(pulumi.StringPtrOutput)
 }
 
-// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long a node should be unneeded before it is eligible for scale down. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) ScaleDownUnneededTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.ScaleDownUnneededTime }).(pulumi.StringPtrOutput)
 }
 
-// The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long an unready node should be unneeded before it is eligible for scale down. The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) ScaleDownUnreadyTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.ScaleDownUnreadyTime }).(pulumi.StringPtrOutput)
 }
 
-// The default is '0.5'.
+// Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. The default is '0.5'.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) ScaleDownUtilizationThreshold() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.ScaleDownUtilizationThreshold }).(pulumi.StringPtrOutput)
 }
 
-// The default is '10'. Values must be an integer number of seconds.
+// How often cluster is reevaluated for scale up or down. The default is '10'. Values must be an integer number of seconds.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) ScanInterval() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.ScanInterval }).(pulumi.StringPtrOutput)
 }
 
-// The default is true.
+// If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath. The default is true.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) SkipNodesWithLocalStorage() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.SkipNodesWithLocalStorage }).(pulumi.StringPtrOutput)
 }
 
-// The default is true.
+// If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods). The default is true.
 func (o ManagedClusterPropertiesAutoScalerProfileOutput) SkipNodesWithSystemPods() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesAutoScalerProfile) *string { return v.SkipNodesWithSystemPods }).(pulumi.StringPtrOutput)
 }
@@ -18334,7 +20221,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) Elem() ManagedCluste
 	}).(ManagedClusterPropertiesAutoScalerProfileOutput)
 }
 
-// Valid values are 'true' and 'false'
+// Detects similar node pools and balances the number of nodes between them. Valid values are 'true' and 'false'
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) BalanceSimilarNodeGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18344,7 +20231,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) BalanceSimilarNodeGr
 	}).(pulumi.StringPtrOutput)
 }
 
-// If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+// DaemonSet pods will be gracefully terminated from empty nodes. If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) DaemonsetEvictionForEmptyNodes() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *bool {
 		if v == nil {
@@ -18354,7 +20241,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) DaemonsetEvictionFor
 	}).(pulumi.BoolPtrOutput)
 }
 
-// If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+// DaemonSet pods will be gracefully terminated from non-empty nodes. If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) DaemonsetEvictionForOccupiedNodes() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *bool {
 		if v == nil {
@@ -18364,7 +20251,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) DaemonsetEvictionFor
 	}).(pulumi.BoolPtrOutput)
 }
 
-// If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
+// The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) Expander() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18374,7 +20261,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) Expander() pulumi.St
 	}).(pulumi.StringPtrOutput)
 }
 
-// If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
+// Should CA ignore DaemonSet pods when calculating resource utilization for scaling down. If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) IgnoreDaemonsetsUtilization() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *bool {
 		if v == nil {
@@ -18384,7 +20271,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) IgnoreDaemonsetsUtil
 	}).(pulumi.BoolPtrOutput)
 }
 
-// The default is 10.
+// The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer. The default is 10.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) MaxEmptyBulkDelete() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18394,7 +20281,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) MaxEmptyBulkDelete()
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is 600.
+// The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. The default is 600.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) MaxGracefulTerminationSec() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18404,7 +20291,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) MaxGracefulTerminati
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// The maximum time the autoscaler waits for a node to be provisioned. The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) MaxNodeProvisionTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18414,7 +20301,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) MaxNodeProvisionTime
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is 45. The maximum is 100 and the minimum is 0.
+// The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations. The default is 45. The maximum is 100 and the minimum is 0.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) MaxTotalUnreadyPercentage() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18424,7 +20311,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) MaxTotalUnreadyPerce
 	}).(pulumi.StringPtrOutput)
 }
 
-// For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
+// Ignore unscheduled pods before they're a certain age. For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) NewPodScaleUpDelay() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18434,7 +20321,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) NewPodScaleUpDelay()
 	}).(pulumi.StringPtrOutput)
 }
 
-// This must be an integer. The default is 3.
+// The number of allowed unready nodes, irrespective of max-total-unready-percentage. This must be an integer. The default is 3.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) OkTotalUnreadyCount() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18444,7 +20331,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) OkTotalUnreadyCount(
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after scale up that scale down evaluation resumes. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownDelayAfterAdd() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18454,7 +20341,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownDelayAfterA
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after node deletion that scale down evaluation resumes. The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownDelayAfterDelete() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18464,7 +20351,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownDelayAfterD
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after scale down failure that scale down evaluation resumes. The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownDelayAfterFailure() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18474,7 +20361,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownDelayAfterF
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long a node should be unneeded before it is eligible for scale down. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownUnneededTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18484,7 +20371,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownUnneededTim
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long an unready node should be unneeded before it is eligible for scale down. The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownUnreadyTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18494,7 +20381,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownUnreadyTime
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '0.5'.
+// Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. The default is '0.5'.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownUtilizationThreshold() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18504,7 +20391,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScaleDownUtilization
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '10'. Values must be an integer number of seconds.
+// How often cluster is reevaluated for scale up or down. The default is '10'. Values must be an integer number of seconds.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScanInterval() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18514,7 +20401,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) ScanInterval() pulum
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is true.
+// If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath. The default is true.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) SkipNodesWithLocalStorage() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18524,7 +20411,7 @@ func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) SkipNodesWithLocalSt
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is true.
+// If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods). The default is true.
 func (o ManagedClusterPropertiesAutoScalerProfilePtrOutput) SkipNodesWithSystemPods() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesAutoScalerProfile) *string {
 		if v == nil {
@@ -18585,45 +20472,45 @@ func (o ManagedClusterPropertiesForSnapshotResponseOutput) Sku() ManagedClusterS
 
 // Parameters to be applied to the cluster-autoscaler when enabled
 type ManagedClusterPropertiesResponseAutoScalerProfile struct {
-	// Valid values are 'true' and 'false'
+	// Detects similar node pools and balances the number of nodes between them. Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups *string `pulumi:"balanceSimilarNodeGroups"`
-	// If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+	// DaemonSet pods will be gracefully terminated from empty nodes. If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 	DaemonsetEvictionForEmptyNodes *bool `pulumi:"daemonsetEvictionForEmptyNodes"`
-	// If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+	// DaemonSet pods will be gracefully terminated from non-empty nodes. If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 	DaemonsetEvictionForOccupiedNodes *bool `pulumi:"daemonsetEvictionForOccupiedNodes"`
-	// If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
+	// The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 	Expander *string `pulumi:"expander"`
-	// If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
+	// Should CA ignore DaemonSet pods when calculating resource utilization for scaling down. If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
 	IgnoreDaemonsetsUtilization *bool `pulumi:"ignoreDaemonsetsUtilization"`
-	// The default is 10.
+	// The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer. The default is 10.
 	MaxEmptyBulkDelete *string `pulumi:"maxEmptyBulkDelete"`
-	// The default is 600.
+	// The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. The default is 600.
 	MaxGracefulTerminationSec *string `pulumi:"maxGracefulTerminationSec"`
-	// The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// The maximum time the autoscaler waits for a node to be provisioned. The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	MaxNodeProvisionTime *string `pulumi:"maxNodeProvisionTime"`
-	// The default is 45. The maximum is 100 and the minimum is 0.
+	// The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations. The default is 45. The maximum is 100 and the minimum is 0.
 	MaxTotalUnreadyPercentage *string `pulumi:"maxTotalUnreadyPercentage"`
-	// For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
+	// Ignore unscheduled pods before they're a certain age. For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
 	NewPodScaleUpDelay *string `pulumi:"newPodScaleUpDelay"`
-	// This must be an integer. The default is 3.
+	// The number of allowed unready nodes, irrespective of max-total-unready-percentage. This must be an integer. The default is 3.
 	OkTotalUnreadyCount *string `pulumi:"okTotalUnreadyCount"`
-	// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after scale up that scale down evaluation resumes. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterAdd *string `pulumi:"scaleDownDelayAfterAdd"`
-	// The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after node deletion that scale down evaluation resumes. The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterDelete *string `pulumi:"scaleDownDelayAfterDelete"`
-	// The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long after scale down failure that scale down evaluation resumes. The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownDelayAfterFailure *string `pulumi:"scaleDownDelayAfterFailure"`
-	// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long a node should be unneeded before it is eligible for scale down. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownUnneededTime *string `pulumi:"scaleDownUnneededTime"`
-	// The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+	// How long an unready node should be unneeded before it is eligible for scale down. The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 	ScaleDownUnreadyTime *string `pulumi:"scaleDownUnreadyTime"`
-	// The default is '0.5'.
+	// Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. The default is '0.5'.
 	ScaleDownUtilizationThreshold *string `pulumi:"scaleDownUtilizationThreshold"`
-	// The default is '10'. Values must be an integer number of seconds.
+	// How often cluster is reevaluated for scale up or down. The default is '10'. Values must be an integer number of seconds.
 	ScanInterval *string `pulumi:"scanInterval"`
-	// The default is true.
+	// If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath. The default is true.
 	SkipNodesWithLocalStorage *string `pulumi:"skipNodesWithLocalStorage"`
-	// The default is true.
+	// If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods). The default is true.
 	SkipNodesWithSystemPods *string `pulumi:"skipNodesWithSystemPods"`
 }
 
@@ -18642,108 +20529,108 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) ToManagedCluste
 	return o
 }
 
-// Valid values are 'true' and 'false'
+// Detects similar node pools and balances the number of nodes between them. Valid values are 'true' and 'false'
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) BalanceSimilarNodeGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.BalanceSimilarNodeGroups }).(pulumi.StringPtrOutput)
 }
 
-// If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+// DaemonSet pods will be gracefully terminated from empty nodes. If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) DaemonsetEvictionForEmptyNodes() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *bool {
 		return v.DaemonsetEvictionForEmptyNodes
 	}).(pulumi.BoolPtrOutput)
 }
 
-// If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+// DaemonSet pods will be gracefully terminated from non-empty nodes. If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) DaemonsetEvictionForOccupiedNodes() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *bool {
 		return v.DaemonsetEvictionForOccupiedNodes
 	}).(pulumi.BoolPtrOutput)
 }
 
-// If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
+// The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) Expander() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.Expander }).(pulumi.StringPtrOutput)
 }
 
-// If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
+// Should CA ignore DaemonSet pods when calculating resource utilization for scaling down. If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) IgnoreDaemonsetsUtilization() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *bool { return v.IgnoreDaemonsetsUtilization }).(pulumi.BoolPtrOutput)
 }
 
-// The default is 10.
+// The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer. The default is 10.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) MaxEmptyBulkDelete() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.MaxEmptyBulkDelete }).(pulumi.StringPtrOutput)
 }
 
-// The default is 600.
+// The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. The default is 600.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) MaxGracefulTerminationSec() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.MaxGracefulTerminationSec }).(pulumi.StringPtrOutput)
 }
 
-// The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// The maximum time the autoscaler waits for a node to be provisioned. The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) MaxNodeProvisionTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.MaxNodeProvisionTime }).(pulumi.StringPtrOutput)
 }
 
-// The default is 45. The maximum is 100 and the minimum is 0.
+// The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations. The default is 45. The maximum is 100 and the minimum is 0.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) MaxTotalUnreadyPercentage() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.MaxTotalUnreadyPercentage }).(pulumi.StringPtrOutput)
 }
 
-// For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
+// Ignore unscheduled pods before they're a certain age. For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) NewPodScaleUpDelay() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.NewPodScaleUpDelay }).(pulumi.StringPtrOutput)
 }
 
-// This must be an integer. The default is 3.
+// The number of allowed unready nodes, irrespective of max-total-unready-percentage. This must be an integer. The default is 3.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) OkTotalUnreadyCount() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.OkTotalUnreadyCount }).(pulumi.StringPtrOutput)
 }
 
-// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after scale up that scale down evaluation resumes. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) ScaleDownDelayAfterAdd() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.ScaleDownDelayAfterAdd }).(pulumi.StringPtrOutput)
 }
 
-// The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after node deletion that scale down evaluation resumes. The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) ScaleDownDelayAfterDelete() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.ScaleDownDelayAfterDelete }).(pulumi.StringPtrOutput)
 }
 
-// The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after scale down failure that scale down evaluation resumes. The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) ScaleDownDelayAfterFailure() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.ScaleDownDelayAfterFailure }).(pulumi.StringPtrOutput)
 }
 
-// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long a node should be unneeded before it is eligible for scale down. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) ScaleDownUnneededTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.ScaleDownUnneededTime }).(pulumi.StringPtrOutput)
 }
 
-// The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long an unready node should be unneeded before it is eligible for scale down. The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) ScaleDownUnreadyTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.ScaleDownUnreadyTime }).(pulumi.StringPtrOutput)
 }
 
-// The default is '0.5'.
+// Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. The default is '0.5'.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) ScaleDownUtilizationThreshold() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		return v.ScaleDownUtilizationThreshold
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '10'. Values must be an integer number of seconds.
+// How often cluster is reevaluated for scale up or down. The default is '10'. Values must be an integer number of seconds.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) ScanInterval() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.ScanInterval }).(pulumi.StringPtrOutput)
 }
 
-// The default is true.
+// If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath. The default is true.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) SkipNodesWithLocalStorage() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.SkipNodesWithLocalStorage }).(pulumi.StringPtrOutput)
 }
 
-// The default is true.
+// If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods). The default is true.
 func (o ManagedClusterPropertiesResponseAutoScalerProfileOutput) SkipNodesWithSystemPods() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterPropertiesResponseAutoScalerProfile) *string { return v.SkipNodesWithSystemPods }).(pulumi.StringPtrOutput)
 }
@@ -18772,7 +20659,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) Elem() Manag
 	}).(ManagedClusterPropertiesResponseAutoScalerProfileOutput)
 }
 
-// Valid values are 'true' and 'false'
+// Detects similar node pools and balances the number of nodes between them. Valid values are 'true' and 'false'
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) BalanceSimilarNodeGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18782,7 +20669,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) BalanceSimil
 	}).(pulumi.StringPtrOutput)
 }
 
-// If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+// DaemonSet pods will be gracefully terminated from empty nodes. If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) DaemonsetEvictionForEmptyNodes() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *bool {
 		if v == nil {
@@ -18792,7 +20679,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) DaemonsetEvi
 	}).(pulumi.BoolPtrOutput)
 }
 
-// If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
+// DaemonSet pods will be gracefully terminated from non-empty nodes. If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) DaemonsetEvictionForOccupiedNodes() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *bool {
 		if v == nil {
@@ -18802,7 +20689,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) DaemonsetEvi
 	}).(pulumi.BoolPtrOutput)
 }
 
-// If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
+// The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) Expander() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18812,7 +20699,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) Expander() p
 	}).(pulumi.StringPtrOutput)
 }
 
-// If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
+// Should CA ignore DaemonSet pods when calculating resource utilization for scaling down. If set to true, the resources used by daemonset will be taken into account when making scaling down decisions.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) IgnoreDaemonsetsUtilization() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *bool {
 		if v == nil {
@@ -18822,7 +20709,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) IgnoreDaemon
 	}).(pulumi.BoolPtrOutput)
 }
 
-// The default is 10.
+// The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer. The default is 10.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) MaxEmptyBulkDelete() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18832,7 +20719,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) MaxEmptyBulk
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is 600.
+// The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. The default is 600.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) MaxGracefulTerminationSec() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18842,7 +20729,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) MaxGracefulT
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// The maximum time the autoscaler waits for a node to be provisioned. The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) MaxNodeProvisionTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18852,7 +20739,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) MaxNodeProvi
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is 45. The maximum is 100 and the minimum is 0.
+// The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations. The default is 45. The maximum is 100 and the minimum is 0.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) MaxTotalUnreadyPercentage() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18862,7 +20749,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) MaxTotalUnre
 	}).(pulumi.StringPtrOutput)
 }
 
-// For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
+// Ignore unscheduled pods before they're a certain age. For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) NewPodScaleUpDelay() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18872,7 +20759,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) NewPodScaleU
 	}).(pulumi.StringPtrOutput)
 }
 
-// This must be an integer. The default is 3.
+// The number of allowed unready nodes, irrespective of max-total-unready-percentage. This must be an integer. The default is 3.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) OkTotalUnreadyCount() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18882,7 +20769,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) OkTotalUnrea
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after scale up that scale down evaluation resumes. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownDelayAfterAdd() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18892,7 +20779,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownDel
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after node deletion that scale down evaluation resumes. The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownDelayAfterDelete() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18902,7 +20789,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownDel
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long after scale down failure that scale down evaluation resumes. The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownDelayAfterFailure() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18912,7 +20799,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownDel
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long a node should be unneeded before it is eligible for scale down. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownUnneededTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18922,7 +20809,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownUnn
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
+// How long an unready node should be unneeded before it is eligible for scale down. The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownUnreadyTime() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18932,7 +20819,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownUnr
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '0.5'.
+// Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. The default is '0.5'.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownUtilizationThreshold() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18942,7 +20829,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScaleDownUti
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is '10'. Values must be an integer number of seconds.
+// How often cluster is reevaluated for scale up or down. The default is '10'. Values must be an integer number of seconds.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScanInterval() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18952,7 +20839,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) ScanInterval
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is true.
+// If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath. The default is true.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) SkipNodesWithLocalStorage() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18962,7 +20849,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) SkipNodesWit
 	}).(pulumi.StringPtrOutput)
 }
 
-// The default is true.
+// If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods). The default is true.
 func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) SkipNodesWithSystemPods() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterPropertiesResponseAutoScalerProfile) *string {
 		if v == nil {
@@ -18976,7 +20863,7 @@ func (o ManagedClusterPropertiesResponseAutoScalerProfilePtrOutput) SkipNodesWit
 type ManagedClusterSKU struct {
 	// The name of a managed cluster SKU.
 	Name *string `pulumi:"name"`
-	// If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
+	// The tier of a managed cluster SKU. If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
 	Tier *string `pulumi:"tier"`
 }
 
@@ -18995,7 +20882,7 @@ type ManagedClusterSKUInput interface {
 type ManagedClusterSKUArgs struct {
 	// The name of a managed cluster SKU.
 	Name pulumi.StringPtrInput `pulumi:"name"`
-	// If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
+	// The tier of a managed cluster SKU. If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
 	Tier pulumi.StringPtrInput `pulumi:"tier"`
 }
 
@@ -19082,7 +20969,7 @@ func (o ManagedClusterSKUOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterSKU) *string { return v.Name }).(pulumi.StringPtrOutput)
 }
 
-// If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
+// The tier of a managed cluster SKU. If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
 func (o ManagedClusterSKUOutput) Tier() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ManagedClusterSKU) *string { return v.Tier }).(pulumi.StringPtrOutput)
 }
@@ -19121,7 +21008,7 @@ func (o ManagedClusterSKUPtrOutput) Name() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
+// The tier of a managed cluster SKU. If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
 func (o ManagedClusterSKUPtrOutput) Tier() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterSKU) *string {
 		if v == nil {
@@ -19212,6 +21099,8 @@ func (o ManagedClusterSKUResponsePtrOutput) Tier() pulumi.StringPtrOutput {
 type ManagedClusterSecurityProfile struct {
 	// Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile.
 	AzureKeyVaultKms *AzureKeyVaultKms `pulumi:"azureKeyVaultKms"`
+	// A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority).
+	CustomCATrustCertificates []string `pulumi:"customCATrustCertificates"`
 	// Microsoft Defender settings for the security profile.
 	Defender *ManagedClusterSecurityProfileDefender `pulumi:"defender"`
 	// Image Cleaner settings for the security profile.
@@ -19246,6 +21135,8 @@ type ManagedClusterSecurityProfileInput interface {
 type ManagedClusterSecurityProfileArgs struct {
 	// Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile.
 	AzureKeyVaultKms AzureKeyVaultKmsPtrInput `pulumi:"azureKeyVaultKms"`
+	// A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority).
+	CustomCATrustCertificates pulumi.StringArrayInput `pulumi:"customCATrustCertificates"`
 	// Microsoft Defender settings for the security profile.
 	Defender ManagedClusterSecurityProfileDefenderPtrInput `pulumi:"defender"`
 	// Image Cleaner settings for the security profile.
@@ -19346,6 +21237,11 @@ func (o ManagedClusterSecurityProfileOutput) AzureKeyVaultKms() AzureKeyVaultKms
 	return o.ApplyT(func(v ManagedClusterSecurityProfile) *AzureKeyVaultKms { return v.AzureKeyVaultKms }).(AzureKeyVaultKmsPtrOutput)
 }
 
+// A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority).
+func (o ManagedClusterSecurityProfileOutput) CustomCATrustCertificates() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ManagedClusterSecurityProfile) []string { return v.CustomCATrustCertificates }).(pulumi.StringArrayOutput)
+}
+
 // Microsoft Defender settings for the security profile.
 func (o ManagedClusterSecurityProfileOutput) Defender() ManagedClusterSecurityProfileDefenderPtrOutput {
 	return o.ApplyT(func(v ManagedClusterSecurityProfile) *ManagedClusterSecurityProfileDefender { return v.Defender }).(ManagedClusterSecurityProfileDefenderPtrOutput)
@@ -19397,6 +21293,16 @@ func (o ManagedClusterSecurityProfilePtrOutput) AzureKeyVaultKms() AzureKeyVault
 		}
 		return v.AzureKeyVaultKms
 	}).(AzureKeyVaultKmsPtrOutput)
+}
+
+// A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority).
+func (o ManagedClusterSecurityProfilePtrOutput) CustomCATrustCertificates() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ManagedClusterSecurityProfile) []string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomCATrustCertificates
+	}).(pulumi.StringArrayOutput)
 }
 
 // Microsoft Defender settings for the security profile.
@@ -20111,6 +22017,8 @@ func (o ManagedClusterSecurityProfileImageCleanerResponsePtrOutput) IntervalHour
 type ManagedClusterSecurityProfileResponse struct {
 	// Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile.
 	AzureKeyVaultKms *AzureKeyVaultKmsResponse `pulumi:"azureKeyVaultKms"`
+	// A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority).
+	CustomCATrustCertificates []string `pulumi:"customCATrustCertificates"`
 	// Microsoft Defender settings for the security profile.
 	Defender *ManagedClusterSecurityProfileDefenderResponse `pulumi:"defender"`
 	// Image Cleaner settings for the security profile.
@@ -20148,6 +22056,11 @@ func (o ManagedClusterSecurityProfileResponseOutput) ToManagedClusterSecurityPro
 // Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile.
 func (o ManagedClusterSecurityProfileResponseOutput) AzureKeyVaultKms() AzureKeyVaultKmsResponsePtrOutput {
 	return o.ApplyT(func(v ManagedClusterSecurityProfileResponse) *AzureKeyVaultKmsResponse { return v.AzureKeyVaultKms }).(AzureKeyVaultKmsResponsePtrOutput)
+}
+
+// A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority).
+func (o ManagedClusterSecurityProfileResponseOutput) CustomCATrustCertificates() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ManagedClusterSecurityProfileResponse) []string { return v.CustomCATrustCertificates }).(pulumi.StringArrayOutput)
 }
 
 // Microsoft Defender settings for the security profile.
@@ -20203,6 +22116,16 @@ func (o ManagedClusterSecurityProfileResponsePtrOutput) AzureKeyVaultKms() Azure
 		}
 		return v.AzureKeyVaultKms
 	}).(AzureKeyVaultKmsResponsePtrOutput)
+}
+
+// A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority).
+func (o ManagedClusterSecurityProfileResponsePtrOutput) CustomCATrustCertificates() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ManagedClusterSecurityProfileResponse) []string {
+		if v == nil {
+			return nil
+		}
+		return v.CustomCATrustCertificates
+	}).(pulumi.StringArrayOutput)
 }
 
 // Microsoft Defender settings for the security profile.
@@ -20669,6 +22592,266 @@ func (o ManagedClusterServicePrincipalProfileResponsePtrOutput) Secret() pulumi.
 		}
 		return v.Secret
 	}).(pulumi.StringPtrOutput)
+}
+
+// The Static Egress Gateway addon configuration for the cluster.
+type ManagedClusterStaticEgressGatewayProfile struct {
+	// Enable Static Egress Gateway addon. Indicates if Static Egress Gateway addon is enabled or not.
+	Enabled *bool `pulumi:"enabled"`
+}
+
+// ManagedClusterStaticEgressGatewayProfileInput is an input type that accepts ManagedClusterStaticEgressGatewayProfileArgs and ManagedClusterStaticEgressGatewayProfileOutput values.
+// You can construct a concrete instance of `ManagedClusterStaticEgressGatewayProfileInput` via:
+//
+//	ManagedClusterStaticEgressGatewayProfileArgs{...}
+type ManagedClusterStaticEgressGatewayProfileInput interface {
+	pulumi.Input
+
+	ToManagedClusterStaticEgressGatewayProfileOutput() ManagedClusterStaticEgressGatewayProfileOutput
+	ToManagedClusterStaticEgressGatewayProfileOutputWithContext(context.Context) ManagedClusterStaticEgressGatewayProfileOutput
+}
+
+// The Static Egress Gateway addon configuration for the cluster.
+type ManagedClusterStaticEgressGatewayProfileArgs struct {
+	// Enable Static Egress Gateway addon. Indicates if Static Egress Gateway addon is enabled or not.
+	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
+}
+
+func (ManagedClusterStaticEgressGatewayProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterStaticEgressGatewayProfile)(nil)).Elem()
+}
+
+func (i ManagedClusterStaticEgressGatewayProfileArgs) ToManagedClusterStaticEgressGatewayProfileOutput() ManagedClusterStaticEgressGatewayProfileOutput {
+	return i.ToManagedClusterStaticEgressGatewayProfileOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterStaticEgressGatewayProfileArgs) ToManagedClusterStaticEgressGatewayProfileOutputWithContext(ctx context.Context) ManagedClusterStaticEgressGatewayProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterStaticEgressGatewayProfileOutput)
+}
+
+func (i ManagedClusterStaticEgressGatewayProfileArgs) ToManagedClusterStaticEgressGatewayProfilePtrOutput() ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return i.ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(context.Background())
+}
+
+func (i ManagedClusterStaticEgressGatewayProfileArgs) ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(ctx context.Context) ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterStaticEgressGatewayProfileOutput).ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(ctx)
+}
+
+// ManagedClusterStaticEgressGatewayProfilePtrInput is an input type that accepts ManagedClusterStaticEgressGatewayProfileArgs, ManagedClusterStaticEgressGatewayProfilePtr and ManagedClusterStaticEgressGatewayProfilePtrOutput values.
+// You can construct a concrete instance of `ManagedClusterStaticEgressGatewayProfilePtrInput` via:
+//
+//	        ManagedClusterStaticEgressGatewayProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type ManagedClusterStaticEgressGatewayProfilePtrInput interface {
+	pulumi.Input
+
+	ToManagedClusterStaticEgressGatewayProfilePtrOutput() ManagedClusterStaticEgressGatewayProfilePtrOutput
+	ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(context.Context) ManagedClusterStaticEgressGatewayProfilePtrOutput
+}
+
+type managedClusterStaticEgressGatewayProfilePtrType ManagedClusterStaticEgressGatewayProfileArgs
+
+func ManagedClusterStaticEgressGatewayProfilePtr(v *ManagedClusterStaticEgressGatewayProfileArgs) ManagedClusterStaticEgressGatewayProfilePtrInput {
+	return (*managedClusterStaticEgressGatewayProfilePtrType)(v)
+}
+
+func (*managedClusterStaticEgressGatewayProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterStaticEgressGatewayProfile)(nil)).Elem()
+}
+
+func (i *managedClusterStaticEgressGatewayProfilePtrType) ToManagedClusterStaticEgressGatewayProfilePtrOutput() ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return i.ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *managedClusterStaticEgressGatewayProfilePtrType) ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(ctx context.Context) ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedClusterStaticEgressGatewayProfilePtrOutput)
+}
+
+// The Static Egress Gateway addon configuration for the cluster.
+type ManagedClusterStaticEgressGatewayProfileOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterStaticEgressGatewayProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterStaticEgressGatewayProfile)(nil)).Elem()
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileOutput) ToManagedClusterStaticEgressGatewayProfileOutput() ManagedClusterStaticEgressGatewayProfileOutput {
+	return o
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileOutput) ToManagedClusterStaticEgressGatewayProfileOutputWithContext(ctx context.Context) ManagedClusterStaticEgressGatewayProfileOutput {
+	return o
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileOutput) ToManagedClusterStaticEgressGatewayProfilePtrOutput() ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return o.ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(context.Background())
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileOutput) ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(ctx context.Context) ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ManagedClusterStaticEgressGatewayProfile) *ManagedClusterStaticEgressGatewayProfile {
+		return &v
+	}).(ManagedClusterStaticEgressGatewayProfilePtrOutput)
+}
+
+// Enable Static Egress Gateway addon. Indicates if Static Egress Gateway addon is enabled or not.
+func (o ManagedClusterStaticEgressGatewayProfileOutput) Enabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ManagedClusterStaticEgressGatewayProfile) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
+}
+
+type ManagedClusterStaticEgressGatewayProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterStaticEgressGatewayProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterStaticEgressGatewayProfile)(nil)).Elem()
+}
+
+func (o ManagedClusterStaticEgressGatewayProfilePtrOutput) ToManagedClusterStaticEgressGatewayProfilePtrOutput() ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return o
+}
+
+func (o ManagedClusterStaticEgressGatewayProfilePtrOutput) ToManagedClusterStaticEgressGatewayProfilePtrOutputWithContext(ctx context.Context) ManagedClusterStaticEgressGatewayProfilePtrOutput {
+	return o
+}
+
+func (o ManagedClusterStaticEgressGatewayProfilePtrOutput) Elem() ManagedClusterStaticEgressGatewayProfileOutput {
+	return o.ApplyT(func(v *ManagedClusterStaticEgressGatewayProfile) ManagedClusterStaticEgressGatewayProfile {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterStaticEgressGatewayProfile
+		return ret
+	}).(ManagedClusterStaticEgressGatewayProfileOutput)
+}
+
+// Enable Static Egress Gateway addon. Indicates if Static Egress Gateway addon is enabled or not.
+func (o ManagedClusterStaticEgressGatewayProfilePtrOutput) Enabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterStaticEgressGatewayProfile) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.Enabled
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The Static Egress Gateway addon configuration for the cluster.
+type ManagedClusterStaticEgressGatewayProfileResponse struct {
+	// Enable Static Egress Gateway addon. Indicates if Static Egress Gateway addon is enabled or not.
+	Enabled *bool `pulumi:"enabled"`
+}
+
+// The Static Egress Gateway addon configuration for the cluster.
+type ManagedClusterStaticEgressGatewayProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterStaticEgressGatewayProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterStaticEgressGatewayProfileResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileResponseOutput) ToManagedClusterStaticEgressGatewayProfileResponseOutput() ManagedClusterStaticEgressGatewayProfileResponseOutput {
+	return o
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileResponseOutput) ToManagedClusterStaticEgressGatewayProfileResponseOutputWithContext(ctx context.Context) ManagedClusterStaticEgressGatewayProfileResponseOutput {
+	return o
+}
+
+// Enable Static Egress Gateway addon. Indicates if Static Egress Gateway addon is enabled or not.
+func (o ManagedClusterStaticEgressGatewayProfileResponseOutput) Enabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ManagedClusterStaticEgressGatewayProfileResponse) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
+}
+
+type ManagedClusterStaticEgressGatewayProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterStaticEgressGatewayProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterStaticEgressGatewayProfileResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileResponsePtrOutput) ToManagedClusterStaticEgressGatewayProfileResponsePtrOutput() ManagedClusterStaticEgressGatewayProfileResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileResponsePtrOutput) ToManagedClusterStaticEgressGatewayProfileResponsePtrOutputWithContext(ctx context.Context) ManagedClusterStaticEgressGatewayProfileResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterStaticEgressGatewayProfileResponsePtrOutput) Elem() ManagedClusterStaticEgressGatewayProfileResponseOutput {
+	return o.ApplyT(func(v *ManagedClusterStaticEgressGatewayProfileResponse) ManagedClusterStaticEgressGatewayProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterStaticEgressGatewayProfileResponse
+		return ret
+	}).(ManagedClusterStaticEgressGatewayProfileResponseOutput)
+}
+
+// Enable Static Egress Gateway addon. Indicates if Static Egress Gateway addon is enabled or not.
+func (o ManagedClusterStaticEgressGatewayProfileResponsePtrOutput) Enabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ManagedClusterStaticEgressGatewayProfileResponse) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.Enabled
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Contains read-only information about the Managed Cluster.
+type ManagedClusterStatusResponse struct {
+	// The error details information of the managed cluster. Preserves the detailed info of failure. If there was no error, this field is omitted.
+	ProvisioningError ErrorDetailResponse `pulumi:"provisioningError"`
+}
+
+// Contains read-only information about the Managed Cluster.
+type ManagedClusterStatusResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterStatusResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedClusterStatusResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterStatusResponseOutput) ToManagedClusterStatusResponseOutput() ManagedClusterStatusResponseOutput {
+	return o
+}
+
+func (o ManagedClusterStatusResponseOutput) ToManagedClusterStatusResponseOutputWithContext(ctx context.Context) ManagedClusterStatusResponseOutput {
+	return o
+}
+
+// The error details information of the managed cluster. Preserves the detailed info of failure. If there was no error, this field is omitted.
+func (o ManagedClusterStatusResponseOutput) ProvisioningError() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v ManagedClusterStatusResponse) ErrorDetailResponse { return v.ProvisioningError }).(ErrorDetailResponseOutput)
+}
+
+type ManagedClusterStatusResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedClusterStatusResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedClusterStatusResponse)(nil)).Elem()
+}
+
+func (o ManagedClusterStatusResponsePtrOutput) ToManagedClusterStatusResponsePtrOutput() ManagedClusterStatusResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterStatusResponsePtrOutput) ToManagedClusterStatusResponsePtrOutputWithContext(ctx context.Context) ManagedClusterStatusResponsePtrOutput {
+	return o
+}
+
+func (o ManagedClusterStatusResponsePtrOutput) Elem() ManagedClusterStatusResponseOutput {
+	return o.ApplyT(func(v *ManagedClusterStatusResponse) ManagedClusterStatusResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedClusterStatusResponse
+		return ret
+	}).(ManagedClusterStatusResponseOutput)
+}
+
+// The error details information of the managed cluster. Preserves the detailed info of failure. If there was no error, this field is omitted.
+func (o ManagedClusterStatusResponsePtrOutput) ProvisioningError() ErrorDetailResponsePtrOutput {
+	return o.ApplyT(func(v *ManagedClusterStatusResponse) *ErrorDetailResponse {
+		if v == nil {
+			return nil
+		}
+		return &v.ProvisioningError
+	}).(ErrorDetailResponsePtrOutput)
 }
 
 // Storage profile for the container service cluster.
@@ -21995,7 +24178,7 @@ type ManagedClusterWindowsProfile struct {
 	AdminPassword *string `pulumi:"adminPassword"`
 	// Specifies the name of the administrator account. <br><br> **Restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters
 	AdminUsername string `pulumi:"adminUsername"`
-	// For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
+	// Whether to enable CSI proxy. For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
 	EnableCSIProxy *bool `pulumi:"enableCSIProxy"`
 	// The Windows gMSA Profile in the Managed Cluster.
 	GmsaProfile *WindowsGmsaProfile `pulumi:"gmsaProfile"`
@@ -22020,7 +24203,7 @@ type ManagedClusterWindowsProfileArgs struct {
 	AdminPassword pulumi.StringPtrInput `pulumi:"adminPassword"`
 	// Specifies the name of the administrator account. <br><br> **Restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters
 	AdminUsername pulumi.StringInput `pulumi:"adminUsername"`
-	// For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
+	// Whether to enable CSI proxy. For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
 	EnableCSIProxy pulumi.BoolPtrInput `pulumi:"enableCSIProxy"`
 	// The Windows gMSA Profile in the Managed Cluster.
 	GmsaProfile WindowsGmsaProfilePtrInput `pulumi:"gmsaProfile"`
@@ -22116,7 +24299,7 @@ func (o ManagedClusterWindowsProfileOutput) AdminUsername() pulumi.StringOutput 
 	return o.ApplyT(func(v ManagedClusterWindowsProfile) string { return v.AdminUsername }).(pulumi.StringOutput)
 }
 
-// For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
+// Whether to enable CSI proxy. For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
 func (o ManagedClusterWindowsProfileOutput) EnableCSIProxy() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterWindowsProfile) *bool { return v.EnableCSIProxy }).(pulumi.BoolPtrOutput)
 }
@@ -22175,7 +24358,7 @@ func (o ManagedClusterWindowsProfilePtrOutput) AdminUsername() pulumi.StringPtrO
 	}).(pulumi.StringPtrOutput)
 }
 
-// For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
+// Whether to enable CSI proxy. For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
 func (o ManagedClusterWindowsProfilePtrOutput) EnableCSIProxy() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterWindowsProfile) *bool {
 		if v == nil {
@@ -22211,7 +24394,7 @@ type ManagedClusterWindowsProfileResponse struct {
 	AdminPassword *string `pulumi:"adminPassword"`
 	// Specifies the name of the administrator account. <br><br> **Restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters
 	AdminUsername string `pulumi:"adminUsername"`
-	// For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
+	// Whether to enable CSI proxy. For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
 	EnableCSIProxy *bool `pulumi:"enableCSIProxy"`
 	// The Windows gMSA Profile in the Managed Cluster.
 	GmsaProfile *WindowsGmsaProfileResponse `pulumi:"gmsaProfile"`
@@ -22244,7 +24427,7 @@ func (o ManagedClusterWindowsProfileResponseOutput) AdminUsername() pulumi.Strin
 	return o.ApplyT(func(v ManagedClusterWindowsProfileResponse) string { return v.AdminUsername }).(pulumi.StringOutput)
 }
 
-// For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
+// Whether to enable CSI proxy. For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
 func (o ManagedClusterWindowsProfileResponseOutput) EnableCSIProxy() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ManagedClusterWindowsProfileResponse) *bool { return v.EnableCSIProxy }).(pulumi.BoolPtrOutput)
 }
@@ -22303,7 +24486,7 @@ func (o ManagedClusterWindowsProfileResponsePtrOutput) AdminUsername() pulumi.St
 	}).(pulumi.StringPtrOutput)
 }
 
-// For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
+// Whether to enable CSI proxy. For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy).
 func (o ManagedClusterWindowsProfileResponsePtrOutput) EnableCSIProxy() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ManagedClusterWindowsProfileResponse) *bool {
 		if v == nil {
@@ -23313,6 +25496,168 @@ func (o ManagedServiceIdentityResponsePtrOutput) UserAssignedIdentities() UserAs
 		}
 		return v.UserAssignedIdentities
 	}).(UserAssignedIdentityResponseMapOutput)
+}
+
+// Specifications on number of machines.
+type ManualScaleProfile struct {
+	// Number of nodes.
+	Count *int `pulumi:"count"`
+	// VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'.
+	Size *string `pulumi:"size"`
+}
+
+// ManualScaleProfileInput is an input type that accepts ManualScaleProfileArgs and ManualScaleProfileOutput values.
+// You can construct a concrete instance of `ManualScaleProfileInput` via:
+//
+//	ManualScaleProfileArgs{...}
+type ManualScaleProfileInput interface {
+	pulumi.Input
+
+	ToManualScaleProfileOutput() ManualScaleProfileOutput
+	ToManualScaleProfileOutputWithContext(context.Context) ManualScaleProfileOutput
+}
+
+// Specifications on number of machines.
+type ManualScaleProfileArgs struct {
+	// Number of nodes.
+	Count pulumi.IntPtrInput `pulumi:"count"`
+	// VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'.
+	Size pulumi.StringPtrInput `pulumi:"size"`
+}
+
+func (ManualScaleProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManualScaleProfile)(nil)).Elem()
+}
+
+func (i ManualScaleProfileArgs) ToManualScaleProfileOutput() ManualScaleProfileOutput {
+	return i.ToManualScaleProfileOutputWithContext(context.Background())
+}
+
+func (i ManualScaleProfileArgs) ToManualScaleProfileOutputWithContext(ctx context.Context) ManualScaleProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManualScaleProfileOutput)
+}
+
+// ManualScaleProfileArrayInput is an input type that accepts ManualScaleProfileArray and ManualScaleProfileArrayOutput values.
+// You can construct a concrete instance of `ManualScaleProfileArrayInput` via:
+//
+//	ManualScaleProfileArray{ ManualScaleProfileArgs{...} }
+type ManualScaleProfileArrayInput interface {
+	pulumi.Input
+
+	ToManualScaleProfileArrayOutput() ManualScaleProfileArrayOutput
+	ToManualScaleProfileArrayOutputWithContext(context.Context) ManualScaleProfileArrayOutput
+}
+
+type ManualScaleProfileArray []ManualScaleProfileInput
+
+func (ManualScaleProfileArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ManualScaleProfile)(nil)).Elem()
+}
+
+func (i ManualScaleProfileArray) ToManualScaleProfileArrayOutput() ManualScaleProfileArrayOutput {
+	return i.ToManualScaleProfileArrayOutputWithContext(context.Background())
+}
+
+func (i ManualScaleProfileArray) ToManualScaleProfileArrayOutputWithContext(ctx context.Context) ManualScaleProfileArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManualScaleProfileArrayOutput)
+}
+
+// Specifications on number of machines.
+type ManualScaleProfileOutput struct{ *pulumi.OutputState }
+
+func (ManualScaleProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManualScaleProfile)(nil)).Elem()
+}
+
+func (o ManualScaleProfileOutput) ToManualScaleProfileOutput() ManualScaleProfileOutput {
+	return o
+}
+
+func (o ManualScaleProfileOutput) ToManualScaleProfileOutputWithContext(ctx context.Context) ManualScaleProfileOutput {
+	return o
+}
+
+// Number of nodes.
+func (o ManualScaleProfileOutput) Count() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ManualScaleProfile) *int { return v.Count }).(pulumi.IntPtrOutput)
+}
+
+// VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'.
+func (o ManualScaleProfileOutput) Size() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManualScaleProfile) *string { return v.Size }).(pulumi.StringPtrOutput)
+}
+
+type ManualScaleProfileArrayOutput struct{ *pulumi.OutputState }
+
+func (ManualScaleProfileArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ManualScaleProfile)(nil)).Elem()
+}
+
+func (o ManualScaleProfileArrayOutput) ToManualScaleProfileArrayOutput() ManualScaleProfileArrayOutput {
+	return o
+}
+
+func (o ManualScaleProfileArrayOutput) ToManualScaleProfileArrayOutputWithContext(ctx context.Context) ManualScaleProfileArrayOutput {
+	return o
+}
+
+func (o ManualScaleProfileArrayOutput) Index(i pulumi.IntInput) ManualScaleProfileOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ManualScaleProfile {
+		return vs[0].([]ManualScaleProfile)[vs[1].(int)]
+	}).(ManualScaleProfileOutput)
+}
+
+// Specifications on number of machines.
+type ManualScaleProfileResponse struct {
+	// Number of nodes.
+	Count *int `pulumi:"count"`
+	// VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'.
+	Size *string `pulumi:"size"`
+}
+
+// Specifications on number of machines.
+type ManualScaleProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (ManualScaleProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManualScaleProfileResponse)(nil)).Elem()
+}
+
+func (o ManualScaleProfileResponseOutput) ToManualScaleProfileResponseOutput() ManualScaleProfileResponseOutput {
+	return o
+}
+
+func (o ManualScaleProfileResponseOutput) ToManualScaleProfileResponseOutputWithContext(ctx context.Context) ManualScaleProfileResponseOutput {
+	return o
+}
+
+// Number of nodes.
+func (o ManualScaleProfileResponseOutput) Count() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ManualScaleProfileResponse) *int { return v.Count }).(pulumi.IntPtrOutput)
+}
+
+// VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'.
+func (o ManualScaleProfileResponseOutput) Size() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManualScaleProfileResponse) *string { return v.Size }).(pulumi.StringPtrOutput)
+}
+
+type ManualScaleProfileResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (ManualScaleProfileResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ManualScaleProfileResponse)(nil)).Elem()
+}
+
+func (o ManualScaleProfileResponseArrayOutput) ToManualScaleProfileResponseArrayOutput() ManualScaleProfileResponseArrayOutput {
+	return o
+}
+
+func (o ManualScaleProfileResponseArrayOutput) ToManualScaleProfileResponseArrayOutputWithContext(ctx context.Context) ManualScaleProfileResponseArrayOutput {
+	return o
+}
+
+func (o ManualScaleProfileResponseArrayOutput) Index(i pulumi.IntInput) ManualScaleProfileResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ManualScaleProfileResponse {
+		return vs[0].([]ManualScaleProfileResponse)[vs[1].(int)]
+	}).(ManualScaleProfileResponseOutput)
 }
 
 // The status of a member update operation.
@@ -25694,7 +28039,7 @@ type RelativeMonthlySchedule struct {
 	DayOfWeek string `pulumi:"dayOfWeek"`
 	// Specifies the number of months between each set of occurrences.
 	IntervalMonths int `pulumi:"intervalMonths"`
-	// Specifies on which week of the month the dayOfWeek applies.
+	// The week index. Specifies on which week of the month the dayOfWeek applies.
 	WeekIndex string `pulumi:"weekIndex"`
 }
 
@@ -25715,7 +28060,7 @@ type RelativeMonthlyScheduleArgs struct {
 	DayOfWeek pulumi.StringInput `pulumi:"dayOfWeek"`
 	// Specifies the number of months between each set of occurrences.
 	IntervalMonths pulumi.IntInput `pulumi:"intervalMonths"`
-	// Specifies on which week of the month the dayOfWeek applies.
+	// The week index. Specifies on which week of the month the dayOfWeek applies.
 	WeekIndex pulumi.StringInput `pulumi:"weekIndex"`
 }
 
@@ -25807,7 +28152,7 @@ func (o RelativeMonthlyScheduleOutput) IntervalMonths() pulumi.IntOutput {
 	return o.ApplyT(func(v RelativeMonthlySchedule) int { return v.IntervalMonths }).(pulumi.IntOutput)
 }
 
-// Specifies on which week of the month the dayOfWeek applies.
+// The week index. Specifies on which week of the month the dayOfWeek applies.
 func (o RelativeMonthlyScheduleOutput) WeekIndex() pulumi.StringOutput {
 	return o.ApplyT(func(v RelativeMonthlySchedule) string { return v.WeekIndex }).(pulumi.StringOutput)
 }
@@ -25856,7 +28201,7 @@ func (o RelativeMonthlySchedulePtrOutput) IntervalMonths() pulumi.IntPtrOutput {
 	}).(pulumi.IntPtrOutput)
 }
 
-// Specifies on which week of the month the dayOfWeek applies.
+// The week index. Specifies on which week of the month the dayOfWeek applies.
 func (o RelativeMonthlySchedulePtrOutput) WeekIndex() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *RelativeMonthlySchedule) *string {
 		if v == nil {
@@ -25872,7 +28217,7 @@ type RelativeMonthlyScheduleResponse struct {
 	DayOfWeek string `pulumi:"dayOfWeek"`
 	// Specifies the number of months between each set of occurrences.
 	IntervalMonths int `pulumi:"intervalMonths"`
-	// Specifies on which week of the month the dayOfWeek applies.
+	// The week index. Specifies on which week of the month the dayOfWeek applies.
 	WeekIndex string `pulumi:"weekIndex"`
 }
 
@@ -25901,7 +28246,7 @@ func (o RelativeMonthlyScheduleResponseOutput) IntervalMonths() pulumi.IntOutput
 	return o.ApplyT(func(v RelativeMonthlyScheduleResponse) int { return v.IntervalMonths }).(pulumi.IntOutput)
 }
 
-// Specifies on which week of the month the dayOfWeek applies.
+// The week index. Specifies on which week of the month the dayOfWeek applies.
 func (o RelativeMonthlyScheduleResponseOutput) WeekIndex() pulumi.StringOutput {
 	return o.ApplyT(func(v RelativeMonthlyScheduleResponse) string { return v.WeekIndex }).(pulumi.StringOutput)
 }
@@ -25950,7 +28295,7 @@ func (o RelativeMonthlyScheduleResponsePtrOutput) IntervalMonths() pulumi.IntPtr
 	}).(pulumi.IntPtrOutput)
 }
 
-// Specifies on which week of the month the dayOfWeek applies.
+// The week index. Specifies on which week of the month the dayOfWeek applies.
 func (o RelativeMonthlyScheduleResponsePtrOutput) WeekIndex() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *RelativeMonthlyScheduleResponse) *string {
 		if v == nil {
@@ -26412,6 +28757,206 @@ func (o ResourceReferenceResponseArrayOutput) Index(i pulumi.IntInput) ResourceR
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ResourceReferenceResponse {
 		return vs[0].([]ResourceReferenceResponse)[vs[1].(int)]
 	}).(ResourceReferenceResponseOutput)
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+type ScaleProfile struct {
+	// Specifications on how to scale the VirtualMachines agent pool to a fixed size.
+	Manual []ManualScaleProfile `pulumi:"manual"`
+}
+
+// ScaleProfileInput is an input type that accepts ScaleProfileArgs and ScaleProfileOutput values.
+// You can construct a concrete instance of `ScaleProfileInput` via:
+//
+//	ScaleProfileArgs{...}
+type ScaleProfileInput interface {
+	pulumi.Input
+
+	ToScaleProfileOutput() ScaleProfileOutput
+	ToScaleProfileOutputWithContext(context.Context) ScaleProfileOutput
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+type ScaleProfileArgs struct {
+	// Specifications on how to scale the VirtualMachines agent pool to a fixed size.
+	Manual ManualScaleProfileArrayInput `pulumi:"manual"`
+}
+
+func (ScaleProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ScaleProfile)(nil)).Elem()
+}
+
+func (i ScaleProfileArgs) ToScaleProfileOutput() ScaleProfileOutput {
+	return i.ToScaleProfileOutputWithContext(context.Background())
+}
+
+func (i ScaleProfileArgs) ToScaleProfileOutputWithContext(ctx context.Context) ScaleProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ScaleProfileOutput)
+}
+
+func (i ScaleProfileArgs) ToScaleProfilePtrOutput() ScaleProfilePtrOutput {
+	return i.ToScaleProfilePtrOutputWithContext(context.Background())
+}
+
+func (i ScaleProfileArgs) ToScaleProfilePtrOutputWithContext(ctx context.Context) ScaleProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ScaleProfileOutput).ToScaleProfilePtrOutputWithContext(ctx)
+}
+
+// ScaleProfilePtrInput is an input type that accepts ScaleProfileArgs, ScaleProfilePtr and ScaleProfilePtrOutput values.
+// You can construct a concrete instance of `ScaleProfilePtrInput` via:
+//
+//	        ScaleProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type ScaleProfilePtrInput interface {
+	pulumi.Input
+
+	ToScaleProfilePtrOutput() ScaleProfilePtrOutput
+	ToScaleProfilePtrOutputWithContext(context.Context) ScaleProfilePtrOutput
+}
+
+type scaleProfilePtrType ScaleProfileArgs
+
+func ScaleProfilePtr(v *ScaleProfileArgs) ScaleProfilePtrInput {
+	return (*scaleProfilePtrType)(v)
+}
+
+func (*scaleProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ScaleProfile)(nil)).Elem()
+}
+
+func (i *scaleProfilePtrType) ToScaleProfilePtrOutput() ScaleProfilePtrOutput {
+	return i.ToScaleProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *scaleProfilePtrType) ToScaleProfilePtrOutputWithContext(ctx context.Context) ScaleProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ScaleProfilePtrOutput)
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+type ScaleProfileOutput struct{ *pulumi.OutputState }
+
+func (ScaleProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ScaleProfile)(nil)).Elem()
+}
+
+func (o ScaleProfileOutput) ToScaleProfileOutput() ScaleProfileOutput {
+	return o
+}
+
+func (o ScaleProfileOutput) ToScaleProfileOutputWithContext(ctx context.Context) ScaleProfileOutput {
+	return o
+}
+
+func (o ScaleProfileOutput) ToScaleProfilePtrOutput() ScaleProfilePtrOutput {
+	return o.ToScaleProfilePtrOutputWithContext(context.Background())
+}
+
+func (o ScaleProfileOutput) ToScaleProfilePtrOutputWithContext(ctx context.Context) ScaleProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ScaleProfile) *ScaleProfile {
+		return &v
+	}).(ScaleProfilePtrOutput)
+}
+
+// Specifications on how to scale the VirtualMachines agent pool to a fixed size.
+func (o ScaleProfileOutput) Manual() ManualScaleProfileArrayOutput {
+	return o.ApplyT(func(v ScaleProfile) []ManualScaleProfile { return v.Manual }).(ManualScaleProfileArrayOutput)
+}
+
+type ScaleProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (ScaleProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ScaleProfile)(nil)).Elem()
+}
+
+func (o ScaleProfilePtrOutput) ToScaleProfilePtrOutput() ScaleProfilePtrOutput {
+	return o
+}
+
+func (o ScaleProfilePtrOutput) ToScaleProfilePtrOutputWithContext(ctx context.Context) ScaleProfilePtrOutput {
+	return o
+}
+
+func (o ScaleProfilePtrOutput) Elem() ScaleProfileOutput {
+	return o.ApplyT(func(v *ScaleProfile) ScaleProfile {
+		if v != nil {
+			return *v
+		}
+		var ret ScaleProfile
+		return ret
+	}).(ScaleProfileOutput)
+}
+
+// Specifications on how to scale the VirtualMachines agent pool to a fixed size.
+func (o ScaleProfilePtrOutput) Manual() ManualScaleProfileArrayOutput {
+	return o.ApplyT(func(v *ScaleProfile) []ManualScaleProfile {
+		if v == nil {
+			return nil
+		}
+		return v.Manual
+	}).(ManualScaleProfileArrayOutput)
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+type ScaleProfileResponse struct {
+	// Specifications on how to scale the VirtualMachines agent pool to a fixed size.
+	Manual []ManualScaleProfileResponse `pulumi:"manual"`
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+type ScaleProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (ScaleProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ScaleProfileResponse)(nil)).Elem()
+}
+
+func (o ScaleProfileResponseOutput) ToScaleProfileResponseOutput() ScaleProfileResponseOutput {
+	return o
+}
+
+func (o ScaleProfileResponseOutput) ToScaleProfileResponseOutputWithContext(ctx context.Context) ScaleProfileResponseOutput {
+	return o
+}
+
+// Specifications on how to scale the VirtualMachines agent pool to a fixed size.
+func (o ScaleProfileResponseOutput) Manual() ManualScaleProfileResponseArrayOutput {
+	return o.ApplyT(func(v ScaleProfileResponse) []ManualScaleProfileResponse { return v.Manual }).(ManualScaleProfileResponseArrayOutput)
+}
+
+type ScaleProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ScaleProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ScaleProfileResponse)(nil)).Elem()
+}
+
+func (o ScaleProfileResponsePtrOutput) ToScaleProfileResponsePtrOutput() ScaleProfileResponsePtrOutput {
+	return o
+}
+
+func (o ScaleProfileResponsePtrOutput) ToScaleProfileResponsePtrOutputWithContext(ctx context.Context) ScaleProfileResponsePtrOutput {
+	return o
+}
+
+func (o ScaleProfileResponsePtrOutput) Elem() ScaleProfileResponseOutput {
+	return o.ApplyT(func(v *ScaleProfileResponse) ScaleProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ScaleProfileResponse
+		return ret
+	}).(ScaleProfileResponseOutput)
+}
+
+// Specifications on how to scale the VirtualMachines agent pool to a fixed size.
+func (o ScaleProfileResponsePtrOutput) Manual() ManualScaleProfileResponseArrayOutput {
+	return o.ApplyT(func(v *ScaleProfileResponse) []ManualScaleProfileResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Manual
+	}).(ManualScaleProfileResponseArrayOutput)
 }
 
 // One and only one of the schedule types should be specified. Choose either 'daily', 'weekly', 'absoluteMonthly' or 'relativeMonthly' for your maintenance schedule.
@@ -28195,7 +30740,7 @@ func (o SystemDataResponseOutput) LastModifiedByType() pulumi.StringPtrOutput {
 type TimeInWeek struct {
 	// The day of the week.
 	Day *string `pulumi:"day"`
-	// Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
+	// A list of hours in the day used to identify a time range. Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
 	HourSlots []int `pulumi:"hourSlots"`
 }
 
@@ -28214,7 +30759,7 @@ type TimeInWeekInput interface {
 type TimeInWeekArgs struct {
 	// The day of the week.
 	Day pulumi.StringPtrInput `pulumi:"day"`
-	// Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
+	// A list of hours in the day used to identify a time range. Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
 	HourSlots pulumi.IntArrayInput `pulumi:"hourSlots"`
 }
 
@@ -28275,7 +30820,7 @@ func (o TimeInWeekOutput) Day() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v TimeInWeek) *string { return v.Day }).(pulumi.StringPtrOutput)
 }
 
-// Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
+// A list of hours in the day used to identify a time range. Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
 func (o TimeInWeekOutput) HourSlots() pulumi.IntArrayOutput {
 	return o.ApplyT(func(v TimeInWeek) []int { return v.HourSlots }).(pulumi.IntArrayOutput)
 }
@@ -28304,7 +30849,7 @@ func (o TimeInWeekArrayOutput) Index(i pulumi.IntInput) TimeInWeekOutput {
 type TimeInWeekResponse struct {
 	// The day of the week.
 	Day *string `pulumi:"day"`
-	// Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
+	// A list of hours in the day used to identify a time range. Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
 	HourSlots []int `pulumi:"hourSlots"`
 }
 
@@ -28328,7 +30873,7 @@ func (o TimeInWeekResponseOutput) Day() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v TimeInWeekResponse) *string { return v.Day }).(pulumi.StringPtrOutput)
 }
 
-// Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
+// A list of hours in the day used to identify a time range. Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range.
 func (o TimeInWeekResponseOutput) HourSlots() pulumi.IntArrayOutput {
 	return o.ApplyT(func(v TimeInWeekResponse) []int { return v.HourSlots }).(pulumi.IntArrayOutput)
 }
@@ -28353,7 +30898,7 @@ func (o TimeInWeekResponseArrayOutput) Index(i pulumi.IntInput) TimeInWeekRespon
 	}).(TimeInWeekResponseOutput)
 }
 
-// For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
+// A time range. For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
 type TimeSpan struct {
 	// The end of a time span
 	End *string `pulumi:"end"`
@@ -28372,7 +30917,7 @@ type TimeSpanInput interface {
 	ToTimeSpanOutputWithContext(context.Context) TimeSpanOutput
 }
 
-// For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
+// A time range. For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
 type TimeSpanArgs struct {
 	// The end of a time span
 	End pulumi.StringPtrInput `pulumi:"end"`
@@ -28417,7 +30962,7 @@ func (i TimeSpanArray) ToTimeSpanArrayOutputWithContext(ctx context.Context) Tim
 	return pulumi.ToOutputWithContext(ctx, i).(TimeSpanArrayOutput)
 }
 
-// For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
+// A time range. For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
 type TimeSpanOutput struct{ *pulumi.OutputState }
 
 func (TimeSpanOutput) ElementType() reflect.Type {
@@ -28462,7 +31007,7 @@ func (o TimeSpanArrayOutput) Index(i pulumi.IntInput) TimeSpanOutput {
 	}).(TimeSpanOutput)
 }
 
-// For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
+// A time range. For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
 type TimeSpanResponse struct {
 	// The end of a time span
 	End *string `pulumi:"end"`
@@ -28470,7 +31015,7 @@ type TimeSpanResponse struct {
 	Start *string `pulumi:"start"`
 }
 
-// For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
+// A time range. For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z.
 type TimeSpanResponseOutput struct{ *pulumi.OutputState }
 
 func (TimeSpanResponseOutput) ElementType() reflect.Type {
@@ -29773,6 +32318,368 @@ func (o UserAssignedIdentityResponseMapOutput) MapIndex(k pulumi.StringInput) Us
 	}).(UserAssignedIdentityResponseOutput)
 }
 
+// Current status on a group of nodes of the same vm size.
+type VirtualMachineNodes struct {
+	// Number of nodes.
+	Count *int `pulumi:"count"`
+	// The VM size of the agents used to host this group of nodes.
+	Size *string `pulumi:"size"`
+}
+
+// VirtualMachineNodesInput is an input type that accepts VirtualMachineNodesArgs and VirtualMachineNodesOutput values.
+// You can construct a concrete instance of `VirtualMachineNodesInput` via:
+//
+//	VirtualMachineNodesArgs{...}
+type VirtualMachineNodesInput interface {
+	pulumi.Input
+
+	ToVirtualMachineNodesOutput() VirtualMachineNodesOutput
+	ToVirtualMachineNodesOutputWithContext(context.Context) VirtualMachineNodesOutput
+}
+
+// Current status on a group of nodes of the same vm size.
+type VirtualMachineNodesArgs struct {
+	// Number of nodes.
+	Count pulumi.IntPtrInput `pulumi:"count"`
+	// The VM size of the agents used to host this group of nodes.
+	Size pulumi.StringPtrInput `pulumi:"size"`
+}
+
+func (VirtualMachineNodesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualMachineNodes)(nil)).Elem()
+}
+
+func (i VirtualMachineNodesArgs) ToVirtualMachineNodesOutput() VirtualMachineNodesOutput {
+	return i.ToVirtualMachineNodesOutputWithContext(context.Background())
+}
+
+func (i VirtualMachineNodesArgs) ToVirtualMachineNodesOutputWithContext(ctx context.Context) VirtualMachineNodesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineNodesOutput)
+}
+
+// VirtualMachineNodesArrayInput is an input type that accepts VirtualMachineNodesArray and VirtualMachineNodesArrayOutput values.
+// You can construct a concrete instance of `VirtualMachineNodesArrayInput` via:
+//
+//	VirtualMachineNodesArray{ VirtualMachineNodesArgs{...} }
+type VirtualMachineNodesArrayInput interface {
+	pulumi.Input
+
+	ToVirtualMachineNodesArrayOutput() VirtualMachineNodesArrayOutput
+	ToVirtualMachineNodesArrayOutputWithContext(context.Context) VirtualMachineNodesArrayOutput
+}
+
+type VirtualMachineNodesArray []VirtualMachineNodesInput
+
+func (VirtualMachineNodesArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]VirtualMachineNodes)(nil)).Elem()
+}
+
+func (i VirtualMachineNodesArray) ToVirtualMachineNodesArrayOutput() VirtualMachineNodesArrayOutput {
+	return i.ToVirtualMachineNodesArrayOutputWithContext(context.Background())
+}
+
+func (i VirtualMachineNodesArray) ToVirtualMachineNodesArrayOutputWithContext(ctx context.Context) VirtualMachineNodesArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachineNodesArrayOutput)
+}
+
+// Current status on a group of nodes of the same vm size.
+type VirtualMachineNodesOutput struct{ *pulumi.OutputState }
+
+func (VirtualMachineNodesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualMachineNodes)(nil)).Elem()
+}
+
+func (o VirtualMachineNodesOutput) ToVirtualMachineNodesOutput() VirtualMachineNodesOutput {
+	return o
+}
+
+func (o VirtualMachineNodesOutput) ToVirtualMachineNodesOutputWithContext(ctx context.Context) VirtualMachineNodesOutput {
+	return o
+}
+
+// Number of nodes.
+func (o VirtualMachineNodesOutput) Count() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v VirtualMachineNodes) *int { return v.Count }).(pulumi.IntPtrOutput)
+}
+
+// The VM size of the agents used to host this group of nodes.
+func (o VirtualMachineNodesOutput) Size() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualMachineNodes) *string { return v.Size }).(pulumi.StringPtrOutput)
+}
+
+type VirtualMachineNodesArrayOutput struct{ *pulumi.OutputState }
+
+func (VirtualMachineNodesArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]VirtualMachineNodes)(nil)).Elem()
+}
+
+func (o VirtualMachineNodesArrayOutput) ToVirtualMachineNodesArrayOutput() VirtualMachineNodesArrayOutput {
+	return o
+}
+
+func (o VirtualMachineNodesArrayOutput) ToVirtualMachineNodesArrayOutputWithContext(ctx context.Context) VirtualMachineNodesArrayOutput {
+	return o
+}
+
+func (o VirtualMachineNodesArrayOutput) Index(i pulumi.IntInput) VirtualMachineNodesOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) VirtualMachineNodes {
+		return vs[0].([]VirtualMachineNodes)[vs[1].(int)]
+	}).(VirtualMachineNodesOutput)
+}
+
+// Current status on a group of nodes of the same vm size.
+type VirtualMachineNodesResponse struct {
+	// Number of nodes.
+	Count *int `pulumi:"count"`
+	// The VM size of the agents used to host this group of nodes.
+	Size *string `pulumi:"size"`
+}
+
+// Current status on a group of nodes of the same vm size.
+type VirtualMachineNodesResponseOutput struct{ *pulumi.OutputState }
+
+func (VirtualMachineNodesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualMachineNodesResponse)(nil)).Elem()
+}
+
+func (o VirtualMachineNodesResponseOutput) ToVirtualMachineNodesResponseOutput() VirtualMachineNodesResponseOutput {
+	return o
+}
+
+func (o VirtualMachineNodesResponseOutput) ToVirtualMachineNodesResponseOutputWithContext(ctx context.Context) VirtualMachineNodesResponseOutput {
+	return o
+}
+
+// Number of nodes.
+func (o VirtualMachineNodesResponseOutput) Count() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v VirtualMachineNodesResponse) *int { return v.Count }).(pulumi.IntPtrOutput)
+}
+
+// The VM size of the agents used to host this group of nodes.
+func (o VirtualMachineNodesResponseOutput) Size() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualMachineNodesResponse) *string { return v.Size }).(pulumi.StringPtrOutput)
+}
+
+type VirtualMachineNodesResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (VirtualMachineNodesResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]VirtualMachineNodesResponse)(nil)).Elem()
+}
+
+func (o VirtualMachineNodesResponseArrayOutput) ToVirtualMachineNodesResponseArrayOutput() VirtualMachineNodesResponseArrayOutput {
+	return o
+}
+
+func (o VirtualMachineNodesResponseArrayOutput) ToVirtualMachineNodesResponseArrayOutputWithContext(ctx context.Context) VirtualMachineNodesResponseArrayOutput {
+	return o
+}
+
+func (o VirtualMachineNodesResponseArrayOutput) Index(i pulumi.IntInput) VirtualMachineNodesResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) VirtualMachineNodesResponse {
+		return vs[0].([]VirtualMachineNodesResponse)[vs[1].(int)]
+	}).(VirtualMachineNodesResponseOutput)
+}
+
+// Specifications on VirtualMachines agent pool.
+type VirtualMachinesProfile struct {
+	// Specifications on how to scale a VirtualMachines agent pool.
+	Scale *ScaleProfile `pulumi:"scale"`
+}
+
+// VirtualMachinesProfileInput is an input type that accepts VirtualMachinesProfileArgs and VirtualMachinesProfileOutput values.
+// You can construct a concrete instance of `VirtualMachinesProfileInput` via:
+//
+//	VirtualMachinesProfileArgs{...}
+type VirtualMachinesProfileInput interface {
+	pulumi.Input
+
+	ToVirtualMachinesProfileOutput() VirtualMachinesProfileOutput
+	ToVirtualMachinesProfileOutputWithContext(context.Context) VirtualMachinesProfileOutput
+}
+
+// Specifications on VirtualMachines agent pool.
+type VirtualMachinesProfileArgs struct {
+	// Specifications on how to scale a VirtualMachines agent pool.
+	Scale ScaleProfilePtrInput `pulumi:"scale"`
+}
+
+func (VirtualMachinesProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualMachinesProfile)(nil)).Elem()
+}
+
+func (i VirtualMachinesProfileArgs) ToVirtualMachinesProfileOutput() VirtualMachinesProfileOutput {
+	return i.ToVirtualMachinesProfileOutputWithContext(context.Background())
+}
+
+func (i VirtualMachinesProfileArgs) ToVirtualMachinesProfileOutputWithContext(ctx context.Context) VirtualMachinesProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachinesProfileOutput)
+}
+
+func (i VirtualMachinesProfileArgs) ToVirtualMachinesProfilePtrOutput() VirtualMachinesProfilePtrOutput {
+	return i.ToVirtualMachinesProfilePtrOutputWithContext(context.Background())
+}
+
+func (i VirtualMachinesProfileArgs) ToVirtualMachinesProfilePtrOutputWithContext(ctx context.Context) VirtualMachinesProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachinesProfileOutput).ToVirtualMachinesProfilePtrOutputWithContext(ctx)
+}
+
+// VirtualMachinesProfilePtrInput is an input type that accepts VirtualMachinesProfileArgs, VirtualMachinesProfilePtr and VirtualMachinesProfilePtrOutput values.
+// You can construct a concrete instance of `VirtualMachinesProfilePtrInput` via:
+//
+//	        VirtualMachinesProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type VirtualMachinesProfilePtrInput interface {
+	pulumi.Input
+
+	ToVirtualMachinesProfilePtrOutput() VirtualMachinesProfilePtrOutput
+	ToVirtualMachinesProfilePtrOutputWithContext(context.Context) VirtualMachinesProfilePtrOutput
+}
+
+type virtualMachinesProfilePtrType VirtualMachinesProfileArgs
+
+func VirtualMachinesProfilePtr(v *VirtualMachinesProfileArgs) VirtualMachinesProfilePtrInput {
+	return (*virtualMachinesProfilePtrType)(v)
+}
+
+func (*virtualMachinesProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**VirtualMachinesProfile)(nil)).Elem()
+}
+
+func (i *virtualMachinesProfilePtrType) ToVirtualMachinesProfilePtrOutput() VirtualMachinesProfilePtrOutput {
+	return i.ToVirtualMachinesProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *virtualMachinesProfilePtrType) ToVirtualMachinesProfilePtrOutputWithContext(ctx context.Context) VirtualMachinesProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VirtualMachinesProfilePtrOutput)
+}
+
+// Specifications on VirtualMachines agent pool.
+type VirtualMachinesProfileOutput struct{ *pulumi.OutputState }
+
+func (VirtualMachinesProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualMachinesProfile)(nil)).Elem()
+}
+
+func (o VirtualMachinesProfileOutput) ToVirtualMachinesProfileOutput() VirtualMachinesProfileOutput {
+	return o
+}
+
+func (o VirtualMachinesProfileOutput) ToVirtualMachinesProfileOutputWithContext(ctx context.Context) VirtualMachinesProfileOutput {
+	return o
+}
+
+func (o VirtualMachinesProfileOutput) ToVirtualMachinesProfilePtrOutput() VirtualMachinesProfilePtrOutput {
+	return o.ToVirtualMachinesProfilePtrOutputWithContext(context.Background())
+}
+
+func (o VirtualMachinesProfileOutput) ToVirtualMachinesProfilePtrOutputWithContext(ctx context.Context) VirtualMachinesProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v VirtualMachinesProfile) *VirtualMachinesProfile {
+		return &v
+	}).(VirtualMachinesProfilePtrOutput)
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+func (o VirtualMachinesProfileOutput) Scale() ScaleProfilePtrOutput {
+	return o.ApplyT(func(v VirtualMachinesProfile) *ScaleProfile { return v.Scale }).(ScaleProfilePtrOutput)
+}
+
+type VirtualMachinesProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (VirtualMachinesProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**VirtualMachinesProfile)(nil)).Elem()
+}
+
+func (o VirtualMachinesProfilePtrOutput) ToVirtualMachinesProfilePtrOutput() VirtualMachinesProfilePtrOutput {
+	return o
+}
+
+func (o VirtualMachinesProfilePtrOutput) ToVirtualMachinesProfilePtrOutputWithContext(ctx context.Context) VirtualMachinesProfilePtrOutput {
+	return o
+}
+
+func (o VirtualMachinesProfilePtrOutput) Elem() VirtualMachinesProfileOutput {
+	return o.ApplyT(func(v *VirtualMachinesProfile) VirtualMachinesProfile {
+		if v != nil {
+			return *v
+		}
+		var ret VirtualMachinesProfile
+		return ret
+	}).(VirtualMachinesProfileOutput)
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+func (o VirtualMachinesProfilePtrOutput) Scale() ScaleProfilePtrOutput {
+	return o.ApplyT(func(v *VirtualMachinesProfile) *ScaleProfile {
+		if v == nil {
+			return nil
+		}
+		return v.Scale
+	}).(ScaleProfilePtrOutput)
+}
+
+// Specifications on VirtualMachines agent pool.
+type VirtualMachinesProfileResponse struct {
+	// Specifications on how to scale a VirtualMachines agent pool.
+	Scale *ScaleProfileResponse `pulumi:"scale"`
+}
+
+// Specifications on VirtualMachines agent pool.
+type VirtualMachinesProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (VirtualMachinesProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualMachinesProfileResponse)(nil)).Elem()
+}
+
+func (o VirtualMachinesProfileResponseOutput) ToVirtualMachinesProfileResponseOutput() VirtualMachinesProfileResponseOutput {
+	return o
+}
+
+func (o VirtualMachinesProfileResponseOutput) ToVirtualMachinesProfileResponseOutputWithContext(ctx context.Context) VirtualMachinesProfileResponseOutput {
+	return o
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+func (o VirtualMachinesProfileResponseOutput) Scale() ScaleProfileResponsePtrOutput {
+	return o.ApplyT(func(v VirtualMachinesProfileResponse) *ScaleProfileResponse { return v.Scale }).(ScaleProfileResponsePtrOutput)
+}
+
+type VirtualMachinesProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (VirtualMachinesProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**VirtualMachinesProfileResponse)(nil)).Elem()
+}
+
+func (o VirtualMachinesProfileResponsePtrOutput) ToVirtualMachinesProfileResponsePtrOutput() VirtualMachinesProfileResponsePtrOutput {
+	return o
+}
+
+func (o VirtualMachinesProfileResponsePtrOutput) ToVirtualMachinesProfileResponsePtrOutputWithContext(ctx context.Context) VirtualMachinesProfileResponsePtrOutput {
+	return o
+}
+
+func (o VirtualMachinesProfileResponsePtrOutput) Elem() VirtualMachinesProfileResponseOutput {
+	return o.ApplyT(func(v *VirtualMachinesProfileResponse) VirtualMachinesProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret VirtualMachinesProfileResponse
+		return ret
+	}).(VirtualMachinesProfileResponseOutput)
+}
+
+// Specifications on how to scale a VirtualMachines agent pool.
+func (o VirtualMachinesProfileResponsePtrOutput) Scale() ScaleProfileResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualMachinesProfileResponse) *ScaleProfileResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Scale
+	}).(ScaleProfileResponsePtrOutput)
+}
+
 // The status of the wait duration.
 type WaitStatusResponse struct {
 	// The status of the wait duration.
@@ -30046,7 +32953,7 @@ func (o WeeklyScheduleResponsePtrOutput) IntervalWeeks() pulumi.IntPtrOutput {
 type WindowsGmsaProfile struct {
 	// Specifies the DNS server for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
 	DnsServer *string `pulumi:"dnsServer"`
-	// Specifies whether to enable Windows gMSA in the managed cluster.
+	// Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed cluster.
 	Enabled *bool `pulumi:"enabled"`
 	// Specifies the root domain name for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
 	RootDomainName *string `pulumi:"rootDomainName"`
@@ -30067,7 +32974,7 @@ type WindowsGmsaProfileInput interface {
 type WindowsGmsaProfileArgs struct {
 	// Specifies the DNS server for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
 	DnsServer pulumi.StringPtrInput `pulumi:"dnsServer"`
-	// Specifies whether to enable Windows gMSA in the managed cluster.
+	// Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed cluster.
 	Enabled pulumi.BoolPtrInput `pulumi:"enabled"`
 	// Specifies the root domain name for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
 	RootDomainName pulumi.StringPtrInput `pulumi:"rootDomainName"`
@@ -30156,7 +33063,7 @@ func (o WindowsGmsaProfileOutput) DnsServer() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v WindowsGmsaProfile) *string { return v.DnsServer }).(pulumi.StringPtrOutput)
 }
 
-// Specifies whether to enable Windows gMSA in the managed cluster.
+// Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed cluster.
 func (o WindowsGmsaProfileOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v WindowsGmsaProfile) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
 }
@@ -30200,7 +33107,7 @@ func (o WindowsGmsaProfilePtrOutput) DnsServer() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Specifies whether to enable Windows gMSA in the managed cluster.
+// Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed cluster.
 func (o WindowsGmsaProfilePtrOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *WindowsGmsaProfile) *bool {
 		if v == nil {
@@ -30224,7 +33131,7 @@ func (o WindowsGmsaProfilePtrOutput) RootDomainName() pulumi.StringPtrOutput {
 type WindowsGmsaProfileResponse struct {
 	// Specifies the DNS server for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
 	DnsServer *string `pulumi:"dnsServer"`
-	// Specifies whether to enable Windows gMSA in the managed cluster.
+	// Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed cluster.
 	Enabled *bool `pulumi:"enabled"`
 	// Specifies the root domain name for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
 	RootDomainName *string `pulumi:"rootDomainName"`
@@ -30250,7 +33157,7 @@ func (o WindowsGmsaProfileResponseOutput) DnsServer() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v WindowsGmsaProfileResponse) *string { return v.DnsServer }).(pulumi.StringPtrOutput)
 }
 
-// Specifies whether to enable Windows gMSA in the managed cluster.
+// Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed cluster.
 func (o WindowsGmsaProfileResponseOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v WindowsGmsaProfileResponse) *bool { return v.Enabled }).(pulumi.BoolPtrOutput)
 }
@@ -30294,7 +33201,7 @@ func (o WindowsGmsaProfileResponsePtrOutput) DnsServer() pulumi.StringPtrOutput 
 	}).(pulumi.StringPtrOutput)
 }
 
-// Specifies whether to enable Windows gMSA in the managed cluster.
+// Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed cluster.
 func (o WindowsGmsaProfileResponsePtrOutput) Enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *WindowsGmsaProfileResponse) *bool {
 		if v == nil {
@@ -30335,6 +33242,10 @@ func init() {
 	pulumi.RegisterOutputType(AdvancedNetworkingSecurityPtrOutput{})
 	pulumi.RegisterOutputType(AdvancedNetworkingSecurityResponseOutput{})
 	pulumi.RegisterOutputType(AdvancedNetworkingSecurityResponsePtrOutput{})
+	pulumi.RegisterOutputType(AgentPoolGatewayProfileOutput{})
+	pulumi.RegisterOutputType(AgentPoolGatewayProfilePtrOutput{})
+	pulumi.RegisterOutputType(AgentPoolGatewayProfileResponseOutput{})
+	pulumi.RegisterOutputType(AgentPoolGatewayProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolNetworkProfileOutput{})
 	pulumi.RegisterOutputType(AgentPoolNetworkProfilePtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolNetworkProfileResponseOutput{})
@@ -30343,6 +33254,8 @@ func init() {
 	pulumi.RegisterOutputType(AgentPoolSecurityProfilePtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolSecurityProfileResponseOutput{})
 	pulumi.RegisterOutputType(AgentPoolSecurityProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(AgentPoolStatusResponseOutput{})
+	pulumi.RegisterOutputType(AgentPoolStatusResponsePtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolUpgradeSettingsOutput{})
 	pulumi.RegisterOutputType(AgentPoolUpgradeSettingsPtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolUpgradeSettingsResponseOutput{})
@@ -30404,6 +33317,7 @@ func init() {
 	pulumi.RegisterOutputType(ErrorAdditionalInfoResponseOutput{})
 	pulumi.RegisterOutputType(ErrorAdditionalInfoResponseArrayOutput{})
 	pulumi.RegisterOutputType(ErrorDetailResponseOutput{})
+	pulumi.RegisterOutputType(ErrorDetailResponsePtrOutput{})
 	pulumi.RegisterOutputType(ErrorDetailResponseArrayOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationPtrOutput{})
@@ -30415,6 +33329,10 @@ func init() {
 	pulumi.RegisterOutputType(FleetHubProfilePtrOutput{})
 	pulumi.RegisterOutputType(FleetHubProfileResponseOutput{})
 	pulumi.RegisterOutputType(FleetHubProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(GPUProfileOutput{})
+	pulumi.RegisterOutputType(GPUProfilePtrOutput{})
+	pulumi.RegisterOutputType(GPUProfileResponseOutput{})
+	pulumi.RegisterOutputType(GPUProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(IPTagOutput{})
 	pulumi.RegisterOutputType(IPTagArrayOutput{})
 	pulumi.RegisterOutputType(IPTagResponseOutput{})
@@ -30492,6 +33410,10 @@ func init() {
 	pulumi.RegisterOutputType(ManagedClusterAADProfilePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterAADProfileResponseOutput{})
 	pulumi.RegisterOutputType(ManagedClusterAADProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterAIToolchainOperatorProfileOutput{})
+	pulumi.RegisterOutputType(ManagedClusterAIToolchainOperatorProfilePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterAIToolchainOperatorProfileResponseOutput{})
+	pulumi.RegisterOutputType(ManagedClusterAIToolchainOperatorProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterAPIServerAccessProfileOutput{})
 	pulumi.RegisterOutputType(ManagedClusterAPIServerAccessProfilePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterAPIServerAccessProfileResponseOutput{})
@@ -30521,6 +33443,10 @@ func init() {
 	pulumi.RegisterOutputType(ManagedClusterAzureMonitorProfileMetricsResponsePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterAzureMonitorProfileResponseOutput{})
 	pulumi.RegisterOutputType(ManagedClusterAzureMonitorProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterBootstrapProfileOutput{})
+	pulumi.RegisterOutputType(ManagedClusterBootstrapProfilePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterBootstrapProfileResponseOutput{})
+	pulumi.RegisterOutputType(ManagedClusterBootstrapProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterCostAnalysisOutput{})
 	pulumi.RegisterOutputType(ManagedClusterCostAnalysisPtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterCostAnalysisResponseOutput{})
@@ -30537,6 +33463,10 @@ func init() {
 	pulumi.RegisterOutputType(ManagedClusterIdentityResponseUserAssignedIdentitiesMapOutput{})
 	pulumi.RegisterOutputType(ManagedClusterIngressProfileOutput{})
 	pulumi.RegisterOutputType(ManagedClusterIngressProfilePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterIngressProfileNginxOutput{})
+	pulumi.RegisterOutputType(ManagedClusterIngressProfileNginxPtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterIngressProfileNginxResponseOutput{})
+	pulumi.RegisterOutputType(ManagedClusterIngressProfileNginxResponsePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterIngressProfileResponseOutput{})
 	pulumi.RegisterOutputType(ManagedClusterIngressProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterIngressProfileWebAppRoutingOutput{})
@@ -30571,6 +33501,10 @@ func init() {
 	pulumi.RegisterOutputType(ManagedClusterNATGatewayProfilePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterNATGatewayProfileResponseOutput{})
 	pulumi.RegisterOutputType(ManagedClusterNATGatewayProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterNodeProvisioningProfileOutput{})
+	pulumi.RegisterOutputType(ManagedClusterNodeProvisioningProfilePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterNodeProvisioningProfileResponseOutput{})
+	pulumi.RegisterOutputType(ManagedClusterNodeProvisioningProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterNodeResourceGroupProfileOutput{})
 	pulumi.RegisterOutputType(ManagedClusterNodeResourceGroupProfilePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterNodeResourceGroupProfileResponseOutput{})
@@ -30630,6 +33564,12 @@ func init() {
 	pulumi.RegisterOutputType(ManagedClusterServicePrincipalProfilePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterServicePrincipalProfileResponseOutput{})
 	pulumi.RegisterOutputType(ManagedClusterServicePrincipalProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterStaticEgressGatewayProfileOutput{})
+	pulumi.RegisterOutputType(ManagedClusterStaticEgressGatewayProfilePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterStaticEgressGatewayProfileResponseOutput{})
+	pulumi.RegisterOutputType(ManagedClusterStaticEgressGatewayProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(ManagedClusterStatusResponseOutput{})
+	pulumi.RegisterOutputType(ManagedClusterStatusResponsePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterStorageProfileOutput{})
 	pulumi.RegisterOutputType(ManagedClusterStorageProfilePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterStorageProfileBlobCSIDriverOutput{})
@@ -30674,6 +33614,10 @@ func init() {
 	pulumi.RegisterOutputType(ManagedServiceIdentityPtrOutput{})
 	pulumi.RegisterOutputType(ManagedServiceIdentityResponseOutput{})
 	pulumi.RegisterOutputType(ManagedServiceIdentityResponsePtrOutput{})
+	pulumi.RegisterOutputType(ManualScaleProfileOutput{})
+	pulumi.RegisterOutputType(ManualScaleProfileArrayOutput{})
+	pulumi.RegisterOutputType(ManualScaleProfileResponseOutput{})
+	pulumi.RegisterOutputType(ManualScaleProfileResponseArrayOutput{})
 	pulumi.RegisterOutputType(MemberUpdateStatusResponseOutput{})
 	pulumi.RegisterOutputType(MemberUpdateStatusResponseArrayOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesOutput{})
@@ -30728,6 +33672,10 @@ func init() {
 	pulumi.RegisterOutputType(ResourceReferenceArrayOutput{})
 	pulumi.RegisterOutputType(ResourceReferenceResponseOutput{})
 	pulumi.RegisterOutputType(ResourceReferenceResponseArrayOutput{})
+	pulumi.RegisterOutputType(ScaleProfileOutput{})
+	pulumi.RegisterOutputType(ScaleProfilePtrOutput{})
+	pulumi.RegisterOutputType(ScaleProfileResponseOutput{})
+	pulumi.RegisterOutputType(ScaleProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(ScheduleOutput{})
 	pulumi.RegisterOutputType(SchedulePtrOutput{})
 	pulumi.RegisterOutputType(ScheduleResponseOutput{})
@@ -30776,6 +33724,14 @@ func init() {
 	pulumi.RegisterOutputType(UserAssignedIdentityResponseOutput{})
 	pulumi.RegisterOutputType(UserAssignedIdentityResponsePtrOutput{})
 	pulumi.RegisterOutputType(UserAssignedIdentityResponseMapOutput{})
+	pulumi.RegisterOutputType(VirtualMachineNodesOutput{})
+	pulumi.RegisterOutputType(VirtualMachineNodesArrayOutput{})
+	pulumi.RegisterOutputType(VirtualMachineNodesResponseOutput{})
+	pulumi.RegisterOutputType(VirtualMachineNodesResponseArrayOutput{})
+	pulumi.RegisterOutputType(VirtualMachinesProfileOutput{})
+	pulumi.RegisterOutputType(VirtualMachinesProfilePtrOutput{})
+	pulumi.RegisterOutputType(VirtualMachinesProfileResponseOutput{})
+	pulumi.RegisterOutputType(VirtualMachinesProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(WaitStatusResponseOutput{})
 	pulumi.RegisterOutputType(WeeklyScheduleOutput{})
 	pulumi.RegisterOutputType(WeeklySchedulePtrOutput{})

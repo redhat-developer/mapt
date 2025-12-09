@@ -181,7 +181,178 @@ func (in *adoptionPolicyPtr) ToAdoptionPolicyPtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(AdoptionPolicyPtrOutput)
 }
 
-// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+// Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true.
+type AdvancedNetworkPolicies string
+
+const (
+	// Enable Layer7 network policies (FQDN, HTTP/S, Kafka). This option is a superset of the FQDN option.
+	AdvancedNetworkPoliciesL7 = AdvancedNetworkPolicies("L7")
+	// Enable FQDN based network policies
+	AdvancedNetworkPoliciesFQDN = AdvancedNetworkPolicies("FQDN")
+	// Disable Layer 7 network policies (FQDN, HTTP/S, Kafka)
+	AdvancedNetworkPoliciesNone = AdvancedNetworkPolicies("None")
+)
+
+func (AdvancedNetworkPolicies) ElementType() reflect.Type {
+	return reflect.TypeOf((*AdvancedNetworkPolicies)(nil)).Elem()
+}
+
+func (e AdvancedNetworkPolicies) ToAdvancedNetworkPoliciesOutput() AdvancedNetworkPoliciesOutput {
+	return pulumi.ToOutput(e).(AdvancedNetworkPoliciesOutput)
+}
+
+func (e AdvancedNetworkPolicies) ToAdvancedNetworkPoliciesOutputWithContext(ctx context.Context) AdvancedNetworkPoliciesOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(AdvancedNetworkPoliciesOutput)
+}
+
+func (e AdvancedNetworkPolicies) ToAdvancedNetworkPoliciesPtrOutput() AdvancedNetworkPoliciesPtrOutput {
+	return e.ToAdvancedNetworkPoliciesPtrOutputWithContext(context.Background())
+}
+
+func (e AdvancedNetworkPolicies) ToAdvancedNetworkPoliciesPtrOutputWithContext(ctx context.Context) AdvancedNetworkPoliciesPtrOutput {
+	return AdvancedNetworkPolicies(e).ToAdvancedNetworkPoliciesOutputWithContext(ctx).ToAdvancedNetworkPoliciesPtrOutputWithContext(ctx)
+}
+
+func (e AdvancedNetworkPolicies) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e AdvancedNetworkPolicies) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e AdvancedNetworkPolicies) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e AdvancedNetworkPolicies) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type AdvancedNetworkPoliciesOutput struct{ *pulumi.OutputState }
+
+func (AdvancedNetworkPoliciesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AdvancedNetworkPolicies)(nil)).Elem()
+}
+
+func (o AdvancedNetworkPoliciesOutput) ToAdvancedNetworkPoliciesOutput() AdvancedNetworkPoliciesOutput {
+	return o
+}
+
+func (o AdvancedNetworkPoliciesOutput) ToAdvancedNetworkPoliciesOutputWithContext(ctx context.Context) AdvancedNetworkPoliciesOutput {
+	return o
+}
+
+func (o AdvancedNetworkPoliciesOutput) ToAdvancedNetworkPoliciesPtrOutput() AdvancedNetworkPoliciesPtrOutput {
+	return o.ToAdvancedNetworkPoliciesPtrOutputWithContext(context.Background())
+}
+
+func (o AdvancedNetworkPoliciesOutput) ToAdvancedNetworkPoliciesPtrOutputWithContext(ctx context.Context) AdvancedNetworkPoliciesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v AdvancedNetworkPolicies) *AdvancedNetworkPolicies {
+		return &v
+	}).(AdvancedNetworkPoliciesPtrOutput)
+}
+
+func (o AdvancedNetworkPoliciesOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o AdvancedNetworkPoliciesOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e AdvancedNetworkPolicies) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o AdvancedNetworkPoliciesOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o AdvancedNetworkPoliciesOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e AdvancedNetworkPolicies) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type AdvancedNetworkPoliciesPtrOutput struct{ *pulumi.OutputState }
+
+func (AdvancedNetworkPoliciesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AdvancedNetworkPolicies)(nil)).Elem()
+}
+
+func (o AdvancedNetworkPoliciesPtrOutput) ToAdvancedNetworkPoliciesPtrOutput() AdvancedNetworkPoliciesPtrOutput {
+	return o
+}
+
+func (o AdvancedNetworkPoliciesPtrOutput) ToAdvancedNetworkPoliciesPtrOutputWithContext(ctx context.Context) AdvancedNetworkPoliciesPtrOutput {
+	return o
+}
+
+func (o AdvancedNetworkPoliciesPtrOutput) Elem() AdvancedNetworkPoliciesOutput {
+	return o.ApplyT(func(v *AdvancedNetworkPolicies) AdvancedNetworkPolicies {
+		if v != nil {
+			return *v
+		}
+		var ret AdvancedNetworkPolicies
+		return ret
+	}).(AdvancedNetworkPoliciesOutput)
+}
+
+func (o AdvancedNetworkPoliciesPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o AdvancedNetworkPoliciesPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *AdvancedNetworkPolicies) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// AdvancedNetworkPoliciesInput is an input type that accepts values of the AdvancedNetworkPolicies enum
+// A concrete instance of `AdvancedNetworkPoliciesInput` can be one of the following:
+//
+//	AdvancedNetworkPoliciesL7
+//	AdvancedNetworkPoliciesFQDN
+//	AdvancedNetworkPoliciesNone
+type AdvancedNetworkPoliciesInput interface {
+	pulumi.Input
+
+	ToAdvancedNetworkPoliciesOutput() AdvancedNetworkPoliciesOutput
+	ToAdvancedNetworkPoliciesOutputWithContext(context.Context) AdvancedNetworkPoliciesOutput
+}
+
+var advancedNetworkPoliciesPtrType = reflect.TypeOf((**AdvancedNetworkPolicies)(nil)).Elem()
+
+type AdvancedNetworkPoliciesPtrInput interface {
+	pulumi.Input
+
+	ToAdvancedNetworkPoliciesPtrOutput() AdvancedNetworkPoliciesPtrOutput
+	ToAdvancedNetworkPoliciesPtrOutputWithContext(context.Context) AdvancedNetworkPoliciesPtrOutput
+}
+
+type advancedNetworkPoliciesPtr string
+
+func AdvancedNetworkPoliciesPtr(v string) AdvancedNetworkPoliciesPtrInput {
+	return (*advancedNetworkPoliciesPtr)(&v)
+}
+
+func (*advancedNetworkPoliciesPtr) ElementType() reflect.Type {
+	return advancedNetworkPoliciesPtrType
+}
+
+func (in *advancedNetworkPoliciesPtr) ToAdvancedNetworkPoliciesPtrOutput() AdvancedNetworkPoliciesPtrOutput {
+	return pulumi.ToOutput(in).(AdvancedNetworkPoliciesPtrOutput)
+}
+
+func (in *advancedNetworkPoliciesPtr) ToAdvancedNetworkPoliciesPtrOutputWithContext(ctx context.Context) AdvancedNetworkPoliciesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(AdvancedNetworkPoliciesPtrOutput)
+}
+
+// The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 type AgentPoolMode string
 
 const (
@@ -189,6 +360,8 @@ const (
 	AgentPoolModeSystem = AgentPoolMode("System")
 	// User agent pools are primarily for hosting your application pods.
 	AgentPoolModeUser = AgentPoolMode("User")
+	// Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https://aka.ms/aks/static-egress-gateway.
+	AgentPoolModeGateway = AgentPoolMode("Gateway")
 )
 
 func (AgentPoolMode) ElementType() reflect.Type {
@@ -315,6 +488,7 @@ func (o AgentPoolModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context
 //
 //	AgentPoolModeSystem
 //	AgentPoolModeUser
+//	AgentPoolModeGateway
 type AgentPoolModeInput interface {
 	pulumi.Input
 
@@ -349,6 +523,174 @@ func (in *agentPoolModePtr) ToAgentPoolModePtrOutputWithContext(ctx context.Cont
 	return pulumi.ToOutputWithContext(ctx, in).(AgentPoolModePtrOutput)
 }
 
+// SSH access method of an agent pool.
+type AgentPoolSSHAccess string
+
+const (
+	// Can SSH onto the node as a local user using private key.
+	AgentPoolSSHAccessLocalUser = AgentPoolSSHAccess("LocalUser")
+	// SSH service will be turned off on the node.
+	AgentPoolSSHAccessDisabled = AgentPoolSSHAccess("Disabled")
+)
+
+func (AgentPoolSSHAccess) ElementType() reflect.Type {
+	return reflect.TypeOf((*AgentPoolSSHAccess)(nil)).Elem()
+}
+
+func (e AgentPoolSSHAccess) ToAgentPoolSSHAccessOutput() AgentPoolSSHAccessOutput {
+	return pulumi.ToOutput(e).(AgentPoolSSHAccessOutput)
+}
+
+func (e AgentPoolSSHAccess) ToAgentPoolSSHAccessOutputWithContext(ctx context.Context) AgentPoolSSHAccessOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(AgentPoolSSHAccessOutput)
+}
+
+func (e AgentPoolSSHAccess) ToAgentPoolSSHAccessPtrOutput() AgentPoolSSHAccessPtrOutput {
+	return e.ToAgentPoolSSHAccessPtrOutputWithContext(context.Background())
+}
+
+func (e AgentPoolSSHAccess) ToAgentPoolSSHAccessPtrOutputWithContext(ctx context.Context) AgentPoolSSHAccessPtrOutput {
+	return AgentPoolSSHAccess(e).ToAgentPoolSSHAccessOutputWithContext(ctx).ToAgentPoolSSHAccessPtrOutputWithContext(ctx)
+}
+
+func (e AgentPoolSSHAccess) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e AgentPoolSSHAccess) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e AgentPoolSSHAccess) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e AgentPoolSSHAccess) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type AgentPoolSSHAccessOutput struct{ *pulumi.OutputState }
+
+func (AgentPoolSSHAccessOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AgentPoolSSHAccess)(nil)).Elem()
+}
+
+func (o AgentPoolSSHAccessOutput) ToAgentPoolSSHAccessOutput() AgentPoolSSHAccessOutput {
+	return o
+}
+
+func (o AgentPoolSSHAccessOutput) ToAgentPoolSSHAccessOutputWithContext(ctx context.Context) AgentPoolSSHAccessOutput {
+	return o
+}
+
+func (o AgentPoolSSHAccessOutput) ToAgentPoolSSHAccessPtrOutput() AgentPoolSSHAccessPtrOutput {
+	return o.ToAgentPoolSSHAccessPtrOutputWithContext(context.Background())
+}
+
+func (o AgentPoolSSHAccessOutput) ToAgentPoolSSHAccessPtrOutputWithContext(ctx context.Context) AgentPoolSSHAccessPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v AgentPoolSSHAccess) *AgentPoolSSHAccess {
+		return &v
+	}).(AgentPoolSSHAccessPtrOutput)
+}
+
+func (o AgentPoolSSHAccessOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o AgentPoolSSHAccessOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e AgentPoolSSHAccess) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o AgentPoolSSHAccessOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o AgentPoolSSHAccessOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e AgentPoolSSHAccess) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type AgentPoolSSHAccessPtrOutput struct{ *pulumi.OutputState }
+
+func (AgentPoolSSHAccessPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AgentPoolSSHAccess)(nil)).Elem()
+}
+
+func (o AgentPoolSSHAccessPtrOutput) ToAgentPoolSSHAccessPtrOutput() AgentPoolSSHAccessPtrOutput {
+	return o
+}
+
+func (o AgentPoolSSHAccessPtrOutput) ToAgentPoolSSHAccessPtrOutputWithContext(ctx context.Context) AgentPoolSSHAccessPtrOutput {
+	return o
+}
+
+func (o AgentPoolSSHAccessPtrOutput) Elem() AgentPoolSSHAccessOutput {
+	return o.ApplyT(func(v *AgentPoolSSHAccess) AgentPoolSSHAccess {
+		if v != nil {
+			return *v
+		}
+		var ret AgentPoolSSHAccess
+		return ret
+	}).(AgentPoolSSHAccessOutput)
+}
+
+func (o AgentPoolSSHAccessPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o AgentPoolSSHAccessPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *AgentPoolSSHAccess) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// AgentPoolSSHAccessInput is an input type that accepts values of the AgentPoolSSHAccess enum
+// A concrete instance of `AgentPoolSSHAccessInput` can be one of the following:
+//
+//	AgentPoolSSHAccessLocalUser
+//	AgentPoolSSHAccessDisabled
+type AgentPoolSSHAccessInput interface {
+	pulumi.Input
+
+	ToAgentPoolSSHAccessOutput() AgentPoolSSHAccessOutput
+	ToAgentPoolSSHAccessOutputWithContext(context.Context) AgentPoolSSHAccessOutput
+}
+
+var agentPoolSSHAccessPtrType = reflect.TypeOf((**AgentPoolSSHAccess)(nil)).Elem()
+
+type AgentPoolSSHAccessPtrInput interface {
+	pulumi.Input
+
+	ToAgentPoolSSHAccessPtrOutput() AgentPoolSSHAccessPtrOutput
+	ToAgentPoolSSHAccessPtrOutputWithContext(context.Context) AgentPoolSSHAccessPtrOutput
+}
+
+type agentPoolSSHAccessPtr string
+
+func AgentPoolSSHAccessPtr(v string) AgentPoolSSHAccessPtrInput {
+	return (*agentPoolSSHAccessPtr)(&v)
+}
+
+func (*agentPoolSSHAccessPtr) ElementType() reflect.Type {
+	return agentPoolSSHAccessPtrType
+}
+
+func (in *agentPoolSSHAccessPtr) ToAgentPoolSSHAccessPtrOutput() AgentPoolSSHAccessPtrOutput {
+	return pulumi.ToOutput(in).(AgentPoolSSHAccessPtrOutput)
+}
+
+func (in *agentPoolSSHAccessPtr) ToAgentPoolSSHAccessPtrOutputWithContext(ctx context.Context) AgentPoolSSHAccessPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(AgentPoolSSHAccessPtrOutput)
+}
+
 // The type of Agent Pool.
 type AgentPoolType string
 
@@ -357,6 +699,8 @@ const (
 	AgentPoolTypeVirtualMachineScaleSets = AgentPoolType("VirtualMachineScaleSets")
 	// Use of this is strongly discouraged.
 	AgentPoolTypeAvailabilitySet = AgentPoolType("AvailabilitySet")
+	// Create an Agent Pool backed by a Single Instance VM orchestration mode.
+	AgentPoolTypeVirtualMachines = AgentPoolType("VirtualMachines")
 )
 
 func (AgentPoolType) ElementType() reflect.Type {
@@ -483,6 +827,7 @@ func (o AgentPoolTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context
 //
 //	AgentPoolTypeVirtualMachineScaleSets
 //	AgentPoolTypeAvailabilitySet
+//	AgentPoolTypeVirtualMachines
 type AgentPoolTypeInput interface {
 	pulumi.Input
 
@@ -515,6 +860,174 @@ func (in *agentPoolTypePtr) ToAgentPoolTypePtrOutput() AgentPoolTypePtrOutput {
 
 func (in *agentPoolTypePtr) ToAgentPoolTypePtrOutputWithContext(ctx context.Context) AgentPoolTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(AgentPoolTypePtrOutput)
+}
+
+// The artifact source. The source where the artifacts are downloaded from.
+type ArtifactSource string
+
+const (
+	// pull images from Azure Container Registry with cache
+	ArtifactSourceCache = ArtifactSource("Cache")
+	// pull images from Microsoft Artifact Registry
+	ArtifactSourceDirect = ArtifactSource("Direct")
+)
+
+func (ArtifactSource) ElementType() reflect.Type {
+	return reflect.TypeOf((*ArtifactSource)(nil)).Elem()
+}
+
+func (e ArtifactSource) ToArtifactSourceOutput() ArtifactSourceOutput {
+	return pulumi.ToOutput(e).(ArtifactSourceOutput)
+}
+
+func (e ArtifactSource) ToArtifactSourceOutputWithContext(ctx context.Context) ArtifactSourceOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ArtifactSourceOutput)
+}
+
+func (e ArtifactSource) ToArtifactSourcePtrOutput() ArtifactSourcePtrOutput {
+	return e.ToArtifactSourcePtrOutputWithContext(context.Background())
+}
+
+func (e ArtifactSource) ToArtifactSourcePtrOutputWithContext(ctx context.Context) ArtifactSourcePtrOutput {
+	return ArtifactSource(e).ToArtifactSourceOutputWithContext(ctx).ToArtifactSourcePtrOutputWithContext(ctx)
+}
+
+func (e ArtifactSource) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ArtifactSource) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ArtifactSource) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ArtifactSource) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ArtifactSourceOutput struct{ *pulumi.OutputState }
+
+func (ArtifactSourceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ArtifactSource)(nil)).Elem()
+}
+
+func (o ArtifactSourceOutput) ToArtifactSourceOutput() ArtifactSourceOutput {
+	return o
+}
+
+func (o ArtifactSourceOutput) ToArtifactSourceOutputWithContext(ctx context.Context) ArtifactSourceOutput {
+	return o
+}
+
+func (o ArtifactSourceOutput) ToArtifactSourcePtrOutput() ArtifactSourcePtrOutput {
+	return o.ToArtifactSourcePtrOutputWithContext(context.Background())
+}
+
+func (o ArtifactSourceOutput) ToArtifactSourcePtrOutputWithContext(ctx context.Context) ArtifactSourcePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ArtifactSource) *ArtifactSource {
+		return &v
+	}).(ArtifactSourcePtrOutput)
+}
+
+func (o ArtifactSourceOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ArtifactSourceOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ArtifactSource) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ArtifactSourceOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ArtifactSourceOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ArtifactSource) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ArtifactSourcePtrOutput struct{ *pulumi.OutputState }
+
+func (ArtifactSourcePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ArtifactSource)(nil)).Elem()
+}
+
+func (o ArtifactSourcePtrOutput) ToArtifactSourcePtrOutput() ArtifactSourcePtrOutput {
+	return o
+}
+
+func (o ArtifactSourcePtrOutput) ToArtifactSourcePtrOutputWithContext(ctx context.Context) ArtifactSourcePtrOutput {
+	return o
+}
+
+func (o ArtifactSourcePtrOutput) Elem() ArtifactSourceOutput {
+	return o.ApplyT(func(v *ArtifactSource) ArtifactSource {
+		if v != nil {
+			return *v
+		}
+		var ret ArtifactSource
+		return ret
+	}).(ArtifactSourceOutput)
+}
+
+func (o ArtifactSourcePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ArtifactSourcePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ArtifactSource) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ArtifactSourceInput is an input type that accepts values of the ArtifactSource enum
+// A concrete instance of `ArtifactSourceInput` can be one of the following:
+//
+//	ArtifactSourceCache
+//	ArtifactSourceDirect
+type ArtifactSourceInput interface {
+	pulumi.Input
+
+	ToArtifactSourceOutput() ArtifactSourceOutput
+	ToArtifactSourceOutputWithContext(context.Context) ArtifactSourceOutput
+}
+
+var artifactSourcePtrType = reflect.TypeOf((**ArtifactSource)(nil)).Elem()
+
+type ArtifactSourcePtrInput interface {
+	pulumi.Input
+
+	ToArtifactSourcePtrOutput() ArtifactSourcePtrOutput
+	ToArtifactSourcePtrOutputWithContext(context.Context) ArtifactSourcePtrOutput
+}
+
+type artifactSourcePtr string
+
+func ArtifactSourcePtr(v string) ArtifactSourcePtrInput {
+	return (*artifactSourcePtr)(&v)
+}
+
+func (*artifactSourcePtr) ElementType() reflect.Type {
+	return artifactSourcePtrType
+}
+
+func (in *artifactSourcePtr) ToArtifactSourcePtrOutput() ArtifactSourcePtrOutput {
+	return pulumi.ToOutput(in).(ArtifactSourcePtrOutput)
+}
+
+func (in *artifactSourcePtr) ToArtifactSourcePtrOutputWithContext(ctx context.Context) ArtifactSourcePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ArtifactSourcePtrOutput)
 }
 
 // The node image upgrade type.
@@ -1696,7 +2209,7 @@ func (in *executionPointPtr) ToExecutionPointPtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(ExecutionPointPtrOutput)
 }
 
-// If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
+// The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information.
 type Expander string
 
 const (
@@ -2032,6 +2545,174 @@ func (in *extendedLocationTypesPtr) ToExtendedLocationTypesPtrOutput() ExtendedL
 
 func (in *extendedLocationTypesPtr) ToExtendedLocationTypesPtrOutputWithContext(ctx context.Context) ExtendedLocationTypesPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(ExtendedLocationTypesPtrOutput)
+}
+
+// Whether to install GPU drivers. When it's not specified, default is Install.
+type GPUDriver string
+
+const (
+	// Install driver.
+	GPUDriverInstall = GPUDriver("Install")
+	// Skip driver install.
+	GPUDriverNone = GPUDriver("None")
+)
+
+func (GPUDriver) ElementType() reflect.Type {
+	return reflect.TypeOf((*GPUDriver)(nil)).Elem()
+}
+
+func (e GPUDriver) ToGPUDriverOutput() GPUDriverOutput {
+	return pulumi.ToOutput(e).(GPUDriverOutput)
+}
+
+func (e GPUDriver) ToGPUDriverOutputWithContext(ctx context.Context) GPUDriverOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(GPUDriverOutput)
+}
+
+func (e GPUDriver) ToGPUDriverPtrOutput() GPUDriverPtrOutput {
+	return e.ToGPUDriverPtrOutputWithContext(context.Background())
+}
+
+func (e GPUDriver) ToGPUDriverPtrOutputWithContext(ctx context.Context) GPUDriverPtrOutput {
+	return GPUDriver(e).ToGPUDriverOutputWithContext(ctx).ToGPUDriverPtrOutputWithContext(ctx)
+}
+
+func (e GPUDriver) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e GPUDriver) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e GPUDriver) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e GPUDriver) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type GPUDriverOutput struct{ *pulumi.OutputState }
+
+func (GPUDriverOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GPUDriver)(nil)).Elem()
+}
+
+func (o GPUDriverOutput) ToGPUDriverOutput() GPUDriverOutput {
+	return o
+}
+
+func (o GPUDriverOutput) ToGPUDriverOutputWithContext(ctx context.Context) GPUDriverOutput {
+	return o
+}
+
+func (o GPUDriverOutput) ToGPUDriverPtrOutput() GPUDriverPtrOutput {
+	return o.ToGPUDriverPtrOutputWithContext(context.Background())
+}
+
+func (o GPUDriverOutput) ToGPUDriverPtrOutputWithContext(ctx context.Context) GPUDriverPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GPUDriver) *GPUDriver {
+		return &v
+	}).(GPUDriverPtrOutput)
+}
+
+func (o GPUDriverOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o GPUDriverOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e GPUDriver) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o GPUDriverOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o GPUDriverOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e GPUDriver) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type GPUDriverPtrOutput struct{ *pulumi.OutputState }
+
+func (GPUDriverPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GPUDriver)(nil)).Elem()
+}
+
+func (o GPUDriverPtrOutput) ToGPUDriverPtrOutput() GPUDriverPtrOutput {
+	return o
+}
+
+func (o GPUDriverPtrOutput) ToGPUDriverPtrOutputWithContext(ctx context.Context) GPUDriverPtrOutput {
+	return o
+}
+
+func (o GPUDriverPtrOutput) Elem() GPUDriverOutput {
+	return o.ApplyT(func(v *GPUDriver) GPUDriver {
+		if v != nil {
+			return *v
+		}
+		var ret GPUDriver
+		return ret
+	}).(GPUDriverOutput)
+}
+
+func (o GPUDriverPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o GPUDriverPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *GPUDriver) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// GPUDriverInput is an input type that accepts values of the GPUDriver enum
+// A concrete instance of `GPUDriverInput` can be one of the following:
+//
+//	GPUDriverInstall
+//	GPUDriverNone
+type GPUDriverInput interface {
+	pulumi.Input
+
+	ToGPUDriverOutput() GPUDriverOutput
+	ToGPUDriverOutputWithContext(context.Context) GPUDriverOutput
+}
+
+var gpudriverPtrType = reflect.TypeOf((**GPUDriver)(nil)).Elem()
+
+type GPUDriverPtrInput interface {
+	pulumi.Input
+
+	ToGPUDriverPtrOutput() GPUDriverPtrOutput
+	ToGPUDriverPtrOutputWithContext(context.Context) GPUDriverPtrOutput
+}
+
+type gpudriverPtr string
+
+func GPUDriverPtr(v string) GPUDriverPtrInput {
+	return (*gpudriverPtr)(&v)
+}
+
+func (*gpudriverPtr) ElementType() reflect.Type {
+	return gpudriverPtrType
+}
+
+func (in *gpudriverPtr) ToGPUDriverPtrOutput() GPUDriverPtrOutput {
+	return pulumi.ToOutput(in).(GPUDriverPtrOutput)
+}
+
+func (in *gpudriverPtr) ToGPUDriverPtrOutputWithContext(ctx context.Context) GPUDriverPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(GPUDriverPtrOutput)
 }
 
 // GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
@@ -2540,7 +3221,7 @@ func (in *istioIngressGatewayModePtr) ToIstioIngressGatewayModePtrOutputWithCont
 	return pulumi.ToOutputWithContext(ctx, in).(IstioIngressGatewayModePtrOutput)
 }
 
-// Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
+// Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`.
 type KeyVaultNetworkAccessTypes string
 
 const (
@@ -3210,7 +3891,7 @@ func (in *licenseTypePtr) ToLicenseTypePtrOutputWithContext(ctx context.Context)
 	return pulumi.ToOutputWithContext(ctx, in).(LicenseTypePtrOutput)
 }
 
-// The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
+// The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs.
 type LoadBalancerSku string
 
 const (
@@ -3384,6 +4065,8 @@ type ManagedClusterSKUName string
 const (
 	// Base option for the AKS control plane.
 	ManagedClusterSKUNameBase = ManagedClusterSKUName("Base")
+	// Automatic clusters are optimized to run most production workloads with configuration that follows AKS best practices and recommendations for cluster and workload setup, scalability, and security. For more details about Automatic clusters see aka.ms/aks/automatic.
+	ManagedClusterSKUNameAutomatic = ManagedClusterSKUName("Automatic")
 )
 
 func (ManagedClusterSKUName) ElementType() reflect.Type {
@@ -3509,6 +4192,7 @@ func (o ManagedClusterSKUNamePtrOutput) ToStringPtrOutputWithContext(ctx context
 // A concrete instance of `ManagedClusterSKUNameInput` can be one of the following:
 //
 //	ManagedClusterSKUNameBase
+//	ManagedClusterSKUNameAutomatic
 type ManagedClusterSKUNameInput interface {
 	pulumi.Input
 
@@ -3543,7 +4227,7 @@ func (in *managedClusterSKUNamePtr) ToManagedClusterSKUNamePtrOutputWithContext(
 	return pulumi.ToOutputWithContext(ctx, in).(ManagedClusterSKUNamePtrOutput)
 }
 
-// If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
+// The tier of a managed cluster SKU. If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
 type ManagedClusterSKUTier string
 
 const (
@@ -4223,7 +4907,7 @@ func (in *networkDataplanePtr) ToNetworkDataplanePtrOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, in).(NetworkDataplanePtrOutput)
 }
 
-// This cannot be specified if networkPlugin is anything other than 'azure'.
+// The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'.
 type NetworkMode string
 
 const (
@@ -4901,6 +5585,180 @@ func (in *networkPolicyPtr) ToNetworkPolicyPtrOutputWithContext(ctx context.Cont
 	return pulumi.ToOutputWithContext(ctx, in).(NetworkPolicyPtrOutput)
 }
 
+// Ingress type for the default NginxIngressController custom resource
+type NginxIngressControllerType string
+
+const (
+	// The default NginxIngressController will be created. Users can edit the default NginxIngressController Custom Resource to configure load balancer annotations.
+	NginxIngressControllerTypeAnnotationControlled = NginxIngressControllerType("AnnotationControlled")
+	// The default NginxIngressController will be created and the operator will provision an external loadbalancer with it. Any annotation to make the default loadbalancer internal will be overwritten.
+	NginxIngressControllerTypeExternal = NginxIngressControllerType("External")
+	// The default NginxIngressController will be created and the operator will provision an internal loadbalancer with it. Any annotation to make the default loadbalancer external will be overwritten.
+	NginxIngressControllerTypeInternal = NginxIngressControllerType("Internal")
+	// The default Ingress Controller will not be created. It will not be deleted by the system if it exists. Users should delete the default NginxIngressController Custom Resource manually if desired.
+	NginxIngressControllerTypeNone = NginxIngressControllerType("None")
+)
+
+func (NginxIngressControllerType) ElementType() reflect.Type {
+	return reflect.TypeOf((*NginxIngressControllerType)(nil)).Elem()
+}
+
+func (e NginxIngressControllerType) ToNginxIngressControllerTypeOutput() NginxIngressControllerTypeOutput {
+	return pulumi.ToOutput(e).(NginxIngressControllerTypeOutput)
+}
+
+func (e NginxIngressControllerType) ToNginxIngressControllerTypeOutputWithContext(ctx context.Context) NginxIngressControllerTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(NginxIngressControllerTypeOutput)
+}
+
+func (e NginxIngressControllerType) ToNginxIngressControllerTypePtrOutput() NginxIngressControllerTypePtrOutput {
+	return e.ToNginxIngressControllerTypePtrOutputWithContext(context.Background())
+}
+
+func (e NginxIngressControllerType) ToNginxIngressControllerTypePtrOutputWithContext(ctx context.Context) NginxIngressControllerTypePtrOutput {
+	return NginxIngressControllerType(e).ToNginxIngressControllerTypeOutputWithContext(ctx).ToNginxIngressControllerTypePtrOutputWithContext(ctx)
+}
+
+func (e NginxIngressControllerType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e NginxIngressControllerType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e NginxIngressControllerType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e NginxIngressControllerType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type NginxIngressControllerTypeOutput struct{ *pulumi.OutputState }
+
+func (NginxIngressControllerTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NginxIngressControllerType)(nil)).Elem()
+}
+
+func (o NginxIngressControllerTypeOutput) ToNginxIngressControllerTypeOutput() NginxIngressControllerTypeOutput {
+	return o
+}
+
+func (o NginxIngressControllerTypeOutput) ToNginxIngressControllerTypeOutputWithContext(ctx context.Context) NginxIngressControllerTypeOutput {
+	return o
+}
+
+func (o NginxIngressControllerTypeOutput) ToNginxIngressControllerTypePtrOutput() NginxIngressControllerTypePtrOutput {
+	return o.ToNginxIngressControllerTypePtrOutputWithContext(context.Background())
+}
+
+func (o NginxIngressControllerTypeOutput) ToNginxIngressControllerTypePtrOutputWithContext(ctx context.Context) NginxIngressControllerTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v NginxIngressControllerType) *NginxIngressControllerType {
+		return &v
+	}).(NginxIngressControllerTypePtrOutput)
+}
+
+func (o NginxIngressControllerTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o NginxIngressControllerTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e NginxIngressControllerType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o NginxIngressControllerTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o NginxIngressControllerTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e NginxIngressControllerType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type NginxIngressControllerTypePtrOutput struct{ *pulumi.OutputState }
+
+func (NginxIngressControllerTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**NginxIngressControllerType)(nil)).Elem()
+}
+
+func (o NginxIngressControllerTypePtrOutput) ToNginxIngressControllerTypePtrOutput() NginxIngressControllerTypePtrOutput {
+	return o
+}
+
+func (o NginxIngressControllerTypePtrOutput) ToNginxIngressControllerTypePtrOutputWithContext(ctx context.Context) NginxIngressControllerTypePtrOutput {
+	return o
+}
+
+func (o NginxIngressControllerTypePtrOutput) Elem() NginxIngressControllerTypeOutput {
+	return o.ApplyT(func(v *NginxIngressControllerType) NginxIngressControllerType {
+		if v != nil {
+			return *v
+		}
+		var ret NginxIngressControllerType
+		return ret
+	}).(NginxIngressControllerTypeOutput)
+}
+
+func (o NginxIngressControllerTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o NginxIngressControllerTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *NginxIngressControllerType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// NginxIngressControllerTypeInput is an input type that accepts values of the NginxIngressControllerType enum
+// A concrete instance of `NginxIngressControllerTypeInput` can be one of the following:
+//
+//	NginxIngressControllerTypeAnnotationControlled
+//	NginxIngressControllerTypeExternal
+//	NginxIngressControllerTypeInternal
+//	NginxIngressControllerTypeNone
+type NginxIngressControllerTypeInput interface {
+	pulumi.Input
+
+	ToNginxIngressControllerTypeOutput() NginxIngressControllerTypeOutput
+	ToNginxIngressControllerTypeOutputWithContext(context.Context) NginxIngressControllerTypeOutput
+}
+
+var nginxIngressControllerTypePtrType = reflect.TypeOf((**NginxIngressControllerType)(nil)).Elem()
+
+type NginxIngressControllerTypePtrInput interface {
+	pulumi.Input
+
+	ToNginxIngressControllerTypePtrOutput() NginxIngressControllerTypePtrOutput
+	ToNginxIngressControllerTypePtrOutputWithContext(context.Context) NginxIngressControllerTypePtrOutput
+}
+
+type nginxIngressControllerTypePtr string
+
+func NginxIngressControllerTypePtr(v string) NginxIngressControllerTypePtrInput {
+	return (*nginxIngressControllerTypePtr)(&v)
+}
+
+func (*nginxIngressControllerTypePtr) ElementType() reflect.Type {
+	return nginxIngressControllerTypePtrType
+}
+
+func (in *nginxIngressControllerTypePtr) ToNginxIngressControllerTypePtrOutput() NginxIngressControllerTypePtrOutput {
+	return pulumi.ToOutput(in).(NginxIngressControllerTypePtrOutput)
+}
+
+func (in *nginxIngressControllerTypePtr) ToNginxIngressControllerTypePtrOutputWithContext(ctx context.Context) NginxIngressControllerTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(NginxIngressControllerTypePtrOutput)
+}
+
 // The node image upgrade type.
 type NodeImageSelectionType string
 
@@ -5072,7 +5930,7 @@ func (in *nodeImageSelectionTypePtr) ToNodeImageSelectionTypePtrOutputWithContex
 	return pulumi.ToOutputWithContext(ctx, in).(NodeImageSelectionTypePtrOutput)
 }
 
-// Manner in which the OS on your nodes is updated. The default is NodeImage.
+// Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage.
 type NodeOSUpgradeChannel string
 
 const (
@@ -5246,7 +6104,343 @@ func (in *nodeOSUpgradeChannelPtr) ToNodeOSUpgradeChannelPtrOutputWithContext(ct
 	return pulumi.ToOutputWithContext(ctx, in).(NodeOSUpgradeChannelPtrOutput)
 }
 
-// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+// The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools.
+type NodeProvisioningDefaultNodePools string
+
+const (
+	// No Karpenter NodePools are provisioned automatically. Automatic scaling will not happen unless the user creates one or more NodePool CRD instances.
+	NodeProvisioningDefaultNodePoolsNone = NodeProvisioningDefaultNodePools("None")
+	// A standard set of Karpenter NodePools are provisioned
+	NodeProvisioningDefaultNodePoolsAuto = NodeProvisioningDefaultNodePools("Auto")
+)
+
+func (NodeProvisioningDefaultNodePools) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeProvisioningDefaultNodePools)(nil)).Elem()
+}
+
+func (e NodeProvisioningDefaultNodePools) ToNodeProvisioningDefaultNodePoolsOutput() NodeProvisioningDefaultNodePoolsOutput {
+	return pulumi.ToOutput(e).(NodeProvisioningDefaultNodePoolsOutput)
+}
+
+func (e NodeProvisioningDefaultNodePools) ToNodeProvisioningDefaultNodePoolsOutputWithContext(ctx context.Context) NodeProvisioningDefaultNodePoolsOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(NodeProvisioningDefaultNodePoolsOutput)
+}
+
+func (e NodeProvisioningDefaultNodePools) ToNodeProvisioningDefaultNodePoolsPtrOutput() NodeProvisioningDefaultNodePoolsPtrOutput {
+	return e.ToNodeProvisioningDefaultNodePoolsPtrOutputWithContext(context.Background())
+}
+
+func (e NodeProvisioningDefaultNodePools) ToNodeProvisioningDefaultNodePoolsPtrOutputWithContext(ctx context.Context) NodeProvisioningDefaultNodePoolsPtrOutput {
+	return NodeProvisioningDefaultNodePools(e).ToNodeProvisioningDefaultNodePoolsOutputWithContext(ctx).ToNodeProvisioningDefaultNodePoolsPtrOutputWithContext(ctx)
+}
+
+func (e NodeProvisioningDefaultNodePools) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e NodeProvisioningDefaultNodePools) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e NodeProvisioningDefaultNodePools) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e NodeProvisioningDefaultNodePools) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type NodeProvisioningDefaultNodePoolsOutput struct{ *pulumi.OutputState }
+
+func (NodeProvisioningDefaultNodePoolsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeProvisioningDefaultNodePools)(nil)).Elem()
+}
+
+func (o NodeProvisioningDefaultNodePoolsOutput) ToNodeProvisioningDefaultNodePoolsOutput() NodeProvisioningDefaultNodePoolsOutput {
+	return o
+}
+
+func (o NodeProvisioningDefaultNodePoolsOutput) ToNodeProvisioningDefaultNodePoolsOutputWithContext(ctx context.Context) NodeProvisioningDefaultNodePoolsOutput {
+	return o
+}
+
+func (o NodeProvisioningDefaultNodePoolsOutput) ToNodeProvisioningDefaultNodePoolsPtrOutput() NodeProvisioningDefaultNodePoolsPtrOutput {
+	return o.ToNodeProvisioningDefaultNodePoolsPtrOutputWithContext(context.Background())
+}
+
+func (o NodeProvisioningDefaultNodePoolsOutput) ToNodeProvisioningDefaultNodePoolsPtrOutputWithContext(ctx context.Context) NodeProvisioningDefaultNodePoolsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v NodeProvisioningDefaultNodePools) *NodeProvisioningDefaultNodePools {
+		return &v
+	}).(NodeProvisioningDefaultNodePoolsPtrOutput)
+}
+
+func (o NodeProvisioningDefaultNodePoolsOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o NodeProvisioningDefaultNodePoolsOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e NodeProvisioningDefaultNodePools) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o NodeProvisioningDefaultNodePoolsOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o NodeProvisioningDefaultNodePoolsOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e NodeProvisioningDefaultNodePools) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type NodeProvisioningDefaultNodePoolsPtrOutput struct{ *pulumi.OutputState }
+
+func (NodeProvisioningDefaultNodePoolsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**NodeProvisioningDefaultNodePools)(nil)).Elem()
+}
+
+func (o NodeProvisioningDefaultNodePoolsPtrOutput) ToNodeProvisioningDefaultNodePoolsPtrOutput() NodeProvisioningDefaultNodePoolsPtrOutput {
+	return o
+}
+
+func (o NodeProvisioningDefaultNodePoolsPtrOutput) ToNodeProvisioningDefaultNodePoolsPtrOutputWithContext(ctx context.Context) NodeProvisioningDefaultNodePoolsPtrOutput {
+	return o
+}
+
+func (o NodeProvisioningDefaultNodePoolsPtrOutput) Elem() NodeProvisioningDefaultNodePoolsOutput {
+	return o.ApplyT(func(v *NodeProvisioningDefaultNodePools) NodeProvisioningDefaultNodePools {
+		if v != nil {
+			return *v
+		}
+		var ret NodeProvisioningDefaultNodePools
+		return ret
+	}).(NodeProvisioningDefaultNodePoolsOutput)
+}
+
+func (o NodeProvisioningDefaultNodePoolsPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o NodeProvisioningDefaultNodePoolsPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *NodeProvisioningDefaultNodePools) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// NodeProvisioningDefaultNodePoolsInput is an input type that accepts values of the NodeProvisioningDefaultNodePools enum
+// A concrete instance of `NodeProvisioningDefaultNodePoolsInput` can be one of the following:
+//
+//	NodeProvisioningDefaultNodePoolsNone
+//	NodeProvisioningDefaultNodePoolsAuto
+type NodeProvisioningDefaultNodePoolsInput interface {
+	pulumi.Input
+
+	ToNodeProvisioningDefaultNodePoolsOutput() NodeProvisioningDefaultNodePoolsOutput
+	ToNodeProvisioningDefaultNodePoolsOutputWithContext(context.Context) NodeProvisioningDefaultNodePoolsOutput
+}
+
+var nodeProvisioningDefaultNodePoolsPtrType = reflect.TypeOf((**NodeProvisioningDefaultNodePools)(nil)).Elem()
+
+type NodeProvisioningDefaultNodePoolsPtrInput interface {
+	pulumi.Input
+
+	ToNodeProvisioningDefaultNodePoolsPtrOutput() NodeProvisioningDefaultNodePoolsPtrOutput
+	ToNodeProvisioningDefaultNodePoolsPtrOutputWithContext(context.Context) NodeProvisioningDefaultNodePoolsPtrOutput
+}
+
+type nodeProvisioningDefaultNodePoolsPtr string
+
+func NodeProvisioningDefaultNodePoolsPtr(v string) NodeProvisioningDefaultNodePoolsPtrInput {
+	return (*nodeProvisioningDefaultNodePoolsPtr)(&v)
+}
+
+func (*nodeProvisioningDefaultNodePoolsPtr) ElementType() reflect.Type {
+	return nodeProvisioningDefaultNodePoolsPtrType
+}
+
+func (in *nodeProvisioningDefaultNodePoolsPtr) ToNodeProvisioningDefaultNodePoolsPtrOutput() NodeProvisioningDefaultNodePoolsPtrOutput {
+	return pulumi.ToOutput(in).(NodeProvisioningDefaultNodePoolsPtrOutput)
+}
+
+func (in *nodeProvisioningDefaultNodePoolsPtr) ToNodeProvisioningDefaultNodePoolsPtrOutputWithContext(ctx context.Context) NodeProvisioningDefaultNodePoolsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(NodeProvisioningDefaultNodePoolsPtrOutput)
+}
+
+// The node provisioning mode. If not specified, the default is Manual.
+type NodeProvisioningMode string
+
+const (
+	// Nodes are provisioned manually by the user
+	NodeProvisioningModeManual = NodeProvisioningMode("Manual")
+	// Nodes are provisioned automatically by AKS using Karpenter (See aka.ms/aks/nap for more details). Fixed size Node Pools can still be created, but autoscaling Node Pools cannot be. (See aka.ms/aks/nap for more details).
+	NodeProvisioningModeAuto = NodeProvisioningMode("Auto")
+)
+
+func (NodeProvisioningMode) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeProvisioningMode)(nil)).Elem()
+}
+
+func (e NodeProvisioningMode) ToNodeProvisioningModeOutput() NodeProvisioningModeOutput {
+	return pulumi.ToOutput(e).(NodeProvisioningModeOutput)
+}
+
+func (e NodeProvisioningMode) ToNodeProvisioningModeOutputWithContext(ctx context.Context) NodeProvisioningModeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(NodeProvisioningModeOutput)
+}
+
+func (e NodeProvisioningMode) ToNodeProvisioningModePtrOutput() NodeProvisioningModePtrOutput {
+	return e.ToNodeProvisioningModePtrOutputWithContext(context.Background())
+}
+
+func (e NodeProvisioningMode) ToNodeProvisioningModePtrOutputWithContext(ctx context.Context) NodeProvisioningModePtrOutput {
+	return NodeProvisioningMode(e).ToNodeProvisioningModeOutputWithContext(ctx).ToNodeProvisioningModePtrOutputWithContext(ctx)
+}
+
+func (e NodeProvisioningMode) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e NodeProvisioningMode) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e NodeProvisioningMode) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e NodeProvisioningMode) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type NodeProvisioningModeOutput struct{ *pulumi.OutputState }
+
+func (NodeProvisioningModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NodeProvisioningMode)(nil)).Elem()
+}
+
+func (o NodeProvisioningModeOutput) ToNodeProvisioningModeOutput() NodeProvisioningModeOutput {
+	return o
+}
+
+func (o NodeProvisioningModeOutput) ToNodeProvisioningModeOutputWithContext(ctx context.Context) NodeProvisioningModeOutput {
+	return o
+}
+
+func (o NodeProvisioningModeOutput) ToNodeProvisioningModePtrOutput() NodeProvisioningModePtrOutput {
+	return o.ToNodeProvisioningModePtrOutputWithContext(context.Background())
+}
+
+func (o NodeProvisioningModeOutput) ToNodeProvisioningModePtrOutputWithContext(ctx context.Context) NodeProvisioningModePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v NodeProvisioningMode) *NodeProvisioningMode {
+		return &v
+	}).(NodeProvisioningModePtrOutput)
+}
+
+func (o NodeProvisioningModeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o NodeProvisioningModeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e NodeProvisioningMode) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o NodeProvisioningModeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o NodeProvisioningModeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e NodeProvisioningMode) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type NodeProvisioningModePtrOutput struct{ *pulumi.OutputState }
+
+func (NodeProvisioningModePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**NodeProvisioningMode)(nil)).Elem()
+}
+
+func (o NodeProvisioningModePtrOutput) ToNodeProvisioningModePtrOutput() NodeProvisioningModePtrOutput {
+	return o
+}
+
+func (o NodeProvisioningModePtrOutput) ToNodeProvisioningModePtrOutputWithContext(ctx context.Context) NodeProvisioningModePtrOutput {
+	return o
+}
+
+func (o NodeProvisioningModePtrOutput) Elem() NodeProvisioningModeOutput {
+	return o.ApplyT(func(v *NodeProvisioningMode) NodeProvisioningMode {
+		if v != nil {
+			return *v
+		}
+		var ret NodeProvisioningMode
+		return ret
+	}).(NodeProvisioningModeOutput)
+}
+
+func (o NodeProvisioningModePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o NodeProvisioningModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *NodeProvisioningMode) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// NodeProvisioningModeInput is an input type that accepts values of the NodeProvisioningMode enum
+// A concrete instance of `NodeProvisioningModeInput` can be one of the following:
+//
+//	NodeProvisioningModeManual
+//	NodeProvisioningModeAuto
+type NodeProvisioningModeInput interface {
+	pulumi.Input
+
+	ToNodeProvisioningModeOutput() NodeProvisioningModeOutput
+	ToNodeProvisioningModeOutputWithContext(context.Context) NodeProvisioningModeOutput
+}
+
+var nodeProvisioningModePtrType = reflect.TypeOf((**NodeProvisioningMode)(nil)).Elem()
+
+type NodeProvisioningModePtrInput interface {
+	pulumi.Input
+
+	ToNodeProvisioningModePtrOutput() NodeProvisioningModePtrOutput
+	ToNodeProvisioningModePtrOutputWithContext(context.Context) NodeProvisioningModePtrOutput
+}
+
+type nodeProvisioningModePtr string
+
+func NodeProvisioningModePtr(v string) NodeProvisioningModePtrInput {
+	return (*nodeProvisioningModePtr)(&v)
+}
+
+func (*nodeProvisioningModePtr) ElementType() reflect.Type {
+	return nodeProvisioningModePtrType
+}
+
+func (in *nodeProvisioningModePtr) ToNodeProvisioningModePtrOutput() NodeProvisioningModePtrOutput {
+	return pulumi.ToOutput(in).(NodeProvisioningModePtrOutput)
+}
+
+func (in *nodeProvisioningModePtr) ToNodeProvisioningModePtrOutputWithContext(ctx context.Context) NodeProvisioningModePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(NodeProvisioningModePtrOutput)
+}
+
+// The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 type OSDiskType string
 
 const (
@@ -5422,12 +6616,16 @@ const (
 	OSSKUUbuntu = OSSKU("Ubuntu")
 	// Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https://aka.ms/azurelinux for more information.
 	OSSKUAzureLinux = OSSKU("AzureLinux")
+	// Use AzureLinux3 as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https://aka.ms/azurelinux for more information. For limitations, visit https://aka.ms/aks/node-images. For OS migration guidance, see https://aka.ms/aks/upgrade-os-version.
+	OSSKUAzureLinux3 = OSSKU("AzureLinux3")
 	// Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead.
 	OSSKUCBLMariner = OSSKU("CBLMariner")
 	// Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa.
 	OSSKUWindows2019 = OSSKU("Windows2019")
 	// Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa.
 	OSSKUWindows2022 = OSSKU("Windows2022")
+	// Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see https://aka.ms/aks/supported-ubuntu-versions
+	OSSKUUbuntu2204 = OSSKU("Ubuntu2204")
 )
 
 func (OSSKU) ElementType() reflect.Type {
@@ -5554,9 +6752,11 @@ func (o OSSKUPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi
 //
 //	OSSKUUbuntu
 //	OSSKUAzureLinux
+//	OSSKUAzureLinux3
 //	OSSKUCBLMariner
 //	OSSKUWindows2019
 //	OSSKUWindows2022
+//	OSSKUUbuntu2204
 type OSSKUInput interface {
 	pulumi.Input
 
@@ -5933,7 +7133,7 @@ func (in *operatorPtr) ToOperatorPtrOutputWithContext(ctx context.Context) Opera
 	return pulumi.ToOutputWithContext(ctx, in).(OperatorPtrOutput)
 }
 
-// This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
+// The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
 type OutboundType string
 
 const (
@@ -5945,6 +7145,8 @@ const (
 	OutboundTypeManagedNATGateway = OutboundType("managedNATGateway")
 	// The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration.
 	OutboundTypeUserAssignedNATGateway = OutboundType("userAssignedNATGateway")
+	// The AKS cluster is not set with any outbound-type. All AKS nodes follows Azure VM default outbound behavior. Please refer to https://azure.microsoft.com/en-us/updates/default-outbound-access-for-vms-in-azure-will-be-retired-transition-to-a-new-method-of-internet-access/
+	OutboundTypeNone = OutboundType("none")
 )
 
 func (OutboundType) ElementType() reflect.Type {
@@ -6073,6 +7275,7 @@ func (o OutboundTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context)
 //	OutboundTypeUserDefinedRouting
 //	OutboundTypeManagedNATGateway
 //	OutboundTypeUserAssignedNATGateway
+//	OutboundTypeNone
 type OutboundTypeInput interface {
 	pulumi.Input
 
@@ -6105,6 +7308,174 @@ func (in *outboundTypePtr) ToOutboundTypePtrOutput() OutboundTypePtrOutput {
 
 func (in *outboundTypePtr) ToOutboundTypePtrOutputWithContext(ctx context.Context) OutboundTypePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(OutboundTypePtrOutput)
+}
+
+// Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
+type PodIPAllocationMode string
+
+const (
+	// Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size /16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode
+	PodIPAllocationModeDynamicIndividual = PodIPAllocationMode("DynamicIndividual")
+	// Each node is statically allocated CIDR block(s) of size /28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods / 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of /15 or bigger
+	PodIPAllocationModeStaticBlock = PodIPAllocationMode("StaticBlock")
+)
+
+func (PodIPAllocationMode) ElementType() reflect.Type {
+	return reflect.TypeOf((*PodIPAllocationMode)(nil)).Elem()
+}
+
+func (e PodIPAllocationMode) ToPodIPAllocationModeOutput() PodIPAllocationModeOutput {
+	return pulumi.ToOutput(e).(PodIPAllocationModeOutput)
+}
+
+func (e PodIPAllocationMode) ToPodIPAllocationModeOutputWithContext(ctx context.Context) PodIPAllocationModeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(PodIPAllocationModeOutput)
+}
+
+func (e PodIPAllocationMode) ToPodIPAllocationModePtrOutput() PodIPAllocationModePtrOutput {
+	return e.ToPodIPAllocationModePtrOutputWithContext(context.Background())
+}
+
+func (e PodIPAllocationMode) ToPodIPAllocationModePtrOutputWithContext(ctx context.Context) PodIPAllocationModePtrOutput {
+	return PodIPAllocationMode(e).ToPodIPAllocationModeOutputWithContext(ctx).ToPodIPAllocationModePtrOutputWithContext(ctx)
+}
+
+func (e PodIPAllocationMode) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e PodIPAllocationMode) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e PodIPAllocationMode) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e PodIPAllocationMode) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type PodIPAllocationModeOutput struct{ *pulumi.OutputState }
+
+func (PodIPAllocationModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PodIPAllocationMode)(nil)).Elem()
+}
+
+func (o PodIPAllocationModeOutput) ToPodIPAllocationModeOutput() PodIPAllocationModeOutput {
+	return o
+}
+
+func (o PodIPAllocationModeOutput) ToPodIPAllocationModeOutputWithContext(ctx context.Context) PodIPAllocationModeOutput {
+	return o
+}
+
+func (o PodIPAllocationModeOutput) ToPodIPAllocationModePtrOutput() PodIPAllocationModePtrOutput {
+	return o.ToPodIPAllocationModePtrOutputWithContext(context.Background())
+}
+
+func (o PodIPAllocationModeOutput) ToPodIPAllocationModePtrOutputWithContext(ctx context.Context) PodIPAllocationModePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PodIPAllocationMode) *PodIPAllocationMode {
+		return &v
+	}).(PodIPAllocationModePtrOutput)
+}
+
+func (o PodIPAllocationModeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o PodIPAllocationModeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PodIPAllocationMode) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o PodIPAllocationModeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o PodIPAllocationModeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PodIPAllocationMode) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type PodIPAllocationModePtrOutput struct{ *pulumi.OutputState }
+
+func (PodIPAllocationModePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PodIPAllocationMode)(nil)).Elem()
+}
+
+func (o PodIPAllocationModePtrOutput) ToPodIPAllocationModePtrOutput() PodIPAllocationModePtrOutput {
+	return o
+}
+
+func (o PodIPAllocationModePtrOutput) ToPodIPAllocationModePtrOutputWithContext(ctx context.Context) PodIPAllocationModePtrOutput {
+	return o
+}
+
+func (o PodIPAllocationModePtrOutput) Elem() PodIPAllocationModeOutput {
+	return o.ApplyT(func(v *PodIPAllocationMode) PodIPAllocationMode {
+		if v != nil {
+			return *v
+		}
+		var ret PodIPAllocationMode
+		return ret
+	}).(PodIPAllocationModeOutput)
+}
+
+func (o PodIPAllocationModePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o PodIPAllocationModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *PodIPAllocationMode) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// PodIPAllocationModeInput is an input type that accepts values of the PodIPAllocationMode enum
+// A concrete instance of `PodIPAllocationModeInput` can be one of the following:
+//
+//	PodIPAllocationModeDynamicIndividual
+//	PodIPAllocationModeStaticBlock
+type PodIPAllocationModeInput interface {
+	pulumi.Input
+
+	ToPodIPAllocationModeOutput() PodIPAllocationModeOutput
+	ToPodIPAllocationModeOutputWithContext(context.Context) PodIPAllocationModeOutput
+}
+
+var podIPAllocationModePtrType = reflect.TypeOf((**PodIPAllocationMode)(nil)).Elem()
+
+type PodIPAllocationModePtrInput interface {
+	pulumi.Input
+
+	ToPodIPAllocationModePtrOutput() PodIPAllocationModePtrOutput
+	ToPodIPAllocationModePtrOutputWithContext(context.Context) PodIPAllocationModePtrOutput
+}
+
+type podIPAllocationModePtr string
+
+func PodIPAllocationModePtr(v string) PodIPAllocationModePtrInput {
+	return (*podIPAllocationModePtr)(&v)
+}
+
+func (*podIPAllocationModePtr) ElementType() reflect.Type {
+	return podIPAllocationModePtrType
+}
+
+func (in *podIPAllocationModePtr) ToPodIPAllocationModePtrOutput() PodIPAllocationModePtrOutput {
+	return pulumi.ToOutput(in).(PodIPAllocationModePtrOutput)
+}
+
+func (in *podIPAllocationModePtr) ToPodIPAllocationModePtrOutputWithContext(ctx context.Context) PodIPAllocationModePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(PodIPAllocationModePtrOutput)
 }
 
 // Ingress policy for the network.
@@ -6446,7 +7817,7 @@ func (in *protocolPtr) ToProtocolPtrOutputWithContext(ctx context.Context) Proto
 	return pulumi.ToOutputWithContext(ctx, in).(ProtocolPtrOutput)
 }
 
-// Allow or deny public network access for AKS
+// PublicNetworkAccess of the managedCluster. Allow or deny public network access for AKS
 type PublicNetworkAccess string
 
 const (
@@ -6612,7 +7983,7 @@ func (in *publicNetworkAccessPtr) ToPublicNetworkAccessPtrOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, in).(PublicNetworkAccessPtrOutput)
 }
 
-// For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
+// The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 type ResourceIdentityType string
 
 const (
@@ -6951,7 +8322,7 @@ func (in *restrictionLevelPtr) ToRestrictionLevelPtrOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, in).(RestrictionLevelPtrOutput)
 }
 
-// This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
+// The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
 type ScaleDownMode string
 
 const (
@@ -7119,7 +8490,7 @@ func (in *scaleDownModePtr) ToScaleDownModePtrOutputWithContext(ctx context.Cont
 	return pulumi.ToOutputWithContext(ctx, in).(ScaleDownModePtrOutput)
 }
 
-// This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
+// The Virtual Machine Scale Set eviction policy to use. This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'.
 type ScaleSetEvictionPolicy string
 
 const (
@@ -7956,7 +9327,7 @@ func (in *snapshotTypePtr) ToSnapshotTypePtrOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, in).(SnapshotTypePtrOutput)
 }
 
-// Specifies on which week of the month the dayOfWeek applies.
+// The week index. Specifies on which week of the month the dayOfWeek applies.
 type Type string
 
 const (
@@ -8133,7 +9504,175 @@ func (in *typePtr) ToTypePtrOutputWithContext(ctx context.Context) TypePtrOutput
 	return pulumi.ToOutputWithContext(ctx, in).(TypePtrOutput)
 }
 
-// For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
+// Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
+type UndrainableNodeBehavior string
+
+const (
+	// AKS will cordon the blocked nodes and replace them with surge nodes during upgrade. The blocked nodes will be cordoned and replaced by surge nodes. The blocked nodes will have label 'kubernetes.azure.com/upgrade-status:Quarantined'. A surge node will be retained for each blocked node. A best-effort attempt will be made to delete all other surge nodes. If there are enough surge nodes to replace blocked nodes, then the upgrade operation and the managed cluster will be in failed state. Otherwise, the upgrade operation and the managed cluster will be in canceled state.
+	UndrainableNodeBehaviorCordon = UndrainableNodeBehavior("Cordon")
+	// AKS will mark the blocked nodes schedulable, but the blocked nodes are not upgraded. A best-effort attempt will be made to delete all surge nodes. The upgrade operation and the managed cluster will be in failed state if there are any blocked nodes.
+	UndrainableNodeBehaviorSchedule = UndrainableNodeBehavior("Schedule")
+)
+
+func (UndrainableNodeBehavior) ElementType() reflect.Type {
+	return reflect.TypeOf((*UndrainableNodeBehavior)(nil)).Elem()
+}
+
+func (e UndrainableNodeBehavior) ToUndrainableNodeBehaviorOutput() UndrainableNodeBehaviorOutput {
+	return pulumi.ToOutput(e).(UndrainableNodeBehaviorOutput)
+}
+
+func (e UndrainableNodeBehavior) ToUndrainableNodeBehaviorOutputWithContext(ctx context.Context) UndrainableNodeBehaviorOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(UndrainableNodeBehaviorOutput)
+}
+
+func (e UndrainableNodeBehavior) ToUndrainableNodeBehaviorPtrOutput() UndrainableNodeBehaviorPtrOutput {
+	return e.ToUndrainableNodeBehaviorPtrOutputWithContext(context.Background())
+}
+
+func (e UndrainableNodeBehavior) ToUndrainableNodeBehaviorPtrOutputWithContext(ctx context.Context) UndrainableNodeBehaviorPtrOutput {
+	return UndrainableNodeBehavior(e).ToUndrainableNodeBehaviorOutputWithContext(ctx).ToUndrainableNodeBehaviorPtrOutputWithContext(ctx)
+}
+
+func (e UndrainableNodeBehavior) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UndrainableNodeBehavior) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UndrainableNodeBehavior) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e UndrainableNodeBehavior) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type UndrainableNodeBehaviorOutput struct{ *pulumi.OutputState }
+
+func (UndrainableNodeBehaviorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*UndrainableNodeBehavior)(nil)).Elem()
+}
+
+func (o UndrainableNodeBehaviorOutput) ToUndrainableNodeBehaviorOutput() UndrainableNodeBehaviorOutput {
+	return o
+}
+
+func (o UndrainableNodeBehaviorOutput) ToUndrainableNodeBehaviorOutputWithContext(ctx context.Context) UndrainableNodeBehaviorOutput {
+	return o
+}
+
+func (o UndrainableNodeBehaviorOutput) ToUndrainableNodeBehaviorPtrOutput() UndrainableNodeBehaviorPtrOutput {
+	return o.ToUndrainableNodeBehaviorPtrOutputWithContext(context.Background())
+}
+
+func (o UndrainableNodeBehaviorOutput) ToUndrainableNodeBehaviorPtrOutputWithContext(ctx context.Context) UndrainableNodeBehaviorPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v UndrainableNodeBehavior) *UndrainableNodeBehavior {
+		return &v
+	}).(UndrainableNodeBehaviorPtrOutput)
+}
+
+func (o UndrainableNodeBehaviorOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o UndrainableNodeBehaviorOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UndrainableNodeBehavior) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o UndrainableNodeBehaviorOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UndrainableNodeBehaviorOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UndrainableNodeBehavior) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type UndrainableNodeBehaviorPtrOutput struct{ *pulumi.OutputState }
+
+func (UndrainableNodeBehaviorPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**UndrainableNodeBehavior)(nil)).Elem()
+}
+
+func (o UndrainableNodeBehaviorPtrOutput) ToUndrainableNodeBehaviorPtrOutput() UndrainableNodeBehaviorPtrOutput {
+	return o
+}
+
+func (o UndrainableNodeBehaviorPtrOutput) ToUndrainableNodeBehaviorPtrOutputWithContext(ctx context.Context) UndrainableNodeBehaviorPtrOutput {
+	return o
+}
+
+func (o UndrainableNodeBehaviorPtrOutput) Elem() UndrainableNodeBehaviorOutput {
+	return o.ApplyT(func(v *UndrainableNodeBehavior) UndrainableNodeBehavior {
+		if v != nil {
+			return *v
+		}
+		var ret UndrainableNodeBehavior
+		return ret
+	}).(UndrainableNodeBehaviorOutput)
+}
+
+func (o UndrainableNodeBehaviorPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UndrainableNodeBehaviorPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *UndrainableNodeBehavior) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// UndrainableNodeBehaviorInput is an input type that accepts values of the UndrainableNodeBehavior enum
+// A concrete instance of `UndrainableNodeBehaviorInput` can be one of the following:
+//
+//	UndrainableNodeBehaviorCordon
+//	UndrainableNodeBehaviorSchedule
+type UndrainableNodeBehaviorInput interface {
+	pulumi.Input
+
+	ToUndrainableNodeBehaviorOutput() UndrainableNodeBehaviorOutput
+	ToUndrainableNodeBehaviorOutputWithContext(context.Context) UndrainableNodeBehaviorOutput
+}
+
+var undrainableNodeBehaviorPtrType = reflect.TypeOf((**UndrainableNodeBehavior)(nil)).Elem()
+
+type UndrainableNodeBehaviorPtrInput interface {
+	pulumi.Input
+
+	ToUndrainableNodeBehaviorPtrOutput() UndrainableNodeBehaviorPtrOutput
+	ToUndrainableNodeBehaviorPtrOutputWithContext(context.Context) UndrainableNodeBehaviorPtrOutput
+}
+
+type undrainableNodeBehaviorPtr string
+
+func UndrainableNodeBehaviorPtr(v string) UndrainableNodeBehaviorPtrInput {
+	return (*undrainableNodeBehaviorPtr)(&v)
+}
+
+func (*undrainableNodeBehaviorPtr) ElementType() reflect.Type {
+	return undrainableNodeBehaviorPtrType
+}
+
+func (in *undrainableNodeBehaviorPtr) ToUndrainableNodeBehaviorPtrOutput() UndrainableNodeBehaviorPtrOutput {
+	return pulumi.ToOutput(in).(UndrainableNodeBehaviorPtrOutput)
+}
+
+func (in *undrainableNodeBehaviorPtr) ToUndrainableNodeBehaviorPtrOutputWithContext(ctx context.Context) UndrainableNodeBehaviorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(UndrainableNodeBehaviorPtrOutput)
+}
+
+// The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 type UpgradeChannel string
 
 const (
@@ -8657,10 +10196,16 @@ func (in *workloadRuntimePtr) ToWorkloadRuntimePtrOutputWithContext(ctx context.
 func init() {
 	pulumi.RegisterOutputType(AdoptionPolicyOutput{})
 	pulumi.RegisterOutputType(AdoptionPolicyPtrOutput{})
+	pulumi.RegisterOutputType(AdvancedNetworkPoliciesOutput{})
+	pulumi.RegisterOutputType(AdvancedNetworkPoliciesPtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolModeOutput{})
 	pulumi.RegisterOutputType(AgentPoolModePtrOutput{})
+	pulumi.RegisterOutputType(AgentPoolSSHAccessOutput{})
+	pulumi.RegisterOutputType(AgentPoolSSHAccessPtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolTypeOutput{})
 	pulumi.RegisterOutputType(AgentPoolTypePtrOutput{})
+	pulumi.RegisterOutputType(ArtifactSourceOutput{})
+	pulumi.RegisterOutputType(ArtifactSourcePtrOutput{})
 	pulumi.RegisterOutputType(AutoUpgradeNodeImageSelectionTypeOutput{})
 	pulumi.RegisterOutputType(AutoUpgradeNodeImageSelectionTypePtrOutput{})
 	pulumi.RegisterOutputType(BackendPoolTypeOutput{})
@@ -8679,6 +10224,8 @@ func init() {
 	pulumi.RegisterOutputType(ExpanderPtrOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationTypesOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationTypesPtrOutput{})
+	pulumi.RegisterOutputType(GPUDriverOutput{})
+	pulumi.RegisterOutputType(GPUDriverPtrOutput{})
 	pulumi.RegisterOutputType(GPUInstanceProfileOutput{})
 	pulumi.RegisterOutputType(GPUInstanceProfilePtrOutput{})
 	pulumi.RegisterOutputType(IpFamilyOutput{})
@@ -8713,10 +10260,16 @@ func init() {
 	pulumi.RegisterOutputType(NetworkPluginModePtrOutput{})
 	pulumi.RegisterOutputType(NetworkPolicyOutput{})
 	pulumi.RegisterOutputType(NetworkPolicyPtrOutput{})
+	pulumi.RegisterOutputType(NginxIngressControllerTypeOutput{})
+	pulumi.RegisterOutputType(NginxIngressControllerTypePtrOutput{})
 	pulumi.RegisterOutputType(NodeImageSelectionTypeOutput{})
 	pulumi.RegisterOutputType(NodeImageSelectionTypePtrOutput{})
 	pulumi.RegisterOutputType(NodeOSUpgradeChannelOutput{})
 	pulumi.RegisterOutputType(NodeOSUpgradeChannelPtrOutput{})
+	pulumi.RegisterOutputType(NodeProvisioningDefaultNodePoolsOutput{})
+	pulumi.RegisterOutputType(NodeProvisioningDefaultNodePoolsPtrOutput{})
+	pulumi.RegisterOutputType(NodeProvisioningModeOutput{})
+	pulumi.RegisterOutputType(NodeProvisioningModePtrOutput{})
 	pulumi.RegisterOutputType(OSDiskTypeOutput{})
 	pulumi.RegisterOutputType(OSDiskTypePtrOutput{})
 	pulumi.RegisterOutputType(OSSKUOutput{})
@@ -8727,6 +10280,8 @@ func init() {
 	pulumi.RegisterOutputType(OperatorPtrOutput{})
 	pulumi.RegisterOutputType(OutboundTypeOutput{})
 	pulumi.RegisterOutputType(OutboundTypePtrOutput{})
+	pulumi.RegisterOutputType(PodIPAllocationModeOutput{})
+	pulumi.RegisterOutputType(PodIPAllocationModePtrOutput{})
 	pulumi.RegisterOutputType(PolicyRuleOutput{})
 	pulumi.RegisterOutputType(PolicyRulePtrOutput{})
 	pulumi.RegisterOutputType(ProtocolOutput{})
@@ -8751,6 +10306,8 @@ func init() {
 	pulumi.RegisterOutputType(SnapshotTypePtrOutput{})
 	pulumi.RegisterOutputType(TypeOutput{})
 	pulumi.RegisterOutputType(TypePtrOutput{})
+	pulumi.RegisterOutputType(UndrainableNodeBehaviorOutput{})
+	pulumi.RegisterOutputType(UndrainableNodeBehaviorPtrOutput{})
 	pulumi.RegisterOutputType(UpgradeChannelOutput{})
 	pulumi.RegisterOutputType(UpgradeChannelPtrOutput{})
 	pulumi.RegisterOutputType(WeekDayOutput{})
