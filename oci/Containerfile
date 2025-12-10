@@ -28,8 +28,6 @@ COPY --from=builder /workspace/out/mapt /workspace/pulumi/pulumi /usr/local/bin/
 ENV PULUMI_CONFIG_PASSPHRASE "passphrase" 
 
 ENV AWS_SDK_LOAD_CONFIG=1 \
-    AWS_CLI_VERSION=2.16.7 \
-    AZ_CLI_VERSION=2.61.0 \
     ARCH_N=x86_64
 
 # Pulumi plugins
@@ -52,19 +50,6 @@ ENV PULUMI_HOME "/opt/mapt/run"
 WORKDIR ${PULUMI_HOME}
 
 RUN mkdir -p /opt/mapt/run \
-    && if [ "$TARGETARCH" = "arm64" ]; then export ARCH_N=aarch64; fi \
-    && export AWS_CLI_URL="https://awscli.amazonaws.com/awscli-exe-linux-${ARCH_N}-${AWS_CLI_VERSION}.zip" \
-    && export AZ_CLI_RPM="https://packages.microsoft.com/rhel/9.0/prod/Packages/a/azure-cli-${AZ_CLI_VERSION}-1.el9.${ARCH_N}.rpm" \
-    && echo ${AWS_CLI_URL} ${AZ_CLI_RPM} \
-    && curl ${AWS_CLI_URL} -o awscliv2.zip \
-    && dnf install -y unzip \
-    && unzip -qq awscliv2.zip \
-    && ./aws/install \
-    && curl -L ${AZ_CLI_RPM} -o azure-cli.rpm \
-    && dnf install -y azure-cli.rpm \
-    && rm -rf aws awscliv2.zip azure-cli.rpm \
-    && dnf clean all \
-  	&& rm -rf /var/cache/yum \
     && pulumi plugin install resource aws ${PULUMI_AWS_VERSION} \
     && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
@@ -73,7 +58,7 @@ RUN mkdir -p /opt/mapt/run \
     && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
     && pulumi plugin install resource aws-native ${PULUMI_AWS_NATIVE_VERSION} \
     && chown -R 1001:0 /opt/mapt/run \
-    && chmod -R g=u /opt/mapt/run
+    && chmod -R ug+rwx /opt/mapt/run
 
 USER 1001
 ENTRYPOINT ["mapt"]
