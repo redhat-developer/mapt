@@ -16,18 +16,26 @@ Instances can be wrapped on specific topologies like airgap, in this case mapt w
 
 Instances can also define a timeout to avoid leftovers in case destoy operation is missing. Using this approach mapt will be execute as an unateneded execution using servless technologies. 
 
-[MacOS](docs/aws/mac.md)-[Windows Server](docs/aws/windows.md)-[Windows Desktop](docs/azure/windows.md)-[RHEL](docs/aws/rhel.md)-[Fedora](docs/azure/fedora.md)-[Ubuntu](docs/azure/ubuntu.md)
+[MacOS](docs/aws/mac.md) - [Windows Server](docs/aws/windows.md) - [Windows Desktop](docs/azure/windows.md) - [RHEL](docs/aws/rhel.md) - [Fedora](docs/azure/fedora.md) - [Ubuntu](docs/azure/ubuntu.md)
 
 ### Services
 
 Mapt offers some managed services boosted with some of the features from the instances offerings (i.e spot) and also create some ad hoc services on top the instances offerings to improve reutilization of instances when there is no easy way to do it (i.e. Mac-Pool).
 
-[AKS](docs/azure/aks.md)-[EKS](docs/aws/eks.md)-[Mac-Pool](docs/aws/mac-pool.md) - [OpenShift-SNC](docs/aws/openshift-snc.md) - [Kind](docs/aws/openshift-snc.md)
+[AKS](docs/azure/aks.md) - [EKS](docs/aws/eks.md) - [Mac-Pool](docs/aws/mac-pool.md) - [OpenShift-SNC](docs/aws/openshift-snc.md) - [Kind](docs/aws/openshift-snc.md)
+
+### Architectures
+
+x86 and arm64 archs can be provisioned through any of the previous targets based on parameters.
+
+In addition we can provision
+
+[s390x](docs/ibmcloud/ibm-z.md) - [ppc64](docs/ibmcloud/ibm-power.mdS)
 
 
 ### Integrations
 
-Currently each target offered by Mapt can be added as:
+The integrations allow to provision the machine and link to different CI/CD systems based on their native integrations. 
 
 * [Github Self Hosted Runner](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners)
 * [Cirrus Persistent Worker](https://cirrus-ci.org/guide/persistent-workers/)
