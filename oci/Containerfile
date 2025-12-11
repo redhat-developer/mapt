@@ -45,11 +45,18 @@ ARG PULUMI_TLS_VERSION=v5.2.3
 ARG PULUMI_RANDOM_VERSION=v4.19.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
 ARG PULUMI_AWS_NATIVE_VERSION=v1.49.0
+# renovate: datasource=github-releases depName=mapt-oss/pulumi-ibmcloud
+ARG PULUMI_IBMCLOUD_VERSION=v0.0.6
+ENV IBMCLOUD_PLUGIN_URL https://github.com/mapt-oss/pulumi-ibmcloud/releases/download/${PULUMI_IBMCLOUD_VERSION}/pulumi-resource-ibmcloud-${PULUMI_IBMCLOUD_VERSION}-linux-${TARGETARCH}.tar.gz
 
 ENV PULUMI_HOME "/opt/mapt/run" 
 WORKDIR ${PULUMI_HOME}
 
 RUN mkdir -p /opt/mapt/run \
+    && curl -L ${IBMCLOUD_PLUGIN_URL} -o pulumi-resource-ibmcloud.tar.gz \
+    && tar -xzvf pulumi-resource-ibmcloud.tar.gz \
+    && pulumi plugin install resource ibmcloud ${PULUMI_IBMCLOUD_VERSION} --file pulumi-resource-ibmcloud \
+    && rm pulumi-resource-ibmcloud  pulumi-resource-ibmcloud.tar.gz \
     && pulumi plugin install resource aws ${PULUMI_AWS_VERSION} \
     && pulumi plugin install resource azure-native ${PULUMI_AZURE_NATIVE_VERSION} \
     && pulumi plugin install resource command ${PULUMI_COMMAND_VERSION} \
