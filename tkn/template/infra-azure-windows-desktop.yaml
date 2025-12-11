@@ -224,8 +224,8 @@ spec:
           memory: "300Mi"
           cpu: "150m"
         limits:
-          memory: "900Mi"
-          cpu: "400m"
+          memory: "1200Mi"
+          cpu: "1000m"
     - name: host-info-secret
       image: registry.redhat.io/openshift4/ose-cli:4.13@sha256:e70eb2be867f1236b19f5cbfeb8e0625737ce0ec1369e32a4f9f146aaaf68d49
       env:

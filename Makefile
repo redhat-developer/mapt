@@ -146,8 +146,13 @@ tkn-update:
 tkn-push: install-out-of-tree-tools
 	$(TOOLS_BINDIR)/tkn bundle push $(TKN_IMG) \
 		-f tkn/infra-aws-fedora.yaml \
+		-f tkn/infra-aws-kind.yaml \
 		-f tkn/infra-aws-mac.yaml \
+		-f tkn/infra-aws-ocp-snc.yaml \
+		-f tkn/infra-aws-rhel-ai.yaml \
 		-f tkn/infra-aws-rhel.yaml \
 		-f tkn/infra-aws-windows-server.yaml \
+		-f tkn/infra-azure-aks.yaml \
+		-f tkn/infra-azure-fedora.yaml \
 		-f tkn/infra-azure-rhel.yaml \
 		-f tkn/infra-azure-windows-desktop.yaml
