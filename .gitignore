@@ -4,3 +4,5 @@ out/
 manifest.json
 ami-id
 Pulumi*.yaml
+/tools/bin/**
+!/tools/bin/.gitkeep

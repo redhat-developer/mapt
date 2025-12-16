@@ -2,11 +2,13 @@ module github.com/redhat-developer/mapt/tools
 
 go 1.24.6
 
-require github.com/golangci/golangci-lint/v2 v2.7.2
+require github.com/golangci/golangci-lint/v2 v2.6.2
+
+require github.com/golangci/golines v0.0.0-20250217134842-442fd0091d95 // indirect
 
 require (
 	github.com/charmbracelet/x/cellbuf v0.0.14 // indirect
-	github.com/golangci/golines v0.0.0-20250217134842-442fd0091d95 // indirect
+	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
 )
 
 require (
@@ -70,7 +72,7 @@ require (
 	github.com/ccojocar/zxcvbn-go v1.0.4 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charithe/durationcheck v0.0.11 // indirect
-	github.com/charmbracelet/colorprofile v0.3.3 // indirect
+	github.com/charmbracelet/colorprofile v0.4.1 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.11.3 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
@@ -102,7 +104,7 @@ require (
 	github.com/gofrs/flock v0.13.0 // indirect
 	github.com/golangci/dupl v0.0.0-20250308024227-f665c8d69b32 // indirect
 	github.com/golangci/go-printf-func-name v0.1.1 // indirect
-	github.com/golangci/gofmt v0.0.0-20250704145412-3e58ba0443c6 // indirect
+	// github.com/golangci/gofmt e7be49a5ab4d // indirect
 	github.com/golangci/misspell v0.7.0 // indirect
 	github.com/golangci/plugin-module-register v0.1.2 // indirect
 	github.com/golangci/revgrep v0.8.0 // indirect
@@ -212,7 +214,7 @@ require (
 	go.uber.org/automaxprocs v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.1 // indirect
-	golang.org/x/exp/typeparams v0.0.0-20251125195548-87e1e737ad39 // indirect
+	golang.org/x/exp/typeparams v0.0.0-20251209150349-8475f28825e9 // indirect
 	golang.org/x/mod v0.31.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.39.0 // indirect

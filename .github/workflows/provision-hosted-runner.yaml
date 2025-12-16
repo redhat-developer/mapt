@@ -29,7 +29,7 @@ jobs:
           echo "runner_token=$token" >> "$GITHUB_OUTPUT"
 
       - name: Download mapt image from artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           pattern: mapt*
           run-id: ${{ github.event.workflow_run.id }}

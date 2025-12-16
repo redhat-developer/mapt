@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"go.yaml.in/yaml/v3"
+	"gopkg.in/yaml.v3"
 
 	"github.com/daixiang0/gci/pkg/config"
 	"github.com/daixiang0/gci/pkg/section"

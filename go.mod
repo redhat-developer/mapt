@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.4
-	github.com/pulumi/pulumi/sdk/v3 v3.210.0
+	github.com/pulumi/pulumi/sdk/v3 v3.212.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.10.2
 )
@@ -20,11 +20,11 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.2
 	github.com/aws/aws-sdk-go-v2 v1.41.0
 	github.com/aws/aws-sdk-go-v2/config v1.32.5
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.276.0
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.93.1
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.277.0
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.94.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.5
-	github.com/pulumi/pulumi-aws-native/sdk v1.39.0
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.12.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.40.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.14.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.1.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.11.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.11.0
@@ -34,7 +34,7 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.11.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.11.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
-	golang.org/x/exp v0.0.0-20251125195548-87e1e737ad39
+	golang.org/x/exp v0.0.0-20251209150349-8475f28825e9
 )
 
 require (
@@ -88,7 +88,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charmbracelet/bubbles v0.21.0 // indirect
 	github.com/charmbracelet/bubbletea v1.3.10 // indirect
-	github.com/charmbracelet/colorprofile v0.3.3 // indirect
+	github.com/charmbracelet/colorprofile v0.4.1 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.11.3 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.14 // indirect
@@ -132,7 +132,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/sync v0.19.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251202230838-ff82c1b0f217 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251213004720-97cd9d5aeac2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -149,7 +149,7 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-git/go-billy/v5 v5.7.0 // indirect
 	github.com/go-git/go-git/v5 v5.16.4 // indirect
-	github.com/go-playground/validator/v10 v10.28.0
+	github.com/go-playground/validator/v10 v10.29.0
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/glog v1.2.5 // indirect
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645 // indirect
