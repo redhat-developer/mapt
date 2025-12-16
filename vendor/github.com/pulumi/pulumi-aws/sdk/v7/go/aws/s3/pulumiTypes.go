@@ -1163,6 +1163,151 @@ func (o AnalyticsConfigurationStorageClassAnalysisDataExportDestinationS3BucketD
 	}).(pulumi.StringPtrOutput)
 }
 
+type BucketAbacAbacStatus struct {
+	// ABAC status of the general purpose bucket.
+	// Valid values are `Enabled` and `Disabled`.
+	// By default, ABAC is disabled for all Amazon S3 general purpose buckets.
+	Status string `pulumi:"status"`
+}
+
+// BucketAbacAbacStatusInput is an input type that accepts BucketAbacAbacStatusArgs and BucketAbacAbacStatusOutput values.
+// You can construct a concrete instance of `BucketAbacAbacStatusInput` via:
+//
+//	BucketAbacAbacStatusArgs{...}
+type BucketAbacAbacStatusInput interface {
+	pulumi.Input
+
+	ToBucketAbacAbacStatusOutput() BucketAbacAbacStatusOutput
+	ToBucketAbacAbacStatusOutputWithContext(context.Context) BucketAbacAbacStatusOutput
+}
+
+type BucketAbacAbacStatusArgs struct {
+	// ABAC status of the general purpose bucket.
+	// Valid values are `Enabled` and `Disabled`.
+	// By default, ABAC is disabled for all Amazon S3 general purpose buckets.
+	Status pulumi.StringInput `pulumi:"status"`
+}
+
+func (BucketAbacAbacStatusArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*BucketAbacAbacStatus)(nil)).Elem()
+}
+
+func (i BucketAbacAbacStatusArgs) ToBucketAbacAbacStatusOutput() BucketAbacAbacStatusOutput {
+	return i.ToBucketAbacAbacStatusOutputWithContext(context.Background())
+}
+
+func (i BucketAbacAbacStatusArgs) ToBucketAbacAbacStatusOutputWithContext(ctx context.Context) BucketAbacAbacStatusOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(BucketAbacAbacStatusOutput)
+}
+
+func (i BucketAbacAbacStatusArgs) ToBucketAbacAbacStatusPtrOutput() BucketAbacAbacStatusPtrOutput {
+	return i.ToBucketAbacAbacStatusPtrOutputWithContext(context.Background())
+}
+
+func (i BucketAbacAbacStatusArgs) ToBucketAbacAbacStatusPtrOutputWithContext(ctx context.Context) BucketAbacAbacStatusPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(BucketAbacAbacStatusOutput).ToBucketAbacAbacStatusPtrOutputWithContext(ctx)
+}
+
+// BucketAbacAbacStatusPtrInput is an input type that accepts BucketAbacAbacStatusArgs, BucketAbacAbacStatusPtr and BucketAbacAbacStatusPtrOutput values.
+// You can construct a concrete instance of `BucketAbacAbacStatusPtrInput` via:
+//
+//	        BucketAbacAbacStatusArgs{...}
+//
+//	or:
+//
+//	        nil
+type BucketAbacAbacStatusPtrInput interface {
+	pulumi.Input
+
+	ToBucketAbacAbacStatusPtrOutput() BucketAbacAbacStatusPtrOutput
+	ToBucketAbacAbacStatusPtrOutputWithContext(context.Context) BucketAbacAbacStatusPtrOutput
+}
+
+type bucketAbacAbacStatusPtrType BucketAbacAbacStatusArgs
+
+func BucketAbacAbacStatusPtr(v *BucketAbacAbacStatusArgs) BucketAbacAbacStatusPtrInput {
+	return (*bucketAbacAbacStatusPtrType)(v)
+}
+
+func (*bucketAbacAbacStatusPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**BucketAbacAbacStatus)(nil)).Elem()
+}
+
+func (i *bucketAbacAbacStatusPtrType) ToBucketAbacAbacStatusPtrOutput() BucketAbacAbacStatusPtrOutput {
+	return i.ToBucketAbacAbacStatusPtrOutputWithContext(context.Background())
+}
+
+func (i *bucketAbacAbacStatusPtrType) ToBucketAbacAbacStatusPtrOutputWithContext(ctx context.Context) BucketAbacAbacStatusPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(BucketAbacAbacStatusPtrOutput)
+}
+
+type BucketAbacAbacStatusOutput struct{ *pulumi.OutputState }
+
+func (BucketAbacAbacStatusOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*BucketAbacAbacStatus)(nil)).Elem()
+}
+
+func (o BucketAbacAbacStatusOutput) ToBucketAbacAbacStatusOutput() BucketAbacAbacStatusOutput {
+	return o
+}
+
+func (o BucketAbacAbacStatusOutput) ToBucketAbacAbacStatusOutputWithContext(ctx context.Context) BucketAbacAbacStatusOutput {
+	return o
+}
+
+func (o BucketAbacAbacStatusOutput) ToBucketAbacAbacStatusPtrOutput() BucketAbacAbacStatusPtrOutput {
+	return o.ToBucketAbacAbacStatusPtrOutputWithContext(context.Background())
+}
+
+func (o BucketAbacAbacStatusOutput) ToBucketAbacAbacStatusPtrOutputWithContext(ctx context.Context) BucketAbacAbacStatusPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v BucketAbacAbacStatus) *BucketAbacAbacStatus {
+		return &v
+	}).(BucketAbacAbacStatusPtrOutput)
+}
+
+// ABAC status of the general purpose bucket.
+// Valid values are `Enabled` and `Disabled`.
+// By default, ABAC is disabled for all Amazon S3 general purpose buckets.
+func (o BucketAbacAbacStatusOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v BucketAbacAbacStatus) string { return v.Status }).(pulumi.StringOutput)
+}
+
+type BucketAbacAbacStatusPtrOutput struct{ *pulumi.OutputState }
+
+func (BucketAbacAbacStatusPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**BucketAbacAbacStatus)(nil)).Elem()
+}
+
+func (o BucketAbacAbacStatusPtrOutput) ToBucketAbacAbacStatusPtrOutput() BucketAbacAbacStatusPtrOutput {
+	return o
+}
+
+func (o BucketAbacAbacStatusPtrOutput) ToBucketAbacAbacStatusPtrOutputWithContext(ctx context.Context) BucketAbacAbacStatusPtrOutput {
+	return o
+}
+
+func (o BucketAbacAbacStatusPtrOutput) Elem() BucketAbacAbacStatusOutput {
+	return o.ApplyT(func(v *BucketAbacAbacStatus) BucketAbacAbacStatus {
+		if v != nil {
+			return *v
+		}
+		var ret BucketAbacAbacStatus
+		return ret
+	}).(BucketAbacAbacStatusOutput)
+}
+
+// ABAC status of the general purpose bucket.
+// Valid values are `Enabled` and `Disabled`.
+// By default, ABAC is disabled for all Amazon S3 general purpose buckets.
+func (o BucketAbacAbacStatusPtrOutput) Status() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *BucketAbacAbacStatus) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Status
+	}).(pulumi.StringPtrOutput)
+}
+
 type BucketAclAccessControlPolicy struct {
 	// Set of `grant` configuration blocks. See below.
 	Grants []BucketAclAccessControlPolicyGrant `pulumi:"grants"`
@@ -15540,6 +15685,8 @@ func (o BucketServerSideEncryptionConfigurationTypePtrOutput) Rule() BucketServe
 type BucketServerSideEncryptionConfigurationRule struct {
 	// Single object for setting server-side encryption by default. See below.
 	ApplyServerSideEncryptionByDefault *BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault `pulumi:"applyServerSideEncryptionByDefault"`
+	// List of server-side encryption types to block for object uploads. Valid values are `SSE-C` (blocks uploads using server-side encryption with customer-provided keys) and `NONE` (unblocks all encryption types). Starting in March 2026, Amazon S3 will automatically block SSE-C uploads for all new buckets.
+	BlockedEncryptionTypes []string `pulumi:"blockedEncryptionTypes"`
 	// Whether or not to use [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) for SSE-KMS.
 	BucketKeyEnabled *bool `pulumi:"bucketKeyEnabled"`
 }
@@ -15558,6 +15705,8 @@ type BucketServerSideEncryptionConfigurationRuleInput interface {
 type BucketServerSideEncryptionConfigurationRuleArgs struct {
 	// Single object for setting server-side encryption by default. See below.
 	ApplyServerSideEncryptionByDefault BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultPtrInput `pulumi:"applyServerSideEncryptionByDefault"`
+	// List of server-side encryption types to block for object uploads. Valid values are `SSE-C` (blocks uploads using server-side encryption with customer-provided keys) and `NONE` (unblocks all encryption types). Starting in March 2026, Amazon S3 will automatically block SSE-C uploads for all new buckets.
+	BlockedEncryptionTypes pulumi.StringArrayInput `pulumi:"blockedEncryptionTypes"`
 	// Whether or not to use [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) for SSE-KMS.
 	BucketKeyEnabled pulumi.BoolPtrInput `pulumi:"bucketKeyEnabled"`
 }
@@ -15671,6 +15820,11 @@ func (o BucketServerSideEncryptionConfigurationRuleOutput) ApplyServerSideEncryp
 	}).(BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultPtrOutput)
 }
 
+// List of server-side encryption types to block for object uploads. Valid values are `SSE-C` (blocks uploads using server-side encryption with customer-provided keys) and `NONE` (unblocks all encryption types). Starting in March 2026, Amazon S3 will automatically block SSE-C uploads for all new buckets.
+func (o BucketServerSideEncryptionConfigurationRuleOutput) BlockedEncryptionTypes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v BucketServerSideEncryptionConfigurationRule) []string { return v.BlockedEncryptionTypes }).(pulumi.StringArrayOutput)
+}
+
 // Whether or not to use [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) for SSE-KMS.
 func (o BucketServerSideEncryptionConfigurationRuleOutput) BucketKeyEnabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v BucketServerSideEncryptionConfigurationRule) *bool { return v.BucketKeyEnabled }).(pulumi.BoolPtrOutput)
@@ -15708,6 +15862,16 @@ func (o BucketServerSideEncryptionConfigurationRulePtrOutput) ApplyServerSideEnc
 		}
 		return v.ApplyServerSideEncryptionByDefault
 	}).(BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultPtrOutput)
+}
+
+// List of server-side encryption types to block for object uploads. Valid values are `SSE-C` (blocks uploads using server-side encryption with customer-provided keys) and `NONE` (unblocks all encryption types). Starting in March 2026, Amazon S3 will automatically block SSE-C uploads for all new buckets.
+func (o BucketServerSideEncryptionConfigurationRulePtrOutput) BlockedEncryptionTypes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *BucketServerSideEncryptionConfigurationRule) []string {
+		if v == nil {
+			return nil
+		}
+		return v.BlockedEncryptionTypes
+	}).(pulumi.StringArrayOutput)
 }
 
 // Whether or not to use [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) for SSE-KMS.
@@ -15903,6 +16067,8 @@ func (o BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDe
 type BucketServerSideEncryptionConfigurationV2Rule struct {
 	// Single object for setting server-side encryption by default. See below.
 	ApplyServerSideEncryptionByDefault *BucketServerSideEncryptionConfigurationV2RuleApplyServerSideEncryptionByDefault `pulumi:"applyServerSideEncryptionByDefault"`
+	// List of server-side encryption types to block for object uploads. Valid values are `SSE-C` (blocks uploads using server-side encryption with customer-provided keys) and `NONE` (unblocks all encryption types). Starting in March 2026, Amazon S3 will automatically block SSE-C uploads for all new buckets.
+	BlockedEncryptionTypes []string `pulumi:"blockedEncryptionTypes"`
 	// Whether or not to use [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) for SSE-KMS.
 	BucketKeyEnabled *bool `pulumi:"bucketKeyEnabled"`
 }
@@ -15921,6 +16087,8 @@ type BucketServerSideEncryptionConfigurationV2RuleInput interface {
 type BucketServerSideEncryptionConfigurationV2RuleArgs struct {
 	// Single object for setting server-side encryption by default. See below.
 	ApplyServerSideEncryptionByDefault BucketServerSideEncryptionConfigurationV2RuleApplyServerSideEncryptionByDefaultPtrInput `pulumi:"applyServerSideEncryptionByDefault"`
+	// List of server-side encryption types to block for object uploads. Valid values are `SSE-C` (blocks uploads using server-side encryption with customer-provided keys) and `NONE` (unblocks all encryption types). Starting in March 2026, Amazon S3 will automatically block SSE-C uploads for all new buckets.
+	BlockedEncryptionTypes pulumi.StringArrayInput `pulumi:"blockedEncryptionTypes"`
 	// Whether or not to use [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) for SSE-KMS.
 	BucketKeyEnabled pulumi.BoolPtrInput `pulumi:"bucketKeyEnabled"`
 }
@@ -15981,6 +16149,11 @@ func (o BucketServerSideEncryptionConfigurationV2RuleOutput) ApplyServerSideEncr
 	return o.ApplyT(func(v BucketServerSideEncryptionConfigurationV2Rule) *BucketServerSideEncryptionConfigurationV2RuleApplyServerSideEncryptionByDefault {
 		return v.ApplyServerSideEncryptionByDefault
 	}).(BucketServerSideEncryptionConfigurationV2RuleApplyServerSideEncryptionByDefaultPtrOutput)
+}
+
+// List of server-side encryption types to block for object uploads. Valid values are `SSE-C` (blocks uploads using server-side encryption with customer-provided keys) and `NONE` (unblocks all encryption types). Starting in March 2026, Amazon S3 will automatically block SSE-C uploads for all new buckets.
+func (o BucketServerSideEncryptionConfigurationV2RuleOutput) BlockedEncryptionTypes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v BucketServerSideEncryptionConfigurationV2Rule) []string { return v.BlockedEncryptionTypes }).(pulumi.StringArrayOutput)
 }
 
 // Whether or not to use [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) for SSE-KMS.
@@ -23148,6 +23321,352 @@ func (o PolicyDocumentPtrOutput) Version() iam.PolicyDocumentVersionPtrOutput {
 	}).(iam.PolicyDocumentVersionPtrOutput)
 }
 
+type VectorsIndexEncryptionConfiguration struct {
+	KmsKeyArn string `pulumi:"kmsKeyArn"`
+	// Type of encryption to use. Valid values: `AES256`, `aws:kms`. Defaults to `AES256`.
+	SseType string `pulumi:"sseType"`
+}
+
+// VectorsIndexEncryptionConfigurationInput is an input type that accepts VectorsIndexEncryptionConfigurationArgs and VectorsIndexEncryptionConfigurationOutput values.
+// You can construct a concrete instance of `VectorsIndexEncryptionConfigurationInput` via:
+//
+//	VectorsIndexEncryptionConfigurationArgs{...}
+type VectorsIndexEncryptionConfigurationInput interface {
+	pulumi.Input
+
+	ToVectorsIndexEncryptionConfigurationOutput() VectorsIndexEncryptionConfigurationOutput
+	ToVectorsIndexEncryptionConfigurationOutputWithContext(context.Context) VectorsIndexEncryptionConfigurationOutput
+}
+
+type VectorsIndexEncryptionConfigurationArgs struct {
+	KmsKeyArn pulumi.StringInput `pulumi:"kmsKeyArn"`
+	// Type of encryption to use. Valid values: `AES256`, `aws:kms`. Defaults to `AES256`.
+	SseType pulumi.StringInput `pulumi:"sseType"`
+}
+
+func (VectorsIndexEncryptionConfigurationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*VectorsIndexEncryptionConfiguration)(nil)).Elem()
+}
+
+func (i VectorsIndexEncryptionConfigurationArgs) ToVectorsIndexEncryptionConfigurationOutput() VectorsIndexEncryptionConfigurationOutput {
+	return i.ToVectorsIndexEncryptionConfigurationOutputWithContext(context.Background())
+}
+
+func (i VectorsIndexEncryptionConfigurationArgs) ToVectorsIndexEncryptionConfigurationOutputWithContext(ctx context.Context) VectorsIndexEncryptionConfigurationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VectorsIndexEncryptionConfigurationOutput)
+}
+
+// VectorsIndexEncryptionConfigurationArrayInput is an input type that accepts VectorsIndexEncryptionConfigurationArray and VectorsIndexEncryptionConfigurationArrayOutput values.
+// You can construct a concrete instance of `VectorsIndexEncryptionConfigurationArrayInput` via:
+//
+//	VectorsIndexEncryptionConfigurationArray{ VectorsIndexEncryptionConfigurationArgs{...} }
+type VectorsIndexEncryptionConfigurationArrayInput interface {
+	pulumi.Input
+
+	ToVectorsIndexEncryptionConfigurationArrayOutput() VectorsIndexEncryptionConfigurationArrayOutput
+	ToVectorsIndexEncryptionConfigurationArrayOutputWithContext(context.Context) VectorsIndexEncryptionConfigurationArrayOutput
+}
+
+type VectorsIndexEncryptionConfigurationArray []VectorsIndexEncryptionConfigurationInput
+
+func (VectorsIndexEncryptionConfigurationArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]VectorsIndexEncryptionConfiguration)(nil)).Elem()
+}
+
+func (i VectorsIndexEncryptionConfigurationArray) ToVectorsIndexEncryptionConfigurationArrayOutput() VectorsIndexEncryptionConfigurationArrayOutput {
+	return i.ToVectorsIndexEncryptionConfigurationArrayOutputWithContext(context.Background())
+}
+
+func (i VectorsIndexEncryptionConfigurationArray) ToVectorsIndexEncryptionConfigurationArrayOutputWithContext(ctx context.Context) VectorsIndexEncryptionConfigurationArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VectorsIndexEncryptionConfigurationArrayOutput)
+}
+
+type VectorsIndexEncryptionConfigurationOutput struct{ *pulumi.OutputState }
+
+func (VectorsIndexEncryptionConfigurationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VectorsIndexEncryptionConfiguration)(nil)).Elem()
+}
+
+func (o VectorsIndexEncryptionConfigurationOutput) ToVectorsIndexEncryptionConfigurationOutput() VectorsIndexEncryptionConfigurationOutput {
+	return o
+}
+
+func (o VectorsIndexEncryptionConfigurationOutput) ToVectorsIndexEncryptionConfigurationOutputWithContext(ctx context.Context) VectorsIndexEncryptionConfigurationOutput {
+	return o
+}
+
+func (o VectorsIndexEncryptionConfigurationOutput) KmsKeyArn() pulumi.StringOutput {
+	return o.ApplyT(func(v VectorsIndexEncryptionConfiguration) string { return v.KmsKeyArn }).(pulumi.StringOutput)
+}
+
+// Type of encryption to use. Valid values: `AES256`, `aws:kms`. Defaults to `AES256`.
+func (o VectorsIndexEncryptionConfigurationOutput) SseType() pulumi.StringOutput {
+	return o.ApplyT(func(v VectorsIndexEncryptionConfiguration) string { return v.SseType }).(pulumi.StringOutput)
+}
+
+type VectorsIndexEncryptionConfigurationArrayOutput struct{ *pulumi.OutputState }
+
+func (VectorsIndexEncryptionConfigurationArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]VectorsIndexEncryptionConfiguration)(nil)).Elem()
+}
+
+func (o VectorsIndexEncryptionConfigurationArrayOutput) ToVectorsIndexEncryptionConfigurationArrayOutput() VectorsIndexEncryptionConfigurationArrayOutput {
+	return o
+}
+
+func (o VectorsIndexEncryptionConfigurationArrayOutput) ToVectorsIndexEncryptionConfigurationArrayOutputWithContext(ctx context.Context) VectorsIndexEncryptionConfigurationArrayOutput {
+	return o
+}
+
+func (o VectorsIndexEncryptionConfigurationArrayOutput) Index(i pulumi.IntInput) VectorsIndexEncryptionConfigurationOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) VectorsIndexEncryptionConfiguration {
+		return vs[0].([]VectorsIndexEncryptionConfiguration)[vs[1].(int)]
+	}).(VectorsIndexEncryptionConfigurationOutput)
+}
+
+type VectorsIndexMetadataConfiguration struct {
+	// List of non-filterable metadata keys.
+	NonFilterableMetadataKeys []string `pulumi:"nonFilterableMetadataKeys"`
+}
+
+// VectorsIndexMetadataConfigurationInput is an input type that accepts VectorsIndexMetadataConfigurationArgs and VectorsIndexMetadataConfigurationOutput values.
+// You can construct a concrete instance of `VectorsIndexMetadataConfigurationInput` via:
+//
+//	VectorsIndexMetadataConfigurationArgs{...}
+type VectorsIndexMetadataConfigurationInput interface {
+	pulumi.Input
+
+	ToVectorsIndexMetadataConfigurationOutput() VectorsIndexMetadataConfigurationOutput
+	ToVectorsIndexMetadataConfigurationOutputWithContext(context.Context) VectorsIndexMetadataConfigurationOutput
+}
+
+type VectorsIndexMetadataConfigurationArgs struct {
+	// List of non-filterable metadata keys.
+	NonFilterableMetadataKeys pulumi.StringArrayInput `pulumi:"nonFilterableMetadataKeys"`
+}
+
+func (VectorsIndexMetadataConfigurationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*VectorsIndexMetadataConfiguration)(nil)).Elem()
+}
+
+func (i VectorsIndexMetadataConfigurationArgs) ToVectorsIndexMetadataConfigurationOutput() VectorsIndexMetadataConfigurationOutput {
+	return i.ToVectorsIndexMetadataConfigurationOutputWithContext(context.Background())
+}
+
+func (i VectorsIndexMetadataConfigurationArgs) ToVectorsIndexMetadataConfigurationOutputWithContext(ctx context.Context) VectorsIndexMetadataConfigurationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VectorsIndexMetadataConfigurationOutput)
+}
+
+func (i VectorsIndexMetadataConfigurationArgs) ToVectorsIndexMetadataConfigurationPtrOutput() VectorsIndexMetadataConfigurationPtrOutput {
+	return i.ToVectorsIndexMetadataConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i VectorsIndexMetadataConfigurationArgs) ToVectorsIndexMetadataConfigurationPtrOutputWithContext(ctx context.Context) VectorsIndexMetadataConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VectorsIndexMetadataConfigurationOutput).ToVectorsIndexMetadataConfigurationPtrOutputWithContext(ctx)
+}
+
+// VectorsIndexMetadataConfigurationPtrInput is an input type that accepts VectorsIndexMetadataConfigurationArgs, VectorsIndexMetadataConfigurationPtr and VectorsIndexMetadataConfigurationPtrOutput values.
+// You can construct a concrete instance of `VectorsIndexMetadataConfigurationPtrInput` via:
+//
+//	        VectorsIndexMetadataConfigurationArgs{...}
+//
+//	or:
+//
+//	        nil
+type VectorsIndexMetadataConfigurationPtrInput interface {
+	pulumi.Input
+
+	ToVectorsIndexMetadataConfigurationPtrOutput() VectorsIndexMetadataConfigurationPtrOutput
+	ToVectorsIndexMetadataConfigurationPtrOutputWithContext(context.Context) VectorsIndexMetadataConfigurationPtrOutput
+}
+
+type vectorsIndexMetadataConfigurationPtrType VectorsIndexMetadataConfigurationArgs
+
+func VectorsIndexMetadataConfigurationPtr(v *VectorsIndexMetadataConfigurationArgs) VectorsIndexMetadataConfigurationPtrInput {
+	return (*vectorsIndexMetadataConfigurationPtrType)(v)
+}
+
+func (*vectorsIndexMetadataConfigurationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**VectorsIndexMetadataConfiguration)(nil)).Elem()
+}
+
+func (i *vectorsIndexMetadataConfigurationPtrType) ToVectorsIndexMetadataConfigurationPtrOutput() VectorsIndexMetadataConfigurationPtrOutput {
+	return i.ToVectorsIndexMetadataConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i *vectorsIndexMetadataConfigurationPtrType) ToVectorsIndexMetadataConfigurationPtrOutputWithContext(ctx context.Context) VectorsIndexMetadataConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VectorsIndexMetadataConfigurationPtrOutput)
+}
+
+type VectorsIndexMetadataConfigurationOutput struct{ *pulumi.OutputState }
+
+func (VectorsIndexMetadataConfigurationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VectorsIndexMetadataConfiguration)(nil)).Elem()
+}
+
+func (o VectorsIndexMetadataConfigurationOutput) ToVectorsIndexMetadataConfigurationOutput() VectorsIndexMetadataConfigurationOutput {
+	return o
+}
+
+func (o VectorsIndexMetadataConfigurationOutput) ToVectorsIndexMetadataConfigurationOutputWithContext(ctx context.Context) VectorsIndexMetadataConfigurationOutput {
+	return o
+}
+
+func (o VectorsIndexMetadataConfigurationOutput) ToVectorsIndexMetadataConfigurationPtrOutput() VectorsIndexMetadataConfigurationPtrOutput {
+	return o.ToVectorsIndexMetadataConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (o VectorsIndexMetadataConfigurationOutput) ToVectorsIndexMetadataConfigurationPtrOutputWithContext(ctx context.Context) VectorsIndexMetadataConfigurationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v VectorsIndexMetadataConfiguration) *VectorsIndexMetadataConfiguration {
+		return &v
+	}).(VectorsIndexMetadataConfigurationPtrOutput)
+}
+
+// List of non-filterable metadata keys.
+func (o VectorsIndexMetadataConfigurationOutput) NonFilterableMetadataKeys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v VectorsIndexMetadataConfiguration) []string { return v.NonFilterableMetadataKeys }).(pulumi.StringArrayOutput)
+}
+
+type VectorsIndexMetadataConfigurationPtrOutput struct{ *pulumi.OutputState }
+
+func (VectorsIndexMetadataConfigurationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**VectorsIndexMetadataConfiguration)(nil)).Elem()
+}
+
+func (o VectorsIndexMetadataConfigurationPtrOutput) ToVectorsIndexMetadataConfigurationPtrOutput() VectorsIndexMetadataConfigurationPtrOutput {
+	return o
+}
+
+func (o VectorsIndexMetadataConfigurationPtrOutput) ToVectorsIndexMetadataConfigurationPtrOutputWithContext(ctx context.Context) VectorsIndexMetadataConfigurationPtrOutput {
+	return o
+}
+
+func (o VectorsIndexMetadataConfigurationPtrOutput) Elem() VectorsIndexMetadataConfigurationOutput {
+	return o.ApplyT(func(v *VectorsIndexMetadataConfiguration) VectorsIndexMetadataConfiguration {
+		if v != nil {
+			return *v
+		}
+		var ret VectorsIndexMetadataConfiguration
+		return ret
+	}).(VectorsIndexMetadataConfigurationOutput)
+}
+
+// List of non-filterable metadata keys.
+func (o VectorsIndexMetadataConfigurationPtrOutput) NonFilterableMetadataKeys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *VectorsIndexMetadataConfiguration) []string {
+		if v == nil {
+			return nil
+		}
+		return v.NonFilterableMetadataKeys
+	}).(pulumi.StringArrayOutput)
+}
+
+type VectorsVectorBucketEncryptionConfiguration struct {
+	// AWS KMS CMK ARN to use for the default encryption of the vector bucket. Allowed if and only if `sseType` is set to `aws:kms`.
+	KmsKeyArn string `pulumi:"kmsKeyArn"`
+	// Server-side encryption type to use for the default encryption of the vector bucket. Valid values: `AES256`, `aws:kms`.
+	SseType string `pulumi:"sseType"`
+}
+
+// VectorsVectorBucketEncryptionConfigurationInput is an input type that accepts VectorsVectorBucketEncryptionConfigurationArgs and VectorsVectorBucketEncryptionConfigurationOutput values.
+// You can construct a concrete instance of `VectorsVectorBucketEncryptionConfigurationInput` via:
+//
+//	VectorsVectorBucketEncryptionConfigurationArgs{...}
+type VectorsVectorBucketEncryptionConfigurationInput interface {
+	pulumi.Input
+
+	ToVectorsVectorBucketEncryptionConfigurationOutput() VectorsVectorBucketEncryptionConfigurationOutput
+	ToVectorsVectorBucketEncryptionConfigurationOutputWithContext(context.Context) VectorsVectorBucketEncryptionConfigurationOutput
+}
+
+type VectorsVectorBucketEncryptionConfigurationArgs struct {
+	// AWS KMS CMK ARN to use for the default encryption of the vector bucket. Allowed if and only if `sseType` is set to `aws:kms`.
+	KmsKeyArn pulumi.StringInput `pulumi:"kmsKeyArn"`
+	// Server-side encryption type to use for the default encryption of the vector bucket. Valid values: `AES256`, `aws:kms`.
+	SseType pulumi.StringInput `pulumi:"sseType"`
+}
+
+func (VectorsVectorBucketEncryptionConfigurationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*VectorsVectorBucketEncryptionConfiguration)(nil)).Elem()
+}
+
+func (i VectorsVectorBucketEncryptionConfigurationArgs) ToVectorsVectorBucketEncryptionConfigurationOutput() VectorsVectorBucketEncryptionConfigurationOutput {
+	return i.ToVectorsVectorBucketEncryptionConfigurationOutputWithContext(context.Background())
+}
+
+func (i VectorsVectorBucketEncryptionConfigurationArgs) ToVectorsVectorBucketEncryptionConfigurationOutputWithContext(ctx context.Context) VectorsVectorBucketEncryptionConfigurationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VectorsVectorBucketEncryptionConfigurationOutput)
+}
+
+// VectorsVectorBucketEncryptionConfigurationArrayInput is an input type that accepts VectorsVectorBucketEncryptionConfigurationArray and VectorsVectorBucketEncryptionConfigurationArrayOutput values.
+// You can construct a concrete instance of `VectorsVectorBucketEncryptionConfigurationArrayInput` via:
+//
+//	VectorsVectorBucketEncryptionConfigurationArray{ VectorsVectorBucketEncryptionConfigurationArgs{...} }
+type VectorsVectorBucketEncryptionConfigurationArrayInput interface {
+	pulumi.Input
+
+	ToVectorsVectorBucketEncryptionConfigurationArrayOutput() VectorsVectorBucketEncryptionConfigurationArrayOutput
+	ToVectorsVectorBucketEncryptionConfigurationArrayOutputWithContext(context.Context) VectorsVectorBucketEncryptionConfigurationArrayOutput
+}
+
+type VectorsVectorBucketEncryptionConfigurationArray []VectorsVectorBucketEncryptionConfigurationInput
+
+func (VectorsVectorBucketEncryptionConfigurationArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]VectorsVectorBucketEncryptionConfiguration)(nil)).Elem()
+}
+
+func (i VectorsVectorBucketEncryptionConfigurationArray) ToVectorsVectorBucketEncryptionConfigurationArrayOutput() VectorsVectorBucketEncryptionConfigurationArrayOutput {
+	return i.ToVectorsVectorBucketEncryptionConfigurationArrayOutputWithContext(context.Background())
+}
+
+func (i VectorsVectorBucketEncryptionConfigurationArray) ToVectorsVectorBucketEncryptionConfigurationArrayOutputWithContext(ctx context.Context) VectorsVectorBucketEncryptionConfigurationArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VectorsVectorBucketEncryptionConfigurationArrayOutput)
+}
+
+type VectorsVectorBucketEncryptionConfigurationOutput struct{ *pulumi.OutputState }
+
+func (VectorsVectorBucketEncryptionConfigurationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VectorsVectorBucketEncryptionConfiguration)(nil)).Elem()
+}
+
+func (o VectorsVectorBucketEncryptionConfigurationOutput) ToVectorsVectorBucketEncryptionConfigurationOutput() VectorsVectorBucketEncryptionConfigurationOutput {
+	return o
+}
+
+func (o VectorsVectorBucketEncryptionConfigurationOutput) ToVectorsVectorBucketEncryptionConfigurationOutputWithContext(ctx context.Context) VectorsVectorBucketEncryptionConfigurationOutput {
+	return o
+}
+
+// AWS KMS CMK ARN to use for the default encryption of the vector bucket. Allowed if and only if `sseType` is set to `aws:kms`.
+func (o VectorsVectorBucketEncryptionConfigurationOutput) KmsKeyArn() pulumi.StringOutput {
+	return o.ApplyT(func(v VectorsVectorBucketEncryptionConfiguration) string { return v.KmsKeyArn }).(pulumi.StringOutput)
+}
+
+// Server-side encryption type to use for the default encryption of the vector bucket. Valid values: `AES256`, `aws:kms`.
+func (o VectorsVectorBucketEncryptionConfigurationOutput) SseType() pulumi.StringOutput {
+	return o.ApplyT(func(v VectorsVectorBucketEncryptionConfiguration) string { return v.SseType }).(pulumi.StringOutput)
+}
+
+type VectorsVectorBucketEncryptionConfigurationArrayOutput struct{ *pulumi.OutputState }
+
+func (VectorsVectorBucketEncryptionConfigurationArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]VectorsVectorBucketEncryptionConfiguration)(nil)).Elem()
+}
+
+func (o VectorsVectorBucketEncryptionConfigurationArrayOutput) ToVectorsVectorBucketEncryptionConfigurationArrayOutput() VectorsVectorBucketEncryptionConfigurationArrayOutput {
+	return o
+}
+
+func (o VectorsVectorBucketEncryptionConfigurationArrayOutput) ToVectorsVectorBucketEncryptionConfigurationArrayOutputWithContext(ctx context.Context) VectorsVectorBucketEncryptionConfigurationArrayOutput {
+	return o
+}
+
+func (o VectorsVectorBucketEncryptionConfigurationArrayOutput) Index(i pulumi.IntInput) VectorsVectorBucketEncryptionConfigurationOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) VectorsVectorBucketEncryptionConfiguration {
+		return vs[0].([]VectorsVectorBucketEncryptionConfiguration)[vs[1].(int)]
+	}).(VectorsVectorBucketEncryptionConfigurationOutput)
+}
+
 type GetAccessPointPublicAccessBlockConfiguration struct {
 	// Whether Amazon S3 blocks public ACLs for buckets in this account.
 	BlockPublicAcls bool `pulumi:"blockPublicAcls"`
@@ -23384,6 +23903,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*AnalyticsConfigurationStorageClassAnalysisDataExportDestinationPtrInput)(nil)).Elem(), AnalyticsConfigurationStorageClassAnalysisDataExportDestinationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*AnalyticsConfigurationStorageClassAnalysisDataExportDestinationS3BucketDestinationInput)(nil)).Elem(), AnalyticsConfigurationStorageClassAnalysisDataExportDestinationS3BucketDestinationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*AnalyticsConfigurationStorageClassAnalysisDataExportDestinationS3BucketDestinationPtrInput)(nil)).Elem(), AnalyticsConfigurationStorageClassAnalysisDataExportDestinationS3BucketDestinationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*BucketAbacAbacStatusInput)(nil)).Elem(), BucketAbacAbacStatusArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*BucketAbacAbacStatusPtrInput)(nil)).Elem(), BucketAbacAbacStatusArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*BucketAclAccessControlPolicyInput)(nil)).Elem(), BucketAclAccessControlPolicyArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*BucketAclAccessControlPolicyPtrInput)(nil)).Elem(), BucketAclAccessControlPolicyArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*BucketAclAccessControlPolicyGrantInput)(nil)).Elem(), BucketAclAccessControlPolicyGrantArgs{})
@@ -23685,6 +24206,12 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*ObjectCopyOverrideProviderDefaultTagsPtrInput)(nil)).Elem(), ObjectCopyOverrideProviderDefaultTagsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*PolicyDocumentInput)(nil)).Elem(), PolicyDocumentArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*PolicyDocumentPtrInput)(nil)).Elem(), PolicyDocumentArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*VectorsIndexEncryptionConfigurationInput)(nil)).Elem(), VectorsIndexEncryptionConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*VectorsIndexEncryptionConfigurationArrayInput)(nil)).Elem(), VectorsIndexEncryptionConfigurationArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*VectorsIndexMetadataConfigurationInput)(nil)).Elem(), VectorsIndexMetadataConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*VectorsIndexMetadataConfigurationPtrInput)(nil)).Elem(), VectorsIndexMetadataConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*VectorsVectorBucketEncryptionConfigurationInput)(nil)).Elem(), VectorsVectorBucketEncryptionConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*VectorsVectorBucketEncryptionConfigurationArrayInput)(nil)).Elem(), VectorsVectorBucketEncryptionConfigurationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetAccessPointPublicAccessBlockConfigurationInput)(nil)).Elem(), GetAccessPointPublicAccessBlockConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetAccessPointPublicAccessBlockConfigurationArrayInput)(nil)).Elem(), GetAccessPointPublicAccessBlockConfigurationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetAccessPointVpcConfigurationInput)(nil)).Elem(), GetAccessPointVpcConfigurationArgs{})
@@ -23703,6 +24230,8 @@ func init() {
 	pulumi.RegisterOutputType(AnalyticsConfigurationStorageClassAnalysisDataExportDestinationPtrOutput{})
 	pulumi.RegisterOutputType(AnalyticsConfigurationStorageClassAnalysisDataExportDestinationS3BucketDestinationOutput{})
 	pulumi.RegisterOutputType(AnalyticsConfigurationStorageClassAnalysisDataExportDestinationS3BucketDestinationPtrOutput{})
+	pulumi.RegisterOutputType(BucketAbacAbacStatusOutput{})
+	pulumi.RegisterOutputType(BucketAbacAbacStatusPtrOutput{})
 	pulumi.RegisterOutputType(BucketAclAccessControlPolicyOutput{})
 	pulumi.RegisterOutputType(BucketAclAccessControlPolicyPtrOutput{})
 	pulumi.RegisterOutputType(BucketAclAccessControlPolicyGrantOutput{})
@@ -24004,6 +24533,12 @@ func init() {
 	pulumi.RegisterOutputType(ObjectCopyOverrideProviderDefaultTagsPtrOutput{})
 	pulumi.RegisterOutputType(PolicyDocumentOutput{})
 	pulumi.RegisterOutputType(PolicyDocumentPtrOutput{})
+	pulumi.RegisterOutputType(VectorsIndexEncryptionConfigurationOutput{})
+	pulumi.RegisterOutputType(VectorsIndexEncryptionConfigurationArrayOutput{})
+	pulumi.RegisterOutputType(VectorsIndexMetadataConfigurationOutput{})
+	pulumi.RegisterOutputType(VectorsIndexMetadataConfigurationPtrOutput{})
+	pulumi.RegisterOutputType(VectorsVectorBucketEncryptionConfigurationOutput{})
+	pulumi.RegisterOutputType(VectorsVectorBucketEncryptionConfigurationArrayOutput{})
 	pulumi.RegisterOutputType(GetAccessPointPublicAccessBlockConfigurationOutput{})
 	pulumi.RegisterOutputType(GetAccessPointPublicAccessBlockConfigurationArrayOutput{})
 	pulumi.RegisterOutputType(GetAccessPointVpcConfigurationOutput{})

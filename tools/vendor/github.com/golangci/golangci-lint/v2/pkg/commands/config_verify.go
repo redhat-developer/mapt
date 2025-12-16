@@ -17,7 +17,7 @@ import (
 	"github.com/santhosh-tekuri/jsonschema/v6"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"go.yaml.in/yaml/v3"
+	"gopkg.in/yaml.v3"
 
 	"github.com/golangci/golangci-lint/v2/pkg/exitcodes"
 )
