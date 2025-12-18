@@ -63,11 +63,20 @@ func isFolder(ctx context.Context, client *s3.Client, bucket, key *string) (bool
 
 func listObjectKeys(ctx context.Context, client *s3.Client, bucket, key *string) ([]string, error) {
 	var keys []string
+	// Ensure prefix ends with / to only match objects within this directory,
+	// preventing accidental deletion of sibling directories with similar names
+	if key == nil {
+		return nil, fmt.Errorf("key cannot be nil")
+	}
+	prefix := *key
+	if len(prefix) > 0 && prefix[len(prefix)-1] != '/' {
+		prefix = prefix + "/"
+	}
 	paginator := s3.NewListObjectsV2Paginator(
 		client,
 		&s3.ListObjectsV2Input{
 			Bucket: aws.String(*bucket),
-			Prefix: aws.String(*key),
+			Prefix: aws.String(prefix),
 		})
 
 	for paginator.HasMorePages() {
