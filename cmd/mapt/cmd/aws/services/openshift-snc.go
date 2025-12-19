@@ -13,10 +13,12 @@ const (
 	cmdOpenshiftSNC     = "openshift-snc"
 	cmdOpenshiftSNCDesc = "Manage an OpenShift Single Node Cluster based on OpenShift Local. This is not intended for production use"
 
-	ocpVersion         = "version"
-	ocpVersionDesc     = "version for Openshift. If not set it will pick latest available version"
-	pullSecretFile     = "pull-secret-file"
-	pullSecretFileDesc = "file path of image pull secret (download from https://console.redhat.com/openshift/create/local)"
+	ocpVersion                  = "version"
+	ocpVersionDesc              = "version for Openshift. If not set it will pick latest available version"
+	pullSecretFile              = "pull-secret-file"
+	pullSecretFileDesc          = "file path of image pull secret (download from https://console.redhat.com/openshift/create/local)"
+	disableClusterReadiness     = "disable-cluster-readiness"
+	disableClusterReadinessDesc = "If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated"
 )
 
 func GetOpenshiftSNCCmd() *cobra.Command {
@@ -57,12 +59,13 @@ func createSNC() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&openshiftsnc.OpenshiftSNCArgs{
-					ComputeRequest: params.ComputeRequestArgs(),
-					Spot:           params.SpotArgs(),
-					Version:        viper.GetString(ocpVersion),
-					Arch:           viper.GetString(params.LinuxArch),
-					PullSecretFile: viper.GetString(pullSecretFile),
-					Timeout:        viper.GetString(params.Timeout)}); err != nil {
+					ComputeRequest:          params.ComputeRequestArgs(),
+					Spot:                    params.SpotArgs(),
+					Version:                 viper.GetString(ocpVersion),
+					DisableClusterReadiness: viper.IsSet(disableClusterReadiness),
+					Arch:                    viper.GetString(params.LinuxArch),
+					PullSecretFile:          viper.GetString(pullSecretFile),
+					Timeout:                 viper.GetString(params.Timeout)}); err != nil {
 				return err
 			}
 			return nil
@@ -71,6 +74,7 @@ func createSNC() *cobra.Command {
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringP(ocpVersion, "", "", ocpVersionDesc)
+	flagSet.Bool(disableClusterReadiness, false, disableClusterReadinessDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(pullSecretFile, "", "", pullSecretFileDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
