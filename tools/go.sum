@@ -130,8 +130,8 @@ github.com/fsnotify/fsnotify v1.9.0 h1:2Ml+OJNzbYCTzsxtv8vKSFD9PbJjmhYF14k/jKC7S
 github.com/fsnotify/fsnotify v1.9.0/go.mod h1:8jBTzvmWwFyi3Pb8djgCCO5IBqzKJ/Jwo8TRcHyHii0=
 github.com/fzipp/gocyclo v0.6.0 h1:lsblElZG7d3ALtGMx9fmxeTKZaLLpU8mET09yN4BBLo=
 github.com/fzipp/gocyclo v0.6.0/go.mod h1:rXPyn8fnlpa0R2csP/31uerbiVBugk5whMdlyaLkLoA=
-github.com/ghostiam/protogetter v0.3.17 h1:sjGPErP9o7i2Ym+z3LsQzBdLCNaqbYy2iJQPxGXg04Q=
-github.com/ghostiam/protogetter v0.3.17/go.mod h1:AivIX1eKA/TcUmzZdzbl+Tb8tjIe8FcyG6JFyemQAH4=
+github.com/ghostiam/protogetter v0.3.18 h1:yEpghRGtP9PjKvVXtEzGpYfQj1Wl/ZehAfU6fr62Lfo=
+github.com/ghostiam/protogetter v0.3.18/go.mod h1:FjIu5Yfs6FT391m+Fjp3fbAYJ6rkL/J6ySpZBfnODuI=
 github.com/go-critic/go-critic v0.14.2 h1:PMvP5f+LdR8p6B29npvChUXbD1vrNlKDf60NJtgMBOo=
 github.com/go-critic/go-critic v0.14.2/go.mod h1:xwntfW6SYAd7h1OqDzmN6hBX/JxsEKl5up/Y2bsxgVQ=
 github.com/go-logr/logr v1.4.3 h1:CjnDlHq8ikf6E492q6eKboGOC0T8CDaOvkHCIg8idEI=
