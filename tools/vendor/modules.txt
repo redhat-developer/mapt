@@ -44,7 +44,7 @@ github.com/Antonboom/testifylint/internal/checkers
 github.com/Antonboom/testifylint/internal/checkers/printf
 github.com/Antonboom/testifylint/internal/config
 github.com/Antonboom/testifylint/internal/testify
-# github.com/BurntSushi/toml v1.5.0
+# github.com/BurntSushi/toml v1.6.0
 ## explicit; go 1.18
 github.com/BurntSushi/toml
 github.com/BurntSushi/toml/internal
@@ -63,7 +63,7 @@ github.com/MirrexOne/unqueryvet/pkg/config
 ## explicit; go 1.23.0
 github.com/OpenPeeDeeP/depguard/v2
 github.com/OpenPeeDeeP/depguard/v2/internal/utils
-# github.com/alecthomas/chroma/v2 v2.20.0
+# github.com/alecthomas/chroma/v2 v2.21.1
 ## explicit; go 1.22
 github.com/alecthomas/chroma/v2
 github.com/alecthomas/chroma/v2/formatters
@@ -938,7 +938,7 @@ go.yaml.in/yaml/v2
 # go.yaml.in/yaml/v3 v3.0.4
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20251209150349-8475f28825e9
+# golang.org/x/exp/typeparams v0.0.0-20251219203646-944ab1f22d93
 ## explicit; go 1.24.0
 golang.org/x/exp/typeparams
 # golang.org/x/mod v0.31.0

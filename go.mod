@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.4
-	github.com/pulumi/pulumi/sdk/v3 v3.212.0
+	github.com/pulumi/pulumi/sdk/v3 v3.213.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.10.2
 )
@@ -20,21 +20,21 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.2
 	github.com/aws/aws-sdk-go-v2 v1.41.0
 	github.com/aws/aws-sdk-go-v2/config v1.32.6
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.277.0
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.94.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.279.0
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.95.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.5
-	github.com/pulumi/pulumi-aws-native/sdk v1.40.0
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.14.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.45.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.15.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.1.0
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.11.0
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.11.0
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.11.0
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.11.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.11.0
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.11.0
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.11.0
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.12.0
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.12.0
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.12.0
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.12.0
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.12.0
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.12.0
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.12.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
-	golang.org/x/exp v0.0.0-20251209150349-8475f28825e9
+	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93
 )
 
 require (
@@ -43,7 +43,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx/v2 v2.0.12 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.11.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.12.0 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.10.0 // indirect
 )
 
@@ -132,7 +132,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/sync v0.19.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251213004720-97cd9d5aeac2 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251222181119-0a764e51fe1b // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -140,7 +140,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.3.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.69.5
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.70.0
 	github.com/aws/aws-sdk-go-v2/service/iam v1.53.1
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect
@@ -149,7 +149,7 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-git/go-billy/v5 v5.7.0 // indirect
 	github.com/go-git/go-git/v5 v5.16.4 // indirect
-	github.com/go-playground/validator/v10 v10.29.0
+	github.com/go-playground/validator/v10 v10.30.0
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/glog v1.2.5 // indirect
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645 // indirect
@@ -181,7 +181,7 @@ require (
 	golang.org/x/sys v0.39.0 // indirect
 	golang.org/x/term v0.38.0 // indirect
 	golang.org/x/text v0.32.0 // indirect
-	google.golang.org/grpc v1.77.0 // indirect
+	google.golang.org/grpc v1.78.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
