@@ -119,7 +119,7 @@ github.com/apparentlymart/go-textseg/v15/textseg
 # github.com/atotto/clipboard v0.1.4
 ## explicit
 github.com/atotto/clipboard
-# github.com/aws/amazon-ec2-instance-selector/v3 v3.1.2
+# github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
 ## explicit; go 1.24.0
 github.com/aws/amazon-ec2-instance-selector/v3/pkg/awsapi
 github.com/aws/amazon-ec2-instance-selector/v3/pkg/bytequantity
@@ -340,7 +340,7 @@ github.com/clipperhouse/stringish
 ## explicit; go 1.18
 github.com/clipperhouse/uax29/v2/graphemes
 github.com/clipperhouse/uax29/v2/internal/iterators
-# github.com/cloudflare/circl v1.6.1
+# github.com/cloudflare/circl v1.6.2
 ## explicit; go 1.22.0
 github.com/cloudflare/circl/dh/x25519
 github.com/cloudflare/circl/dh/x448
@@ -460,7 +460,7 @@ github.com/go-playground/locales/currency
 # github.com/go-playground/universal-translator v0.18.1
 ## explicit; go 1.18
 github.com/go-playground/universal-translator
-# github.com/go-playground/validator/v10 v10.30.0
+# github.com/go-playground/validator/v10 v10.30.1
 ## explicit; go 1.24.0
 github.com/go-playground/validator/v10
 # github.com/go-viper/mapstructure/v2 v2.4.0
@@ -748,8 +748,8 @@ github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/storage/v1beta1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/storagemigration/v1alpha1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/utilities
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/yaml
-# github.com/pulumi/pulumi-random/sdk/v4 v4.18.4
-## explicit; go 1.23.11
+# github.com/pulumi/pulumi-random/sdk/v4 v4.18.5
+## explicit; go 1.24.0
 github.com/pulumi/pulumi-random/sdk/v4/go/random
 github.com/pulumi/pulumi-random/sdk/v4/go/random/internal
 # github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
