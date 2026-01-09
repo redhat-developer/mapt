@@ -1,13 +1,10 @@
 ### Improvements
 
-- Added deletion protection for environments:
-  - Use `esc env settings set [<org-name>/][<project-name>/]<environment-name> deletion-protected true` to enable deletion protection
-  - Use `esc env settings get [<org-name>/][<project-name>/]<environment-name> [deletion-protected]` to check the current status
-  - When enabled, environments cannot be deleted until protection is disabled
-  - Deletion protection is disabled by default for new environments
+- Added support for `fn::split` built-in function to split strings into arrays.
+  [#281](https://github.com/pulumi/esc/issues/281)
+- Add native support for OIDC token exchange when logging into Pulumi Cloud. Run `esc login --help` for more
+  information. [#607](https://github.com/pulumi/esc/pull/607)
 
 ### Bug Fixes
-
-- Environment declarations are now returned even in the face of syntax errors.
 
 ### Breaking changes

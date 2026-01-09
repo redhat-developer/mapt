@@ -6,7 +6,7 @@ require (
 	github.com/coocood/freecache v1.2.4
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.4
-	github.com/pulumi/pulumi/sdk/v3 v3.213.0
+	github.com/pulumi/pulumi/sdk/v3 v3.215.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.10.2
 )
@@ -23,7 +23,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.279.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.95.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.5
-	github.com/pulumi/pulumi-aws-native/sdk v1.45.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.47.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.15.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.1.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.12.0
@@ -44,7 +44,7 @@ require (
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx/v2 v2.0.12 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.12.0 // indirect
-	github.com/pulumi/pulumi-docker/sdk/v4 v4.10.0 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.11.0 // indirect
 )
 
 require (
@@ -121,7 +121,7 @@ require (
 	github.com/pjbgf/sha1cd v0.5.0 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
-	github.com/pulumi/esc v0.20.0 // indirect
+	github.com/pulumi/esc v0.21.0 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.15 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
@@ -180,7 +180,7 @@ require (
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/crypto v0.46.0 // indirect
 	golang.org/x/net v0.48.0 // indirect
-	golang.org/x/sys v0.39.0 // indirect
+	golang.org/x/sys v0.40.0 // indirect
 	golang.org/x/term v0.38.0 // indirect
 	golang.org/x/text v0.32.0 // indirect
 	google.golang.org/grpc v1.78.0 // indirect
