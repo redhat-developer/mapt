@@ -122,6 +122,9 @@ spec:
     - name: version
       description: Version for ocp cluster. If not version set it will pick the latest stable
       default: "''"
+    - name: disable-cluster-readiness
+      description: If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated.
+      default: 'false'
     
     # Metadata params
     - name: tags
@@ -230,6 +233,10 @@ spec:
           if [[ $(params.version) != "" ]]; then
             cmd+="--version $(params.version) "
           fi
+          if [[ $(params.disable-cluster-readiness) == "true" ]]; then
+            cmd+="--disable-cluster-readiness "
+          fi
+          
           if [[ $(params.spot) == "true" ]]; then 
             cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) --spot-eviction-tolerance $(params.spot-eviction-tolerance) " 
           fi
