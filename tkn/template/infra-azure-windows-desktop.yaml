@@ -99,6 +99,9 @@ spec:
     - name: spot-eviction-tolerance
       description: 'if spot is enable we can define the minimum tolerance level of eviction. Allowed value are: lowest, low, medium, high or highest'
       default: 'lowest'
+    - name: spot-excluded-regions
+      description: Comma-separated list of zone IDs to exclude from spot selection
+      default: ""
     - name: spot-increase-rate
       description: 'Percentage to be added on top of the current calculated spot price to increase chances to get the machine'
       default: '30'
@@ -213,8 +216,11 @@ spec:
           cmd+="--memory $(params.memory) "
           if [[ $(params.nested-virt) == "true" ]]; then cmd+="--nested-virt "; fi
           if [[ -n $(params.compute-sizes) ]]; then cmd+="--compute-sizes $(params.compute-sizes) "; fi
-          if [[ $(params.spot) == "true" ]]; then
-            cmd+="--spot --spot-eviction-tolerance $(params.spot-eviction-tolerance) --spot-increase-rate $(params.spot-increase-rate) "
+          if [[ "$(params.spot)" == "true" ]]; then
+            cmd+="--spot "
+            cmd+="--spot-increase-rate '$(params.spot-increase-rate)' "
+            cmd+="--spot-eviction-tolerance '$(params.spot-eviction-tolerance)' "
+            cmd+="--spot-excluded-regions '$(params.spot-excluded-regions)' "
           fi
           cmd+="--tags $(params.tags) "
         fi
