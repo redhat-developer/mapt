@@ -34,6 +34,7 @@ func GetCmd() *cobra.Command {
 		hosts.GetWindowsDesktopCmd(),
 		hosts.GetUbuntuCmd(),
 		hosts.GetRHELCmd(),
+		hosts.GetRHELAICmd(),
 		hosts.GetFedoraCmd(),
 		services.GetAKSCmd(),
 		services.GetKindCmd())

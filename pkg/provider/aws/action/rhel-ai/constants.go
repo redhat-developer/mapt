@@ -16,7 +16,7 @@ var (
 	// amiProduct     = "Red Hat Enterprise Linux"
 	amiProduct = "Linux/UNIX"
 	amiV1Regex = "rhel-ai-nvidia-aws-%s-*"
-	amiRegex   = "rhel-ai-cuda-aws-%s-*"
+	amiRegex   = "rhel-ai-%s-aws-%s-*"
 	amiOwner   = "610952687893"
 	// amiOwnerSelf   = "self"
 	amiArch        = "x86_64"
@@ -48,10 +48,10 @@ var (
 	outputUserPrivateKey = "ardPrivatekey"
 )
 
-func amiName(version *string) string {
+func amiName(accelerator, version *string) string {
 	return util.If(strings.HasPrefix(*version, "1"),
 		fmt.Sprintf(amiV1Regex, *version),
-		fmt.Sprintf(amiRegex, *version))
+		fmt.Sprintf(amiRegex, *accelerator, *version))
 }
 
 // NVIDIA A100 X2

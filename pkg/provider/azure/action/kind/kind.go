@@ -171,10 +171,7 @@ func (r *kindRequest) deployer(ctx *pulumi.Context) error {
 			NetworkInteface: n.NetworkInterface,
 			// Check this
 			VMSize:           r.allocationData.ComputeSizes[0],
-			Publisher:        r.allocationData.ImageRef.Publisher,
-			Offer:            r.allocationData.ImageRef.Offer,
-			Sku:              r.allocationData.ImageRef.Sku,
-			ImageID:          r.allocationData.ImageRef.ID,
+			Image:            r.allocationData.ImageRef,
 			PrivateKey:       privateKey,
 			SpotPrice:        r.allocationData.Price,
 			UserDataAsBase64: udB64,

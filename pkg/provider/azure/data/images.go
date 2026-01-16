@@ -8,8 +8,6 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v7"
-	mc "github.com/redhat-developer/mapt/pkg/manager/context"
-	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 type ImageRequest struct {
@@ -17,44 +15,74 @@ type ImageRequest struct {
 	ImageReference
 }
 
-func GetImage(ctx context.Context, req ImageRequest) (*armcompute.CommunityGalleryImagesClientGetResponse, error) {
+func IsImageOffered(ctx context.Context, req ImageRequest) error {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return err
+	}
+	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
+	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
+	if err != nil {
+		return err
+	}
+	if len(req.CommunityImageID) > 0 {
+		_, err := getCommunityImage(ctx, clientFactory, &req.CommunityImageID, &req.Region)
+		return err
+	}
+	if len(req.SharedImageID) > 0 {
+		_, err := getSharedImage(ctx, clientFactory, &req.SharedImageID)
+		return err
+	}
+	// for azure offered VM images: https://learn.microsoft.com/en-us/rest/api/compute/virtual-machine-images/get
+	// there's a different API to check but currently we only check availability of community images
+	return fmt.Errorf("no valid image to check")
+}
+
+func getCommunityImage(ctx context.Context, c *armcompute.ClientFactory, id, region *string) (*armcompute.CommunityGalleryImagesClientGetResponse, error) {
+	// extract gallary ID and image name from ID url which looks like:
+	// /CommunityGalleries/Fedora-5e266ba4-2250-406d-adad-5d73860d958f/Images/Fedora-Cloud-40-Arm64/Versions/latest
+	parts := strings.Split(*id, "/")
+	if len(parts) != 7 {
+		return nil, fmt.Errorf("invalid community gallary image ID: %s", *id)
+	}
+	res, err := c.NewCommunityGalleryImagesClient().Get(ctx, *region, parts[2], parts[4], nil)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func GetSharedImage(ctx context.Context, id *string) (*armcompute.GalleryImageVersionsClientGetResponse, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
-
-	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
+	c, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	// for community gallary images
-	if len(req.ID) > 0 {
-		// extract gallary ID and image name from ID url which looks like:
-		// /CommunityGalleries/Fedora-5e266ba4-2250-406d-adad-5d73860d958f/Images/Fedora-Cloud-40-Arm64/Versions/latest
-		parts := strings.Split(req.ID, "/")
-		if len(parts) != 7 {
-			return nil, fmt.Errorf("invalid community gallary image ID: %s", req.ID)
-		}
-		res, err := clientFactory.NewCommunityGalleryImagesClient().Get(ctx, req.Region, parts[2], parts[4], nil)
-		if err != nil {
-			return nil, err
-		}
-		return &res, nil
+	parts := strings.Split(*id, "/")
+	if len(parts) != 13 {
+		return nil, fmt.Errorf("invalid shared image ID: %s", *id)
 	}
-	// for azure offered VM images: https://learn.microsoft.com/en-us/rest/api/compute/virtual-machine-images/get
-	// there's a different API to check but currently we only check availability of community images
-	return nil, nil
+	res, err := c.NewGalleryImageVersionsClient().Get(ctx, parts[4], parts[8], parts[10], parts[12], nil)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
 
-func IsImageOffered(mCtx *mc.Context, req ImageRequest) bool {
-	if _, err := GetImage(mCtx.Context(), req); err != nil {
-		if mCtx.Debug() {
-			logging.Debugf("error while checking if image available at location: %v", err)
-		}
-		return false
+func getSharedImage(ctx context.Context, c *armcompute.ClientFactory, id *string) (*armcompute.GalleryImageVersionsClientGetResponse, error) {
+	parts := strings.Split(*id, "/")
+	if len(parts) != 13 {
+		return nil, fmt.Errorf("invalid shared image ID: %s", *id)
 	}
-	return true
+	res, err := c.NewGalleryImageVersionsClient().Get(ctx, parts[4], parts[8], parts[10], parts[12], nil)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
 
 func SkuG2Support(ctx context.Context, location string, publisher string, offer string, sku string) (string, error) {
