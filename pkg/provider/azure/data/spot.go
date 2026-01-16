@@ -197,16 +197,41 @@ func filterLocations(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
 			})
 	}
 	if args.ImageRef != nil {
-		locations = util.ArrayFilter(locations,
-			func(location string) bool {
-				return IsImageOffered(mCtx,
-					ImageRequest{
-						Region:         location,
-						ImageReference: *args.ImageRef,
-					})
-			})
+		locationsWithImage, err := hostingPlaces.RunOnHostingPlaces(locations,
+			imageOfferedArgs{
+				ir:  *args.ImageRef,
+				ctx: mCtx.Context(),
+			},
+			isImageOfferedAsync)
+		if err != nil {
+			return nil, err
+		}
+		locations = utilMaps.KeysFiltered(locationsWithImage, func(v bool) bool { return v })
 	}
-	return locations, err
+	if len(locations) == 0 {
+		return nil, fmt.Errorf("no locations to look for machines using current parameters")
+	}
+	return locations, nil
+}
+
+type imageOfferedArgs struct {
+	ir  ImageReference
+	ctx context.Context
+}
+
+// This will check if image is offered in an async way
+func isImageOfferedAsync(location string, args imageOfferedArgs, c chan hostingPlaces.HostingPlaceData[bool]) {
+	err := IsImageOffered(args.ctx,
+		ImageRequest{
+			Region:         location,
+			ImageReference: args.ir,
+		})
+	if err != nil {
+		logging.Error(err)
+	}
+	c <- hostingPlaces.HostingPlaceData[bool]{
+		Region: location,
+		Value:  err == nil}
 }
 
 func allowedER(spotTolerance spot.Tolerance) []string {

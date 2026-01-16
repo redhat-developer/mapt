@@ -19,12 +19,17 @@ var (
 
 const fedoraImageGalleryBase = "/CommunityGalleries/Fedora-5e266ba4-2250-406d-adad-5d73860d958f/Images/"
 
+// /subscriptions/02db6bd4-035c-4074-b699-468f3d914744/resourceGroups/RHEL-AI-CUDA-AZURE-3.0.0/providers/Microsoft.Compute/galleries/rhel_ai_cuda_azure_3.0.0/images/rhel-ai-cuda-azure-3.0.0/versions/1.0.0
+
 type ImageReference struct {
+	// Market Place
 	Publisher string
 	Offer     string
 	Sku       string
-	// community gallery image ID
-	ID string
+	// Community
+	CommunityImageID string
+	// // Private Shared
+	SharedImageID string
 }
 
 var (
@@ -50,10 +55,10 @@ var (
 		},
 		Fedora: {
 			"x86_64": {
-				ID: fedoraImageGalleryBase + "Fedora-Cloud-%s-x64/Versions/latest",
+				CommunityImageID: fedoraImageGalleryBase + "Fedora-Cloud-%s-x64/Versions/latest",
 			},
 			"arm64": {
-				ID: fedoraImageGalleryBase + "Fedora-Cloud-%s-Arm64/Versions/latest",
+				CommunityImageID: fedoraImageGalleryBase + "Fedora-Cloud-%s-Arm64/Versions/latest",
 			},
 		},
 	}
@@ -78,7 +83,7 @@ func GetImageRef(osTarget OSType, arch string, version string) (*ImageReference,
 		}, nil
 	case Fedora:
 		return &ImageReference{
-			ID: fmt.Sprintf(ir.ID, versions[0]),
+			CommunityImageID: fmt.Sprintf(ir.CommunityImageID, versions[0]),
 		}, nil
 	}
 	return nil, fmt.Errorf("os type not supported")
