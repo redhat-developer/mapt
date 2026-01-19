@@ -137,6 +137,7 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		return nil, err
 	}
 	c, err := selectSpotChoice(
+		mCtx.Context(),
 		&spotChoiceArgs{
 			evictionRates: evictionRates,
 			spotPricings:  spotPricings,
@@ -197,16 +198,41 @@ func filterLocations(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
 			})
 	}
 	if args.ImageRef != nil {
-		locations = util.ArrayFilter(locations,
-			func(location string) bool {
-				return IsImageOffered(mCtx,
-					ImageRequest{
-						Region:         location,
-						ImageReference: *args.ImageRef,
-					})
-			})
+		locationsWithImage, err := hostingPlaces.RunOnHostingPlaces(locations,
+			imageOfferedArgs{
+				ir:  *args.ImageRef,
+				ctx: mCtx.Context(),
+			},
+			isImageOfferedAsync)
+		if err != nil {
+			return nil, err
+		}
+		locations = utilMaps.KeysFiltered(locationsWithImage, func(v bool) bool { return v })
 	}
-	return locations, err
+	if len(locations) == 0 {
+		return nil, fmt.Errorf("no locations to look for machines using current parameters")
+	}
+	return locations, nil
+}
+
+type imageOfferedArgs struct {
+	ir  ImageReference
+	ctx context.Context
+}
+
+// This will check if image is offered in an async way
+func isImageOfferedAsync(location string, args imageOfferedArgs, c chan hostingPlaces.HostingPlaceData[bool]) {
+	err := IsImageOffered(args.ctx,
+		ImageRequest{
+			Region:         location,
+			ImageReference: args.ir,
+		})
+	if err != nil {
+		logging.Error(err)
+	}
+	c <- hostingPlaces.HostingPlaceData[bool]{
+		Region: location,
+		Value:  err == nil}
 }
 
 func allowedER(spotTolerance spot.Tolerance) []string {
@@ -401,7 +427,7 @@ type spotChoiceArgs struct {
 // # Also function take cares to transfrom from AzID to AZName
 //
 // first option matching the requirements will be returned
-func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
+func selectSpotChoice(ctx context.Context, args *spotChoiceArgs) (*SpotInfoResult, error) {
 	result := make(map[string]*SpotInfoResult)
 	// Fix random error with graphql query not giving information for eviction rates
 	if len(args.evictionRates) == 0 {
@@ -432,7 +458,19 @@ func selectSpotChoice(args *spotChoiceArgs) (*SpotInfoResult, error) {
 	if len(spis) == 0 {
 		return nil, fmt.Errorf("no good choice was found")
 	}
-	return spis[0], nil
+	sirIndex := slices.IndexFunc(spis,
+		func(sir *SpotInfoResult) bool {
+			isOffered, err := IsVMSizeOfferedByLocation(ctx, sir.ComputeSize, sir.Location)
+			if err != nil {
+				logging.Error(err)
+				return false
+			}
+			return isOffered
+		})
+	if sirIndex == -1 {
+		return nil, fmt.Errorf("no good choice was found")
+	}
+	return spis[sirIndex], nil
 }
 
 // // This is a fallback function in case we need to get an option only based in price

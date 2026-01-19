@@ -29,7 +29,6 @@ type SecurityGroup = *network.NetworkSecurityGroup
 func Create(ctx *pulumi.Context, mCtx *mc.Context, args *SecurityGroupArgs) (SecurityGroup, error) {
 	nsg, err := network.NewNetworkSecurityGroup(ctx,
 		args.Name,
-
 		&network.NetworkSecurityGroupArgs{
 			NetworkSecurityGroupName: pulumi.String(args.Name),
 			ResourceGroupName:        args.RG.Name,
@@ -37,9 +36,6 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *SecurityGroupArgs) (Sec
 			SecurityRules:            securityRules(args.IngressRules),
 			Tags:                     mCtx.ResourceTags(),
 		})
-	if err != nil {
-		return nil, err
-	}
 	if err != nil {
 		return nil, err
 	}

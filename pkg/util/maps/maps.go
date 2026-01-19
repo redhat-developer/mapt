@@ -17,6 +17,16 @@ func Keys[X comparable, Y any](m map[X]Y) []X {
 	return keys
 }
 
+func KeysFiltered[X comparable, Y any](m map[X]Y, matchFilter func(y Y) bool) []X {
+	keys := make([]X, 0, len(m))
+	for k, v := range m {
+		if matchFilter(v) {
+			keys = append(keys, k)
+		}
+	}
+	return keys
+}
+
 func Values[X comparable, Y any](m map[X]Y) []Y {
 	values := make([]Y, 0, len(m))
 	for _, v := range m {

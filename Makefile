@@ -47,6 +47,7 @@ define tkn_update
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-windows-server.yaml > tkn/infra-aws-windows-server.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-aks.yaml > tkn/infra-azure-aks.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-rhel.yaml > tkn/infra-azure-rhel.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-rhel-ai.yaml > tkn/infra-azure-rhel-ai.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-fedora.yaml > tkn/infra-azure-fedora.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-windows-desktop.yaml > tkn/infra-azure-windows-desktop.yaml
 endef

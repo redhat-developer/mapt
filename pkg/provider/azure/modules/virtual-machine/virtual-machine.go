@@ -2,6 +2,8 @@ package virtualmachine
 
 import (
 	"fmt"
+	"os"
+	"strings"
 
 	"github.com/pulumi/pulumi-azure-native-sdk/compute/v3"
 	"github.com/pulumi/pulumi-azure-native-sdk/network/v3"
@@ -26,12 +28,10 @@ type VirtualMachineArgs struct {
 	ResourceGroup   *resources.ResourceGroup
 	NetworkInteface *network.NetworkInterface
 	VMSize          string
-	Publisher       string
-	Offer           string
-	Sku             string
-	SpotPrice       *float64
+
+	SpotPrice *float64
 	// community galary image ID
-	ImageID string
+	Image *data.ImageReference
 	// Windows required
 	AdminUsername string
 	// Linux required
@@ -47,21 +47,9 @@ type VirtualMachine = *compute.VirtualMachine
 // Create virtual machine based on request + export to context
 // adminusername and adminuserpassword
 func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (VirtualMachine, error) {
-	var imageReferenceArgs compute.ImageReferenceArgs
-	if len(args.ImageID) > 0 {
-		imageReferenceArgs = compute.ImageReferenceArgs{
-			CommunityGalleryImageId: pulumi.String(args.ImageID)}
-	} else {
-		finalSku, err := data.SkuG2Support(mCtx.Context(), args.Location, args.Publisher, args.Offer, args.Sku)
-		if err != nil {
-			return nil, err
-		}
-		imageReferenceArgs = compute.ImageReferenceArgs{
-			Publisher: pulumi.String(args.Publisher),
-			Offer:     pulumi.String(args.Offer),
-			Sku:       pulumi.String(finalSku),
-			Version:   pulumi.String("latest"),
-		}
+	ira, err := convertImageRef(mCtx, *args.Image, args.Location)
+	if err != nil {
+		return nil, err
 	}
 	vmArgs := &compute.VirtualMachineArgs{
 		VmName:            pulumi.String(mCtx.RunID()),
@@ -79,7 +67,7 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 			VmSize: pulumi.String(args.VMSize),
 		},
 		StorageProfile: compute.StorageProfileArgs{
-			ImageReference: imageReferenceArgs,
+			ImageReference: ira,
 			OsDisk: compute.OSDiskArgs{
 				Name:         pulumi.String(mCtx.RunID()),
 				DiskSizeGB:   pulumi.Int(diskSize),
@@ -135,4 +123,38 @@ func osProfile(computerName string, args *VirtualMachineArgs) compute.OSProfileA
 		}
 	}
 	return osProfile
+}
+
+func convertImageRef(mCtx *mc.Context, i data.ImageReference, location string) (*compute.ImageReferenceArgs, error) {
+	if len(i.CommunityImageID) > 0 {
+		return &compute.ImageReferenceArgs{
+			CommunityGalleryImageId: pulumi.String(i.CommunityImageID),
+		}, nil
+	}
+	if len(i.SharedImageID) > 0 {
+		if isSelfOwned(&i.SharedImageID) {
+			return &compute.ImageReferenceArgs{
+				Id: pulumi.String(i.SharedImageID),
+			}, nil
+		}
+		return &compute.ImageReferenceArgs{
+			SharedGalleryImageId: pulumi.String(i.SharedImageID),
+		}, nil
+
+	}
+	finalSku, err := data.SkuG2Support(mCtx.Context(), location, i.Publisher, i.Offer, i.Sku)
+	if err != nil {
+		return nil, err
+	}
+	return &compute.ImageReferenceArgs{
+		Publisher: pulumi.String(i.Publisher),
+		Offer:     pulumi.String(i.Offer),
+		Sku:       pulumi.String(finalSku),
+		Version:   pulumi.String("latest"),
+	}, nil
+}
+
+func isSelfOwned(sharedImageId *string) bool {
+	sharedImageParams := strings.Split(*sharedImageId, "/")
+	return os.Getenv("AZURE_SUBSCRIPTION_ID") == sharedImageParams[2]
 }
