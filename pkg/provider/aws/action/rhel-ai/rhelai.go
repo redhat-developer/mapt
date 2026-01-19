@@ -11,8 +11,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
-	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -26,23 +24,11 @@ import (
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	apiRHELAI "github.com/redhat-developer/mapt/pkg/targets/host/rhelai"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
-
-type RHELAIArgs struct {
-	Prefix         string
-	Version        string
-	CustomAMI      string
-	Arch           string
-	ComputeRequest *cr.ComputeRequestArgs
-	SubsUsername   string
-	SubsUserpass   string
-	Spot           *spotTypes.SpotArgs
-	// If timeout is set a severless scheduled task will be created to self destroy the resources
-	Timeout string
-}
 
 type rhelAIRequest struct {
 	mCtx           *mc.Context
@@ -50,8 +36,6 @@ type rhelAIRequest struct {
 	amiName        *string
 	arch           *string
 	spot           bool
-	subsUsername   *string
-	subsUserpass   *string
 	timeout        *string
 	allocationData *allocation.AllocationResult
 }
@@ -68,26 +52,24 @@ func (r *rhelAIRequest) validate() error {
 // Create orchestrate 2 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(mCtxArgs *mc.ContextArgs, args *RHELAIArgs) (err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
 	}
 	// Compose request
-	amiName := amiName(&args.Version)
+	amiName := amiName(&args.Accelerator, &args.Version)
 	if len(args.CustomAMI) != 0 {
 		amiName = fmt.Sprintf("%s*", args.CustomAMI)
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelAIRequest{
-		mCtx:         mCtx,
-		prefix:       &prefix,
-		amiName:      &amiName,
-		arch:         &args.Arch,
-		timeout:      &args.Timeout,
-		subsUsername: &args.SubsUsername,
-		subsUserpass: &args.SubsUserpass}
+		mCtx:    mCtx,
+		prefix:  &prefix,
+		amiName: &amiName,
+		arch:    &args.Arch,
+		timeout: &args.Timeout}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}

@@ -1,0 +1,289 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-azure-rhel-ai
+  labels:
+    app.kubernetes.io/version: "1.0.0-dev"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.44.x"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, azure, rhelai
+    tekton.dev/displayName: "azure manager"
+    tekton.dev/platforms: "linux/amd64, linux/arm64"
+spec:
+  description: |
+    Task provision a RHEL AI dedicated on host on Azure
+
+  volumes:
+    - name: az-credentials
+      secret:
+        secretName: $(params.secret-az-credentials)
+    - name: host-info
+      emptyDir: {}
+
+  params:
+    - name: secret-az-credentials
+      description: |
+        ocp secret holding the azure credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: ${name}
+        type: Opaque
+        data:
+          tenant_id: ${tenant_id}
+          subscription_id: ${subscription_id}
+          client_id: ${client_id}
+          client_secret: ${client_secret}
+          storage_account: ${storage_account}
+          storage_key: ${storage_key}
+          blob: ${blob}
+    - name: id
+      description: identifier for the provisioned environment
+    - name: operation
+      description: operation to execute within the infrastructure. Current values (create, destroy)
+
+    # Secret result
+    # naming
+    - name: host-access-secret-name
+      type: string
+      default: ""
+      description: |
+        Once the target is provisioned the config to connect is addded to a secret 
+        check resutls. If this param is set the secret will be created with the name set 
+        otherwise it will be created with a random name.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: "PipelineRun"
+      description: |
+        The type of resource that should own the generated SpaceRequest.
+        Deletion of this resource will trigger deletion of the SpaceRequest.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      default: ""
+      description: |
+        The name of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.name)`
+        or `$(context.taskRun.name)` depending on the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      default: ""
+      description: |
+        The uid of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.uid)`
+        or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
+
+    # VM type params
+    - name: compute-sizes
+      description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
+      default: "Standard_ND96is_MI300X_v5,Standard_ND96isr_MI300X_v5"
+    - name: spot
+      description: Check best spot option to spin the machine and will create resources on that region.
+      default: "true"
+    - name: spot-eviction-tolerance
+      description: | 
+        If spot is enabled we can define the minimum tolerance level of eviction. 
+        Allowed value are: lowest, low, medium, high or highest
+      default: "lowest"
+    - name: spot-excluded-regions
+      description: Comma-separated list of zone IDs to exclude from spot selection
+      default: ""
+    - name: spot-increase-rate
+      description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
+      default: "20"
+
+    # RHEL AI params
+    - name: version
+      description: Version of RHEL AI OS (default 3.2.0)
+      default: "3.2.0"
+    - name: accelerator
+      description: accelerator for RHEL AI OS rocm or cuda (default rocm)
+      default: "rocm"
+    
+    # Metadata params
+    - name: tags
+      description: tags for the resources created on the providers
+      default: ""
+
+    # Control params
+    - name: debug
+      description: |
+        Warning setting this param to true exposes partially masked credentials
+
+        The parameter is intended to add verbosity on the task execution and also print masked credentials
+        (showing first and last character with *** in the middle) on stdout to help with debugging
+      default: "false"
+    - name: keep-state
+      description: |
+        Keep Pulumi state files in S3 backend after successful destroy (by default, state files are removed). Only used when operation is destroy.
+        Allowed values: true, false
+      default: "false"
+
+  results:
+    - name: host-access-secret
+      description: |
+        ocp secret holding the information to connect with the target machine.
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+            labels:
+          type: Opaque
+          data:
+            host: ${host}
+            username: ${username}
+            id_rsa: ${id_rsa}
+            # If airgap data for bastion host
+            bastion-host: ${bastion-host}
+            bastion-username: ${bastion-username}
+            bastion-id_rsa: ${bastion-id_rsa}
+
+  steps:
+    - name: provisioner
+      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: az-credentials
+          mountPath: /opt/az-credentials
+        - name: host-info
+          mountPath: /opt/host-info
+      script: |
+        #!/bin/sh
+
+        set -euo pipefail
+
+        # Function to mask credentials (show first and last char, hide middle)
+        mask_credential() {
+          local cred="$1"
+          local len=${#cred}
+          if [ $len -le 2 ]; then
+            echo "***"
+          else
+            echo "${cred:0:1}***${cred: -1}"
+          fi
+        }
+
+        # Credentials - set these BEFORE enabling debug mode
+        export ARM_TENANT_ID=$(cat /opt/az-credentials/tenant_id)
+        export ARM_SUBSCRIPTION_ID=$(cat /opt/az-credentials/subscription_id)
+        export ARM_CLIENT_ID=$(cat /opt/az-credentials/client_id)
+        export ARM_CLIENT_SECRET=$(cat /opt/az-credentials/client_secret)
+        export AZURE_STORAGE_ACCOUNT=$(cat /opt/az-credentials/storage_account)
+        export AZURE_STORAGE_KEY=$(cat /opt/az-credentials/storage_key)
+        BLOB=$(cat /opt/az-credentials/blob)
+
+        # If debug add verbosity and print masked credentials
+        if [[ "$(params.debug)" == "true" ]]; then
+          echo "ARM_TENANT_ID=$(mask_credential "$ARM_TENANT_ID")"
+          echo "ARM_SUBSCRIPTION_ID=$(mask_credential "$ARM_SUBSCRIPTION_ID")"
+          echo "ARM_CLIENT_ID=$(mask_credential "$ARM_CLIENT_ID")"
+          echo "ARM_CLIENT_SECRET=$(mask_credential "$ARM_CLIENT_SECRET")"
+          echo "AZURE_STORAGE_ACCOUNT=$(mask_credential "$AZURE_STORAGE_ACCOUNT")"
+          echo "AZURE_STORAGE_KEY=$(mask_credential "$AZURE_STORAGE_KEY")"
+          echo "BLOB=$BLOB"
+          set -xeuo pipefail
+        fi
+
+        if [[ "$(params.operation)" == "create"  ]]; then
+          if [[ "$(params.ownerName)" == "" || "$(params.ownerUid)" == "" ]]; then
+            echo "Parameter ownerName and ownerUid is recommended when creating instance"
+          fi
+        fi
+
+        # Run mapt
+        cmd="mapt azure rhel-ai $(params.operation) "
+        cmd+="--project-name mapt-rhel-ai-$(params.id) "
+        cmd+="--backed-url azblob://${BLOB}/rhel-$(params.id) "
+
+        if [[ "$(params.debug)" == "true" ]]; then
+          cmd+="--debug "
+        fi
+
+        if [[ "$(params.operation)" == "create" ]]; then
+          cmd+="--conn-details-output /opt/host-info "
+          cmd+="--compute-sizes '$(params.compute-sizes)' "
+          cmd+="--version '$(params.version)' "
+          cmd+="--accelerator '$(params.accelerator)' "
+          if [[ "$(params.spot)" == "true" ]]; then
+            cmd+="--spot "
+            cmd+="--spot-increase-rate '$(params.spot-increase-rate)' "
+            cmd+="--spot-eviction-tolerance '$(params.spot-eviction-tolerance)' "
+            cmd+="--spot-excluded-regions '$(params.spot-excluded-regions)' "
+          fi
+          cmd+="--tags '$(params.tags)' "
+        fi
+
+        if [[ "$(params.operation)" == "destroy" && "$(params.keep-state)" == "true" ]]; then
+          cmd+="--keep-state "
+        fi
+
+        eval "${cmd}"
+        
+      resources:
+        requests:
+          memory: "200Mi"
+          cpu: "100m"
+        limits:
+          memory: "600Mi"
+          cpu: "300m"
+    - name: host-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:4.13@sha256:e70eb2be867f1236b19f5cbfeb8e0625737ce0ec1369e32a4f9f146aaaf68d49
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)
+      volumeMounts:
+        - name: host-info
+          mountPath: /opt/host-info
+      workingDir: /opt/host-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ "$(params.operation)" == "create" ]]; then
+        export SECRETNAME="generateName: mapt-aws-rhel-ai-"
+        if [[ "$(params.host-access-secret-name)" != "" ]]; then
+          export SECRETNAME="name: $(params.host-access-secret-name)"
+        fi
+        cat <<EOF > host-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: $NAMESPACE
+        EOF
+        if [[ "$OWNER_NAME" != "" && "$OWNER_UID" != "" ]]; then
+        cat <<EOF >> host-info.yaml
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: $OWNER_KIND
+            name: $OWNER_NAME
+            uid: $OWNER_UID
+        EOF
+        fi
+        cat <<EOF >> host-info.yaml
+        type: Opaque
+        data:
+          host: $(cat /opt/host-info/host | base64 -w0)
+          username: $(cat /opt/host-info/username | base64 -w0)
+          id_rsa: $(cat /opt/host-info/id_rsa | base64 -w0)
+        EOF
+
+        if [[ "$(params.debug)" == "true" ]]; then
+          cat /opt/host-info/*
+        fi
+        
+        NAME=$(oc create -f host-info.yaml -o=jsonpath='{.metadata.name}')
+        echo -n "${NAME}" | tee $(results.host-access-secret.path)   
+        fi

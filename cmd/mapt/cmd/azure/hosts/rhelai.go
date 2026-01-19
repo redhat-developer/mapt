@@ -3,7 +3,7 @@ package hosts
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
-	rhelai "github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel-ai"
+	rhelai "github.com/redhat-developer/mapt/pkg/provider/azure/action/rhel-ai"
 	apiRHELAI "github.com/redhat-developer/mapt/pkg/targets/host/rhelai"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"

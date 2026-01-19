@@ -23,6 +23,7 @@ import (
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/azure"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/allocation"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/modules/network"
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/modules/virtual-machine"
@@ -184,10 +185,12 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 			ResourceGroup:   rg,
 			NetworkInteface: n.NetworkInterface,
 			// Check this
-			VMSize:        r.allocationData.ComputeSizes[0],
-			Publisher:     "MicrosoftWindowsDesktop",
-			Offer:         fmt.Sprintf("windows-%s", *r.version),
-			Sku:           fmt.Sprintf("win%s-%s", *r.version, *r.feature),
+			VMSize: r.allocationData.ComputeSizes[0],
+			Image: &data.ImageReference{
+				Publisher: "MicrosoftWindowsDesktop",
+				Offer:     fmt.Sprintf("windows-%s", *r.version),
+				Sku:       fmt.Sprintf("win%s-%s", *r.version, *r.feature),
+			},
 			AdminUsername: *r.adminUsername,
 			AdminPasswd:   adminPasswd,
 			SpotPrice:     r.allocationData.Price,

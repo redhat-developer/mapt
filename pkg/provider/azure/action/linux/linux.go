@@ -25,7 +25,6 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
-	rhelApi "github.com/redhat-developer/mapt/pkg/targets/host/rhel"
 )
 
 const (
@@ -46,6 +45,7 @@ type LinuxArgs struct {
 	ComputeRequest        *cr.ComputeRequestArgs
 	OSType                data.OSType
 	Version               string
+	ImageRef              *data.ImageReference
 	Username              string
 	Spot                  *spotTypes.SpotArgs
 	CloudConfigAsUserData userDataApi.CloudConfig
@@ -53,11 +53,13 @@ type LinuxArgs struct {
 }
 
 type linuxRequest struct {
-	mCtx                  *mc.Context `validate:"required"`
-	prefix                *string
-	arch                  *string
-	osType                *data.OSType
-	version               *string
+	mCtx   *mc.Context `validate:"required"`
+	prefix *string
+	// Image info, either args (arch, osTYpe, version) to get it or the actual value (ir)
+	arch    *string
+	osType  *data.OSType
+	version *string
+	// host management
 	allocationData        *allocation.AllocationResult
 	username              *string
 	cloudConfigAsUserData userDataApi.CloudConfig
@@ -90,9 +92,12 @@ func Create(mCtxArgs *mc.ContextArgs, args *LinuxArgs) (err error) {
 		cloudConfigAsUserData: args.CloudConfigAsUserData,
 		readinessCommand:      &args.ReadinessCommand,
 	}
-	ir, err := data.GetImageRef(*r.osType, *r.arch, *r.version)
-	if err != nil {
-		return err
+	ir := args.ImageRef
+	if ir == nil {
+		ir, err = data.GetImageRef(*r.osType, *r.arch, *r.version)
+		if err != nil {
+			return err
+		}
 	}
 	r.allocationData, err = allocation.Allocation(mCtx,
 		&allocation.AllocationArgs{
@@ -174,47 +179,27 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
-
-	// Generate cloud config userdata
-	var userDataB64Input pulumi.StringInput
-	if r.cloudConfigAsUserData != nil {
-		// Check if this is RHEL cloud config
-		if rhelConfig, isRHEL := r.cloudConfigAsUserData.(*rhelApi.CloudConfigArgs); isRHEL {
-			// Use RHEL helper's GenerateCloudConfig which handles GitLab integration
-			userDataB64Input, err = rhelConfig.GenerateCloudConfig(ctx, r.mCtx.RunID())
-			if err != nil {
-				return err
-			}
-		} else {
-			// Other cloud config types, use normal userdata
-			userDataB64, err := r.cloudConfigAsUserData.CloudConfig()
-			if err != nil {
-				return fmt.Errorf("error creating Linux Server on Azure: %v", err)
-			}
-			userDataB64Input = pulumi.String(*userDataB64)
-		}
-	} else {
-		userDataB64Input = pulumi.String("")
+	vmArgs := &virtualmachine.VirtualMachineArgs{
+		Prefix:          *r.prefix,
+		ComponentID:     azureLinuxID,
+		ResourceGroup:   rg,
+		NetworkInteface: n.NetworkInterface,
+		// Check this
+		VMSize:        r.allocationData.ComputeSizes[0],
+		Image:         r.allocationData.ImageRef,
+		AdminUsername: *r.username,
+		PrivateKey:    privateKey,
+		SpotPrice:     r.allocationData.Price,
+		Location:      *r.allocationData.Location,
 	}
-
-	vm, err := virtualmachine.Create(ctx, r.mCtx,
-		&virtualmachine.VirtualMachineArgs{
-			Prefix:          *r.prefix,
-			ComponentID:     azureLinuxID,
-			ResourceGroup:   rg,
-			NetworkInteface: n.NetworkInterface,
-			// Check this
-			VMSize:           r.allocationData.ComputeSizes[0],
-			Publisher:        r.allocationData.ImageRef.Publisher,
-			Offer:            r.allocationData.ImageRef.Offer,
-			Sku:              r.allocationData.ImageRef.Sku,
-			ImageID:          r.allocationData.ImageRef.ID,
-			AdminUsername:    *r.username,
-			PrivateKey:       privateKey,
-			SpotPrice:        r.allocationData.Price,
-			UserDataAsBase64: userDataB64Input,
-			Location:         *r.allocationData.Location,
-		})
+	if r.cloudConfigAsUserData != nil {
+		userDataB64, err := r.cloudConfigAsUserData.CloudConfig()
+		if err != nil {
+			return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
+		}
+		vmArgs.UserDataAsBase64 = pulumi.String(*userDataB64)
+	}
+	vm, err := virtualmachine.Create(ctx, r.mCtx, vmArgs)
 	if err != nil {
 		return err
 	}
