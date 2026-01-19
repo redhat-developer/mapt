@@ -7,7 +7,7 @@ require (
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.5
 	github.com/pulumi/pulumi/sdk/v3 v3.215.0
-	github.com/sirupsen/logrus v1.9.3
+	github.com/sirupsen/logrus v1.9.4
 	github.com/spf13/cobra v1.10.2
 )
 
@@ -20,19 +20,19 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
 	github.com/aws/aws-sdk-go-v2 v1.41.1
 	github.com/aws/aws-sdk-go-v2/config v1.32.7
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.279.1
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.279.2
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.95.1
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.6
 	github.com/pulumi/pulumi-aws-native/sdk v1.47.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.15.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.1.0
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.12.0
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.12.0
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.12.0
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.12.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.12.0
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.12.0
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.12.0
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.12.1
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.12.1
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.12.1
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.12.1
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.12.1
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.12.1
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.12.1
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
 	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93
 )
@@ -43,7 +43,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx/v2 v2.0.12 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.12.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.12.1 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.11.0 // indirect
 )
 
@@ -92,12 +92,12 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.10 // indirect
 	github.com/charmbracelet/colorprofile v0.4.1 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
-	github.com/charmbracelet/x/ansi v0.11.3 // indirect
+	github.com/charmbracelet/x/ansi v0.11.4 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.14 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
-	github.com/clipperhouse/displaywidth v0.6.2 // indirect
+	github.com/clipperhouse/displaywidth v0.7.0 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
-	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
+	github.com/clipperhouse/uax29/v2 v2.3.1 // indirect
 	github.com/cloudflare/circl v1.6.2 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
