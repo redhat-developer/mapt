@@ -16,7 +16,7 @@ dev.gaijin.team/go/exhaustruct/v4/analyzer
 dev.gaijin.team/go/exhaustruct/v4/internal/comment
 dev.gaijin.team/go/exhaustruct/v4/internal/pattern
 dev.gaijin.team/go/exhaustruct/v4/internal/structure
-# dev.gaijin.team/go/golib v0.8.0
+# dev.gaijin.team/go/golib v0.8.1
 ## explicit; go 1.24
 dev.gaijin.team/go/golib/e
 dev.gaijin.team/go/golib/fields
@@ -160,7 +160,7 @@ github.com/charmbracelet/colorprofile
 # github.com/charmbracelet/lipgloss v1.1.0
 ## explicit; go 1.18
 github.com/charmbracelet/lipgloss
-# github.com/charmbracelet/x/ansi v0.11.3
+# github.com/charmbracelet/x/ansi v0.11.4
 ## explicit; go 1.24.2
 github.com/charmbracelet/x/ansi
 github.com/charmbracelet/x/ansi/parser
@@ -173,13 +173,13 @@ github.com/charmbracelet/x/term
 # github.com/ckaznocha/intrange v0.3.1
 ## explicit; go 1.23.0
 github.com/ckaznocha/intrange
-# github.com/clipperhouse/displaywidth v0.6.2
+# github.com/clipperhouse/displaywidth v0.7.0
 ## explicit; go 1.18
 github.com/clipperhouse/displaywidth
 # github.com/clipperhouse/stringish v0.1.1
 ## explicit; go 1.18
 github.com/clipperhouse/stringish
-# github.com/clipperhouse/uax29/v2 v2.3.0
+# github.com/clipperhouse/uax29/v2 v2.3.1
 ## explicit; go 1.18
 github.com/clipperhouse/uax29/v2/graphemes
 github.com/clipperhouse/uax29/v2/internal/iterators
@@ -235,7 +235,7 @@ github.com/fsnotify/fsnotify/internal
 # github.com/fzipp/gocyclo v0.6.0
 ## explicit; go 1.18
 github.com/fzipp/gocyclo
-# github.com/ghostiam/protogetter v0.3.18
+# github.com/ghostiam/protogetter v0.3.19
 ## explicit; go 1.24.0
 github.com/ghostiam/protogetter
 # github.com/go-critic/go-critic v0.14.3
@@ -802,8 +802,8 @@ github.com/securego/gosec/v2/analyzers
 github.com/securego/gosec/v2/cwe
 github.com/securego/gosec/v2/issue
 github.com/securego/gosec/v2/rules
-# github.com/sirupsen/logrus v1.9.3
-## explicit; go 1.13
+# github.com/sirupsen/logrus v1.9.4
+## explicit; go 1.17
 github.com/sirupsen/logrus
 # github.com/sivchari/containedctx v1.0.3
 ## explicit; go 1.17
