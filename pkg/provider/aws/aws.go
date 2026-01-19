@@ -234,7 +234,7 @@ func CleanupState(mCtx *mc.Context) error {
 	}
 
 	logging.Infof("Cleaning up Pulumi state from s3://%s/%s", *bucket, *key)
-	if deleteErr := s3.Delete(mCtx.Context() , bucket, key); deleteErr != nil {
+	if deleteErr := s3.Delete(mCtx.Context(), bucket, key); deleteErr != nil {
 		logging.Warnf("Failed to cleanup S3 state: %v", deleteErr)
 		// Don't return error - resources are already destroyed
 	} else {

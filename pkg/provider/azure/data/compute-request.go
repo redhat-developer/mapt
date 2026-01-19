@@ -30,7 +30,7 @@ type ComputeSelector struct{}
 func NewComputeSelector() *ComputeSelector { return &ComputeSelector{} }
 
 func (c *ComputeSelector) Select(ctx context.Context, args *cr.ComputeRequestArgs) ([]string, error) {
-    return getAzureVMSKUs(ctx, args)
+	return getAzureVMSKUs(ctx, args)
 }
 
 func FilterComputeSizesByLocation(ctx context.Context, location *string, computeSizes []string) ([]string, error) {

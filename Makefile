@@ -10,6 +10,8 @@ TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
 CIRRUS_CLI ?= v0.160.0
 # renovate: datasource=github-releases depName=actions/runner
 GITHUB_RUNNER ?= 2.331.0
+# renovate: datasource=gitlab-releases depName=gitlab-org/gitlab-runner
+GITLAB_RUNNER ?= 18.8.0
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
@@ -22,7 +24,8 @@ MODULEPATH = $(ORG)/mapt
 # Linker flags
 VERSION_VARIABLES := -X $(MODULEPATH)/pkg/manager/context.OCI=$(IMG) \
 	-X $(MODULEPATH)/pkg/integrations/cirrus.version=$(CIRRUS_CLI) \
-	-X $(MODULEPATH)/pkg/integrations/github.runnerVersion=$(GITHUB_RUNNER)
+	-X $(MODULEPATH)/pkg/integrations/github.runnerVersion=$(GITHUB_RUNNER) \
+	-X $(MODULEPATH)/pkg/integrations/gitlab.version=$(GITLAB_RUNNER)
 LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
 GCFLAGS := all=-N -l
 GOOS := $(shell go env GOOS)

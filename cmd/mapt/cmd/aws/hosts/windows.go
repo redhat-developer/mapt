@@ -65,6 +65,7 @@ func getWindowsCreate() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GLRunnerArgs:  params.GitLabRunnerArgs(),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&windows.WindowsServerArgs{
@@ -93,6 +94,7 @@ func getWindowsCreate() *cobra.Command {
 	params.AddSpotFlags(flagSet)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
+	params.AddGitLabRunnerFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -106,13 +108,13 @@ func getWindowsDestroy() *cobra.Command {
 				return err
 			}
 			return windows.Destroy(&maptContext.ContextArgs{
-				Context:       cmd.Context(),
-				ProjectName:  viper.GetString(params.ProjectName),
-				BackedURL:    viper.GetString(params.BackedURL),
-				Debug:        viper.IsSet(params.Debug),
-				DebugLevel:   viper.GetUint(params.DebugLevel),
-				Serverless:   viper.IsSet(params.Serverless),
-				KeepState:    viper.IsSet(params.KeepState),
+				Context:     cmd.Context(),
+				ProjectName: viper.GetString(params.ProjectName),
+				BackedURL:   viper.GetString(params.BackedURL),
+				Debug:       viper.IsSet(params.Debug),
+				DebugLevel:  viper.GetUint(params.DebugLevel),
+				Serverless:  viper.IsSet(params.Serverless),
+				KeepState:   viper.IsSet(params.KeepState),
 			})
 		},
 	}

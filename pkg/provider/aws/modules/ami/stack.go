@@ -40,7 +40,7 @@ func (r CopyAMIRequest) Create() error {
 	if err := r.validate(); err != nil {
 		return err
 	}
-	_, err := manager.CheckStack(r.MCtx,manager.Stack{
+	_, err := manager.CheckStack(r.MCtx, manager.Stack{
 		StackName:   r.MCtx.StackNameByProject("copyAMI"),
 		ProjectName: r.MCtx.ProjectName(),
 		BackedURL:   r.MCtx.BackedURL()})

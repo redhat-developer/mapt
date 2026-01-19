@@ -62,6 +62,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GLRunnerArgs:  params.GitLabRunnerArgs(),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&azureWindows.WindowsArgs{
@@ -89,6 +90,7 @@ func getCreateWindowsDesktop() *cobra.Command {
 	params.AddSpotFlags(flagSet)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
+	params.AddGitLabRunnerFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -102,7 +104,7 @@ func getDestroyWindowsDesktop() *cobra.Command {
 				return err
 			}
 			if err := azureWindows.Destroy(&maptContext.ContextArgs{
-				Context:       cmd.Context(),
+				Context:     cmd.Context(),
 				ProjectName: viper.GetString(params.ProjectName),
 				BackedURL:   viper.GetString(params.BackedURL),
 				Debug:       viper.IsSet(params.Debug),

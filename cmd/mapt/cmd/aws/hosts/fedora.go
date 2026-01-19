@@ -56,6 +56,7 @@ func getFedoraCreate() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GLRunnerArgs:  params.GitLabRunnerArgs(),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&fedora.FedoraArgs{
@@ -79,6 +80,7 @@ func getFedoraCreate() *cobra.Command {
 	params.AddSpotFlags(flagSet)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
+	params.AddGitLabRunnerFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -92,7 +94,7 @@ func getFedoraDestroy() *cobra.Command {
 				return err
 			}
 			return fedora.Destroy(&maptContext.ContextArgs{
-				Context:       cmd.Context(),
+				Context:      cmd.Context(),
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),

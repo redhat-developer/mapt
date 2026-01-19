@@ -31,6 +31,8 @@ echo "{{.AuthorizedKey}}" | tee /Users/{{.Username}}/.ssh/authorized_keys
 
 {{ .CirrusSnippet }}
 
+{{ .GitLabSnippet }}
+
 # autologin to take effect
 # run reboot on background to successfully finish the remote exec of the script
 (sleep 2 && sudo reboot)&

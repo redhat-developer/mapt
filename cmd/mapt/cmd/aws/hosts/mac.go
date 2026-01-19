@@ -48,6 +48,7 @@ func getMacRequest() *cobra.Command {
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GLRunnerArgs:  params.GitLabRunnerArgs(),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&mac.MacRequestArgs{
@@ -67,6 +68,7 @@ func getMacRequest() *cobra.Command {
 	flagSet.Bool(awsParams.MACFixedLocation, false, awsParams.MACFixedLocationDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	params.AddGHActionsFlags(flagSet)
+	params.AddGitLabRunnerFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -82,7 +84,7 @@ func getMacRelease() *cobra.Command {
 			}
 			return mac.Release(
 				&maptContext.ContextArgs{
-					Context:       cmd.Context(),
+					Context:    cmd.Context(),
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 				},
@@ -109,10 +111,10 @@ func getMacDestroy() *cobra.Command {
 			}
 			return mac.Destroy(
 				&maptContext.ContextArgs{
-					Context:       cmd.Context(),
-					Debug:        viper.IsSet(params.Debug),
-					DebugLevel:   viper.GetUint(params.DebugLevel),
-					KeepState:    viper.IsSet(params.KeepState),
+					Context:    cmd.Context(),
+					Debug:      viper.IsSet(params.Debug),
+					DebugLevel: viper.GetUint(params.DebugLevel),
+					KeepState:  viper.IsSet(params.KeepState),
 				},
 				viper.GetString(awsParams.MACDHID))
 		},

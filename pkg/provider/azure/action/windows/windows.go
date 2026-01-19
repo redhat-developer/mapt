@@ -16,6 +16,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -74,6 +75,7 @@ func (r *windowsRequest) validate() error {
 type ghActionsRunnerData struct {
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
+	GitLabSnippet        string
 }
 
 func Create(mCtxArgs *mc.ContextArgs, args *WindowsArgs) (err error) {
@@ -196,6 +198,7 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputAdminUsername), pulumi.String(*r.adminUsername))
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputAdminUserPassword), adminPasswd.Result)
+
 	// Setup machine on post init (may move too to virtual-machine pkg)
 	pk, vme, err := r.postInitSetup(ctx, rg, vm, *r.allocationData.Location)
 	if err != nil {
@@ -284,24 +287,65 @@ func (r *windowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 	if err != nil {
 		return nil, nil, err
 	}
-	// the post script command will be generated based on generated data as parameters
-	setupCommand := pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName()).ApplyT(
-		func(args []interface{}) string {
-			password := args[0].(string)
-			authorizedKey := args[1].(string)
-			hostname := args[2].(*string)
-			return fmt.Sprintf(
-				"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -cirrusToken \"%s\" -authorizedKey \"%s\"",
-				scriptName,
-				r.profilesAsParams(),
-				password,
-				*r.username,
-				*hostname,
-				github.GetToken(),
-				cirrus.GetToken(),
-				authorizedKey,
-			)
-		}).(pulumi.StringOutput)
+
+	// Check if GitLab runner args exist and create runner if needed
+	glRunnerArgs := gitlab.GetRunnerArgs()
+	var setupCommand pulumi.StringOutput
+
+	if glRunnerArgs != nil {
+		// Create GitLab runner via Pulumi
+		glRunnerArgs.Name = r.mCtx.RunID()
+		gitlabAuthToken, err := gitlab.CreateRunner(ctx, glRunnerArgs)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		// Include GitLab token in ApplyT
+		setupCommand = pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName(), gitlabAuthToken).ApplyT(
+			func(args []interface{}) string {
+				password := args[0].(string)
+				authorizedKey := args[1].(string)
+				hostname := args[2].(*string)
+				gitlabToken := args[3].(string)
+
+				// Set GitLab token in global state
+				gitlab.SetAuthToken(gitlabToken)
+				defer gitlab.SetAuthToken("")
+
+				return fmt.Sprintf(
+					"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -cirrusToken \"%s\" -gitlabToken \"%s\" -authorizedKey \"%s\"",
+					scriptName,
+					r.profilesAsParams(),
+					password,
+					*r.username,
+					*hostname,
+					github.GetToken(),
+					cirrus.GetToken(),
+					gitlabToken,
+					authorizedKey,
+				)
+			}).(pulumi.StringOutput)
+	} else {
+		// No GitLab runner, use normal flow
+		setupCommand = pulumi.All(userPasswd.Result, privateKey.PublicKeyOpenssh, vm.OsProfile.ComputerName()).ApplyT(
+			func(args []interface{}) string {
+				password := args[0].(string)
+				authorizedKey := args[1].(string)
+				hostname := args[2].(*string)
+				return fmt.Sprintf(
+					"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -cirrusToken \"%s\" -gitlabToken \"%s\" -authorizedKey \"%s\"",
+					scriptName,
+					r.profilesAsParams(),
+					password,
+					*r.username,
+					*hostname,
+					github.GetToken(),
+					cirrus.GetToken(),
+					gitlab.GetToken(),
+					authorizedKey,
+				)
+			}).(pulumi.StringOutput)
+	}
 	// the post script will be executed as a extension,
 	// this resource is retain on delete b/c it does not create a real resource on the provider
 	// and also if vm where it has been executed is stopped (i.e. deallocated spot instance) it can
@@ -366,11 +410,16 @@ func (r *windowsRequest) uploadScript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
+	gitlabSnippet, err := integrations.GetIntegrationSnippet(gitlab.GetRunnerArgs(), *r.username)
+	if err != nil {
+		return nil, err
+	}
 	logging.Debug("got the self hosted runner script")
 	ciSetupScript, err := file.Template(
 		ghActionsRunnerData{
 			*ghActionsRunnerSnippet,
 			*cirrusSnippet,
+			*gitlabSnippet,
 		},
 		string(RHQPCISetupScript))
 	if err != nil {

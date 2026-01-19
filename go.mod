@@ -33,6 +33,7 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.12.1
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.12.1
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.12.1
+	github.com/pulumi/pulumi-gitlab/sdk/v8 v8.11.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
 	golang.org/x/exp v0.0.0-20260112195511-716be5621a96
 )

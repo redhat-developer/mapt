@@ -11,6 +11,8 @@ param(
     $ghToken,
     [Parameter(HelpMessage='token for the cirrus persistent worker')]
     $cirrusToken,
+    [Parameter(HelpMessage='token for the gitlab runner')]
+    $gitlabToken,
     [switch]$crcProfile=$false
 )
 # Create local user
@@ -133,6 +135,8 @@ if ($crcProfile) {
 {{ .ActionsRunnerSnippet }}
 
 {{ .CirrusSnippet }}
+
+{{ .GitLabSnippet }}
 
 # Restart computer to have the ssh connection available with setup from this script
 Start-Process powershell -verb runas -ArgumentList "Restart-Computer -Force"

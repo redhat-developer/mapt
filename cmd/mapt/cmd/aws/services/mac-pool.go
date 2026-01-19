@@ -99,12 +99,12 @@ func destroyMP() *cobra.Command {
 				return err
 			}
 			return macpool.Destroy(&maptContext.ContextArgs{
-				Context:       cmd.Context(),
-				ProjectName:  viper.GetString(params.ProjectName),
-				BackedURL:    viper.GetString(params.BackedURL),
-				Debug:        viper.IsSet(params.Debug),
-				DebugLevel:   viper.GetUint(params.DebugLevel),
-				KeepState:    viper.IsSet(params.KeepState),
+				Context:     cmd.Context(),
+				ProjectName: viper.GetString(params.ProjectName),
+				BackedURL:   viper.GetString(params.BackedURL),
+				Debug:       viper.IsSet(params.Debug),
+				DebugLevel:  viper.GetUint(params.DebugLevel),
+				KeepState:   viper.IsSet(params.KeepState),
 			})
 		},
 	}
@@ -125,7 +125,7 @@ func houseKeep() *cobra.Command {
 			}
 			return macpool.HouseKeeper(
 				&maptContext.ContextArgs{
-					Context:       cmd.Context(),
+					Context:     cmd.Context(),
 					ProjectName: viper.GetString(params.ProjectName),
 					BackedURL:   viper.GetString(params.BackedURL),
 					Serverless:  viper.IsSet(params.Serverless),
@@ -172,6 +172,7 @@ func request() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GLRunnerArgs:  params.GitLabRunnerArgs(),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&macpool.RequestMachineArgs{
@@ -191,6 +192,7 @@ func request() *cobra.Command {
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
+	params.AddGitLabRunnerFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
@@ -205,7 +207,7 @@ func release() *cobra.Command {
 			}
 			return macpool.Release(
 				&maptContext.ContextArgs{
-					Context:       cmd.Context(),
+					Context:    cmd.Context(),
 					Debug:      viper.IsSet(params.Debug),
 					DebugLevel: viper.GetUint(params.DebugLevel),
 					Serverless: viper.IsSet(params.Serverless),

@@ -424,23 +424,21 @@ func (r *Request) getBootstrapScript(ctx *pulumi.Context) (
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	postscript := pulumi.All(password.Result, ukp.PrivateKey.PublicKeyOpenssh).ApplyT(
-		func(args []interface{}) (string, error) {
-			password := args[0].(string)
-			authorizedKey := args[1].(string)
 
-			if r.isRequestOperation {
-				return macSetup.Request(
-					defaultUsername,
-					r.currentPassword,
-					password,
-					authorizedKey)
-			}
-			return macSetup.Release(
-				defaultUsername,
-				password,
-				authorizedKey)
-		}).(pulumi.StringOutput)
+	// Generate bootstrap script
+	postscript, err := macSetup.GenerateBootstrapScript(
+		ctx,
+		password,
+		ukp.PrivateKey.PublicKeyOpenssh,
+		r.MCtx.RunID(),
+		r.isRequestOperation,
+		r.currentPassword,
+		defaultUsername,
+	)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
 	return postscript, password, ukp, nil
 }
 

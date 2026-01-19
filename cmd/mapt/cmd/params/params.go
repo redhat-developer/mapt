@@ -3,6 +3,7 @@ package params
 import (
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -76,6 +77,18 @@ const (
 	cirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
 	cirrusPWLabels     string = "it-cirrus-pw-labels"
 	cirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
+
+	glRunnerToken      string = "glrunner-token"
+	glRunnerTokenDesc  string = "GitLab Personal Access Token with api scope"
+	glRunnerProjectID  string = "glrunner-project-id"
+	glRunnerProjectIDDesc string = "GitLab project ID for project runner registration"
+	glRunnerGroupID    string = "glrunner-group-id"
+	glRunnerGroupIDDesc string = "GitLab group ID for group runner registration (alternative to --glrunner-project-id)"
+	glRunnerURL        string = "glrunner-url"
+	glRunnerURLDesc    string = "GitLab instance URL (e.g., https://gitlab.com, https://gitlab.example.com)"
+	glRunnerURLDefault string = "https://gitlab.com"
+	glRunnerTags       string = "glrunner-tags"
+	glRunnerTagsDesc   string = "List of tags separated by comma to be added to the self-hosted runner"
 
 	//RHEL
 	SubsUsername         string = "rh-subscription-username"
@@ -206,6 +219,14 @@ func AddCirrusFlags(fs *pflag.FlagSet) {
 	fs.StringToStringP(cirrusPWLabels, "", nil, cirrusPWLabelsDesc)
 }
 
+func AddGitLabRunnerFlags(fs *pflag.FlagSet) {
+	fs.StringP(glRunnerToken, "", "", glRunnerTokenDesc)
+	fs.StringP(glRunnerProjectID, "", "", glRunnerProjectIDDesc)
+	fs.StringP(glRunnerGroupID, "", "", glRunnerGroupIDDesc)
+	fs.StringP(glRunnerURL, "", glRunnerURLDefault, glRunnerURLDesc)
+	fs.StringSlice(glRunnerTags, nil, glRunnerTagsDesc)
+}
+
 func CirrusPersistentWorkerArgs() *cirrus.PersistentWorkerArgs {
 	if viper.IsSet(cirrusPWToken) {
 		return &cirrus.PersistentWorkerArgs{
@@ -214,6 +235,21 @@ func CirrusPersistentWorkerArgs() *cirrus.PersistentWorkerArgs {
 			Platform: &cirrus.Linux,
 			Arch: linuxArchAsCirrusArch(
 				viper.GetString(LinuxArch)),
+		}
+	}
+	return nil
+}
+
+func GitLabRunnerArgs() *gitlab.GitLabRunnerArgs {
+	if viper.IsSet(glRunnerToken) {
+		return &gitlab.GitLabRunnerArgs{
+			GitLabPAT: viper.GetString(glRunnerToken),
+			ProjectID: viper.GetString(glRunnerProjectID),
+			GroupID:   viper.GetString(glRunnerGroupID),
+			URL:       viper.GetString(glRunnerURL),
+			Tags:      viper.GetStringSlice(glRunnerTags),
+			Platform:  &gitlab.Linux,
+			Arch:      linuxArchAsGitLabArch(viper.GetString(LinuxArch)),
 		}
 	}
 	return nil
@@ -241,4 +277,20 @@ func MACArchAsCirrusArch(arch string) *cirrus.Arch {
 		return &cirrus.Amd64
 	}
 	return &cirrus.Arm64
+}
+
+func linuxArchAsGitLabArch(arch string) *gitlab.Arch {
+	switch arch {
+	case "x86_64":
+		return &gitlab.Amd64
+	}
+	return &gitlab.Arm64
+}
+
+func MACArchAsGitLabArch(arch string) *gitlab.Arch {
+	switch arch {
+	case "x86":
+		return &gitlab.Amd64
+	}
+	return &gitlab.Arm64
 }

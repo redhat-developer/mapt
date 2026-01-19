@@ -9,6 +9,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	utilMaps "github.com/redhat-developer/mapt/pkg/util/maps"
@@ -50,6 +51,7 @@ type ContextArgs struct {
 	// integrations
 	GHRunnerArgs *github.GithubRunnerArgs
 	CirrusPWArgs *cirrus.PersistentWorkerArgs
+	GLRunnerArgs *gitlab.GitLabRunnerArgs
 }
 
 type Context struct {
@@ -183,6 +185,10 @@ func manageIntegration(c *Context, ca *ContextArgs) error {
 	if ca.CirrusPWArgs != nil {
 		ca.CirrusPWArgs.Name = c.RunID()
 		cirrus.Init(ca.CirrusPWArgs)
+	}
+	if ca.GLRunnerArgs != nil {
+		ca.GLRunnerArgs.Name = c.RunID()
+		gitlab.Init(ca.GLRunnerArgs)
 	}
 	return nil
 }

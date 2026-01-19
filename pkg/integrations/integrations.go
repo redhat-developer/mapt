@@ -8,13 +8,14 @@ import (
 )
 
 type UserDataValues struct {
-	CliURL  string
-	User    string
-	Name    string
-	Token   string
-	Labels  string
-	Port    string
-	RepoURL string
+	CliURL   string
+	User     string
+	Name     string
+	Token    string
+	Labels   string
+	Port     string
+	RepoURL  string
+	Executor string
 }
 
 type IntegrationConfig interface {
