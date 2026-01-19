@@ -34,6 +34,19 @@
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "{{version}}",
       "packageNameTemplate": "actions/runner"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "Makefile"
+      ],
+      "matchStrings": [
+        "GITLAB_RUNNER \\?= (?<currentValue>.*)"
+      ],
+      "datasourceTemplate": "gitlab-tags",
+      "versioningTemplate": "{{version}}",
+      "packageNameTemplate": "gitlab-org/gitlab-runner",
+      "registryUrlsTemplate": ["https://gitlab.com"]
     }
   ],
   "packageRules": [
@@ -72,6 +85,14 @@
       ],
       "matchPackageNames": [
         "actions/runner"
+      ]
+    },
+    {
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "gitlab-org/gitlab-runner"
       ]
     }
   ],

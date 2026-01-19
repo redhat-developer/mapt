@@ -87,7 +87,7 @@ func getRHELAIDestroy() *cobra.Command {
 				return err
 			}
 			return rhelai.Destroy(&maptContext.ContextArgs{
-				Context:       cmd.Context(),
+				Context:      cmd.Context(),
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),

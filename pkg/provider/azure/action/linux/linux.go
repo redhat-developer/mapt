@@ -25,6 +25,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
+	rhelApi "github.com/redhat-developer/mapt/pkg/targets/host/rhel"
 )
 
 const (
@@ -173,14 +174,27 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey), privateKey.PrivateKeyPem)
-	// Image refence info
-	var userDataB64 *string
+
+	// Generate cloud config userdata
+	var userDataB64Input pulumi.StringInput
 	if r.cloudConfigAsUserData != nil {
-		var err error
-		userDataB64, err = r.cloudConfigAsUserData.CloudConfig()
-		if err != nil {
-			return fmt.Errorf("error creating RHEL Server on Azure: %v", err)
+		// Check if this is RHEL cloud config
+		if rhelConfig, isRHEL := r.cloudConfigAsUserData.(*rhelApi.CloudConfigArgs); isRHEL {
+			// Use RHEL helper's GenerateCloudConfig which handles GitLab integration
+			userDataB64Input, err = rhelConfig.GenerateCloudConfig(ctx, r.mCtx.RunID())
+			if err != nil {
+				return err
+			}
+		} else {
+			// Other cloud config types, use normal userdata
+			userDataB64, err := r.cloudConfigAsUserData.CloudConfig()
+			if err != nil {
+				return fmt.Errorf("error creating Linux Server on Azure: %v", err)
+			}
+			userDataB64Input = pulumi.String(*userDataB64)
 		}
+	} else {
+		userDataB64Input = pulumi.String("")
 	}
 
 	vm, err := virtualmachine.Create(ctx, r.mCtx,
@@ -198,7 +212,7 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 			AdminUsername:    *r.username,
 			PrivateKey:       privateKey,
 			SpotPrice:        r.allocationData.Price,
-			UserDataAsBase64: pulumi.String(*userDataB64),
+			UserDataAsBase64: userDataB64Input,
 			Location:         *r.allocationData.Location,
 		})
 	if err != nil {

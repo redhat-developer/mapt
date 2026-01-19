@@ -215,10 +215,13 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	userDataB64, err := fedoraCloudConfig.Userdata(amiUserDefault)
+
+	// Generate userdata
+	userDataB64, err := fedoraCloudConfig.GenerateUserdata(ctx, amiUserDefault, r.mCtx.RunID())
 	if err != nil {
 		return err
 	}
+
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,

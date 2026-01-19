@@ -277,10 +277,13 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	userDataB64, err := cloudConfigWindowsServer.Userdata(ctx, &amiUserDefault, password, keyResources)
+
+	// Generate userdata
+	userDataB64, err := cloudConfigWindowsServer.GenerateUserdata(ctx, &amiUserDefault, password, keyResources, r.mCtx.RunID())
 	if err != nil {
 		return err
 	}
+
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,

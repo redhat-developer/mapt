@@ -226,10 +226,13 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		SubsUsername: *r.subsUsername,
 		SubsPassword: *r.subsUserpass,
 		Username:     amiUserDefault}
-	userDataB64, err := rhelCloudConfig.CloudConfig()
+
+	// Generate cloud config
+	userDataB64, err := rhelCloudConfig.GenerateCloudConfig(ctx, r.mCtx.RunID())
 	if err != nil {
 		return err
 	}
+
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
@@ -237,7 +240,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		VPC:              nw.Vpc,
 		Subnet:           nw.Subnet,
 		AMI:              ami,
-		UserDataAsBase64: pulumi.String(*userDataB64),
+		UserDataAsBase64: userDataB64,
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     r.allocationData.InstanceTypes,

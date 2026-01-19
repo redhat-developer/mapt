@@ -78,7 +78,7 @@ func describeAvailabilityZones(ctx context.Context, regionName string, excludedZ
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// Filter out excluded zone-ids if provided
 	if len(excludedZoneIDs) > 0 {
 		filteredAZs := slices.DeleteFunc(resultAZs.AvailabilityZones, func(az ec2Types.AvailabilityZone) bool {
@@ -86,7 +86,7 @@ func describeAvailabilityZones(ctx context.Context, regionName string, excludedZ
 		})
 		return filteredAZs, nil
 	}
-	
+
 	return resultAZs.AvailabilityZones, nil
 }
 

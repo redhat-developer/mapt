@@ -108,12 +108,12 @@ func getDestroyEKS() *cobra.Command {
 			}
 			return awsEKS.Destroy(
 				&maptContext.ContextArgs{
-					Context:      cmd.Context(),
-					ProjectName:  viper.GetString(params.ProjectName),
-					BackedURL:    viper.GetString(params.BackedURL),
-					Debug:        viper.IsSet(params.Debug),
-					DebugLevel:   viper.GetUint(params.DebugLevel),
-					KeepState:    viper.IsSet(params.KeepState),
+					Context:     cmd.Context(),
+					ProjectName: viper.GetString(params.ProjectName),
+					BackedURL:   viper.GetString(params.BackedURL),
+					Debug:       viper.IsSet(params.Debug),
+					DebugLevel:  viper.GetUint(params.DebugLevel),
+					KeepState:   viper.IsSet(params.KeepState),
 				})
 		},
 	}

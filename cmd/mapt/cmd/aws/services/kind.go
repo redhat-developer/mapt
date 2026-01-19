@@ -95,7 +95,7 @@ func destroyKind() *cobra.Command {
 				return err
 			}
 			return kind.Destroy(&maptContext.ContextArgs{
-				Context:       cmd.Context(),
+				Context:      cmd.Context(),
 				ProjectName:  viper.GetString(params.ProjectName),
 				BackedURL:    viper.GetString(params.BackedURL),
 				Debug:        viper.IsSet(params.Debug),

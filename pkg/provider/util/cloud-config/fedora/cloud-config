@@ -13,6 +13,7 @@ runcmd:
   - dnf install -y podman
 {{ if .ActionsRunnerSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh{{ end }}
 {{ if .CirrusSnippet }}  - /opt/setup-cirrus-service.sh{{ end }}
+{{ if .GitLabSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-glrunner.sh{{ end }}
 {{ if .ActionsRunnerSnippet }}write_files:
   - content: |
 {{ .ActionsRunnerSnippet }}
@@ -23,5 +24,11 @@ runcmd:
   - content: |
 {{.CirrusSnippet}}
     path: /opt/setup-cirrus-service.sh
+    permissions: '0755'
+{{ end }}
+{{ if .GitLabSnippet }}write_files:
+  - content: |
+{{.GitLabSnippet}}
+    path: /opt/install-glrunner.sh
     permissions: '0755'
 {{ end }}
