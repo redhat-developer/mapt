@@ -74,6 +74,18 @@ func NewRegistry(cfg *config.SQLBuildersConfig) *Registry {
 	if cfg.Jet {
 		r.checkers = append(r.checkers, NewJetChecker())
 	}
+	if cfg.Sqlc {
+		r.checkers = append(r.checkers, NewSQLCChecker())
+	}
+	if cfg.Goqu {
+		r.checkers = append(r.checkers, NewGoquChecker())
+	}
+	if cfg.Rel {
+		r.checkers = append(r.checkers, NewRelChecker())
+	}
+	if cfg.Reform {
+		r.checkers = append(r.checkers, NewReformChecker())
+	}
 
 	return r
 }
