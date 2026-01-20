@@ -10,6 +10,7 @@ import (
     "syscall"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/ibmcloud"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
@@ -61,7 +62,8 @@ func init() {
 	// Subcommands
 	rootCmd.AddCommand(
 		aws.GetCmd(),
-		azure.GetCmd())
+		azure.GetCmd(),
+		ibmcloud.GetCmd())
 }
 
 func Execute() {
