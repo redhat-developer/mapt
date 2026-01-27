@@ -45,8 +45,7 @@
       ],
       "datasourceTemplate": "gitlab-tags",
       "versioningTemplate": "{{version}}",
-      "packageNameTemplate": "gitlab-org/gitlab-runner",
-      "registryUrlsTemplate": ["https://gitlab.com"]
+      "packageNameTemplate": "gitlab-org/gitlab-runner"
     }
   ],
   "packageRules": [
