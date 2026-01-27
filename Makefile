@@ -63,7 +63,7 @@ vendor:
 	go mod vendor
 
 .PHONY: check
-check: build test lint
+check: build test lint renovate-check
 
 # Start of the actual build targets
 
@@ -94,6 +94,11 @@ fmt:
 .PHONY: lint 
 lint: $(TOOLS_BINDIR)/golangci-lint
 	"$(TOOLS_BINDIR)"/golangci-lint run -v --timeout 10m
+
+.PHONY: renovate-check
+renovate-check:
+	${CONTAINER_MANAGER} run --rm -v ${PWD}:/repo docker.io/renovate/renovate:latest renovate-config-validator /repo/renovate.json
+	 
 
 # Build the container image
 .PHONY: oci-build
