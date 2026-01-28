@@ -37,24 +37,26 @@ import (
 )
 
 type OpenshiftSNCArgs struct {
-	Prefix         string
-	ComputeRequest *cr.ComputeRequestArgs
-	Version        string
-	Arch           string
-	PullSecretFile string
-	Spot           *spotTypes.SpotArgs
-	Timeout        string
+	Prefix                  string
+	ComputeRequest          *cr.ComputeRequestArgs
+	Version                 string
+	DisableClusterReadiness bool
+	Arch                    string
+	PullSecretFile          string
+	Spot                    *spotTypes.SpotArgs
+	Timeout                 string
 }
 
 type openshiftSNCRequest struct {
-	mCtx           *mc.Context
-	prefix         *string
-	version        *string
-	arch           *string
-	spot           bool
-	timeout        *string
-	pullSecretFile *string
-	allocationData *allocation.AllocationResult
+	mCtx                    *mc.Context
+	prefix                  *string
+	version                 *string
+	disableClusterReadiness bool
+	arch                    *string
+	spot                    bool
+	timeout                 *string
+	pullSecretFile          *string
+	allocationData          *allocation.AllocationResult
 }
 
 func (r *openshiftSNCRequest) validate() error {
@@ -88,12 +90,13 @@ func Create(mCtxArgs *mc.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncRe
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := openshiftSNCRequest{
-		mCtx:           mCtx,
-		prefix:         &prefix,
-		version:        &args.Version,
-		arch:           &args.Arch,
-		pullSecretFile: &args.PullSecretFile,
-		timeout:        &args.Timeout}
+		mCtx:                    mCtx,
+		prefix:                  &prefix,
+		version:                 &args.Version,
+		disableClusterReadiness: args.DisableClusterReadiness,
+		arch:                    &args.Arch,
+		pullSecretFile:          &args.PullSecretFile,
+		timeout:                 &args.Timeout}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -266,14 +269,18 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
-	// Use kubeconfig as the readiness for the cluster
-	kubeconfig, err := kubeconfig(ctx, r.prefix, c, keyResources.PrivateKey)
-	if err != nil {
-		return err
+	if !r.disableClusterReadiness {
+		// Use kubeconfig as the readiness for the cluster
+		kubeconfig, err := kubeconfig(ctx, r.prefix, c, keyResources.PrivateKey)
+		if err != nil {
+			return err
+		}
+		ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig),
+			pulumi.ToSecret(kubeconfig))
+		return nil
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig),
-		pulumi.ToSecret(kubeconfig))
-	return nil
+	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsOCPSNCID,
+		keyResources.PrivateKey, amiUserDefault, nil, c.Dependencies)
 }
 
 // Write exported values in context to files o a selected target folder
@@ -290,13 +297,16 @@ func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *s
 	if err != nil {
 		return nil, err
 	}
-	kubeconfig, err := getResultOutput(outputKubeconfig, stackResult, prefix)
-	if err != nil {
-		return nil, err
-	}
 	kubeAdminPass, err := getResultOutput(outputKubeAdminPass, stackResult, prefix)
 	if err != nil {
 		return nil, err
+	}
+	kubeconfig := ""
+	if !r.disableClusterReadiness {
+		kubeconfig, err = getResultOutput(outputKubeconfig, stackResult, prefix)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	hostIPKey := fmt.Sprintf("%s-%s", *prefix, outputHost)
