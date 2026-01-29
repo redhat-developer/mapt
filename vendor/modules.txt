@@ -340,7 +340,7 @@ github.com/clipperhouse/stringish
 ## explicit; go 1.18
 github.com/clipperhouse/uax29/v2/graphemes
 github.com/clipperhouse/uax29/v2/internal/iterators
-# github.com/cloudflare/circl v1.6.2
+# github.com/cloudflare/circl v1.6.3
 ## explicit; go 1.22.0
 github.com/cloudflare/circl/dh/x25519
 github.com/cloudflare/circl/dh/x448
@@ -471,7 +471,7 @@ github.com/go-viper/mapstructure/v2/internal/errors
 ## explicit; go 1.15
 github.com/gogo/protobuf/io
 github.com/gogo/protobuf/proto
-# github.com/golang-jwt/jwt/v5 v5.3.0
+# github.com/golang-jwt/jwt/v5 v5.3.1
 ## explicit; go 1.21
 github.com/golang-jwt/jwt/v5
 # github.com/golang/glog v1.2.5
@@ -752,7 +752,7 @@ github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/storage/v1beta1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/storagemigration/v1alpha1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/utilities
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/yaml
-# github.com/pulumi/pulumi-random/sdk/v4 v4.19.0
+# github.com/pulumi/pulumi-random/sdk/v4 v4.19.1
 ## explicit; go 1.24.0
 github.com/pulumi/pulumi-random/sdk/v4/go/random
 github.com/pulumi/pulumi-random/sdk/v4/go/random/internal

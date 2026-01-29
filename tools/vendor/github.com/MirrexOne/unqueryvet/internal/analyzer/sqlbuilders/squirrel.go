@@ -4,8 +4,11 @@ package sqlbuilders
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
 	"strings"
 )
+
+const squirrelPkgPath = "github.com/Masterminds/squirrel"
 
 // SquirrelChecker checks github.com/Masterminds/squirrel for SELECT * patterns.
 type SquirrelChecker struct{}
@@ -20,29 +23,29 @@ func (c *SquirrelChecker) Name() string {
 	return "squirrel"
 }
 
-// IsApplicable checks if the call might be from Squirrel.
-func (c *SquirrelChecker) IsApplicable(call *ast.CallExpr) bool {
+// IsApplicable checks if the call is from Squirrel using type information.
+func (c *SquirrelChecker) IsApplicable(info *types.Info, call *ast.CallExpr) bool {
 	sel, ok := call.Fun.(*ast.SelectorExpr)
 	if !ok {
 		return false
 	}
 
-	// Squirrel methods to check
-	squirrelMethods := []string{
-		"Select", "Columns", "Column",
-		"SelectBuilder", "InsertBuilder", "UpdateBuilder", "DeleteBuilder",
+	// Check if the receiver type is from squirrel package
+	if IsTypeFromPackage(info, sel.X, squirrelPkgPath) {
+		return true
 	}
 
-	for _, method := range squirrelMethods {
-		if sel.Sel.Name == method {
-			return true
-		}
-	}
-
-	// Check for squirrel package prefix
+	// Check for package-level function calls like squirrel.Select()
 	if ident, ok := sel.X.(*ast.Ident); ok {
-		if ident.Name == "squirrel" || ident.Name == "sq" {
-			return true
+		if info != nil {
+			if obj := info.Uses[ident]; obj != nil {
+				if pkgName, ok := obj.(*types.PkgName); ok {
+					pkgPath := pkgName.Imported().Path()
+					if len(pkgPath) >= len(squirrelPkgPath) && pkgPath[:len(squirrelPkgPath)] == squirrelPkgPath {
+						return true
+					}
+				}
+			}
 		}
 	}
 

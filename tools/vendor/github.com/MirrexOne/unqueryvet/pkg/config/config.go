@@ -90,6 +90,9 @@ type UnqueryvetSettings struct {
 
 	// SQLInjectionDetectionEnabled global flag for SQL injection detection
 	SQLInjectionDetectionEnabled bool `mapstructure:"check-sql-injection" json:"check-sql-injection" yaml:"check-sql-injection,omitempty"`
+
+	// TxLeakDetectionEnabled global flag for unclosed transaction detection
+	TxLeakDetectionEnabled bool `mapstructure:"check-tx-leaks" json:"check-tx-leaks" yaml:"check-tx-leaks,omitempty"`
 }
 
 // SQLBuildersConfig defines which SQL builder libraries to analyze.
@@ -153,13 +156,16 @@ func DefaultSQLBuildersConfig() SQLBuildersConfig {
 // By default, all detection features are enabled for maximum coverage.
 func DefaultSettings() UnqueryvetSettings {
 	return UnqueryvetSettings{
-		CheckSQLBuilders:     true,
-		CheckAliasedWildcard: true,
-		CheckStringConcat:    true,
-		CheckFormatStrings:   true,
-		CheckStringBuilder:   true,
-		CheckSubqueries:      true,
-		Severity:             "warning",
+		CheckSQLBuilders:             true,
+		CheckAliasedWildcard:         true,
+		CheckStringConcat:            true,
+		CheckFormatStrings:           true,
+		CheckStringBuilder:           true,
+		CheckSubqueries:              true,
+		N1DetectionEnabled:           true,
+		SQLInjectionDetectionEnabled: true,
+		TxLeakDetectionEnabled:       true,
+		Severity:                     "warning",
 		AllowedPatterns: []string{
 			`(?i)COUNT\(\s*\*\s*\)`,
 			`(?i)MAX\(\s*\*\s*\)`,
@@ -175,6 +181,7 @@ func DefaultSettings() UnqueryvetSettings {
 			"select-star":   "warning",
 			"n1-queries":    "warning",
 			"sql-injection": "error",
+			"tx-leak":       "warning",
 		},
 	}
 }

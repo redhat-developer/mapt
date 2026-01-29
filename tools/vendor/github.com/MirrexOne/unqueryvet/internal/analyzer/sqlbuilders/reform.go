@@ -3,10 +3,13 @@ package sqlbuilders
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
 	"strings"
 
 	"golang.org/x/tools/go/analysis"
 )
+
+const reformPkgPath = "gopkg.in/reform.v1"
 
 // ReformChecker detects SELECT * patterns in gopkg.in/reform.v1 queries.
 // https://github.com/go-reform/reform
@@ -22,20 +25,15 @@ func (c *ReformChecker) Name() string {
 	return "reform"
 }
 
-// IsApplicable checks if the call expression might be from reform.
-func (c *ReformChecker) IsApplicable(call *ast.CallExpr) bool {
+// IsApplicable checks if the call is from reform using type information.
+func (c *ReformChecker) IsApplicable(info *types.Info, call *ast.CallExpr) bool {
 	sel, ok := call.Fun.(*ast.SelectorExpr)
 	if !ok {
 		return false
 	}
 
-	method := sel.Sel.Name
-	switch method {
-	case "FindByPrimaryKeyFrom", "FindOneFrom", "FindAllFrom",
-		"SelectOneFrom", "SelectAllFrom", "SelectRows":
-		return c.isReformDB(sel.X) || c.isQuerier(sel.X)
-	}
-	return false
+	// Check if the receiver type is from reform package
+	return IsTypeFromPackage(info, sel.X, reformPkgPath)
 }
 
 // CheckSelectStar checks a single call expression for SELECT * usage.

@@ -4,8 +4,11 @@ package sqlbuilders
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
 	"strings"
 )
+
+const gormPkgPath = "gorm.io/gorm"
 
 // GORMChecker checks gorm.io/gorm for SELECT * patterns.
 type GORMChecker struct{}
@@ -20,35 +23,15 @@ func (c *GORMChecker) Name() string {
 	return "gorm"
 }
 
-// IsApplicable checks if the call might be from GORM.
-func (c *GORMChecker) IsApplicable(call *ast.CallExpr) bool {
+// IsApplicable checks if the call is from GORM using type information.
+func (c *GORMChecker) IsApplicable(info *types.Info, call *ast.CallExpr) bool {
 	sel, ok := call.Fun.(*ast.SelectorExpr)
 	if !ok {
 		return false
 	}
 
-	// GORM methods to check
-	gormMethods := []string{
-		"Select", "Find", "First", "Last", "Take", "Scan",
-		"Model", "Table", "Raw", "Exec", "Pluck",
-		"Preload", "Joins", "Where", "Or", "Not",
-	}
-
-	for _, method := range gormMethods {
-		if sel.Sel.Name == method {
-			return true
-		}
-	}
-
-	// Check for gorm package or DB type
-	if ident, ok := sel.X.(*ast.Ident); ok {
-		lowerName := strings.ToLower(ident.Name)
-		if lowerName == "gorm" || lowerName == "db" {
-			return true
-		}
-	}
-
-	return false
+	// Check if the receiver type is from gorm package
+	return IsTypeFromPackage(info, sel.X, gormPkgPath)
 }
 
 // CheckSelectStar checks for SELECT * in GORM calls.

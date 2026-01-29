@@ -22,6 +22,10 @@
         "sql-injection": {
           "$ref": "#/definitions/severity",
           "description": "Severity for SQL injection detection"
+        },
+        "tx-leak": {
+          "$ref": "#/definitions/severity",
+          "description": "Severity for transaction leak detection"
         }
       }
     },
