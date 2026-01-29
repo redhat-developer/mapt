@@ -3,8 +3,11 @@ package sqlbuilders
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
 	"strings"
 )
+
+const goquPkgPath = "github.com/doug-martin/goqu"
 
 // GoquChecker checks for SELECT * in goqu queries.
 type GoquChecker struct{}
@@ -19,23 +22,33 @@ func (c *GoquChecker) Name() string {
 	return "goqu"
 }
 
-// IsApplicable checks if the call is a goqu method.
-func (c *GoquChecker) IsApplicable(call *ast.CallExpr) bool {
+// IsApplicable checks if the call is from goqu using type information.
+func (c *GoquChecker) IsApplicable(info *types.Info, call *ast.CallExpr) bool {
 	sel, ok := call.Fun.(*ast.SelectorExpr)
 	if !ok {
 		return false
 	}
 
-	// Check for goqu method names
-	methodName := sel.Sel.Name
-	goquMethods := map[string]bool{
-		"Select":         true,
-		"SelectAll":      true,
-		"From":           true,
-		"SelectDistinct": true,
+	// Check if the receiver type is from goqu package
+	if IsTypeFromPackage(info, sel.X, goquPkgPath) {
+		return true
 	}
 
-	return goquMethods[methodName]
+	// Check for package-level function calls like goqu.From()
+	if ident, ok := sel.X.(*ast.Ident); ok {
+		if info != nil {
+			if obj := info.Uses[ident]; obj != nil {
+				if pkgName, ok := obj.(*types.PkgName); ok {
+					pkgPath := pkgName.Imported().Path()
+					if len(pkgPath) >= len(goquPkgPath) && pkgPath[:len(goquPkgPath)] == goquPkgPath {
+						return true
+					}
+				}
+			}
+		}
+	}
+
+	return false
 }
 
 // CheckSelectStar checks for SELECT * patterns in goqu.

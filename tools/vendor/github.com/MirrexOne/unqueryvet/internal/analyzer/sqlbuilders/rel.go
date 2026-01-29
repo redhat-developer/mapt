@@ -3,9 +3,12 @@ package sqlbuilders
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
 
 	"golang.org/x/tools/go/analysis"
 )
+
+const relPkgPath = "github.com/go-rel/rel"
 
 // RelChecker detects SELECT * patterns in go-rel/rel queries.
 // https://github.com/go-rel/rel
@@ -21,19 +24,15 @@ func (c *RelChecker) Name() string {
 	return "rel"
 }
 
-// IsApplicable checks if the call expression might be from rel.
-func (c *RelChecker) IsApplicable(call *ast.CallExpr) bool {
+// IsApplicable checks if the call is from rel using type information.
+func (c *RelChecker) IsApplicable(info *types.Info, call *ast.CallExpr) bool {
 	sel, ok := call.Fun.(*ast.SelectorExpr)
 	if !ok {
 		return false
 	}
 
-	method := sel.Sel.Name
-	switch method {
-	case "Find", "FindAll", "FindAndCountAll", "All", "One":
-		return c.isRelRepository(sel.X)
-	}
-	return false
+	// Check if the receiver type is from rel package
+	return IsTypeFromPackage(info, sel.X, relPkgPath)
 }
 
 // CheckSelectStar checks a single call expression for SELECT * usage.

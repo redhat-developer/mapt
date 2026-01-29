@@ -4,7 +4,16 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/MirrexOne/unqueryvet.svg)](https://pkg.go.dev/github.com/MirrexOne/unqueryvet)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**unqueryvet** is a comprehensive Go static analysis tool (linter) for SQL queries. It detects `SELECT *` usage, N+1 query problems, SQL injection vulnerabilities, and provides suggestions for query optimization.
+[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/v/29733-unqueryvet.svg)](https://plugins.jetbrains.com/plugin/29733-unqueryvet)
+[![JetBrains Plugins Downloads](https://img.shields.io/jetbrains/plugin/d/29733-unqueryvet.svg)](https://plugins.jetbrains.com/plugin/29733-unqueryvet)
+
+[![VS Code Marketplace](https://vsmarketplacebadges.dev/version-short/mirrexdev.unqueryvet.svg)](https://marketplace.visualstudio.com/items?itemName=mirrexdev.unqueryvet)
+[![VS Code Installs](https://vsmarketplacebadges.dev/installs-short/mirrexdev.unqueryvet.svg)](https://marketplace.visualstudio.com/items?itemName=mirrexdev.unqueryvet)
+
+[![Get from Marketplace](https://img.shields.io/badge/JetBrains-Get%20Plugin-000000?style=for-the-badge&logo=jetbrains)](https://plugins.jetbrains.com/plugin/29733-unqueryvet)
+[![Get from VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Install%20Extension-007ACC?style=for-the-badge&logo=visualstudiocode)](https://marketplace.visualstudio.com/items?itemName=mirrexdev.unqueryvet)
+
+**unqueryvet** is a comprehensive Go linter for SQL queries. It detects `SELECT *` usage, N+1 query problems, SQL injection vulnerabilities, and provides suggestions for query optimization.
 
 ## Key Features
 
@@ -13,6 +22,7 @@
 | **SELECT \* Detection**       | Finds `SELECT *` in raw SQL, SQL builders, and templates                     |
 | **N+1 Query Detection**       | Identifies queries inside loops                                              |
 | **SQL Injection Scanner**     | Detects `fmt.Sprintf` and string concatenation vulnerabilities               |
+| **Transaction Leak Detection**| Detects unclosed transactions and improper lifecycle management              |
 | **12 SQL Builder Support**    | Squirrel, GORM, SQLx, Ent, PGX, Bun, SQLBoiler, Jet, sqlc, goqu, rel, reform |
 | **Custom Rules DSL**          | Define your own analysis rules                                               |
 | **LSP Server**                | Real-time IDE integration                                                    |
@@ -85,13 +95,14 @@ unqueryvet -version
 
 ### Default Rules
 
-All three detection rules are **enabled by default**:
+All detection rules are **enabled by default**:
 
 | Rule | Default Severity | Description |
 |------|-----------------|-------------|
 | `select-star` | warning | Detects `SELECT *` usage |
 | `n1-queries` | warning | Detects N+1 query patterns (queries in loops) |
 | `sql-injection` | error | Detects SQL injection vulnerabilities |
+| `tx-leak` | warning | Detects unclosed SQL transactions |
 
 To disable a rule, set its severity to `ignore` in your `.unqueryvet.yaml`:
 
@@ -111,6 +122,7 @@ rules:
 | `-no-color` | Disable colored output |
 | `-n1` | Force enable N+1 detection (overrides config) |
 | `-sqli` | Force enable SQL injection detection (overrides config) |
+| `-tx-leak` | Force enable transaction leak detection (overrides config) |
 | `-fix` | Interactive fix mode - step through issues and apply fixes |
 
 ### With Configuration File
@@ -233,6 +245,97 @@ query := "SELECT id, name FROM users WHERE id = :id"
 db.NamedQuery(query, map[string]interface{}{"id": userID})
 ```
 
+### 4. Transaction Leak Detection
+
+Detects unclosed SQL transactions using 19-phase AST analysis. Supports multiple transaction begin methods across different libraries.
+
+**Supported Begin Methods:**
+
+| Library | Methods |
+|---------|---------|
+| database/sql | `Begin`, `BeginTx` |
+| sqlx | `Beginx`, `BeginTxx`, `MustBegin`, `MustBeginTx` |
+| pgx | `BeginFunc`, `BeginTxFunc` |
+| bun | `RunInTx` |
+| ent | `Tx`, `NewTx` |
+
+**Detection Patterns:**
+
+| Violation Type | Severity | Description |
+|----------------|----------|-------------|
+| `no_commit_rollback` | critical | Transaction has neither Commit() nor Rollback() |
+| `no_rollback` | high | Transaction has Commit() but no Rollback() for error paths |
+| `no_commit` | medium | Transaction has Rollback() but no Commit() |
+| `early_return` | high | Early return paths bypass Commit() without defer |
+| `defer_in_loop` | high | Defer inside loop - defers pile up until function returns |
+| `shadowed_transaction` | high | Transaction variable shadowed in inner scope |
+| `goroutine_capture` | high | Transaction captured by goroutine without defer |
+| `variable_reassignment` | high | Transaction variable reassigned - previous tx may leak |
+| `fatal_without_defer` | high | Transaction may leak if os.Exit/log.Fatal called |
+| `panic_without_defer` | medium | Transaction may leak if panic() called |
+| `conditional_commit` | medium | Commit() inside conditional - may not execute |
+| `commit_in_switch` | medium | Commit() in switch/case - may not execute in all cases |
+| `commit_in_select` | medium | Commit() in select/case - may not execute |
+| `commit_in_loop` | medium | Commit() in loop - may not execute if loop doesn't iterate |
+| `deferred_commit` | medium | Using defer Commit() is an antipattern |
+| `commit_error_ignored` | low | Commit() error ignored with blank identifier |
+| `rollback_error_ignored` | low | Rollback() error ignored with blank identifier |
+
+**Bad code (triggers error):**
+
+```go
+func createUser(db *sql.DB, name string) error {
+    tx, err := db.Begin()
+    if err != nil {
+        return err
+    }
+    // Missing defer tx.Rollback() and missing tx.Commit()!
+    
+    _, err = tx.Exec("INSERT INTO users (name) VALUES (?)", name)
+    if err != nil {
+        return err  // Transaction leaked!
+    }
+    return nil
+}
+
+func deferInLoop(db *sql.DB, items []string) error {
+    for _, item := range items {
+        tx, _ := db.Begin()
+        defer tx.Rollback()  // Defers pile up until function returns!
+        tx.Exec("INSERT...", item)
+        tx.Commit()
+    }
+    return nil
+}
+```
+
+**Good code:**
+
+```go
+func createUser(db *sql.DB, name string) error {
+    tx, err := db.Begin()
+    if err != nil {
+        return err
+    }
+    defer tx.Rollback()  // Safe: called after Commit() is a no-op
+    
+    _, err = tx.Exec("INSERT INTO users (name) VALUES (?)", name)
+    if err != nil {
+        return err  // Rollback will be called via defer
+    }
+    
+    return tx.Commit()
+}
+
+// Using callback pattern (automatically handled)
+func createUserCallback(db *pgx.Conn, name string) error {
+    return db.BeginFunc(ctx, func(tx pgx.Tx) error {
+        _, err := tx.Exec(ctx, "INSERT INTO users (name) VALUES ($1)", name)
+        return err  // Commit/Rollback handled automatically
+    })
+}
+```
+
 ---
 
 ## Configuration
@@ -246,6 +349,7 @@ rules:
   select-star: warning    # SELECT * detection
   n1-queries: warning     # N+1 query detection
   sql-injection: error    # SQL injection scanning
+  tx-leak: warning        # Transaction leak detection
 
 # Diagnostic severity for legacy options: "error" or "warning"
 severity: warning
@@ -330,6 +434,12 @@ custom-rules:
     when: "!has_where"
     message: "DELETE without WHERE clause"
     severity: error
+
+  - id: require-tx-timeout
+    pattern: db.BeginTx($CTX, $OPTS)
+    when: "!contains(opts, 'Timeout')"
+    message: "Transaction should have timeout set"
+    severity: warning
 ```
 
 ### Level 3: Advanced Conditions
@@ -412,7 +522,6 @@ Install the extension from `extensions/vscode/` or configure manually:
 - **Hover information** - Explanations on hover
 - **Quick fixes** - One-click fixes for SELECT \*
 - **Code completion** - Column name suggestions
-- **Go to definition** - Navigate to table definitions
 
 ### GoLand/IntelliJ Setup
 
@@ -692,11 +801,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: MirrexOne/unqueryvet-action@v1
+      - uses: actions/setup-go@v6
         with:
-          version: latest
-          args: "-n1 -sqli ./..."
-          fail-on-issues: true
+          go-version: '1.24'
+
+      - name: Install unqueryvet
+        run: go install github.com/MirrexOne/unqueryvet/cmd/unqueryvet@latest
+
+      - name: Run unqueryvet
+        run: unqueryvet -n1 -sqli -tx-leak ./...
 ```
 
 ### GitLab CI
@@ -705,7 +818,7 @@ jobs:
 sql-lint:
   image: ghcr.io/mirrexone/unqueryvet:latest
   script:
-    - unqueryvet -quiet -n1 -sqli ./...
+    - unqueryvet -quiet -n1 -sqli -tx-leak ./...
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 ```
@@ -728,7 +841,6 @@ sql-lint:
 - [CLI Features Guide](docs/CLI_FEATURES.md)
 - [Custom Rules DSL](docs/DSL.md)
 - [IDE Integration Guide](docs/IDE_INTEGRATION.md)
-- [Verified Features](VERIFIED_FEATURES.md)
 
 ---
 

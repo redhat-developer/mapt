@@ -9,12 +9,13 @@
 # ==============================================================================
 
 # Built-in rules severity configuration
-# Available rules: select-star, n1-queries, sql-injection
+# Available rules: select-star, n1-queries, sql-injection, tx-leak
 # Severity values: error, warning, info, ignore
 rules:
   select-star: warning
   n1-queries: warning
   sql-injection: error
+  tx-leak: warning
 
 # Files to ignore (glob patterns)
 ignore:

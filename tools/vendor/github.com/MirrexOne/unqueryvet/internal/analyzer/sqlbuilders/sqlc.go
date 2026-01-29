@@ -3,8 +3,12 @@ package sqlbuilders
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
 	"strings"
 )
+
+// sqlc generates code, so we check if the package path contains "sqlc"
+const sqlcPkgPath = "sqlc"
 
 // SQLCChecker checks for SELECT * in sqlc generated code.
 type SQLCChecker struct{}
@@ -19,27 +23,38 @@ func (c *SQLCChecker) Name() string {
 	return "sqlc"
 }
 
-// IsApplicable checks if the call is from sqlc generated code.
-func (c *SQLCChecker) IsApplicable(call *ast.CallExpr) bool {
-	// sqlc generates code with patterns like:
-	// - Queries struct methods
-	// - db.QueryRow or db.Query with specific patterns
-
+// IsApplicable checks if the call is from sqlc generated code using type information.
+func (c *SQLCChecker) IsApplicable(info *types.Info, call *ast.CallExpr) bool {
 	sel, ok := call.Fun.(*ast.SelectorExpr)
 	if !ok {
 		return false
 	}
 
-	// Check for common sqlc patterns
-	methodName := sel.Sel.Name
-	sqlcMethods := []string{
-		"GetUser", "ListUsers", "CreateUser", "UpdateUser", "DeleteUser",
-		"Get", "List", "Create", "Update", "Delete", "Find", "Search",
-	}
-
-	for _, m := range sqlcMethods {
-		if strings.Contains(methodName, m) {
-			return true
+	// sqlc generates code, check if receiver type's package contains "sqlc"
+	if info != nil {
+		typ := info.TypeOf(sel.X)
+		if typ != nil {
+			if named, ok := typ.(*types.Named); ok {
+				if obj := named.Obj(); obj != nil {
+					if pkg := obj.Pkg(); pkg != nil {
+						if strings.Contains(pkg.Path(), sqlcPkgPath) {
+							return true
+						}
+					}
+				}
+			}
+			// Check pointer types
+			if ptr, ok := typ.(*types.Pointer); ok {
+				if named, ok := ptr.Elem().(*types.Named); ok {
+					if obj := named.Obj(); obj != nil {
+						if pkg := obj.Pkg(); pkg != nil {
+							if strings.Contains(pkg.Path(), sqlcPkgPath) {
+								return true
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 

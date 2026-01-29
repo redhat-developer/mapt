@@ -17,12 +17,6 @@ import (
 )
 
 const (
-	// selectKeyword is the SQL SELECT method name in builders
-	selectKeyword = "Select"
-	// columnKeyword is the SQL Column method name in builders
-	columnKeyword = "Column"
-	// columnsKeyword is the SQL Columns method name in builders
-	columnsKeyword = "Columns"
 	// defaultWarningMessage is the standard warning for SELECT * usage
 	defaultWarningMessage = "avoid SELECT * - explicitly specify needed columns for better performance, maintainability and stability"
 )
@@ -136,15 +130,18 @@ func (ctx *analysisContext) handleNode(n ast.Node) {
 
 // handleFileNode processes file-level analysis
 func (ctx *analysisContext) handleFileNode(node *ast.File) {
-	if ctx.cfg.CheckSQLBuilders {
-		// Analyze SQL builders only if enabled in configuration
-		analyzeSQLBuilders(ctx.pass, node)
-	}
+	// Note: SQL builder analysis with type checking is done by Registry.Check() in handleCallExpr.
+	// The old analyzeSQLBuilders() function was removed because it didn't use type checking
+	// and caused false positives (issue #5).
+
 	if ctx.cfg.N1DetectionEnabled {
 		AnalyzeN1(ctx.pass, node)
 	}
 	if ctx.cfg.SQLInjectionDetectionEnabled {
 		AnalyzeSQLInjection(ctx.pass, node)
+	}
+	if ctx.cfg.TxLeakDetectionEnabled {
+		AnalyzeTxLeaks(ctx.pass, node)
 	}
 }
 
@@ -163,7 +160,7 @@ func (ctx *analysisContext) handleCallExpr(node *ast.CallExpr) {
 	}
 
 	if ctx.builderRegistry != nil && ctx.builderRegistry.HasCheckers() {
-		violations := ctx.builderRegistry.Check(node)
+		violations := ctx.builderRegistry.Check(ctx.pass.TypesInfo, node)
 		for _, v := range violations {
 			ctx.pass.Report(analysis.Diagnostic{
 				Pos:     v.Pos,
@@ -238,17 +235,9 @@ func checkGenDecl(pass *analysis.Pass, decl *ast.GenDecl, cfg *config.Unqueryvet
 }
 
 // checkCallExpr analyzes function calls for SQL with SELECT * usage
-// Includes checking arguments and SQL builders
+// Note: SQL builder checking with type verification is done by Registry.Check() in handleCallExpr.
+// This function only checks raw SQL strings in function arguments.
 func checkCallExpr(pass *analysis.Pass, call *ast.CallExpr, cfg *config.UnqueryvetSettings) {
-	// Check SQL builders for SELECT * in arguments
-	if cfg.CheckSQLBuilders && isSQLBuilderSelectStar(call) {
-		pass.Report(analysis.Diagnostic{
-			Pos:     call.Pos(),
-			Message: getDetailedWarningMessage("sql_builder"),
-		})
-		return
-	}
-
 	// Check function call arguments for strings with SELECT *
 	for _, arg := range call.Args {
 		if lit, ok := arg.(*ast.BasicLit); ok && lit.Kind == token.STRING {
@@ -404,165 +393,6 @@ func getDetailedWarningMessage(context string) string {
 	default:
 		return defaultWarningMessage
 	}
-}
-
-// isSQLBuilderSelectStar checks SQL builder method calls for SELECT * usage
-func isSQLBuilderSelectStar(call *ast.CallExpr) bool {
-	fun, ok := call.Fun.(*ast.SelectorExpr)
-	if !ok {
-		return false
-	}
-
-	// Check that this is a Select method call
-	if fun.Sel == nil || fun.Sel.Name != selectKeyword {
-		return false
-	}
-
-	if len(call.Args) == 0 {
-		return false
-	}
-
-	// Check Select method arguments for "*" or empty strings
-	for _, arg := range call.Args {
-		if lit, ok := arg.(*ast.BasicLit); ok && lit.Kind == token.STRING {
-			value := strings.Trim(lit.Value, "`\"")
-			// Consider both "*" and empty strings in Select() as problematic
-			if value == "*" || value == "" {
-				return true
-			}
-		}
-	}
-
-	return false
-}
-
-// analyzeSQLBuilders performs advanced SQL builder analysis
-// Key logic for handling edge-cases like Select().Columns("*")
-func analyzeSQLBuilders(pass *analysis.Pass, file *ast.File) {
-	builderVars, hasColumns := findEmptySelectCalls(file)
-	checkColumnsUsage(pass, file, builderVars, hasColumns)
-	reportEmptySelects(pass, builderVars, hasColumns)
-}
-
-// findEmptySelectCalls finds variables created with empty Select() calls
-func findEmptySelectCalls(file *ast.File) (map[string]*ast.CallExpr, map[string]bool) {
-	builderVars := make(map[string]*ast.CallExpr)
-	hasColumns := make(map[string]bool)
-
-	ast.Inspect(file, func(n ast.Node) bool {
-		assign, ok := n.(*ast.AssignStmt)
-		if !ok {
-			return true
-		}
-		for i, expr := range assign.Rhs {
-			call, ok := expr.(*ast.CallExpr)
-			if !ok || !isEmptySelectCall(call) {
-				continue
-			}
-			if i < len(assign.Lhs) {
-				if ident, ok := assign.Lhs[i].(*ast.Ident); ok {
-					builderVars[ident.Name] = call
-					hasColumns[ident.Name] = false
-				}
-			}
-		}
-		return true
-	})
-
-	return builderVars, hasColumns
-}
-
-// checkColumnsUsage checks usage of Columns/Column methods and reports violations
-func checkColumnsUsage(pass *analysis.Pass, file *ast.File, builderVars map[string]*ast.CallExpr, hasColumns map[string]bool) {
-	ast.Inspect(file, func(n ast.Node) bool {
-		call, ok := n.(*ast.CallExpr)
-		if !ok {
-			return true
-		}
-
-		// Check call chains like builder.Select().Columns("*")
-		if isSelectWithColumns(call) && hasStarInColumns(call) {
-			pass.Report(analysis.Diagnostic{
-				Pos:     call.Pos(),
-				Message: getDetailedWarningMessage("sql_builder"),
-			})
-			return true
-		}
-
-		sel, ok := call.Fun.(*ast.SelectorExpr)
-		if !ok || sel.Sel == nil {
-			return true
-		}
-
-		// Check calls to Columns() or Column() methods
-		if sel.Sel.Name != columnsKeyword && sel.Sel.Name != columnKeyword {
-			return true
-		}
-
-		if hasStarInColumns(call) {
-			pass.Report(analysis.Diagnostic{
-				Pos:     call.Pos(),
-				Message: getDetailedWarningMessage("sql_builder"),
-			})
-		}
-
-		// Update variable state - columns were added
-		if ident, ok := sel.X.(*ast.Ident); ok {
-			if _, exists := builderVars[ident.Name]; exists && !hasStarInColumns(call) {
-				hasColumns[ident.Name] = true
-			}
-		}
-
-		return true
-	})
-}
-
-// reportEmptySelects reports builders with empty Select() without subsequent columns
-func reportEmptySelects(pass *analysis.Pass, builderVars map[string]*ast.CallExpr, hasColumns map[string]bool) {
-	for varName, call := range builderVars {
-		if !hasColumns[varName] {
-			pass.Report(analysis.Diagnostic{
-				Pos:     call.Pos(),
-				Message: getDetailedWarningMessage("empty_select"),
-			})
-		}
-	}
-}
-
-// isEmptySelectCall checks if call is an empty Select()
-func isEmptySelectCall(call *ast.CallExpr) bool {
-	if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
-		if sel.Sel != nil && sel.Sel.Name == selectKeyword && len(call.Args) == 0 {
-			return true
-		}
-	}
-	return false
-}
-
-// isSelectWithColumns checks call chains like Select().Columns()
-func isSelectWithColumns(call *ast.CallExpr) bool {
-	if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
-		if sel.Sel != nil && (sel.Sel.Name == columnsKeyword || sel.Sel.Name == columnKeyword) {
-			// Check that previous call in chain is Select()
-			if innerCall, ok := sel.X.(*ast.CallExpr); ok {
-				return isEmptySelectCall(innerCall)
-			}
-		}
-	}
-	return false
-}
-
-// hasStarInColumns checks if call arguments contain "*" symbol
-func hasStarInColumns(call *ast.CallExpr) bool {
-	for _, arg := range call.Args {
-		if lit, ok := arg.(*ast.BasicLit); ok && lit.Kind == token.STRING {
-			value := strings.Trim(lit.Value, "`\"")
-			if value == "*" {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 // IsRuleEnabledExported checks if a rule is enabled in the configuration.

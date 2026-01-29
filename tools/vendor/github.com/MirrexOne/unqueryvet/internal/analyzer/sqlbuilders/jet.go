@@ -4,8 +4,12 @@ package sqlbuilders
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
+	"slices"
 	"strings"
 )
+
+const jetPkgPath = "github.com/go-jet/jet"
 
 // JetChecker checks github.com/go-jet/jet for SELECT * patterns.
 type JetChecker struct{}
@@ -20,31 +24,28 @@ func (c *JetChecker) Name() string {
 	return "jet"
 }
 
-// IsApplicable checks if the call might be from jet.
-func (c *JetChecker) IsApplicable(call *ast.CallExpr) bool {
+// IsApplicable checks if the call is from jet using type information.
+func (c *JetChecker) IsApplicable(info *types.Info, call *ast.CallExpr) bool {
 	sel, ok := call.Fun.(*ast.SelectorExpr)
 	if !ok {
-		// Check for direct SELECT call
+		// Check for direct SELECT call - verify via type info
 		if ident, ok := call.Fun.(*ast.Ident); ok {
-			return ident.Name == "SELECT" || ident.Name == "RawStatement"
+			if info != nil {
+				if obj := info.Uses[ident]; obj != nil {
+					if pkg := obj.Pkg(); pkg != nil {
+						pkgPath := pkg.Path()
+						if len(pkgPath) >= len(jetPkgPath) && pkgPath[:len(jetPkgPath)] == jetPkgPath {
+							return true
+						}
+					}
+				}
+			}
 		}
 		return false
 	}
 
-	// jet methods to check
-	jetMethods := []string{
-		"SELECT", "FROM", "WHERE",
-		"AllColumns", "Star",
-		"RawStatement", "Raw",
-	}
-
-	for _, method := range jetMethods {
-		if sel.Sel.Name == method {
-			return true
-		}
-	}
-
-	return false
+	// Check if the receiver type is from jet package
+	return IsTypeFromPackage(info, sel.X, jetPkgPath)
 }
 
 // CheckSelectStar checks for SELECT * in jet calls.
@@ -66,15 +67,13 @@ func (c *JetChecker) CheckSelectStar(call *ast.CallExpr) *SelectStarViolation {
 func (c *JetChecker) checkIdentCall(call *ast.CallExpr, ident *ast.Ident) *SelectStarViolation {
 	switch ident.Name {
 	case "SELECT":
-		for _, arg := range call.Args {
-			if c.isAllColumnsOrStar(arg) {
-				return &SelectStarViolation{
-					Pos:     call.Pos(),
-					End:     call.End(),
-					Message: "Jet SELECT with AllColumns/STAR - specify columns explicitly",
-					Builder: "jet",
-					Context: "explicit_star",
-				}
+		if slices.ContainsFunc(call.Args, c.isAllColumnsOrStar) {
+			return &SelectStarViolation{
+				Pos:     call.Pos(),
+				End:     call.End(),
+				Message: "Jet SELECT with AllColumns/STAR - specify columns explicitly",
+				Builder: "jet",
+				Context: "explicit_star",
 			}
 		}
 	case "RawStatement":

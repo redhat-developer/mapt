@@ -51,3 +51,6 @@ extensions/vscode/node_modules/
 extensions/vscode/out/
 extensions/vscode/*.vsix
 *.vsix
+
+# Claude Code
+.claude/
