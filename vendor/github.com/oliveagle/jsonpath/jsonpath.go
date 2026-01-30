@@ -1,3 +1,9 @@
+// Copyright 2015, 2021; oliver, DoltHub Authors
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://opensource.org/licenses/MIT.
+
 package jsonpath
 
 import (
@@ -7,11 +13,13 @@ import (
 	"go/types"
 	"reflect"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
 
 var ErrGetFromNullObj = errors.New("get attribute from null object")
+var ErrKeyError = errors.New("key error: %s not found in object")
 
 func JsonPathLookup(obj interface{}, jpath string) (interface{}, error) {
 	c, err := Compile(jpath)
@@ -45,6 +53,9 @@ func Compile(jpath string) (*Compiled, error) {
 	if err != nil {
 		return nil, err
 	}
+	if len(tokens) == 0 {
+		return nil, fmt.Errorf("empty path")
+	}
 	if tokens[0] != "@" && tokens[0] != "$" {
 		return nil, fmt.Errorf("$ or @ should in front of path")
 	}
@@ -69,7 +80,7 @@ func (c *Compiled) String() string {
 
 func (c *Compiled) Lookup(obj interface{}) (interface{}, error) {
 	var err error
-	for _, s := range c.steps {
+	for i, s := range c.steps {
 		// "key", "idx"
 		switch s.op {
 		case "key":
@@ -132,8 +143,26 @@ func (c *Compiled) Lookup(obj interface{}) (interface{}, error) {
 			if err != nil {
 				return nil, err
 			}
+		case "recursive":
+			obj = getAllDescendants(obj)
+			// Heuristic: if next step is key, exclude slices from candidates to avoid double-matching
+			// (once as container via implicit map, once as individual elements)
+			if i+1 < len(c.steps) && c.steps[i+1].op == "key" {
+				if candidates, ok := obj.([]interface{}); ok {
+					filtered := []interface{}{}
+					for _, cand := range candidates {
+						// Filter out Slices (but keep Maps and others)
+						// because get_key on Slice iterates children, which are already in candidates
+						v := reflect.ValueOf(cand)
+						if v.Kind() != reflect.Slice {
+							filtered = append(filtered, cand)
+						}
+					}
+					obj = filtered
+				}
+			}
 		default:
-			return nil, fmt.Errorf("expression don't support in filter")
+			return nil, fmt.Errorf("unsupported jsonpath operation: %s", s.op)
 		}
 	}
 	return obj, nil
@@ -144,9 +173,27 @@ func tokenize(query string) ([]string, error) {
 	//	token_start := false
 	//	token_end := false
 	token := ""
+	quoteChar := rune(0)
 
 	// fmt.Println("-------------------------------------------------- start")
 	for idx, x := range query {
+		if quoteChar != 0 {
+			if x == quoteChar {
+				quoteChar = 0
+			} else {
+				token += string(x)
+			}
+
+			continue
+		} else if x == '"' {
+			if token == "." {
+				token = ""
+			}
+
+			quoteChar = x
+			continue
+		}
+
 		token += string(x)
 		// //fmt.Printf("idx: %d, x: %s, token: %s, tokens: %v\n", idx, string(x), token, tokens)
 		if idx == 0 {
@@ -161,8 +208,8 @@ func tokenize(query string) ([]string, error) {
 		if token == "." {
 			continue
 		} else if token == ".." {
-			if tokens[len(tokens)-1] != "*" {
-				tokens = append(tokens, "*")
+			if len(tokens) == 0 || tokens[len(tokens)-1] != ".." {
+				tokens = append(tokens, "..")
 			}
 			token = "."
 			continue
@@ -193,17 +240,28 @@ func tokenize(query string) ([]string, error) {
 			}
 		}
 	}
+
+	if quoteChar != 0 {
+		token = string(quoteChar) + token
+	}
+
 	if len(token) > 0 {
 		if token[0] == '.' {
 			token = token[1:]
 			if token != "*" {
 				tokens = append(tokens, token[:])
+			} else if len(tokens) > 0 && tokens[len(tokens)-1] == ".." {
+				// $..* means recursive descent with scan, * is redundant after ..
+				// Don't add * as separate token
 			} else if tokens[len(tokens)-1] != "*" {
 				tokens = append(tokens, token[:])
 			}
 		} else {
 			if token != "*" {
 				tokens = append(tokens, token[:])
+			} else if len(tokens) > 0 && tokens[len(tokens)-1] == ".." {
+				// $..* means recursive descent with scan, * is redundant after ..
+				// Don't add * as separate token
 			} else if tokens[len(tokens)-1] != "*" {
 				tokens = append(tokens, token[:])
 			}
@@ -215,7 +273,7 @@ func tokenize(query string) ([]string, error) {
 }
 
 /*
- op: "root", "key", "idx", "range", "filter", "scan"
+op: "root", "key", "idx", "range", "filter", "scan"
 */
 func parse_token(token string) (op string, key string, args interface{}, err error) {
 	if token == "$" {
@@ -223,6 +281,9 @@ func parse_token(token string) (op string, key string, args interface{}, err err
 	}
 	if token == "*" {
 		return "scan", "*", nil, nil
+	}
+	if token == ".." {
+		return "recursive", "..", nil, nil
 	}
 
 	bracket_idx := strings.Index(token, "[")
@@ -325,7 +386,7 @@ func filter_get_from_explicit_path(obj interface{}, path string) (interface{}, e
 				return nil, err
 			}
 		default:
-			return nil, fmt.Errorf("expression don't support in filter")
+			return nil, fmt.Errorf("unsupported jsonpath operation %s in filter", op)
 		}
 	}
 	return xobj, nil
@@ -519,6 +580,59 @@ func get_filtered(obj, root interface{}, filter string) ([]interface{}, error) {
 	}
 
 	return res, nil
+}
+
+func get_scan(obj interface{}) (interface{}, error) {
+	if reflect.TypeOf(obj) == nil {
+		return nil, nil
+	}
+	switch reflect.TypeOf(obj).Kind() {
+	case reflect.Map:
+		// iterate over keys in sorted by length, then alphabetically
+		var res []interface{}
+		if jsonMap, ok := obj.(map[string]interface{}); ok {
+			var sortedKeys []string
+			for k := range jsonMap {
+				sortedKeys = append(sortedKeys, k)
+			}
+			sort.Slice(sortedKeys, func(i, j int) bool {
+				if len(sortedKeys[i]) != len(sortedKeys[j]) {
+					return len(sortedKeys[i]) < len(sortedKeys[j])
+				}
+				return sortedKeys[i] < sortedKeys[j]
+			})
+			for _, k := range sortedKeys {
+				res = append(res, jsonMap[k])
+			}
+			return res, nil
+		}
+		keys := reflect.ValueOf(obj).MapKeys()
+		sort.Slice(keys, func(i, j int) bool {
+			ki, kj := keys[i].String(), keys[j].String()
+			if len(ki) != len(kj) {
+				return len(ki) < len(kj)
+			}
+			return ki < kj
+		})
+		for _, k := range keys {
+			res = append(res, reflect.ValueOf(obj).MapIndex(k).Interface())
+		}
+		return res, nil
+	case reflect.Slice:
+		// slice we should get from all objects in it.
+		var res []interface{}
+		for i := 0; i < reflect.ValueOf(obj).Len(); i++ {
+			tmp := reflect.ValueOf(obj).Index(i).Interface()
+			newObj, err := get_scan(tmp)
+			if err != nil {
+				return nil, err
+			}
+			res = append(res, newObj.([]interface{})...)
+		}
+		return res, nil
+	default:
+		return nil, fmt.Errorf("object is not scannable: %v", reflect.TypeOf(obj).Kind())
+	}
 }
 
 // @.isbn                 => @.isbn, exists, nil
@@ -719,4 +833,38 @@ func cmp_any(obj1, obj2 interface{}, op string) (bool, error) {
 	}
 
 	return false, nil
+}
+
+func getAllDescendants(obj interface{}) []interface{} {
+	res := []interface{}{}
+	var recurse func(curr interface{})
+	recurse = func(curr interface{}) {
+		res = append(res, curr)
+		v := reflect.ValueOf(curr)
+		if !v.IsValid() {
+			return
+		}
+
+		kind := v.Kind()
+		if kind == reflect.Ptr {
+			v = v.Elem()
+			if !v.IsValid() {
+				return
+			}
+			kind = v.Kind()
+		}
+
+		switch kind {
+		case reflect.Map:
+			for _, k := range v.MapKeys() {
+				recurse(v.MapIndex(k).Interface())
+			}
+		case reflect.Slice, reflect.Array:
+			for i := 0; i < v.Len(); i++ {
+				recurse(v.Index(i).Interface())
+			}
+		}
+	}
+	recurse(obj)
+	return res
 }

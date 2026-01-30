@@ -14,15 +14,15 @@ import (
 
 // Namespace managed by ARM.
 //
-// Uses Azure REST API version 2025-04-02-preview.
+// Uses Azure REST API version 2025-09-01.
 //
-// Other available API versions: 2025-03-02-preview, 2025-05-02-preview, 2025-06-02-preview, 2025-07-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2025-03-02-preview, 2025-04-02-preview, 2025-05-02-preview, 2025-06-02-preview, 2025-07-02-preview, 2025-08-02-preview, 2025-09-02-preview, 2025-10-01, 2025-10-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type ManagedNamespace struct {
 	pulumi.CustomResourceState
 
 	// The Azure API version of the resource.
 	AzureApiVersion pulumi.StringOutput `pulumi:"azureApiVersion"`
-	// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+	// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
 	ETag pulumi.StringOutput `pulumi:"eTag"`
 	// The location of the namespace.
 	Location pulumi.StringPtrOutput `pulumi:"location"`
@@ -69,6 +69,21 @@ func NewManagedNamespace(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:containerservice/v20250702preview:ManagedNamespace"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20250802preview:ManagedNamespace"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20250901:ManagedNamespace"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20250902preview:ManagedNamespace"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20251001:ManagedNamespace"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20251002preview:ManagedNamespace"),
 		},
 	})
 	opts = append(opts, aliases)
@@ -177,7 +192,7 @@ func (o ManagedNamespaceOutput) AzureApiVersion() pulumi.StringOutput {
 	return o.ApplyT(func(v *ManagedNamespace) pulumi.StringOutput { return v.AzureApiVersion }).(pulumi.StringOutput)
 }
 
-// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
 func (o ManagedNamespaceOutput) ETag() pulumi.StringOutput {
 	return o.ApplyT(func(v *ManagedNamespace) pulumi.StringOutput { return v.ETag }).(pulumi.StringOutput)
 }

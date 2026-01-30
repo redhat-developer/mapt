@@ -205,6 +205,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ServiceEndpointPolicy{}
 	case "azure-native:network:ServiceEndpointPolicyDefinition":
 		r = &ServiceEndpointPolicyDefinition{}
+	case "azure-native:network:ServiceGateway":
+		r = &ServiceGateway{}
 	case "azure-native:network:StaticCidr":
 		r = &StaticCidr{}
 	case "azure-native:network:StaticMember":
@@ -231,6 +233,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &VirtualHubRouteTableV2{}
 	case "azure-native:network:VirtualNetwork":
 		r = &VirtualNetwork{}
+	case "azure-native:network:VirtualNetworkAppliance":
+		r = &VirtualNetworkAppliance{}
 	case "azure-native:network:VirtualNetworkGateway":
 		r = &VirtualNetworkGateway{}
 	case "azure-native:network:VirtualNetworkGatewayConnection":

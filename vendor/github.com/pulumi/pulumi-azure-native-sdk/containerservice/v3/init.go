@@ -29,6 +29,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &DeploymentSafeguard{}
 	case "azure-native:containerservice:Fleet":
 		r = &Fleet{}
+	case "azure-native:containerservice:FleetManagedNamespace":
+		r = &FleetManagedNamespace{}
 	case "azure-native:containerservice:FleetMember":
 		r = &FleetMember{}
 	case "azure-native:containerservice:FleetUpdateStrategy":
@@ -47,6 +49,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ManagedClusterSnapshot{}
 	case "azure-native:containerservice:ManagedNamespace":
 		r = &ManagedNamespace{}
+	case "azure-native:containerservice:MeshMembership":
+		r = &MeshMembership{}
 	case "azure-native:containerservice:Namespace":
 		r = &Namespace{}
 	case "azure-native:containerservice:NodeCustomization":

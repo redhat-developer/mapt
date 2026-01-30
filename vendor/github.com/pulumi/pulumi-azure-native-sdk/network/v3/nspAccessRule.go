@@ -85,6 +85,15 @@ func NewNspAccessRule(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:network/v20241001:NspAccessRule"),
 		},
+		{
+			Type: pulumi.String("azure-native:network/v20250101:NspAccessRule"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20250301:NspAccessRule"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20250501:NspAccessRule"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)

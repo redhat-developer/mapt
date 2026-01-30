@@ -683,6 +683,174 @@ func (in *deploymentStacksDeleteDetachEnumPtr) ToDeploymentStacksDeleteDetachEnu
 	return pulumi.ToOutputWithContext(ctx, in).(DeploymentStacksDeleteDetachEnumPtrOutput)
 }
 
+// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
+type DeploymentStacksResourcesWithoutDeleteSupportEnum string
+
+const (
+	// Detach the specified resources from the deployment stack and continue
+	DeploymentStacksResourcesWithoutDeleteSupportEnumDetach = DeploymentStacksResourcesWithoutDeleteSupportEnum("detach")
+	// Fail the deployment stack if resources cannot be deleted
+	DeploymentStacksResourcesWithoutDeleteSupportEnumFail = DeploymentStacksResourcesWithoutDeleteSupportEnum("fail")
+)
+
+func (DeploymentStacksResourcesWithoutDeleteSupportEnum) ElementType() reflect.Type {
+	return reflect.TypeOf((*DeploymentStacksResourcesWithoutDeleteSupportEnum)(nil)).Elem()
+}
+
+func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
+	return pulumi.ToOutput(e).(DeploymentStacksResourcesWithoutDeleteSupportEnumOutput)
+}
+
+func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(DeploymentStacksResourcesWithoutDeleteSupportEnumOutput)
+}
+
+func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
+	return e.ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(context.Background())
+}
+
+func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
+	return DeploymentStacksResourcesWithoutDeleteSupportEnum(e).ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutputWithContext(ctx).ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx)
+}
+
+func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type DeploymentStacksResourcesWithoutDeleteSupportEnumOutput struct{ *pulumi.OutputState }
+
+func (DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DeploymentStacksResourcesWithoutDeleteSupportEnum)(nil)).Elem()
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
+	return o
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
+	return o
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
+	return o.ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v DeploymentStacksResourcesWithoutDeleteSupportEnum) *DeploymentStacksResourcesWithoutDeleteSupportEnum {
+		return &v
+	}).(DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput)
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentStacksResourcesWithoutDeleteSupportEnum) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentStacksResourcesWithoutDeleteSupportEnum) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput struct{ *pulumi.OutputState }
+
+func (DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**DeploymentStacksResourcesWithoutDeleteSupportEnum)(nil)).Elem()
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
+	return o
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
+	return o
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) Elem() DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
+	return o.ApplyT(func(v *DeploymentStacksResourcesWithoutDeleteSupportEnum) DeploymentStacksResourcesWithoutDeleteSupportEnum {
+		if v != nil {
+			return *v
+		}
+		var ret DeploymentStacksResourcesWithoutDeleteSupportEnum
+		return ret
+	}).(DeploymentStacksResourcesWithoutDeleteSupportEnumOutput)
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *DeploymentStacksResourcesWithoutDeleteSupportEnum) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// DeploymentStacksResourcesWithoutDeleteSupportEnumInput is an input type that accepts values of the DeploymentStacksResourcesWithoutDeleteSupportEnum enum
+// A concrete instance of `DeploymentStacksResourcesWithoutDeleteSupportEnumInput` can be one of the following:
+//
+//	DeploymentStacksResourcesWithoutDeleteSupportEnumDetach
+//	DeploymentStacksResourcesWithoutDeleteSupportEnumFail
+type DeploymentStacksResourcesWithoutDeleteSupportEnumInput interface {
+	pulumi.Input
+
+	ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumOutput
+	ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutputWithContext(context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumOutput
+}
+
+var deploymentStacksResourcesWithoutDeleteSupportEnumPtrType = reflect.TypeOf((**DeploymentStacksResourcesWithoutDeleteSupportEnum)(nil)).Elem()
+
+type DeploymentStacksResourcesWithoutDeleteSupportEnumPtrInput interface {
+	pulumi.Input
+
+	ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput
+	ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput
+}
+
+type deploymentStacksResourcesWithoutDeleteSupportEnumPtr string
+
+func DeploymentStacksResourcesWithoutDeleteSupportEnumPtr(v string) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrInput {
+	return (*deploymentStacksResourcesWithoutDeleteSupportEnumPtr)(&v)
+}
+
+func (*deploymentStacksResourcesWithoutDeleteSupportEnumPtr) ElementType() reflect.Type {
+	return deploymentStacksResourcesWithoutDeleteSupportEnumPtrType
+}
+
+func (in *deploymentStacksResourcesWithoutDeleteSupportEnumPtr) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
+	return pulumi.ToOutput(in).(DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput)
+}
+
+func (in *deploymentStacksResourcesWithoutDeleteSupportEnumPtr) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput)
+}
+
 // The scope to be used for evaluation of parameters, variables and functions in a nested template.
 type ExpressionEvaluationOptionsScopeType string
 
@@ -1523,6 +1691,177 @@ const (
 	ScriptTypeAzureCLI        = ScriptType("AzureCLI")
 )
 
+// The validation level of the deployment stack
+type ValidationLevel string
+
+const (
+	// Static analysis of the template is performed.
+	ValidationLevelTemplate = ValidationLevel("Template")
+	// Static analysis of the template is performed and resource declarations are sent to resource providers for semantic validation. Validates that the caller has RBAC write permissions on each resource.
+	ValidationLevelProvider = ValidationLevel("Provider")
+	// Static analysis of the template is performed and resource declarations are sent to resource providers for semantic validation. Skips validating that the caller has RBAC write permissions on each resource.
+	ValidationLevelProviderNoRbac = ValidationLevel("ProviderNoRbac")
+)
+
+func (ValidationLevel) ElementType() reflect.Type {
+	return reflect.TypeOf((*ValidationLevel)(nil)).Elem()
+}
+
+func (e ValidationLevel) ToValidationLevelOutput() ValidationLevelOutput {
+	return pulumi.ToOutput(e).(ValidationLevelOutput)
+}
+
+func (e ValidationLevel) ToValidationLevelOutputWithContext(ctx context.Context) ValidationLevelOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ValidationLevelOutput)
+}
+
+func (e ValidationLevel) ToValidationLevelPtrOutput() ValidationLevelPtrOutput {
+	return e.ToValidationLevelPtrOutputWithContext(context.Background())
+}
+
+func (e ValidationLevel) ToValidationLevelPtrOutputWithContext(ctx context.Context) ValidationLevelPtrOutput {
+	return ValidationLevel(e).ToValidationLevelOutputWithContext(ctx).ToValidationLevelPtrOutputWithContext(ctx)
+}
+
+func (e ValidationLevel) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ValidationLevel) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ValidationLevel) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ValidationLevel) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ValidationLevelOutput struct{ *pulumi.OutputState }
+
+func (ValidationLevelOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ValidationLevel)(nil)).Elem()
+}
+
+func (o ValidationLevelOutput) ToValidationLevelOutput() ValidationLevelOutput {
+	return o
+}
+
+func (o ValidationLevelOutput) ToValidationLevelOutputWithContext(ctx context.Context) ValidationLevelOutput {
+	return o
+}
+
+func (o ValidationLevelOutput) ToValidationLevelPtrOutput() ValidationLevelPtrOutput {
+	return o.ToValidationLevelPtrOutputWithContext(context.Background())
+}
+
+func (o ValidationLevelOutput) ToValidationLevelPtrOutputWithContext(ctx context.Context) ValidationLevelPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ValidationLevel) *ValidationLevel {
+		return &v
+	}).(ValidationLevelPtrOutput)
+}
+
+func (o ValidationLevelOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ValidationLevelOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ValidationLevel) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ValidationLevelOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ValidationLevelOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ValidationLevel) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ValidationLevelPtrOutput struct{ *pulumi.OutputState }
+
+func (ValidationLevelPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ValidationLevel)(nil)).Elem()
+}
+
+func (o ValidationLevelPtrOutput) ToValidationLevelPtrOutput() ValidationLevelPtrOutput {
+	return o
+}
+
+func (o ValidationLevelPtrOutput) ToValidationLevelPtrOutputWithContext(ctx context.Context) ValidationLevelPtrOutput {
+	return o
+}
+
+func (o ValidationLevelPtrOutput) Elem() ValidationLevelOutput {
+	return o.ApplyT(func(v *ValidationLevel) ValidationLevel {
+		if v != nil {
+			return *v
+		}
+		var ret ValidationLevel
+		return ret
+	}).(ValidationLevelOutput)
+}
+
+func (o ValidationLevelPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ValidationLevelPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ValidationLevel) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ValidationLevelInput is an input type that accepts values of the ValidationLevel enum
+// A concrete instance of `ValidationLevelInput` can be one of the following:
+//
+//	ValidationLevelTemplate
+//	ValidationLevelProvider
+//	ValidationLevelProviderNoRbac
+type ValidationLevelInput interface {
+	pulumi.Input
+
+	ToValidationLevelOutput() ValidationLevelOutput
+	ToValidationLevelOutputWithContext(context.Context) ValidationLevelOutput
+}
+
+var validationLevelPtrType = reflect.TypeOf((**ValidationLevel)(nil)).Elem()
+
+type ValidationLevelPtrInput interface {
+	pulumi.Input
+
+	ToValidationLevelPtrOutput() ValidationLevelPtrOutput
+	ToValidationLevelPtrOutputWithContext(context.Context) ValidationLevelPtrOutput
+}
+
+type validationLevelPtr string
+
+func ValidationLevelPtr(v string) ValidationLevelPtrInput {
+	return (*validationLevelPtr)(&v)
+}
+
+func (*validationLevelPtr) ElementType() reflect.Type {
+	return validationLevelPtrType
+}
+
+func (in *validationLevelPtr) ToValidationLevelPtrOutput() ValidationLevelPtrOutput {
+	return pulumi.ToOutput(in).(ValidationLevelPtrOutput)
+}
+
+func (in *validationLevelPtr) ToValidationLevelPtrOutputWithContext(ctx context.Context) ValidationLevelPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ValidationLevelPtrOutput)
+}
+
 func init() {
 	pulumi.RegisterOutputType(CleanupOptionsOutput{})
 	pulumi.RegisterOutputType(CleanupOptionsPtrOutput{})
@@ -1532,6 +1871,8 @@ func init() {
 	pulumi.RegisterOutputType(DeploymentModePtrOutput{})
 	pulumi.RegisterOutputType(DeploymentStacksDeleteDetachEnumOutput{})
 	pulumi.RegisterOutputType(DeploymentStacksDeleteDetachEnumPtrOutput{})
+	pulumi.RegisterOutputType(DeploymentStacksResourcesWithoutDeleteSupportEnumOutput{})
+	pulumi.RegisterOutputType(DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput{})
 	pulumi.RegisterOutputType(ExpressionEvaluationOptionsScopeTypeOutput{})
 	pulumi.RegisterOutputType(ExpressionEvaluationOptionsScopeTypePtrOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationTypeOutput{})
@@ -1542,4 +1883,6 @@ func init() {
 	pulumi.RegisterOutputType(OnErrorDeploymentTypePtrOutput{})
 	pulumi.RegisterOutputType(ResourceIdentityTypeOutput{})
 	pulumi.RegisterOutputType(ResourceIdentityTypePtrOutput{})
+	pulumi.RegisterOutputType(ValidationLevelOutput{})
+	pulumi.RegisterOutputType(ValidationLevelPtrOutput{})
 }

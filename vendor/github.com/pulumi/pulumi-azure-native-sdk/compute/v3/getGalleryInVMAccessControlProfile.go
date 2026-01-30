@@ -14,6 +14,8 @@ import (
 // Retrieves information about a gallery inVMAccessControlProfile.
 //
 // Uses Azure REST API version 2024-03-03.
+//
+// Other available API versions: 2025-03-03. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupGalleryInVMAccessControlProfile(ctx *pulumi.Context, args *LookupGalleryInVMAccessControlProfileArgs, opts ...pulumi.InvokeOption) (*LookupGalleryInVMAccessControlProfileResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupGalleryInVMAccessControlProfileResult

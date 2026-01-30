@@ -14,6 +14,8 @@ import (
 // List all Radius servers with respective radius secrets from virtual network gateway VpnClientConfiguration.
 //
 // Uses Azure REST API version 2024-10-01.
+//
+// Other available API versions: 2025-01-01, 2025-03-01, 2025-05-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func ListVirtualNetworkGatewayRadiusSecrets(ctx *pulumi.Context, args *ListVirtualNetworkGatewayRadiusSecretsArgs, opts ...pulumi.InvokeOption) (*ListVirtualNetworkGatewayRadiusSecretsResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv ListVirtualNetworkGatewayRadiusSecretsResult

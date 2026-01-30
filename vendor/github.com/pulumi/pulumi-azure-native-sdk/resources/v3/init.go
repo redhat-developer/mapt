@@ -41,6 +41,12 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &DeploymentStackAtResourceGroup{}
 	case "azure-native:resources:DeploymentStackAtSubscription":
 		r = &DeploymentStackAtSubscription{}
+	case "azure-native:resources:DeploymentStacksWhatIfResultsAtManagementGroup":
+		r = &DeploymentStacksWhatIfResultsAtManagementGroup{}
+	case "azure-native:resources:DeploymentStacksWhatIfResultsAtResourceGroup":
+		r = &DeploymentStacksWhatIfResultsAtResourceGroup{}
+	case "azure-native:resources:DeploymentStacksWhatIfResultsAtSubscription":
+		r = &DeploymentStacksWhatIfResultsAtSubscription{}
 	case "azure-native:resources:Resource":
 		r = &Resource{}
 	case "azure-native:resources:ResourceGroup":

@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2025-06-02-preview.
 //
-// Other available API versions: 2025-07-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2025-07-02-preview, 2025-08-02-preview, 2025-09-02-preview, 2025-10-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type IdentityBinding struct {
 	pulumi.CustomResourceState
 
@@ -53,6 +53,15 @@ func NewIdentityBinding(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:containerservice/v20250702preview:IdentityBinding"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20250802preview:IdentityBinding"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20250902preview:IdentityBinding"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20251002preview:IdentityBinding"),
 		},
 	})
 	opts = append(opts, aliases)
