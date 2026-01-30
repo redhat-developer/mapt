@@ -12877,7 +12877,7 @@ type ExecutedValidationResponse struct {
 	// This property specifies the starting timestamp.
 	ExecutionTime *string `pulumi:"executionTime"`
 	// This property specifies the status of the validationProfile of the image version.
-	Status *string `pulumi:"status"`
+	Status string `pulumi:"status"`
 	// This property specifies the type of image version validation.
 	Type *string `pulumi:"type"`
 	// This property specifies the valid version of the validation.
@@ -12905,8 +12905,8 @@ func (o ExecutedValidationResponseOutput) ExecutionTime() pulumi.StringPtrOutput
 }
 
 // This property specifies the status of the validationProfile of the image version.
-func (o ExecutedValidationResponseOutput) Status() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ExecutedValidationResponse) *string { return v.Status }).(pulumi.StringPtrOutput)
+func (o ExecutedValidationResponseOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v ExecutedValidationResponse) string { return v.Status }).(pulumi.StringOutput)
 }
 
 // This property specifies the type of image version validation.
@@ -13766,7 +13766,7 @@ type GalleryApplicationVersionPublishingProfile struct {
 	Settings *UserArtifactSettings `pulumi:"settings"`
 	// The source image from which the Image Version is going to be created.
 	Source UserArtifactSource `pulumi:"source"`
-	// Specifies the storage account type to be used to store the image. This property is not updatable.
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 	StorageAccountType *string `pulumi:"storageAccountType"`
 	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
 	TargetExtendedLocations []GalleryTargetExtendedLocation `pulumi:"targetExtendedLocations"`
@@ -13806,7 +13806,7 @@ type GalleryApplicationVersionPublishingProfileArgs struct {
 	Settings UserArtifactSettingsPtrInput `pulumi:"settings"`
 	// The source image from which the Image Version is going to be created.
 	Source UserArtifactSourceInput `pulumi:"source"`
-	// Specifies the storage account type to be used to store the image. This property is not updatable.
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 	StorageAccountType pulumi.StringPtrInput `pulumi:"storageAccountType"`
 	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
 	TargetExtendedLocations GalleryTargetExtendedLocationArrayInput `pulumi:"targetExtendedLocations"`
@@ -13892,7 +13892,7 @@ func (o GalleryApplicationVersionPublishingProfileOutput) Source() UserArtifactS
 	return o.ApplyT(func(v GalleryApplicationVersionPublishingProfile) UserArtifactSource { return v.Source }).(UserArtifactSourceOutput)
 }
 
-// Specifies the storage account type to be used to store the image. This property is not updatable.
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 func (o GalleryApplicationVersionPublishingProfileOutput) StorageAccountType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GalleryApplicationVersionPublishingProfile) *string { return v.StorageAccountType }).(pulumi.StringPtrOutput)
 }
@@ -13932,7 +13932,7 @@ type GalleryApplicationVersionPublishingProfileResponse struct {
 	Settings *UserArtifactSettingsResponse `pulumi:"settings"`
 	// The source image from which the Image Version is going to be created.
 	Source UserArtifactSourceResponse `pulumi:"source"`
-	// Specifies the storage account type to be used to store the image. This property is not updatable.
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 	StorageAccountType *string `pulumi:"storageAccountType"`
 	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
 	TargetExtendedLocations []GalleryTargetExtendedLocationResponse `pulumi:"targetExtendedLocations"`
@@ -14017,7 +14017,7 @@ func (o GalleryApplicationVersionPublishingProfileResponseOutput) Source() UserA
 	return o.ApplyT(func(v GalleryApplicationVersionPublishingProfileResponse) UserArtifactSourceResponse { return v.Source }).(UserArtifactSourceResponseOutput)
 }
 
-// Specifies the storage account type to be used to store the image. This property is not updatable.
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 func (o GalleryApplicationVersionPublishingProfileResponseOutput) StorageAccountType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GalleryApplicationVersionPublishingProfileResponse) *string { return v.StorageAccountType }).(pulumi.StringPtrOutput)
 }
@@ -15829,7 +15829,7 @@ type GalleryImageVersionPublishingProfile struct {
 	ReplicaCount *int `pulumi:"replicaCount"`
 	// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
 	ReplicationMode *string `pulumi:"replicationMode"`
-	// Specifies the storage account type to be used to store the image. This property is not updatable.
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 	StorageAccountType *string `pulumi:"storageAccountType"`
 	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
 	TargetExtendedLocations []GalleryTargetExtendedLocation `pulumi:"targetExtendedLocations"`
@@ -15858,7 +15858,7 @@ type GalleryImageVersionPublishingProfileArgs struct {
 	ReplicaCount pulumi.IntPtrInput `pulumi:"replicaCount"`
 	// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
 	ReplicationMode pulumi.StringPtrInput `pulumi:"replicationMode"`
-	// Specifies the storage account type to be used to store the image. This property is not updatable.
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 	StorageAccountType pulumi.StringPtrInput `pulumi:"storageAccountType"`
 	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
 	TargetExtendedLocations GalleryTargetExtendedLocationArrayInput `pulumi:"targetExtendedLocations"`
@@ -15964,7 +15964,7 @@ func (o GalleryImageVersionPublishingProfileOutput) ReplicationMode() pulumi.Str
 	return o.ApplyT(func(v GalleryImageVersionPublishingProfile) *string { return v.ReplicationMode }).(pulumi.StringPtrOutput)
 }
 
-// Specifies the storage account type to be used to store the image. This property is not updatable.
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 func (o GalleryImageVersionPublishingProfileOutput) StorageAccountType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GalleryImageVersionPublishingProfile) *string { return v.StorageAccountType }).(pulumi.StringPtrOutput)
 }
@@ -16045,7 +16045,7 @@ func (o GalleryImageVersionPublishingProfilePtrOutput) ReplicationMode() pulumi.
 	}).(pulumi.StringPtrOutput)
 }
 
-// Specifies the storage account type to be used to store the image. This property is not updatable.
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 func (o GalleryImageVersionPublishingProfilePtrOutput) StorageAccountType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *GalleryImageVersionPublishingProfile) *string {
 		if v == nil {
@@ -16087,7 +16087,7 @@ type GalleryImageVersionPublishingProfileResponse struct {
 	ReplicaCount *int `pulumi:"replicaCount"`
 	// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
 	ReplicationMode *string `pulumi:"replicationMode"`
-	// Specifies the storage account type to be used to store the image. This property is not updatable.
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 	StorageAccountType *string `pulumi:"storageAccountType"`
 	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
 	TargetExtendedLocations []GalleryTargetExtendedLocationResponse `pulumi:"targetExtendedLocations"`
@@ -16135,7 +16135,7 @@ func (o GalleryImageVersionPublishingProfileResponseOutput) ReplicationMode() pu
 	return o.ApplyT(func(v GalleryImageVersionPublishingProfileResponse) *string { return v.ReplicationMode }).(pulumi.StringPtrOutput)
 }
 
-// Specifies the storage account type to be used to store the image. This property is not updatable.
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 func (o GalleryImageVersionPublishingProfileResponseOutput) StorageAccountType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GalleryImageVersionPublishingProfileResponse) *string { return v.StorageAccountType }).(pulumi.StringPtrOutput)
 }
@@ -16226,7 +16226,7 @@ func (o GalleryImageVersionPublishingProfileResponsePtrOutput) ReplicationMode()
 	}).(pulumi.StringPtrOutput)
 }
 
-// Specifies the storage account type to be used to store the image. This property is not updatable.
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
 func (o GalleryImageVersionPublishingProfileResponsePtrOutput) StorageAccountType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *GalleryImageVersionPublishingProfileResponse) *string {
 		if v == nil {
@@ -17357,6 +17357,1364 @@ func (o GalleryOSDiskImageResponsePtrOutput) Source() GalleryDiskImageSourceResp
 		}
 		return v.Source
 	}).(GalleryDiskImageSourceResponsePtrOutput)
+}
+
+// The definition of a parameter that can be passed to a script of a Gallery Script Version.
+type GalleryScriptParameter struct {
+	// The default value of the parameter, only applies to string types.
+	DefaultValue *string `pulumi:"defaultValue"`
+	// A description to help users understand what this parameter means
+	Description *string `pulumi:"description"`
+	// A list of permissible values. Only applicable values are from 'enum' values defined in 'GalleryScriptParameter'.
+	EnumValues []string `pulumi:"enumValues"`
+	// The minimum value of parameter.
+	MaxValue *string `pulumi:"maxValue"`
+	// The minimum value of parameter.
+	MinValue *string `pulumi:"minValue"`
+	// The name of the parameter.
+	Name string `pulumi:"name"`
+	// Indicates whether this parameter must be passed.
+	Required *bool `pulumi:"required"`
+	// Specifies the type of the Gallery Script parameter. Possible values are: String, Int, Double, Boolean, Enum
+	Type *string `pulumi:"type"`
+}
+
+// GalleryScriptParameterInput is an input type that accepts GalleryScriptParameterArgs and GalleryScriptParameterOutput values.
+// You can construct a concrete instance of `GalleryScriptParameterInput` via:
+//
+//	GalleryScriptParameterArgs{...}
+type GalleryScriptParameterInput interface {
+	pulumi.Input
+
+	ToGalleryScriptParameterOutput() GalleryScriptParameterOutput
+	ToGalleryScriptParameterOutputWithContext(context.Context) GalleryScriptParameterOutput
+}
+
+// The definition of a parameter that can be passed to a script of a Gallery Script Version.
+type GalleryScriptParameterArgs struct {
+	// The default value of the parameter, only applies to string types.
+	DefaultValue pulumi.StringPtrInput `pulumi:"defaultValue"`
+	// A description to help users understand what this parameter means
+	Description pulumi.StringPtrInput `pulumi:"description"`
+	// A list of permissible values. Only applicable values are from 'enum' values defined in 'GalleryScriptParameter'.
+	EnumValues pulumi.StringArrayInput `pulumi:"enumValues"`
+	// The minimum value of parameter.
+	MaxValue pulumi.StringPtrInput `pulumi:"maxValue"`
+	// The minimum value of parameter.
+	MinValue pulumi.StringPtrInput `pulumi:"minValue"`
+	// The name of the parameter.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Indicates whether this parameter must be passed.
+	Required pulumi.BoolPtrInput `pulumi:"required"`
+	// Specifies the type of the Gallery Script parameter. Possible values are: String, Int, Double, Boolean, Enum
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (GalleryScriptParameterArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptParameter)(nil)).Elem()
+}
+
+func (i GalleryScriptParameterArgs) ToGalleryScriptParameterOutput() GalleryScriptParameterOutput {
+	return i.ToGalleryScriptParameterOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptParameterArgs) ToGalleryScriptParameterOutputWithContext(ctx context.Context) GalleryScriptParameterOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptParameterOutput)
+}
+
+// GalleryScriptParameterArrayInput is an input type that accepts GalleryScriptParameterArray and GalleryScriptParameterArrayOutput values.
+// You can construct a concrete instance of `GalleryScriptParameterArrayInput` via:
+//
+//	GalleryScriptParameterArray{ GalleryScriptParameterArgs{...} }
+type GalleryScriptParameterArrayInput interface {
+	pulumi.Input
+
+	ToGalleryScriptParameterArrayOutput() GalleryScriptParameterArrayOutput
+	ToGalleryScriptParameterArrayOutputWithContext(context.Context) GalleryScriptParameterArrayOutput
+}
+
+type GalleryScriptParameterArray []GalleryScriptParameterInput
+
+func (GalleryScriptParameterArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GalleryScriptParameter)(nil)).Elem()
+}
+
+func (i GalleryScriptParameterArray) ToGalleryScriptParameterArrayOutput() GalleryScriptParameterArrayOutput {
+	return i.ToGalleryScriptParameterArrayOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptParameterArray) ToGalleryScriptParameterArrayOutputWithContext(ctx context.Context) GalleryScriptParameterArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptParameterArrayOutput)
+}
+
+// The definition of a parameter that can be passed to a script of a Gallery Script Version.
+type GalleryScriptParameterOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptParameterOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptParameter)(nil)).Elem()
+}
+
+func (o GalleryScriptParameterOutput) ToGalleryScriptParameterOutput() GalleryScriptParameterOutput {
+	return o
+}
+
+func (o GalleryScriptParameterOutput) ToGalleryScriptParameterOutputWithContext(ctx context.Context) GalleryScriptParameterOutput {
+	return o
+}
+
+// The default value of the parameter, only applies to string types.
+func (o GalleryScriptParameterOutput) DefaultValue() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameter) *string { return v.DefaultValue }).(pulumi.StringPtrOutput)
+}
+
+// A description to help users understand what this parameter means
+func (o GalleryScriptParameterOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameter) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// A list of permissible values. Only applicable values are from 'enum' values defined in 'GalleryScriptParameter'.
+func (o GalleryScriptParameterOutput) EnumValues() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GalleryScriptParameter) []string { return v.EnumValues }).(pulumi.StringArrayOutput)
+}
+
+// The minimum value of parameter.
+func (o GalleryScriptParameterOutput) MaxValue() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameter) *string { return v.MaxValue }).(pulumi.StringPtrOutput)
+}
+
+// The minimum value of parameter.
+func (o GalleryScriptParameterOutput) MinValue() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameter) *string { return v.MinValue }).(pulumi.StringPtrOutput)
+}
+
+// The name of the parameter.
+func (o GalleryScriptParameterOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryScriptParameter) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Indicates whether this parameter must be passed.
+func (o GalleryScriptParameterOutput) Required() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameter) *bool { return v.Required }).(pulumi.BoolPtrOutput)
+}
+
+// Specifies the type of the Gallery Script parameter. Possible values are: String, Int, Double, Boolean, Enum
+func (o GalleryScriptParameterOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameter) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type GalleryScriptParameterArrayOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptParameterArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GalleryScriptParameter)(nil)).Elem()
+}
+
+func (o GalleryScriptParameterArrayOutput) ToGalleryScriptParameterArrayOutput() GalleryScriptParameterArrayOutput {
+	return o
+}
+
+func (o GalleryScriptParameterArrayOutput) ToGalleryScriptParameterArrayOutputWithContext(ctx context.Context) GalleryScriptParameterArrayOutput {
+	return o
+}
+
+func (o GalleryScriptParameterArrayOutput) Index(i pulumi.IntInput) GalleryScriptParameterOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GalleryScriptParameter {
+		return vs[0].([]GalleryScriptParameter)[vs[1].(int)]
+	}).(GalleryScriptParameterOutput)
+}
+
+// The definition of a parameter that can be passed to a script of a Gallery Script Version.
+type GalleryScriptParameterResponse struct {
+	// The default value of the parameter, only applies to string types.
+	DefaultValue *string `pulumi:"defaultValue"`
+	// A description to help users understand what this parameter means
+	Description *string `pulumi:"description"`
+	// A list of permissible values. Only applicable values are from 'enum' values defined in 'GalleryScriptParameter'.
+	EnumValues []string `pulumi:"enumValues"`
+	// The minimum value of parameter.
+	MaxValue *string `pulumi:"maxValue"`
+	// The minimum value of parameter.
+	MinValue *string `pulumi:"minValue"`
+	// The name of the parameter.
+	Name string `pulumi:"name"`
+	// Indicates whether this parameter must be passed.
+	Required *bool `pulumi:"required"`
+	// Specifies the type of the Gallery Script parameter. Possible values are: String, Int, Double, Boolean, Enum
+	Type *string `pulumi:"type"`
+}
+
+// The definition of a parameter that can be passed to a script of a Gallery Script Version.
+type GalleryScriptParameterResponseOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptParameterResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptParameterResponse)(nil)).Elem()
+}
+
+func (o GalleryScriptParameterResponseOutput) ToGalleryScriptParameterResponseOutput() GalleryScriptParameterResponseOutput {
+	return o
+}
+
+func (o GalleryScriptParameterResponseOutput) ToGalleryScriptParameterResponseOutputWithContext(ctx context.Context) GalleryScriptParameterResponseOutput {
+	return o
+}
+
+// The default value of the parameter, only applies to string types.
+func (o GalleryScriptParameterResponseOutput) DefaultValue() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameterResponse) *string { return v.DefaultValue }).(pulumi.StringPtrOutput)
+}
+
+// A description to help users understand what this parameter means
+func (o GalleryScriptParameterResponseOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameterResponse) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// A list of permissible values. Only applicable values are from 'enum' values defined in 'GalleryScriptParameter'.
+func (o GalleryScriptParameterResponseOutput) EnumValues() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GalleryScriptParameterResponse) []string { return v.EnumValues }).(pulumi.StringArrayOutput)
+}
+
+// The minimum value of parameter.
+func (o GalleryScriptParameterResponseOutput) MaxValue() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameterResponse) *string { return v.MaxValue }).(pulumi.StringPtrOutput)
+}
+
+// The minimum value of parameter.
+func (o GalleryScriptParameterResponseOutput) MinValue() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameterResponse) *string { return v.MinValue }).(pulumi.StringPtrOutput)
+}
+
+// The name of the parameter.
+func (o GalleryScriptParameterResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryScriptParameterResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Indicates whether this parameter must be passed.
+func (o GalleryScriptParameterResponseOutput) Required() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameterResponse) *bool { return v.Required }).(pulumi.BoolPtrOutput)
+}
+
+// Specifies the type of the Gallery Script parameter. Possible values are: String, Int, Double, Boolean, Enum
+func (o GalleryScriptParameterResponseOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptParameterResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type GalleryScriptParameterResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptParameterResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GalleryScriptParameterResponse)(nil)).Elem()
+}
+
+func (o GalleryScriptParameterResponseArrayOutput) ToGalleryScriptParameterResponseArrayOutput() GalleryScriptParameterResponseArrayOutput {
+	return o
+}
+
+func (o GalleryScriptParameterResponseArrayOutput) ToGalleryScriptParameterResponseArrayOutputWithContext(ctx context.Context) GalleryScriptParameterResponseArrayOutput {
+	return o
+}
+
+func (o GalleryScriptParameterResponseArrayOutput) Index(i pulumi.IntInput) GalleryScriptParameterResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GalleryScriptParameterResponse {
+		return vs[0].([]GalleryScriptParameterResponse)[vs[1].(int)]
+	}).(GalleryScriptParameterResponseOutput)
+}
+
+// Describes the properties of a gallery script definition.
+type GalleryScriptProperties struct {
+	// The description of this gallery script definition resource. This property is updatable.
+	Description *string `pulumi:"description"`
+	// The end of life date of the gallery Script Definition. This property can be used for decommissioning purposes. This property is updatable.
+	EndOfLifeDate *string `pulumi:"endOfLifeDate"`
+	// The Eula agreement (End User License Agreement) for the gallery Script Definition.
+	Eula *string `pulumi:"eula"`
+	// The privacy statement uri.
+	PrivacyStatementUri *string `pulumi:"privacyStatementUri"`
+	// The release note uri.
+	ReleaseNoteUri *string `pulumi:"releaseNoteUri"`
+	// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
+	SupportedOSType OperatingSystemTypes `pulumi:"supportedOSType"`
+}
+
+// GalleryScriptPropertiesInput is an input type that accepts GalleryScriptPropertiesArgs and GalleryScriptPropertiesOutput values.
+// You can construct a concrete instance of `GalleryScriptPropertiesInput` via:
+//
+//	GalleryScriptPropertiesArgs{...}
+type GalleryScriptPropertiesInput interface {
+	pulumi.Input
+
+	ToGalleryScriptPropertiesOutput() GalleryScriptPropertiesOutput
+	ToGalleryScriptPropertiesOutputWithContext(context.Context) GalleryScriptPropertiesOutput
+}
+
+// Describes the properties of a gallery script definition.
+type GalleryScriptPropertiesArgs struct {
+	// The description of this gallery script definition resource. This property is updatable.
+	Description pulumi.StringPtrInput `pulumi:"description"`
+	// The end of life date of the gallery Script Definition. This property can be used for decommissioning purposes. This property is updatable.
+	EndOfLifeDate pulumi.StringPtrInput `pulumi:"endOfLifeDate"`
+	// The Eula agreement (End User License Agreement) for the gallery Script Definition.
+	Eula pulumi.StringPtrInput `pulumi:"eula"`
+	// The privacy statement uri.
+	PrivacyStatementUri pulumi.StringPtrInput `pulumi:"privacyStatementUri"`
+	// The release note uri.
+	ReleaseNoteUri pulumi.StringPtrInput `pulumi:"releaseNoteUri"`
+	// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
+	SupportedOSType OperatingSystemTypesInput `pulumi:"supportedOSType"`
+}
+
+func (GalleryScriptPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptProperties)(nil)).Elem()
+}
+
+func (i GalleryScriptPropertiesArgs) ToGalleryScriptPropertiesOutput() GalleryScriptPropertiesOutput {
+	return i.ToGalleryScriptPropertiesOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptPropertiesArgs) ToGalleryScriptPropertiesOutputWithContext(ctx context.Context) GalleryScriptPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptPropertiesOutput)
+}
+
+func (i GalleryScriptPropertiesArgs) ToGalleryScriptPropertiesPtrOutput() GalleryScriptPropertiesPtrOutput {
+	return i.ToGalleryScriptPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptPropertiesArgs) ToGalleryScriptPropertiesPtrOutputWithContext(ctx context.Context) GalleryScriptPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptPropertiesOutput).ToGalleryScriptPropertiesPtrOutputWithContext(ctx)
+}
+
+// GalleryScriptPropertiesPtrInput is an input type that accepts GalleryScriptPropertiesArgs, GalleryScriptPropertiesPtr and GalleryScriptPropertiesPtrOutput values.
+// You can construct a concrete instance of `GalleryScriptPropertiesPtrInput` via:
+//
+//	        GalleryScriptPropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type GalleryScriptPropertiesPtrInput interface {
+	pulumi.Input
+
+	ToGalleryScriptPropertiesPtrOutput() GalleryScriptPropertiesPtrOutput
+	ToGalleryScriptPropertiesPtrOutputWithContext(context.Context) GalleryScriptPropertiesPtrOutput
+}
+
+type galleryScriptPropertiesPtrType GalleryScriptPropertiesArgs
+
+func GalleryScriptPropertiesPtr(v *GalleryScriptPropertiesArgs) GalleryScriptPropertiesPtrInput {
+	return (*galleryScriptPropertiesPtrType)(v)
+}
+
+func (*galleryScriptPropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptProperties)(nil)).Elem()
+}
+
+func (i *galleryScriptPropertiesPtrType) ToGalleryScriptPropertiesPtrOutput() GalleryScriptPropertiesPtrOutput {
+	return i.ToGalleryScriptPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *galleryScriptPropertiesPtrType) ToGalleryScriptPropertiesPtrOutputWithContext(ctx context.Context) GalleryScriptPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptPropertiesPtrOutput)
+}
+
+// Describes the properties of a gallery script definition.
+type GalleryScriptPropertiesOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptProperties)(nil)).Elem()
+}
+
+func (o GalleryScriptPropertiesOutput) ToGalleryScriptPropertiesOutput() GalleryScriptPropertiesOutput {
+	return o
+}
+
+func (o GalleryScriptPropertiesOutput) ToGalleryScriptPropertiesOutputWithContext(ctx context.Context) GalleryScriptPropertiesOutput {
+	return o
+}
+
+func (o GalleryScriptPropertiesOutput) ToGalleryScriptPropertiesPtrOutput() GalleryScriptPropertiesPtrOutput {
+	return o.ToGalleryScriptPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o GalleryScriptPropertiesOutput) ToGalleryScriptPropertiesPtrOutputWithContext(ctx context.Context) GalleryScriptPropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GalleryScriptProperties) *GalleryScriptProperties {
+		return &v
+	}).(GalleryScriptPropertiesPtrOutput)
+}
+
+// The description of this gallery script definition resource. This property is updatable.
+func (o GalleryScriptPropertiesOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptProperties) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// The end of life date of the gallery Script Definition. This property can be used for decommissioning purposes. This property is updatable.
+func (o GalleryScriptPropertiesOutput) EndOfLifeDate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptProperties) *string { return v.EndOfLifeDate }).(pulumi.StringPtrOutput)
+}
+
+// The Eula agreement (End User License Agreement) for the gallery Script Definition.
+func (o GalleryScriptPropertiesOutput) Eula() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptProperties) *string { return v.Eula }).(pulumi.StringPtrOutput)
+}
+
+// The privacy statement uri.
+func (o GalleryScriptPropertiesOutput) PrivacyStatementUri() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptProperties) *string { return v.PrivacyStatementUri }).(pulumi.StringPtrOutput)
+}
+
+// The release note uri.
+func (o GalleryScriptPropertiesOutput) ReleaseNoteUri() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptProperties) *string { return v.ReleaseNoteUri }).(pulumi.StringPtrOutput)
+}
+
+// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
+func (o GalleryScriptPropertiesOutput) SupportedOSType() OperatingSystemTypesOutput {
+	return o.ApplyT(func(v GalleryScriptProperties) OperatingSystemTypes { return v.SupportedOSType }).(OperatingSystemTypesOutput)
+}
+
+type GalleryScriptPropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptPropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptProperties)(nil)).Elem()
+}
+
+func (o GalleryScriptPropertiesPtrOutput) ToGalleryScriptPropertiesPtrOutput() GalleryScriptPropertiesPtrOutput {
+	return o
+}
+
+func (o GalleryScriptPropertiesPtrOutput) ToGalleryScriptPropertiesPtrOutputWithContext(ctx context.Context) GalleryScriptPropertiesPtrOutput {
+	return o
+}
+
+func (o GalleryScriptPropertiesPtrOutput) Elem() GalleryScriptPropertiesOutput {
+	return o.ApplyT(func(v *GalleryScriptProperties) GalleryScriptProperties {
+		if v != nil {
+			return *v
+		}
+		var ret GalleryScriptProperties
+		return ret
+	}).(GalleryScriptPropertiesOutput)
+}
+
+// The description of this gallery script definition resource. This property is updatable.
+func (o GalleryScriptPropertiesPtrOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Description
+	}).(pulumi.StringPtrOutput)
+}
+
+// The end of life date of the gallery Script Definition. This property can be used for decommissioning purposes. This property is updatable.
+func (o GalleryScriptPropertiesPtrOutput) EndOfLifeDate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return v.EndOfLifeDate
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Eula agreement (End User License Agreement) for the gallery Script Definition.
+func (o GalleryScriptPropertiesPtrOutput) Eula() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Eula
+	}).(pulumi.StringPtrOutput)
+}
+
+// The privacy statement uri.
+func (o GalleryScriptPropertiesPtrOutput) PrivacyStatementUri() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivacyStatementUri
+	}).(pulumi.StringPtrOutput)
+}
+
+// The release note uri.
+func (o GalleryScriptPropertiesPtrOutput) ReleaseNoteUri() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ReleaseNoteUri
+	}).(pulumi.StringPtrOutput)
+}
+
+// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
+func (o GalleryScriptPropertiesPtrOutput) SupportedOSType() OperatingSystemTypesPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptProperties) *OperatingSystemTypes {
+		if v == nil {
+			return nil
+		}
+		return &v.SupportedOSType
+	}).(OperatingSystemTypesPtrOutput)
+}
+
+// Describes the properties of a gallery script definition.
+type GalleryScriptPropertiesResponse struct {
+	// The description of this gallery script definition resource. This property is updatable.
+	Description *string `pulumi:"description"`
+	// The end of life date of the gallery Script Definition. This property can be used for decommissioning purposes. This property is updatable.
+	EndOfLifeDate *string `pulumi:"endOfLifeDate"`
+	// The Eula agreement (End User License Agreement) for the gallery Script Definition.
+	Eula *string `pulumi:"eula"`
+	// The privacy statement uri.
+	PrivacyStatementUri *string `pulumi:"privacyStatementUri"`
+	// The provisioning state, which only appears in the response.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// The release note uri.
+	ReleaseNoteUri *string `pulumi:"releaseNoteUri"`
+	// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
+	SupportedOSType string `pulumi:"supportedOSType"`
+}
+
+// Describes the properties of a gallery script definition.
+type GalleryScriptPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptPropertiesResponse)(nil)).Elem()
+}
+
+func (o GalleryScriptPropertiesResponseOutput) ToGalleryScriptPropertiesResponseOutput() GalleryScriptPropertiesResponseOutput {
+	return o
+}
+
+func (o GalleryScriptPropertiesResponseOutput) ToGalleryScriptPropertiesResponseOutputWithContext(ctx context.Context) GalleryScriptPropertiesResponseOutput {
+	return o
+}
+
+// The description of this gallery script definition resource. This property is updatable.
+func (o GalleryScriptPropertiesResponseOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptPropertiesResponse) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// The end of life date of the gallery Script Definition. This property can be used for decommissioning purposes. This property is updatable.
+func (o GalleryScriptPropertiesResponseOutput) EndOfLifeDate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptPropertiesResponse) *string { return v.EndOfLifeDate }).(pulumi.StringPtrOutput)
+}
+
+// The Eula agreement (End User License Agreement) for the gallery Script Definition.
+func (o GalleryScriptPropertiesResponseOutput) Eula() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptPropertiesResponse) *string { return v.Eula }).(pulumi.StringPtrOutput)
+}
+
+// The privacy statement uri.
+func (o GalleryScriptPropertiesResponseOutput) PrivacyStatementUri() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptPropertiesResponse) *string { return v.PrivacyStatementUri }).(pulumi.StringPtrOutput)
+}
+
+// The provisioning state, which only appears in the response.
+func (o GalleryScriptPropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryScriptPropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// The release note uri.
+func (o GalleryScriptPropertiesResponseOutput) ReleaseNoteUri() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptPropertiesResponse) *string { return v.ReleaseNoteUri }).(pulumi.StringPtrOutput)
+}
+
+// This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.**
+func (o GalleryScriptPropertiesResponseOutput) SupportedOSType() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryScriptPropertiesResponse) string { return v.SupportedOSType }).(pulumi.StringOutput)
+}
+
+// Describes the properties of a gallery script version.
+type GalleryScriptVersionProperties struct {
+	// The publishing profile of a gallery image version.
+	PublishingProfile GalleryScriptVersionPublishingProfile `pulumi:"publishingProfile"`
+	// The safety profile of the Gallery Script Version.
+	SafetyProfile *GalleryScriptVersionSafetyProfile `pulumi:"safetyProfile"`
+}
+
+// GalleryScriptVersionPropertiesInput is an input type that accepts GalleryScriptVersionPropertiesArgs and GalleryScriptVersionPropertiesOutput values.
+// You can construct a concrete instance of `GalleryScriptVersionPropertiesInput` via:
+//
+//	GalleryScriptVersionPropertiesArgs{...}
+type GalleryScriptVersionPropertiesInput interface {
+	pulumi.Input
+
+	ToGalleryScriptVersionPropertiesOutput() GalleryScriptVersionPropertiesOutput
+	ToGalleryScriptVersionPropertiesOutputWithContext(context.Context) GalleryScriptVersionPropertiesOutput
+}
+
+// Describes the properties of a gallery script version.
+type GalleryScriptVersionPropertiesArgs struct {
+	// The publishing profile of a gallery image version.
+	PublishingProfile GalleryScriptVersionPublishingProfileInput `pulumi:"publishingProfile"`
+	// The safety profile of the Gallery Script Version.
+	SafetyProfile GalleryScriptVersionSafetyProfilePtrInput `pulumi:"safetyProfile"`
+}
+
+func (GalleryScriptVersionPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionProperties)(nil)).Elem()
+}
+
+func (i GalleryScriptVersionPropertiesArgs) ToGalleryScriptVersionPropertiesOutput() GalleryScriptVersionPropertiesOutput {
+	return i.ToGalleryScriptVersionPropertiesOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptVersionPropertiesArgs) ToGalleryScriptVersionPropertiesOutputWithContext(ctx context.Context) GalleryScriptVersionPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionPropertiesOutput)
+}
+
+func (i GalleryScriptVersionPropertiesArgs) ToGalleryScriptVersionPropertiesPtrOutput() GalleryScriptVersionPropertiesPtrOutput {
+	return i.ToGalleryScriptVersionPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptVersionPropertiesArgs) ToGalleryScriptVersionPropertiesPtrOutputWithContext(ctx context.Context) GalleryScriptVersionPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionPropertiesOutput).ToGalleryScriptVersionPropertiesPtrOutputWithContext(ctx)
+}
+
+// GalleryScriptVersionPropertiesPtrInput is an input type that accepts GalleryScriptVersionPropertiesArgs, GalleryScriptVersionPropertiesPtr and GalleryScriptVersionPropertiesPtrOutput values.
+// You can construct a concrete instance of `GalleryScriptVersionPropertiesPtrInput` via:
+//
+//	        GalleryScriptVersionPropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type GalleryScriptVersionPropertiesPtrInput interface {
+	pulumi.Input
+
+	ToGalleryScriptVersionPropertiesPtrOutput() GalleryScriptVersionPropertiesPtrOutput
+	ToGalleryScriptVersionPropertiesPtrOutputWithContext(context.Context) GalleryScriptVersionPropertiesPtrOutput
+}
+
+type galleryScriptVersionPropertiesPtrType GalleryScriptVersionPropertiesArgs
+
+func GalleryScriptVersionPropertiesPtr(v *GalleryScriptVersionPropertiesArgs) GalleryScriptVersionPropertiesPtrInput {
+	return (*galleryScriptVersionPropertiesPtrType)(v)
+}
+
+func (*galleryScriptVersionPropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptVersionProperties)(nil)).Elem()
+}
+
+func (i *galleryScriptVersionPropertiesPtrType) ToGalleryScriptVersionPropertiesPtrOutput() GalleryScriptVersionPropertiesPtrOutput {
+	return i.ToGalleryScriptVersionPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *galleryScriptVersionPropertiesPtrType) ToGalleryScriptVersionPropertiesPtrOutputWithContext(ctx context.Context) GalleryScriptVersionPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionPropertiesPtrOutput)
+}
+
+// Describes the properties of a gallery script version.
+type GalleryScriptVersionPropertiesOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionProperties)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionPropertiesOutput) ToGalleryScriptVersionPropertiesOutput() GalleryScriptVersionPropertiesOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPropertiesOutput) ToGalleryScriptVersionPropertiesOutputWithContext(ctx context.Context) GalleryScriptVersionPropertiesOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPropertiesOutput) ToGalleryScriptVersionPropertiesPtrOutput() GalleryScriptVersionPropertiesPtrOutput {
+	return o.ToGalleryScriptVersionPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o GalleryScriptVersionPropertiesOutput) ToGalleryScriptVersionPropertiesPtrOutputWithContext(ctx context.Context) GalleryScriptVersionPropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GalleryScriptVersionProperties) *GalleryScriptVersionProperties {
+		return &v
+	}).(GalleryScriptVersionPropertiesPtrOutput)
+}
+
+// The publishing profile of a gallery image version.
+func (o GalleryScriptVersionPropertiesOutput) PublishingProfile() GalleryScriptVersionPublishingProfileOutput {
+	return o.ApplyT(func(v GalleryScriptVersionProperties) GalleryScriptVersionPublishingProfile {
+		return v.PublishingProfile
+	}).(GalleryScriptVersionPublishingProfileOutput)
+}
+
+// The safety profile of the Gallery Script Version.
+func (o GalleryScriptVersionPropertiesOutput) SafetyProfile() GalleryScriptVersionSafetyProfilePtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionProperties) *GalleryScriptVersionSafetyProfile { return v.SafetyProfile }).(GalleryScriptVersionSafetyProfilePtrOutput)
+}
+
+type GalleryScriptVersionPropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionPropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptVersionProperties)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionPropertiesPtrOutput) ToGalleryScriptVersionPropertiesPtrOutput() GalleryScriptVersionPropertiesPtrOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPropertiesPtrOutput) ToGalleryScriptVersionPropertiesPtrOutputWithContext(ctx context.Context) GalleryScriptVersionPropertiesPtrOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPropertiesPtrOutput) Elem() GalleryScriptVersionPropertiesOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionProperties) GalleryScriptVersionProperties {
+		if v != nil {
+			return *v
+		}
+		var ret GalleryScriptVersionProperties
+		return ret
+	}).(GalleryScriptVersionPropertiesOutput)
+}
+
+// The publishing profile of a gallery image version.
+func (o GalleryScriptVersionPropertiesPtrOutput) PublishingProfile() GalleryScriptVersionPublishingProfilePtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionProperties) *GalleryScriptVersionPublishingProfile {
+		if v == nil {
+			return nil
+		}
+		return &v.PublishingProfile
+	}).(GalleryScriptVersionPublishingProfilePtrOutput)
+}
+
+// The safety profile of the Gallery Script Version.
+func (o GalleryScriptVersionPropertiesPtrOutput) SafetyProfile() GalleryScriptVersionSafetyProfilePtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionProperties) *GalleryScriptVersionSafetyProfile {
+		if v == nil {
+			return nil
+		}
+		return v.SafetyProfile
+	}).(GalleryScriptVersionSafetyProfilePtrOutput)
+}
+
+// Describes the properties of a gallery script version.
+type GalleryScriptVersionPropertiesResponse struct {
+	// The provisioning state, which only appears in the response.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// The publishing profile of a gallery image version.
+	PublishingProfile GalleryScriptVersionPublishingProfileResponse `pulumi:"publishingProfile"`
+	// This is the replication status of the gallery image version.
+	ReplicationStatus ReplicationStatusResponse `pulumi:"replicationStatus"`
+	// The safety profile of the Gallery Script Version.
+	SafetyProfile *GalleryScriptVersionSafetyProfileResponse `pulumi:"safetyProfile"`
+}
+
+// Describes the properties of a gallery script version.
+type GalleryScriptVersionPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionPropertiesResponse)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionPropertiesResponseOutput) ToGalleryScriptVersionPropertiesResponseOutput() GalleryScriptVersionPropertiesResponseOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPropertiesResponseOutput) ToGalleryScriptVersionPropertiesResponseOutputWithContext(ctx context.Context) GalleryScriptVersionPropertiesResponseOutput {
+	return o
+}
+
+// The provisioning state, which only appears in the response.
+func (o GalleryScriptVersionPropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// The publishing profile of a gallery image version.
+func (o GalleryScriptVersionPropertiesResponseOutput) PublishingProfile() GalleryScriptVersionPublishingProfileResponseOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPropertiesResponse) GalleryScriptVersionPublishingProfileResponse {
+		return v.PublishingProfile
+	}).(GalleryScriptVersionPublishingProfileResponseOutput)
+}
+
+// This is the replication status of the gallery image version.
+func (o GalleryScriptVersionPropertiesResponseOutput) ReplicationStatus() ReplicationStatusResponseOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPropertiesResponse) ReplicationStatusResponse { return v.ReplicationStatus }).(ReplicationStatusResponseOutput)
+}
+
+// The safety profile of the Gallery Script Version.
+func (o GalleryScriptVersionPropertiesResponseOutput) SafetyProfile() GalleryScriptVersionSafetyProfileResponsePtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPropertiesResponse) *GalleryScriptVersionSafetyProfileResponse {
+		return v.SafetyProfile
+	}).(GalleryScriptVersionSafetyProfileResponsePtrOutput)
+}
+
+// The publishing profile of a gallery image version.
+type GalleryScriptVersionPublishingProfile struct {
+	// The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable.
+	EndOfLifeDate *string `pulumi:"endOfLifeDate"`
+	// If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
+	ExcludeFromLatest *bool `pulumi:"excludeFromLatest"`
+	// The number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
+	ReplicaCount *int `pulumi:"replicaCount"`
+	// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
+	ReplicationMode *string `pulumi:"replicationMode"`
+	// The source script from which the Script Version is going to be created.
+	Source ScriptSource `pulumi:"source"`
+	// Specifies the strategy to be used when selecting the storage account type. Cannot be specified along with storageAccountType, but can be overridden per region by specifying targetRegions[].storageAccountType. This property is not updatable.
+	StorageAccountStrategy *string `pulumi:"storageAccountStrategy"`
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
+	StorageAccountType *string `pulumi:"storageAccountType"`
+	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
+	TargetExtendedLocations []GalleryTargetExtendedLocation `pulumi:"targetExtendedLocations"`
+	// The target regions where the Image Version is going to be replicated to. This property is updatable.
+	TargetRegions []TargetRegion `pulumi:"targetRegions"`
+}
+
+// GalleryScriptVersionPublishingProfileInput is an input type that accepts GalleryScriptVersionPublishingProfileArgs and GalleryScriptVersionPublishingProfileOutput values.
+// You can construct a concrete instance of `GalleryScriptVersionPublishingProfileInput` via:
+//
+//	GalleryScriptVersionPublishingProfileArgs{...}
+type GalleryScriptVersionPublishingProfileInput interface {
+	pulumi.Input
+
+	ToGalleryScriptVersionPublishingProfileOutput() GalleryScriptVersionPublishingProfileOutput
+	ToGalleryScriptVersionPublishingProfileOutputWithContext(context.Context) GalleryScriptVersionPublishingProfileOutput
+}
+
+// The publishing profile of a gallery image version.
+type GalleryScriptVersionPublishingProfileArgs struct {
+	// The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable.
+	EndOfLifeDate pulumi.StringPtrInput `pulumi:"endOfLifeDate"`
+	// If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
+	ExcludeFromLatest pulumi.BoolPtrInput `pulumi:"excludeFromLatest"`
+	// The number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
+	ReplicaCount pulumi.IntPtrInput `pulumi:"replicaCount"`
+	// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
+	ReplicationMode pulumi.StringPtrInput `pulumi:"replicationMode"`
+	// The source script from which the Script Version is going to be created.
+	Source ScriptSourceInput `pulumi:"source"`
+	// Specifies the strategy to be used when selecting the storage account type. Cannot be specified along with storageAccountType, but can be overridden per region by specifying targetRegions[].storageAccountType. This property is not updatable.
+	StorageAccountStrategy pulumi.StringPtrInput `pulumi:"storageAccountStrategy"`
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
+	StorageAccountType pulumi.StringPtrInput `pulumi:"storageAccountType"`
+	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
+	TargetExtendedLocations GalleryTargetExtendedLocationArrayInput `pulumi:"targetExtendedLocations"`
+	// The target regions where the Image Version is going to be replicated to. This property is updatable.
+	TargetRegions TargetRegionArrayInput `pulumi:"targetRegions"`
+}
+
+func (GalleryScriptVersionPublishingProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionPublishingProfile)(nil)).Elem()
+}
+
+func (i GalleryScriptVersionPublishingProfileArgs) ToGalleryScriptVersionPublishingProfileOutput() GalleryScriptVersionPublishingProfileOutput {
+	return i.ToGalleryScriptVersionPublishingProfileOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptVersionPublishingProfileArgs) ToGalleryScriptVersionPublishingProfileOutputWithContext(ctx context.Context) GalleryScriptVersionPublishingProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionPublishingProfileOutput)
+}
+
+func (i GalleryScriptVersionPublishingProfileArgs) ToGalleryScriptVersionPublishingProfilePtrOutput() GalleryScriptVersionPublishingProfilePtrOutput {
+	return i.ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptVersionPublishingProfileArgs) ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(ctx context.Context) GalleryScriptVersionPublishingProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionPublishingProfileOutput).ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(ctx)
+}
+
+// GalleryScriptVersionPublishingProfilePtrInput is an input type that accepts GalleryScriptVersionPublishingProfileArgs, GalleryScriptVersionPublishingProfilePtr and GalleryScriptVersionPublishingProfilePtrOutput values.
+// You can construct a concrete instance of `GalleryScriptVersionPublishingProfilePtrInput` via:
+//
+//	        GalleryScriptVersionPublishingProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type GalleryScriptVersionPublishingProfilePtrInput interface {
+	pulumi.Input
+
+	ToGalleryScriptVersionPublishingProfilePtrOutput() GalleryScriptVersionPublishingProfilePtrOutput
+	ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(context.Context) GalleryScriptVersionPublishingProfilePtrOutput
+}
+
+type galleryScriptVersionPublishingProfilePtrType GalleryScriptVersionPublishingProfileArgs
+
+func GalleryScriptVersionPublishingProfilePtr(v *GalleryScriptVersionPublishingProfileArgs) GalleryScriptVersionPublishingProfilePtrInput {
+	return (*galleryScriptVersionPublishingProfilePtrType)(v)
+}
+
+func (*galleryScriptVersionPublishingProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptVersionPublishingProfile)(nil)).Elem()
+}
+
+func (i *galleryScriptVersionPublishingProfilePtrType) ToGalleryScriptVersionPublishingProfilePtrOutput() GalleryScriptVersionPublishingProfilePtrOutput {
+	return i.ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *galleryScriptVersionPublishingProfilePtrType) ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(ctx context.Context) GalleryScriptVersionPublishingProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionPublishingProfilePtrOutput)
+}
+
+// The publishing profile of a gallery image version.
+type GalleryScriptVersionPublishingProfileOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionPublishingProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionPublishingProfile)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionPublishingProfileOutput) ToGalleryScriptVersionPublishingProfileOutput() GalleryScriptVersionPublishingProfileOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPublishingProfileOutput) ToGalleryScriptVersionPublishingProfileOutputWithContext(ctx context.Context) GalleryScriptVersionPublishingProfileOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPublishingProfileOutput) ToGalleryScriptVersionPublishingProfilePtrOutput() GalleryScriptVersionPublishingProfilePtrOutput {
+	return o.ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(context.Background())
+}
+
+func (o GalleryScriptVersionPublishingProfileOutput) ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(ctx context.Context) GalleryScriptVersionPublishingProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GalleryScriptVersionPublishingProfile) *GalleryScriptVersionPublishingProfile {
+		return &v
+	}).(GalleryScriptVersionPublishingProfilePtrOutput)
+}
+
+// The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable.
+func (o GalleryScriptVersionPublishingProfileOutput) EndOfLifeDate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) *string { return v.EndOfLifeDate }).(pulumi.StringPtrOutput)
+}
+
+// If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
+func (o GalleryScriptVersionPublishingProfileOutput) ExcludeFromLatest() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) *bool { return v.ExcludeFromLatest }).(pulumi.BoolPtrOutput)
+}
+
+// The number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
+func (o GalleryScriptVersionPublishingProfileOutput) ReplicaCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) *int { return v.ReplicaCount }).(pulumi.IntPtrOutput)
+}
+
+// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfileOutput) ReplicationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) *string { return v.ReplicationMode }).(pulumi.StringPtrOutput)
+}
+
+// The source script from which the Script Version is going to be created.
+func (o GalleryScriptVersionPublishingProfileOutput) Source() ScriptSourceOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) ScriptSource { return v.Source }).(ScriptSourceOutput)
+}
+
+// Specifies the strategy to be used when selecting the storage account type. Cannot be specified along with storageAccountType, but can be overridden per region by specifying targetRegions[].storageAccountType. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfileOutput) StorageAccountStrategy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) *string { return v.StorageAccountStrategy }).(pulumi.StringPtrOutput)
+}
+
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfileOutput) StorageAccountType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) *string { return v.StorageAccountType }).(pulumi.StringPtrOutput)
+}
+
+// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
+func (o GalleryScriptVersionPublishingProfileOutput) TargetExtendedLocations() GalleryTargetExtendedLocationArrayOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) []GalleryTargetExtendedLocation {
+		return v.TargetExtendedLocations
+	}).(GalleryTargetExtendedLocationArrayOutput)
+}
+
+// The target regions where the Image Version is going to be replicated to. This property is updatable.
+func (o GalleryScriptVersionPublishingProfileOutput) TargetRegions() TargetRegionArrayOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfile) []TargetRegion { return v.TargetRegions }).(TargetRegionArrayOutput)
+}
+
+type GalleryScriptVersionPublishingProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionPublishingProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptVersionPublishingProfile)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionPublishingProfilePtrOutput) ToGalleryScriptVersionPublishingProfilePtrOutput() GalleryScriptVersionPublishingProfilePtrOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPublishingProfilePtrOutput) ToGalleryScriptVersionPublishingProfilePtrOutputWithContext(ctx context.Context) GalleryScriptVersionPublishingProfilePtrOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPublishingProfilePtrOutput) Elem() GalleryScriptVersionPublishingProfileOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) GalleryScriptVersionPublishingProfile {
+		if v != nil {
+			return *v
+		}
+		var ret GalleryScriptVersionPublishingProfile
+		return ret
+	}).(GalleryScriptVersionPublishingProfileOutput)
+}
+
+// The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) EndOfLifeDate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.EndOfLifeDate
+	}).(pulumi.StringPtrOutput)
+}
+
+// If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) ExcludeFromLatest() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.ExcludeFromLatest
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) ReplicaCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) *int {
+		if v == nil {
+			return nil
+		}
+		return v.ReplicaCount
+	}).(pulumi.IntPtrOutput)
+}
+
+// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) ReplicationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ReplicationMode
+	}).(pulumi.StringPtrOutput)
+}
+
+// The source script from which the Script Version is going to be created.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) Source() ScriptSourcePtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) *ScriptSource {
+		if v == nil {
+			return nil
+		}
+		return &v.Source
+	}).(ScriptSourcePtrOutput)
+}
+
+// Specifies the strategy to be used when selecting the storage account type. Cannot be specified along with storageAccountType, but can be overridden per region by specifying targetRegions[].storageAccountType. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) StorageAccountStrategy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.StorageAccountStrategy
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) StorageAccountType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.StorageAccountType
+	}).(pulumi.StringPtrOutput)
+}
+
+// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) TargetExtendedLocations() GalleryTargetExtendedLocationArrayOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) []GalleryTargetExtendedLocation {
+		if v == nil {
+			return nil
+		}
+		return v.TargetExtendedLocations
+	}).(GalleryTargetExtendedLocationArrayOutput)
+}
+
+// The target regions where the Image Version is going to be replicated to. This property is updatable.
+func (o GalleryScriptVersionPublishingProfilePtrOutput) TargetRegions() TargetRegionArrayOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionPublishingProfile) []TargetRegion {
+		if v == nil {
+			return nil
+		}
+		return v.TargetRegions
+	}).(TargetRegionArrayOutput)
+}
+
+// The publishing profile of a gallery image version.
+type GalleryScriptVersionPublishingProfileResponse struct {
+	// The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable.
+	EndOfLifeDate *string `pulumi:"endOfLifeDate"`
+	// If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
+	ExcludeFromLatest *bool `pulumi:"excludeFromLatest"`
+	// The timestamp for when the gallery image version is published.
+	PublishedDate string `pulumi:"publishedDate"`
+	// The number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
+	ReplicaCount *int `pulumi:"replicaCount"`
+	// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
+	ReplicationMode *string `pulumi:"replicationMode"`
+	// The source script from which the Script Version is going to be created.
+	Source ScriptSourceResponse `pulumi:"source"`
+	// Specifies the strategy to be used when selecting the storage account type. Cannot be specified along with storageAccountType, but can be overridden per region by specifying targetRegions[].storageAccountType. This property is not updatable.
+	StorageAccountStrategy *string `pulumi:"storageAccountStrategy"`
+	// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
+	StorageAccountType *string `pulumi:"storageAccountType"`
+	// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
+	TargetExtendedLocations []GalleryTargetExtendedLocationResponse `pulumi:"targetExtendedLocations"`
+	// The target regions where the Image Version is going to be replicated to. This property is updatable.
+	TargetRegions []TargetRegionResponse `pulumi:"targetRegions"`
+}
+
+// The publishing profile of a gallery image version.
+type GalleryScriptVersionPublishingProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionPublishingProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionPublishingProfileResponse)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionPublishingProfileResponseOutput) ToGalleryScriptVersionPublishingProfileResponseOutput() GalleryScriptVersionPublishingProfileResponseOutput {
+	return o
+}
+
+func (o GalleryScriptVersionPublishingProfileResponseOutput) ToGalleryScriptVersionPublishingProfileResponseOutputWithContext(ctx context.Context) GalleryScriptVersionPublishingProfileResponseOutput {
+	return o
+}
+
+// The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) EndOfLifeDate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) *string { return v.EndOfLifeDate }).(pulumi.StringPtrOutput)
+}
+
+// If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) ExcludeFromLatest() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) *bool { return v.ExcludeFromLatest }).(pulumi.BoolPtrOutput)
+}
+
+// The timestamp for when the gallery image version is published.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) PublishedDate() pulumi.StringOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) string { return v.PublishedDate }).(pulumi.StringOutput)
+}
+
+// The number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) ReplicaCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) *int { return v.ReplicaCount }).(pulumi.IntPtrOutput)
+}
+
+// Optional parameter which specifies the mode to be used for replication. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) ReplicationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) *string { return v.ReplicationMode }).(pulumi.StringPtrOutput)
+}
+
+// The source script from which the Script Version is going to be created.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) Source() ScriptSourceResponseOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) ScriptSourceResponse { return v.Source }).(ScriptSourceResponseOutput)
+}
+
+// Specifies the strategy to be used when selecting the storage account type. Cannot be specified along with storageAccountType, but can be overridden per region by specifying targetRegions[].storageAccountType. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) StorageAccountStrategy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) *string { return v.StorageAccountStrategy }).(pulumi.StringPtrOutput)
+}
+
+// Specifies the storage account type to be used to store the image. Cannot be specified along with storageAccountStrategy. This property is not updatable.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) StorageAccountType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) *string { return v.StorageAccountType }).(pulumi.StringPtrOutput)
+}
+
+// The target extended locations where the Image Version is going to be replicated to. This property is updatable.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) TargetExtendedLocations() GalleryTargetExtendedLocationResponseArrayOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) []GalleryTargetExtendedLocationResponse {
+		return v.TargetExtendedLocations
+	}).(GalleryTargetExtendedLocationResponseArrayOutput)
+}
+
+// The target regions where the Image Version is going to be replicated to. This property is updatable.
+func (o GalleryScriptVersionPublishingProfileResponseOutput) TargetRegions() TargetRegionResponseArrayOutput {
+	return o.ApplyT(func(v GalleryScriptVersionPublishingProfileResponse) []TargetRegionResponse { return v.TargetRegions }).(TargetRegionResponseArrayOutput)
+}
+
+// The safety profile of the Gallery Script Version.
+type GalleryScriptVersionSafetyProfile struct {
+	// Indicates whether or not removing this Gallery Image Version from replicated regions is allowed.
+	AllowDeletionOfReplicatedLocations *bool `pulumi:"allowDeletionOfReplicatedLocations"`
+}
+
+// GalleryScriptVersionSafetyProfileInput is an input type that accepts GalleryScriptVersionSafetyProfileArgs and GalleryScriptVersionSafetyProfileOutput values.
+// You can construct a concrete instance of `GalleryScriptVersionSafetyProfileInput` via:
+//
+//	GalleryScriptVersionSafetyProfileArgs{...}
+type GalleryScriptVersionSafetyProfileInput interface {
+	pulumi.Input
+
+	ToGalleryScriptVersionSafetyProfileOutput() GalleryScriptVersionSafetyProfileOutput
+	ToGalleryScriptVersionSafetyProfileOutputWithContext(context.Context) GalleryScriptVersionSafetyProfileOutput
+}
+
+// The safety profile of the Gallery Script Version.
+type GalleryScriptVersionSafetyProfileArgs struct {
+	// Indicates whether or not removing this Gallery Image Version from replicated regions is allowed.
+	AllowDeletionOfReplicatedLocations pulumi.BoolPtrInput `pulumi:"allowDeletionOfReplicatedLocations"`
+}
+
+func (GalleryScriptVersionSafetyProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionSafetyProfile)(nil)).Elem()
+}
+
+func (i GalleryScriptVersionSafetyProfileArgs) ToGalleryScriptVersionSafetyProfileOutput() GalleryScriptVersionSafetyProfileOutput {
+	return i.ToGalleryScriptVersionSafetyProfileOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptVersionSafetyProfileArgs) ToGalleryScriptVersionSafetyProfileOutputWithContext(ctx context.Context) GalleryScriptVersionSafetyProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionSafetyProfileOutput)
+}
+
+func (i GalleryScriptVersionSafetyProfileArgs) ToGalleryScriptVersionSafetyProfilePtrOutput() GalleryScriptVersionSafetyProfilePtrOutput {
+	return i.ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(context.Background())
+}
+
+func (i GalleryScriptVersionSafetyProfileArgs) ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(ctx context.Context) GalleryScriptVersionSafetyProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionSafetyProfileOutput).ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(ctx)
+}
+
+// GalleryScriptVersionSafetyProfilePtrInput is an input type that accepts GalleryScriptVersionSafetyProfileArgs, GalleryScriptVersionSafetyProfilePtr and GalleryScriptVersionSafetyProfilePtrOutput values.
+// You can construct a concrete instance of `GalleryScriptVersionSafetyProfilePtrInput` via:
+//
+//	        GalleryScriptVersionSafetyProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type GalleryScriptVersionSafetyProfilePtrInput interface {
+	pulumi.Input
+
+	ToGalleryScriptVersionSafetyProfilePtrOutput() GalleryScriptVersionSafetyProfilePtrOutput
+	ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(context.Context) GalleryScriptVersionSafetyProfilePtrOutput
+}
+
+type galleryScriptVersionSafetyProfilePtrType GalleryScriptVersionSafetyProfileArgs
+
+func GalleryScriptVersionSafetyProfilePtr(v *GalleryScriptVersionSafetyProfileArgs) GalleryScriptVersionSafetyProfilePtrInput {
+	return (*galleryScriptVersionSafetyProfilePtrType)(v)
+}
+
+func (*galleryScriptVersionSafetyProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptVersionSafetyProfile)(nil)).Elem()
+}
+
+func (i *galleryScriptVersionSafetyProfilePtrType) ToGalleryScriptVersionSafetyProfilePtrOutput() GalleryScriptVersionSafetyProfilePtrOutput {
+	return i.ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *galleryScriptVersionSafetyProfilePtrType) ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(ctx context.Context) GalleryScriptVersionSafetyProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GalleryScriptVersionSafetyProfilePtrOutput)
+}
+
+// The safety profile of the Gallery Script Version.
+type GalleryScriptVersionSafetyProfileOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionSafetyProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionSafetyProfile)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionSafetyProfileOutput) ToGalleryScriptVersionSafetyProfileOutput() GalleryScriptVersionSafetyProfileOutput {
+	return o
+}
+
+func (o GalleryScriptVersionSafetyProfileOutput) ToGalleryScriptVersionSafetyProfileOutputWithContext(ctx context.Context) GalleryScriptVersionSafetyProfileOutput {
+	return o
+}
+
+func (o GalleryScriptVersionSafetyProfileOutput) ToGalleryScriptVersionSafetyProfilePtrOutput() GalleryScriptVersionSafetyProfilePtrOutput {
+	return o.ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(context.Background())
+}
+
+func (o GalleryScriptVersionSafetyProfileOutput) ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(ctx context.Context) GalleryScriptVersionSafetyProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GalleryScriptVersionSafetyProfile) *GalleryScriptVersionSafetyProfile {
+		return &v
+	}).(GalleryScriptVersionSafetyProfilePtrOutput)
+}
+
+// Indicates whether or not removing this Gallery Image Version from replicated regions is allowed.
+func (o GalleryScriptVersionSafetyProfileOutput) AllowDeletionOfReplicatedLocations() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionSafetyProfile) *bool { return v.AllowDeletionOfReplicatedLocations }).(pulumi.BoolPtrOutput)
+}
+
+type GalleryScriptVersionSafetyProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionSafetyProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptVersionSafetyProfile)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionSafetyProfilePtrOutput) ToGalleryScriptVersionSafetyProfilePtrOutput() GalleryScriptVersionSafetyProfilePtrOutput {
+	return o
+}
+
+func (o GalleryScriptVersionSafetyProfilePtrOutput) ToGalleryScriptVersionSafetyProfilePtrOutputWithContext(ctx context.Context) GalleryScriptVersionSafetyProfilePtrOutput {
+	return o
+}
+
+func (o GalleryScriptVersionSafetyProfilePtrOutput) Elem() GalleryScriptVersionSafetyProfileOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionSafetyProfile) GalleryScriptVersionSafetyProfile {
+		if v != nil {
+			return *v
+		}
+		var ret GalleryScriptVersionSafetyProfile
+		return ret
+	}).(GalleryScriptVersionSafetyProfileOutput)
+}
+
+// Indicates whether or not removing this Gallery Image Version from replicated regions is allowed.
+func (o GalleryScriptVersionSafetyProfilePtrOutput) AllowDeletionOfReplicatedLocations() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionSafetyProfile) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AllowDeletionOfReplicatedLocations
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The safety profile of the Gallery Script Version.
+type GalleryScriptVersionSafetyProfileResponse struct {
+	// Indicates whether or not removing this Gallery Image Version from replicated regions is allowed.
+	AllowDeletionOfReplicatedLocations *bool `pulumi:"allowDeletionOfReplicatedLocations"`
+}
+
+// The safety profile of the Gallery Script Version.
+type GalleryScriptVersionSafetyProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionSafetyProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptVersionSafetyProfileResponse)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionSafetyProfileResponseOutput) ToGalleryScriptVersionSafetyProfileResponseOutput() GalleryScriptVersionSafetyProfileResponseOutput {
+	return o
+}
+
+func (o GalleryScriptVersionSafetyProfileResponseOutput) ToGalleryScriptVersionSafetyProfileResponseOutputWithContext(ctx context.Context) GalleryScriptVersionSafetyProfileResponseOutput {
+	return o
+}
+
+// Indicates whether or not removing this Gallery Image Version from replicated regions is allowed.
+func (o GalleryScriptVersionSafetyProfileResponseOutput) AllowDeletionOfReplicatedLocations() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v GalleryScriptVersionSafetyProfileResponse) *bool { return v.AllowDeletionOfReplicatedLocations }).(pulumi.BoolPtrOutput)
+}
+
+type GalleryScriptVersionSafetyProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptVersionSafetyProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptVersionSafetyProfileResponse)(nil)).Elem()
+}
+
+func (o GalleryScriptVersionSafetyProfileResponsePtrOutput) ToGalleryScriptVersionSafetyProfileResponsePtrOutput() GalleryScriptVersionSafetyProfileResponsePtrOutput {
+	return o
+}
+
+func (o GalleryScriptVersionSafetyProfileResponsePtrOutput) ToGalleryScriptVersionSafetyProfileResponsePtrOutputWithContext(ctx context.Context) GalleryScriptVersionSafetyProfileResponsePtrOutput {
+	return o
+}
+
+func (o GalleryScriptVersionSafetyProfileResponsePtrOutput) Elem() GalleryScriptVersionSafetyProfileResponseOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionSafetyProfileResponse) GalleryScriptVersionSafetyProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret GalleryScriptVersionSafetyProfileResponse
+		return ret
+	}).(GalleryScriptVersionSafetyProfileResponseOutput)
+}
+
+// Indicates whether or not removing this Gallery Image Version from replicated regions is allowed.
+func (o GalleryScriptVersionSafetyProfileResponsePtrOutput) AllowDeletionOfReplicatedLocations() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *GalleryScriptVersionSafetyProfileResponse) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AllowDeletionOfReplicatedLocations
+	}).(pulumi.BoolPtrOutput)
 }
 
 type GalleryTargetExtendedLocation struct {
@@ -33691,6 +35049,198 @@ func (o ScheduledEventsProfileResponsePtrOutput) TerminateNotificationProfile() 
 		}
 		return v.TerminateNotificationProfile
 	}).(TerminateNotificationProfileResponsePtrOutput)
+}
+
+// The source script from which the Script Version is going to be created.
+type ScriptSource struct {
+	// Optional. Any input parameters that needs to passed to the script and are accessed within the script for its execution.
+	Parameters []GalleryScriptParameter `pulumi:"parameters"`
+	// Required. The link of the source script, it must be a readable storage blob with SAS URI or publicly accessible URI or managed identity enabled.
+	ScriptLink string `pulumi:"scriptLink"`
+}
+
+// ScriptSourceInput is an input type that accepts ScriptSourceArgs and ScriptSourceOutput values.
+// You can construct a concrete instance of `ScriptSourceInput` via:
+//
+//	ScriptSourceArgs{...}
+type ScriptSourceInput interface {
+	pulumi.Input
+
+	ToScriptSourceOutput() ScriptSourceOutput
+	ToScriptSourceOutputWithContext(context.Context) ScriptSourceOutput
+}
+
+// The source script from which the Script Version is going to be created.
+type ScriptSourceArgs struct {
+	// Optional. Any input parameters that needs to passed to the script and are accessed within the script for its execution.
+	Parameters GalleryScriptParameterArrayInput `pulumi:"parameters"`
+	// Required. The link of the source script, it must be a readable storage blob with SAS URI or publicly accessible URI or managed identity enabled.
+	ScriptLink pulumi.StringInput `pulumi:"scriptLink"`
+}
+
+func (ScriptSourceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ScriptSource)(nil)).Elem()
+}
+
+func (i ScriptSourceArgs) ToScriptSourceOutput() ScriptSourceOutput {
+	return i.ToScriptSourceOutputWithContext(context.Background())
+}
+
+func (i ScriptSourceArgs) ToScriptSourceOutputWithContext(ctx context.Context) ScriptSourceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ScriptSourceOutput)
+}
+
+func (i ScriptSourceArgs) ToScriptSourcePtrOutput() ScriptSourcePtrOutput {
+	return i.ToScriptSourcePtrOutputWithContext(context.Background())
+}
+
+func (i ScriptSourceArgs) ToScriptSourcePtrOutputWithContext(ctx context.Context) ScriptSourcePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ScriptSourceOutput).ToScriptSourcePtrOutputWithContext(ctx)
+}
+
+// ScriptSourcePtrInput is an input type that accepts ScriptSourceArgs, ScriptSourcePtr and ScriptSourcePtrOutput values.
+// You can construct a concrete instance of `ScriptSourcePtrInput` via:
+//
+//	        ScriptSourceArgs{...}
+//
+//	or:
+//
+//	        nil
+type ScriptSourcePtrInput interface {
+	pulumi.Input
+
+	ToScriptSourcePtrOutput() ScriptSourcePtrOutput
+	ToScriptSourcePtrOutputWithContext(context.Context) ScriptSourcePtrOutput
+}
+
+type scriptSourcePtrType ScriptSourceArgs
+
+func ScriptSourcePtr(v *ScriptSourceArgs) ScriptSourcePtrInput {
+	return (*scriptSourcePtrType)(v)
+}
+
+func (*scriptSourcePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ScriptSource)(nil)).Elem()
+}
+
+func (i *scriptSourcePtrType) ToScriptSourcePtrOutput() ScriptSourcePtrOutput {
+	return i.ToScriptSourcePtrOutputWithContext(context.Background())
+}
+
+func (i *scriptSourcePtrType) ToScriptSourcePtrOutputWithContext(ctx context.Context) ScriptSourcePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ScriptSourcePtrOutput)
+}
+
+// The source script from which the Script Version is going to be created.
+type ScriptSourceOutput struct{ *pulumi.OutputState }
+
+func (ScriptSourceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ScriptSource)(nil)).Elem()
+}
+
+func (o ScriptSourceOutput) ToScriptSourceOutput() ScriptSourceOutput {
+	return o
+}
+
+func (o ScriptSourceOutput) ToScriptSourceOutputWithContext(ctx context.Context) ScriptSourceOutput {
+	return o
+}
+
+func (o ScriptSourceOutput) ToScriptSourcePtrOutput() ScriptSourcePtrOutput {
+	return o.ToScriptSourcePtrOutputWithContext(context.Background())
+}
+
+func (o ScriptSourceOutput) ToScriptSourcePtrOutputWithContext(ctx context.Context) ScriptSourcePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ScriptSource) *ScriptSource {
+		return &v
+	}).(ScriptSourcePtrOutput)
+}
+
+// Optional. Any input parameters that needs to passed to the script and are accessed within the script for its execution.
+func (o ScriptSourceOutput) Parameters() GalleryScriptParameterArrayOutput {
+	return o.ApplyT(func(v ScriptSource) []GalleryScriptParameter { return v.Parameters }).(GalleryScriptParameterArrayOutput)
+}
+
+// Required. The link of the source script, it must be a readable storage blob with SAS URI or publicly accessible URI or managed identity enabled.
+func (o ScriptSourceOutput) ScriptLink() pulumi.StringOutput {
+	return o.ApplyT(func(v ScriptSource) string { return v.ScriptLink }).(pulumi.StringOutput)
+}
+
+type ScriptSourcePtrOutput struct{ *pulumi.OutputState }
+
+func (ScriptSourcePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ScriptSource)(nil)).Elem()
+}
+
+func (o ScriptSourcePtrOutput) ToScriptSourcePtrOutput() ScriptSourcePtrOutput {
+	return o
+}
+
+func (o ScriptSourcePtrOutput) ToScriptSourcePtrOutputWithContext(ctx context.Context) ScriptSourcePtrOutput {
+	return o
+}
+
+func (o ScriptSourcePtrOutput) Elem() ScriptSourceOutput {
+	return o.ApplyT(func(v *ScriptSource) ScriptSource {
+		if v != nil {
+			return *v
+		}
+		var ret ScriptSource
+		return ret
+	}).(ScriptSourceOutput)
+}
+
+// Optional. Any input parameters that needs to passed to the script and are accessed within the script for its execution.
+func (o ScriptSourcePtrOutput) Parameters() GalleryScriptParameterArrayOutput {
+	return o.ApplyT(func(v *ScriptSource) []GalleryScriptParameter {
+		if v == nil {
+			return nil
+		}
+		return v.Parameters
+	}).(GalleryScriptParameterArrayOutput)
+}
+
+// Required. The link of the source script, it must be a readable storage blob with SAS URI or publicly accessible URI or managed identity enabled.
+func (o ScriptSourcePtrOutput) ScriptLink() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ScriptSource) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ScriptLink
+	}).(pulumi.StringPtrOutput)
+}
+
+// The source script from which the Script Version is going to be created.
+type ScriptSourceResponse struct {
+	// Optional. Any input parameters that needs to passed to the script and are accessed within the script for its execution.
+	Parameters []GalleryScriptParameterResponse `pulumi:"parameters"`
+	// Required. The link of the source script, it must be a readable storage blob with SAS URI or publicly accessible URI or managed identity enabled.
+	ScriptLink string `pulumi:"scriptLink"`
+}
+
+// The source script from which the Script Version is going to be created.
+type ScriptSourceResponseOutput struct{ *pulumi.OutputState }
+
+func (ScriptSourceResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ScriptSourceResponse)(nil)).Elem()
+}
+
+func (o ScriptSourceResponseOutput) ToScriptSourceResponseOutput() ScriptSourceResponseOutput {
+	return o
+}
+
+func (o ScriptSourceResponseOutput) ToScriptSourceResponseOutputWithContext(ctx context.Context) ScriptSourceResponseOutput {
+	return o
+}
+
+// Optional. Any input parameters that needs to passed to the script and are accessed within the script for its execution.
+func (o ScriptSourceResponseOutput) Parameters() GalleryScriptParameterResponseArrayOutput {
+	return o.ApplyT(func(v ScriptSourceResponse) []GalleryScriptParameterResponse { return v.Parameters }).(GalleryScriptParameterResponseArrayOutput)
+}
+
+// Required. The link of the source script, it must be a readable storage blob with SAS URI or publicly accessible URI or managed identity enabled.
+func (o ScriptSourceResponseOutput) ScriptLink() pulumi.StringOutput {
+	return o.ApplyT(func(v ScriptSourceResponse) string { return v.ScriptLink }).(pulumi.StringOutput)
 }
 
 // Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01
@@ -50166,7 +51716,7 @@ type VirtualMachineScaleSetVMInstanceViewResponse struct {
 	AssignedHost string `pulumi:"assignedHost"`
 	// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. You can easily view the output of your console log. Azure also enables you to see a screenshot of the VM from the hypervisor.
 	BootDiagnostics *BootDiagnosticsInstanceViewResponse `pulumi:"bootDiagnostics"`
-	// Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
+	// Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://learn.microsoft.com/previous-versions/azure/virtual-machines/linux/infrastructure-example?toc=%2Fazure%2Fvirtual-machines%2Flinux%2Ftoc.json#1-naming-conventions).
 	ComputerName *string `pulumi:"computerName"`
 	// The disks information.
 	Disks []DiskInstanceViewResponse `pulumi:"disks"`
@@ -50223,7 +51773,7 @@ func (o VirtualMachineScaleSetVMInstanceViewResponseOutput) BootDiagnostics() Bo
 	}).(BootDiagnosticsInstanceViewResponsePtrOutput)
 }
 
-// Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
+// Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://learn.microsoft.com/previous-versions/azure/virtual-machines/linux/infrastructure-example?toc=%2Fazure%2Fvirtual-machines%2Flinux%2Ftoc.json#1-naming-conventions).
 func (o VirtualMachineScaleSetVMInstanceViewResponseOutput) ComputerName() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v VirtualMachineScaleSetVMInstanceViewResponse) *string { return v.ComputerName }).(pulumi.StringPtrOutput)
 }
@@ -52860,6 +54410,23 @@ func init() {
 	pulumi.RegisterOutputType(GalleryOSDiskImagePtrOutput{})
 	pulumi.RegisterOutputType(GalleryOSDiskImageResponseOutput{})
 	pulumi.RegisterOutputType(GalleryOSDiskImageResponsePtrOutput{})
+	pulumi.RegisterOutputType(GalleryScriptParameterOutput{})
+	pulumi.RegisterOutputType(GalleryScriptParameterArrayOutput{})
+	pulumi.RegisterOutputType(GalleryScriptParameterResponseOutput{})
+	pulumi.RegisterOutputType(GalleryScriptParameterResponseArrayOutput{})
+	pulumi.RegisterOutputType(GalleryScriptPropertiesOutput{})
+	pulumi.RegisterOutputType(GalleryScriptPropertiesPtrOutput{})
+	pulumi.RegisterOutputType(GalleryScriptPropertiesResponseOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionPropertiesOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionPropertiesPtrOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionPropertiesResponseOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionPublishingProfileOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionPublishingProfilePtrOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionPublishingProfileResponseOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionSafetyProfileOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionSafetyProfilePtrOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionSafetyProfileResponseOutput{})
+	pulumi.RegisterOutputType(GalleryScriptVersionSafetyProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(GalleryTargetExtendedLocationOutput{})
 	pulumi.RegisterOutputType(GalleryTargetExtendedLocationArrayOutput{})
 	pulumi.RegisterOutputType(GalleryTargetExtendedLocationResponseOutput{})
@@ -53112,6 +54679,9 @@ func init() {
 	pulumi.RegisterOutputType(ScheduledEventsProfilePtrOutput{})
 	pulumi.RegisterOutputType(ScheduledEventsProfileResponseOutput{})
 	pulumi.RegisterOutputType(ScheduledEventsProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(ScriptSourceOutput{})
+	pulumi.RegisterOutputType(ScriptSourcePtrOutput{})
+	pulumi.RegisterOutputType(ScriptSourceResponseOutput{})
 	pulumi.RegisterOutputType(SecurityPostureReferenceOutput{})
 	pulumi.RegisterOutputType(SecurityPostureReferencePtrOutput{})
 	pulumi.RegisterOutputType(SecurityPostureReferenceResponseOutput{})

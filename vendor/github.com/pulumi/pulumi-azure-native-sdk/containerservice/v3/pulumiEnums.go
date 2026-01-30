@@ -3723,6 +3723,180 @@ func (in *kubernetesSupportPlanPtr) ToKubernetesSupportPlanPtrOutputWithContext(
 	return pulumi.ToOutputWithContext(ctx, in).(KubernetesSupportPlanPtrOutput)
 }
 
+// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+type LabelSelectorOperator string
+
+const (
+	// Label Selector Operator In
+	LabelSelectorOperatorIn = LabelSelectorOperator("In")
+	// Label Selector Operator NotIn
+	LabelSelectorOperatorNotIn = LabelSelectorOperator("NotIn")
+	// Label Selector Operator Exists
+	LabelSelectorOperatorExists = LabelSelectorOperator("Exists")
+	// Label Selector Operator DoesNotExist
+	LabelSelectorOperatorDoesNotExist = LabelSelectorOperator("DoesNotExist")
+)
+
+func (LabelSelectorOperator) ElementType() reflect.Type {
+	return reflect.TypeOf((*LabelSelectorOperator)(nil)).Elem()
+}
+
+func (e LabelSelectorOperator) ToLabelSelectorOperatorOutput() LabelSelectorOperatorOutput {
+	return pulumi.ToOutput(e).(LabelSelectorOperatorOutput)
+}
+
+func (e LabelSelectorOperator) ToLabelSelectorOperatorOutputWithContext(ctx context.Context) LabelSelectorOperatorOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(LabelSelectorOperatorOutput)
+}
+
+func (e LabelSelectorOperator) ToLabelSelectorOperatorPtrOutput() LabelSelectorOperatorPtrOutput {
+	return e.ToLabelSelectorOperatorPtrOutputWithContext(context.Background())
+}
+
+func (e LabelSelectorOperator) ToLabelSelectorOperatorPtrOutputWithContext(ctx context.Context) LabelSelectorOperatorPtrOutput {
+	return LabelSelectorOperator(e).ToLabelSelectorOperatorOutputWithContext(ctx).ToLabelSelectorOperatorPtrOutputWithContext(ctx)
+}
+
+func (e LabelSelectorOperator) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LabelSelectorOperator) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LabelSelectorOperator) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e LabelSelectorOperator) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type LabelSelectorOperatorOutput struct{ *pulumi.OutputState }
+
+func (LabelSelectorOperatorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LabelSelectorOperator)(nil)).Elem()
+}
+
+func (o LabelSelectorOperatorOutput) ToLabelSelectorOperatorOutput() LabelSelectorOperatorOutput {
+	return o
+}
+
+func (o LabelSelectorOperatorOutput) ToLabelSelectorOperatorOutputWithContext(ctx context.Context) LabelSelectorOperatorOutput {
+	return o
+}
+
+func (o LabelSelectorOperatorOutput) ToLabelSelectorOperatorPtrOutput() LabelSelectorOperatorPtrOutput {
+	return o.ToLabelSelectorOperatorPtrOutputWithContext(context.Background())
+}
+
+func (o LabelSelectorOperatorOutput) ToLabelSelectorOperatorPtrOutputWithContext(ctx context.Context) LabelSelectorOperatorPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v LabelSelectorOperator) *LabelSelectorOperator {
+		return &v
+	}).(LabelSelectorOperatorPtrOutput)
+}
+
+func (o LabelSelectorOperatorOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o LabelSelectorOperatorOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LabelSelectorOperator) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o LabelSelectorOperatorOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LabelSelectorOperatorOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LabelSelectorOperator) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type LabelSelectorOperatorPtrOutput struct{ *pulumi.OutputState }
+
+func (LabelSelectorOperatorPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LabelSelectorOperator)(nil)).Elem()
+}
+
+func (o LabelSelectorOperatorPtrOutput) ToLabelSelectorOperatorPtrOutput() LabelSelectorOperatorPtrOutput {
+	return o
+}
+
+func (o LabelSelectorOperatorPtrOutput) ToLabelSelectorOperatorPtrOutputWithContext(ctx context.Context) LabelSelectorOperatorPtrOutput {
+	return o
+}
+
+func (o LabelSelectorOperatorPtrOutput) Elem() LabelSelectorOperatorOutput {
+	return o.ApplyT(func(v *LabelSelectorOperator) LabelSelectorOperator {
+		if v != nil {
+			return *v
+		}
+		var ret LabelSelectorOperator
+		return ret
+	}).(LabelSelectorOperatorOutput)
+}
+
+func (o LabelSelectorOperatorPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LabelSelectorOperatorPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *LabelSelectorOperator) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// LabelSelectorOperatorInput is an input type that accepts values of the LabelSelectorOperator enum
+// A concrete instance of `LabelSelectorOperatorInput` can be one of the following:
+//
+//	LabelSelectorOperatorIn
+//	LabelSelectorOperatorNotIn
+//	LabelSelectorOperatorExists
+//	LabelSelectorOperatorDoesNotExist
+type LabelSelectorOperatorInput interface {
+	pulumi.Input
+
+	ToLabelSelectorOperatorOutput() LabelSelectorOperatorOutput
+	ToLabelSelectorOperatorOutputWithContext(context.Context) LabelSelectorOperatorOutput
+}
+
+var labelSelectorOperatorPtrType = reflect.TypeOf((**LabelSelectorOperator)(nil)).Elem()
+
+type LabelSelectorOperatorPtrInput interface {
+	pulumi.Input
+
+	ToLabelSelectorOperatorPtrOutput() LabelSelectorOperatorPtrOutput
+	ToLabelSelectorOperatorPtrOutputWithContext(context.Context) LabelSelectorOperatorPtrOutput
+}
+
+type labelSelectorOperatorPtr string
+
+func LabelSelectorOperatorPtr(v string) LabelSelectorOperatorPtrInput {
+	return (*labelSelectorOperatorPtr)(&v)
+}
+
+func (*labelSelectorOperatorPtr) ElementType() reflect.Type {
+	return labelSelectorOperatorPtrType
+}
+
+func (in *labelSelectorOperatorPtr) ToLabelSelectorOperatorPtrOutput() LabelSelectorOperatorPtrOutput {
+	return pulumi.ToOutput(in).(LabelSelectorOperatorPtrOutput)
+}
+
+func (in *labelSelectorOperatorPtr) ToLabelSelectorOperatorPtrOutputWithContext(ctx context.Context) LabelSelectorOperatorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(LabelSelectorOperatorPtrOutput)
+}
+
 // The license type to use for Windows VMs. See [Azure Hybrid User Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
 type LicenseType string
 
@@ -4057,6 +4231,1023 @@ func (in *loadBalancerSkuPtr) ToLoadBalancerSkuPtrOutput() LoadBalancerSkuPtrOut
 
 func (in *loadBalancerSkuPtr) ToLoadBalancerSkuPtrOutputWithContext(ctx context.Context) LoadBalancerSkuPtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(LoadBalancerSkuPtrOutput)
+}
+
+// Destination server for DNS queries to be forwarded from localDNS.
+type LocalDNSForwardDestination string
+
+const (
+	// Forward DNS queries from localDNS to cluster CoreDNS.
+	LocalDNSForwardDestinationClusterCoreDNS = LocalDNSForwardDestination("ClusterCoreDNS")
+	// Forward DNS queries from localDNS to DNS server configured in the VNET. A VNET can have multiple DNS servers configured.
+	LocalDNSForwardDestinationVnetDNS = LocalDNSForwardDestination("VnetDNS")
+)
+
+func (LocalDNSForwardDestination) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSForwardDestination)(nil)).Elem()
+}
+
+func (e LocalDNSForwardDestination) ToLocalDNSForwardDestinationOutput() LocalDNSForwardDestinationOutput {
+	return pulumi.ToOutput(e).(LocalDNSForwardDestinationOutput)
+}
+
+func (e LocalDNSForwardDestination) ToLocalDNSForwardDestinationOutputWithContext(ctx context.Context) LocalDNSForwardDestinationOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(LocalDNSForwardDestinationOutput)
+}
+
+func (e LocalDNSForwardDestination) ToLocalDNSForwardDestinationPtrOutput() LocalDNSForwardDestinationPtrOutput {
+	return e.ToLocalDNSForwardDestinationPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSForwardDestination) ToLocalDNSForwardDestinationPtrOutputWithContext(ctx context.Context) LocalDNSForwardDestinationPtrOutput {
+	return LocalDNSForwardDestination(e).ToLocalDNSForwardDestinationOutputWithContext(ctx).ToLocalDNSForwardDestinationPtrOutputWithContext(ctx)
+}
+
+func (e LocalDNSForwardDestination) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSForwardDestination) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSForwardDestination) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSForwardDestination) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type LocalDNSForwardDestinationOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSForwardDestinationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSForwardDestination)(nil)).Elem()
+}
+
+func (o LocalDNSForwardDestinationOutput) ToLocalDNSForwardDestinationOutput() LocalDNSForwardDestinationOutput {
+	return o
+}
+
+func (o LocalDNSForwardDestinationOutput) ToLocalDNSForwardDestinationOutputWithContext(ctx context.Context) LocalDNSForwardDestinationOutput {
+	return o
+}
+
+func (o LocalDNSForwardDestinationOutput) ToLocalDNSForwardDestinationPtrOutput() LocalDNSForwardDestinationPtrOutput {
+	return o.ToLocalDNSForwardDestinationPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSForwardDestinationOutput) ToLocalDNSForwardDestinationPtrOutputWithContext(ctx context.Context) LocalDNSForwardDestinationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v LocalDNSForwardDestination) *LocalDNSForwardDestination {
+		return &v
+	}).(LocalDNSForwardDestinationPtrOutput)
+}
+
+func (o LocalDNSForwardDestinationOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o LocalDNSForwardDestinationOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSForwardDestination) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o LocalDNSForwardDestinationOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSForwardDestinationOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSForwardDestination) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type LocalDNSForwardDestinationPtrOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSForwardDestinationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSForwardDestination)(nil)).Elem()
+}
+
+func (o LocalDNSForwardDestinationPtrOutput) ToLocalDNSForwardDestinationPtrOutput() LocalDNSForwardDestinationPtrOutput {
+	return o
+}
+
+func (o LocalDNSForwardDestinationPtrOutput) ToLocalDNSForwardDestinationPtrOutputWithContext(ctx context.Context) LocalDNSForwardDestinationPtrOutput {
+	return o
+}
+
+func (o LocalDNSForwardDestinationPtrOutput) Elem() LocalDNSForwardDestinationOutput {
+	return o.ApplyT(func(v *LocalDNSForwardDestination) LocalDNSForwardDestination {
+		if v != nil {
+			return *v
+		}
+		var ret LocalDNSForwardDestination
+		return ret
+	}).(LocalDNSForwardDestinationOutput)
+}
+
+func (o LocalDNSForwardDestinationPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSForwardDestinationPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *LocalDNSForwardDestination) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// LocalDNSForwardDestinationInput is an input type that accepts values of the LocalDNSForwardDestination enum
+// A concrete instance of `LocalDNSForwardDestinationInput` can be one of the following:
+//
+//	LocalDNSForwardDestinationClusterCoreDNS
+//	LocalDNSForwardDestinationVnetDNS
+type LocalDNSForwardDestinationInput interface {
+	pulumi.Input
+
+	ToLocalDNSForwardDestinationOutput() LocalDNSForwardDestinationOutput
+	ToLocalDNSForwardDestinationOutputWithContext(context.Context) LocalDNSForwardDestinationOutput
+}
+
+var localDNSForwardDestinationPtrType = reflect.TypeOf((**LocalDNSForwardDestination)(nil)).Elem()
+
+type LocalDNSForwardDestinationPtrInput interface {
+	pulumi.Input
+
+	ToLocalDNSForwardDestinationPtrOutput() LocalDNSForwardDestinationPtrOutput
+	ToLocalDNSForwardDestinationPtrOutputWithContext(context.Context) LocalDNSForwardDestinationPtrOutput
+}
+
+type localDNSForwardDestinationPtr string
+
+func LocalDNSForwardDestinationPtr(v string) LocalDNSForwardDestinationPtrInput {
+	return (*localDNSForwardDestinationPtr)(&v)
+}
+
+func (*localDNSForwardDestinationPtr) ElementType() reflect.Type {
+	return localDNSForwardDestinationPtrType
+}
+
+func (in *localDNSForwardDestinationPtr) ToLocalDNSForwardDestinationPtrOutput() LocalDNSForwardDestinationPtrOutput {
+	return pulumi.ToOutput(in).(LocalDNSForwardDestinationPtrOutput)
+}
+
+func (in *localDNSForwardDestinationPtr) ToLocalDNSForwardDestinationPtrOutputWithContext(ctx context.Context) LocalDNSForwardDestinationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(LocalDNSForwardDestinationPtrOutput)
+}
+
+// Forward policy for selecting upstream DNS server. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+type LocalDNSForwardPolicy string
+
+const (
+	// Implements sequential upstream DNS server selection. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	LocalDNSForwardPolicySequential = LocalDNSForwardPolicy("Sequential")
+	// Implements round robin upstream DNS server selection. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	LocalDNSForwardPolicyRoundRobin = LocalDNSForwardPolicy("RoundRobin")
+	// Implements random upstream DNS server selection. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	LocalDNSForwardPolicyRandom = LocalDNSForwardPolicy("Random")
+)
+
+func (LocalDNSForwardPolicy) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSForwardPolicy)(nil)).Elem()
+}
+
+func (e LocalDNSForwardPolicy) ToLocalDNSForwardPolicyOutput() LocalDNSForwardPolicyOutput {
+	return pulumi.ToOutput(e).(LocalDNSForwardPolicyOutput)
+}
+
+func (e LocalDNSForwardPolicy) ToLocalDNSForwardPolicyOutputWithContext(ctx context.Context) LocalDNSForwardPolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(LocalDNSForwardPolicyOutput)
+}
+
+func (e LocalDNSForwardPolicy) ToLocalDNSForwardPolicyPtrOutput() LocalDNSForwardPolicyPtrOutput {
+	return e.ToLocalDNSForwardPolicyPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSForwardPolicy) ToLocalDNSForwardPolicyPtrOutputWithContext(ctx context.Context) LocalDNSForwardPolicyPtrOutput {
+	return LocalDNSForwardPolicy(e).ToLocalDNSForwardPolicyOutputWithContext(ctx).ToLocalDNSForwardPolicyPtrOutputWithContext(ctx)
+}
+
+func (e LocalDNSForwardPolicy) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSForwardPolicy) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSForwardPolicy) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSForwardPolicy) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type LocalDNSForwardPolicyOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSForwardPolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSForwardPolicy)(nil)).Elem()
+}
+
+func (o LocalDNSForwardPolicyOutput) ToLocalDNSForwardPolicyOutput() LocalDNSForwardPolicyOutput {
+	return o
+}
+
+func (o LocalDNSForwardPolicyOutput) ToLocalDNSForwardPolicyOutputWithContext(ctx context.Context) LocalDNSForwardPolicyOutput {
+	return o
+}
+
+func (o LocalDNSForwardPolicyOutput) ToLocalDNSForwardPolicyPtrOutput() LocalDNSForwardPolicyPtrOutput {
+	return o.ToLocalDNSForwardPolicyPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSForwardPolicyOutput) ToLocalDNSForwardPolicyPtrOutputWithContext(ctx context.Context) LocalDNSForwardPolicyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v LocalDNSForwardPolicy) *LocalDNSForwardPolicy {
+		return &v
+	}).(LocalDNSForwardPolicyPtrOutput)
+}
+
+func (o LocalDNSForwardPolicyOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o LocalDNSForwardPolicyOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSForwardPolicy) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o LocalDNSForwardPolicyOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSForwardPolicyOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSForwardPolicy) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type LocalDNSForwardPolicyPtrOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSForwardPolicyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSForwardPolicy)(nil)).Elem()
+}
+
+func (o LocalDNSForwardPolicyPtrOutput) ToLocalDNSForwardPolicyPtrOutput() LocalDNSForwardPolicyPtrOutput {
+	return o
+}
+
+func (o LocalDNSForwardPolicyPtrOutput) ToLocalDNSForwardPolicyPtrOutputWithContext(ctx context.Context) LocalDNSForwardPolicyPtrOutput {
+	return o
+}
+
+func (o LocalDNSForwardPolicyPtrOutput) Elem() LocalDNSForwardPolicyOutput {
+	return o.ApplyT(func(v *LocalDNSForwardPolicy) LocalDNSForwardPolicy {
+		if v != nil {
+			return *v
+		}
+		var ret LocalDNSForwardPolicy
+		return ret
+	}).(LocalDNSForwardPolicyOutput)
+}
+
+func (o LocalDNSForwardPolicyPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSForwardPolicyPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *LocalDNSForwardPolicy) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// LocalDNSForwardPolicyInput is an input type that accepts values of the LocalDNSForwardPolicy enum
+// A concrete instance of `LocalDNSForwardPolicyInput` can be one of the following:
+//
+//	LocalDNSForwardPolicySequential
+//	LocalDNSForwardPolicyRoundRobin
+//	LocalDNSForwardPolicyRandom
+type LocalDNSForwardPolicyInput interface {
+	pulumi.Input
+
+	ToLocalDNSForwardPolicyOutput() LocalDNSForwardPolicyOutput
+	ToLocalDNSForwardPolicyOutputWithContext(context.Context) LocalDNSForwardPolicyOutput
+}
+
+var localDNSForwardPolicyPtrType = reflect.TypeOf((**LocalDNSForwardPolicy)(nil)).Elem()
+
+type LocalDNSForwardPolicyPtrInput interface {
+	pulumi.Input
+
+	ToLocalDNSForwardPolicyPtrOutput() LocalDNSForwardPolicyPtrOutput
+	ToLocalDNSForwardPolicyPtrOutputWithContext(context.Context) LocalDNSForwardPolicyPtrOutput
+}
+
+type localDNSForwardPolicyPtr string
+
+func LocalDNSForwardPolicyPtr(v string) LocalDNSForwardPolicyPtrInput {
+	return (*localDNSForwardPolicyPtr)(&v)
+}
+
+func (*localDNSForwardPolicyPtr) ElementType() reflect.Type {
+	return localDNSForwardPolicyPtrType
+}
+
+func (in *localDNSForwardPolicyPtr) ToLocalDNSForwardPolicyPtrOutput() LocalDNSForwardPolicyPtrOutput {
+	return pulumi.ToOutput(in).(LocalDNSForwardPolicyPtrOutput)
+}
+
+func (in *localDNSForwardPolicyPtr) ToLocalDNSForwardPolicyPtrOutputWithContext(ctx context.Context) LocalDNSForwardPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(LocalDNSForwardPolicyPtrOutput)
+}
+
+// Mode of enablement for localDNS.
+type LocalDNSMode string
+
+const (
+	// If the current orchestrator version supports this feature, prefer enabling localDNS.
+	LocalDNSModePreferred = LocalDNSMode("Preferred")
+	// Enable localDNS.
+	LocalDNSModeRequired = LocalDNSMode("Required")
+	// Disable localDNS.
+	LocalDNSModeDisabled = LocalDNSMode("Disabled")
+)
+
+func (LocalDNSMode) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSMode)(nil)).Elem()
+}
+
+func (e LocalDNSMode) ToLocalDNSModeOutput() LocalDNSModeOutput {
+	return pulumi.ToOutput(e).(LocalDNSModeOutput)
+}
+
+func (e LocalDNSMode) ToLocalDNSModeOutputWithContext(ctx context.Context) LocalDNSModeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(LocalDNSModeOutput)
+}
+
+func (e LocalDNSMode) ToLocalDNSModePtrOutput() LocalDNSModePtrOutput {
+	return e.ToLocalDNSModePtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSMode) ToLocalDNSModePtrOutputWithContext(ctx context.Context) LocalDNSModePtrOutput {
+	return LocalDNSMode(e).ToLocalDNSModeOutputWithContext(ctx).ToLocalDNSModePtrOutputWithContext(ctx)
+}
+
+func (e LocalDNSMode) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSMode) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSMode) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSMode) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type LocalDNSModeOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSMode)(nil)).Elem()
+}
+
+func (o LocalDNSModeOutput) ToLocalDNSModeOutput() LocalDNSModeOutput {
+	return o
+}
+
+func (o LocalDNSModeOutput) ToLocalDNSModeOutputWithContext(ctx context.Context) LocalDNSModeOutput {
+	return o
+}
+
+func (o LocalDNSModeOutput) ToLocalDNSModePtrOutput() LocalDNSModePtrOutput {
+	return o.ToLocalDNSModePtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSModeOutput) ToLocalDNSModePtrOutputWithContext(ctx context.Context) LocalDNSModePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v LocalDNSMode) *LocalDNSMode {
+		return &v
+	}).(LocalDNSModePtrOutput)
+}
+
+func (o LocalDNSModeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o LocalDNSModeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSMode) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o LocalDNSModeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSModeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSMode) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type LocalDNSModePtrOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSModePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSMode)(nil)).Elem()
+}
+
+func (o LocalDNSModePtrOutput) ToLocalDNSModePtrOutput() LocalDNSModePtrOutput {
+	return o
+}
+
+func (o LocalDNSModePtrOutput) ToLocalDNSModePtrOutputWithContext(ctx context.Context) LocalDNSModePtrOutput {
+	return o
+}
+
+func (o LocalDNSModePtrOutput) Elem() LocalDNSModeOutput {
+	return o.ApplyT(func(v *LocalDNSMode) LocalDNSMode {
+		if v != nil {
+			return *v
+		}
+		var ret LocalDNSMode
+		return ret
+	}).(LocalDNSModeOutput)
+}
+
+func (o LocalDNSModePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *LocalDNSMode) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// LocalDNSModeInput is an input type that accepts values of the LocalDNSMode enum
+// A concrete instance of `LocalDNSModeInput` can be one of the following:
+//
+//	LocalDNSModePreferred
+//	LocalDNSModeRequired
+//	LocalDNSModeDisabled
+type LocalDNSModeInput interface {
+	pulumi.Input
+
+	ToLocalDNSModeOutput() LocalDNSModeOutput
+	ToLocalDNSModeOutputWithContext(context.Context) LocalDNSModeOutput
+}
+
+var localDNSModePtrType = reflect.TypeOf((**LocalDNSMode)(nil)).Elem()
+
+type LocalDNSModePtrInput interface {
+	pulumi.Input
+
+	ToLocalDNSModePtrOutput() LocalDNSModePtrOutput
+	ToLocalDNSModePtrOutputWithContext(context.Context) LocalDNSModePtrOutput
+}
+
+type localDNSModePtr string
+
+func LocalDNSModePtr(v string) LocalDNSModePtrInput {
+	return (*localDNSModePtr)(&v)
+}
+
+func (*localDNSModePtr) ElementType() reflect.Type {
+	return localDNSModePtrType
+}
+
+func (in *localDNSModePtr) ToLocalDNSModePtrOutput() LocalDNSModePtrOutput {
+	return pulumi.ToOutput(in).(LocalDNSModePtrOutput)
+}
+
+func (in *localDNSModePtr) ToLocalDNSModePtrOutputWithContext(ctx context.Context) LocalDNSModePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(LocalDNSModePtrOutput)
+}
+
+// Enforce TCP or prefer UDP protocol for connections from localDNS to upstream DNS server.
+type LocalDNSProtocol string
+
+const (
+	// Prefer UDP protocol for connections from localDNS to upstream DNS server.
+	LocalDNSProtocolPreferUDP = LocalDNSProtocol("PreferUDP")
+	// Enforce TCP protocol for connections from localDNS to upstream DNS server.
+	LocalDNSProtocolForceTCP = LocalDNSProtocol("ForceTCP")
+)
+
+func (LocalDNSProtocol) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSProtocol)(nil)).Elem()
+}
+
+func (e LocalDNSProtocol) ToLocalDNSProtocolOutput() LocalDNSProtocolOutput {
+	return pulumi.ToOutput(e).(LocalDNSProtocolOutput)
+}
+
+func (e LocalDNSProtocol) ToLocalDNSProtocolOutputWithContext(ctx context.Context) LocalDNSProtocolOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(LocalDNSProtocolOutput)
+}
+
+func (e LocalDNSProtocol) ToLocalDNSProtocolPtrOutput() LocalDNSProtocolPtrOutput {
+	return e.ToLocalDNSProtocolPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSProtocol) ToLocalDNSProtocolPtrOutputWithContext(ctx context.Context) LocalDNSProtocolPtrOutput {
+	return LocalDNSProtocol(e).ToLocalDNSProtocolOutputWithContext(ctx).ToLocalDNSProtocolPtrOutputWithContext(ctx)
+}
+
+func (e LocalDNSProtocol) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSProtocol) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSProtocol) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSProtocol) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type LocalDNSProtocolOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSProtocolOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSProtocol)(nil)).Elem()
+}
+
+func (o LocalDNSProtocolOutput) ToLocalDNSProtocolOutput() LocalDNSProtocolOutput {
+	return o
+}
+
+func (o LocalDNSProtocolOutput) ToLocalDNSProtocolOutputWithContext(ctx context.Context) LocalDNSProtocolOutput {
+	return o
+}
+
+func (o LocalDNSProtocolOutput) ToLocalDNSProtocolPtrOutput() LocalDNSProtocolPtrOutput {
+	return o.ToLocalDNSProtocolPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSProtocolOutput) ToLocalDNSProtocolPtrOutputWithContext(ctx context.Context) LocalDNSProtocolPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v LocalDNSProtocol) *LocalDNSProtocol {
+		return &v
+	}).(LocalDNSProtocolPtrOutput)
+}
+
+func (o LocalDNSProtocolOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o LocalDNSProtocolOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSProtocol) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o LocalDNSProtocolOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSProtocolOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSProtocol) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type LocalDNSProtocolPtrOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSProtocolPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSProtocol)(nil)).Elem()
+}
+
+func (o LocalDNSProtocolPtrOutput) ToLocalDNSProtocolPtrOutput() LocalDNSProtocolPtrOutput {
+	return o
+}
+
+func (o LocalDNSProtocolPtrOutput) ToLocalDNSProtocolPtrOutputWithContext(ctx context.Context) LocalDNSProtocolPtrOutput {
+	return o
+}
+
+func (o LocalDNSProtocolPtrOutput) Elem() LocalDNSProtocolOutput {
+	return o.ApplyT(func(v *LocalDNSProtocol) LocalDNSProtocol {
+		if v != nil {
+			return *v
+		}
+		var ret LocalDNSProtocol
+		return ret
+	}).(LocalDNSProtocolOutput)
+}
+
+func (o LocalDNSProtocolPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSProtocolPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *LocalDNSProtocol) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// LocalDNSProtocolInput is an input type that accepts values of the LocalDNSProtocol enum
+// A concrete instance of `LocalDNSProtocolInput` can be one of the following:
+//
+//	LocalDNSProtocolPreferUDP
+//	LocalDNSProtocolForceTCP
+type LocalDNSProtocolInput interface {
+	pulumi.Input
+
+	ToLocalDNSProtocolOutput() LocalDNSProtocolOutput
+	ToLocalDNSProtocolOutputWithContext(context.Context) LocalDNSProtocolOutput
+}
+
+var localDNSProtocolPtrType = reflect.TypeOf((**LocalDNSProtocol)(nil)).Elem()
+
+type LocalDNSProtocolPtrInput interface {
+	pulumi.Input
+
+	ToLocalDNSProtocolPtrOutput() LocalDNSProtocolPtrOutput
+	ToLocalDNSProtocolPtrOutputWithContext(context.Context) LocalDNSProtocolPtrOutput
+}
+
+type localDNSProtocolPtr string
+
+func LocalDNSProtocolPtr(v string) LocalDNSProtocolPtrInput {
+	return (*localDNSProtocolPtr)(&v)
+}
+
+func (*localDNSProtocolPtr) ElementType() reflect.Type {
+	return localDNSProtocolPtrType
+}
+
+func (in *localDNSProtocolPtr) ToLocalDNSProtocolPtrOutput() LocalDNSProtocolPtrOutput {
+	return pulumi.ToOutput(in).(LocalDNSProtocolPtrOutput)
+}
+
+func (in *localDNSProtocolPtr) ToLocalDNSProtocolPtrOutputWithContext(ctx context.Context) LocalDNSProtocolPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(LocalDNSProtocolPtrOutput)
+}
+
+// Log level for DNS queries in localDNS.
+type LocalDNSQueryLogging string
+
+const (
+	// Enables error logging in localDNS. See [errors plugin](https://coredns.io/plugins/errors) for more information.
+	LocalDNSQueryLoggingError = LocalDNSQueryLogging("Error")
+	// Enables query logging in localDNS. See [log plugin](https://coredns.io/plugins/log) for more information.
+	LocalDNSQueryLoggingLog = LocalDNSQueryLogging("Log")
+)
+
+func (LocalDNSQueryLogging) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSQueryLogging)(nil)).Elem()
+}
+
+func (e LocalDNSQueryLogging) ToLocalDNSQueryLoggingOutput() LocalDNSQueryLoggingOutput {
+	return pulumi.ToOutput(e).(LocalDNSQueryLoggingOutput)
+}
+
+func (e LocalDNSQueryLogging) ToLocalDNSQueryLoggingOutputWithContext(ctx context.Context) LocalDNSQueryLoggingOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(LocalDNSQueryLoggingOutput)
+}
+
+func (e LocalDNSQueryLogging) ToLocalDNSQueryLoggingPtrOutput() LocalDNSQueryLoggingPtrOutput {
+	return e.ToLocalDNSQueryLoggingPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSQueryLogging) ToLocalDNSQueryLoggingPtrOutputWithContext(ctx context.Context) LocalDNSQueryLoggingPtrOutput {
+	return LocalDNSQueryLogging(e).ToLocalDNSQueryLoggingOutputWithContext(ctx).ToLocalDNSQueryLoggingPtrOutputWithContext(ctx)
+}
+
+func (e LocalDNSQueryLogging) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSQueryLogging) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSQueryLogging) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSQueryLogging) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type LocalDNSQueryLoggingOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSQueryLoggingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSQueryLogging)(nil)).Elem()
+}
+
+func (o LocalDNSQueryLoggingOutput) ToLocalDNSQueryLoggingOutput() LocalDNSQueryLoggingOutput {
+	return o
+}
+
+func (o LocalDNSQueryLoggingOutput) ToLocalDNSQueryLoggingOutputWithContext(ctx context.Context) LocalDNSQueryLoggingOutput {
+	return o
+}
+
+func (o LocalDNSQueryLoggingOutput) ToLocalDNSQueryLoggingPtrOutput() LocalDNSQueryLoggingPtrOutput {
+	return o.ToLocalDNSQueryLoggingPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSQueryLoggingOutput) ToLocalDNSQueryLoggingPtrOutputWithContext(ctx context.Context) LocalDNSQueryLoggingPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v LocalDNSQueryLogging) *LocalDNSQueryLogging {
+		return &v
+	}).(LocalDNSQueryLoggingPtrOutput)
+}
+
+func (o LocalDNSQueryLoggingOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o LocalDNSQueryLoggingOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSQueryLogging) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o LocalDNSQueryLoggingOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSQueryLoggingOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSQueryLogging) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type LocalDNSQueryLoggingPtrOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSQueryLoggingPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSQueryLogging)(nil)).Elem()
+}
+
+func (o LocalDNSQueryLoggingPtrOutput) ToLocalDNSQueryLoggingPtrOutput() LocalDNSQueryLoggingPtrOutput {
+	return o
+}
+
+func (o LocalDNSQueryLoggingPtrOutput) ToLocalDNSQueryLoggingPtrOutputWithContext(ctx context.Context) LocalDNSQueryLoggingPtrOutput {
+	return o
+}
+
+func (o LocalDNSQueryLoggingPtrOutput) Elem() LocalDNSQueryLoggingOutput {
+	return o.ApplyT(func(v *LocalDNSQueryLogging) LocalDNSQueryLogging {
+		if v != nil {
+			return *v
+		}
+		var ret LocalDNSQueryLogging
+		return ret
+	}).(LocalDNSQueryLoggingOutput)
+}
+
+func (o LocalDNSQueryLoggingPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSQueryLoggingPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *LocalDNSQueryLogging) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// LocalDNSQueryLoggingInput is an input type that accepts values of the LocalDNSQueryLogging enum
+// A concrete instance of `LocalDNSQueryLoggingInput` can be one of the following:
+//
+//	LocalDNSQueryLoggingError
+//	LocalDNSQueryLoggingLog
+type LocalDNSQueryLoggingInput interface {
+	pulumi.Input
+
+	ToLocalDNSQueryLoggingOutput() LocalDNSQueryLoggingOutput
+	ToLocalDNSQueryLoggingOutputWithContext(context.Context) LocalDNSQueryLoggingOutput
+}
+
+var localDNSQueryLoggingPtrType = reflect.TypeOf((**LocalDNSQueryLogging)(nil)).Elem()
+
+type LocalDNSQueryLoggingPtrInput interface {
+	pulumi.Input
+
+	ToLocalDNSQueryLoggingPtrOutput() LocalDNSQueryLoggingPtrOutput
+	ToLocalDNSQueryLoggingPtrOutputWithContext(context.Context) LocalDNSQueryLoggingPtrOutput
+}
+
+type localDNSQueryLoggingPtr string
+
+func LocalDNSQueryLoggingPtr(v string) LocalDNSQueryLoggingPtrInput {
+	return (*localDNSQueryLoggingPtr)(&v)
+}
+
+func (*localDNSQueryLoggingPtr) ElementType() reflect.Type {
+	return localDNSQueryLoggingPtrType
+}
+
+func (in *localDNSQueryLoggingPtr) ToLocalDNSQueryLoggingPtrOutput() LocalDNSQueryLoggingPtrOutput {
+	return pulumi.ToOutput(in).(LocalDNSQueryLoggingPtrOutput)
+}
+
+func (in *localDNSQueryLoggingPtr) ToLocalDNSQueryLoggingPtrOutputWithContext(ctx context.Context) LocalDNSQueryLoggingPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(LocalDNSQueryLoggingPtrOutput)
+}
+
+// Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+type LocalDNSServeStale string
+
+const (
+	// Serve stale data with verification. First verify that an entry is still unavailable from the source before sending the expired entry to the client. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	LocalDNSServeStaleVerify = LocalDNSServeStale("Verify")
+	// Serve stale data immediately. Send the expired entry to the client before checking to see if the entry is available from the source. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	LocalDNSServeStaleImmediate = LocalDNSServeStale("Immediate")
+	// Disable serving stale data.
+	LocalDNSServeStaleDisable = LocalDNSServeStale("Disable")
+)
+
+func (LocalDNSServeStale) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSServeStale)(nil)).Elem()
+}
+
+func (e LocalDNSServeStale) ToLocalDNSServeStaleOutput() LocalDNSServeStaleOutput {
+	return pulumi.ToOutput(e).(LocalDNSServeStaleOutput)
+}
+
+func (e LocalDNSServeStale) ToLocalDNSServeStaleOutputWithContext(ctx context.Context) LocalDNSServeStaleOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(LocalDNSServeStaleOutput)
+}
+
+func (e LocalDNSServeStale) ToLocalDNSServeStalePtrOutput() LocalDNSServeStalePtrOutput {
+	return e.ToLocalDNSServeStalePtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSServeStale) ToLocalDNSServeStalePtrOutputWithContext(ctx context.Context) LocalDNSServeStalePtrOutput {
+	return LocalDNSServeStale(e).ToLocalDNSServeStaleOutputWithContext(ctx).ToLocalDNSServeStalePtrOutputWithContext(ctx)
+}
+
+func (e LocalDNSServeStale) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSServeStale) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e LocalDNSServeStale) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e LocalDNSServeStale) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type LocalDNSServeStaleOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSServeStaleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSServeStale)(nil)).Elem()
+}
+
+func (o LocalDNSServeStaleOutput) ToLocalDNSServeStaleOutput() LocalDNSServeStaleOutput {
+	return o
+}
+
+func (o LocalDNSServeStaleOutput) ToLocalDNSServeStaleOutputWithContext(ctx context.Context) LocalDNSServeStaleOutput {
+	return o
+}
+
+func (o LocalDNSServeStaleOutput) ToLocalDNSServeStalePtrOutput() LocalDNSServeStalePtrOutput {
+	return o.ToLocalDNSServeStalePtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSServeStaleOutput) ToLocalDNSServeStalePtrOutputWithContext(ctx context.Context) LocalDNSServeStalePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v LocalDNSServeStale) *LocalDNSServeStale {
+		return &v
+	}).(LocalDNSServeStalePtrOutput)
+}
+
+func (o LocalDNSServeStaleOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o LocalDNSServeStaleOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSServeStale) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o LocalDNSServeStaleOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSServeStaleOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e LocalDNSServeStale) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type LocalDNSServeStalePtrOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSServeStalePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSServeStale)(nil)).Elem()
+}
+
+func (o LocalDNSServeStalePtrOutput) ToLocalDNSServeStalePtrOutput() LocalDNSServeStalePtrOutput {
+	return o
+}
+
+func (o LocalDNSServeStalePtrOutput) ToLocalDNSServeStalePtrOutputWithContext(ctx context.Context) LocalDNSServeStalePtrOutput {
+	return o
+}
+
+func (o LocalDNSServeStalePtrOutput) Elem() LocalDNSServeStaleOutput {
+	return o.ApplyT(func(v *LocalDNSServeStale) LocalDNSServeStale {
+		if v != nil {
+			return *v
+		}
+		var ret LocalDNSServeStale
+		return ret
+	}).(LocalDNSServeStaleOutput)
+}
+
+func (o LocalDNSServeStalePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSServeStalePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *LocalDNSServeStale) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// LocalDNSServeStaleInput is an input type that accepts values of the LocalDNSServeStale enum
+// A concrete instance of `LocalDNSServeStaleInput` can be one of the following:
+//
+//	LocalDNSServeStaleVerify
+//	LocalDNSServeStaleImmediate
+//	LocalDNSServeStaleDisable
+type LocalDNSServeStaleInput interface {
+	pulumi.Input
+
+	ToLocalDNSServeStaleOutput() LocalDNSServeStaleOutput
+	ToLocalDNSServeStaleOutputWithContext(context.Context) LocalDNSServeStaleOutput
+}
+
+var localDNSServeStalePtrType = reflect.TypeOf((**LocalDNSServeStale)(nil)).Elem()
+
+type LocalDNSServeStalePtrInput interface {
+	pulumi.Input
+
+	ToLocalDNSServeStalePtrOutput() LocalDNSServeStalePtrOutput
+	ToLocalDNSServeStalePtrOutputWithContext(context.Context) LocalDNSServeStalePtrOutput
+}
+
+type localDNSServeStalePtr string
+
+func LocalDNSServeStalePtr(v string) LocalDNSServeStalePtrInput {
+	return (*localDNSServeStalePtr)(&v)
+}
+
+func (*localDNSServeStalePtr) ElementType() reflect.Type {
+	return localDNSServeStalePtrType
+}
+
+func (in *localDNSServeStalePtr) ToLocalDNSServeStalePtrOutput() LocalDNSServeStalePtrOutput {
+	return pulumi.ToOutput(in).(LocalDNSServeStalePtrOutput)
+}
+
+func (in *localDNSServeStalePtr) ToLocalDNSServeStalePtrOutputWithContext(ctx context.Context) LocalDNSServeStalePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(LocalDNSServeStalePtrOutput)
 }
 
 // The name of a managed cluster SKU.
@@ -7310,6 +8501,174 @@ func (in *outboundTypePtr) ToOutboundTypePtrOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, in).(OutboundTypePtrOutput)
 }
 
+// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+type PlacementType string
+
+const (
+	// PickAll picks all clusters that satisfy the rules.
+	PlacementTypePickAll = PlacementType("PickAll")
+	// PickFixed picks a fixed set of clusters.
+	PlacementTypePickFixed = PlacementType("PickFixed")
+)
+
+func (PlacementType) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementType)(nil)).Elem()
+}
+
+func (e PlacementType) ToPlacementTypeOutput() PlacementTypeOutput {
+	return pulumi.ToOutput(e).(PlacementTypeOutput)
+}
+
+func (e PlacementType) ToPlacementTypeOutputWithContext(ctx context.Context) PlacementTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(PlacementTypeOutput)
+}
+
+func (e PlacementType) ToPlacementTypePtrOutput() PlacementTypePtrOutput {
+	return e.ToPlacementTypePtrOutputWithContext(context.Background())
+}
+
+func (e PlacementType) ToPlacementTypePtrOutputWithContext(ctx context.Context) PlacementTypePtrOutput {
+	return PlacementType(e).ToPlacementTypeOutputWithContext(ctx).ToPlacementTypePtrOutputWithContext(ctx)
+}
+
+func (e PlacementType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e PlacementType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e PlacementType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e PlacementType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type PlacementTypeOutput struct{ *pulumi.OutputState }
+
+func (PlacementTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementType)(nil)).Elem()
+}
+
+func (o PlacementTypeOutput) ToPlacementTypeOutput() PlacementTypeOutput {
+	return o
+}
+
+func (o PlacementTypeOutput) ToPlacementTypeOutputWithContext(ctx context.Context) PlacementTypeOutput {
+	return o
+}
+
+func (o PlacementTypeOutput) ToPlacementTypePtrOutput() PlacementTypePtrOutput {
+	return o.ToPlacementTypePtrOutputWithContext(context.Background())
+}
+
+func (o PlacementTypeOutput) ToPlacementTypePtrOutputWithContext(ctx context.Context) PlacementTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PlacementType) *PlacementType {
+		return &v
+	}).(PlacementTypePtrOutput)
+}
+
+func (o PlacementTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o PlacementTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PlacementType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o PlacementTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o PlacementTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PlacementType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type PlacementTypePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementType)(nil)).Elem()
+}
+
+func (o PlacementTypePtrOutput) ToPlacementTypePtrOutput() PlacementTypePtrOutput {
+	return o
+}
+
+func (o PlacementTypePtrOutput) ToPlacementTypePtrOutputWithContext(ctx context.Context) PlacementTypePtrOutput {
+	return o
+}
+
+func (o PlacementTypePtrOutput) Elem() PlacementTypeOutput {
+	return o.ApplyT(func(v *PlacementType) PlacementType {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementType
+		return ret
+	}).(PlacementTypeOutput)
+}
+
+func (o PlacementTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o PlacementTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *PlacementType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// PlacementTypeInput is an input type that accepts values of the PlacementType enum
+// A concrete instance of `PlacementTypeInput` can be one of the following:
+//
+//	PlacementTypePickAll
+//	PlacementTypePickFixed
+type PlacementTypeInput interface {
+	pulumi.Input
+
+	ToPlacementTypeOutput() PlacementTypeOutput
+	ToPlacementTypeOutputWithContext(context.Context) PlacementTypeOutput
+}
+
+var placementTypePtrType = reflect.TypeOf((**PlacementType)(nil)).Elem()
+
+type PlacementTypePtrInput interface {
+	pulumi.Input
+
+	ToPlacementTypePtrOutput() PlacementTypePtrOutput
+	ToPlacementTypePtrOutputWithContext(context.Context) PlacementTypePtrOutput
+}
+
+type placementTypePtr string
+
+func PlacementTypePtr(v string) PlacementTypePtrInput {
+	return (*placementTypePtr)(&v)
+}
+
+func (*placementTypePtr) ElementType() reflect.Type {
+	return placementTypePtrType
+}
+
+func (in *placementTypePtr) ToPlacementTypePtrOutput() PlacementTypePtrOutput {
+	return pulumi.ToOutput(in).(PlacementTypePtrOutput)
+}
+
+func (in *placementTypePtr) ToPlacementTypePtrOutputWithContext(ctx context.Context) PlacementTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(PlacementTypePtrOutput)
+}
+
 // Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
 type PodIPAllocationMode string
 
@@ -7647,6 +9006,351 @@ func (in *policyRulePtr) ToPolicyRulePtrOutput() PolicyRulePtrOutput {
 
 func (in *policyRulePtr) ToPolicyRulePtrOutputWithContext(ctx context.Context) PolicyRulePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(PolicyRulePtrOutput)
+}
+
+// The type of the policy to be used. Default is Placement.
+type PropagationType string
+
+const (
+	// Using ClusterResourcePlacement.
+	PropagationTypePlacement = PropagationType("Placement")
+)
+
+func (PropagationType) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropagationType)(nil)).Elem()
+}
+
+func (e PropagationType) ToPropagationTypeOutput() PropagationTypeOutput {
+	return pulumi.ToOutput(e).(PropagationTypeOutput)
+}
+
+func (e PropagationType) ToPropagationTypeOutputWithContext(ctx context.Context) PropagationTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(PropagationTypeOutput)
+}
+
+func (e PropagationType) ToPropagationTypePtrOutput() PropagationTypePtrOutput {
+	return e.ToPropagationTypePtrOutputWithContext(context.Background())
+}
+
+func (e PropagationType) ToPropagationTypePtrOutputWithContext(ctx context.Context) PropagationTypePtrOutput {
+	return PropagationType(e).ToPropagationTypeOutputWithContext(ctx).ToPropagationTypePtrOutputWithContext(ctx)
+}
+
+func (e PropagationType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e PropagationType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e PropagationType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e PropagationType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type PropagationTypeOutput struct{ *pulumi.OutputState }
+
+func (PropagationTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropagationType)(nil)).Elem()
+}
+
+func (o PropagationTypeOutput) ToPropagationTypeOutput() PropagationTypeOutput {
+	return o
+}
+
+func (o PropagationTypeOutput) ToPropagationTypeOutputWithContext(ctx context.Context) PropagationTypeOutput {
+	return o
+}
+
+func (o PropagationTypeOutput) ToPropagationTypePtrOutput() PropagationTypePtrOutput {
+	return o.ToPropagationTypePtrOutputWithContext(context.Background())
+}
+
+func (o PropagationTypeOutput) ToPropagationTypePtrOutputWithContext(ctx context.Context) PropagationTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PropagationType) *PropagationType {
+		return &v
+	}).(PropagationTypePtrOutput)
+}
+
+func (o PropagationTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o PropagationTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PropagationType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o PropagationTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o PropagationTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PropagationType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type PropagationTypePtrOutput struct{ *pulumi.OutputState }
+
+func (PropagationTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PropagationType)(nil)).Elem()
+}
+
+func (o PropagationTypePtrOutput) ToPropagationTypePtrOutput() PropagationTypePtrOutput {
+	return o
+}
+
+func (o PropagationTypePtrOutput) ToPropagationTypePtrOutputWithContext(ctx context.Context) PropagationTypePtrOutput {
+	return o
+}
+
+func (o PropagationTypePtrOutput) Elem() PropagationTypeOutput {
+	return o.ApplyT(func(v *PropagationType) PropagationType {
+		if v != nil {
+			return *v
+		}
+		var ret PropagationType
+		return ret
+	}).(PropagationTypeOutput)
+}
+
+func (o PropagationTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o PropagationTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *PropagationType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// PropagationTypeInput is an input type that accepts values of the PropagationType enum
+// A concrete instance of `PropagationTypeInput` can be one of the following:
+//
+//	PropagationTypePlacement
+type PropagationTypeInput interface {
+	pulumi.Input
+
+	ToPropagationTypeOutput() PropagationTypeOutput
+	ToPropagationTypeOutputWithContext(context.Context) PropagationTypeOutput
+}
+
+var propagationTypePtrType = reflect.TypeOf((**PropagationType)(nil)).Elem()
+
+type PropagationTypePtrInput interface {
+	pulumi.Input
+
+	ToPropagationTypePtrOutput() PropagationTypePtrOutput
+	ToPropagationTypePtrOutputWithContext(context.Context) PropagationTypePtrOutput
+}
+
+type propagationTypePtr string
+
+func PropagationTypePtr(v string) PropagationTypePtrInput {
+	return (*propagationTypePtr)(&v)
+}
+
+func (*propagationTypePtr) ElementType() reflect.Type {
+	return propagationTypePtrType
+}
+
+func (in *propagationTypePtr) ToPropagationTypePtrOutput() PropagationTypePtrOutput {
+	return pulumi.ToOutput(in).(PropagationTypePtrOutput)
+}
+
+func (in *propagationTypePtr) ToPropagationTypePtrOutputWithContext(ctx context.Context) PropagationTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(PropagationTypePtrOutput)
+}
+
+// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
+type PropertySelectorOperator string
+
+const (
+	// Gt dictates Fleet to select cluster if its observed value of a given property is greater than the value specified in the requirement.
+	PropertySelectorOperatorGt = PropertySelectorOperator("Gt")
+	// Ge dictates Fleet to select cluster if its observed value of a given property is greater than or equal to the value specified in the requirement.
+	PropertySelectorOperatorGe = PropertySelectorOperator("Ge")
+	// Eq dictates Fleet to select cluster if its observed value of a given property is equal to the values specified in the requirement.
+	PropertySelectorOperatorEq = PropertySelectorOperator("Eq")
+	// Ne dictates Fleet to select cluster if its observed value of a given property is not equal to the values specified in the requirement.
+	PropertySelectorOperatorNe = PropertySelectorOperator("Ne")
+	// Lt dictates Fleet to select cluster if its observed value of a given property is less than the value specified in the requirement.
+	PropertySelectorOperatorLt = PropertySelectorOperator("Lt")
+	// Le dictates Fleet to select cluster if its observed value of a given property is less than or equal to the value specified in the requirement.
+	PropertySelectorOperatorLe = PropertySelectorOperator("Le")
+)
+
+func (PropertySelectorOperator) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropertySelectorOperator)(nil)).Elem()
+}
+
+func (e PropertySelectorOperator) ToPropertySelectorOperatorOutput() PropertySelectorOperatorOutput {
+	return pulumi.ToOutput(e).(PropertySelectorOperatorOutput)
+}
+
+func (e PropertySelectorOperator) ToPropertySelectorOperatorOutputWithContext(ctx context.Context) PropertySelectorOperatorOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(PropertySelectorOperatorOutput)
+}
+
+func (e PropertySelectorOperator) ToPropertySelectorOperatorPtrOutput() PropertySelectorOperatorPtrOutput {
+	return e.ToPropertySelectorOperatorPtrOutputWithContext(context.Background())
+}
+
+func (e PropertySelectorOperator) ToPropertySelectorOperatorPtrOutputWithContext(ctx context.Context) PropertySelectorOperatorPtrOutput {
+	return PropertySelectorOperator(e).ToPropertySelectorOperatorOutputWithContext(ctx).ToPropertySelectorOperatorPtrOutputWithContext(ctx)
+}
+
+func (e PropertySelectorOperator) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e PropertySelectorOperator) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e PropertySelectorOperator) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e PropertySelectorOperator) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type PropertySelectorOperatorOutput struct{ *pulumi.OutputState }
+
+func (PropertySelectorOperatorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropertySelectorOperator)(nil)).Elem()
+}
+
+func (o PropertySelectorOperatorOutput) ToPropertySelectorOperatorOutput() PropertySelectorOperatorOutput {
+	return o
+}
+
+func (o PropertySelectorOperatorOutput) ToPropertySelectorOperatorOutputWithContext(ctx context.Context) PropertySelectorOperatorOutput {
+	return o
+}
+
+func (o PropertySelectorOperatorOutput) ToPropertySelectorOperatorPtrOutput() PropertySelectorOperatorPtrOutput {
+	return o.ToPropertySelectorOperatorPtrOutputWithContext(context.Background())
+}
+
+func (o PropertySelectorOperatorOutput) ToPropertySelectorOperatorPtrOutputWithContext(ctx context.Context) PropertySelectorOperatorPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PropertySelectorOperator) *PropertySelectorOperator {
+		return &v
+	}).(PropertySelectorOperatorPtrOutput)
+}
+
+func (o PropertySelectorOperatorOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o PropertySelectorOperatorOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PropertySelectorOperator) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o PropertySelectorOperatorOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o PropertySelectorOperatorOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e PropertySelectorOperator) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type PropertySelectorOperatorPtrOutput struct{ *pulumi.OutputState }
+
+func (PropertySelectorOperatorPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PropertySelectorOperator)(nil)).Elem()
+}
+
+func (o PropertySelectorOperatorPtrOutput) ToPropertySelectorOperatorPtrOutput() PropertySelectorOperatorPtrOutput {
+	return o
+}
+
+func (o PropertySelectorOperatorPtrOutput) ToPropertySelectorOperatorPtrOutputWithContext(ctx context.Context) PropertySelectorOperatorPtrOutput {
+	return o
+}
+
+func (o PropertySelectorOperatorPtrOutput) Elem() PropertySelectorOperatorOutput {
+	return o.ApplyT(func(v *PropertySelectorOperator) PropertySelectorOperator {
+		if v != nil {
+			return *v
+		}
+		var ret PropertySelectorOperator
+		return ret
+	}).(PropertySelectorOperatorOutput)
+}
+
+func (o PropertySelectorOperatorPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o PropertySelectorOperatorPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *PropertySelectorOperator) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// PropertySelectorOperatorInput is an input type that accepts values of the PropertySelectorOperator enum
+// A concrete instance of `PropertySelectorOperatorInput` can be one of the following:
+//
+//	PropertySelectorOperatorGt
+//	PropertySelectorOperatorGe
+//	PropertySelectorOperatorEq
+//	PropertySelectorOperatorNe
+//	PropertySelectorOperatorLt
+//	PropertySelectorOperatorLe
+type PropertySelectorOperatorInput interface {
+	pulumi.Input
+
+	ToPropertySelectorOperatorOutput() PropertySelectorOperatorOutput
+	ToPropertySelectorOperatorOutputWithContext(context.Context) PropertySelectorOperatorOutput
+}
+
+var propertySelectorOperatorPtrType = reflect.TypeOf((**PropertySelectorOperator)(nil)).Elem()
+
+type PropertySelectorOperatorPtrInput interface {
+	pulumi.Input
+
+	ToPropertySelectorOperatorPtrOutput() PropertySelectorOperatorPtrOutput
+	ToPropertySelectorOperatorPtrOutputWithContext(context.Context) PropertySelectorOperatorPtrOutput
+}
+
+type propertySelectorOperatorPtr string
+
+func PropertySelectorOperatorPtr(v string) PropertySelectorOperatorPtrInput {
+	return (*propertySelectorOperatorPtr)(&v)
+}
+
+func (*propertySelectorOperatorPtr) ElementType() reflect.Type {
+	return propertySelectorOperatorPtrType
+}
+
+func (in *propertySelectorOperatorPtr) ToPropertySelectorOperatorPtrOutput() PropertySelectorOperatorPtrOutput {
+	return pulumi.ToOutput(in).(PropertySelectorOperatorPtrOutput)
+}
+
+func (in *propertySelectorOperatorPtr) ToPropertySelectorOperatorPtrOutputWithContext(ctx context.Context) PropertySelectorOperatorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(PropertySelectorOperatorPtrOutput)
 }
 
 // The network protocol of the port.
@@ -9327,6 +11031,339 @@ func (in *snapshotTypePtr) ToSnapshotTypePtrOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, in).(SnapshotTypePtrOutput)
 }
 
+// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
+type TaintEffect string
+
+const (
+	// Do not allow new pods to schedule onto the node unless they tolerate the taint, but allow all pods submitted to Kubelet without going through the scheduler to start, and allow all already-running pods to continue running. Enforced by the scheduler.
+	TaintEffectNoSchedule = TaintEffect("NoSchedule")
+)
+
+func (TaintEffect) ElementType() reflect.Type {
+	return reflect.TypeOf((*TaintEffect)(nil)).Elem()
+}
+
+func (e TaintEffect) ToTaintEffectOutput() TaintEffectOutput {
+	return pulumi.ToOutput(e).(TaintEffectOutput)
+}
+
+func (e TaintEffect) ToTaintEffectOutputWithContext(ctx context.Context) TaintEffectOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(TaintEffectOutput)
+}
+
+func (e TaintEffect) ToTaintEffectPtrOutput() TaintEffectPtrOutput {
+	return e.ToTaintEffectPtrOutputWithContext(context.Background())
+}
+
+func (e TaintEffect) ToTaintEffectPtrOutputWithContext(ctx context.Context) TaintEffectPtrOutput {
+	return TaintEffect(e).ToTaintEffectOutputWithContext(ctx).ToTaintEffectPtrOutputWithContext(ctx)
+}
+
+func (e TaintEffect) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e TaintEffect) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e TaintEffect) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e TaintEffect) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type TaintEffectOutput struct{ *pulumi.OutputState }
+
+func (TaintEffectOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*TaintEffect)(nil)).Elem()
+}
+
+func (o TaintEffectOutput) ToTaintEffectOutput() TaintEffectOutput {
+	return o
+}
+
+func (o TaintEffectOutput) ToTaintEffectOutputWithContext(ctx context.Context) TaintEffectOutput {
+	return o
+}
+
+func (o TaintEffectOutput) ToTaintEffectPtrOutput() TaintEffectPtrOutput {
+	return o.ToTaintEffectPtrOutputWithContext(context.Background())
+}
+
+func (o TaintEffectOutput) ToTaintEffectPtrOutputWithContext(ctx context.Context) TaintEffectPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v TaintEffect) *TaintEffect {
+		return &v
+	}).(TaintEffectPtrOutput)
+}
+
+func (o TaintEffectOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o TaintEffectOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e TaintEffect) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o TaintEffectOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o TaintEffectOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e TaintEffect) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type TaintEffectPtrOutput struct{ *pulumi.OutputState }
+
+func (TaintEffectPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**TaintEffect)(nil)).Elem()
+}
+
+func (o TaintEffectPtrOutput) ToTaintEffectPtrOutput() TaintEffectPtrOutput {
+	return o
+}
+
+func (o TaintEffectPtrOutput) ToTaintEffectPtrOutputWithContext(ctx context.Context) TaintEffectPtrOutput {
+	return o
+}
+
+func (o TaintEffectPtrOutput) Elem() TaintEffectOutput {
+	return o.ApplyT(func(v *TaintEffect) TaintEffect {
+		if v != nil {
+			return *v
+		}
+		var ret TaintEffect
+		return ret
+	}).(TaintEffectOutput)
+}
+
+func (o TaintEffectPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o TaintEffectPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *TaintEffect) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// TaintEffectInput is an input type that accepts values of the TaintEffect enum
+// A concrete instance of `TaintEffectInput` can be one of the following:
+//
+//	TaintEffectNoSchedule
+type TaintEffectInput interface {
+	pulumi.Input
+
+	ToTaintEffectOutput() TaintEffectOutput
+	ToTaintEffectOutputWithContext(context.Context) TaintEffectOutput
+}
+
+var taintEffectPtrType = reflect.TypeOf((**TaintEffect)(nil)).Elem()
+
+type TaintEffectPtrInput interface {
+	pulumi.Input
+
+	ToTaintEffectPtrOutput() TaintEffectPtrOutput
+	ToTaintEffectPtrOutputWithContext(context.Context) TaintEffectPtrOutput
+}
+
+type taintEffectPtr string
+
+func TaintEffectPtr(v string) TaintEffectPtrInput {
+	return (*taintEffectPtr)(&v)
+}
+
+func (*taintEffectPtr) ElementType() reflect.Type {
+	return taintEffectPtrType
+}
+
+func (in *taintEffectPtr) ToTaintEffectPtrOutput() TaintEffectPtrOutput {
+	return pulumi.ToOutput(in).(TaintEffectPtrOutput)
+}
+
+func (in *taintEffectPtr) ToTaintEffectPtrOutputWithContext(ctx context.Context) TaintEffectPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(TaintEffectPtrOutput)
+}
+
+// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
+type TolerationOperator string
+
+const (
+	// Toleration Operator Exists
+	TolerationOperatorExists = TolerationOperator("Exists")
+	// Toleration Operator Equal
+	TolerationOperatorEqual = TolerationOperator("Equal")
+)
+
+func (TolerationOperator) ElementType() reflect.Type {
+	return reflect.TypeOf((*TolerationOperator)(nil)).Elem()
+}
+
+func (e TolerationOperator) ToTolerationOperatorOutput() TolerationOperatorOutput {
+	return pulumi.ToOutput(e).(TolerationOperatorOutput)
+}
+
+func (e TolerationOperator) ToTolerationOperatorOutputWithContext(ctx context.Context) TolerationOperatorOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(TolerationOperatorOutput)
+}
+
+func (e TolerationOperator) ToTolerationOperatorPtrOutput() TolerationOperatorPtrOutput {
+	return e.ToTolerationOperatorPtrOutputWithContext(context.Background())
+}
+
+func (e TolerationOperator) ToTolerationOperatorPtrOutputWithContext(ctx context.Context) TolerationOperatorPtrOutput {
+	return TolerationOperator(e).ToTolerationOperatorOutputWithContext(ctx).ToTolerationOperatorPtrOutputWithContext(ctx)
+}
+
+func (e TolerationOperator) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e TolerationOperator) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e TolerationOperator) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e TolerationOperator) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type TolerationOperatorOutput struct{ *pulumi.OutputState }
+
+func (TolerationOperatorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*TolerationOperator)(nil)).Elem()
+}
+
+func (o TolerationOperatorOutput) ToTolerationOperatorOutput() TolerationOperatorOutput {
+	return o
+}
+
+func (o TolerationOperatorOutput) ToTolerationOperatorOutputWithContext(ctx context.Context) TolerationOperatorOutput {
+	return o
+}
+
+func (o TolerationOperatorOutput) ToTolerationOperatorPtrOutput() TolerationOperatorPtrOutput {
+	return o.ToTolerationOperatorPtrOutputWithContext(context.Background())
+}
+
+func (o TolerationOperatorOutput) ToTolerationOperatorPtrOutputWithContext(ctx context.Context) TolerationOperatorPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v TolerationOperator) *TolerationOperator {
+		return &v
+	}).(TolerationOperatorPtrOutput)
+}
+
+func (o TolerationOperatorOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o TolerationOperatorOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e TolerationOperator) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o TolerationOperatorOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o TolerationOperatorOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e TolerationOperator) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type TolerationOperatorPtrOutput struct{ *pulumi.OutputState }
+
+func (TolerationOperatorPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**TolerationOperator)(nil)).Elem()
+}
+
+func (o TolerationOperatorPtrOutput) ToTolerationOperatorPtrOutput() TolerationOperatorPtrOutput {
+	return o
+}
+
+func (o TolerationOperatorPtrOutput) ToTolerationOperatorPtrOutputWithContext(ctx context.Context) TolerationOperatorPtrOutput {
+	return o
+}
+
+func (o TolerationOperatorPtrOutput) Elem() TolerationOperatorOutput {
+	return o.ApplyT(func(v *TolerationOperator) TolerationOperator {
+		if v != nil {
+			return *v
+		}
+		var ret TolerationOperator
+		return ret
+	}).(TolerationOperatorOutput)
+}
+
+func (o TolerationOperatorPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o TolerationOperatorPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *TolerationOperator) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// TolerationOperatorInput is an input type that accepts values of the TolerationOperator enum
+// A concrete instance of `TolerationOperatorInput` can be one of the following:
+//
+//	TolerationOperatorExists
+//	TolerationOperatorEqual
+type TolerationOperatorInput interface {
+	pulumi.Input
+
+	ToTolerationOperatorOutput() TolerationOperatorOutput
+	ToTolerationOperatorOutputWithContext(context.Context) TolerationOperatorOutput
+}
+
+var tolerationOperatorPtrType = reflect.TypeOf((**TolerationOperator)(nil)).Elem()
+
+type TolerationOperatorPtrInput interface {
+	pulumi.Input
+
+	ToTolerationOperatorPtrOutput() TolerationOperatorPtrOutput
+	ToTolerationOperatorPtrOutputWithContext(context.Context) TolerationOperatorPtrOutput
+}
+
+type tolerationOperatorPtr string
+
+func TolerationOperatorPtr(v string) TolerationOperatorPtrInput {
+	return (*tolerationOperatorPtr)(&v)
+}
+
+func (*tolerationOperatorPtr) ElementType() reflect.Type {
+	return tolerationOperatorPtrType
+}
+
+func (in *tolerationOperatorPtr) ToTolerationOperatorPtrOutput() TolerationOperatorPtrOutput {
+	return pulumi.ToOutput(in).(TolerationOperatorPtrOutput)
+}
+
+func (in *tolerationOperatorPtr) ToTolerationOperatorPtrOutputWithContext(ctx context.Context) TolerationOperatorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(TolerationOperatorPtrOutput)
+}
+
 // The week index. Specifies on which week of the month the dayOfWeek applies.
 type Type string
 
@@ -10033,6 +12070,8 @@ const (
 	WorkloadRuntimeOCIContainer = WorkloadRuntime("OCIContainer")
 	// Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview).
 	WorkloadRuntimeWasmWasi = WorkloadRuntime("WasmWasi")
+	// Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods. Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series.
+	WorkloadRuntimeKataVmIsolation = WorkloadRuntime("KataVmIsolation")
 )
 
 func (WorkloadRuntime) ElementType() reflect.Type {
@@ -10159,6 +12198,7 @@ func (o WorkloadRuntimePtrOutput) ToStringPtrOutputWithContext(ctx context.Conte
 //
 //	WorkloadRuntimeOCIContainer
 //	WorkloadRuntimeWasmWasi
+//	WorkloadRuntimeKataVmIsolation
 type WorkloadRuntimeInput interface {
 	pulumi.Input
 
@@ -10238,10 +12278,24 @@ func init() {
 	pulumi.RegisterOutputType(KubeletDiskTypePtrOutput{})
 	pulumi.RegisterOutputType(KubernetesSupportPlanOutput{})
 	pulumi.RegisterOutputType(KubernetesSupportPlanPtrOutput{})
+	pulumi.RegisterOutputType(LabelSelectorOperatorOutput{})
+	pulumi.RegisterOutputType(LabelSelectorOperatorPtrOutput{})
 	pulumi.RegisterOutputType(LicenseTypeOutput{})
 	pulumi.RegisterOutputType(LicenseTypePtrOutput{})
 	pulumi.RegisterOutputType(LoadBalancerSkuOutput{})
 	pulumi.RegisterOutputType(LoadBalancerSkuPtrOutput{})
+	pulumi.RegisterOutputType(LocalDNSForwardDestinationOutput{})
+	pulumi.RegisterOutputType(LocalDNSForwardDestinationPtrOutput{})
+	pulumi.RegisterOutputType(LocalDNSForwardPolicyOutput{})
+	pulumi.RegisterOutputType(LocalDNSForwardPolicyPtrOutput{})
+	pulumi.RegisterOutputType(LocalDNSModeOutput{})
+	pulumi.RegisterOutputType(LocalDNSModePtrOutput{})
+	pulumi.RegisterOutputType(LocalDNSProtocolOutput{})
+	pulumi.RegisterOutputType(LocalDNSProtocolPtrOutput{})
+	pulumi.RegisterOutputType(LocalDNSQueryLoggingOutput{})
+	pulumi.RegisterOutputType(LocalDNSQueryLoggingPtrOutput{})
+	pulumi.RegisterOutputType(LocalDNSServeStaleOutput{})
+	pulumi.RegisterOutputType(LocalDNSServeStalePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterSKUNameOutput{})
 	pulumi.RegisterOutputType(ManagedClusterSKUNamePtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterSKUTierOutput{})
@@ -10280,10 +12334,16 @@ func init() {
 	pulumi.RegisterOutputType(OperatorPtrOutput{})
 	pulumi.RegisterOutputType(OutboundTypeOutput{})
 	pulumi.RegisterOutputType(OutboundTypePtrOutput{})
+	pulumi.RegisterOutputType(PlacementTypeOutput{})
+	pulumi.RegisterOutputType(PlacementTypePtrOutput{})
 	pulumi.RegisterOutputType(PodIPAllocationModeOutput{})
 	pulumi.RegisterOutputType(PodIPAllocationModePtrOutput{})
 	pulumi.RegisterOutputType(PolicyRuleOutput{})
 	pulumi.RegisterOutputType(PolicyRulePtrOutput{})
+	pulumi.RegisterOutputType(PropagationTypeOutput{})
+	pulumi.RegisterOutputType(PropagationTypePtrOutput{})
+	pulumi.RegisterOutputType(PropertySelectorOperatorOutput{})
+	pulumi.RegisterOutputType(PropertySelectorOperatorPtrOutput{})
 	pulumi.RegisterOutputType(ProtocolOutput{})
 	pulumi.RegisterOutputType(ProtocolPtrOutput{})
 	pulumi.RegisterOutputType(PublicNetworkAccessOutput{})
@@ -10304,6 +12364,10 @@ func init() {
 	pulumi.RegisterOutputType(ServiceMeshModePtrOutput{})
 	pulumi.RegisterOutputType(SnapshotTypeOutput{})
 	pulumi.RegisterOutputType(SnapshotTypePtrOutput{})
+	pulumi.RegisterOutputType(TaintEffectOutput{})
+	pulumi.RegisterOutputType(TaintEffectPtrOutput{})
+	pulumi.RegisterOutputType(TolerationOperatorOutput{})
+	pulumi.RegisterOutputType(TolerationOperatorPtrOutput{})
 	pulumi.RegisterOutputType(TypeOutput{})
 	pulumi.RegisterOutputType(TypePtrOutput{})
 	pulumi.RegisterOutputType(UndrainableNodeBehaviorOutput{})

@@ -12,7 +12,7 @@ require (
 
 require (
 	github.com/bombsimon/wsl/v5 v5.6.0 // indirect
-	github.com/clipperhouse/displaywidth v0.7.0 // indirect
+	github.com/clipperhouse/displaywidth v0.8.0 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
@@ -24,7 +24,7 @@ require (
 	github.com/AdminBenni/iota-mixing v1.0.0 // indirect
 	github.com/MirrexOne/unqueryvet v1.5.3 // indirect
 	github.com/alfatraining/structtag v1.0.0 // indirect
-	github.com/clipperhouse/uax29/v2 v2.3.1 // indirect
+	github.com/clipperhouse/uax29/v2 v2.4.0 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.1 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
@@ -188,7 +188,7 @@ require (
 	github.com/stretchr/testify v1.11.1 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/tetafro/godot v1.5.4 // indirect
-	github.com/timakin/bodyclose v0.0.0-20241222091800-1db5c5ca4d67 // indirect
+	github.com/timakin/bodyclose v0.0.0-20260129054331-73d1f95b84b4 // indirect
 	github.com/timonwong/loggercheck v0.11.0 // indirect
 	github.com/tomarrell/wrapcheck/v2 v2.12.0 // indirect
 	github.com/tommy-muehle/go-mnd/v2 v2.5.1 // indirect

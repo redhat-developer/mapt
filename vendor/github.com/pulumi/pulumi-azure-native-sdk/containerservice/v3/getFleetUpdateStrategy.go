@@ -15,7 +15,7 @@ import (
 //
 // Uses Azure REST API version 2024-05-02-preview.
 //
-// Other available API versions: 2023-08-15-preview, 2023-10-15, 2024-02-02-preview, 2024-04-01, 2025-03-01, 2025-04-01-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2023-08-15-preview, 2023-10-15, 2024-02-02-preview, 2024-04-01, 2025-03-01, 2025-04-01-preview, 2025-08-01-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupFleetUpdateStrategy(ctx *pulumi.Context, args *LookupFleetUpdateStrategyArgs, opts ...pulumi.InvokeOption) (*LookupFleetUpdateStrategyResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFleetUpdateStrategyResult

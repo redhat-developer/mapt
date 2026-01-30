@@ -24377,6 +24377,334 @@ func (in *sensitivityTypePtr) ToSensitivityTypePtrOutputWithContext(ctx context.
 	return pulumi.ToOutputWithContext(ctx, in).(SensitivityTypePtrOutput)
 }
 
+// Name of a service gateway SKU.
+type ServiceGatewaySkuName string
+
+const (
+	ServiceGatewaySkuNameStandard = ServiceGatewaySkuName("Standard")
+)
+
+func (ServiceGatewaySkuName) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceGatewaySkuName)(nil)).Elem()
+}
+
+func (e ServiceGatewaySkuName) ToServiceGatewaySkuNameOutput() ServiceGatewaySkuNameOutput {
+	return pulumi.ToOutput(e).(ServiceGatewaySkuNameOutput)
+}
+
+func (e ServiceGatewaySkuName) ToServiceGatewaySkuNameOutputWithContext(ctx context.Context) ServiceGatewaySkuNameOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ServiceGatewaySkuNameOutput)
+}
+
+func (e ServiceGatewaySkuName) ToServiceGatewaySkuNamePtrOutput() ServiceGatewaySkuNamePtrOutput {
+	return e.ToServiceGatewaySkuNamePtrOutputWithContext(context.Background())
+}
+
+func (e ServiceGatewaySkuName) ToServiceGatewaySkuNamePtrOutputWithContext(ctx context.Context) ServiceGatewaySkuNamePtrOutput {
+	return ServiceGatewaySkuName(e).ToServiceGatewaySkuNameOutputWithContext(ctx).ToServiceGatewaySkuNamePtrOutputWithContext(ctx)
+}
+
+func (e ServiceGatewaySkuName) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ServiceGatewaySkuName) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ServiceGatewaySkuName) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ServiceGatewaySkuName) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ServiceGatewaySkuNameOutput struct{ *pulumi.OutputState }
+
+func (ServiceGatewaySkuNameOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceGatewaySkuName)(nil)).Elem()
+}
+
+func (o ServiceGatewaySkuNameOutput) ToServiceGatewaySkuNameOutput() ServiceGatewaySkuNameOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuNameOutput) ToServiceGatewaySkuNameOutputWithContext(ctx context.Context) ServiceGatewaySkuNameOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuNameOutput) ToServiceGatewaySkuNamePtrOutput() ServiceGatewaySkuNamePtrOutput {
+	return o.ToServiceGatewaySkuNamePtrOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuNameOutput) ToServiceGatewaySkuNamePtrOutputWithContext(ctx context.Context) ServiceGatewaySkuNamePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ServiceGatewaySkuName) *ServiceGatewaySkuName {
+		return &v
+	}).(ServiceGatewaySkuNamePtrOutput)
+}
+
+func (o ServiceGatewaySkuNameOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuNameOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ServiceGatewaySkuName) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ServiceGatewaySkuNameOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuNameOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ServiceGatewaySkuName) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ServiceGatewaySkuNamePtrOutput struct{ *pulumi.OutputState }
+
+func (ServiceGatewaySkuNamePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceGatewaySkuName)(nil)).Elem()
+}
+
+func (o ServiceGatewaySkuNamePtrOutput) ToServiceGatewaySkuNamePtrOutput() ServiceGatewaySkuNamePtrOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuNamePtrOutput) ToServiceGatewaySkuNamePtrOutputWithContext(ctx context.Context) ServiceGatewaySkuNamePtrOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuNamePtrOutput) Elem() ServiceGatewaySkuNameOutput {
+	return o.ApplyT(func(v *ServiceGatewaySkuName) ServiceGatewaySkuName {
+		if v != nil {
+			return *v
+		}
+		var ret ServiceGatewaySkuName
+		return ret
+	}).(ServiceGatewaySkuNameOutput)
+}
+
+func (o ServiceGatewaySkuNamePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuNamePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ServiceGatewaySkuName) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ServiceGatewaySkuNameInput is an input type that accepts values of the ServiceGatewaySkuName enum
+// A concrete instance of `ServiceGatewaySkuNameInput` can be one of the following:
+//
+//	ServiceGatewaySkuNameStandard
+type ServiceGatewaySkuNameInput interface {
+	pulumi.Input
+
+	ToServiceGatewaySkuNameOutput() ServiceGatewaySkuNameOutput
+	ToServiceGatewaySkuNameOutputWithContext(context.Context) ServiceGatewaySkuNameOutput
+}
+
+var serviceGatewaySkuNamePtrType = reflect.TypeOf((**ServiceGatewaySkuName)(nil)).Elem()
+
+type ServiceGatewaySkuNamePtrInput interface {
+	pulumi.Input
+
+	ToServiceGatewaySkuNamePtrOutput() ServiceGatewaySkuNamePtrOutput
+	ToServiceGatewaySkuNamePtrOutputWithContext(context.Context) ServiceGatewaySkuNamePtrOutput
+}
+
+type serviceGatewaySkuNamePtr string
+
+func ServiceGatewaySkuNamePtr(v string) ServiceGatewaySkuNamePtrInput {
+	return (*serviceGatewaySkuNamePtr)(&v)
+}
+
+func (*serviceGatewaySkuNamePtr) ElementType() reflect.Type {
+	return serviceGatewaySkuNamePtrType
+}
+
+func (in *serviceGatewaySkuNamePtr) ToServiceGatewaySkuNamePtrOutput() ServiceGatewaySkuNamePtrOutput {
+	return pulumi.ToOutput(in).(ServiceGatewaySkuNamePtrOutput)
+}
+
+func (in *serviceGatewaySkuNamePtr) ToServiceGatewaySkuNamePtrOutputWithContext(ctx context.Context) ServiceGatewaySkuNamePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ServiceGatewaySkuNamePtrOutput)
+}
+
+// Tier of a service gateway SKU.
+type ServiceGatewaySkuTier string
+
+const (
+	ServiceGatewaySkuTierRegional = ServiceGatewaySkuTier("Regional")
+)
+
+func (ServiceGatewaySkuTier) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceGatewaySkuTier)(nil)).Elem()
+}
+
+func (e ServiceGatewaySkuTier) ToServiceGatewaySkuTierOutput() ServiceGatewaySkuTierOutput {
+	return pulumi.ToOutput(e).(ServiceGatewaySkuTierOutput)
+}
+
+func (e ServiceGatewaySkuTier) ToServiceGatewaySkuTierOutputWithContext(ctx context.Context) ServiceGatewaySkuTierOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ServiceGatewaySkuTierOutput)
+}
+
+func (e ServiceGatewaySkuTier) ToServiceGatewaySkuTierPtrOutput() ServiceGatewaySkuTierPtrOutput {
+	return e.ToServiceGatewaySkuTierPtrOutputWithContext(context.Background())
+}
+
+func (e ServiceGatewaySkuTier) ToServiceGatewaySkuTierPtrOutputWithContext(ctx context.Context) ServiceGatewaySkuTierPtrOutput {
+	return ServiceGatewaySkuTier(e).ToServiceGatewaySkuTierOutputWithContext(ctx).ToServiceGatewaySkuTierPtrOutputWithContext(ctx)
+}
+
+func (e ServiceGatewaySkuTier) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ServiceGatewaySkuTier) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ServiceGatewaySkuTier) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ServiceGatewaySkuTier) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ServiceGatewaySkuTierOutput struct{ *pulumi.OutputState }
+
+func (ServiceGatewaySkuTierOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceGatewaySkuTier)(nil)).Elem()
+}
+
+func (o ServiceGatewaySkuTierOutput) ToServiceGatewaySkuTierOutput() ServiceGatewaySkuTierOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuTierOutput) ToServiceGatewaySkuTierOutputWithContext(ctx context.Context) ServiceGatewaySkuTierOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuTierOutput) ToServiceGatewaySkuTierPtrOutput() ServiceGatewaySkuTierPtrOutput {
+	return o.ToServiceGatewaySkuTierPtrOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuTierOutput) ToServiceGatewaySkuTierPtrOutputWithContext(ctx context.Context) ServiceGatewaySkuTierPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ServiceGatewaySkuTier) *ServiceGatewaySkuTier {
+		return &v
+	}).(ServiceGatewaySkuTierPtrOutput)
+}
+
+func (o ServiceGatewaySkuTierOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuTierOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ServiceGatewaySkuTier) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ServiceGatewaySkuTierOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuTierOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ServiceGatewaySkuTier) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ServiceGatewaySkuTierPtrOutput struct{ *pulumi.OutputState }
+
+func (ServiceGatewaySkuTierPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceGatewaySkuTier)(nil)).Elem()
+}
+
+func (o ServiceGatewaySkuTierPtrOutput) ToServiceGatewaySkuTierPtrOutput() ServiceGatewaySkuTierPtrOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuTierPtrOutput) ToServiceGatewaySkuTierPtrOutputWithContext(ctx context.Context) ServiceGatewaySkuTierPtrOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuTierPtrOutput) Elem() ServiceGatewaySkuTierOutput {
+	return o.ApplyT(func(v *ServiceGatewaySkuTier) ServiceGatewaySkuTier {
+		if v != nil {
+			return *v
+		}
+		var ret ServiceGatewaySkuTier
+		return ret
+	}).(ServiceGatewaySkuTierOutput)
+}
+
+func (o ServiceGatewaySkuTierPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuTierPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ServiceGatewaySkuTier) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ServiceGatewaySkuTierInput is an input type that accepts values of the ServiceGatewaySkuTier enum
+// A concrete instance of `ServiceGatewaySkuTierInput` can be one of the following:
+//
+//	ServiceGatewaySkuTierRegional
+type ServiceGatewaySkuTierInput interface {
+	pulumi.Input
+
+	ToServiceGatewaySkuTierOutput() ServiceGatewaySkuTierOutput
+	ToServiceGatewaySkuTierOutputWithContext(context.Context) ServiceGatewaySkuTierOutput
+}
+
+var serviceGatewaySkuTierPtrType = reflect.TypeOf((**ServiceGatewaySkuTier)(nil)).Elem()
+
+type ServiceGatewaySkuTierPtrInput interface {
+	pulumi.Input
+
+	ToServiceGatewaySkuTierPtrOutput() ServiceGatewaySkuTierPtrOutput
+	ToServiceGatewaySkuTierPtrOutputWithContext(context.Context) ServiceGatewaySkuTierPtrOutput
+}
+
+type serviceGatewaySkuTierPtr string
+
+func ServiceGatewaySkuTierPtr(v string) ServiceGatewaySkuTierPtrInput {
+	return (*serviceGatewaySkuTierPtr)(&v)
+}
+
+func (*serviceGatewaySkuTierPtr) ElementType() reflect.Type {
+	return serviceGatewaySkuTierPtrType
+}
+
+func (in *serviceGatewaySkuTierPtr) ToServiceGatewaySkuTierPtrOutput() ServiceGatewaySkuTierPtrOutput {
+	return pulumi.ToOutput(in).(ServiceGatewaySkuTierPtrOutput)
+}
+
+func (in *serviceGatewaySkuTierPtr) ToServiceGatewaySkuTierPtrOutputWithContext(ctx context.Context) ServiceGatewaySkuTierPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ServiceGatewaySkuTierPtrOutput)
+}
+
 // The ServiceProviderProvisioningState state of the resource.
 type ServiceProviderProvisioningState string
 
@@ -30630,6 +30958,10 @@ func init() {
 	pulumi.RegisterOutputType(SecurityRuleProtocolPtrOutput{})
 	pulumi.RegisterOutputType(SensitivityTypeOutput{})
 	pulumi.RegisterOutputType(SensitivityTypePtrOutput{})
+	pulumi.RegisterOutputType(ServiceGatewaySkuNameOutput{})
+	pulumi.RegisterOutputType(ServiceGatewaySkuNamePtrOutput{})
+	pulumi.RegisterOutputType(ServiceGatewaySkuTierOutput{})
+	pulumi.RegisterOutputType(ServiceGatewaySkuTierPtrOutput{})
 	pulumi.RegisterOutputType(ServiceProviderProvisioningStateOutput{})
 	pulumi.RegisterOutputType(ServiceProviderProvisioningStatePtrOutput{})
 	pulumi.RegisterOutputType(SharingScopeOutput{})

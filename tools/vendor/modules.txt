@@ -173,13 +173,13 @@ github.com/charmbracelet/x/term
 # github.com/ckaznocha/intrange v0.3.1
 ## explicit; go 1.23.0
 github.com/ckaznocha/intrange
-# github.com/clipperhouse/displaywidth v0.7.0
+# github.com/clipperhouse/displaywidth v0.8.0
 ## explicit; go 1.18
 github.com/clipperhouse/displaywidth
 # github.com/clipperhouse/stringish v0.1.1
 ## explicit; go 1.18
 github.com/clipperhouse/stringish
-# github.com/clipperhouse/uax29/v2 v2.3.1
+# github.com/clipperhouse/uax29/v2 v2.4.0
 ## explicit; go 1.18
 github.com/clipperhouse/uax29/v2/graphemes
 github.com/clipperhouse/uax29/v2/internal/iterators
@@ -857,8 +857,8 @@ github.com/subosito/gotenv
 # github.com/tetafro/godot v1.5.4
 ## explicit; go 1.22
 github.com/tetafro/godot
-# github.com/timakin/bodyclose v0.0.0-20241222091800-1db5c5ca4d67
-## explicit; go 1.12
+# github.com/timakin/bodyclose v0.0.0-20260129054331-73d1f95b84b4
+## explicit; go 1.22
 github.com/timakin/bodyclose/passes/bodyclose
 # github.com/timonwong/loggercheck v0.11.0
 ## explicit; go 1.22.0

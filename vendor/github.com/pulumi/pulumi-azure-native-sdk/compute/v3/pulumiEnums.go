@@ -5590,6 +5590,183 @@ func (in *galleryExtendedLocationTypePtr) ToGalleryExtendedLocationTypePtrOutput
 	return pulumi.ToOutputWithContext(ctx, in).(GalleryExtendedLocationTypePtrOutput)
 }
 
+// Specifies the type of the Gallery Script parameter. Possible values are: String, Int, Double, Boolean, Enum
+type GalleryScriptParameterType string
+
+const (
+	// String gallery script parameter type
+	GalleryScriptParameterTypeString = GalleryScriptParameterType("String")
+	// Int gallery script parameter type
+	GalleryScriptParameterTypeInt = GalleryScriptParameterType("Int")
+	// Double gallery script parameter type
+	GalleryScriptParameterTypeDouble = GalleryScriptParameterType("Double")
+	// Boolean gallery script parameter type
+	GalleryScriptParameterTypeBoolean = GalleryScriptParameterType("Boolean")
+	// Enum gallery script parameter type
+	GalleryScriptParameterTypeEnum = GalleryScriptParameterType("Enum")
+)
+
+func (GalleryScriptParameterType) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptParameterType)(nil)).Elem()
+}
+
+func (e GalleryScriptParameterType) ToGalleryScriptParameterTypeOutput() GalleryScriptParameterTypeOutput {
+	return pulumi.ToOutput(e).(GalleryScriptParameterTypeOutput)
+}
+
+func (e GalleryScriptParameterType) ToGalleryScriptParameterTypeOutputWithContext(ctx context.Context) GalleryScriptParameterTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(GalleryScriptParameterTypeOutput)
+}
+
+func (e GalleryScriptParameterType) ToGalleryScriptParameterTypePtrOutput() GalleryScriptParameterTypePtrOutput {
+	return e.ToGalleryScriptParameterTypePtrOutputWithContext(context.Background())
+}
+
+func (e GalleryScriptParameterType) ToGalleryScriptParameterTypePtrOutputWithContext(ctx context.Context) GalleryScriptParameterTypePtrOutput {
+	return GalleryScriptParameterType(e).ToGalleryScriptParameterTypeOutputWithContext(ctx).ToGalleryScriptParameterTypePtrOutputWithContext(ctx)
+}
+
+func (e GalleryScriptParameterType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e GalleryScriptParameterType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e GalleryScriptParameterType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e GalleryScriptParameterType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type GalleryScriptParameterTypeOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptParameterTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GalleryScriptParameterType)(nil)).Elem()
+}
+
+func (o GalleryScriptParameterTypeOutput) ToGalleryScriptParameterTypeOutput() GalleryScriptParameterTypeOutput {
+	return o
+}
+
+func (o GalleryScriptParameterTypeOutput) ToGalleryScriptParameterTypeOutputWithContext(ctx context.Context) GalleryScriptParameterTypeOutput {
+	return o
+}
+
+func (o GalleryScriptParameterTypeOutput) ToGalleryScriptParameterTypePtrOutput() GalleryScriptParameterTypePtrOutput {
+	return o.ToGalleryScriptParameterTypePtrOutputWithContext(context.Background())
+}
+
+func (o GalleryScriptParameterTypeOutput) ToGalleryScriptParameterTypePtrOutputWithContext(ctx context.Context) GalleryScriptParameterTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v GalleryScriptParameterType) *GalleryScriptParameterType {
+		return &v
+	}).(GalleryScriptParameterTypePtrOutput)
+}
+
+func (o GalleryScriptParameterTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o GalleryScriptParameterTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e GalleryScriptParameterType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o GalleryScriptParameterTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o GalleryScriptParameterTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e GalleryScriptParameterType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type GalleryScriptParameterTypePtrOutput struct{ *pulumi.OutputState }
+
+func (GalleryScriptParameterTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**GalleryScriptParameterType)(nil)).Elem()
+}
+
+func (o GalleryScriptParameterTypePtrOutput) ToGalleryScriptParameterTypePtrOutput() GalleryScriptParameterTypePtrOutput {
+	return o
+}
+
+func (o GalleryScriptParameterTypePtrOutput) ToGalleryScriptParameterTypePtrOutputWithContext(ctx context.Context) GalleryScriptParameterTypePtrOutput {
+	return o
+}
+
+func (o GalleryScriptParameterTypePtrOutput) Elem() GalleryScriptParameterTypeOutput {
+	return o.ApplyT(func(v *GalleryScriptParameterType) GalleryScriptParameterType {
+		if v != nil {
+			return *v
+		}
+		var ret GalleryScriptParameterType
+		return ret
+	}).(GalleryScriptParameterTypeOutput)
+}
+
+func (o GalleryScriptParameterTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o GalleryScriptParameterTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *GalleryScriptParameterType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// GalleryScriptParameterTypeInput is an input type that accepts values of the GalleryScriptParameterType enum
+// A concrete instance of `GalleryScriptParameterTypeInput` can be one of the following:
+//
+//	GalleryScriptParameterTypeString
+//	GalleryScriptParameterTypeInt
+//	GalleryScriptParameterTypeDouble
+//	GalleryScriptParameterTypeBoolean
+//	GalleryScriptParameterTypeEnum
+type GalleryScriptParameterTypeInput interface {
+	pulumi.Input
+
+	ToGalleryScriptParameterTypeOutput() GalleryScriptParameterTypeOutput
+	ToGalleryScriptParameterTypeOutputWithContext(context.Context) GalleryScriptParameterTypeOutput
+}
+
+var galleryScriptParameterTypePtrType = reflect.TypeOf((**GalleryScriptParameterType)(nil)).Elem()
+
+type GalleryScriptParameterTypePtrInput interface {
+	pulumi.Input
+
+	ToGalleryScriptParameterTypePtrOutput() GalleryScriptParameterTypePtrOutput
+	ToGalleryScriptParameterTypePtrOutputWithContext(context.Context) GalleryScriptParameterTypePtrOutput
+}
+
+type galleryScriptParameterTypePtr string
+
+func GalleryScriptParameterTypePtr(v string) GalleryScriptParameterTypePtrInput {
+	return (*galleryScriptParameterTypePtr)(&v)
+}
+
+func (*galleryScriptParameterTypePtr) ElementType() reflect.Type {
+	return galleryScriptParameterTypePtrType
+}
+
+func (in *galleryScriptParameterTypePtr) ToGalleryScriptParameterTypePtrOutput() GalleryScriptParameterTypePtrOutput {
+	return pulumi.ToOutput(in).(GalleryScriptParameterTypePtrOutput)
+}
+
+func (in *galleryScriptParameterTypePtr) ToGalleryScriptParameterTypePtrOutputWithContext(ctx context.Context) GalleryScriptParameterTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(GalleryScriptParameterTypePtrOutput)
+}
+
 // This property allows you to specify the permission of sharing gallery. Possible values are: **Private,** **Groups,** **Community.**
 type GallerySharingPermissionTypes string
 
@@ -12281,6 +12458,174 @@ func (in *statusLevelTypesPtr) ToStatusLevelTypesPtrOutputWithContext(ctx contex
 	return pulumi.ToOutputWithContext(ctx, in).(StatusLevelTypesPtrOutput)
 }
 
+// Specifies the strategy to be used when selecting the storage account type. Cannot be specified along with storageAccountType, but can be overridden per region by specifying targetRegions[].storageAccountType. This property is not updatable.
+type StorageAccountStrategy string
+
+const (
+	// Choose Standard_ZRS storage if the region supports it, else choose Standard_LRS storage, unless overridden by specifying regional storageAccountType. If no storageAccountStrategy is specified, this is the default strategy (from API version 2025-03-03 onwards).
+	StorageAccountStrategy_PreferStandard_ZRS = StorageAccountStrategy("PreferStandard_ZRS")
+	// Choose Standard_LRS storage unless overridden by specifying regional storageAccountType.
+	StorageAccountStrategy_DefaultStandard_LRS = StorageAccountStrategy("DefaultStandard_LRS")
+)
+
+func (StorageAccountStrategy) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageAccountStrategy)(nil)).Elem()
+}
+
+func (e StorageAccountStrategy) ToStorageAccountStrategyOutput() StorageAccountStrategyOutput {
+	return pulumi.ToOutput(e).(StorageAccountStrategyOutput)
+}
+
+func (e StorageAccountStrategy) ToStorageAccountStrategyOutputWithContext(ctx context.Context) StorageAccountStrategyOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(StorageAccountStrategyOutput)
+}
+
+func (e StorageAccountStrategy) ToStorageAccountStrategyPtrOutput() StorageAccountStrategyPtrOutput {
+	return e.ToStorageAccountStrategyPtrOutputWithContext(context.Background())
+}
+
+func (e StorageAccountStrategy) ToStorageAccountStrategyPtrOutputWithContext(ctx context.Context) StorageAccountStrategyPtrOutput {
+	return StorageAccountStrategy(e).ToStorageAccountStrategyOutputWithContext(ctx).ToStorageAccountStrategyPtrOutputWithContext(ctx)
+}
+
+func (e StorageAccountStrategy) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e StorageAccountStrategy) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e StorageAccountStrategy) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e StorageAccountStrategy) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type StorageAccountStrategyOutput struct{ *pulumi.OutputState }
+
+func (StorageAccountStrategyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageAccountStrategy)(nil)).Elem()
+}
+
+func (o StorageAccountStrategyOutput) ToStorageAccountStrategyOutput() StorageAccountStrategyOutput {
+	return o
+}
+
+func (o StorageAccountStrategyOutput) ToStorageAccountStrategyOutputWithContext(ctx context.Context) StorageAccountStrategyOutput {
+	return o
+}
+
+func (o StorageAccountStrategyOutput) ToStorageAccountStrategyPtrOutput() StorageAccountStrategyPtrOutput {
+	return o.ToStorageAccountStrategyPtrOutputWithContext(context.Background())
+}
+
+func (o StorageAccountStrategyOutput) ToStorageAccountStrategyPtrOutputWithContext(ctx context.Context) StorageAccountStrategyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v StorageAccountStrategy) *StorageAccountStrategy {
+		return &v
+	}).(StorageAccountStrategyPtrOutput)
+}
+
+func (o StorageAccountStrategyOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o StorageAccountStrategyOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e StorageAccountStrategy) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o StorageAccountStrategyOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o StorageAccountStrategyOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e StorageAccountStrategy) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type StorageAccountStrategyPtrOutput struct{ *pulumi.OutputState }
+
+func (StorageAccountStrategyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**StorageAccountStrategy)(nil)).Elem()
+}
+
+func (o StorageAccountStrategyPtrOutput) ToStorageAccountStrategyPtrOutput() StorageAccountStrategyPtrOutput {
+	return o
+}
+
+func (o StorageAccountStrategyPtrOutput) ToStorageAccountStrategyPtrOutputWithContext(ctx context.Context) StorageAccountStrategyPtrOutput {
+	return o
+}
+
+func (o StorageAccountStrategyPtrOutput) Elem() StorageAccountStrategyOutput {
+	return o.ApplyT(func(v *StorageAccountStrategy) StorageAccountStrategy {
+		if v != nil {
+			return *v
+		}
+		var ret StorageAccountStrategy
+		return ret
+	}).(StorageAccountStrategyOutput)
+}
+
+func (o StorageAccountStrategyPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o StorageAccountStrategyPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *StorageAccountStrategy) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// StorageAccountStrategyInput is an input type that accepts values of the StorageAccountStrategy enum
+// A concrete instance of `StorageAccountStrategyInput` can be one of the following:
+//
+//	StorageAccountStrategy_PreferStandard_ZRS
+//	StorageAccountStrategy_DefaultStandard_LRS
+type StorageAccountStrategyInput interface {
+	pulumi.Input
+
+	ToStorageAccountStrategyOutput() StorageAccountStrategyOutput
+	ToStorageAccountStrategyOutputWithContext(context.Context) StorageAccountStrategyOutput
+}
+
+var storageAccountStrategyPtrType = reflect.TypeOf((**StorageAccountStrategy)(nil)).Elem()
+
+type StorageAccountStrategyPtrInput interface {
+	pulumi.Input
+
+	ToStorageAccountStrategyPtrOutput() StorageAccountStrategyPtrOutput
+	ToStorageAccountStrategyPtrOutputWithContext(context.Context) StorageAccountStrategyPtrOutput
+}
+
+type storageAccountStrategyPtr string
+
+func StorageAccountStrategyPtr(v string) StorageAccountStrategyPtrInput {
+	return (*storageAccountStrategyPtr)(&v)
+}
+
+func (*storageAccountStrategyPtr) ElementType() reflect.Type {
+	return storageAccountStrategyPtrType
+}
+
+func (in *storageAccountStrategyPtr) ToStorageAccountStrategyPtrOutput() StorageAccountStrategyPtrOutput {
+	return pulumi.ToOutput(in).(StorageAccountStrategyPtrOutput)
+}
+
+func (in *storageAccountStrategyPtr) ToStorageAccountStrategyPtrOutputWithContext(ctx context.Context) StorageAccountStrategyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(StorageAccountStrategyPtrOutput)
+}
+
 // Specifies the storage account type to be used to store the image. This property is not updatable.
 type StorageAccountType string
 
@@ -15025,6 +15370,8 @@ func init() {
 	pulumi.RegisterOutputType(GalleryApplicationScriptRebootBehaviorPtrOutput{})
 	pulumi.RegisterOutputType(GalleryExtendedLocationTypeOutput{})
 	pulumi.RegisterOutputType(GalleryExtendedLocationTypePtrOutput{})
+	pulumi.RegisterOutputType(GalleryScriptParameterTypeOutput{})
+	pulumi.RegisterOutputType(GalleryScriptParameterTypePtrOutput{})
 	pulumi.RegisterOutputType(GallerySharingPermissionTypesOutput{})
 	pulumi.RegisterOutputType(GallerySharingPermissionTypesPtrOutput{})
 	pulumi.RegisterOutputType(HostCachingOutput{})
@@ -15105,6 +15452,8 @@ func init() {
 	pulumi.RegisterOutputType(SnapshotStorageAccountTypesPtrOutput{})
 	pulumi.RegisterOutputType(StatusLevelTypesOutput{})
 	pulumi.RegisterOutputType(StatusLevelTypesPtrOutput{})
+	pulumi.RegisterOutputType(StorageAccountStrategyOutput{})
+	pulumi.RegisterOutputType(StorageAccountStrategyPtrOutput{})
 	pulumi.RegisterOutputType(StorageAccountTypeOutput{})
 	pulumi.RegisterOutputType(StorageAccountTypePtrOutput{})
 	pulumi.RegisterOutputType(StorageAccountTypesOutput{})

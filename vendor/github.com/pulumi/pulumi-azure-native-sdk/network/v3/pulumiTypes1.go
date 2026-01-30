@@ -2002,6 +2002,309 @@ func (o RouteTableResponsePtrOutput) Type() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
+// Properties of route target address
+type RouteTargetAddressPropertiesFormat struct {
+	// The private IPv4 or IPv6 address of the service gateway route target address.
+	PrivateIPAddress *string `pulumi:"privateIPAddress"`
+	// The Private IP allocation method.
+	PrivateIPAllocationMethod *string `pulumi:"privateIPAllocationMethod"`
+	// The reference to the subnet resource.
+	Subnet *SubnetType `pulumi:"subnet"`
+}
+
+// Defaults sets the appropriate defaults for RouteTargetAddressPropertiesFormat
+func (val *RouteTargetAddressPropertiesFormat) Defaults() *RouteTargetAddressPropertiesFormat {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	tmp.Subnet = tmp.Subnet.Defaults()
+
+	return &tmp
+}
+
+// RouteTargetAddressPropertiesFormatInput is an input type that accepts RouteTargetAddressPropertiesFormatArgs and RouteTargetAddressPropertiesFormatOutput values.
+// You can construct a concrete instance of `RouteTargetAddressPropertiesFormatInput` via:
+//
+//	RouteTargetAddressPropertiesFormatArgs{...}
+type RouteTargetAddressPropertiesFormatInput interface {
+	pulumi.Input
+
+	ToRouteTargetAddressPropertiesFormatOutput() RouteTargetAddressPropertiesFormatOutput
+	ToRouteTargetAddressPropertiesFormatOutputWithContext(context.Context) RouteTargetAddressPropertiesFormatOutput
+}
+
+// Properties of route target address
+type RouteTargetAddressPropertiesFormatArgs struct {
+	// The private IPv4 or IPv6 address of the service gateway route target address.
+	PrivateIPAddress pulumi.StringPtrInput `pulumi:"privateIPAddress"`
+	// The Private IP allocation method.
+	PrivateIPAllocationMethod pulumi.StringPtrInput `pulumi:"privateIPAllocationMethod"`
+	// The reference to the subnet resource.
+	Subnet SubnetTypePtrInput `pulumi:"subnet"`
+}
+
+// Defaults sets the appropriate defaults for RouteTargetAddressPropertiesFormatArgs
+func (val *RouteTargetAddressPropertiesFormatArgs) Defaults() *RouteTargetAddressPropertiesFormatArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+
+	return &tmp
+}
+func (RouteTargetAddressPropertiesFormatArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*RouteTargetAddressPropertiesFormat)(nil)).Elem()
+}
+
+func (i RouteTargetAddressPropertiesFormatArgs) ToRouteTargetAddressPropertiesFormatOutput() RouteTargetAddressPropertiesFormatOutput {
+	return i.ToRouteTargetAddressPropertiesFormatOutputWithContext(context.Background())
+}
+
+func (i RouteTargetAddressPropertiesFormatArgs) ToRouteTargetAddressPropertiesFormatOutputWithContext(ctx context.Context) RouteTargetAddressPropertiesFormatOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RouteTargetAddressPropertiesFormatOutput)
+}
+
+func (i RouteTargetAddressPropertiesFormatArgs) ToRouteTargetAddressPropertiesFormatPtrOutput() RouteTargetAddressPropertiesFormatPtrOutput {
+	return i.ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(context.Background())
+}
+
+func (i RouteTargetAddressPropertiesFormatArgs) ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(ctx context.Context) RouteTargetAddressPropertiesFormatPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RouteTargetAddressPropertiesFormatOutput).ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(ctx)
+}
+
+// RouteTargetAddressPropertiesFormatPtrInput is an input type that accepts RouteTargetAddressPropertiesFormatArgs, RouteTargetAddressPropertiesFormatPtr and RouteTargetAddressPropertiesFormatPtrOutput values.
+// You can construct a concrete instance of `RouteTargetAddressPropertiesFormatPtrInput` via:
+//
+//	        RouteTargetAddressPropertiesFormatArgs{...}
+//
+//	or:
+//
+//	        nil
+type RouteTargetAddressPropertiesFormatPtrInput interface {
+	pulumi.Input
+
+	ToRouteTargetAddressPropertiesFormatPtrOutput() RouteTargetAddressPropertiesFormatPtrOutput
+	ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(context.Context) RouteTargetAddressPropertiesFormatPtrOutput
+}
+
+type routeTargetAddressPropertiesFormatPtrType RouteTargetAddressPropertiesFormatArgs
+
+func RouteTargetAddressPropertiesFormatPtr(v *RouteTargetAddressPropertiesFormatArgs) RouteTargetAddressPropertiesFormatPtrInput {
+	return (*routeTargetAddressPropertiesFormatPtrType)(v)
+}
+
+func (*routeTargetAddressPropertiesFormatPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**RouteTargetAddressPropertiesFormat)(nil)).Elem()
+}
+
+func (i *routeTargetAddressPropertiesFormatPtrType) ToRouteTargetAddressPropertiesFormatPtrOutput() RouteTargetAddressPropertiesFormatPtrOutput {
+	return i.ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(context.Background())
+}
+
+func (i *routeTargetAddressPropertiesFormatPtrType) ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(ctx context.Context) RouteTargetAddressPropertiesFormatPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RouteTargetAddressPropertiesFormatPtrOutput)
+}
+
+// Properties of route target address
+type RouteTargetAddressPropertiesFormatOutput struct{ *pulumi.OutputState }
+
+func (RouteTargetAddressPropertiesFormatOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RouteTargetAddressPropertiesFormat)(nil)).Elem()
+}
+
+func (o RouteTargetAddressPropertiesFormatOutput) ToRouteTargetAddressPropertiesFormatOutput() RouteTargetAddressPropertiesFormatOutput {
+	return o
+}
+
+func (o RouteTargetAddressPropertiesFormatOutput) ToRouteTargetAddressPropertiesFormatOutputWithContext(ctx context.Context) RouteTargetAddressPropertiesFormatOutput {
+	return o
+}
+
+func (o RouteTargetAddressPropertiesFormatOutput) ToRouteTargetAddressPropertiesFormatPtrOutput() RouteTargetAddressPropertiesFormatPtrOutput {
+	return o.ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(context.Background())
+}
+
+func (o RouteTargetAddressPropertiesFormatOutput) ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(ctx context.Context) RouteTargetAddressPropertiesFormatPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v RouteTargetAddressPropertiesFormat) *RouteTargetAddressPropertiesFormat {
+		return &v
+	}).(RouteTargetAddressPropertiesFormatPtrOutput)
+}
+
+// The private IPv4 or IPv6 address of the service gateway route target address.
+func (o RouteTargetAddressPropertiesFormatOutput) PrivateIPAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RouteTargetAddressPropertiesFormat) *string { return v.PrivateIPAddress }).(pulumi.StringPtrOutput)
+}
+
+// The Private IP allocation method.
+func (o RouteTargetAddressPropertiesFormatOutput) PrivateIPAllocationMethod() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RouteTargetAddressPropertiesFormat) *string { return v.PrivateIPAllocationMethod }).(pulumi.StringPtrOutput)
+}
+
+// The reference to the subnet resource.
+func (o RouteTargetAddressPropertiesFormatOutput) Subnet() SubnetTypePtrOutput {
+	return o.ApplyT(func(v RouteTargetAddressPropertiesFormat) *SubnetType { return v.Subnet }).(SubnetTypePtrOutput)
+}
+
+type RouteTargetAddressPropertiesFormatPtrOutput struct{ *pulumi.OutputState }
+
+func (RouteTargetAddressPropertiesFormatPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RouteTargetAddressPropertiesFormat)(nil)).Elem()
+}
+
+func (o RouteTargetAddressPropertiesFormatPtrOutput) ToRouteTargetAddressPropertiesFormatPtrOutput() RouteTargetAddressPropertiesFormatPtrOutput {
+	return o
+}
+
+func (o RouteTargetAddressPropertiesFormatPtrOutput) ToRouteTargetAddressPropertiesFormatPtrOutputWithContext(ctx context.Context) RouteTargetAddressPropertiesFormatPtrOutput {
+	return o
+}
+
+func (o RouteTargetAddressPropertiesFormatPtrOutput) Elem() RouteTargetAddressPropertiesFormatOutput {
+	return o.ApplyT(func(v *RouteTargetAddressPropertiesFormat) RouteTargetAddressPropertiesFormat {
+		if v != nil {
+			return *v
+		}
+		var ret RouteTargetAddressPropertiesFormat
+		return ret
+	}).(RouteTargetAddressPropertiesFormatOutput)
+}
+
+// The private IPv4 or IPv6 address of the service gateway route target address.
+func (o RouteTargetAddressPropertiesFormatPtrOutput) PrivateIPAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RouteTargetAddressPropertiesFormat) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateIPAddress
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Private IP allocation method.
+func (o RouteTargetAddressPropertiesFormatPtrOutput) PrivateIPAllocationMethod() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RouteTargetAddressPropertiesFormat) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateIPAllocationMethod
+	}).(pulumi.StringPtrOutput)
+}
+
+// The reference to the subnet resource.
+func (o RouteTargetAddressPropertiesFormatPtrOutput) Subnet() SubnetTypePtrOutput {
+	return o.ApplyT(func(v *RouteTargetAddressPropertiesFormat) *SubnetType {
+		if v == nil {
+			return nil
+		}
+		return v.Subnet
+	}).(SubnetTypePtrOutput)
+}
+
+// Properties of route target address
+type RouteTargetAddressPropertiesFormatResponse struct {
+	// The private IPv4 or IPv6 address of the service gateway route target address.
+	PrivateIPAddress *string `pulumi:"privateIPAddress"`
+	// The Private IP allocation method.
+	PrivateIPAllocationMethod *string `pulumi:"privateIPAllocationMethod"`
+	// The reference to the subnet resource.
+	Subnet *SubnetResponse `pulumi:"subnet"`
+}
+
+// Defaults sets the appropriate defaults for RouteTargetAddressPropertiesFormatResponse
+func (val *RouteTargetAddressPropertiesFormatResponse) Defaults() *RouteTargetAddressPropertiesFormatResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	tmp.Subnet = tmp.Subnet.Defaults()
+
+	return &tmp
+}
+
+// Properties of route target address
+type RouteTargetAddressPropertiesFormatResponseOutput struct{ *pulumi.OutputState }
+
+func (RouteTargetAddressPropertiesFormatResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RouteTargetAddressPropertiesFormatResponse)(nil)).Elem()
+}
+
+func (o RouteTargetAddressPropertiesFormatResponseOutput) ToRouteTargetAddressPropertiesFormatResponseOutput() RouteTargetAddressPropertiesFormatResponseOutput {
+	return o
+}
+
+func (o RouteTargetAddressPropertiesFormatResponseOutput) ToRouteTargetAddressPropertiesFormatResponseOutputWithContext(ctx context.Context) RouteTargetAddressPropertiesFormatResponseOutput {
+	return o
+}
+
+// The private IPv4 or IPv6 address of the service gateway route target address.
+func (o RouteTargetAddressPropertiesFormatResponseOutput) PrivateIPAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RouteTargetAddressPropertiesFormatResponse) *string { return v.PrivateIPAddress }).(pulumi.StringPtrOutput)
+}
+
+// The Private IP allocation method.
+func (o RouteTargetAddressPropertiesFormatResponseOutput) PrivateIPAllocationMethod() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RouteTargetAddressPropertiesFormatResponse) *string { return v.PrivateIPAllocationMethod }).(pulumi.StringPtrOutput)
+}
+
+// The reference to the subnet resource.
+func (o RouteTargetAddressPropertiesFormatResponseOutput) Subnet() SubnetResponsePtrOutput {
+	return o.ApplyT(func(v RouteTargetAddressPropertiesFormatResponse) *SubnetResponse { return v.Subnet }).(SubnetResponsePtrOutput)
+}
+
+type RouteTargetAddressPropertiesFormatResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (RouteTargetAddressPropertiesFormatResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RouteTargetAddressPropertiesFormatResponse)(nil)).Elem()
+}
+
+func (o RouteTargetAddressPropertiesFormatResponsePtrOutput) ToRouteTargetAddressPropertiesFormatResponsePtrOutput() RouteTargetAddressPropertiesFormatResponsePtrOutput {
+	return o
+}
+
+func (o RouteTargetAddressPropertiesFormatResponsePtrOutput) ToRouteTargetAddressPropertiesFormatResponsePtrOutputWithContext(ctx context.Context) RouteTargetAddressPropertiesFormatResponsePtrOutput {
+	return o
+}
+
+func (o RouteTargetAddressPropertiesFormatResponsePtrOutput) Elem() RouteTargetAddressPropertiesFormatResponseOutput {
+	return o.ApplyT(func(v *RouteTargetAddressPropertiesFormatResponse) RouteTargetAddressPropertiesFormatResponse {
+		if v != nil {
+			return *v
+		}
+		var ret RouteTargetAddressPropertiesFormatResponse
+		return ret
+	}).(RouteTargetAddressPropertiesFormatResponseOutput)
+}
+
+// The private IPv4 or IPv6 address of the service gateway route target address.
+func (o RouteTargetAddressPropertiesFormatResponsePtrOutput) PrivateIPAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RouteTargetAddressPropertiesFormatResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateIPAddress
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Private IP allocation method.
+func (o RouteTargetAddressPropertiesFormatResponsePtrOutput) PrivateIPAllocationMethod() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RouteTargetAddressPropertiesFormatResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateIPAllocationMethod
+	}).(pulumi.StringPtrOutput)
+}
+
+// The reference to the subnet resource.
+func (o RouteTargetAddressPropertiesFormatResponsePtrOutput) Subnet() SubnetResponsePtrOutput {
+	return o.ApplyT(func(v *RouteTargetAddressPropertiesFormatResponse) *SubnetResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Subnet
+	}).(SubnetResponsePtrOutput)
+}
+
 // Routing Configuration indicating the associated and propagated route tables for this connection.
 type RoutingConfiguration struct {
 	// The resource id RouteTable associated with this RoutingConfiguration.
@@ -4278,6 +4581,242 @@ func (o ServiceEndpointPropertiesFormatResponseArrayOutput) Index(i pulumi.IntIn
 	}).(ServiceEndpointPropertiesFormatResponseOutput)
 }
 
+// SKU of a service gateway.
+type ServiceGatewaySku struct {
+	// Name of a service gateway SKU.
+	Name *string `pulumi:"name"`
+	// Tier of a service gateway SKU.
+	Tier *string `pulumi:"tier"`
+}
+
+// ServiceGatewaySkuInput is an input type that accepts ServiceGatewaySkuArgs and ServiceGatewaySkuOutput values.
+// You can construct a concrete instance of `ServiceGatewaySkuInput` via:
+//
+//	ServiceGatewaySkuArgs{...}
+type ServiceGatewaySkuInput interface {
+	pulumi.Input
+
+	ToServiceGatewaySkuOutput() ServiceGatewaySkuOutput
+	ToServiceGatewaySkuOutputWithContext(context.Context) ServiceGatewaySkuOutput
+}
+
+// SKU of a service gateway.
+type ServiceGatewaySkuArgs struct {
+	// Name of a service gateway SKU.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+	// Tier of a service gateway SKU.
+	Tier pulumi.StringPtrInput `pulumi:"tier"`
+}
+
+func (ServiceGatewaySkuArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceGatewaySku)(nil)).Elem()
+}
+
+func (i ServiceGatewaySkuArgs) ToServiceGatewaySkuOutput() ServiceGatewaySkuOutput {
+	return i.ToServiceGatewaySkuOutputWithContext(context.Background())
+}
+
+func (i ServiceGatewaySkuArgs) ToServiceGatewaySkuOutputWithContext(ctx context.Context) ServiceGatewaySkuOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceGatewaySkuOutput)
+}
+
+func (i ServiceGatewaySkuArgs) ToServiceGatewaySkuPtrOutput() ServiceGatewaySkuPtrOutput {
+	return i.ToServiceGatewaySkuPtrOutputWithContext(context.Background())
+}
+
+func (i ServiceGatewaySkuArgs) ToServiceGatewaySkuPtrOutputWithContext(ctx context.Context) ServiceGatewaySkuPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceGatewaySkuOutput).ToServiceGatewaySkuPtrOutputWithContext(ctx)
+}
+
+// ServiceGatewaySkuPtrInput is an input type that accepts ServiceGatewaySkuArgs, ServiceGatewaySkuPtr and ServiceGatewaySkuPtrOutput values.
+// You can construct a concrete instance of `ServiceGatewaySkuPtrInput` via:
+//
+//	        ServiceGatewaySkuArgs{...}
+//
+//	or:
+//
+//	        nil
+type ServiceGatewaySkuPtrInput interface {
+	pulumi.Input
+
+	ToServiceGatewaySkuPtrOutput() ServiceGatewaySkuPtrOutput
+	ToServiceGatewaySkuPtrOutputWithContext(context.Context) ServiceGatewaySkuPtrOutput
+}
+
+type serviceGatewaySkuPtrType ServiceGatewaySkuArgs
+
+func ServiceGatewaySkuPtr(v *ServiceGatewaySkuArgs) ServiceGatewaySkuPtrInput {
+	return (*serviceGatewaySkuPtrType)(v)
+}
+
+func (*serviceGatewaySkuPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceGatewaySku)(nil)).Elem()
+}
+
+func (i *serviceGatewaySkuPtrType) ToServiceGatewaySkuPtrOutput() ServiceGatewaySkuPtrOutput {
+	return i.ToServiceGatewaySkuPtrOutputWithContext(context.Background())
+}
+
+func (i *serviceGatewaySkuPtrType) ToServiceGatewaySkuPtrOutputWithContext(ctx context.Context) ServiceGatewaySkuPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceGatewaySkuPtrOutput)
+}
+
+// SKU of a service gateway.
+type ServiceGatewaySkuOutput struct{ *pulumi.OutputState }
+
+func (ServiceGatewaySkuOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceGatewaySku)(nil)).Elem()
+}
+
+func (o ServiceGatewaySkuOutput) ToServiceGatewaySkuOutput() ServiceGatewaySkuOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuOutput) ToServiceGatewaySkuOutputWithContext(ctx context.Context) ServiceGatewaySkuOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuOutput) ToServiceGatewaySkuPtrOutput() ServiceGatewaySkuPtrOutput {
+	return o.ToServiceGatewaySkuPtrOutputWithContext(context.Background())
+}
+
+func (o ServiceGatewaySkuOutput) ToServiceGatewaySkuPtrOutputWithContext(ctx context.Context) ServiceGatewaySkuPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ServiceGatewaySku) *ServiceGatewaySku {
+		return &v
+	}).(ServiceGatewaySkuPtrOutput)
+}
+
+// Name of a service gateway SKU.
+func (o ServiceGatewaySkuOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceGatewaySku) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// Tier of a service gateway SKU.
+func (o ServiceGatewaySkuOutput) Tier() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceGatewaySku) *string { return v.Tier }).(pulumi.StringPtrOutput)
+}
+
+type ServiceGatewaySkuPtrOutput struct{ *pulumi.OutputState }
+
+func (ServiceGatewaySkuPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceGatewaySku)(nil)).Elem()
+}
+
+func (o ServiceGatewaySkuPtrOutput) ToServiceGatewaySkuPtrOutput() ServiceGatewaySkuPtrOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuPtrOutput) ToServiceGatewaySkuPtrOutputWithContext(ctx context.Context) ServiceGatewaySkuPtrOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuPtrOutput) Elem() ServiceGatewaySkuOutput {
+	return o.ApplyT(func(v *ServiceGatewaySku) ServiceGatewaySku {
+		if v != nil {
+			return *v
+		}
+		var ret ServiceGatewaySku
+		return ret
+	}).(ServiceGatewaySkuOutput)
+}
+
+// Name of a service gateway SKU.
+func (o ServiceGatewaySkuPtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ServiceGatewaySku) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// Tier of a service gateway SKU.
+func (o ServiceGatewaySkuPtrOutput) Tier() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ServiceGatewaySku) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Tier
+	}).(pulumi.StringPtrOutput)
+}
+
+// SKU of a service gateway.
+type ServiceGatewaySkuResponse struct {
+	// Name of a service gateway SKU.
+	Name *string `pulumi:"name"`
+	// Tier of a service gateway SKU.
+	Tier *string `pulumi:"tier"`
+}
+
+// SKU of a service gateway.
+type ServiceGatewaySkuResponseOutput struct{ *pulumi.OutputState }
+
+func (ServiceGatewaySkuResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceGatewaySkuResponse)(nil)).Elem()
+}
+
+func (o ServiceGatewaySkuResponseOutput) ToServiceGatewaySkuResponseOutput() ServiceGatewaySkuResponseOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuResponseOutput) ToServiceGatewaySkuResponseOutputWithContext(ctx context.Context) ServiceGatewaySkuResponseOutput {
+	return o
+}
+
+// Name of a service gateway SKU.
+func (o ServiceGatewaySkuResponseOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceGatewaySkuResponse) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// Tier of a service gateway SKU.
+func (o ServiceGatewaySkuResponseOutput) Tier() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceGatewaySkuResponse) *string { return v.Tier }).(pulumi.StringPtrOutput)
+}
+
+type ServiceGatewaySkuResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ServiceGatewaySkuResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceGatewaySkuResponse)(nil)).Elem()
+}
+
+func (o ServiceGatewaySkuResponsePtrOutput) ToServiceGatewaySkuResponsePtrOutput() ServiceGatewaySkuResponsePtrOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuResponsePtrOutput) ToServiceGatewaySkuResponsePtrOutputWithContext(ctx context.Context) ServiceGatewaySkuResponsePtrOutput {
+	return o
+}
+
+func (o ServiceGatewaySkuResponsePtrOutput) Elem() ServiceGatewaySkuResponseOutput {
+	return o.ApplyT(func(v *ServiceGatewaySkuResponse) ServiceGatewaySkuResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ServiceGatewaySkuResponse
+		return ret
+	}).(ServiceGatewaySkuResponseOutput)
+}
+
+// Name of a service gateway SKU.
+func (o ServiceGatewaySkuResponsePtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ServiceGatewaySkuResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// Tier of a service gateway SKU.
+func (o ServiceGatewaySkuResponsePtrOutput) Tier() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ServiceGatewaySkuResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Tier
+	}).(pulumi.StringPtrOutput)
+}
+
 // Parameters for SharedKey.
 type SharedKeyPropertiesResponse struct {
 	// The provisioning state of the SharedKey resource.
@@ -5609,6 +6148,8 @@ type SubnetType struct {
 	ServiceEndpointPolicies []ServiceEndpointPolicyType `pulumi:"serviceEndpointPolicies"`
 	// An array of service endpoints.
 	ServiceEndpoints []ServiceEndpointPropertiesFormat `pulumi:"serviceEndpoints"`
+	// Reference to an existing service gateway.
+	ServiceGateway *SubResource `pulumi:"serviceGateway"`
 	// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.
 	SharingScope *string `pulumi:"sharingScope"`
 	// Resource type.
@@ -5685,6 +6226,8 @@ type SubnetTypeArgs struct {
 	ServiceEndpointPolicies ServiceEndpointPolicyTypeArrayInput `pulumi:"serviceEndpointPolicies"`
 	// An array of service endpoints.
 	ServiceEndpoints ServiceEndpointPropertiesFormatArrayInput `pulumi:"serviceEndpoints"`
+	// Reference to an existing service gateway.
+	ServiceGateway SubResourcePtrInput `pulumi:"serviceGateway"`
 	// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.
 	SharingScope pulumi.StringPtrInput `pulumi:"sharingScope"`
 	// Resource type.
@@ -5906,6 +6449,11 @@ func (o SubnetTypeOutput) ServiceEndpointPolicies() ServiceEndpointPolicyTypeArr
 // An array of service endpoints.
 func (o SubnetTypeOutput) ServiceEndpoints() ServiceEndpointPropertiesFormatArrayOutput {
 	return o.ApplyT(func(v SubnetType) []ServiceEndpointPropertiesFormat { return v.ServiceEndpoints }).(ServiceEndpointPropertiesFormatArrayOutput)
+}
+
+// Reference to an existing service gateway.
+func (o SubnetTypeOutput) ServiceGateway() SubResourcePtrOutput {
+	return o.ApplyT(func(v SubnetType) *SubResource { return v.ServiceGateway }).(SubResourcePtrOutput)
 }
 
 // Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.
@@ -6142,6 +6690,16 @@ func (o SubnetTypePtrOutput) ServiceEndpoints() ServiceEndpointPropertiesFormatA
 	}).(ServiceEndpointPropertiesFormatArrayOutput)
 }
 
+// Reference to an existing service gateway.
+func (o SubnetTypePtrOutput) ServiceGateway() SubResourcePtrOutput {
+	return o.ApplyT(func(v *SubnetType) *SubResource {
+		if v == nil {
+			return nil
+		}
+		return v.ServiceGateway
+	}).(SubResourcePtrOutput)
+}
+
 // Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.
 func (o SubnetTypePtrOutput) SharingScope() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SubnetType) *string {
@@ -6234,6 +6792,8 @@ type SubnetResponse struct {
 	ServiceEndpointPolicies []ServiceEndpointPolicyResponse `pulumi:"serviceEndpointPolicies"`
 	// An array of service endpoints.
 	ServiceEndpoints []ServiceEndpointPropertiesFormatResponse `pulumi:"serviceEndpoints"`
+	// Reference to an existing service gateway.
+	ServiceGateway *SubResourceResponse `pulumi:"serviceGateway"`
 	// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.
 	SharingScope *string `pulumi:"sharingScope"`
 	// Resource type.
@@ -6397,6 +6957,11 @@ func (o SubnetResponseOutput) ServiceEndpointPolicies() ServiceEndpointPolicyRes
 // An array of service endpoints.
 func (o SubnetResponseOutput) ServiceEndpoints() ServiceEndpointPropertiesFormatResponseArrayOutput {
 	return o.ApplyT(func(v SubnetResponse) []ServiceEndpointPropertiesFormatResponse { return v.ServiceEndpoints }).(ServiceEndpointPropertiesFormatResponseArrayOutput)
+}
+
+// Reference to an existing service gateway.
+func (o SubnetResponseOutput) ServiceGateway() SubResourceResponsePtrOutput {
+	return o.ApplyT(func(v SubnetResponse) *SubResourceResponse { return v.ServiceGateway }).(SubResourceResponsePtrOutput)
 }
 
 // Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.
@@ -6681,6 +7246,16 @@ func (o SubnetResponsePtrOutput) ServiceEndpoints() ServiceEndpointPropertiesFor
 		}
 		return v.ServiceEndpoints
 	}).(ServiceEndpointPropertiesFormatResponseArrayOutput)
+}
+
+// Reference to an existing service gateway.
+func (o SubnetResponsePtrOutput) ServiceGateway() SubResourceResponsePtrOutput {
+	return o.ApplyT(func(v *SubnetResponse) *SubResourceResponse {
+		if v == nil {
+			return nil
+		}
+		return v.ServiceGateway
+	}).(SubResourceResponsePtrOutput)
 }
 
 // Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.
@@ -10083,6 +10658,564 @@ func (o VirtualHubRouteV2ResponseArrayOutput) Index(i pulumi.IntInput) VirtualHu
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) VirtualHubRouteV2Response {
 		return vs[0].([]VirtualHubRouteV2Response)[vs[1].(int)]
 	}).(VirtualHubRouteV2ResponseOutput)
+}
+
+// Virtual Network resource.
+type VirtualNetworkType struct {
+	// The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+	AddressSpace *AddressSpace `pulumi:"addressSpace"`
+	// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+	BgpCommunities *VirtualNetworkBgpCommunities `pulumi:"bgpCommunities"`
+	// The DDoS protection plan associated with the virtual network.
+	DdosProtectionPlan *SubResource `pulumi:"ddosProtectionPlan"`
+	// The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
+	DhcpOptions *DhcpOptions `pulumi:"dhcpOptions"`
+	// Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
+	EnableDdosProtection *bool `pulumi:"enableDdosProtection"`
+	// Indicates if VM protection is enabled for all the subnets in the virtual network.
+	EnableVmProtection *bool `pulumi:"enableVmProtection"`
+	// Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+	Encryption *VirtualNetworkEncryption `pulumi:"encryption"`
+	// The extended location of the virtual network.
+	ExtendedLocation *ExtendedLocation `pulumi:"extendedLocation"`
+	// The FlowTimeout value (in minutes) for the Virtual Network
+	FlowTimeoutInMinutes *int `pulumi:"flowTimeoutInMinutes"`
+	// Resource ID.
+	Id *string `pulumi:"id"`
+	// Array of IpAllocation which reference this VNET.
+	IpAllocations []SubResource `pulumi:"ipAllocations"`
+	// Resource location.
+	Location *string `pulumi:"location"`
+	// Private Endpoint VNet Policies.
+	PrivateEndpointVNetPolicies *string `pulumi:"privateEndpointVNetPolicies"`
+	// A list of subnets in a Virtual Network.
+	Subnets []SubnetType `pulumi:"subnets"`
+	// Resource tags.
+	Tags map[string]string `pulumi:"tags"`
+	// A list of peerings in a Virtual Network.
+	VirtualNetworkPeerings []VirtualNetworkPeeringType `pulumi:"virtualNetworkPeerings"`
+}
+
+// Defaults sets the appropriate defaults for VirtualNetworkType
+func (val *VirtualNetworkType) Defaults() *VirtualNetworkType {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.EnableDdosProtection == nil {
+		enableDdosProtection_ := false
+		tmp.EnableDdosProtection = &enableDdosProtection_
+	}
+	if tmp.EnableVmProtection == nil {
+		enableVmProtection_ := false
+		tmp.EnableVmProtection = &enableVmProtection_
+	}
+	return &tmp
+}
+
+// VirtualNetworkTypeInput is an input type that accepts VirtualNetworkTypeArgs and VirtualNetworkTypeOutput values.
+// You can construct a concrete instance of `VirtualNetworkTypeInput` via:
+//
+//	VirtualNetworkTypeArgs{...}
+type VirtualNetworkTypeInput interface {
+	pulumi.Input
+
+	ToVirtualNetworkTypeOutput() VirtualNetworkTypeOutput
+	ToVirtualNetworkTypeOutputWithContext(context.Context) VirtualNetworkTypeOutput
+}
+
+// Virtual Network resource.
+type VirtualNetworkTypeArgs struct {
+	// The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+	AddressSpace AddressSpacePtrInput `pulumi:"addressSpace"`
+	// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+	BgpCommunities VirtualNetworkBgpCommunitiesPtrInput `pulumi:"bgpCommunities"`
+	// The DDoS protection plan associated with the virtual network.
+	DdosProtectionPlan SubResourcePtrInput `pulumi:"ddosProtectionPlan"`
+	// The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
+	DhcpOptions DhcpOptionsPtrInput `pulumi:"dhcpOptions"`
+	// Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
+	EnableDdosProtection pulumi.BoolPtrInput `pulumi:"enableDdosProtection"`
+	// Indicates if VM protection is enabled for all the subnets in the virtual network.
+	EnableVmProtection pulumi.BoolPtrInput `pulumi:"enableVmProtection"`
+	// Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+	Encryption VirtualNetworkEncryptionPtrInput `pulumi:"encryption"`
+	// The extended location of the virtual network.
+	ExtendedLocation ExtendedLocationPtrInput `pulumi:"extendedLocation"`
+	// The FlowTimeout value (in minutes) for the Virtual Network
+	FlowTimeoutInMinutes pulumi.IntPtrInput `pulumi:"flowTimeoutInMinutes"`
+	// Resource ID.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// Array of IpAllocation which reference this VNET.
+	IpAllocations SubResourceArrayInput `pulumi:"ipAllocations"`
+	// Resource location.
+	Location pulumi.StringPtrInput `pulumi:"location"`
+	// Private Endpoint VNet Policies.
+	PrivateEndpointVNetPolicies pulumi.StringPtrInput `pulumi:"privateEndpointVNetPolicies"`
+	// A list of subnets in a Virtual Network.
+	Subnets SubnetTypeArrayInput `pulumi:"subnets"`
+	// Resource tags.
+	Tags pulumi.StringMapInput `pulumi:"tags"`
+	// A list of peerings in a Virtual Network.
+	VirtualNetworkPeerings VirtualNetworkPeeringTypeArrayInput `pulumi:"virtualNetworkPeerings"`
+}
+
+// Defaults sets the appropriate defaults for VirtualNetworkTypeArgs
+func (val *VirtualNetworkTypeArgs) Defaults() *VirtualNetworkTypeArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.EnableDdosProtection == nil {
+		tmp.EnableDdosProtection = pulumi.BoolPtr(false)
+	}
+	if tmp.EnableVmProtection == nil {
+		tmp.EnableVmProtection = pulumi.BoolPtr(false)
+	}
+	return &tmp
+}
+func (VirtualNetworkTypeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualNetworkType)(nil)).Elem()
+}
+
+func (i VirtualNetworkTypeArgs) ToVirtualNetworkTypeOutput() VirtualNetworkTypeOutput {
+	return i.ToVirtualNetworkTypeOutputWithContext(context.Background())
+}
+
+func (i VirtualNetworkTypeArgs) ToVirtualNetworkTypeOutputWithContext(ctx context.Context) VirtualNetworkTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VirtualNetworkTypeOutput)
+}
+
+func (i VirtualNetworkTypeArgs) ToVirtualNetworkTypePtrOutput() VirtualNetworkTypePtrOutput {
+	return i.ToVirtualNetworkTypePtrOutputWithContext(context.Background())
+}
+
+func (i VirtualNetworkTypeArgs) ToVirtualNetworkTypePtrOutputWithContext(ctx context.Context) VirtualNetworkTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VirtualNetworkTypeOutput).ToVirtualNetworkTypePtrOutputWithContext(ctx)
+}
+
+// VirtualNetworkTypePtrInput is an input type that accepts VirtualNetworkTypeArgs, VirtualNetworkTypePtr and VirtualNetworkTypePtrOutput values.
+// You can construct a concrete instance of `VirtualNetworkTypePtrInput` via:
+//
+//	        VirtualNetworkTypeArgs{...}
+//
+//	or:
+//
+//	        nil
+type VirtualNetworkTypePtrInput interface {
+	pulumi.Input
+
+	ToVirtualNetworkTypePtrOutput() VirtualNetworkTypePtrOutput
+	ToVirtualNetworkTypePtrOutputWithContext(context.Context) VirtualNetworkTypePtrOutput
+}
+
+type virtualNetworkTypePtrType VirtualNetworkTypeArgs
+
+func VirtualNetworkTypePtr(v *VirtualNetworkTypeArgs) VirtualNetworkTypePtrInput {
+	return (*virtualNetworkTypePtrType)(v)
+}
+
+func (*virtualNetworkTypePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**VirtualNetworkType)(nil)).Elem()
+}
+
+func (i *virtualNetworkTypePtrType) ToVirtualNetworkTypePtrOutput() VirtualNetworkTypePtrOutput {
+	return i.ToVirtualNetworkTypePtrOutputWithContext(context.Background())
+}
+
+func (i *virtualNetworkTypePtrType) ToVirtualNetworkTypePtrOutputWithContext(ctx context.Context) VirtualNetworkTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(VirtualNetworkTypePtrOutput)
+}
+
+// Virtual Network resource.
+type VirtualNetworkTypeOutput struct{ *pulumi.OutputState }
+
+func (VirtualNetworkTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualNetworkType)(nil)).Elem()
+}
+
+func (o VirtualNetworkTypeOutput) ToVirtualNetworkTypeOutput() VirtualNetworkTypeOutput {
+	return o
+}
+
+func (o VirtualNetworkTypeOutput) ToVirtualNetworkTypeOutputWithContext(ctx context.Context) VirtualNetworkTypeOutput {
+	return o
+}
+
+func (o VirtualNetworkTypeOutput) ToVirtualNetworkTypePtrOutput() VirtualNetworkTypePtrOutput {
+	return o.ToVirtualNetworkTypePtrOutputWithContext(context.Background())
+}
+
+func (o VirtualNetworkTypeOutput) ToVirtualNetworkTypePtrOutputWithContext(ctx context.Context) VirtualNetworkTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v VirtualNetworkType) *VirtualNetworkType {
+		return &v
+	}).(VirtualNetworkTypePtrOutput)
+}
+
+// The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+func (o VirtualNetworkTypeOutput) AddressSpace() AddressSpacePtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *AddressSpace { return v.AddressSpace }).(AddressSpacePtrOutput)
+}
+
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+func (o VirtualNetworkTypeOutput) BgpCommunities() VirtualNetworkBgpCommunitiesPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *VirtualNetworkBgpCommunities { return v.BgpCommunities }).(VirtualNetworkBgpCommunitiesPtrOutput)
+}
+
+// The DDoS protection plan associated with the virtual network.
+func (o VirtualNetworkTypeOutput) DdosProtectionPlan() SubResourcePtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *SubResource { return v.DdosProtectionPlan }).(SubResourcePtrOutput)
+}
+
+// The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
+func (o VirtualNetworkTypeOutput) DhcpOptions() DhcpOptionsPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *DhcpOptions { return v.DhcpOptions }).(DhcpOptionsPtrOutput)
+}
+
+// Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
+func (o VirtualNetworkTypeOutput) EnableDdosProtection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *bool { return v.EnableDdosProtection }).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if VM protection is enabled for all the subnets in the virtual network.
+func (o VirtualNetworkTypeOutput) EnableVmProtection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *bool { return v.EnableVmProtection }).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+func (o VirtualNetworkTypeOutput) Encryption() VirtualNetworkEncryptionPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *VirtualNetworkEncryption { return v.Encryption }).(VirtualNetworkEncryptionPtrOutput)
+}
+
+// The extended location of the virtual network.
+func (o VirtualNetworkTypeOutput) ExtendedLocation() ExtendedLocationPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *ExtendedLocation { return v.ExtendedLocation }).(ExtendedLocationPtrOutput)
+}
+
+// The FlowTimeout value (in minutes) for the Virtual Network
+func (o VirtualNetworkTypeOutput) FlowTimeoutInMinutes() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *int { return v.FlowTimeoutInMinutes }).(pulumi.IntPtrOutput)
+}
+
+// Resource ID.
+func (o VirtualNetworkTypeOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// Array of IpAllocation which reference this VNET.
+func (o VirtualNetworkTypeOutput) IpAllocations() SubResourceArrayOutput {
+	return o.ApplyT(func(v VirtualNetworkType) []SubResource { return v.IpAllocations }).(SubResourceArrayOutput)
+}
+
+// Resource location.
+func (o VirtualNetworkTypeOutput) Location() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *string { return v.Location }).(pulumi.StringPtrOutput)
+}
+
+// Private Endpoint VNet Policies.
+func (o VirtualNetworkTypeOutput) PrivateEndpointVNetPolicies() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkType) *string { return v.PrivateEndpointVNetPolicies }).(pulumi.StringPtrOutput)
+}
+
+// A list of subnets in a Virtual Network.
+func (o VirtualNetworkTypeOutput) Subnets() SubnetTypeArrayOutput {
+	return o.ApplyT(func(v VirtualNetworkType) []SubnetType { return v.Subnets }).(SubnetTypeArrayOutput)
+}
+
+// Resource tags.
+func (o VirtualNetworkTypeOutput) Tags() pulumi.StringMapOutput {
+	return o.ApplyT(func(v VirtualNetworkType) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
+}
+
+// A list of peerings in a Virtual Network.
+func (o VirtualNetworkTypeOutput) VirtualNetworkPeerings() VirtualNetworkPeeringTypeArrayOutput {
+	return o.ApplyT(func(v VirtualNetworkType) []VirtualNetworkPeeringType { return v.VirtualNetworkPeerings }).(VirtualNetworkPeeringTypeArrayOutput)
+}
+
+type VirtualNetworkTypePtrOutput struct{ *pulumi.OutputState }
+
+func (VirtualNetworkTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**VirtualNetworkType)(nil)).Elem()
+}
+
+func (o VirtualNetworkTypePtrOutput) ToVirtualNetworkTypePtrOutput() VirtualNetworkTypePtrOutput {
+	return o
+}
+
+func (o VirtualNetworkTypePtrOutput) ToVirtualNetworkTypePtrOutputWithContext(ctx context.Context) VirtualNetworkTypePtrOutput {
+	return o
+}
+
+func (o VirtualNetworkTypePtrOutput) Elem() VirtualNetworkTypeOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) VirtualNetworkType {
+		if v != nil {
+			return *v
+		}
+		var ret VirtualNetworkType
+		return ret
+	}).(VirtualNetworkTypeOutput)
+}
+
+// The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+func (o VirtualNetworkTypePtrOutput) AddressSpace() AddressSpacePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *AddressSpace {
+		if v == nil {
+			return nil
+		}
+		return v.AddressSpace
+	}).(AddressSpacePtrOutput)
+}
+
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+func (o VirtualNetworkTypePtrOutput) BgpCommunities() VirtualNetworkBgpCommunitiesPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *VirtualNetworkBgpCommunities {
+		if v == nil {
+			return nil
+		}
+		return v.BgpCommunities
+	}).(VirtualNetworkBgpCommunitiesPtrOutput)
+}
+
+// The DDoS protection plan associated with the virtual network.
+func (o VirtualNetworkTypePtrOutput) DdosProtectionPlan() SubResourcePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *SubResource {
+		if v == nil {
+			return nil
+		}
+		return v.DdosProtectionPlan
+	}).(SubResourcePtrOutput)
+}
+
+// The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
+func (o VirtualNetworkTypePtrOutput) DhcpOptions() DhcpOptionsPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *DhcpOptions {
+		if v == nil {
+			return nil
+		}
+		return v.DhcpOptions
+	}).(DhcpOptionsPtrOutput)
+}
+
+// Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
+func (o VirtualNetworkTypePtrOutput) EnableDdosProtection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EnableDdosProtection
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if VM protection is enabled for all the subnets in the virtual network.
+func (o VirtualNetworkTypePtrOutput) EnableVmProtection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EnableVmProtection
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+func (o VirtualNetworkTypePtrOutput) Encryption() VirtualNetworkEncryptionPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *VirtualNetworkEncryption {
+		if v == nil {
+			return nil
+		}
+		return v.Encryption
+	}).(VirtualNetworkEncryptionPtrOutput)
+}
+
+// The extended location of the virtual network.
+func (o VirtualNetworkTypePtrOutput) ExtendedLocation() ExtendedLocationPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *ExtendedLocation {
+		if v == nil {
+			return nil
+		}
+		return v.ExtendedLocation
+	}).(ExtendedLocationPtrOutput)
+}
+
+// The FlowTimeout value (in minutes) for the Virtual Network
+func (o VirtualNetworkTypePtrOutput) FlowTimeoutInMinutes() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *int {
+		if v == nil {
+			return nil
+		}
+		return v.FlowTimeoutInMinutes
+	}).(pulumi.IntPtrOutput)
+}
+
+// Resource ID.
+func (o VirtualNetworkTypePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// Array of IpAllocation which reference this VNET.
+func (o VirtualNetworkTypePtrOutput) IpAllocations() SubResourceArrayOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) []SubResource {
+		if v == nil {
+			return nil
+		}
+		return v.IpAllocations
+	}).(SubResourceArrayOutput)
+}
+
+// Resource location.
+func (o VirtualNetworkTypePtrOutput) Location() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Location
+	}).(pulumi.StringPtrOutput)
+}
+
+// Private Endpoint VNet Policies.
+func (o VirtualNetworkTypePtrOutput) PrivateEndpointVNetPolicies() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateEndpointVNetPolicies
+	}).(pulumi.StringPtrOutput)
+}
+
+// A list of subnets in a Virtual Network.
+func (o VirtualNetworkTypePtrOutput) Subnets() SubnetTypeArrayOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) []SubnetType {
+		if v == nil {
+			return nil
+		}
+		return v.Subnets
+	}).(SubnetTypeArrayOutput)
+}
+
+// Resource tags.
+func (o VirtualNetworkTypePtrOutput) Tags() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Tags
+	}).(pulumi.StringMapOutput)
+}
+
+// A list of peerings in a Virtual Network.
+func (o VirtualNetworkTypePtrOutput) VirtualNetworkPeerings() VirtualNetworkPeeringTypeArrayOutput {
+	return o.ApplyT(func(v *VirtualNetworkType) []VirtualNetworkPeeringType {
+		if v == nil {
+			return nil
+		}
+		return v.VirtualNetworkPeerings
+	}).(VirtualNetworkPeeringTypeArrayOutput)
+}
+
+// The virtual network appliance ip configuration.
+type VirtualNetworkApplianceIpConfigurationResponse struct {
+	// A unique read-only string that changes whenever the resource is updated.
+	Etag string `pulumi:"etag"`
+	// Resource ID.
+	Id *string `pulumi:"id"`
+	// The name of virtual network appliance ip configuration.
+	Name *string `pulumi:"name"`
+	// Whether the ip configuration is primary or not.
+	Primary *bool `pulumi:"primary"`
+	// The private IP address of the IP configuration.
+	PrivateIPAddress *string `pulumi:"privateIPAddress"`
+	// Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
+	PrivateIPAddressVersion *string `pulumi:"privateIPAddressVersion"`
+	// The private IP address allocation method.
+	PrivateIPAllocationMethod *string `pulumi:"privateIPAllocationMethod"`
+	// The provisioning state of the private link service IP configuration resource.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// The resource type.
+	Type string `pulumi:"type"`
+}
+
+// The virtual network appliance ip configuration.
+type VirtualNetworkApplianceIpConfigurationResponseOutput struct{ *pulumi.OutputState }
+
+func (VirtualNetworkApplianceIpConfigurationResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualNetworkApplianceIpConfigurationResponse)(nil)).Elem()
+}
+
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) ToVirtualNetworkApplianceIpConfigurationResponseOutput() VirtualNetworkApplianceIpConfigurationResponseOutput {
+	return o
+}
+
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) ToVirtualNetworkApplianceIpConfigurationResponseOutputWithContext(ctx context.Context) VirtualNetworkApplianceIpConfigurationResponseOutput {
+	return o
+}
+
+// A unique read-only string that changes whenever the resource is updated.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) Etag() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) string { return v.Etag }).(pulumi.StringOutput)
+}
+
+// Resource ID.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The name of virtual network appliance ip configuration.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// Whether the ip configuration is primary or not.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) Primary() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) *bool { return v.Primary }).(pulumi.BoolPtrOutput)
+}
+
+// The private IP address of the IP configuration.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) PrivateIPAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) *string { return v.PrivateIPAddress }).(pulumi.StringPtrOutput)
+}
+
+// Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) PrivateIPAddressVersion() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) *string { return v.PrivateIPAddressVersion }).(pulumi.StringPtrOutput)
+}
+
+// The private IP address allocation method.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) PrivateIPAllocationMethod() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) *string { return v.PrivateIPAllocationMethod }).(pulumi.StringPtrOutput)
+}
+
+// The provisioning state of the private link service IP configuration resource.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o VirtualNetworkApplianceIpConfigurationResponseOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualNetworkApplianceIpConfigurationResponse) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type VirtualNetworkApplianceIpConfigurationResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (VirtualNetworkApplianceIpConfigurationResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]VirtualNetworkApplianceIpConfigurationResponse)(nil)).Elem()
+}
+
+func (o VirtualNetworkApplianceIpConfigurationResponseArrayOutput) ToVirtualNetworkApplianceIpConfigurationResponseArrayOutput() VirtualNetworkApplianceIpConfigurationResponseArrayOutput {
+	return o
+}
+
+func (o VirtualNetworkApplianceIpConfigurationResponseArrayOutput) ToVirtualNetworkApplianceIpConfigurationResponseArrayOutputWithContext(ctx context.Context) VirtualNetworkApplianceIpConfigurationResponseArrayOutput {
+	return o
+}
+
+func (o VirtualNetworkApplianceIpConfigurationResponseArrayOutput) Index(i pulumi.IntInput) VirtualNetworkApplianceIpConfigurationResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) VirtualNetworkApplianceIpConfigurationResponse {
+		return vs[0].([]VirtualNetworkApplianceIpConfigurationResponse)[vs[1].(int)]
+	}).(VirtualNetworkApplianceIpConfigurationResponseOutput)
 }
 
 // Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
@@ -13892,6 +15025,457 @@ func (o VirtualNetworkPeeringResponseArrayOutput) Index(i pulumi.IntInput) Virtu
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) VirtualNetworkPeeringResponse {
 		return vs[0].([]VirtualNetworkPeeringResponse)[vs[1].(int)]
 	}).(VirtualNetworkPeeringResponseOutput)
+}
+
+// Virtual Network resource.
+type VirtualNetworkResponse struct {
+	// The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+	AddressSpace *AddressSpaceResponse `pulumi:"addressSpace"`
+	// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+	BgpCommunities *VirtualNetworkBgpCommunitiesResponse `pulumi:"bgpCommunities"`
+	// The DDoS protection plan associated with the virtual network.
+	DdosProtectionPlan *SubResourceResponse `pulumi:"ddosProtectionPlan"`
+	// A reference to the default public nat gateway being used by this virtual network resource.
+	DefaultPublicNatGateway SubResourceResponse `pulumi:"defaultPublicNatGateway"`
+	// The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
+	DhcpOptions *DhcpOptionsResponse `pulumi:"dhcpOptions"`
+	// Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
+	EnableDdosProtection *bool `pulumi:"enableDdosProtection"`
+	// Indicates if VM protection is enabled for all the subnets in the virtual network.
+	EnableVmProtection *bool `pulumi:"enableVmProtection"`
+	// Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+	Encryption *VirtualNetworkEncryptionResponse `pulumi:"encryption"`
+	// A unique read-only string that changes whenever the resource is updated.
+	Etag string `pulumi:"etag"`
+	// The extended location of the virtual network.
+	ExtendedLocation *ExtendedLocationResponse `pulumi:"extendedLocation"`
+	// A collection of references to flow log resources.
+	FlowLogs []FlowLogResponse `pulumi:"flowLogs"`
+	// The FlowTimeout value (in minutes) for the Virtual Network
+	FlowTimeoutInMinutes *int `pulumi:"flowTimeoutInMinutes"`
+	// Resource ID.
+	Id *string `pulumi:"id"`
+	// Array of IpAllocation which reference this VNET.
+	IpAllocations []SubResourceResponse `pulumi:"ipAllocations"`
+	// Resource location.
+	Location *string `pulumi:"location"`
+	// Resource name.
+	Name string `pulumi:"name"`
+	// Private Endpoint VNet Policies.
+	PrivateEndpointVNetPolicies *string `pulumi:"privateEndpointVNetPolicies"`
+	// The provisioning state of the virtual network resource.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// The resourceGuid property of the Virtual Network resource.
+	ResourceGuid string `pulumi:"resourceGuid"`
+	// A list of subnets in a Virtual Network.
+	Subnets []SubnetResponse `pulumi:"subnets"`
+	// Resource tags.
+	Tags map[string]string `pulumi:"tags"`
+	// Resource type.
+	Type string `pulumi:"type"`
+	// A list of peerings in a Virtual Network.
+	VirtualNetworkPeerings []VirtualNetworkPeeringResponse `pulumi:"virtualNetworkPeerings"`
+}
+
+// Defaults sets the appropriate defaults for VirtualNetworkResponse
+func (val *VirtualNetworkResponse) Defaults() *VirtualNetworkResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.EnableDdosProtection == nil {
+		enableDdosProtection_ := false
+		tmp.EnableDdosProtection = &enableDdosProtection_
+	}
+	if tmp.EnableVmProtection == nil {
+		enableVmProtection_ := false
+		tmp.EnableVmProtection = &enableVmProtection_
+	}
+	return &tmp
+}
+
+// Virtual Network resource.
+type VirtualNetworkResponseOutput struct{ *pulumi.OutputState }
+
+func (VirtualNetworkResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*VirtualNetworkResponse)(nil)).Elem()
+}
+
+func (o VirtualNetworkResponseOutput) ToVirtualNetworkResponseOutput() VirtualNetworkResponseOutput {
+	return o
+}
+
+func (o VirtualNetworkResponseOutput) ToVirtualNetworkResponseOutputWithContext(ctx context.Context) VirtualNetworkResponseOutput {
+	return o
+}
+
+// The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+func (o VirtualNetworkResponseOutput) AddressSpace() AddressSpaceResponsePtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *AddressSpaceResponse { return v.AddressSpace }).(AddressSpaceResponsePtrOutput)
+}
+
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+func (o VirtualNetworkResponseOutput) BgpCommunities() VirtualNetworkBgpCommunitiesResponsePtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *VirtualNetworkBgpCommunitiesResponse { return v.BgpCommunities }).(VirtualNetworkBgpCommunitiesResponsePtrOutput)
+}
+
+// The DDoS protection plan associated with the virtual network.
+func (o VirtualNetworkResponseOutput) DdosProtectionPlan() SubResourceResponsePtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *SubResourceResponse { return v.DdosProtectionPlan }).(SubResourceResponsePtrOutput)
+}
+
+// A reference to the default public nat gateway being used by this virtual network resource.
+func (o VirtualNetworkResponseOutput) DefaultPublicNatGateway() SubResourceResponseOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) SubResourceResponse { return v.DefaultPublicNatGateway }).(SubResourceResponseOutput)
+}
+
+// The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
+func (o VirtualNetworkResponseOutput) DhcpOptions() DhcpOptionsResponsePtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *DhcpOptionsResponse { return v.DhcpOptions }).(DhcpOptionsResponsePtrOutput)
+}
+
+// Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
+func (o VirtualNetworkResponseOutput) EnableDdosProtection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *bool { return v.EnableDdosProtection }).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if VM protection is enabled for all the subnets in the virtual network.
+func (o VirtualNetworkResponseOutput) EnableVmProtection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *bool { return v.EnableVmProtection }).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+func (o VirtualNetworkResponseOutput) Encryption() VirtualNetworkEncryptionResponsePtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *VirtualNetworkEncryptionResponse { return v.Encryption }).(VirtualNetworkEncryptionResponsePtrOutput)
+}
+
+// A unique read-only string that changes whenever the resource is updated.
+func (o VirtualNetworkResponseOutput) Etag() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) string { return v.Etag }).(pulumi.StringOutput)
+}
+
+// The extended location of the virtual network.
+func (o VirtualNetworkResponseOutput) ExtendedLocation() ExtendedLocationResponsePtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *ExtendedLocationResponse { return v.ExtendedLocation }).(ExtendedLocationResponsePtrOutput)
+}
+
+// A collection of references to flow log resources.
+func (o VirtualNetworkResponseOutput) FlowLogs() FlowLogResponseArrayOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) []FlowLogResponse { return v.FlowLogs }).(FlowLogResponseArrayOutput)
+}
+
+// The FlowTimeout value (in minutes) for the Virtual Network
+func (o VirtualNetworkResponseOutput) FlowTimeoutInMinutes() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *int { return v.FlowTimeoutInMinutes }).(pulumi.IntPtrOutput)
+}
+
+// Resource ID.
+func (o VirtualNetworkResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// Array of IpAllocation which reference this VNET.
+func (o VirtualNetworkResponseOutput) IpAllocations() SubResourceResponseArrayOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) []SubResourceResponse { return v.IpAllocations }).(SubResourceResponseArrayOutput)
+}
+
+// Resource location.
+func (o VirtualNetworkResponseOutput) Location() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *string { return v.Location }).(pulumi.StringPtrOutput)
+}
+
+// Resource name.
+func (o VirtualNetworkResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Private Endpoint VNet Policies.
+func (o VirtualNetworkResponseOutput) PrivateEndpointVNetPolicies() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) *string { return v.PrivateEndpointVNetPolicies }).(pulumi.StringPtrOutput)
+}
+
+// The provisioning state of the virtual network resource.
+func (o VirtualNetworkResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// The resourceGuid property of the Virtual Network resource.
+func (o VirtualNetworkResponseOutput) ResourceGuid() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) string { return v.ResourceGuid }).(pulumi.StringOutput)
+}
+
+// A list of subnets in a Virtual Network.
+func (o VirtualNetworkResponseOutput) Subnets() SubnetResponseArrayOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) []SubnetResponse { return v.Subnets }).(SubnetResponseArrayOutput)
+}
+
+// Resource tags.
+func (o VirtualNetworkResponseOutput) Tags() pulumi.StringMapOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
+}
+
+// Resource type.
+func (o VirtualNetworkResponseOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// A list of peerings in a Virtual Network.
+func (o VirtualNetworkResponseOutput) VirtualNetworkPeerings() VirtualNetworkPeeringResponseArrayOutput {
+	return o.ApplyT(func(v VirtualNetworkResponse) []VirtualNetworkPeeringResponse { return v.VirtualNetworkPeerings }).(VirtualNetworkPeeringResponseArrayOutput)
+}
+
+type VirtualNetworkResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (VirtualNetworkResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**VirtualNetworkResponse)(nil)).Elem()
+}
+
+func (o VirtualNetworkResponsePtrOutput) ToVirtualNetworkResponsePtrOutput() VirtualNetworkResponsePtrOutput {
+	return o
+}
+
+func (o VirtualNetworkResponsePtrOutput) ToVirtualNetworkResponsePtrOutputWithContext(ctx context.Context) VirtualNetworkResponsePtrOutput {
+	return o
+}
+
+func (o VirtualNetworkResponsePtrOutput) Elem() VirtualNetworkResponseOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) VirtualNetworkResponse {
+		if v != nil {
+			return *v
+		}
+		var ret VirtualNetworkResponse
+		return ret
+	}).(VirtualNetworkResponseOutput)
+}
+
+// The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+func (o VirtualNetworkResponsePtrOutput) AddressSpace() AddressSpaceResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *AddressSpaceResponse {
+		if v == nil {
+			return nil
+		}
+		return v.AddressSpace
+	}).(AddressSpaceResponsePtrOutput)
+}
+
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+func (o VirtualNetworkResponsePtrOutput) BgpCommunities() VirtualNetworkBgpCommunitiesResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *VirtualNetworkBgpCommunitiesResponse {
+		if v == nil {
+			return nil
+		}
+		return v.BgpCommunities
+	}).(VirtualNetworkBgpCommunitiesResponsePtrOutput)
+}
+
+// The DDoS protection plan associated with the virtual network.
+func (o VirtualNetworkResponsePtrOutput) DdosProtectionPlan() SubResourceResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *SubResourceResponse {
+		if v == nil {
+			return nil
+		}
+		return v.DdosProtectionPlan
+	}).(SubResourceResponsePtrOutput)
+}
+
+// A reference to the default public nat gateway being used by this virtual network resource.
+func (o VirtualNetworkResponsePtrOutput) DefaultPublicNatGateway() SubResourceResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *SubResourceResponse {
+		if v == nil {
+			return nil
+		}
+		return &v.DefaultPublicNatGateway
+	}).(SubResourceResponsePtrOutput)
+}
+
+// The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.
+func (o VirtualNetworkResponsePtrOutput) DhcpOptions() DhcpOptionsResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *DhcpOptionsResponse {
+		if v == nil {
+			return nil
+		}
+		return v.DhcpOptions
+	}).(DhcpOptionsResponsePtrOutput)
+}
+
+// Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
+func (o VirtualNetworkResponsePtrOutput) EnableDdosProtection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EnableDdosProtection
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if VM protection is enabled for all the subnets in the virtual network.
+func (o VirtualNetworkResponsePtrOutput) EnableVmProtection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EnableVmProtection
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+func (o VirtualNetworkResponsePtrOutput) Encryption() VirtualNetworkEncryptionResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *VirtualNetworkEncryptionResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Encryption
+	}).(VirtualNetworkEncryptionResponsePtrOutput)
+}
+
+// A unique read-only string that changes whenever the resource is updated.
+func (o VirtualNetworkResponsePtrOutput) Etag() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Etag
+	}).(pulumi.StringPtrOutput)
+}
+
+// The extended location of the virtual network.
+func (o VirtualNetworkResponsePtrOutput) ExtendedLocation() ExtendedLocationResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *ExtendedLocationResponse {
+		if v == nil {
+			return nil
+		}
+		return v.ExtendedLocation
+	}).(ExtendedLocationResponsePtrOutput)
+}
+
+// A collection of references to flow log resources.
+func (o VirtualNetworkResponsePtrOutput) FlowLogs() FlowLogResponseArrayOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) []FlowLogResponse {
+		if v == nil {
+			return nil
+		}
+		return v.FlowLogs
+	}).(FlowLogResponseArrayOutput)
+}
+
+// The FlowTimeout value (in minutes) for the Virtual Network
+func (o VirtualNetworkResponsePtrOutput) FlowTimeoutInMinutes() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *int {
+		if v == nil {
+			return nil
+		}
+		return v.FlowTimeoutInMinutes
+	}).(pulumi.IntPtrOutput)
+}
+
+// Resource ID.
+func (o VirtualNetworkResponsePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// Array of IpAllocation which reference this VNET.
+func (o VirtualNetworkResponsePtrOutput) IpAllocations() SubResourceResponseArrayOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) []SubResourceResponse {
+		if v == nil {
+			return nil
+		}
+		return v.IpAllocations
+	}).(SubResourceResponseArrayOutput)
+}
+
+// Resource location.
+func (o VirtualNetworkResponsePtrOutput) Location() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Location
+	}).(pulumi.StringPtrOutput)
+}
+
+// Resource name.
+func (o VirtualNetworkResponsePtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// Private Endpoint VNet Policies.
+func (o VirtualNetworkResponsePtrOutput) PrivateEndpointVNetPolicies() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateEndpointVNetPolicies
+	}).(pulumi.StringPtrOutput)
+}
+
+// The provisioning state of the virtual network resource.
+func (o VirtualNetworkResponsePtrOutput) ProvisioningState() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ProvisioningState
+	}).(pulumi.StringPtrOutput)
+}
+
+// The resourceGuid property of the Virtual Network resource.
+func (o VirtualNetworkResponsePtrOutput) ResourceGuid() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ResourceGuid
+	}).(pulumi.StringPtrOutput)
+}
+
+// A list of subnets in a Virtual Network.
+func (o VirtualNetworkResponsePtrOutput) Subnets() SubnetResponseArrayOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) []SubnetResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Subnets
+	}).(SubnetResponseArrayOutput)
+}
+
+// Resource tags.
+func (o VirtualNetworkResponsePtrOutput) Tags() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Tags
+	}).(pulumi.StringMapOutput)
+}
+
+// Resource type.
+func (o VirtualNetworkResponsePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+// A list of peerings in a Virtual Network.
+func (o VirtualNetworkResponsePtrOutput) VirtualNetworkPeerings() VirtualNetworkPeeringResponseArrayOutput {
+	return o.ApplyT(func(v *VirtualNetworkResponse) []VirtualNetworkPeeringResponse {
+		if v == nil {
+			return nil
+		}
+		return v.VirtualNetworkPeerings
+	}).(VirtualNetworkPeeringResponseArrayOutput)
 }
 
 // Virtual Network Tap resource.
@@ -20546,6 +22130,10 @@ func init() {
 	pulumi.RegisterOutputType(RouteTableTypePtrOutput{})
 	pulumi.RegisterOutputType(RouteTableResponseOutput{})
 	pulumi.RegisterOutputType(RouteTableResponsePtrOutput{})
+	pulumi.RegisterOutputType(RouteTargetAddressPropertiesFormatOutput{})
+	pulumi.RegisterOutputType(RouteTargetAddressPropertiesFormatPtrOutput{})
+	pulumi.RegisterOutputType(RouteTargetAddressPropertiesFormatResponseOutput{})
+	pulumi.RegisterOutputType(RouteTargetAddressPropertiesFormatResponsePtrOutput{})
 	pulumi.RegisterOutputType(RoutingConfigurationOutput{})
 	pulumi.RegisterOutputType(RoutingConfigurationPtrOutput{})
 	pulumi.RegisterOutputType(RoutingConfigurationResponseOutput{})
@@ -20582,6 +22170,10 @@ func init() {
 	pulumi.RegisterOutputType(ServiceEndpointPropertiesFormatArrayOutput{})
 	pulumi.RegisterOutputType(ServiceEndpointPropertiesFormatResponseOutput{})
 	pulumi.RegisterOutputType(ServiceEndpointPropertiesFormatResponseArrayOutput{})
+	pulumi.RegisterOutputType(ServiceGatewaySkuOutput{})
+	pulumi.RegisterOutputType(ServiceGatewaySkuPtrOutput{})
+	pulumi.RegisterOutputType(ServiceGatewaySkuResponseOutput{})
+	pulumi.RegisterOutputType(ServiceGatewaySkuResponsePtrOutput{})
 	pulumi.RegisterOutputType(SharedKeyPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(SingleQueryResultResponseOutput{})
 	pulumi.RegisterOutputType(SingleQueryResultResponseArrayOutput{})
@@ -20680,6 +22272,10 @@ func init() {
 	pulumi.RegisterOutputType(VirtualHubRouteV2ArrayOutput{})
 	pulumi.RegisterOutputType(VirtualHubRouteV2ResponseOutput{})
 	pulumi.RegisterOutputType(VirtualHubRouteV2ResponseArrayOutput{})
+	pulumi.RegisterOutputType(VirtualNetworkTypeOutput{})
+	pulumi.RegisterOutputType(VirtualNetworkTypePtrOutput{})
+	pulumi.RegisterOutputType(VirtualNetworkApplianceIpConfigurationResponseOutput{})
+	pulumi.RegisterOutputType(VirtualNetworkApplianceIpConfigurationResponseArrayOutput{})
 	pulumi.RegisterOutputType(VirtualNetworkBgpCommunitiesOutput{})
 	pulumi.RegisterOutputType(VirtualNetworkBgpCommunitiesPtrOutput{})
 	pulumi.RegisterOutputType(VirtualNetworkBgpCommunitiesResponseOutput{})
@@ -20724,6 +22320,8 @@ func init() {
 	pulumi.RegisterOutputType(VirtualNetworkPeeringTypeArrayOutput{})
 	pulumi.RegisterOutputType(VirtualNetworkPeeringResponseOutput{})
 	pulumi.RegisterOutputType(VirtualNetworkPeeringResponseArrayOutput{})
+	pulumi.RegisterOutputType(VirtualNetworkResponseOutput{})
+	pulumi.RegisterOutputType(VirtualNetworkResponsePtrOutput{})
 	pulumi.RegisterOutputType(VirtualNetworkTapTypeOutput{})
 	pulumi.RegisterOutputType(VirtualNetworkTapTypePtrOutput{})
 	pulumi.RegisterOutputType(VirtualNetworkTapTypeArrayOutput{})

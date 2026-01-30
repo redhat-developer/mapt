@@ -13,9 +13,9 @@ import (
 
 // Namespace managed by ARM.
 //
-// Uses Azure REST API version 2025-04-02-preview.
+// Uses Azure REST API version 2025-09-01.
 //
-// Other available API versions: 2025-03-02-preview, 2025-05-02-preview, 2025-06-02-preview, 2025-07-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2025-03-02-preview, 2025-04-02-preview, 2025-05-02-preview, 2025-06-02-preview, 2025-07-02-preview, 2025-08-02-preview, 2025-09-02-preview, 2025-10-01, 2025-10-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupManagedNamespace(ctx *pulumi.Context, args *LookupManagedNamespaceArgs, opts ...pulumi.InvokeOption) (*LookupManagedNamespaceResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupManagedNamespaceResult
@@ -39,7 +39,7 @@ type LookupManagedNamespaceArgs struct {
 type LookupManagedNamespaceResult struct {
 	// The Azure API version of the resource.
 	AzureApiVersion string `pulumi:"azureApiVersion"`
-	// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+	// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
 	ETag string `pulumi:"eTag"`
 	// Resource ID.
 	Id string `pulumi:"id"`
@@ -109,7 +109,7 @@ func (o LookupManagedNamespaceResultOutput) AzureApiVersion() pulumi.StringOutpu
 	return o.ApplyT(func(v LookupManagedNamespaceResult) string { return v.AzureApiVersion }).(pulumi.StringOutput)
 }
 
-// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
 func (o LookupManagedNamespaceResultOutput) ETag() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupManagedNamespaceResult) string { return v.ETag }).(pulumi.StringOutput)
 }

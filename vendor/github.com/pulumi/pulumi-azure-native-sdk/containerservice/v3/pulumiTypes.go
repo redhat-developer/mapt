@@ -6668,6 +6668,308 @@ func (o FleetHubProfileResponsePtrOutput) PortalFqdn() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
+// The properties of a fleet managed namespace.
+type FleetManagedNamespaceProperties struct {
+	// Action if the managed namespace with the same name already exists. Default is Never.
+	AdoptionPolicy string `pulumi:"adoptionPolicy"`
+	// Delete options of a fleet managed namespace. Default is Keep.
+	DeletePolicy string `pulumi:"deletePolicy"`
+	// The namespace properties for the fleet managed namespace.
+	ManagedNamespaceProperties *ManagedNamespaceProperties `pulumi:"managedNamespaceProperties"`
+	// The profile of the propagation to create the namespace.
+	PropagationPolicy *PropagationPolicy `pulumi:"propagationPolicy"`
+}
+
+// FleetManagedNamespacePropertiesInput is an input type that accepts FleetManagedNamespacePropertiesArgs and FleetManagedNamespacePropertiesOutput values.
+// You can construct a concrete instance of `FleetManagedNamespacePropertiesInput` via:
+//
+//	FleetManagedNamespacePropertiesArgs{...}
+type FleetManagedNamespacePropertiesInput interface {
+	pulumi.Input
+
+	ToFleetManagedNamespacePropertiesOutput() FleetManagedNamespacePropertiesOutput
+	ToFleetManagedNamespacePropertiesOutputWithContext(context.Context) FleetManagedNamespacePropertiesOutput
+}
+
+// The properties of a fleet managed namespace.
+type FleetManagedNamespacePropertiesArgs struct {
+	// Action if the managed namespace with the same name already exists. Default is Never.
+	AdoptionPolicy pulumi.StringInput `pulumi:"adoptionPolicy"`
+	// Delete options of a fleet managed namespace. Default is Keep.
+	DeletePolicy pulumi.StringInput `pulumi:"deletePolicy"`
+	// The namespace properties for the fleet managed namespace.
+	ManagedNamespaceProperties ManagedNamespacePropertiesPtrInput `pulumi:"managedNamespaceProperties"`
+	// The profile of the propagation to create the namespace.
+	PropagationPolicy PropagationPolicyPtrInput `pulumi:"propagationPolicy"`
+}
+
+func (FleetManagedNamespacePropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FleetManagedNamespaceProperties)(nil)).Elem()
+}
+
+func (i FleetManagedNamespacePropertiesArgs) ToFleetManagedNamespacePropertiesOutput() FleetManagedNamespacePropertiesOutput {
+	return i.ToFleetManagedNamespacePropertiesOutputWithContext(context.Background())
+}
+
+func (i FleetManagedNamespacePropertiesArgs) ToFleetManagedNamespacePropertiesOutputWithContext(ctx context.Context) FleetManagedNamespacePropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FleetManagedNamespacePropertiesOutput)
+}
+
+func (i FleetManagedNamespacePropertiesArgs) ToFleetManagedNamespacePropertiesPtrOutput() FleetManagedNamespacePropertiesPtrOutput {
+	return i.ToFleetManagedNamespacePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i FleetManagedNamespacePropertiesArgs) ToFleetManagedNamespacePropertiesPtrOutputWithContext(ctx context.Context) FleetManagedNamespacePropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FleetManagedNamespacePropertiesOutput).ToFleetManagedNamespacePropertiesPtrOutputWithContext(ctx)
+}
+
+// FleetManagedNamespacePropertiesPtrInput is an input type that accepts FleetManagedNamespacePropertiesArgs, FleetManagedNamespacePropertiesPtr and FleetManagedNamespacePropertiesPtrOutput values.
+// You can construct a concrete instance of `FleetManagedNamespacePropertiesPtrInput` via:
+//
+//	        FleetManagedNamespacePropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type FleetManagedNamespacePropertiesPtrInput interface {
+	pulumi.Input
+
+	ToFleetManagedNamespacePropertiesPtrOutput() FleetManagedNamespacePropertiesPtrOutput
+	ToFleetManagedNamespacePropertiesPtrOutputWithContext(context.Context) FleetManagedNamespacePropertiesPtrOutput
+}
+
+type fleetManagedNamespacePropertiesPtrType FleetManagedNamespacePropertiesArgs
+
+func FleetManagedNamespacePropertiesPtr(v *FleetManagedNamespacePropertiesArgs) FleetManagedNamespacePropertiesPtrInput {
+	return (*fleetManagedNamespacePropertiesPtrType)(v)
+}
+
+func (*fleetManagedNamespacePropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**FleetManagedNamespaceProperties)(nil)).Elem()
+}
+
+func (i *fleetManagedNamespacePropertiesPtrType) ToFleetManagedNamespacePropertiesPtrOutput() FleetManagedNamespacePropertiesPtrOutput {
+	return i.ToFleetManagedNamespacePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *fleetManagedNamespacePropertiesPtrType) ToFleetManagedNamespacePropertiesPtrOutputWithContext(ctx context.Context) FleetManagedNamespacePropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FleetManagedNamespacePropertiesPtrOutput)
+}
+
+// The properties of a fleet managed namespace.
+type FleetManagedNamespacePropertiesOutput struct{ *pulumi.OutputState }
+
+func (FleetManagedNamespacePropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FleetManagedNamespaceProperties)(nil)).Elem()
+}
+
+func (o FleetManagedNamespacePropertiesOutput) ToFleetManagedNamespacePropertiesOutput() FleetManagedNamespacePropertiesOutput {
+	return o
+}
+
+func (o FleetManagedNamespacePropertiesOutput) ToFleetManagedNamespacePropertiesOutputWithContext(ctx context.Context) FleetManagedNamespacePropertiesOutput {
+	return o
+}
+
+func (o FleetManagedNamespacePropertiesOutput) ToFleetManagedNamespacePropertiesPtrOutput() FleetManagedNamespacePropertiesPtrOutput {
+	return o.ToFleetManagedNamespacePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o FleetManagedNamespacePropertiesOutput) ToFleetManagedNamespacePropertiesPtrOutputWithContext(ctx context.Context) FleetManagedNamespacePropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v FleetManagedNamespaceProperties) *FleetManagedNamespaceProperties {
+		return &v
+	}).(FleetManagedNamespacePropertiesPtrOutput)
+}
+
+// Action if the managed namespace with the same name already exists. Default is Never.
+func (o FleetManagedNamespacePropertiesOutput) AdoptionPolicy() pulumi.StringOutput {
+	return o.ApplyT(func(v FleetManagedNamespaceProperties) string { return v.AdoptionPolicy }).(pulumi.StringOutput)
+}
+
+// Delete options of a fleet managed namespace. Default is Keep.
+func (o FleetManagedNamespacePropertiesOutput) DeletePolicy() pulumi.StringOutput {
+	return o.ApplyT(func(v FleetManagedNamespaceProperties) string { return v.DeletePolicy }).(pulumi.StringOutput)
+}
+
+// The namespace properties for the fleet managed namespace.
+func (o FleetManagedNamespacePropertiesOutput) ManagedNamespaceProperties() ManagedNamespacePropertiesPtrOutput {
+	return o.ApplyT(func(v FleetManagedNamespaceProperties) *ManagedNamespaceProperties {
+		return v.ManagedNamespaceProperties
+	}).(ManagedNamespacePropertiesPtrOutput)
+}
+
+// The profile of the propagation to create the namespace.
+func (o FleetManagedNamespacePropertiesOutput) PropagationPolicy() PropagationPolicyPtrOutput {
+	return o.ApplyT(func(v FleetManagedNamespaceProperties) *PropagationPolicy { return v.PropagationPolicy }).(PropagationPolicyPtrOutput)
+}
+
+type FleetManagedNamespacePropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (FleetManagedNamespacePropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**FleetManagedNamespaceProperties)(nil)).Elem()
+}
+
+func (o FleetManagedNamespacePropertiesPtrOutput) ToFleetManagedNamespacePropertiesPtrOutput() FleetManagedNamespacePropertiesPtrOutput {
+	return o
+}
+
+func (o FleetManagedNamespacePropertiesPtrOutput) ToFleetManagedNamespacePropertiesPtrOutputWithContext(ctx context.Context) FleetManagedNamespacePropertiesPtrOutput {
+	return o
+}
+
+func (o FleetManagedNamespacePropertiesPtrOutput) Elem() FleetManagedNamespacePropertiesOutput {
+	return o.ApplyT(func(v *FleetManagedNamespaceProperties) FleetManagedNamespaceProperties {
+		if v != nil {
+			return *v
+		}
+		var ret FleetManagedNamespaceProperties
+		return ret
+	}).(FleetManagedNamespacePropertiesOutput)
+}
+
+// Action if the managed namespace with the same name already exists. Default is Never.
+func (o FleetManagedNamespacePropertiesPtrOutput) AdoptionPolicy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FleetManagedNamespaceProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.AdoptionPolicy
+	}).(pulumi.StringPtrOutput)
+}
+
+// Delete options of a fleet managed namespace. Default is Keep.
+func (o FleetManagedNamespacePropertiesPtrOutput) DeletePolicy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *FleetManagedNamespaceProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.DeletePolicy
+	}).(pulumi.StringPtrOutput)
+}
+
+// The namespace properties for the fleet managed namespace.
+func (o FleetManagedNamespacePropertiesPtrOutput) ManagedNamespaceProperties() ManagedNamespacePropertiesPtrOutput {
+	return o.ApplyT(func(v *FleetManagedNamespaceProperties) *ManagedNamespaceProperties {
+		if v == nil {
+			return nil
+		}
+		return v.ManagedNamespaceProperties
+	}).(ManagedNamespacePropertiesPtrOutput)
+}
+
+// The profile of the propagation to create the namespace.
+func (o FleetManagedNamespacePropertiesPtrOutput) PropagationPolicy() PropagationPolicyPtrOutput {
+	return o.ApplyT(func(v *FleetManagedNamespaceProperties) *PropagationPolicy {
+		if v == nil {
+			return nil
+		}
+		return v.PropagationPolicy
+	}).(PropagationPolicyPtrOutput)
+}
+
+// The properties of a fleet managed namespace.
+type FleetManagedNamespacePropertiesResponse struct {
+	// Action if the managed namespace with the same name already exists. Default is Never.
+	AdoptionPolicy string `pulumi:"adoptionPolicy"`
+	// Delete options of a fleet managed namespace. Default is Keep.
+	DeletePolicy string `pulumi:"deletePolicy"`
+	// The namespace properties for the fleet managed namespace.
+	ManagedNamespaceProperties *ManagedNamespacePropertiesResponse `pulumi:"managedNamespaceProperties"`
+	// The Azure Portal FQDN of the Fleet hub.
+	PortalFqdn string `pulumi:"portalFqdn"`
+	// The profile of the propagation to create the namespace.
+	PropagationPolicy *PropagationPolicyResponse `pulumi:"propagationPolicy"`
+	// The status of the last operation.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// Status information of the last operation for fleet managed namespace.
+	Status FleetManagedNamespaceStatusResponse `pulumi:"status"`
+}
+
+// The properties of a fleet managed namespace.
+type FleetManagedNamespacePropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (FleetManagedNamespacePropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FleetManagedNamespacePropertiesResponse)(nil)).Elem()
+}
+
+func (o FleetManagedNamespacePropertiesResponseOutput) ToFleetManagedNamespacePropertiesResponseOutput() FleetManagedNamespacePropertiesResponseOutput {
+	return o
+}
+
+func (o FleetManagedNamespacePropertiesResponseOutput) ToFleetManagedNamespacePropertiesResponseOutputWithContext(ctx context.Context) FleetManagedNamespacePropertiesResponseOutput {
+	return o
+}
+
+// Action if the managed namespace with the same name already exists. Default is Never.
+func (o FleetManagedNamespacePropertiesResponseOutput) AdoptionPolicy() pulumi.StringOutput {
+	return o.ApplyT(func(v FleetManagedNamespacePropertiesResponse) string { return v.AdoptionPolicy }).(pulumi.StringOutput)
+}
+
+// Delete options of a fleet managed namespace. Default is Keep.
+func (o FleetManagedNamespacePropertiesResponseOutput) DeletePolicy() pulumi.StringOutput {
+	return o.ApplyT(func(v FleetManagedNamespacePropertiesResponse) string { return v.DeletePolicy }).(pulumi.StringOutput)
+}
+
+// The namespace properties for the fleet managed namespace.
+func (o FleetManagedNamespacePropertiesResponseOutput) ManagedNamespaceProperties() ManagedNamespacePropertiesResponsePtrOutput {
+	return o.ApplyT(func(v FleetManagedNamespacePropertiesResponse) *ManagedNamespacePropertiesResponse {
+		return v.ManagedNamespaceProperties
+	}).(ManagedNamespacePropertiesResponsePtrOutput)
+}
+
+// The Azure Portal FQDN of the Fleet hub.
+func (o FleetManagedNamespacePropertiesResponseOutput) PortalFqdn() pulumi.StringOutput {
+	return o.ApplyT(func(v FleetManagedNamespacePropertiesResponse) string { return v.PortalFqdn }).(pulumi.StringOutput)
+}
+
+// The profile of the propagation to create the namespace.
+func (o FleetManagedNamespacePropertiesResponseOutput) PropagationPolicy() PropagationPolicyResponsePtrOutput {
+	return o.ApplyT(func(v FleetManagedNamespacePropertiesResponse) *PropagationPolicyResponse { return v.PropagationPolicy }).(PropagationPolicyResponsePtrOutput)
+}
+
+// The status of the last operation.
+func (o FleetManagedNamespacePropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v FleetManagedNamespacePropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// Status information of the last operation for fleet managed namespace.
+func (o FleetManagedNamespacePropertiesResponseOutput) Status() FleetManagedNamespaceStatusResponseOutput {
+	return o.ApplyT(func(v FleetManagedNamespacePropertiesResponse) FleetManagedNamespaceStatusResponse { return v.Status }).(FleetManagedNamespaceStatusResponseOutput)
+}
+
+// Status information for the fleet managed namespace.
+type FleetManagedNamespaceStatusResponse struct {
+	// The last operation error of the fleet managed namespace
+	LastOperationError ErrorDetailResponse `pulumi:"lastOperationError"`
+	// The last operation ID for the fleet managed namespace
+	LastOperationId string `pulumi:"lastOperationId"`
+}
+
+// Status information for the fleet managed namespace.
+type FleetManagedNamespaceStatusResponseOutput struct{ *pulumi.OutputState }
+
+func (FleetManagedNamespaceStatusResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FleetManagedNamespaceStatusResponse)(nil)).Elem()
+}
+
+func (o FleetManagedNamespaceStatusResponseOutput) ToFleetManagedNamespaceStatusResponseOutput() FleetManagedNamespaceStatusResponseOutput {
+	return o
+}
+
+func (o FleetManagedNamespaceStatusResponseOutput) ToFleetManagedNamespaceStatusResponseOutputWithContext(ctx context.Context) FleetManagedNamespaceStatusResponseOutput {
+	return o
+}
+
+// The last operation error of the fleet managed namespace
+func (o FleetManagedNamespaceStatusResponseOutput) LastOperationError() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v FleetManagedNamespaceStatusResponse) ErrorDetailResponse { return v.LastOperationError }).(ErrorDetailResponseOutput)
+}
+
+// The last operation ID for the fleet managed namespace
+func (o FleetManagedNamespaceStatusResponseOutput) LastOperationId() pulumi.StringOutput {
+	return o.ApplyT(func(v FleetManagedNamespaceStatusResponse) string { return v.LastOperationId }).(pulumi.StringOutput)
+}
+
 // GPU settings for the Agent Pool.
 type GPUProfile struct {
 	// Whether to install GPU drivers. When it's not specified, default is Install.
@@ -7867,6 +8169,12 @@ func (o IstioComponentsResponsePtrOutput) IngressGateways() IstioIngressGatewayR
 type IstioEgressGateway struct {
 	// Whether to enable the egress gateway.
 	Enabled bool `pulumi:"enabled"`
+	// Name of the gateway configuration custom resource for the Istio add-on egress gateway. Must be specified when enabling the Istio egress gateway. Must be deployed in the same namespace that the Istio egress gateway will be deployed in.
+	GatewayConfigurationName *string `pulumi:"gatewayConfigurationName"`
+	// Name of the Istio add-on egress gateway.
+	Name string `pulumi:"name"`
+	// Namespace that the Istio add-on egress gateway should be deployed in. If unspecified, the default is aks-istio-egress.
+	Namespace *string `pulumi:"namespace"`
 }
 
 // IstioEgressGatewayInput is an input type that accepts IstioEgressGatewayArgs and IstioEgressGatewayOutput values.
@@ -7884,6 +8192,12 @@ type IstioEgressGatewayInput interface {
 type IstioEgressGatewayArgs struct {
 	// Whether to enable the egress gateway.
 	Enabled pulumi.BoolInput `pulumi:"enabled"`
+	// Name of the gateway configuration custom resource for the Istio add-on egress gateway. Must be specified when enabling the Istio egress gateway. Must be deployed in the same namespace that the Istio egress gateway will be deployed in.
+	GatewayConfigurationName pulumi.StringPtrInput `pulumi:"gatewayConfigurationName"`
+	// Name of the Istio add-on egress gateway.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Namespace that the Istio add-on egress gateway should be deployed in. If unspecified, the default is aks-istio-egress.
+	Namespace pulumi.StringPtrInput `pulumi:"namespace"`
 }
 
 func (IstioEgressGatewayArgs) ElementType() reflect.Type {
@@ -7943,6 +8257,21 @@ func (o IstioEgressGatewayOutput) Enabled() pulumi.BoolOutput {
 	return o.ApplyT(func(v IstioEgressGateway) bool { return v.Enabled }).(pulumi.BoolOutput)
 }
 
+// Name of the gateway configuration custom resource for the Istio add-on egress gateway. Must be specified when enabling the Istio egress gateway. Must be deployed in the same namespace that the Istio egress gateway will be deployed in.
+func (o IstioEgressGatewayOutput) GatewayConfigurationName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IstioEgressGateway) *string { return v.GatewayConfigurationName }).(pulumi.StringPtrOutput)
+}
+
+// Name of the Istio add-on egress gateway.
+func (o IstioEgressGatewayOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v IstioEgressGateway) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Namespace that the Istio add-on egress gateway should be deployed in. If unspecified, the default is aks-istio-egress.
+func (o IstioEgressGatewayOutput) Namespace() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IstioEgressGateway) *string { return v.Namespace }).(pulumi.StringPtrOutput)
+}
+
 type IstioEgressGatewayArrayOutput struct{ *pulumi.OutputState }
 
 func (IstioEgressGatewayArrayOutput) ElementType() reflect.Type {
@@ -7967,6 +8296,12 @@ func (o IstioEgressGatewayArrayOutput) Index(i pulumi.IntInput) IstioEgressGatew
 type IstioEgressGatewayResponse struct {
 	// Whether to enable the egress gateway.
 	Enabled bool `pulumi:"enabled"`
+	// Name of the gateway configuration custom resource for the Istio add-on egress gateway. Must be specified when enabling the Istio egress gateway. Must be deployed in the same namespace that the Istio egress gateway will be deployed in.
+	GatewayConfigurationName *string `pulumi:"gatewayConfigurationName"`
+	// Name of the Istio add-on egress gateway.
+	Name string `pulumi:"name"`
+	// Namespace that the Istio add-on egress gateway should be deployed in. If unspecified, the default is aks-istio-egress.
+	Namespace *string `pulumi:"namespace"`
 }
 
 // Istio egress gateway configuration.
@@ -7987,6 +8322,21 @@ func (o IstioEgressGatewayResponseOutput) ToIstioEgressGatewayResponseOutputWith
 // Whether to enable the egress gateway.
 func (o IstioEgressGatewayResponseOutput) Enabled() pulumi.BoolOutput {
 	return o.ApplyT(func(v IstioEgressGatewayResponse) bool { return v.Enabled }).(pulumi.BoolOutput)
+}
+
+// Name of the gateway configuration custom resource for the Istio add-on egress gateway. Must be specified when enabling the Istio egress gateway. Must be deployed in the same namespace that the Istio egress gateway will be deployed in.
+func (o IstioEgressGatewayResponseOutput) GatewayConfigurationName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IstioEgressGatewayResponse) *string { return v.GatewayConfigurationName }).(pulumi.StringPtrOutput)
+}
+
+// Name of the Istio add-on egress gateway.
+func (o IstioEgressGatewayResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v IstioEgressGatewayResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Namespace that the Istio add-on egress gateway should be deployed in. If unspecified, the default is aks-istio-egress.
+func (o IstioEgressGatewayResponseOutput) Namespace() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IstioEgressGatewayResponse) *string { return v.Namespace }).(pulumi.StringPtrOutput)
 }
 
 type IstioEgressGatewayResponseArrayOutput struct{ *pulumi.OutputState }
@@ -10969,6 +11319,704 @@ func (o LinuxOSConfigResponsePtrOutput) TransparentHugePageEnabled() pulumi.Stri
 	}).(pulumi.StringPtrOutput)
 }
 
+// Overrides for localDNS profile.
+type LocalDNSOverride struct {
+	// Cache max TTL in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	CacheDurationInSeconds *int `pulumi:"cacheDurationInSeconds"`
+	// Destination server for DNS queries to be forwarded from localDNS.
+	ForwardDestination *string `pulumi:"forwardDestination"`
+	// Forward policy for selecting upstream DNS server. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	ForwardPolicy *string `pulumi:"forwardPolicy"`
+	// Maximum number of concurrent queries. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	MaxConcurrent *int `pulumi:"maxConcurrent"`
+	// Enforce TCP or prefer UDP protocol for connections from localDNS to upstream DNS server.
+	Protocol *string `pulumi:"protocol"`
+	// Log level for DNS queries in localDNS.
+	QueryLogging *string `pulumi:"queryLogging"`
+	// Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	ServeStale *string `pulumi:"serveStale"`
+	// Serve stale duration in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	ServeStaleDurationInSeconds *int `pulumi:"serveStaleDurationInSeconds"`
+}
+
+// Defaults sets the appropriate defaults for LocalDNSOverride
+func (val *LocalDNSOverride) Defaults() *LocalDNSOverride {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.CacheDurationInSeconds == nil {
+		cacheDurationInSeconds_ := 3600
+		tmp.CacheDurationInSeconds = &cacheDurationInSeconds_
+	}
+	if tmp.ForwardDestination == nil {
+		forwardDestination_ := "ClusterCoreDNS"
+		tmp.ForwardDestination = &forwardDestination_
+	}
+	if tmp.ForwardPolicy == nil {
+		forwardPolicy_ := "Sequential"
+		tmp.ForwardPolicy = &forwardPolicy_
+	}
+	if tmp.MaxConcurrent == nil {
+		maxConcurrent_ := 1000
+		tmp.MaxConcurrent = &maxConcurrent_
+	}
+	if tmp.Protocol == nil {
+		protocol_ := "PreferUDP"
+		tmp.Protocol = &protocol_
+	}
+	if tmp.QueryLogging == nil {
+		queryLogging_ := "Error"
+		tmp.QueryLogging = &queryLogging_
+	}
+	if tmp.ServeStale == nil {
+		serveStale_ := "Immediate"
+		tmp.ServeStale = &serveStale_
+	}
+	if tmp.ServeStaleDurationInSeconds == nil {
+		serveStaleDurationInSeconds_ := 3600
+		tmp.ServeStaleDurationInSeconds = &serveStaleDurationInSeconds_
+	}
+	return &tmp
+}
+
+// LocalDNSOverrideInput is an input type that accepts LocalDNSOverrideArgs and LocalDNSOverrideOutput values.
+// You can construct a concrete instance of `LocalDNSOverrideInput` via:
+//
+//	LocalDNSOverrideArgs{...}
+type LocalDNSOverrideInput interface {
+	pulumi.Input
+
+	ToLocalDNSOverrideOutput() LocalDNSOverrideOutput
+	ToLocalDNSOverrideOutputWithContext(context.Context) LocalDNSOverrideOutput
+}
+
+// Overrides for localDNS profile.
+type LocalDNSOverrideArgs struct {
+	// Cache max TTL in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	CacheDurationInSeconds pulumi.IntPtrInput `pulumi:"cacheDurationInSeconds"`
+	// Destination server for DNS queries to be forwarded from localDNS.
+	ForwardDestination pulumi.StringPtrInput `pulumi:"forwardDestination"`
+	// Forward policy for selecting upstream DNS server. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	ForwardPolicy pulumi.StringPtrInput `pulumi:"forwardPolicy"`
+	// Maximum number of concurrent queries. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	MaxConcurrent pulumi.IntPtrInput `pulumi:"maxConcurrent"`
+	// Enforce TCP or prefer UDP protocol for connections from localDNS to upstream DNS server.
+	Protocol pulumi.StringPtrInput `pulumi:"protocol"`
+	// Log level for DNS queries in localDNS.
+	QueryLogging pulumi.StringPtrInput `pulumi:"queryLogging"`
+	// Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	ServeStale pulumi.StringPtrInput `pulumi:"serveStale"`
+	// Serve stale duration in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	ServeStaleDurationInSeconds pulumi.IntPtrInput `pulumi:"serveStaleDurationInSeconds"`
+}
+
+// Defaults sets the appropriate defaults for LocalDNSOverrideArgs
+func (val *LocalDNSOverrideArgs) Defaults() *LocalDNSOverrideArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.CacheDurationInSeconds == nil {
+		tmp.CacheDurationInSeconds = pulumi.IntPtr(3600)
+	}
+	if tmp.ForwardDestination == nil {
+		tmp.ForwardDestination = pulumi.StringPtr("ClusterCoreDNS")
+	}
+	if tmp.ForwardPolicy == nil {
+		tmp.ForwardPolicy = pulumi.StringPtr("Sequential")
+	}
+	if tmp.MaxConcurrent == nil {
+		tmp.MaxConcurrent = pulumi.IntPtr(1000)
+	}
+	if tmp.Protocol == nil {
+		tmp.Protocol = pulumi.StringPtr("PreferUDP")
+	}
+	if tmp.QueryLogging == nil {
+		tmp.QueryLogging = pulumi.StringPtr("Error")
+	}
+	if tmp.ServeStale == nil {
+		tmp.ServeStale = pulumi.StringPtr("Immediate")
+	}
+	if tmp.ServeStaleDurationInSeconds == nil {
+		tmp.ServeStaleDurationInSeconds = pulumi.IntPtr(3600)
+	}
+	return &tmp
+}
+func (LocalDNSOverrideArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSOverride)(nil)).Elem()
+}
+
+func (i LocalDNSOverrideArgs) ToLocalDNSOverrideOutput() LocalDNSOverrideOutput {
+	return i.ToLocalDNSOverrideOutputWithContext(context.Background())
+}
+
+func (i LocalDNSOverrideArgs) ToLocalDNSOverrideOutputWithContext(ctx context.Context) LocalDNSOverrideOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(LocalDNSOverrideOutput)
+}
+
+// LocalDNSOverrideMapInput is an input type that accepts LocalDNSOverrideMap and LocalDNSOverrideMapOutput values.
+// You can construct a concrete instance of `LocalDNSOverrideMapInput` via:
+//
+//	LocalDNSOverrideMap{ "key": LocalDNSOverrideArgs{...} }
+type LocalDNSOverrideMapInput interface {
+	pulumi.Input
+
+	ToLocalDNSOverrideMapOutput() LocalDNSOverrideMapOutput
+	ToLocalDNSOverrideMapOutputWithContext(context.Context) LocalDNSOverrideMapOutput
+}
+
+type LocalDNSOverrideMap map[string]LocalDNSOverrideInput
+
+func (LocalDNSOverrideMap) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]LocalDNSOverride)(nil)).Elem()
+}
+
+func (i LocalDNSOverrideMap) ToLocalDNSOverrideMapOutput() LocalDNSOverrideMapOutput {
+	return i.ToLocalDNSOverrideMapOutputWithContext(context.Background())
+}
+
+func (i LocalDNSOverrideMap) ToLocalDNSOverrideMapOutputWithContext(ctx context.Context) LocalDNSOverrideMapOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(LocalDNSOverrideMapOutput)
+}
+
+// Overrides for localDNS profile.
+type LocalDNSOverrideOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSOverrideOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSOverride)(nil)).Elem()
+}
+
+func (o LocalDNSOverrideOutput) ToLocalDNSOverrideOutput() LocalDNSOverrideOutput {
+	return o
+}
+
+func (o LocalDNSOverrideOutput) ToLocalDNSOverrideOutputWithContext(ctx context.Context) LocalDNSOverrideOutput {
+	return o
+}
+
+// Cache max TTL in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+func (o LocalDNSOverrideOutput) CacheDurationInSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverride) *int { return v.CacheDurationInSeconds }).(pulumi.IntPtrOutput)
+}
+
+// Destination server for DNS queries to be forwarded from localDNS.
+func (o LocalDNSOverrideOutput) ForwardDestination() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverride) *string { return v.ForwardDestination }).(pulumi.StringPtrOutput)
+}
+
+// Forward policy for selecting upstream DNS server. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+func (o LocalDNSOverrideOutput) ForwardPolicy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverride) *string { return v.ForwardPolicy }).(pulumi.StringPtrOutput)
+}
+
+// Maximum number of concurrent queries. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+func (o LocalDNSOverrideOutput) MaxConcurrent() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverride) *int { return v.MaxConcurrent }).(pulumi.IntPtrOutput)
+}
+
+// Enforce TCP or prefer UDP protocol for connections from localDNS to upstream DNS server.
+func (o LocalDNSOverrideOutput) Protocol() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverride) *string { return v.Protocol }).(pulumi.StringPtrOutput)
+}
+
+// Log level for DNS queries in localDNS.
+func (o LocalDNSOverrideOutput) QueryLogging() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverride) *string { return v.QueryLogging }).(pulumi.StringPtrOutput)
+}
+
+// Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+func (o LocalDNSOverrideOutput) ServeStale() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverride) *string { return v.ServeStale }).(pulumi.StringPtrOutput)
+}
+
+// Serve stale duration in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+func (o LocalDNSOverrideOutput) ServeStaleDurationInSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverride) *int { return v.ServeStaleDurationInSeconds }).(pulumi.IntPtrOutput)
+}
+
+type LocalDNSOverrideMapOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSOverrideMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]LocalDNSOverride)(nil)).Elem()
+}
+
+func (o LocalDNSOverrideMapOutput) ToLocalDNSOverrideMapOutput() LocalDNSOverrideMapOutput {
+	return o
+}
+
+func (o LocalDNSOverrideMapOutput) ToLocalDNSOverrideMapOutputWithContext(ctx context.Context) LocalDNSOverrideMapOutput {
+	return o
+}
+
+func (o LocalDNSOverrideMapOutput) MapIndex(k pulumi.StringInput) LocalDNSOverrideOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) LocalDNSOverride {
+		return vs[0].(map[string]LocalDNSOverride)[vs[1].(string)]
+	}).(LocalDNSOverrideOutput)
+}
+
+// Overrides for localDNS profile.
+type LocalDNSOverrideResponse struct {
+	// Cache max TTL in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	CacheDurationInSeconds *int `pulumi:"cacheDurationInSeconds"`
+	// Destination server for DNS queries to be forwarded from localDNS.
+	ForwardDestination *string `pulumi:"forwardDestination"`
+	// Forward policy for selecting upstream DNS server. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	ForwardPolicy *string `pulumi:"forwardPolicy"`
+	// Maximum number of concurrent queries. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+	MaxConcurrent *int `pulumi:"maxConcurrent"`
+	// Enforce TCP or prefer UDP protocol for connections from localDNS to upstream DNS server.
+	Protocol *string `pulumi:"protocol"`
+	// Log level for DNS queries in localDNS.
+	QueryLogging *string `pulumi:"queryLogging"`
+	// Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	ServeStale *string `pulumi:"serveStale"`
+	// Serve stale duration in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+	ServeStaleDurationInSeconds *int `pulumi:"serveStaleDurationInSeconds"`
+}
+
+// Defaults sets the appropriate defaults for LocalDNSOverrideResponse
+func (val *LocalDNSOverrideResponse) Defaults() *LocalDNSOverrideResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.CacheDurationInSeconds == nil {
+		cacheDurationInSeconds_ := 3600
+		tmp.CacheDurationInSeconds = &cacheDurationInSeconds_
+	}
+	if tmp.ForwardDestination == nil {
+		forwardDestination_ := "ClusterCoreDNS"
+		tmp.ForwardDestination = &forwardDestination_
+	}
+	if tmp.ForwardPolicy == nil {
+		forwardPolicy_ := "Sequential"
+		tmp.ForwardPolicy = &forwardPolicy_
+	}
+	if tmp.MaxConcurrent == nil {
+		maxConcurrent_ := 1000
+		tmp.MaxConcurrent = &maxConcurrent_
+	}
+	if tmp.Protocol == nil {
+		protocol_ := "PreferUDP"
+		tmp.Protocol = &protocol_
+	}
+	if tmp.QueryLogging == nil {
+		queryLogging_ := "Error"
+		tmp.QueryLogging = &queryLogging_
+	}
+	if tmp.ServeStale == nil {
+		serveStale_ := "Immediate"
+		tmp.ServeStale = &serveStale_
+	}
+	if tmp.ServeStaleDurationInSeconds == nil {
+		serveStaleDurationInSeconds_ := 3600
+		tmp.ServeStaleDurationInSeconds = &serveStaleDurationInSeconds_
+	}
+	return &tmp
+}
+
+// Overrides for localDNS profile.
+type LocalDNSOverrideResponseOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSOverrideResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSOverrideResponse)(nil)).Elem()
+}
+
+func (o LocalDNSOverrideResponseOutput) ToLocalDNSOverrideResponseOutput() LocalDNSOverrideResponseOutput {
+	return o
+}
+
+func (o LocalDNSOverrideResponseOutput) ToLocalDNSOverrideResponseOutputWithContext(ctx context.Context) LocalDNSOverrideResponseOutput {
+	return o
+}
+
+// Cache max TTL in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+func (o LocalDNSOverrideResponseOutput) CacheDurationInSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverrideResponse) *int { return v.CacheDurationInSeconds }).(pulumi.IntPtrOutput)
+}
+
+// Destination server for DNS queries to be forwarded from localDNS.
+func (o LocalDNSOverrideResponseOutput) ForwardDestination() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverrideResponse) *string { return v.ForwardDestination }).(pulumi.StringPtrOutput)
+}
+
+// Forward policy for selecting upstream DNS server. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+func (o LocalDNSOverrideResponseOutput) ForwardPolicy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverrideResponse) *string { return v.ForwardPolicy }).(pulumi.StringPtrOutput)
+}
+
+// Maximum number of concurrent queries. See [forward plugin](https://coredns.io/plugins/forward) for more information.
+func (o LocalDNSOverrideResponseOutput) MaxConcurrent() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverrideResponse) *int { return v.MaxConcurrent }).(pulumi.IntPtrOutput)
+}
+
+// Enforce TCP or prefer UDP protocol for connections from localDNS to upstream DNS server.
+func (o LocalDNSOverrideResponseOutput) Protocol() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverrideResponse) *string { return v.Protocol }).(pulumi.StringPtrOutput)
+}
+
+// Log level for DNS queries in localDNS.
+func (o LocalDNSOverrideResponseOutput) QueryLogging() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverrideResponse) *string { return v.QueryLogging }).(pulumi.StringPtrOutput)
+}
+
+// Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+func (o LocalDNSOverrideResponseOutput) ServeStale() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverrideResponse) *string { return v.ServeStale }).(pulumi.StringPtrOutput)
+}
+
+// Serve stale duration in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information.
+func (o LocalDNSOverrideResponseOutput) ServeStaleDurationInSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LocalDNSOverrideResponse) *int { return v.ServeStaleDurationInSeconds }).(pulumi.IntPtrOutput)
+}
+
+type LocalDNSOverrideResponseMapOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSOverrideResponseMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]LocalDNSOverrideResponse)(nil)).Elem()
+}
+
+func (o LocalDNSOverrideResponseMapOutput) ToLocalDNSOverrideResponseMapOutput() LocalDNSOverrideResponseMapOutput {
+	return o
+}
+
+func (o LocalDNSOverrideResponseMapOutput) ToLocalDNSOverrideResponseMapOutputWithContext(ctx context.Context) LocalDNSOverrideResponseMapOutput {
+	return o
+}
+
+func (o LocalDNSOverrideResponseMapOutput) MapIndex(k pulumi.StringInput) LocalDNSOverrideResponseOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) LocalDNSOverrideResponse {
+		return vs[0].(map[string]LocalDNSOverrideResponse)[vs[1].(string)]
+	}).(LocalDNSOverrideResponseOutput)
+}
+
+// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+type LocalDNSProfile struct {
+	// KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic).
+	KubeDNSOverrides map[string]LocalDNSOverride `pulumi:"kubeDNSOverrides"`
+	// Mode of enablement for localDNS.
+	Mode *string `pulumi:"mode"`
+	// VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic).
+	VnetDNSOverrides map[string]LocalDNSOverride `pulumi:"vnetDNSOverrides"`
+}
+
+// Defaults sets the appropriate defaults for LocalDNSProfile
+func (val *LocalDNSProfile) Defaults() *LocalDNSProfile {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.Mode == nil {
+		mode_ := "Preferred"
+		tmp.Mode = &mode_
+	}
+	return &tmp
+}
+
+// LocalDNSProfileInput is an input type that accepts LocalDNSProfileArgs and LocalDNSProfileOutput values.
+// You can construct a concrete instance of `LocalDNSProfileInput` via:
+//
+//	LocalDNSProfileArgs{...}
+type LocalDNSProfileInput interface {
+	pulumi.Input
+
+	ToLocalDNSProfileOutput() LocalDNSProfileOutput
+	ToLocalDNSProfileOutputWithContext(context.Context) LocalDNSProfileOutput
+}
+
+// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+type LocalDNSProfileArgs struct {
+	// KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic).
+	KubeDNSOverrides LocalDNSOverrideMapInput `pulumi:"kubeDNSOverrides"`
+	// Mode of enablement for localDNS.
+	Mode pulumi.StringPtrInput `pulumi:"mode"`
+	// VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic).
+	VnetDNSOverrides LocalDNSOverrideMapInput `pulumi:"vnetDNSOverrides"`
+}
+
+// Defaults sets the appropriate defaults for LocalDNSProfileArgs
+func (val *LocalDNSProfileArgs) Defaults() *LocalDNSProfileArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.Mode == nil {
+		tmp.Mode = pulumi.StringPtr("Preferred")
+	}
+	return &tmp
+}
+func (LocalDNSProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSProfile)(nil)).Elem()
+}
+
+func (i LocalDNSProfileArgs) ToLocalDNSProfileOutput() LocalDNSProfileOutput {
+	return i.ToLocalDNSProfileOutputWithContext(context.Background())
+}
+
+func (i LocalDNSProfileArgs) ToLocalDNSProfileOutputWithContext(ctx context.Context) LocalDNSProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(LocalDNSProfileOutput)
+}
+
+func (i LocalDNSProfileArgs) ToLocalDNSProfilePtrOutput() LocalDNSProfilePtrOutput {
+	return i.ToLocalDNSProfilePtrOutputWithContext(context.Background())
+}
+
+func (i LocalDNSProfileArgs) ToLocalDNSProfilePtrOutputWithContext(ctx context.Context) LocalDNSProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(LocalDNSProfileOutput).ToLocalDNSProfilePtrOutputWithContext(ctx)
+}
+
+// LocalDNSProfilePtrInput is an input type that accepts LocalDNSProfileArgs, LocalDNSProfilePtr and LocalDNSProfilePtrOutput values.
+// You can construct a concrete instance of `LocalDNSProfilePtrInput` via:
+//
+//	        LocalDNSProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type LocalDNSProfilePtrInput interface {
+	pulumi.Input
+
+	ToLocalDNSProfilePtrOutput() LocalDNSProfilePtrOutput
+	ToLocalDNSProfilePtrOutputWithContext(context.Context) LocalDNSProfilePtrOutput
+}
+
+type localDNSProfilePtrType LocalDNSProfileArgs
+
+func LocalDNSProfilePtr(v *LocalDNSProfileArgs) LocalDNSProfilePtrInput {
+	return (*localDNSProfilePtrType)(v)
+}
+
+func (*localDNSProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSProfile)(nil)).Elem()
+}
+
+func (i *localDNSProfilePtrType) ToLocalDNSProfilePtrOutput() LocalDNSProfilePtrOutput {
+	return i.ToLocalDNSProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *localDNSProfilePtrType) ToLocalDNSProfilePtrOutputWithContext(ctx context.Context) LocalDNSProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(LocalDNSProfilePtrOutput)
+}
+
+// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+type LocalDNSProfileOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSProfile)(nil)).Elem()
+}
+
+func (o LocalDNSProfileOutput) ToLocalDNSProfileOutput() LocalDNSProfileOutput {
+	return o
+}
+
+func (o LocalDNSProfileOutput) ToLocalDNSProfileOutputWithContext(ctx context.Context) LocalDNSProfileOutput {
+	return o
+}
+
+func (o LocalDNSProfileOutput) ToLocalDNSProfilePtrOutput() LocalDNSProfilePtrOutput {
+	return o.ToLocalDNSProfilePtrOutputWithContext(context.Background())
+}
+
+func (o LocalDNSProfileOutput) ToLocalDNSProfilePtrOutputWithContext(ctx context.Context) LocalDNSProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v LocalDNSProfile) *LocalDNSProfile {
+		return &v
+	}).(LocalDNSProfilePtrOutput)
+}
+
+// KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic).
+func (o LocalDNSProfileOutput) KubeDNSOverrides() LocalDNSOverrideMapOutput {
+	return o.ApplyT(func(v LocalDNSProfile) map[string]LocalDNSOverride { return v.KubeDNSOverrides }).(LocalDNSOverrideMapOutput)
+}
+
+// Mode of enablement for localDNS.
+func (o LocalDNSProfileOutput) Mode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSProfile) *string { return v.Mode }).(pulumi.StringPtrOutput)
+}
+
+// VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic).
+func (o LocalDNSProfileOutput) VnetDNSOverrides() LocalDNSOverrideMapOutput {
+	return o.ApplyT(func(v LocalDNSProfile) map[string]LocalDNSOverride { return v.VnetDNSOverrides }).(LocalDNSOverrideMapOutput)
+}
+
+type LocalDNSProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSProfile)(nil)).Elem()
+}
+
+func (o LocalDNSProfilePtrOutput) ToLocalDNSProfilePtrOutput() LocalDNSProfilePtrOutput {
+	return o
+}
+
+func (o LocalDNSProfilePtrOutput) ToLocalDNSProfilePtrOutputWithContext(ctx context.Context) LocalDNSProfilePtrOutput {
+	return o
+}
+
+func (o LocalDNSProfilePtrOutput) Elem() LocalDNSProfileOutput {
+	return o.ApplyT(func(v *LocalDNSProfile) LocalDNSProfile {
+		if v != nil {
+			return *v
+		}
+		var ret LocalDNSProfile
+		return ret
+	}).(LocalDNSProfileOutput)
+}
+
+// KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic).
+func (o LocalDNSProfilePtrOutput) KubeDNSOverrides() LocalDNSOverrideMapOutput {
+	return o.ApplyT(func(v *LocalDNSProfile) map[string]LocalDNSOverride {
+		if v == nil {
+			return nil
+		}
+		return v.KubeDNSOverrides
+	}).(LocalDNSOverrideMapOutput)
+}
+
+// Mode of enablement for localDNS.
+func (o LocalDNSProfilePtrOutput) Mode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *LocalDNSProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Mode
+	}).(pulumi.StringPtrOutput)
+}
+
+// VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic).
+func (o LocalDNSProfilePtrOutput) VnetDNSOverrides() LocalDNSOverrideMapOutput {
+	return o.ApplyT(func(v *LocalDNSProfile) map[string]LocalDNSOverride {
+		if v == nil {
+			return nil
+		}
+		return v.VnetDNSOverrides
+	}).(LocalDNSOverrideMapOutput)
+}
+
+// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+type LocalDNSProfileResponse struct {
+	// KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic).
+	KubeDNSOverrides map[string]LocalDNSOverrideResponse `pulumi:"kubeDNSOverrides"`
+	// Mode of enablement for localDNS.
+	Mode *string `pulumi:"mode"`
+	// System-generated state of localDNS.
+	State string `pulumi:"state"`
+	// VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic).
+	VnetDNSOverrides map[string]LocalDNSOverrideResponse `pulumi:"vnetDNSOverrides"`
+}
+
+// Defaults sets the appropriate defaults for LocalDNSProfileResponse
+func (val *LocalDNSProfileResponse) Defaults() *LocalDNSProfileResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.Mode == nil {
+		mode_ := "Preferred"
+		tmp.Mode = &mode_
+	}
+	return &tmp
+}
+
+// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+type LocalDNSProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LocalDNSProfileResponse)(nil)).Elem()
+}
+
+func (o LocalDNSProfileResponseOutput) ToLocalDNSProfileResponseOutput() LocalDNSProfileResponseOutput {
+	return o
+}
+
+func (o LocalDNSProfileResponseOutput) ToLocalDNSProfileResponseOutputWithContext(ctx context.Context) LocalDNSProfileResponseOutput {
+	return o
+}
+
+// KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic).
+func (o LocalDNSProfileResponseOutput) KubeDNSOverrides() LocalDNSOverrideResponseMapOutput {
+	return o.ApplyT(func(v LocalDNSProfileResponse) map[string]LocalDNSOverrideResponse { return v.KubeDNSOverrides }).(LocalDNSOverrideResponseMapOutput)
+}
+
+// Mode of enablement for localDNS.
+func (o LocalDNSProfileResponseOutput) Mode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LocalDNSProfileResponse) *string { return v.Mode }).(pulumi.StringPtrOutput)
+}
+
+// System-generated state of localDNS.
+func (o LocalDNSProfileResponseOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v LocalDNSProfileResponse) string { return v.State }).(pulumi.StringOutput)
+}
+
+// VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic).
+func (o LocalDNSProfileResponseOutput) VnetDNSOverrides() LocalDNSOverrideResponseMapOutput {
+	return o.ApplyT(func(v LocalDNSProfileResponse) map[string]LocalDNSOverrideResponse { return v.VnetDNSOverrides }).(LocalDNSOverrideResponseMapOutput)
+}
+
+type LocalDNSProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (LocalDNSProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LocalDNSProfileResponse)(nil)).Elem()
+}
+
+func (o LocalDNSProfileResponsePtrOutput) ToLocalDNSProfileResponsePtrOutput() LocalDNSProfileResponsePtrOutput {
+	return o
+}
+
+func (o LocalDNSProfileResponsePtrOutput) ToLocalDNSProfileResponsePtrOutputWithContext(ctx context.Context) LocalDNSProfileResponsePtrOutput {
+	return o
+}
+
+func (o LocalDNSProfileResponsePtrOutput) Elem() LocalDNSProfileResponseOutput {
+	return o.ApplyT(func(v *LocalDNSProfileResponse) LocalDNSProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret LocalDNSProfileResponse
+		return ret
+	}).(LocalDNSProfileResponseOutput)
+}
+
+// KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic).
+func (o LocalDNSProfileResponsePtrOutput) KubeDNSOverrides() LocalDNSOverrideResponseMapOutput {
+	return o.ApplyT(func(v *LocalDNSProfileResponse) map[string]LocalDNSOverrideResponse {
+		if v == nil {
+			return nil
+		}
+		return v.KubeDNSOverrides
+	}).(LocalDNSOverrideResponseMapOutput)
+}
+
+// Mode of enablement for localDNS.
+func (o LocalDNSProfileResponsePtrOutput) Mode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *LocalDNSProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Mode
+	}).(pulumi.StringPtrOutput)
+}
+
+// System-generated state of localDNS.
+func (o LocalDNSProfileResponsePtrOutput) State() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *LocalDNSProfileResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.State
+	}).(pulumi.StringPtrOutput)
+}
+
+// VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic).
+func (o LocalDNSProfileResponsePtrOutput) VnetDNSOverrides() LocalDNSOverrideResponseMapOutput {
+	return o.ApplyT(func(v *LocalDNSProfileResponse) map[string]LocalDNSOverrideResponse {
+		if v == nil {
+			return nil
+		}
+		return v.VnetDNSOverrides
+	}).(LocalDNSOverrideResponseMapOutput)
+}
+
 // Maintenance window used to configure scheduled auto-upgrade for a Managed Cluster.
 type MaintenanceWindow struct {
 	// Length of maintenance window range from 4 to 24 hours.
@@ -12661,6 +13709,8 @@ type ManagedClusterAgentPoolProfile struct {
 	KubeletDiskType *string `pulumi:"kubeletDiskType"`
 	// The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig `pulumi:"linuxOSConfig"`
+	// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+	LocalDNSProfile *LocalDNSProfile `pulumi:"localDNSProfile"`
 	// The maximum number of nodes for auto-scaling
 	MaxCount *int `pulumi:"maxCount"`
 	// The maximum number of pods that can run on a node.
@@ -12737,6 +13787,8 @@ func (val *ManagedClusterAgentPoolProfile) Defaults() *ManagedClusterAgentPoolPr
 	tmp := *val
 	tmp.GatewayProfile = tmp.GatewayProfile.Defaults()
 
+	tmp.LocalDNSProfile = tmp.LocalDNSProfile.Defaults()
+
 	return &tmp
 }
 
@@ -12785,6 +13837,8 @@ type ManagedClusterAgentPoolProfileArgs struct {
 	KubeletDiskType pulumi.StringPtrInput `pulumi:"kubeletDiskType"`
 	// The OS configuration of Linux agent nodes.
 	LinuxOSConfig LinuxOSConfigPtrInput `pulumi:"linuxOSConfig"`
+	// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+	LocalDNSProfile LocalDNSProfilePtrInput `pulumi:"localDNSProfile"`
 	// The maximum number of nodes for auto-scaling
 	MaxCount pulumi.IntPtrInput `pulumi:"maxCount"`
 	// The maximum number of pods that can run on a node.
@@ -12994,6 +14048,11 @@ func (o ManagedClusterAgentPoolProfileOutput) LinuxOSConfig() LinuxOSConfigPtrOu
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *LinuxOSConfig { return v.LinuxOSConfig }).(LinuxOSConfigPtrOutput)
 }
 
+// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+func (o ManagedClusterAgentPoolProfileOutput) LocalDNSProfile() LocalDNSProfilePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *LocalDNSProfile { return v.LocalDNSProfile }).(LocalDNSProfilePtrOutput)
+}
+
 // The maximum number of nodes for auto-scaling
 func (o ManagedClusterAgentPoolProfileOutput) MaxCount() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfile) *int { return v.MaxCount }).(pulumi.IntPtrOutput)
@@ -13191,7 +14250,7 @@ type ManagedClusterAgentPoolProfileResponse struct {
 	CreationData *CreationDataResponse `pulumi:"creationData"`
 	// The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used.
 	CurrentOrchestratorVersion string `pulumi:"currentOrchestratorVersion"`
-	// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+	// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
 	ETag string `pulumi:"eTag"`
 	// Whether to enable auto-scaler
 	EnableAutoScaling *bool `pulumi:"enableAutoScaling"`
@@ -13217,6 +14276,8 @@ type ManagedClusterAgentPoolProfileResponse struct {
 	KubeletDiskType *string `pulumi:"kubeletDiskType"`
 	// The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfigResponse `pulumi:"linuxOSConfig"`
+	// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+	LocalDNSProfile *LocalDNSProfileResponse `pulumi:"localDNSProfile"`
 	// The maximum number of nodes for auto-scaling
 	MaxCount *int `pulumi:"maxCount"`
 	// The maximum number of pods that can run on a node.
@@ -13299,6 +14360,8 @@ func (val *ManagedClusterAgentPoolProfileResponse) Defaults() *ManagedClusterAge
 	tmp := *val
 	tmp.GatewayProfile = tmp.GatewayProfile.Defaults()
 
+	tmp.LocalDNSProfile = tmp.LocalDNSProfile.Defaults()
+
 	return &tmp
 }
 
@@ -13342,7 +14405,7 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) CurrentOrchestratorVersion
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) string { return v.CurrentOrchestratorVersion }).(pulumi.StringOutput)
 }
 
-// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+// Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention.
 func (o ManagedClusterAgentPoolProfileResponseOutput) ETag() pulumi.StringOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) string { return v.ETag }).(pulumi.StringOutput)
 }
@@ -13407,6 +14470,11 @@ func (o ManagedClusterAgentPoolProfileResponseOutput) KubeletDiskType() pulumi.S
 // The OS configuration of Linux agent nodes.
 func (o ManagedClusterAgentPoolProfileResponseOutput) LinuxOSConfig() LinuxOSConfigResponsePtrOutput {
 	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *LinuxOSConfigResponse { return v.LinuxOSConfig }).(LinuxOSConfigResponsePtrOutput)
+}
+
+// Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns.
+func (o ManagedClusterAgentPoolProfileResponseOutput) LocalDNSProfile() LocalDNSProfileResponsePtrOutput {
+	return o.ApplyT(func(v ManagedClusterAgentPoolProfileResponse) *LocalDNSProfileResponse { return v.LocalDNSProfile }).(LocalDNSProfileResponsePtrOutput)
 }
 
 // The maximum number of nodes for auto-scaling
@@ -25226,6 +26294,314 @@ func (o ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerResponsePtrO
 	}).(pulumi.BoolPtrOutput)
 }
 
+// The namespace properties for the fleet managed namespace.
+type ManagedNamespaceProperties struct {
+	// The annotations for the fleet managed namespace.
+	Annotations map[string]string `pulumi:"annotations"`
+	// The default network policy for the fleet managed namespace.
+	DefaultNetworkPolicy *NetworkPolicy `pulumi:"defaultNetworkPolicy"`
+	// The default resource quota for the fleet managed namespace.
+	DefaultResourceQuota *ResourceQuota `pulumi:"defaultResourceQuota"`
+	// The labels for the fleet managed namespace.
+	Labels map[string]string `pulumi:"labels"`
+}
+
+// ManagedNamespacePropertiesInput is an input type that accepts ManagedNamespacePropertiesArgs and ManagedNamespacePropertiesOutput values.
+// You can construct a concrete instance of `ManagedNamespacePropertiesInput` via:
+//
+//	ManagedNamespacePropertiesArgs{...}
+type ManagedNamespacePropertiesInput interface {
+	pulumi.Input
+
+	ToManagedNamespacePropertiesOutput() ManagedNamespacePropertiesOutput
+	ToManagedNamespacePropertiesOutputWithContext(context.Context) ManagedNamespacePropertiesOutput
+}
+
+// The namespace properties for the fleet managed namespace.
+type ManagedNamespacePropertiesArgs struct {
+	// The annotations for the fleet managed namespace.
+	Annotations pulumi.StringMapInput `pulumi:"annotations"`
+	// The default network policy for the fleet managed namespace.
+	DefaultNetworkPolicy NetworkPolicyPtrInput `pulumi:"defaultNetworkPolicy"`
+	// The default resource quota for the fleet managed namespace.
+	DefaultResourceQuota ResourceQuotaPtrInput `pulumi:"defaultResourceQuota"`
+	// The labels for the fleet managed namespace.
+	Labels pulumi.StringMapInput `pulumi:"labels"`
+}
+
+func (ManagedNamespacePropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedNamespaceProperties)(nil)).Elem()
+}
+
+func (i ManagedNamespacePropertiesArgs) ToManagedNamespacePropertiesOutput() ManagedNamespacePropertiesOutput {
+	return i.ToManagedNamespacePropertiesOutputWithContext(context.Background())
+}
+
+func (i ManagedNamespacePropertiesArgs) ToManagedNamespacePropertiesOutputWithContext(ctx context.Context) ManagedNamespacePropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedNamespacePropertiesOutput)
+}
+
+func (i ManagedNamespacePropertiesArgs) ToManagedNamespacePropertiesPtrOutput() ManagedNamespacePropertiesPtrOutput {
+	return i.ToManagedNamespacePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i ManagedNamespacePropertiesArgs) ToManagedNamespacePropertiesPtrOutputWithContext(ctx context.Context) ManagedNamespacePropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedNamespacePropertiesOutput).ToManagedNamespacePropertiesPtrOutputWithContext(ctx)
+}
+
+// ManagedNamespacePropertiesPtrInput is an input type that accepts ManagedNamespacePropertiesArgs, ManagedNamespacePropertiesPtr and ManagedNamespacePropertiesPtrOutput values.
+// You can construct a concrete instance of `ManagedNamespacePropertiesPtrInput` via:
+//
+//	        ManagedNamespacePropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type ManagedNamespacePropertiesPtrInput interface {
+	pulumi.Input
+
+	ToManagedNamespacePropertiesPtrOutput() ManagedNamespacePropertiesPtrOutput
+	ToManagedNamespacePropertiesPtrOutputWithContext(context.Context) ManagedNamespacePropertiesPtrOutput
+}
+
+type managedNamespacePropertiesPtrType ManagedNamespacePropertiesArgs
+
+func ManagedNamespacePropertiesPtr(v *ManagedNamespacePropertiesArgs) ManagedNamespacePropertiesPtrInput {
+	return (*managedNamespacePropertiesPtrType)(v)
+}
+
+func (*managedNamespacePropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedNamespaceProperties)(nil)).Elem()
+}
+
+func (i *managedNamespacePropertiesPtrType) ToManagedNamespacePropertiesPtrOutput() ManagedNamespacePropertiesPtrOutput {
+	return i.ToManagedNamespacePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *managedNamespacePropertiesPtrType) ToManagedNamespacePropertiesPtrOutputWithContext(ctx context.Context) ManagedNamespacePropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedNamespacePropertiesPtrOutput)
+}
+
+// The namespace properties for the fleet managed namespace.
+type ManagedNamespacePropertiesOutput struct{ *pulumi.OutputState }
+
+func (ManagedNamespacePropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedNamespaceProperties)(nil)).Elem()
+}
+
+func (o ManagedNamespacePropertiesOutput) ToManagedNamespacePropertiesOutput() ManagedNamespacePropertiesOutput {
+	return o
+}
+
+func (o ManagedNamespacePropertiesOutput) ToManagedNamespacePropertiesOutputWithContext(ctx context.Context) ManagedNamespacePropertiesOutput {
+	return o
+}
+
+func (o ManagedNamespacePropertiesOutput) ToManagedNamespacePropertiesPtrOutput() ManagedNamespacePropertiesPtrOutput {
+	return o.ToManagedNamespacePropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o ManagedNamespacePropertiesOutput) ToManagedNamespacePropertiesPtrOutputWithContext(ctx context.Context) ManagedNamespacePropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ManagedNamespaceProperties) *ManagedNamespaceProperties {
+		return &v
+	}).(ManagedNamespacePropertiesPtrOutput)
+}
+
+// The annotations for the fleet managed namespace.
+func (o ManagedNamespacePropertiesOutput) Annotations() pulumi.StringMapOutput {
+	return o.ApplyT(func(v ManagedNamespaceProperties) map[string]string { return v.Annotations }).(pulumi.StringMapOutput)
+}
+
+// The default network policy for the fleet managed namespace.
+func (o ManagedNamespacePropertiesOutput) DefaultNetworkPolicy() NetworkPolicyPtrOutput {
+	return o.ApplyT(func(v ManagedNamespaceProperties) *NetworkPolicy { return v.DefaultNetworkPolicy }).(NetworkPolicyPtrOutput)
+}
+
+// The default resource quota for the fleet managed namespace.
+func (o ManagedNamespacePropertiesOutput) DefaultResourceQuota() ResourceQuotaPtrOutput {
+	return o.ApplyT(func(v ManagedNamespaceProperties) *ResourceQuota { return v.DefaultResourceQuota }).(ResourceQuotaPtrOutput)
+}
+
+// The labels for the fleet managed namespace.
+func (o ManagedNamespacePropertiesOutput) Labels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v ManagedNamespaceProperties) map[string]string { return v.Labels }).(pulumi.StringMapOutput)
+}
+
+type ManagedNamespacePropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedNamespacePropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedNamespaceProperties)(nil)).Elem()
+}
+
+func (o ManagedNamespacePropertiesPtrOutput) ToManagedNamespacePropertiesPtrOutput() ManagedNamespacePropertiesPtrOutput {
+	return o
+}
+
+func (o ManagedNamespacePropertiesPtrOutput) ToManagedNamespacePropertiesPtrOutputWithContext(ctx context.Context) ManagedNamespacePropertiesPtrOutput {
+	return o
+}
+
+func (o ManagedNamespacePropertiesPtrOutput) Elem() ManagedNamespacePropertiesOutput {
+	return o.ApplyT(func(v *ManagedNamespaceProperties) ManagedNamespaceProperties {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedNamespaceProperties
+		return ret
+	}).(ManagedNamespacePropertiesOutput)
+}
+
+// The annotations for the fleet managed namespace.
+func (o ManagedNamespacePropertiesPtrOutput) Annotations() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *ManagedNamespaceProperties) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Annotations
+	}).(pulumi.StringMapOutput)
+}
+
+// The default network policy for the fleet managed namespace.
+func (o ManagedNamespacePropertiesPtrOutput) DefaultNetworkPolicy() NetworkPolicyPtrOutput {
+	return o.ApplyT(func(v *ManagedNamespaceProperties) *NetworkPolicy {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultNetworkPolicy
+	}).(NetworkPolicyPtrOutput)
+}
+
+// The default resource quota for the fleet managed namespace.
+func (o ManagedNamespacePropertiesPtrOutput) DefaultResourceQuota() ResourceQuotaPtrOutput {
+	return o.ApplyT(func(v *ManagedNamespaceProperties) *ResourceQuota {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultResourceQuota
+	}).(ResourceQuotaPtrOutput)
+}
+
+// The labels for the fleet managed namespace.
+func (o ManagedNamespacePropertiesPtrOutput) Labels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *ManagedNamespaceProperties) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Labels
+	}).(pulumi.StringMapOutput)
+}
+
+// The namespace properties for the fleet managed namespace.
+type ManagedNamespacePropertiesResponse struct {
+	// The annotations for the fleet managed namespace.
+	Annotations map[string]string `pulumi:"annotations"`
+	// The default network policy for the fleet managed namespace.
+	DefaultNetworkPolicy *NetworkPolicyResponse `pulumi:"defaultNetworkPolicy"`
+	// The default resource quota for the fleet managed namespace.
+	DefaultResourceQuota *ResourceQuotaResponse `pulumi:"defaultResourceQuota"`
+	// The labels for the fleet managed namespace.
+	Labels map[string]string `pulumi:"labels"`
+}
+
+// The namespace properties for the fleet managed namespace.
+type ManagedNamespacePropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedNamespacePropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedNamespacePropertiesResponse)(nil)).Elem()
+}
+
+func (o ManagedNamespacePropertiesResponseOutput) ToManagedNamespacePropertiesResponseOutput() ManagedNamespacePropertiesResponseOutput {
+	return o
+}
+
+func (o ManagedNamespacePropertiesResponseOutput) ToManagedNamespacePropertiesResponseOutputWithContext(ctx context.Context) ManagedNamespacePropertiesResponseOutput {
+	return o
+}
+
+// The annotations for the fleet managed namespace.
+func (o ManagedNamespacePropertiesResponseOutput) Annotations() pulumi.StringMapOutput {
+	return o.ApplyT(func(v ManagedNamespacePropertiesResponse) map[string]string { return v.Annotations }).(pulumi.StringMapOutput)
+}
+
+// The default network policy for the fleet managed namespace.
+func (o ManagedNamespacePropertiesResponseOutput) DefaultNetworkPolicy() NetworkPolicyResponsePtrOutput {
+	return o.ApplyT(func(v ManagedNamespacePropertiesResponse) *NetworkPolicyResponse { return v.DefaultNetworkPolicy }).(NetworkPolicyResponsePtrOutput)
+}
+
+// The default resource quota for the fleet managed namespace.
+func (o ManagedNamespacePropertiesResponseOutput) DefaultResourceQuota() ResourceQuotaResponsePtrOutput {
+	return o.ApplyT(func(v ManagedNamespacePropertiesResponse) *ResourceQuotaResponse { return v.DefaultResourceQuota }).(ResourceQuotaResponsePtrOutput)
+}
+
+// The labels for the fleet managed namespace.
+func (o ManagedNamespacePropertiesResponseOutput) Labels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v ManagedNamespacePropertiesResponse) map[string]string { return v.Labels }).(pulumi.StringMapOutput)
+}
+
+type ManagedNamespacePropertiesResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ManagedNamespacePropertiesResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ManagedNamespacePropertiesResponse)(nil)).Elem()
+}
+
+func (o ManagedNamespacePropertiesResponsePtrOutput) ToManagedNamespacePropertiesResponsePtrOutput() ManagedNamespacePropertiesResponsePtrOutput {
+	return o
+}
+
+func (o ManagedNamespacePropertiesResponsePtrOutput) ToManagedNamespacePropertiesResponsePtrOutputWithContext(ctx context.Context) ManagedNamespacePropertiesResponsePtrOutput {
+	return o
+}
+
+func (o ManagedNamespacePropertiesResponsePtrOutput) Elem() ManagedNamespacePropertiesResponseOutput {
+	return o.ApplyT(func(v *ManagedNamespacePropertiesResponse) ManagedNamespacePropertiesResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ManagedNamespacePropertiesResponse
+		return ret
+	}).(ManagedNamespacePropertiesResponseOutput)
+}
+
+// The annotations for the fleet managed namespace.
+func (o ManagedNamespacePropertiesResponsePtrOutput) Annotations() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *ManagedNamespacePropertiesResponse) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Annotations
+	}).(pulumi.StringMapOutput)
+}
+
+// The default network policy for the fleet managed namespace.
+func (o ManagedNamespacePropertiesResponsePtrOutput) DefaultNetworkPolicy() NetworkPolicyResponsePtrOutput {
+	return o.ApplyT(func(v *ManagedNamespacePropertiesResponse) *NetworkPolicyResponse {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultNetworkPolicy
+	}).(NetworkPolicyResponsePtrOutput)
+}
+
+// The default resource quota for the fleet managed namespace.
+func (o ManagedNamespacePropertiesResponsePtrOutput) DefaultResourceQuota() ResourceQuotaResponsePtrOutput {
+	return o.ApplyT(func(v *ManagedNamespacePropertiesResponse) *ResourceQuotaResponse {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultResourceQuota
+	}).(ResourceQuotaResponsePtrOutput)
+}
+
+// The labels for the fleet managed namespace.
+func (o ManagedNamespacePropertiesResponsePtrOutput) Labels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *ManagedNamespacePropertiesResponse) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Labels
+	}).(pulumi.StringMapOutput)
+}
+
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity struct {
 	// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
@@ -25734,6 +27110,595 @@ func (o MemberUpdateStatusResponseArrayOutput) Index(i pulumi.IntInput) MemberUp
 	}).(MemberUpdateStatusResponseOutput)
 }
 
+// Mesh membership properties of a managed cluster.
+type MeshMembershipProperties struct {
+	// The ARM resource id for the managed mesh member. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppLink/applinks/{appLinkName}/appLinkMembers/{appLinkMemberName}'. Visit https://aka.ms/applink for more information.
+	ManagedMeshID string `pulumi:"managedMeshID"`
+}
+
+// MeshMembershipPropertiesInput is an input type that accepts MeshMembershipPropertiesArgs and MeshMembershipPropertiesOutput values.
+// You can construct a concrete instance of `MeshMembershipPropertiesInput` via:
+//
+//	MeshMembershipPropertiesArgs{...}
+type MeshMembershipPropertiesInput interface {
+	pulumi.Input
+
+	ToMeshMembershipPropertiesOutput() MeshMembershipPropertiesOutput
+	ToMeshMembershipPropertiesOutputWithContext(context.Context) MeshMembershipPropertiesOutput
+}
+
+// Mesh membership properties of a managed cluster.
+type MeshMembershipPropertiesArgs struct {
+	// The ARM resource id for the managed mesh member. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppLink/applinks/{appLinkName}/appLinkMembers/{appLinkMemberName}'. Visit https://aka.ms/applink for more information.
+	ManagedMeshID pulumi.StringInput `pulumi:"managedMeshID"`
+}
+
+func (MeshMembershipPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*MeshMembershipProperties)(nil)).Elem()
+}
+
+func (i MeshMembershipPropertiesArgs) ToMeshMembershipPropertiesOutput() MeshMembershipPropertiesOutput {
+	return i.ToMeshMembershipPropertiesOutputWithContext(context.Background())
+}
+
+func (i MeshMembershipPropertiesArgs) ToMeshMembershipPropertiesOutputWithContext(ctx context.Context) MeshMembershipPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MeshMembershipPropertiesOutput)
+}
+
+func (i MeshMembershipPropertiesArgs) ToMeshMembershipPropertiesPtrOutput() MeshMembershipPropertiesPtrOutput {
+	return i.ToMeshMembershipPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i MeshMembershipPropertiesArgs) ToMeshMembershipPropertiesPtrOutputWithContext(ctx context.Context) MeshMembershipPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MeshMembershipPropertiesOutput).ToMeshMembershipPropertiesPtrOutputWithContext(ctx)
+}
+
+// MeshMembershipPropertiesPtrInput is an input type that accepts MeshMembershipPropertiesArgs, MeshMembershipPropertiesPtr and MeshMembershipPropertiesPtrOutput values.
+// You can construct a concrete instance of `MeshMembershipPropertiesPtrInput` via:
+//
+//	        MeshMembershipPropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type MeshMembershipPropertiesPtrInput interface {
+	pulumi.Input
+
+	ToMeshMembershipPropertiesPtrOutput() MeshMembershipPropertiesPtrOutput
+	ToMeshMembershipPropertiesPtrOutputWithContext(context.Context) MeshMembershipPropertiesPtrOutput
+}
+
+type meshMembershipPropertiesPtrType MeshMembershipPropertiesArgs
+
+func MeshMembershipPropertiesPtr(v *MeshMembershipPropertiesArgs) MeshMembershipPropertiesPtrInput {
+	return (*meshMembershipPropertiesPtrType)(v)
+}
+
+func (*meshMembershipPropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**MeshMembershipProperties)(nil)).Elem()
+}
+
+func (i *meshMembershipPropertiesPtrType) ToMeshMembershipPropertiesPtrOutput() MeshMembershipPropertiesPtrOutput {
+	return i.ToMeshMembershipPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *meshMembershipPropertiesPtrType) ToMeshMembershipPropertiesPtrOutputWithContext(ctx context.Context) MeshMembershipPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MeshMembershipPropertiesPtrOutput)
+}
+
+// Mesh membership properties of a managed cluster.
+type MeshMembershipPropertiesOutput struct{ *pulumi.OutputState }
+
+func (MeshMembershipPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*MeshMembershipProperties)(nil)).Elem()
+}
+
+func (o MeshMembershipPropertiesOutput) ToMeshMembershipPropertiesOutput() MeshMembershipPropertiesOutput {
+	return o
+}
+
+func (o MeshMembershipPropertiesOutput) ToMeshMembershipPropertiesOutputWithContext(ctx context.Context) MeshMembershipPropertiesOutput {
+	return o
+}
+
+func (o MeshMembershipPropertiesOutput) ToMeshMembershipPropertiesPtrOutput() MeshMembershipPropertiesPtrOutput {
+	return o.ToMeshMembershipPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o MeshMembershipPropertiesOutput) ToMeshMembershipPropertiesPtrOutputWithContext(ctx context.Context) MeshMembershipPropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v MeshMembershipProperties) *MeshMembershipProperties {
+		return &v
+	}).(MeshMembershipPropertiesPtrOutput)
+}
+
+// The ARM resource id for the managed mesh member. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppLink/applinks/{appLinkName}/appLinkMembers/{appLinkMemberName}'. Visit https://aka.ms/applink for more information.
+func (o MeshMembershipPropertiesOutput) ManagedMeshID() pulumi.StringOutput {
+	return o.ApplyT(func(v MeshMembershipProperties) string { return v.ManagedMeshID }).(pulumi.StringOutput)
+}
+
+type MeshMembershipPropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (MeshMembershipPropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**MeshMembershipProperties)(nil)).Elem()
+}
+
+func (o MeshMembershipPropertiesPtrOutput) ToMeshMembershipPropertiesPtrOutput() MeshMembershipPropertiesPtrOutput {
+	return o
+}
+
+func (o MeshMembershipPropertiesPtrOutput) ToMeshMembershipPropertiesPtrOutputWithContext(ctx context.Context) MeshMembershipPropertiesPtrOutput {
+	return o
+}
+
+func (o MeshMembershipPropertiesPtrOutput) Elem() MeshMembershipPropertiesOutput {
+	return o.ApplyT(func(v *MeshMembershipProperties) MeshMembershipProperties {
+		if v != nil {
+			return *v
+		}
+		var ret MeshMembershipProperties
+		return ret
+	}).(MeshMembershipPropertiesOutput)
+}
+
+// The ARM resource id for the managed mesh member. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppLink/applinks/{appLinkName}/appLinkMembers/{appLinkMemberName}'. Visit https://aka.ms/applink for more information.
+func (o MeshMembershipPropertiesPtrOutput) ManagedMeshID() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *MeshMembershipProperties) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ManagedMeshID
+	}).(pulumi.StringPtrOutput)
+}
+
+// Mesh membership properties of a managed cluster.
+type MeshMembershipPropertiesResponse struct {
+	// The ARM resource id for the managed mesh member. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppLink/applinks/{appLinkName}/appLinkMembers/{appLinkMemberName}'. Visit https://aka.ms/applink for more information.
+	ManagedMeshID string `pulumi:"managedMeshID"`
+	// The current provisioning state of the Mesh Membership.
+	ProvisioningState string `pulumi:"provisioningState"`
+}
+
+// Mesh membership properties of a managed cluster.
+type MeshMembershipPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (MeshMembershipPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*MeshMembershipPropertiesResponse)(nil)).Elem()
+}
+
+func (o MeshMembershipPropertiesResponseOutput) ToMeshMembershipPropertiesResponseOutput() MeshMembershipPropertiesResponseOutput {
+	return o
+}
+
+func (o MeshMembershipPropertiesResponseOutput) ToMeshMembershipPropertiesResponseOutputWithContext(ctx context.Context) MeshMembershipPropertiesResponseOutput {
+	return o
+}
+
+// The ARM resource id for the managed mesh member. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppLink/applinks/{appLinkName}/appLinkMembers/{appLinkMemberName}'. Visit https://aka.ms/applink for more information.
+func (o MeshMembershipPropertiesResponseOutput) ManagedMeshID() pulumi.StringOutput {
+	return o.ApplyT(func(v MeshMembershipPropertiesResponse) string { return v.ManagedMeshID }).(pulumi.StringOutput)
+}
+
+// The current provisioning state of the Mesh Membership.
+func (o MeshMembershipPropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v MeshMembershipPropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
+type MetaV1LabelSelector struct {
+	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+	MatchExpressions []MetaV1LabelSelectorRequirement `pulumi:"matchExpressions"`
+	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+	MatchLabels map[string]string `pulumi:"matchLabels"`
+}
+
+// MetaV1LabelSelectorInput is an input type that accepts MetaV1LabelSelectorArgs and MetaV1LabelSelectorOutput values.
+// You can construct a concrete instance of `MetaV1LabelSelectorInput` via:
+//
+//	MetaV1LabelSelectorArgs{...}
+type MetaV1LabelSelectorInput interface {
+	pulumi.Input
+
+	ToMetaV1LabelSelectorOutput() MetaV1LabelSelectorOutput
+	ToMetaV1LabelSelectorOutputWithContext(context.Context) MetaV1LabelSelectorOutput
+}
+
+// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
+type MetaV1LabelSelectorArgs struct {
+	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+	MatchExpressions MetaV1LabelSelectorRequirementArrayInput `pulumi:"matchExpressions"`
+	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+	MatchLabels pulumi.StringMapInput `pulumi:"matchLabels"`
+}
+
+func (MetaV1LabelSelectorArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*MetaV1LabelSelector)(nil)).Elem()
+}
+
+func (i MetaV1LabelSelectorArgs) ToMetaV1LabelSelectorOutput() MetaV1LabelSelectorOutput {
+	return i.ToMetaV1LabelSelectorOutputWithContext(context.Background())
+}
+
+func (i MetaV1LabelSelectorArgs) ToMetaV1LabelSelectorOutputWithContext(ctx context.Context) MetaV1LabelSelectorOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MetaV1LabelSelectorOutput)
+}
+
+func (i MetaV1LabelSelectorArgs) ToMetaV1LabelSelectorPtrOutput() MetaV1LabelSelectorPtrOutput {
+	return i.ToMetaV1LabelSelectorPtrOutputWithContext(context.Background())
+}
+
+func (i MetaV1LabelSelectorArgs) ToMetaV1LabelSelectorPtrOutputWithContext(ctx context.Context) MetaV1LabelSelectorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MetaV1LabelSelectorOutput).ToMetaV1LabelSelectorPtrOutputWithContext(ctx)
+}
+
+// MetaV1LabelSelectorPtrInput is an input type that accepts MetaV1LabelSelectorArgs, MetaV1LabelSelectorPtr and MetaV1LabelSelectorPtrOutput values.
+// You can construct a concrete instance of `MetaV1LabelSelectorPtrInput` via:
+//
+//	        MetaV1LabelSelectorArgs{...}
+//
+//	or:
+//
+//	        nil
+type MetaV1LabelSelectorPtrInput interface {
+	pulumi.Input
+
+	ToMetaV1LabelSelectorPtrOutput() MetaV1LabelSelectorPtrOutput
+	ToMetaV1LabelSelectorPtrOutputWithContext(context.Context) MetaV1LabelSelectorPtrOutput
+}
+
+type metaV1LabelSelectorPtrType MetaV1LabelSelectorArgs
+
+func MetaV1LabelSelectorPtr(v *MetaV1LabelSelectorArgs) MetaV1LabelSelectorPtrInput {
+	return (*metaV1LabelSelectorPtrType)(v)
+}
+
+func (*metaV1LabelSelectorPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**MetaV1LabelSelector)(nil)).Elem()
+}
+
+func (i *metaV1LabelSelectorPtrType) ToMetaV1LabelSelectorPtrOutput() MetaV1LabelSelectorPtrOutput {
+	return i.ToMetaV1LabelSelectorPtrOutputWithContext(context.Background())
+}
+
+func (i *metaV1LabelSelectorPtrType) ToMetaV1LabelSelectorPtrOutputWithContext(ctx context.Context) MetaV1LabelSelectorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MetaV1LabelSelectorPtrOutput)
+}
+
+// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
+type MetaV1LabelSelectorOutput struct{ *pulumi.OutputState }
+
+func (MetaV1LabelSelectorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*MetaV1LabelSelector)(nil)).Elem()
+}
+
+func (o MetaV1LabelSelectorOutput) ToMetaV1LabelSelectorOutput() MetaV1LabelSelectorOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorOutput) ToMetaV1LabelSelectorOutputWithContext(ctx context.Context) MetaV1LabelSelectorOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorOutput) ToMetaV1LabelSelectorPtrOutput() MetaV1LabelSelectorPtrOutput {
+	return o.ToMetaV1LabelSelectorPtrOutputWithContext(context.Background())
+}
+
+func (o MetaV1LabelSelectorOutput) ToMetaV1LabelSelectorPtrOutputWithContext(ctx context.Context) MetaV1LabelSelectorPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v MetaV1LabelSelector) *MetaV1LabelSelector {
+		return &v
+	}).(MetaV1LabelSelectorPtrOutput)
+}
+
+// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+func (o MetaV1LabelSelectorOutput) MatchExpressions() MetaV1LabelSelectorRequirementArrayOutput {
+	return o.ApplyT(func(v MetaV1LabelSelector) []MetaV1LabelSelectorRequirement { return v.MatchExpressions }).(MetaV1LabelSelectorRequirementArrayOutput)
+}
+
+// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+func (o MetaV1LabelSelectorOutput) MatchLabels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v MetaV1LabelSelector) map[string]string { return v.MatchLabels }).(pulumi.StringMapOutput)
+}
+
+type MetaV1LabelSelectorPtrOutput struct{ *pulumi.OutputState }
+
+func (MetaV1LabelSelectorPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**MetaV1LabelSelector)(nil)).Elem()
+}
+
+func (o MetaV1LabelSelectorPtrOutput) ToMetaV1LabelSelectorPtrOutput() MetaV1LabelSelectorPtrOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorPtrOutput) ToMetaV1LabelSelectorPtrOutputWithContext(ctx context.Context) MetaV1LabelSelectorPtrOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorPtrOutput) Elem() MetaV1LabelSelectorOutput {
+	return o.ApplyT(func(v *MetaV1LabelSelector) MetaV1LabelSelector {
+		if v != nil {
+			return *v
+		}
+		var ret MetaV1LabelSelector
+		return ret
+	}).(MetaV1LabelSelectorOutput)
+}
+
+// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+func (o MetaV1LabelSelectorPtrOutput) MatchExpressions() MetaV1LabelSelectorRequirementArrayOutput {
+	return o.ApplyT(func(v *MetaV1LabelSelector) []MetaV1LabelSelectorRequirement {
+		if v == nil {
+			return nil
+		}
+		return v.MatchExpressions
+	}).(MetaV1LabelSelectorRequirementArrayOutput)
+}
+
+// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+func (o MetaV1LabelSelectorPtrOutput) MatchLabels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *MetaV1LabelSelector) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.MatchLabels
+	}).(pulumi.StringMapOutput)
+}
+
+// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+type MetaV1LabelSelectorRequirement struct {
+	// key is the label key that the selector applies to.
+	Key string `pulumi:"key"`
+	// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+	Operator string `pulumi:"operator"`
+	// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+	Values []string `pulumi:"values"`
+}
+
+// MetaV1LabelSelectorRequirementInput is an input type that accepts MetaV1LabelSelectorRequirementArgs and MetaV1LabelSelectorRequirementOutput values.
+// You can construct a concrete instance of `MetaV1LabelSelectorRequirementInput` via:
+//
+//	MetaV1LabelSelectorRequirementArgs{...}
+type MetaV1LabelSelectorRequirementInput interface {
+	pulumi.Input
+
+	ToMetaV1LabelSelectorRequirementOutput() MetaV1LabelSelectorRequirementOutput
+	ToMetaV1LabelSelectorRequirementOutputWithContext(context.Context) MetaV1LabelSelectorRequirementOutput
+}
+
+// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+type MetaV1LabelSelectorRequirementArgs struct {
+	// key is the label key that the selector applies to.
+	Key pulumi.StringInput `pulumi:"key"`
+	// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+	Operator pulumi.StringInput `pulumi:"operator"`
+	// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (MetaV1LabelSelectorRequirementArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*MetaV1LabelSelectorRequirement)(nil)).Elem()
+}
+
+func (i MetaV1LabelSelectorRequirementArgs) ToMetaV1LabelSelectorRequirementOutput() MetaV1LabelSelectorRequirementOutput {
+	return i.ToMetaV1LabelSelectorRequirementOutputWithContext(context.Background())
+}
+
+func (i MetaV1LabelSelectorRequirementArgs) ToMetaV1LabelSelectorRequirementOutputWithContext(ctx context.Context) MetaV1LabelSelectorRequirementOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MetaV1LabelSelectorRequirementOutput)
+}
+
+// MetaV1LabelSelectorRequirementArrayInput is an input type that accepts MetaV1LabelSelectorRequirementArray and MetaV1LabelSelectorRequirementArrayOutput values.
+// You can construct a concrete instance of `MetaV1LabelSelectorRequirementArrayInput` via:
+//
+//	MetaV1LabelSelectorRequirementArray{ MetaV1LabelSelectorRequirementArgs{...} }
+type MetaV1LabelSelectorRequirementArrayInput interface {
+	pulumi.Input
+
+	ToMetaV1LabelSelectorRequirementArrayOutput() MetaV1LabelSelectorRequirementArrayOutput
+	ToMetaV1LabelSelectorRequirementArrayOutputWithContext(context.Context) MetaV1LabelSelectorRequirementArrayOutput
+}
+
+type MetaV1LabelSelectorRequirementArray []MetaV1LabelSelectorRequirementInput
+
+func (MetaV1LabelSelectorRequirementArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]MetaV1LabelSelectorRequirement)(nil)).Elem()
+}
+
+func (i MetaV1LabelSelectorRequirementArray) ToMetaV1LabelSelectorRequirementArrayOutput() MetaV1LabelSelectorRequirementArrayOutput {
+	return i.ToMetaV1LabelSelectorRequirementArrayOutputWithContext(context.Background())
+}
+
+func (i MetaV1LabelSelectorRequirementArray) ToMetaV1LabelSelectorRequirementArrayOutputWithContext(ctx context.Context) MetaV1LabelSelectorRequirementArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(MetaV1LabelSelectorRequirementArrayOutput)
+}
+
+// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+type MetaV1LabelSelectorRequirementOutput struct{ *pulumi.OutputState }
+
+func (MetaV1LabelSelectorRequirementOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*MetaV1LabelSelectorRequirement)(nil)).Elem()
+}
+
+func (o MetaV1LabelSelectorRequirementOutput) ToMetaV1LabelSelectorRequirementOutput() MetaV1LabelSelectorRequirementOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorRequirementOutput) ToMetaV1LabelSelectorRequirementOutputWithContext(ctx context.Context) MetaV1LabelSelectorRequirementOutput {
+	return o
+}
+
+// key is the label key that the selector applies to.
+func (o MetaV1LabelSelectorRequirementOutput) Key() pulumi.StringOutput {
+	return o.ApplyT(func(v MetaV1LabelSelectorRequirement) string { return v.Key }).(pulumi.StringOutput)
+}
+
+// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+func (o MetaV1LabelSelectorRequirementOutput) Operator() pulumi.StringOutput {
+	return o.ApplyT(func(v MetaV1LabelSelectorRequirement) string { return v.Operator }).(pulumi.StringOutput)
+}
+
+// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+func (o MetaV1LabelSelectorRequirementOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v MetaV1LabelSelectorRequirement) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type MetaV1LabelSelectorRequirementArrayOutput struct{ *pulumi.OutputState }
+
+func (MetaV1LabelSelectorRequirementArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]MetaV1LabelSelectorRequirement)(nil)).Elem()
+}
+
+func (o MetaV1LabelSelectorRequirementArrayOutput) ToMetaV1LabelSelectorRequirementArrayOutput() MetaV1LabelSelectorRequirementArrayOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorRequirementArrayOutput) ToMetaV1LabelSelectorRequirementArrayOutputWithContext(ctx context.Context) MetaV1LabelSelectorRequirementArrayOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorRequirementArrayOutput) Index(i pulumi.IntInput) MetaV1LabelSelectorRequirementOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) MetaV1LabelSelectorRequirement {
+		return vs[0].([]MetaV1LabelSelectorRequirement)[vs[1].(int)]
+	}).(MetaV1LabelSelectorRequirementOutput)
+}
+
+// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+type MetaV1LabelSelectorRequirementResponse struct {
+	// key is the label key that the selector applies to.
+	Key string `pulumi:"key"`
+	// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+	Operator string `pulumi:"operator"`
+	// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+	Values []string `pulumi:"values"`
+}
+
+// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+type MetaV1LabelSelectorRequirementResponseOutput struct{ *pulumi.OutputState }
+
+func (MetaV1LabelSelectorRequirementResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*MetaV1LabelSelectorRequirementResponse)(nil)).Elem()
+}
+
+func (o MetaV1LabelSelectorRequirementResponseOutput) ToMetaV1LabelSelectorRequirementResponseOutput() MetaV1LabelSelectorRequirementResponseOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorRequirementResponseOutput) ToMetaV1LabelSelectorRequirementResponseOutputWithContext(ctx context.Context) MetaV1LabelSelectorRequirementResponseOutput {
+	return o
+}
+
+// key is the label key that the selector applies to.
+func (o MetaV1LabelSelectorRequirementResponseOutput) Key() pulumi.StringOutput {
+	return o.ApplyT(func(v MetaV1LabelSelectorRequirementResponse) string { return v.Key }).(pulumi.StringOutput)
+}
+
+// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+func (o MetaV1LabelSelectorRequirementResponseOutput) Operator() pulumi.StringOutput {
+	return o.ApplyT(func(v MetaV1LabelSelectorRequirementResponse) string { return v.Operator }).(pulumi.StringOutput)
+}
+
+// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+func (o MetaV1LabelSelectorRequirementResponseOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v MetaV1LabelSelectorRequirementResponse) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type MetaV1LabelSelectorRequirementResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (MetaV1LabelSelectorRequirementResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]MetaV1LabelSelectorRequirementResponse)(nil)).Elem()
+}
+
+func (o MetaV1LabelSelectorRequirementResponseArrayOutput) ToMetaV1LabelSelectorRequirementResponseArrayOutput() MetaV1LabelSelectorRequirementResponseArrayOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorRequirementResponseArrayOutput) ToMetaV1LabelSelectorRequirementResponseArrayOutputWithContext(ctx context.Context) MetaV1LabelSelectorRequirementResponseArrayOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorRequirementResponseArrayOutput) Index(i pulumi.IntInput) MetaV1LabelSelectorRequirementResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) MetaV1LabelSelectorRequirementResponse {
+		return vs[0].([]MetaV1LabelSelectorRequirementResponse)[vs[1].(int)]
+	}).(MetaV1LabelSelectorRequirementResponseOutput)
+}
+
+// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
+type MetaV1LabelSelectorResponse struct {
+	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+	MatchExpressions []MetaV1LabelSelectorRequirementResponse `pulumi:"matchExpressions"`
+	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+	MatchLabels map[string]string `pulumi:"matchLabels"`
+}
+
+// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
+type MetaV1LabelSelectorResponseOutput struct{ *pulumi.OutputState }
+
+func (MetaV1LabelSelectorResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*MetaV1LabelSelectorResponse)(nil)).Elem()
+}
+
+func (o MetaV1LabelSelectorResponseOutput) ToMetaV1LabelSelectorResponseOutput() MetaV1LabelSelectorResponseOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorResponseOutput) ToMetaV1LabelSelectorResponseOutputWithContext(ctx context.Context) MetaV1LabelSelectorResponseOutput {
+	return o
+}
+
+// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+func (o MetaV1LabelSelectorResponseOutput) MatchExpressions() MetaV1LabelSelectorRequirementResponseArrayOutput {
+	return o.ApplyT(func(v MetaV1LabelSelectorResponse) []MetaV1LabelSelectorRequirementResponse {
+		return v.MatchExpressions
+	}).(MetaV1LabelSelectorRequirementResponseArrayOutput)
+}
+
+// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+func (o MetaV1LabelSelectorResponseOutput) MatchLabels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v MetaV1LabelSelectorResponse) map[string]string { return v.MatchLabels }).(pulumi.StringMapOutput)
+}
+
+type MetaV1LabelSelectorResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (MetaV1LabelSelectorResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**MetaV1LabelSelectorResponse)(nil)).Elem()
+}
+
+func (o MetaV1LabelSelectorResponsePtrOutput) ToMetaV1LabelSelectorResponsePtrOutput() MetaV1LabelSelectorResponsePtrOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorResponsePtrOutput) ToMetaV1LabelSelectorResponsePtrOutputWithContext(ctx context.Context) MetaV1LabelSelectorResponsePtrOutput {
+	return o
+}
+
+func (o MetaV1LabelSelectorResponsePtrOutput) Elem() MetaV1LabelSelectorResponseOutput {
+	return o.ApplyT(func(v *MetaV1LabelSelectorResponse) MetaV1LabelSelectorResponse {
+		if v != nil {
+			return *v
+		}
+		var ret MetaV1LabelSelectorResponse
+		return ret
+	}).(MetaV1LabelSelectorResponseOutput)
+}
+
+// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+func (o MetaV1LabelSelectorResponsePtrOutput) MatchExpressions() MetaV1LabelSelectorRequirementResponseArrayOutput {
+	return o.ApplyT(func(v *MetaV1LabelSelectorResponse) []MetaV1LabelSelectorRequirementResponse {
+		if v == nil {
+			return nil
+		}
+		return v.MatchExpressions
+	}).(MetaV1LabelSelectorRequirementResponseArrayOutput)
+}
+
+// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+func (o MetaV1LabelSelectorResponsePtrOutput) MatchLabels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *MetaV1LabelSelectorResponse) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.MatchLabels
+	}).(pulumi.StringMapOutput)
+}
+
 // Properties of a namespace managed by ARM
 type NamespaceProperties struct {
 	// Action if Kubernetes namespace with same name already exists.
@@ -26003,6 +27968,8 @@ type NamespacePropertiesResponse struct {
 	DeletePolicy *string `pulumi:"deletePolicy"`
 	// The labels of managed namespace.
 	Labels map[string]string `pulumi:"labels"`
+	// The special FQDN used by the Azure Portal to access the Managed Cluster. This FQDN is for use only by the Azure Portal and should not be used by other clients. The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly.
+	PortalFqdn *string `pulumi:"portalFqdn"`
 	// The current provisioning state of the namespace.
 	ProvisioningState string `pulumi:"provisioningState"`
 }
@@ -26061,6 +28028,11 @@ func (o NamespacePropertiesResponseOutput) DeletePolicy() pulumi.StringPtrOutput
 // The labels of managed namespace.
 func (o NamespacePropertiesResponseOutput) Labels() pulumi.StringMapOutput {
 	return o.ApplyT(func(v NamespacePropertiesResponse) map[string]string { return v.Labels }).(pulumi.StringMapOutput)
+}
+
+// The special FQDN used by the Azure Portal to access the Managed Cluster. This FQDN is for use only by the Azure Portal and should not be used by other clients. The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly.
+func (o NamespacePropertiesResponseOutput) PortalFqdn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponse) *string { return v.PortalFqdn }).(pulumi.StringPtrOutput)
 }
 
 // The current provisioning state of the namespace.
@@ -26345,6 +28317,83 @@ func (o NetworkPoliciesResponsePtrOutput) Egress() pulumi.StringPtrOutput {
 // Ingress policy for the network.
 func (o NetworkPoliciesResponsePtrOutput) Ingress() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *NetworkPoliciesResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Ingress
+	}).(pulumi.StringPtrOutput)
+}
+
+// The network policy for the managed namespace.
+type NetworkPolicyResponse struct {
+	// The egress policy for the managed namespace.
+	Egress *string `pulumi:"egress"`
+	// The ingress policy for the managed namespace.
+	Ingress *string `pulumi:"ingress"`
+}
+
+// The network policy for the managed namespace.
+type NetworkPolicyResponseOutput struct{ *pulumi.OutputState }
+
+func (NetworkPolicyResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NetworkPolicyResponse)(nil)).Elem()
+}
+
+func (o NetworkPolicyResponseOutput) ToNetworkPolicyResponseOutput() NetworkPolicyResponseOutput {
+	return o
+}
+
+func (o NetworkPolicyResponseOutput) ToNetworkPolicyResponseOutputWithContext(ctx context.Context) NetworkPolicyResponseOutput {
+	return o
+}
+
+// The egress policy for the managed namespace.
+func (o NetworkPolicyResponseOutput) Egress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NetworkPolicyResponse) *string { return v.Egress }).(pulumi.StringPtrOutput)
+}
+
+// The ingress policy for the managed namespace.
+func (o NetworkPolicyResponseOutput) Ingress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NetworkPolicyResponse) *string { return v.Ingress }).(pulumi.StringPtrOutput)
+}
+
+type NetworkPolicyResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (NetworkPolicyResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**NetworkPolicyResponse)(nil)).Elem()
+}
+
+func (o NetworkPolicyResponsePtrOutput) ToNetworkPolicyResponsePtrOutput() NetworkPolicyResponsePtrOutput {
+	return o
+}
+
+func (o NetworkPolicyResponsePtrOutput) ToNetworkPolicyResponsePtrOutputWithContext(ctx context.Context) NetworkPolicyResponsePtrOutput {
+	return o
+}
+
+func (o NetworkPolicyResponsePtrOutput) Elem() NetworkPolicyResponseOutput {
+	return o.ApplyT(func(v *NetworkPolicyResponse) NetworkPolicyResponse {
+		if v != nil {
+			return *v
+		}
+		var ret NetworkPolicyResponse
+		return ret
+	}).(NetworkPolicyResponseOutput)
+}
+
+// The egress policy for the managed namespace.
+func (o NetworkPolicyResponsePtrOutput) Egress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *NetworkPolicyResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Egress
+	}).(pulumi.StringPtrOutput)
+}
+
+// The ingress policy for the managed namespace.
+func (o NetworkPolicyResponsePtrOutput) Ingress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *NetworkPolicyResponse) *string {
 		if v == nil {
 			return nil
 		}
@@ -27139,6 +29188,2066 @@ func (o NodeImageVersionResponseArrayOutput) Index(i pulumi.IntInput) NodeImageV
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) NodeImageVersionResponse {
 		return vs[0].([]NodeImageVersionResponse)[vs[1].(int)]
 	}).(NodeImageVersionResponseOutput)
+}
+
+// The configuration profile for default ClusterResourcePlacement for placement.
+type PlacementProfile struct {
+	// The default ClusterResourcePlacement policy configuration.
+	DefaultClusterResourcePlacement *PlacementV1ClusterResourcePlacementSpec `pulumi:"defaultClusterResourcePlacement"`
+}
+
+// PlacementProfileInput is an input type that accepts PlacementProfileArgs and PlacementProfileOutput values.
+// You can construct a concrete instance of `PlacementProfileInput` via:
+//
+//	PlacementProfileArgs{...}
+type PlacementProfileInput interface {
+	pulumi.Input
+
+	ToPlacementProfileOutput() PlacementProfileOutput
+	ToPlacementProfileOutputWithContext(context.Context) PlacementProfileOutput
+}
+
+// The configuration profile for default ClusterResourcePlacement for placement.
+type PlacementProfileArgs struct {
+	// The default ClusterResourcePlacement policy configuration.
+	DefaultClusterResourcePlacement PlacementV1ClusterResourcePlacementSpecPtrInput `pulumi:"defaultClusterResourcePlacement"`
+}
+
+func (PlacementProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementProfile)(nil)).Elem()
+}
+
+func (i PlacementProfileArgs) ToPlacementProfileOutput() PlacementProfileOutput {
+	return i.ToPlacementProfileOutputWithContext(context.Background())
+}
+
+func (i PlacementProfileArgs) ToPlacementProfileOutputWithContext(ctx context.Context) PlacementProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementProfileOutput)
+}
+
+func (i PlacementProfileArgs) ToPlacementProfilePtrOutput() PlacementProfilePtrOutput {
+	return i.ToPlacementProfilePtrOutputWithContext(context.Background())
+}
+
+func (i PlacementProfileArgs) ToPlacementProfilePtrOutputWithContext(ctx context.Context) PlacementProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementProfileOutput).ToPlacementProfilePtrOutputWithContext(ctx)
+}
+
+// PlacementProfilePtrInput is an input type that accepts PlacementProfileArgs, PlacementProfilePtr and PlacementProfilePtrOutput values.
+// You can construct a concrete instance of `PlacementProfilePtrInput` via:
+//
+//	        PlacementProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type PlacementProfilePtrInput interface {
+	pulumi.Input
+
+	ToPlacementProfilePtrOutput() PlacementProfilePtrOutput
+	ToPlacementProfilePtrOutputWithContext(context.Context) PlacementProfilePtrOutput
+}
+
+type placementProfilePtrType PlacementProfileArgs
+
+func PlacementProfilePtr(v *PlacementProfileArgs) PlacementProfilePtrInput {
+	return (*placementProfilePtrType)(v)
+}
+
+func (*placementProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementProfile)(nil)).Elem()
+}
+
+func (i *placementProfilePtrType) ToPlacementProfilePtrOutput() PlacementProfilePtrOutput {
+	return i.ToPlacementProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *placementProfilePtrType) ToPlacementProfilePtrOutputWithContext(ctx context.Context) PlacementProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementProfilePtrOutput)
+}
+
+// The configuration profile for default ClusterResourcePlacement for placement.
+type PlacementProfileOutput struct{ *pulumi.OutputState }
+
+func (PlacementProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementProfile)(nil)).Elem()
+}
+
+func (o PlacementProfileOutput) ToPlacementProfileOutput() PlacementProfileOutput {
+	return o
+}
+
+func (o PlacementProfileOutput) ToPlacementProfileOutputWithContext(ctx context.Context) PlacementProfileOutput {
+	return o
+}
+
+func (o PlacementProfileOutput) ToPlacementProfilePtrOutput() PlacementProfilePtrOutput {
+	return o.ToPlacementProfilePtrOutputWithContext(context.Background())
+}
+
+func (o PlacementProfileOutput) ToPlacementProfilePtrOutputWithContext(ctx context.Context) PlacementProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PlacementProfile) *PlacementProfile {
+		return &v
+	}).(PlacementProfilePtrOutput)
+}
+
+// The default ClusterResourcePlacement policy configuration.
+func (o PlacementProfileOutput) DefaultClusterResourcePlacement() PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return o.ApplyT(func(v PlacementProfile) *PlacementV1ClusterResourcePlacementSpec {
+		return v.DefaultClusterResourcePlacement
+	}).(PlacementV1ClusterResourcePlacementSpecPtrOutput)
+}
+
+type PlacementProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementProfile)(nil)).Elem()
+}
+
+func (o PlacementProfilePtrOutput) ToPlacementProfilePtrOutput() PlacementProfilePtrOutput {
+	return o
+}
+
+func (o PlacementProfilePtrOutput) ToPlacementProfilePtrOutputWithContext(ctx context.Context) PlacementProfilePtrOutput {
+	return o
+}
+
+func (o PlacementProfilePtrOutput) Elem() PlacementProfileOutput {
+	return o.ApplyT(func(v *PlacementProfile) PlacementProfile {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementProfile
+		return ret
+	}).(PlacementProfileOutput)
+}
+
+// The default ClusterResourcePlacement policy configuration.
+func (o PlacementProfilePtrOutput) DefaultClusterResourcePlacement() PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return o.ApplyT(func(v *PlacementProfile) *PlacementV1ClusterResourcePlacementSpec {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultClusterResourcePlacement
+	}).(PlacementV1ClusterResourcePlacementSpecPtrOutput)
+}
+
+// The configuration profile for default ClusterResourcePlacement for placement.
+type PlacementProfileResponse struct {
+	// The default ClusterResourcePlacement policy configuration.
+	DefaultClusterResourcePlacement *PlacementV1ClusterResourcePlacementSpecResponse `pulumi:"defaultClusterResourcePlacement"`
+}
+
+// The configuration profile for default ClusterResourcePlacement for placement.
+type PlacementProfileResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementProfileResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementProfileResponse)(nil)).Elem()
+}
+
+func (o PlacementProfileResponseOutput) ToPlacementProfileResponseOutput() PlacementProfileResponseOutput {
+	return o
+}
+
+func (o PlacementProfileResponseOutput) ToPlacementProfileResponseOutputWithContext(ctx context.Context) PlacementProfileResponseOutput {
+	return o
+}
+
+// The default ClusterResourcePlacement policy configuration.
+func (o PlacementProfileResponseOutput) DefaultClusterResourcePlacement() PlacementV1ClusterResourcePlacementSpecResponsePtrOutput {
+	return o.ApplyT(func(v PlacementProfileResponse) *PlacementV1ClusterResourcePlacementSpecResponse {
+		return v.DefaultClusterResourcePlacement
+	}).(PlacementV1ClusterResourcePlacementSpecResponsePtrOutput)
+}
+
+type PlacementProfileResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementProfileResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementProfileResponse)(nil)).Elem()
+}
+
+func (o PlacementProfileResponsePtrOutput) ToPlacementProfileResponsePtrOutput() PlacementProfileResponsePtrOutput {
+	return o
+}
+
+func (o PlacementProfileResponsePtrOutput) ToPlacementProfileResponsePtrOutputWithContext(ctx context.Context) PlacementProfileResponsePtrOutput {
+	return o
+}
+
+func (o PlacementProfileResponsePtrOutput) Elem() PlacementProfileResponseOutput {
+	return o.ApplyT(func(v *PlacementProfileResponse) PlacementProfileResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementProfileResponse
+		return ret
+	}).(PlacementProfileResponseOutput)
+}
+
+// The default ClusterResourcePlacement policy configuration.
+func (o PlacementProfileResponsePtrOutput) DefaultClusterResourcePlacement() PlacementV1ClusterResourcePlacementSpecResponsePtrOutput {
+	return o.ApplyT(func(v *PlacementProfileResponse) *PlacementV1ClusterResourcePlacementSpecResponse {
+		if v == nil {
+			return nil
+		}
+		return v.DefaultClusterResourcePlacement
+	}).(PlacementV1ClusterResourcePlacementSpecResponsePtrOutput)
+}
+
+// Affinity is a group of cluster affinity scheduling rules. More to be added.
+type PlacementV1Affinity struct {
+	// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+	ClusterAffinity *PlacementV1ClusterAffinity `pulumi:"clusterAffinity"`
+}
+
+// PlacementV1AffinityInput is an input type that accepts PlacementV1AffinityArgs and PlacementV1AffinityOutput values.
+// You can construct a concrete instance of `PlacementV1AffinityInput` via:
+//
+//	PlacementV1AffinityArgs{...}
+type PlacementV1AffinityInput interface {
+	pulumi.Input
+
+	ToPlacementV1AffinityOutput() PlacementV1AffinityOutput
+	ToPlacementV1AffinityOutputWithContext(context.Context) PlacementV1AffinityOutput
+}
+
+// Affinity is a group of cluster affinity scheduling rules. More to be added.
+type PlacementV1AffinityArgs struct {
+	// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+	ClusterAffinity PlacementV1ClusterAffinityPtrInput `pulumi:"clusterAffinity"`
+}
+
+func (PlacementV1AffinityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1Affinity)(nil)).Elem()
+}
+
+func (i PlacementV1AffinityArgs) ToPlacementV1AffinityOutput() PlacementV1AffinityOutput {
+	return i.ToPlacementV1AffinityOutputWithContext(context.Background())
+}
+
+func (i PlacementV1AffinityArgs) ToPlacementV1AffinityOutputWithContext(ctx context.Context) PlacementV1AffinityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1AffinityOutput)
+}
+
+func (i PlacementV1AffinityArgs) ToPlacementV1AffinityPtrOutput() PlacementV1AffinityPtrOutput {
+	return i.ToPlacementV1AffinityPtrOutputWithContext(context.Background())
+}
+
+func (i PlacementV1AffinityArgs) ToPlacementV1AffinityPtrOutputWithContext(ctx context.Context) PlacementV1AffinityPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1AffinityOutput).ToPlacementV1AffinityPtrOutputWithContext(ctx)
+}
+
+// PlacementV1AffinityPtrInput is an input type that accepts PlacementV1AffinityArgs, PlacementV1AffinityPtr and PlacementV1AffinityPtrOutput values.
+// You can construct a concrete instance of `PlacementV1AffinityPtrInput` via:
+//
+//	        PlacementV1AffinityArgs{...}
+//
+//	or:
+//
+//	        nil
+type PlacementV1AffinityPtrInput interface {
+	pulumi.Input
+
+	ToPlacementV1AffinityPtrOutput() PlacementV1AffinityPtrOutput
+	ToPlacementV1AffinityPtrOutputWithContext(context.Context) PlacementV1AffinityPtrOutput
+}
+
+type placementV1AffinityPtrType PlacementV1AffinityArgs
+
+func PlacementV1AffinityPtr(v *PlacementV1AffinityArgs) PlacementV1AffinityPtrInput {
+	return (*placementV1AffinityPtrType)(v)
+}
+
+func (*placementV1AffinityPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1Affinity)(nil)).Elem()
+}
+
+func (i *placementV1AffinityPtrType) ToPlacementV1AffinityPtrOutput() PlacementV1AffinityPtrOutput {
+	return i.ToPlacementV1AffinityPtrOutputWithContext(context.Background())
+}
+
+func (i *placementV1AffinityPtrType) ToPlacementV1AffinityPtrOutputWithContext(ctx context.Context) PlacementV1AffinityPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1AffinityPtrOutput)
+}
+
+// Affinity is a group of cluster affinity scheduling rules. More to be added.
+type PlacementV1AffinityOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1AffinityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1Affinity)(nil)).Elem()
+}
+
+func (o PlacementV1AffinityOutput) ToPlacementV1AffinityOutput() PlacementV1AffinityOutput {
+	return o
+}
+
+func (o PlacementV1AffinityOutput) ToPlacementV1AffinityOutputWithContext(ctx context.Context) PlacementV1AffinityOutput {
+	return o
+}
+
+func (o PlacementV1AffinityOutput) ToPlacementV1AffinityPtrOutput() PlacementV1AffinityPtrOutput {
+	return o.ToPlacementV1AffinityPtrOutputWithContext(context.Background())
+}
+
+func (o PlacementV1AffinityOutput) ToPlacementV1AffinityPtrOutputWithContext(ctx context.Context) PlacementV1AffinityPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PlacementV1Affinity) *PlacementV1Affinity {
+		return &v
+	}).(PlacementV1AffinityPtrOutput)
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+func (o PlacementV1AffinityOutput) ClusterAffinity() PlacementV1ClusterAffinityPtrOutput {
+	return o.ApplyT(func(v PlacementV1Affinity) *PlacementV1ClusterAffinity { return v.ClusterAffinity }).(PlacementV1ClusterAffinityPtrOutput)
+}
+
+type PlacementV1AffinityPtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1AffinityPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1Affinity)(nil)).Elem()
+}
+
+func (o PlacementV1AffinityPtrOutput) ToPlacementV1AffinityPtrOutput() PlacementV1AffinityPtrOutput {
+	return o
+}
+
+func (o PlacementV1AffinityPtrOutput) ToPlacementV1AffinityPtrOutputWithContext(ctx context.Context) PlacementV1AffinityPtrOutput {
+	return o
+}
+
+func (o PlacementV1AffinityPtrOutput) Elem() PlacementV1AffinityOutput {
+	return o.ApplyT(func(v *PlacementV1Affinity) PlacementV1Affinity {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1Affinity
+		return ret
+	}).(PlacementV1AffinityOutput)
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+func (o PlacementV1AffinityPtrOutput) ClusterAffinity() PlacementV1ClusterAffinityPtrOutput {
+	return o.ApplyT(func(v *PlacementV1Affinity) *PlacementV1ClusterAffinity {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterAffinity
+	}).(PlacementV1ClusterAffinityPtrOutput)
+}
+
+// Affinity is a group of cluster affinity scheduling rules. More to be added.
+type PlacementV1AffinityResponse struct {
+	// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+	ClusterAffinity *PlacementV1ClusterAffinityResponse `pulumi:"clusterAffinity"`
+}
+
+// Affinity is a group of cluster affinity scheduling rules. More to be added.
+type PlacementV1AffinityResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1AffinityResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1AffinityResponse)(nil)).Elem()
+}
+
+func (o PlacementV1AffinityResponseOutput) ToPlacementV1AffinityResponseOutput() PlacementV1AffinityResponseOutput {
+	return o
+}
+
+func (o PlacementV1AffinityResponseOutput) ToPlacementV1AffinityResponseOutputWithContext(ctx context.Context) PlacementV1AffinityResponseOutput {
+	return o
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+func (o PlacementV1AffinityResponseOutput) ClusterAffinity() PlacementV1ClusterAffinityResponsePtrOutput {
+	return o.ApplyT(func(v PlacementV1AffinityResponse) *PlacementV1ClusterAffinityResponse { return v.ClusterAffinity }).(PlacementV1ClusterAffinityResponsePtrOutput)
+}
+
+type PlacementV1AffinityResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1AffinityResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1AffinityResponse)(nil)).Elem()
+}
+
+func (o PlacementV1AffinityResponsePtrOutput) ToPlacementV1AffinityResponsePtrOutput() PlacementV1AffinityResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1AffinityResponsePtrOutput) ToPlacementV1AffinityResponsePtrOutputWithContext(ctx context.Context) PlacementV1AffinityResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1AffinityResponsePtrOutput) Elem() PlacementV1AffinityResponseOutput {
+	return o.ApplyT(func(v *PlacementV1AffinityResponse) PlacementV1AffinityResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1AffinityResponse
+		return ret
+	}).(PlacementV1AffinityResponseOutput)
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+func (o PlacementV1AffinityResponsePtrOutput) ClusterAffinity() PlacementV1ClusterAffinityResponsePtrOutput {
+	return o.ApplyT(func(v *PlacementV1AffinityResponse) *PlacementV1ClusterAffinityResponse {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterAffinity
+	}).(PlacementV1ClusterAffinityResponsePtrOutput)
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+type PlacementV1ClusterAffinity struct {
+	// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+	RequiredDuringSchedulingIgnoredDuringExecution *PlacementV1ClusterSelector `pulumi:"requiredDuringSchedulingIgnoredDuringExecution"`
+}
+
+// PlacementV1ClusterAffinityInput is an input type that accepts PlacementV1ClusterAffinityArgs and PlacementV1ClusterAffinityOutput values.
+// You can construct a concrete instance of `PlacementV1ClusterAffinityInput` via:
+//
+//	PlacementV1ClusterAffinityArgs{...}
+type PlacementV1ClusterAffinityInput interface {
+	pulumi.Input
+
+	ToPlacementV1ClusterAffinityOutput() PlacementV1ClusterAffinityOutput
+	ToPlacementV1ClusterAffinityOutputWithContext(context.Context) PlacementV1ClusterAffinityOutput
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+type PlacementV1ClusterAffinityArgs struct {
+	// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+	RequiredDuringSchedulingIgnoredDuringExecution PlacementV1ClusterSelectorPtrInput `pulumi:"requiredDuringSchedulingIgnoredDuringExecution"`
+}
+
+func (PlacementV1ClusterAffinityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterAffinity)(nil)).Elem()
+}
+
+func (i PlacementV1ClusterAffinityArgs) ToPlacementV1ClusterAffinityOutput() PlacementV1ClusterAffinityOutput {
+	return i.ToPlacementV1ClusterAffinityOutputWithContext(context.Background())
+}
+
+func (i PlacementV1ClusterAffinityArgs) ToPlacementV1ClusterAffinityOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterAffinityOutput)
+}
+
+func (i PlacementV1ClusterAffinityArgs) ToPlacementV1ClusterAffinityPtrOutput() PlacementV1ClusterAffinityPtrOutput {
+	return i.ToPlacementV1ClusterAffinityPtrOutputWithContext(context.Background())
+}
+
+func (i PlacementV1ClusterAffinityArgs) ToPlacementV1ClusterAffinityPtrOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterAffinityOutput).ToPlacementV1ClusterAffinityPtrOutputWithContext(ctx)
+}
+
+// PlacementV1ClusterAffinityPtrInput is an input type that accepts PlacementV1ClusterAffinityArgs, PlacementV1ClusterAffinityPtr and PlacementV1ClusterAffinityPtrOutput values.
+// You can construct a concrete instance of `PlacementV1ClusterAffinityPtrInput` via:
+//
+//	        PlacementV1ClusterAffinityArgs{...}
+//
+//	or:
+//
+//	        nil
+type PlacementV1ClusterAffinityPtrInput interface {
+	pulumi.Input
+
+	ToPlacementV1ClusterAffinityPtrOutput() PlacementV1ClusterAffinityPtrOutput
+	ToPlacementV1ClusterAffinityPtrOutputWithContext(context.Context) PlacementV1ClusterAffinityPtrOutput
+}
+
+type placementV1ClusterAffinityPtrType PlacementV1ClusterAffinityArgs
+
+func PlacementV1ClusterAffinityPtr(v *PlacementV1ClusterAffinityArgs) PlacementV1ClusterAffinityPtrInput {
+	return (*placementV1ClusterAffinityPtrType)(v)
+}
+
+func (*placementV1ClusterAffinityPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterAffinity)(nil)).Elem()
+}
+
+func (i *placementV1ClusterAffinityPtrType) ToPlacementV1ClusterAffinityPtrOutput() PlacementV1ClusterAffinityPtrOutput {
+	return i.ToPlacementV1ClusterAffinityPtrOutputWithContext(context.Background())
+}
+
+func (i *placementV1ClusterAffinityPtrType) ToPlacementV1ClusterAffinityPtrOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterAffinityPtrOutput)
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+type PlacementV1ClusterAffinityOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterAffinityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterAffinity)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterAffinityOutput) ToPlacementV1ClusterAffinityOutput() PlacementV1ClusterAffinityOutput {
+	return o
+}
+
+func (o PlacementV1ClusterAffinityOutput) ToPlacementV1ClusterAffinityOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityOutput {
+	return o
+}
+
+func (o PlacementV1ClusterAffinityOutput) ToPlacementV1ClusterAffinityPtrOutput() PlacementV1ClusterAffinityPtrOutput {
+	return o.ToPlacementV1ClusterAffinityPtrOutputWithContext(context.Background())
+}
+
+func (o PlacementV1ClusterAffinityOutput) ToPlacementV1ClusterAffinityPtrOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PlacementV1ClusterAffinity) *PlacementV1ClusterAffinity {
+		return &v
+	}).(PlacementV1ClusterAffinityPtrOutput)
+}
+
+// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+func (o PlacementV1ClusterAffinityOutput) RequiredDuringSchedulingIgnoredDuringExecution() PlacementV1ClusterSelectorPtrOutput {
+	return o.ApplyT(func(v PlacementV1ClusterAffinity) *PlacementV1ClusterSelector {
+		return v.RequiredDuringSchedulingIgnoredDuringExecution
+	}).(PlacementV1ClusterSelectorPtrOutput)
+}
+
+type PlacementV1ClusterAffinityPtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterAffinityPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterAffinity)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterAffinityPtrOutput) ToPlacementV1ClusterAffinityPtrOutput() PlacementV1ClusterAffinityPtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterAffinityPtrOutput) ToPlacementV1ClusterAffinityPtrOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityPtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterAffinityPtrOutput) Elem() PlacementV1ClusterAffinityOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterAffinity) PlacementV1ClusterAffinity {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1ClusterAffinity
+		return ret
+	}).(PlacementV1ClusterAffinityOutput)
+}
+
+// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+func (o PlacementV1ClusterAffinityPtrOutput) RequiredDuringSchedulingIgnoredDuringExecution() PlacementV1ClusterSelectorPtrOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterAffinity) *PlacementV1ClusterSelector {
+		if v == nil {
+			return nil
+		}
+		return v.RequiredDuringSchedulingIgnoredDuringExecution
+	}).(PlacementV1ClusterSelectorPtrOutput)
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+type PlacementV1ClusterAffinityResponse struct {
+	// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+	RequiredDuringSchedulingIgnoredDuringExecution *PlacementV1ClusterSelectorResponse `pulumi:"requiredDuringSchedulingIgnoredDuringExecution"`
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+type PlacementV1ClusterAffinityResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterAffinityResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterAffinityResponse)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterAffinityResponseOutput) ToPlacementV1ClusterAffinityResponseOutput() PlacementV1ClusterAffinityResponseOutput {
+	return o
+}
+
+func (o PlacementV1ClusterAffinityResponseOutput) ToPlacementV1ClusterAffinityResponseOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityResponseOutput {
+	return o
+}
+
+// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+func (o PlacementV1ClusterAffinityResponseOutput) RequiredDuringSchedulingIgnoredDuringExecution() PlacementV1ClusterSelectorResponsePtrOutput {
+	return o.ApplyT(func(v PlacementV1ClusterAffinityResponse) *PlacementV1ClusterSelectorResponse {
+		return v.RequiredDuringSchedulingIgnoredDuringExecution
+	}).(PlacementV1ClusterSelectorResponsePtrOutput)
+}
+
+type PlacementV1ClusterAffinityResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterAffinityResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterAffinityResponse)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterAffinityResponsePtrOutput) ToPlacementV1ClusterAffinityResponsePtrOutput() PlacementV1ClusterAffinityResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterAffinityResponsePtrOutput) ToPlacementV1ClusterAffinityResponsePtrOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterAffinityResponsePtrOutput) Elem() PlacementV1ClusterAffinityResponseOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterAffinityResponse) PlacementV1ClusterAffinityResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1ClusterAffinityResponse
+		return ret
+	}).(PlacementV1ClusterAffinityResponseOutput)
+}
+
+// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+func (o PlacementV1ClusterAffinityResponsePtrOutput) RequiredDuringSchedulingIgnoredDuringExecution() PlacementV1ClusterSelectorResponsePtrOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterAffinityResponse) *PlacementV1ClusterSelectorResponse {
+		if v == nil {
+			return nil
+		}
+		return v.RequiredDuringSchedulingIgnoredDuringExecution
+	}).(PlacementV1ClusterSelectorResponsePtrOutput)
+}
+
+// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
+type PlacementV1ClusterResourcePlacementSpec struct {
+	// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+	Policy *PlacementV1PlacementPolicy `pulumi:"policy"`
+}
+
+// PlacementV1ClusterResourcePlacementSpecInput is an input type that accepts PlacementV1ClusterResourcePlacementSpecArgs and PlacementV1ClusterResourcePlacementSpecOutput values.
+// You can construct a concrete instance of `PlacementV1ClusterResourcePlacementSpecInput` via:
+//
+//	PlacementV1ClusterResourcePlacementSpecArgs{...}
+type PlacementV1ClusterResourcePlacementSpecInput interface {
+	pulumi.Input
+
+	ToPlacementV1ClusterResourcePlacementSpecOutput() PlacementV1ClusterResourcePlacementSpecOutput
+	ToPlacementV1ClusterResourcePlacementSpecOutputWithContext(context.Context) PlacementV1ClusterResourcePlacementSpecOutput
+}
+
+// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
+type PlacementV1ClusterResourcePlacementSpecArgs struct {
+	// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+	Policy PlacementV1PlacementPolicyPtrInput `pulumi:"policy"`
+}
+
+func (PlacementV1ClusterResourcePlacementSpecArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterResourcePlacementSpec)(nil)).Elem()
+}
+
+func (i PlacementV1ClusterResourcePlacementSpecArgs) ToPlacementV1ClusterResourcePlacementSpecOutput() PlacementV1ClusterResourcePlacementSpecOutput {
+	return i.ToPlacementV1ClusterResourcePlacementSpecOutputWithContext(context.Background())
+}
+
+func (i PlacementV1ClusterResourcePlacementSpecArgs) ToPlacementV1ClusterResourcePlacementSpecOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterResourcePlacementSpecOutput)
+}
+
+func (i PlacementV1ClusterResourcePlacementSpecArgs) ToPlacementV1ClusterResourcePlacementSpecPtrOutput() PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return i.ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(context.Background())
+}
+
+func (i PlacementV1ClusterResourcePlacementSpecArgs) ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterResourcePlacementSpecOutput).ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(ctx)
+}
+
+// PlacementV1ClusterResourcePlacementSpecPtrInput is an input type that accepts PlacementV1ClusterResourcePlacementSpecArgs, PlacementV1ClusterResourcePlacementSpecPtr and PlacementV1ClusterResourcePlacementSpecPtrOutput values.
+// You can construct a concrete instance of `PlacementV1ClusterResourcePlacementSpecPtrInput` via:
+//
+//	        PlacementV1ClusterResourcePlacementSpecArgs{...}
+//
+//	or:
+//
+//	        nil
+type PlacementV1ClusterResourcePlacementSpecPtrInput interface {
+	pulumi.Input
+
+	ToPlacementV1ClusterResourcePlacementSpecPtrOutput() PlacementV1ClusterResourcePlacementSpecPtrOutput
+	ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(context.Context) PlacementV1ClusterResourcePlacementSpecPtrOutput
+}
+
+type placementV1ClusterResourcePlacementSpecPtrType PlacementV1ClusterResourcePlacementSpecArgs
+
+func PlacementV1ClusterResourcePlacementSpecPtr(v *PlacementV1ClusterResourcePlacementSpecArgs) PlacementV1ClusterResourcePlacementSpecPtrInput {
+	return (*placementV1ClusterResourcePlacementSpecPtrType)(v)
+}
+
+func (*placementV1ClusterResourcePlacementSpecPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterResourcePlacementSpec)(nil)).Elem()
+}
+
+func (i *placementV1ClusterResourcePlacementSpecPtrType) ToPlacementV1ClusterResourcePlacementSpecPtrOutput() PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return i.ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(context.Background())
+}
+
+func (i *placementV1ClusterResourcePlacementSpecPtrType) ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterResourcePlacementSpecPtrOutput)
+}
+
+// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
+type PlacementV1ClusterResourcePlacementSpecOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterResourcePlacementSpecOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterResourcePlacementSpec)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecOutput) ToPlacementV1ClusterResourcePlacementSpecOutput() PlacementV1ClusterResourcePlacementSpecOutput {
+	return o
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecOutput) ToPlacementV1ClusterResourcePlacementSpecOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecOutput {
+	return o
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecOutput) ToPlacementV1ClusterResourcePlacementSpecPtrOutput() PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return o.ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(context.Background())
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecOutput) ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PlacementV1ClusterResourcePlacementSpec) *PlacementV1ClusterResourcePlacementSpec {
+		return &v
+	}).(PlacementV1ClusterResourcePlacementSpecPtrOutput)
+}
+
+// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+func (o PlacementV1ClusterResourcePlacementSpecOutput) Policy() PlacementV1PlacementPolicyPtrOutput {
+	return o.ApplyT(func(v PlacementV1ClusterResourcePlacementSpec) *PlacementV1PlacementPolicy { return v.Policy }).(PlacementV1PlacementPolicyPtrOutput)
+}
+
+type PlacementV1ClusterResourcePlacementSpecPtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterResourcePlacementSpecPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterResourcePlacementSpec)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecPtrOutput) ToPlacementV1ClusterResourcePlacementSpecPtrOutput() PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecPtrOutput) ToPlacementV1ClusterResourcePlacementSpecPtrOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecPtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecPtrOutput) Elem() PlacementV1ClusterResourcePlacementSpecOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterResourcePlacementSpec) PlacementV1ClusterResourcePlacementSpec {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1ClusterResourcePlacementSpec
+		return ret
+	}).(PlacementV1ClusterResourcePlacementSpecOutput)
+}
+
+// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+func (o PlacementV1ClusterResourcePlacementSpecPtrOutput) Policy() PlacementV1PlacementPolicyPtrOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterResourcePlacementSpec) *PlacementV1PlacementPolicy {
+		if v == nil {
+			return nil
+		}
+		return v.Policy
+	}).(PlacementV1PlacementPolicyPtrOutput)
+}
+
+// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
+type PlacementV1ClusterResourcePlacementSpecResponse struct {
+	// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+	Policy *PlacementV1PlacementPolicyResponse `pulumi:"policy"`
+}
+
+// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
+type PlacementV1ClusterResourcePlacementSpecResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterResourcePlacementSpecResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterResourcePlacementSpecResponse)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecResponseOutput) ToPlacementV1ClusterResourcePlacementSpecResponseOutput() PlacementV1ClusterResourcePlacementSpecResponseOutput {
+	return o
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecResponseOutput) ToPlacementV1ClusterResourcePlacementSpecResponseOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecResponseOutput {
+	return o
+}
+
+// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+func (o PlacementV1ClusterResourcePlacementSpecResponseOutput) Policy() PlacementV1PlacementPolicyResponsePtrOutput {
+	return o.ApplyT(func(v PlacementV1ClusterResourcePlacementSpecResponse) *PlacementV1PlacementPolicyResponse {
+		return v.Policy
+	}).(PlacementV1PlacementPolicyResponsePtrOutput)
+}
+
+type PlacementV1ClusterResourcePlacementSpecResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterResourcePlacementSpecResponse)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) ToPlacementV1ClusterResourcePlacementSpecResponsePtrOutput() PlacementV1ClusterResourcePlacementSpecResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) ToPlacementV1ClusterResourcePlacementSpecResponsePtrOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) Elem() PlacementV1ClusterResourcePlacementSpecResponseOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterResourcePlacementSpecResponse) PlacementV1ClusterResourcePlacementSpecResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1ClusterResourcePlacementSpecResponse
+		return ret
+	}).(PlacementV1ClusterResourcePlacementSpecResponseOutput)
+}
+
+// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+func (o PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) Policy() PlacementV1PlacementPolicyResponsePtrOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterResourcePlacementSpecResponse) *PlacementV1PlacementPolicyResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Policy
+	}).(PlacementV1PlacementPolicyResponsePtrOutput)
+}
+
+// ClusterSelector
+type PlacementV1ClusterSelector struct {
+	// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+	ClusterSelectorTerms []PlacementV1ClusterSelectorTerm `pulumi:"clusterSelectorTerms"`
+}
+
+// PlacementV1ClusterSelectorInput is an input type that accepts PlacementV1ClusterSelectorArgs and PlacementV1ClusterSelectorOutput values.
+// You can construct a concrete instance of `PlacementV1ClusterSelectorInput` via:
+//
+//	PlacementV1ClusterSelectorArgs{...}
+type PlacementV1ClusterSelectorInput interface {
+	pulumi.Input
+
+	ToPlacementV1ClusterSelectorOutput() PlacementV1ClusterSelectorOutput
+	ToPlacementV1ClusterSelectorOutputWithContext(context.Context) PlacementV1ClusterSelectorOutput
+}
+
+// ClusterSelector
+type PlacementV1ClusterSelectorArgs struct {
+	// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+	ClusterSelectorTerms PlacementV1ClusterSelectorTermArrayInput `pulumi:"clusterSelectorTerms"`
+}
+
+func (PlacementV1ClusterSelectorArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterSelector)(nil)).Elem()
+}
+
+func (i PlacementV1ClusterSelectorArgs) ToPlacementV1ClusterSelectorOutput() PlacementV1ClusterSelectorOutput {
+	return i.ToPlacementV1ClusterSelectorOutputWithContext(context.Background())
+}
+
+func (i PlacementV1ClusterSelectorArgs) ToPlacementV1ClusterSelectorOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterSelectorOutput)
+}
+
+func (i PlacementV1ClusterSelectorArgs) ToPlacementV1ClusterSelectorPtrOutput() PlacementV1ClusterSelectorPtrOutput {
+	return i.ToPlacementV1ClusterSelectorPtrOutputWithContext(context.Background())
+}
+
+func (i PlacementV1ClusterSelectorArgs) ToPlacementV1ClusterSelectorPtrOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterSelectorOutput).ToPlacementV1ClusterSelectorPtrOutputWithContext(ctx)
+}
+
+// PlacementV1ClusterSelectorPtrInput is an input type that accepts PlacementV1ClusterSelectorArgs, PlacementV1ClusterSelectorPtr and PlacementV1ClusterSelectorPtrOutput values.
+// You can construct a concrete instance of `PlacementV1ClusterSelectorPtrInput` via:
+//
+//	        PlacementV1ClusterSelectorArgs{...}
+//
+//	or:
+//
+//	        nil
+type PlacementV1ClusterSelectorPtrInput interface {
+	pulumi.Input
+
+	ToPlacementV1ClusterSelectorPtrOutput() PlacementV1ClusterSelectorPtrOutput
+	ToPlacementV1ClusterSelectorPtrOutputWithContext(context.Context) PlacementV1ClusterSelectorPtrOutput
+}
+
+type placementV1ClusterSelectorPtrType PlacementV1ClusterSelectorArgs
+
+func PlacementV1ClusterSelectorPtr(v *PlacementV1ClusterSelectorArgs) PlacementV1ClusterSelectorPtrInput {
+	return (*placementV1ClusterSelectorPtrType)(v)
+}
+
+func (*placementV1ClusterSelectorPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterSelector)(nil)).Elem()
+}
+
+func (i *placementV1ClusterSelectorPtrType) ToPlacementV1ClusterSelectorPtrOutput() PlacementV1ClusterSelectorPtrOutput {
+	return i.ToPlacementV1ClusterSelectorPtrOutputWithContext(context.Background())
+}
+
+func (i *placementV1ClusterSelectorPtrType) ToPlacementV1ClusterSelectorPtrOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterSelectorPtrOutput)
+}
+
+// ClusterSelector
+type PlacementV1ClusterSelectorOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterSelectorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterSelector)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterSelectorOutput) ToPlacementV1ClusterSelectorOutput() PlacementV1ClusterSelectorOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorOutput) ToPlacementV1ClusterSelectorOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorOutput) ToPlacementV1ClusterSelectorPtrOutput() PlacementV1ClusterSelectorPtrOutput {
+	return o.ToPlacementV1ClusterSelectorPtrOutputWithContext(context.Background())
+}
+
+func (o PlacementV1ClusterSelectorOutput) ToPlacementV1ClusterSelectorPtrOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PlacementV1ClusterSelector) *PlacementV1ClusterSelector {
+		return &v
+	}).(PlacementV1ClusterSelectorPtrOutput)
+}
+
+// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+func (o PlacementV1ClusterSelectorOutput) ClusterSelectorTerms() PlacementV1ClusterSelectorTermArrayOutput {
+	return o.ApplyT(func(v PlacementV1ClusterSelector) []PlacementV1ClusterSelectorTerm { return v.ClusterSelectorTerms }).(PlacementV1ClusterSelectorTermArrayOutput)
+}
+
+type PlacementV1ClusterSelectorPtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterSelectorPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterSelector)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterSelectorPtrOutput) ToPlacementV1ClusterSelectorPtrOutput() PlacementV1ClusterSelectorPtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorPtrOutput) ToPlacementV1ClusterSelectorPtrOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorPtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorPtrOutput) Elem() PlacementV1ClusterSelectorOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterSelector) PlacementV1ClusterSelector {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1ClusterSelector
+		return ret
+	}).(PlacementV1ClusterSelectorOutput)
+}
+
+// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+func (o PlacementV1ClusterSelectorPtrOutput) ClusterSelectorTerms() PlacementV1ClusterSelectorTermArrayOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterSelector) []PlacementV1ClusterSelectorTerm {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterSelectorTerms
+	}).(PlacementV1ClusterSelectorTermArrayOutput)
+}
+
+// ClusterSelector
+type PlacementV1ClusterSelectorResponse struct {
+	// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+	ClusterSelectorTerms []PlacementV1ClusterSelectorTermResponse `pulumi:"clusterSelectorTerms"`
+}
+
+// ClusterSelector
+type PlacementV1ClusterSelectorResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterSelectorResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterSelectorResponse)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterSelectorResponseOutput) ToPlacementV1ClusterSelectorResponseOutput() PlacementV1ClusterSelectorResponseOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorResponseOutput) ToPlacementV1ClusterSelectorResponseOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorResponseOutput {
+	return o
+}
+
+// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+func (o PlacementV1ClusterSelectorResponseOutput) ClusterSelectorTerms() PlacementV1ClusterSelectorTermResponseArrayOutput {
+	return o.ApplyT(func(v PlacementV1ClusterSelectorResponse) []PlacementV1ClusterSelectorTermResponse {
+		return v.ClusterSelectorTerms
+	}).(PlacementV1ClusterSelectorTermResponseArrayOutput)
+}
+
+type PlacementV1ClusterSelectorResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterSelectorResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1ClusterSelectorResponse)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterSelectorResponsePtrOutput) ToPlacementV1ClusterSelectorResponsePtrOutput() PlacementV1ClusterSelectorResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorResponsePtrOutput) ToPlacementV1ClusterSelectorResponsePtrOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorResponsePtrOutput) Elem() PlacementV1ClusterSelectorResponseOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterSelectorResponse) PlacementV1ClusterSelectorResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1ClusterSelectorResponse
+		return ret
+	}).(PlacementV1ClusterSelectorResponseOutput)
+}
+
+// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+func (o PlacementV1ClusterSelectorResponsePtrOutput) ClusterSelectorTerms() PlacementV1ClusterSelectorTermResponseArrayOutput {
+	return o.ApplyT(func(v *PlacementV1ClusterSelectorResponse) []PlacementV1ClusterSelectorTermResponse {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterSelectorTerms
+	}).(PlacementV1ClusterSelectorTermResponseArrayOutput)
+}
+
+// ClusterSelectorTerm
+type PlacementV1ClusterSelectorTerm struct {
+	// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
+	LabelSelector *MetaV1LabelSelector `pulumi:"labelSelector"`
+	// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
+	PropertySelector *PlacementV1PropertySelector `pulumi:"propertySelector"`
+}
+
+// PlacementV1ClusterSelectorTermInput is an input type that accepts PlacementV1ClusterSelectorTermArgs and PlacementV1ClusterSelectorTermOutput values.
+// You can construct a concrete instance of `PlacementV1ClusterSelectorTermInput` via:
+//
+//	PlacementV1ClusterSelectorTermArgs{...}
+type PlacementV1ClusterSelectorTermInput interface {
+	pulumi.Input
+
+	ToPlacementV1ClusterSelectorTermOutput() PlacementV1ClusterSelectorTermOutput
+	ToPlacementV1ClusterSelectorTermOutputWithContext(context.Context) PlacementV1ClusterSelectorTermOutput
+}
+
+// ClusterSelectorTerm
+type PlacementV1ClusterSelectorTermArgs struct {
+	// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
+	LabelSelector MetaV1LabelSelectorPtrInput `pulumi:"labelSelector"`
+	// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
+	PropertySelector PlacementV1PropertySelectorPtrInput `pulumi:"propertySelector"`
+}
+
+func (PlacementV1ClusterSelectorTermArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterSelectorTerm)(nil)).Elem()
+}
+
+func (i PlacementV1ClusterSelectorTermArgs) ToPlacementV1ClusterSelectorTermOutput() PlacementV1ClusterSelectorTermOutput {
+	return i.ToPlacementV1ClusterSelectorTermOutputWithContext(context.Background())
+}
+
+func (i PlacementV1ClusterSelectorTermArgs) ToPlacementV1ClusterSelectorTermOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorTermOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterSelectorTermOutput)
+}
+
+// PlacementV1ClusterSelectorTermArrayInput is an input type that accepts PlacementV1ClusterSelectorTermArray and PlacementV1ClusterSelectorTermArrayOutput values.
+// You can construct a concrete instance of `PlacementV1ClusterSelectorTermArrayInput` via:
+//
+//	PlacementV1ClusterSelectorTermArray{ PlacementV1ClusterSelectorTermArgs{...} }
+type PlacementV1ClusterSelectorTermArrayInput interface {
+	pulumi.Input
+
+	ToPlacementV1ClusterSelectorTermArrayOutput() PlacementV1ClusterSelectorTermArrayOutput
+	ToPlacementV1ClusterSelectorTermArrayOutputWithContext(context.Context) PlacementV1ClusterSelectorTermArrayOutput
+}
+
+type PlacementV1ClusterSelectorTermArray []PlacementV1ClusterSelectorTermInput
+
+func (PlacementV1ClusterSelectorTermArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1ClusterSelectorTerm)(nil)).Elem()
+}
+
+func (i PlacementV1ClusterSelectorTermArray) ToPlacementV1ClusterSelectorTermArrayOutput() PlacementV1ClusterSelectorTermArrayOutput {
+	return i.ToPlacementV1ClusterSelectorTermArrayOutputWithContext(context.Background())
+}
+
+func (i PlacementV1ClusterSelectorTermArray) ToPlacementV1ClusterSelectorTermArrayOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorTermArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1ClusterSelectorTermArrayOutput)
+}
+
+// ClusterSelectorTerm
+type PlacementV1ClusterSelectorTermOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterSelectorTermOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterSelectorTerm)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterSelectorTermOutput) ToPlacementV1ClusterSelectorTermOutput() PlacementV1ClusterSelectorTermOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorTermOutput) ToPlacementV1ClusterSelectorTermOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorTermOutput {
+	return o
+}
+
+// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
+func (o PlacementV1ClusterSelectorTermOutput) LabelSelector() MetaV1LabelSelectorPtrOutput {
+	return o.ApplyT(func(v PlacementV1ClusterSelectorTerm) *MetaV1LabelSelector { return v.LabelSelector }).(MetaV1LabelSelectorPtrOutput)
+}
+
+// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
+func (o PlacementV1ClusterSelectorTermOutput) PropertySelector() PlacementV1PropertySelectorPtrOutput {
+	return o.ApplyT(func(v PlacementV1ClusterSelectorTerm) *PlacementV1PropertySelector { return v.PropertySelector }).(PlacementV1PropertySelectorPtrOutput)
+}
+
+type PlacementV1ClusterSelectorTermArrayOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterSelectorTermArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1ClusterSelectorTerm)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterSelectorTermArrayOutput) ToPlacementV1ClusterSelectorTermArrayOutput() PlacementV1ClusterSelectorTermArrayOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorTermArrayOutput) ToPlacementV1ClusterSelectorTermArrayOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorTermArrayOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorTermArrayOutput) Index(i pulumi.IntInput) PlacementV1ClusterSelectorTermOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1ClusterSelectorTerm {
+		return vs[0].([]PlacementV1ClusterSelectorTerm)[vs[1].(int)]
+	}).(PlacementV1ClusterSelectorTermOutput)
+}
+
+// ClusterSelectorTerm
+type PlacementV1ClusterSelectorTermResponse struct {
+	// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
+	LabelSelector *MetaV1LabelSelectorResponse `pulumi:"labelSelector"`
+	// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
+	PropertySelector *PlacementV1PropertySelectorResponse `pulumi:"propertySelector"`
+}
+
+// ClusterSelectorTerm
+type PlacementV1ClusterSelectorTermResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterSelectorTermResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1ClusterSelectorTermResponse)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterSelectorTermResponseOutput) ToPlacementV1ClusterSelectorTermResponseOutput() PlacementV1ClusterSelectorTermResponseOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorTermResponseOutput) ToPlacementV1ClusterSelectorTermResponseOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorTermResponseOutput {
+	return o
+}
+
+// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
+func (o PlacementV1ClusterSelectorTermResponseOutput) LabelSelector() MetaV1LabelSelectorResponsePtrOutput {
+	return o.ApplyT(func(v PlacementV1ClusterSelectorTermResponse) *MetaV1LabelSelectorResponse { return v.LabelSelector }).(MetaV1LabelSelectorResponsePtrOutput)
+}
+
+// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
+func (o PlacementV1ClusterSelectorTermResponseOutput) PropertySelector() PlacementV1PropertySelectorResponsePtrOutput {
+	return o.ApplyT(func(v PlacementV1ClusterSelectorTermResponse) *PlacementV1PropertySelectorResponse {
+		return v.PropertySelector
+	}).(PlacementV1PropertySelectorResponsePtrOutput)
+}
+
+type PlacementV1ClusterSelectorTermResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1ClusterSelectorTermResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1ClusterSelectorTermResponse)(nil)).Elem()
+}
+
+func (o PlacementV1ClusterSelectorTermResponseArrayOutput) ToPlacementV1ClusterSelectorTermResponseArrayOutput() PlacementV1ClusterSelectorTermResponseArrayOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorTermResponseArrayOutput) ToPlacementV1ClusterSelectorTermResponseArrayOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorTermResponseArrayOutput {
+	return o
+}
+
+func (o PlacementV1ClusterSelectorTermResponseArrayOutput) Index(i pulumi.IntInput) PlacementV1ClusterSelectorTermResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1ClusterSelectorTermResponse {
+		return vs[0].([]PlacementV1ClusterSelectorTermResponse)[vs[1].(int)]
+	}).(PlacementV1ClusterSelectorTermResponseOutput)
+}
+
+// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
+type PlacementV1PlacementPolicy struct {
+	// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+	Affinity *PlacementV1Affinity `pulumi:"affinity"`
+	// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+	ClusterNames []string `pulumi:"clusterNames"`
+	// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+	PlacementType *string `pulumi:"placementType"`
+	// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+	Tolerations []PlacementV1Toleration `pulumi:"tolerations"`
+}
+
+// PlacementV1PlacementPolicyInput is an input type that accepts PlacementV1PlacementPolicyArgs and PlacementV1PlacementPolicyOutput values.
+// You can construct a concrete instance of `PlacementV1PlacementPolicyInput` via:
+//
+//	PlacementV1PlacementPolicyArgs{...}
+type PlacementV1PlacementPolicyInput interface {
+	pulumi.Input
+
+	ToPlacementV1PlacementPolicyOutput() PlacementV1PlacementPolicyOutput
+	ToPlacementV1PlacementPolicyOutputWithContext(context.Context) PlacementV1PlacementPolicyOutput
+}
+
+// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
+type PlacementV1PlacementPolicyArgs struct {
+	// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+	Affinity PlacementV1AffinityPtrInput `pulumi:"affinity"`
+	// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+	ClusterNames pulumi.StringArrayInput `pulumi:"clusterNames"`
+	// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+	PlacementType pulumi.StringPtrInput `pulumi:"placementType"`
+	// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+	Tolerations PlacementV1TolerationArrayInput `pulumi:"tolerations"`
+}
+
+func (PlacementV1PlacementPolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PlacementPolicy)(nil)).Elem()
+}
+
+func (i PlacementV1PlacementPolicyArgs) ToPlacementV1PlacementPolicyOutput() PlacementV1PlacementPolicyOutput {
+	return i.ToPlacementV1PlacementPolicyOutputWithContext(context.Background())
+}
+
+func (i PlacementV1PlacementPolicyArgs) ToPlacementV1PlacementPolicyOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1PlacementPolicyOutput)
+}
+
+func (i PlacementV1PlacementPolicyArgs) ToPlacementV1PlacementPolicyPtrOutput() PlacementV1PlacementPolicyPtrOutput {
+	return i.ToPlacementV1PlacementPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i PlacementV1PlacementPolicyArgs) ToPlacementV1PlacementPolicyPtrOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1PlacementPolicyOutput).ToPlacementV1PlacementPolicyPtrOutputWithContext(ctx)
+}
+
+// PlacementV1PlacementPolicyPtrInput is an input type that accepts PlacementV1PlacementPolicyArgs, PlacementV1PlacementPolicyPtr and PlacementV1PlacementPolicyPtrOutput values.
+// You can construct a concrete instance of `PlacementV1PlacementPolicyPtrInput` via:
+//
+//	        PlacementV1PlacementPolicyArgs{...}
+//
+//	or:
+//
+//	        nil
+type PlacementV1PlacementPolicyPtrInput interface {
+	pulumi.Input
+
+	ToPlacementV1PlacementPolicyPtrOutput() PlacementV1PlacementPolicyPtrOutput
+	ToPlacementV1PlacementPolicyPtrOutputWithContext(context.Context) PlacementV1PlacementPolicyPtrOutput
+}
+
+type placementV1PlacementPolicyPtrType PlacementV1PlacementPolicyArgs
+
+func PlacementV1PlacementPolicyPtr(v *PlacementV1PlacementPolicyArgs) PlacementV1PlacementPolicyPtrInput {
+	return (*placementV1PlacementPolicyPtrType)(v)
+}
+
+func (*placementV1PlacementPolicyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1PlacementPolicy)(nil)).Elem()
+}
+
+func (i *placementV1PlacementPolicyPtrType) ToPlacementV1PlacementPolicyPtrOutput() PlacementV1PlacementPolicyPtrOutput {
+	return i.ToPlacementV1PlacementPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i *placementV1PlacementPolicyPtrType) ToPlacementV1PlacementPolicyPtrOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1PlacementPolicyPtrOutput)
+}
+
+// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
+type PlacementV1PlacementPolicyOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PlacementPolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PlacementPolicy)(nil)).Elem()
+}
+
+func (o PlacementV1PlacementPolicyOutput) ToPlacementV1PlacementPolicyOutput() PlacementV1PlacementPolicyOutput {
+	return o
+}
+
+func (o PlacementV1PlacementPolicyOutput) ToPlacementV1PlacementPolicyOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyOutput {
+	return o
+}
+
+func (o PlacementV1PlacementPolicyOutput) ToPlacementV1PlacementPolicyPtrOutput() PlacementV1PlacementPolicyPtrOutput {
+	return o.ToPlacementV1PlacementPolicyPtrOutputWithContext(context.Background())
+}
+
+func (o PlacementV1PlacementPolicyOutput) ToPlacementV1PlacementPolicyPtrOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PlacementV1PlacementPolicy) *PlacementV1PlacementPolicy {
+		return &v
+	}).(PlacementV1PlacementPolicyPtrOutput)
+}
+
+// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+func (o PlacementV1PlacementPolicyOutput) Affinity() PlacementV1AffinityPtrOutput {
+	return o.ApplyT(func(v PlacementV1PlacementPolicy) *PlacementV1Affinity { return v.Affinity }).(PlacementV1AffinityPtrOutput)
+}
+
+// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+func (o PlacementV1PlacementPolicyOutput) ClusterNames() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v PlacementV1PlacementPolicy) []string { return v.ClusterNames }).(pulumi.StringArrayOutput)
+}
+
+// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+func (o PlacementV1PlacementPolicyOutput) PlacementType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1PlacementPolicy) *string { return v.PlacementType }).(pulumi.StringPtrOutput)
+}
+
+// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+func (o PlacementV1PlacementPolicyOutput) Tolerations() PlacementV1TolerationArrayOutput {
+	return o.ApplyT(func(v PlacementV1PlacementPolicy) []PlacementV1Toleration { return v.Tolerations }).(PlacementV1TolerationArrayOutput)
+}
+
+type PlacementV1PlacementPolicyPtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PlacementPolicyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1PlacementPolicy)(nil)).Elem()
+}
+
+func (o PlacementV1PlacementPolicyPtrOutput) ToPlacementV1PlacementPolicyPtrOutput() PlacementV1PlacementPolicyPtrOutput {
+	return o
+}
+
+func (o PlacementV1PlacementPolicyPtrOutput) ToPlacementV1PlacementPolicyPtrOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyPtrOutput {
+	return o
+}
+
+func (o PlacementV1PlacementPolicyPtrOutput) Elem() PlacementV1PlacementPolicyOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicy) PlacementV1PlacementPolicy {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1PlacementPolicy
+		return ret
+	}).(PlacementV1PlacementPolicyOutput)
+}
+
+// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+func (o PlacementV1PlacementPolicyPtrOutput) Affinity() PlacementV1AffinityPtrOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicy) *PlacementV1Affinity {
+		if v == nil {
+			return nil
+		}
+		return v.Affinity
+	}).(PlacementV1AffinityPtrOutput)
+}
+
+// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+func (o PlacementV1PlacementPolicyPtrOutput) ClusterNames() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicy) []string {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterNames
+	}).(pulumi.StringArrayOutput)
+}
+
+// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+func (o PlacementV1PlacementPolicyPtrOutput) PlacementType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicy) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PlacementType
+	}).(pulumi.StringPtrOutput)
+}
+
+// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+func (o PlacementV1PlacementPolicyPtrOutput) Tolerations() PlacementV1TolerationArrayOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicy) []PlacementV1Toleration {
+		if v == nil {
+			return nil
+		}
+		return v.Tolerations
+	}).(PlacementV1TolerationArrayOutput)
+}
+
+// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
+type PlacementV1PlacementPolicyResponse struct {
+	// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+	Affinity *PlacementV1AffinityResponse `pulumi:"affinity"`
+	// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+	ClusterNames []string `pulumi:"clusterNames"`
+	// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+	PlacementType *string `pulumi:"placementType"`
+	// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+	Tolerations []PlacementV1TolerationResponse `pulumi:"tolerations"`
+}
+
+// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
+type PlacementV1PlacementPolicyResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PlacementPolicyResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PlacementPolicyResponse)(nil)).Elem()
+}
+
+func (o PlacementV1PlacementPolicyResponseOutput) ToPlacementV1PlacementPolicyResponseOutput() PlacementV1PlacementPolicyResponseOutput {
+	return o
+}
+
+func (o PlacementV1PlacementPolicyResponseOutput) ToPlacementV1PlacementPolicyResponseOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyResponseOutput {
+	return o
+}
+
+// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+func (o PlacementV1PlacementPolicyResponseOutput) Affinity() PlacementV1AffinityResponsePtrOutput {
+	return o.ApplyT(func(v PlacementV1PlacementPolicyResponse) *PlacementV1AffinityResponse { return v.Affinity }).(PlacementV1AffinityResponsePtrOutput)
+}
+
+// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+func (o PlacementV1PlacementPolicyResponseOutput) ClusterNames() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v PlacementV1PlacementPolicyResponse) []string { return v.ClusterNames }).(pulumi.StringArrayOutput)
+}
+
+// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+func (o PlacementV1PlacementPolicyResponseOutput) PlacementType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1PlacementPolicyResponse) *string { return v.PlacementType }).(pulumi.StringPtrOutput)
+}
+
+// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+func (o PlacementV1PlacementPolicyResponseOutput) Tolerations() PlacementV1TolerationResponseArrayOutput {
+	return o.ApplyT(func(v PlacementV1PlacementPolicyResponse) []PlacementV1TolerationResponse { return v.Tolerations }).(PlacementV1TolerationResponseArrayOutput)
+}
+
+type PlacementV1PlacementPolicyResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PlacementPolicyResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1PlacementPolicyResponse)(nil)).Elem()
+}
+
+func (o PlacementV1PlacementPolicyResponsePtrOutput) ToPlacementV1PlacementPolicyResponsePtrOutput() PlacementV1PlacementPolicyResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1PlacementPolicyResponsePtrOutput) ToPlacementV1PlacementPolicyResponsePtrOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1PlacementPolicyResponsePtrOutput) Elem() PlacementV1PlacementPolicyResponseOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) PlacementV1PlacementPolicyResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1PlacementPolicyResponse
+		return ret
+	}).(PlacementV1PlacementPolicyResponseOutput)
+}
+
+// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+func (o PlacementV1PlacementPolicyResponsePtrOutput) Affinity() PlacementV1AffinityResponsePtrOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) *PlacementV1AffinityResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Affinity
+	}).(PlacementV1AffinityResponsePtrOutput)
+}
+
+// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+func (o PlacementV1PlacementPolicyResponsePtrOutput) ClusterNames() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) []string {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterNames
+	}).(pulumi.StringArrayOutput)
+}
+
+// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+func (o PlacementV1PlacementPolicyResponsePtrOutput) PlacementType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PlacementType
+	}).(pulumi.StringPtrOutput)
+}
+
+// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+func (o PlacementV1PlacementPolicyResponsePtrOutput) Tolerations() PlacementV1TolerationResponseArrayOutput {
+	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) []PlacementV1TolerationResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Tolerations
+	}).(PlacementV1TolerationResponseArrayOutput)
+}
+
+// PropertySelector helps user specify property requirements when picking clusters for resource placement.
+type PlacementV1PropertySelector struct {
+	// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+	MatchExpressions []PlacementV1PropertySelectorRequirement `pulumi:"matchExpressions"`
+}
+
+// PlacementV1PropertySelectorInput is an input type that accepts PlacementV1PropertySelectorArgs and PlacementV1PropertySelectorOutput values.
+// You can construct a concrete instance of `PlacementV1PropertySelectorInput` via:
+//
+//	PlacementV1PropertySelectorArgs{...}
+type PlacementV1PropertySelectorInput interface {
+	pulumi.Input
+
+	ToPlacementV1PropertySelectorOutput() PlacementV1PropertySelectorOutput
+	ToPlacementV1PropertySelectorOutputWithContext(context.Context) PlacementV1PropertySelectorOutput
+}
+
+// PropertySelector helps user specify property requirements when picking clusters for resource placement.
+type PlacementV1PropertySelectorArgs struct {
+	// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+	MatchExpressions PlacementV1PropertySelectorRequirementArrayInput `pulumi:"matchExpressions"`
+}
+
+func (PlacementV1PropertySelectorArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PropertySelector)(nil)).Elem()
+}
+
+func (i PlacementV1PropertySelectorArgs) ToPlacementV1PropertySelectorOutput() PlacementV1PropertySelectorOutput {
+	return i.ToPlacementV1PropertySelectorOutputWithContext(context.Background())
+}
+
+func (i PlacementV1PropertySelectorArgs) ToPlacementV1PropertySelectorOutputWithContext(ctx context.Context) PlacementV1PropertySelectorOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1PropertySelectorOutput)
+}
+
+func (i PlacementV1PropertySelectorArgs) ToPlacementV1PropertySelectorPtrOutput() PlacementV1PropertySelectorPtrOutput {
+	return i.ToPlacementV1PropertySelectorPtrOutputWithContext(context.Background())
+}
+
+func (i PlacementV1PropertySelectorArgs) ToPlacementV1PropertySelectorPtrOutputWithContext(ctx context.Context) PlacementV1PropertySelectorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1PropertySelectorOutput).ToPlacementV1PropertySelectorPtrOutputWithContext(ctx)
+}
+
+// PlacementV1PropertySelectorPtrInput is an input type that accepts PlacementV1PropertySelectorArgs, PlacementV1PropertySelectorPtr and PlacementV1PropertySelectorPtrOutput values.
+// You can construct a concrete instance of `PlacementV1PropertySelectorPtrInput` via:
+//
+//	        PlacementV1PropertySelectorArgs{...}
+//
+//	or:
+//
+//	        nil
+type PlacementV1PropertySelectorPtrInput interface {
+	pulumi.Input
+
+	ToPlacementV1PropertySelectorPtrOutput() PlacementV1PropertySelectorPtrOutput
+	ToPlacementV1PropertySelectorPtrOutputWithContext(context.Context) PlacementV1PropertySelectorPtrOutput
+}
+
+type placementV1PropertySelectorPtrType PlacementV1PropertySelectorArgs
+
+func PlacementV1PropertySelectorPtr(v *PlacementV1PropertySelectorArgs) PlacementV1PropertySelectorPtrInput {
+	return (*placementV1PropertySelectorPtrType)(v)
+}
+
+func (*placementV1PropertySelectorPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1PropertySelector)(nil)).Elem()
+}
+
+func (i *placementV1PropertySelectorPtrType) ToPlacementV1PropertySelectorPtrOutput() PlacementV1PropertySelectorPtrOutput {
+	return i.ToPlacementV1PropertySelectorPtrOutputWithContext(context.Background())
+}
+
+func (i *placementV1PropertySelectorPtrType) ToPlacementV1PropertySelectorPtrOutputWithContext(ctx context.Context) PlacementV1PropertySelectorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1PropertySelectorPtrOutput)
+}
+
+// PropertySelector helps user specify property requirements when picking clusters for resource placement.
+type PlacementV1PropertySelectorOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PropertySelectorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PropertySelector)(nil)).Elem()
+}
+
+func (o PlacementV1PropertySelectorOutput) ToPlacementV1PropertySelectorOutput() PlacementV1PropertySelectorOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorOutput) ToPlacementV1PropertySelectorOutputWithContext(ctx context.Context) PlacementV1PropertySelectorOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorOutput) ToPlacementV1PropertySelectorPtrOutput() PlacementV1PropertySelectorPtrOutput {
+	return o.ToPlacementV1PropertySelectorPtrOutputWithContext(context.Background())
+}
+
+func (o PlacementV1PropertySelectorOutput) ToPlacementV1PropertySelectorPtrOutputWithContext(ctx context.Context) PlacementV1PropertySelectorPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PlacementV1PropertySelector) *PlacementV1PropertySelector {
+		return &v
+	}).(PlacementV1PropertySelectorPtrOutput)
+}
+
+// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+func (o PlacementV1PropertySelectorOutput) MatchExpressions() PlacementV1PropertySelectorRequirementArrayOutput {
+	return o.ApplyT(func(v PlacementV1PropertySelector) []PlacementV1PropertySelectorRequirement {
+		return v.MatchExpressions
+	}).(PlacementV1PropertySelectorRequirementArrayOutput)
+}
+
+type PlacementV1PropertySelectorPtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PropertySelectorPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1PropertySelector)(nil)).Elem()
+}
+
+func (o PlacementV1PropertySelectorPtrOutput) ToPlacementV1PropertySelectorPtrOutput() PlacementV1PropertySelectorPtrOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorPtrOutput) ToPlacementV1PropertySelectorPtrOutputWithContext(ctx context.Context) PlacementV1PropertySelectorPtrOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorPtrOutput) Elem() PlacementV1PropertySelectorOutput {
+	return o.ApplyT(func(v *PlacementV1PropertySelector) PlacementV1PropertySelector {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1PropertySelector
+		return ret
+	}).(PlacementV1PropertySelectorOutput)
+}
+
+// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+func (o PlacementV1PropertySelectorPtrOutput) MatchExpressions() PlacementV1PropertySelectorRequirementArrayOutput {
+	return o.ApplyT(func(v *PlacementV1PropertySelector) []PlacementV1PropertySelectorRequirement {
+		if v == nil {
+			return nil
+		}
+		return v.MatchExpressions
+	}).(PlacementV1PropertySelectorRequirementArrayOutput)
+}
+
+// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
+type PlacementV1PropertySelectorRequirement struct {
+	// Name is the name of the property; it should be a Kubernetes label name.
+	Name string `pulumi:"name"`
+	// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
+	Operator string `pulumi:"operator"`
+	// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
+	Values []string `pulumi:"values"`
+}
+
+// PlacementV1PropertySelectorRequirementInput is an input type that accepts PlacementV1PropertySelectorRequirementArgs and PlacementV1PropertySelectorRequirementOutput values.
+// You can construct a concrete instance of `PlacementV1PropertySelectorRequirementInput` via:
+//
+//	PlacementV1PropertySelectorRequirementArgs{...}
+type PlacementV1PropertySelectorRequirementInput interface {
+	pulumi.Input
+
+	ToPlacementV1PropertySelectorRequirementOutput() PlacementV1PropertySelectorRequirementOutput
+	ToPlacementV1PropertySelectorRequirementOutputWithContext(context.Context) PlacementV1PropertySelectorRequirementOutput
+}
+
+// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
+type PlacementV1PropertySelectorRequirementArgs struct {
+	// Name is the name of the property; it should be a Kubernetes label name.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
+	Operator pulumi.StringInput `pulumi:"operator"`
+	// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (PlacementV1PropertySelectorRequirementArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PropertySelectorRequirement)(nil)).Elem()
+}
+
+func (i PlacementV1PropertySelectorRequirementArgs) ToPlacementV1PropertySelectorRequirementOutput() PlacementV1PropertySelectorRequirementOutput {
+	return i.ToPlacementV1PropertySelectorRequirementOutputWithContext(context.Background())
+}
+
+func (i PlacementV1PropertySelectorRequirementArgs) ToPlacementV1PropertySelectorRequirementOutputWithContext(ctx context.Context) PlacementV1PropertySelectorRequirementOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1PropertySelectorRequirementOutput)
+}
+
+// PlacementV1PropertySelectorRequirementArrayInput is an input type that accepts PlacementV1PropertySelectorRequirementArray and PlacementV1PropertySelectorRequirementArrayOutput values.
+// You can construct a concrete instance of `PlacementV1PropertySelectorRequirementArrayInput` via:
+//
+//	PlacementV1PropertySelectorRequirementArray{ PlacementV1PropertySelectorRequirementArgs{...} }
+type PlacementV1PropertySelectorRequirementArrayInput interface {
+	pulumi.Input
+
+	ToPlacementV1PropertySelectorRequirementArrayOutput() PlacementV1PropertySelectorRequirementArrayOutput
+	ToPlacementV1PropertySelectorRequirementArrayOutputWithContext(context.Context) PlacementV1PropertySelectorRequirementArrayOutput
+}
+
+type PlacementV1PropertySelectorRequirementArray []PlacementV1PropertySelectorRequirementInput
+
+func (PlacementV1PropertySelectorRequirementArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1PropertySelectorRequirement)(nil)).Elem()
+}
+
+func (i PlacementV1PropertySelectorRequirementArray) ToPlacementV1PropertySelectorRequirementArrayOutput() PlacementV1PropertySelectorRequirementArrayOutput {
+	return i.ToPlacementV1PropertySelectorRequirementArrayOutputWithContext(context.Background())
+}
+
+func (i PlacementV1PropertySelectorRequirementArray) ToPlacementV1PropertySelectorRequirementArrayOutputWithContext(ctx context.Context) PlacementV1PropertySelectorRequirementArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1PropertySelectorRequirementArrayOutput)
+}
+
+// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
+type PlacementV1PropertySelectorRequirementOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PropertySelectorRequirementOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PropertySelectorRequirement)(nil)).Elem()
+}
+
+func (o PlacementV1PropertySelectorRequirementOutput) ToPlacementV1PropertySelectorRequirementOutput() PlacementV1PropertySelectorRequirementOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorRequirementOutput) ToPlacementV1PropertySelectorRequirementOutputWithContext(ctx context.Context) PlacementV1PropertySelectorRequirementOutput {
+	return o
+}
+
+// Name is the name of the property; it should be a Kubernetes label name.
+func (o PlacementV1PropertySelectorRequirementOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v PlacementV1PropertySelectorRequirement) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
+func (o PlacementV1PropertySelectorRequirementOutput) Operator() pulumi.StringOutput {
+	return o.ApplyT(func(v PlacementV1PropertySelectorRequirement) string { return v.Operator }).(pulumi.StringOutput)
+}
+
+// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
+func (o PlacementV1PropertySelectorRequirementOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v PlacementV1PropertySelectorRequirement) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type PlacementV1PropertySelectorRequirementArrayOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PropertySelectorRequirementArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1PropertySelectorRequirement)(nil)).Elem()
+}
+
+func (o PlacementV1PropertySelectorRequirementArrayOutput) ToPlacementV1PropertySelectorRequirementArrayOutput() PlacementV1PropertySelectorRequirementArrayOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorRequirementArrayOutput) ToPlacementV1PropertySelectorRequirementArrayOutputWithContext(ctx context.Context) PlacementV1PropertySelectorRequirementArrayOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorRequirementArrayOutput) Index(i pulumi.IntInput) PlacementV1PropertySelectorRequirementOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1PropertySelectorRequirement {
+		return vs[0].([]PlacementV1PropertySelectorRequirement)[vs[1].(int)]
+	}).(PlacementV1PropertySelectorRequirementOutput)
+}
+
+// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
+type PlacementV1PropertySelectorRequirementResponse struct {
+	// Name is the name of the property; it should be a Kubernetes label name.
+	Name string `pulumi:"name"`
+	// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
+	Operator string `pulumi:"operator"`
+	// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
+	Values []string `pulumi:"values"`
+}
+
+// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
+type PlacementV1PropertySelectorRequirementResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PropertySelectorRequirementResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PropertySelectorRequirementResponse)(nil)).Elem()
+}
+
+func (o PlacementV1PropertySelectorRequirementResponseOutput) ToPlacementV1PropertySelectorRequirementResponseOutput() PlacementV1PropertySelectorRequirementResponseOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorRequirementResponseOutput) ToPlacementV1PropertySelectorRequirementResponseOutputWithContext(ctx context.Context) PlacementV1PropertySelectorRequirementResponseOutput {
+	return o
+}
+
+// Name is the name of the property; it should be a Kubernetes label name.
+func (o PlacementV1PropertySelectorRequirementResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v PlacementV1PropertySelectorRequirementResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
+func (o PlacementV1PropertySelectorRequirementResponseOutput) Operator() pulumi.StringOutput {
+	return o.ApplyT(func(v PlacementV1PropertySelectorRequirementResponse) string { return v.Operator }).(pulumi.StringOutput)
+}
+
+// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
+func (o PlacementV1PropertySelectorRequirementResponseOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v PlacementV1PropertySelectorRequirementResponse) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type PlacementV1PropertySelectorRequirementResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PropertySelectorRequirementResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1PropertySelectorRequirementResponse)(nil)).Elem()
+}
+
+func (o PlacementV1PropertySelectorRequirementResponseArrayOutput) ToPlacementV1PropertySelectorRequirementResponseArrayOutput() PlacementV1PropertySelectorRequirementResponseArrayOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorRequirementResponseArrayOutput) ToPlacementV1PropertySelectorRequirementResponseArrayOutputWithContext(ctx context.Context) PlacementV1PropertySelectorRequirementResponseArrayOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorRequirementResponseArrayOutput) Index(i pulumi.IntInput) PlacementV1PropertySelectorRequirementResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1PropertySelectorRequirementResponse {
+		return vs[0].([]PlacementV1PropertySelectorRequirementResponse)[vs[1].(int)]
+	}).(PlacementV1PropertySelectorRequirementResponseOutput)
+}
+
+// PropertySelector helps user specify property requirements when picking clusters for resource placement.
+type PlacementV1PropertySelectorResponse struct {
+	// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+	MatchExpressions []PlacementV1PropertySelectorRequirementResponse `pulumi:"matchExpressions"`
+}
+
+// PropertySelector helps user specify property requirements when picking clusters for resource placement.
+type PlacementV1PropertySelectorResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PropertySelectorResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1PropertySelectorResponse)(nil)).Elem()
+}
+
+func (o PlacementV1PropertySelectorResponseOutput) ToPlacementV1PropertySelectorResponseOutput() PlacementV1PropertySelectorResponseOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorResponseOutput) ToPlacementV1PropertySelectorResponseOutputWithContext(ctx context.Context) PlacementV1PropertySelectorResponseOutput {
+	return o
+}
+
+// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+func (o PlacementV1PropertySelectorResponseOutput) MatchExpressions() PlacementV1PropertySelectorRequirementResponseArrayOutput {
+	return o.ApplyT(func(v PlacementV1PropertySelectorResponse) []PlacementV1PropertySelectorRequirementResponse {
+		return v.MatchExpressions
+	}).(PlacementV1PropertySelectorRequirementResponseArrayOutput)
+}
+
+type PlacementV1PropertySelectorResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1PropertySelectorResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementV1PropertySelectorResponse)(nil)).Elem()
+}
+
+func (o PlacementV1PropertySelectorResponsePtrOutput) ToPlacementV1PropertySelectorResponsePtrOutput() PlacementV1PropertySelectorResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorResponsePtrOutput) ToPlacementV1PropertySelectorResponsePtrOutputWithContext(ctx context.Context) PlacementV1PropertySelectorResponsePtrOutput {
+	return o
+}
+
+func (o PlacementV1PropertySelectorResponsePtrOutput) Elem() PlacementV1PropertySelectorResponseOutput {
+	return o.ApplyT(func(v *PlacementV1PropertySelectorResponse) PlacementV1PropertySelectorResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementV1PropertySelectorResponse
+		return ret
+	}).(PlacementV1PropertySelectorResponseOutput)
+}
+
+// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+func (o PlacementV1PropertySelectorResponsePtrOutput) MatchExpressions() PlacementV1PropertySelectorRequirementResponseArrayOutput {
+	return o.ApplyT(func(v *PlacementV1PropertySelectorResponse) []PlacementV1PropertySelectorRequirementResponse {
+		if v == nil {
+			return nil
+		}
+		return v.MatchExpressions
+	}).(PlacementV1PropertySelectorRequirementResponseArrayOutput)
+}
+
+// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+type PlacementV1Toleration struct {
+	// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
+	Effect *string `pulumi:"effect"`
+	// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+	Key *string `pulumi:"key"`
+	// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
+	Operator *string `pulumi:"operator"`
+	// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+	Value *string `pulumi:"value"`
+}
+
+// PlacementV1TolerationInput is an input type that accepts PlacementV1TolerationArgs and PlacementV1TolerationOutput values.
+// You can construct a concrete instance of `PlacementV1TolerationInput` via:
+//
+//	PlacementV1TolerationArgs{...}
+type PlacementV1TolerationInput interface {
+	pulumi.Input
+
+	ToPlacementV1TolerationOutput() PlacementV1TolerationOutput
+	ToPlacementV1TolerationOutputWithContext(context.Context) PlacementV1TolerationOutput
+}
+
+// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+type PlacementV1TolerationArgs struct {
+	// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
+	Effect pulumi.StringPtrInput `pulumi:"effect"`
+	// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+	Key pulumi.StringPtrInput `pulumi:"key"`
+	// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
+	Operator pulumi.StringPtrInput `pulumi:"operator"`
+	// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+	Value pulumi.StringPtrInput `pulumi:"value"`
+}
+
+func (PlacementV1TolerationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1Toleration)(nil)).Elem()
+}
+
+func (i PlacementV1TolerationArgs) ToPlacementV1TolerationOutput() PlacementV1TolerationOutput {
+	return i.ToPlacementV1TolerationOutputWithContext(context.Background())
+}
+
+func (i PlacementV1TolerationArgs) ToPlacementV1TolerationOutputWithContext(ctx context.Context) PlacementV1TolerationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1TolerationOutput)
+}
+
+// PlacementV1TolerationArrayInput is an input type that accepts PlacementV1TolerationArray and PlacementV1TolerationArrayOutput values.
+// You can construct a concrete instance of `PlacementV1TolerationArrayInput` via:
+//
+//	PlacementV1TolerationArray{ PlacementV1TolerationArgs{...} }
+type PlacementV1TolerationArrayInput interface {
+	pulumi.Input
+
+	ToPlacementV1TolerationArrayOutput() PlacementV1TolerationArrayOutput
+	ToPlacementV1TolerationArrayOutputWithContext(context.Context) PlacementV1TolerationArrayOutput
+}
+
+type PlacementV1TolerationArray []PlacementV1TolerationInput
+
+func (PlacementV1TolerationArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1Toleration)(nil)).Elem()
+}
+
+func (i PlacementV1TolerationArray) ToPlacementV1TolerationArrayOutput() PlacementV1TolerationArrayOutput {
+	return i.ToPlacementV1TolerationArrayOutputWithContext(context.Background())
+}
+
+func (i PlacementV1TolerationArray) ToPlacementV1TolerationArrayOutputWithContext(ctx context.Context) PlacementV1TolerationArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PlacementV1TolerationArrayOutput)
+}
+
+// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+type PlacementV1TolerationOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1TolerationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1Toleration)(nil)).Elem()
+}
+
+func (o PlacementV1TolerationOutput) ToPlacementV1TolerationOutput() PlacementV1TolerationOutput {
+	return o
+}
+
+func (o PlacementV1TolerationOutput) ToPlacementV1TolerationOutputWithContext(ctx context.Context) PlacementV1TolerationOutput {
+	return o
+}
+
+// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
+func (o PlacementV1TolerationOutput) Effect() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1Toleration) *string { return v.Effect }).(pulumi.StringPtrOutput)
+}
+
+// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+func (o PlacementV1TolerationOutput) Key() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1Toleration) *string { return v.Key }).(pulumi.StringPtrOutput)
+}
+
+// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
+func (o PlacementV1TolerationOutput) Operator() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1Toleration) *string { return v.Operator }).(pulumi.StringPtrOutput)
+}
+
+// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+func (o PlacementV1TolerationOutput) Value() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1Toleration) *string { return v.Value }).(pulumi.StringPtrOutput)
+}
+
+type PlacementV1TolerationArrayOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1TolerationArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1Toleration)(nil)).Elem()
+}
+
+func (o PlacementV1TolerationArrayOutput) ToPlacementV1TolerationArrayOutput() PlacementV1TolerationArrayOutput {
+	return o
+}
+
+func (o PlacementV1TolerationArrayOutput) ToPlacementV1TolerationArrayOutputWithContext(ctx context.Context) PlacementV1TolerationArrayOutput {
+	return o
+}
+
+func (o PlacementV1TolerationArrayOutput) Index(i pulumi.IntInput) PlacementV1TolerationOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1Toleration {
+		return vs[0].([]PlacementV1Toleration)[vs[1].(int)]
+	}).(PlacementV1TolerationOutput)
+}
+
+// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+type PlacementV1TolerationResponse struct {
+	// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
+	Effect *string `pulumi:"effect"`
+	// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+	Key *string `pulumi:"key"`
+	// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
+	Operator *string `pulumi:"operator"`
+	// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+	Value *string `pulumi:"value"`
+}
+
+// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+type PlacementV1TolerationResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1TolerationResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementV1TolerationResponse)(nil)).Elem()
+}
+
+func (o PlacementV1TolerationResponseOutput) ToPlacementV1TolerationResponseOutput() PlacementV1TolerationResponseOutput {
+	return o
+}
+
+func (o PlacementV1TolerationResponseOutput) ToPlacementV1TolerationResponseOutputWithContext(ctx context.Context) PlacementV1TolerationResponseOutput {
+	return o
+}
+
+// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
+func (o PlacementV1TolerationResponseOutput) Effect() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1TolerationResponse) *string { return v.Effect }).(pulumi.StringPtrOutput)
+}
+
+// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+func (o PlacementV1TolerationResponseOutput) Key() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1TolerationResponse) *string { return v.Key }).(pulumi.StringPtrOutput)
+}
+
+// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
+func (o PlacementV1TolerationResponseOutput) Operator() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1TolerationResponse) *string { return v.Operator }).(pulumi.StringPtrOutput)
+}
+
+// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+func (o PlacementV1TolerationResponseOutput) Value() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementV1TolerationResponse) *string { return v.Value }).(pulumi.StringPtrOutput)
+}
+
+type PlacementV1TolerationResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (PlacementV1TolerationResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PlacementV1TolerationResponse)(nil)).Elem()
+}
+
+func (o PlacementV1TolerationResponseArrayOutput) ToPlacementV1TolerationResponseArrayOutput() PlacementV1TolerationResponseArrayOutput {
+	return o
+}
+
+func (o PlacementV1TolerationResponseArrayOutput) ToPlacementV1TolerationResponseArrayOutputWithContext(ctx context.Context) PlacementV1TolerationResponseArrayOutput {
+	return o
+}
+
+func (o PlacementV1TolerationResponseArrayOutput) Index(i pulumi.IntInput) PlacementV1TolerationResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1TolerationResponse {
+		return vs[0].([]PlacementV1TolerationResponse)[vs[1].(int)]
+	}).(PlacementV1TolerationResponseOutput)
 }
 
 // The port range.
@@ -28031,6 +32140,242 @@ func (o PrivateLinkServiceConnectionStateResponseOutput) Description() pulumi.St
 // The private link service connection status.
 func (o PrivateLinkServiceConnectionStateResponseOutput) Status() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v PrivateLinkServiceConnectionStateResponse) *string { return v.Status }).(pulumi.StringPtrOutput)
+}
+
+// The propagation to be used for provisioning the namespace among the fleet.
+type PropagationPolicy struct {
+	// The profile to be used for propagation via placement.
+	PlacementProfile *PlacementProfile `pulumi:"placementProfile"`
+	// The type of the policy to be used. Default is Placement.
+	Type string `pulumi:"type"`
+}
+
+// PropagationPolicyInput is an input type that accepts PropagationPolicyArgs and PropagationPolicyOutput values.
+// You can construct a concrete instance of `PropagationPolicyInput` via:
+//
+//	PropagationPolicyArgs{...}
+type PropagationPolicyInput interface {
+	pulumi.Input
+
+	ToPropagationPolicyOutput() PropagationPolicyOutput
+	ToPropagationPolicyOutputWithContext(context.Context) PropagationPolicyOutput
+}
+
+// The propagation to be used for provisioning the namespace among the fleet.
+type PropagationPolicyArgs struct {
+	// The profile to be used for propagation via placement.
+	PlacementProfile PlacementProfilePtrInput `pulumi:"placementProfile"`
+	// The type of the policy to be used. Default is Placement.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (PropagationPolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropagationPolicy)(nil)).Elem()
+}
+
+func (i PropagationPolicyArgs) ToPropagationPolicyOutput() PropagationPolicyOutput {
+	return i.ToPropagationPolicyOutputWithContext(context.Background())
+}
+
+func (i PropagationPolicyArgs) ToPropagationPolicyOutputWithContext(ctx context.Context) PropagationPolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PropagationPolicyOutput)
+}
+
+func (i PropagationPolicyArgs) ToPropagationPolicyPtrOutput() PropagationPolicyPtrOutput {
+	return i.ToPropagationPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i PropagationPolicyArgs) ToPropagationPolicyPtrOutputWithContext(ctx context.Context) PropagationPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PropagationPolicyOutput).ToPropagationPolicyPtrOutputWithContext(ctx)
+}
+
+// PropagationPolicyPtrInput is an input type that accepts PropagationPolicyArgs, PropagationPolicyPtr and PropagationPolicyPtrOutput values.
+// You can construct a concrete instance of `PropagationPolicyPtrInput` via:
+//
+//	        PropagationPolicyArgs{...}
+//
+//	or:
+//
+//	        nil
+type PropagationPolicyPtrInput interface {
+	pulumi.Input
+
+	ToPropagationPolicyPtrOutput() PropagationPolicyPtrOutput
+	ToPropagationPolicyPtrOutputWithContext(context.Context) PropagationPolicyPtrOutput
+}
+
+type propagationPolicyPtrType PropagationPolicyArgs
+
+func PropagationPolicyPtr(v *PropagationPolicyArgs) PropagationPolicyPtrInput {
+	return (*propagationPolicyPtrType)(v)
+}
+
+func (*propagationPolicyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PropagationPolicy)(nil)).Elem()
+}
+
+func (i *propagationPolicyPtrType) ToPropagationPolicyPtrOutput() PropagationPolicyPtrOutput {
+	return i.ToPropagationPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i *propagationPolicyPtrType) ToPropagationPolicyPtrOutputWithContext(ctx context.Context) PropagationPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PropagationPolicyPtrOutput)
+}
+
+// The propagation to be used for provisioning the namespace among the fleet.
+type PropagationPolicyOutput struct{ *pulumi.OutputState }
+
+func (PropagationPolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropagationPolicy)(nil)).Elem()
+}
+
+func (o PropagationPolicyOutput) ToPropagationPolicyOutput() PropagationPolicyOutput {
+	return o
+}
+
+func (o PropagationPolicyOutput) ToPropagationPolicyOutputWithContext(ctx context.Context) PropagationPolicyOutput {
+	return o
+}
+
+func (o PropagationPolicyOutput) ToPropagationPolicyPtrOutput() PropagationPolicyPtrOutput {
+	return o.ToPropagationPolicyPtrOutputWithContext(context.Background())
+}
+
+func (o PropagationPolicyOutput) ToPropagationPolicyPtrOutputWithContext(ctx context.Context) PropagationPolicyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PropagationPolicy) *PropagationPolicy {
+		return &v
+	}).(PropagationPolicyPtrOutput)
+}
+
+// The profile to be used for propagation via placement.
+func (o PropagationPolicyOutput) PlacementProfile() PlacementProfilePtrOutput {
+	return o.ApplyT(func(v PropagationPolicy) *PlacementProfile { return v.PlacementProfile }).(PlacementProfilePtrOutput)
+}
+
+// The type of the policy to be used. Default is Placement.
+func (o PropagationPolicyOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v PropagationPolicy) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type PropagationPolicyPtrOutput struct{ *pulumi.OutputState }
+
+func (PropagationPolicyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PropagationPolicy)(nil)).Elem()
+}
+
+func (o PropagationPolicyPtrOutput) ToPropagationPolicyPtrOutput() PropagationPolicyPtrOutput {
+	return o
+}
+
+func (o PropagationPolicyPtrOutput) ToPropagationPolicyPtrOutputWithContext(ctx context.Context) PropagationPolicyPtrOutput {
+	return o
+}
+
+func (o PropagationPolicyPtrOutput) Elem() PropagationPolicyOutput {
+	return o.ApplyT(func(v *PropagationPolicy) PropagationPolicy {
+		if v != nil {
+			return *v
+		}
+		var ret PropagationPolicy
+		return ret
+	}).(PropagationPolicyOutput)
+}
+
+// The profile to be used for propagation via placement.
+func (o PropagationPolicyPtrOutput) PlacementProfile() PlacementProfilePtrOutput {
+	return o.ApplyT(func(v *PropagationPolicy) *PlacementProfile {
+		if v == nil {
+			return nil
+		}
+		return v.PlacementProfile
+	}).(PlacementProfilePtrOutput)
+}
+
+// The type of the policy to be used. Default is Placement.
+func (o PropagationPolicyPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PropagationPolicy) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+// The propagation to be used for provisioning the namespace among the fleet.
+type PropagationPolicyResponse struct {
+	// The profile to be used for propagation via placement.
+	PlacementProfile *PlacementProfileResponse `pulumi:"placementProfile"`
+	// The type of the policy to be used. Default is Placement.
+	Type string `pulumi:"type"`
+}
+
+// The propagation to be used for provisioning the namespace among the fleet.
+type PropagationPolicyResponseOutput struct{ *pulumi.OutputState }
+
+func (PropagationPolicyResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropagationPolicyResponse)(nil)).Elem()
+}
+
+func (o PropagationPolicyResponseOutput) ToPropagationPolicyResponseOutput() PropagationPolicyResponseOutput {
+	return o
+}
+
+func (o PropagationPolicyResponseOutput) ToPropagationPolicyResponseOutputWithContext(ctx context.Context) PropagationPolicyResponseOutput {
+	return o
+}
+
+// The profile to be used for propagation via placement.
+func (o PropagationPolicyResponseOutput) PlacementProfile() PlacementProfileResponsePtrOutput {
+	return o.ApplyT(func(v PropagationPolicyResponse) *PlacementProfileResponse { return v.PlacementProfile }).(PlacementProfileResponsePtrOutput)
+}
+
+// The type of the policy to be used. Default is Placement.
+func (o PropagationPolicyResponseOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v PropagationPolicyResponse) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type PropagationPolicyResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PropagationPolicyResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PropagationPolicyResponse)(nil)).Elem()
+}
+
+func (o PropagationPolicyResponsePtrOutput) ToPropagationPolicyResponsePtrOutput() PropagationPolicyResponsePtrOutput {
+	return o
+}
+
+func (o PropagationPolicyResponsePtrOutput) ToPropagationPolicyResponsePtrOutputWithContext(ctx context.Context) PropagationPolicyResponsePtrOutput {
+	return o
+}
+
+func (o PropagationPolicyResponsePtrOutput) Elem() PropagationPolicyResponseOutput {
+	return o.ApplyT(func(v *PropagationPolicyResponse) PropagationPolicyResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PropagationPolicyResponse
+		return ret
+	}).(PropagationPolicyResponseOutput)
+}
+
+// The profile to be used for propagation via placement.
+func (o PropagationPolicyResponsePtrOutput) PlacementProfile() PlacementProfileResponsePtrOutput {
+	return o.ApplyT(func(v *PropagationPolicyResponse) *PlacementProfileResponse {
+		if v == nil {
+			return nil
+		}
+		return v.PlacementProfile
+	}).(PlacementProfileResponsePtrOutput)
+}
+
+// The type of the policy to be used. Default is Placement.
+func (o PropagationPolicyResponsePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PropagationPolicyResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Type
+	}).(pulumi.StringPtrOutput)
 }
 
 // For schedules like: 'recur every month on the first Monday' or 'recur every 3 months on last Friday'.
@@ -33329,6 +37674,10 @@ func init() {
 	pulumi.RegisterOutputType(FleetHubProfilePtrOutput{})
 	pulumi.RegisterOutputType(FleetHubProfileResponseOutput{})
 	pulumi.RegisterOutputType(FleetHubProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(FleetManagedNamespacePropertiesOutput{})
+	pulumi.RegisterOutputType(FleetManagedNamespacePropertiesPtrOutput{})
+	pulumi.RegisterOutputType(FleetManagedNamespacePropertiesResponseOutput{})
+	pulumi.RegisterOutputType(FleetManagedNamespaceStatusResponseOutput{})
 	pulumi.RegisterOutputType(GPUProfileOutput{})
 	pulumi.RegisterOutputType(GPUProfilePtrOutput{})
 	pulumi.RegisterOutputType(GPUProfileResponseOutput{})
@@ -33402,6 +37751,14 @@ func init() {
 	pulumi.RegisterOutputType(LinuxOSConfigPtrOutput{})
 	pulumi.RegisterOutputType(LinuxOSConfigResponseOutput{})
 	pulumi.RegisterOutputType(LinuxOSConfigResponsePtrOutput{})
+	pulumi.RegisterOutputType(LocalDNSOverrideOutput{})
+	pulumi.RegisterOutputType(LocalDNSOverrideMapOutput{})
+	pulumi.RegisterOutputType(LocalDNSOverrideResponseOutput{})
+	pulumi.RegisterOutputType(LocalDNSOverrideResponseMapOutput{})
+	pulumi.RegisterOutputType(LocalDNSProfileOutput{})
+	pulumi.RegisterOutputType(LocalDNSProfilePtrOutput{})
+	pulumi.RegisterOutputType(LocalDNSProfileResponseOutput{})
+	pulumi.RegisterOutputType(LocalDNSProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(MaintenanceWindowOutput{})
 	pulumi.RegisterOutputType(MaintenanceWindowPtrOutput{})
 	pulumi.RegisterOutputType(MaintenanceWindowResponseOutput{})
@@ -33610,6 +37967,10 @@ func init() {
 	pulumi.RegisterOutputType(ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerPtrOutput{})
 	pulumi.RegisterOutputType(ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerResponseOutput{})
 	pulumi.RegisterOutputType(ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerResponsePtrOutput{})
+	pulumi.RegisterOutputType(ManagedNamespacePropertiesOutput{})
+	pulumi.RegisterOutputType(ManagedNamespacePropertiesPtrOutput{})
+	pulumi.RegisterOutputType(ManagedNamespacePropertiesResponseOutput{})
+	pulumi.RegisterOutputType(ManagedNamespacePropertiesResponsePtrOutput{})
 	pulumi.RegisterOutputType(ManagedServiceIdentityOutput{})
 	pulumi.RegisterOutputType(ManagedServiceIdentityPtrOutput{})
 	pulumi.RegisterOutputType(ManagedServiceIdentityResponseOutput{})
@@ -33620,6 +37981,17 @@ func init() {
 	pulumi.RegisterOutputType(ManualScaleProfileResponseArrayOutput{})
 	pulumi.RegisterOutputType(MemberUpdateStatusResponseOutput{})
 	pulumi.RegisterOutputType(MemberUpdateStatusResponseArrayOutput{})
+	pulumi.RegisterOutputType(MeshMembershipPropertiesOutput{})
+	pulumi.RegisterOutputType(MeshMembershipPropertiesPtrOutput{})
+	pulumi.RegisterOutputType(MeshMembershipPropertiesResponseOutput{})
+	pulumi.RegisterOutputType(MetaV1LabelSelectorOutput{})
+	pulumi.RegisterOutputType(MetaV1LabelSelectorPtrOutput{})
+	pulumi.RegisterOutputType(MetaV1LabelSelectorRequirementOutput{})
+	pulumi.RegisterOutputType(MetaV1LabelSelectorRequirementArrayOutput{})
+	pulumi.RegisterOutputType(MetaV1LabelSelectorRequirementResponseOutput{})
+	pulumi.RegisterOutputType(MetaV1LabelSelectorRequirementResponseArrayOutput{})
+	pulumi.RegisterOutputType(MetaV1LabelSelectorResponseOutput{})
+	pulumi.RegisterOutputType(MetaV1LabelSelectorResponsePtrOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesPtrOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesResponseOutput{})
@@ -33627,6 +37999,8 @@ func init() {
 	pulumi.RegisterOutputType(NetworkPoliciesPtrOutput{})
 	pulumi.RegisterOutputType(NetworkPoliciesResponseOutput{})
 	pulumi.RegisterOutputType(NetworkPoliciesResponsePtrOutput{})
+	pulumi.RegisterOutputType(NetworkPolicyResponseOutput{})
+	pulumi.RegisterOutputType(NetworkPolicyResponsePtrOutput{})
 	pulumi.RegisterOutputType(NetworkProfileForSnapshotResponseOutput{})
 	pulumi.RegisterOutputType(NodeCustomizationPropertiesOutput{})
 	pulumi.RegisterOutputType(NodeCustomizationPropertiesPtrOutput{})
@@ -33642,6 +38016,46 @@ func init() {
 	pulumi.RegisterOutputType(NodeImageSelectionStatusResponseOutput{})
 	pulumi.RegisterOutputType(NodeImageVersionResponseOutput{})
 	pulumi.RegisterOutputType(NodeImageVersionResponseArrayOutput{})
+	pulumi.RegisterOutputType(PlacementProfileOutput{})
+	pulumi.RegisterOutputType(PlacementProfilePtrOutput{})
+	pulumi.RegisterOutputType(PlacementProfileResponseOutput{})
+	pulumi.RegisterOutputType(PlacementProfileResponsePtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1AffinityOutput{})
+	pulumi.RegisterOutputType(PlacementV1AffinityPtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1AffinityResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1AffinityResponsePtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterAffinityOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterAffinityPtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterAffinityResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterAffinityResponsePtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterResourcePlacementSpecOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterResourcePlacementSpecPtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterResourcePlacementSpecResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterResourcePlacementSpecResponsePtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterSelectorOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterSelectorPtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterSelectorResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterSelectorResponsePtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterSelectorTermOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterSelectorTermArrayOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterSelectorTermResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1ClusterSelectorTermResponseArrayOutput{})
+	pulumi.RegisterOutputType(PlacementV1PlacementPolicyOutput{})
+	pulumi.RegisterOutputType(PlacementV1PlacementPolicyPtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1PlacementPolicyResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1PlacementPolicyResponsePtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1PropertySelectorOutput{})
+	pulumi.RegisterOutputType(PlacementV1PropertySelectorPtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1PropertySelectorRequirementOutput{})
+	pulumi.RegisterOutputType(PlacementV1PropertySelectorRequirementArrayOutput{})
+	pulumi.RegisterOutputType(PlacementV1PropertySelectorRequirementResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1PropertySelectorRequirementResponseArrayOutput{})
+	pulumi.RegisterOutputType(PlacementV1PropertySelectorResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1PropertySelectorResponsePtrOutput{})
+	pulumi.RegisterOutputType(PlacementV1TolerationOutput{})
+	pulumi.RegisterOutputType(PlacementV1TolerationArrayOutput{})
+	pulumi.RegisterOutputType(PlacementV1TolerationResponseOutput{})
+	pulumi.RegisterOutputType(PlacementV1TolerationResponseArrayOutput{})
 	pulumi.RegisterOutputType(PortRangeOutput{})
 	pulumi.RegisterOutputType(PortRangeArrayOutput{})
 	pulumi.RegisterOutputType(PortRangeResponseOutput{})
@@ -33660,6 +38074,10 @@ func init() {
 	pulumi.RegisterOutputType(PrivateLinkResourceResponseArrayOutput{})
 	pulumi.RegisterOutputType(PrivateLinkServiceConnectionStateOutput{})
 	pulumi.RegisterOutputType(PrivateLinkServiceConnectionStateResponseOutput{})
+	pulumi.RegisterOutputType(PropagationPolicyOutput{})
+	pulumi.RegisterOutputType(PropagationPolicyPtrOutput{})
+	pulumi.RegisterOutputType(PropagationPolicyResponseOutput{})
+	pulumi.RegisterOutputType(PropagationPolicyResponsePtrOutput{})
 	pulumi.RegisterOutputType(RelativeMonthlyScheduleOutput{})
 	pulumi.RegisterOutputType(RelativeMonthlySchedulePtrOutput{})
 	pulumi.RegisterOutputType(RelativeMonthlyScheduleResponseOutput{})
