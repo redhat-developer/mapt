@@ -830,6 +830,8 @@ type GetCertificateCertificate struct {
 	IsCa bool `pulumi:"isCa"`
 	// Who verified and signed the certificate, roughly following [RFC2253](https://tools.ietf.org/html/rfc2253).
 	Issuer string `pulumi:"issuer"`
+	// The maximum number of intermediate certificates that can follow this certificate in a valid certification path. If `isCa` is `false`, this value is `-1`.
+	MaxPathLength int `pulumi:"maxPathLength"`
 	// The time until which the certificate is invalid, as an [RFC3339](https://tools.ietf.org/html/rfc3339) timestamp.
 	NotAfter string `pulumi:"notAfter"`
 	// The time after which the certificate is valid, as an [RFC3339](https://tools.ietf.org/html/rfc3339) timestamp.
@@ -867,6 +869,8 @@ type GetCertificateCertificateArgs struct {
 	IsCa pulumi.BoolInput `pulumi:"isCa"`
 	// Who verified and signed the certificate, roughly following [RFC2253](https://tools.ietf.org/html/rfc2253).
 	Issuer pulumi.StringInput `pulumi:"issuer"`
+	// The maximum number of intermediate certificates that can follow this certificate in a valid certification path. If `isCa` is `false`, this value is `-1`.
+	MaxPathLength pulumi.IntInput `pulumi:"maxPathLength"`
 	// The time until which the certificate is invalid, as an [RFC3339](https://tools.ietf.org/html/rfc3339) timestamp.
 	NotAfter pulumi.StringInput `pulumi:"notAfter"`
 	// The time after which the certificate is valid, as an [RFC3339](https://tools.ietf.org/html/rfc3339) timestamp.
@@ -950,6 +954,11 @@ func (o GetCertificateCertificateOutput) IsCa() pulumi.BoolOutput {
 // Who verified and signed the certificate, roughly following [RFC2253](https://tools.ietf.org/html/rfc2253).
 func (o GetCertificateCertificateOutput) Issuer() pulumi.StringOutput {
 	return o.ApplyT(func(v GetCertificateCertificate) string { return v.Issuer }).(pulumi.StringOutput)
+}
+
+// The maximum number of intermediate certificates that can follow this certificate in a valid certification path. If `isCa` is `false`, this value is `-1`.
+func (o GetCertificateCertificateOutput) MaxPathLength() pulumi.IntOutput {
+	return o.ApplyT(func(v GetCertificateCertificate) int { return v.MaxPathLength }).(pulumi.IntOutput)
 }
 
 // The time until which the certificate is invalid, as an [RFC3339](https://tools.ietf.org/html/rfc3339) timestamp.

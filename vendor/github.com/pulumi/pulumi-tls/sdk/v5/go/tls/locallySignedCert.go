@@ -30,6 +30,8 @@ type LocallySignedCert struct {
 	EarlyRenewalHours pulumi.IntOutput    `pulumi:"earlyRenewalHours"`
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate pulumi.BoolOutput `pulumi:"isCaCertificate"`
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength pulumi.IntOutput `pulumi:"maxPathLength"`
 	// Is the certificate either expired (i.e. beyond the `validityPeriodHours`) or ready for an early renewal (i.e. within the `earlyRenewalHours`)?
 	ReadyForRenewal pulumi.BoolOutput `pulumi:"readyForRenewal"`
 	// Should the generated certificate include a [subject key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.2) (default: `false`).
@@ -109,6 +111,8 @@ type locallySignedCertState struct {
 	EarlyRenewalHours *int    `pulumi:"earlyRenewalHours"`
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate *bool `pulumi:"isCaCertificate"`
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength *int `pulumi:"maxPathLength"`
 	// Is the certificate either expired (i.e. beyond the `validityPeriodHours`) or ready for an early renewal (i.e. within the `earlyRenewalHours`)?
 	ReadyForRenewal *bool `pulumi:"readyForRenewal"`
 	// Should the generated certificate include a [subject key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.2) (default: `false`).
@@ -137,6 +141,8 @@ type LocallySignedCertState struct {
 	EarlyRenewalHours pulumi.IntPtrInput
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate pulumi.BoolPtrInput
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength pulumi.IntPtrInput
 	// Is the certificate either expired (i.e. beyond the `validityPeriodHours`) or ready for an early renewal (i.e. within the `earlyRenewalHours`)?
 	ReadyForRenewal pulumi.BoolPtrInput
 	// Should the generated certificate include a [subject key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.2) (default: `false`).
@@ -165,6 +171,8 @@ type locallySignedCertArgs struct {
 	EarlyRenewalHours *int   `pulumi:"earlyRenewalHours"`
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate *bool `pulumi:"isCaCertificate"`
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength *int `pulumi:"maxPathLength"`
 	// Should the generated certificate include a [subject key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.2) (default: `false`).
 	SetSubjectKeyId *bool `pulumi:"setSubjectKeyId"`
 	// Number of hours, after initial issuing, that the certificate will remain valid for.
@@ -184,6 +192,8 @@ type LocallySignedCertArgs struct {
 	EarlyRenewalHours pulumi.IntPtrInput
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate pulumi.BoolPtrInput
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength pulumi.IntPtrInput
 	// Should the generated certificate include a [subject key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.2) (default: `false`).
 	SetSubjectKeyId pulumi.BoolPtrInput
 	// Number of hours, after initial issuing, that the certificate will remain valid for.
@@ -314,6 +324,11 @@ func (o LocallySignedCertOutput) EarlyRenewalHours() pulumi.IntOutput {
 // Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 func (o LocallySignedCertOutput) IsCaCertificate() pulumi.BoolOutput {
 	return o.ApplyT(func(v *LocallySignedCert) pulumi.BoolOutput { return v.IsCaCertificate }).(pulumi.BoolOutput)
+}
+
+// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+func (o LocallySignedCertOutput) MaxPathLength() pulumi.IntOutput {
+	return o.ApplyT(func(v *LocallySignedCert) pulumi.IntOutput { return v.MaxPathLength }).(pulumi.IntOutput)
 }
 
 // Is the certificate either expired (i.e. beyond the `validityPeriodHours`) or ready for an early renewal (i.e. within the `earlyRenewalHours`)?

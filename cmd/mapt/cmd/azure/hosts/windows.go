@@ -16,11 +16,11 @@ const (
 	cmdWindowsDesc = "windows operations"
 
 	paramWindowsVersion     = "windows-version"
-	paramWindowsVersionDesc = "Major version for windows desktop 10 or 11"
+	paramWindowsVersionDesc = "Major version for windows"
 	defaultWindowsVersion   = "11"
 	paramFeature            = "windows-featurepack"
 	paramFeatureDesc        = "windows feature pack"
-	defaultFeature          = "23h2-pro"
+	defaultFeature          = "25h2-ent"
 	paramAdminUsername      = "admin-username"
 	paramAdminUsernameDesc  = "username for admin user. Only rdp accessible within generated password"
 	defaultAdminUsername    = "rhqpadmin"

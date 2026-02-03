@@ -28,6 +28,8 @@ type SelfSignedCert struct {
 	IsCaCertificate pulumi.BoolOutput `pulumi:"isCaCertificate"`
 	// Name of the algorithm used when generating the private key provided in `privateKeyPem`.
 	KeyAlgorithm pulumi.StringOutput `pulumi:"keyAlgorithm"`
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength pulumi.IntOutput `pulumi:"maxPathLength"`
 	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to.
 	PrivateKeyPem pulumi.StringOutput `pulumi:"privateKeyPem"`
 	// Is the certificate either expired (i.e. beyond the `validityPeriodHours`) or ready for an early renewal (i.e. within the `earlyRenewalHours`)?
@@ -107,6 +109,8 @@ type selfSignedCertState struct {
 	IsCaCertificate *bool `pulumi:"isCaCertificate"`
 	// Name of the algorithm used when generating the private key provided in `privateKeyPem`.
 	KeyAlgorithm *string `pulumi:"keyAlgorithm"`
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength *int `pulumi:"maxPathLength"`
 	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to.
 	PrivateKeyPem *string `pulumi:"privateKeyPem"`
 	// Is the certificate either expired (i.e. beyond the `validityPeriodHours`) or ready for an early renewal (i.e. within the `earlyRenewalHours`)?
@@ -141,6 +145,8 @@ type SelfSignedCertState struct {
 	IsCaCertificate pulumi.BoolPtrInput
 	// Name of the algorithm used when generating the private key provided in `privateKeyPem`.
 	KeyAlgorithm pulumi.StringPtrInput
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength pulumi.IntPtrInput
 	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to.
 	PrivateKeyPem pulumi.StringPtrInput
 	// Is the certificate either expired (i.e. beyond the `validityPeriodHours`) or ready for an early renewal (i.e. within the `earlyRenewalHours`)?
@@ -175,6 +181,8 @@ type selfSignedCertArgs struct {
 	IpAddresses []string `pulumi:"ipAddresses"`
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate *bool `pulumi:"isCaCertificate"`
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength *int `pulumi:"maxPathLength"`
 	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to.
 	PrivateKeyPem string `pulumi:"privateKeyPem"`
 	// Should the generated certificate include an [authority key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.1): for self-signed certificates this is the same value as the [subject key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.2) (default: `false`).
@@ -200,6 +208,8 @@ type SelfSignedCertArgs struct {
 	IpAddresses pulumi.StringArrayInput
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate pulumi.BoolPtrInput
+	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+	MaxPathLength pulumi.IntPtrInput
 	// Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to.
 	PrivateKeyPem pulumi.StringInput
 	// Should the generated certificate include an [authority key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.1): for self-signed certificates this is the same value as the [subject key identifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.2) (default: `false`).
@@ -333,6 +343,11 @@ func (o SelfSignedCertOutput) IsCaCertificate() pulumi.BoolOutput {
 // Name of the algorithm used when generating the private key provided in `privateKeyPem`.
 func (o SelfSignedCertOutput) KeyAlgorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v *SelfSignedCert) pulumi.StringOutput { return v.KeyAlgorithm }).(pulumi.StringOutput)
+}
+
+// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
+func (o SelfSignedCertOutput) MaxPathLength() pulumi.IntOutput {
+	return o.ApplyT(func(v *SelfSignedCert) pulumi.IntOutput { return v.MaxPathLength }).(pulumi.IntOutput)
 }
 
 // Private key in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format, that the certificate will belong to.
