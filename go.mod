@@ -23,7 +23,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.285.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.96.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.6
-	github.com/pulumi/pulumi-aws-native/sdk v1.50.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.51.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.16.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.1.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.13.0
@@ -34,7 +34,7 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.13.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.13.0
 	github.com/pulumi/pulumi-gitlab/sdk/v8 v8.11.0
-	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
+	github.com/pulumi/pulumi-tls/sdk/v5 v5.3.0
 	golang.org/x/exp v0.0.0-20260112195511-716be5621a96
 )
 
@@ -96,9 +96,9 @@ require (
 	github.com/charmbracelet/x/ansi v0.11.4 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.14 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
-	github.com/clipperhouse/displaywidth v0.8.0 // indirect
+	github.com/clipperhouse/displaywidth v0.9.0 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
-	github.com/clipperhouse/uax29/v2 v2.4.0 // indirect
+	github.com/clipperhouse/uax29/v2 v2.5.0 // indirect
 	github.com/cloudflare/circl v1.6.3 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
@@ -135,7 +135,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/sync v0.19.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260128011058-8636f8732409 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260202165425-ce8ad4cf556b // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 

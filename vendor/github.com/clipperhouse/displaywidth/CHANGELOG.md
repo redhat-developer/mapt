@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0]
+
+[Compare](https://github.com/clipperhouse/displaywidth/compare/v0.8.0...v0.9.0)
+
+### Changed
+- Unicode 17 support: East Asian Width and emoji data updated to Unicode 17.0.0. (#18)
+- Upgraded uax29 dependency to v2.5.0 (Unicode 17 grapheme segmentation).
+
 ## [0.8.0]
 
 [Compare](https://github.com/clipperhouse/displaywidth/compare/v0.7.0...v0.8.0)
