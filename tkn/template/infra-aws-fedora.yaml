@@ -177,6 +177,9 @@ spec:
     - name: provisioner
       image: <IMAGE>
       imagePullPolicy: Always
+      env:
+        - name: HOME
+          value: /opt/mapt/run
       volumeMounts:
         - name: aws-credentials
           mountPath: /opt/aws-credentials
