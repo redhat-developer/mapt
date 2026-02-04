@@ -155,6 +155,9 @@ spec:
     - name: provisioner
       image: quay.io/redhat-developer/mapt:v1.0.0-dev
       imagePullPolicy: Always
+      env:
+        - name: HOME
+          value: /opt/mapt/run
       volumeMounts:
         - name: aws-credentials
           mountPath: /opt/az-credentials
