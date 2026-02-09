@@ -4,6 +4,8 @@ go 1.24.6
 
 require github.com/golangci/golangci-lint/v2 v2.8.0
 
+require github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
+
 require (
 	github.com/charmbracelet/x/cellbuf v0.0.15 // indirect
 	// github.com/golangci/gofmt e7be49a5ab4d // indirect
@@ -12,8 +14,7 @@ require (
 
 require (
 	github.com/bombsimon/wsl/v5 v5.6.0 // indirect
-	github.com/clipperhouse/displaywidth v0.9.0 // indirect
-	github.com/clipperhouse/stringish v0.1.1 // indirect
+	github.com/clipperhouse/displaywidth v0.10.0 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 )
@@ -24,11 +25,11 @@ require (
 	github.com/AdminBenni/iota-mixing v1.0.0 // indirect
 	github.com/MirrexOne/unqueryvet v1.5.3 // indirect
 	github.com/alfatraining/structtag v1.0.0 // indirect
-	github.com/clipperhouse/uax29/v2 v2.5.0 // indirect
+	github.com/clipperhouse/uax29/v2 v2.6.0 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.1 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
-	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
+	// github.com/golangci/gofmt e7be49a5ab4d // indirect
 	github.com/gostaticanalysis/nilerr v0.1.2 // indirect
 	github.com/nunnatsa/ginkgolinter v0.22.0 // indirect
 )
@@ -214,7 +215,7 @@ require (
 	golang.org/x/exp/typeparams v0.0.0-20260112195511-716be5621a96 // indirect
 	golang.org/x/mod v0.32.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/sys v0.40.0 // indirect
+	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.33.0 // indirect
 	golang.org/x/tools v0.41.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect

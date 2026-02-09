@@ -74,10 +74,12 @@ type BucketAbac struct {
 	// ABAC status configuration. See `abacStatus` Block for details.
 	//
 	// The following arguments are optional:
-	AbacStatus BucketAbacAbacStatusPtrOutput `pulumi:"abacStatus"`
+	AbacStatus BucketAbacAbacStatusOutput `pulumi:"abacStatus"`
 	// General purpose bucket that you want to create the metadata configuration for.
 	Bucket pulumi.StringOutput `pulumi:"bucket"`
 	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner pulumi.StringPtrOutput `pulumi:"expectedBucketOwner"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringOutput `pulumi:"region"`
@@ -90,6 +92,9 @@ func NewBucketAbac(ctx *pulumi.Context,
 		return nil, errors.New("missing one or more required arguments")
 	}
 
+	if args.AbacStatus == nil {
+		return nil, errors.New("invalid value for required argument 'AbacStatus'")
+	}
 	if args.Bucket == nil {
 		return nil, errors.New("invalid value for required argument 'Bucket'")
 	}
@@ -123,6 +128,8 @@ type bucketAbacState struct {
 	// General purpose bucket that you want to create the metadata configuration for.
 	Bucket *string `pulumi:"bucket"`
 	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner *string `pulumi:"expectedBucketOwner"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region *string `pulumi:"region"`
@@ -136,6 +143,8 @@ type BucketAbacState struct {
 	// General purpose bucket that you want to create the metadata configuration for.
 	Bucket pulumi.StringPtrInput
 	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner pulumi.StringPtrInput
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringPtrInput
@@ -149,10 +158,12 @@ type bucketAbacArgs struct {
 	// ABAC status configuration. See `abacStatus` Block for details.
 	//
 	// The following arguments are optional:
-	AbacStatus *BucketAbacAbacStatus `pulumi:"abacStatus"`
+	AbacStatus BucketAbacAbacStatus `pulumi:"abacStatus"`
 	// General purpose bucket that you want to create the metadata configuration for.
 	Bucket string `pulumi:"bucket"`
 	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner *string `pulumi:"expectedBucketOwner"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region *string `pulumi:"region"`
@@ -163,10 +174,12 @@ type BucketAbacArgs struct {
 	// ABAC status configuration. See `abacStatus` Block for details.
 	//
 	// The following arguments are optional:
-	AbacStatus BucketAbacAbacStatusPtrInput
+	AbacStatus BucketAbacAbacStatusInput
 	// General purpose bucket that you want to create the metadata configuration for.
 	Bucket pulumi.StringInput
 	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner pulumi.StringPtrInput
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringPtrInput
@@ -262,8 +275,8 @@ func (o BucketAbacOutput) ToBucketAbacOutputWithContext(ctx context.Context) Buc
 // ABAC status configuration. See `abacStatus` Block for details.
 //
 // The following arguments are optional:
-func (o BucketAbacOutput) AbacStatus() BucketAbacAbacStatusPtrOutput {
-	return o.ApplyT(func(v *BucketAbac) BucketAbacAbacStatusPtrOutput { return v.AbacStatus }).(BucketAbacAbacStatusPtrOutput)
+func (o BucketAbacOutput) AbacStatus() BucketAbacAbacStatusOutput {
+	return o.ApplyT(func(v *BucketAbac) BucketAbacAbacStatusOutput { return v.AbacStatus }).(BucketAbacAbacStatusOutput)
 }
 
 // General purpose bucket that you want to create the metadata configuration for.
@@ -272,6 +285,8 @@ func (o BucketAbacOutput) Bucket() pulumi.StringOutput {
 }
 
 // Account ID of the expected bucket owner.
+//
+// Deprecated: This attribute will be removed in a future verion of the provider.
 func (o BucketAbacOutput) ExpectedBucketOwner() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *BucketAbac) pulumi.StringPtrOutput { return v.ExpectedBucketOwner }).(pulumi.StringPtrOutput)
 }
