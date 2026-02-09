@@ -73,12 +73,15 @@ type BucketMetadataConfiguration struct {
 	pulumi.CustomResourceState
 
 	// General purpose bucket that you want to create the metadata configuration for.
-	Bucket              pulumi.StringOutput    `pulumi:"bucket"`
+	Bucket pulumi.StringOutput `pulumi:"bucket"`
+	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner pulumi.StringPtrOutput `pulumi:"expectedBucketOwner"`
 	// Metadata configuration. See `metadataConfiguration` Block for details.
 	//
 	// The following arguments are optional:
-	MetadataConfiguration BucketMetadataConfigurationMetadataConfigurationPtrOutput `pulumi:"metadataConfiguration"`
+	MetadataConfiguration BucketMetadataConfigurationMetadataConfigurationOutput `pulumi:"metadataConfiguration"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region   pulumi.StringOutput                          `pulumi:"region"`
 	Timeouts BucketMetadataConfigurationTimeoutsPtrOutput `pulumi:"timeouts"`
@@ -93,6 +96,9 @@ func NewBucketMetadataConfiguration(ctx *pulumi.Context,
 
 	if args.Bucket == nil {
 		return nil, errors.New("invalid value for required argument 'Bucket'")
+	}
+	if args.MetadataConfiguration == nil {
+		return nil, errors.New("invalid value for required argument 'MetadataConfiguration'")
 	}
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource BucketMetadataConfiguration
@@ -118,7 +124,10 @@ func GetBucketMetadataConfiguration(ctx *pulumi.Context,
 // Input properties used for looking up and filtering BucketMetadataConfiguration resources.
 type bucketMetadataConfigurationState struct {
 	// General purpose bucket that you want to create the metadata configuration for.
-	Bucket              *string `pulumi:"bucket"`
+	Bucket *string `pulumi:"bucket"`
+	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner *string `pulumi:"expectedBucketOwner"`
 	// Metadata configuration. See `metadataConfiguration` Block for details.
 	//
@@ -131,7 +140,10 @@ type bucketMetadataConfigurationState struct {
 
 type BucketMetadataConfigurationState struct {
 	// General purpose bucket that you want to create the metadata configuration for.
-	Bucket              pulumi.StringPtrInput
+	Bucket pulumi.StringPtrInput
+	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner pulumi.StringPtrInput
 	// Metadata configuration. See `metadataConfiguration` Block for details.
 	//
@@ -148,12 +160,15 @@ func (BucketMetadataConfigurationState) ElementType() reflect.Type {
 
 type bucketMetadataConfigurationArgs struct {
 	// General purpose bucket that you want to create the metadata configuration for.
-	Bucket              string  `pulumi:"bucket"`
+	Bucket string `pulumi:"bucket"`
+	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner *string `pulumi:"expectedBucketOwner"`
 	// Metadata configuration. See `metadataConfiguration` Block for details.
 	//
 	// The following arguments are optional:
-	MetadataConfiguration *BucketMetadataConfigurationMetadataConfiguration `pulumi:"metadataConfiguration"`
+	MetadataConfiguration BucketMetadataConfigurationMetadataConfiguration `pulumi:"metadataConfiguration"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region   *string                              `pulumi:"region"`
 	Timeouts *BucketMetadataConfigurationTimeouts `pulumi:"timeouts"`
@@ -162,12 +177,15 @@ type bucketMetadataConfigurationArgs struct {
 // The set of arguments for constructing a BucketMetadataConfiguration resource.
 type BucketMetadataConfigurationArgs struct {
 	// General purpose bucket that you want to create the metadata configuration for.
-	Bucket              pulumi.StringInput
+	Bucket pulumi.StringInput
+	// Account ID of the expected bucket owner.
+	//
+	// Deprecated: This attribute will be removed in a future verion of the provider.
 	ExpectedBucketOwner pulumi.StringPtrInput
 	// Metadata configuration. See `metadataConfiguration` Block for details.
 	//
 	// The following arguments are optional:
-	MetadataConfiguration BucketMetadataConfigurationMetadataConfigurationPtrInput
+	MetadataConfiguration BucketMetadataConfigurationMetadataConfigurationInput
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region   pulumi.StringPtrInput
 	Timeouts BucketMetadataConfigurationTimeoutsPtrInput
@@ -265,6 +283,9 @@ func (o BucketMetadataConfigurationOutput) Bucket() pulumi.StringOutput {
 	return o.ApplyT(func(v *BucketMetadataConfiguration) pulumi.StringOutput { return v.Bucket }).(pulumi.StringOutput)
 }
 
+// Account ID of the expected bucket owner.
+//
+// Deprecated: This attribute will be removed in a future verion of the provider.
 func (o BucketMetadataConfigurationOutput) ExpectedBucketOwner() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *BucketMetadataConfiguration) pulumi.StringPtrOutput { return v.ExpectedBucketOwner }).(pulumi.StringPtrOutput)
 }
@@ -272,10 +293,10 @@ func (o BucketMetadataConfigurationOutput) ExpectedBucketOwner() pulumi.StringPt
 // Metadata configuration. See `metadataConfiguration` Block for details.
 //
 // The following arguments are optional:
-func (o BucketMetadataConfigurationOutput) MetadataConfiguration() BucketMetadataConfigurationMetadataConfigurationPtrOutput {
-	return o.ApplyT(func(v *BucketMetadataConfiguration) BucketMetadataConfigurationMetadataConfigurationPtrOutput {
+func (o BucketMetadataConfigurationOutput) MetadataConfiguration() BucketMetadataConfigurationMetadataConfigurationOutput {
+	return o.ApplyT(func(v *BucketMetadataConfiguration) BucketMetadataConfigurationMetadataConfigurationOutput {
 		return v.MetadataConfiguration
-	}).(BucketMetadataConfigurationMetadataConfigurationPtrOutput)
+	}).(BucketMetadataConfigurationMetadataConfigurationOutput)
 }
 
 // Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
