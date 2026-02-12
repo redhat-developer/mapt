@@ -8,7 +8,7 @@ import (
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	apiRHELAI "github.com/redhat-developer/mapt/pkg/targets/host/rhelai"
+	apiRHELAI "github.com/redhat-developer/mapt/pkg/target/host/rhelai"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 

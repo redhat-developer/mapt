@@ -25,7 +25,7 @@ import (
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
-	rhelApi "github.com/redhat-developer/mapt/pkg/targets/host/rhel"
+	rhelApi "github.com/redhat-developer/mapt/pkg/target/host/rhel"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
