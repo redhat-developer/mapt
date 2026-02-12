@@ -19,7 +19,7 @@ import (
 	virtualmachine "github.com/redhat-developer/mapt/pkg/provider/azure/modules/virtual-machine"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/azure/services/network/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	utilKind "github.com/redhat-developer/mapt/pkg/targets/service/kind"
+	utilKind "github.com/redhat-developer/mapt/pkg/target/service/kind"
 	"github.com/redhat-developer/mapt/pkg/util"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )

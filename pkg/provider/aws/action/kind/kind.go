@@ -21,7 +21,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	utilKind "github.com/redhat-developer/mapt/pkg/targets/service/kind"
+	utilKind "github.com/redhat-developer/mapt/pkg/target/service/kind"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"

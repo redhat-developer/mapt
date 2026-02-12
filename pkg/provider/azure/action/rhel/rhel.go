@@ -7,7 +7,7 @@ import (
 	azureLinux "github.com/redhat-developer/mapt/pkg/provider/azure/action/linux"
 	"github.com/redhat-developer/mapt/pkg/provider/azure/data"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	rhelApi "github.com/redhat-developer/mapt/pkg/targets/host/rhel"
+	rhelApi "github.com/redhat-developer/mapt/pkg/target/host/rhel"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
