@@ -35,7 +35,7 @@ func IsImageOffered(ctx context.Context, req ImageRequest) error {
 	}
 	// for azure offered VM images: https://learn.microsoft.com/en-us/rest/api/compute/virtual-machine-images/get
 	// there's a different API to check but currently we only check availability of community images
-	return fmt.Errorf("no valid image to check")
+	return nil
 }
 
 func getCommunityImage(ctx context.Context, c *armcompute.ClientFactory, id, region *string) (*armcompute.CommunityGalleryImagesClientGetResponse, error) {
