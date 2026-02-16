@@ -3,7 +3,7 @@ module github.com/redhat-developer/mapt
 go 1.25.5
 
 require (
-	github.com/coocood/freecache v1.2.4
+	github.com/coocood/freecache v1.2.5
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-random/sdk/v4 v4.19.1
 	github.com/pulumi/pulumi/sdk/v3 v3.219.0
@@ -91,7 +91,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charmbracelet/bubbles v0.21.1 // indirect
 	github.com/charmbracelet/bubbletea v1.3.10 // indirect
-	github.com/charmbracelet/colorprofile v0.4.1 // indirect
+	github.com/charmbracelet/colorprofile v0.4.2 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.11.6 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.15 // indirect
