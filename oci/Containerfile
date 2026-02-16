@@ -1,12 +1,12 @@
 
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:6983c6e7023236d1b5093c75c94402c7bdfd43c36ed9c34f2feda72a0ea7c8b1 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:82b82ecf4aedf67c4369849047c2680dba755fe57547bbb05eca211b22038e29 as builder
 ARG TARGETARCH
 USER root
 WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.219.0
+ENV PULUMI_VERSION 3.220.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -44,7 +44,7 @@ ARG PULUMI_TLS_VERSION=v5.3.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.19.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.51.0
+ARG PULUMI_AWS_NATIVE_VERSION=v1.54.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
 ARG PULUMI_GITLAB_VERSION=v9.8.2
 

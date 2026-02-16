@@ -317,8 +317,8 @@ github.com/golangci/go-printf-func-name/pkg/analyzer
 # github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d
 ## explicit; go 1.22.0
 github.com/golangci/gofmt/gofmt
-# github.com/golangci/golangci-lint/v2 v2.8.0
-## explicit; go 1.24.0
+# github.com/golangci/golangci-lint/v2 v2.9.0
+## explicit; go 1.25.0
 github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 github.com/golangci/golangci-lint/v2/internal/cache
 github.com/golangci/golangci-lint/v2/internal/errorutil
@@ -486,7 +486,7 @@ github.com/golangci/golangci-lint/v2/pkg/report
 github.com/golangci/golangci-lint/v2/pkg/result
 github.com/golangci/golangci-lint/v2/pkg/result/processors
 github.com/golangci/golangci-lint/v2/pkg/timeutils
-# github.com/golangci/golines v0.14.0
+# github.com/golangci/golines v0.15.0
 ## explicit; go 1.24.0
 github.com/golangci/golines/shorten
 github.com/golangci/golines/shorten/internal
@@ -494,7 +494,7 @@ github.com/golangci/golines/shorten/internal/annotation
 github.com/golangci/golines/shorten/internal/comments
 github.com/golangci/golines/shorten/internal/graph
 github.com/golangci/golines/shorten/internal/tags
-# github.com/golangci/misspell v0.7.0
+# github.com/golangci/misspell v0.8.0
 ## explicit; go 1.23.0
 github.com/golangci/misspell
 # github.com/golangci/plugin-module-register v0.1.2
@@ -639,7 +639,7 @@ github.com/mattn/go-isatty
 # github.com/mattn/go-runewidth v0.0.19
 ## explicit; go 1.20
 github.com/mattn/go-runewidth
-# github.com/mgechev/revive v1.13.0
+# github.com/mgechev/revive v1.14.0
 ## explicit; go 1.24.0
 github.com/mgechev/revive/config
 github.com/mgechev/revive/formatter
@@ -673,8 +673,8 @@ github.com/nishanths/exhaustive
 # github.com/nishanths/predeclared v0.2.2
 ## explicit; go 1.14
 github.com/nishanths/predeclared/passes/predeclared
-# github.com/nunnatsa/ginkgolinter v0.22.0
-## explicit; go 1.24.0
+# github.com/nunnatsa/ginkgolinter v0.23.0
+## explicit; go 1.25.0
 github.com/nunnatsa/ginkgolinter
 github.com/nunnatsa/ginkgolinter/config
 github.com/nunnatsa/ginkgolinter/internal/expression
@@ -791,13 +791,15 @@ github.com/sashamelentyev/interfacebloat/pkg/analyzer
 ## explicit; go 1.23.0
 github.com/sashamelentyev/usestdlibvars/pkg/analyzer
 github.com/sashamelentyev/usestdlibvars/pkg/analyzer/internal/mapping
-# github.com/securego/gosec/v2 v2.22.11
+# github.com/securego/gosec/v2 v2.23.0
 ## explicit; go 1.24.0
 github.com/securego/gosec/v2
 github.com/securego/gosec/v2/analyzers
 github.com/securego/gosec/v2/cwe
+github.com/securego/gosec/v2/internal/ssautil
 github.com/securego/gosec/v2/issue
 github.com/securego/gosec/v2/rules
+github.com/securego/gosec/v2/taint
 # github.com/sirupsen/logrus v1.9.4
 ## explicit; go 1.17
 github.com/sirupsen/logrus
@@ -920,11 +922,6 @@ go.augendre.info/arangolint/pkg/analyzer
 # go.augendre.info/fatcontext v0.9.0
 ## explicit; go 1.23.0
 go.augendre.info/fatcontext/pkg/analyzer
-# go.uber.org/automaxprocs v1.6.0
-## explicit; go 1.20
-go.uber.org/automaxprocs/internal/cgroups
-go.uber.org/automaxprocs/internal/runtime
-go.uber.org/automaxprocs/maxprocs
 # go.uber.org/multierr v1.11.0
 ## explicit; go 1.19
 go.uber.org/multierr
@@ -945,10 +942,10 @@ go.yaml.in/yaml/v2
 # go.yaml.in/yaml/v3 v3.0.4
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20260112195511-716be5621a96
-## explicit; go 1.24.0
+# golang.org/x/exp/typeparams v0.0.0-20260212183809-81e46e3db34a
+## explicit; go 1.25.0
 golang.org/x/exp/typeparams
-# golang.org/x/mod v0.32.0
+# golang.org/x/mod v0.33.0
 ## explicit; go 1.24.0
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/modfile
@@ -963,7 +960,7 @@ golang.org/x/sync/semaphore
 ## explicit; go 1.24.0
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.33.0
+# golang.org/x/text v0.34.0
 ## explicit; go 1.24.0
 golang.org/x/text/encoding
 golang.org/x/text/encoding/internal
@@ -986,7 +983,7 @@ golang.org/x/text/runes
 golang.org/x/text/transform
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
-# golang.org/x/tools v0.41.0
+# golang.org/x/tools v0.42.0
 ## explicit; go 1.24.0
 golang.org/x/tools/go/analysis
 golang.org/x/tools/go/analysis/passes/appends
@@ -1043,6 +1040,9 @@ golang.org/x/tools/go/ast/astutil
 golang.org/x/tools/go/ast/edge
 golang.org/x/tools/go/ast/inspector
 golang.org/x/tools/go/buildutil
+golang.org/x/tools/go/callgraph
+golang.org/x/tools/go/callgraph/cha
+golang.org/x/tools/go/callgraph/internal/chautil
 golang.org/x/tools/go/cfg
 golang.org/x/tools/go/gcexportdata
 golang.org/x/tools/go/internal/cgo
@@ -1113,8 +1113,8 @@ google.golang.org/protobuf/types/known/timestamppb
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# honnef.co/go/tools v0.6.1
-## explicit; go 1.23
+# honnef.co/go/tools v0.7.0
+## explicit; go 1.25.0
 honnef.co/go/tools/analysis/callcheck
 honnef.co/go/tools/analysis/code
 honnef.co/go/tools/analysis/edit
@@ -1132,8 +1132,10 @@ honnef.co/go/tools/go/ast/astutil
 honnef.co/go/tools/go/ir
 honnef.co/go/tools/go/ir/irutil
 honnef.co/go/tools/go/types/typeutil
+honnef.co/go/tools/internal/analysisinternal/typeindex
 honnef.co/go/tools/internal/passes/buildir
 honnef.co/go/tools/internal/sharedcheck
+honnef.co/go/tools/internal/typesinternal/typeindex
 honnef.co/go/tools/knowledge
 honnef.co/go/tools/pattern
 honnef.co/go/tools/printf
