@@ -9,12 +9,9 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
-	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
-	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
-	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -29,23 +26,12 @@ import (
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ssm"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
-	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
+	apiSNC "github.com/redhat-developer/mapt/pkg/target/service/snc"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
-
-type OpenshiftSNCArgs struct {
-	Prefix                  string
-	ComputeRequest          *cr.ComputeRequestArgs
-	Version                 string
-	DisableClusterReadiness bool
-	Arch                    string
-	PullSecretFile          string
-	Spot                    *spotTypes.SpotArgs
-	Timeout                 string
-}
 
 type openshiftSNCRequest struct {
 	mCtx                    *mc.Context
@@ -68,20 +54,10 @@ func (r *openshiftSNCRequest) validate() error {
 	return v.Struct(r)
 }
 
-type OpenshiftSncResultsMetadata struct {
-	Username      string   `json:"username"`
-	PrivateKey    string   `json:"private_key"`
-	Host          string   `json:"host"`
-	Kubeconfig    string   `json:"kubeconfig"`
-	KubeadminPass string   `json:"kubeadmin_pass"`
-	SpotPrice     *float64 `json:"spot_price,omitempty"`
-	ConsoleUrl    string   `json:"console_url,omitempty"`
-}
-
 // Create orchestrate 3 stacks:
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
-func Create(mCtxArgs *mc.ContextArgs, args *OpenshiftSNCArgs) (_ *OpenshiftSncResultsMetadata, err error) {
+func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResults, err error) {
 	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
@@ -130,7 +106,7 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	if err = aws.DestroyStack(
 		mCtx,
 		aws.DestroyStackRequest{
-			Stackname: stackName,
+			Stackname: apiSNC.StackName,
 		}); err != nil {
 		return err
 	}
@@ -145,9 +121,12 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	return aws.CleanupState(mCtx)
 }
 
-func (r *openshiftSNCRequest) createCluster() (*OpenshiftSncResultsMetadata, error) {
+func (r *openshiftSNCRequest) createCluster() (*apiSNC.SNCResults, error) {
+	if err := r.validate(); err != nil {
+		return nil, err
+	}
 	cs := manager.Stack{
-		StackName:   r.mCtx.StackNameByProject(stackName),
+		StackName:   r.mCtx.StackNameByProject(apiSNC.StackName),
 		ProjectName: r.mCtx.ProjectName(),
 		BackedURL:   r.mCtx.BackedURL(),
 		ProviderCredentials: aws.GetClouProviderCredentials(
@@ -161,7 +140,10 @@ func (r *openshiftSNCRequest) createCluster() (*OpenshiftSncResultsMetadata, err
 		return nil, fmt.Errorf("stack creation failed: %w", err)
 	}
 
-	return r.manageResults(sr, r.prefix)
+	return apiSNC.Results(sr, r.prefix,
+		r.mCtx.GetResultsOutputPath(),
+		r.allocationData.SpotPrice,
+		r.disableClusterReadiness)
 }
 
 func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
@@ -180,7 +162,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	nw, err := network.Create(ctx, r.mCtx,
 		&network.NetworkArgs{
 			Prefix:             *r.prefix,
-			ID:                 awsOCPSNCID,
+			ID:                 apiSNC.OCPSNCID,
 			Region:             *r.allocationData.Region,
 			AZ:                 *r.allocationData.AZ,
 			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
@@ -192,12 +174,12 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	// Create Keypair
 	kpr := keypair.KeyPairRequest{
 		Name: resourcesUtil.GetResourceName(
-			*r.prefix, awsOCPSNCID, "pk")}
+			*r.prefix, apiSNC.OCPSNCID, "pk")}
 	keyResources, err := kpr.Create(ctx, r.mCtx)
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	if r.mCtx.Debug() {
 		keyResources.PrivateKey.PrivateKeyPem.ApplyT(
@@ -212,7 +194,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Instance profile required by logic within userdata
-	iProfile, err := iam.InstanceProfile(ctx, r.prefix, &awsOCPSNCID, cloudConfigRequiredProfiles)
+	iProfile, err := iam.InstanceProfile(ctx, r.prefix, &apiSNC.OCPSNCID, requiredPolicies)
 	if err != nil {
 		return err
 	}
@@ -221,15 +203,15 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeAdminPass),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputKubeAdminPass),
 		kaPass)
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputDeveloperPass),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputDeveloperPass),
 		devPass)
 	// Create instance
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
-		ID:               awsOCPSNCID,
+		ID:               apiSNC.OCPSNCID,
 		VPC:              nw.Vpc,
 		Subnet:           nw.Subnet,
 		AMI:              ami,
@@ -239,7 +221,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		DiskSize:         &diskSize,
 		LB:               nw.LoadBalancer,
 		Eip:              nw.Eip,
-		LBTargetGroups:   []int{securityGroup.SSH_PORT, portHTTPS, portAPI},
+		LBTargetGroups:   []int{securityGroup.SSH_PORT, apiSNC.PortHTTPS, apiSNC.PortAPI},
 		InstanceProfile:  iProfile,
 		UserDataAsBase64: udB64,
 		DependsOn:        udDependecies,
@@ -253,14 +235,14 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUsername),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputUsername),
 		pulumi.String(amiUserDefault))
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost),
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputHost),
 		c.GetHostIP(true))
 	if len(*r.timeout) > 0 {
 		if err = serverless.OneTimeDelayedTask(ctx, r.mCtx,
 			*r.allocationData.Region, *r.prefix,
-			awsOCPSNCID,
+			apiSNC.OCPSNCID,
 			fmt.Sprintf("aws %s destroy --project-name %s --backed-url %s --serverless",
 				"openshift-snc",
 				r.mCtx.ProjectName(),
@@ -269,79 +251,14 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
-	if !r.disableClusterReadiness {
-		// Use kubeconfig as the readiness for the cluster
-		kubeconfig, err := kubeconfig(ctx, r.prefix, c, keyResources.PrivateKey)
-		if err != nil {
-			return err
-		}
-		ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig),
-			pulumi.ToSecret(kubeconfig))
-		return nil
-	}
-	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsOCPSNCID,
-		keyResources.PrivateKey, amiUserDefault, nil, c.Dependencies)
-}
-
-// Write exported values in context to files o a selected target folder
-func (r *openshiftSNCRequest) manageResults(stackResult auto.UpResult, prefix *string) (*OpenshiftSncResultsMetadata, error) {
-	username, err := getResultOutput(outputUsername, stackResult, prefix)
+	// Use kubeconfig as the readiness for the cluster
+	kubeconfig, err := kubeconfig(ctx, r.prefix, c, keyResources.PrivateKey, *r.version, r.disableClusterReadiness)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	privateKey, err := getResultOutput(outputUserPrivateKey, stackResult, prefix)
-	if err != nil {
-		return nil, err
-	}
-	host, err := getResultOutput(outputHost, stackResult, prefix)
-	if err != nil {
-		return nil, err
-	}
-	kubeAdminPass, err := getResultOutput(outputKubeAdminPass, stackResult, prefix)
-	if err != nil {
-		return nil, err
-	}
-	kubeconfig := ""
-	if !r.disableClusterReadiness {
-		kubeconfig, err = getResultOutput(outputKubeconfig, stackResult, prefix)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	hostIPKey := fmt.Sprintf("%s-%s", *prefix, outputHost)
-	results := map[string]string{
-		fmt.Sprintf("%s-%s", *prefix, outputUsername):       "username",
-		fmt.Sprintf("%s-%s", *prefix, outputUserPrivateKey): "id_rsa",
-		hostIPKey: "host",
-		fmt.Sprintf("%s-%s", *prefix, outputKubeconfig):    "kubeconfig",
-		fmt.Sprintf("%s-%s", *prefix, outputKubeAdminPass): "kubeadmin_pass",
-		fmt.Sprintf("%s-%s", *prefix, outputDeveloperPass): "developer_pass",
-	}
-
-	outputPath := r.mCtx.GetResultsOutputPath()
-	if len(outputPath) == 0 {
-		logging.Warn("conn-details-output flag not set; skipping writing output files.")
-	} else {
-		if err := output.Write(stackResult, outputPath, results); err != nil {
-			return nil, fmt.Errorf("failed to write results: %w", err)
-		}
-	}
-
-	consoleURL := fmt.Sprintf(consoleURLRegex, host)
-	if eip, ok := stackResult.Outputs[hostIPKey].Value.(string); ok {
-		fmt.Printf("Cluster has been started you can access console at: %s.\n", fmt.Sprintf(consoleURLRegex, eip))
-	}
-
-	return &OpenshiftSncResultsMetadata{
-		Username:      username,
-		PrivateKey:    privateKey,
-		Host:          host,
-		Kubeconfig:    kubeconfig,
-		KubeadminPass: kubeAdminPass,
-		SpotPrice:     r.allocationData.SpotPrice,
-		ConsoleUrl:    consoleURL,
-	}, nil
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputKubeconfig),
+		pulumi.ToSecret(kubeconfig))
+	return nil
 }
 
 // security group for Openshift
@@ -349,12 +266,12 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	vpc *ec2.Vpc) (pulumi.StringArray, error) {
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
-		Name:        resourcesUtil.GetResourceName(*prefix, awsOCPSNCID, "sg"),
+		Name:        resourcesUtil.GetResourceName(*prefix, apiSNC.OCPSNCID, "sg"),
 		VPC:         vpc,
-		Description: fmt.Sprintf("sg for %s", awsOCPSNCID),
+		Description: fmt.Sprintf("sg for %s", apiSNC.OCPSNCID),
 		IngressRules: []securityGroup.IngressRules{securityGroup.SSH_TCP,
-			{Description: "Console", FromPort: portHTTPS, ToPort: portHTTPS, Protocol: "tcp"},
-			{Description: "API", FromPort: portAPI, ToPort: portAPI, Protocol: "tcp"}},
+			{Description: "Console", FromPort: apiSNC.PortHTTPS, ToPort: apiSNC.PortHTTPS, Protocol: "tcp"},
+			{Description: "API", FromPort: apiSNC.PortAPI, ToPort: apiSNC.PortAPI, Protocol: "tcp"}},
 	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
@@ -403,7 +320,7 @@ func (r *openshiftSNCRequest) userData(ctx *pulumi.Context,
 	// KubeAdmin pass
 	kaPassword, err := security.CreatePassword(ctx,
 		resourcesUtil.GetResourceName(
-			*r.prefix, awsOCPSNCID, "kubeadminpassword"))
+			*r.prefix, apiSNC.OCPSNCID, "kubeadminpassword"))
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
@@ -415,7 +332,7 @@ func (r *openshiftSNCRequest) userData(ctx *pulumi.Context,
 	// Developer pass
 	devPassword, err := security.CreatePassword(ctx,
 		resourcesUtil.GetResourceName(
-			*r.prefix, awsOCPSNCID, "devpassword"))
+			*r.prefix, apiSNC.OCPSNCID, "devpassword"))
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
@@ -426,7 +343,7 @@ func (r *openshiftSNCRequest) userData(ctx *pulumi.Context,
 	dependecies = append(dependecies, devPassParam)
 	ccB64 := pulumi.All(newPublicKey, lbEIP).ApplyT(
 		func(args []interface{}) (string, error) {
-			ccB64, err := cloudConfig(dataValues{
+			ccB64, err := apiSNC.CloudConfig(apiSNC.DataValues{
 				Username:                 amiUserDefault,
 				PubKey:                   args[0].(string),
 				PublicIP:                 args[1].(string),
@@ -442,6 +359,8 @@ func (r *openshiftSNCRequest) userData(ctx *pulumi.Context,
 func kubeconfig(ctx *pulumi.Context,
 	prefix *string,
 	c *compute.Compute, mk *tls.PrivateKey,
+	ocpVersion string,
+	disableClusterReadiness bool,
 ) (pulumi.StringOutput, error) {
 	// Once the cluster setup is comleted we
 	// get the kubeconfig file from the host running the cluster
@@ -452,7 +371,7 @@ func kubeconfig(ctx *pulumi.Context,
 	sshReadyCmd, err := c.RunCommand(ctx,
 		command.CommandPing,
 		compute.LoggingCmdStd,
-		fmt.Sprintf("%s-ssh-readiness", *prefix), awsOCPSNCID,
+		fmt.Sprintf("%s-ssh-readiness", *prefix), apiSNC.OCPSNCID,
 		mk, amiUserDefault, nil, c.Dependencies)
 	if err != nil {
 		return pulumi.StringOutput{}, err
@@ -460,18 +379,18 @@ func kubeconfig(ctx *pulumi.Context,
 
 	// Check cluster is ready
 	ocpReadyCmd, err := c.RunCommand(ctx,
-		commandCrcReadiness,
+		util.If(disableClusterReadiness, apiSNC.CommandKubeconfigExists, apiSNC.CommandCrcReadiness),
 		compute.LoggingCmdStd,
-		fmt.Sprintf("%s-ocp-readiness", *prefix), awsOCPSNCID,
+		fmt.Sprintf("%s-ocp-readiness", *prefix), apiSNC.OCPSNCID,
 		mk, amiUserDefault, nil, []pulumi.Resource{sshReadyCmd})
 	if err != nil {
 		return pulumi.StringOutput{}, err
 	}
 	// Check ocp-cluster-ca.service succeeds
 	ocpCaRotatedCmd, err := c.RunCommand(ctx,
-		commandCaServiceRan,
+		apiSNC.CommandCaServiceRan(ocpVersion),
 		compute.LoggingCmdStd,
-		fmt.Sprintf("%s-ocp-ca-rotated", *prefix), awsOCPSNCID,
+		fmt.Sprintf("%s-ocp-ca-rotated", *prefix), apiSNC.OCPSNCID,
 		mk, amiUserDefault, nil, []pulumi.Resource{ocpReadyCmd})
 	if err != nil {
 		return pulumi.StringOutput{}, err
@@ -482,7 +401,7 @@ func kubeconfig(ctx *pulumi.Context,
 	getKC, err := c.RunCommand(ctx,
 		getKCCmd,
 		compute.NoLoggingCmdStd,
-		fmt.Sprintf("%s-kubeconfig", *prefix), awsOCPSNCID, mk, amiUserDefault,
+		fmt.Sprintf("%s-kubeconfig", *prefix), apiSNC.OCPSNCID, mk, amiUserDefault,
 		nil, []pulumi.Resource{ocpCaRotatedCmd})
 	if err != nil {
 		return pulumi.StringOutput{}, err
@@ -494,17 +413,4 @@ func kubeconfig(ctx *pulumi.Context,
 				fmt.Sprintf("https://api.%s.nip.io:6443", args[1].(string)))
 		}).(pulumi.StringOutput)
 	return kubeconfig, nil
-}
-
-func getResultOutput(name string, sr auto.UpResult, prefix *string) (string, error) {
-	key := fmt.Sprintf("%s-%s", *prefix, name)
-	output, ok := sr.Outputs[key]
-	if !ok {
-		return "", fmt.Errorf("output not found: %s", key)
-	}
-	value, ok := output.Value.(string)
-	if !ok {
-		return "", fmt.Errorf("output for %s is not a string", key)
-	}
-	return value, nil
 }

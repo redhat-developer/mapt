@@ -1,4 +1,4 @@
-package openshiftsnc
+package snc
 
 import (
 	_ "embed"
@@ -7,7 +7,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/file"
 )
 
-type dataValues struct {
+type DataValues struct {
 	// user auth information
 	Username string
 	PubKey   string
@@ -20,12 +20,10 @@ type dataValues struct {
 }
 
 //go:embed cloud-config
-var CloudConfig []byte
+var CloudConfigFile []byte
 
-var cloudConfigRequiredProfiles = []string{"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"}
-
-func cloudConfig(data dataValues) (*string, error) {
-	templateConfig := string(CloudConfig[:])
+func CloudConfig(data DataValues) (*string, error) {
+	templateConfig := string(CloudConfigFile[:])
 	cc, err := file.Template(data, templateConfig)
 	if err != nil {
 		return nil, err

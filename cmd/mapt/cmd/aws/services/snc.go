@@ -3,7 +3,8 @@ package services
 import (
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
-	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/openshift-snc"
+	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/snc"
+	sncApi "github.com/redhat-developer/mapt/pkg/target/service/snc"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -13,8 +14,10 @@ const (
 	cmdOpenshiftSNC     = "openshift-snc"
 	cmdOpenshiftSNCDesc = "Manage an OpenShift Single Node Cluster based on OpenShift Local. This is not intended for production use"
 
-	ocpVersion                  = "version"
-	ocpVersionDesc              = "version for Openshift. If not set it will pick latest available version"
+	ocpVersion        = "version"
+	ocpDefaultVersion = "4.21.0"
+	ocpVersionDesc    = "version for Openshift."
+
 	pullSecretFile              = "pull-secret-file"
 	pullSecretFileDesc          = "file path of image pull secret (download from https://console.redhat.com/openshift/create/local)"
 	disableClusterReadiness     = "disable-cluster-readiness"
@@ -58,7 +61,7 @@ func createSNC() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
-				&openshiftsnc.OpenshiftSNCArgs{
+				&sncApi.SNCArgs{
 					ComputeRequest:          params.ComputeRequestArgs(),
 					Spot:                    params.SpotArgs(),
 					Version:                 viper.GetString(ocpVersion),
@@ -73,7 +76,7 @@ func createSNC() *cobra.Command {
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
-	flagSet.StringP(ocpVersion, "", "", ocpVersionDesc)
+	flagSet.StringP(ocpVersion, "", ocpDefaultVersion, ocpVersionDesc)
 	flagSet.Bool(disableClusterReadiness, false, disableClusterReadinessDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	flagSet.StringP(pullSecretFile, "", "", pullSecretFileDesc)

@@ -4,7 +4,7 @@ import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	rhelai "github.com/redhat-developer/mapt/pkg/provider/azure/action/rhel-ai"
-	apiRHELAI "github.com/redhat-developer/mapt/pkg/targets/host/rhelai"
+	apiRHELAI "github.com/redhat-developer/mapt/pkg/target/host/rhelai"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
