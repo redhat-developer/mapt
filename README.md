@@ -31,5 +31,6 @@ Currently each target offered by Mapt can be added as:
 
 * [Github Self Hosted Runner](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners)
 * [Cirrus Persistent Worker](https://cirrus-ci.org/guide/persistent-workers/)
+* [GitLab Runner](docs/gitlab-runner.md)
 
 And [Tekton taks](tkn) are offered to dynamically provision the remote target to use within tekton pipelines
