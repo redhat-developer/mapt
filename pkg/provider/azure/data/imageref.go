@@ -14,7 +14,7 @@ const (
 )
 
 var (
-	FedoraDefaultVersion string = "42"
+	FedoraDefaultVersion string = "43"
 )
 
 const fedoraImageGalleryBase = "/CommunityGalleries/Fedora-5e266ba4-2250-406d-adad-5d73860d958f/Images/"
