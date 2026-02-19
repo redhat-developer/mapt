@@ -4,6 +4,15 @@ rh_subscription:
   password: {{.SubscriptionPassword}}
   auto-attach: true
 runcmd:
+  - |
+    ROOT_DEV=$(findmnt -n -o SOURCE /)
+    DISK=$(lsblk -no pkname "$ROOT_DEV")
+    PART_NUM=$(echo "$ROOT_DEV" | grep -o '[0-9]*$')
+
+    growpart /dev/$DISK $PART_NUM
+    pvresize $ROOT_DEV
+    lvextend -l +100%FREE $(lvdisplay | awk '/LV Path/ {print $3; exit}')
+    xfs_growfs /
   - while fuser /var/lib/rpm/.rpm.lock > /dev/null 2>&1 ; do sleep 1 ; done
   - dnf install -y podman
 {{ if .ActionsRunnerSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh{{ end }}
