@@ -477,14 +477,14 @@ func ExecPlugin(ctx *Context, bin, prefix string, kind apitype.PluginKind,
 				return nil, fmt.Errorf("loading PulumiPlugin.yaml: %w", err)
 			}
 			runtimeInfo = proj.Runtime
-			pulumiVersionRange = proj.PulumiVersionRange
+			pulumiVersionRange = proj.RequiredPulumiVersion
 		case apitype.AnalyzerPlugin:
 			proj, err := workspace.LoadPluginProject(filepath.Join(pluginDir, "PulumiPolicy.yaml"))
 			if err != nil {
 				return nil, fmt.Errorf("loading PulumiPolicy.yaml: %w", err)
 			}
 			runtimeInfo = proj.Runtime
-			pulumiVersionRange = proj.PulumiVersionRange
+			pulumiVersionRange = proj.RequiredPulumiVersion
 		default:
 			return nil, errors.New("language plugins must be executable binaries")
 		}
@@ -516,6 +516,7 @@ func ExecPlugin(ctx *Context, bin, prefix string, kind apitype.PluginKind,
 			Env:              environment,
 			Kind:             string(kind),
 			AttachDebugger:   attachDebugger,
+			LoaderAddress:    ctx.Host.LoaderAddr(),
 		})
 		if err != nil {
 			return nil, err //nolint:govet // lostcancel

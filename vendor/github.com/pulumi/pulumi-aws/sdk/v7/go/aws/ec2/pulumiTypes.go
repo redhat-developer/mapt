@@ -8692,6 +8692,8 @@ type InstanceCpuOptions struct {
 	AmdSevSnp *string `pulumi:"amdSevSnp"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CoreCount *int `pulumi:"coreCount"`
+	// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+	NestedVirtualization *string `pulumi:"nestedVirtualization"`
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	//
 	// For more information, see the documentation on [Optimizing CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html).
@@ -8714,6 +8716,8 @@ type InstanceCpuOptionsArgs struct {
 	AmdSevSnp pulumi.StringPtrInput `pulumi:"amdSevSnp"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CoreCount pulumi.IntPtrInput `pulumi:"coreCount"`
+	// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+	NestedVirtualization pulumi.StringPtrInput `pulumi:"nestedVirtualization"`
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	//
 	// For more information, see the documentation on [Optimizing CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html).
@@ -8807,6 +8811,11 @@ func (o InstanceCpuOptionsOutput) CoreCount() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v InstanceCpuOptions) *int { return v.CoreCount }).(pulumi.IntPtrOutput)
 }
 
+// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+func (o InstanceCpuOptionsOutput) NestedVirtualization() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v InstanceCpuOptions) *string { return v.NestedVirtualization }).(pulumi.StringPtrOutput)
+}
+
 // If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 //
 // For more information, see the documentation on [Optimizing CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html).
@@ -8856,6 +8865,16 @@ func (o InstanceCpuOptionsPtrOutput) CoreCount() pulumi.IntPtrOutput {
 		}
 		return v.CoreCount
 	}).(pulumi.IntPtrOutput)
+}
+
+// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+func (o InstanceCpuOptionsPtrOutput) NestedVirtualization() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *InstanceCpuOptions) *string {
+		if v == nil {
+			return nil
+		}
+		return v.NestedVirtualization
+	}).(pulumi.StringPtrOutput)
 }
 
 // If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
@@ -11148,6 +11167,190 @@ func (o InstanceRootBlockDevicePtrOutput) VolumeType() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
+type InstanceSecondaryNetworkInterface struct {
+	// Whether the network interface should be destroyed when the instance is terminated. Defaults to `true`. Forces replacement.
+	DeleteOnTermination *bool `pulumi:"deleteOnTermination"`
+	// Device index for the network interface attachment. Defaults to `0`. Forces replacement.
+	DeviceIndex *int `pulumi:"deviceIndex"`
+	// Type of network interface. Currently only `secondary` is supported. Defaults to `secondary`. Forces replacement.
+	InterfaceType *string `pulumi:"interfaceType"`
+	MacAddress    *string `pulumi:"macAddress"`
+	// Network card index for the interface. Each network card can have one secondary interface. Forces replacement.
+	NetworkCardIndex int `pulumi:"networkCardIndex"`
+	// Number of private IP addresses to assign to the network interface. Defaults to `1`. Forces replacement.
+	PrivateIpAddressCount *int `pulumi:"privateIpAddressCount"`
+	// List of private IP addresses to assign to the network interface. If not specified, AWS will automatically assign IP addresses based on `privateIpAddressCount`. Forces replacement.
+	PrivateIpAddresses   []string `pulumi:"privateIpAddresses"`
+	SecondaryInterfaceId *string  `pulumi:"secondaryInterfaceId"`
+	SecondaryNetworkId   *string  `pulumi:"secondaryNetworkId"`
+	// ID of the secondary subnet in which to create the network interface. Forces replacement.
+	SecondarySubnetId string `pulumi:"secondarySubnetId"`
+	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
+	SourceDestCheck *bool   `pulumi:"sourceDestCheck"`
+	Status          *string `pulumi:"status"`
+}
+
+// InstanceSecondaryNetworkInterfaceInput is an input type that accepts InstanceSecondaryNetworkInterfaceArgs and InstanceSecondaryNetworkInterfaceOutput values.
+// You can construct a concrete instance of `InstanceSecondaryNetworkInterfaceInput` via:
+//
+//	InstanceSecondaryNetworkInterfaceArgs{...}
+type InstanceSecondaryNetworkInterfaceInput interface {
+	pulumi.Input
+
+	ToInstanceSecondaryNetworkInterfaceOutput() InstanceSecondaryNetworkInterfaceOutput
+	ToInstanceSecondaryNetworkInterfaceOutputWithContext(context.Context) InstanceSecondaryNetworkInterfaceOutput
+}
+
+type InstanceSecondaryNetworkInterfaceArgs struct {
+	// Whether the network interface should be destroyed when the instance is terminated. Defaults to `true`. Forces replacement.
+	DeleteOnTermination pulumi.BoolPtrInput `pulumi:"deleteOnTermination"`
+	// Device index for the network interface attachment. Defaults to `0`. Forces replacement.
+	DeviceIndex pulumi.IntPtrInput `pulumi:"deviceIndex"`
+	// Type of network interface. Currently only `secondary` is supported. Defaults to `secondary`. Forces replacement.
+	InterfaceType pulumi.StringPtrInput `pulumi:"interfaceType"`
+	MacAddress    pulumi.StringPtrInput `pulumi:"macAddress"`
+	// Network card index for the interface. Each network card can have one secondary interface. Forces replacement.
+	NetworkCardIndex pulumi.IntInput `pulumi:"networkCardIndex"`
+	// Number of private IP addresses to assign to the network interface. Defaults to `1`. Forces replacement.
+	PrivateIpAddressCount pulumi.IntPtrInput `pulumi:"privateIpAddressCount"`
+	// List of private IP addresses to assign to the network interface. If not specified, AWS will automatically assign IP addresses based on `privateIpAddressCount`. Forces replacement.
+	PrivateIpAddresses   pulumi.StringArrayInput `pulumi:"privateIpAddresses"`
+	SecondaryInterfaceId pulumi.StringPtrInput   `pulumi:"secondaryInterfaceId"`
+	SecondaryNetworkId   pulumi.StringPtrInput   `pulumi:"secondaryNetworkId"`
+	// ID of the secondary subnet in which to create the network interface. Forces replacement.
+	SecondarySubnetId pulumi.StringInput `pulumi:"secondarySubnetId"`
+	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
+	SourceDestCheck pulumi.BoolPtrInput   `pulumi:"sourceDestCheck"`
+	Status          pulumi.StringPtrInput `pulumi:"status"`
+}
+
+func (InstanceSecondaryNetworkInterfaceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*InstanceSecondaryNetworkInterface)(nil)).Elem()
+}
+
+func (i InstanceSecondaryNetworkInterfaceArgs) ToInstanceSecondaryNetworkInterfaceOutput() InstanceSecondaryNetworkInterfaceOutput {
+	return i.ToInstanceSecondaryNetworkInterfaceOutputWithContext(context.Background())
+}
+
+func (i InstanceSecondaryNetworkInterfaceArgs) ToInstanceSecondaryNetworkInterfaceOutputWithContext(ctx context.Context) InstanceSecondaryNetworkInterfaceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(InstanceSecondaryNetworkInterfaceOutput)
+}
+
+// InstanceSecondaryNetworkInterfaceArrayInput is an input type that accepts InstanceSecondaryNetworkInterfaceArray and InstanceSecondaryNetworkInterfaceArrayOutput values.
+// You can construct a concrete instance of `InstanceSecondaryNetworkInterfaceArrayInput` via:
+//
+//	InstanceSecondaryNetworkInterfaceArray{ InstanceSecondaryNetworkInterfaceArgs{...} }
+type InstanceSecondaryNetworkInterfaceArrayInput interface {
+	pulumi.Input
+
+	ToInstanceSecondaryNetworkInterfaceArrayOutput() InstanceSecondaryNetworkInterfaceArrayOutput
+	ToInstanceSecondaryNetworkInterfaceArrayOutputWithContext(context.Context) InstanceSecondaryNetworkInterfaceArrayOutput
+}
+
+type InstanceSecondaryNetworkInterfaceArray []InstanceSecondaryNetworkInterfaceInput
+
+func (InstanceSecondaryNetworkInterfaceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]InstanceSecondaryNetworkInterface)(nil)).Elem()
+}
+
+func (i InstanceSecondaryNetworkInterfaceArray) ToInstanceSecondaryNetworkInterfaceArrayOutput() InstanceSecondaryNetworkInterfaceArrayOutput {
+	return i.ToInstanceSecondaryNetworkInterfaceArrayOutputWithContext(context.Background())
+}
+
+func (i InstanceSecondaryNetworkInterfaceArray) ToInstanceSecondaryNetworkInterfaceArrayOutputWithContext(ctx context.Context) InstanceSecondaryNetworkInterfaceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(InstanceSecondaryNetworkInterfaceArrayOutput)
+}
+
+type InstanceSecondaryNetworkInterfaceOutput struct{ *pulumi.OutputState }
+
+func (InstanceSecondaryNetworkInterfaceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*InstanceSecondaryNetworkInterface)(nil)).Elem()
+}
+
+func (o InstanceSecondaryNetworkInterfaceOutput) ToInstanceSecondaryNetworkInterfaceOutput() InstanceSecondaryNetworkInterfaceOutput {
+	return o
+}
+
+func (o InstanceSecondaryNetworkInterfaceOutput) ToInstanceSecondaryNetworkInterfaceOutputWithContext(ctx context.Context) InstanceSecondaryNetworkInterfaceOutput {
+	return o
+}
+
+// Whether the network interface should be destroyed when the instance is terminated. Defaults to `true`. Forces replacement.
+func (o InstanceSecondaryNetworkInterfaceOutput) DeleteOnTermination() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *bool { return v.DeleteOnTermination }).(pulumi.BoolPtrOutput)
+}
+
+// Device index for the network interface attachment. Defaults to `0`. Forces replacement.
+func (o InstanceSecondaryNetworkInterfaceOutput) DeviceIndex() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *int { return v.DeviceIndex }).(pulumi.IntPtrOutput)
+}
+
+// Type of network interface. Currently only `secondary` is supported. Defaults to `secondary`. Forces replacement.
+func (o InstanceSecondaryNetworkInterfaceOutput) InterfaceType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *string { return v.InterfaceType }).(pulumi.StringPtrOutput)
+}
+
+func (o InstanceSecondaryNetworkInterfaceOutput) MacAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *string { return v.MacAddress }).(pulumi.StringPtrOutput)
+}
+
+// Network card index for the interface. Each network card can have one secondary interface. Forces replacement.
+func (o InstanceSecondaryNetworkInterfaceOutput) NetworkCardIndex() pulumi.IntOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) int { return v.NetworkCardIndex }).(pulumi.IntOutput)
+}
+
+// Number of private IP addresses to assign to the network interface. Defaults to `1`. Forces replacement.
+func (o InstanceSecondaryNetworkInterfaceOutput) PrivateIpAddressCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *int { return v.PrivateIpAddressCount }).(pulumi.IntPtrOutput)
+}
+
+// List of private IP addresses to assign to the network interface. If not specified, AWS will automatically assign IP addresses based on `privateIpAddressCount`. Forces replacement.
+func (o InstanceSecondaryNetworkInterfaceOutput) PrivateIpAddresses() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) []string { return v.PrivateIpAddresses }).(pulumi.StringArrayOutput)
+}
+
+func (o InstanceSecondaryNetworkInterfaceOutput) SecondaryInterfaceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *string { return v.SecondaryInterfaceId }).(pulumi.StringPtrOutput)
+}
+
+func (o InstanceSecondaryNetworkInterfaceOutput) SecondaryNetworkId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *string { return v.SecondaryNetworkId }).(pulumi.StringPtrOutput)
+}
+
+// ID of the secondary subnet in which to create the network interface. Forces replacement.
+func (o InstanceSecondaryNetworkInterfaceOutput) SecondarySubnetId() pulumi.StringOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) string { return v.SecondarySubnetId }).(pulumi.StringOutput)
+}
+
+// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
+func (o InstanceSecondaryNetworkInterfaceOutput) SourceDestCheck() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *bool { return v.SourceDestCheck }).(pulumi.BoolPtrOutput)
+}
+
+func (o InstanceSecondaryNetworkInterfaceOutput) Status() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v InstanceSecondaryNetworkInterface) *string { return v.Status }).(pulumi.StringPtrOutput)
+}
+
+type InstanceSecondaryNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
+
+func (InstanceSecondaryNetworkInterfaceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]InstanceSecondaryNetworkInterface)(nil)).Elem()
+}
+
+func (o InstanceSecondaryNetworkInterfaceArrayOutput) ToInstanceSecondaryNetworkInterfaceArrayOutput() InstanceSecondaryNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o InstanceSecondaryNetworkInterfaceArrayOutput) ToInstanceSecondaryNetworkInterfaceArrayOutputWithContext(ctx context.Context) InstanceSecondaryNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o InstanceSecondaryNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) InstanceSecondaryNetworkInterfaceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) InstanceSecondaryNetworkInterface {
+		return vs[0].([]InstanceSecondaryNetworkInterface)[vs[1].(int)]
+	}).(InstanceSecondaryNetworkInterfaceOutput)
+}
+
 type LaunchConfigurationEbsBlockDevice struct {
 	DeleteOnTermination *bool   `pulumi:"deleteOnTermination"`
 	DeviceName          string  `pulumi:"deviceName"`
@@ -12541,6 +12744,8 @@ type LaunchTemplateCpuOptions struct {
 	AmdSevSnp *string `pulumi:"amdSevSnp"`
 	// The number of CPU cores for the instance.
 	CoreCount *int `pulumi:"coreCount"`
+	// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+	NestedVirtualization *string `pulumi:"nestedVirtualization"`
 	// The number of threads per CPU core.
 	// To disable Intel Hyper-Threading Technology for the instance, specify a value of 1.
 	// Otherwise, specify the default value of 2.
@@ -12565,6 +12770,8 @@ type LaunchTemplateCpuOptionsArgs struct {
 	AmdSevSnp pulumi.StringPtrInput `pulumi:"amdSevSnp"`
 	// The number of CPU cores for the instance.
 	CoreCount pulumi.IntPtrInput `pulumi:"coreCount"`
+	// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+	NestedVirtualization pulumi.StringPtrInput `pulumi:"nestedVirtualization"`
 	// The number of threads per CPU core.
 	// To disable Intel Hyper-Threading Technology for the instance, specify a value of 1.
 	// Otherwise, specify the default value of 2.
@@ -12660,6 +12867,11 @@ func (o LaunchTemplateCpuOptionsOutput) CoreCount() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v LaunchTemplateCpuOptions) *int { return v.CoreCount }).(pulumi.IntPtrOutput)
 }
 
+// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+func (o LaunchTemplateCpuOptionsOutput) NestedVirtualization() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LaunchTemplateCpuOptions) *string { return v.NestedVirtualization }).(pulumi.StringPtrOutput)
+}
+
 // The number of threads per CPU core.
 // To disable Intel Hyper-Threading Technology for the instance, specify a value of 1.
 // Otherwise, specify the default value of 2.
@@ -12711,6 +12923,16 @@ func (o LaunchTemplateCpuOptionsPtrOutput) CoreCount() pulumi.IntPtrOutput {
 		}
 		return v.CoreCount
 	}).(pulumi.IntPtrOutput)
+}
+
+// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+func (o LaunchTemplateCpuOptionsPtrOutput) NestedVirtualization() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *LaunchTemplateCpuOptions) *string {
+		if v == nil {
+			return nil
+		}
+		return v.NestedVirtualization
+	}).(pulumi.StringPtrOutput)
 }
 
 // The number of threads per CPU core.
@@ -17690,6 +17912,157 @@ func (o LaunchTemplatePrivateDnsNameOptionsPtrOutput) HostnameType() pulumi.Stri
 		}
 		return v.HostnameType
 	}).(pulumi.StringPtrOutput)
+}
+
+type LaunchTemplateSecondaryInterface struct {
+	// Whether the secondary interface is deleted when the instance is terminated. The only supported value is `true`.
+	DeleteOnTermination *bool `pulumi:"deleteOnTermination"`
+	// Device index for the secondary interface attachment.
+	DeviceIndex *int `pulumi:"deviceIndex"`
+	// Type of secondary interface. The only supported value is: `secondary`.
+	InterfaceType *string `pulumi:"interfaceType"`
+	// Index of the network card.
+	NetworkCardIndex *int `pulumi:"networkCardIndex"`
+	// Number of private IPv4 addresses to assign to the secondary interface.
+	PrivateIpAddressCount *int `pulumi:"privateIpAddressCount"`
+	// Private IPv4 addresses to assign to the secondary interface.
+	PrivateIpAddresses []string `pulumi:"privateIpAddresses"`
+	// ID of the secondary subnet.
+	SecondarySubnetId *string `pulumi:"secondarySubnetId"`
+}
+
+// LaunchTemplateSecondaryInterfaceInput is an input type that accepts LaunchTemplateSecondaryInterfaceArgs and LaunchTemplateSecondaryInterfaceOutput values.
+// You can construct a concrete instance of `LaunchTemplateSecondaryInterfaceInput` via:
+//
+//	LaunchTemplateSecondaryInterfaceArgs{...}
+type LaunchTemplateSecondaryInterfaceInput interface {
+	pulumi.Input
+
+	ToLaunchTemplateSecondaryInterfaceOutput() LaunchTemplateSecondaryInterfaceOutput
+	ToLaunchTemplateSecondaryInterfaceOutputWithContext(context.Context) LaunchTemplateSecondaryInterfaceOutput
+}
+
+type LaunchTemplateSecondaryInterfaceArgs struct {
+	// Whether the secondary interface is deleted when the instance is terminated. The only supported value is `true`.
+	DeleteOnTermination pulumi.BoolPtrInput `pulumi:"deleteOnTermination"`
+	// Device index for the secondary interface attachment.
+	DeviceIndex pulumi.IntPtrInput `pulumi:"deviceIndex"`
+	// Type of secondary interface. The only supported value is: `secondary`.
+	InterfaceType pulumi.StringPtrInput `pulumi:"interfaceType"`
+	// Index of the network card.
+	NetworkCardIndex pulumi.IntPtrInput `pulumi:"networkCardIndex"`
+	// Number of private IPv4 addresses to assign to the secondary interface.
+	PrivateIpAddressCount pulumi.IntPtrInput `pulumi:"privateIpAddressCount"`
+	// Private IPv4 addresses to assign to the secondary interface.
+	PrivateIpAddresses pulumi.StringArrayInput `pulumi:"privateIpAddresses"`
+	// ID of the secondary subnet.
+	SecondarySubnetId pulumi.StringPtrInput `pulumi:"secondarySubnetId"`
+}
+
+func (LaunchTemplateSecondaryInterfaceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*LaunchTemplateSecondaryInterface)(nil)).Elem()
+}
+
+func (i LaunchTemplateSecondaryInterfaceArgs) ToLaunchTemplateSecondaryInterfaceOutput() LaunchTemplateSecondaryInterfaceOutput {
+	return i.ToLaunchTemplateSecondaryInterfaceOutputWithContext(context.Background())
+}
+
+func (i LaunchTemplateSecondaryInterfaceArgs) ToLaunchTemplateSecondaryInterfaceOutputWithContext(ctx context.Context) LaunchTemplateSecondaryInterfaceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(LaunchTemplateSecondaryInterfaceOutput)
+}
+
+// LaunchTemplateSecondaryInterfaceArrayInput is an input type that accepts LaunchTemplateSecondaryInterfaceArray and LaunchTemplateSecondaryInterfaceArrayOutput values.
+// You can construct a concrete instance of `LaunchTemplateSecondaryInterfaceArrayInput` via:
+//
+//	LaunchTemplateSecondaryInterfaceArray{ LaunchTemplateSecondaryInterfaceArgs{...} }
+type LaunchTemplateSecondaryInterfaceArrayInput interface {
+	pulumi.Input
+
+	ToLaunchTemplateSecondaryInterfaceArrayOutput() LaunchTemplateSecondaryInterfaceArrayOutput
+	ToLaunchTemplateSecondaryInterfaceArrayOutputWithContext(context.Context) LaunchTemplateSecondaryInterfaceArrayOutput
+}
+
+type LaunchTemplateSecondaryInterfaceArray []LaunchTemplateSecondaryInterfaceInput
+
+func (LaunchTemplateSecondaryInterfaceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]LaunchTemplateSecondaryInterface)(nil)).Elem()
+}
+
+func (i LaunchTemplateSecondaryInterfaceArray) ToLaunchTemplateSecondaryInterfaceArrayOutput() LaunchTemplateSecondaryInterfaceArrayOutput {
+	return i.ToLaunchTemplateSecondaryInterfaceArrayOutputWithContext(context.Background())
+}
+
+func (i LaunchTemplateSecondaryInterfaceArray) ToLaunchTemplateSecondaryInterfaceArrayOutputWithContext(ctx context.Context) LaunchTemplateSecondaryInterfaceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(LaunchTemplateSecondaryInterfaceArrayOutput)
+}
+
+type LaunchTemplateSecondaryInterfaceOutput struct{ *pulumi.OutputState }
+
+func (LaunchTemplateSecondaryInterfaceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LaunchTemplateSecondaryInterface)(nil)).Elem()
+}
+
+func (o LaunchTemplateSecondaryInterfaceOutput) ToLaunchTemplateSecondaryInterfaceOutput() LaunchTemplateSecondaryInterfaceOutput {
+	return o
+}
+
+func (o LaunchTemplateSecondaryInterfaceOutput) ToLaunchTemplateSecondaryInterfaceOutputWithContext(ctx context.Context) LaunchTemplateSecondaryInterfaceOutput {
+	return o
+}
+
+// Whether the secondary interface is deleted when the instance is terminated. The only supported value is `true`.
+func (o LaunchTemplateSecondaryInterfaceOutput) DeleteOnTermination() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v LaunchTemplateSecondaryInterface) *bool { return v.DeleteOnTermination }).(pulumi.BoolPtrOutput)
+}
+
+// Device index for the secondary interface attachment.
+func (o LaunchTemplateSecondaryInterfaceOutput) DeviceIndex() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LaunchTemplateSecondaryInterface) *int { return v.DeviceIndex }).(pulumi.IntPtrOutput)
+}
+
+// Type of secondary interface. The only supported value is: `secondary`.
+func (o LaunchTemplateSecondaryInterfaceOutput) InterfaceType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LaunchTemplateSecondaryInterface) *string { return v.InterfaceType }).(pulumi.StringPtrOutput)
+}
+
+// Index of the network card.
+func (o LaunchTemplateSecondaryInterfaceOutput) NetworkCardIndex() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LaunchTemplateSecondaryInterface) *int { return v.NetworkCardIndex }).(pulumi.IntPtrOutput)
+}
+
+// Number of private IPv4 addresses to assign to the secondary interface.
+func (o LaunchTemplateSecondaryInterfaceOutput) PrivateIpAddressCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v LaunchTemplateSecondaryInterface) *int { return v.PrivateIpAddressCount }).(pulumi.IntPtrOutput)
+}
+
+// Private IPv4 addresses to assign to the secondary interface.
+func (o LaunchTemplateSecondaryInterfaceOutput) PrivateIpAddresses() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LaunchTemplateSecondaryInterface) []string { return v.PrivateIpAddresses }).(pulumi.StringArrayOutput)
+}
+
+// ID of the secondary subnet.
+func (o LaunchTemplateSecondaryInterfaceOutput) SecondarySubnetId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LaunchTemplateSecondaryInterface) *string { return v.SecondarySubnetId }).(pulumi.StringPtrOutput)
+}
+
+type LaunchTemplateSecondaryInterfaceArrayOutput struct{ *pulumi.OutputState }
+
+func (LaunchTemplateSecondaryInterfaceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]LaunchTemplateSecondaryInterface)(nil)).Elem()
+}
+
+func (o LaunchTemplateSecondaryInterfaceArrayOutput) ToLaunchTemplateSecondaryInterfaceArrayOutput() LaunchTemplateSecondaryInterfaceArrayOutput {
+	return o
+}
+
+func (o LaunchTemplateSecondaryInterfaceArrayOutput) ToLaunchTemplateSecondaryInterfaceArrayOutputWithContext(ctx context.Context) LaunchTemplateSecondaryInterfaceArrayOutput {
+	return o
+}
+
+func (o LaunchTemplateSecondaryInterfaceArrayOutput) Index(i pulumi.IntInput) LaunchTemplateSecondaryInterfaceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) LaunchTemplateSecondaryInterface {
+		return vs[0].([]LaunchTemplateSecondaryInterface)[vs[1].(int)]
+	}).(LaunchTemplateSecondaryInterfaceOutput)
 }
 
 type LaunchTemplateTagSpecification struct {
@@ -30088,6 +30461,586 @@ func (o RouteTableRouteArrayOutput) Index(i pulumi.IntInput) RouteTableRouteOutp
 	}).(RouteTableRouteOutput)
 }
 
+type SecondaryNetworkIpv4CidrBlockAssociation struct {
+	// Association ID for the IPv4 CIDR block.
+	AssociationId string `pulumi:"associationId"`
+	// IPv4 CIDR block.
+	CidrBlock string `pulumi:"cidrBlock"`
+	// State of the IPv4 CIDR block association.
+	State string `pulumi:"state"`
+}
+
+// SecondaryNetworkIpv4CidrBlockAssociationInput is an input type that accepts SecondaryNetworkIpv4CidrBlockAssociationArgs and SecondaryNetworkIpv4CidrBlockAssociationOutput values.
+// You can construct a concrete instance of `SecondaryNetworkIpv4CidrBlockAssociationInput` via:
+//
+//	SecondaryNetworkIpv4CidrBlockAssociationArgs{...}
+type SecondaryNetworkIpv4CidrBlockAssociationInput interface {
+	pulumi.Input
+
+	ToSecondaryNetworkIpv4CidrBlockAssociationOutput() SecondaryNetworkIpv4CidrBlockAssociationOutput
+	ToSecondaryNetworkIpv4CidrBlockAssociationOutputWithContext(context.Context) SecondaryNetworkIpv4CidrBlockAssociationOutput
+}
+
+type SecondaryNetworkIpv4CidrBlockAssociationArgs struct {
+	// Association ID for the IPv4 CIDR block.
+	AssociationId pulumi.StringInput `pulumi:"associationId"`
+	// IPv4 CIDR block.
+	CidrBlock pulumi.StringInput `pulumi:"cidrBlock"`
+	// State of the IPv4 CIDR block association.
+	State pulumi.StringInput `pulumi:"state"`
+}
+
+func (SecondaryNetworkIpv4CidrBlockAssociationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SecondaryNetworkIpv4CidrBlockAssociation)(nil)).Elem()
+}
+
+func (i SecondaryNetworkIpv4CidrBlockAssociationArgs) ToSecondaryNetworkIpv4CidrBlockAssociationOutput() SecondaryNetworkIpv4CidrBlockAssociationOutput {
+	return i.ToSecondaryNetworkIpv4CidrBlockAssociationOutputWithContext(context.Background())
+}
+
+func (i SecondaryNetworkIpv4CidrBlockAssociationArgs) ToSecondaryNetworkIpv4CidrBlockAssociationOutputWithContext(ctx context.Context) SecondaryNetworkIpv4CidrBlockAssociationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondaryNetworkIpv4CidrBlockAssociationOutput)
+}
+
+// SecondaryNetworkIpv4CidrBlockAssociationArrayInput is an input type that accepts SecondaryNetworkIpv4CidrBlockAssociationArray and SecondaryNetworkIpv4CidrBlockAssociationArrayOutput values.
+// You can construct a concrete instance of `SecondaryNetworkIpv4CidrBlockAssociationArrayInput` via:
+//
+//	SecondaryNetworkIpv4CidrBlockAssociationArray{ SecondaryNetworkIpv4CidrBlockAssociationArgs{...} }
+type SecondaryNetworkIpv4CidrBlockAssociationArrayInput interface {
+	pulumi.Input
+
+	ToSecondaryNetworkIpv4CidrBlockAssociationArrayOutput() SecondaryNetworkIpv4CidrBlockAssociationArrayOutput
+	ToSecondaryNetworkIpv4CidrBlockAssociationArrayOutputWithContext(context.Context) SecondaryNetworkIpv4CidrBlockAssociationArrayOutput
+}
+
+type SecondaryNetworkIpv4CidrBlockAssociationArray []SecondaryNetworkIpv4CidrBlockAssociationInput
+
+func (SecondaryNetworkIpv4CidrBlockAssociationArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SecondaryNetworkIpv4CidrBlockAssociation)(nil)).Elem()
+}
+
+func (i SecondaryNetworkIpv4CidrBlockAssociationArray) ToSecondaryNetworkIpv4CidrBlockAssociationArrayOutput() SecondaryNetworkIpv4CidrBlockAssociationArrayOutput {
+	return i.ToSecondaryNetworkIpv4CidrBlockAssociationArrayOutputWithContext(context.Background())
+}
+
+func (i SecondaryNetworkIpv4CidrBlockAssociationArray) ToSecondaryNetworkIpv4CidrBlockAssociationArrayOutputWithContext(ctx context.Context) SecondaryNetworkIpv4CidrBlockAssociationArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondaryNetworkIpv4CidrBlockAssociationArrayOutput)
+}
+
+type SecondaryNetworkIpv4CidrBlockAssociationOutput struct{ *pulumi.OutputState }
+
+func (SecondaryNetworkIpv4CidrBlockAssociationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SecondaryNetworkIpv4CidrBlockAssociation)(nil)).Elem()
+}
+
+func (o SecondaryNetworkIpv4CidrBlockAssociationOutput) ToSecondaryNetworkIpv4CidrBlockAssociationOutput() SecondaryNetworkIpv4CidrBlockAssociationOutput {
+	return o
+}
+
+func (o SecondaryNetworkIpv4CidrBlockAssociationOutput) ToSecondaryNetworkIpv4CidrBlockAssociationOutputWithContext(ctx context.Context) SecondaryNetworkIpv4CidrBlockAssociationOutput {
+	return o
+}
+
+// Association ID for the IPv4 CIDR block.
+func (o SecondaryNetworkIpv4CidrBlockAssociationOutput) AssociationId() pulumi.StringOutput {
+	return o.ApplyT(func(v SecondaryNetworkIpv4CidrBlockAssociation) string { return v.AssociationId }).(pulumi.StringOutput)
+}
+
+// IPv4 CIDR block.
+func (o SecondaryNetworkIpv4CidrBlockAssociationOutput) CidrBlock() pulumi.StringOutput {
+	return o.ApplyT(func(v SecondaryNetworkIpv4CidrBlockAssociation) string { return v.CidrBlock }).(pulumi.StringOutput)
+}
+
+// State of the IPv4 CIDR block association.
+func (o SecondaryNetworkIpv4CidrBlockAssociationOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v SecondaryNetworkIpv4CidrBlockAssociation) string { return v.State }).(pulumi.StringOutput)
+}
+
+type SecondaryNetworkIpv4CidrBlockAssociationArrayOutput struct{ *pulumi.OutputState }
+
+func (SecondaryNetworkIpv4CidrBlockAssociationArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SecondaryNetworkIpv4CidrBlockAssociation)(nil)).Elem()
+}
+
+func (o SecondaryNetworkIpv4CidrBlockAssociationArrayOutput) ToSecondaryNetworkIpv4CidrBlockAssociationArrayOutput() SecondaryNetworkIpv4CidrBlockAssociationArrayOutput {
+	return o
+}
+
+func (o SecondaryNetworkIpv4CidrBlockAssociationArrayOutput) ToSecondaryNetworkIpv4CidrBlockAssociationArrayOutputWithContext(ctx context.Context) SecondaryNetworkIpv4CidrBlockAssociationArrayOutput {
+	return o
+}
+
+func (o SecondaryNetworkIpv4CidrBlockAssociationArrayOutput) Index(i pulumi.IntInput) SecondaryNetworkIpv4CidrBlockAssociationOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SecondaryNetworkIpv4CidrBlockAssociation {
+		return vs[0].([]SecondaryNetworkIpv4CidrBlockAssociation)[vs[1].(int)]
+	}).(SecondaryNetworkIpv4CidrBlockAssociationOutput)
+}
+
+type SecondaryNetworkTimeouts struct {
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Create *string `pulumi:"create"`
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	Delete *string `pulumi:"delete"`
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Update *string `pulumi:"update"`
+}
+
+// SecondaryNetworkTimeoutsInput is an input type that accepts SecondaryNetworkTimeoutsArgs and SecondaryNetworkTimeoutsOutput values.
+// You can construct a concrete instance of `SecondaryNetworkTimeoutsInput` via:
+//
+//	SecondaryNetworkTimeoutsArgs{...}
+type SecondaryNetworkTimeoutsInput interface {
+	pulumi.Input
+
+	ToSecondaryNetworkTimeoutsOutput() SecondaryNetworkTimeoutsOutput
+	ToSecondaryNetworkTimeoutsOutputWithContext(context.Context) SecondaryNetworkTimeoutsOutput
+}
+
+type SecondaryNetworkTimeoutsArgs struct {
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Create pulumi.StringPtrInput `pulumi:"create"`
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	Delete pulumi.StringPtrInput `pulumi:"delete"`
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Update pulumi.StringPtrInput `pulumi:"update"`
+}
+
+func (SecondaryNetworkTimeoutsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SecondaryNetworkTimeouts)(nil)).Elem()
+}
+
+func (i SecondaryNetworkTimeoutsArgs) ToSecondaryNetworkTimeoutsOutput() SecondaryNetworkTimeoutsOutput {
+	return i.ToSecondaryNetworkTimeoutsOutputWithContext(context.Background())
+}
+
+func (i SecondaryNetworkTimeoutsArgs) ToSecondaryNetworkTimeoutsOutputWithContext(ctx context.Context) SecondaryNetworkTimeoutsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondaryNetworkTimeoutsOutput)
+}
+
+func (i SecondaryNetworkTimeoutsArgs) ToSecondaryNetworkTimeoutsPtrOutput() SecondaryNetworkTimeoutsPtrOutput {
+	return i.ToSecondaryNetworkTimeoutsPtrOutputWithContext(context.Background())
+}
+
+func (i SecondaryNetworkTimeoutsArgs) ToSecondaryNetworkTimeoutsPtrOutputWithContext(ctx context.Context) SecondaryNetworkTimeoutsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondaryNetworkTimeoutsOutput).ToSecondaryNetworkTimeoutsPtrOutputWithContext(ctx)
+}
+
+// SecondaryNetworkTimeoutsPtrInput is an input type that accepts SecondaryNetworkTimeoutsArgs, SecondaryNetworkTimeoutsPtr and SecondaryNetworkTimeoutsPtrOutput values.
+// You can construct a concrete instance of `SecondaryNetworkTimeoutsPtrInput` via:
+//
+//	        SecondaryNetworkTimeoutsArgs{...}
+//
+//	or:
+//
+//	        nil
+type SecondaryNetworkTimeoutsPtrInput interface {
+	pulumi.Input
+
+	ToSecondaryNetworkTimeoutsPtrOutput() SecondaryNetworkTimeoutsPtrOutput
+	ToSecondaryNetworkTimeoutsPtrOutputWithContext(context.Context) SecondaryNetworkTimeoutsPtrOutput
+}
+
+type secondaryNetworkTimeoutsPtrType SecondaryNetworkTimeoutsArgs
+
+func SecondaryNetworkTimeoutsPtr(v *SecondaryNetworkTimeoutsArgs) SecondaryNetworkTimeoutsPtrInput {
+	return (*secondaryNetworkTimeoutsPtrType)(v)
+}
+
+func (*secondaryNetworkTimeoutsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SecondaryNetworkTimeouts)(nil)).Elem()
+}
+
+func (i *secondaryNetworkTimeoutsPtrType) ToSecondaryNetworkTimeoutsPtrOutput() SecondaryNetworkTimeoutsPtrOutput {
+	return i.ToSecondaryNetworkTimeoutsPtrOutputWithContext(context.Background())
+}
+
+func (i *secondaryNetworkTimeoutsPtrType) ToSecondaryNetworkTimeoutsPtrOutputWithContext(ctx context.Context) SecondaryNetworkTimeoutsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondaryNetworkTimeoutsPtrOutput)
+}
+
+type SecondaryNetworkTimeoutsOutput struct{ *pulumi.OutputState }
+
+func (SecondaryNetworkTimeoutsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SecondaryNetworkTimeouts)(nil)).Elem()
+}
+
+func (o SecondaryNetworkTimeoutsOutput) ToSecondaryNetworkTimeoutsOutput() SecondaryNetworkTimeoutsOutput {
+	return o
+}
+
+func (o SecondaryNetworkTimeoutsOutput) ToSecondaryNetworkTimeoutsOutputWithContext(ctx context.Context) SecondaryNetworkTimeoutsOutput {
+	return o
+}
+
+func (o SecondaryNetworkTimeoutsOutput) ToSecondaryNetworkTimeoutsPtrOutput() SecondaryNetworkTimeoutsPtrOutput {
+	return o.ToSecondaryNetworkTimeoutsPtrOutputWithContext(context.Background())
+}
+
+func (o SecondaryNetworkTimeoutsOutput) ToSecondaryNetworkTimeoutsPtrOutputWithContext(ctx context.Context) SecondaryNetworkTimeoutsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SecondaryNetworkTimeouts) *SecondaryNetworkTimeouts {
+		return &v
+	}).(SecondaryNetworkTimeoutsPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+func (o SecondaryNetworkTimeoutsOutput) Create() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SecondaryNetworkTimeouts) *string { return v.Create }).(pulumi.StringPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+func (o SecondaryNetworkTimeoutsOutput) Delete() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SecondaryNetworkTimeouts) *string { return v.Delete }).(pulumi.StringPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+func (o SecondaryNetworkTimeoutsOutput) Update() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SecondaryNetworkTimeouts) *string { return v.Update }).(pulumi.StringPtrOutput)
+}
+
+type SecondaryNetworkTimeoutsPtrOutput struct{ *pulumi.OutputState }
+
+func (SecondaryNetworkTimeoutsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SecondaryNetworkTimeouts)(nil)).Elem()
+}
+
+func (o SecondaryNetworkTimeoutsPtrOutput) ToSecondaryNetworkTimeoutsPtrOutput() SecondaryNetworkTimeoutsPtrOutput {
+	return o
+}
+
+func (o SecondaryNetworkTimeoutsPtrOutput) ToSecondaryNetworkTimeoutsPtrOutputWithContext(ctx context.Context) SecondaryNetworkTimeoutsPtrOutput {
+	return o
+}
+
+func (o SecondaryNetworkTimeoutsPtrOutput) Elem() SecondaryNetworkTimeoutsOutput {
+	return o.ApplyT(func(v *SecondaryNetworkTimeouts) SecondaryNetworkTimeouts {
+		if v != nil {
+			return *v
+		}
+		var ret SecondaryNetworkTimeouts
+		return ret
+	}).(SecondaryNetworkTimeoutsOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+func (o SecondaryNetworkTimeoutsPtrOutput) Create() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SecondaryNetworkTimeouts) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Create
+	}).(pulumi.StringPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+func (o SecondaryNetworkTimeoutsPtrOutput) Delete() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SecondaryNetworkTimeouts) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Delete
+	}).(pulumi.StringPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+func (o SecondaryNetworkTimeoutsPtrOutput) Update() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SecondaryNetworkTimeouts) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Update
+	}).(pulumi.StringPtrOutput)
+}
+
+type SecondarySubnetIpv4CidrBlockAssociation struct {
+	// Association ID for the IPv4 CIDR block.
+	AssociationId string `pulumi:"associationId"`
+	// IPv4 CIDR block.
+	CidrBlock string `pulumi:"cidrBlock"`
+	// State of the IPv4 CIDR block association.
+	State string `pulumi:"state"`
+}
+
+// SecondarySubnetIpv4CidrBlockAssociationInput is an input type that accepts SecondarySubnetIpv4CidrBlockAssociationArgs and SecondarySubnetIpv4CidrBlockAssociationOutput values.
+// You can construct a concrete instance of `SecondarySubnetIpv4CidrBlockAssociationInput` via:
+//
+//	SecondarySubnetIpv4CidrBlockAssociationArgs{...}
+type SecondarySubnetIpv4CidrBlockAssociationInput interface {
+	pulumi.Input
+
+	ToSecondarySubnetIpv4CidrBlockAssociationOutput() SecondarySubnetIpv4CidrBlockAssociationOutput
+	ToSecondarySubnetIpv4CidrBlockAssociationOutputWithContext(context.Context) SecondarySubnetIpv4CidrBlockAssociationOutput
+}
+
+type SecondarySubnetIpv4CidrBlockAssociationArgs struct {
+	// Association ID for the IPv4 CIDR block.
+	AssociationId pulumi.StringInput `pulumi:"associationId"`
+	// IPv4 CIDR block.
+	CidrBlock pulumi.StringInput `pulumi:"cidrBlock"`
+	// State of the IPv4 CIDR block association.
+	State pulumi.StringInput `pulumi:"state"`
+}
+
+func (SecondarySubnetIpv4CidrBlockAssociationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SecondarySubnetIpv4CidrBlockAssociation)(nil)).Elem()
+}
+
+func (i SecondarySubnetIpv4CidrBlockAssociationArgs) ToSecondarySubnetIpv4CidrBlockAssociationOutput() SecondarySubnetIpv4CidrBlockAssociationOutput {
+	return i.ToSecondarySubnetIpv4CidrBlockAssociationOutputWithContext(context.Background())
+}
+
+func (i SecondarySubnetIpv4CidrBlockAssociationArgs) ToSecondarySubnetIpv4CidrBlockAssociationOutputWithContext(ctx context.Context) SecondarySubnetIpv4CidrBlockAssociationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondarySubnetIpv4CidrBlockAssociationOutput)
+}
+
+// SecondarySubnetIpv4CidrBlockAssociationArrayInput is an input type that accepts SecondarySubnetIpv4CidrBlockAssociationArray and SecondarySubnetIpv4CidrBlockAssociationArrayOutput values.
+// You can construct a concrete instance of `SecondarySubnetIpv4CidrBlockAssociationArrayInput` via:
+//
+//	SecondarySubnetIpv4CidrBlockAssociationArray{ SecondarySubnetIpv4CidrBlockAssociationArgs{...} }
+type SecondarySubnetIpv4CidrBlockAssociationArrayInput interface {
+	pulumi.Input
+
+	ToSecondarySubnetIpv4CidrBlockAssociationArrayOutput() SecondarySubnetIpv4CidrBlockAssociationArrayOutput
+	ToSecondarySubnetIpv4CidrBlockAssociationArrayOutputWithContext(context.Context) SecondarySubnetIpv4CidrBlockAssociationArrayOutput
+}
+
+type SecondarySubnetIpv4CidrBlockAssociationArray []SecondarySubnetIpv4CidrBlockAssociationInput
+
+func (SecondarySubnetIpv4CidrBlockAssociationArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SecondarySubnetIpv4CidrBlockAssociation)(nil)).Elem()
+}
+
+func (i SecondarySubnetIpv4CidrBlockAssociationArray) ToSecondarySubnetIpv4CidrBlockAssociationArrayOutput() SecondarySubnetIpv4CidrBlockAssociationArrayOutput {
+	return i.ToSecondarySubnetIpv4CidrBlockAssociationArrayOutputWithContext(context.Background())
+}
+
+func (i SecondarySubnetIpv4CidrBlockAssociationArray) ToSecondarySubnetIpv4CidrBlockAssociationArrayOutputWithContext(ctx context.Context) SecondarySubnetIpv4CidrBlockAssociationArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondarySubnetIpv4CidrBlockAssociationArrayOutput)
+}
+
+type SecondarySubnetIpv4CidrBlockAssociationOutput struct{ *pulumi.OutputState }
+
+func (SecondarySubnetIpv4CidrBlockAssociationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SecondarySubnetIpv4CidrBlockAssociation)(nil)).Elem()
+}
+
+func (o SecondarySubnetIpv4CidrBlockAssociationOutput) ToSecondarySubnetIpv4CidrBlockAssociationOutput() SecondarySubnetIpv4CidrBlockAssociationOutput {
+	return o
+}
+
+func (o SecondarySubnetIpv4CidrBlockAssociationOutput) ToSecondarySubnetIpv4CidrBlockAssociationOutputWithContext(ctx context.Context) SecondarySubnetIpv4CidrBlockAssociationOutput {
+	return o
+}
+
+// Association ID for the IPv4 CIDR block.
+func (o SecondarySubnetIpv4CidrBlockAssociationOutput) AssociationId() pulumi.StringOutput {
+	return o.ApplyT(func(v SecondarySubnetIpv4CidrBlockAssociation) string { return v.AssociationId }).(pulumi.StringOutput)
+}
+
+// IPv4 CIDR block.
+func (o SecondarySubnetIpv4CidrBlockAssociationOutput) CidrBlock() pulumi.StringOutput {
+	return o.ApplyT(func(v SecondarySubnetIpv4CidrBlockAssociation) string { return v.CidrBlock }).(pulumi.StringOutput)
+}
+
+// State of the IPv4 CIDR block association.
+func (o SecondarySubnetIpv4CidrBlockAssociationOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v SecondarySubnetIpv4CidrBlockAssociation) string { return v.State }).(pulumi.StringOutput)
+}
+
+type SecondarySubnetIpv4CidrBlockAssociationArrayOutput struct{ *pulumi.OutputState }
+
+func (SecondarySubnetIpv4CidrBlockAssociationArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SecondarySubnetIpv4CidrBlockAssociation)(nil)).Elem()
+}
+
+func (o SecondarySubnetIpv4CidrBlockAssociationArrayOutput) ToSecondarySubnetIpv4CidrBlockAssociationArrayOutput() SecondarySubnetIpv4CidrBlockAssociationArrayOutput {
+	return o
+}
+
+func (o SecondarySubnetIpv4CidrBlockAssociationArrayOutput) ToSecondarySubnetIpv4CidrBlockAssociationArrayOutputWithContext(ctx context.Context) SecondarySubnetIpv4CidrBlockAssociationArrayOutput {
+	return o
+}
+
+func (o SecondarySubnetIpv4CidrBlockAssociationArrayOutput) Index(i pulumi.IntInput) SecondarySubnetIpv4CidrBlockAssociationOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SecondarySubnetIpv4CidrBlockAssociation {
+		return vs[0].([]SecondarySubnetIpv4CidrBlockAssociation)[vs[1].(int)]
+	}).(SecondarySubnetIpv4CidrBlockAssociationOutput)
+}
+
+type SecondarySubnetTimeouts struct {
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Create *string `pulumi:"create"`
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	Delete *string `pulumi:"delete"`
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Update *string `pulumi:"update"`
+}
+
+// SecondarySubnetTimeoutsInput is an input type that accepts SecondarySubnetTimeoutsArgs and SecondarySubnetTimeoutsOutput values.
+// You can construct a concrete instance of `SecondarySubnetTimeoutsInput` via:
+//
+//	SecondarySubnetTimeoutsArgs{...}
+type SecondarySubnetTimeoutsInput interface {
+	pulumi.Input
+
+	ToSecondarySubnetTimeoutsOutput() SecondarySubnetTimeoutsOutput
+	ToSecondarySubnetTimeoutsOutputWithContext(context.Context) SecondarySubnetTimeoutsOutput
+}
+
+type SecondarySubnetTimeoutsArgs struct {
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Create pulumi.StringPtrInput `pulumi:"create"`
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	Delete pulumi.StringPtrInput `pulumi:"delete"`
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Update pulumi.StringPtrInput `pulumi:"update"`
+}
+
+func (SecondarySubnetTimeoutsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SecondarySubnetTimeouts)(nil)).Elem()
+}
+
+func (i SecondarySubnetTimeoutsArgs) ToSecondarySubnetTimeoutsOutput() SecondarySubnetTimeoutsOutput {
+	return i.ToSecondarySubnetTimeoutsOutputWithContext(context.Background())
+}
+
+func (i SecondarySubnetTimeoutsArgs) ToSecondarySubnetTimeoutsOutputWithContext(ctx context.Context) SecondarySubnetTimeoutsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondarySubnetTimeoutsOutput)
+}
+
+func (i SecondarySubnetTimeoutsArgs) ToSecondarySubnetTimeoutsPtrOutput() SecondarySubnetTimeoutsPtrOutput {
+	return i.ToSecondarySubnetTimeoutsPtrOutputWithContext(context.Background())
+}
+
+func (i SecondarySubnetTimeoutsArgs) ToSecondarySubnetTimeoutsPtrOutputWithContext(ctx context.Context) SecondarySubnetTimeoutsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondarySubnetTimeoutsOutput).ToSecondarySubnetTimeoutsPtrOutputWithContext(ctx)
+}
+
+// SecondarySubnetTimeoutsPtrInput is an input type that accepts SecondarySubnetTimeoutsArgs, SecondarySubnetTimeoutsPtr and SecondarySubnetTimeoutsPtrOutput values.
+// You can construct a concrete instance of `SecondarySubnetTimeoutsPtrInput` via:
+//
+//	        SecondarySubnetTimeoutsArgs{...}
+//
+//	or:
+//
+//	        nil
+type SecondarySubnetTimeoutsPtrInput interface {
+	pulumi.Input
+
+	ToSecondarySubnetTimeoutsPtrOutput() SecondarySubnetTimeoutsPtrOutput
+	ToSecondarySubnetTimeoutsPtrOutputWithContext(context.Context) SecondarySubnetTimeoutsPtrOutput
+}
+
+type secondarySubnetTimeoutsPtrType SecondarySubnetTimeoutsArgs
+
+func SecondarySubnetTimeoutsPtr(v *SecondarySubnetTimeoutsArgs) SecondarySubnetTimeoutsPtrInput {
+	return (*secondarySubnetTimeoutsPtrType)(v)
+}
+
+func (*secondarySubnetTimeoutsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SecondarySubnetTimeouts)(nil)).Elem()
+}
+
+func (i *secondarySubnetTimeoutsPtrType) ToSecondarySubnetTimeoutsPtrOutput() SecondarySubnetTimeoutsPtrOutput {
+	return i.ToSecondarySubnetTimeoutsPtrOutputWithContext(context.Background())
+}
+
+func (i *secondarySubnetTimeoutsPtrType) ToSecondarySubnetTimeoutsPtrOutputWithContext(ctx context.Context) SecondarySubnetTimeoutsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SecondarySubnetTimeoutsPtrOutput)
+}
+
+type SecondarySubnetTimeoutsOutput struct{ *pulumi.OutputState }
+
+func (SecondarySubnetTimeoutsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SecondarySubnetTimeouts)(nil)).Elem()
+}
+
+func (o SecondarySubnetTimeoutsOutput) ToSecondarySubnetTimeoutsOutput() SecondarySubnetTimeoutsOutput {
+	return o
+}
+
+func (o SecondarySubnetTimeoutsOutput) ToSecondarySubnetTimeoutsOutputWithContext(ctx context.Context) SecondarySubnetTimeoutsOutput {
+	return o
+}
+
+func (o SecondarySubnetTimeoutsOutput) ToSecondarySubnetTimeoutsPtrOutput() SecondarySubnetTimeoutsPtrOutput {
+	return o.ToSecondarySubnetTimeoutsPtrOutputWithContext(context.Background())
+}
+
+func (o SecondarySubnetTimeoutsOutput) ToSecondarySubnetTimeoutsPtrOutputWithContext(ctx context.Context) SecondarySubnetTimeoutsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SecondarySubnetTimeouts) *SecondarySubnetTimeouts {
+		return &v
+	}).(SecondarySubnetTimeoutsPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+func (o SecondarySubnetTimeoutsOutput) Create() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SecondarySubnetTimeouts) *string { return v.Create }).(pulumi.StringPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+func (o SecondarySubnetTimeoutsOutput) Delete() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SecondarySubnetTimeouts) *string { return v.Delete }).(pulumi.StringPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+func (o SecondarySubnetTimeoutsOutput) Update() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SecondarySubnetTimeouts) *string { return v.Update }).(pulumi.StringPtrOutput)
+}
+
+type SecondarySubnetTimeoutsPtrOutput struct{ *pulumi.OutputState }
+
+func (SecondarySubnetTimeoutsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SecondarySubnetTimeouts)(nil)).Elem()
+}
+
+func (o SecondarySubnetTimeoutsPtrOutput) ToSecondarySubnetTimeoutsPtrOutput() SecondarySubnetTimeoutsPtrOutput {
+	return o
+}
+
+func (o SecondarySubnetTimeoutsPtrOutput) ToSecondarySubnetTimeoutsPtrOutputWithContext(ctx context.Context) SecondarySubnetTimeoutsPtrOutput {
+	return o
+}
+
+func (o SecondarySubnetTimeoutsPtrOutput) Elem() SecondarySubnetTimeoutsOutput {
+	return o.ApplyT(func(v *SecondarySubnetTimeouts) SecondarySubnetTimeouts {
+		if v != nil {
+			return *v
+		}
+		var ret SecondarySubnetTimeouts
+		return ret
+	}).(SecondarySubnetTimeoutsOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+func (o SecondarySubnetTimeoutsPtrOutput) Create() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SecondarySubnetTimeouts) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Create
+	}).(pulumi.StringPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+func (o SecondarySubnetTimeoutsPtrOutput) Delete() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SecondarySubnetTimeouts) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Delete
+	}).(pulumi.StringPtrOutput)
+}
+
+// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+func (o SecondarySubnetTimeoutsPtrOutput) Update() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SecondarySubnetTimeouts) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Update
+	}).(pulumi.StringPtrOutput)
+}
+
 type SecurityGroupEgress struct {
 	// List of CIDR blocks.
 	CidrBlocks []string `pulumi:"cidrBlocks"`
@@ -34081,6 +35034,8 @@ type SpotInstanceRequestCpuOptions struct {
 	AmdSevSnp *string `pulumi:"amdSevSnp"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CoreCount *int `pulumi:"coreCount"`
+	// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+	NestedVirtualization *string `pulumi:"nestedVirtualization"`
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	//
 	// For more information, see the documentation on [Optimizing CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html).
@@ -34103,6 +35058,8 @@ type SpotInstanceRequestCpuOptionsArgs struct {
 	AmdSevSnp pulumi.StringPtrInput `pulumi:"amdSevSnp"`
 	// Sets the number of CPU cores for an instance. This option is only supported on creation of instance type that support CPU Options [CPU Cores and Threads Per CPU Core Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html#cpu-options-supported-instances-values) - specifying this option for unsupported instance types will return an error from the EC2 API.
 	CoreCount pulumi.IntPtrInput `pulumi:"coreCount"`
+	// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+	NestedVirtualization pulumi.StringPtrInput `pulumi:"nestedVirtualization"`
 	// If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 	//
 	// For more information, see the documentation on [Optimizing CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html).
@@ -34196,6 +35153,11 @@ func (o SpotInstanceRequestCpuOptionsOutput) CoreCount() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v SpotInstanceRequestCpuOptions) *int { return v.CoreCount }).(pulumi.IntPtrOutput)
 }
 
+// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+func (o SpotInstanceRequestCpuOptionsOutput) NestedVirtualization() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestCpuOptions) *string { return v.NestedVirtualization }).(pulumi.StringPtrOutput)
+}
+
 // If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
 //
 // For more information, see the documentation on [Optimizing CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html).
@@ -34245,6 +35207,16 @@ func (o SpotInstanceRequestCpuOptionsPtrOutput) CoreCount() pulumi.IntPtrOutput 
 		}
 		return v.CoreCount
 	}).(pulumi.IntPtrOutput)
+}
+
+// Indicates whether to enable the instance for nested virtualization. Nested virtualization is supported on 8th generation Intel-based instance types (C8i, M8i, R8i, and their flex variants) only. When nested virtualization is enabled, Virtual Secure Mode (VSM) is automatically disabled for the instance. Valid values are `enabled` and `disabled`.
+func (o SpotInstanceRequestCpuOptionsPtrOutput) NestedVirtualization() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SpotInstanceRequestCpuOptions) *string {
+		if v == nil {
+			return nil
+		}
+		return v.NestedVirtualization
+	}).(pulumi.StringPtrOutput)
 }
 
 // If set to 1, hyperthreading is disabled on the launched instance. Defaults to 2 if not set. See [Optimizing CPU Options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) for more information.
@@ -36124,6 +37096,190 @@ func (o SpotInstanceRequestRootBlockDevicePtrOutput) VolumeType() pulumi.StringP
 		}
 		return v.VolumeType
 	}).(pulumi.StringPtrOutput)
+}
+
+type SpotInstanceRequestSecondaryNetworkInterface struct {
+	// Whether the network interface should be destroyed when the instance is terminated. Defaults to `true`. Forces replacement.
+	DeleteOnTermination *bool `pulumi:"deleteOnTermination"`
+	// Device index for the network interface attachment. Defaults to `0`. Forces replacement.
+	DeviceIndex *int `pulumi:"deviceIndex"`
+	// Type of network interface. Currently only `secondary` is supported. Defaults to `secondary`. Forces replacement.
+	InterfaceType *string `pulumi:"interfaceType"`
+	MacAddress    *string `pulumi:"macAddress"`
+	// Network card index for the interface. Each network card can have one secondary interface. Forces replacement.
+	NetworkCardIndex int `pulumi:"networkCardIndex"`
+	// Number of private IP addresses to assign to the network interface. Defaults to `1`. Forces replacement.
+	PrivateIpAddressCount *int `pulumi:"privateIpAddressCount"`
+	// List of private IP addresses to assign to the network interface. If not specified, AWS will automatically assign IP addresses based on `privateIpAddressCount`. Forces replacement.
+	PrivateIpAddresses   []string `pulumi:"privateIpAddresses"`
+	SecondaryInterfaceId *string  `pulumi:"secondaryInterfaceId"`
+	SecondaryNetworkId   *string  `pulumi:"secondaryNetworkId"`
+	// ID of the secondary subnet in which to create the network interface. Forces replacement.
+	SecondarySubnetId string `pulumi:"secondarySubnetId"`
+	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
+	SourceDestCheck *bool   `pulumi:"sourceDestCheck"`
+	Status          *string `pulumi:"status"`
+}
+
+// SpotInstanceRequestSecondaryNetworkInterfaceInput is an input type that accepts SpotInstanceRequestSecondaryNetworkInterfaceArgs and SpotInstanceRequestSecondaryNetworkInterfaceOutput values.
+// You can construct a concrete instance of `SpotInstanceRequestSecondaryNetworkInterfaceInput` via:
+//
+//	SpotInstanceRequestSecondaryNetworkInterfaceArgs{...}
+type SpotInstanceRequestSecondaryNetworkInterfaceInput interface {
+	pulumi.Input
+
+	ToSpotInstanceRequestSecondaryNetworkInterfaceOutput() SpotInstanceRequestSecondaryNetworkInterfaceOutput
+	ToSpotInstanceRequestSecondaryNetworkInterfaceOutputWithContext(context.Context) SpotInstanceRequestSecondaryNetworkInterfaceOutput
+}
+
+type SpotInstanceRequestSecondaryNetworkInterfaceArgs struct {
+	// Whether the network interface should be destroyed when the instance is terminated. Defaults to `true`. Forces replacement.
+	DeleteOnTermination pulumi.BoolPtrInput `pulumi:"deleteOnTermination"`
+	// Device index for the network interface attachment. Defaults to `0`. Forces replacement.
+	DeviceIndex pulumi.IntPtrInput `pulumi:"deviceIndex"`
+	// Type of network interface. Currently only `secondary` is supported. Defaults to `secondary`. Forces replacement.
+	InterfaceType pulumi.StringPtrInput `pulumi:"interfaceType"`
+	MacAddress    pulumi.StringPtrInput `pulumi:"macAddress"`
+	// Network card index for the interface. Each network card can have one secondary interface. Forces replacement.
+	NetworkCardIndex pulumi.IntInput `pulumi:"networkCardIndex"`
+	// Number of private IP addresses to assign to the network interface. Defaults to `1`. Forces replacement.
+	PrivateIpAddressCount pulumi.IntPtrInput `pulumi:"privateIpAddressCount"`
+	// List of private IP addresses to assign to the network interface. If not specified, AWS will automatically assign IP addresses based on `privateIpAddressCount`. Forces replacement.
+	PrivateIpAddresses   pulumi.StringArrayInput `pulumi:"privateIpAddresses"`
+	SecondaryInterfaceId pulumi.StringPtrInput   `pulumi:"secondaryInterfaceId"`
+	SecondaryNetworkId   pulumi.StringPtrInput   `pulumi:"secondaryNetworkId"`
+	// ID of the secondary subnet in which to create the network interface. Forces replacement.
+	SecondarySubnetId pulumi.StringInput `pulumi:"secondarySubnetId"`
+	// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
+	SourceDestCheck pulumi.BoolPtrInput   `pulumi:"sourceDestCheck"`
+	Status          pulumi.StringPtrInput `pulumi:"status"`
+}
+
+func (SpotInstanceRequestSecondaryNetworkInterfaceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SpotInstanceRequestSecondaryNetworkInterface)(nil)).Elem()
+}
+
+func (i SpotInstanceRequestSecondaryNetworkInterfaceArgs) ToSpotInstanceRequestSecondaryNetworkInterfaceOutput() SpotInstanceRequestSecondaryNetworkInterfaceOutput {
+	return i.ToSpotInstanceRequestSecondaryNetworkInterfaceOutputWithContext(context.Background())
+}
+
+func (i SpotInstanceRequestSecondaryNetworkInterfaceArgs) ToSpotInstanceRequestSecondaryNetworkInterfaceOutputWithContext(ctx context.Context) SpotInstanceRequestSecondaryNetworkInterfaceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SpotInstanceRequestSecondaryNetworkInterfaceOutput)
+}
+
+// SpotInstanceRequestSecondaryNetworkInterfaceArrayInput is an input type that accepts SpotInstanceRequestSecondaryNetworkInterfaceArray and SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput values.
+// You can construct a concrete instance of `SpotInstanceRequestSecondaryNetworkInterfaceArrayInput` via:
+//
+//	SpotInstanceRequestSecondaryNetworkInterfaceArray{ SpotInstanceRequestSecondaryNetworkInterfaceArgs{...} }
+type SpotInstanceRequestSecondaryNetworkInterfaceArrayInput interface {
+	pulumi.Input
+
+	ToSpotInstanceRequestSecondaryNetworkInterfaceArrayOutput() SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput
+	ToSpotInstanceRequestSecondaryNetworkInterfaceArrayOutputWithContext(context.Context) SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput
+}
+
+type SpotInstanceRequestSecondaryNetworkInterfaceArray []SpotInstanceRequestSecondaryNetworkInterfaceInput
+
+func (SpotInstanceRequestSecondaryNetworkInterfaceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SpotInstanceRequestSecondaryNetworkInterface)(nil)).Elem()
+}
+
+func (i SpotInstanceRequestSecondaryNetworkInterfaceArray) ToSpotInstanceRequestSecondaryNetworkInterfaceArrayOutput() SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput {
+	return i.ToSpotInstanceRequestSecondaryNetworkInterfaceArrayOutputWithContext(context.Background())
+}
+
+func (i SpotInstanceRequestSecondaryNetworkInterfaceArray) ToSpotInstanceRequestSecondaryNetworkInterfaceArrayOutputWithContext(ctx context.Context) SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput)
+}
+
+type SpotInstanceRequestSecondaryNetworkInterfaceOutput struct{ *pulumi.OutputState }
+
+func (SpotInstanceRequestSecondaryNetworkInterfaceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SpotInstanceRequestSecondaryNetworkInterface)(nil)).Elem()
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) ToSpotInstanceRequestSecondaryNetworkInterfaceOutput() SpotInstanceRequestSecondaryNetworkInterfaceOutput {
+	return o
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) ToSpotInstanceRequestSecondaryNetworkInterfaceOutputWithContext(ctx context.Context) SpotInstanceRequestSecondaryNetworkInterfaceOutput {
+	return o
+}
+
+// Whether the network interface should be destroyed when the instance is terminated. Defaults to `true`. Forces replacement.
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) DeleteOnTermination() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *bool { return v.DeleteOnTermination }).(pulumi.BoolPtrOutput)
+}
+
+// Device index for the network interface attachment. Defaults to `0`. Forces replacement.
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) DeviceIndex() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *int { return v.DeviceIndex }).(pulumi.IntPtrOutput)
+}
+
+// Type of network interface. Currently only `secondary` is supported. Defaults to `secondary`. Forces replacement.
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) InterfaceType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *string { return v.InterfaceType }).(pulumi.StringPtrOutput)
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) MacAddress() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *string { return v.MacAddress }).(pulumi.StringPtrOutput)
+}
+
+// Network card index for the interface. Each network card can have one secondary interface. Forces replacement.
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) NetworkCardIndex() pulumi.IntOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) int { return v.NetworkCardIndex }).(pulumi.IntOutput)
+}
+
+// Number of private IP addresses to assign to the network interface. Defaults to `1`. Forces replacement.
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) PrivateIpAddressCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *int { return v.PrivateIpAddressCount }).(pulumi.IntPtrOutput)
+}
+
+// List of private IP addresses to assign to the network interface. If not specified, AWS will automatically assign IP addresses based on `privateIpAddressCount`. Forces replacement.
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) PrivateIpAddresses() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) []string { return v.PrivateIpAddresses }).(pulumi.StringArrayOutput)
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) SecondaryInterfaceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *string { return v.SecondaryInterfaceId }).(pulumi.StringPtrOutput)
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) SecondaryNetworkId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *string { return v.SecondaryNetworkId }).(pulumi.StringPtrOutput)
+}
+
+// ID of the secondary subnet in which to create the network interface. Forces replacement.
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) SecondarySubnetId() pulumi.StringOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) string { return v.SecondarySubnetId }).(pulumi.StringOutput)
+}
+
+// Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true.
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) SourceDestCheck() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *bool { return v.SourceDestCheck }).(pulumi.BoolPtrOutput)
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceOutput) Status() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SpotInstanceRequestSecondaryNetworkInterface) *string { return v.Status }).(pulumi.StringPtrOutput)
+}
+
+type SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
+
+func (SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SpotInstanceRequestSecondaryNetworkInterface)(nil)).Elem()
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput) ToSpotInstanceRequestSecondaryNetworkInterfaceArrayOutput() SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput) ToSpotInstanceRequestSecondaryNetworkInterfaceArrayOutputWithContext(ctx context.Context) SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) SpotInstanceRequestSecondaryNetworkInterfaceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SpotInstanceRequestSecondaryNetworkInterface {
+		return vs[0].([]SpotInstanceRequestSecondaryNetworkInterface)[vs[1].(int)]
+	}).(SpotInstanceRequestSecondaryNetworkInterfaceOutput)
 }
 
 type TrafficMirrorFilterRuleDestinationPortRange struct {
@@ -45970,9 +47126,10 @@ func (o GetLaunchTemplateCapacityReservationSpecificationCapacityReservationTarg
 }
 
 type GetLaunchTemplateCpuOption struct {
-	AmdSevSnp      string `pulumi:"amdSevSnp"`
-	CoreCount      int    `pulumi:"coreCount"`
-	ThreadsPerCore int    `pulumi:"threadsPerCore"`
+	AmdSevSnp            string `pulumi:"amdSevSnp"`
+	CoreCount            int    `pulumi:"coreCount"`
+	NestedVirtualization string `pulumi:"nestedVirtualization"`
+	ThreadsPerCore       int    `pulumi:"threadsPerCore"`
 }
 
 // GetLaunchTemplateCpuOptionInput is an input type that accepts GetLaunchTemplateCpuOptionArgs and GetLaunchTemplateCpuOptionOutput values.
@@ -45987,9 +47144,10 @@ type GetLaunchTemplateCpuOptionInput interface {
 }
 
 type GetLaunchTemplateCpuOptionArgs struct {
-	AmdSevSnp      pulumi.StringInput `pulumi:"amdSevSnp"`
-	CoreCount      pulumi.IntInput    `pulumi:"coreCount"`
-	ThreadsPerCore pulumi.IntInput    `pulumi:"threadsPerCore"`
+	AmdSevSnp            pulumi.StringInput `pulumi:"amdSevSnp"`
+	CoreCount            pulumi.IntInput    `pulumi:"coreCount"`
+	NestedVirtualization pulumi.StringInput `pulumi:"nestedVirtualization"`
+	ThreadsPerCore       pulumi.IntInput    `pulumi:"threadsPerCore"`
 }
 
 func (GetLaunchTemplateCpuOptionArgs) ElementType() reflect.Type {
@@ -46049,6 +47207,10 @@ func (o GetLaunchTemplateCpuOptionOutput) AmdSevSnp() pulumi.StringOutput {
 
 func (o GetLaunchTemplateCpuOptionOutput) CoreCount() pulumi.IntOutput {
 	return o.ApplyT(func(v GetLaunchTemplateCpuOption) int { return v.CoreCount }).(pulumi.IntOutput)
+}
+
+func (o GetLaunchTemplateCpuOptionOutput) NestedVirtualization() pulumi.StringOutput {
+	return o.ApplyT(func(v GetLaunchTemplateCpuOption) string { return v.NestedVirtualization }).(pulumi.StringOutput)
 }
 
 func (o GetLaunchTemplateCpuOptionOutput) ThreadsPerCore() pulumi.IntOutput {
@@ -48664,6 +49826,100 @@ func (o GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationArrayOut
 	}).(GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationOutput)
 }
 
+type GetLaunchTemplateNetworkPerformanceOption struct {
+	BandwidthWeighting string `pulumi:"bandwidthWeighting"`
+}
+
+// GetLaunchTemplateNetworkPerformanceOptionInput is an input type that accepts GetLaunchTemplateNetworkPerformanceOptionArgs and GetLaunchTemplateNetworkPerformanceOptionOutput values.
+// You can construct a concrete instance of `GetLaunchTemplateNetworkPerformanceOptionInput` via:
+//
+//	GetLaunchTemplateNetworkPerformanceOptionArgs{...}
+type GetLaunchTemplateNetworkPerformanceOptionInput interface {
+	pulumi.Input
+
+	ToGetLaunchTemplateNetworkPerformanceOptionOutput() GetLaunchTemplateNetworkPerformanceOptionOutput
+	ToGetLaunchTemplateNetworkPerformanceOptionOutputWithContext(context.Context) GetLaunchTemplateNetworkPerformanceOptionOutput
+}
+
+type GetLaunchTemplateNetworkPerformanceOptionArgs struct {
+	BandwidthWeighting pulumi.StringInput `pulumi:"bandwidthWeighting"`
+}
+
+func (GetLaunchTemplateNetworkPerformanceOptionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetLaunchTemplateNetworkPerformanceOption)(nil)).Elem()
+}
+
+func (i GetLaunchTemplateNetworkPerformanceOptionArgs) ToGetLaunchTemplateNetworkPerformanceOptionOutput() GetLaunchTemplateNetworkPerformanceOptionOutput {
+	return i.ToGetLaunchTemplateNetworkPerformanceOptionOutputWithContext(context.Background())
+}
+
+func (i GetLaunchTemplateNetworkPerformanceOptionArgs) ToGetLaunchTemplateNetworkPerformanceOptionOutputWithContext(ctx context.Context) GetLaunchTemplateNetworkPerformanceOptionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLaunchTemplateNetworkPerformanceOptionOutput)
+}
+
+// GetLaunchTemplateNetworkPerformanceOptionArrayInput is an input type that accepts GetLaunchTemplateNetworkPerformanceOptionArray and GetLaunchTemplateNetworkPerformanceOptionArrayOutput values.
+// You can construct a concrete instance of `GetLaunchTemplateNetworkPerformanceOptionArrayInput` via:
+//
+//	GetLaunchTemplateNetworkPerformanceOptionArray{ GetLaunchTemplateNetworkPerformanceOptionArgs{...} }
+type GetLaunchTemplateNetworkPerformanceOptionArrayInput interface {
+	pulumi.Input
+
+	ToGetLaunchTemplateNetworkPerformanceOptionArrayOutput() GetLaunchTemplateNetworkPerformanceOptionArrayOutput
+	ToGetLaunchTemplateNetworkPerformanceOptionArrayOutputWithContext(context.Context) GetLaunchTemplateNetworkPerformanceOptionArrayOutput
+}
+
+type GetLaunchTemplateNetworkPerformanceOptionArray []GetLaunchTemplateNetworkPerformanceOptionInput
+
+func (GetLaunchTemplateNetworkPerformanceOptionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetLaunchTemplateNetworkPerformanceOption)(nil)).Elem()
+}
+
+func (i GetLaunchTemplateNetworkPerformanceOptionArray) ToGetLaunchTemplateNetworkPerformanceOptionArrayOutput() GetLaunchTemplateNetworkPerformanceOptionArrayOutput {
+	return i.ToGetLaunchTemplateNetworkPerformanceOptionArrayOutputWithContext(context.Background())
+}
+
+func (i GetLaunchTemplateNetworkPerformanceOptionArray) ToGetLaunchTemplateNetworkPerformanceOptionArrayOutputWithContext(ctx context.Context) GetLaunchTemplateNetworkPerformanceOptionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLaunchTemplateNetworkPerformanceOptionArrayOutput)
+}
+
+type GetLaunchTemplateNetworkPerformanceOptionOutput struct{ *pulumi.OutputState }
+
+func (GetLaunchTemplateNetworkPerformanceOptionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetLaunchTemplateNetworkPerformanceOption)(nil)).Elem()
+}
+
+func (o GetLaunchTemplateNetworkPerformanceOptionOutput) ToGetLaunchTemplateNetworkPerformanceOptionOutput() GetLaunchTemplateNetworkPerformanceOptionOutput {
+	return o
+}
+
+func (o GetLaunchTemplateNetworkPerformanceOptionOutput) ToGetLaunchTemplateNetworkPerformanceOptionOutputWithContext(ctx context.Context) GetLaunchTemplateNetworkPerformanceOptionOutput {
+	return o
+}
+
+func (o GetLaunchTemplateNetworkPerformanceOptionOutput) BandwidthWeighting() pulumi.StringOutput {
+	return o.ApplyT(func(v GetLaunchTemplateNetworkPerformanceOption) string { return v.BandwidthWeighting }).(pulumi.StringOutput)
+}
+
+type GetLaunchTemplateNetworkPerformanceOptionArrayOutput struct{ *pulumi.OutputState }
+
+func (GetLaunchTemplateNetworkPerformanceOptionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetLaunchTemplateNetworkPerformanceOption)(nil)).Elem()
+}
+
+func (o GetLaunchTemplateNetworkPerformanceOptionArrayOutput) ToGetLaunchTemplateNetworkPerformanceOptionArrayOutput() GetLaunchTemplateNetworkPerformanceOptionArrayOutput {
+	return o
+}
+
+func (o GetLaunchTemplateNetworkPerformanceOptionArrayOutput) ToGetLaunchTemplateNetworkPerformanceOptionArrayOutputWithContext(ctx context.Context) GetLaunchTemplateNetworkPerformanceOptionArrayOutput {
+	return o
+}
+
+func (o GetLaunchTemplateNetworkPerformanceOptionArrayOutput) Index(i pulumi.IntInput) GetLaunchTemplateNetworkPerformanceOptionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetLaunchTemplateNetworkPerformanceOption {
+		return vs[0].([]GetLaunchTemplateNetworkPerformanceOption)[vs[1].(int)]
+	}).(GetLaunchTemplateNetworkPerformanceOptionOutput)
+}
+
 type GetLaunchTemplatePlacement struct {
 	Affinity             string `pulumi:"affinity"`
 	AvailabilityZone     string `pulumi:"availabilityZone"`
@@ -48910,6 +50166,136 @@ func (o GetLaunchTemplatePrivateDnsNameOptionArrayOutput) Index(i pulumi.IntInpu
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetLaunchTemplatePrivateDnsNameOption {
 		return vs[0].([]GetLaunchTemplatePrivateDnsNameOption)[vs[1].(int)]
 	}).(GetLaunchTemplatePrivateDnsNameOptionOutput)
+}
+
+type GetLaunchTemplateSecondaryInterface struct {
+	DeleteOnTermination   bool     `pulumi:"deleteOnTermination"`
+	DeviceIndex           int      `pulumi:"deviceIndex"`
+	InterfaceType         string   `pulumi:"interfaceType"`
+	NetworkCardIndex      int      `pulumi:"networkCardIndex"`
+	PrivateIpAddressCount int      `pulumi:"privateIpAddressCount"`
+	PrivateIpAddresses    []string `pulumi:"privateIpAddresses"`
+	SecondarySubnetId     string   `pulumi:"secondarySubnetId"`
+}
+
+// GetLaunchTemplateSecondaryInterfaceInput is an input type that accepts GetLaunchTemplateSecondaryInterfaceArgs and GetLaunchTemplateSecondaryInterfaceOutput values.
+// You can construct a concrete instance of `GetLaunchTemplateSecondaryInterfaceInput` via:
+//
+//	GetLaunchTemplateSecondaryInterfaceArgs{...}
+type GetLaunchTemplateSecondaryInterfaceInput interface {
+	pulumi.Input
+
+	ToGetLaunchTemplateSecondaryInterfaceOutput() GetLaunchTemplateSecondaryInterfaceOutput
+	ToGetLaunchTemplateSecondaryInterfaceOutputWithContext(context.Context) GetLaunchTemplateSecondaryInterfaceOutput
+}
+
+type GetLaunchTemplateSecondaryInterfaceArgs struct {
+	DeleteOnTermination   pulumi.BoolInput        `pulumi:"deleteOnTermination"`
+	DeviceIndex           pulumi.IntInput         `pulumi:"deviceIndex"`
+	InterfaceType         pulumi.StringInput      `pulumi:"interfaceType"`
+	NetworkCardIndex      pulumi.IntInput         `pulumi:"networkCardIndex"`
+	PrivateIpAddressCount pulumi.IntInput         `pulumi:"privateIpAddressCount"`
+	PrivateIpAddresses    pulumi.StringArrayInput `pulumi:"privateIpAddresses"`
+	SecondarySubnetId     pulumi.StringInput      `pulumi:"secondarySubnetId"`
+}
+
+func (GetLaunchTemplateSecondaryInterfaceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetLaunchTemplateSecondaryInterface)(nil)).Elem()
+}
+
+func (i GetLaunchTemplateSecondaryInterfaceArgs) ToGetLaunchTemplateSecondaryInterfaceOutput() GetLaunchTemplateSecondaryInterfaceOutput {
+	return i.ToGetLaunchTemplateSecondaryInterfaceOutputWithContext(context.Background())
+}
+
+func (i GetLaunchTemplateSecondaryInterfaceArgs) ToGetLaunchTemplateSecondaryInterfaceOutputWithContext(ctx context.Context) GetLaunchTemplateSecondaryInterfaceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLaunchTemplateSecondaryInterfaceOutput)
+}
+
+// GetLaunchTemplateSecondaryInterfaceArrayInput is an input type that accepts GetLaunchTemplateSecondaryInterfaceArray and GetLaunchTemplateSecondaryInterfaceArrayOutput values.
+// You can construct a concrete instance of `GetLaunchTemplateSecondaryInterfaceArrayInput` via:
+//
+//	GetLaunchTemplateSecondaryInterfaceArray{ GetLaunchTemplateSecondaryInterfaceArgs{...} }
+type GetLaunchTemplateSecondaryInterfaceArrayInput interface {
+	pulumi.Input
+
+	ToGetLaunchTemplateSecondaryInterfaceArrayOutput() GetLaunchTemplateSecondaryInterfaceArrayOutput
+	ToGetLaunchTemplateSecondaryInterfaceArrayOutputWithContext(context.Context) GetLaunchTemplateSecondaryInterfaceArrayOutput
+}
+
+type GetLaunchTemplateSecondaryInterfaceArray []GetLaunchTemplateSecondaryInterfaceInput
+
+func (GetLaunchTemplateSecondaryInterfaceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetLaunchTemplateSecondaryInterface)(nil)).Elem()
+}
+
+func (i GetLaunchTemplateSecondaryInterfaceArray) ToGetLaunchTemplateSecondaryInterfaceArrayOutput() GetLaunchTemplateSecondaryInterfaceArrayOutput {
+	return i.ToGetLaunchTemplateSecondaryInterfaceArrayOutputWithContext(context.Background())
+}
+
+func (i GetLaunchTemplateSecondaryInterfaceArray) ToGetLaunchTemplateSecondaryInterfaceArrayOutputWithContext(ctx context.Context) GetLaunchTemplateSecondaryInterfaceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetLaunchTemplateSecondaryInterfaceArrayOutput)
+}
+
+type GetLaunchTemplateSecondaryInterfaceOutput struct{ *pulumi.OutputState }
+
+func (GetLaunchTemplateSecondaryInterfaceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetLaunchTemplateSecondaryInterface)(nil)).Elem()
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) ToGetLaunchTemplateSecondaryInterfaceOutput() GetLaunchTemplateSecondaryInterfaceOutput {
+	return o
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) ToGetLaunchTemplateSecondaryInterfaceOutputWithContext(ctx context.Context) GetLaunchTemplateSecondaryInterfaceOutput {
+	return o
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) DeleteOnTermination() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetLaunchTemplateSecondaryInterface) bool { return v.DeleteOnTermination }).(pulumi.BoolOutput)
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) DeviceIndex() pulumi.IntOutput {
+	return o.ApplyT(func(v GetLaunchTemplateSecondaryInterface) int { return v.DeviceIndex }).(pulumi.IntOutput)
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) InterfaceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetLaunchTemplateSecondaryInterface) string { return v.InterfaceType }).(pulumi.StringOutput)
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) NetworkCardIndex() pulumi.IntOutput {
+	return o.ApplyT(func(v GetLaunchTemplateSecondaryInterface) int { return v.NetworkCardIndex }).(pulumi.IntOutput)
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) PrivateIpAddressCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetLaunchTemplateSecondaryInterface) int { return v.PrivateIpAddressCount }).(pulumi.IntOutput)
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) PrivateIpAddresses() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetLaunchTemplateSecondaryInterface) []string { return v.PrivateIpAddresses }).(pulumi.StringArrayOutput)
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceOutput) SecondarySubnetId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetLaunchTemplateSecondaryInterface) string { return v.SecondarySubnetId }).(pulumi.StringOutput)
+}
+
+type GetLaunchTemplateSecondaryInterfaceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetLaunchTemplateSecondaryInterfaceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetLaunchTemplateSecondaryInterface)(nil)).Elem()
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceArrayOutput) ToGetLaunchTemplateSecondaryInterfaceArrayOutput() GetLaunchTemplateSecondaryInterfaceArrayOutput {
+	return o
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceArrayOutput) ToGetLaunchTemplateSecondaryInterfaceArrayOutputWithContext(ctx context.Context) GetLaunchTemplateSecondaryInterfaceArrayOutput {
+	return o
+}
+
+func (o GetLaunchTemplateSecondaryInterfaceArrayOutput) Index(i pulumi.IntInput) GetLaunchTemplateSecondaryInterfaceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetLaunchTemplateSecondaryInterface {
+		return vs[0].([]GetLaunchTemplateSecondaryInterface)[vs[1].(int)]
+	}).(GetLaunchTemplateSecondaryInterfaceOutput)
 }
 
 type GetLaunchTemplateTagSpecification struct {
@@ -66638,6 +68024,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*InstancePrivateDnsNameOptionsPtrInput)(nil)).Elem(), InstancePrivateDnsNameOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceRootBlockDeviceInput)(nil)).Elem(), InstanceRootBlockDeviceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceRootBlockDevicePtrInput)(nil)).Elem(), InstanceRootBlockDeviceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*InstanceSecondaryNetworkInterfaceInput)(nil)).Elem(), InstanceSecondaryNetworkInterfaceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*InstanceSecondaryNetworkInterfaceArrayInput)(nil)).Elem(), InstanceSecondaryNetworkInterfaceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchConfigurationEbsBlockDeviceInput)(nil)).Elem(), LaunchConfigurationEbsBlockDeviceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchConfigurationEbsBlockDeviceArrayInput)(nil)).Elem(), LaunchConfigurationEbsBlockDeviceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchConfigurationEphemeralBlockDeviceInput)(nil)).Elem(), LaunchConfigurationEphemeralBlockDeviceArgs{})
@@ -66710,6 +68098,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchTemplatePlacementPtrInput)(nil)).Elem(), LaunchTemplatePlacementArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchTemplatePrivateDnsNameOptionsInput)(nil)).Elem(), LaunchTemplatePrivateDnsNameOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchTemplatePrivateDnsNameOptionsPtrInput)(nil)).Elem(), LaunchTemplatePrivateDnsNameOptionsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*LaunchTemplateSecondaryInterfaceInput)(nil)).Elem(), LaunchTemplateSecondaryInterfaceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*LaunchTemplateSecondaryInterfaceArrayInput)(nil)).Elem(), LaunchTemplateSecondaryInterfaceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchTemplateTagSpecificationInput)(nil)).Elem(), LaunchTemplateTagSpecificationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*LaunchTemplateTagSpecificationArrayInput)(nil)).Elem(), LaunchTemplateTagSpecificationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ManagedPrefixListEntryTypeInput)(nil)).Elem(), ManagedPrefixListEntryTypeArgs{})
@@ -66906,6 +68296,14 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*PeeringConnectionOptionsRequesterPtrInput)(nil)).Elem(), PeeringConnectionOptionsRequesterArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*RouteTableRouteInput)(nil)).Elem(), RouteTableRouteArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*RouteTableRouteArrayInput)(nil)).Elem(), RouteTableRouteArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SecondaryNetworkIpv4CidrBlockAssociationInput)(nil)).Elem(), SecondaryNetworkIpv4CidrBlockAssociationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SecondaryNetworkIpv4CidrBlockAssociationArrayInput)(nil)).Elem(), SecondaryNetworkIpv4CidrBlockAssociationArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SecondaryNetworkTimeoutsInput)(nil)).Elem(), SecondaryNetworkTimeoutsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SecondaryNetworkTimeoutsPtrInput)(nil)).Elem(), SecondaryNetworkTimeoutsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SecondarySubnetIpv4CidrBlockAssociationInput)(nil)).Elem(), SecondarySubnetIpv4CidrBlockAssociationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SecondarySubnetIpv4CidrBlockAssociationArrayInput)(nil)).Elem(), SecondarySubnetIpv4CidrBlockAssociationArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SecondarySubnetTimeoutsInput)(nil)).Elem(), SecondarySubnetTimeoutsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SecondarySubnetTimeoutsPtrInput)(nil)).Elem(), SecondarySubnetTimeoutsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SecurityGroupEgressInput)(nil)).Elem(), SecurityGroupEgressArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SecurityGroupEgressArrayInput)(nil)).Elem(), SecurityGroupEgressArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SecurityGroupIngressInput)(nil)).Elem(), SecurityGroupIngressArgs{})
@@ -66975,6 +68373,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestPrivateDnsNameOptionsPtrInput)(nil)).Elem(), SpotInstanceRequestPrivateDnsNameOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestRootBlockDeviceInput)(nil)).Elem(), SpotInstanceRequestRootBlockDeviceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestRootBlockDevicePtrInput)(nil)).Elem(), SpotInstanceRequestRootBlockDeviceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestSecondaryNetworkInterfaceInput)(nil)).Elem(), SpotInstanceRequestSecondaryNetworkInterfaceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SpotInstanceRequestSecondaryNetworkInterfaceArrayInput)(nil)).Elem(), SpotInstanceRequestSecondaryNetworkInterfaceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*TrafficMirrorFilterRuleDestinationPortRangeInput)(nil)).Elem(), TrafficMirrorFilterRuleDestinationPortRangeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*TrafficMirrorFilterRuleDestinationPortRangePtrInput)(nil)).Elem(), TrafficMirrorFilterRuleDestinationPortRangeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*TrafficMirrorFilterRuleSourcePortRangeInput)(nil)).Elem(), TrafficMirrorFilterRuleSourcePortRangeArgs{})
@@ -67171,10 +68571,14 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateNetworkInterfaceArrayInput)(nil)).Elem(), GetLaunchTemplateNetworkInterfaceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationInput)(nil)).Elem(), GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationArrayInput)(nil)).Elem(), GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateNetworkPerformanceOptionInput)(nil)).Elem(), GetLaunchTemplateNetworkPerformanceOptionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateNetworkPerformanceOptionArrayInput)(nil)).Elem(), GetLaunchTemplateNetworkPerformanceOptionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplatePlacementInput)(nil)).Elem(), GetLaunchTemplatePlacementArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplatePlacementArrayInput)(nil)).Elem(), GetLaunchTemplatePlacementArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplatePrivateDnsNameOptionInput)(nil)).Elem(), GetLaunchTemplatePrivateDnsNameOptionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplatePrivateDnsNameOptionArrayInput)(nil)).Elem(), GetLaunchTemplatePrivateDnsNameOptionArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateSecondaryInterfaceInput)(nil)).Elem(), GetLaunchTemplateSecondaryInterfaceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateSecondaryInterfaceArrayInput)(nil)).Elem(), GetLaunchTemplateSecondaryInterfaceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateTagSpecificationInput)(nil)).Elem(), GetLaunchTemplateTagSpecificationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLaunchTemplateTagSpecificationArrayInput)(nil)).Elem(), GetLaunchTemplateTagSpecificationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetLocalGatewayFilterInput)(nil)).Elem(), GetLocalGatewayFilterArgs{})
@@ -67601,6 +69005,8 @@ func init() {
 	pulumi.RegisterOutputType(InstancePrivateDnsNameOptionsPtrOutput{})
 	pulumi.RegisterOutputType(InstanceRootBlockDeviceOutput{})
 	pulumi.RegisterOutputType(InstanceRootBlockDevicePtrOutput{})
+	pulumi.RegisterOutputType(InstanceSecondaryNetworkInterfaceOutput{})
+	pulumi.RegisterOutputType(InstanceSecondaryNetworkInterfaceArrayOutput{})
 	pulumi.RegisterOutputType(LaunchConfigurationEbsBlockDeviceOutput{})
 	pulumi.RegisterOutputType(LaunchConfigurationEbsBlockDeviceArrayOutput{})
 	pulumi.RegisterOutputType(LaunchConfigurationEphemeralBlockDeviceOutput{})
@@ -67673,6 +69079,8 @@ func init() {
 	pulumi.RegisterOutputType(LaunchTemplatePlacementPtrOutput{})
 	pulumi.RegisterOutputType(LaunchTemplatePrivateDnsNameOptionsOutput{})
 	pulumi.RegisterOutputType(LaunchTemplatePrivateDnsNameOptionsPtrOutput{})
+	pulumi.RegisterOutputType(LaunchTemplateSecondaryInterfaceOutput{})
+	pulumi.RegisterOutputType(LaunchTemplateSecondaryInterfaceArrayOutput{})
 	pulumi.RegisterOutputType(LaunchTemplateTagSpecificationOutput{})
 	pulumi.RegisterOutputType(LaunchTemplateTagSpecificationArrayOutput{})
 	pulumi.RegisterOutputType(ManagedPrefixListEntryTypeOutput{})
@@ -67869,6 +69277,14 @@ func init() {
 	pulumi.RegisterOutputType(PeeringConnectionOptionsRequesterPtrOutput{})
 	pulumi.RegisterOutputType(RouteTableRouteOutput{})
 	pulumi.RegisterOutputType(RouteTableRouteArrayOutput{})
+	pulumi.RegisterOutputType(SecondaryNetworkIpv4CidrBlockAssociationOutput{})
+	pulumi.RegisterOutputType(SecondaryNetworkIpv4CidrBlockAssociationArrayOutput{})
+	pulumi.RegisterOutputType(SecondaryNetworkTimeoutsOutput{})
+	pulumi.RegisterOutputType(SecondaryNetworkTimeoutsPtrOutput{})
+	pulumi.RegisterOutputType(SecondarySubnetIpv4CidrBlockAssociationOutput{})
+	pulumi.RegisterOutputType(SecondarySubnetIpv4CidrBlockAssociationArrayOutput{})
+	pulumi.RegisterOutputType(SecondarySubnetTimeoutsOutput{})
+	pulumi.RegisterOutputType(SecondarySubnetTimeoutsPtrOutput{})
 	pulumi.RegisterOutputType(SecurityGroupEgressOutput{})
 	pulumi.RegisterOutputType(SecurityGroupEgressArrayOutput{})
 	pulumi.RegisterOutputType(SecurityGroupIngressOutput{})
@@ -67938,6 +69354,8 @@ func init() {
 	pulumi.RegisterOutputType(SpotInstanceRequestPrivateDnsNameOptionsPtrOutput{})
 	pulumi.RegisterOutputType(SpotInstanceRequestRootBlockDeviceOutput{})
 	pulumi.RegisterOutputType(SpotInstanceRequestRootBlockDevicePtrOutput{})
+	pulumi.RegisterOutputType(SpotInstanceRequestSecondaryNetworkInterfaceOutput{})
+	pulumi.RegisterOutputType(SpotInstanceRequestSecondaryNetworkInterfaceArrayOutput{})
 	pulumi.RegisterOutputType(TrafficMirrorFilterRuleDestinationPortRangeOutput{})
 	pulumi.RegisterOutputType(TrafficMirrorFilterRuleDestinationPortRangePtrOutput{})
 	pulumi.RegisterOutputType(TrafficMirrorFilterRuleSourcePortRangeOutput{})
@@ -68134,10 +69552,14 @@ func init() {
 	pulumi.RegisterOutputType(GetLaunchTemplateNetworkInterfaceArrayOutput{})
 	pulumi.RegisterOutputType(GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationOutput{})
 	pulumi.RegisterOutputType(GetLaunchTemplateNetworkInterfaceConnectionTrackingSpecificationArrayOutput{})
+	pulumi.RegisterOutputType(GetLaunchTemplateNetworkPerformanceOptionOutput{})
+	pulumi.RegisterOutputType(GetLaunchTemplateNetworkPerformanceOptionArrayOutput{})
 	pulumi.RegisterOutputType(GetLaunchTemplatePlacementOutput{})
 	pulumi.RegisterOutputType(GetLaunchTemplatePlacementArrayOutput{})
 	pulumi.RegisterOutputType(GetLaunchTemplatePrivateDnsNameOptionOutput{})
 	pulumi.RegisterOutputType(GetLaunchTemplatePrivateDnsNameOptionArrayOutput{})
+	pulumi.RegisterOutputType(GetLaunchTemplateSecondaryInterfaceOutput{})
+	pulumi.RegisterOutputType(GetLaunchTemplateSecondaryInterfaceArrayOutput{})
 	pulumi.RegisterOutputType(GetLaunchTemplateTagSpecificationOutput{})
 	pulumi.RegisterOutputType(GetLaunchTemplateTagSpecificationArrayOutput{})
 	pulumi.RegisterOutputType(GetLocalGatewayFilterOutput{})

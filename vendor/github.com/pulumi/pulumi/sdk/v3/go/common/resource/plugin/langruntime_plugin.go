@@ -207,9 +207,8 @@ func langRuntimePluginDialOptions(ctx *Context, runtime string) []grpc.DialOptio
 }
 
 func buildArgsForNewPlugin(host Host) ([]string, error) {
-	args := []string{}
-	// NOTE: positional argument for the server addresss must come last
-	args = append(args, host.ServerAddr())
+	// NOTE: positional argument for the server address must come last
+	args := []string{host.ServerAddr()}
 	return args, nil
 }
 
@@ -680,6 +679,7 @@ func (h *langhost) RunPlugin(ctx context.Context, info RunPluginInfo) (
 		Info:           minfo,
 		Kind:           info.Kind,
 		AttachDebugger: info.AttachDebugger,
+		LoaderTarget:   info.LoaderAddress,
 	})
 	if err != nil {
 		// If there was an error starting the plugin kill the context for this request to ensure any lingering

@@ -96,10 +96,10 @@ github.com/charmbracelet/x/term v0.2.2 h1:xVRT/S2ZcKdhhOuSP4t5cLi5o+JxklsoEObBSg
 github.com/charmbracelet/x/term v0.2.2/go.mod h1:kF8CY5RddLWrsgVwpw4kAa6TESp6EB5y3uxGLeCqzAI=
 github.com/ckaznocha/intrange v0.3.1 h1:j1onQyXvHUsPWujDH6WIjhyH26gkRt/txNlV7LspvJs=
 github.com/ckaznocha/intrange v0.3.1/go.mod h1:QVepyz1AkUoFQkpEqksSYpNpUo3c5W7nWh/s6SHIJJk=
-github.com/clipperhouse/displaywidth v0.10.0 h1:GhBG8WuerxjFQQYeuZAeVTuyxuX+UraiZGD4HJQ3Y8g=
-github.com/clipperhouse/displaywidth v0.10.0/go.mod h1:XqJajYsaiEwkxOj4bowCTMcT1SgvHo9flfF3jQasdbs=
-github.com/clipperhouse/uax29/v2 v2.6.0 h1:z0cDbUV+aPASdFb2/ndFnS9ts/WNXgTNNGFoKXuhpos=
-github.com/clipperhouse/uax29/v2 v2.6.0/go.mod h1:Wn1g7MK6OoeDT0vL+Q0SQLDz/KpfsVRgg6W7ihQeh4g=
+github.com/clipperhouse/displaywidth v0.11.0 h1:lBc6kY44VFw+TDx4I8opi/EtL9m20WSEFgwIwO+UVM8=
+github.com/clipperhouse/displaywidth v0.11.0/go.mod h1:bkrFNkf81G8HyVqmKGxsPufD3JhNl3dSqnGhOoSD/o0=
+github.com/clipperhouse/uax29/v2 v2.7.0 h1:+gs4oBZ2gPfVrKPthwbMzWZDaAFPGYK72F0NJv2v7Vk=
+github.com/clipperhouse/uax29/v2 v2.7.0/go.mod h1:EFJ2TJMRUaplDxHKj1qAEhCtQPW2tJSwu5BF98AuoVM=
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
 github.com/curioswitch/go-reassign v0.3.0 h1:dh3kpQHuADL3cobV/sSGETA8DOv457dwl+fbBAhrQPs=
 github.com/curioswitch/go-reassign v0.3.0/go.mod h1:nApPCCTtqLJN/s8HfItCcKV0jIPwluBOvZP+dsJGA88=
@@ -177,8 +177,8 @@ github.com/golangci/go-printf-func-name v0.1.1 h1:hIYTFJqAGp1iwoIfsNTpoq1xZAarog
 github.com/golangci/go-printf-func-name v0.1.1/go.mod h1:Es64MpWEZbh0UBtTAICOZiB+miW53w/K9Or/4QogJss=
 github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d h1:viFft9sS/dxoYY0aiOTsLKO2aZQAPT4nlQCsimGcSGE=
 github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d/go.mod h1:ivJ9QDg0XucIkmwhzCDsqcnxxlDStoTl89jDMIoNxKY=
-github.com/golangci/golangci-lint/v2 v2.9.0 h1:x5RRwa/jpNEjOnbSQSTam47QBsB50NMzCCUKe4GY/0U=
-github.com/golangci/golangci-lint/v2 v2.9.0/go.mod h1:gAPaJitu6HsyiuwJYO+WtKT9WmCpQZHR+gkXlCw1bRY=
+github.com/golangci/golangci-lint/v2 v2.10.1 h1:flhw5Px6ojbLyEFzXvJn5B2HEdkkRlkhE1SnmCbQBiE=
+github.com/golangci/golangci-lint/v2 v2.10.1/go.mod h1:dBsrOk6zj0vDhlTv+IiJGqkDokR24IVTS7W3EVfPTQY=
 github.com/golangci/golines v0.15.0 h1:Qnph25g8Y1c5fdo1X7GaRDGgnMHgnxh4Gk4VfPTtRx0=
 github.com/golangci/golines v0.15.0/go.mod h1:AZjXd23tbHMpowhtnGlj9KCNsysj72aeZVVHnVcZx10=
 github.com/golangci/misspell v0.8.0 h1:qvxQhiE2/5z+BVRo1kwYA8yGz+lOlu5Jfvtx2b04Jbg=
@@ -464,8 +464,8 @@ golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b h1:M2rDM6z3Fhozi9O7NWsxAkg/y
 golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b/go.mod h1:3//PLf8L/X+8b4vuAfHzxeRUl04Adcb341+IGKfnqS8=
 golang.org/x/exp/typeparams v0.0.0-20220428152302-39d4317da171/go.mod h1:AbB0pIl9nAr9wVwH+Z2ZpaocVmF5I4GyWCDIsVjR0bk=
 golang.org/x/exp/typeparams v0.0.0-20230203172020-98cc5a0785f9/go.mod h1:AbB0pIl9nAr9wVwH+Z2ZpaocVmF5I4GyWCDIsVjR0bk=
-golang.org/x/exp/typeparams v0.0.0-20260212183809-81e46e3db34a h1:n3SZDk8iNpMasCwQD7/0dIaCVf3gJiGZ9Rqa094jUN0=
-golang.org/x/exp/typeparams v0.0.0-20260212183809-81e46e3db34a/go.mod h1:PqrXSW65cXDZH0k4IeUbhmg/bcAZDbzNz3byBpKCsXo=
+golang.org/x/exp/typeparams v0.0.0-20260218203240-3dfff04db8fa h1:6Wi43P0isP8Nl8D4qJmA3VC4FswVH0RJkr5cauo67SQ=
+golang.org/x/exp/typeparams v0.0.0-20260218203240-3dfff04db8fa/go.mod h1:PqrXSW65cXDZH0k4IeUbhmg/bcAZDbzNz3byBpKCsXo=
 golang.org/x/mod v0.2.0/go.mod h1:s0Qsj1ACt9ePp/hMypM3fl4fZqREWJwdYDEqhRiZZUA=
 golang.org/x/mod v0.3.0/go.mod h1:s0Qsj1ACt9ePp/hMypM3fl4fZqREWJwdYDEqhRiZZUA=
 golang.org/x/mod v0.4.1/go.mod h1:s0Qsj1ACt9ePp/hMypM3fl4fZqREWJwdYDEqhRiZZUA=
