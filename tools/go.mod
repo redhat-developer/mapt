@@ -23,11 +23,11 @@ require (
 	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
 	dev.gaijin.team/go/golib v0.8.1 // indirect
 	github.com/AdminBenni/iota-mixing v1.0.0 // indirect
-	github.com/MirrexOne/unqueryvet v1.5.3 // indirect
+	github.com/MirrexOne/unqueryvet v1.5.4 // indirect
 	github.com/alfatraining/structtag v1.0.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.6.0 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
-	github.com/godoc-lint/godoc-lint v0.11.1 // indirect
+	github.com/godoc-lint/godoc-lint v0.11.2 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
 	// github.com/golangci/gofmt e7be49a5ab4d // indirect
 	github.com/gostaticanalysis/nilerr v0.1.2 // indirect
@@ -144,7 +144,7 @@ require (
 	github.com/matoous/godox v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-runewidth v0.0.19 // indirect
+	github.com/mattn/go-runewidth v0.0.20 // indirect
 	github.com/mgechev/revive v1.14.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/moricho/tparallel v0.3.2 // indirect

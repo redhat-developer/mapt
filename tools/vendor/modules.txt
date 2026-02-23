@@ -57,7 +57,7 @@ github.com/Djarvur/go-err113
 # github.com/Masterminds/semver/v3 v3.4.0
 ## explicit; go 1.21
 github.com/Masterminds/semver/v3
-# github.com/MirrexOne/unqueryvet v1.5.3
+# github.com/MirrexOne/unqueryvet v1.5.4
 ## explicit; go 1.24.0
 github.com/MirrexOne/unqueryvet
 github.com/MirrexOne/unqueryvet/internal/analyzer
@@ -279,7 +279,7 @@ github.com/gobwas/glob/syntax/ast
 github.com/gobwas/glob/syntax/lexer
 github.com/gobwas/glob/util/runes
 github.com/gobwas/glob/util/strings
-# github.com/godoc-lint/godoc-lint v0.11.1
+# github.com/godoc-lint/godoc-lint v0.11.2
 ## explicit; go 1.24.0
 github.com/godoc-lint/godoc-lint/pkg/analysis
 github.com/godoc-lint/godoc-lint/pkg/check
@@ -636,7 +636,7 @@ github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.20
 ## explicit; go 1.15
 github.com/mattn/go-isatty
-# github.com/mattn/go-runewidth v0.0.19
+# github.com/mattn/go-runewidth v0.0.20
 ## explicit; go 1.20
 github.com/mattn/go-runewidth
 # github.com/mgechev/revive v1.14.0
