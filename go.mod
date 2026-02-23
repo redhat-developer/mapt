@@ -4,9 +4,9 @@ go 1.25.5
 
 require (
 	github.com/coocood/freecache v1.2.5
-	github.com/pulumi/pulumi-command/sdk v1.1.3
+	github.com/pulumi/pulumi-command/sdk v1.2.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.19.1
-	github.com/pulumi/pulumi/sdk/v3 v3.220.0
+	github.com/pulumi/pulumi/sdk/v3 v3.223.0
 	github.com/sirupsen/logrus v1.9.4
 	github.com/spf13/cobra v1.10.2
 )
@@ -20,12 +20,12 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
 	github.com/aws/aws-sdk-go-v2 v1.41.1
 	github.com/aws/aws-sdk-go-v2/config v1.32.9
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.289.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.290.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.96.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.6
-	github.com/pulumi/pulumi-aws-native/sdk v1.54.0
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.19.0
-	github.com/pulumi/pulumi-awsx/sdk/v3 v3.1.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.55.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.20.0
+	github.com/pulumi/pulumi-awsx/sdk/v3 v3.2.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.13.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.13.0
 	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.13.0
@@ -35,7 +35,7 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.13.0
 	github.com/pulumi/pulumi-gitlab/sdk/v8 v8.11.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.3.0
-	golang.org/x/exp v0.0.0-20260212183809-81e46e3db34a
+	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa
 )
 
 require (
@@ -96,8 +96,8 @@ require (
 	github.com/charmbracelet/x/ansi v0.11.6 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.15 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
-	github.com/clipperhouse/displaywidth v0.10.0 // indirect
-	github.com/clipperhouse/uax29/v2 v2.6.0 // indirect
+	github.com/clipperhouse/displaywidth v0.11.0 // indirect
+	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/cloudflare/circl v1.6.3 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
@@ -134,7 +134,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/sync v0.19.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260209200024-4cfbd4190f57 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260217215200-42d3e9bedb6d // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
@@ -142,7 +142,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.3.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.71.0
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.72.0
 	github.com/aws/aws-sdk-go-v2/service/iam v1.53.2
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect
@@ -159,7 +159,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
-	github.com/kevinburke/ssh_config v1.5.0 // indirect
+	github.com/kevinburke/ssh_config v1.6.0 // indirect
 	github.com/mattn/go-runewidth v0.0.20 // indirect
 	github.com/mitchellh/go-ps v1.0.0 // indirect
 	github.com/nxadm/tail v1.4.11 // indirect
@@ -167,7 +167,7 @@ require (
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
-	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.25.0
+	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.26.0
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect

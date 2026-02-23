@@ -11,7 +11,7 @@ CIRRUS_CLI ?= v0.164.3
 # renovate: datasource=github-releases depName=actions/runner
 GITHUB_RUNNER ?= 2.331.0
 # renovate: datasource=gitlab-releases depName=gitlab-org/gitlab-runner
-GITLAB_RUNNER ?= 18.8.0
+GITLAB_RUNNER ?= 18.9.0
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)

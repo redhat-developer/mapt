@@ -141,8 +141,6 @@ import (
 //
 // import (
 //
-//	"fmt"
-//
 //	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ecs"
 //	"github.com/pulumi/pulumi-std/sdk/go/std"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -397,6 +395,18 @@ import (
 // ```
 //
 // ## Import
+//
+// ### Identity Schema
+//
+// #### Required
+//
+// * `family` (String) The unique name for your task definition.
+// * `revision` (Integer) The revision of the task in a particular family.
+//
+// #### Optional
+//
+// * `accountId` (String) AWS Account where this resource is managed.
+// * `region` (String) Region where this resource is managed.
 //
 // Using `pulumi import`, import ECS Task Definitions using their ARNs. For example:
 //
