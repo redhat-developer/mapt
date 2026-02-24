@@ -1,9 +1,7 @@
 package integrations
 
 import (
-	"fmt"
-	"strings"
-
+	cloudinit "github.com/redhat-developer/mapt/pkg/util/cloud-init"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 )
 
@@ -49,11 +47,5 @@ func GetIntegrationSnippetAsCloudInitWritableFile(intCfg IntegrationConfig, user
 	if err != nil || len(*snippet) == 0 {
 		return snippet, err
 	}
-	lines := strings.Split(strings.TrimSpace(*snippet), "\n")
-	for i, line := range lines {
-		// Added 6 spaces before each line
-		lines[i] = fmt.Sprintf("      %s", line)
-	}
-	identedSnippet := strings.Join(lines, "\n")
-	return &identedSnippet, nil
+	return cloudinit.IndentWriteFile(snippet)
 }
