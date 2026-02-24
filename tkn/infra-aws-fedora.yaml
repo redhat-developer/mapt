@@ -236,7 +236,6 @@ spec:
           if [[ "$(params.compute-sizes)" != "" ]]; then
             cmd+="--compute-sizes '$(params.compute-sizes)' "
           else
-            cmd+="--arch '$(params.arch)' "
             cmd+="--cpus '$(params.cpus)' "
             cmd+="--memory '$(params.memory)' "
             cmd+="--gpus '$(params.gpus)' "
@@ -245,6 +244,7 @@ spec:
           if [[ "$(params.nested-virt)" == "true" ]]; then
             cmd+="--nested-virt "
           fi
+          cmd+="--arch '$(params.arch)' "
           cmd+="--version '$(params.version)' "
           if [[ -f /opt/rh-account-secret/user ]]; then
             cmd+="--rh-subscription-username '$(cat /opt/rh-account-secret/user)' "
