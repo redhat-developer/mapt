@@ -3,26 +3,38 @@ rh_subscription:
   username: {{.SubscriptionUsername}}
   password: {{.SubscriptionPassword}}
   auto-attach: true
+growpart:
+  mode: auto
+  devices: ["/"]
+  ignore_growroot_disabled: false
 runcmd:
+  - /usr/local/bin/expand-root-disk.sh
   - while fuser /var/lib/rpm/.rpm.lock > /dev/null 2>&1 ; do sleep 1 ; done
   - dnf install -y podman
 {{ if .ActionsRunnerSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh{{ end }}
 {{ if .CirrusSnippet }}  - /opt/setup-cirrus-service.sh{{ end }}
 {{ if .GitLabSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-glrunner.sh{{ end }}
-{{ if .ActionsRunnerSnippet }}write_files:
+write_files:
+{{- if .ExpandRootDisk }}
+  - path: /usr/local/bin/expand-root-disk.sh
+    permissions: '0755'
+    content: |
+{{ .ExpandRootDisk }}
+{{- end }}
+{{ if .ActionsRunnerSnippet }}
   # Github actions runner installation
   - content: |
 {{ .ActionsRunnerSnippet }}
     path: /opt/install-ghrunner.sh
     permissions: '0755'
 {{ end }}
-{{ if .CirrusSnippet }}write_files:
+{{ if .CirrusSnippet }}
   - content: |
 {{.CirrusSnippet}}
     path: /opt/setup-cirrus-service.sh
     permissions: '0755'
 {{ end }}
-{{ if .GitLabSnippet }}write_files:
+{{ if .GitLabSnippet }}
   - content: |
 {{.GitLabSnippet}}
     path: /opt/install-glrunner.sh

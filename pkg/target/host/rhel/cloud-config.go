@@ -9,6 +9,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
+	cloudinit "github.com/redhat-developer/mapt/pkg/util/cloud-init"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 )
 
@@ -16,6 +17,7 @@ type CloudConfigArgs struct {
 	SNCProfile                 bool
 	SubsUsername, SubsPassword string
 	Username                   string
+	ExpandRootDisk             []byte
 }
 
 type userDataValues struct {
@@ -25,6 +27,7 @@ type userDataValues struct {
 	ActionsRunnerSnippet string
 	CirrusSnippet        string
 	GitLabSnippet        string
+	ExpandRootDisk       string
 }
 
 //go:embed cloud-config-base
@@ -50,15 +53,22 @@ func (r *CloudConfigArgs) CloudConfig() (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	userdata, err := file.Template(
-		userDataValues{
-			r.SubsUsername,
-			r.SubsPassword,
-			r.Username,
-			*ghActionsRunnerSnippet,
-			*cirrusSnippet,
-			*gitlabSnippet},
-		templateConfig)
+	udv := userDataValues{
+		SubscriptionUsername: r.SubsUsername,
+		SubscriptionPassword: r.SubsPassword,
+		Username:             r.Username,
+		ActionsRunnerSnippet: *ghActionsRunnerSnippet,
+		CirrusSnippet:        *cirrusSnippet,
+		GitLabSnippet:        *gitlabSnippet}
+	if r.ExpandRootDisk != nil {
+		snippet := string(r.ExpandRootDisk[:])
+		iSnippet, err := cloudinit.IndentWriteFile(&snippet)
+		if err != nil {
+			return nil, err
+		}
+		udv.ExpandRootDisk = *iSnippet
+	}
+	userdata, err := file.Template(udv, templateConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -88,15 +98,22 @@ func (r *CloudConfigArgs) CloudConfigWithGitLabToken(gitlabAuthToken string) (st
 	if err != nil {
 		return "", err
 	}
-	userdata, err := file.Template(
-		userDataValues{
-			r.SubsUsername,
-			r.SubsPassword,
-			r.Username,
-			*ghActionsRunnerSnippet,
-			*cirrusSnippet,
-			*gitlabSnippet},
-		templateConfig)
+	udv := userDataValues{
+		SubscriptionUsername: r.SubsUsername,
+		SubscriptionPassword: r.SubsPassword,
+		Username:             r.Username,
+		ActionsRunnerSnippet: *ghActionsRunnerSnippet,
+		CirrusSnippet:        *cirrusSnippet,
+		GitLabSnippet:        *gitlabSnippet}
+	if r.ExpandRootDisk != nil {
+		snippet := string(r.ExpandRootDisk[:])
+		iSnippet, err := cloudinit.IndentWriteFile(&snippet)
+		if err != nil {
+			return "", err
+		}
+		udv.ExpandRootDisk = *iSnippet
+	}
+	userdata, err := file.Template(udv, templateConfig)
 	if err != nil {
 		return "", err
 	}

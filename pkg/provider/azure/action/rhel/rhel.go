@@ -1,6 +1,7 @@
 package rhel
 
 import (
+	_ "embed"
 	"fmt"
 	"strings"
 
@@ -44,13 +45,17 @@ func imageRef(version, arch string) *data.ImageReference {
 			strings.ReplaceAll(version, ".", ""))}
 }
 
+//go:embed expand-root-disk.sh
+var ExpandRootDisk []byte
+
 func Create(mCtxArgs *maptContext.ContextArgs, r *RhelArgs) (err error) {
 	logging.Debug("Creating RHEL Server")
 	rhelCloudConfig := &rhelApi.CloudConfigArgs{
-		SNCProfile:   r.ProfileSNC,
-		SubsUsername: r.SubsUsername,
-		SubsPassword: r.SubsUserpass,
-		Username:     r.Username}
+		SNCProfile:     r.ProfileSNC,
+		SubsUsername:   r.SubsUsername,
+		SubsPassword:   r.SubsUserpass,
+		Username:       r.Username,
+		ExpandRootDisk: ExpandRootDisk}
 	azureLinuxRequest :=
 		&azureLinux.LinuxArgs{
 			Prefix:         r.Prefix,
