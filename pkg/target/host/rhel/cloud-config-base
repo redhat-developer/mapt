@@ -8,12 +8,13 @@ growpart:
   devices: ["/"]
   ignore_growroot_disabled: false
 runcmd:
-  - /usr/local/bin/expand-root-disk.sh
+{{ if .ExpandRootDisk }}  - /usr/local/bin/expand-root-disk.sh{{ end }}
   - while fuser /var/lib/rpm/.rpm.lock > /dev/null 2>&1 ; do sleep 1 ; done
   - dnf install -y podman
 {{ if .ActionsRunnerSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh{{ end }}
 {{ if .CirrusSnippet }}  - /opt/setup-cirrus-service.sh{{ end }}
 {{ if .GitLabSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-glrunner.sh{{ end }}
+{{- if or .ExpandRootDisk .ActionsRunnerSnippet .CirrusSnippet .GitLabSnippet }}
 write_files:
 {{- if .ExpandRootDisk }}
   - path: /usr/local/bin/expand-root-disk.sh
@@ -40,3 +41,4 @@ write_files:
     path: /opt/install-glrunner.sh
     permissions: '0755'
 {{ end }}
+{{- end }}
