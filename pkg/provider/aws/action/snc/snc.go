@@ -43,6 +43,7 @@ type openshiftSNCRequest struct {
 	timeout                 *string
 	pullSecretFile          *string
 	allocationData          *allocation.AllocationResult
+	profiles                []string
 }
 
 func (r *openshiftSNCRequest) validate() error {
@@ -63,6 +64,10 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 	if err != nil {
 		return nil, err
 	}
+	// Validate profiles
+	if err := apiSNC.ValidateProfiles(args.Profiles); err != nil {
+		return nil, err
+	}
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := openshiftSNCRequest{
@@ -72,7 +77,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 		disableClusterReadiness: args.DisableClusterReadiness,
 		arch:                    &args.Arch,
 		pullSecretFile:          &args.PullSecretFile,
-		timeout:                 &args.Timeout}
+		timeout:                 &args.Timeout,
+		profiles:                args.Profiles}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -258,6 +264,22 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputKubeconfig),
 		pulumi.ToSecret(kubeconfig))
+	// Deploy profiles using Kubernetes provider
+	if len(r.profiles) > 0 {
+		k8sProvider, err := apiSNC.NewK8sProvider(ctx, "k8s-provider", kubeconfig)
+		if err != nil {
+			return err
+		}
+		for _, profileName := range r.profiles {
+			if _, err := apiSNC.DeployProfile(ctx, profileName, &apiSNC.ProfileDeployArgs{
+				K8sProvider: k8sProvider,
+				Kubeconfig:  kubeconfig,
+				Prefix:      *r.prefix,
+			}); err != nil {
+				return err
+			}
+		}
+	}
 	return nil
 }
 

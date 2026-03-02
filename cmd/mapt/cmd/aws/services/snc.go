@@ -22,6 +22,9 @@ const (
 	pullSecretFileDesc          = "file path of image pull secret (download from https://console.redhat.com/openshift/create/local)"
 	disableClusterReadiness     = "disable-cluster-readiness"
 	disableClusterReadinessDesc = "If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated"
+
+	sncProfile     = "profile"
+	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization"
 )
 
 func GetOpenshiftSNCCmd() *cobra.Command {
@@ -51,6 +54,14 @@ func createSNC() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
+			if err := viper.BindPFlags(cmd.InheritedFlags()); err != nil {
+				return err
+			}
+			profiles := viper.GetStringSlice(sncProfile)
+			computeReq := params.ComputeRequestArgs()
+			if sncApi.ProfilesRequireNestedVirt(profiles) {
+				computeReq.NestedVirt = true
+			}
 			if _, err := openshiftsnc.Create(
 				&maptContext.ContextArgs{
 					Context:       cmd.Context(),
@@ -62,13 +73,14 @@ func createSNC() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&sncApi.SNCArgs{
-					ComputeRequest:          params.ComputeRequestArgs(),
+					ComputeRequest:          computeReq,
 					Spot:                    params.SpotArgs(),
 					Version:                 viper.GetString(ocpVersion),
 					DisableClusterReadiness: viper.IsSet(disableClusterReadiness),
 					Arch:                    viper.GetString(params.LinuxArch),
 					PullSecretFile:          viper.GetString(pullSecretFile),
-					Timeout:                 viper.GetString(params.Timeout)}); err != nil {
+					Timeout:                 viper.GetString(params.Timeout),
+					Profiles:                profiles}); err != nil {
 				return err
 			}
 			return nil
@@ -82,6 +94,7 @@ func createSNC() *cobra.Command {
 	flagSet.StringP(pullSecretFile, "", "", pullSecretFileDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	flagSet.StringSliceP(sncProfile, "", []string{}, sncProfileDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)

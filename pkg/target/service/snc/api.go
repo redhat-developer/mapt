@@ -49,6 +49,7 @@ type SNCArgs struct {
 	PullSecretFile          string
 	Spot                    *spotTypes.SpotArgs
 	Timeout                 string
+	Profiles                []string
 }
 
 type SNCResults struct {
