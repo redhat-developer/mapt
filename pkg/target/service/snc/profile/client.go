@@ -1,4 +1,4 @@
-package snc
+package profile
 
 import (
 	"context"
@@ -6,8 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	logging "github.com/redhat-developer/mapt/pkg/util/logging"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -16,11 +14,11 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-// NewK8sProvider creates a Pulumi Kubernetes provider from a kubeconfig string output.
-func NewK8sProvider(ctx *pulumi.Context, name string, kubeconfig pulumi.StringOutput) (*kubernetes.Provider, error) {
-	return kubernetes.NewProvider(ctx, name, &kubernetes.ProviderArgs{
-		Kubeconfig: kubeconfig,
-	})
+// csvGVR is used by multiple profiles to wait for OLM ClusterServiceVersions.
+var csvGVR = schema.GroupVersionResource{
+	Group:    "operators.coreos.com",
+	Version:  "v1alpha1",
+	Resource: "clusterserviceversions",
 }
 
 // waitForCRCondition polls a custom resource until a nested field matches the expected value.
