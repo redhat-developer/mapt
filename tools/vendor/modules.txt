@@ -880,8 +880,8 @@ github.com/ultraware/funlen
 # github.com/ultraware/whitespace v0.2.0
 ## explicit; go 1.20
 github.com/ultraware/whitespace
-# github.com/uudashr/gocognit v1.2.0
-## explicit; go 1.19
+# github.com/uudashr/gocognit v1.2.1
+## explicit; go 1.24.0
 github.com/uudashr/gocognit
 # github.com/uudashr/iface v1.4.1
 ## explicit; go 1.23.0
