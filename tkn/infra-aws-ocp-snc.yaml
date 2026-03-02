@@ -125,7 +125,10 @@ spec:
     - name: disable-cluster-readiness
       description: If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated.
       default: 'false'
-    
+    - name: profile
+      description: Comma-separated list of profiles to install on the cluster (e.g. virtualization). When virtualization is selected, a bare metal instance is used.
+      default: "''"
+
     # Metadata params
     - name: tags
       description: tags for the resources created on the providers
@@ -238,6 +241,9 @@ spec:
           fi
           if [[ $(params.disable-cluster-readiness) == "true" ]]; then
             cmd+="--disable-cluster-readiness "
+          fi
+          if [[ $(params.profile) != "" ]]; then
+            cmd+="--profile $(params.profile) "
           fi
           
           if [[ $(params.spot) == "true" ]]; then 

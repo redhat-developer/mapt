@@ -40,10 +40,41 @@ After the AMI is published and accessible by the account, we can use the followi
         --spot \
         --version 4.19.0 \
         --project-name mapt-snc \
-        --backed-url file:///Users/tester/workspace \
+        --backed-url file:///home/tester/workspace \
         --conn-details-output /tmp/snc \
-        --pull-secret-file /Users/tester/Downloads/pull-secret
+        --pull-secret-file /home/tester/Downloads/pull-secret
 ```
 
 After the above command succeeds the `kubeconfig` to access the deployed cluster will be available in `/tmp/snc/kubeconfig`
+
+## Profiles
+
+Profiles are optional addons that are installed on the SNC cluster after it is ready. Use the `--profile` flag to enable one or more profiles:
+
+```
+mapt aws openshift-snc create \
+    --spot \
+    --version 4.21.0 \
+    --project-name mapt-snc \
+    --backed-url file:///home/tester/workspace \
+    --conn-details-output /tmp/snc \
+    --pull-secret-file /home/tester/Downloads/pull-secret \
+    --profile virtualization
+```
+
+Multiple profiles can be specified as a comma-separated list (e.g., `--profile virtualization,serverless`).
+
+### Available profiles
+
+| Profile | Description |
+|---------|-------------|
+| `virtualization` | Installs [OpenShift Virtualization](https://docs.openshift.com/container-platform/latest/virt/about_virt/about-virt.html) (CNV) on the cluster, enabling virtual machines to run on the single-node cluster. When this profile is selected, nested virtualization is automatically enabled on the cloud instance. Because standard Nitro-based instances do not expose `/dev/kvm`, a bare metal instance is required.|
+
+
+### Adding new profiles
+
+To add a new profile:
+
+1. Create `profile_<name>.go` under `pkg/target/service/snc/` — Go file with a `deploy<Name>()` function that uses the Pulumi Kubernetes provider to create the required resources (Namespace, OperatorGroup, Subscription, CRs, etc.)
+2. Register the profile name in `profiles.go` by adding it to `validProfiles` and the `DeployProfile()` switch
 
