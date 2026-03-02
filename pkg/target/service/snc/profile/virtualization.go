@@ -1,4 +1,4 @@
-package snc
+package profile
 
 import (
 	"fmt"
@@ -16,11 +16,6 @@ const (
 )
 
 var (
-	csvGVR = schema.GroupVersionResource{
-		Group:    "operators.coreos.com",
-		Version:  "v1alpha1",
-		Resource: "clusterserviceversions",
-	}
 	hcoGVR = schema.GroupVersionResource{
 		Group:    "hco.kubevirt.io",
 		Version:  "v1beta1",
@@ -28,7 +23,7 @@ var (
 	}
 )
 
-func deployVirtualization(ctx *pulumi.Context, args *ProfileDeployArgs) (pulumi.Resource, error) {
+func deployVirtualization(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, error) {
 	goCtx := ctx.Context()
 	rn := func(suffix string) string {
 		return fmt.Sprintf("%s-virt-%s", args.Prefix, suffix)
