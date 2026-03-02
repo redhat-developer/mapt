@@ -5,6 +5,7 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/snc"
 	sncApi "github.com/redhat-developer/mapt/pkg/target/service/snc"
+	"github.com/redhat-developer/mapt/pkg/target/service/snc/profile"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -24,7 +25,7 @@ const (
 	disableClusterReadinessDesc = "If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated"
 
 	sncProfile     = "profile"
-	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization"
+	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization, serverless-serving, serverless-eventing, serverless"
 )
 
 func GetOpenshiftSNCCmd() *cobra.Command {
@@ -59,7 +60,7 @@ func createSNC() *cobra.Command {
 			}
 			profiles := viper.GetStringSlice(sncProfile)
 			computeReq := params.ComputeRequestArgs()
-			if sncApi.ProfilesRequireNestedVirt(profiles) {
+			if profile.RequireNestedVirt(profiles) {
 				computeReq.NestedVirt = true
 			}
 			if _, err := openshiftsnc.Create(

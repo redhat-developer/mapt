@@ -1,4 +1,4 @@
-package snc
+package profile
 
 import (
 	"fmt"
@@ -28,7 +28,7 @@ var (
 	}
 )
 
-func deployVirtualization(ctx *pulumi.Context, args *ProfileDeployArgs) (pulumi.Resource, error) {
+func deployVirtualization(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, error) {
 	goCtx := ctx.Context()
 	rn := func(suffix string) string {
 		return fmt.Sprintf("%s-virt-%s", args.Prefix, suffix)
