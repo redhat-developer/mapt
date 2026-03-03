@@ -39,7 +39,7 @@ jobs:
         cat ./mapt-event
 
     - name: Upload crc-builder
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: mapt-${{ env.ARCH_TYPE }}
         path: mapt*
