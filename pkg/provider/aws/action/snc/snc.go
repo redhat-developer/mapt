@@ -276,7 +276,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 			Kubeconfig:  kubeconfig,
 			Prefix:      *r.prefix,
 		}); err != nil {
-			logging.Warnf("profile deployment failed: %v", err)
+			return err
 		}
 	}
 	return nil
