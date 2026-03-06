@@ -264,6 +264,12 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputKubeconfig),
 		pulumi.ToSecret(kubeconfig))
+	// Write kubeconfig to disk early so it is available even if profile deployment fails
+	if outputPath := r.mCtx.GetResultsOutputPath(); len(outputPath) > 0 {
+		kubeconfig.ApplyT(func(kc string) error {
+			return os.WriteFile(fmt.Sprintf("%s/kubeconfig", outputPath), []byte(kc), 0600)
+		})
+	}
 	// Deploy profiles using Kubernetes provider
 	if len(r.profiles) > 0 {
 		k8sProvider, err := apiSNC.NewK8sProvider(ctx, "k8s-provider", kubeconfig)
