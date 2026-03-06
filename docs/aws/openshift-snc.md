@@ -72,12 +72,13 @@ Multiple profiles can be specified as a comma-separated list (e.g., `--profile v
 | `serverless-serving` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates a KnativeServing instance, enabling serverless workloads (Knative Serving) on the cluster.|
 | `serverless-eventing` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates a KnativeEventing instance, enabling event-driven workloads (Knative Eventing) on the cluster.|
 | `serverless` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates both KnativeServing and KnativeEventing instances.|
+| `servicemesh` | Installs [OpenShift Service Mesh 3](https://docs.openshift.com/service-mesh/latest/about/about-ossm.html) (Sail/Istio) on the cluster, deploying IstioCNI and an Istio control plane.|
 
 
 ### Adding new profiles
 
 To add a new profile:
 
-1. Create `profile_<name>.go` under `pkg/target/service/snc/` — Go file with a `deploy<Name>()` function that uses the Pulumi Kubernetes provider to create the required resources (Namespace, OperatorGroup, Subscription, CRs, etc.)
-2. Register the profile name in `profiles.go` by adding it to `validProfiles` and the `DeployProfile()` switch
+1. Create `<name>.go` under `pkg/target/service/snc/profile/` — Go file with a `deploy<Name>()` function that uses the Pulumi Kubernetes provider to create the required resources (Namespace, OperatorGroup, Subscription, CRs, etc.)
+2. Register the profile in `profile.go` by adding it to the `profileRegistry` map
 

@@ -14,6 +14,7 @@ const (
 	ProfileServerlessServing  = "serverless-serving"
 	ProfileServerlessEventing = "serverless-eventing"
 	ProfileServerless         = "serverless"
+	ProfileServiceMesh        = "servicemesh"
 )
 
 // profileEffect describes what a profile requires when deployed.
@@ -31,6 +32,7 @@ var profileRegistry = map[string]profileEffect{
 	ProfileServerlessServing:  {serving: true},
 	ProfileServerlessEventing: {eventing: true},
 	ProfileServerless:         {serving: true, eventing: true},
+	ProfileServiceMesh:        {deployFn: deployServiceMesh},
 }
 
 // DeployArgs holds the arguments needed by a profile to deploy
