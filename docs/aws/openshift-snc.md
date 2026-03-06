@@ -45,7 +45,7 @@ After the AMI is published and accessible by the account, we can use the followi
         --pull-secret-file /home/tester/Downloads/pull-secret
 ```
 
-After the above command succeeds the `kubeconfig` to access the deployed cluster will be available in `/tmp/snc/kubeconfig`
+When `--conn-details-output` is set, the `kubeconfig` is written to disk as soon as the cluster is ready — before any profile deployment begins. This means the kubeconfig is available at `<conn-details-output>/kubeconfig` even if a profile installation fails or times out.
 
 ## Profiles
 
@@ -62,13 +62,18 @@ mapt aws openshift-snc create \
     --profile virtualization
 ```
 
-Multiple profiles can be specified as a comma-separated list (e.g., `--profile virtualization,serverless`).
+Multiple profiles can be specified as a comma-separated list (e.g., `--profile virtualization,ai`).
 
 ### Available profiles
 
 | Profile | Description |
 |---------|-------------|
 | `virtualization` | Installs [OpenShift Virtualization](https://docs.openshift.com/container-platform/latest/virt/about_virt/about-virt.html) (CNV) on the cluster, enabling virtual machines to run on the single-node cluster. When this profile is selected, nested virtualization is automatically enabled on the cloud instance. Because standard Nitro-based instances do not expose `/dev/kvm`, a bare metal instance is required.|
+| `serverless-serving` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates a KnativeServing instance, enabling serverless workloads (Knative Serving) on the cluster.|
+| `serverless-eventing` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates a KnativeEventing instance, enabling event-driven workloads (Knative Eventing) on the cluster.|
+| `serverless` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates both KnativeServing and KnativeEventing instances.|
+| `servicemesh` | Installs [OpenShift Service Mesh 3](https://docs.openshift.com/service-mesh/latest/about/about-ossm.html) (Sail/Istio) on the cluster, deploying IstioCNI and an Istio control plane.|
+| `ai` | Installs [Red Hat OpenShift AI](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed) (RHOAI) on the cluster. Automatically installs Service Mesh v2 (Maistra) and Serverless Serving as prerequisites for Kserve. All three operators install in parallel; the DataScienceCluster CR is only created once Service Mesh and Serverless are fully ready. The minimum instance size is raised to 16 vCPUs (from the default 8) to accommodate the additional operators. **Cannot be combined with the `servicemesh` profile** (which deploys Service Mesh v3/Sail).|
 
 
 ### Adding new profiles
@@ -76,5 +81,5 @@ Multiple profiles can be specified as a comma-separated list (e.g., `--profile v
 To add a new profile:
 
 1. Create `profile_<name>.go` under `pkg/target/service/snc/` — Go file with a `deploy<Name>()` function that uses the Pulumi Kubernetes provider to create the required resources (Namespace, OperatorGroup, Subscription, CRs, etc.)
-2. Register the profile name in `profiles.go` by adding it to `validProfiles` and the `DeployProfile()` switch
+2. Register the profile name in `profiles.go` by adding it to `validProfiles` and the `DeployProfiles()` function
 
