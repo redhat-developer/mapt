@@ -25,7 +25,7 @@ const (
 	disableClusterReadinessDesc = "If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated"
 
 	sncProfile     = "profile"
-	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization, serverless-serving, serverless-eventing, serverless"
+	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization, serverless-serving, serverless-eventing, serverless, servicemesh"
 )
 
 func GetOpenshiftSNCCmd() *cobra.Command {
