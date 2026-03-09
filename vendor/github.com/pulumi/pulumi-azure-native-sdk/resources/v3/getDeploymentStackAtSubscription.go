@@ -56,7 +56,7 @@ type LookupDeploymentStackAtSubscriptionResult struct {
 	// The duration of the last successful Deployment stack update.
 	Duration string `pulumi:"duration"`
 	// The error detail.
-	Error *ErrorDetailResponse `pulumi:"error"`
+	Error ErrorDetailResponse `pulumi:"error"`
 	// An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
 	FailedResources []ResourceReferenceExtendedResponse `pulumi:"failedResources"`
 	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
@@ -178,8 +178,8 @@ func (o LookupDeploymentStackAtSubscriptionResultOutput) Duration() pulumi.Strin
 }
 
 // The error detail.
-func (o LookupDeploymentStackAtSubscriptionResultOutput) Error() ErrorDetailResponsePtrOutput {
-	return o.ApplyT(func(v LookupDeploymentStackAtSubscriptionResult) *ErrorDetailResponse { return v.Error }).(ErrorDetailResponsePtrOutput)
+func (o LookupDeploymentStackAtSubscriptionResultOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v LookupDeploymentStackAtSubscriptionResult) ErrorDetailResponse { return v.Error }).(ErrorDetailResponseOutput)
 }
 
 // An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.

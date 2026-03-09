@@ -15,11 +15,11 @@ var _ = utilities.GetEnvOrDefault
 
 // Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
 type ActionOnUnmanage struct {
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource management group.
 	ManagementGroups *string `pulumi:"managementGroups"`
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource group.
 	ResourceGroups *string `pulumi:"resourceGroups"`
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource.
 	Resources string `pulumi:"resources"`
 	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
 	ResourcesWithoutDeleteSupport *string `pulumi:"resourcesWithoutDeleteSupport"`
@@ -38,11 +38,11 @@ type ActionOnUnmanageInput interface {
 
 // Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
 type ActionOnUnmanageArgs struct {
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource management group.
 	ManagementGroups pulumi.StringPtrInput `pulumi:"managementGroups"`
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource group.
 	ResourceGroups pulumi.StringPtrInput `pulumi:"resourceGroups"`
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource.
 	Resources pulumi.StringInput `pulumi:"resources"`
 	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
 	ResourcesWithoutDeleteSupport pulumi.StringPtrInput `pulumi:"resourcesWithoutDeleteSupport"`
@@ -126,17 +126,17 @@ func (o ActionOnUnmanageOutput) ToActionOnUnmanagePtrOutputWithContext(ctx conte
 	}).(ActionOnUnmanagePtrOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource management group.
 func (o ActionOnUnmanageOutput) ManagementGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ActionOnUnmanage) *string { return v.ManagementGroups }).(pulumi.StringPtrOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource group.
 func (o ActionOnUnmanageOutput) ResourceGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ActionOnUnmanage) *string { return v.ResourceGroups }).(pulumi.StringPtrOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource.
 func (o ActionOnUnmanageOutput) Resources() pulumi.StringOutput {
 	return o.ApplyT(func(v ActionOnUnmanage) string { return v.Resources }).(pulumi.StringOutput)
 }
@@ -170,7 +170,7 @@ func (o ActionOnUnmanagePtrOutput) Elem() ActionOnUnmanageOutput {
 	}).(ActionOnUnmanageOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource management group.
 func (o ActionOnUnmanagePtrOutput) ManagementGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ActionOnUnmanage) *string {
 		if v == nil {
@@ -180,7 +180,7 @@ func (o ActionOnUnmanagePtrOutput) ManagementGroups() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource group.
 func (o ActionOnUnmanagePtrOutput) ResourceGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ActionOnUnmanage) *string {
 		if v == nil {
@@ -190,7 +190,7 @@ func (o ActionOnUnmanagePtrOutput) ResourceGroups() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource.
 func (o ActionOnUnmanagePtrOutput) Resources() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ActionOnUnmanage) *string {
 		if v == nil {
@@ -212,11 +212,11 @@ func (o ActionOnUnmanagePtrOutput) ResourcesWithoutDeleteSupport() pulumi.String
 
 // Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
 type ActionOnUnmanageResponse struct {
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource management group.
 	ManagementGroups *string `pulumi:"managementGroups"`
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource group.
 	ResourceGroups *string `pulumi:"resourceGroups"`
-	// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+	// Specifies an action for a newly unmanaged resource.
 	Resources string `pulumi:"resources"`
 	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
 	ResourcesWithoutDeleteSupport *string `pulumi:"resourcesWithoutDeleteSupport"`
@@ -237,17 +237,17 @@ func (o ActionOnUnmanageResponseOutput) ToActionOnUnmanageResponseOutputWithCont
 	return o
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource management group.
 func (o ActionOnUnmanageResponseOutput) ManagementGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ActionOnUnmanageResponse) *string { return v.ManagementGroups }).(pulumi.StringPtrOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource group.
 func (o ActionOnUnmanageResponseOutput) ResourceGroups() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ActionOnUnmanageResponse) *string { return v.ResourceGroups }).(pulumi.StringPtrOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
+// Specifies an action for a newly unmanaged resource.
 func (o ActionOnUnmanageResponseOutput) Resources() pulumi.StringOutput {
 	return o.ApplyT(func(v ActionOnUnmanageResponse) string { return v.Resources }).(pulumi.StringOutput)
 }
@@ -4246,7 +4246,7 @@ type DeploymentStacksWhatIfResultPropertiesResponse struct {
 	// List of resource diagnostics detected by What-If operation.
 	Diagnostics []DeploymentStacksDiagnosticResponse `pulumi:"diagnostics"`
 	// The error detail.
-	Error *ErrorDetailResponse `pulumi:"error"`
+	Error ErrorDetailResponse `pulumi:"error"`
 	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
 	Parameters map[string]DeploymentParameterResponse `pulumi:"parameters"`
 	// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
@@ -4333,8 +4333,8 @@ func (o DeploymentStacksWhatIfResultPropertiesResponseOutput) Diagnostics() Depl
 }
 
 // The error detail.
-func (o DeploymentStacksWhatIfResultPropertiesResponseOutput) Error() ErrorDetailResponsePtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponse) *ErrorDetailResponse { return v.Error }).(ErrorDetailResponsePtrOutput)
+func (o DeploymentStacksWhatIfResultPropertiesResponseOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponse) ErrorDetailResponse { return v.Error }).(ErrorDetailResponseOutput)
 }
 
 // Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
@@ -4649,80 +4649,6 @@ func (o ErrorDetailResponseOutput) Message() pulumi.StringOutput {
 // The error target.
 func (o ErrorDetailResponseOutput) Target() pulumi.StringOutput {
 	return o.ApplyT(func(v ErrorDetailResponse) string { return v.Target }).(pulumi.StringOutput)
-}
-
-type ErrorDetailResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (ErrorDetailResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**ErrorDetailResponse)(nil)).Elem()
-}
-
-func (o ErrorDetailResponsePtrOutput) ToErrorDetailResponsePtrOutput() ErrorDetailResponsePtrOutput {
-	return o
-}
-
-func (o ErrorDetailResponsePtrOutput) ToErrorDetailResponsePtrOutputWithContext(ctx context.Context) ErrorDetailResponsePtrOutput {
-	return o
-}
-
-func (o ErrorDetailResponsePtrOutput) Elem() ErrorDetailResponseOutput {
-	return o.ApplyT(func(v *ErrorDetailResponse) ErrorDetailResponse {
-		if v != nil {
-			return *v
-		}
-		var ret ErrorDetailResponse
-		return ret
-	}).(ErrorDetailResponseOutput)
-}
-
-// The error additional info.
-func (o ErrorDetailResponsePtrOutput) AdditionalInfo() ErrorAdditionalInfoResponseArrayOutput {
-	return o.ApplyT(func(v *ErrorDetailResponse) []ErrorAdditionalInfoResponse {
-		if v == nil {
-			return nil
-		}
-		return v.AdditionalInfo
-	}).(ErrorAdditionalInfoResponseArrayOutput)
-}
-
-// The error code.
-func (o ErrorDetailResponsePtrOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *ErrorDetailResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Code
-	}).(pulumi.StringPtrOutput)
-}
-
-// The error details.
-func (o ErrorDetailResponsePtrOutput) Details() ErrorDetailResponseArrayOutput {
-	return o.ApplyT(func(v *ErrorDetailResponse) []ErrorDetailResponse {
-		if v == nil {
-			return nil
-		}
-		return v.Details
-	}).(ErrorDetailResponseArrayOutput)
-}
-
-// The error message.
-func (o ErrorDetailResponsePtrOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *ErrorDetailResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Message
-	}).(pulumi.StringPtrOutput)
-}
-
-// The error target.
-func (o ErrorDetailResponsePtrOutput) Target() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *ErrorDetailResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Target
-	}).(pulumi.StringPtrOutput)
 }
 
 type ErrorDetailResponseArrayOutput struct{ *pulumi.OutputState }
@@ -7566,7 +7492,7 @@ func (o ResourceGroupPropertiesResponseOutput) ProvisioningState() pulumi.String
 // The resourceId extended model. This is used to document failed resources with a resourceId and a corresponding error.
 type ResourceReferenceExtendedResponse struct {
 	// The error detail.
-	Error *ErrorDetailResponse `pulumi:"error"`
+	Error ErrorDetailResponse `pulumi:"error"`
 	// The ARM Resource ID of a resource managed by the deployment stack.
 	Id string `pulumi:"id"`
 }
@@ -7587,8 +7513,8 @@ func (o ResourceReferenceExtendedResponseOutput) ToResourceReferenceExtendedResp
 }
 
 // The error detail.
-func (o ResourceReferenceExtendedResponseOutput) Error() ErrorDetailResponsePtrOutput {
-	return o.ApplyT(func(v ResourceReferenceExtendedResponse) *ErrorDetailResponse { return v.Error }).(ErrorDetailResponsePtrOutput)
+func (o ResourceReferenceExtendedResponseOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v ResourceReferenceExtendedResponse) ErrorDetailResponse { return v.Error }).(ErrorDetailResponseOutput)
 }
 
 // The ARM Resource ID of a resource managed by the deployment stack.
@@ -9036,7 +8962,6 @@ func init() {
 	pulumi.RegisterOutputType(ErrorAdditionalInfoResponseOutput{})
 	pulumi.RegisterOutputType(ErrorAdditionalInfoResponseArrayOutput{})
 	pulumi.RegisterOutputType(ErrorDetailResponseOutput{})
-	pulumi.RegisterOutputType(ErrorDetailResponsePtrOutput{})
 	pulumi.RegisterOutputType(ErrorDetailResponseArrayOutput{})
 	pulumi.RegisterOutputType(ErrorResponseResponseOutput{})
 	pulumi.RegisterOutputType(ErrorResponseResponsePtrOutput{})

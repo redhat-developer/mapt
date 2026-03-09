@@ -2450,6 +2450,52 @@ func (o IdentityResponseUserAssignedIdentitiesMapOutput) MapIndex(k pulumi.Strin
 	}).(IdentityResponseUserAssignedIdentitiesOutput)
 }
 
+// Information about a tenant managing the subscription.
+type ManagedByTenantResponse struct {
+	// The tenant ID of the managing tenant.
+	TenantId *string `pulumi:"tenantId"`
+}
+
+// Information about a tenant managing the subscription.
+type ManagedByTenantResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedByTenantResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedByTenantResponse)(nil)).Elem()
+}
+
+func (o ManagedByTenantResponseOutput) ToManagedByTenantResponseOutput() ManagedByTenantResponseOutput {
+	return o
+}
+
+func (o ManagedByTenantResponseOutput) ToManagedByTenantResponseOutputWithContext(ctx context.Context) ManagedByTenantResponseOutput {
+	return o
+}
+
+// The tenant ID of the managing tenant.
+func (o ManagedByTenantResponseOutput) TenantId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedByTenantResponse) *string { return v.TenantId }).(pulumi.StringPtrOutput)
+}
+
+type ManagedByTenantResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (ManagedByTenantResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ManagedByTenantResponse)(nil)).Elem()
+}
+
+func (o ManagedByTenantResponseArrayOutput) ToManagedByTenantResponseArrayOutput() ManagedByTenantResponseArrayOutput {
+	return o
+}
+
+func (o ManagedByTenantResponseArrayOutput) ToManagedByTenantResponseArrayOutputWithContext(ctx context.Context) ManagedByTenantResponseArrayOutput {
+	return o
+}
+
+func (o ManagedByTenantResponseArrayOutput) Index(i pulumi.IntInput) ManagedByTenantResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ManagedByTenantResponse {
+		return vs[0].([]ManagedByTenantResponse)[vs[1].(int)]
+	}).(ManagedByTenantResponseOutput)
+}
+
 // Lock owner properties.
 type ManagementLockOwner struct {
 	// The application ID of the lock owner.
@@ -8213,6 +8259,202 @@ func (o SelectorResponseArrayOutput) Index(i pulumi.IntInput) SelectorResponseOu
 	}).(SelectorResponseOutput)
 }
 
+// Subscription policies.
+type SubscriptionPoliciesResponse struct {
+	// The subscription location placement ID.
+	LocationPlacementId *string `pulumi:"locationPlacementId"`
+	// The subscription quota ID.
+	QuotaId *string `pulumi:"quotaId"`
+	// The subscription spending limit.
+	SpendingLimit *string `pulumi:"spendingLimit"`
+}
+
+// Subscription policies.
+type SubscriptionPoliciesResponseOutput struct{ *pulumi.OutputState }
+
+func (SubscriptionPoliciesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SubscriptionPoliciesResponse)(nil)).Elem()
+}
+
+func (o SubscriptionPoliciesResponseOutput) ToSubscriptionPoliciesResponseOutput() SubscriptionPoliciesResponseOutput {
+	return o
+}
+
+func (o SubscriptionPoliciesResponseOutput) ToSubscriptionPoliciesResponseOutputWithContext(ctx context.Context) SubscriptionPoliciesResponseOutput {
+	return o
+}
+
+// The subscription location placement ID.
+func (o SubscriptionPoliciesResponseOutput) LocationPlacementId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionPoliciesResponse) *string { return v.LocationPlacementId }).(pulumi.StringPtrOutput)
+}
+
+// The subscription quota ID.
+func (o SubscriptionPoliciesResponseOutput) QuotaId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionPoliciesResponse) *string { return v.QuotaId }).(pulumi.StringPtrOutput)
+}
+
+// The subscription spending limit.
+func (o SubscriptionPoliciesResponseOutput) SpendingLimit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionPoliciesResponse) *string { return v.SpendingLimit }).(pulumi.StringPtrOutput)
+}
+
+type SubscriptionPoliciesResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (SubscriptionPoliciesResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SubscriptionPoliciesResponse)(nil)).Elem()
+}
+
+func (o SubscriptionPoliciesResponsePtrOutput) ToSubscriptionPoliciesResponsePtrOutput() SubscriptionPoliciesResponsePtrOutput {
+	return o
+}
+
+func (o SubscriptionPoliciesResponsePtrOutput) ToSubscriptionPoliciesResponsePtrOutputWithContext(ctx context.Context) SubscriptionPoliciesResponsePtrOutput {
+	return o
+}
+
+func (o SubscriptionPoliciesResponsePtrOutput) Elem() SubscriptionPoliciesResponseOutput {
+	return o.ApplyT(func(v *SubscriptionPoliciesResponse) SubscriptionPoliciesResponse {
+		if v != nil {
+			return *v
+		}
+		var ret SubscriptionPoliciesResponse
+		return ret
+	}).(SubscriptionPoliciesResponseOutput)
+}
+
+// The subscription location placement ID.
+func (o SubscriptionPoliciesResponsePtrOutput) LocationPlacementId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SubscriptionPoliciesResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.LocationPlacementId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The subscription quota ID.
+func (o SubscriptionPoliciesResponsePtrOutput) QuotaId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SubscriptionPoliciesResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.QuotaId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The subscription spending limit.
+func (o SubscriptionPoliciesResponsePtrOutput) SpendingLimit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SubscriptionPoliciesResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.SpendingLimit
+	}).(pulumi.StringPtrOutput)
+}
+
+// Subscription information.
+type SubscriptionResponse struct {
+	// The authorization source of the request.
+	AuthorizationSource *string `pulumi:"authorizationSource"`
+	// The subscription display name.
+	DisplayName *string `pulumi:"displayName"`
+	// The fully qualified ID for the subscription.
+	Id *string `pulumi:"id"`
+	// An array containing the tenants managing the subscription.
+	ManagedByTenants []ManagedByTenantResponse `pulumi:"managedByTenants"`
+	// The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
+	State *string `pulumi:"state"`
+	// The subscription ID.
+	SubscriptionId *string `pulumi:"subscriptionId"`
+	// The subscription policies.
+	SubscriptionPolicies *SubscriptionPoliciesResponse `pulumi:"subscriptionPolicies"`
+	// The tags attached to the subscription.
+	Tags map[string]string `pulumi:"tags"`
+	// The subscription tenant ID.
+	TenantId *string `pulumi:"tenantId"`
+}
+
+// Subscription information.
+type SubscriptionResponseOutput struct{ *pulumi.OutputState }
+
+func (SubscriptionResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SubscriptionResponse)(nil)).Elem()
+}
+
+func (o SubscriptionResponseOutput) ToSubscriptionResponseOutput() SubscriptionResponseOutput {
+	return o
+}
+
+func (o SubscriptionResponseOutput) ToSubscriptionResponseOutputWithContext(ctx context.Context) SubscriptionResponseOutput {
+	return o
+}
+
+// The authorization source of the request.
+func (o SubscriptionResponseOutput) AuthorizationSource() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionResponse) *string { return v.AuthorizationSource }).(pulumi.StringPtrOutput)
+}
+
+// The subscription display name.
+func (o SubscriptionResponseOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionResponse) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+}
+
+// The fully qualified ID for the subscription.
+func (o SubscriptionResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// An array containing the tenants managing the subscription.
+func (o SubscriptionResponseOutput) ManagedByTenants() ManagedByTenantResponseArrayOutput {
+	return o.ApplyT(func(v SubscriptionResponse) []ManagedByTenantResponse { return v.ManagedByTenants }).(ManagedByTenantResponseArrayOutput)
+}
+
+// The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
+func (o SubscriptionResponseOutput) State() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionResponse) *string { return v.State }).(pulumi.StringPtrOutput)
+}
+
+// The subscription ID.
+func (o SubscriptionResponseOutput) SubscriptionId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionResponse) *string { return v.SubscriptionId }).(pulumi.StringPtrOutput)
+}
+
+// The subscription policies.
+func (o SubscriptionResponseOutput) SubscriptionPolicies() SubscriptionPoliciesResponsePtrOutput {
+	return o.ApplyT(func(v SubscriptionResponse) *SubscriptionPoliciesResponse { return v.SubscriptionPolicies }).(SubscriptionPoliciesResponsePtrOutput)
+}
+
+// The tags attached to the subscription.
+func (o SubscriptionResponseOutput) Tags() pulumi.StringMapOutput {
+	return o.ApplyT(func(v SubscriptionResponse) map[string]string { return v.Tags }).(pulumi.StringMapOutput)
+}
+
+// The subscription tenant ID.
+func (o SubscriptionResponseOutput) TenantId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SubscriptionResponse) *string { return v.TenantId }).(pulumi.StringPtrOutput)
+}
+
+type SubscriptionResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (SubscriptionResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SubscriptionResponse)(nil)).Elem()
+}
+
+func (o SubscriptionResponseArrayOutput) ToSubscriptionResponseArrayOutput() SubscriptionResponseArrayOutput {
+	return o
+}
+
+func (o SubscriptionResponseArrayOutput) ToSubscriptionResponseArrayOutputWithContext(ctx context.Context) SubscriptionResponseArrayOutput {
+	return o
+}
+
+func (o SubscriptionResponseArrayOutput) Index(i pulumi.IntInput) SubscriptionResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SubscriptionResponse {
+		return vs[0].([]SubscriptionResponse)[vs[1].(int)]
+	}).(SubscriptionResponseOutput)
+}
+
 // Metadata pertaining to creation and last modification of the resource.
 type SystemDataResponse struct {
 	// The timestamp of resource creation (UTC).
@@ -8688,6 +8930,8 @@ func init() {
 	pulumi.RegisterOutputType(IdentityResponsePtrOutput{})
 	pulumi.RegisterOutputType(IdentityResponseUserAssignedIdentitiesOutput{})
 	pulumi.RegisterOutputType(IdentityResponseUserAssignedIdentitiesMapOutput{})
+	pulumi.RegisterOutputType(ManagedByTenantResponseOutput{})
+	pulumi.RegisterOutputType(ManagedByTenantResponseArrayOutput{})
 	pulumi.RegisterOutputType(ManagementLockOwnerOutput{})
 	pulumi.RegisterOutputType(ManagementLockOwnerArrayOutput{})
 	pulumi.RegisterOutputType(ManagementLockOwnerResponseOutput{})
@@ -8791,6 +9035,10 @@ func init() {
 	pulumi.RegisterOutputType(SelectorArrayOutput{})
 	pulumi.RegisterOutputType(SelectorResponseOutput{})
 	pulumi.RegisterOutputType(SelectorResponseArrayOutput{})
+	pulumi.RegisterOutputType(SubscriptionPoliciesResponseOutput{})
+	pulumi.RegisterOutputType(SubscriptionPoliciesResponsePtrOutput{})
+	pulumi.RegisterOutputType(SubscriptionResponseOutput{})
+	pulumi.RegisterOutputType(SubscriptionResponseArrayOutput{})
 	pulumi.RegisterOutputType(SystemDataResponseOutput{})
 	pulumi.RegisterOutputType(UserSetOutput{})
 	pulumi.RegisterOutputType(UserSetArrayOutput{})

@@ -275,7 +275,7 @@ type vpnConnectionArgs struct {
 	// The resource group name of the VpnGateway.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfiguration `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// Routing weight for vpn connection.
 	RoutingWeight *int `pulumi:"routingWeight"`
 	// SharedKey for the vpn connection.
@@ -319,7 +319,7 @@ type VpnConnectionArgs struct {
 	// The resource group name of the VpnGateway.
 	ResourceGroupName pulumi.StringInput
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationPtrInput
+	RoutingConfiguration RoutingConfigurationTypePtrInput
 	// Routing weight for vpn connection.
 	RoutingWeight pulumi.IntPtrInput
 	// SharedKey for the vpn connection.

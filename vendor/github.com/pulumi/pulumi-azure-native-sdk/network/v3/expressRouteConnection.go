@@ -244,7 +244,7 @@ type expressRouteConnectionArgs struct {
 	// The name of the resource group.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfiguration `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// The routing weight associated to the connection.
 	RoutingWeight *int `pulumi:"routingWeight"`
 }
@@ -272,7 +272,7 @@ type ExpressRouteConnectionArgs struct {
 	// The name of the resource group.
 	ResourceGroupName pulumi.StringInput
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationPtrInput
+	RoutingConfiguration RoutingConfigurationTypePtrInput
 	// The routing weight associated to the connection.
 	RoutingWeight pulumi.IntPtrInput
 }

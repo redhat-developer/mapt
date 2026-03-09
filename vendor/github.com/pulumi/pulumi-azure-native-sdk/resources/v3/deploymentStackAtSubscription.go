@@ -43,7 +43,7 @@ type DeploymentStackAtSubscription struct {
 	// The duration of the last successful Deployment stack update.
 	Duration pulumi.StringOutput `pulumi:"duration"`
 	// The error detail.
-	Error ErrorDetailResponsePtrOutput `pulumi:"error"`
+	Error ErrorDetailResponseOutput `pulumi:"error"`
 	// An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
 	FailedResources ResourceReferenceExtendedResponseArrayOutput `pulumi:"failedResources"`
 	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
@@ -281,8 +281,8 @@ func (o DeploymentStackAtSubscriptionOutput) Duration() pulumi.StringOutput {
 }
 
 // The error detail.
-func (o DeploymentStackAtSubscriptionOutput) Error() ErrorDetailResponsePtrOutput {
-	return o.ApplyT(func(v *DeploymentStackAtSubscription) ErrorDetailResponsePtrOutput { return v.Error }).(ErrorDetailResponsePtrOutput)
+func (o DeploymentStackAtSubscriptionOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v *DeploymentStackAtSubscription) ErrorDetailResponseOutput { return v.Error }).(ErrorDetailResponseOutput)
 }
 
 // An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.

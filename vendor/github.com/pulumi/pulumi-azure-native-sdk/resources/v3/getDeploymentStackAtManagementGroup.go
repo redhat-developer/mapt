@@ -29,7 +29,7 @@ func LookupDeploymentStackAtManagementGroup(ctx *pulumi.Context, args *LookupDep
 type LookupDeploymentStackAtManagementGroupArgs struct {
 	// Name of the deployment stack.
 	DeploymentStackName string `pulumi:"deploymentStackName"`
-	// The name of the management group. The name is case insensitive.
+	// The management group ID.
 	ManagementGroupId string `pulumi:"managementGroupId"`
 }
 
@@ -58,7 +58,7 @@ type LookupDeploymentStackAtManagementGroupResult struct {
 	// The duration of the last successful Deployment stack update.
 	Duration string `pulumi:"duration"`
 	// The error detail.
-	Error *ErrorDetailResponse `pulumi:"error"`
+	Error ErrorDetailResponse `pulumi:"error"`
 	// An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
 	FailedResources []ResourceReferenceExtendedResponse `pulumi:"failedResources"`
 	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
@@ -97,7 +97,7 @@ func LookupDeploymentStackAtManagementGroupOutput(ctx *pulumi.Context, args Look
 type LookupDeploymentStackAtManagementGroupOutputArgs struct {
 	// Name of the deployment stack.
 	DeploymentStackName pulumi.StringInput `pulumi:"deploymentStackName"`
-	// The name of the management group. The name is case insensitive.
+	// The management group ID.
 	ManagementGroupId pulumi.StringInput `pulumi:"managementGroupId"`
 }
 
@@ -184,8 +184,8 @@ func (o LookupDeploymentStackAtManagementGroupResultOutput) Duration() pulumi.St
 }
 
 // The error detail.
-func (o LookupDeploymentStackAtManagementGroupResultOutput) Error() ErrorDetailResponsePtrOutput {
-	return o.ApplyT(func(v LookupDeploymentStackAtManagementGroupResult) *ErrorDetailResponse { return v.Error }).(ErrorDetailResponsePtrOutput)
+func (o LookupDeploymentStackAtManagementGroupResultOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v LookupDeploymentStackAtManagementGroupResult) ErrorDetailResponse { return v.Error }).(ErrorDetailResponseOutput)
 }
 
 // An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
