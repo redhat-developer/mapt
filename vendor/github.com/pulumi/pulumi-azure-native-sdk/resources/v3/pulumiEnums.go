@@ -515,342 +515,6 @@ func (in *deploymentModePtr) ToDeploymentModePtrOutputWithContext(ctx context.Co
 	return pulumi.ToOutputWithContext(ctx, in).(DeploymentModePtrOutput)
 }
 
-// Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state.
-type DeploymentStacksDeleteDetachEnum string
-
-const (
-	// Delete the specified resources from Azure
-	DeploymentStacksDeleteDetachEnumDelete = DeploymentStacksDeleteDetachEnum("delete")
-	// Keep the specified resources in Azure
-	DeploymentStacksDeleteDetachEnumDetach = DeploymentStacksDeleteDetachEnum("detach")
-)
-
-func (DeploymentStacksDeleteDetachEnum) ElementType() reflect.Type {
-	return reflect.TypeOf((*DeploymentStacksDeleteDetachEnum)(nil)).Elem()
-}
-
-func (e DeploymentStacksDeleteDetachEnum) ToDeploymentStacksDeleteDetachEnumOutput() DeploymentStacksDeleteDetachEnumOutput {
-	return pulumi.ToOutput(e).(DeploymentStacksDeleteDetachEnumOutput)
-}
-
-func (e DeploymentStacksDeleteDetachEnum) ToDeploymentStacksDeleteDetachEnumOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumOutput {
-	return pulumi.ToOutputWithContext(ctx, e).(DeploymentStacksDeleteDetachEnumOutput)
-}
-
-func (e DeploymentStacksDeleteDetachEnum) ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput {
-	return e.ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(context.Background())
-}
-
-func (e DeploymentStacksDeleteDetachEnum) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
-	return DeploymentStacksDeleteDetachEnum(e).ToDeploymentStacksDeleteDetachEnumOutputWithContext(ctx).ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx)
-}
-
-func (e DeploymentStacksDeleteDetachEnum) ToStringOutput() pulumi.StringOutput {
-	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
-}
-
-func (e DeploymentStacksDeleteDetachEnum) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
-	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
-}
-
-func (e DeploymentStacksDeleteDetachEnum) ToStringPtrOutput() pulumi.StringPtrOutput {
-	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
-}
-
-func (e DeploymentStacksDeleteDetachEnum) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
-}
-
-type DeploymentStacksDeleteDetachEnumOutput struct{ *pulumi.OutputState }
-
-func (DeploymentStacksDeleteDetachEnumOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*DeploymentStacksDeleteDetachEnum)(nil)).Elem()
-}
-
-func (o DeploymentStacksDeleteDetachEnumOutput) ToDeploymentStacksDeleteDetachEnumOutput() DeploymentStacksDeleteDetachEnumOutput {
-	return o
-}
-
-func (o DeploymentStacksDeleteDetachEnumOutput) ToDeploymentStacksDeleteDetachEnumOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumOutput {
-	return o
-}
-
-func (o DeploymentStacksDeleteDetachEnumOutput) ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput {
-	return o.ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(context.Background())
-}
-
-func (o DeploymentStacksDeleteDetachEnumOutput) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v DeploymentStacksDeleteDetachEnum) *DeploymentStacksDeleteDetachEnum {
-		return &v
-	}).(DeploymentStacksDeleteDetachEnumPtrOutput)
-}
-
-func (o DeploymentStacksDeleteDetachEnumOutput) ToStringOutput() pulumi.StringOutput {
-	return o.ToStringOutputWithContext(context.Background())
-}
-
-func (o DeploymentStacksDeleteDetachEnumOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentStacksDeleteDetachEnum) string {
-		return string(e)
-	}).(pulumi.StringOutput)
-}
-
-func (o DeploymentStacksDeleteDetachEnumOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
-	return o.ToStringPtrOutputWithContext(context.Background())
-}
-
-func (o DeploymentStacksDeleteDetachEnumOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentStacksDeleteDetachEnum) *string {
-		v := string(e)
-		return &v
-	}).(pulumi.StringPtrOutput)
-}
-
-type DeploymentStacksDeleteDetachEnumPtrOutput struct{ *pulumi.OutputState }
-
-func (DeploymentStacksDeleteDetachEnumPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**DeploymentStacksDeleteDetachEnum)(nil)).Elem()
-}
-
-func (o DeploymentStacksDeleteDetachEnumPtrOutput) ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput {
-	return o
-}
-
-func (o DeploymentStacksDeleteDetachEnumPtrOutput) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
-	return o
-}
-
-func (o DeploymentStacksDeleteDetachEnumPtrOutput) Elem() DeploymentStacksDeleteDetachEnumOutput {
-	return o.ApplyT(func(v *DeploymentStacksDeleteDetachEnum) DeploymentStacksDeleteDetachEnum {
-		if v != nil {
-			return *v
-		}
-		var ret DeploymentStacksDeleteDetachEnum
-		return ret
-	}).(DeploymentStacksDeleteDetachEnumOutput)
-}
-
-func (o DeploymentStacksDeleteDetachEnumPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
-	return o.ToStringPtrOutputWithContext(context.Background())
-}
-
-func (o DeploymentStacksDeleteDetachEnumPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e *DeploymentStacksDeleteDetachEnum) *string {
-		if e == nil {
-			return nil
-		}
-		v := string(*e)
-		return &v
-	}).(pulumi.StringPtrOutput)
-}
-
-// DeploymentStacksDeleteDetachEnumInput is an input type that accepts values of the DeploymentStacksDeleteDetachEnum enum
-// A concrete instance of `DeploymentStacksDeleteDetachEnumInput` can be one of the following:
-//
-//	DeploymentStacksDeleteDetachEnumDelete
-//	DeploymentStacksDeleteDetachEnumDetach
-type DeploymentStacksDeleteDetachEnumInput interface {
-	pulumi.Input
-
-	ToDeploymentStacksDeleteDetachEnumOutput() DeploymentStacksDeleteDetachEnumOutput
-	ToDeploymentStacksDeleteDetachEnumOutputWithContext(context.Context) DeploymentStacksDeleteDetachEnumOutput
-}
-
-var deploymentStacksDeleteDetachEnumPtrType = reflect.TypeOf((**DeploymentStacksDeleteDetachEnum)(nil)).Elem()
-
-type DeploymentStacksDeleteDetachEnumPtrInput interface {
-	pulumi.Input
-
-	ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput
-	ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(context.Context) DeploymentStacksDeleteDetachEnumPtrOutput
-}
-
-type deploymentStacksDeleteDetachEnumPtr string
-
-func DeploymentStacksDeleteDetachEnumPtr(v string) DeploymentStacksDeleteDetachEnumPtrInput {
-	return (*deploymentStacksDeleteDetachEnumPtr)(&v)
-}
-
-func (*deploymentStacksDeleteDetachEnumPtr) ElementType() reflect.Type {
-	return deploymentStacksDeleteDetachEnumPtrType
-}
-
-func (in *deploymentStacksDeleteDetachEnumPtr) ToDeploymentStacksDeleteDetachEnumPtrOutput() DeploymentStacksDeleteDetachEnumPtrOutput {
-	return pulumi.ToOutput(in).(DeploymentStacksDeleteDetachEnumPtrOutput)
-}
-
-func (in *deploymentStacksDeleteDetachEnumPtr) ToDeploymentStacksDeleteDetachEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksDeleteDetachEnumPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, in).(DeploymentStacksDeleteDetachEnumPtrOutput)
-}
-
-// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
-type DeploymentStacksResourcesWithoutDeleteSupportEnum string
-
-const (
-	// Detach the specified resources from the deployment stack and continue
-	DeploymentStacksResourcesWithoutDeleteSupportEnumDetach = DeploymentStacksResourcesWithoutDeleteSupportEnum("detach")
-	// Fail the deployment stack if resources cannot be deleted
-	DeploymentStacksResourcesWithoutDeleteSupportEnumFail = DeploymentStacksResourcesWithoutDeleteSupportEnum("fail")
-)
-
-func (DeploymentStacksResourcesWithoutDeleteSupportEnum) ElementType() reflect.Type {
-	return reflect.TypeOf((*DeploymentStacksResourcesWithoutDeleteSupportEnum)(nil)).Elem()
-}
-
-func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
-	return pulumi.ToOutput(e).(DeploymentStacksResourcesWithoutDeleteSupportEnumOutput)
-}
-
-func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
-	return pulumi.ToOutputWithContext(ctx, e).(DeploymentStacksResourcesWithoutDeleteSupportEnumOutput)
-}
-
-func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
-	return e.ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(context.Background())
-}
-
-func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
-	return DeploymentStacksResourcesWithoutDeleteSupportEnum(e).ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutputWithContext(ctx).ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx)
-}
-
-func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToStringOutput() pulumi.StringOutput {
-	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
-}
-
-func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
-	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
-}
-
-func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToStringPtrOutput() pulumi.StringPtrOutput {
-	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
-}
-
-func (e DeploymentStacksResourcesWithoutDeleteSupportEnum) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
-}
-
-type DeploymentStacksResourcesWithoutDeleteSupportEnumOutput struct{ *pulumi.OutputState }
-
-func (DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*DeploymentStacksResourcesWithoutDeleteSupportEnum)(nil)).Elem()
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
-	return o
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
-	return o
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
-	return o.ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(context.Background())
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v DeploymentStacksResourcesWithoutDeleteSupportEnum) *DeploymentStacksResourcesWithoutDeleteSupportEnum {
-		return &v
-	}).(DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput)
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToStringOutput() pulumi.StringOutput {
-	return o.ToStringOutputWithContext(context.Background())
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentStacksResourcesWithoutDeleteSupportEnum) string {
-		return string(e)
-	}).(pulumi.StringOutput)
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
-	return o.ToStringPtrOutputWithContext(context.Background())
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e DeploymentStacksResourcesWithoutDeleteSupportEnum) *string {
-		v := string(e)
-		return &v
-	}).(pulumi.StringPtrOutput)
-}
-
-type DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput struct{ *pulumi.OutputState }
-
-func (DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**DeploymentStacksResourcesWithoutDeleteSupportEnum)(nil)).Elem()
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
-	return o
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
-	return o
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) Elem() DeploymentStacksResourcesWithoutDeleteSupportEnumOutput {
-	return o.ApplyT(func(v *DeploymentStacksResourcesWithoutDeleteSupportEnum) DeploymentStacksResourcesWithoutDeleteSupportEnum {
-		if v != nil {
-			return *v
-		}
-		var ret DeploymentStacksResourcesWithoutDeleteSupportEnum
-		return ret
-	}).(DeploymentStacksResourcesWithoutDeleteSupportEnumOutput)
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
-	return o.ToStringPtrOutputWithContext(context.Background())
-}
-
-func (o DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, e *DeploymentStacksResourcesWithoutDeleteSupportEnum) *string {
-		if e == nil {
-			return nil
-		}
-		v := string(*e)
-		return &v
-	}).(pulumi.StringPtrOutput)
-}
-
-// DeploymentStacksResourcesWithoutDeleteSupportEnumInput is an input type that accepts values of the DeploymentStacksResourcesWithoutDeleteSupportEnum enum
-// A concrete instance of `DeploymentStacksResourcesWithoutDeleteSupportEnumInput` can be one of the following:
-//
-//	DeploymentStacksResourcesWithoutDeleteSupportEnumDetach
-//	DeploymentStacksResourcesWithoutDeleteSupportEnumFail
-type DeploymentStacksResourcesWithoutDeleteSupportEnumInput interface {
-	pulumi.Input
-
-	ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumOutput
-	ToDeploymentStacksResourcesWithoutDeleteSupportEnumOutputWithContext(context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumOutput
-}
-
-var deploymentStacksResourcesWithoutDeleteSupportEnumPtrType = reflect.TypeOf((**DeploymentStacksResourcesWithoutDeleteSupportEnum)(nil)).Elem()
-
-type DeploymentStacksResourcesWithoutDeleteSupportEnumPtrInput interface {
-	pulumi.Input
-
-	ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput
-	ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput
-}
-
-type deploymentStacksResourcesWithoutDeleteSupportEnumPtr string
-
-func DeploymentStacksResourcesWithoutDeleteSupportEnumPtr(v string) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrInput {
-	return (*deploymentStacksResourcesWithoutDeleteSupportEnumPtr)(&v)
-}
-
-func (*deploymentStacksResourcesWithoutDeleteSupportEnumPtr) ElementType() reflect.Type {
-	return deploymentStacksResourcesWithoutDeleteSupportEnumPtrType
-}
-
-func (in *deploymentStacksResourcesWithoutDeleteSupportEnumPtr) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput() DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
-	return pulumi.ToOutput(in).(DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput)
-}
-
-func (in *deploymentStacksResourcesWithoutDeleteSupportEnumPtr) ToDeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutputWithContext(ctx context.Context) DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, in).(DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput)
-}
-
 // The scope to be used for evaluation of parameters, variables and functions in a nested template.
 type ExpressionEvaluationOptionsScopeType string
 
@@ -1683,6 +1347,174 @@ func (in *resourceIdentityTypePtr) ToResourceIdentityTypePtrOutputWithContext(ct
 	return pulumi.ToOutputWithContext(ctx, in).(ResourceIdentityTypePtrOutput)
 }
 
+// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
+type ResourcesWithoutDeleteSupportAction string
+
+const (
+	// Detach the specified resources from the deployment stack and continue.
+	ResourcesWithoutDeleteSupportActionDetach = ResourcesWithoutDeleteSupportAction("detach")
+	// Fail the deployment stack if resources cannot be deleted.
+	ResourcesWithoutDeleteSupportActionFail = ResourcesWithoutDeleteSupportAction("fail")
+)
+
+func (ResourcesWithoutDeleteSupportAction) ElementType() reflect.Type {
+	return reflect.TypeOf((*ResourcesWithoutDeleteSupportAction)(nil)).Elem()
+}
+
+func (e ResourcesWithoutDeleteSupportAction) ToResourcesWithoutDeleteSupportActionOutput() ResourcesWithoutDeleteSupportActionOutput {
+	return pulumi.ToOutput(e).(ResourcesWithoutDeleteSupportActionOutput)
+}
+
+func (e ResourcesWithoutDeleteSupportAction) ToResourcesWithoutDeleteSupportActionOutputWithContext(ctx context.Context) ResourcesWithoutDeleteSupportActionOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(ResourcesWithoutDeleteSupportActionOutput)
+}
+
+func (e ResourcesWithoutDeleteSupportAction) ToResourcesWithoutDeleteSupportActionPtrOutput() ResourcesWithoutDeleteSupportActionPtrOutput {
+	return e.ToResourcesWithoutDeleteSupportActionPtrOutputWithContext(context.Background())
+}
+
+func (e ResourcesWithoutDeleteSupportAction) ToResourcesWithoutDeleteSupportActionPtrOutputWithContext(ctx context.Context) ResourcesWithoutDeleteSupportActionPtrOutput {
+	return ResourcesWithoutDeleteSupportAction(e).ToResourcesWithoutDeleteSupportActionOutputWithContext(ctx).ToResourcesWithoutDeleteSupportActionPtrOutputWithContext(ctx)
+}
+
+func (e ResourcesWithoutDeleteSupportAction) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ResourcesWithoutDeleteSupportAction) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e ResourcesWithoutDeleteSupportAction) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e ResourcesWithoutDeleteSupportAction) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type ResourcesWithoutDeleteSupportActionOutput struct{ *pulumi.OutputState }
+
+func (ResourcesWithoutDeleteSupportActionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ResourcesWithoutDeleteSupportAction)(nil)).Elem()
+}
+
+func (o ResourcesWithoutDeleteSupportActionOutput) ToResourcesWithoutDeleteSupportActionOutput() ResourcesWithoutDeleteSupportActionOutput {
+	return o
+}
+
+func (o ResourcesWithoutDeleteSupportActionOutput) ToResourcesWithoutDeleteSupportActionOutputWithContext(ctx context.Context) ResourcesWithoutDeleteSupportActionOutput {
+	return o
+}
+
+func (o ResourcesWithoutDeleteSupportActionOutput) ToResourcesWithoutDeleteSupportActionPtrOutput() ResourcesWithoutDeleteSupportActionPtrOutput {
+	return o.ToResourcesWithoutDeleteSupportActionPtrOutputWithContext(context.Background())
+}
+
+func (o ResourcesWithoutDeleteSupportActionOutput) ToResourcesWithoutDeleteSupportActionPtrOutputWithContext(ctx context.Context) ResourcesWithoutDeleteSupportActionPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ResourcesWithoutDeleteSupportAction) *ResourcesWithoutDeleteSupportAction {
+		return &v
+	}).(ResourcesWithoutDeleteSupportActionPtrOutput)
+}
+
+func (o ResourcesWithoutDeleteSupportActionOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o ResourcesWithoutDeleteSupportActionOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ResourcesWithoutDeleteSupportAction) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o ResourcesWithoutDeleteSupportActionOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ResourcesWithoutDeleteSupportActionOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e ResourcesWithoutDeleteSupportAction) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type ResourcesWithoutDeleteSupportActionPtrOutput struct{ *pulumi.OutputState }
+
+func (ResourcesWithoutDeleteSupportActionPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ResourcesWithoutDeleteSupportAction)(nil)).Elem()
+}
+
+func (o ResourcesWithoutDeleteSupportActionPtrOutput) ToResourcesWithoutDeleteSupportActionPtrOutput() ResourcesWithoutDeleteSupportActionPtrOutput {
+	return o
+}
+
+func (o ResourcesWithoutDeleteSupportActionPtrOutput) ToResourcesWithoutDeleteSupportActionPtrOutputWithContext(ctx context.Context) ResourcesWithoutDeleteSupportActionPtrOutput {
+	return o
+}
+
+func (o ResourcesWithoutDeleteSupportActionPtrOutput) Elem() ResourcesWithoutDeleteSupportActionOutput {
+	return o.ApplyT(func(v *ResourcesWithoutDeleteSupportAction) ResourcesWithoutDeleteSupportAction {
+		if v != nil {
+			return *v
+		}
+		var ret ResourcesWithoutDeleteSupportAction
+		return ret
+	}).(ResourcesWithoutDeleteSupportActionOutput)
+}
+
+func (o ResourcesWithoutDeleteSupportActionPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o ResourcesWithoutDeleteSupportActionPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *ResourcesWithoutDeleteSupportAction) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// ResourcesWithoutDeleteSupportActionInput is an input type that accepts values of the ResourcesWithoutDeleteSupportAction enum
+// A concrete instance of `ResourcesWithoutDeleteSupportActionInput` can be one of the following:
+//
+//	ResourcesWithoutDeleteSupportActionDetach
+//	ResourcesWithoutDeleteSupportActionFail
+type ResourcesWithoutDeleteSupportActionInput interface {
+	pulumi.Input
+
+	ToResourcesWithoutDeleteSupportActionOutput() ResourcesWithoutDeleteSupportActionOutput
+	ToResourcesWithoutDeleteSupportActionOutputWithContext(context.Context) ResourcesWithoutDeleteSupportActionOutput
+}
+
+var resourcesWithoutDeleteSupportActionPtrType = reflect.TypeOf((**ResourcesWithoutDeleteSupportAction)(nil)).Elem()
+
+type ResourcesWithoutDeleteSupportActionPtrInput interface {
+	pulumi.Input
+
+	ToResourcesWithoutDeleteSupportActionPtrOutput() ResourcesWithoutDeleteSupportActionPtrOutput
+	ToResourcesWithoutDeleteSupportActionPtrOutputWithContext(context.Context) ResourcesWithoutDeleteSupportActionPtrOutput
+}
+
+type resourcesWithoutDeleteSupportActionPtr string
+
+func ResourcesWithoutDeleteSupportActionPtr(v string) ResourcesWithoutDeleteSupportActionPtrInput {
+	return (*resourcesWithoutDeleteSupportActionPtr)(&v)
+}
+
+func (*resourcesWithoutDeleteSupportActionPtr) ElementType() reflect.Type {
+	return resourcesWithoutDeleteSupportActionPtrType
+}
+
+func (in *resourcesWithoutDeleteSupportActionPtr) ToResourcesWithoutDeleteSupportActionPtrOutput() ResourcesWithoutDeleteSupportActionPtrOutput {
+	return pulumi.ToOutput(in).(ResourcesWithoutDeleteSupportActionPtrOutput)
+}
+
+func (in *resourcesWithoutDeleteSupportActionPtr) ToResourcesWithoutDeleteSupportActionPtrOutputWithContext(ctx context.Context) ResourcesWithoutDeleteSupportActionPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(ResourcesWithoutDeleteSupportActionPtrOutput)
+}
+
 // Type of the script.
 type ScriptType string
 
@@ -1690,6 +1522,510 @@ const (
 	ScriptTypeAzurePowerShell = ScriptType("AzurePowerShell")
 	ScriptTypeAzureCLI        = ScriptType("AzureCLI")
 )
+
+// Specifies an action for a newly unmanaged resource management group.
+type UnmanageActionManagementGroupMode string
+
+const (
+	// Delete the management groups from Azure.
+	UnmanageActionManagementGroupModeDelete = UnmanageActionManagementGroupMode("delete")
+	// Keep the management groups in Azure.
+	UnmanageActionManagementGroupModeDetach = UnmanageActionManagementGroupMode("detach")
+)
+
+func (UnmanageActionManagementGroupMode) ElementType() reflect.Type {
+	return reflect.TypeOf((*UnmanageActionManagementGroupMode)(nil)).Elem()
+}
+
+func (e UnmanageActionManagementGroupMode) ToUnmanageActionManagementGroupModeOutput() UnmanageActionManagementGroupModeOutput {
+	return pulumi.ToOutput(e).(UnmanageActionManagementGroupModeOutput)
+}
+
+func (e UnmanageActionManagementGroupMode) ToUnmanageActionManagementGroupModeOutputWithContext(ctx context.Context) UnmanageActionManagementGroupModeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(UnmanageActionManagementGroupModeOutput)
+}
+
+func (e UnmanageActionManagementGroupMode) ToUnmanageActionManagementGroupModePtrOutput() UnmanageActionManagementGroupModePtrOutput {
+	return e.ToUnmanageActionManagementGroupModePtrOutputWithContext(context.Background())
+}
+
+func (e UnmanageActionManagementGroupMode) ToUnmanageActionManagementGroupModePtrOutputWithContext(ctx context.Context) UnmanageActionManagementGroupModePtrOutput {
+	return UnmanageActionManagementGroupMode(e).ToUnmanageActionManagementGroupModeOutputWithContext(ctx).ToUnmanageActionManagementGroupModePtrOutputWithContext(ctx)
+}
+
+func (e UnmanageActionManagementGroupMode) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UnmanageActionManagementGroupMode) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UnmanageActionManagementGroupMode) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e UnmanageActionManagementGroupMode) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type UnmanageActionManagementGroupModeOutput struct{ *pulumi.OutputState }
+
+func (UnmanageActionManagementGroupModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*UnmanageActionManagementGroupMode)(nil)).Elem()
+}
+
+func (o UnmanageActionManagementGroupModeOutput) ToUnmanageActionManagementGroupModeOutput() UnmanageActionManagementGroupModeOutput {
+	return o
+}
+
+func (o UnmanageActionManagementGroupModeOutput) ToUnmanageActionManagementGroupModeOutputWithContext(ctx context.Context) UnmanageActionManagementGroupModeOutput {
+	return o
+}
+
+func (o UnmanageActionManagementGroupModeOutput) ToUnmanageActionManagementGroupModePtrOutput() UnmanageActionManagementGroupModePtrOutput {
+	return o.ToUnmanageActionManagementGroupModePtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionManagementGroupModeOutput) ToUnmanageActionManagementGroupModePtrOutputWithContext(ctx context.Context) UnmanageActionManagementGroupModePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v UnmanageActionManagementGroupMode) *UnmanageActionManagementGroupMode {
+		return &v
+	}).(UnmanageActionManagementGroupModePtrOutput)
+}
+
+func (o UnmanageActionManagementGroupModeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionManagementGroupModeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UnmanageActionManagementGroupMode) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o UnmanageActionManagementGroupModeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionManagementGroupModeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UnmanageActionManagementGroupMode) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type UnmanageActionManagementGroupModePtrOutput struct{ *pulumi.OutputState }
+
+func (UnmanageActionManagementGroupModePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**UnmanageActionManagementGroupMode)(nil)).Elem()
+}
+
+func (o UnmanageActionManagementGroupModePtrOutput) ToUnmanageActionManagementGroupModePtrOutput() UnmanageActionManagementGroupModePtrOutput {
+	return o
+}
+
+func (o UnmanageActionManagementGroupModePtrOutput) ToUnmanageActionManagementGroupModePtrOutputWithContext(ctx context.Context) UnmanageActionManagementGroupModePtrOutput {
+	return o
+}
+
+func (o UnmanageActionManagementGroupModePtrOutput) Elem() UnmanageActionManagementGroupModeOutput {
+	return o.ApplyT(func(v *UnmanageActionManagementGroupMode) UnmanageActionManagementGroupMode {
+		if v != nil {
+			return *v
+		}
+		var ret UnmanageActionManagementGroupMode
+		return ret
+	}).(UnmanageActionManagementGroupModeOutput)
+}
+
+func (o UnmanageActionManagementGroupModePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionManagementGroupModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *UnmanageActionManagementGroupMode) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// UnmanageActionManagementGroupModeInput is an input type that accepts values of the UnmanageActionManagementGroupMode enum
+// A concrete instance of `UnmanageActionManagementGroupModeInput` can be one of the following:
+//
+//	UnmanageActionManagementGroupModeDelete
+//	UnmanageActionManagementGroupModeDetach
+type UnmanageActionManagementGroupModeInput interface {
+	pulumi.Input
+
+	ToUnmanageActionManagementGroupModeOutput() UnmanageActionManagementGroupModeOutput
+	ToUnmanageActionManagementGroupModeOutputWithContext(context.Context) UnmanageActionManagementGroupModeOutput
+}
+
+var unmanageActionManagementGroupModePtrType = reflect.TypeOf((**UnmanageActionManagementGroupMode)(nil)).Elem()
+
+type UnmanageActionManagementGroupModePtrInput interface {
+	pulumi.Input
+
+	ToUnmanageActionManagementGroupModePtrOutput() UnmanageActionManagementGroupModePtrOutput
+	ToUnmanageActionManagementGroupModePtrOutputWithContext(context.Context) UnmanageActionManagementGroupModePtrOutput
+}
+
+type unmanageActionManagementGroupModePtr string
+
+func UnmanageActionManagementGroupModePtr(v string) UnmanageActionManagementGroupModePtrInput {
+	return (*unmanageActionManagementGroupModePtr)(&v)
+}
+
+func (*unmanageActionManagementGroupModePtr) ElementType() reflect.Type {
+	return unmanageActionManagementGroupModePtrType
+}
+
+func (in *unmanageActionManagementGroupModePtr) ToUnmanageActionManagementGroupModePtrOutput() UnmanageActionManagementGroupModePtrOutput {
+	return pulumi.ToOutput(in).(UnmanageActionManagementGroupModePtrOutput)
+}
+
+func (in *unmanageActionManagementGroupModePtr) ToUnmanageActionManagementGroupModePtrOutputWithContext(ctx context.Context) UnmanageActionManagementGroupModePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(UnmanageActionManagementGroupModePtrOutput)
+}
+
+// Specifies an action for a newly unmanaged resource group.
+type UnmanageActionResourceGroupMode string
+
+const (
+	// Delete the resource groups from Azure.
+	UnmanageActionResourceGroupModeDelete = UnmanageActionResourceGroupMode("delete")
+	// Keep the resource groups in Azure.
+	UnmanageActionResourceGroupModeDetach = UnmanageActionResourceGroupMode("detach")
+)
+
+func (UnmanageActionResourceGroupMode) ElementType() reflect.Type {
+	return reflect.TypeOf((*UnmanageActionResourceGroupMode)(nil)).Elem()
+}
+
+func (e UnmanageActionResourceGroupMode) ToUnmanageActionResourceGroupModeOutput() UnmanageActionResourceGroupModeOutput {
+	return pulumi.ToOutput(e).(UnmanageActionResourceGroupModeOutput)
+}
+
+func (e UnmanageActionResourceGroupMode) ToUnmanageActionResourceGroupModeOutputWithContext(ctx context.Context) UnmanageActionResourceGroupModeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(UnmanageActionResourceGroupModeOutput)
+}
+
+func (e UnmanageActionResourceGroupMode) ToUnmanageActionResourceGroupModePtrOutput() UnmanageActionResourceGroupModePtrOutput {
+	return e.ToUnmanageActionResourceGroupModePtrOutputWithContext(context.Background())
+}
+
+func (e UnmanageActionResourceGroupMode) ToUnmanageActionResourceGroupModePtrOutputWithContext(ctx context.Context) UnmanageActionResourceGroupModePtrOutput {
+	return UnmanageActionResourceGroupMode(e).ToUnmanageActionResourceGroupModeOutputWithContext(ctx).ToUnmanageActionResourceGroupModePtrOutputWithContext(ctx)
+}
+
+func (e UnmanageActionResourceGroupMode) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UnmanageActionResourceGroupMode) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UnmanageActionResourceGroupMode) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e UnmanageActionResourceGroupMode) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type UnmanageActionResourceGroupModeOutput struct{ *pulumi.OutputState }
+
+func (UnmanageActionResourceGroupModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*UnmanageActionResourceGroupMode)(nil)).Elem()
+}
+
+func (o UnmanageActionResourceGroupModeOutput) ToUnmanageActionResourceGroupModeOutput() UnmanageActionResourceGroupModeOutput {
+	return o
+}
+
+func (o UnmanageActionResourceGroupModeOutput) ToUnmanageActionResourceGroupModeOutputWithContext(ctx context.Context) UnmanageActionResourceGroupModeOutput {
+	return o
+}
+
+func (o UnmanageActionResourceGroupModeOutput) ToUnmanageActionResourceGroupModePtrOutput() UnmanageActionResourceGroupModePtrOutput {
+	return o.ToUnmanageActionResourceGroupModePtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionResourceGroupModeOutput) ToUnmanageActionResourceGroupModePtrOutputWithContext(ctx context.Context) UnmanageActionResourceGroupModePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v UnmanageActionResourceGroupMode) *UnmanageActionResourceGroupMode {
+		return &v
+	}).(UnmanageActionResourceGroupModePtrOutput)
+}
+
+func (o UnmanageActionResourceGroupModeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionResourceGroupModeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UnmanageActionResourceGroupMode) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o UnmanageActionResourceGroupModeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionResourceGroupModeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UnmanageActionResourceGroupMode) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type UnmanageActionResourceGroupModePtrOutput struct{ *pulumi.OutputState }
+
+func (UnmanageActionResourceGroupModePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**UnmanageActionResourceGroupMode)(nil)).Elem()
+}
+
+func (o UnmanageActionResourceGroupModePtrOutput) ToUnmanageActionResourceGroupModePtrOutput() UnmanageActionResourceGroupModePtrOutput {
+	return o
+}
+
+func (o UnmanageActionResourceGroupModePtrOutput) ToUnmanageActionResourceGroupModePtrOutputWithContext(ctx context.Context) UnmanageActionResourceGroupModePtrOutput {
+	return o
+}
+
+func (o UnmanageActionResourceGroupModePtrOutput) Elem() UnmanageActionResourceGroupModeOutput {
+	return o.ApplyT(func(v *UnmanageActionResourceGroupMode) UnmanageActionResourceGroupMode {
+		if v != nil {
+			return *v
+		}
+		var ret UnmanageActionResourceGroupMode
+		return ret
+	}).(UnmanageActionResourceGroupModeOutput)
+}
+
+func (o UnmanageActionResourceGroupModePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionResourceGroupModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *UnmanageActionResourceGroupMode) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// UnmanageActionResourceGroupModeInput is an input type that accepts values of the UnmanageActionResourceGroupMode enum
+// A concrete instance of `UnmanageActionResourceGroupModeInput` can be one of the following:
+//
+//	UnmanageActionResourceGroupModeDelete
+//	UnmanageActionResourceGroupModeDetach
+type UnmanageActionResourceGroupModeInput interface {
+	pulumi.Input
+
+	ToUnmanageActionResourceGroupModeOutput() UnmanageActionResourceGroupModeOutput
+	ToUnmanageActionResourceGroupModeOutputWithContext(context.Context) UnmanageActionResourceGroupModeOutput
+}
+
+var unmanageActionResourceGroupModePtrType = reflect.TypeOf((**UnmanageActionResourceGroupMode)(nil)).Elem()
+
+type UnmanageActionResourceGroupModePtrInput interface {
+	pulumi.Input
+
+	ToUnmanageActionResourceGroupModePtrOutput() UnmanageActionResourceGroupModePtrOutput
+	ToUnmanageActionResourceGroupModePtrOutputWithContext(context.Context) UnmanageActionResourceGroupModePtrOutput
+}
+
+type unmanageActionResourceGroupModePtr string
+
+func UnmanageActionResourceGroupModePtr(v string) UnmanageActionResourceGroupModePtrInput {
+	return (*unmanageActionResourceGroupModePtr)(&v)
+}
+
+func (*unmanageActionResourceGroupModePtr) ElementType() reflect.Type {
+	return unmanageActionResourceGroupModePtrType
+}
+
+func (in *unmanageActionResourceGroupModePtr) ToUnmanageActionResourceGroupModePtrOutput() UnmanageActionResourceGroupModePtrOutput {
+	return pulumi.ToOutput(in).(UnmanageActionResourceGroupModePtrOutput)
+}
+
+func (in *unmanageActionResourceGroupModePtr) ToUnmanageActionResourceGroupModePtrOutputWithContext(ctx context.Context) UnmanageActionResourceGroupModePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(UnmanageActionResourceGroupModePtrOutput)
+}
+
+// Specifies an action for a newly unmanaged resource.
+type UnmanageActionResourceMode string
+
+const (
+	// Delete the resources from Azure
+	UnmanageActionResourceModeDelete = UnmanageActionResourceMode("delete")
+	// Keep the resources in Azure
+	UnmanageActionResourceModeDetach = UnmanageActionResourceMode("detach")
+)
+
+func (UnmanageActionResourceMode) ElementType() reflect.Type {
+	return reflect.TypeOf((*UnmanageActionResourceMode)(nil)).Elem()
+}
+
+func (e UnmanageActionResourceMode) ToUnmanageActionResourceModeOutput() UnmanageActionResourceModeOutput {
+	return pulumi.ToOutput(e).(UnmanageActionResourceModeOutput)
+}
+
+func (e UnmanageActionResourceMode) ToUnmanageActionResourceModeOutputWithContext(ctx context.Context) UnmanageActionResourceModeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(UnmanageActionResourceModeOutput)
+}
+
+func (e UnmanageActionResourceMode) ToUnmanageActionResourceModePtrOutput() UnmanageActionResourceModePtrOutput {
+	return e.ToUnmanageActionResourceModePtrOutputWithContext(context.Background())
+}
+
+func (e UnmanageActionResourceMode) ToUnmanageActionResourceModePtrOutputWithContext(ctx context.Context) UnmanageActionResourceModePtrOutput {
+	return UnmanageActionResourceMode(e).ToUnmanageActionResourceModeOutputWithContext(ctx).ToUnmanageActionResourceModePtrOutputWithContext(ctx)
+}
+
+func (e UnmanageActionResourceMode) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UnmanageActionResourceMode) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UnmanageActionResourceMode) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e UnmanageActionResourceMode) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type UnmanageActionResourceModeOutput struct{ *pulumi.OutputState }
+
+func (UnmanageActionResourceModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*UnmanageActionResourceMode)(nil)).Elem()
+}
+
+func (o UnmanageActionResourceModeOutput) ToUnmanageActionResourceModeOutput() UnmanageActionResourceModeOutput {
+	return o
+}
+
+func (o UnmanageActionResourceModeOutput) ToUnmanageActionResourceModeOutputWithContext(ctx context.Context) UnmanageActionResourceModeOutput {
+	return o
+}
+
+func (o UnmanageActionResourceModeOutput) ToUnmanageActionResourceModePtrOutput() UnmanageActionResourceModePtrOutput {
+	return o.ToUnmanageActionResourceModePtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionResourceModeOutput) ToUnmanageActionResourceModePtrOutputWithContext(ctx context.Context) UnmanageActionResourceModePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v UnmanageActionResourceMode) *UnmanageActionResourceMode {
+		return &v
+	}).(UnmanageActionResourceModePtrOutput)
+}
+
+func (o UnmanageActionResourceModeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionResourceModeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UnmanageActionResourceMode) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o UnmanageActionResourceModeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionResourceModeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UnmanageActionResourceMode) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type UnmanageActionResourceModePtrOutput struct{ *pulumi.OutputState }
+
+func (UnmanageActionResourceModePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**UnmanageActionResourceMode)(nil)).Elem()
+}
+
+func (o UnmanageActionResourceModePtrOutput) ToUnmanageActionResourceModePtrOutput() UnmanageActionResourceModePtrOutput {
+	return o
+}
+
+func (o UnmanageActionResourceModePtrOutput) ToUnmanageActionResourceModePtrOutputWithContext(ctx context.Context) UnmanageActionResourceModePtrOutput {
+	return o
+}
+
+func (o UnmanageActionResourceModePtrOutput) Elem() UnmanageActionResourceModeOutput {
+	return o.ApplyT(func(v *UnmanageActionResourceMode) UnmanageActionResourceMode {
+		if v != nil {
+			return *v
+		}
+		var ret UnmanageActionResourceMode
+		return ret
+	}).(UnmanageActionResourceModeOutput)
+}
+
+func (o UnmanageActionResourceModePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UnmanageActionResourceModePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *UnmanageActionResourceMode) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// UnmanageActionResourceModeInput is an input type that accepts values of the UnmanageActionResourceMode enum
+// A concrete instance of `UnmanageActionResourceModeInput` can be one of the following:
+//
+//	UnmanageActionResourceModeDelete
+//	UnmanageActionResourceModeDetach
+type UnmanageActionResourceModeInput interface {
+	pulumi.Input
+
+	ToUnmanageActionResourceModeOutput() UnmanageActionResourceModeOutput
+	ToUnmanageActionResourceModeOutputWithContext(context.Context) UnmanageActionResourceModeOutput
+}
+
+var unmanageActionResourceModePtrType = reflect.TypeOf((**UnmanageActionResourceMode)(nil)).Elem()
+
+type UnmanageActionResourceModePtrInput interface {
+	pulumi.Input
+
+	ToUnmanageActionResourceModePtrOutput() UnmanageActionResourceModePtrOutput
+	ToUnmanageActionResourceModePtrOutputWithContext(context.Context) UnmanageActionResourceModePtrOutput
+}
+
+type unmanageActionResourceModePtr string
+
+func UnmanageActionResourceModePtr(v string) UnmanageActionResourceModePtrInput {
+	return (*unmanageActionResourceModePtr)(&v)
+}
+
+func (*unmanageActionResourceModePtr) ElementType() reflect.Type {
+	return unmanageActionResourceModePtrType
+}
+
+func (in *unmanageActionResourceModePtr) ToUnmanageActionResourceModePtrOutput() UnmanageActionResourceModePtrOutput {
+	return pulumi.ToOutput(in).(UnmanageActionResourceModePtrOutput)
+}
+
+func (in *unmanageActionResourceModePtr) ToUnmanageActionResourceModePtrOutputWithContext(ctx context.Context) UnmanageActionResourceModePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(UnmanageActionResourceModePtrOutput)
+}
 
 // The validation level of the deployment stack
 type ValidationLevel string
@@ -1869,10 +2205,6 @@ func init() {
 	pulumi.RegisterOutputType(DenySettingsModePtrOutput{})
 	pulumi.RegisterOutputType(DeploymentModeOutput{})
 	pulumi.RegisterOutputType(DeploymentModePtrOutput{})
-	pulumi.RegisterOutputType(DeploymentStacksDeleteDetachEnumOutput{})
-	pulumi.RegisterOutputType(DeploymentStacksDeleteDetachEnumPtrOutput{})
-	pulumi.RegisterOutputType(DeploymentStacksResourcesWithoutDeleteSupportEnumOutput{})
-	pulumi.RegisterOutputType(DeploymentStacksResourcesWithoutDeleteSupportEnumPtrOutput{})
 	pulumi.RegisterOutputType(ExpressionEvaluationOptionsScopeTypeOutput{})
 	pulumi.RegisterOutputType(ExpressionEvaluationOptionsScopeTypePtrOutput{})
 	pulumi.RegisterOutputType(ExtendedLocationTypeOutput{})
@@ -1883,6 +2215,14 @@ func init() {
 	pulumi.RegisterOutputType(OnErrorDeploymentTypePtrOutput{})
 	pulumi.RegisterOutputType(ResourceIdentityTypeOutput{})
 	pulumi.RegisterOutputType(ResourceIdentityTypePtrOutput{})
+	pulumi.RegisterOutputType(ResourcesWithoutDeleteSupportActionOutput{})
+	pulumi.RegisterOutputType(ResourcesWithoutDeleteSupportActionPtrOutput{})
+	pulumi.RegisterOutputType(UnmanageActionManagementGroupModeOutput{})
+	pulumi.RegisterOutputType(UnmanageActionManagementGroupModePtrOutput{})
+	pulumi.RegisterOutputType(UnmanageActionResourceGroupModeOutput{})
+	pulumi.RegisterOutputType(UnmanageActionResourceGroupModePtrOutput{})
+	pulumi.RegisterOutputType(UnmanageActionResourceModeOutput{})
+	pulumi.RegisterOutputType(UnmanageActionResourceModePtrOutput{})
 	pulumi.RegisterOutputType(ValidationLevelOutput{})
 	pulumi.RegisterOutputType(ValidationLevelPtrOutput{})
 }

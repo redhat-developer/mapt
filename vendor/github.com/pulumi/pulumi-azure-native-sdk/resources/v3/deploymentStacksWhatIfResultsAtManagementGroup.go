@@ -87,7 +87,7 @@ type deploymentStacksWhatIfResultsAtManagementGroupArgs struct {
 	DeploymentStacksWhatIfResultName *string `pulumi:"deploymentStacksWhatIfResultName"`
 	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 	Location *string `pulumi:"location"`
-	// The name of the management group. The name is case insensitive.
+	// The management group ID.
 	ManagementGroupId string `pulumi:"managementGroupId"`
 	// The resource-specific properties for this resource.
 	Properties *DeploymentStacksWhatIfResultProperties `pulumi:"properties"`
@@ -101,7 +101,7 @@ type DeploymentStacksWhatIfResultsAtManagementGroupArgs struct {
 	DeploymentStacksWhatIfResultName pulumi.StringPtrInput
 	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 	Location pulumi.StringPtrInput
-	// The name of the management group. The name is case insensitive.
+	// The management group ID.
 	ManagementGroupId pulumi.StringInput
 	// The resource-specific properties for this resource.
 	Properties DeploymentStacksWhatIfResultPropertiesPtrInput

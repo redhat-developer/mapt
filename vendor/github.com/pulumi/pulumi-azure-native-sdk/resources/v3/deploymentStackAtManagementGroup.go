@@ -43,7 +43,7 @@ type DeploymentStackAtManagementGroup struct {
 	// The duration of the last successful Deployment stack update.
 	Duration pulumi.StringOutput `pulumi:"duration"`
 	// The error detail.
-	Error ErrorDetailResponsePtrOutput `pulumi:"error"`
+	Error ErrorDetailResponseOutput `pulumi:"error"`
 	// An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
 	FailedResources ResourceReferenceExtendedResponseArrayOutput `pulumi:"failedResources"`
 	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
@@ -145,7 +145,7 @@ type deploymentStackAtManagementGroupArgs struct {
 	Description *string `pulumi:"description"`
 	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 	Location *string `pulumi:"location"`
-	// The name of the management group. The name is case insensitive.
+	// The management group ID.
 	ManagementGroupId string `pulumi:"managementGroupId"`
 	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
 	Parameters map[string]DeploymentParameter `pulumi:"parameters"`
@@ -177,7 +177,7 @@ type DeploymentStackAtManagementGroupArgs struct {
 	Description pulumi.StringPtrInput
 	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
 	Location pulumi.StringPtrInput
-	// The name of the management group. The name is case insensitive.
+	// The management group ID.
 	ManagementGroupId pulumi.StringInput
 	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
 	Parameters DeploymentParameterMapInput
@@ -290,8 +290,8 @@ func (o DeploymentStackAtManagementGroupOutput) Duration() pulumi.StringOutput {
 }
 
 // The error detail.
-func (o DeploymentStackAtManagementGroupOutput) Error() ErrorDetailResponsePtrOutput {
-	return o.ApplyT(func(v *DeploymentStackAtManagementGroup) ErrorDetailResponsePtrOutput { return v.Error }).(ErrorDetailResponsePtrOutput)
+func (o DeploymentStackAtManagementGroupOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v *DeploymentStackAtManagementGroup) ErrorDetailResponseOutput { return v.Error }).(ErrorDetailResponseOutput)
 }
 
 // An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.

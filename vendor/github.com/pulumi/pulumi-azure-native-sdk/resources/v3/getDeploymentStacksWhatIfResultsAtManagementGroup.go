@@ -27,7 +27,7 @@ func LookupDeploymentStacksWhatIfResultsAtManagementGroup(ctx *pulumi.Context, a
 type LookupDeploymentStacksWhatIfResultsAtManagementGroupArgs struct {
 	// Name of the deployment stack what-if result.
 	DeploymentStacksWhatIfResultName string `pulumi:"deploymentStacksWhatIfResultName"`
-	// The name of the management group. The name is case insensitive.
+	// The management group ID.
 	ManagementGroupId string `pulumi:"managementGroupId"`
 }
 
@@ -63,7 +63,7 @@ func LookupDeploymentStacksWhatIfResultsAtManagementGroupOutput(ctx *pulumi.Cont
 type LookupDeploymentStacksWhatIfResultsAtManagementGroupOutputArgs struct {
 	// Name of the deployment stack what-if result.
 	DeploymentStacksWhatIfResultName pulumi.StringInput `pulumi:"deploymentStacksWhatIfResultName"`
-	// The name of the management group. The name is case insensitive.
+	// The management group ID.
 	ManagementGroupId pulumi.StringInput `pulumi:"managementGroupId"`
 }
 

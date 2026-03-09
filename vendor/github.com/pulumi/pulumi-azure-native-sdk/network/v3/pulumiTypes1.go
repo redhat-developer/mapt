@@ -2306,7 +2306,7 @@ func (o RouteTargetAddressPropertiesFormatResponsePtrOutput) Subnet() SubnetResp
 }
 
 // Routing Configuration indicating the associated and propagated route tables for this connection.
-type RoutingConfiguration struct {
+type RoutingConfigurationType struct {
 	// The resource id RouteTable associated with this RoutingConfiguration.
 	AssociatedRouteTable *SubResource `pulumi:"associatedRouteTable"`
 	// The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
@@ -2319,19 +2319,19 @@ type RoutingConfiguration struct {
 	VnetRoutes *VnetRoute `pulumi:"vnetRoutes"`
 }
 
-// RoutingConfigurationInput is an input type that accepts RoutingConfigurationArgs and RoutingConfigurationOutput values.
-// You can construct a concrete instance of `RoutingConfigurationInput` via:
+// RoutingConfigurationTypeInput is an input type that accepts RoutingConfigurationTypeArgs and RoutingConfigurationTypeOutput values.
+// You can construct a concrete instance of `RoutingConfigurationTypeInput` via:
 //
-//	RoutingConfigurationArgs{...}
-type RoutingConfigurationInput interface {
+//	RoutingConfigurationTypeArgs{...}
+type RoutingConfigurationTypeInput interface {
 	pulumi.Input
 
-	ToRoutingConfigurationOutput() RoutingConfigurationOutput
-	ToRoutingConfigurationOutputWithContext(context.Context) RoutingConfigurationOutput
+	ToRoutingConfigurationTypeOutput() RoutingConfigurationTypeOutput
+	ToRoutingConfigurationTypeOutputWithContext(context.Context) RoutingConfigurationTypeOutput
 }
 
 // Routing Configuration indicating the associated and propagated route tables for this connection.
-type RoutingConfigurationArgs struct {
+type RoutingConfigurationTypeArgs struct {
 	// The resource id RouteTable associated with this RoutingConfiguration.
 	AssociatedRouteTable SubResourcePtrInput `pulumi:"associatedRouteTable"`
 	// The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
@@ -2344,136 +2344,136 @@ type RoutingConfigurationArgs struct {
 	VnetRoutes VnetRoutePtrInput `pulumi:"vnetRoutes"`
 }
 
-func (RoutingConfigurationArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*RoutingConfiguration)(nil)).Elem()
+func (RoutingConfigurationTypeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoutingConfigurationType)(nil)).Elem()
 }
 
-func (i RoutingConfigurationArgs) ToRoutingConfigurationOutput() RoutingConfigurationOutput {
-	return i.ToRoutingConfigurationOutputWithContext(context.Background())
+func (i RoutingConfigurationTypeArgs) ToRoutingConfigurationTypeOutput() RoutingConfigurationTypeOutput {
+	return i.ToRoutingConfigurationTypeOutputWithContext(context.Background())
 }
 
-func (i RoutingConfigurationArgs) ToRoutingConfigurationOutputWithContext(ctx context.Context) RoutingConfigurationOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(RoutingConfigurationOutput)
+func (i RoutingConfigurationTypeArgs) ToRoutingConfigurationTypeOutputWithContext(ctx context.Context) RoutingConfigurationTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoutingConfigurationTypeOutput)
 }
 
-func (i RoutingConfigurationArgs) ToRoutingConfigurationPtrOutput() RoutingConfigurationPtrOutput {
-	return i.ToRoutingConfigurationPtrOutputWithContext(context.Background())
+func (i RoutingConfigurationTypeArgs) ToRoutingConfigurationTypePtrOutput() RoutingConfigurationTypePtrOutput {
+	return i.ToRoutingConfigurationTypePtrOutputWithContext(context.Background())
 }
 
-func (i RoutingConfigurationArgs) ToRoutingConfigurationPtrOutputWithContext(ctx context.Context) RoutingConfigurationPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(RoutingConfigurationOutput).ToRoutingConfigurationPtrOutputWithContext(ctx)
+func (i RoutingConfigurationTypeArgs) ToRoutingConfigurationTypePtrOutputWithContext(ctx context.Context) RoutingConfigurationTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoutingConfigurationTypeOutput).ToRoutingConfigurationTypePtrOutputWithContext(ctx)
 }
 
-// RoutingConfigurationPtrInput is an input type that accepts RoutingConfigurationArgs, RoutingConfigurationPtr and RoutingConfigurationPtrOutput values.
-// You can construct a concrete instance of `RoutingConfigurationPtrInput` via:
+// RoutingConfigurationTypePtrInput is an input type that accepts RoutingConfigurationTypeArgs, RoutingConfigurationTypePtr and RoutingConfigurationTypePtrOutput values.
+// You can construct a concrete instance of `RoutingConfigurationTypePtrInput` via:
 //
-//	        RoutingConfigurationArgs{...}
+//	        RoutingConfigurationTypeArgs{...}
 //
 //	or:
 //
 //	        nil
-type RoutingConfigurationPtrInput interface {
+type RoutingConfigurationTypePtrInput interface {
 	pulumi.Input
 
-	ToRoutingConfigurationPtrOutput() RoutingConfigurationPtrOutput
-	ToRoutingConfigurationPtrOutputWithContext(context.Context) RoutingConfigurationPtrOutput
+	ToRoutingConfigurationTypePtrOutput() RoutingConfigurationTypePtrOutput
+	ToRoutingConfigurationTypePtrOutputWithContext(context.Context) RoutingConfigurationTypePtrOutput
 }
 
-type routingConfigurationPtrType RoutingConfigurationArgs
+type routingConfigurationTypePtrType RoutingConfigurationTypeArgs
 
-func RoutingConfigurationPtr(v *RoutingConfigurationArgs) RoutingConfigurationPtrInput {
-	return (*routingConfigurationPtrType)(v)
+func RoutingConfigurationTypePtr(v *RoutingConfigurationTypeArgs) RoutingConfigurationTypePtrInput {
+	return (*routingConfigurationTypePtrType)(v)
 }
 
-func (*routingConfigurationPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**RoutingConfiguration)(nil)).Elem()
+func (*routingConfigurationTypePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoutingConfigurationType)(nil)).Elem()
 }
 
-func (i *routingConfigurationPtrType) ToRoutingConfigurationPtrOutput() RoutingConfigurationPtrOutput {
-	return i.ToRoutingConfigurationPtrOutputWithContext(context.Background())
+func (i *routingConfigurationTypePtrType) ToRoutingConfigurationTypePtrOutput() RoutingConfigurationTypePtrOutput {
+	return i.ToRoutingConfigurationTypePtrOutputWithContext(context.Background())
 }
 
-func (i *routingConfigurationPtrType) ToRoutingConfigurationPtrOutputWithContext(ctx context.Context) RoutingConfigurationPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(RoutingConfigurationPtrOutput)
+func (i *routingConfigurationTypePtrType) ToRoutingConfigurationTypePtrOutputWithContext(ctx context.Context) RoutingConfigurationTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RoutingConfigurationTypePtrOutput)
 }
 
 // Routing Configuration indicating the associated and propagated route tables for this connection.
-type RoutingConfigurationOutput struct{ *pulumi.OutputState }
+type RoutingConfigurationTypeOutput struct{ *pulumi.OutputState }
 
-func (RoutingConfigurationOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*RoutingConfiguration)(nil)).Elem()
+func (RoutingConfigurationTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RoutingConfigurationType)(nil)).Elem()
 }
 
-func (o RoutingConfigurationOutput) ToRoutingConfigurationOutput() RoutingConfigurationOutput {
+func (o RoutingConfigurationTypeOutput) ToRoutingConfigurationTypeOutput() RoutingConfigurationTypeOutput {
 	return o
 }
 
-func (o RoutingConfigurationOutput) ToRoutingConfigurationOutputWithContext(ctx context.Context) RoutingConfigurationOutput {
+func (o RoutingConfigurationTypeOutput) ToRoutingConfigurationTypeOutputWithContext(ctx context.Context) RoutingConfigurationTypeOutput {
 	return o
 }
 
-func (o RoutingConfigurationOutput) ToRoutingConfigurationPtrOutput() RoutingConfigurationPtrOutput {
-	return o.ToRoutingConfigurationPtrOutputWithContext(context.Background())
+func (o RoutingConfigurationTypeOutput) ToRoutingConfigurationTypePtrOutput() RoutingConfigurationTypePtrOutput {
+	return o.ToRoutingConfigurationTypePtrOutputWithContext(context.Background())
 }
 
-func (o RoutingConfigurationOutput) ToRoutingConfigurationPtrOutputWithContext(ctx context.Context) RoutingConfigurationPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v RoutingConfiguration) *RoutingConfiguration {
+func (o RoutingConfigurationTypeOutput) ToRoutingConfigurationTypePtrOutputWithContext(ctx context.Context) RoutingConfigurationTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v RoutingConfigurationType) *RoutingConfigurationType {
 		return &v
-	}).(RoutingConfigurationPtrOutput)
+	}).(RoutingConfigurationTypePtrOutput)
 }
 
 // The resource id RouteTable associated with this RoutingConfiguration.
-func (o RoutingConfigurationOutput) AssociatedRouteTable() SubResourcePtrOutput {
-	return o.ApplyT(func(v RoutingConfiguration) *SubResource { return v.AssociatedRouteTable }).(SubResourcePtrOutput)
+func (o RoutingConfigurationTypeOutput) AssociatedRouteTable() SubResourcePtrOutput {
+	return o.ApplyT(func(v RoutingConfigurationType) *SubResource { return v.AssociatedRouteTable }).(SubResourcePtrOutput)
 }
 
 // The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
-func (o RoutingConfigurationOutput) InboundRouteMap() SubResourcePtrOutput {
-	return o.ApplyT(func(v RoutingConfiguration) *SubResource { return v.InboundRouteMap }).(SubResourcePtrOutput)
+func (o RoutingConfigurationTypeOutput) InboundRouteMap() SubResourcePtrOutput {
+	return o.ApplyT(func(v RoutingConfigurationType) *SubResource { return v.InboundRouteMap }).(SubResourcePtrOutput)
 }
 
 // The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.
-func (o RoutingConfigurationOutput) OutboundRouteMap() SubResourcePtrOutput {
-	return o.ApplyT(func(v RoutingConfiguration) *SubResource { return v.OutboundRouteMap }).(SubResourcePtrOutput)
+func (o RoutingConfigurationTypeOutput) OutboundRouteMap() SubResourcePtrOutput {
+	return o.ApplyT(func(v RoutingConfigurationType) *SubResource { return v.OutboundRouteMap }).(SubResourcePtrOutput)
 }
 
 // The list of RouteTables to advertise the routes to.
-func (o RoutingConfigurationOutput) PropagatedRouteTables() PropagatedRouteTablePtrOutput {
-	return o.ApplyT(func(v RoutingConfiguration) *PropagatedRouteTable { return v.PropagatedRouteTables }).(PropagatedRouteTablePtrOutput)
+func (o RoutingConfigurationTypeOutput) PropagatedRouteTables() PropagatedRouteTablePtrOutput {
+	return o.ApplyT(func(v RoutingConfigurationType) *PropagatedRouteTable { return v.PropagatedRouteTables }).(PropagatedRouteTablePtrOutput)
 }
 
 // List of routes that control routing from VirtualHub into a virtual network connection.
-func (o RoutingConfigurationOutput) VnetRoutes() VnetRoutePtrOutput {
-	return o.ApplyT(func(v RoutingConfiguration) *VnetRoute { return v.VnetRoutes }).(VnetRoutePtrOutput)
+func (o RoutingConfigurationTypeOutput) VnetRoutes() VnetRoutePtrOutput {
+	return o.ApplyT(func(v RoutingConfigurationType) *VnetRoute { return v.VnetRoutes }).(VnetRoutePtrOutput)
 }
 
-type RoutingConfigurationPtrOutput struct{ *pulumi.OutputState }
+type RoutingConfigurationTypePtrOutput struct{ *pulumi.OutputState }
 
-func (RoutingConfigurationPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**RoutingConfiguration)(nil)).Elem()
+func (RoutingConfigurationTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RoutingConfigurationType)(nil)).Elem()
 }
 
-func (o RoutingConfigurationPtrOutput) ToRoutingConfigurationPtrOutput() RoutingConfigurationPtrOutput {
+func (o RoutingConfigurationTypePtrOutput) ToRoutingConfigurationTypePtrOutput() RoutingConfigurationTypePtrOutput {
 	return o
 }
 
-func (o RoutingConfigurationPtrOutput) ToRoutingConfigurationPtrOutputWithContext(ctx context.Context) RoutingConfigurationPtrOutput {
+func (o RoutingConfigurationTypePtrOutput) ToRoutingConfigurationTypePtrOutputWithContext(ctx context.Context) RoutingConfigurationTypePtrOutput {
 	return o
 }
 
-func (o RoutingConfigurationPtrOutput) Elem() RoutingConfigurationOutput {
-	return o.ApplyT(func(v *RoutingConfiguration) RoutingConfiguration {
+func (o RoutingConfigurationTypePtrOutput) Elem() RoutingConfigurationTypeOutput {
+	return o.ApplyT(func(v *RoutingConfigurationType) RoutingConfigurationType {
 		if v != nil {
 			return *v
 		}
-		var ret RoutingConfiguration
+		var ret RoutingConfigurationType
 		return ret
-	}).(RoutingConfigurationOutput)
+	}).(RoutingConfigurationTypeOutput)
 }
 
 // The resource id RouteTable associated with this RoutingConfiguration.
-func (o RoutingConfigurationPtrOutput) AssociatedRouteTable() SubResourcePtrOutput {
-	return o.ApplyT(func(v *RoutingConfiguration) *SubResource {
+func (o RoutingConfigurationTypePtrOutput) AssociatedRouteTable() SubResourcePtrOutput {
+	return o.ApplyT(func(v *RoutingConfigurationType) *SubResource {
 		if v == nil {
 			return nil
 		}
@@ -2482,8 +2482,8 @@ func (o RoutingConfigurationPtrOutput) AssociatedRouteTable() SubResourcePtrOutp
 }
 
 // The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
-func (o RoutingConfigurationPtrOutput) InboundRouteMap() SubResourcePtrOutput {
-	return o.ApplyT(func(v *RoutingConfiguration) *SubResource {
+func (o RoutingConfigurationTypePtrOutput) InboundRouteMap() SubResourcePtrOutput {
+	return o.ApplyT(func(v *RoutingConfigurationType) *SubResource {
 		if v == nil {
 			return nil
 		}
@@ -2492,8 +2492,8 @@ func (o RoutingConfigurationPtrOutput) InboundRouteMap() SubResourcePtrOutput {
 }
 
 // The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.
-func (o RoutingConfigurationPtrOutput) OutboundRouteMap() SubResourcePtrOutput {
-	return o.ApplyT(func(v *RoutingConfiguration) *SubResource {
+func (o RoutingConfigurationTypePtrOutput) OutboundRouteMap() SubResourcePtrOutput {
+	return o.ApplyT(func(v *RoutingConfigurationType) *SubResource {
 		if v == nil {
 			return nil
 		}
@@ -2502,8 +2502,8 @@ func (o RoutingConfigurationPtrOutput) OutboundRouteMap() SubResourcePtrOutput {
 }
 
 // The list of RouteTables to advertise the routes to.
-func (o RoutingConfigurationPtrOutput) PropagatedRouteTables() PropagatedRouteTablePtrOutput {
-	return o.ApplyT(func(v *RoutingConfiguration) *PropagatedRouteTable {
+func (o RoutingConfigurationTypePtrOutput) PropagatedRouteTables() PropagatedRouteTablePtrOutput {
+	return o.ApplyT(func(v *RoutingConfigurationType) *PropagatedRouteTable {
 		if v == nil {
 			return nil
 		}
@@ -2512,8 +2512,8 @@ func (o RoutingConfigurationPtrOutput) PropagatedRouteTables() PropagatedRouteTa
 }
 
 // List of routes that control routing from VirtualHub into a virtual network connection.
-func (o RoutingConfigurationPtrOutput) VnetRoutes() VnetRoutePtrOutput {
-	return o.ApplyT(func(v *RoutingConfiguration) *VnetRoute {
+func (o RoutingConfigurationTypePtrOutput) VnetRoutes() VnetRoutePtrOutput {
+	return o.ApplyT(func(v *RoutingConfigurationType) *VnetRoute {
 		if v == nil {
 			return nil
 		}
@@ -17948,7 +17948,7 @@ type VpnConnectionType struct {
 	// Id of the connected vpn site.
 	RemoteVpnSite *SubResource `pulumi:"remoteVpnSite"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfiguration `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// Routing weight for vpn connection.
 	RoutingWeight *int `pulumi:"routingWeight"`
 	// SharedKey for the vpn connection.
@@ -17997,7 +17997,7 @@ type VpnConnectionTypeArgs struct {
 	// Id of the connected vpn site.
 	RemoteVpnSite SubResourcePtrInput `pulumi:"remoteVpnSite"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationPtrInput `pulumi:"routingConfiguration"`
+	RoutingConfiguration RoutingConfigurationTypePtrInput `pulumi:"routingConfiguration"`
 	// Routing weight for vpn connection.
 	RoutingWeight pulumi.IntPtrInput `pulumi:"routingWeight"`
 	// SharedKey for the vpn connection.
@@ -18112,8 +18112,8 @@ func (o VpnConnectionTypeOutput) RemoteVpnSite() SubResourcePtrOutput {
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o VpnConnectionTypeOutput) RoutingConfiguration() RoutingConfigurationPtrOutput {
-	return o.ApplyT(func(v VpnConnectionType) *RoutingConfiguration { return v.RoutingConfiguration }).(RoutingConfigurationPtrOutput)
+func (o VpnConnectionTypeOutput) RoutingConfiguration() RoutingConfigurationTypePtrOutput {
+	return o.ApplyT(func(v VpnConnectionType) *RoutingConfigurationType { return v.RoutingConfiguration }).(RoutingConfigurationTypePtrOutput)
 }
 
 // Routing weight for vpn connection.
@@ -22134,8 +22134,8 @@ func init() {
 	pulumi.RegisterOutputType(RouteTargetAddressPropertiesFormatPtrOutput{})
 	pulumi.RegisterOutputType(RouteTargetAddressPropertiesFormatResponseOutput{})
 	pulumi.RegisterOutputType(RouteTargetAddressPropertiesFormatResponsePtrOutput{})
-	pulumi.RegisterOutputType(RoutingConfigurationOutput{})
-	pulumi.RegisterOutputType(RoutingConfigurationPtrOutput{})
+	pulumi.RegisterOutputType(RoutingConfigurationTypeOutput{})
+	pulumi.RegisterOutputType(RoutingConfigurationTypePtrOutput{})
 	pulumi.RegisterOutputType(RoutingConfigurationResponseOutput{})
 	pulumi.RegisterOutputType(RoutingConfigurationResponsePtrOutput{})
 	pulumi.RegisterOutputType(RoutingPolicyOutput{})

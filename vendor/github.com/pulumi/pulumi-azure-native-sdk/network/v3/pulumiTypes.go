@@ -29354,7 +29354,7 @@ type ExpressRouteConnectionType struct {
 	// The name of the resource.
 	Name string `pulumi:"name"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfiguration `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// The routing weight associated to the connection.
 	RoutingWeight *int `pulumi:"routingWeight"`
 }
@@ -29387,7 +29387,7 @@ type ExpressRouteConnectionTypeArgs struct {
 	// The name of the resource.
 	Name pulumi.StringInput `pulumi:"name"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationPtrInput `pulumi:"routingConfiguration"`
+	RoutingConfiguration RoutingConfigurationTypePtrInput `pulumi:"routingConfiguration"`
 	// The routing weight associated to the connection.
 	RoutingWeight pulumi.IntPtrInput `pulumi:"routingWeight"`
 }
@@ -29480,8 +29480,8 @@ func (o ExpressRouteConnectionTypeOutput) Name() pulumi.StringOutput {
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o ExpressRouteConnectionTypeOutput) RoutingConfiguration() RoutingConfigurationPtrOutput {
-	return o.ApplyT(func(v ExpressRouteConnectionType) *RoutingConfiguration { return v.RoutingConfiguration }).(RoutingConfigurationPtrOutput)
+func (o ExpressRouteConnectionTypeOutput) RoutingConfiguration() RoutingConfigurationTypePtrOutput {
+	return o.ApplyT(func(v ExpressRouteConnectionType) *RoutingConfigurationType { return v.RoutingConfiguration }).(RoutingConfigurationTypePtrOutput)
 }
 
 // The routing weight associated to the connection.
@@ -50379,7 +50379,7 @@ type NetworkVirtualApplianceConnectionProperties struct {
 	// The name of the resource.
 	Name *string `pulumi:"name"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfiguration `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// Unique identifier for the connection.
 	TunnelIdentifier *float64 `pulumi:"tunnelIdentifier"`
 }
@@ -50406,7 +50406,7 @@ type NetworkVirtualApplianceConnectionPropertiesArgs struct {
 	// The name of the resource.
 	Name pulumi.StringPtrInput `pulumi:"name"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationPtrInput `pulumi:"routingConfiguration"`
+	RoutingConfiguration RoutingConfigurationTypePtrInput `pulumi:"routingConfiguration"`
 	// Unique identifier for the connection.
 	TunnelIdentifier pulumi.Float64PtrInput `pulumi:"tunnelIdentifier"`
 }
@@ -50510,10 +50510,10 @@ func (o NetworkVirtualApplianceConnectionPropertiesOutput) Name() pulumi.StringP
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o NetworkVirtualApplianceConnectionPropertiesOutput) RoutingConfiguration() RoutingConfigurationPtrOutput {
-	return o.ApplyT(func(v NetworkVirtualApplianceConnectionProperties) *RoutingConfiguration {
+func (o NetworkVirtualApplianceConnectionPropertiesOutput) RoutingConfiguration() RoutingConfigurationTypePtrOutput {
+	return o.ApplyT(func(v NetworkVirtualApplianceConnectionProperties) *RoutingConfigurationType {
 		return v.RoutingConfiguration
-	}).(RoutingConfigurationPtrOutput)
+	}).(RoutingConfigurationTypePtrOutput)
 }
 
 // Unique identifier for the connection.
@@ -50586,13 +50586,13 @@ func (o NetworkVirtualApplianceConnectionPropertiesPtrOutput) Name() pulumi.Stri
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o NetworkVirtualApplianceConnectionPropertiesPtrOutput) RoutingConfiguration() RoutingConfigurationPtrOutput {
-	return o.ApplyT(func(v *NetworkVirtualApplianceConnectionProperties) *RoutingConfiguration {
+func (o NetworkVirtualApplianceConnectionPropertiesPtrOutput) RoutingConfiguration() RoutingConfigurationTypePtrOutput {
+	return o.ApplyT(func(v *NetworkVirtualApplianceConnectionProperties) *RoutingConfigurationType {
 		if v == nil {
 			return nil
 		}
 		return v.RoutingConfiguration
-	}).(RoutingConfigurationPtrOutput)
+	}).(RoutingConfigurationTypePtrOutput)
 }
 
 // Unique identifier for the connection.
@@ -52383,7 +52383,7 @@ type P2SConnectionConfiguration struct {
 	// The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `pulumi:"name"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfiguration `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpace `pulumi:"vpnClientAddressPool"`
 }
@@ -52408,7 +52408,7 @@ type P2SConnectionConfigurationArgs struct {
 	// The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name pulumi.StringPtrInput `pulumi:"name"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationPtrInput `pulumi:"routingConfiguration"`
+	RoutingConfiguration RoutingConfigurationTypePtrInput `pulumi:"routingConfiguration"`
 	// The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool AddressSpacePtrInput `pulumi:"vpnClientAddressPool"`
 }
@@ -52481,8 +52481,8 @@ func (o P2SConnectionConfigurationOutput) Name() pulumi.StringPtrOutput {
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o P2SConnectionConfigurationOutput) RoutingConfiguration() RoutingConfigurationPtrOutput {
-	return o.ApplyT(func(v P2SConnectionConfiguration) *RoutingConfiguration { return v.RoutingConfiguration }).(RoutingConfigurationPtrOutput)
+func (o P2SConnectionConfigurationOutput) RoutingConfiguration() RoutingConfigurationTypePtrOutput {
+	return o.ApplyT(func(v P2SConnectionConfiguration) *RoutingConfigurationType { return v.RoutingConfiguration }).(RoutingConfigurationTypePtrOutput)
 }
 
 // The reference to the address space resource which represents Address space for P2S VpnClient.

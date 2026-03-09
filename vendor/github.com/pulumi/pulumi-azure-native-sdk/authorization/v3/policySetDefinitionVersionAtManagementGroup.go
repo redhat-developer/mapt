@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2025-01-01. In version 2.x of the Azure Native provider, it used API version 2023-04-01.
 //
-// Other available API versions: 2023-04-01, 2024-05-01, 2025-03-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native authorization [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2023-04-01, 2024-05-01, 2025-03-01, 2025-11-01, 2025-12-01-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native authorization [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type PolicySetDefinitionVersionAtManagementGroup struct {
 	pulumi.CustomResourceState
 
@@ -74,6 +74,12 @@ func NewPolicySetDefinitionVersionAtManagementGroup(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:authorization/v20250301:PolicySetDefinitionVersionAtManagementGroup"),
+		},
+		{
+			Type: pulumi.String("azure-native:authorization/v20251101:PolicySetDefinitionVersionAtManagementGroup"),
+		},
+		{
+			Type: pulumi.String("azure-native:authorization/v20251201preview:PolicySetDefinitionVersionAtManagementGroup"),
 		},
 	})
 	opts = append(opts, aliases)

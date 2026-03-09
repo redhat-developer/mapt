@@ -190,7 +190,7 @@ type hubVirtualNetworkConnectionArgs struct {
 	// The resource group name of the HubVirtualNetworkConnection.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfiguration `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// The name of the VirtualHub.
 	VirtualHubName string `pulumi:"virtualHubName"`
 }
@@ -214,7 +214,7 @@ type HubVirtualNetworkConnectionArgs struct {
 	// The resource group name of the HubVirtualNetworkConnection.
 	ResourceGroupName pulumi.StringInput
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationPtrInput
+	RoutingConfiguration RoutingConfigurationTypePtrInput
 	// The name of the VirtualHub.
 	VirtualHubName pulumi.StringInput
 }

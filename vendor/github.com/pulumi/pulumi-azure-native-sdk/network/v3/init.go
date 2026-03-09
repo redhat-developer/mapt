@@ -181,6 +181,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &RouteMap{}
 	case "azure-native:network:RouteTable":
 		r = &RouteTable{}
+	case "azure-native:network:RoutingConfiguration":
+		r = &RoutingConfiguration{}
 	case "azure-native:network:RoutingIntent":
 		r = &RoutingIntent{}
 	case "azure-native:network:RoutingRule":
