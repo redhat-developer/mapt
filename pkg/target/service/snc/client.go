@@ -69,14 +69,22 @@ func waitForCRCondition(ctx context.Context, kubeconfig string, gvr schema.Group
 }
 
 // findResource returns a single resource by exact name or by name prefix.
+// When namespace is empty, the resource is looked up at cluster scope.
 func findResource(ctx context.Context, dc dynamic.Interface, gvr schema.GroupVersionResource,
 	namespace, name string, prefixMatch bool) (*unstructured.Unstructured, error) {
 
-	if !prefixMatch {
-		return dc.Resource(gvr).Namespace(namespace).Get(ctx, name, metav1.GetOptions{})
+	var ri dynamic.ResourceInterface
+	if namespace == "" {
+		ri = dc.Resource(gvr)
+	} else {
+		ri = dc.Resource(gvr).Namespace(namespace)
 	}
 
-	list, err := dc.Resource(gvr).Namespace(namespace).List(ctx, metav1.ListOptions{})
+	if !prefixMatch {
+		return ri.Get(ctx, name, metav1.GetOptions{})
+	}
+
+	list, err := ri.List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

@@ -10,10 +10,11 @@ import (
 
 const (
 	ProfileVirtualization = "virtualization"
+	ProfileServiceMesh    = "servicemesh"
 )
 
 // validProfiles is the single source of truth for supported profile names.
-var validProfiles = []string{ProfileVirtualization}
+var validProfiles = []string{ProfileVirtualization, ProfileServiceMesh}
 
 // ProfileDeployArgs holds the arguments needed by a profile to deploy
 // its resources on the SNC cluster.
@@ -40,6 +41,8 @@ func DeployProfile(ctx *pulumi.Context, profile string, args *ProfileDeployArgs)
 	switch profile {
 	case ProfileVirtualization:
 		return deployVirtualization(ctx, args)
+	case ProfileServiceMesh:
+		return deployServiceMesh(ctx, args)
 	default:
 		return nil, fmt.Errorf("profile %q has no deploy function", profile)
 	}
