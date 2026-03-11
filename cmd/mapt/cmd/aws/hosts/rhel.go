@@ -97,18 +97,20 @@ func getRHELDestroy() *cobra.Command {
 				return err
 			}
 			return rhel.Destroy(&maptContext.ContextArgs{
-				Context:     cmd.Context(),
-				ProjectName: viper.GetString(params.ProjectName),
-				BackedURL:   viper.GetString(params.BackedURL),
-				Debug:       viper.IsSet(params.Debug),
-				DebugLevel:  viper.GetUint(params.DebugLevel),
-				Serverless:  viper.IsSet(params.Serverless),
-				KeepState:   viper.IsSet(params.KeepState),
+				Context:      cmd.Context(),
+				ProjectName:  viper.GetString(params.ProjectName),
+				BackedURL:    viper.GetString(params.BackedURL),
+				Debug:        viper.IsSet(params.Debug),
+				DebugLevel:   viper.GetUint(params.DebugLevel),
+				Serverless:   viper.IsSet(params.Serverless),
+				ForceDestroy: viper.IsSet(params.ForceDestroy),
+				KeepState:    viper.IsSet(params.KeepState),
 			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
+	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
