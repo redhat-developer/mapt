@@ -108,16 +108,18 @@ func getDestroyEKS() *cobra.Command {
 			}
 			return awsEKS.Destroy(
 				&maptContext.ContextArgs{
-					Context:     cmd.Context(),
-					ProjectName: viper.GetString(params.ProjectName),
-					BackedURL:   viper.GetString(params.BackedURL),
-					Debug:       viper.IsSet(params.Debug),
-					DebugLevel:  viper.GetUint(params.DebugLevel),
-					KeepState:   viper.IsSet(params.KeepState),
+					Context:      cmd.Context(),
+					ProjectName:  viper.GetString(params.ProjectName),
+					BackedURL:    viper.GetString(params.BackedURL),
+					Debug:        viper.IsSet(params.Debug),
+					DebugLevel:   viper.GetUint(params.DebugLevel),
+					ForceDestroy: viper.IsSet(params.ForceDestroy),
+					KeepState:    viper.IsSet(params.KeepState),
 				})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
+	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c

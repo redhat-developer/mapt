@@ -111,16 +111,18 @@ func getMacDestroy() *cobra.Command {
 			}
 			return mac.Destroy(
 				&maptContext.ContextArgs{
-					Context:    cmd.Context(),
-					Debug:      viper.IsSet(params.Debug),
-					DebugLevel: viper.GetUint(params.DebugLevel),
-					KeepState:  viper.IsSet(params.KeepState),
+					Context:      cmd.Context(),
+					Debug:        viper.IsSet(params.Debug),
+					DebugLevel:   viper.GetUint(params.DebugLevel),
+					ForceDestroy: viper.IsSet(params.ForceDestroy),
+					KeepState:    viper.IsSet(params.KeepState),
 				},
 				viper.GetString(awsParams.MACDHID))
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.StringP(awsParams.MACDHID, "", "", awsParams.MACDHIDDesc)
+	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	err := c.MarkPersistentFlagRequired(awsParams.MACDHID)
