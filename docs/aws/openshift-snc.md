@@ -62,13 +62,16 @@ mapt aws openshift-snc create \
     --profile virtualization
 ```
 
-Multiple profiles can be specified as a comma-separated list (e.g., `--profile virtualization,serverless`).
+Multiple profiles can be specified as a comma-separated list (e.g., `--profile virtualization,serverless-serving`).
 
 ### Available profiles
 
 | Profile | Description |
 |---------|-------------|
 | `virtualization` | Installs [OpenShift Virtualization](https://docs.openshift.com/container-platform/latest/virt/about_virt/about-virt.html) (CNV) on the cluster, enabling virtual machines to run on the single-node cluster. When this profile is selected, nested virtualization is automatically enabled on the cloud instance. Because standard Nitro-based instances do not expose `/dev/kvm`, a bare metal instance is required.|
+| `serverless-serving` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates a KnativeServing instance, enabling serverless workloads (Knative Serving) on the cluster.|
+| `serverless-eventing` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates a KnativeEventing instance, enabling event-driven workloads (Knative Eventing) on the cluster.|
+| `serverless` | Installs [OpenShift Serverless](https://docs.openshift.com/serverless/latest/about/about-serverless.html) and creates both KnativeServing and KnativeEventing instances.|
 
 
 ### Adding new profiles

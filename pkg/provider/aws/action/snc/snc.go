@@ -28,6 +28,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	apiSNC "github.com/redhat-developer/mapt/pkg/target/service/snc"
+	"github.com/redhat-developer/mapt/pkg/target/service/snc/profile"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -65,7 +66,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 		return nil, err
 	}
 	// Validate profiles
-	if err := apiSNC.ValidateProfiles(args.Profiles); err != nil {
+	if err := profile.Validate(args.Profiles); err != nil {
 		return nil, err
 	}
 	// Compose request
@@ -266,18 +267,16 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		pulumi.ToSecret(kubeconfig))
 	// Deploy profiles using Kubernetes provider
 	if len(r.profiles) > 0 {
-		k8sProvider, err := apiSNC.NewK8sProvider(ctx, "k8s-provider", kubeconfig)
+		k8sProvider, err := profile.NewK8sProvider(ctx, "k8s-provider", kubeconfig)
 		if err != nil {
 			return err
 		}
-		for _, profileName := range r.profiles {
-			if _, err := apiSNC.DeployProfile(ctx, profileName, &apiSNC.ProfileDeployArgs{
-				K8sProvider: k8sProvider,
-				Kubeconfig:  kubeconfig,
-				Prefix:      *r.prefix,
-			}); err != nil {
-				return err
-			}
+		if err := profile.Deploy(ctx, r.profiles, &profile.DeployArgs{
+			K8sProvider: k8sProvider,
+			Kubeconfig:  kubeconfig,
+			Prefix:      *r.prefix,
+		}); err != nil {
+			logging.Warnf("profile deployment failed: %v", err)
 		}
 	}
 	return nil
