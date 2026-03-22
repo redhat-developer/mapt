@@ -7,7 +7,7 @@ TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
 
 # Integrations
 # renovate: datasource=github-releases depName=cirruslabs/cirrus-cli
-CIRRUS_CLI ?= v0.165.0
+CIRRUS_CLI ?= v0.165.2
 # renovate: datasource=github-releases depName=actions/runner
 GITHUB_RUNNER ?= 2.332.0
 # renovate: datasource=gitlab-releases depName=gitlab-org/gitlab-runner

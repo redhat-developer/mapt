@@ -1,3 +1,11 @@
+# v1.53.6 (2026-03-13)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.5 (2026-03-09)
+
+* **Documentation**: Added support for CloudWatch Logs long-term API keys, currently available in Preview
+
 # v1.53.4 (2026-03-03)
 
 * **Dependency Update**: Bump minimum Go version to 1.24
