@@ -2,6 +2,12 @@ module github.com/redhat-developer/mapt
 
 go 1.25.6
 
+replace (
+	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.0.0
+	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.2
+	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.2
+)
+
 require (
 	github.com/coocood/freecache v1.2.7
 	github.com/pulumi/pulumi-command/sdk v1.2.1
@@ -90,6 +96,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.17 // indirect
 	github.com/aws/smithy-go v1.24.2 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
+	github.com/aymanbagabas/go-udiff v0.4.1 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charmbracelet/bubbles v1.0.0 // indirect
@@ -98,6 +105,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.11.6 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.15 // indirect
+	github.com/charmbracelet/x/exp/golden v0.0.0-20250806222409-83e3a29d542f // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
