@@ -9,9 +9,9 @@ TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
 # renovate: datasource=github-releases depName=cirruslabs/cirrus-cli
 CIRRUS_CLI ?= v0.165.2
 # renovate: datasource=github-releases depName=actions/runner
-GITHUB_RUNNER ?= 2.332.0
+GITHUB_RUNNER ?= 2.333.0
 # renovate: datasource=gitlab-releases depName=gitlab-org/gitlab-runner
-GITLAB_RUNNER ?= 18.9.0
+GITLAB_RUNNER ?= 18.10.0
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)

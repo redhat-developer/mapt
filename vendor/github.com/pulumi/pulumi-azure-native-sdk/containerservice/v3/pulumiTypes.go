@@ -27960,16 +27960,16 @@ type NamespacePropertiesResponse struct {
 	AdoptionPolicy *string `pulumi:"adoptionPolicy"`
 	// The annotations of managed namespace.
 	Annotations map[string]string `pulumi:"annotations"`
-	// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced.
+	// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. Network policies are additive; if a policy or policies apply to a given pod for a given direction, the connections allowed in that direction for the pod is the union of what all applicable policies allow.
 	DefaultNetworkPolicy *NetworkPoliciesResponse `pulumi:"defaultNetworkPolicy"`
-	// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced.
+	// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. Resource quotas are additive; if multiple resource quotas are applied to a given namespace, then the effective limit will be one such that all quotas on the namespace can be satisfied.
 	DefaultResourceQuota *ResourceQuotaResponse `pulumi:"defaultResourceQuota"`
 	// Delete options of a namespace.
 	DeletePolicy *string `pulumi:"deletePolicy"`
 	// The labels of managed namespace.
 	Labels map[string]string `pulumi:"labels"`
 	// The special FQDN used by the Azure Portal to access the Managed Cluster. This FQDN is for use only by the Azure Portal and should not be used by other clients. The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly.
-	PortalFqdn *string `pulumi:"portalFqdn"`
+	PortalFqdn string `pulumi:"portalFqdn"`
 	// The current provisioning state of the namespace.
 	ProvisioningState string `pulumi:"provisioningState"`
 }
@@ -28010,12 +28010,12 @@ func (o NamespacePropertiesResponseOutput) Annotations() pulumi.StringMapOutput 
 	return o.ApplyT(func(v NamespacePropertiesResponse) map[string]string { return v.Annotations }).(pulumi.StringMapOutput)
 }
 
-// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced.
+// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. Network policies are additive; if a policy or policies apply to a given pod for a given direction, the connections allowed in that direction for the pod is the union of what all applicable policies allow.
 func (o NamespacePropertiesResponseOutput) DefaultNetworkPolicy() NetworkPoliciesResponsePtrOutput {
 	return o.ApplyT(func(v NamespacePropertiesResponse) *NetworkPoliciesResponse { return v.DefaultNetworkPolicy }).(NetworkPoliciesResponsePtrOutput)
 }
 
-// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced.
+// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. Resource quotas are additive; if multiple resource quotas are applied to a given namespace, then the effective limit will be one such that all quotas on the namespace can be satisfied.
 func (o NamespacePropertiesResponseOutput) DefaultResourceQuota() ResourceQuotaResponsePtrOutput {
 	return o.ApplyT(func(v NamespacePropertiesResponse) *ResourceQuotaResponse { return v.DefaultResourceQuota }).(ResourceQuotaResponsePtrOutput)
 }
@@ -28031,13 +28031,92 @@ func (o NamespacePropertiesResponseOutput) Labels() pulumi.StringMapOutput {
 }
 
 // The special FQDN used by the Azure Portal to access the Managed Cluster. This FQDN is for use only by the Azure Portal and should not be used by other clients. The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly.
-func (o NamespacePropertiesResponseOutput) PortalFqdn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v NamespacePropertiesResponse) *string { return v.PortalFqdn }).(pulumi.StringPtrOutput)
+func (o NamespacePropertiesResponseOutput) PortalFqdn() pulumi.StringOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponse) string { return v.PortalFqdn }).(pulumi.StringOutput)
 }
 
 // The current provisioning state of the namespace.
 func (o NamespacePropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
 	return o.ApplyT(func(v NamespacePropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// Properties of a namespace managed by ARM
+type NamespacePropertiesResponseV1 struct {
+	// Action if Kubernetes namespace with same name already exists.
+	AdoptionPolicy *string `pulumi:"adoptionPolicy"`
+	// The annotations of managed namespace.
+	Annotations map[string]string `pulumi:"annotations"`
+	// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced.
+	DefaultNetworkPolicy *NetworkPoliciesResponse `pulumi:"defaultNetworkPolicy"`
+	// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced.
+	DefaultResourceQuota *ResourceQuotaResponse `pulumi:"defaultResourceQuota"`
+	// Delete options of a namespace.
+	DeletePolicy *string `pulumi:"deletePolicy"`
+	// The labels of managed namespace.
+	Labels map[string]string `pulumi:"labels"`
+	// The current provisioning state of the namespace.
+	ProvisioningState string `pulumi:"provisioningState"`
+}
+
+// Defaults sets the appropriate defaults for NamespacePropertiesResponseV1
+func (val *NamespacePropertiesResponseV1) Defaults() *NamespacePropertiesResponseV1 {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	tmp.DefaultNetworkPolicy = tmp.DefaultNetworkPolicy.Defaults()
+
+	return &tmp
+}
+
+// Properties of a namespace managed by ARM
+type NamespacePropertiesResponseV1Output struct{ *pulumi.OutputState }
+
+func (NamespacePropertiesResponseV1Output) ElementType() reflect.Type {
+	return reflect.TypeOf((*NamespacePropertiesResponseV1)(nil)).Elem()
+}
+
+func (o NamespacePropertiesResponseV1Output) ToNamespacePropertiesResponseV1Output() NamespacePropertiesResponseV1Output {
+	return o
+}
+
+func (o NamespacePropertiesResponseV1Output) ToNamespacePropertiesResponseV1OutputWithContext(ctx context.Context) NamespacePropertiesResponseV1Output {
+	return o
+}
+
+// Action if Kubernetes namespace with same name already exists.
+func (o NamespacePropertiesResponseV1Output) AdoptionPolicy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponseV1) *string { return v.AdoptionPolicy }).(pulumi.StringPtrOutput)
+}
+
+// The annotations of managed namespace.
+func (o NamespacePropertiesResponseV1Output) Annotations() pulumi.StringMapOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponseV1) map[string]string { return v.Annotations }).(pulumi.StringMapOutput)
+}
+
+// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced.
+func (o NamespacePropertiesResponseV1Output) DefaultNetworkPolicy() NetworkPoliciesResponsePtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponseV1) *NetworkPoliciesResponse { return v.DefaultNetworkPolicy }).(NetworkPoliciesResponsePtrOutput)
+}
+
+// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced.
+func (o NamespacePropertiesResponseV1Output) DefaultResourceQuota() ResourceQuotaResponsePtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponseV1) *ResourceQuotaResponse { return v.DefaultResourceQuota }).(ResourceQuotaResponsePtrOutput)
+}
+
+// Delete options of a namespace.
+func (o NamespacePropertiesResponseV1Output) DeletePolicy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponseV1) *string { return v.DeletePolicy }).(pulumi.StringPtrOutput)
+}
+
+// The labels of managed namespace.
+func (o NamespacePropertiesResponseV1Output) Labels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponseV1) map[string]string { return v.Labels }).(pulumi.StringMapOutput)
+}
+
+// The current provisioning state of the namespace.
+func (o NamespacePropertiesResponseV1Output) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v NamespacePropertiesResponseV1) string { return v.ProvisioningState }).(pulumi.StringOutput)
 }
 
 // Default network policy of the namespace, specifying ingress and egress rules.
@@ -36536,12 +36615,8 @@ func (o UserAssignedIdentityMapOutput) MapIndex(k pulumi.StringInput) UserAssign
 type UserAssignedIdentityResponse struct {
 	// The client ID of the assigned identity.
 	ClientId string `pulumi:"clientId"`
-	// The object ID of the user assigned identity.
-	ObjectId *string `pulumi:"objectId"`
 	// The principal ID of the assigned identity.
 	PrincipalId string `pulumi:"principalId"`
-	// The resource ID of the user assigned identity.
-	ResourceId *string `pulumi:"resourceId"`
 }
 
 // User assigned identity properties
@@ -36564,19 +36639,9 @@ func (o UserAssignedIdentityResponseOutput) ClientId() pulumi.StringOutput {
 	return o.ApplyT(func(v UserAssignedIdentityResponse) string { return v.ClientId }).(pulumi.StringOutput)
 }
 
-// The object ID of the user assigned identity.
-func (o UserAssignedIdentityResponseOutput) ObjectId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v UserAssignedIdentityResponse) *string { return v.ObjectId }).(pulumi.StringPtrOutput)
-}
-
 // The principal ID of the assigned identity.
 func (o UserAssignedIdentityResponseOutput) PrincipalId() pulumi.StringOutput {
 	return o.ApplyT(func(v UserAssignedIdentityResponse) string { return v.PrincipalId }).(pulumi.StringOutput)
-}
-
-// The resource ID of the user assigned identity.
-func (o UserAssignedIdentityResponseOutput) ResourceId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v UserAssignedIdentityResponse) *string { return v.ResourceId }).(pulumi.StringPtrOutput)
 }
 
 type UserAssignedIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -36613,16 +36678,6 @@ func (o UserAssignedIdentityResponsePtrOutput) ClientId() pulumi.StringPtrOutput
 	}).(pulumi.StringPtrOutput)
 }
 
-// The object ID of the user assigned identity.
-func (o UserAssignedIdentityResponsePtrOutput) ObjectId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *UserAssignedIdentityResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.ObjectId
-	}).(pulumi.StringPtrOutput)
-}
-
 // The principal ID of the assigned identity.
 func (o UserAssignedIdentityResponsePtrOutput) PrincipalId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *UserAssignedIdentityResponse) *string {
@@ -36630,16 +36685,6 @@ func (o UserAssignedIdentityResponsePtrOutput) PrincipalId() pulumi.StringPtrOut
 			return nil
 		}
 		return &v.PrincipalId
-	}).(pulumi.StringPtrOutput)
-}
-
-// The resource ID of the user assigned identity.
-func (o UserAssignedIdentityResponsePtrOutput) ResourceId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *UserAssignedIdentityResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.ResourceId
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -36661,6 +36706,66 @@ func (o UserAssignedIdentityResponseMapOutput) MapIndex(k pulumi.StringInput) Us
 	return pulumi.All(o, k).ApplyT(func(vs []interface{}) UserAssignedIdentityResponse {
 		return vs[0].(map[string]UserAssignedIdentityResponse)[vs[1].(string)]
 	}).(UserAssignedIdentityResponseOutput)
+}
+
+// Details about a user assigned identity.
+type UserAssignedIdentityResponseV1 struct {
+	// The client ID of the user assigned identity.
+	ClientId *string `pulumi:"clientId"`
+	// The object ID of the user assigned identity.
+	ObjectId *string `pulumi:"objectId"`
+	// The resource ID of the user assigned identity.
+	ResourceId *string `pulumi:"resourceId"`
+}
+
+// Details about a user assigned identity.
+type UserAssignedIdentityResponseV1Output struct{ *pulumi.OutputState }
+
+func (UserAssignedIdentityResponseV1Output) ElementType() reflect.Type {
+	return reflect.TypeOf((*UserAssignedIdentityResponseV1)(nil)).Elem()
+}
+
+func (o UserAssignedIdentityResponseV1Output) ToUserAssignedIdentityResponseV1Output() UserAssignedIdentityResponseV1Output {
+	return o
+}
+
+func (o UserAssignedIdentityResponseV1Output) ToUserAssignedIdentityResponseV1OutputWithContext(ctx context.Context) UserAssignedIdentityResponseV1Output {
+	return o
+}
+
+// The client ID of the user assigned identity.
+func (o UserAssignedIdentityResponseV1Output) ClientId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v UserAssignedIdentityResponseV1) *string { return v.ClientId }).(pulumi.StringPtrOutput)
+}
+
+// The object ID of the user assigned identity.
+func (o UserAssignedIdentityResponseV1Output) ObjectId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v UserAssignedIdentityResponseV1) *string { return v.ObjectId }).(pulumi.StringPtrOutput)
+}
+
+// The resource ID of the user assigned identity.
+func (o UserAssignedIdentityResponseV1Output) ResourceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v UserAssignedIdentityResponseV1) *string { return v.ResourceId }).(pulumi.StringPtrOutput)
+}
+
+type UserAssignedIdentityResponseV1MapOutput struct{ *pulumi.OutputState }
+
+func (UserAssignedIdentityResponseV1MapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]UserAssignedIdentityResponseV1)(nil)).Elem()
+}
+
+func (o UserAssignedIdentityResponseV1MapOutput) ToUserAssignedIdentityResponseV1MapOutput() UserAssignedIdentityResponseV1MapOutput {
+	return o
+}
+
+func (o UserAssignedIdentityResponseV1MapOutput) ToUserAssignedIdentityResponseV1MapOutputWithContext(ctx context.Context) UserAssignedIdentityResponseV1MapOutput {
+	return o
+}
+
+func (o UserAssignedIdentityResponseV1MapOutput) MapIndex(k pulumi.StringInput) UserAssignedIdentityResponseV1Output {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) UserAssignedIdentityResponseV1 {
+		return vs[0].(map[string]UserAssignedIdentityResponseV1)[vs[1].(string)]
+	}).(UserAssignedIdentityResponseV1Output)
 }
 
 // Current status on a group of nodes of the same vm size.
@@ -37995,6 +38100,7 @@ func init() {
 	pulumi.RegisterOutputType(NamespacePropertiesOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesPtrOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesResponseOutput{})
+	pulumi.RegisterOutputType(NamespacePropertiesResponseV1Output{})
 	pulumi.RegisterOutputType(NetworkPoliciesOutput{})
 	pulumi.RegisterOutputType(NetworkPoliciesPtrOutput{})
 	pulumi.RegisterOutputType(NetworkPoliciesResponseOutput{})
@@ -38142,6 +38248,8 @@ func init() {
 	pulumi.RegisterOutputType(UserAssignedIdentityResponseOutput{})
 	pulumi.RegisterOutputType(UserAssignedIdentityResponsePtrOutput{})
 	pulumi.RegisterOutputType(UserAssignedIdentityResponseMapOutput{})
+	pulumi.RegisterOutputType(UserAssignedIdentityResponseV1Output{})
+	pulumi.RegisterOutputType(UserAssignedIdentityResponseV1MapOutput{})
 	pulumi.RegisterOutputType(VirtualMachineNodesOutput{})
 	pulumi.RegisterOutputType(VirtualMachineNodesArrayOutput{})
 	pulumi.RegisterOutputType(VirtualMachineNodesResponseOutput{})

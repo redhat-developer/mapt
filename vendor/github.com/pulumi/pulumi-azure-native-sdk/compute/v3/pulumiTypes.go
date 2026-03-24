@@ -39455,6 +39455,83 @@ func (o SystemDataResponsePtrOutput) LastModifiedByType() pulumi.StringPtrOutput
 	}).(pulumi.StringPtrOutput)
 }
 
+// The system meta data relating to this resource.
+type SystemDataResponseV1 struct {
+	// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
+	CreatedAt string `pulumi:"createdAt"`
+	// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
+	LastModifiedAt string `pulumi:"lastModifiedAt"`
+}
+
+// The system meta data relating to this resource.
+type SystemDataResponseV1Output struct{ *pulumi.OutputState }
+
+func (SystemDataResponseV1Output) ElementType() reflect.Type {
+	return reflect.TypeOf((*SystemDataResponseV1)(nil)).Elem()
+}
+
+func (o SystemDataResponseV1Output) ToSystemDataResponseV1Output() SystemDataResponseV1Output {
+	return o
+}
+
+func (o SystemDataResponseV1Output) ToSystemDataResponseV1OutputWithContext(ctx context.Context) SystemDataResponseV1Output {
+	return o
+}
+
+// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
+func (o SystemDataResponseV1Output) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v SystemDataResponseV1) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
+func (o SystemDataResponseV1Output) LastModifiedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v SystemDataResponseV1) string { return v.LastModifiedAt }).(pulumi.StringOutput)
+}
+
+type SystemDataResponseV1PtrOutput struct{ *pulumi.OutputState }
+
+func (SystemDataResponseV1PtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SystemDataResponseV1)(nil)).Elem()
+}
+
+func (o SystemDataResponseV1PtrOutput) ToSystemDataResponseV1PtrOutput() SystemDataResponseV1PtrOutput {
+	return o
+}
+
+func (o SystemDataResponseV1PtrOutput) ToSystemDataResponseV1PtrOutputWithContext(ctx context.Context) SystemDataResponseV1PtrOutput {
+	return o
+}
+
+func (o SystemDataResponseV1PtrOutput) Elem() SystemDataResponseV1Output {
+	return o.ApplyT(func(v *SystemDataResponseV1) SystemDataResponseV1 {
+		if v != nil {
+			return *v
+		}
+		var ret SystemDataResponseV1
+		return ret
+	}).(SystemDataResponseV1Output)
+}
+
+// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
+func (o SystemDataResponseV1PtrOutput) CreatedAt() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SystemDataResponseV1) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.CreatedAt
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
+func (o SystemDataResponseV1PtrOutput) LastModifiedAt() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SystemDataResponseV1) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.LastModifiedAt
+	}).(pulumi.StringPtrOutput)
+}
+
 // Describes the target region information.
 type TargetRegion struct {
 	// List of storage sku with replica count to create direct drive replicas.
@@ -54759,6 +54836,8 @@ func init() {
 	pulumi.RegisterOutputType(SupportedCapabilitiesResponsePtrOutput{})
 	pulumi.RegisterOutputType(SystemDataResponseOutput{})
 	pulumi.RegisterOutputType(SystemDataResponsePtrOutput{})
+	pulumi.RegisterOutputType(SystemDataResponseV1Output{})
+	pulumi.RegisterOutputType(SystemDataResponseV1PtrOutput{})
 	pulumi.RegisterOutputType(TargetRegionOutput{})
 	pulumi.RegisterOutputType(TargetRegionArrayOutput{})
 	pulumi.RegisterOutputType(TargetRegionResponseOutput{})

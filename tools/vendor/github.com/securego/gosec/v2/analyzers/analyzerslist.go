@@ -81,6 +81,27 @@ var (
 		Severity:    "HIGH",
 		CWE:         "CWE-93",
 	}
+
+	SSTIRule = taint.RuleInfo{
+		ID:          "G708",
+		Description: "Server-side template injection via text/template",
+		Severity:    "CRITICAL",
+		CWE:         "CWE-94",
+	}
+
+	UnsafeDeserializationRule = taint.RuleInfo{
+		ID:          "G709",
+		Description: "Unsafe deserialization of untrusted data",
+		Severity:    "HIGH",
+		CWE:         "CWE-502",
+	}
+
+	FormParsingLimitRule = taint.RuleInfo{
+		ID:          "G120",
+		Description: "Unbounded multipart form parsing can cause memory exhaustion",
+		Severity:    "MEDIUM",
+		CWE:         "CWE-400",
+	}
 )
 
 // AnalyzerList contains a mapping of analyzer ID's to analyzer definitions and a mapping
@@ -128,6 +149,7 @@ var defaultAnalyzers = []AnalyzerDefinition{
 	{"G121", "Unsafe CrossOriginProtection bypass patterns", newCORSBypassPatternAnalyzer},
 	{"G122", "Filesystem TOCTOU race risk in filepath.Walk/WalkDir callbacks", newWalkSymlinkRaceAnalyzer},
 	{"G123", "TLS resumption may bypass VerifyPeerCertificate when VerifyConnection is unset", newTLSResumptionVerifyPeerAnalyzer},
+	{"G124", "Insecure HTTP cookie configuration missing Secure, HttpOnly, or SameSite attributes", newInsecureCookieAnalyzer},
 	{"G602", "Possible slice bounds out of range", newSliceBoundsAnalyzer},
 	{"G407", "Use of hardcoded IV/nonce for encryption", newHardCodedNonce},
 	{"G408", "Stateful misuse of ssh.PublicKeyCallback leading to auth bypass", newSSHCallbackAnalyzer},
@@ -138,6 +160,8 @@ var defaultAnalyzers = []AnalyzerDefinition{
 	{"G705", "XSS via taint analysis", newXSSAnalyzer},
 	{"G706", "Log injection via taint analysis", newLogInjectionAnalyzer},
 	{"G707", "SMTP command/header injection via taint analysis", newSMTPInjectionAnalyzer},
+	{"G708", "Server-side template injection via taint analysis", newSSTIAnalyzer},
+	{"G709", "Unsafe deserialization of untrusted data via taint analysis", newUnsafeDeserializationAnalyzer},
 }
 
 // Generate the list of analyzers to use
@@ -172,6 +196,9 @@ func DefaultTaintAnalyzers() []*analysis.Analyzer {
 	xssConfig := XSS()
 	logConfig := LogInjection()
 	smtpConfig := SMTPInjection()
+	sstiConfig := SSTI()
+	deserConfig := UnsafeDeserialization()
+	formConfig := FormParsingLimits()
 
 	return []*analysis.Analyzer{
 		taint.NewGosecAnalyzer(&SQLInjectionRule, &sqlConfig),
@@ -181,5 +208,8 @@ func DefaultTaintAnalyzers() []*analysis.Analyzer {
 		taint.NewGosecAnalyzer(&XSSRule, &xssConfig),
 		taint.NewGosecAnalyzer(&LogInjectionRule, &logConfig),
 		taint.NewGosecAnalyzer(&SMTPInjectionRule, &smtpConfig),
+		taint.NewGosecAnalyzer(&SSTIRule, &sstiConfig),
+		taint.NewGosecAnalyzer(&UnsafeDeserializationRule, &deserConfig),
+		taint.NewGosecAnalyzer(&FormParsingLimitRule, &formConfig),
 	}
 }
