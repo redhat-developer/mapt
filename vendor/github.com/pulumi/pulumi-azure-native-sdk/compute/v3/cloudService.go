@@ -29,7 +29,7 @@ type CloudService struct {
 	// Cloud service properties
 	Properties CloudServicePropertiesResponseOutput `pulumi:"properties"`
 	// The system meta data relating to this resource.
-	SystemData SystemDataResponsePtrOutput `pulumi:"systemData"`
+	SystemData SystemDataResponseV1PtrOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Resource type.
@@ -187,8 +187,8 @@ func (o CloudServiceOutput) Properties() CloudServicePropertiesResponseOutput {
 }
 
 // The system meta data relating to this resource.
-func (o CloudServiceOutput) SystemData() SystemDataResponsePtrOutput {
-	return o.ApplyT(func(v *CloudService) SystemDataResponsePtrOutput { return v.SystemData }).(SystemDataResponsePtrOutput)
+func (o CloudServiceOutput) SystemData() SystemDataResponseV1PtrOutput {
+	return o.ApplyT(func(v *CloudService) SystemDataResponseV1PtrOutput { return v.SystemData }).(SystemDataResponseV1PtrOutput)
 }
 
 // Resource tags.

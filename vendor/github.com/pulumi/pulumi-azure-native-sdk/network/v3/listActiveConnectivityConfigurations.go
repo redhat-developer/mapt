@@ -44,7 +44,7 @@ type ListActiveConnectivityConfigurationsResult struct {
 	// When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
 	SkipToken *string `pulumi:"skipToken"`
 	// Gets a page of active connectivity configurations.
-	Value []ActiveConnectivityConfigurationResponse `pulumi:"value"`
+	Value []ActiveConnectivityConfigurationResponseV1 `pulumi:"value"`
 }
 
 func ListActiveConnectivityConfigurationsOutput(ctx *pulumi.Context, args ListActiveConnectivityConfigurationsOutputArgs, opts ...pulumi.InvokeOption) ListActiveConnectivityConfigurationsResultOutput {
@@ -94,10 +94,10 @@ func (o ListActiveConnectivityConfigurationsResultOutput) SkipToken() pulumi.Str
 }
 
 // Gets a page of active connectivity configurations.
-func (o ListActiveConnectivityConfigurationsResultOutput) Value() ActiveConnectivityConfigurationResponseArrayOutput {
-	return o.ApplyT(func(v ListActiveConnectivityConfigurationsResult) []ActiveConnectivityConfigurationResponse {
+func (o ListActiveConnectivityConfigurationsResultOutput) Value() ActiveConnectivityConfigurationResponseV1ArrayOutput {
+	return o.ApplyT(func(v ListActiveConnectivityConfigurationsResult) []ActiveConnectivityConfigurationResponseV1 {
 		return v.Value
-	}).(ActiveConnectivityConfigurationResponseArrayOutput)
+	}).(ActiveConnectivityConfigurationResponseV1ArrayOutput)
 }
 
 func init() {

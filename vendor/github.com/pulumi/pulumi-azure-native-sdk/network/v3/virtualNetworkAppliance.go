@@ -35,7 +35,7 @@ type VirtualNetworkAppliance struct {
 	// The resource GUID property of the virtual network appliance resource.
 	ResourceGuid pulumi.StringOutput `pulumi:"resourceGuid"`
 	// The reference to the subnet resource.
-	Subnet SubnetResponsePtrOutput `pulumi:"subnet"`
+	Subnet SubnetResponseV3PtrOutput `pulumi:"subnet"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Resource type.
@@ -208,8 +208,8 @@ func (o VirtualNetworkApplianceOutput) ResourceGuid() pulumi.StringOutput {
 }
 
 // The reference to the subnet resource.
-func (o VirtualNetworkApplianceOutput) Subnet() SubnetResponsePtrOutput {
-	return o.ApplyT(func(v *VirtualNetworkAppliance) SubnetResponsePtrOutput { return v.Subnet }).(SubnetResponsePtrOutput)
+func (o VirtualNetworkApplianceOutput) Subnet() SubnetResponseV3PtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkAppliance) SubnetResponseV3PtrOutput { return v.Subnet }).(SubnetResponseV3PtrOutput)
 }
 
 // Resource tags.

@@ -194,13 +194,13 @@ directory you can supply `./...` as the input argument.
 
 gosec includes rules across these categories:
 
-- `G1xx`: general secure coding issues (for example hardcoded credentials, unsafe usage, HTTP hardening)
+- `G1xx`: general secure coding issues (for example hardcoded credentials, unsafe usage, HTTP hardening, cookie security)
 - `G2xx`: injection risks in query/template/command construction
 - `G3xx`: file and path handling risks (permissions, traversal, temp files, archive extraction)
 - `G4xx`: crypto and TLS weaknesses
 - `G5xx`: blocklisted imports
 - `G6xx`: Go-specific correctness/security checks (for example range aliasing and slice bounds)
-- `G7xx`: taint analysis rules (SQL injection, command injection, path traversal, SSRF, XSS, log and SMTP injection)
+- `G7xx`: taint analysis rules (SQL injection, command injection, path traversal, SSRF, XSS, log, SMTP injection, SSTI and unsafe deserialization)
 
 For the full list, rule descriptions, and per-rule configuration, see [RULES.md](RULES.md).
 

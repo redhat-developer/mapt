@@ -24,7 +24,7 @@ type DeploymentStacksWhatIfResultsAtSubscription struct {
 	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The resource-specific properties for this resource.
-	Properties DeploymentStacksWhatIfResultPropertiesResponseOutput `pulumi:"properties"`
+	Properties DeploymentStacksWhatIfResultPropertiesResponseV2Output `pulumi:"properties"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
@@ -154,10 +154,10 @@ func (o DeploymentStacksWhatIfResultsAtSubscriptionOutput) Name() pulumi.StringO
 }
 
 // The resource-specific properties for this resource.
-func (o DeploymentStacksWhatIfResultsAtSubscriptionOutput) Properties() DeploymentStacksWhatIfResultPropertiesResponseOutput {
-	return o.ApplyT(func(v *DeploymentStacksWhatIfResultsAtSubscription) DeploymentStacksWhatIfResultPropertiesResponseOutput {
+func (o DeploymentStacksWhatIfResultsAtSubscriptionOutput) Properties() DeploymentStacksWhatIfResultPropertiesResponseV2Output {
+	return o.ApplyT(func(v *DeploymentStacksWhatIfResultsAtSubscription) DeploymentStacksWhatIfResultPropertiesResponseV2Output {
 		return v.Properties
-	}).(DeploymentStacksWhatIfResultPropertiesResponseOutput)
+	}).(DeploymentStacksWhatIfResultPropertiesResponseV2Output)
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
