@@ -231,10 +231,10 @@ spec:
         
       resources:
         requests:
-          memory: "200Mi"
+          memory: "1Gi"
           cpu: "100m"
         limits:
-          memory: "600Mi"
+          memory: "2Gi"
           cpu: "300m"
     - name: host-info-secret
       image: registry.redhat.io/openshift4/ose-cli:4.13@sha256:e70eb2be867f1236b19f5cbfeb8e0625737ce0ec1369e32a4f9f146aaaf68d49
