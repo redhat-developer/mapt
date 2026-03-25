@@ -40,6 +40,7 @@ type KindArgs struct {
 	HostingPlace      string
 	Spot              *spotTypes.SpotArgs
 	Timeout           string
+	ServiceEndpoints         []string
 	ExtraPortMappings []PortMapping
 }
 

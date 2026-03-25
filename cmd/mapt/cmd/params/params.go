@@ -78,17 +78,17 @@ const (
 	cirrusPWLabels     string = "it-cirrus-pw-labels"
 	cirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
 
-	glRunnerToken      string = "glrunner-token"
-	glRunnerTokenDesc  string = "GitLab Personal Access Token with api scope"
-	glRunnerProjectID  string = "glrunner-project-id"
+	glRunnerToken         string = "glrunner-token"
+	glRunnerTokenDesc     string = "GitLab Personal Access Token with api scope"
+	glRunnerProjectID     string = "glrunner-project-id"
 	glRunnerProjectIDDesc string = "GitLab project ID for project runner registration"
-	glRunnerGroupID    string = "glrunner-group-id"
-	glRunnerGroupIDDesc string = "GitLab group ID for group runner registration (alternative to --glrunner-project-id)"
-	glRunnerURL        string = "glrunner-url"
-	glRunnerURLDesc    string = "GitLab instance URL (e.g., https://gitlab.com, https://gitlab.example.com)"
-	glRunnerURLDefault string = "https://gitlab.com"
-	glRunnerTags       string = "glrunner-tags"
-	glRunnerTagsDesc   string = "List of tags separated by comma to be added to the self-hosted runner"
+	glRunnerGroupID       string = "glrunner-group-id"
+	glRunnerGroupIDDesc   string = "GitLab group ID for group runner registration (alternative to --glrunner-project-id)"
+	glRunnerURL           string = "glrunner-url"
+	glRunnerURLDesc       string = "GitLab instance URL (e.g., https://gitlab.com, https://gitlab.example.com)"
+	glRunnerURLDefault    string = "https://gitlab.com"
+	glRunnerTags          string = "glrunner-tags"
+	glRunnerTagsDesc      string = "List of tags separated by comma to be added to the self-hosted runner"
 
 	//RHEL
 	SubsUsername              string = "rh-subscription-username"
@@ -130,6 +130,9 @@ const (
 	KindExtraPortMappings     = "extra-port-mappings"
 	KindExtraPortMappingsDesc = "Additional port mappings for the Kind cluster. Value should be a JSON array of objects with containerPort, hostPort, and protocol properties. Example: '[{\"containerPort\": 8080, \"hostPort\": 8080, \"protocol\": \"TCP\"}]'"
 
+	// Network
+	ServiceEndpoints = "service-endpoints"
+
 	// Spot
 	spot                         = "spot"
 	spotDesc                     = "if spot is set the spot prices across all regions will be checked and machine will be started on best spot option (price / eviction)"
@@ -142,6 +145,14 @@ const (
 	spotExcludedHostedZones      = "spot-excluded-regions"
 	spotExcludedHostedZonesDesc  = "Comma-separated list of zone IDs to exclude from spot selection"
 )
+
+func AddNetworkFlags(fs *pflag.FlagSet, desc string) {
+	fs.StringSliceP(ServiceEndpoints, "", []string{}, desc)
+}
+
+func NetworkServiceEndpoints() []string {
+	return viper.GetStringSlice(ServiceEndpoints)
+}
 
 func AddSpotFlags(fs *pflag.FlagSet) {
 	fs.Bool(spot, false, spotDesc)

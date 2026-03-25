@@ -73,6 +73,7 @@ type NetworkRequest struct {
 	NatGatewayMode      *NatGatewayMode
 	PublicToIntra       *bool
 	MapPublicIp         bool
+	ServiceEndpoints []string
 }
 
 type NetworkResources struct {
@@ -173,6 +174,7 @@ func (r NetworkRequest) managePublicSubnets(mCtx *mc.Context, vpc *ec2.Vpc,
 					Name:             fmt.Sprintf("%s%s%d", namePrefix, r.Name, i),
 					AddNatGateway:    r.checkIfNatGatewayRequired(i),
 					MapPublicIp:      r.MapPublicIp,
+					ServiceEndpoints:        r.ServiceEndpoints,
 				}
 			subnet, err := publicSNRequest.Create(ctx, mCtx)
 			if err != nil {

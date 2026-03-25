@@ -36,6 +36,7 @@ type NetworkArgs struct {
 	CreateLoadBalancer      bool
 	Airgap                  bool
 	AirgapPhaseConnectivity Connectivity
+	ServiceEndpoints []string
 }
 
 type NetworkResult struct {
@@ -105,6 +106,7 @@ func standardNetwork(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (
 		AvailabilityZones:  []string{args.AZ},
 		PublicSubnetsCIDRs: []string{cidrPublicSN},
 		NatGatewayMode:     &ns.NatGatewayModeNone,
+		ServiceEndpoints:          args.ServiceEndpoints,
 	}.CreateNetwork(ctx)
 	if err != nil {
 		return nil, err
