@@ -111,7 +111,7 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	// Destroy fedora related resources
+	// Destroy SNC related resources
 	if err = aws.DestroyStack(
 		mCtx,
 		aws.DestroyStackRequest{
@@ -274,10 +274,20 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		if err != nil {
 			return err
 		}
+		// Use the compute resource as DeletedWith target so that Pulumi
+		// skips individual K8s resource deletion during destroy — they
+		// disappear when the VM is terminated.
+		var deletedWith pulumi.Resource
+		if c.Instance != nil {
+			deletedWith = c.Instance
+		} else {
+			deletedWith = c.AutoscalingGroup
+		}
 		if err := profile.Deploy(ctx, r.profiles, &profile.DeployArgs{
 			K8sProvider: k8sProvider,
 			Kubeconfig:  kubeconfig,
 			Prefix:      *r.prefix,
+			DeletedWith: deletedWith,
 		}); err != nil {
 			return err
 		}

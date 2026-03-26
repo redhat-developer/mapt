@@ -36,51 +36,23 @@ func deployServiceMeshV2(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource
 				Name: pulumi.String(istioSystemNamespace),
 			},
 		},
-		pulumi.Provider(args.K8sProvider),
-		pulumi.DependsOn(args.Deps))
+		args.k8sOpts(pulumi.DependsOn(args.Deps))...)
 	if err != nil {
 		return nil, pulumi.StringOutput{}, err
 	}
 
-	// --- Service Mesh v2 operator ---
-
-	// Create Subscription (openshift-operators is a pre-existing global namespace
-	// with an OperatorGroup, no need to create one).
-	smSub, err := apiextensions.NewCustomResource(ctx, rn("sub"),
-		&apiextensions.CustomResourceArgs{
-			ApiVersion: pulumi.String("operators.coreos.com/v1alpha1"),
-			Kind:       pulumi.String("Subscription"),
-			Metadata: &metav1.ObjectMetaArgs{
-				Name:      pulumi.String("servicemeshoperator"),
-				Namespace: pulumi.String("openshift-operators"),
-			},
-			OtherFields: map[string]interface{}{
-				"spec": map[string]interface{}{
-					"source":              "redhat-operators",
-					"sourceNamespace":     "openshift-marketplace",
-					"name":               "servicemeshoperator",
-					"channel":            "stable",
-					"installPlanApproval": "Automatic",
-				},
-			},
-		},
-		pulumi.Provider(args.K8sProvider),
-		pulumi.DependsOn([]pulumi.Resource{ns}))
+	// Install Service Mesh v2 operator (into openshift-operators)
+	smCSVReady, err := installOperator(ctx, args, operatorInstall{
+		resourcePrefix: rn(""),
+		namespace:      "openshift-operators",
+		subName:        "servicemeshoperator",
+		packageName:    "servicemeshoperator",
+		csvPrefix:      "servicemeshoperator",
+		extraDeps:      []pulumi.Resource{ns},
+	})
 	if err != nil {
 		return nil, pulumi.StringOutput{}, err
 	}
-
-	// Wait for the Service Mesh v2 CSV to succeed
-	smCSVReady := pulumi.All(smSub.ID(), args.Kubeconfig).ApplyT(
-		func(allArgs []interface{}) (string, error) {
-			kc := allArgs[1].(string)
-			if err := waitForCRCondition(goCtx, kc, csvGVR,
-				"openshift-operators", "servicemeshoperator",
-				"", "Succeeded", 20*time.Minute, true); err != nil {
-				return "", fmt.Errorf("waiting for Service Mesh v2 CSV: %w", err)
-			}
-			return "ready", nil
-		}).(pulumi.StringOutput)
 
 	// Create ServiceMeshControlPlane — "data-science-smcp" matches the DSCI default
 	smcpName := smCSVReady.ApplyT(func(_ string) string {
@@ -120,7 +92,7 @@ func deployServiceMeshV2(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource
 				},
 			},
 		},
-		pulumi.Provider(args.K8sProvider))
+		args.k8sOpts()...)
 	if err != nil {
 		return nil, pulumi.StringOutput{}, err
 	}
@@ -137,43 +109,44 @@ func deployServiceMeshV2(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource
 			return "ready", nil
 		}).(pulumi.StringOutput)
 
-	// --- Authorino operator (required by RHOAI for ServiceMesh authorization) ---
+	// Create ServiceMeshMemberRoll to enroll namespaces used by RHOAI model serving.
+	// SM v2 requires explicit namespace enrollment unlike SM v3 which is cluster-wide.
+	smmrName := smcpReady.ApplyT(func(_ string) string {
+		return "default"
+	}).(pulumi.StringOutput)
 
-	authSub, err := apiextensions.NewCustomResource(ctx, rn("authorino-sub"),
+	if _, err := apiextensions.NewCustomResource(ctx, rn("smmr"),
 		&apiextensions.CustomResourceArgs{
-			ApiVersion: pulumi.String("operators.coreos.com/v1alpha1"),
-			Kind:       pulumi.String("Subscription"),
+			ApiVersion: pulumi.String("maistra.io/v1"),
+			Kind:       pulumi.String("ServiceMeshMemberRoll"),
 			Metadata: &metav1.ObjectMetaArgs{
-				Name:      pulumi.String("authorino-operator"),
-				Namespace: pulumi.String("openshift-operators"),
+				Name:      smmrName,
+				Namespace: pulumi.String(istioSystemNamespace),
 			},
 			OtherFields: map[string]interface{}{
 				"spec": map[string]interface{}{
-					"source":              "redhat-operators",
-					"sourceNamespace":     "openshift-marketplace",
-					"name":               "authorino-operator",
-					"channel":            "stable",
-					"installPlanApproval": "Automatic",
+					"members": []string{
+						"knative-serving",
+						"redhat-ods-applications",
+					},
 				},
 			},
 		},
-		pulumi.Provider(args.K8sProvider),
-		pulumi.DependsOn(args.Deps))
-	if err != nil {
+		args.k8sOpts()...); err != nil {
 		return nil, pulumi.StringOutput{}, err
 	}
 
-	// Wait for Authorino CSV to succeed
-	authReady := pulumi.All(authSub.ID(), args.Kubeconfig).ApplyT(
-		func(allArgs []interface{}) (string, error) {
-			kc := allArgs[1].(string)
-			if err := waitForCRCondition(goCtx, kc, csvGVR,
-				"openshift-operators", "authorino-operator",
-				"", "Succeeded", 20*time.Minute, true); err != nil {
-				return "", fmt.Errorf("waiting for Authorino CSV: %w", err)
-			}
-			return "ready", nil
-		}).(pulumi.StringOutput)
+	// Install Authorino operator (into openshift-operators)
+	authReady, err := installOperator(ctx, args, operatorInstall{
+		resourcePrefix: rn("authorino-"),
+		namespace:      "openshift-operators",
+		subName:        "authorino-operator",
+		packageName:    "authorino-operator",
+		csvPrefix:      "authorino-operator",
+	})
+	if err != nil {
+		return nil, pulumi.StringOutput{}, err
+	}
 
 	// Combine SMCP + Authorino readiness into a single output
 	allReady := pulumi.All(smcpReady, authReady).ApplyT(
