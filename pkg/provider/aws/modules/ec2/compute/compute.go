@@ -101,6 +101,10 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 
 // Create on demand instance
 func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, error) {
+	volSize := diskSize
+	if r.DiskSize != nil {
+		volSize = *r.DiskSize
+	}
 	args := ec2.InstanceArgs{
 		SubnetId:                 r.Subnet.ID(),
 		Ami:                      pulumi.String(r.AMI.Id),
@@ -109,7 +113,7 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		AssociatePublicIpAddress: pulumi.Bool(true),
 		VpcSecurityGroupIds:      r.SecurityGroups,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
-			VolumeSize: pulumi.Int(diskSize),
+			VolumeSize: pulumi.Int(volSize),
 		},
 		Tags: r.MCtx.ResourceTags(),
 	}
@@ -143,6 +147,10 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 
 // create asg with 1 instance forced by spot
 func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, error) {
+	volSize := diskSize
+	if r.DiskSize != nil {
+		volSize = *r.DiskSize
+	}
 	// Logging information
 	r.Subnet.AvailabilityZone.ApplyT(func(az string) error {
 		logging.Debugf("Requesting a spot instance of types: %s at %s paying: %f",
@@ -165,7 +173,7 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 			&ec2.LaunchTemplateBlockDeviceMappingArgs{
 				DeviceName: pulumi.String(rootBlockDeviceName),
 				Ebs: &ec2.LaunchTemplateBlockDeviceMappingEbsArgs{
-					VolumeSize: pulumi.Int(diskSize),
+					VolumeSize: pulumi.Int(volSize),
 				},
 			},
 		},
