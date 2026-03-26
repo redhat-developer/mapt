@@ -100,8 +100,8 @@ func getSpotInfo(mCtx *mc.Context, args *spot.SpotRequestArgs) (*spot.SpotResult
 }
 
 const (
-	// Max number of results for placement score query
-	maxQueryResultsResultsPlacementScore = 10
+	// Page size for the batched GetSpotPlacementScores call (API max is 1000)
+	maxPageSizePlacementScore = 1000
 	// https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSpotPriceHistory.html
 	spotQueryFilterProductDescription = "product-description"
 )
@@ -176,20 +176,21 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 	if err != nil {
 		return nil, err
 	}
-	// Placement Socres
+	// Placement Scores — one batched API call for all regions to avoid
+	// exceeding the account quota on concurrent placement configurations.
 	nOpInRegions, err := GetRegionsByOptInStatus(mCtx.Context(), []string{OptInStatusNotRequired})
 	if err != nil {
 		return nil, err
 	}
-	placementScores, err := hostingPlaces.RunOnHostingPlaces(regions,
+	placementScores, err := getPlacementScores(
 		placementScoreArgs{
 			ctx:               mCtx.Context(),
-			apiRegion:         util.RandomItemFromArray(nOpInRegions),
+			apiRegions:        util.RandomizeArrayContent(nOpInRegions),
 			minPlacementScore: minPlacementScore(*args.SpotTolerance),
 			instanceTypes:     args.InstaceTypes,
 			capacity:          1,
 		},
-		placementScoresAsync)
+		regions)
 	if err != nil {
 		return nil, err
 	}
@@ -393,10 +394,10 @@ func spotPricingAsync(r string, args spotPricingArgs, c chan hostingPlaces.Hosti
 
 type placementScoreArgs struct {
 	ctx context.Context
-	// Not all regions offered the API to get
-	// data about placement score, we need set which one
-	// will be used
-	apiRegion         string
+	// Not all regions offer the GetSpotPlacementScores API.
+	// Regions are tried in order; the first successful one is used.
+	// Pass a shuffled list to distribute load and recover from unsupported regions.
+	apiRegions        []string
 	minPlacementScore int32
 	instanceTypes     []string
 	capacity          int32
@@ -408,55 +409,81 @@ type placementScoreResult struct {
 	azName string
 }
 
-// This will get placement scores grouped on map per region
-// only scores over tolerance will be added
-func placementScoresAsync(r string, args placementScoreArgs, c chan hostingPlaces.HostingPlaceData[[]placementScoreResult]) {
-	azsByRegion := describeAvailabilityZonesByRegions(args.ctx, []string{r})
-	cfg, err := getConfig(args.ctx, args.apiRegion)
+// getPlacementScores makes a single paginated GetSpotPlacementScores call for all
+// regions instead of N concurrent per-region calls. Concurrent calls were hitting
+// the account quota on simultaneous placement configurations.
+// apiRegions is tried in order (pass a shuffled list to distribute load); the first
+// region that responds successfully is used. Regions that don't support the API are
+// skipped. Returns a map of region → AZ scores filtered to those meeting minPlacementScore.
+func getPlacementScores(args placementScoreArgs, regions []string) (map[string][]placementScoreResult, error) {
+	azsByRegion := describeAvailabilityZonesByRegions(args.ctx, regions)
+	var lastErr error
+	for _, apiRegion := range args.apiRegions {
+		result, err := placementScoresViaRegion(apiRegion, args, regions, azsByRegion)
+		if err != nil {
+			logging.Debugf("placement score API unavailable in region %s: %v, trying next", apiRegion, err)
+			lastErr = err
+			continue
+		}
+		if len(result) == 0 {
+			return nil, fmt.Errorf("no placement scores above minimum threshold found across regions")
+		}
+		for r := range result {
+			slices.SortFunc(result[r], func(a, b placementScoreResult) int {
+				return int(*b.sps.Score - *a.sps.Score)
+			})
+		}
+		return result, nil
+	}
+	return nil, fmt.Errorf("placement score API failed across all candidate regions: %w", lastErr)
+}
+
+// placementScoresViaRegion calls GetSpotPlacementScores using apiRegion as the endpoint
+// and returns unsorted results grouped by region. Returns error only on API failure,
+// not when results are empty (empty means no AZ met the score threshold).
+func placementScoresViaRegion(apiRegion string, args placementScoreArgs, regions []string, azsByRegion map[string][]ec2Types.AvailabilityZone) (map[string][]placementScoreResult, error) {
+	cfg, err := getConfig(args.ctx, apiRegion)
 	if err != nil {
-		hostingPlaces.SendAsyncErr(c, err)
-		return
+		return nil, err
 	}
 	client := ec2.NewFromConfig(cfg)
-	sps, err := client.GetSpotPlacementScores(
-		args.ctx,
-		&ec2.GetSpotPlacementScoresInput{
-			SingleAvailabilityZone: aws.Bool(true),
-			InstanceTypes:          args.instanceTypes,
-			RegionNames:            []string{r},
-			TargetCapacity:         aws.Int32(args.capacity),
-			MaxResults:             aws.Int32(maxQueryResultsResultsPlacementScore),
-		})
-	if err != nil {
-		hostingPlaces.SendAsyncErr(c, err)
-		return
-	}
-	if len(sps.SpotPlacementScores) == 0 {
-		hostingPlaces.SendAsyncErr(c, fmt.Errorf("non available scores for region %s", r))
-		return
-	}
-	var results []placementScoreResult
-	for _, ps := range sps.SpotPlacementScores {
-		if *ps.Score >= args.minPlacementScore {
-			azName, err := getZoneName(*ps.AvailabilityZoneId, azsByRegion[*ps.Region])
-			if err != nil {
-				hostingPlaces.SendAsyncErr(c, err)
-				return
-			}
-			results = append(results, placementScoreResult{
-				sps:    ps,
-				azName: azName,
+	result := make(map[string][]placementScoreResult)
+	var nextToken *string
+	for {
+		sps, err := client.GetSpotPlacementScores(
+			args.ctx,
+			&ec2.GetSpotPlacementScoresInput{
+				SingleAvailabilityZone: aws.Bool(true),
+				InstanceTypes:          args.instanceTypes,
+				RegionNames:            regions,
+				TargetCapacity:         aws.Int32(args.capacity),
+				MaxResults:             aws.Int32(maxPageSizePlacementScore),
+				NextToken:              nextToken,
 			})
-		} else {
-			logging.Debugf("Availability zone %s in region %s filtered out (score %d < minimum %d)",
-				*ps.AvailabilityZoneId, *ps.Region, *ps.Score, args.minPlacementScore)
+		if err != nil {
+			return nil, err
 		}
+		for _, ps := range sps.SpotPlacementScores {
+			if *ps.Score >= args.minPlacementScore {
+				azName, err := getZoneName(*ps.AvailabilityZoneId, azsByRegion[*ps.Region])
+				if err != nil {
+					// AZ may not be visible to this account; skip rather than abort
+					logging.Debugf("skipping AZ %s in region %s: %v", *ps.AvailabilityZoneId, *ps.Region, err)
+					continue
+				}
+				result[*ps.Region] = append(result[*ps.Region], placementScoreResult{
+					sps:    ps,
+					azName: azName,
+				})
+			} else {
+				logging.Debugf("Availability zone %s in region %s filtered out (score %d < minimum %d)",
+					*ps.AvailabilityZoneId, *ps.Region, *ps.Score, args.minPlacementScore)
+			}
+		}
+		if sps.NextToken == nil {
+			break
+		}
+		nextToken = sps.NextToken
 	}
-	slices.SortFunc(results,
-		func(a, b placementScoreResult) int {
-			return int(*b.sps.Score - *a.sps.Score)
-		})
-	c <- hostingPlaces.HostingPlaceData[[]placementScoreResult]{
-		Region: r,
-		Value:  results}
+	return result, nil
 }
