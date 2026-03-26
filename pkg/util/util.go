@@ -95,6 +95,17 @@ func RandomItemFromArray[X any](source []X) X {
 	return source[Random(len(source)-1, 0)]
 }
 
+// RandomizeArrayContent returns a new slice with the same elements in a random order.
+// The original slice is not modified.
+func RandomizeArrayContent[X any](source []X) []X {
+	result := make([]X, len(source))
+	copy(result, source)
+	rand.Shuffle(len(result), func(i, j int) {
+		result[i], result[j] = result[j], result[i]
+	})
+	return result
+}
+
 func RandomID(name string) string {
 	b := make([]byte, 4)
 	_, _ = cRand.Read(b)

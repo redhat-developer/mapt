@@ -249,6 +249,9 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 			// required on windows hosts for Openshift local installation
 			SuspendedProcesses: pulumi.StringArray{
 				pulumi.String("HealthCheck")},
+			// Skip waiting for instances to fully terminate on destroy;
+			// these are ephemeral machines so there is no need to drain.
+			ForceDelete: pulumi.Bool(true),
 			Tags: autoscaling.GroupTagArray{
 				&autoscaling.GroupTagArgs{
 					Key:               pulumi.String("Name"),
@@ -352,6 +355,9 @@ func (r ComputeRequest) createForwardTargetGRoups(ctx *pulumi.Context, port int)
 			Port:     pulumi.Int(port),
 			Protocol: pulumi.String("TCP"),
 			VpcId:    r.VPC.ID(),
+			// Set to 0 for instant deregistration on destroy;
+			// these are ephemeral machines with no live connections to drain.
+			DeregistrationDelay: pulumi.Int(0),
 		})
 	if err != nil {
 		return nil, err
