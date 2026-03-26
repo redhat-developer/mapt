@@ -3,7 +3,7 @@ package openshiftsnc
 import "fmt"
 
 var (
-	diskSize int = 200
+	diskSize int = 1000
 
 	// This is managed by https://github.com/devtools-qe-incubator/cloud-importer
 	amiProduct = "Linux/UNIX"
