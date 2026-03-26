@@ -52,6 +52,11 @@ type DeployArgs struct {
 	Kubeconfig  pulumi.StringOutput
 	Prefix      string
 	Deps        []pulumi.Resource
+	// DeletedWith is the compute resource (EC2 instance or ASG) that hosts
+	// the cluster. When set, K8s resources are marked with pulumi.DeletedWith
+	// so that Pulumi skips deleting them individually during destroy — the
+	// resources disappear when the VM is terminated.
+	DeletedWith pulumi.Resource
 }
 
 // Validate checks that all requested profiles are supported and
@@ -145,6 +150,17 @@ func MinCPUs(profiles []string) int32 {
 		}
 	}
 	return max
+}
+
+// k8sOpts returns the common Pulumi resource options for K8s resources:
+// the K8s provider and (when set) the DeletedWith option. Extra options
+// (e.g. DependsOn) can be appended.
+func (a *DeployArgs) k8sOpts(extra ...pulumi.ResourceOption) []pulumi.ResourceOption {
+	opts := []pulumi.ResourceOption{pulumi.Provider(a.K8sProvider)}
+	if a.DeletedWith != nil {
+		opts = append(opts, pulumi.DeletedWith(a.DeletedWith))
+	}
+	return append(opts, extra...)
 }
 
 // NewK8sProvider creates a Pulumi Kubernetes provider from a kubeconfig string output.

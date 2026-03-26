@@ -42,8 +42,7 @@ func deployServiceMesh(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, 
 				Name: pulumi.String(istioSystemNamespace),
 			},
 		},
-		pulumi.Provider(args.K8sProvider),
-		pulumi.DependsOn(args.Deps))
+		args.k8sOpts(pulumi.DependsOn(args.Deps))...)
 	if err != nil {
 		return nil, err
 	}
@@ -55,48 +54,23 @@ func deployServiceMesh(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, 
 				Name: pulumi.String(istioCNINamespace),
 			},
 		},
-		pulumi.Provider(args.K8sProvider),
-		pulumi.DependsOn(args.Deps))
+		args.k8sOpts(pulumi.DependsOn(args.Deps))...)
 	if err != nil {
 		return nil, err
 	}
 
-	// Create Subscription for the OpenShift Service Mesh 3 operator
-	sub, err := apiextensions.NewCustomResource(ctx, rn("sub"),
-		&apiextensions.CustomResourceArgs{
-			ApiVersion: pulumi.String("operators.coreos.com/v1alpha1"),
-			Kind:       pulumi.String("Subscription"),
-			Metadata: &metav1.ObjectMetaArgs{
-				Name:      pulumi.String("servicemeshoperator3"),
-				Namespace: pulumi.String("openshift-operators"),
-			},
-			OtherFields: map[string]interface{}{
-				"spec": map[string]interface{}{
-					"source":              "redhat-operators",
-					"sourceNamespace":     "openshift-marketplace",
-					"name":               "servicemeshoperator3",
-					"channel":            "stable",
-					"installPlanApproval": "Automatic",
-				},
-			},
-		},
-		pulumi.Provider(args.K8sProvider),
-		pulumi.DependsOn([]pulumi.Resource{nsSystem, nsCNI}))
+	// Install the Service Mesh 3 operator (installs into openshift-operators)
+	csvReady, err := installOperator(ctx, args, operatorInstall{
+		resourcePrefix: rn(""),
+		namespace:      "openshift-operators",
+		subName:        "servicemeshoperator3",
+		packageName:    "servicemeshoperator3",
+		csvPrefix:      "servicemeshoperator3",
+		extraDeps:      []pulumi.Resource{nsSystem, nsCNI},
+	})
 	if err != nil {
 		return nil, err
 	}
-
-	// Wait for the Service Mesh operator CSV to succeed
-	csvReady := pulumi.All(sub.ID(), args.Kubeconfig).ApplyT(
-		func(allArgs []interface{}) (string, error) {
-			kc := allArgs[1].(string)
-			if err := waitForCRCondition(goCtx, kc, csvGVR,
-				"openshift-operators", "servicemeshoperator3",
-				"", "Succeeded", 20*time.Minute, true); err != nil {
-				return "", fmt.Errorf("waiting for Service Mesh operator CSV: %w", err)
-			}
-			return "ready", nil
-		}).(pulumi.StringOutput)
 
 	// Create IstioCNI CR (cluster-scoped)
 	istioCNIName := csvReady.ApplyT(func(_ string) string {
@@ -117,12 +91,12 @@ func deployServiceMesh(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, 
 				},
 			},
 		},
-		pulumi.Provider(args.K8sProvider))
+		args.k8sOpts()...)
 	if err != nil {
 		return nil, err
 	}
 
-	// Wait for IstioCNI to be ready (cluster-scoped, empty namespace)
+	// Wait for IstioCNI to be ready
 	cniReady := pulumi.All(cni.ID(), args.Kubeconfig).ApplyT(
 		func(allArgs []interface{}) (string, error) {
 			kc := allArgs[1].(string)
@@ -152,12 +126,12 @@ func deployServiceMesh(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, 
 				},
 			},
 		},
-		pulumi.Provider(args.K8sProvider))
+		args.k8sOpts()...)
 	if err != nil {
 		return nil, err
 	}
 
-	// Wait for Istio to be ready (cluster-scoped, empty namespace)
+	// Wait for Istio to be ready
 	istioReady := pulumi.All(istio.ID(), args.Kubeconfig).ApplyT(
 		func(allArgs []interface{}) (string, error) {
 			kc := allArgs[1].(string)
