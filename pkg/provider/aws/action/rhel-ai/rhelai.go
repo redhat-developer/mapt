@@ -60,8 +60,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 	}
 	// Compose request
 	amiName := amiName(&args.Accelerator, &args.Version)
-	if len(args.CustomAMI) != 0 {
-		amiName = fmt.Sprintf("%s*", args.CustomAMI)
+	if len(args.CustomImage) != 0 {
+		amiName = fmt.Sprintf("%s*", args.CustomImage)
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelAIRequest{

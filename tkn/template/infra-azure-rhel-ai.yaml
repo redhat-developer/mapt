@@ -79,9 +79,15 @@ spec:
         or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
 
     # VM type params
+    - name: accelerator
+      description: accelerator for RHEL AI OS rocm or cuda (default rocm)
+      default: "rocm"
     - name: compute-sizes
       description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
       default: "Standard_ND96is_MI300X_v5,Standard_ND96isr_MI300X_v5"
+    - name: custom-image
+      description: Custom image name to use for the cloud instance
+      default: ""
     - name: spot
       description: Check best spot option to spin the machine and will create resources on that region.
       default: "true"
@@ -101,10 +107,7 @@ spec:
     - name: version
       description: Version of RHEL AI OS (default 3.2.0)
       default: "3.2.0"
-    - name: accelerator
-      description: accelerator for RHEL AI OS rocm or cuda (default rocm)
-      default: "rocm"
-    
+
     # Metadata params
     - name: tags
       description: tags for the resources created on the providers
@@ -211,9 +214,18 @@ spec:
 
         if [[ "$(params.operation)" == "create" ]]; then
           cmd+="--conn-details-output /opt/host-info "
-          cmd+="--compute-sizes '$(params.compute-sizes)' "
-          cmd+="--version '$(params.version)' "
-          cmd+="--accelerator '$(params.accelerator)' "
+
+          if [[ "$(params.compute-sizes)" != "" ]]; then
+            cmd+="--compute-sizes '$(params.compute-sizes)' "
+          else
+            cmd+="--accelerator '$(params.accelerator)' "
+          fi
+          if [[ "$(params.custom-image)" != "" ]]; then
+            cmd+="--custom-image '$(params.custom-image)' "
+          else
+            cmd+="--version '$(params.version)' "
+          fi
+
           if [[ "$(params.spot)" == "true" ]]; then
             cmd+="--spot "
             cmd+="--spot-increase-rate '$(params.spot-increase-rate)' "
