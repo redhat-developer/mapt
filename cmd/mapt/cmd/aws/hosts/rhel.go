@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel"
@@ -56,16 +57,17 @@ func getRHELCreate() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&rhel.RHELArgs{
-					Prefix:         "main",
-					Version:        viper.GetString(params.RhelVersion),
-					Arch:           viper.GetString(params.LinuxArch),
-					ComputeRequest: params.ComputeRequestArgs(),
-					SubsUsername:   viper.GetString(params.SubsUsername),
-					SubsUserpass:   viper.GetString(params.SubsUserpass),
-					ProfileSNC:     viper.IsSet(params.ProfileSNC),
-					Spot:           params.SpotArgs(),
-					Timeout:        viper.GetString(params.Timeout),
-					Airgap:         viper.IsSet(airgap),
+					Prefix:           "main",
+					Version:          viper.GetString(params.RhelVersion),
+					Arch:             viper.GetString(params.LinuxArch),
+					ComputeRequest:   params.ComputeRequestArgs(),
+					SubsUsername:     viper.GetString(params.SubsUsername),
+					SubsUserpass:     viper.GetString(params.SubsUserpass),
+					ProfileSNC:       viper.IsSet(params.ProfileSNC),
+					Spot:             params.SpotArgs(),
+					Timeout:          viper.GetString(params.Timeout),
+					Airgap:           viper.IsSet(airgap),
+					ServiceEndpoints: params.NetworkServiceEndpoints(),
 				})
 		},
 	}
@@ -81,6 +83,7 @@ func getRHELCreate() *cobra.Command {
 	flagSet.Bool(params.ProfileSNC, false, params.ProfileSNCDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
+	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
 	params.AddGitLabRunnerFlags(flagSet)

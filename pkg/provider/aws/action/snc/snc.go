@@ -43,6 +43,7 @@ type openshiftSNCRequest struct {
 	spot                    bool
 	timeout                 *string
 	pullSecretFile          *string
+	serviceEndpoints        []string
 	allocationData          *allocation.AllocationResult
 	profiles                []string
 }
@@ -79,6 +80,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 		arch:                    &args.Arch,
 		pullSecretFile:          &args.PullSecretFile,
 		timeout:                 &args.Timeout,
+		serviceEndpoints:        args.ServiceEndpoints,
 		profiles:                args.Profiles}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
@@ -174,6 +176,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 			AZ:                 *r.allocationData.AZ,
 			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
 			Airgap:             false,
+			ServiceEndpoints:   r.serviceEndpoints,
 		})
 	if err != nil {
 		return err

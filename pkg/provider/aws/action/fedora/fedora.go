@@ -39,6 +39,7 @@ type FedoraArgs struct {
 	ComputeRequest *cr.ComputeRequestArgs
 	Spot           *spotTypes.SpotArgs
 	Airgap         bool
+	ServiceEndpoints []string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -50,6 +51,7 @@ type fedoraRequest struct {
 	arch           *string
 	spot           bool
 	timeout        *string
+	serviceEndpoints []string
 	allocationData *allocation.AllocationResult
 	airgap         *bool
 	// internal management
@@ -80,12 +82,13 @@ func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) (err error) {
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := fedoraRequest{
-		mCtx:    mCtx,
-		prefix:  &prefix,
-		version: &args.Version,
-		arch:    &args.Arch,
-		timeout: &args.Timeout,
-		airgap:  &args.Airgap}
+		mCtx:      mCtx,
+		prefix:    &prefix,
+		version:   &args.Version,
+		arch:      &args.Arch,
+		timeout:   &args.Timeout,
+		serviceEndpoints: args.ServiceEndpoints,
+		airgap:    &args.Airgap}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -196,6 +199,7 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		CreateLoadBalancer:      r.spot,
 		Airgap:                  *r.airgap,
 		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
+		ServiceEndpoints:               r.serviceEndpoints,
 	})
 	if err != nil {
 		return err

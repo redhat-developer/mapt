@@ -37,6 +37,7 @@ type rhelAIRequest struct {
 	arch           *string
 	spot           bool
 	timeout        *string
+	serviceEndpoints []string
 	allocationData *allocation.AllocationResult
 }
 
@@ -65,11 +66,12 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelAIRequest{
-		mCtx:    mCtx,
-		prefix:  &prefix,
-		amiName: &amiName,
-		arch:    &args.Arch,
-		timeout: &args.Timeout}
+		mCtx:      mCtx,
+		prefix:    &prefix,
+		amiName:   &amiName,
+		arch:      &args.Arch,
+		timeout:   &args.Timeout,
+		serviceEndpoints: args.ServiceEndpoints}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -158,6 +160,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 			Region:             *r.allocationData.Region,
 			AZ:                 *r.allocationData.AZ,
 			CreateLoadBalancer: true,
+			ServiceEndpoints:          r.serviceEndpoints,
 		})
 	if err != nil {
 		return err

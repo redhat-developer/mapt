@@ -130,6 +130,9 @@ const (
 	KindExtraPortMappings     = "extra-port-mappings"
 	KindExtraPortMappingsDesc = "Additional port mappings for the Kind cluster. Value should be a JSON array of objects with containerPort, hostPort, and protocol properties. Example: '[{\"containerPort\": 8080, \"hostPort\": 8080, \"protocol\": \"TCP\"}]'"
 
+	// Network
+	ServiceEndpoints = "service-endpoints"
+
 	// Spot
 	spot                         = "spot"
 	spotDesc                     = "if spot is set the spot prices across all regions will be checked and machine will be started on best spot option (price / eviction)"
@@ -142,6 +145,14 @@ const (
 	spotExcludedHostedZones      = "spot-excluded-regions"
 	spotExcludedHostedZonesDesc  = "Comma-separated list of zone IDs to exclude from spot selection"
 )
+
+func AddNetworkFlags(fs *pflag.FlagSet, desc string) {
+	fs.StringSliceP(ServiceEndpoints, "", []string{}, desc)
+}
+
+func NetworkServiceEndpoints() []string {
+	return viper.GetStringSlice(ServiceEndpoints)
+}
 
 func AddSpotFlags(fs *pflag.FlagSet) {
 	fs.Bool(spot, false, spotDesc)

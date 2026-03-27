@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/fedora"
@@ -60,13 +61,14 @@ func getFedoraCreate() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&fedora.FedoraArgs{
-					Prefix:         "main",
-					Version:        viper.GetString(fedoraVersion),
-					Arch:           viper.GetString(params.LinuxArch),
-					ComputeRequest: params.ComputeRequestArgs(),
-					Spot:           params.SpotArgs(),
-					Timeout:        viper.GetString(params.Timeout),
-					Airgap:         viper.IsSet(airgap)})
+					Prefix:           "main",
+					Version:          viper.GetString(fedoraVersion),
+					Arch:             viper.GetString(params.LinuxArch),
+					ComputeRequest:   params.ComputeRequestArgs(),
+					Spot:             params.SpotArgs(),
+					Timeout:          viper.GetString(params.Timeout),
+					Airgap:           viper.IsSet(airgap),
+					ServiceEndpoints: params.NetworkServiceEndpoints()})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
@@ -78,6 +80,7 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
+	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
 	params.AddGitLabRunnerFlags(flagSet)

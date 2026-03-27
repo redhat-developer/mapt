@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/kind"
@@ -67,6 +68,7 @@ func createKind() *cobra.Command {
 					Version:           viper.GetString(params.KindK8SVersion),
 					Arch:              viper.GetString(params.LinuxArch),
 					Timeout:           viper.GetString(params.Timeout),
+					ServiceEndpoints:  params.NetworkServiceEndpoints(),
 					ExtraPortMappings: extraPortMappings}); err != nil {
 				return err
 			}
@@ -82,6 +84,7 @@ func createKind() *cobra.Command {
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
+	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

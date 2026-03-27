@@ -34,6 +34,7 @@ type kindRequest struct {
 	arch              *string
 	spot              bool
 	timeout           *string
+	serviceEndpoints  []string
 	allocationData    *allocation.AllocationResult
 	extraPortMappings []utilKind.PortMapping
 }
@@ -63,6 +64,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (kr *utilKind.Kin
 		version:           &args.Version,
 		arch:              &args.Arch,
 		timeout:           &args.Timeout,
+		serviceEndpoints:  args.ServiceEndpoints,
 		extraPortMappings: args.ExtraPortMappings}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
@@ -155,6 +157,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 			Region:             *r.allocationData.Region,
 			AZ:                 *r.allocationData.AZ,
 			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
+			ServiceEndpoints:   r.serviceEndpoints,
 		})
 	if err != nil {
 		return err

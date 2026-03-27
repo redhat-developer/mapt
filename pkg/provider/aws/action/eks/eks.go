@@ -46,6 +46,7 @@ type EKSArgs struct {
 	Addons                 []string
 	LoadBalancerController bool
 	ExcludedZoneIDs        []string
+	ServiceEndpoints       []string
 }
 
 type eksRequest struct {
@@ -61,6 +62,7 @@ type eksRequest struct {
 	allocationData         *allocation.AllocationResult
 	availabilityZones      []string
 	excludedZoneIDs        []string
+	serviceEndpoints       []string
 }
 
 func (r *eksRequest) validate() error {
@@ -90,6 +92,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
 		loadBalancerController: &args.LoadBalancerController,
 		addons:                 args.Addons,
 		excludedZoneIDs:        args.ExcludedZoneIDs,
+		serviceEndpoints:       args.ServiceEndpoints,
 	}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
@@ -158,6 +161,7 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		Region:             *r.allocationData.Region,
 		NatGatewayMode:     &network.NatGatewayModeSingle,
 		MapPublicIp:        true,
+		ServiceEndpoints:   r.serviceEndpoints,
 	}.CreateNetwork(ctx)
 	if err != nil {
 		return err

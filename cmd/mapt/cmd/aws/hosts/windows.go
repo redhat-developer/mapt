@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/action/windows"
@@ -69,15 +70,16 @@ func getWindowsCreate() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&windows.WindowsServerArgs{
-					Prefix:      "main",
-					AMIName:     viper.GetString(amiName),
-					AMIUser:     viper.GetString(amiUsername),
-					AMIOwner:    viper.GetString(amiOwner),
-					AMILang:     viper.GetString(amiLang),
-					AMIKeepCopy: viper.IsSet(amiKeepCopy),
-					Spot:        params.SpotArgs(),
-					Airgap:      viper.IsSet(airgap),
-					Timeout:     viper.GetString(params.Timeout),
+					Prefix:           "main",
+					AMIName:          viper.GetString(amiName),
+					AMIUser:          viper.GetString(amiUsername),
+					AMIOwner:         viper.GetString(amiOwner),
+					AMILang:          viper.GetString(amiLang),
+					AMIKeepCopy:      viper.IsSet(amiKeepCopy),
+					Spot:             params.SpotArgs(),
+					Airgap:           viper.IsSet(airgap),
+					Timeout:          viper.GetString(params.Timeout),
+					ServiceEndpoints: params.NetworkServiceEndpoints(),
 				})
 		},
 	}
@@ -95,6 +97,7 @@ func getWindowsCreate() *cobra.Command {
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
 	params.AddGitLabRunnerFlags(flagSet)
+	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

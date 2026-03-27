@@ -1,6 +1,7 @@
 package hosts
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	rhelai "github.com/redhat-developer/mapt/pkg/provider/aws/action/rhel-ai"
@@ -54,13 +55,14 @@ func getRHELAICreate() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&apiRHELAI.RHELAIArgs{
-					Prefix:         "main",
-					Version:        viper.GetString(params.RhelAIVersion),
-					Accelerator:    viper.GetString(params.RhelAIAccelerator),
-					CustomImage:    viper.GetString(params.RhelAICustomImage),
-					ComputeRequest: params.ComputeRequestArgs(),
-					Spot:           params.SpotArgs(),
-					Timeout:        viper.GetString(params.Timeout),
+					Prefix:           "main",
+					Version:          viper.GetString(params.RhelAIVersion),
+					Accelerator:      viper.GetString(params.RhelAIAccelerator),
+					CustomImage:      viper.GetString(params.RhelAICustomImage),
+					ComputeRequest:   params.ComputeRequestArgs(),
+					Spot:             params.SpotArgs(),
+					Timeout:          viper.GetString(params.Timeout),
+					ServiceEndpoints: params.NetworkServiceEndpoints(),
 				})
 		},
 	}
@@ -73,6 +75,7 @@ func getRHELAICreate() *cobra.Command {
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
+	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
