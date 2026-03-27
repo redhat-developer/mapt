@@ -22,17 +22,24 @@ const (
 	username = "azureuser"
 )
 
-func imageId(accelerator, version string) string {
-	iName := fmt.Sprintf(imageNameRegex, accelerator, version)
-	gName := strings.ReplaceAll(iName, "-", "_")
+func imageIdFromName(imageName string) string {
+	gName := strings.ReplaceAll(imageName, "-", "_")
 	return fmt.Sprintf(imageIdRegex,
 		imageOwnerSubscriptionId,
 		gName,
-		iName)
+		imageName)
+}
+
+func imageId(accelerator, version string) string {
+	return imageIdFromName(fmt.Sprintf(imageNameRegex, accelerator, version))
 }
 
 func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 	logging.Debug("Creating RHEL Server")
+	sharedImageID := imageId(args.Accelerator, args.Version)
+	if args.CustomImage != "" {
+		sharedImageID = imageIdFromName(args.CustomImage)
+	}
 	azureLinuxRequest :=
 		&azureLinux.LinuxArgs{
 			Prefix: args.Prefix,
@@ -40,7 +47,7 @@ func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err 
 			ComputeRequest: args.ComputeRequest,
 			Spot:           args.Spot,
 			ImageRef: &data.ImageReference{
-				SharedImageID: imageId(args.Accelerator, args.Version),
+				SharedImageID: sharedImageID,
 			},
 			Username:         username,
 			ReadinessCommand: command.CommandPing}

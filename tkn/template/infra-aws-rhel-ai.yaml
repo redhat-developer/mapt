@@ -103,8 +103,8 @@ spec:
     - name: cpus
       description: Number of CPUs for the cloud instance (default 8)
       default: "8"
-    - name: custom-ami
-      description: Custom AMI to use for the cloud instance
+    - name: custom-image
+      description: Custom image name to use for the cloud instance
       default: ""
     - name: gpu-manufacturer
       description: Manufacturer company name for GPU. (i.e. NVIDIA)
@@ -251,8 +251,8 @@ spec:
           if [[ "$(params.nested-virt)" == "true" ]]; then
             cmd+="--nested-virt "
           fi
-          if [[ "$(params.custom-ami)" != "" ]]; then
-            cmd+="--custom-ami '$(params.custom-ami)' "
+          if [[ "$(params.custom-image)" != "" ]]; then
+            cmd+="--custom-image '$(params.custom-image)' "
           else
             cmd+="--version '$(params.version)' "
           fi

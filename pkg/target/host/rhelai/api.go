@@ -9,7 +9,7 @@ type RHELAIArgs struct {
 	Prefix         string
 	Accelerator    string
 	Version        string
-	CustomAMI      string
+	CustomImage    string
 	Arch           string
 	ComputeRequest *cr.ComputeRequestArgs
 	Spot           *spotTypes.SpotArgs

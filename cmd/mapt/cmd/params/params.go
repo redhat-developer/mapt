@@ -78,17 +78,17 @@ const (
 	cirrusPWLabels     string = "it-cirrus-pw-labels"
 	cirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
 
-	glRunnerToken      string = "glrunner-token"
-	glRunnerTokenDesc  string = "GitLab Personal Access Token with api scope"
-	glRunnerProjectID  string = "glrunner-project-id"
+	glRunnerToken         string = "glrunner-token"
+	glRunnerTokenDesc     string = "GitLab Personal Access Token with api scope"
+	glRunnerProjectID     string = "glrunner-project-id"
 	glRunnerProjectIDDesc string = "GitLab project ID for project runner registration"
-	glRunnerGroupID    string = "glrunner-group-id"
-	glRunnerGroupIDDesc string = "GitLab group ID for group runner registration (alternative to --glrunner-project-id)"
-	glRunnerURL        string = "glrunner-url"
-	glRunnerURLDesc    string = "GitLab instance URL (e.g., https://gitlab.com, https://gitlab.example.com)"
-	glRunnerURLDefault string = "https://gitlab.com"
-	glRunnerTags       string = "glrunner-tags"
-	glRunnerTagsDesc   string = "List of tags separated by comma to be added to the self-hosted runner"
+	glRunnerGroupID       string = "glrunner-group-id"
+	glRunnerGroupIDDesc   string = "GitLab group ID for group runner registration (alternative to --glrunner-project-id)"
+	glRunnerURL           string = "glrunner-url"
+	glRunnerURLDesc       string = "GitLab instance URL (e.g., https://gitlab.com, https://gitlab.example.com)"
+	glRunnerURLDefault    string = "https://gitlab.com"
+	glRunnerTags          string = "glrunner-tags"
+	glRunnerTagsDesc      string = "List of tags separated by comma to be added to the self-hosted runner"
 
 	//RHEL
 	SubsUsername              string = "rh-subscription-username"
@@ -106,8 +106,8 @@ const (
 	RhelAIAccelerator         string = "accelerator"
 	RhelAIAccelearatorDesc    string = "accelerator type. Valid types: cuda and rocm"
 	RhelAIAccelearatorDefault string = "cuda"
-	RhelAIAMICustom           string = "custom-ami"
-	RhelAIAMICustomDesc       string = "custom AMI to spin RHEL AI OS"
+	RhelAICustomImage         string = "custom-image"
+	RhelAICustomImageDesc     string = "custom image name to spin RHEL AI OS (AMI name for AWS, image name for Azure)"
 
 	// Serverless
 	Timeout        string = "timeout"

@@ -128,7 +128,7 @@ spec:
     - name: profile
       description: Comma-separated list of profiles to install on the cluster (e.g. virtualization, serverless-serving, serverless-eventing, serverless, servicemesh). When virtualization is selected, a bare metal instance is used.
       default: "''"
-    
+
     # Metadata params
     - name: tags
       description: tags for the resources created on the providers
