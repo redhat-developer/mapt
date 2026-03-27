@@ -100,10 +100,10 @@ func (r replicateRequest) runStack(region, operation string) error {
 	var err error
 	if operation == "create" {
 		_, err = manager.UpStack(r.mCtx, stack,
-			manager.ManagerOptions{Baground: true})
+			manager.ManagerOptions{Background: true})
 	} else {
 		err = manager.DestroyStack(r.mCtx, stack,
-			manager.ManagerOptions{Baground: true})
+			manager.ManagerOptions{Background: true})
 	}
 
 	if err != nil {
