@@ -13,6 +13,7 @@ type RHELAIArgs struct {
 	Arch           string
 	ComputeRequest *cr.ComputeRequestArgs
 	Spot           *spotTypes.SpotArgs
+	ServiceEndpoints      []string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }

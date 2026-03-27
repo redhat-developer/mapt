@@ -20,4 +20,7 @@ const (
 	MACFixedLocationDesc string = "if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)"
 	MACDHID              string = "dedicated-host-id"
 	MACDHIDDesc          string = "id for the dedicated host"
+
+	ServiceEndpointsDesc = "Comma-separated list of VPC endpoints to create. " +
+		"Accepted values: s3, ecr, ssm. Empty = no endpoints."
 )

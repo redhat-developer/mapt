@@ -1,6 +1,7 @@
 package services
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	awsEKS "github.com/redhat-developer/mapt/pkg/provider/aws/action/eks"
@@ -78,6 +79,7 @@ func getCreateEKS() *cobra.Command {
 					Addons:                 viper.GetStringSlice(paramAddons),
 					LoadBalancerController: viper.IsSet(paramLoadBalancerController),
 					ExcludedZoneIDs:        viper.GetStringSlice(excludedZoneIDs),
+					ServiceEndpoints:       params.NetworkServiceEndpoints(),
 				})
 		},
 	}
@@ -94,6 +96,7 @@ func getCreateEKS() *cobra.Command {
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
+	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

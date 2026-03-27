@@ -1,6 +1,7 @@
 package services
 
 import (
+	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/snc"
@@ -81,6 +82,7 @@ func createSNC() *cobra.Command {
 					Arch:                    viper.GetString(params.LinuxArch),
 					PullSecretFile:          viper.GetString(pullSecretFile),
 					Timeout:                 viper.GetString(params.Timeout),
+					ServiceEndpoints:        params.NetworkServiceEndpoints(),
 					Profiles:                profiles}); err != nil {
 				return err
 			}
@@ -98,6 +100,7 @@ func createSNC() *cobra.Command {
 	flagSet.StringSliceP(sncProfile, "", []string{}, sncProfileDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
+	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

@@ -49,6 +49,7 @@ type WindowsServerArgs struct {
 	ComputeRequest *cr.ComputeRequestArgs
 	Spot           *spotTypes.SpotArgs
 	Airgap         bool
+	ServiceEndpoints []string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -65,6 +66,7 @@ type windowsServerRequest struct {
 
 	spot           bool
 	timeout        *string
+	serviceEndpoints []string
 	allocationData *allocation.AllocationResult
 	airgap         *bool
 	// internal management
@@ -111,6 +113,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 		amiKeepCopy: &args.AMIKeepCopy,
 		amiLang:     &args.AMILang,
 		timeout:     &args.Timeout,
+		serviceEndpoints:   args.ServiceEndpoints,
 		airgap:      &args.Airgap}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
@@ -251,6 +254,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 			CreateLoadBalancer:      r.spot,
 			Airgap:                  *r.airgap,
 			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
+			ServiceEndpoints:               r.serviceEndpoints,
 		})
 	if err != nil {
 		return err

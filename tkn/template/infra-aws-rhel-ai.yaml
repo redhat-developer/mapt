@@ -138,6 +138,13 @@ spec:
       description: Version of RHEL AI OS (default 3.0.0)
       default: "3.0.0"
     
+    # Network params
+    - name: service-endpoints
+      description: |
+        Comma-separated list of VPC service endpoints to create.
+        Accepted values: s3, ecr, ssm. Empty = no endpoints created.
+      default: ""
+
     # Metadata params
     - name: tags
       description: tags for the resources created on the providers
@@ -267,6 +274,9 @@ spec:
             cmd+="--spot-increase-rate '$(params.spot-increase-rate)' "
             cmd+="--spot-eviction-tolerance '$(params.spot-eviction-tolerance)' "
             cmd+="--spot-excluded-regions '$(params.spot-excluded-regions)' "
+          fi
+          if [[ "$(params.service-endpoints)" != "" ]]; then
+            cmd+="--service-endpoints '$(params.service-endpoints)' "
           fi
           cmd+="--tags '$(params.tags)' "
         fi
