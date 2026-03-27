@@ -24,7 +24,7 @@ type Stack struct {
 type ManagerOptions struct {
 	// This option informs the manager the actions will be run on background
 	// through a routine so in that case we can not return exit but an error
-	Baground bool
+	Background bool
 }
 
 func UpStack(c *mc.Context, targetStack Stack, opts ...ManagerOptions) (auto.UpResult, error) {
@@ -38,7 +38,7 @@ func UpStackTargets(mCtx *mc.Context, targetStack Stack, targetURNs []string, op
 	objectStack, err := getStack(ctx, mCtx, targetStack)
 	if err != nil {
 		logging.Error(err)
-		if len(opts) == 1 && opts[0].Baground {
+		if len(opts) == 1 && opts[0].Background {
 			return auto.UpResult{}, err
 		}
 		return auto.UpResult{}, fmt.Errorf("failed to get stack: %w", err)
@@ -70,7 +70,7 @@ func UpStackTargets(mCtx *mc.Context, targetStack Stack, targetURNs []string, op
 	result, err := objectStack.Up(ctx, mOpts...)
 	if err != nil {
 		logging.Error(err)
-		if len(opts) == 1 && opts[0].Baground {
+		if len(opts) == 1 && opts[0].Background {
 			return auto.UpResult{}, err
 		}
 		return auto.UpResult{}, fmt.Errorf("failed to update stack: %w", err)
@@ -86,7 +86,7 @@ func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) e
 	objectStack, err := getStack(ctx, mCtx, targetStack)
 	if err != nil {
 		logging.Error(err)
-		if len(opts) == 1 && opts[0].Baground {
+		if len(opts) == 1 && opts[0].Background {
 			return err
 		}
 		return fmt.Errorf("failed to get stack: %w", err)
@@ -114,7 +114,7 @@ func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) e
 	// Destroy resources
 	if _, err := objectStack.Destroy(ctx, mOpts...); err != nil {
 		logging.Error(err)
-		if len(opts) == 1 && opts[0].Baground {
+		if len(opts) == 1 && opts[0].Background {
 			return err
 		}
 		return fmt.Errorf("failed to destroy stack resources: %w", err)
@@ -123,7 +123,7 @@ func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) e
 	// Remove the stack from workspace
 	if err := objectStack.Workspace().RemoveStack(ctx, targetStack.StackName); err != nil {
 		logging.Error(err)
-		if len(opts) == 1 && opts[0].Baground {
+		if len(opts) == 1 && opts[0].Background {
 			return err
 		}
 		return fmt.Errorf("failed to remove stack from workspace: %w", err)
