@@ -123,8 +123,8 @@ github.com/charmbracelet/x/ansi v0.11.6 h1:GhV21SiDz/45W9AnV2R61xZMRri5NlLnl6CVF
 github.com/charmbracelet/x/ansi v0.11.6/go.mod h1:2JNYLgQUsyqaiLovhU2Rv/pb8r6ydXKS3NIttu3VGZQ=
 github.com/charmbracelet/x/cellbuf v0.0.15 h1:ur3pZy0o6z/R7EylET877CBxaiE1Sp1GMxoFPAIztPI=
 github.com/charmbracelet/x/cellbuf v0.0.15/go.mod h1:J1YVbR7MUuEGIFPCaaZ96KDl5NoS0DAWkskup+mOY+Q=
-github.com/charmbracelet/x/exp/golden v0.0.0-20260323091123-df7b1bcffcca h1:ySF+Ei4e+tXO6q2XmFxYTSk29HfnnJw1PK4As+TJpkA=
-github.com/charmbracelet/x/exp/golden v0.0.0-20260323091123-df7b1bcffcca/go.mod h1:6fMpcW6iwN/kX+xJ52eqVWsDiBTe0UJD24JLoHFe+P0=
+github.com/charmbracelet/x/exp/golden v0.0.0-20260329003944-7eda8903d971 h1:gLBPr4jfrHFg86get/UXzkW1pa5J5qqaKPbpaqZmMbE=
+github.com/charmbracelet/x/exp/golden v0.0.0-20260329003944-7eda8903d971/go.mod h1:6fMpcW6iwN/kX+xJ52eqVWsDiBTe0UJD24JLoHFe+P0=
 github.com/charmbracelet/x/term v0.2.2 h1:xVRT/S2ZcKdhhOuSP4t5cLi5o+JxklsoEObBSgfgZRk=
 github.com/charmbracelet/x/term v0.2.2/go.mod h1:kF8CY5RddLWrsgVwpw4kAa6TESp6EB5y3uxGLeCqzAI=
 github.com/cheggaaa/pb v1.0.29 h1:FckUN5ngEk2LpvuG0fw1GEFx6LtyY2pWI/Z2QgCnEYo=
@@ -270,8 +270,8 @@ github.com/kylelemons/godebug v1.1.0 h1:RPNrshWIDI6G2gRW9EHilWtl7Z6Sb1BR0xunSBf0
 github.com/kylelemons/godebug v1.1.0/go.mod h1:9/0rRGxNHcop5bhtWyNeEfOS8JIWk580+fNqagV/RAw=
 github.com/leodido/go-urn v1.4.0 h1:WT9HwE9SGECu3lg4d/dIA+jxlljEa1/ffXKmRjqdmIQ=
 github.com/leodido/go-urn v1.4.0/go.mod h1:bvxc+MVxLKB4z00jd1z+Dvzr47oO32F/QSNjSBOlFxI=
-github.com/lucasb-eyer/go-colorful v1.3.0 h1:2/yBRLdWBZKrf7gB40FoiKfAWYQ0lqNcbuQwVHXptag=
-github.com/lucasb-eyer/go-colorful v1.3.0/go.mod h1:R4dSotOR9KMtayYi1e77YzuveK+i7ruzyGqttikkLy0=
+github.com/lucasb-eyer/go-colorful v1.4.0 h1:UtrWVfLdarDgc44HcS7pYloGHJUjHV/4FwW4TvVgFr4=
+github.com/lucasb-eyer/go-colorful v1.4.0/go.mod h1:R4dSotOR9KMtayYi1e77YzuveK+i7ruzyGqttikkLy0=
 github.com/mailru/easyjson v0.7.7 h1:UGYAvKxe3sBsEDzO8ZeWOSlIQfWFlxbzLZe7hwFURr0=
 github.com/mailru/easyjson v0.7.7/go.mod h1:xzfreul335JAWq5oZzymOObrkdz5UnU4kGfJJLY9Nlc=
 github.com/mattn/go-colorable v0.1.4/go.mod h1:U0ppj6V5qS13XJ6of8GYAs25YV2eR4EVcfRqFIhoBtE=
@@ -322,8 +322,8 @@ github.com/opentracing/opentracing-go v1.2.0 h1:uEJPy/1a5RIPAJ0Ov+OIO8OxWu77jEv+
 github.com/opentracing/opentracing-go v1.2.0/go.mod h1:GxEUsuufX4nBwe+T+Wl9TAgYrxe9dPLANfrWvHYVTgc=
 github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
 github.com/patrickmn/go-cache v2.1.0+incompatible/go.mod h1:3Qf8kWWT7OJRJbdiICTKqZju1ZixQ/KpMGzzAfe6+WQ=
-github.com/pelletier/go-toml/v2 v2.2.4 h1:mye9XuhQ6gvn5h28+VilKrrPoQVanw5PMw/TB0t5Ec4=
-github.com/pelletier/go-toml/v2 v2.2.4/go.mod h1:2gIqNv+qfxSVS7cM2xJQKtLSTLUE9V8t9Stt+h56mCY=
+github.com/pelletier/go-toml/v2 v2.3.0 h1:k59bC/lIZREW0/iVaQR8nDHxVq8OVlIzYCOJf421CaM=
+github.com/pelletier/go-toml/v2 v2.3.0/go.mod h1:2gIqNv+qfxSVS7cM2xJQKtLSTLUE9V8t9Stt+h56mCY=
 github.com/pgavlin/fx v0.1.6 h1:r9jEg69DhNoCd3Xh0+5mIbdbS3PqWrVWujkY76MFRTU=
 github.com/pgavlin/fx v0.1.6/go.mod h1:KWZJ6fqBBSh8GxHYqwYCf3rYE7Gp2p0N8tJp8xv9u9M=
 github.com/pgavlin/fx/v2 v2.0.12 h1:SjjaJ68Dt8Z4zHwOpY/RPijd7lShs6xYupJbF9ra00M=
@@ -343,8 +343,8 @@ github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 h1:vkHw5I/plNdTr435
 github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231/go.mod h1:murToZ2N9hNJzewjHBgfFdXhZKjY3z5cYC1VXk+lbFE=
 github.com/pulumi/esc v0.23.0 h1:5lOXO+5vvXOEQxXw7cTuYhjg9lVng23f9XNLWDR9EP4=
 github.com/pulumi/esc v0.23.0/go.mod h1:mkghIFn/TvN3XnP4jmCB4U5BG1I4UjGluARi39ckrCE=
-github.com/pulumi/pulumi-aws-native/sdk v1.58.0 h1:V2s6inCr5BPzpMzWVWbdd7Gc/1cOMlN/ZTXUCCxNybo=
-github.com/pulumi/pulumi-aws-native/sdk v1.58.0/go.mod h1:l7CcUWkZ9LxiwlNNkvALhMbHqmSRpkEu3bKYdKRDfxk=
+github.com/pulumi/pulumi-aws-native/sdk v1.59.0 h1:ly1FbR1LJRGUGAm3Oya+6irffgrR9JSym/Rrb5mk7YA=
+github.com/pulumi/pulumi-aws-native/sdk v1.59.0/go.mod h1:l7CcUWkZ9LxiwlNNkvALhMbHqmSRpkEu3bKYdKRDfxk=
 github.com/pulumi/pulumi-aws/sdk/v7 v7.23.0 h1:G4x1vd3JgtuEmzWF8h6Yoo2wYDB3ydZT/XxNaPxJ8PU=
 github.com/pulumi/pulumi-aws/sdk/v7 v7.23.0/go.mod h1:XDXYVcBL20h4r2kXzpD34pB6gVcyb7MSG1DQP91gzFE=
 github.com/pulumi/pulumi-awsx/sdk/v3 v3.3.1 h1:vwRcPmkTjjAXLONPb5jT/4GLvas8QwQqRJMWSF8gt44=
@@ -379,8 +379,8 @@ github.com/pulumi/pulumi-random/sdk/v4 v4.19.1 h1:MUr4+gUQy+wqhoHsuhXO6ypT40KhU9
 github.com/pulumi/pulumi-random/sdk/v4 v4.19.1/go.mod h1:AJpJvPU3qJaq02VUui3rMZHchvVpTvVuVp0lbCeEE50=
 github.com/pulumi/pulumi-tls/sdk/v5 v5.3.0 h1:T5flLAVyTUbnNRbKMpwMpHoNiquxRlGzpevYkan5ZkM=
 github.com/pulumi/pulumi-tls/sdk/v5 v5.3.0/go.mod h1:dGWmFbFPclMTOrhpYtXN6trciFHZR08p31S6TqRrLzo=
-github.com/pulumi/pulumi/sdk/v3 v3.227.0 h1:QMMHm+sGwauPnhU2pyI/pJT0VTrOaDYPconWwvtOO/c=
-github.com/pulumi/pulumi/sdk/v3 v3.227.0/go.mod h1:c6s36sG4nygVc5KeT+PHAneaICdZul0UFjFJ6ioh6mA=
+github.com/pulumi/pulumi/sdk/v3 v3.228.0 h1:+kV5pPM52MMFQsYiZ/deDi6egVb8JZsTpQhzv+CMB3A=
+github.com/pulumi/pulumi/sdk/v3 v3.228.0/go.mod h1:PAqB2+8gnxqk+QrFdXL3fSjsLIjtlBIcy5KLZ//4WSk=
 github.com/rivo/uniseg v0.1.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
