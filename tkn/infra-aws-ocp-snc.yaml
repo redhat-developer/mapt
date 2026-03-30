@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-aws-ocp-snc
   labels:
-    app.kubernetes.io/version: "1.0.0-dev"
+    app.kubernetes.io/version: "0.12.0"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -174,7 +174,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      image: quay.io/redhat-developer/mapt:v0.12.0
       imagePullPolicy: Always
       env:
         - name: HOME
@@ -259,7 +259,7 @@ spec:
           if [[ $(params.timeout) != "" ]]; then
             cmd+="--timeout $(params.timeout) "
           fi
-          if [[ $(params.service-endpoints) != "" ]]; then
+          if [[ "$(params.service-endpoints)" != "" ]]; then
             cmd+="--service-endpoints $(params.service-endpoints) "
           fi
           cmd+="--tags $(params.tags) "

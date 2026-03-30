@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-aws-windows-server
   labels:
-    app.kubernetes.io/version: "1.0.0-dev"
+    app.kubernetes.io/version: "0.12.0"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -117,7 +117,7 @@ spec:
         Comma-separated list of VPC service endpoints to create.
         Accepted values: s3, ecr, ssm. Empty = no endpoints created.
       default: "''"
-
+    
     - name: tags
       description: tags for the resources created on the providers
       default: "''"
@@ -160,7 +160,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      image: quay.io/redhat-developer/mapt:v0.12.0
       imagePullPolicy: Always
       env:
         - name: HOME
@@ -227,9 +227,7 @@ spec:
             cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) --spot-eviction-tolerance $(params.spot-eviction-tolerance) " 
           fi
           if [[ $(params.airgap) == "true" ]]; then cmd+="--airgap "; fi
-          if [[ $(params.service-endpoints) != "" ]]; then
-            cmd+="--service-endpoints $(params.service-endpoints) "
-          fi
+          if [[ $(params.service-endpoints) != "" ]]; then cmd+="--service-endpoints $(params.service-endpoints) "; fi
           cmd+="--tags $(params.tags) "
         fi
 
