@@ -3,7 +3,7 @@ module github.com/redhat-developer/mapt/tools
 go 1.25.0
 
 replace (
-	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.0.0
+	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.0
 	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.2
 	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.2
 )
@@ -140,7 +140,7 @@ require (
 	github.com/ldez/tagliatelle v0.7.2 // indirect
 	github.com/ldez/usetesting v0.5.0 // indirect
 	github.com/leonklingele/grouper v1.1.2 // indirect
-	github.com/lucasb-eyer/go-colorful v1.3.0 // indirect
+	github.com/lucasb-eyer/go-colorful v1.4.0 // indirect
 	github.com/macabu/inamedparam v0.2.0 // indirect
 	github.com/manuelarte/embeddedstructfieldcheck v0.4.0 // indirect
 	github.com/manuelarte/funcorder v0.5.0 // indirect
@@ -158,7 +158,7 @@ require (
 	github.com/nakabonne/nestif v0.3.1 // indirect
 	github.com/nishanths/exhaustive v0.12.0 // indirect
 	github.com/nishanths/predeclared v0.2.2 // indirect
-	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
+	github.com/pelletier/go-toml/v2 v2.3.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_golang v1.23.2 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
