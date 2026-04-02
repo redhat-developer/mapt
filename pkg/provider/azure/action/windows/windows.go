@@ -382,12 +382,12 @@ func (r *windowsRequest) uploadScript(ctx *pulumi.Context,
 		resourcesUtil.GetResourceName(*r.prefix, azureWindowsDesktopID, "sa"),
 		&storage.StorageAccountArgs{
 			AccountName:           pulumi.String(r.mCtx.RunID()),
-			Kind:                  pulumi.String("BlockBlobStorage"),
+			Kind:                  pulumi.String("StorageV2"),
 			ResourceGroupName:     rg.Name,
 			Location:              pulumi.String(location),
 			AllowBlobPublicAccess: pulumi.BoolPtr(true),
 			Sku: &storage.SkuArgs{
-				Name: pulumi.String("Premium_LRS"),
+				Name: pulumi.String("Standard_LRS"),
 			},
 			Tags: r.mCtx.ResourceTags(),
 		})
