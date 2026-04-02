@@ -113,7 +113,7 @@ spec:
       description: |
         Comma-separated list of VPC service endpoints to create.
         Accepted values: s3, ecr, ssm. Empty = no endpoints created.
-      default: ""
+      default: "''"
 
     # Metadata params
     - name: tags
@@ -128,6 +128,11 @@ spec:
         The parameter is intended to add verbosity on the task execution and also print masked credentials
         (showing first and last character with *** in the middle) on stdout to help with debugging
       default: 'false'
+    - name: force-destroy
+      description: |
+        If force-destroy is set the command will destroy even if there is a lock.
+        Allowed values: true, false
+      default: "false"
     - name: keep-state
       description: |
         Keep Pulumi state files in S3 backend after successful destroy (by default, state files are removed). Only used when operation is destroy.
@@ -233,8 +238,13 @@ spec:
           cmd+="--tags $(params.tags) "
         fi
 
-        if [[ "$(params.operation)" == "destroy" && "$(params.keep-state)" == "true" ]]; then
-          cmd+="--keep-state "
+        if [[ "$(params.operation)" == "destroy" ]]; then
+          if [[ "$(params.keep-state)" == "true" ]]; then
+            cmd+="--keep-state "
+          fi
+          if [[ "$(params.force-destroy)" == "true" ]]; then
+            cmd+="--force-destroy "
+          fi
         fi
 
         eval "${cmd}"
