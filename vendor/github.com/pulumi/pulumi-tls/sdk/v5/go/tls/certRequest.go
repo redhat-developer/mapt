@@ -12,6 +12,15 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Creates a Certificate Signing Request (CSR) in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
+//
+// PEM is the typical format used to request a certificate from a Certificate Authority (CA).
+//
+// This resource is intended to be used in conjunction with a Terraform provider for a particular certificate authority in order to provision a new certificate.
+//
+// This is a *logical resource*, so it contributes only to the current Terraform
+// state and does not create any external managed resources.
+//
 // ## Example Usage
 //
 // ```go
