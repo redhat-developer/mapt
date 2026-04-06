@@ -12,6 +12,80 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// Creates a TLS certificate in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format using a Certificate Signing Request (CSR) and signs it with a provided (local) Certificate Authority (CA).
+//
+// > **Note** Locally-signed certificates are generally only trusted by client software when
+// setup to use the provided CA. They are normally used in development environments
+// or when deployed internally to an organization.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-std/sdk/go/std"
+//	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			invokeFile, err := std.File(ctx, &std.FileArgs{
+//				Input: "cert_request.pem",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			invokeFile1, err := std.File(ctx, &std.FileArgs{
+//				Input: "ca_private_key.pem",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			invokeFile2, err := std.File(ctx, &std.FileArgs{
+//				Input: "ca_cert.pem",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			_, err = tls.NewLocallySignedCert(ctx, "example", &tls.LocallySignedCertArgs{
+//				CertRequestPem:      pulumi.String(invokeFile.Result),
+//				CaPrivateKeyPem:     pulumi.String(invokeFile1.Result),
+//				CaCertPem:           pulumi.String(invokeFile2.Result),
+//				ValidityPeriodHours: pulumi.Int(12),
+//				AllowedUses: pulumi.StringArray{
+//					pulumi.String("key_encipherment"),
+//					pulumi.String("digital_signature"),
+//					pulumi.String("server_auth"),
+//				},
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Automatic Renewal
+//
+// This resource considers its instances to have been deleted after either their validity
+// periods ends (i.e. beyond the `validityPeriodHours`)
+// or the early renewal period is reached (i.e. within the `earlyRenewalHours`):
+// when this happens, the `readyForRenewal` attribute will be `true`.
+// At this time, applying the Terraform configuration will cause a new certificate to be
+// generated for the instance.
+//
+// Therefore in a development environment with frequent deployments it may be convenient
+// to set a relatively-short expiration time and use early renewal to automatically provision
+// a new certificate when the current one is about to expire.
+//
+// The creation of a new certificate may of course cause dependent resources to be updated
+// or replaced, depending on the lifecycle rules applying to those resources.
 type LocallySignedCert struct {
 	pulumi.CustomResourceState
 
@@ -26,8 +100,9 @@ type LocallySignedCert struct {
 	// Certificate data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 	CertPem pulumi.StringOutput `pulumi:"certPem"`
 	// Certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
-	CertRequestPem    pulumi.StringOutput `pulumi:"certRequestPem"`
-	EarlyRenewalHours pulumi.IntOutput    `pulumi:"earlyRenewalHours"`
+	CertRequestPem pulumi.StringOutput `pulumi:"certRequestPem"`
+	// The resource will consider the certificate to have expired the given number of hours before its actual expiry time. This can be useful to deploy an updated certificate in advance of the expiration of the current certificate. However, the old certificate remains valid until its true expiration time, since this resource does not (and cannot) support certificate revocation. Also, this advance update can only be performed should the Terraform configuration be applied during the early renewal period. (default: `0`)
+	EarlyRenewalHours pulumi.IntOutput `pulumi:"earlyRenewalHours"`
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate pulumi.BoolOutput `pulumi:"isCaCertificate"`
 	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
@@ -107,8 +182,9 @@ type locallySignedCertState struct {
 	// Certificate data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 	CertPem *string `pulumi:"certPem"`
 	// Certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
-	CertRequestPem    *string `pulumi:"certRequestPem"`
-	EarlyRenewalHours *int    `pulumi:"earlyRenewalHours"`
+	CertRequestPem *string `pulumi:"certRequestPem"`
+	// The resource will consider the certificate to have expired the given number of hours before its actual expiry time. This can be useful to deploy an updated certificate in advance of the expiration of the current certificate. However, the old certificate remains valid until its true expiration time, since this resource does not (and cannot) support certificate revocation. Also, this advance update can only be performed should the Terraform configuration be applied during the early renewal period. (default: `0`)
+	EarlyRenewalHours *int `pulumi:"earlyRenewalHours"`
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate *bool `pulumi:"isCaCertificate"`
 	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
@@ -137,7 +213,8 @@ type LocallySignedCertState struct {
 	// Certificate data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format. **NOTE**: the [underlying](https://pkg.go.dev/encoding/pem#Encode) [libraries](https://pkg.go.dev/golang.org/x/crypto/ssh#MarshalAuthorizedKey) that generate this value append a `\n` at the end of the PEM. In case this disrupts your use case, we recommend using `trimspace()`.
 	CertPem pulumi.StringPtrInput
 	// Certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
-	CertRequestPem    pulumi.StringPtrInput
+	CertRequestPem pulumi.StringPtrInput
+	// The resource will consider the certificate to have expired the given number of hours before its actual expiry time. This can be useful to deploy an updated certificate in advance of the expiration of the current certificate. However, the old certificate remains valid until its true expiration time, since this resource does not (and cannot) support certificate revocation. Also, this advance update can only be performed should the Terraform configuration be applied during the early renewal period. (default: `0`)
 	EarlyRenewalHours pulumi.IntPtrInput
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate pulumi.BoolPtrInput
@@ -167,8 +244,9 @@ type locallySignedCertArgs struct {
 	// Private key of the Certificate Authority (CA) used to sign the certificate, in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
 	CaPrivateKeyPem string `pulumi:"caPrivateKeyPem"`
 	// Certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
-	CertRequestPem    string `pulumi:"certRequestPem"`
-	EarlyRenewalHours *int   `pulumi:"earlyRenewalHours"`
+	CertRequestPem string `pulumi:"certRequestPem"`
+	// The resource will consider the certificate to have expired the given number of hours before its actual expiry time. This can be useful to deploy an updated certificate in advance of the expiration of the current certificate. However, the old certificate remains valid until its true expiration time, since this resource does not (and cannot) support certificate revocation. Also, this advance update can only be performed should the Terraform configuration be applied during the early renewal period. (default: `0`)
+	EarlyRenewalHours *int `pulumi:"earlyRenewalHours"`
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate *bool `pulumi:"isCaCertificate"`
 	// Maximum number of intermediate certificates that may follow this certificate in a valid certification path. If `isCaCertificate` is `false`, this value is ignored.
@@ -188,7 +266,8 @@ type LocallySignedCertArgs struct {
 	// Private key of the Certificate Authority (CA) used to sign the certificate, in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
 	CaPrivateKeyPem pulumi.StringInput
 	// Certificate request data in [PEM (RFC 1421)](https://datatracker.ietf.org/doc/html/rfc1421) format.
-	CertRequestPem    pulumi.StringInput
+	CertRequestPem pulumi.StringInput
+	// The resource will consider the certificate to have expired the given number of hours before its actual expiry time. This can be useful to deploy an updated certificate in advance of the expiration of the current certificate. However, the old certificate remains valid until its true expiration time, since this resource does not (and cannot) support certificate revocation. Also, this advance update can only be performed should the Terraform configuration be applied during the early renewal period. (default: `0`)
 	EarlyRenewalHours pulumi.IntPtrInput
 	// Is the generated certificate representing a Certificate Authority (CA) (default: `false`).
 	IsCaCertificate pulumi.BoolPtrInput
@@ -317,6 +396,7 @@ func (o LocallySignedCertOutput) CertRequestPem() pulumi.StringOutput {
 	return o.ApplyT(func(v *LocallySignedCert) pulumi.StringOutput { return v.CertRequestPem }).(pulumi.StringOutput)
 }
 
+// The resource will consider the certificate to have expired the given number of hours before its actual expiry time. This can be useful to deploy an updated certificate in advance of the expiration of the current certificate. However, the old certificate remains valid until its true expiration time, since this resource does not (and cannot) support certificate revocation. Also, this advance update can only be performed should the Terraform configuration be applied during the early renewal period. (default: `0`)
 func (o LocallySignedCertOutput) EarlyRenewalHours() pulumi.IntOutput {
 	return o.ApplyT(func(v *LocallySignedCert) pulumi.IntOutput { return v.EarlyRenewalHours }).(pulumi.IntOutput)
 }
