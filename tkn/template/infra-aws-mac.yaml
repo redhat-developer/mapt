@@ -246,10 +246,10 @@ spec:
         eval "${cmd}"
       resources:      
         requests:
-          memory: "200Mi"
+          memory: "1Gi"
           cpu: "100m"
         limits:
-          memory: "600Mi"
+          memory: "2Gi"
           cpu: "300m"
           
     - name: host-info-secret
