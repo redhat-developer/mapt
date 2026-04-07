@@ -278,8 +278,6 @@ spec:
             cmd+="--force-destroy "
           fi
         fi
-          cmd+="--keep-state "
-        fi
 
         eval "${cmd}"
         
