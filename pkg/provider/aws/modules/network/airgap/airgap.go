@@ -22,6 +22,7 @@ type AirgapNetworkRequest struct {
 	TargetSubnetCIDR string
 	PublicSubnetCIDR string
 	SetAsAirgap      bool
+	ServiceEndpoints []string
 }
 
 type AirgapNetworkResources struct {
@@ -47,6 +48,18 @@ func (r AirgapNetworkRequest) CreateNetwork(ctx *pulumi.Context, mCtx *mc.Contex
 			result.VPCResources.VPC,
 			result.VPCResources.InternetGateway,
 			"public")
+	if err != nil {
+		return nil, err
+	}
+	// Create VPC endpoints for the public subnet
+	err = subnet.EndpointsRequest{
+		VPC:              result.VPCResources.VPC,
+		Subnets:          []*ec2.Subnet{result.PublicSubnet.Subnet},
+		RouteTables:      []*ec2.RouteTable{result.PublicSubnet.RouteTable},
+		Region:           r.Region,
+		Name:             r.Name,
+		ServiceEndpoints: r.ServiceEndpoints,
+	}.Create(ctx)
 	if err != nil {
 		return nil, err
 	}

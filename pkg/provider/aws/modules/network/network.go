@@ -125,7 +125,8 @@ func airgapNetworking(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) 
 		AvailabilityZone: args.AZ,
 		PublicSubnetCIDR: cidrPublicSN,
 		TargetSubnetCIDR: cidrIntraSN,
-		SetAsAirgap:      args.AirgapPhaseConnectivity == OFF}.CreateNetwork(ctx, mCtx)
+		SetAsAirgap:      args.AirgapPhaseConnectivity == OFF,
+		ServiceEndpoints: args.ServiceEndpoints}.CreateNetwork(ctx, mCtx)
 	if err != nil {
 		return nil, nil, err
 	}
