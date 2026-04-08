@@ -82,8 +82,8 @@ spec:
 
     # AKS params
     - name: k8s-version
-      description: AKS K8s cluster version (default "1.30")
-      default: '1.30'
+      description: AKS K8s cluster version (default "1.31")
+      default: '1.31'
     - name: only-system-pool
       description: if we do not need bunch of resources we can run only the systempool. More info https://learn.microsoft.com/es-es/azure/aks/use-system-pools?tabs=azure-cli#system-and-user-node-pools. (default false)
       default: 'false'
@@ -226,7 +226,7 @@ spec:
         - name: OWNER_NAME
           value: $(params.ownerName)
         - name: OWNER_UID
-          value: $(params.ownerUid)  
+          value: $(params.ownerUid)
       volumeMounts:
         - name: cluster-info
           mountPath: /opt/cluster-info
@@ -264,7 +264,7 @@ spec:
         if [[ $(params.debug) == "true" ]]; then
           cat /opt/cluster-info/*
         fi
-        
+
         NAME=$(oc create -f cluster-info.yaml -o=jsonpath='{.metadata.name}')
-        echo -n "${NAME}" | tee $(results.cluster-access-secret.path)   
+        echo -n "${NAME}" | tee $(results.cluster-access-secret.path)
         fi
