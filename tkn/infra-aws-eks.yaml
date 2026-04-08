@@ -1,0 +1,301 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-aws-eks
+  labels:
+    app.kubernetes.io/version: "1.0.0-dev"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.44.x"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, aws, eks
+    tekton.dev/displayName: "aws manager"
+    tekton.dev/platforms: "linux/amd64, linux/arm64"
+spec:
+  description: |
+    This task will provision / decomission an AWS EKS cluster
+
+    The output will give required information to connect within the remote provisioned cluster
+
+  volumes:
+    - name: aws-credentials
+      secret:
+        secretName: $(params.secret-aws-credentials)
+    - name: cluster-info
+      emptyDir: {}
+
+  params:
+    # Credentials
+    - name: secret-aws-credentials
+      description: |
+        ocp secret holding the aws credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: aws-${name}
+        type: Opaque
+        data:
+          access-key: ${access_key}
+          secret-key: ${secret_key}
+          region: ${region}
+          bucket: ${bucket}
+
+    # Mapt params
+    - name: id
+      description: identifier for the provisioned environment
+    - name: operation
+      description: operation to execute within the infrastructure. Current values (create, destroy)
+
+    # Secret result
+    # naming
+    - name: cluster-access-secret-name
+      type: string
+      default: "''"
+      description: |
+        Once the target is provisioned the config to connect is addded to a secret
+        check resutls. If this param is set the secret will be created with the name set
+        otherwise it will be created with a random name.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: PipelineRun
+      description: |
+        The type of resource that should own the generated SpaceRequest.
+        Deletion of this resource will trigger deletion of the SpaceRequest.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      default: "''"
+      description: |
+        The name of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.name)`
+        or `$(context.taskRun.name)` depending on the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      default: "''"
+      description: |
+        The uid of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.uid)`
+        or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
+
+    # EKS params
+    - name: k8s-version
+      description: EKS K8s cluster version (default "1.31")
+      default: '1.31'
+    - name: arch
+      description: Architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
+      default: 'x86_64'
+    - name: workers-desired
+      description: Worker nodes scaling desired size (default 1)
+      default: '1'
+    - name: workers-max
+      description: Worker nodes scaling maximum size (default 3)
+      default: '3'
+    - name: workers-min
+      description: Worker nodes scaling minimum size (default 1)
+      default: '1'
+    - name: addons
+      description: Comma-separated list of EKS addons to install (default "coredns,kube-proxy,vpc-cni,eks-pod-identity-agent,aws-ebs-csi-driver")
+      default: 'coredns,kube-proxy,vpc-cni,eks-pod-identity-agent,aws-ebs-csi-driver'
+    - name: load-balancer-controller
+      description: Install AWS Load Balancer Controller (default false)
+      default: 'false'
+
+    # Spot params
+    - name: spot
+      description: Check best spot option to spin the machine and will create resources on that region.
+      default: 'true'
+    - name: spot-eviction-tolerance
+      description: |
+        if spot is enable we can define the minimum tolerance level of eviction.
+        Allowed value are: lowest, low, medium, high or highest
+      default: 'lowest'
+    - name: spot-increase-rate
+      description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
+      default: '30'
+
+    # Metadata params
+    - name: tags
+      description: tags for the resources created on the providers
+      default: "''"
+
+    # Control params
+    - name: debug
+      description: |
+        Warning setting this param to true exposes partially masked credentials
+
+        The parameter is intended to add verbosity on the task execution and also print masked credentials
+        (showing first and last character with *** in the middle) on stdout to help with debugging
+      default: 'false'
+    - name: force-destroy
+      description: |
+        If force-destroy is set the command will destroy even if there is a lock.
+        Allowed values: true, false
+      default: "false"
+    - name: keep-state
+      description: |
+        Keep Pulumi state files in S3 backend after successful destroy (by default, state files are removed). Only used when operation is destroy.
+        Allowed values: true, false
+      default: 'false'
+
+  results:
+    - name: cluster-access-secret
+      description: |
+        ocp secret holding the information to connect to the cluster
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+          type: Opaque
+          data:
+            kubeconfig: ${kubeconfig}
+
+  steps:
+    - name: provisioner
+      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      imagePullPolicy: Always
+      env:
+        - name: HOME
+          value: /opt/mapt/run
+      volumeMounts:
+        - name: aws-credentials
+          mountPath: /opt/aws-credentials
+        - name: cluster-info
+          mountPath: /opt/cluster-info
+      script: |
+        #!/bin/sh
+
+        set -euo pipefail
+
+        # Function to mask credentials (show first and last char, hide middle)
+        mask_credential() {
+          local cred="$1"
+          local len=${#cred}
+          if [ $len -le 2 ]; then
+            echo "***"
+          else
+            echo "${cred:0:1}***${cred: -1}"
+          fi
+        }
+
+        # Credentials - set these BEFORE enabling debug mode
+        export AWS_ACCESS_KEY_ID=$(cat /opt/aws-credentials/access-key)
+        export AWS_SECRET_ACCESS_KEY=$(cat /opt/aws-credentials/secret-key)
+        export AWS_DEFAULT_REGION=$(cat /opt/aws-credentials/region)
+        BUCKET=$(cat /opt/aws-credentials/bucket)
+
+        # If debug add verbosity and print masked credentials
+        if [[ $(params.debug) == "true" ]]; then
+          echo "AWS_ACCESS_KEY_ID=$(mask_credential "$AWS_ACCESS_KEY_ID")"
+          echo "AWS_SECRET_ACCESS_KEY=$(mask_credential "$AWS_SECRET_ACCESS_KEY")"
+          echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
+          echo "BUCKET=$BUCKET"
+          set -xeuo pipefail
+        fi
+
+        if [[ $(params.operation) == "create"  ]]; then
+          if [[ $(params.ownerName) == "" || $(params.ownerUid) == "" ]]; then
+            echo "Parameter ownerName and ownerUid is recommended when creating instance"
+          fi
+        fi
+
+        # Run mapt
+        cmd="mapt aws eks $(params.operation) "
+        cmd+="--project-name mapt-eks-$(params.id) "
+        cmd+="--backed-url s3://${BUCKET}/mapt/eks/$(params.id) "
+
+        if [[ $(params.debug) == "true" ]]; then
+          cmd+="--debug "
+        fi
+
+        if [[ $(params.operation) == "create" ]]; then
+          cmd+="--conn-details-output /opt/cluster-info "
+          cmd+="--version $(params.k8s-version) "
+          cmd+="--arch $(params.arch) "
+          cmd+="--workers-desired $(params.workers-desired) "
+          cmd+="--workers-max $(params.workers-max) "
+          cmd+="--workers-min $(params.workers-min) "
+          cmd+="--addons $(params.addons) "
+          if [[ $(params.load-balancer-controller) == "true" ]]; then
+            cmd+="--load-balancer-controller "
+          fi
+          if [[ $(params.spot) == "true" ]]; then
+            cmd+="--spot --spot-eviction-tolerance $(params.spot-eviction-tolerance) --spot-increase-rate $(params.spot-increase-rate) "
+          fi
+          cmd+="--tags $(params.tags) "
+        fi
+
+        if [[ "$(params.operation)" == "destroy" ]]; then
+          if [[ "$(params.keep-state)" == "true" ]]; then
+            cmd+="--keep-state "
+          fi
+          if [[ "$(params.force-destroy)" == "true" ]]; then
+            cmd+="--force-destroy "
+          fi
+        fi
+
+        eval "${cmd}"
+
+      resources:
+        requests:
+          memory: "200Mi"
+          cpu: "100m"
+        limits:
+          memory: "600Mi"
+          cpu: "300m"
+    - name: cluster-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:4.13@sha256:e70eb2be867f1236b19f5cbfeb8e0625737ce0ec1369e32a4f9f146aaaf68d49
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)
+      volumeMounts:
+        - name: cluster-info
+          mountPath: /opt/cluster-info
+      workingDir: /opt/cluster-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ $(params.operation) == "create" ]]; then
+        export SECRETNAME="generateName: mapt-aws-eks-"
+        if [[ $(params.cluster-access-secret-name) != "" ]]; then
+          export SECRETNAME="name: $(params.cluster-access-secret-name)"
+        fi
+        cat <<EOF > cluster-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: $NAMESPACE
+        EOF
+        if [[ "$OWNER_NAME" != "" && "$OWNER_UID" != "" ]]; then
+        cat <<EOF >> cluster-info.yaml
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: $OWNER_KIND
+            name: $OWNER_NAME
+            uid: $OWNER_UID
+        EOF
+        fi
+        cat <<EOF >> cluster-info.yaml
+        type: Opaque
+        data:
+          kubeconfig: $(cat /opt/cluster-info/kubeconfig | base64 -w0)
+        EOF
+
+        if [[ $(params.debug) == "true" ]]; then
+          cat /opt/cluster-info/*
+        fi
+
+        NAME=$(oc create -f cluster-info.yaml -o=jsonpath='{.metadata.name}')
+        echo -n "${NAME}" | tee $(results.cluster-access-secret.path)
+        fi
