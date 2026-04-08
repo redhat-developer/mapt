@@ -82,8 +82,8 @@ spec:
 
     # AKS params
     - name: k8s-version
-      description: AKS K8s cluster version (default "1.30")
-      default: '1.30'
+      description: AKS K8s cluster version (default "1.31")
+      default: '1.31'
     - name: only-system-pool
       description: if we do not need bunch of resources we can run only the systempool. More info https://learn.microsoft.com/es-es/azure/aks/use-system-pools?tabs=azure-cli#system-and-user-node-pools. (default false)
       default: 'false'
@@ -115,7 +115,7 @@ spec:
         The parameter is intended to add verbosity on the task execution and also print masked credentials
         (showing first and last character with *** in the middle) on stdout to help with debugging
       default: 'false'
-    
+
   results:
     - name: cluster-access-secret
       description: |
@@ -184,7 +184,7 @@ spec:
             echo "Parameter ownerName and ownerUid is recommended when creating instance"
           fi
         fi
-        
+
         # Run mapt
         cmd="mapt azure aks $(params.operation) "
         cmd+="--project-name mapt-aks-$(params.id) "
@@ -264,7 +264,7 @@ spec:
         if [[ $(params.debug) == "true" ]]; then
           cat /opt/cluster-info/*
         fi
-        
+
         NAME=$(oc create -f cluster-info.yaml -o=jsonpath='{.metadata.name}')
-        echo -n "${NAME}" | tee $(results.cluster-access-secret.path)   
+        echo -n "${NAME}" | tee $(results.cluster-access-secret.path)
         fi
