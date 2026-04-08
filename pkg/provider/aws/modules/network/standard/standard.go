@@ -119,6 +119,26 @@ func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, e
 	if err != nil {
 		return nil, err
 	}
+	// Create VPC endpoints once for all public subnets
+	if len(publicSNResults) > 0 {
+		subnets := make([]*ec2.Subnet, len(publicSNResults))
+		routeTables := make([]*ec2.RouteTable, len(publicSNResults))
+		for i, snr := range publicSNResults {
+			subnets[i] = snr.Subnet
+			routeTables[i] = snr.RouteTable
+		}
+		err = subnet.EndpointsRequest{
+			VPC:              vpcResult.VPC,
+			Subnets:          subnets,
+			RouteTables:      routeTables,
+			Region:           r.Region,
+			Name:             r.Name,
+			ServiceEndpoints: r.ServiceEndpoints,
+		}.Create(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
 	// Manage Private Subnets
 	privateSNResults, err :=
 		r.managePrivateSubnets(r.MCtx, vpcResult.VPC, getNatGateways(publicSNResults), ctx, "private")
@@ -174,7 +194,6 @@ func (r NetworkRequest) managePublicSubnets(mCtx *mc.Context, vpc *ec2.Vpc,
 					Name:             fmt.Sprintf("%s%s%d", namePrefix, r.Name, i),
 					AddNatGateway:    r.checkIfNatGatewayRequired(i),
 					MapPublicIp:      r.MapPublicIp,
-					ServiceEndpoints:        r.ServiceEndpoints,
 				}
 			subnet, err := publicSNRequest.Create(ctx, mCtx)
 			if err != nil {
