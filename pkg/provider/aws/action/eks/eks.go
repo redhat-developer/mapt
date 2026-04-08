@@ -16,6 +16,7 @@ import (
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
@@ -53,6 +54,7 @@ type eksRequest struct {
 	mCtx                   *mc.Context `validate:"required"`
 	prefix                 *string
 	kubernetesVersion      *string
+	arch                   *string
 	scalingDesiredSize     *int
 	scalingMaxSize         *int
 	scalingMinSize         *int
@@ -82,10 +84,12 @@ func Create(mCtxArgs *mc.ContextArgs, args *EKSArgs) (err error) {
 		return err
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
+	arch := archFromComputeRequest(args.ComputeRequest.Arch)
 	r := eksRequest{
 		mCtx:                   mCtx,
 		prefix:                 &prefix,
 		kubernetesVersion:      &args.KubernetesVersion,
+		arch:                   &arch,
 		scalingDesiredSize:     &args.ScalingDesiredSize,
 		scalingMaxSize:         &args.ScalingMaxSize,
 		scalingMinSize:         &args.ScalingMinSize,
@@ -191,6 +195,10 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 	// Create EKS Cluster
 	eksCluster, err := eks.NewCluster(ctx, "eks-cluster", &eks.ClusterArgs{
 		RoleArn: eksRole.Arn,
+		AccessConfig: &eks.ClusterAccessConfigArgs{
+			AuthenticationMode:                      pulumi.String("API_AND_CONFIG_MAP"),
+			BootstrapClusterCreatorAdminPermissions: pulumi.Bool(true),
+		},
 		VpcConfig: &eks.ClusterVpcConfigArgs{
 			PublicAccessCidrs: pulumi.StringArray{
 				pulumi.String("0.0.0.0/0"),
@@ -199,15 +207,24 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 			SubnetIds:        subnetIds,
 		},
 		Version: pulumi.String(*r.kubernetesVersion),
+		Tags:    r.mCtx.ResourceTags(),
 	}, pulumi.DependsOn([]pulumi.Resource{eksRole}))
 	if err != nil {
 		return err
 	}
 
 	kubeconfig := generateKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthority.Data().Elem(), eksCluster.Name)
-	// Create a Kubernetes provider instance
+
+	// Get cluster auth token using the AWS SDK (avoids dependency on the aws CLI binary)
+	clusterAuth := eks.GetClusterAuthOutput(ctx, eks.GetClusterAuthOutputArgs{
+		Name: eksCluster.Name,
+	})
+	// Generate a token-based kubeconfig for the Pulumi k8s provider
+	providerKubeconfig := generateTokenKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthority.Data().Elem(), clusterAuth.Token())
+
+	// Create a Kubernetes provider instance using token-based auth
 	k8sProvider, err := kubernetes.NewProvider(ctx, "k8sProvider", &kubernetes.ProviderArgs{
-		Kubeconfig: kubeconfig,
+		Kubeconfig: providerKubeconfig,
 	}, pulumi.DependsOn([]pulumi.Resource{eksCluster}))
 	if err != nil {
 		return err
@@ -224,7 +241,8 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		ClientIdLists: pulumi.StringArray{
 			pulumi.String("sts.amazonaws.com"),
 		},
-		Url: oidcIssuerUrl,
+		Url:  oidcIssuerUrl,
+		Tags: r.mCtx.ResourceTags(),
 	}, pulumi.DependsOn([]pulumi.Resource{eksCluster}))
 	if err != nil {
 		return err
@@ -241,38 +259,51 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		return parsedUrl.Host + parsedUrl.Path, nil
 	}).(pulumi.StringOutput)
 
-	err = deployAddons(r, oidcIssuerHostPath, accountId, ctx, eksCluster)
-	if err != nil {
-		return err
-	}
-
-	nodeGroup0, err := eks.NewNodeGroup(ctx, "node-group-0", &eks.NodeGroupArgs{
-		ClusterName:   eksCluster.Name,
-		NodeGroupName: pulumi.String("eks-nodegroup-0"),
-		NodeRoleArn:   nodeGroupRole.Arn,
-		SubnetIds:     subnetIds,
-		InstanceTypes: pulumi.StringArray(util.ArrayConvert(
-			r.allocationData.InstanceTypes,
-			func(s string) pulumi.StringInput {
-				return pulumi.String(s)
-			})),
-		ScalingConfig: &eks.NodeGroupScalingConfigArgs{
-			DesiredSize: pulumi.Int(*r.scalingDesiredSize),
-			MaxSize:     pulumi.Int(*r.scalingMaxSize),
-			MinSize:     pulumi.Int(*r.scalingMinSize),
-		},
-		CapacityType: util.If(r.allocationData != nil && r.allocationData.SpotPrice != nil,
-			pulumi.String("SPOT"),
-			pulumi.String("ON_DEMAND")),
+	// Create access entry for self-managed nodes
+	accessEntry, err := eks.NewAccessEntry(ctx, "node-access", &eks.AccessEntryArgs{
+		ClusterName:  eksCluster.Name,
+		PrincipalArn: nodeGroupRole.Arn,
+		Type:         pulumi.String("EC2_LINUX"),
+		Tags:         r.mCtx.ResourceTags(),
 	}, pulumi.DependsOn([]pulumi.Resource{eksCluster, nodeGroupRole}))
 	if err != nil {
 		return err
 	}
 
-	// Install AWS Load Balancer Controller
+	// Create self-managed node group
+	nodeGroup0, err := createSelfManagedNodeGroup(ctx, &selfManagedNodeGroupArgs{
+		prefix:            *r.prefix,
+		kubernetesVersion: *r.kubernetesVersion,
+		arch:              *r.arch,
+		eksCluster:        eksCluster,
+		nodeGroupRole:     nodeGroupRole,
+		securityGroups:    securityGroups,
+		subnetIds:         subnetIds,
+		instanceTypes:     r.allocationData.InstanceTypes,
+		scalingDesired:    *r.scalingDesiredSize,
+		scalingMax:        *r.scalingMaxSize,
+		scalingMin:        *r.scalingMinSize,
+		spotPrice:         r.allocationData.SpotPrice,
+		accessEntry:       accessEntry,
+		tags:              r.mCtx.ResourceTags(),
+	})
+	if err != nil {
+		return err
+	}
+
+	// Deploy addons after node group so nodes are available for addon pods to schedule
+	corednsAddon, err := deployAddons(r, oidcIssuerHostPath, accountId, ctx, eksCluster, nodeGroup0)
+	if err != nil {
+		return err
+	}
+
+	// Install AWS Load Balancer Controller (depends on coredns for DNS resolution)
 	if *r.loadBalancerController {
-		// IAM Policy Document
-		err := r.installAwsLoadBalancerController(ctx, oidcIssuerHostPath, accountId, k8sProvider, eksCluster, vpc, nodeGroup0)
+		var lbcDeps []pulumi.Resource
+		if corednsAddon != nil {
+			lbcDeps = append(lbcDeps, corednsAddon)
+		}
+		err := r.installAwsLoadBalancerController(ctx, oidcIssuerHostPath, accountId, k8sProvider, eksCluster, vpc, nodeGroup0, lbcDeps)
 		if err != nil {
 			return err
 		}
@@ -337,7 +368,7 @@ func (r *eksRequest) securityGroups(ctx *pulumi.Context,
 	return pulumi.StringArray(sgs[:]), nil
 }
 
-func (*eksRequest) createEksRole(ctx *pulumi.Context) (*iam.Role, error) {
+func (r *eksRequest) createEksRole(ctx *pulumi.Context) (*iam.Role, error) {
 	eksRolePolicyJSON, err := json.Marshal(map[string]interface{}{
 		"Version": "2012-10-17",
 		"Statement": []map[string]interface{}{
@@ -355,6 +386,7 @@ func (*eksRequest) createEksRole(ctx *pulumi.Context) (*iam.Role, error) {
 	}
 	eksRole, err := iam.NewRole(ctx, "eks-iam-eksRole", &iam.RoleArgs{
 		AssumeRolePolicy: pulumi.String(eksRolePolicyJSON),
+		Tags:             r.mCtx.ResourceTags(),
 	})
 	if err != nil {
 		return nil, err
@@ -375,7 +407,7 @@ func (*eksRequest) createEksRole(ctx *pulumi.Context) (*iam.Role, error) {
 	return eksRole, nil
 }
 
-func (*eksRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error) {
+func (r *eksRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error) {
 	nodeGroupAssumeRolePolicyJSON, err := json.Marshal(map[string]interface{}{
 		"Version": "2012-10-17",
 		"Statement": []map[string]interface{}{
@@ -393,6 +425,7 @@ func (*eksRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error) {
 	}
 	nodeGroupRole, err := iam.NewRole(ctx, "nodegroup-iam-role", &iam.RoleArgs{
 		AssumeRolePolicy: pulumi.String(nodeGroupAssumeRolePolicyJSON),
+		Tags:             r.mCtx.ResourceTags(),
 	})
 	if err != nil {
 		return nil, err
@@ -414,12 +447,13 @@ func (*eksRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error) {
 	return nodeGroupRole, nil
 }
 
-func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcIssuerHostPath pulumi.StringOutput, accountId string, k8sProvider *kubernetes.Provider, eksCluster *eks.Cluster, vpc *ec2.Vpc, nodeGroup0 *eks.NodeGroup) error {
+func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcIssuerHostPath pulumi.StringOutput, accountId string, k8sProvider *kubernetes.Provider, eksCluster *eks.Cluster, vpc *ec2.Vpc, nodeGroup0 pulumi.Resource, extraDeps []pulumi.Resource) error {
 	policyDocumentJSON := getAwsLoadBalancerControllerIamPolicy()
 
 	// Create IAM policy
 	albControllerPolicyAttachment, err := iam.NewPolicy(ctx, "loadBalancerControllerPolicy", &iam.PolicyArgs{
 		Policy: pulumi.String(policyDocumentJSON),
+		Tags:   r.mCtx.ResourceTags(),
 	})
 	if err != nil {
 		return err
@@ -456,6 +490,7 @@ func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcI
 	iamRole, err := iam.NewRole(ctx, "loadBalancerControllerRole", &iam.RoleArgs{
 		NamePrefix:       pulumi.String("MaptLBCRole-"),
 		AssumeRolePolicy: assumeRolePolicyJSON,
+		Tags:             r.mCtx.ResourceTags(),
 	})
 	if err != nil {
 		return err
@@ -500,143 +535,235 @@ func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcI
 			"region": pulumi.String(*r.allocationData.Region),
 			"vpcId":  vpc.ID(),
 		},
-	}, pulumi.Provider(k8sProvider), pulumi.DependsOn([]pulumi.Resource{eksCluster, nodeGroup0, iamRole, lbcK8sServiceAccount}))
+	}, pulumi.Provider(k8sProvider), pulumi.DependsOn(append([]pulumi.Resource{eksCluster, nodeGroup0, iamRole, lbcK8sServiceAccount}, extraDeps...)))
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, accountId string, ctx *pulumi.Context, eksCluster *eks.Cluster) error {
+// deployAddons deploys EKS addons in the correct dependency order:
+//   - Phase 1 (infrastructure): vpc-cni, kube-proxy, eks-pod-identity-agent
+//     These are DaemonSet-based addons that provide basic node networking and need only nodes.
+//   - Phase 2 (core services): coredns
+//     Requires vpc-cni to be running so pods can get IP addresses assigned.
+//   - Phase 3 (storage/other): aws-ebs-csi-driver and any remaining addons
+//     Requires coredns for DNS resolution of AWS API endpoints.
+//
+// It returns the coredns addon resource (if deployed) so the LB controller can depend on it.
+func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, accountId string, ctx *pulumi.Context, eksCluster *eks.Cluster, nodeGroup pulumi.Resource) (*eks.Addon, error) {
+	// Classify addons into deployment phases
+	infraAddons := []string{}     // Phase 1: DaemonSet-based networking/identity addons
+	var hasCoredns bool           // Phase 2: coredns
+	remainingAddons := []string{} // Phase 3: everything else (aws-ebs-csi-driver, etc.)
+
 	for _, addon := range r.addons {
+		switch addon {
+		case "vpc-cni", "kube-proxy", "eks-pod-identity-agent":
+			infraAddons = append(infraAddons, addon)
+		case "coredns":
+			hasCoredns = true
+		default:
+			remainingAddons = append(remainingAddons, addon)
+		}
+	}
+
+	// Phase 1: Deploy infrastructure addons (depend only on nodeGroup)
+	infraAddonResources := []pulumi.Resource{}
+	for _, addon := range infraAddons {
+		a, err := eks.NewAddon(ctx, addon, &eks.AddonArgs{
+			ClusterName:              eksCluster.Name,
+			AddonName:                pulumi.String(addon),
+			ResolveConflictsOnCreate: pulumi.String("OVERWRITE"),
+			Tags:                     r.mCtx.ResourceTags(),
+		}, pulumi.DeletedWith(eksCluster),
+			pulumi.DependsOn([]pulumi.Resource{nodeGroup}),
+			pulumi.Timeouts(&pulumi.CustomTimeouts{Create: "30m"}))
+		if err != nil {
+			return nil, err
+		}
+		infraAddonResources = append(infraAddonResources, a)
+	}
+
+	// Phase 2: Deploy coredns (depends on infrastructure addons being ready)
+	var corednsAddon *eks.Addon
+	if hasCoredns {
+		corednsDeps := append([]pulumi.Resource{nodeGroup}, infraAddonResources...)
+		var err error
+		corednsAddon, err = eks.NewAddon(ctx, "coredns", &eks.AddonArgs{
+			ClusterName:              eksCluster.Name,
+			AddonName:                pulumi.String("coredns"),
+			ResolveConflictsOnCreate: pulumi.String("OVERWRITE"),
+			Tags:                     r.mCtx.ResourceTags(),
+		}, pulumi.DeletedWith(eksCluster),
+			pulumi.DependsOn(corednsDeps),
+			pulumi.Timeouts(&pulumi.CustomTimeouts{Create: "30m"}))
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// Phase 3: Deploy remaining addons (depend on coredns for DNS resolution)
+	phase3Deps := append([]pulumi.Resource{nodeGroup}, infraAddonResources...)
+	if corednsAddon != nil {
+		phase3Deps = append(phase3Deps, corednsAddon)
+	}
+	for _, addon := range remainingAddons {
 		if addon == "aws-ebs-csi-driver" {
-			// Create the IAM role for the EBS CSI driver
-			ebsCsiDriverServiceAccountName := pulumi.String("ebs-csi-controller-sa")
-
-			assumeRolePolicyJSON := oidcIssuerHostPath.ApplyT(func(hostPath string) (string, error) {
-				policy, err := json.Marshal(map[string]interface{}{
-					"Version": "2012-10-17",
-					"Statement": []map[string]interface{}{
-						{
-							"Effect": "Allow",
-							"Principal": map[string]interface{}{
-								"Federated": fmt.Sprintf("arn:aws:iam::%s:oidc-provider/%s", accountId, hostPath),
-							},
-							"Action": "sts:AssumeRoleWithWebIdentity",
-							"Condition": map[string]interface{}{
-								"StringEquals": map[string]interface{}{
-									fmt.Sprintf("%s:aud", hostPath): "sts.amazonaws.com",
-									fmt.Sprintf("%s:sub", hostPath): fmt.Sprintf("system:serviceaccount:kube-system:%s", ebsCsiDriverServiceAccountName),
-								},
-							},
-						},
-					},
-				})
-				if err != nil {
-					return "", err
-				}
-				return string(policy), nil
-			}).(pulumi.StringOutput)
-
-			awsEbsCsiDriverRole, err := iam.NewRole(ctx, "AmazonEKS_EBS_CSI_DriverRole", &iam.RoleArgs{
-				NamePrefix:       pulumi.String("MaptEBSCSIDriverRole-"),
-				AssumeRolePolicy: assumeRolePolicyJSON,
-			})
-			if err != nil {
-				return err
+			if err := deployEbsCsiDriver(ctx, r.mCtx, addon, oidcIssuerHostPath, accountId, eksCluster, phase3Deps); err != nil {
+				return nil, err
 			}
-			_, err = iam.NewRolePolicyAttachment(ctx, "AmazonEBSCSIDriverPolicyAttachment", &iam.RolePolicyAttachmentArgs{
-				PolicyArn: pulumi.String("arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"),
-				Role:      awsEbsCsiDriverRole.Name,
-			})
-			if err != nil {
-				return err
-			}
-
-			// Enable addon and set as default storage class
-			configValues, err := json.Marshal(map[string]interface{}{
-				"defaultStorageClass": map[string]interface{}{
-					"enabled": true,
-				},
-			})
-			if err != nil {
-				return err
-			}
-			_, err = eks.NewAddon(ctx, addon, &eks.AddonArgs{
-				ClusterName:           eksCluster.Name,
-				AddonName:             pulumi.String(addon),
-				ServiceAccountRoleArn: awsEbsCsiDriverRole.Arn,
-				ConfigurationValues:   pulumi.String(configValues),
-			}, pulumi.DeletedWith(eksCluster))
-			if err != nil {
-				return err
-			}
-
 		} else {
 			_, err := eks.NewAddon(ctx, addon, &eks.AddonArgs{
-				ClusterName: eksCluster.Name,
-				AddonName:   pulumi.String(addon),
-			}, pulumi.DeletedWith(eksCluster))
+				ClusterName:              eksCluster.Name,
+				AddonName:                pulumi.String(addon),
+				ResolveConflictsOnCreate: pulumi.String("OVERWRITE"),
+				Tags:                     r.mCtx.ResourceTags(),
+			}, pulumi.DeletedWith(eksCluster),
+				pulumi.DependsOn(phase3Deps),
+				pulumi.Timeouts(&pulumi.CustomTimeouts{Create: "30m"}))
 			if err != nil {
-				return err
+				return nil, err
 			}
 		}
 	}
-	return nil
+	return corednsAddon, nil
 }
 
-// Create the KubeConfig Structure as per https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
-func generateKubeconfig(clusterEndpoint pulumi.StringOutput, certData pulumi.StringOutput, clusterName pulumi.StringOutput) pulumi.StringOutput {
-	return pulumi.All(clusterEndpoint, certData, clusterName).ApplyT(func(args []interface{}) (string, error) {
-		endpoint := args[0].(string)
-		cert := args[1].(string)
-		name := args[2].(string)
-		kubeconfigMap := map[string]interface{}{
-			"apiVersion": "v1",
-			"clusters": []map[string]interface{}{
+// deployEbsCsiDriver handles the special-case deployment of the aws-ebs-csi-driver addon
+// which requires an IRSA role for accessing EBS APIs.
+func deployEbsCsiDriver(ctx *pulumi.Context, mCtx *mc.Context, addon string, oidcIssuerHostPath pulumi.StringOutput, accountId string, eksCluster *eks.Cluster, deps []pulumi.Resource) error {
+	ebsCsiDriverServiceAccountName := pulumi.String("ebs-csi-controller-sa")
+
+	assumeRolePolicyJSON := oidcIssuerHostPath.ApplyT(func(hostPath string) (string, error) {
+		policy, err := json.Marshal(map[string]interface{}{
+			"Version": "2012-10-17",
+			"Statement": []map[string]interface{}{
 				{
-					"name": "kubernetes",
-					"cluster": map[string]interface{}{
-						"server":                     endpoint,
-						"certificate-authority-data": cert,
+					"Effect": "Allow",
+					"Principal": map[string]interface{}{
+						"Federated": fmt.Sprintf("arn:aws:iam::%s:oidc-provider/%s", accountId, hostPath),
 					},
-				},
-			},
-			"contexts": []map[string]interface{}{
-				{
-					"name": "aws",
-					"context": map[string]interface{}{
-						"cluster": "kubernetes",
-						"user":    "aws",
-					},
-				},
-			},
-			"current-context": "aws",
-			"kind":            "Config",
-			"users": []map[string]interface{}{
-				{
-					"name": "aws",
-					"user": map[string]interface{}{
-						"exec": map[string]interface{}{
-							"apiVersion": "client.authentication.k8s.io/v1beta1",
-							"command":    "aws",
-							"args": []string{
-								"eks",
-								"get-token",
-								"--cluster-name",
-								name,
-							},
+					"Action": "sts:AssumeRoleWithWebIdentity",
+					"Condition": map[string]interface{}{
+						"StringEquals": map[string]interface{}{
+							fmt.Sprintf("%s:aud", hostPath): "sts.amazonaws.com",
+							fmt.Sprintf("%s:sub", hostPath): fmt.Sprintf("system:serviceaccount:kube-system:%s", ebsCsiDriverServiceAccountName),
 						},
 					},
 				},
 			},
-		}
-		kubeconfigJson, err := json.MarshalIndent(kubeconfigMap, "", "  ")
+		})
 		if err != nil {
-			return "", fmt.Errorf("error generating kubeconfig: %w", err)
+			return "", err
 		}
-		return string(kubeconfigJson), nil
+		return string(policy), nil
 	}).(pulumi.StringOutput)
+
+	awsEbsCsiDriverRole, err := iam.NewRole(ctx, "AmazonEKS_EBS_CSI_DriverRole", &iam.RoleArgs{
+		NamePrefix:       pulumi.String("MaptEBSCSIDriverRole-"),
+		AssumeRolePolicy: assumeRolePolicyJSON,
+		Tags:             mCtx.ResourceTags(),
+	})
+	if err != nil {
+		return err
+	}
+	_, err = iam.NewRolePolicyAttachment(ctx, "AmazonEBSCSIDriverPolicyAttachment", &iam.RolePolicyAttachmentArgs{
+		PolicyArn: pulumi.String("arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"),
+		Role:      awsEbsCsiDriverRole.Name,
+	})
+	if err != nil {
+		return err
+	}
+
+	configValues, err := json.Marshal(map[string]interface{}{
+		"defaultStorageClass": map[string]interface{}{
+			"enabled": true,
+		},
+	})
+	if err != nil {
+		return err
+	}
+	_, err = eks.NewAddon(ctx, addon, &eks.AddonArgs{
+		ClusterName:              eksCluster.Name,
+		AddonName:                pulumi.String(addon),
+		ServiceAccountRoleArn:    awsEbsCsiDriverRole.Arn,
+		ConfigurationValues:      pulumi.String(configValues),
+		ResolveConflictsOnCreate: pulumi.String("OVERWRITE"),
+		Tags:                     mCtx.ResourceTags(),
+	}, pulumi.DeletedWith(eksCluster),
+		pulumi.DependsOn(deps),
+		pulumi.Timeouts(&pulumi.CustomTimeouts{Create: "30m"}))
+	return err
+}
+
+// buildKubeconfig creates a kubeconfig JSON string with the given endpoint, cert, and user auth config.
+func buildKubeconfig(endpoint, cert string, userAuth map[string]interface{}) (string, error) {
+	kubeconfigMap := map[string]interface{}{
+		"apiVersion": "v1",
+		"clusters": []map[string]interface{}{
+			{
+				"name": "kubernetes",
+				"cluster": map[string]interface{}{
+					"server":                     endpoint,
+					"certificate-authority-data": cert,
+				},
+			},
+		},
+		"contexts": []map[string]interface{}{
+			{
+				"name": "aws",
+				"context": map[string]interface{}{
+					"cluster": "kubernetes",
+					"user":    "aws",
+				},
+			},
+		},
+		"current-context": "aws",
+		"kind":            "Config",
+		"users": []map[string]interface{}{
+			{
+				"name": "aws",
+				"user": userAuth,
+			},
+		},
+	}
+	kubeconfigJson, err := json.MarshalIndent(kubeconfigMap, "", "  ")
+	if err != nil {
+		return "", fmt.Errorf("error generating kubeconfig: %w", err)
+	}
+	return string(kubeconfigJson), nil
+}
+
+// generateTokenKubeconfig creates a kubeconfig with an embedded token for use by the Pulumi k8s provider.
+func generateTokenKubeconfig(clusterEndpoint, certData, token pulumi.StringOutput) pulumi.StringOutput {
+	return pulumix.Cast[pulumi.StringOutput](
+		pulumix.Apply3Err(clusterEndpoint, certData, token,
+			func(endpoint, cert, t string) (string, error) {
+				return buildKubeconfig(endpoint, cert, map[string]interface{}{
+					"token": t,
+				})
+			}))
+}
+
+// Create the KubeConfig Structure as per https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
+func generateKubeconfig(clusterEndpoint, certData, clusterName pulumi.StringOutput) pulumi.StringOutput {
+	return pulumix.Cast[pulumi.StringOutput](
+		pulumix.Apply3Err(clusterEndpoint, certData, clusterName,
+			func(endpoint, cert, name string) (string, error) {
+				return buildKubeconfig(endpoint, cert, map[string]interface{}{
+					"exec": map[string]interface{}{
+						"apiVersion": "client.authentication.k8s.io/v1beta1",
+						"command":    "aws",
+						"args": []string{
+							"eks",
+							"get-token",
+							"--cluster-name",
+							name,
+						},
+					},
+				})
+			}))
 }
 
 // Write exported values in context to files o a selected target folder
@@ -901,4 +1028,13 @@ func getAwsLoadBalancerControllerIamPolicy() json.RawMessage {
 			]
 	}`)
 	return policyDocumentJSON
+}
+
+// archFromComputeRequest converts the compute-request Arch enum to
+// the AWS architecture string used in AMI names and filters.
+func archFromComputeRequest(a cr.Arch) string {
+	if a == cr.Arm64 {
+		return "arm64"
+	}
+	return "x86_64"
 }
