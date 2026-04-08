@@ -93,6 +93,18 @@ $AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule([Sys
 $acl.SetAccessRule($AccessRule)
 Set-Acl C:\Users\$user\.ssh\authorized_keys $acl
 Set-Acl -Path "C:\ProgramData\ssh\*key" $acl
+# Adminuser
+$adminKeysPath = "$env:ProgramData\ssh\administrators_authorized_keys"
+New-Item -ItemType Directory -Path (Split-Path $adminKeysPath) -Force | Out-Null
+if (-not (Test-Path $adminKeysPath)) {
+    New-Item -ItemType File -Path $adminKeysPath -Force | Out-Null
+}
+Add-Content -Path $adminKeysPath -Value $authorizedKey
+$acl = Get-Acl $adminKeysPath
+$acl.SetOwner([System.Security.Principal.NTAccount] "$user")
+$acl.SetAccessRuleProtection($True, $False)
+Set-Acl -Path $adminKeysPath -AclObject $acl
+
 # Create bat script to start sshd as a user process on startup
 # New-Item -Path "C:\Users\$Env:USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup" -Name start-openssh.bat -ItemType "file" -Value 'powershell -command "sshd -f C:\ProgramData\ssh\sshd_config"'
 New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp" -Name start-openssh.bat -ItemType "file" -Value 'powershell -command "sshd -f C:\ProgramData\ssh\sshd_config"'
@@ -114,6 +126,13 @@ curl.exe -LO https://github.com/PowerShell/PowerShell/releases/download/v7.4.2/P
 Start-Process C:\Windows\System32\msiexec.exe -ArgumentList '/qb /i PowerShell-7.4.2-win-x64.msi ADD_EXPLORER_CONTEXT_MENU_OPENPOWERSHELL=1 ENABLE_PSREMOTING=1 REGISTER_MANIFEST=1 USE_MU=1 ENABLE_MU=1 ADD_PATH=1' -wait
 # Set powershell as default shell on openssh
 New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Program Files\PowerShell\7\pwsh.exe" -PropertyType String -Force
+# Allow SSH to issue a full admin token
+New-ItemProperty `
+  -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" `
+  -Name "LocalAccountTokenFilterPolicy" `
+  -Value 1 `
+  -PropertyType DWord `
+  -Force
 
 # Remove curl alias
 $profilePath="C:\Users\$user\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
