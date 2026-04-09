@@ -105,10 +105,12 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 	if r.DiskSize != nil {
 		volSize = *r.DiskSize
 	}
+	instanceType := util.RandomItemFromArray(r.InstaceTypes)
+	logging.Debugf("Requesting an on-demand instance of type: %s", instanceType)
 	args := ec2.InstanceArgs{
 		SubnetId:                 r.Subnet.ID(),
 		Ami:                      pulumi.String(r.AMI.Id),
-		InstanceType:             pulumi.String(util.RandomItemFromArray(r.InstaceTypes)),
+		InstanceType:             pulumi.String(instanceType),
 		KeyName:                  r.KeyResources.AWSKeyPair.KeyName,
 		AssociatePublicIpAddress: pulumi.Bool(true),
 		VpcSecurityGroupIds:      r.SecurityGroups,
