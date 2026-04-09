@@ -210,7 +210,7 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		len(args.InstaceTypes) < maxNumberOfTypesForSpot,
 		len(args.InstaceTypes),
 		maxNumberOfTypesForSpot)
-	c, err := selectSpotChoice(
+	c, err := selectSpotChoice(mCtx,
 		&spotChoiceArgs{
 			placementScores: placementScores,
 			spotPricing:     spotPricing,
@@ -251,7 +251,7 @@ type spotChoiceArgs struct {
 // # Also function take cares to transfrom from AzID to AZName
 //
 // first option matching the requirements will be returned
-func selectSpotChoice(args *spotChoiceArgs, numberOfTypesForSpot int) (*SpotInfoResult, error) {
+func selectSpotChoice(mCtx *mc.Context, args *spotChoiceArgs, numberOfTypesForSpot int) (*SpotInfoResult, error) {
 	result := make(map[string]*SpotInfoResult)
 	// This can bexecuted async
 	for r, pss := range args.spotPricing {
@@ -283,15 +283,45 @@ func selectSpotChoice(args *spotChoiceArgs, numberOfTypesForSpot int) (*SpotInfo
 			return s.Price
 		})
 	if len(spis) == 0 {
-		return nil, fmt.Errorf("no good choice was found")
+		if mCtx.Debug() {
+			// Log diagnostic details to help understand why no choice was found
+			pricingRegions := utilMaps.Keys(args.spotPricing)
+			placementRegions := utilMaps.Keys(args.placementScores)
+			logging.Debugf("No spot choice found. Regions with pricing data: %v", pricingRegions)
+			logging.Debugf("No spot choice found. Regions with placement scores: %v", placementRegions)
+			for r, pss := range args.spotPricing {
+				// Count unique instance types with pricing in this region, grouped by AZ
+				azTypes := make(map[string][]string)
+				for _, ps := range pss {
+					azTypes[ps.AvailabilityZone] = append(azTypes[ps.AvailabilityZone], ps.InstanceType)
+				}
+				for az, types := range azTypes {
+					hasPlacement := false
+					if scores, ok := args.placementScores[r]; ok {
+						for _, s := range scores {
+							if s.azName == az {
+								hasPlacement = true
+								break
+							}
+						}
+					}
+					logging.Debugf("  Region %s, AZ %s: %d instance type(s) with pricing %v, has placement score: %t (need %d types per AZ)",
+						r, az, len(types), types, hasPlacement, numberOfTypesForSpot)
+				}
+			}
+		}
+		return nil, fmt.Errorf("no good spot choice was found: need %d instance types in the same AZ with both spot pricing and placement scores above minimum threshold, but no AZ met this requirement",
+			numberOfTypesForSpot)
 	}
-	logging.Debugf("Sorted %d spot options by price", len(spis))
-	for i, spi := range spis {
-		logging.Debugf("  Option %d: Region %s, AZ %s, Price $%.4f, Score %d, Instance types: %v",
-			i+1, spi.Region, spi.AvailabilityZone, spi.Price, spi.Score, spi.InstanceType)
+	if mCtx.Debug() {
+		logging.Debugf("Sorted %d spot options by price", len(spis))
+		for i, spi := range spis {
+			logging.Debugf("  Option %d: Region %s, AZ %s, Price $%.4f, Score %d, Instance types: %v",
+				i+1, spi.Region, spi.AvailabilityZone, spi.Price, spi.Score, spi.InstanceType)
+		}
+		logging.Debugf("Selected cheapest option - Region %s, AZ %s, Price $%.4f, Score %d, Instance types: %v",
+			spis[0].Region, spis[0].AvailabilityZone, spis[0].Price, spis[0].Score, spis[0].InstanceType)
 	}
-	logging.Debugf("Selected cheapest option - Region %s, AZ %s, Price $%.4f, Score %d, Instance types: %v",
-		spis[0].Region, spis[0].AvailabilityZone, spis[0].Price, spis[0].Score, spis[0].InstanceType)
 	return spis[0], nil
 }
 
