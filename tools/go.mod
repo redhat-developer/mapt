@@ -62,7 +62,7 @@ require (
 	// github.com/alexkohler/prealloc v1.1.0 // indirect
 	github.com/alingse/asasalint v0.0.11 // indirect
 	github.com/alingse/nilnesserr v0.2.0 // indirect
-	github.com/ashanbrown/forbidigo/v2 v2.3.0 // indirect
+	github.com/ashanbrown/forbidigo/v2 v2.3.1 // indirect
 	github.com/ashanbrown/makezero/v2 v2.1.0 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -148,8 +148,8 @@ require (
 	github.com/maratori/testpackage v1.1.2 // indirect
 	github.com/matoous/godox v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
-	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-runewidth v0.0.22 // indirect
+	github.com/mattn/go-isatty v0.0.21 // indirect
+	github.com/mattn/go-runewidth v0.0.23 // indirect
 	github.com/mgechev/revive v1.15.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/moricho/tparallel v0.3.2 // indirect
