@@ -102,7 +102,7 @@ func deployServiceMesh(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, 
 			kc := allArgs[1].(string)
 			if err := waitForCRCondition(goCtx, kc, istioCNIGVR,
 				"", "default",
-				"Ready", "True", 20*time.Minute, false); err != nil {
+				"", "Ready", "True", 20*time.Minute, false); err != nil {
 				return "", fmt.Errorf("waiting for IstioCNI: %w", err)
 			}
 			return "ready", nil
@@ -137,7 +137,7 @@ func deployServiceMesh(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, 
 			kc := allArgs[1].(string)
 			if err := waitForCRCondition(goCtx, kc, istioGVR,
 				"", "default",
-				"Ready", "True", 20*time.Minute, false); err != nil {
+				"", "Ready", "True", 20*time.Minute, false); err != nil {
 				return "", fmt.Errorf("waiting for Istio: %w", err)
 			}
 			return "ready", nil

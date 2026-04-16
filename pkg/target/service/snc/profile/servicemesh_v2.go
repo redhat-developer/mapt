@@ -103,7 +103,7 @@ func deployServiceMeshV2(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource
 			kc := allArgs[1].(string)
 			if err := waitForCRCondition(goCtx, kc, smcpGVR,
 				istioSystemNamespace, "data-science-smcp",
-				"Ready", "True", 20*time.Minute, false); err != nil {
+				"", "Ready", "True", 20*time.Minute, false); err != nil {
 				return "", fmt.Errorf("waiting for SMCP: %w", err)
 			}
 			return "ready", nil
