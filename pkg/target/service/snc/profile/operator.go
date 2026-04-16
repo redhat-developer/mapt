@@ -10,6 +10,11 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+const (
+	catalogSourceRedHat    = "redhat-operators"
+	catalogSourceCertified = "certified-operators"
+)
+
 // operatorInstall describes how to install an OLM operator on the cluster.
 type operatorInstall struct {
 	// resourcePrefix is used for Pulumi resource naming (e.g. "main-virt-").
@@ -30,6 +35,9 @@ type operatorInstall struct {
 	packageName string
 	// channel is the subscription channel (defaults to "stable").
 	channel string
+	// catalogSource is the OLM catalog source (e.g. "certified-operators").
+	// Defaults to "redhat-operators" when empty.
+	catalogSource string
 	// csvPrefix is the CSV name prefix used for prefix-matching during wait.
 	csvPrefix string
 	// csvNamespace overrides where to look for the CSV; empty uses namespace.
@@ -46,6 +54,10 @@ func installOperator(ctx *pulumi.Context, args *DeployArgs, oi operatorInstall) 
 	channel := oi.channel
 	if channel == "" {
 		channel = "stable"
+	}
+	catalogSource := oi.catalogSource
+	if catalogSource == "" {
+		catalogSource = catalogSourceRedHat
 	}
 
 	deps := append([]pulumi.Resource{}, args.Deps...)
@@ -102,7 +114,7 @@ func installOperator(ctx *pulumi.Context, args *DeployArgs, oi operatorInstall) 
 			},
 			OtherFields: map[string]interface{}{
 				"spec": map[string]interface{}{
-					"source":              "redhat-operators",
+					"source":              catalogSource,
 					"sourceNamespace":     "openshift-marketplace",
 					"name":               oi.packageName,
 					"channel":            channel,
@@ -125,7 +137,7 @@ func installOperator(ctx *pulumi.Context, args *DeployArgs, oi operatorInstall) 
 			kc := allArgs[1].(string)
 			if err := waitForCRCondition(goCtx, kc, csvGVR,
 				csvNS, oi.csvPrefix,
-				"", "Succeeded", 20*time.Minute, true); err != nil {
+				"phase", "", "Succeeded", 20*time.Minute, true); err != nil {
 				return "", fmt.Errorf("waiting for %s CSV: %w", oi.csvPrefix, err)
 			}
 			return "ready", nil
