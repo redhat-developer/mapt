@@ -7981,6 +7981,33 @@ func awsAwsjson11_serializeDocumentRuntimePlatform(v *types.RuntimePlatform, val
 	return nil
 }
 
+func awsAwsjson11_serializeDocumentS3FilesVolumeConfiguration(v *types.S3FilesVolumeConfiguration, value smithyjson.Value) error {
+	object := value.Object()
+	defer object.Close()
+
+	if v.AccessPointArn != nil {
+		ok := object.Key("accessPointArn")
+		ok.String(*v.AccessPointArn)
+	}
+
+	if v.FileSystemArn != nil {
+		ok := object.Key("fileSystemArn")
+		ok.String(*v.FileSystemArn)
+	}
+
+	if v.RootDirectory != nil {
+		ok := object.Key("rootDirectory")
+		ok.String(*v.RootDirectory)
+	}
+
+	if v.TransitEncryptionPort != nil {
+		ok := object.Key("transitEncryptionPort")
+		ok.Integer(*v.TransitEncryptionPort)
+	}
+
+	return nil
+}
+
 func awsAwsjson11_serializeDocumentScale(v *types.Scale, value smithyjson.Value) error {
 	object := value.Object()
 	defer object.Close()
@@ -8989,6 +9016,13 @@ func awsAwsjson11_serializeDocumentVolume(v *types.Volume, value smithyjson.Valu
 	if v.Name != nil {
 		ok := object.Key("name")
 		ok.String(*v.Name)
+	}
+
+	if v.S3filesVolumeConfiguration != nil {
+		ok := object.Key("s3filesVolumeConfiguration")
+		if err := awsAwsjson11_serializeDocumentS3FilesVolumeConfiguration(v.S3filesVolumeConfiguration, ok); err != nil {
+			return err
+		}
 	}
 
 	return nil

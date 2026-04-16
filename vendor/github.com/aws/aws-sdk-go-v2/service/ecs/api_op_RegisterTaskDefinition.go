@@ -111,6 +111,8 @@ type RegisterTaskDefinitionInput struct {
 	ExecutionRoleArn *string
 
 	// The Elastic Inference accelerators to use for the containers in the task.
+	//
+	// Deprecated: This feature is no longer available.
 	InferenceAccelerators []types.InferenceAccelerator
 
 	// The IPC resource namespace to use for the containers in the task. The valid
