@@ -100,7 +100,7 @@ func deployOpenShiftAI(ctx *pulumi.Context, args *DeployArgs, prereqs []pulumi.S
 			kc := allArgs[1].(string)
 			if err := waitForCRCondition(goCtx, kc, dscGVR,
 				"", "default-dsc",
-				"Ready", "True", 40*time.Minute, false); err != nil {
+				"", "Ready", "True", 40*time.Minute, false); err != nil {
 				return "", fmt.Errorf("waiting for DataScienceCluster: %w", err)
 			}
 			return "ready", nil

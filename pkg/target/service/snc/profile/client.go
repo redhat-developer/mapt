@@ -21,12 +21,15 @@ var csvGVR = schema.GroupVersionResource{
 	Resource: "clusterserviceversions",
 }
 
-// waitForCRCondition polls a custom resource until a nested field matches the expected value.
-// jsonPath is a dot-separated path into the object (e.g. "status.phase" or
-// "status.conditions[?(@.type==\"Available\")].status") but here we use explicit
-// field traversal for the two cases we need:
-//   - CSV:  status.phase == "Succeeded"  (single scalar)
-//   - HCO:  status.conditions where type==Available → status == "True"
+// waitForCRCondition polls a custom resource until a status field matches the expected value.
+//
+// It supports two modes controlled by statusField and condType:
+//
+//   - Scalar field: set statusField to a top-level key under .status (e.g. "phase", "state").
+//     The function checks status[statusField] == expected.
+//   - Conditions array: leave statusField empty and set condType to the condition type
+//     (e.g. "Available"). The function searches .status.conditions for a matching
+//     type and checks its status field.
 //
 // When prefixMatch is true, the name is treated as a prefix and the first
 // resource whose name starts with that prefix is used (useful for CSVs
@@ -34,7 +37,7 @@ var csvGVR = schema.GroupVersionResource{
 //
 // The function blocks until the condition is met or the timeout expires.
 func waitForCRCondition(ctx context.Context, kubeconfig string, gvr schema.GroupVersionResource,
-	namespace, name, condType, expected string, timeout time.Duration, prefixMatch bool) error {
+	namespace, name, statusField, condType, expected string, timeout time.Duration, prefixMatch bool) error {
 
 	cfg, err := clientcmd.RESTConfigFromKubeConfig([]byte(kubeconfig))
 	if err != nil {
@@ -53,13 +56,17 @@ func waitForCRCondition(ctx context.Context, kubeconfig string, gvr schema.Group
 		default:
 		}
 		if time.Now().After(deadline) {
-			return fmt.Errorf("timed out waiting for %s/%s condition %q to be %q", namespace, name, condType, expected)
+			field := condType
+			if statusField != "" {
+				field = statusField
+			}
+			return fmt.Errorf("timed out waiting for %s/%s %q to be %q", namespace, name, field, expected)
 		}
 
 		obj, err := findResource(ctx, dc, gvr, namespace, name, prefixMatch)
 		if err != nil {
 			logging.Debugf("waiting for %s/%s: %v", namespace, name, err)
-		} else if obj != nil && matchesCondition(obj, condType, expected) {
+		} else if obj != nil && matchesCondition(obj, statusField, condType, expected) {
 			return nil
 		}
 		time.Sleep(15 * time.Second)
@@ -94,18 +101,20 @@ func findResource(ctx context.Context, dc dynamic.Interface, gvr schema.GroupVer
 	return nil, fmt.Errorf("no resource with prefix %q found in %s", name, namespace)
 }
 
-// matchesCondition checks whether the unstructured object satisfies the condition.
-// When condType is empty it checks .status.phase directly.
-// Otherwise it searches .status.conditions for a matching type and checks its status field.
-func matchesCondition(obj *unstructured.Unstructured, condType, expected string) bool {
+// matchesCondition checks whether the unstructured object satisfies the expected status.
+//
+// When statusField is non-empty it checks .status[statusField] == expected (scalar check).
+// When statusField is empty it searches .status.conditions for a matching condType
+// and checks its status field.
+func matchesCondition(obj *unstructured.Unstructured, statusField, condType, expected string) bool {
 	status, ok := obj.Object["status"].(map[string]interface{})
 	if !ok {
 		return false
 	}
-	if condType == "" {
-		// Scalar field check (e.g. CSV phase)
-		phase, _ := status["phase"].(string)
-		return phase == expected
+	if statusField != "" {
+		// Scalar field check (e.g. status.phase, status.state)
+		val, _ := status[statusField].(string)
+		return val == expected
 	}
 	// Condition array check (e.g. HCO Available)
 	conditions, ok := status["conditions"].([]interface{})

@@ -129,7 +129,7 @@ func deployKnativeCR(ctx *pulumi.Context, args *DeployArgs, operatorReady pulumi
 			kc := allArgs[1].(string)
 			if err := waitForCRCondition(goCtx, kc, cr.gvr,
 				cr.namespace, cr.crName,
-				"Ready", "True", 20*time.Minute, false); err != nil {
+				"", "Ready", "True", 20*time.Minute, false); err != nil {
 				return "", fmt.Errorf("waiting for %s: %w", cr.kind, err)
 			}
 			return "ready", nil

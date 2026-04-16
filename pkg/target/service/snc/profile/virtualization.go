@@ -67,7 +67,7 @@ func deployVirtualization(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resourc
 			kc := allArgs[1].(string)
 			if err := waitForCRCondition(goCtx, kc, hcoGVR,
 				cnvNamespace, "kubevirt-hyperconverged",
-				"Available", "True", 20*time.Minute, false); err != nil {
+				"", "Available", "True", 20*time.Minute, false); err != nil {
 				return "", fmt.Errorf("waiting for HyperConverged: %w", err)
 			}
 			return "ready", nil
