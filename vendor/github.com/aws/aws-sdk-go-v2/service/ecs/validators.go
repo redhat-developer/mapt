@@ -2624,6 +2624,21 @@ func validateResourceRequirements(v []types.ResourceRequirement) error {
 	}
 }
 
+func validateS3FilesVolumeConfiguration(v *types.S3FilesVolumeConfiguration) error {
+	if v == nil {
+		return nil
+	}
+	invalidParams := smithy.InvalidParamsError{Context: "S3FilesVolumeConfiguration"}
+	if v.FileSystemArn == nil {
+		invalidParams.Add(smithy.NewErrParamRequired("FileSystemArn"))
+	}
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	} else {
+		return nil
+	}
+}
+
 func validateSecret(v *types.Secret) error {
 	if v == nil {
 		return nil
@@ -3114,6 +3129,11 @@ func validateVolume(v *types.Volume) error {
 	if v.EfsVolumeConfiguration != nil {
 		if err := validateEFSVolumeConfiguration(v.EfsVolumeConfiguration); err != nil {
 			invalidParams.AddNested("EfsVolumeConfiguration", err.(smithy.InvalidParamsError))
+		}
+	}
+	if v.S3filesVolumeConfiguration != nil {
+		if err := validateS3FilesVolumeConfiguration(v.S3filesVolumeConfiguration); err != nil {
+			invalidParams.AddNested("S3filesVolumeConfiguration", err.(smithy.InvalidParamsError))
 		}
 	}
 	if v.FsxWindowsFileServerVolumeConfiguration != nil {
