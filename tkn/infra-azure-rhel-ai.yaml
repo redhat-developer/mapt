@@ -222,12 +222,11 @@ spec:
 
           if [[ "$(params.compute-sizes)" != "" ]]; then
             cmd+="--compute-sizes '$(params.compute-sizes)' "
-          else
-            cmd+="--accelerator '$(params.accelerator)' "
           fi
           if [[ "$(params.custom-image)" != "" ]]; then
             cmd+="--custom-image '$(params.custom-image)' "
           else
+            cmd+="--accelerator '$(params.accelerator)' "
             cmd+="--version '$(params.version)' "
           fi
 
