@@ -4,8 +4,8 @@ go 1.25.0
 
 replace (
 	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.0
-	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.2
-	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.2
+	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.6
+	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.3
 )
 
 require github.com/golangci/golangci-lint/v2 v2.11.4
@@ -77,12 +77,12 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charithe/durationcheck v0.0.11 // indirect
 	github.com/charmbracelet/colorprofile v0.4.3 // indirect
-	github.com/charmbracelet/x/ansi v0.11.6 // indirect
+	github.com/charmbracelet/x/ansi v0.11.7 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
 	github.com/ckaznocha/intrange v0.3.1 // indirect
 	github.com/curioswitch/go-reassign v0.3.0 // indirect
 	github.com/daixiang0/gci v0.14.0 // indirect
-	github.com/dave/dst v0.27.3 // indirect
+	github.com/dave/dst v0.27.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
 	github.com/dlclark/regexp2 v1.11.5 // indirect

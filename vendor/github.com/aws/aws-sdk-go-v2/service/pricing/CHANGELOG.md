@@ -1,3 +1,8 @@
+# v1.41.1 (2026-04-17)
+
+* **Dependency Update**: Bump smithy-go to 1.25.0 to support endpointBdd trait
+* **Dependency Update**: Updated to the latest SDK module versions
+
 # v1.41.0 (2026-04-02)
 
 * **Feature**: This release increases the MaxResults parameter of the GetAttributeValues API from 100 to 10000.

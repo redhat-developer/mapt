@@ -160,7 +160,7 @@ github.com/charmbracelet/colorprofile
 # github.com/charmbracelet/lipgloss v1.1.0
 ## explicit; go 1.18
 github.com/charmbracelet/lipgloss
-# github.com/charmbracelet/x/ansi v0.11.6
+# github.com/charmbracelet/x/ansi v0.11.7
 ## explicit; go 1.24.2
 github.com/charmbracelet/x/ansi
 github.com/charmbracelet/x/ansi/parser
@@ -194,7 +194,7 @@ github.com/daixiang0/gci/pkg/parse
 github.com/daixiang0/gci/pkg/section
 github.com/daixiang0/gci/pkg/specificity
 github.com/daixiang0/gci/pkg/utils
-# github.com/dave/dst v0.27.3
+# github.com/dave/dst v0.27.4
 ## explicit; go 1.18
 github.com/dave/dst
 github.com/dave/dst/decorator
@@ -1316,5 +1316,5 @@ mvdan.cc/gofumpt/internal/version
 ## explicit; go 1.24.0
 mvdan.cc/unparam/check
 # github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.0
-# github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.2
-# github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.2
+# github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.6
+# github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.3
