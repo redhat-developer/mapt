@@ -16,15 +16,18 @@ const (
 	ProfileServerless         = "serverless"
 	ProfileServiceMesh        = "servicemesh"
 	ProfileOpenShiftAI        = "ai"
+	ProfileNvidia             = "nvidia"
 )
 
 // profileEffect describes what a profile requires when deployed.
 type profileEffect struct {
-	nestedVirt bool
-	serving    bool
-	eventing   bool
-	minCPUs    int32
-	deployFn   func(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, error)
+	nestedVirt      bool
+	serving         bool
+	eventing        bool
+	minCPUs         int32
+	maxCPUs         int32
+	gpuManufacturer string
+	deployFn        func(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, error)
 }
 
 // profileRegistry is the single source of truth for supported profiles
@@ -36,6 +39,7 @@ var profileRegistry = map[string]profileEffect{
 	ProfileServerless:         {serving: true, eventing: true},
 	ProfileServiceMesh:        {deployFn: deployServiceMesh},
 	ProfileOpenShiftAI:        {serving: true, minCPUs: 16},
+	ProfileNvidia:             {gpuManufacturer: "NVIDIA", minCPUs: 8, maxCPUs: 32, deployFn: deployNvidia},
 }
 
 // incompatibleProfiles lists pairs of profiles that cannot be combined.
@@ -150,6 +154,30 @@ func MinCPUs(profiles []string) int32 {
 		}
 	}
 	return max
+}
+
+// MaxCPUs returns the maximum number of CPUs allowed by the
+// given set of profiles. If no profile sets a cap it returns 0
+// (meaning "no upper limit").
+func MaxCPUs(profiles []string) int32 {
+	var max int32
+	for _, p := range profiles {
+		if effect, ok := profileRegistry[p]; ok && effect.maxCPUs > max {
+			max = effect.maxCPUs
+		}
+	}
+	return max
+}
+
+// GPUManufacturer returns the GPU manufacturer required by the given set
+// of profiles. If no profile needs a GPU it returns an empty string.
+func GPUManufacturer(profiles []string) string {
+	for _, p := range profiles {
+		if effect, ok := profileRegistry[p]; ok && effect.gpuManufacturer != "" {
+			return effect.gpuManufacturer
+		}
+	}
+	return ""
 }
 
 // k8sOpts returns the common Pulumi resource options for K8s resources:

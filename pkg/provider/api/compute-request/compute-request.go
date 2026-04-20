@@ -19,7 +19,8 @@ type Int32RangeFilter struct {
 }
 
 type ComputeRequestArgs struct {
-	CPUs int32
+	CPUs    int32
+	MaxCPUs int32
 	// CPUsRange       *Int32RangeFilter
 	GPUs            int32
 	GPUManufacturer string

@@ -60,6 +60,16 @@ func filters(args *computerequest.ComputeRequestArgs) (f selector.Filters) {
 	if len(args.GPUManufacturer) > 0 {
 		f.GPUManufacturer = &args.GPUManufacturer
 		f.CPUArchitecture = arch(args.Arch)
+		if args.CPUs > 0 {
+			upperBound := args.MaxCPUs
+			if upperBound == 0 {
+				upperBound = args.CPUs
+			}
+			f.VCpusRange = &selector.Int32RangeFilter{
+				LowerBound: args.CPUs,
+				UpperBound: upperBound,
+			}
+		}
 	} else {
 		f.VCpusRange = &selector.Int32RangeFilter{
 			LowerBound: args.CPUs,
