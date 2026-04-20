@@ -137,9 +137,18 @@ oci-load:
 
 # Push the docker image
 .PHONY: oci-push
-oci-push:
-	${CONTAINER_MANAGER} push $(IMG)-arm64
+oci-push: oci-push-amd64 oci-push-arm64 oci-push-manifest
+
+.PHONY: oci-push-amd64
+oci-push-amd64:
 	${CONTAINER_MANAGER} push $(IMG)-amd64
+
+.PHONY: oci-push-arm64
+oci-push-arm64:
+	${CONTAINER_MANAGER} push $(IMG)-arm64
+
+.PHONY: oci-push-manifest
+oci-push-manifest:
 	${CONTAINER_MANAGER} manifest create $(IMG)
 	${CONTAINER_MANAGER} manifest add $(IMG) docker://$(IMG)-arm64
 	${CONTAINER_MANAGER} manifest add $(IMG) docker://$(IMG)-amd64
