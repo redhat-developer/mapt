@@ -7,6 +7,7 @@ import (
 	"github.com/aws/amazon-ec2-instance-selector/v3/pkg/selector"
 	ec2types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	computerequest "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	"golang.org/x/exp/slices"
 )
 
 type ComputeSelector struct{}
@@ -32,14 +33,22 @@ func getInstanceTypes(ctx context.Context, args *computerequest.ComputeRequestAr
 	if err != nil {
 		return nil, err
 	}
+	f := filters(args)
 	//nolint:staticcheck // following method is deprecated but no replacement yet
-	instanceTypesSlice, err := instanceSelector.Filter(
-		ctx,
-		filters(args))
+	details, err := instanceSelector.FilterVerbose(ctx, f)
 	if err != nil {
 		return nil, err
 	}
-	return instanceTypesSlice, nil
+	// The ec2-instance-selector library does not always honor CPUArchitecture
+	// when GPUManufacturer is set, so we post-filter by arch.
+	wantArch := *arch(args.Arch)
+	var result []string
+	for _, d := range details {
+		if slices.Contains(d.ProcessorInfo.SupportedArchitectures, wantArch) {
+			result = append(result, string(d.InstanceType))
+		}
+	}
+	return result, nil
 }
 
 func filters(args *computerequest.ComputeRequestArgs) (f selector.Filters) {
@@ -50,10 +59,7 @@ func filters(args *computerequest.ComputeRequestArgs) (f selector.Filters) {
 	}
 	if len(args.GPUManufacturer) > 0 {
 		f.GPUManufacturer = &args.GPUManufacturer
-		// filters.GpuMemoryRange = &selector.ByteQuantityRangeFilter{
-		// 	LowerBound: mbq,
-		// 	UpperBound: mbq,
-		// }
+		f.CPUArchitecture = arch(args.Arch)
 	} else {
 		f.VCpusRange = &selector.Int32RangeFilter{
 			LowerBound: args.CPUs,
@@ -79,3 +85,4 @@ func arch(ca computerequest.Arch) *ec2types.ArchitectureType {
 	}
 	return &arch
 }
+
