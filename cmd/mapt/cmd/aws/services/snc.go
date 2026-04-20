@@ -26,7 +26,7 @@ const (
 	disableClusterReadinessDesc = "If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated"
 
 	sncProfile     = "profile"
-	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai. The ai profile automatically includes servicemesh and serverless-serving as prerequisites and raises the minimum instance size to 16 vCPUs"
+	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai, nvidia. The ai profile automatically includes servicemesh and serverless-serving as prerequisites and raises the minimum instance size to 16 vCPUs. The nvidia profile installs NFD and the NVIDIA GPU Operator"
 )
 
 func GetOpenshiftSNCCmd() *cobra.Command {
@@ -66,6 +66,12 @@ func createSNC() *cobra.Command {
 			}
 			if minCPUs := profile.MinCPUs(profiles); minCPUs > computeReq.CPUs {
 				computeReq.CPUs = minCPUs
+			}
+			if maxCPUs := profile.MaxCPUs(profiles); maxCPUs > computeReq.MaxCPUs {
+				computeReq.MaxCPUs = maxCPUs
+			}
+			if gm := profile.GPUManufacturer(profiles); gm != "" && computeReq.GPUManufacturer == "" {
+				computeReq.GPUManufacturer = gm
 			}
 			if _, err := openshiftsnc.Create(
 				&maptContext.ContextArgs{
