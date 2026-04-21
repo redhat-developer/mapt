@@ -1,12 +1,12 @@
 
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:77bfb0f283eaa3215909342c3dda940605eff5b9f72d6dc18fad1d154d172d55 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:1e1c89558f8bf86db3d88e5d5de0b6bd396ef948749a2c5d6a752ea46f35d4db as builder
 ARG TARGETARCH
 USER root
 WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.230.0
+ENV PULUMI_VERSION 3.231.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -19,7 +19,7 @@ RUN unset VERSION \
     && tar -xzvf pulumicli.tar.gz 
 
 # ubi 9.5-1732804088
-FROM registry.access.redhat.com/ubi9/ubi@sha256:8805abe5b8a32c826d46926c069f20e6a7f854d59d5bd75c55e68278aea65ccc
+FROM registry.access.redhat.com/ubi9/ubi@sha256:cf13fe2aba608ea76abcac5acb3fa4d88821416e7eb45e0623a62c948853ab84
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
 
@@ -32,7 +32,7 @@ ENV AWS_SDK_LOAD_CONFIG=1 \
 
 # Pulumi plugins
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v7.25.0
+ARG PULUMI_AWS_VERSION=v7.26.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
 ARG PULUMI_AWSX_VERSION=v3.5.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
@@ -44,7 +44,7 @@ ARG PULUMI_TLS_VERSION=v5.3.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.19.2
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.61.0
+ARG PULUMI_AWS_NATIVE_VERSION=v1.62.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
 ARG PULUMI_GITLAB_VERSION=v9.10.0
 
