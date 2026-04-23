@@ -40,6 +40,7 @@ type VirtualMachineArgs struct {
 	// Only required if we need to set userdata
 	UserDataAsBase64 pulumi.StringPtrInput
 	Location         string
+	DiskSize         *int
 }
 
 type VirtualMachine = *compute.VirtualMachine
@@ -50,6 +51,10 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 	ira, err := convertImageRef(mCtx, *args.Image, args.Location)
 	if err != nil {
 		return nil, err
+	}
+	effectiveDiskSize := diskSize
+	if args.DiskSize != nil {
+		effectiveDiskSize = *args.DiskSize
 	}
 	vmArgs := &compute.VirtualMachineArgs{
 		VmName:            pulumi.String(mCtx.RunID()),
@@ -70,7 +75,7 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 			ImageReference: ira,
 			OsDisk: compute.OSDiskArgs{
 				Name:         pulumi.String(mCtx.RunID()),
-				DiskSizeGB:   pulumi.Int(diskSize),
+				DiskSizeGB:   pulumi.Int(effectiveDiskSize),
 				CreateOption: pulumi.String("FromImage"),
 				Caching:      compute.CachingTypesReadWrite,
 				ManagedDisk: compute.ManagedDiskParametersArgs{
