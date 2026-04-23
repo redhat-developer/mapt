@@ -69,6 +69,7 @@ type windowsServerRequest struct {
 	serviceEndpoints []string
 	allocationData *allocation.AllocationResult
 	airgap         *bool
+	diskSize       *int
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -105,16 +106,20 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := windowsServerRequest{
-		mCtx:        mCtx,
-		prefix:      &prefix,
-		amiName:     &args.AMIName,
-		amiUser:     &args.AMIUser,
-		amiOwner:    &args.AMIOwner,
-		amiKeepCopy: &args.AMIKeepCopy,
-		amiLang:     &args.AMILang,
-		timeout:     &args.Timeout,
-		serviceEndpoints:   args.ServiceEndpoints,
-		airgap:      &args.Airgap}
+		mCtx:             mCtx,
+		prefix:           &prefix,
+		amiName:          &args.AMIName,
+		amiUser:          &args.AMIUser,
+		amiOwner:         &args.AMIOwner,
+		amiKeepCopy:      &args.AMIKeepCopy,
+		amiLang:          &args.AMILang,
+		timeout:          &args.Timeout,
+		serviceEndpoints: args.ServiceEndpoints,
+		airgap:           &args.Airgap,
+	}
+	if args.ComputeRequest != nil {
+		r.diskSize = args.ComputeRequest.DiskSize
+	}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -288,6 +293,10 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 
+	effectiveDiskSize := diskSize
+	if r.diskSize != nil {
+		effectiveDiskSize = *r.diskSize
+	}
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
@@ -299,7 +308,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     requiredInstanceTypes,
-		DiskSize:         &diskSize,
+		DiskSize:         &effectiveDiskSize,
 		Airgap:           *r.airgap,
 		LB:               nw.LoadBalancer,
 		Eip:              nw.Eip,
