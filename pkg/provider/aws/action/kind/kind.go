@@ -37,6 +37,7 @@ type kindRequest struct {
 	serviceEndpoints  []string
 	allocationData    *allocation.AllocationResult
 	extraPortMappings []utilKind.PortMapping
+	diskSize          *int
 }
 
 func (r *kindRequest) validate() error {
@@ -65,7 +66,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (kr *utilKind.Kin
 		arch:              &args.Arch,
 		timeout:           &args.Timeout,
 		serviceEndpoints:  args.ServiceEndpoints,
-		extraPortMappings: args.ExtraPortMappings}
+		extraPortMappings: args.ExtraPortMappings,
+		diskSize:          args.ComputeRequest.DiskSize}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -188,6 +190,10 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	lbTargetGroups := []int{22, utilKind.PortAPI, utilKind.PortHTTP, utilKind.PortHTTPS}
 	lbTargetGroups = append(lbTargetGroups, extraHostPorts...)
 
+	effectiveDiskSize := diskSize
+	if r.diskSize != nil {
+		effectiveDiskSize = *r.diskSize
+	}
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
@@ -199,7 +205,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		UserDataAsBase64: udB64,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     r.allocationData.InstanceTypes,
-		DiskSize:         &diskSize,
+		DiskSize:         &effectiveDiskSize,
 		LB:               nw.LoadBalancer,
 		Eip:              nw.Eip,
 		LBTargetGroups:   lbTargetGroups,
