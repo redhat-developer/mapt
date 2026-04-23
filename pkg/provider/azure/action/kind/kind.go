@@ -32,6 +32,7 @@ type kindRequest struct {
 	spot              bool
 	allocationData    *allocation.AllocationResult
 	extraPortMappings []utilKind.PortMapping
+	diskSize          *int
 }
 
 func (r *kindRequest) validate() error {
@@ -56,6 +57,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (*utilKind.KindRe
 		version:           &args.Version,
 		arch:              &args.Arch,
 		extraPortMappings: args.ExtraPortMappings,
+		diskSize:          args.ComputeRequest.DiskSize,
 	}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
@@ -177,6 +179,7 @@ func (r *kindRequest) deployer(ctx *pulumi.Context) error {
 			UserDataAsBase64: udB64,
 			Location:         *r.allocationData.Location,
 			AdminUsername:    amiUserDefault,
+			DiskSize:         r.diskSize,
 		})
 	if err != nil {
 		return err
