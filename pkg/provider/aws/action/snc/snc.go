@@ -46,6 +46,7 @@ type openshiftSNCRequest struct {
 	serviceEndpoints        []string
 	allocationData          *allocation.AllocationResult
 	profiles                []string
+	diskSize                *int
 }
 
 func (r *openshiftSNCRequest) validate() error {
@@ -81,7 +82,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 		pullSecretFile:          &args.PullSecretFile,
 		timeout:                 &args.Timeout,
 		serviceEndpoints:        args.ServiceEndpoints,
-		profiles:                args.Profiles}
+		profiles:                args.Profiles,
+		diskSize:                args.ComputeRequest.DiskSize}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -218,6 +220,10 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputDeveloperPass),
 		devPass)
 	// Create instance
+	effectiveDiskSize := diskSize
+	if r.diskSize != nil {
+		effectiveDiskSize = *r.diskSize
+	}
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
@@ -228,7 +234,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		KeyResources:     keyResources,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     r.allocationData.InstanceTypes,
-		DiskSize:         &diskSize,
+		DiskSize:         &effectiveDiskSize,
 		LB:               nw.LoadBalancer,
 		Eip:              nw.Eip,
 		LBTargetGroups:   []int{securityGroup.SSH_PORT, apiSNC.PortHTTPS, apiSNC.PortAPI},
