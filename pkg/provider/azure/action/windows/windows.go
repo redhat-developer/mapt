@@ -62,6 +62,7 @@ type windowsRequest struct {
 	username       *string
 	adminUsername  *string
 	profiles       []string
+	diskSize       *int
 }
 
 func (r *windowsRequest) validate() error {
@@ -94,6 +95,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsArgs) (err error) {
 		username:      &args.Username,
 		adminUsername: &args.AdminUsername,
 		profiles:      args.Profiles,
+		diskSize:      args.ComputeRequest.DiskSize,
 	}
 	r.allocationData, err = allocation.Allocation(mCtx,
 		&allocation.AllocationArgs{
@@ -195,6 +197,7 @@ func (r *windowsRequest) deployer(ctx *pulumi.Context) error {
 			AdminPasswd:   adminPasswd,
 			SpotPrice:     r.allocationData.Price,
 			Location:      *r.allocationData.Location,
+			DiskSize:      r.diskSize,
 		})
 	if err != nil {
 		return err

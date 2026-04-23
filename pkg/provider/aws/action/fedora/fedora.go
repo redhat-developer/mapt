@@ -54,6 +54,7 @@ type fedoraRequest struct {
 	serviceEndpoints []string
 	allocationData *allocation.AllocationResult
 	airgap         *bool
+	diskSize       *int
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -82,13 +83,14 @@ func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) (err error) {
 	// Compose request
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := fedoraRequest{
-		mCtx:      mCtx,
-		prefix:    &prefix,
-		version:   &args.Version,
-		arch:      &args.Arch,
-		timeout:   &args.Timeout,
+		mCtx:             mCtx,
+		prefix:           &prefix,
+		version:          &args.Version,
+		arch:             &args.Arch,
+		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
-		airgap:    &args.Airgap}
+		airgap:           &args.Airgap,
+		diskSize:         args.ComputeRequest.DiskSize}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -226,6 +228,10 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 
+	effectiveDiskSize := diskSize
+	if r.diskSize != nil {
+		effectiveDiskSize = *r.diskSize
+	}
 	cr := compute.ComputeRequest{
 		MCtx:             r.mCtx,
 		Prefix:           *r.prefix,
@@ -237,7 +243,7 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		UserDataAsBase64: userDataB64,
 		SecurityGroups:   securityGroups,
 		InstaceTypes:     r.allocationData.InstanceTypes,
-		DiskSize:         &diskSize,
+		DiskSize:         &effectiveDiskSize,
 		Airgap:           *r.airgap,
 		LB:               nw.LoadBalancer,
 		Eip:              nw.Eip,

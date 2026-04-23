@@ -64,6 +64,7 @@ type linuxRequest struct {
 	username              *string
 	cloudConfigAsUserData userDataApi.CloudConfig
 	readinessCommand      *string
+	diskSize              *int
 }
 
 func (r *linuxRequest) validate() error {
@@ -91,6 +92,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *LinuxArgs) (err error) {
 		username:              &args.Username,
 		cloudConfigAsUserData: args.CloudConfigAsUserData,
 		readinessCommand:      &args.ReadinessCommand,
+		diskSize:              args.ComputeRequest.DiskSize,
 	}
 	ir := args.ImageRef
 	if ir == nil {
@@ -191,6 +193,7 @@ func (r *linuxRequest) deployer(ctx *pulumi.Context) error {
 		PrivateKey:    privateKey,
 		SpotPrice:     r.allocationData.Price,
 		Location:      *r.allocationData.Location,
+		DiskSize:      r.diskSize,
 	}
 	if r.cloudConfigAsUserData != nil {
 		userDataB64, err := r.cloudConfigAsUserData.CloudConfig()
