@@ -46,6 +46,25 @@ $parameters = @{
 }
 Invoke-Command -asjob @parameters
 
+# Extend the Windows partition to max size (with error handling)
+try {
+    $drive_letter = "C"
+    $partition = Get-Partition -DriveLetter $drive_letter
+    $size = Get-PartitionSupportedSize -DriveLetter $drive_letter
+
+    # Only resize if there's actually space to expand
+    if ($size.SizeMax -gt $partition.Size) {
+        Write-Host "Expanding partition from $($partition.Size) to $($size.SizeMax)"
+        Resize-Partition -DriveLetter $drive_letter -Size $size.SizeMax
+        Write-Host "Partition expanded successfully"
+    } else {
+        Write-Host "Partition is already at maximum size"
+    }
+} catch {
+    Write-Warning "Failed to expand partition: $_"
+    # Don't fail the entire script if resize fails
+}
+
 # Set autologon to user to allow start sshd for the user
 # Check requirements for domain user
 # https://docs.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/turn-on-automatic-logon
