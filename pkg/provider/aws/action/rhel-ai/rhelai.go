@@ -31,14 +31,15 @@ import (
 )
 
 type rhelAIRequest struct {
-	mCtx           *mc.Context
-	prefix         *string
-	amiName        *string
-	arch           *string
-	spot           bool
-	timeout        *string
+	mCtx             *mc.Context
+	prefix           *string
+	amiName          *string
+	arch             *string
+	spot             bool
+	timeout          *string
 	serviceEndpoints []string
-	allocationData *allocation.AllocationResult
+	allocationData   *allocation.AllocationResult
+	diskSize         *int
 }
 
 func (r *rhelAIRequest) validate() error {
@@ -66,12 +67,13 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelAIRequest{
-		mCtx:      mCtx,
-		prefix:    &prefix,
-		amiName:   &amiName,
-		arch:      &args.Arch,
-		timeout:   &args.Timeout,
-		serviceEndpoints: args.ServiceEndpoints}
+		mCtx:             mCtx,
+		prefix:           &prefix,
+		amiName:          &amiName,
+		arch:             &args.Arch,
+		timeout:          &args.Timeout,
+		serviceEndpoints: args.ServiceEndpoints,
+		diskSize:         args.ComputeRequest.DiskSize}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -180,6 +182,10 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	effectiveDiskSize := diskSize
+	if r.diskSize != nil {
+		effectiveDiskSize = *r.diskSize
+	}
 	cr := compute.ComputeRequest{
 		MCtx:           r.mCtx,
 		Prefix:         *r.prefix,
@@ -190,7 +196,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		KeyResources:   keyResources,
 		SecurityGroups: securityGroups,
 		InstaceTypes:   r.allocationData.InstanceTypes,
-		DiskSize:       &diskSize,
+		DiskSize:       &effectiveDiskSize,
 		LB:             nw.LoadBalancer,
 		Eip:            nw.Eip,
 		LBTargetGroups: []int{22}}

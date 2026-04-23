@@ -76,6 +76,7 @@ func getWindowsCreate() *cobra.Command {
 					AMIOwner:         viper.GetString(amiOwner),
 					AMILang:          viper.GetString(amiLang),
 					AMIKeepCopy:      viper.IsSet(amiKeepCopy),
+					ComputeRequest:   params.ComputeRequestArgs(),
 					Spot:             params.SpotArgs(),
 					Airgap:           viper.IsSet(airgap),
 					Timeout:          viper.GetString(params.Timeout),
@@ -93,6 +94,7 @@ func getWindowsCreate() *cobra.Command {
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.Bool(amiKeepCopy, false, amiKeepCopyDesc)
+	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
