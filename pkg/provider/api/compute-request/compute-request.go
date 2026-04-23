@@ -31,6 +31,8 @@ type ComputeRequestArgs struct {
 	// In case we want an specific type / size
 	// we can set them directly
 	ComputeSizes []string
+	// Disk size in GB, nil means use provider default
+	DiskSize *int
 }
 
 type ComputeSelector interface {
