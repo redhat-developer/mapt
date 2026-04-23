@@ -65,6 +65,9 @@ const (
 	nestedVirtDesc      string = "Use cloud instance that has nested virtualization support"
 	computeSizes        string = "compute-sizes"
 	computeSizesDesc    string = "Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args"
+	diskSize            string = "disk-size"
+	diskSizeDesc        string = "Disk size in GB for the cloud instance"
+	diskSizeDefault     int    = 200
 
 	CreateCmdName  string = "create"
 	DestroyCmdName string = "destroy"
@@ -183,10 +186,11 @@ func AddComputeRequestFlags(fs *pflag.FlagSet) {
 	fs.Int32P(memory, "", 64, memoryDesc)
 	fs.BoolP(nestedVirt, "", false, nestedVirtDesc)
 	fs.StringSliceP(computeSizes, "", []string{}, computeSizesDesc)
+	fs.IntP(diskSize, "", diskSizeDefault, diskSizeDesc)
 }
 
 func ComputeRequestArgs() *cr.ComputeRequestArgs {
-	return &cr.ComputeRequestArgs{
+	cra := &cr.ComputeRequestArgs{
 		CPUs:            viper.GetInt32(cpus),
 		GPUs:            viper.GetInt32(gpus),
 		GPUManufacturer: viper.GetString(gpuManufacturer),
@@ -196,6 +200,11 @@ func ComputeRequestArgs() *cr.ComputeRequestArgs {
 		NestedVirt:   viper.GetBool(ProfileSNC) || viper.GetBool(nestedVirt),
 		ComputeSizes: viper.GetStringSlice(computeSizes),
 	}
+	if viper.IsSet(diskSize) {
+		ds := viper.GetInt(diskSize)
+		cra.DiskSize = &ds
+	}
+	return cra
 }
 
 func AddCommonFlags(fs *pflag.FlagSet) {
