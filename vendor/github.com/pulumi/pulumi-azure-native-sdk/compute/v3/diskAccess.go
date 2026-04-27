@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -33,7 +34,7 @@ type DiskAccess struct {
 	// The disk access resource provisioning state.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The time when the disk access was created.
@@ -224,8 +225,8 @@ func (o DiskAccessOutput) ProvisioningState() pulumi.StringOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o DiskAccessOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *DiskAccess) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o DiskAccessOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *DiskAccess) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

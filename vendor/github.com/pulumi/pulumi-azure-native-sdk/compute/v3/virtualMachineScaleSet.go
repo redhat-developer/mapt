@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -71,7 +72,7 @@ type VirtualMachineScaleSet struct {
 	// Specifies the Spot Restore properties for the virtual machine scale set.
 	SpotRestorePolicy SpotRestorePolicyResponsePtrOutput `pulumi:"spotRestorePolicy"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Specifies the time at which the Virtual Machine Scale Set resource was created. Minimum api-version: 2021-11-01.
@@ -508,8 +509,8 @@ func (o VirtualMachineScaleSetOutput) SpotRestorePolicy() SpotRestorePolicyRespo
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o VirtualMachineScaleSetOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *VirtualMachineScaleSet) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o VirtualMachineScaleSetOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *VirtualMachineScaleSet) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

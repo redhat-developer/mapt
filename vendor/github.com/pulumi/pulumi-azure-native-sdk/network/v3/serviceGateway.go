@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv6"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -37,7 +38,7 @@ type ServiceGateway struct {
 	// The service gateway SKU.
 	Sku ServiceGatewaySkuResponsePtrOutput `pulumi:"sku"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv6.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -241,8 +242,8 @@ func (o ServiceGatewayOutput) Sku() ServiceGatewaySkuResponsePtrOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o ServiceGatewayOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *ServiceGateway) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o ServiceGatewayOutput) SystemData() commontypesv6.SystemDataResponseOutput {
+	return o.ApplyT(func(v *ServiceGateway) commontypesv6.SystemDataResponseOutput { return v.SystemData }).(commontypesv6.SystemDataResponseOutput)
 }
 
 // Resource tags.

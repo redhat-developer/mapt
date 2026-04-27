@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -56,7 +57,7 @@ type LookupUpdateRunResult struct {
 	// The strategy of the UpdateRun can be modified until the run is started.
 	Strategy *UpdateRunStrategyResponse `pulumi:"strategy"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// The resource id of the FleetUpdateStrategy resource to reference.
@@ -154,8 +155,8 @@ func (o LookupUpdateRunResultOutput) Strategy() UpdateRunStrategyResponsePtrOutp
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupUpdateRunResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupUpdateRunResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupUpdateRunResultOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupUpdateRunResult) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

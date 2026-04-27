@@ -7,6 +7,8 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv4"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -44,7 +46,7 @@ type LookupFleetResult struct {
 	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// Managed identity.
-	Identity *ManagedServiceIdentityResponse `pulumi:"identity"`
+	Identity *commontypesv4.ManagedServiceIdentityResponse `pulumi:"identity"`
 	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
 	// The name of the resource
@@ -52,7 +54,7 @@ type LookupFleetResult struct {
 	// The status of the last operation.
 	ProvisioningState string `pulumi:"provisioningState"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -115,8 +117,8 @@ func (o LookupFleetResultOutput) Id() pulumi.StringOutput {
 }
 
 // Managed identity.
-func (o LookupFleetResultOutput) Identity() ManagedServiceIdentityResponsePtrOutput {
-	return o.ApplyT(func(v LookupFleetResult) *ManagedServiceIdentityResponse { return v.Identity }).(ManagedServiceIdentityResponsePtrOutput)
+func (o LookupFleetResultOutput) Identity() commontypesv4.ManagedServiceIdentityResponsePtrOutput {
+	return o.ApplyT(func(v LookupFleetResult) *commontypesv4.ManagedServiceIdentityResponse { return v.Identity }).(commontypesv4.ManagedServiceIdentityResponsePtrOutput)
 }
 
 // The geo-location where the resource lives
@@ -135,8 +137,8 @@ func (o LookupFleetResultOutput) ProvisioningState() pulumi.StringOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupFleetResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupFleetResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupFleetResultOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupFleetResult) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

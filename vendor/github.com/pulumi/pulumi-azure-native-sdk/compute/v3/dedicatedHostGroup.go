@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -37,7 +38,7 @@ type DedicatedHostGroup struct {
 	// Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. Minimum api-version: 2020-06-01.
 	SupportAutomaticPlacement pulumi.BoolPtrOutput `pulumi:"supportAutomaticPlacement"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -270,8 +271,8 @@ func (o DedicatedHostGroupOutput) SupportAutomaticPlacement() pulumi.BoolPtrOutp
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o DedicatedHostGroupOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *DedicatedHostGroup) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o DedicatedHostGroupOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *DedicatedHostGroup) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

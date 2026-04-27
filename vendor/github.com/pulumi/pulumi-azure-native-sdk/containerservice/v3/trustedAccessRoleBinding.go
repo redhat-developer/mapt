@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -31,7 +32,7 @@ type TrustedAccessRoleBinding struct {
 	// The ARM resource ID of source resource that trusted access is configured for.
 	SourceResourceId pulumi.StringOutput `pulumi:"sourceResourceId"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -354,8 +355,8 @@ func (o TrustedAccessRoleBindingOutput) SourceResourceId() pulumi.StringOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o TrustedAccessRoleBindingOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *TrustedAccessRoleBinding) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o TrustedAccessRoleBindingOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v *TrustedAccessRoleBinding) commontypesv5.SystemDataResponseOutput { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

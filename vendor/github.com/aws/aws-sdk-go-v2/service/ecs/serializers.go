@@ -4830,6 +4830,18 @@ func awsAwsjson11_serializeDocumentAttributes(v []types.Attribute, value smithyj
 	return nil
 }
 
+func awsAwsjson11_serializeDocumentAutoRepairConfiguration(v *types.AutoRepairConfiguration, value smithyjson.Value) error {
+	object := value.Object()
+	defer object.Close()
+
+	if len(v.ActionsStatus) > 0 {
+		ok := object.Key("actionsStatus")
+		ok.String(string(v.ActionsStatus))
+	}
+
+	return nil
+}
+
 func awsAwsjson11_serializeDocumentAutoScalingGroupProvider(v *types.AutoScalingGroupProvider, value smithyjson.Value) error {
 	object := value.Object()
 	defer object.Close()
@@ -5605,6 +5617,13 @@ func awsAwsjson11_serializeDocumentCreatedAt(v *types.CreatedAt, value smithyjso
 func awsAwsjson11_serializeDocumentCreateManagedInstancesProviderConfiguration(v *types.CreateManagedInstancesProviderConfiguration, value smithyjson.Value) error {
 	object := value.Object()
 	defer object.Close()
+
+	if v.AutoRepairConfiguration != nil {
+		ok := object.Key("autoRepairConfiguration")
+		if err := awsAwsjson11_serializeDocumentAutoRepairConfiguration(v.AutoRepairConfiguration, ok); err != nil {
+			return err
+		}
+	}
 
 	if v.InfrastructureOptimization != nil {
 		ok := object.Key("infrastructureOptimization")
@@ -8909,6 +8928,13 @@ func awsAwsjson11_serializeDocumentUlimitList(v []types.Ulimit, value smithyjson
 func awsAwsjson11_serializeDocumentUpdateManagedInstancesProviderConfiguration(v *types.UpdateManagedInstancesProviderConfiguration, value smithyjson.Value) error {
 	object := value.Object()
 	defer object.Close()
+
+	if v.AutoRepairConfiguration != nil {
+		ok := object.Key("autoRepairConfiguration")
+		if err := awsAwsjson11_serializeDocumentAutoRepairConfiguration(v.AutoRepairConfiguration, ok); err != nil {
+			return err
+		}
+	}
 
 	if v.InfrastructureOptimization != nil {
 		ok := object.Key("infrastructureOptimization")

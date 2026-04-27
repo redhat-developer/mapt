@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -58,7 +59,7 @@ type LookupGalleryApplicationVersionResult struct {
 	// The safety profile of the Gallery Application Version.
 	SafetyProfile *GalleryApplicationVersionSafetyProfileResponse `pulumi:"safetyProfile"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -151,8 +152,8 @@ func (o LookupGalleryApplicationVersionResultOutput) SafetyProfile() GalleryAppl
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupGalleryApplicationVersionResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupGalleryApplicationVersionResultOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupGalleryApplicationVersionResult) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

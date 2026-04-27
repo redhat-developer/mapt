@@ -1,6 +1,6 @@
 module github.com/redhat-developer/mapt
 
-go 1.25.8
+go 1.26.0
 
 replace (
 	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.0
@@ -12,7 +12,7 @@ require (
 	github.com/coocood/freecache v1.2.7
 	github.com/pulumi/pulumi-command/sdk v1.2.1
 	github.com/pulumi/pulumi-random/sdk/v4 v4.19.2
-	github.com/pulumi/pulumi/sdk/v3 v3.231.0
+	github.com/pulumi/pulumi/sdk/v3 v3.232.0
 	github.com/sirupsen/logrus v1.9.4
 	github.com/spf13/cobra v1.10.2
 )
@@ -26,24 +26,24 @@ require (
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
 	github.com/aws/aws-sdk-go-v2 v1.41.6
 	github.com/aws/aws-sdk-go-v2/config v1.32.16
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.298.0
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.99.1
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.299.0
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.100.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.42.0
 	github.com/pulumi/pulumi-aws-native/sdk v1.62.0
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.26.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.27.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.5.0
-	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.16.0
-	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.16.0
-	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.16.0
-	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.16.0
-	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.16.0
-	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.16.0
-	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.16.0
+	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.17.0
+	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.17.0
+	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.17.0
+	github.com/pulumi/pulumi-azure-native-sdk/managedidentity/v3 v3.17.0
+	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.17.0
+	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.17.0
+	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.17.0
 	github.com/pulumi/pulumi-gitlab/sdk/v8 v8.11.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.3.1
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f
-	k8s.io/apimachinery v0.35.4
-	k8s.io/client-go v0.35.4
+	k8s.io/apimachinery v0.36.0
+	k8s.io/client-go v0.36.0
 )
 
 require (
@@ -52,7 +52,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx/v2 v2.0.12 // indirect
-	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.16.0 // indirect
+	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.17.0 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.11.2 // indirect
 )
 
@@ -102,7 +102,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.11.7 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.15 // indirect
-	github.com/charmbracelet/x/exp/golden v0.0.0-20260420102150-fe550f2efce5 // indirect
+	github.com/charmbracelet/x/exp/golden v0.0.0-20260426004601-d5e63ff0b9ca // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
@@ -184,7 +184,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.4.1 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.78.1
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.79.0
 	github.com/aws/aws-sdk-go-v2/service/iam v1.53.8
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cheggaaa/pb v1.0.29 // indirect
@@ -195,7 +195,6 @@ require (
 	github.com/go-git/go-git/v5 v5.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.30.2
 	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/golang/glog v1.2.5 // indirect
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
@@ -209,7 +208,7 @@ require (
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
-	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.29.0
+	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.30.0
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
@@ -226,7 +225,7 @@ require (
 	golang.org/x/term v0.42.0 // indirect
 	golang.org/x/text v0.36.0 // indirect
 	google.golang.org/grpc v1.80.0 // indirect
-	google.golang.org/protobuf v1.36.11 // indirect
+	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	lukechampine.com/frand v1.5.1 // indirect

@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -4907,7 +4908,7 @@ type PolicyDefinitionVersionResponse struct {
 	// The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
 	PolicyType *string `pulumi:"policyType"`
 	// The system metadata relating to this resource.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponse `pulumi:"systemData"`
 	// The type of the resource (Microsoft.Authorization/policyDefinitions/versions).
 	Type string `pulumi:"type"`
 	// The policy definition version in #.#.# format.
@@ -4990,8 +4991,8 @@ func (o PolicyDefinitionVersionResponseOutput) PolicyType() pulumi.StringPtrOutp
 }
 
 // The system metadata relating to this resource.
-func (o PolicyDefinitionVersionResponseOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v PolicyDefinitionVersionResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o PolicyDefinitionVersionResponseOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v PolicyDefinitionVersionResponse) commontypesv5.SystemDataResponse { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the resource (Microsoft.Authorization/policyDefinitions/versions).
@@ -5111,7 +5112,7 @@ type PolicySetDefinitionVersionResponse struct {
 	// The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
 	PolicyType *string `pulumi:"policyType"`
 	// The system metadata relating to this resource.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponse `pulumi:"systemData"`
 	// The type of the resource (Microsoft.Authorization/policySetDefinitions/versions).
 	Type string `pulumi:"type"`
 	// The policy set definition version in #.#.# format.
@@ -5185,8 +5186,8 @@ func (o PolicySetDefinitionVersionResponseOutput) PolicyType() pulumi.StringPtrO
 }
 
 // The system metadata relating to this resource.
-func (o PolicySetDefinitionVersionResponseOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v PolicySetDefinitionVersionResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o PolicySetDefinitionVersionResponseOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v PolicySetDefinitionVersionResponse) commontypesv5.SystemDataResponse { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the resource (Microsoft.Authorization/policySetDefinitions/versions).
@@ -8455,67 +8456,6 @@ func (o SubscriptionResponseArrayOutput) Index(i pulumi.IntInput) SubscriptionRe
 	}).(SubscriptionResponseOutput)
 }
 
-// Metadata pertaining to creation and last modification of the resource.
-type SystemDataResponse struct {
-	// The timestamp of resource creation (UTC).
-	CreatedAt *string `pulumi:"createdAt"`
-	// The identity that created the resource.
-	CreatedBy *string `pulumi:"createdBy"`
-	// The type of identity that created the resource.
-	CreatedByType *string `pulumi:"createdByType"`
-	// The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `pulumi:"lastModifiedAt"`
-	// The identity that last modified the resource.
-	LastModifiedBy *string `pulumi:"lastModifiedBy"`
-	// The type of identity that last modified the resource.
-	LastModifiedByType *string `pulumi:"lastModifiedByType"`
-}
-
-// Metadata pertaining to creation and last modification of the resource.
-type SystemDataResponseOutput struct{ *pulumi.OutputState }
-
-func (SystemDataResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*SystemDataResponse)(nil)).Elem()
-}
-
-func (o SystemDataResponseOutput) ToSystemDataResponseOutput() SystemDataResponseOutput {
-	return o
-}
-
-func (o SystemDataResponseOutput) ToSystemDataResponseOutputWithContext(ctx context.Context) SystemDataResponseOutput {
-	return o
-}
-
-// The timestamp of resource creation (UTC).
-func (o SystemDataResponseOutput) CreatedAt() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedAt }).(pulumi.StringPtrOutput)
-}
-
-// The identity that created the resource.
-func (o SystemDataResponseOutput) CreatedBy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedBy }).(pulumi.StringPtrOutput)
-}
-
-// The type of identity that created the resource.
-func (o SystemDataResponseOutput) CreatedByType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedByType }).(pulumi.StringPtrOutput)
-}
-
-// The timestamp of resource last modification (UTC)
-func (o SystemDataResponseOutput) LastModifiedAt() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedAt }).(pulumi.StringPtrOutput)
-}
-
-// The identity that last modified the resource.
-func (o SystemDataResponseOutput) LastModifiedBy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedBy }).(pulumi.StringPtrOutput)
-}
-
-// The type of identity that last modified the resource.
-func (o SystemDataResponseOutput) LastModifiedByType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedByType }).(pulumi.StringPtrOutput)
-}
-
 // The detail of a user.
 type UserSet struct {
 	// The description of the user.
@@ -9039,7 +8979,6 @@ func init() {
 	pulumi.RegisterOutputType(SubscriptionPoliciesResponsePtrOutput{})
 	pulumi.RegisterOutputType(SubscriptionResponseOutput{})
 	pulumi.RegisterOutputType(SubscriptionResponseArrayOutput{})
-	pulumi.RegisterOutputType(SystemDataResponseOutput{})
 	pulumi.RegisterOutputType(UserSetOutput{})
 	pulumi.RegisterOutputType(UserSetArrayOutput{})
 	pulumi.RegisterOutputType(UserSetResponseOutput{})

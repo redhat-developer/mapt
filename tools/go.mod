@@ -16,11 +16,11 @@ require (
 )
 
 require (
-	github.com/bombsimon/wsl/v5 v5.6.0 // indirect
+	github.com/bombsimon/wsl/v5 v5.7.0 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
-	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
-	go-simpler.org/sloglint v0.11.1 // indirect
+	github.com/golangci/gofmt e7be49a5ab4d // indirect
+	go-simpler.org/sloglint v0.12.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 )
 
@@ -184,7 +184,7 @@ require (
 	github.com/sirupsen/logrus v1.9.4 // indirect
 	github.com/sivchari/containedctx v1.0.3 // indirect
 	github.com/sonatard/noctx v0.5.1 // indirect
-	github.com/sourcegraph/go-diff v0.7.0 // indirect
+	github.com/sourcegraph/go-diff v0.8.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
 	github.com/spf13/cobra v1.10.2 // indirect

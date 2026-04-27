@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -50,7 +51,7 @@ type LookupManagedNamespaceResult struct {
 	// Properties of a namespace.
 	Properties NamespacePropertiesResponse `pulumi:"properties"`
 	// The system metadata relating to this resource.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponse `pulumi:"systemData"`
 	// The tags to be persisted on the managed cluster namespace.
 	Tags map[string]string `pulumi:"tags"`
 	// Resource type
@@ -135,8 +136,8 @@ func (o LookupManagedNamespaceResultOutput) Properties() NamespacePropertiesResp
 }
 
 // The system metadata relating to this resource.
-func (o LookupManagedNamespaceResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupManagedNamespaceResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupManagedNamespaceResultOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupManagedNamespaceResult) commontypesv5.SystemDataResponse { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The tags to be persisted on the managed cluster namespace.

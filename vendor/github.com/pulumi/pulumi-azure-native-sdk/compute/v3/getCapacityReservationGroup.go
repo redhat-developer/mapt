@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -52,7 +53,7 @@ type LookupCapacityReservationGroupResult struct {
 	// Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity reservation does not support sharing across subscriptions. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
 	SharingProfile *ResourceSharingProfileResponse `pulumi:"sharingProfile"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -140,8 +141,8 @@ func (o LookupCapacityReservationGroupResultOutput) SharingProfile() ResourceSha
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupCapacityReservationGroupResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupCapacityReservationGroupResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupCapacityReservationGroupResultOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupCapacityReservationGroupResult) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

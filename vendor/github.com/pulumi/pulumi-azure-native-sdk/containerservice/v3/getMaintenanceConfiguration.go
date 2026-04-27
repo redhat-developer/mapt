@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -48,7 +49,7 @@ type LookupMaintenanceConfigurationResult struct {
 	// Time slots on which upgrade is not allowed.
 	NotAllowedTime []TimeSpanResponse `pulumi:"notAllowedTime"`
 	// The system metadata relating to this resource.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponse `pulumi:"systemData"`
 	// Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries.
 	TimeInWeek []TimeInWeekResponse `pulumi:"timeInWeek"`
 	// Resource type
@@ -128,8 +129,8 @@ func (o LookupMaintenanceConfigurationResultOutput) NotAllowedTime() TimeSpanRes
 }
 
 // The system metadata relating to this resource.
-func (o LookupMaintenanceConfigurationResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupMaintenanceConfigurationResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupMaintenanceConfigurationResultOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupMaintenanceConfigurationResult) commontypesv5.SystemDataResponse { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries.
