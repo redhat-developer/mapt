@@ -17,7 +17,7 @@ const (
 	OKSpotPrice  = "kndSpotPrice"
 )
 
-func Results(mCtx *mc.Context, stackResult auto.UpResult, prefix *string) (*KindResults, error) {
+func Results(mCtx *mc.Context, stackResult auto.UpResult, prefix *string, spot bool) (*KindResults, error) {
 	username, err := get[string](OKUsername, stackResult, prefix)
 	if err != nil {
 		return nil, err
@@ -34,9 +34,12 @@ func Results(mCtx *mc.Context, stackResult auto.UpResult, prefix *string) (*Kind
 	if err != nil {
 		return nil, err
 	}
-	spotPrice, err := get[float64](OKSpotPrice, stackResult, prefix)
-	if err != nil {
-		return nil, err
+	var spotPrice *float64
+	if spot {
+		spotPrice, err = get[float64](OKSpotPrice, stackResult, prefix)
+		if err != nil {
+			return nil, err
+		}
 	}
 	if mCtx.GetResultsOutputPath() != "" {
 		if err := output.Write(stackResult, mCtx.GetResultsOutputPath(), map[string]string{
