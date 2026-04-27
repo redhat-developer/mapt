@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-azure-aks
   labels:
-    app.kubernetes.io/version: "1.0.0-dev"
+    app.kubernetes.io/version: "0.13.0"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -115,7 +115,7 @@ spec:
         The parameter is intended to add verbosity on the task execution and also print masked credentials
         (showing first and last character with *** in the middle) on stdout to help with debugging
       default: 'false'
-    
+
   results:
     - name: cluster-access-secret
       description: |
@@ -132,7 +132,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      image: quay.io/redhat-developer/mapt:v0.13.0
       imagePullPolicy: Always
       env:
         - name: HOME
@@ -184,7 +184,7 @@ spec:
             echo "Parameter ownerName and ownerUid is recommended when creating instance"
           fi
         fi
-        
+
         # Run mapt
         cmd="mapt azure aks $(params.operation) "
         cmd+="--project-name mapt-aks-$(params.id) "
@@ -226,7 +226,7 @@ spec:
         - name: OWNER_NAME
           value: $(params.ownerName)
         - name: OWNER_UID
-          value: $(params.ownerUid)
+          value: $(params.ownerUid)  
       volumeMounts:
         - name: cluster-info
           mountPath: /opt/cluster-info

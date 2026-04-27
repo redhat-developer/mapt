@@ -1,4 +1,4 @@
-VERSION ?= 1.0.0-dev
+VERSION ?= 0.13.0
 CONTAINER_MANAGER ?= podman
 
 # Image URL to use all building/pushing image targets
@@ -38,6 +38,7 @@ include tools/tools.mk
 # Functions
 define tkn_update
 	rm tkn/*.yaml 
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-eks.yaml > tkn/infra-aws-eks.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-fedora.yaml > tkn/infra-aws-fedora.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-mac.yaml > tkn/infra-aws-mac.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-aws-rhel.yaml > tkn/infra-aws-rhel.yaml

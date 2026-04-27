@@ -4,7 +4,7 @@ kind: Task
 metadata:
   name: infra-aws-ocp-snc
   labels:
-    app.kubernetes.io/version: "1.0.0-dev"
+    app.kubernetes.io/version: "0.13.0"
   annotations:
     tekton.dev/pipelines.minVersion: "0.44.x"
     tekton.dev/categories: infrastructure
@@ -126,7 +126,7 @@ spec:
       description: If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated.
       default: 'false'
     - name: profile
-      description: Comma-separated list of profiles to install on the cluster (e.g. virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai, nvidia). When virtualization is selected, a bare metal instance is used. The nvidia profile installs NFD and the NVIDIA GPU Operator.
+      description: Comma-separated list of profiles to install on the cluster (e.g. virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai). When virtualization is selected, a bare metal instance is used.
       default: "''"
 
     # Network params
@@ -179,7 +179,7 @@ spec:
 
   steps:
     - name: provisioner
-      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      image: quay.io/redhat-developer/mapt:v0.13.0
       imagePullPolicy: Always
       env:
         - name: HOME
