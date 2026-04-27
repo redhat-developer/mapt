@@ -119,7 +119,7 @@ func (r *kindRequest) createHost() (*utilKind.KindResults, error) {
 		return nil, fmt.Errorf("stack creation failed: %w", err)
 	}
 
-	metadataResults, err := utilKind.Results(r.mCtx, sr, r.prefix)
+	metadataResults, err := utilKind.Results(r.mCtx, sr, r.prefix, r.spot)
 	if err != nil {
 		return nil, fmt.Errorf("failed to manage results: %w", err)
 	}
@@ -131,8 +131,10 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 	if err := r.validate(); err != nil {
 		return err
 	}
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, utilKind.OKSpotPrice),
-		pulumi.Float64(*r.allocationData.SpotPrice))
+	if r.spot {
+		ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, utilKind.OKSpotPrice),
+			pulumi.Float64(*r.allocationData.SpotPrice))
+	}
 	// Get AMI
 	ami, err := amiSVC.GetAMIByName(ctx,
 		amiName(r.arch),

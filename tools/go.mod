@@ -1,6 +1,6 @@
 module github.com/redhat-developer/mapt/tools
 
-go 1.25.0
+go 1.25.7
 
 replace (
 	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.0
@@ -19,8 +19,6 @@ require (
 	github.com/bombsimon/wsl/v5 v5.7.0 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
-	github.com/golangci/gofmt e7be49a5ab4d // indirect
-	go-simpler.org/sloglint v0.12.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 )
 
@@ -36,9 +34,10 @@ require (
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.2 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
-	// github.com/golangci/gofmt e7be49a5ab4d // indirect
+	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
 	github.com/gostaticanalysis/nilerr v0.1.2 // indirect
 	github.com/nunnatsa/ginkgolinter v0.23.0 // indirect
+	go-simpler.org/sloglint v0.11.1 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
 )
 

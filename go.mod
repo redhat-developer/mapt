@@ -1,6 +1,6 @@
 module github.com/redhat-developer/mapt
 
-go 1.26.0
+go 1.25.8
 
 replace (
 	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.0
@@ -42,8 +42,8 @@ require (
 	github.com/pulumi/pulumi-gitlab/sdk/v8 v8.11.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.3.1
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f
-	k8s.io/apimachinery v0.36.0
-	k8s.io/client-go v0.36.0
+	k8s.io/apimachinery v0.35.4
+	k8s.io/client-go v0.35.4
 )
 
 require (
