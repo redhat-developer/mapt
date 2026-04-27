@@ -18,7 +18,7 @@ require (
 require (
 	github.com/bombsimon/wsl/v5 v5.6.0 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	github.com/denis-tingaikin/go-header v1.0.0 // indirect
 	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
 	go-simpler.org/sloglint v0.11.1 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
@@ -31,15 +31,15 @@ require (
 	github.com/MirrexOne/unqueryvet v1.5.4 // indirect
 	github.com/alexkohler/prealloc v1.1.0 // indirect
 	github.com/alfatraining/structtag v1.0.0 // indirect
-	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
-	github.com/charmbracelet/lipgloss v1.1.0 // indirect
+	github.com/bombsimon/wsl/v5 v5.7.0 // indirect
+	github.com/charmbracelet/lipgloss/v2 v2.0.3 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.2 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
 	// github.com/golangci/gofmt e7be49a5ab4d // indirect
 	github.com/gostaticanalysis/nilerr v0.1.2 // indirect
 	github.com/nunnatsa/ginkgolinter v0.23.0 // indirect
-	go.yaml.in/yaml/v2 v2.4.3 // indirect
+	go.yaml.in/yaml/v3 v3.0.4 // indirect
 )
 
 require (
@@ -173,7 +173,7 @@ require (
 	github.com/raeperd/recvcheck v0.2.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
-	github.com/ryancurrah/gomodguard v1.4.1 // indirect
+	github.com/ryancurrah/gomodguard/v2 v2.1.0 // indirect
 	github.com/ryanrolds/sqlclosecheck v0.6.0 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/sanposhiho/wastedassign/v2 v2.1.0 // indirect
