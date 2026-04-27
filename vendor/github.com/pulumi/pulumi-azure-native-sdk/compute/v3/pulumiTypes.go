@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -28935,7 +28936,7 @@ type PrivateEndpointConnectionResponse struct {
 	// The provisioning state of the private endpoint connection resource.
 	ProvisioningState string `pulumi:"provisioningState"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
@@ -28983,8 +28984,8 @@ func (o PrivateEndpointConnectionResponseOutput) ProvisioningState() pulumi.Stri
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o PrivateEndpointConnectionResponseOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v PrivateEndpointConnectionResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o PrivateEndpointConnectionResponseOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v PrivateEndpointConnectionResponse) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -31971,7 +31972,7 @@ type RestorePointResponse struct {
 	// Resource Id of the source restore point from which a copy needs to be created.
 	SourceRestorePoint *ApiEntityReferenceResponse `pulumi:"sourceRestorePoint"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// Gets the creation time of the restore point.
 	TimeCreated *string `pulumi:"timeCreated"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -32034,8 +32035,8 @@ func (o RestorePointResponseOutput) SourceRestorePoint() ApiEntityReferenceRespo
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o RestorePointResponseOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v RestorePointResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o RestorePointResponseOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v RestorePointResponse) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Gets the creation time of the restore point.
@@ -39310,23 +39311,15 @@ func (o SupportedCapabilitiesResponsePtrOutput) DiskControllerTypes() pulumi.Str
 	}).(pulumi.StringPtrOutput)
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// The system meta data relating to this resource.
 type SystemDataResponse struct {
-	// The timestamp of resource creation (UTC).
-	CreatedAt *string `pulumi:"createdAt"`
-	// The identity that created the resource.
-	CreatedBy *string `pulumi:"createdBy"`
-	// The type of identity that created the resource.
-	CreatedByType *string `pulumi:"createdByType"`
-	// The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `pulumi:"lastModifiedAt"`
-	// The identity that last modified the resource.
-	LastModifiedBy *string `pulumi:"lastModifiedBy"`
-	// The type of identity that last modified the resource.
-	LastModifiedByType *string `pulumi:"lastModifiedByType"`
+	// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
+	CreatedAt string `pulumi:"createdAt"`
+	// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
+	LastModifiedAt string `pulumi:"lastModifiedAt"`
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// The system meta data relating to this resource.
 type SystemDataResponseOutput struct{ *pulumi.OutputState }
 
 func (SystemDataResponseOutput) ElementType() reflect.Type {
@@ -39341,34 +39334,14 @@ func (o SystemDataResponseOutput) ToSystemDataResponseOutputWithContext(ctx cont
 	return o
 }
 
-// The timestamp of resource creation (UTC).
-func (o SystemDataResponseOutput) CreatedAt() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedAt }).(pulumi.StringPtrOutput)
+// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
+func (o SystemDataResponseOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v SystemDataResponse) string { return v.CreatedAt }).(pulumi.StringOutput)
 }
 
-// The identity that created the resource.
-func (o SystemDataResponseOutput) CreatedBy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedBy }).(pulumi.StringPtrOutput)
-}
-
-// The type of identity that created the resource.
-func (o SystemDataResponseOutput) CreatedByType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.CreatedByType }).(pulumi.StringPtrOutput)
-}
-
-// The timestamp of resource last modification (UTC)
-func (o SystemDataResponseOutput) LastModifiedAt() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedAt }).(pulumi.StringPtrOutput)
-}
-
-// The identity that last modified the resource.
-func (o SystemDataResponseOutput) LastModifiedBy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedBy }).(pulumi.StringPtrOutput)
-}
-
-// The type of identity that last modified the resource.
-func (o SystemDataResponseOutput) LastModifiedByType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemDataResponse) *string { return v.LastModifiedByType }).(pulumi.StringPtrOutput)
+// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
+func (o SystemDataResponseOutput) LastModifiedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v SystemDataResponse) string { return v.LastModifiedAt }).(pulumi.StringOutput)
 }
 
 type SystemDataResponsePtrOutput struct{ *pulumi.OutputState }
@@ -39395,126 +39368,9 @@ func (o SystemDataResponsePtrOutput) Elem() SystemDataResponseOutput {
 	}).(SystemDataResponseOutput)
 }
 
-// The timestamp of resource creation (UTC).
+// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
 func (o SystemDataResponsePtrOutput) CreatedAt() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SystemDataResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.CreatedAt
-	}).(pulumi.StringPtrOutput)
-}
-
-// The identity that created the resource.
-func (o SystemDataResponsePtrOutput) CreatedBy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemDataResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.CreatedBy
-	}).(pulumi.StringPtrOutput)
-}
-
-// The type of identity that created the resource.
-func (o SystemDataResponsePtrOutput) CreatedByType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemDataResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.CreatedByType
-	}).(pulumi.StringPtrOutput)
-}
-
-// The timestamp of resource last modification (UTC)
-func (o SystemDataResponsePtrOutput) LastModifiedAt() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemDataResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.LastModifiedAt
-	}).(pulumi.StringPtrOutput)
-}
-
-// The identity that last modified the resource.
-func (o SystemDataResponsePtrOutput) LastModifiedBy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemDataResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.LastModifiedBy
-	}).(pulumi.StringPtrOutput)
-}
-
-// The type of identity that last modified the resource.
-func (o SystemDataResponsePtrOutput) LastModifiedByType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemDataResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.LastModifiedByType
-	}).(pulumi.StringPtrOutput)
-}
-
-// The system meta data relating to this resource.
-type SystemDataResponseV1 struct {
-	// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
-	CreatedAt string `pulumi:"createdAt"`
-	// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
-	LastModifiedAt string `pulumi:"lastModifiedAt"`
-}
-
-// The system meta data relating to this resource.
-type SystemDataResponseV1Output struct{ *pulumi.OutputState }
-
-func (SystemDataResponseV1Output) ElementType() reflect.Type {
-	return reflect.TypeOf((*SystemDataResponseV1)(nil)).Elem()
-}
-
-func (o SystemDataResponseV1Output) ToSystemDataResponseV1Output() SystemDataResponseV1Output {
-	return o
-}
-
-func (o SystemDataResponseV1Output) ToSystemDataResponseV1OutputWithContext(ctx context.Context) SystemDataResponseV1Output {
-	return o
-}
-
-// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
-func (o SystemDataResponseV1Output) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v SystemDataResponseV1) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
-func (o SystemDataResponseV1Output) LastModifiedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v SystemDataResponseV1) string { return v.LastModifiedAt }).(pulumi.StringOutput)
-}
-
-type SystemDataResponseV1PtrOutput struct{ *pulumi.OutputState }
-
-func (SystemDataResponseV1PtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**SystemDataResponseV1)(nil)).Elem()
-}
-
-func (o SystemDataResponseV1PtrOutput) ToSystemDataResponseV1PtrOutput() SystemDataResponseV1PtrOutput {
-	return o
-}
-
-func (o SystemDataResponseV1PtrOutput) ToSystemDataResponseV1PtrOutputWithContext(ctx context.Context) SystemDataResponseV1PtrOutput {
-	return o
-}
-
-func (o SystemDataResponseV1PtrOutput) Elem() SystemDataResponseV1Output {
-	return o.ApplyT(func(v *SystemDataResponseV1) SystemDataResponseV1 {
-		if v != nil {
-			return *v
-		}
-		var ret SystemDataResponseV1
-		return ret
-	}).(SystemDataResponseV1Output)
-}
-
-// Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
-func (o SystemDataResponseV1PtrOutput) CreatedAt() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemDataResponseV1) *string {
 		if v == nil {
 			return nil
 		}
@@ -39523,8 +39379,8 @@ func (o SystemDataResponseV1PtrOutput) CreatedAt() pulumi.StringPtrOutput {
 }
 
 // Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
-func (o SystemDataResponseV1PtrOutput) LastModifiedAt() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemDataResponseV1) *string {
+func (o SystemDataResponsePtrOutput) LastModifiedAt() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SystemDataResponse) *string {
 		if v == nil {
 			return nil
 		}
@@ -44006,7 +43862,7 @@ type VirtualMachineExtensionResponse struct {
 	// Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
 	SuppressFailures *bool `pulumi:"suppressFailures"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -44105,8 +43961,8 @@ func (o VirtualMachineExtensionResponseOutput) SuppressFailures() pulumi.BoolPtr
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o VirtualMachineExtensionResponseOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v VirtualMachineExtensionResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o VirtualMachineExtensionResponseOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v VirtualMachineExtensionResponse) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.
@@ -54836,8 +54692,6 @@ func init() {
 	pulumi.RegisterOutputType(SupportedCapabilitiesResponsePtrOutput{})
 	pulumi.RegisterOutputType(SystemDataResponseOutput{})
 	pulumi.RegisterOutputType(SystemDataResponsePtrOutput{})
-	pulumi.RegisterOutputType(SystemDataResponseV1Output{})
-	pulumi.RegisterOutputType(SystemDataResponseV1PtrOutput{})
 	pulumi.RegisterOutputType(TargetRegionOutput{})
 	pulumi.RegisterOutputType(TargetRegionArrayOutput{})
 	pulumi.RegisterOutputType(TargetRegionResponseOutput{})

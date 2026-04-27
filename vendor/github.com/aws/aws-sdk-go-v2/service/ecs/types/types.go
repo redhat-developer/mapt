@@ -147,6 +147,21 @@ type Attribute struct {
 	noSmithyDocumentSerde
 }
 
+// The auto repair configuration for an Amazon ECS Managed Instances capacity
+// provider. When enabled, Amazon ECS automatically replaces container instances
+// that are detected as unhealthy based on container instance health checks,
+// including accelerated compute device and daemon health checks.
+type AutoRepairConfiguration struct {
+
+	// The status of auto repair actions for the capacity provider. When set to ENABLED
+	// , Amazon ECS automatically replaces container instances with an IMPAIRED health
+	// status. When set to DISABLED , Amazon ECS still monitors container instance
+	// health but does not automatically replace impaired instances.
+	ActionsStatus AutoRepairActionsStatus
+
+	noSmithyDocumentSerde
+}
+
 // The details of the Auto Scaling group for the capacity provider.
 type AutoScalingGroupProvider struct {
 
@@ -1849,6 +1864,11 @@ type CreateManagedInstancesProviderConfiguration struct {
 	//
 	// This member is required.
 	InstanceLaunchTemplate *InstanceLaunchTemplate
+
+	// The auto repair configuration for the Amazon ECS Managed Instances capacity
+	// provider. Use this to enable or disable automatic replacement of container
+	// instances that are detected as unhealthy.
+	AutoRepairConfiguration *AutoRepairConfiguration
 
 	// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in
 	// your capacity provider. Provides control over the delay between when EC2
@@ -3935,6 +3955,9 @@ type InstanceHealthCheckResult struct {
 	// The container instance health status.
 	Status InstanceHealthCheckState
 
+	// The reason for the container instance health status.
+	StatusReason *string
+
 	// The type of container instance health status that was verified.
 	Type InstanceHealthCheckType
 
@@ -4937,6 +4960,11 @@ type ManagedInstancesNetworkConfiguration struct {
 // Amazon EC2 instance types and features while offloading infrastructure
 // management to Amazon Web Services.
 type ManagedInstancesProvider struct {
+
+	// The auto repair configuration for the Amazon ECS Managed Instances capacity
+	// provider. Indicates whether Amazon ECS automatically replaces container
+	// instances that are detected as unhealthy.
+	AutoRepairConfiguration *AutoRepairConfiguration
 
 	// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in
 	// your capacity provider. Configure it to turn on or off the infrastructure
@@ -8422,6 +8450,10 @@ type UpdateManagedInstancesProviderConfiguration struct {
 	//
 	// This member is required.
 	InstanceLaunchTemplate *InstanceLaunchTemplateUpdate
+
+	// The updated auto repair configuration for the Amazon ECS Managed Instances
+	// capacity provider.
+	AutoRepairConfiguration *AutoRepairConfiguration
 
 	// The updated infrastructure optimization configuration. Changes to this setting
 	// affect how Amazon ECS optimizes instances going forward.

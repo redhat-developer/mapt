@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -43,7 +44,7 @@ type PolicyExemption struct {
 	// The resource selector list to filter policies by resource properties.
 	ResourceSelectors ResourceSelectorResponseArrayOutput `pulumi:"resourceSelectors"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource (Microsoft.Authorization/policyExemptions).
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -258,8 +259,8 @@ func (o PolicyExemptionOutput) ResourceSelectors() ResourceSelectorResponseArray
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o PolicyExemptionOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *PolicyExemption) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o PolicyExemptionOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *PolicyExemption) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // The type of the resource (Microsoft.Authorization/policyExemptions).

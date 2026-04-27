@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv1"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -58,7 +59,7 @@ type AzureCliScript struct {
 	// Supporting files for the external script.
 	SupportingScriptUris pulumi.StringArrayOutput `pulumi:"supportingScriptUris"`
 	// The system metadata related to this resource.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv1.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D
@@ -364,8 +365,8 @@ func (o AzureCliScriptOutput) SupportingScriptUris() pulumi.StringArrayOutput {
 }
 
 // The system metadata related to this resource.
-func (o AzureCliScriptOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *AzureCliScript) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o AzureCliScriptOutput) SystemData() commontypesv1.SystemDataResponseOutput {
+	return o.ApplyT(func(v *AzureCliScript) commontypesv1.SystemDataResponseOutput { return v.SystemData }).(commontypesv1.SystemDataResponseOutput)
 }
 
 // Resource tags.

@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv2"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -29,7 +30,7 @@ type BlobInventoryPolicy struct {
 	// The storage account blob inventory policy object. It is composed of policy rules.
 	Policy BlobInventoryPolicySchemaResponseOutput `pulumi:"policy"`
 	// Metadata pertaining to creation and last modification of the resource.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv2.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -214,8 +215,8 @@ func (o BlobInventoryPolicyOutput) Policy() BlobInventoryPolicySchemaResponseOut
 }
 
 // Metadata pertaining to creation and last modification of the resource.
-func (o BlobInventoryPolicyOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *BlobInventoryPolicy) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o BlobInventoryPolicyOutput) SystemData() commontypesv2.SystemDataResponseOutput {
+	return o.ApplyT(func(v *BlobInventoryPolicy) commontypesv2.SystemDataResponseOutput { return v.SystemData }).(commontypesv2.SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

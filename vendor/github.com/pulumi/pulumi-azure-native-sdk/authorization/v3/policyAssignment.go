@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -61,7 +62,7 @@ type PolicyAssignment struct {
 	// The scope for the policy assignment.
 	Scope pulumi.StringOutput `pulumi:"scope"`
 	// The system metadata relating to this resource.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the policy assignment.
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -383,8 +384,8 @@ func (o PolicyAssignmentOutput) Scope() pulumi.StringOutput {
 }
 
 // The system metadata relating to this resource.
-func (o PolicyAssignmentOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *PolicyAssignment) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o PolicyAssignmentOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v *PolicyAssignment) commontypesv5.SystemDataResponseOutput { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the policy assignment.

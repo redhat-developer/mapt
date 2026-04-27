@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv4"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -48,7 +49,7 @@ type LookupUserAssignedIdentityResult struct {
 	// The id of the service principal object associated with the created identity.
 	PrincipalId string `pulumi:"principalId"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv4.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The id of the tenant which the identity belongs to.
@@ -123,8 +124,8 @@ func (o LookupUserAssignedIdentityResultOutput) PrincipalId() pulumi.StringOutpu
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupUserAssignedIdentityResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupUserAssignedIdentityResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupUserAssignedIdentityResultOutput) SystemData() commontypesv4.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupUserAssignedIdentityResult) commontypesv4.SystemDataResponse { return v.SystemData }).(commontypesv4.SystemDataResponseOutput)
 }
 
 // Resource tags.

@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -41,7 +42,7 @@ type GalleryInVMAccessControlProfileVersion struct {
 	// This is the Access Control Rules specification for an inVMAccessControlProfile version.
 	Rules AccessControlRulesResponsePtrOutput `pulumi:"rules"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The target regions where the Resource Profile version is going to be replicated to. This property is updatable.
@@ -254,8 +255,10 @@ func (o GalleryInVMAccessControlProfileVersionOutput) Rules() AccessControlRules
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o GalleryInVMAccessControlProfileVersionOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *GalleryInVMAccessControlProfileVersion) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o GalleryInVMAccessControlProfileVersionOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *GalleryInVMAccessControlProfileVersion) commontypesv3.SystemDataResponseOutput {
+		return v.SystemData
+	}).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

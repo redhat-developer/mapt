@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -60,7 +61,7 @@ type LookupCapacityReservationResult struct {
 	// SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set.  For Block capacity reservations, sku.capacity can only accept values 1, 2, 4, 8, 16, 32, 64. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. When 'CapacityReservationSupported' is true, the SKU capability also specifies the 'SupportedCapacityReservationTypes', which lists the types of capacity reservations (such as Targeted or Block) that the SKU supports. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values.
 	Sku SkuResponse `pulumi:"sku"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Specifies the time at which the Capacity Reservation resource was created. Minimum api-version: 2021-11-01.
@@ -163,8 +164,8 @@ func (o LookupCapacityReservationResultOutput) Sku() SkuResponseOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupCapacityReservationResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupCapacityReservationResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupCapacityReservationResultOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupCapacityReservationResult) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

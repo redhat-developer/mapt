@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -58,7 +59,7 @@ type LookupPolicySetDefinitionAtManagementGroupResult struct {
 	// The type of policy set definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
 	PolicyType *string `pulumi:"policyType"`
 	// The system metadata relating to this resource.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponse `pulumi:"systemData"`
 	// The type of the resource (Microsoft.Authorization/policySetDefinitions).
 	Type string `pulumi:"type"`
 	// The policy set definition version in #.#.# format.
@@ -161,8 +162,10 @@ func (o LookupPolicySetDefinitionAtManagementGroupResultOutput) PolicyType() pul
 }
 
 // The system metadata relating to this resource.
-func (o LookupPolicySetDefinitionAtManagementGroupResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupPolicySetDefinitionAtManagementGroupResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupPolicySetDefinitionAtManagementGroupResultOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupPolicySetDefinitionAtManagementGroupResult) commontypesv5.SystemDataResponse {
+		return v.SystemData
+	}).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the resource (Microsoft.Authorization/policySetDefinitions).

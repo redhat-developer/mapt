@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -56,7 +57,7 @@ type LookupImageResult struct {
 	// Specifies the storage settings for the virtual machine disks.
 	StorageProfile *ImageStorageProfileResponse `pulumi:"storageProfile"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -146,8 +147,8 @@ func (o LookupImageResultOutput) StorageProfile() ImageStorageProfileResponsePtr
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupImageResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupImageResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupImageResultOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupImageResult) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

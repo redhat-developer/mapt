@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -67,7 +68,7 @@ type ManagedCluster struct {
 	// The identity of the managed cluster, if configured.
 	Identity ManagedClusterIdentityResponsePtrOutput `pulumi:"identity"`
 	// The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}".
-	IdentityProfile UserAssignedIdentityResponseV1MapOutput `pulumi:"identityProfile"`
+	IdentityProfile UserAssignedIdentityResponseMapOutput `pulumi:"identityProfile"`
 	// Ingress profile for the managed cluster.
 	IngressProfile ManagedClusterIngressProfileResponsePtrOutput `pulumi:"ingressProfile"`
 	// This is primarily used to expose different UI experiences in the portal for different kinds
@@ -123,7 +124,7 @@ type ManagedCluster struct {
 	// The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'.
 	SupportPlan pulumi.StringPtrOutput `pulumi:"supportPlan"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -848,8 +849,8 @@ func (o ManagedClusterOutput) Identity() ManagedClusterIdentityResponsePtrOutput
 }
 
 // The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}".
-func (o ManagedClusterOutput) IdentityProfile() UserAssignedIdentityResponseV1MapOutput {
-	return o.ApplyT(func(v *ManagedCluster) UserAssignedIdentityResponseV1MapOutput { return v.IdentityProfile }).(UserAssignedIdentityResponseV1MapOutput)
+func (o ManagedClusterOutput) IdentityProfile() UserAssignedIdentityResponseMapOutput {
+	return o.ApplyT(func(v *ManagedCluster) UserAssignedIdentityResponseMapOutput { return v.IdentityProfile }).(UserAssignedIdentityResponseMapOutput)
 }
 
 // Ingress profile for the managed cluster.
@@ -994,8 +995,8 @@ func (o ManagedClusterOutput) SupportPlan() pulumi.StringPtrOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o ManagedClusterOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *ManagedCluster) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o ManagedClusterOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v *ManagedCluster) commontypesv5.SystemDataResponseOutput { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // Resource tags.

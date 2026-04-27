@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv2"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -25,7 +26,7 @@ type VariableValueAtManagementGroup struct {
 	// The name of the variable.
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv2.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource (Microsoft.Authorization/variables/values).
 	Type pulumi.StringOutput `pulumi:"type"`
 	// Variable value column value array.
@@ -163,8 +164,8 @@ func (o VariableValueAtManagementGroupOutput) Name() pulumi.StringOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o VariableValueAtManagementGroupOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *VariableValueAtManagementGroup) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o VariableValueAtManagementGroupOutput) SystemData() commontypesv2.SystemDataResponseOutput {
+	return o.ApplyT(func(v *VariableValueAtManagementGroup) commontypesv2.SystemDataResponseOutput { return v.SystemData }).(commontypesv2.SystemDataResponseOutput)
 }
 
 // The type of the resource (Microsoft.Authorization/variables/values).

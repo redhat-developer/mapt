@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv1"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -54,7 +55,7 @@ type LookupTemplateSpecVersionResult struct {
 	// Name of this resource.
 	Name string `pulumi:"name"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv1.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Type of this resource.
@@ -141,8 +142,8 @@ func (o LookupTemplateSpecVersionResultOutput) Name() pulumi.StringOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupTemplateSpecVersionResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupTemplateSpecVersionResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupTemplateSpecVersionResultOutput) SystemData() commontypesv1.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupTemplateSpecVersionResult) commontypesv1.SystemDataResponse { return v.SystemData }).(commontypesv1.SystemDataResponseOutput)
 }
 
 // Resource tags.

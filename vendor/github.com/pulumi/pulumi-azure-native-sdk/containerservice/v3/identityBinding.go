@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -29,7 +30,7 @@ type IdentityBinding struct {
 	// The resource-specific properties for this resource.
 	Properties IdentityBindingPropertiesResponseOutput `pulumi:"properties"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -178,8 +179,8 @@ func (o IdentityBindingOutput) Properties() IdentityBindingPropertiesResponseOut
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o IdentityBindingOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *IdentityBinding) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o IdentityBindingOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v *IdentityBinding) commontypesv5.SystemDataResponseOutput { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

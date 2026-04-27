@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -92,7 +93,7 @@ type LookupVirtualMachineScaleSetVMResult struct {
 	// Specifies the storage settings for the virtual machine disks.
 	StorageProfile *StorageProfileResponse `pulumi:"storageProfile"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01.
@@ -285,8 +286,8 @@ func (o LookupVirtualMachineScaleSetVMResultOutput) StorageProfile() StorageProf
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupVirtualMachineScaleSetVMResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupVirtualMachineScaleSetVMResultOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupVirtualMachineScaleSetVMResult) commontypesv3.SystemDataResponse { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

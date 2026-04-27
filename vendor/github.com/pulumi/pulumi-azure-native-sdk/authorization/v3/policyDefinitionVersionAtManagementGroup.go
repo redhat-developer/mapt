@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -39,7 +40,7 @@ type PolicyDefinitionVersionAtManagementGroup struct {
 	// The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
 	PolicyType pulumi.StringPtrOutput `pulumi:"policyType"`
 	// The system metadata relating to this resource.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource (Microsoft.Authorization/policyDefinitions/versions).
 	Type pulumi.StringOutput `pulumi:"type"`
 	// The policy definition version in #.#.# format.
@@ -251,8 +252,10 @@ func (o PolicyDefinitionVersionAtManagementGroupOutput) PolicyType() pulumi.Stri
 }
 
 // The system metadata relating to this resource.
-func (o PolicyDefinitionVersionAtManagementGroupOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *PolicyDefinitionVersionAtManagementGroup) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o PolicyDefinitionVersionAtManagementGroupOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v *PolicyDefinitionVersionAtManagementGroup) commontypesv5.SystemDataResponseOutput {
+		return v.SystemData
+	}).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the resource (Microsoft.Authorization/policyDefinitions/versions).

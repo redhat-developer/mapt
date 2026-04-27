@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -41,7 +42,7 @@ type Gallery struct {
 	// Contains information about the soft deletion policy of the gallery.
 	SoftDeletePolicy SoftDeletePolicyResponsePtrOutput `pulumi:"softDeletePolicy"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -259,8 +260,8 @@ func (o GalleryOutput) SoftDeletePolicy() SoftDeletePolicyResponsePtrOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o GalleryOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *Gallery) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o GalleryOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *Gallery) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

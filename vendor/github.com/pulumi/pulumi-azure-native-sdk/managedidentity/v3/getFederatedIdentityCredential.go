@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv4"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -50,7 +51,7 @@ type LookupFederatedIdentityCredentialResult struct {
 	// The identifier of the external identity.
 	Subject string `pulumi:"subject"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv4.SystemDataResponse `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
@@ -123,8 +124,8 @@ func (o LookupFederatedIdentityCredentialResultOutput) Subject() pulumi.StringOu
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupFederatedIdentityCredentialResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupFederatedIdentityCredentialResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupFederatedIdentityCredentialResultOutput) SystemData() commontypesv4.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupFederatedIdentityCredentialResult) commontypesv4.SystemDataResponse { return v.SystemData }).(commontypesv4.SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

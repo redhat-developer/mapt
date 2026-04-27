@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -49,7 +50,7 @@ type VirtualMachineExtension struct {
 	// Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
 	SuppressFailures pulumi.BoolPtrOutput `pulumi:"suppressFailures"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -374,8 +375,8 @@ func (o VirtualMachineExtensionOutput) SuppressFailures() pulumi.BoolPtrOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o VirtualMachineExtensionOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *VirtualMachineExtension) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o VirtualMachineExtensionOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *VirtualMachineExtension) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

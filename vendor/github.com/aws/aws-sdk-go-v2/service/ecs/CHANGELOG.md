@@ -1,3 +1,7 @@
+# v1.79.0 (2026-04-22)
+
+* **Feature**: GPU health monitoring and auto-repair for ECS Managed Instances
+
 # v1.78.1 (2026-04-17)
 
 * **Dependency Update**: Bump smithy-go to 1.25.0 to support endpointBdd trait
