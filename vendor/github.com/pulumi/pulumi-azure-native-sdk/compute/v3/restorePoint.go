@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -37,7 +38,7 @@ type RestorePoint struct {
 	// Resource Id of the source restore point from which a copy needs to be created.
 	SourceRestorePoint ApiEntityReferenceResponsePtrOutput `pulumi:"sourceRestorePoint"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// Gets the creation time of the restore point.
 	TimeCreated pulumi.StringPtrOutput `pulumi:"timeCreated"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -251,8 +252,8 @@ func (o RestorePointOutput) SourceRestorePoint() ApiEntityReferenceResponsePtrOu
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o RestorePointOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *RestorePoint) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o RestorePointOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *RestorePoint) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Gets the creation time of the restore point.

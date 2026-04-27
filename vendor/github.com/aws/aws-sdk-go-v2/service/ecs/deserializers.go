@@ -11334,6 +11334,46 @@ func awsAwsjson11_deserializeDocumentAttributes(v *[]types.Attribute, value inte
 	return nil
 }
 
+func awsAwsjson11_deserializeDocumentAutoRepairConfiguration(v **types.AutoRepairConfiguration, value interface{}) error {
+	if v == nil {
+		return fmt.Errorf("unexpected nil of type %T", v)
+	}
+	if value == nil {
+		return nil
+	}
+
+	shape, ok := value.(map[string]interface{})
+	if !ok {
+		return fmt.Errorf("unexpected JSON type %v", value)
+	}
+
+	var sv *types.AutoRepairConfiguration
+	if *v == nil {
+		sv = &types.AutoRepairConfiguration{}
+	} else {
+		sv = *v
+	}
+
+	for key, value := range shape {
+		switch key {
+		case "actionsStatus":
+			if value != nil {
+				jtv, ok := value.(string)
+				if !ok {
+					return fmt.Errorf("expected AutoRepairActionsStatus to be of type string, got %T instead", value)
+				}
+				sv.ActionsStatus = types.AutoRepairActionsStatus(jtv)
+			}
+
+		default:
+			_, _ = key, value
+
+		}
+	}
+	*v = sv
+	return nil
+}
+
 func awsAwsjson11_deserializeDocumentAutoScalingGroupProvider(v **types.AutoScalingGroupProvider, value interface{}) error {
 	if v == nil {
 		return fmt.Errorf("unexpected nil of type %T", v)
@@ -19177,6 +19217,15 @@ func awsAwsjson11_deserializeDocumentInstanceHealthCheckResult(v **types.Instanc
 				sv.Status = types.InstanceHealthCheckState(jtv)
 			}
 
+		case "statusReason":
+			if value != nil {
+				jtv, ok := value.(string)
+				if !ok {
+					return fmt.Errorf("expected String to be of type string, got %T instead", value)
+				}
+				sv.StatusReason = ptr.String(jtv)
+			}
+
 		case "type":
 			if value != nil {
 				jtv, ok := value.(string)
@@ -20743,6 +20792,11 @@ func awsAwsjson11_deserializeDocumentManagedInstancesProvider(v **types.ManagedI
 
 	for key, value := range shape {
 		switch key {
+		case "autoRepairConfiguration":
+			if err := awsAwsjson11_deserializeDocumentAutoRepairConfiguration(&sv.AutoRepairConfiguration, value); err != nil {
+				return err
+			}
+
 		case "infrastructureOptimization":
 			if err := awsAwsjson11_deserializeDocumentInfrastructureOptimization(&sv.InfrastructureOptimization, value); err != nil {
 				return err

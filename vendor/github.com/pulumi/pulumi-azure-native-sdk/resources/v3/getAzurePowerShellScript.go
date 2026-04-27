@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv1"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -75,7 +76,7 @@ type LookupAzurePowerShellScriptResult struct {
 	// Supporting files for the external script.
 	SupportingScriptUris []string `pulumi:"supportingScriptUris"`
 	// The system metadata related to this resource.
-	SystemData SystemDataResponse `pulumi:"systemData"`
+	SystemData commontypesv1.SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D
@@ -239,8 +240,8 @@ func (o LookupAzurePowerShellScriptResultOutput) SupportingScriptUris() pulumi.S
 }
 
 // The system metadata related to this resource.
-func (o LookupAzurePowerShellScriptResultOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupAzurePowerShellScriptResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+func (o LookupAzurePowerShellScriptResultOutput) SystemData() commontypesv1.SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupAzurePowerShellScriptResult) commontypesv1.SystemDataResponse { return v.SystemData }).(commontypesv1.SystemDataResponseOutput)
 }
 
 // Resource tags.

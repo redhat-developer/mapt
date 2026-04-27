@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -75,7 +76,7 @@ type Snapshot struct {
 	// Indicates the OS on a snapshot supports hibernation.
 	SupportsHibernation pulumi.BoolPtrOutput `pulumi:"supportsHibernation"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The time when the snapshot was created.
@@ -472,8 +473,8 @@ func (o SnapshotOutput) SupportsHibernation() pulumi.BoolPtrOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o SnapshotOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *Snapshot) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o SnapshotOutput) SystemData() commontypesv3.SystemDataResponseOutput {
+	return o.ApplyT(func(v *Snapshot) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
 }
 
 // Resource tags.

@@ -173,6 +173,25 @@ func (AssignPublicIp) Values() []AssignPublicIp {
 	}
 }
 
+type AutoRepairActionsStatus string
+
+// Enum values for AutoRepairActionsStatus
+const (
+	AutoRepairActionsStatusEnabled  AutoRepairActionsStatus = "ENABLED"
+	AutoRepairActionsStatusDisabled AutoRepairActionsStatus = "DISABLED"
+)
+
+// Values returns all known values for AutoRepairActionsStatus. Note that this can
+// be expanded in the future, and so it is only as up to date as the client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (AutoRepairActionsStatus) Values() []AutoRepairActionsStatus {
+	return []AutoRepairActionsStatus{
+		"ENABLED",
+		"DISABLED",
+	}
+}
+
 type AvailabilityZoneRebalancing string
 
 // Enum values for AvailabilityZoneRebalancing

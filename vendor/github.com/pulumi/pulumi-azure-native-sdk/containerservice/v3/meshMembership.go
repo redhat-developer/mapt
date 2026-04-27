@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -31,7 +32,7 @@ type MeshMembership struct {
 	// Mesh membership properties of a managed cluster.
 	Properties MeshMembershipPropertiesResponseOutput `pulumi:"properties"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -183,8 +184,8 @@ func (o MeshMembershipOutput) Properties() MeshMembershipPropertiesResponseOutpu
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o MeshMembershipOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *MeshMembership) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o MeshMembershipOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v *MeshMembership) commontypesv5.SystemDataResponseOutput { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

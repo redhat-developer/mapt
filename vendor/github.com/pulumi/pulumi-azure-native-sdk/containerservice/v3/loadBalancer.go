@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -37,7 +38,7 @@ type LoadBalancer struct {
 	// Services created in namespaces that match the selector can be placed on this load balancer.
 	ServiceNamespaceSelector LabelSelectorResponsePtrOutput `pulumi:"serviceNamespaceSelector"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -268,8 +269,8 @@ func (o LoadBalancerOutput) ServiceNamespaceSelector() LabelSelectorResponsePtrO
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LoadBalancerOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *LoadBalancer) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o LoadBalancerOutput) SystemData() commontypesv5.SystemDataResponseOutput {
+	return o.ApplyT(func(v *LoadBalancer) commontypesv5.SystemDataResponseOutput { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

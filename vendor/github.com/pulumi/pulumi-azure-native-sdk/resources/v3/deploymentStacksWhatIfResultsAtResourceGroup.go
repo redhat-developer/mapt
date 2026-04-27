@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv6"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -27,7 +28,7 @@ type DeploymentStacksWhatIfResultsAtResourceGroup struct {
 	// The resource-specific properties for this resource.
 	Properties DeploymentStacksWhatIfResultPropertiesResponseV1Output `pulumi:"properties"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData commontypesv6.SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -169,8 +170,10 @@ func (o DeploymentStacksWhatIfResultsAtResourceGroupOutput) Properties() Deploym
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o DeploymentStacksWhatIfResultsAtResourceGroupOutput) SystemData() SystemDataResponseOutput {
-	return o.ApplyT(func(v *DeploymentStacksWhatIfResultsAtResourceGroup) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+func (o DeploymentStacksWhatIfResultsAtResourceGroupOutput) SystemData() commontypesv6.SystemDataResponseOutput {
+	return o.ApplyT(func(v *DeploymentStacksWhatIfResultsAtResourceGroup) commontypesv6.SystemDataResponseOutput {
+		return v.SystemData
+	}).(commontypesv6.SystemDataResponseOutput)
 }
 
 // Resource tags.
