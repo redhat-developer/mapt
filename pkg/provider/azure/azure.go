@@ -2,6 +2,8 @@ package azure
 
 import (
 	"context"
+	"fmt"
+	"net/url"
 	"os"
 	"slices"
 	"strings"
@@ -9,6 +11,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
+	"github.com/redhat-developer/mapt/pkg/provider/azure/services/storage/blob"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
@@ -113,6 +116,12 @@ var (
 	}
 )
 
+const pulumiLocksPath = ".pulumi/locks"
+
+type DestroyStackRequest struct {
+	Stackname string
+}
+
 func Destroy(mCtx *mc.Context, stackName string) error {
 	stack := manager.Stack{
 		StackName:           mCtx.StackNameByProject(stackName),
@@ -120,6 +129,70 @@ func Destroy(mCtx *mc.Context, stackName string) error {
 		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: DefaultCredentials}
 	return manager.DestroyStack(mCtx, stack)
+}
+
+func DestroyStack(mCtx *mc.Context, s DestroyStackRequest) error {
+	logging.Debug("Running destroy operation")
+	if len(s.Stackname) == 0 {
+		return fmt.Errorf("stackname is required")
+	}
+	if mCtx.IsForceDestroy() {
+		container, path, parseErr := parseAzblobBackedURL(mCtx)
+		if parseErr != nil {
+			logging.Error(parseErr)
+		} else {
+			prefix := pulumiLocksPath + "/"
+			if path != "" {
+				prefix = path + "/" + prefix
+			}
+			if err := blob.Delete(mCtx.Context(), container, prefix); err != nil {
+				logging.Error(err)
+			}
+		}
+	}
+	return manager.DestroyStack(
+		mCtx,
+		manager.Stack{
+			StackName:           mCtx.StackNameByProject(s.Stackname),
+			ProjectName:         mCtx.ProjectName(),
+			BackedURL:           mCtx.BackedURL(),
+			ProviderCredentials: DefaultCredentials})
+}
+
+func parseAzblobBackedURL(mCtx *mc.Context) (container string, path string, err error) {
+	if !strings.HasPrefix(mCtx.BackedURL(), "azblob://") {
+		return "", "", fmt.Errorf("invalid azblob URI: must start with azblob://")
+	}
+	u, err := url.Parse(mCtx.BackedURL())
+	if err != nil {
+		return "", "", fmt.Errorf("failed to parse azblob URI: %w", err)
+	}
+	return u.Host, strings.TrimPrefix(u.Path, "/"), nil
+}
+
+func CleanupState(mCtx *mc.Context) error {
+	if mCtx.IsKeepState() {
+		return nil
+	}
+
+	container, path, parseErr := parseAzblobBackedURL(mCtx)
+	if parseErr != nil {
+		logging.Warnf("Failed to parse azblob backend URL, skipping state cleanup: %v", parseErr)
+		return nil
+	}
+
+	prefix := ".pulumi/"
+	if path != "" {
+		prefix = path + "/"
+	}
+	logging.Infof("Cleaning up Pulumi state from azblob://%s/%s", container, path)
+	if deleteErr := blob.Delete(mCtx.Context(), container, prefix); deleteErr != nil {
+		logging.Warnf("Failed to cleanup Azure blob state: %v", deleteErr)
+	} else {
+		logging.Info("Successfully cleaned up Pulumi state from Azure Blob Storage")
+	}
+
+	return nil
 }
 
 func locationSupportsResourceGroup(location string) bool {

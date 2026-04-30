@@ -95,13 +95,16 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (*utilKind.KindRe
 }
 
 func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
-	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
 	if err != nil {
 		return err
 	}
-	// destroy
-	return azure.Destroy(mCtx, stackAzureKind)
+	if err := azure.DestroyStack(mCtx, azure.DestroyStackRequest{
+		Stackname: stackAzureKind,
+	}); err != nil {
+		return err
+	}
+	return azure.CleanupState(mCtx)
 }
 
 // Main function to deploy all requried resources to azure

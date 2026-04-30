@@ -87,12 +87,16 @@ func Create(mCtxArgs *mc.ContextArgs, args *AKSArgs) (err error) {
 
 func Destroy(mCtxArgs *mc.ContextArgs) error {
 	logging.Debug("Destroy AKS")
-	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
 	if err != nil {
 		return err
 	}
-	return azure.Destroy(mCtx, stackAKS)
+	if err := azure.DestroyStack(mCtx, azure.DestroyStackRequest{
+		Stackname: stackAKS,
+	}); err != nil {
+		return err
+	}
+	return azure.CleanupState(mCtx)
 }
 
 // Main function to deploy all requried resources to azure

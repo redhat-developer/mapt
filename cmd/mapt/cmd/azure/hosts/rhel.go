@@ -84,7 +84,7 @@ func getCreateRHEL() *cobra.Command {
 }
 
 func getDestroyRHEL() *cobra.Command {
-	return &cobra.Command{
+	c := &cobra.Command{
 		Use:   params.DestroyCmdName,
 		Short: params.DestroyCmdName,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -92,12 +92,19 @@ func getDestroyRHEL() *cobra.Command {
 				return err
 			}
 			return azureRHEL.Destroy(&maptContext.ContextArgs{
-				Context:     cmd.Context(),
-				ProjectName: viper.GetString(params.ProjectName),
-				BackedURL:   viper.GetString(params.BackedURL),
-				Debug:       viper.IsSet(params.Debug),
-				DebugLevel:  viper.GetUint(params.DebugLevel),
+				Context:      cmd.Context(),
+				ProjectName:  viper.GetString(params.ProjectName),
+				BackedURL:    viper.GetString(params.BackedURL),
+				Debug:        viper.IsSet(params.Debug),
+				DebugLevel:   viper.GetUint(params.DebugLevel),
+				ForceDestroy: viper.IsSet(params.ForceDestroy),
+				KeepState:    viper.IsSet(params.KeepState),
 			})
 		},
 	}
+	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
+	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
+	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	return c
 }

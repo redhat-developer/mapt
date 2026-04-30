@@ -119,7 +119,7 @@ const (
 	ForceDestroy     string = "force-destroy"
 	ForceDestroyDesc string = "if force-destroy is set the command will destroy even if there is a lock."
 	KeepState        string = "keep-state"
-	KeepStateDesc    string = "keep Pulumi state files in S3 backend after successful destroy (by default, state files are removed)"
+	KeepStateDesc    string = "keep Pulumi state files in backend storage after successful destroy (by default, state files are removed)"
 
 	// Kind
 	KindCmd                   = "kind"

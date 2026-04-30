@@ -124,13 +124,16 @@ func Create(mCtxArgs *mc.ContextArgs, args *LinuxArgs) (err error) {
 }
 
 func Destroy(mCtxArgs *mc.ContextArgs) error {
-	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
 	if err != nil {
 		return err
 	}
-	// destroy
-	return azure.Destroy(mCtx, stackAzureLinux)
+	if err := azure.DestroyStack(mCtx, azure.DestroyStackRequest{
+		Stackname: stackAzureLinux,
+	}); err != nil {
+		return err
+	}
+	return azure.CleanupState(mCtx)
 }
 
 // Main function to deploy all requried resources to azure

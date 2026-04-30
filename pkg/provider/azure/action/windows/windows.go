@@ -118,13 +118,16 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsArgs) (err error) {
 }
 
 func Destroy(mCtxArgs *mc.ContextArgs) error {
-	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
 	if err != nil {
 		return err
 	}
-	// destroy
-	return azure.Destroy(mCtx, stackCreateWindowsDesktop)
+	if err := azure.DestroyStack(mCtx, azure.DestroyStackRequest{
+		Stackname: stackCreateWindowsDesktop,
+	}); err != nil {
+		return err
+	}
+	return azure.CleanupState(mCtx)
 }
 
 // Main function to deploy all requried resources to azure
