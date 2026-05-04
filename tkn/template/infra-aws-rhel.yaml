@@ -118,6 +118,9 @@ spec:
     - name: nested-virt
       description: Use cloud instance that has nested virtualization support
       default: "false"
+    - name: disk-size
+      description: Disk size in GB for the cloud instance
+      default: "200"
     - name: spot
       description: Check best spot option to spin the machine and will create resources on that region.
       default: "true"
@@ -279,6 +282,7 @@ spec:
             cmd+="--nested-virt "
           fi
           cmd+="--arch '$(params.arch)' "
+          cmd+="--disk-size '$(params.disk-size)' "
           cmd+="--version '$(params.version)' "
           if [[ -f /opt/rh-account-secret/user ]]; then
             cmd+="--rh-subscription-username '$(cat /opt/rh-account-secret/user)' "
