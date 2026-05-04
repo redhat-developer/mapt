@@ -115,7 +115,7 @@ spec:
         The parameter is intended to add verbosity on the task execution and also print masked credentials
         (showing first and last character with *** in the middle) on stdout to help with debugging
       default: 'false'
-    
+
   results:
     - name: cluster-access-secret
       description: |
@@ -184,11 +184,11 @@ spec:
             echo "Parameter ownerName and ownerUid is recommended when creating instance"
           fi
         fi
-        
+
         # Run mapt
         cmd="mapt azure aks $(params.operation) "
         cmd+="--project-name mapt-aks-$(params.id) "
-        cmd+="--backed-url azblob://${BLOB}/aks-$(params.id) "
+        cmd+="--backed-url azblob://${BLOB}/mapt/aks/$(params.id) "
 
         if [[ $(params.debug) == "true" ]]; then
           cmd+="--debug "

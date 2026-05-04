@@ -41,6 +41,7 @@ spec:
           secret-key: ${secret_key}
           region: ${region}
           bucket: ${bucket}
+
     # Mapt params
     - name: id
       description: identifier for the provisioned environment

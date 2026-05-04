@@ -216,7 +216,7 @@ spec:
         # Run mapt
         cmd="mapt azure rhel $(params.operation) "
         cmd+="--project-name mapt-rhel-$(params.id) "
-        cmd+="--backed-url azblob://${BLOB}/rhel-$(params.id) "
+        cmd+="--backed-url azblob://${BLOB}/mapt/rhel/$(params.id) "
 
         if [[ "$(params.debug)" == "true" ]]; then
           cmd+="--debug "

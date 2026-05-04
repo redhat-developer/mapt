@@ -126,7 +126,7 @@ spec:
       description: If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated.
       default: 'false'
     - name: profile
-      description: Comma-separated list of profiles to install on the cluster (e.g. virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai, nvidia). When virtualization is selected, a bare metal instance is used. The nvidia profile installs NFD and the NVIDIA GPU Operator.
+      description: Comma-separated list of profiles to install on the cluster (e.g. virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai). When virtualization is selected, a bare metal instance is used.
       default: "''"
 
     # Network params
