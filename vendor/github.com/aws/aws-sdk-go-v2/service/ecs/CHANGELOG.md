@@ -1,3 +1,8 @@
+# v1.79.1 (2026-04-29)
+
+* **Dependency Update**: Update to smithy-go v1.25.1.
+* **Dependency Update**: Updated to the latest SDK module versions
+
 # v1.79.0 (2026-04-22)
 
 * **Feature**: GPU health monitoring and auto-repair for ECS Managed Instances
