@@ -105,6 +105,9 @@ spec:
     - name: nested-virt
       description: Use cloud instance that has nested virtualization support
       default: "false"
+    - name: disk-size
+      description: Disk size in GB for the cloud instance
+      default: "200"
     - name: spot
       description: in case spot is set to true it will check for best spot price and create the VM on the target region
       default: "true"
@@ -237,6 +240,7 @@ spec:
           fi
           cmd+="--arch '$(params.arch)' "
           cmd+="--version '$(params.version)' "
+          cmd+="--disk-size '$(params.disk-size)' "
           if [[ "$(params.spot)" == "true" ]]; then
             cmd+="--spot "
             cmd+="--spot-eviction-tolerance '$(params.spot-eviction-tolerance)' "
