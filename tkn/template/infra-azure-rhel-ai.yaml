@@ -82,6 +82,9 @@ spec:
     - name: accelerator
       description: accelerator for RHEL AI OS rocm or cuda (default rocm)
       default: "rocm"
+    - name: disk-size
+      description: Disk size in GB for the cloud instance
+      default: "200"
     - name: compute-sizes
       description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
       default: "Standard_ND96is_MI300X_v5,Standard_ND96isr_MI300X_v5"
@@ -229,7 +232,7 @@ spec:
             cmd+="--accelerator '$(params.accelerator)' "
             cmd+="--version '$(params.version)' "
           fi
-
+          cmd+="--disk-size '$(params.disk-size)' "
           if [[ "$(params.spot)" == "true" ]]; then
             cmd+="--spot "
             cmd+="--spot-increase-rate '$(params.spot-increase-rate)' "
