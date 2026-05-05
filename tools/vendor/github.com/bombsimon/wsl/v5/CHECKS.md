@@ -13,6 +13,7 @@
   - [`assign-exclusive`](#assign-exclusive)
   - [`assign-expr`](#assign-expr)
   - [`branch`](#branch)
+  - [`cuddle-group`](#cuddle-group)
   - [`decl`](#decl)
   - [`defer`](#defer)
   - [`err`](#err)
@@ -1598,6 +1599,87 @@ if err != nil {
 
 [🔝](#table-of-content)
 
+### `cuddle-group`
+
+Treats the cuddled chain above a trigger statement (`if`, `for`, `switch`,
+etc., `go`, `defer`, `send`) as a single unit. The chain stays cuddled with
+the trigger only when _every_ cuddled statement shares a variable with the
+trigger _and_ the number of sharing statements is within
+`cuddle-max-statements`.
+
+Without this check, the same violations are reported on a cuddled statement
+inside the chain, splitting the group between variables.
+
+<table>
+<thead><tr><th>Bad</th><th>Good</th></tr></thead>
+<tbody>
+<tr><td valign="top">
+
+```go
+// With the default cuddle-max-statements: 1
+a := 1
+b := 2
+if a > b { // 1
+    fmt.Println("ok")
+}
+
+// Mid-chain non-sharing
+notUsed := 1
+b := 2
+if b > 0 { // 2
+    fmt.Println("ok")
+}
+```
+
+</td><td valign="top">
+
+```go
+// With the default cuddle-max-statements: 1
+a := 1
+b := 2
+
+if a > b {
+    fmt.Println("ok")
+}
+
+// Without cuddle-group, the same input is fixed by
+// splitting between the cuddled variables instead:
+a := 1
+
+b := 2
+if a > b {
+    fmt.Println("ok")
+}
+
+// Mid-chain non-sharing — group still separated as
+// a unit:
+notUsed := 1
+b := 2
+
+if b > 0 {
+    fmt.Println("ok")
+}
+```
+
+</td></tr>
+
+<tr><td valign="top">
+
+<sup>1</sup> Two cuddled statements share a variable with `if`; with
+`cuddle-group` enabled the group stays cuddled and the blank line goes above
+the `if` instead of between the variables
+
+<sup>2</sup> Only one cuddled statement shares with `if`, but a non-sharing
+stmt (`notUsed`) is in the chain so `cuddle-group` separates the entire group
+from the `if` rather than splitting between `notUsed` and `b`
+
+</td><td valign="top">
+
+</td></tr>
+</tbody></table>
+
+[🔝](#table-of-content)
+
 ### `leading-whitespace`
 
 <table>
@@ -1897,9 +1979,14 @@ case 2:
 
 Controls the maximum number of consecutive statements that may be cuddled
 (appear without a blank line) immediately above block statements (`if`, `for`,
-`switch`, etc.), `go`, `defer`, and `send`. The default is 1. Set to 0 for
-unlimited. Every cuddled statement must share at least one variable with the
-following block (respects `allow-first-in-block` and `allow-whole-block`).
+`switch`, etc.), `go`, `defer`, and `send`. The default is 1. Every cuddled
+statement must share at least one variable with the following block (respects
+`allow-first-in-block` and `allow-whole-block`).
+
+Setting it to `0` disallows any cuddling, the trigger always requires a blank
+line above it, even when the variable on the line above is used by the block.
+The recommended way to allow any number of statements is to set a really high
+number such as `9999`.
 
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
@@ -1918,6 +2005,12 @@ a := 1
 b := 2
 c := 3
 if a+b+c > 0 { // 2
+    fmt.Println("ok")
+}
+
+// With cuddle-max-statements: 0
+a := 1
+if a > 0 { // 3
     fmt.Println("ok")
 }
 ```
@@ -1940,11 +2033,10 @@ if a < b {
     fmt.Println("ok")
 }
 
-// With cuddle-max-statements: 0 (unlimited)
+// With cuddle-max-statements: 0
 a := 1
-b := 2
-c := 3
-if a+b+c > 0 {
+
+if a > 0 {
     fmt.Println("ok")
 }
 ```
@@ -1956,6 +2048,9 @@ if a+b+c > 0 {
 <sup>1</sup> Two statements cuddled above `if`, exceeds default limit of 1
 
 <sup>2</sup> Three statements cuddled above `if`, exceeds limit of 2
+
+<sup>3</sup> One statement cuddled above `if`; with `0` even a single shared
+variable still requires a blank line above the trigger
 
 </td><td valign="top">
 

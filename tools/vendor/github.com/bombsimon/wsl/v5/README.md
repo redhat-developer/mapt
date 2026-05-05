@@ -77,6 +77,8 @@ For more details and examples, see [CHECKS](CHECKS.md).
   re-assigning of existing ones
 - ❌ **assign-expr** - Don't allow assignments to be cuddled with expressions,
   e.g. function calls
+- ❌ **cuddle-group** - Treat the cuddled chain as a unit; separate the whole
+  group from the block instead of splitting between cuddled variables
 - ✅ **err** - Error checking must follow immediately after the error variable
   is assigned
 - ✅ **leading-whitespace** - Disallow leading empty lines in blocks
@@ -102,7 +104,8 @@ examples.
 - **cuddle-max-statements** - Max number of cuddled statements allowed above
   block statements, `go`, `defer` and `send`. Every cuddled statement must have
   at least one variable used in the block. Respects `allow-first-in-block` and
-  `allow-whole-block` (default 1, 0 = unlimited)
+  `allow-whole-block`. With `0` no cuddling is allowed at all — every
+  cuddle-checked trigger requires a blank line above it (default 1)
 - ❌ **include-generated** - Include generated files when checking
 
 ## Installation
@@ -183,6 +186,7 @@ linters:
         - after-go
         - assign-exclusive
         - assign-expr
+        - cuddle-group
 ```
 
 ## See also

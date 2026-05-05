@@ -7,6 +7,7 @@ import (
 	"go/format"
 	"go/token"
 	"go/types"
+	"math"
 	"slices"
 
 	"golang.org/x/tools/go/analysis"
@@ -189,10 +190,12 @@ func (w *WSL) checkCuddlingMaxAllowed(
 	}
 
 	_, currIsDefer := stmt.(*ast.DeferStmt)
+	_, currIsGo := stmt.(*ast.GoStmt)
+	currRelaxesPrevType := currIsDefer || currIsGo
 
-	// We're cuddled but not with an assign, declare or defer statement which is
-	// never allowed.
-	if !isAssignDeclOrIncDec(previousNode) && !currIsDefer {
+	// We're cuddled but not with an assign, declare, increment/decrement and
+	// we're not a statement with relaxed check.
+	if !isAssignDeclOrIncDec(previousNode) && !currRelaxesPrevType {
 		w.addErrorInvalidTypeCuddle(cursor.Stmt().Pos(), cursor.checkType)
 		return
 	}
@@ -208,7 +211,45 @@ func (w *WSL) checkCuddlingMaxAllowed(
 		return
 	}
 
-	allowedCount, stoppedAtNonIntersection := w.countValidCuddledStatements(targetIdents, cursor, w.config.CuddleMaxStatements)
+	// CheckErr always have precedence, allowing any permutation of max allowed
+	// cuddled statements and CheckCuddleGroup to be configured but still
+	// respect the requirement to use the idiomatic err checking and never
+	// insert a newline between the err and if.
+	_, errEnabled := w.config.Checks[CheckErr]
+	errIdent := w.isErrNotNilCheck(stmt)
+
+	if errEnabled && errIdent != nil && identsIntersect([]*ast.Ident{errIdent}, previousIdents) {
+		if numStmtsAbove > 1 {
+			if errorNode := cursor.NthPrevious(1); errorNode != nil {
+				w.addErrorTooManyStatements(errorNode.Pos(), cursor.checkType)
+			}
+		}
+
+		return
+	}
+
+	if _, ok := w.config.Checks[CheckCuddleGroup]; ok {
+		// Treat the cuddled chain as a unit: any non-sharing stmt or too
+		// many sharing stmts separates the whole group from the trigger.
+		sharedCount, stoppedAtNonIntersection := w.countValidCuddledStatements(
+			targetIdents,
+			cursor,
+			currRelaxesPrevType,
+			math.MaxInt,
+		)
+		if stoppedAtNonIntersection || sharedCount > w.config.CuddleMaxStatements {
+			w.addErrorTooManyStatements(cursor.Stmt().Pos(), cursor.checkType)
+		}
+
+		return
+	}
+
+	allowedCount, stoppedAtNonIntersection := w.countValidCuddledStatements(
+		targetIdents,
+		cursor,
+		currRelaxesPrevType,
+		w.config.CuddleMaxStatements,
+	)
 	if numStmtsAbove <= allowedCount {
 		return
 	}
@@ -251,12 +292,16 @@ func (w *WSL) cuddleTargetIdents(
 
 // countValidCuddledStatements walks backwards from the cursor and counts how
 // many consecutive cuddled statements have a valid intersection with
-// targetIdents. It stops at the first non-intersecting statement or when max is
-// reached (0 = unlimited). Returns the count and whether the walk stopped
-// because a non-intersecting statement was found (as opposed to the limit).
+// targetIdents. It stops at the first non-intersecting statement or when the
+// limit is reached. Returns the count and whether the walk stopped because a
+// non-intersecting statement was found (as opposed to the limit).
+//
+// When allowAnyStmtType is true any statement type is accepted as a cuddled
+// neighbor.
 func (w *WSL) countValidCuddledStatements(
 	targetIdents []*ast.Ident,
 	cursor *Cursor,
+	allowAnyStmtType bool,
 	limit int,
 ) (int, bool) {
 	defer cursor.Save()()
@@ -270,12 +315,12 @@ func (w *WSL) countValidCuddledStatements(
 			break
 		}
 
-		if limit > 0 && count >= limit {
+		if count >= limit {
 			break
 		}
 
 		prevNode := cursor.Stmt()
-		if !isAssignDeclOrIncDec(prevNode) {
+		if !isAssignDeclOrIncDec(prevNode) && !allowAnyStmtType {
 			break
 		}
 

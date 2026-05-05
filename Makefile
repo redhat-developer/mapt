@@ -93,7 +93,7 @@ fmt:
 # Run golangci-lint against code
 .PHONY: lint 
 lint: $(TOOLS_BINDIR)/golangci-lint
-	"$(TOOLS_BINDIR)"/golangci-lint run -v --timeout 10m
+	"$(TOOLS_BINDIR)"/golangci-lint run -v 
 
 .PHONY: renovate-check
 renovate-check:
