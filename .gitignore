@@ -6,3 +6,4 @@ ami-id
 Pulumi*.yaml
 /tools/bin/**
 !/tools/bin/.gitkeep
+.claude/settings.local.json

@@ -1,8 +1,23 @@
 version: "2"
 
 run:
-  timeout: 10m
+  timeout: 20m
+  skip-dirs:
+    - vendor
+    - tools/vendor
+  skip-files:
+    - pkg/provider/ibmcloud/action/powervs/powervs.go
+  concurrency: 1
 
 linters:
   disable:
     - govet
+
+linters-settings:
+  govet:
+    enable-all: true
+
+issues:
+  exclude-dirs:
+    - vendor
+    - tools/vendor
