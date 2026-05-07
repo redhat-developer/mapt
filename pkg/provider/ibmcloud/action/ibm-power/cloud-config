@@ -1,0 +1,6 @@
+#cloud-config
+runcmd:
+  - |
+    IFACE=$(ip route show default | awk '/default/ {print $5; exit}')
+    ip route add 10.0.0.0/8 via {{.Gateway}} dev "$IFACE" 2>/dev/null || true
+    echo "10.0.0.0/8 via {{.Gateway}}" > "/etc/sysconfig/network-scripts/route-$IFACE"
