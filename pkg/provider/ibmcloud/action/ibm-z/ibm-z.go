@@ -1,6 +1,8 @@
 package ibmz
 
 import (
+	_ "embed"
+	"encoding/base64"
 	"fmt"
 	"strings"
 
@@ -17,9 +19,26 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
+
+//go:embed cloud-config
+var CloudConfig []byte
+
+// otelColVersion is overridden at build time via -ldflags.
+var otelColVersion = "0.151.0"
+
+type userDataValues struct {
+	AppCode        string
+	OtelAuthToken  string
+	OtelEndpoint   string
+	OtelColVersion string
+	OtelIndex      string
+	OtelArch       string
+	OtelExtraAttrs map[string]string
+}
 
 const (
 	stackIBMS390         = "ics390"
@@ -36,13 +55,26 @@ type ZArgs struct {
 	// instead of provisioning a new VPC and subnet. IC_ZONE is not required
 	// when this field is provided.
 	SubnetID string
+	// OtelAppCode, OtelAuthToken, and OtelEndpoint are optional. When AppCode
+	// and AuthToken are both set, the otelcol-contrib filelog collector is
+	// installed and started, shipping logs to OtelEndpoint.
+	OtelAppCode    string
+	OtelAuthToken  string
+	OtelEndpoint   string
+	OtelIndex      string
+	OtelExtraAttrs map[string]string
 }
 
 type zRequest struct {
-	mCtx     *mc.Context
-	prefix   *string
-	zone     *string
-	subnetID *string
+	mCtx          *mc.Context
+	prefix        *string
+	zone          *string
+	subnetID      *string
+	otelAppCode    string
+	otelAuthToken  string
+	otelEndpoint   string
+	otelIndex      string
+	otelExtraAttrs map[string]string
 }
 
 // New provisions an IBM Z (s390x) VPC instance. When SubnetID is set the
@@ -74,10 +106,15 @@ func New(ctx *mc.ContextArgs, args *ZArgs) error {
 	}
 
 	r := &zRequest{
-		mCtx:     mCtx,
-		prefix:   &prefix,
-		zone:     zone,
-		subnetID: subnetID,
+		mCtx:          mCtx,
+		prefix:        &prefix,
+		zone:          zone,
+		subnetID:      subnetID,
+		otelAppCode:    args.OtelAppCode,
+		otelAuthToken:  args.OtelAuthToken,
+		otelEndpoint:   args.OtelEndpoint,
+		otelIndex:      args.OtelIndex,
+		otelExtraAttrs: args.OtelExtraAttrs,
 	}
 	cs := manager.Stack{
 		StackName:           mCtx.StackNameByProject(stackIBMS390),
@@ -139,24 +176,32 @@ func (r *zRequest) deploy(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	instanceArgs := &ibmcloud.IsInstanceArgs{
+		Name:          pulumi.String(r.mCtx.ProjectName()),
+		Image:         pulumi.String(*imageId),
+		Profile:       pulumi.String("bz2-16x64"),
+		Vpc:           n.VPC.ID(),
+		Zone:          pulumi.String(zone),
+		ResourceGroup: rg.ID(),
+		Keys:          pulumi.StringArray{pik.ID()},
+		PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
+			Subnet: n.Subnet.ID(),
+			SecurityGroups: pulumi.StringArray{
+				n.SecurityGroup.ID(),
+			},
+		},
+	}
+	if r.otelAppCode != "" && r.otelAuthToken != "" {
+		ud, err := izUserData(r.otelAppCode, r.otelAuthToken, r.otelEndpoint, r.otelIndex, r.otelExtraAttrs)
+		if err != nil {
+			return fmt.Errorf("failed to render user data: %w", err)
+		}
+		instanceArgs.UserData = pulumi.StringPtr(ud)
+	}
 	// https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui&q=s390x&tags=vpc
 	i, err := ibmcloud.NewIsInstance(ctx,
 		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "is"),
-		&ibmcloud.IsInstanceArgs{
-			Name:          pulumi.String(r.mCtx.ProjectName()),
-			Image:         pulumi.String(*imageId),
-			Profile:       pulumi.String("bz2-16x64"),
-			Vpc:           n.VPC.ID(),
-			Zone:          pulumi.String(zone),
-			ResourceGroup: rg.ID(),
-			Keys:          pulumi.StringArray{pik.ID()},
-			PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
-				Subnet: n.Subnet.ID(),
-				SecurityGroups: pulumi.StringArray{
-					n.SecurityGroup.ID(),
-				},
-			},
-		})
+		instanceArgs)
 	if err != nil {
 		return err
 	}
@@ -191,45 +236,21 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 		return err
 	}
 	name := fmt.Sprintf("%s-%s", *r.prefix, r.mCtx.ProjectName())
-	sg, err := ibmcloud.NewIsSecurityGroup(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "sg"),
-		&ibmcloud.IsSecurityGroupArgs{
-			Name: pulumi.String(name),
-			Vpc:  pulumi.String(subnetInfo.Vpc),
-		})
+	sg, err := network.NewSecurityGroupWithSSH(ctx, &network.SecurityGroupArgs{
+		Prefix:      *r.prefix,
+		ComponentID: stackIBMS390,
+		Name:        name,
+		VPC:         pulumi.String(subnetInfo.Vpc),
+	})
 	if err != nil {
 		return err
 	}
-	_, err = ibmcloud.NewIsSecurityGroupRule(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "ssh"),
-		&ibmcloud.IsSecurityGroupRuleArgs{
-			Group:     sg.ID(),
-			Direction: pulumi.String("inbound"),
-			Remote:    pulumi.String("0.0.0.0/0"),
-			Tcp: &ibmcloud.IsSecurityGroupRuleTcpArgs{
-				PortMin: pulumi.Int(22),
-				PortMax: pulumi.Int(22),
-			},
-		})
-	if err != nil {
-		return err
-	}
-	_, err = ibmcloud.NewIsSecurityGroupRule(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "outb"),
-		&ibmcloud.IsSecurityGroupRuleArgs{
-			Group:     sg.ID(),
-			Direction: pulumi.String("outbound"),
-			Remote:    pulumi.String("0.0.0.0/0"),
-		})
-	if err != nil {
-		return err
-	}
-	fip, err := ibmcloud.NewIsFloatingIp(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "fip"),
-		&ibmcloud.IsFloatingIpArgs{
-			Name: pulumi.String(name),
-			Zone: pulumi.String(subnetInfo.Zone),
-		})
+	fip, err := network.NewFloatingIP(ctx, &network.FloatingIPArgs{
+		Prefix:      *r.prefix,
+		ComponentID: stackIBMS390,
+		Name:        name,
+		Zone:        pulumi.String(subnetInfo.Zone),
+	})
 	if err != nil {
 		return err
 	}
@@ -246,21 +267,29 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	existingSubnetInstanceArgs := &ibmcloud.IsInstanceArgs{
+		Name:    pulumi.String(r.mCtx.ProjectName()),
+		Image:   pulumi.String(*imageId),
+		Profile: pulumi.String("bz2-16x64"),
+		Vpc:     pulumi.String(subnetInfo.Vpc),
+		Zone:    pulumi.String(subnetInfo.Zone),
+		Keys:    pulumi.StringArray{pik.ID()},
+		PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
+			Subnet:         pulumi.String(*r.subnetID),
+			SecurityGroups: pulumi.StringArray{sg.ID()},
+		},
+	}
+	if r.otelAppCode != "" && r.otelAuthToken != "" {
+		ud, err := izUserData(r.otelAppCode, r.otelAuthToken, r.otelEndpoint, r.otelIndex, r.otelExtraAttrs)
+		if err != nil {
+			return fmt.Errorf("failed to render user data: %w", err)
+		}
+		existingSubnetInstanceArgs.UserData = pulumi.StringPtr(ud)
+	}
 	// https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui&q=s390x&tags=vpc
 	i, err := ibmcloud.NewIsInstance(ctx,
 		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "is"),
-		&ibmcloud.IsInstanceArgs{
-			Name:    pulumi.String(r.mCtx.ProjectName()),
-			Image:   pulumi.String(*imageId),
-			Profile: pulumi.String("bz2-16x64"),
-			Vpc:     pulumi.String(subnetInfo.Vpc),
-			Zone:    pulumi.String(subnetInfo.Zone),
-			Keys:    pulumi.StringArray{pik.ID()},
-			PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
-				Subnet:         pulumi.String(*r.subnetID),
-				SecurityGroups: pulumi.StringArray{sg.ID()},
-			},
-		})
+		existingSubnetInstanceArgs)
 	if err != nil {
 		return err
 	}
@@ -296,6 +325,41 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 				Update: command.RemoteTimeout}),
 		pulumi.DependsOn([]pulumi.Resource{i}))
 	return err
+}
+
+func izUserData(otelAppCode, otelAuthToken, otelEndpoint, otelIndex string, otelExtraAttrs map[string]string) (string, error) {
+	script, err := file.Template(
+		userDataValues{
+			AppCode:        otelAppCode,
+			OtelAuthToken:  otelAuthToken,
+			OtelEndpoint:   otelEndpoint,
+			OtelColVersion: otelColVersion,
+			OtelIndex:      otelIndex,
+			OtelArch:       "s390x",
+			OtelExtraAttrs: otelExtraAttrs,
+		},
+		string(CloudConfig))
+	if err != nil {
+		return "", err
+	}
+	// IBM Cloud VPC passes user_data as-is to cloud-init, so we cannot
+	// send a bare base64 string (cloud-init won't recognise it). Wrapping in
+	// a MIME multipart envelope with Content-Transfer-Encoding: base64 tells
+	// cloud-init to decode the payload before processing.
+	const boundary = "MAPT-CLOUD-CONFIG"
+	encoded := base64.StdEncoding.EncodeToString([]byte(script))
+	return strings.Join([]string{
+		"MIME-Version: 1.0",
+		`Content-Type: multipart/mixed; boundary="` + boundary + `"`,
+		"",
+		"--" + boundary,
+		`Content-Type: text/cloud-config; charset="us-ascii"`,
+		"Content-Transfer-Encoding: base64",
+		"",
+		encoded,
+		"--" + boundary + "--",
+		"",
+	}, "\n"), nil
 }
 
 func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix string) error {

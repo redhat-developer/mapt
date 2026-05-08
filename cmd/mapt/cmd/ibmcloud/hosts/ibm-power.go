@@ -58,6 +58,11 @@ func ibmPowerCreate() *cobra.Command {
 					PIPrivateSubnetID: viper.GetString(params.PIPrivateSubnetID),
 					WorkspaceID:       viper.GetString(params.WorkspaceID),
 					VPCPublicSubnetID: viper.GetString(params.VPCPublicSubnetID),
+					OtelAppCode:       viper.GetString(params.OtelAppCode),
+					OtelAuthToken:     viper.GetString(params.OtelAuthToken),
+					OtelEndpoint:      viper.GetString(params.OtelEndpoint),
+					OtelIndex:          viper.GetString(params.OtelIndex),
+					OtelExtraAttrs:     viper.GetStringMapString(params.OtelExtraAttrs),
 				})
 		},
 	}
@@ -67,6 +72,11 @@ func ibmPowerCreate() *cobra.Command {
 	flagSet.StringP(params.PIPrivateSubnetID, "", "", params.PIPrivateSubnetIDDesc)
 	flagSet.StringP(params.WorkspaceID, "", "", params.WorkspaceIDDesc)
 	flagSet.StringP(params.VPCPublicSubnetID, "", "", params.VPCPublicSubnetIDDesc)
+	flagSet.StringP(params.OtelAppCode, "", "", params.OtelAppCodeDesc)
+	flagSet.StringP(params.OtelAuthToken, "", "", params.OtelAuthTokenDesc)
+	flagSet.StringP(params.OtelEndpoint, "", "https://otel-input.corp.redhat.com", params.OtelEndpointDesc)
+	flagSet.StringP(params.OtelIndex, "", "", params.OtelIndexDesc)
+	flagSet.StringToStringP(params.OtelExtraAttrs, "", nil, params.OtelExtraAttrsDesc)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)

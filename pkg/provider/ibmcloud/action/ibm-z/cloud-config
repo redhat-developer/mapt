@@ -7,7 +7,7 @@ write_files:
       receivers:
         filelog/syslog:
           include:
-          - /var/log/messages
+          - /var/log/syslog
           start_at: end
           include_file_path: true
           include_file_name: true
@@ -31,7 +31,7 @@ write_files:
             _sourceHost: ${env:HOSTNAME}
         filelog/secure:
           include:
-          - /var/log/secure
+          - /var/log/auth.log
           start_at: end
           include_file_path: true
           include_file_name: true
@@ -124,21 +124,17 @@ write_files:
       Environment="HOSTNAME=%H"
       EnvironmentFile=/etc/otelcol-contrib/auth_token
 {{- end}}
-runcmd:
-  - |
-    IFACE=$(ip route show default | awk '/default/ {print $5; exit}')
-    ip route add 10.0.0.0/8 via {{.Gateway}} dev "$IFACE" 2>/dev/null || true
-    echo "10.0.0.0/8 via {{.Gateway}}" > "/etc/sysconfig/network-scripts/route-$IFACE"
 {{- if and .AppCode .OtelAuthToken .OtelIndex}}
+runcmd:
   - |
     PROXY_URL=""
     if ! curl -sf --connect-timeout 5 --head {{.OtelEndpoint}} > /dev/null 2>&1; then
       PROXY_URL="http://squid.corp.redhat.com:3128"
     fi
-    RPM_URL="https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v{{.OtelColVersion}}/otelcol-contrib_{{.OtelColVersion}}_linux_ppc64le.rpm"
-    HTTPS_PROXY="$PROXY_URL" curl -fsSL -o /tmp/otelcol-contrib.rpm "$RPM_URL"
-    rpm -i /tmp/otelcol-contrib.rpm
-    rm -f /tmp/otelcol-contrib.rpm
+    DEB_URL="https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v{{.OtelColVersion}}/otelcol-contrib_{{.OtelColVersion}}_linux_s390x.deb"
+    HTTPS_PROXY="$PROXY_URL" curl -fsSL -o /tmp/otelcol-contrib.deb "$DEB_URL"
+    dpkg -i --force-confold /tmp/otelcol-contrib.deb
+    rm -f /tmp/otelcol-contrib.deb
     chown -R otelcol-contrib:otelcol-contrib /etc/otelcol-contrib
     if [ -n "$PROXY_URL" ]; then
       printf '[Service]\nEnvironment="HTTPS_PROXY=%s/"\nEnvironment="NO_PROXY=10.*,192.168.*,localhost,127.0.0.1"\n' "$PROXY_URL" \

@@ -13,6 +13,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	ibmcloudp "github.com/redhat-developer/mapt/pkg/provider/ibmcloud"
 	icdata "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/data"
+	"github.com/redhat-developer/mapt/pkg/provider/ibmcloud/modules/network"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
@@ -23,12 +24,23 @@ import (
 //go:embed cloud-config
 var CloudConfig []byte
 
+// otelColVersion is overridden at build time via -ldflags.
+var otelColVersion = "0.151.0"
+
 type userDataValues struct {
-	Gateway string
+	Gateway        string
+	AppCode        string
+	OtelAuthToken  string
+	OtelEndpoint   string
+	OtelColVersion string
+	OtelIndex      string
+	OtelArch       string
+	OtelExtraAttrs map[string]string
 }
 
 const (
 	stackIBMPowerVS      = "icpw"
+	bastionComponentID   = "icpw-bst"
 	outputHost           = "alsHost"
 	outputUsername       = "alsUsername"
 	outputUserPrivateKey = "alsUserPrivatekey"
@@ -60,6 +72,14 @@ type PWArgs struct {
 	// with a floating IP is created in this subnet to provide SSH access to
 	// the PowerVS instance over the Transit Gateway private network.
 	VPCPublicSubnetID string
+	// OtelAppCode, OtelAuthToken, and OtelEndpoint are optional. When AppCode
+	// and AuthToken are both set, the otelcol-contrib filelog collector is
+	// installed and started, shipping logs to OtelEndpoint.
+	OtelAppCode    string
+	OtelAuthToken  string
+	OtelEndpoint   string
+	OtelIndex      string
+	OtelExtraAttrs map[string]string
 }
 
 type pwRequest struct {
@@ -68,6 +88,11 @@ type pwRequest struct {
 	piPrivateSubnetID string
 	workspaceID       string
 	vpcPublicSubnetID string
+	otelAppCode       string
+	otelAuthToken     string
+	otelEndpoint      string
+	otelIndex         string
+	otelExtraAttrs    map[string]string
 }
 
 // New provisions a Power VS (ppc64) instance inside an existing workspace and
@@ -91,6 +116,11 @@ func New(ctx *mc.ContextArgs, args *PWArgs) error {
 		piPrivateSubnetID: args.PIPrivateSubnetID,
 		workspaceID:       args.WorkspaceID,
 		vpcPublicSubnetID: args.VPCPublicSubnetID,
+		otelAppCode:       args.OtelAppCode,
+		otelAuthToken:     args.OtelAuthToken,
+		otelEndpoint:      args.OtelEndpoint,
+		otelIndex:         args.OtelIndex,
+		otelExtraAttrs:    args.OtelExtraAttrs,
 	}
 	cs := manager.Stack{
 		StackName:           mCtx.StackNameByProject(stackIBMPowerVS),
@@ -130,7 +160,7 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		return fmt.Errorf("failed to look up private subnet: %w", err)
 	}
 
-	userData, err := piUserData(subnetInfo.Gateway)
+	userData, err := piUserData(subnetInfo.Gateway, r.otelAppCode, r.otelAuthToken, r.otelEndpoint, r.otelIndex, r.otelExtraAttrs)
 	if err != nil {
 		return fmt.Errorf("failed to render user data: %w", err)
 	}
@@ -203,42 +233,18 @@ func (r *pwRequest) deployBastion(ctx *pulumi.Context) error {
 
 	name := fmt.Sprintf("%s-%s-bastion", *r.prefix, r.mCtx.ProjectName())
 
-	sg, err := ibmcloud.NewIsSecurityGroup(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "bsg"),
-		&ibmcloud.IsSecurityGroupArgs{
-			Name: pulumi.String(name),
-			Vpc:  pulumi.String(subnetInfo.Vpc),
-		})
-	if err != nil {
-		return err
-	}
-	_, err = ibmcloud.NewIsSecurityGroupRule(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "bssh"),
-		&ibmcloud.IsSecurityGroupRuleArgs{
-			Group:     sg.ID(),
-			Direction: pulumi.String("inbound"),
-			Remote:    pulumi.String("0.0.0.0/0"),
-			Tcp: &ibmcloud.IsSecurityGroupRuleTcpArgs{
-				PortMin: pulumi.Int(22),
-				PortMax: pulumi.Int(22),
-			},
-		})
-	if err != nil {
-		return err
-	}
-	_, err = ibmcloud.NewIsSecurityGroupRule(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "boutb"),
-		&ibmcloud.IsSecurityGroupRuleArgs{
-			Group:     sg.ID(),
-			Direction: pulumi.String("outbound"),
-			Remote:    pulumi.String("0.0.0.0/0"),
-		})
+	sg, err := network.NewSecurityGroupWithSSH(ctx, &network.SecurityGroupArgs{
+		Prefix:      *r.prefix,
+		ComponentID: bastionComponentID,
+		Name:        name,
+		VPC:         pulumi.String(subnetInfo.Vpc),
+	})
 	if err != nil {
 		return err
 	}
 
 	bpk, err := tls.NewPrivateKey(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "bpk"),
+		resourcesUtil.GetResourceName(*r.prefix, bastionComponentID, "pk"),
 		&tls.PrivateKeyArgs{
 			Algorithm: pulumi.String("RSA"),
 			RsaBits:   pulumi.Int(4096),
@@ -248,7 +254,7 @@ func (r *pwRequest) deployBastion(ctx *pulumi.Context) error {
 	}
 
 	bsshKey, err := ibmcloud.NewIsSshKey(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "bpik"),
+		resourcesUtil.GetResourceName(*r.prefix, bastionComponentID, "pik"),
 		&ibmcloud.IsSshKeyArgs{
 			Name:      pulumi.String(name),
 			PublicKey: bpk.PublicKeyOpenssh,
@@ -266,7 +272,7 @@ func (r *pwRequest) deployBastion(ctx *pulumi.Context) error {
 	}
 
 	bastion, err := ibmcloud.NewIsInstance(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "bis"),
+		resourcesUtil.GetResourceName(*r.prefix, bastionComponentID, "is"),
 		&ibmcloud.IsInstanceArgs{
 			Name:    pulumi.String(name),
 			Image:   pulumi.String(*bastionImageId),
@@ -283,18 +289,18 @@ func (r *pwRequest) deployBastion(ctx *pulumi.Context) error {
 		return err
 	}
 
-	fip, err := ibmcloud.NewIsFloatingIp(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "bfip"),
-		&ibmcloud.IsFloatingIpArgs{
-			Name: pulumi.String(name),
-			Zone: pulumi.String(subnetInfo.Zone),
-		})
+	fip, err := network.NewFloatingIP(ctx, &network.FloatingIPArgs{
+		Prefix:      *r.prefix,
+		ComponentID: bastionComponentID,
+		Name:        name,
+		Zone:        pulumi.String(subnetInfo.Zone),
+	})
 	if err != nil {
 		return err
 	}
 
 	_, err = ibmcloud.NewIsInstanceNetworkInterfaceFloatingIp(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "bfipassoc"),
+		resourcesUtil.GetResourceName(*r.prefix, bastionComponentID, "fipassoc"),
 		&ibmcloud.IsInstanceNetworkInterfaceFloatingIpArgs{
 			FloatingIp: fip.ID(),
 			Instance:   bastion.ID(),
@@ -346,9 +352,18 @@ func piKey(ctx *pulumi.Context, mCtx *mc.Context, prefix, cId string, cloudInsta
 
 // piUserData renders the cloud-config template and returns it base64-encoded
 // for use as PiUserData on a PowerVS instance.
-func piUserData(gateway string) (string, error) {
+func piUserData(gateway, otelAppCode, otelAuthToken, otelEndpoint, otelIndex string, otelExtraAttrs map[string]string) (string, error) {
 	script, err := file.Template(
-		userDataValues{Gateway: gateway},
+		userDataValues{
+			Gateway:        gateway,
+			AppCode:        otelAppCode,
+			OtelAuthToken:  otelAuthToken,
+			OtelEndpoint:   otelEndpoint,
+			OtelColVersion: otelColVersion,
+			OtelIndex:      otelIndex,
+			OtelArch:       "ppc64le",
+			OtelExtraAttrs: otelExtraAttrs,
+		},
 		string(CloudConfig))
 	if err != nil {
 		return "", err
