@@ -55,7 +55,12 @@ func ibmZCreate() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&ibmz.ZArgs{
-					SubnetID: viper.GetString(params.SubnetID),
+					SubnetID:      viper.GetString(params.SubnetID),
+					OtelAppCode:   viper.GetString(params.OtelAppCode),
+					OtelAuthToken: viper.GetString(params.OtelAuthToken),
+					OtelEndpoint:  viper.GetString(params.OtelEndpoint),
+					OtelIndex:      viper.GetString(params.OtelIndex),
+					OtelExtraAttrs: viper.GetStringMapString(params.OtelExtraAttrs),
 				})
 		},
 	}
@@ -63,6 +68,11 @@ func ibmZCreate() *cobra.Command {
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(params.SubnetID, "", "", params.SubnetIDDesc)
+	flagSet.StringP(params.OtelAppCode, "", "", params.OtelAppCodeDesc)
+	flagSet.StringP(params.OtelAuthToken, "", "", params.OtelAuthTokenDesc)
+	flagSet.StringP(params.OtelEndpoint, "", "https://otel-input.corp.redhat.com", params.OtelEndpointDesc)
+	flagSet.StringP(params.OtelIndex, "", "", params.OtelIndexDesc)
+	flagSet.StringToStringP(params.OtelExtraAttrs, "", nil, params.OtelExtraAttrsDesc)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)

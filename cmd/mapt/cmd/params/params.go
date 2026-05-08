@@ -134,6 +134,17 @@ const (
 	VPCPublicSubnetID     string = "vpc-public-subnet-id"
 	VPCPublicSubnetIDDesc string = "ID of an existing VPC subnet (with public gateway, connected to Transit Gateway) for the SSH bastion"
 
+	OtelAppCode       string = "otel-app-code"
+	OtelAppCodeDesc   string = "OpenTelemetry appcode identifier (e.g. MAPT-001); when set together with --otel-auth-token, installs the otelcol-contrib filelog collector on the instance"
+	OtelAuthToken     string = "otel-auth-token"
+	OtelAuthTokenDesc string = "OpenTelemetry authentication token (UUID) used to authenticate against the OTLP endpoint"
+	OtelEndpoint      string = "otel-endpoint"
+	OtelEndpointDesc  string = "OTLP HTTP endpoint to export logs to"
+	OtelIndex          string = "otel-index"
+	OtelIndexDesc      string = "Splunk index name for log routing (e.g. rh_linux)"
+	OtelExtraAttrs     string = "otel-extra-attrs"
+	OtelExtraAttrsDesc string = "Additional resource attributes to attach to all otelcol log records (key=value pairs)"
+
 	// Kind
 	KindCmd                   = "kind"
 	KindCmdDesc               = "Manage a Kind cluster. This is not intended for production use"

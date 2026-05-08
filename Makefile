@@ -12,6 +12,8 @@ CIRRUS_CLI ?= v0.165.2
 GITHUB_RUNNER ?= 2.334.0
 # renovate: datasource=gitlab-releases depName=gitlab-org/gitlab-runner
 GITLAB_RUNNER ?= 18.11.3
+# renovate: datasource=github-releases depName=open-telemetry/opentelemetry-collector-releases
+OTELCOL_VERSION ?= 0.151.0
 
 # Go and compilation related variables
 GOPATH ?= $(shell go env GOPATH)
@@ -25,7 +27,9 @@ MODULEPATH = $(ORG)/mapt
 VERSION_VARIABLES := -X $(MODULEPATH)/pkg/manager/context.OCI=$(IMG) \
 	-X $(MODULEPATH)/pkg/integrations/cirrus.version=$(CIRRUS_CLI) \
 	-X $(MODULEPATH)/pkg/integrations/github.runnerVersion=$(GITHUB_RUNNER) \
-	-X $(MODULEPATH)/pkg/integrations/gitlab.version=$(GITLAB_RUNNER)
+	-X $(MODULEPATH)/pkg/integrations/gitlab.version=$(GITLAB_RUNNER) \
+	-X $(MODULEPATH)/pkg/provider/ibmcloud/action/ibm-power.otelColVersion=$(OTELCOL_VERSION) \
+	-X $(MODULEPATH)/pkg/provider/ibmcloud/action/ibm-z.otelColVersion=$(OTELCOL_VERSION)
 LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
 GCFLAGS := all=-N -l
 GOOS := $(shell go env GOOS)

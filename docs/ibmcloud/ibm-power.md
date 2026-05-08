@@ -21,6 +21,7 @@ On first boot, cloud-init automatically configures the PowerVS instance for on-p
 
 | Variable | Required | Description |
 |---|---|---|
+| `IBMCLOUD_ACCOUNT` | yes | IBM Cloud account ID |
 | `IBMCLOUD_API_KEY` | yes | IBM Cloud API key |
 | `IC_REGION` | yes | IBM Cloud region (e.g. `us-south`, `us-east`) |
 
@@ -41,6 +42,9 @@ Flags:
   -h, --help                                 help for create
       --it-cirrus-pw-labels stringToString   additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2) (default [])
       --it-cirrus-pw-token string            Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project.
+      --otel-app-code string                 OpenTelemetry appcode identifier (e.g. MAPT-001); when set together with --otel-auth-token, installs the otelcol-contrib filelog collector on the instance
+      --otel-auth-token string               OpenTelemetry authentication token (UUID) used to authenticate against the OTLP endpoint
+      --otel-endpoint string                 OTLP HTTP endpoint to export logs to (default "https://otel-input.corp.redhat.com")
       --pi-private-subnet-id string          ID of an existing Power VS private subnet to attach the instance to
       --tags stringToString                  tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --vpc-public-subnet-id string          ID of an existing VPC subnet (with public gateway, connected to Transit Gateway) for the SSH bastion
@@ -108,6 +112,26 @@ podman run -d --name ibm-power \
             --conn-details-output /workspace \
             --workspace-id <workspace-id> \
             --pi-private-subnet-id <private-subnet-id>
+```
+
+## OpenTelemetry log collection
+
+When both `--otel-app-code` and `--otel-auth-token` are provided, cloud-init installs `otelcol-contrib` on the PowerVS instance at first boot and configures it to ship `/var/log/messages` and `/var/log/secure` to the OTLP endpoint.
+
+```bash
+podman run -d --name ibm-power \
+        -v ${PWD}:/workspace:z \
+        -e IBMCLOUD_API_KEY=XXX \
+        -e IC_REGION=us-south \
+        quay.io/redhat-developer/mapt:v0.8.0 ibmcloud ibm-power create \
+            --project-name ibm-power \
+            --backed-url file:///workspace \
+            --conn-details-output /workspace \
+            --workspace-id <workspace-id> \
+            --pi-private-subnet-id <private-subnet-id> \
+            --vpc-public-subnet-id <vpc-subnet-id> \
+            --otel-app-code MAPT-001 \
+            --otel-auth-token <uuid-token>
 ```
 
 ## Destroy

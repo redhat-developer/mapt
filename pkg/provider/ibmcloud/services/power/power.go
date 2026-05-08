@@ -1,7 +1,6 @@
 package power
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"time"
@@ -11,6 +10,7 @@ import (
 	"github.com/IBM-Cloud/power-go-client/power/models"
 	"github.com/IBM/go-sdk-core/v5/core"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 const powerURLRegex = "%s.power-iaas.cloud.ibm.com"
@@ -40,24 +40,31 @@ func New(mCtx *mc.Context, args *PowerArgs) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	for _, in := range *createRespOk {
-		pInstanceId := *in.PvmInstanceID
-		waitForInstance(pc, pInstanceId)
-		return &pInstanceId, nil
+	if len(*createRespOk) == 0 {
+		return nil, fmt.Errorf("create response is empty")
 	}
-	return nil, fmt.Errorf("create response is empty")
+	pInstanceId := *(*createRespOk)[0].PvmInstanceID
+	if err := waitForInstance(mCtx, pc, pInstanceId); err != nil {
+		return nil, err
+	}
+	return &pInstanceId, nil
 }
 
-func waitForInstance(pc *v.IBMPIInstanceClient, instanceId string) {
+func waitForInstance(mCtx *mc.Context, pc *v.IBMPIInstanceClient, instanceId string) error {
 	for i := 0; i < 30; i++ { // retry up to ~5 minutes
 		inst, err := pc.Get(instanceId)
 		if err == nil && inst.Health.Status == "WARNING" {
-			fmt.Println("Instance ready")
-			break
+			logging.Infof("instance %s is ready", instanceId)
+			return nil
 		}
-		fmt.Println("Instance not ready, retrying in 10s...")
-		time.Sleep(10 * time.Second)
+		logging.Infof("instance %s not ready, retrying in 10s...", instanceId)
+		select {
+		case <-mCtx.Context().Done():
+			return mCtx.Context().Err()
+		case <-time.After(10 * time.Second):
+		}
 	}
+	return fmt.Errorf("timed out waiting for instance %s to become ready", instanceId)
 }
 
 func client(mCtx *mc.Context, cloudInstanceId string) (*v.IBMPIInstanceClient, error) {
@@ -74,7 +81,7 @@ func client(mCtx *mc.Context, cloudInstanceId string) (*v.IBMPIInstanceClient, e
 	if err != nil {
 		return nil, err
 	}
-	return v.NewIBMPIInstanceClient(context.Background(), session, cloudInstanceId), nil
+	return v.NewIBMPIInstanceClient(mCtx.Context(), session, cloudInstanceId), nil
 }
 
 func convertToPVMInstanceCreate(s *PowerArgs) *models.PVMInstanceCreate {

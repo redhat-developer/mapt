@@ -5,8 +5,6 @@ run:
   skip-dirs:
     - vendor
     - tools/vendor
-  skip-files:
-    - pkg/provider/ibmcloud/action/powervs/powervs.go
   concurrency: 1
 
 linters:

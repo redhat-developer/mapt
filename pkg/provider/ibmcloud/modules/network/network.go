@@ -26,6 +26,82 @@ type Network struct {
 	Floatingip    *ibmcloud.IsFloatingIp
 }
 
+// SecurityGroupArgs defines the inputs for NewSecurityGroupWithSSH.
+type SecurityGroupArgs struct {
+	Prefix      string
+	ComponentID string
+	Name        string
+	VPC         pulumi.StringInput
+	RG          *ibmcloud.ResourceGroup
+}
+
+// NewSecurityGroupWithSSH creates a security group with inbound SSH (port 22)
+// and unrestricted outbound rules. RG may be nil to use the account default.
+func NewSecurityGroupWithSSH(ctx *pulumi.Context, args *SecurityGroupArgs) (*ibmcloud.IsSecurityGroup, error) {
+	sgArgs := &ibmcloud.IsSecurityGroupArgs{
+		Name: pulumi.String(args.Name),
+		Vpc:  args.VPC,
+	}
+	if args.RG != nil {
+		sgArgs.ResourceGroup = args.RG.ID()
+	}
+	sg, err := ibmcloud.NewIsSecurityGroup(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "sg"),
+		sgArgs)
+	if err != nil {
+		return nil, err
+	}
+	_, err = ibmcloud.NewIsSecurityGroupRule(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "ssh"),
+		&ibmcloud.IsSecurityGroupRuleArgs{
+			Group:     sg.ID(),
+			Direction: pulumi.String("inbound"),
+			Remote:    pulumi.String("0.0.0.0/0"),
+			Tcp: &ibmcloud.IsSecurityGroupRuleTcpArgs{
+				PortMin: pulumi.Int(22),
+				PortMax: pulumi.Int(22),
+			},
+		})
+	if err != nil {
+		return nil, err
+	}
+	_, err = ibmcloud.NewIsSecurityGroupRule(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "outb"),
+		&ibmcloud.IsSecurityGroupRuleArgs{
+			Group:     sg.ID(),
+			Direction: pulumi.String("outbound"),
+			Remote:    pulumi.String("0.0.0.0/0"),
+		})
+	if err != nil {
+		return nil, err
+	}
+	return sg, nil
+}
+
+// FloatingIPArgs defines the inputs for NewFloatingIP.
+type FloatingIPArgs struct {
+	Prefix      string
+	ComponentID string
+	Name        string
+	Zone        pulumi.StringInput
+	RG          *ibmcloud.ResourceGroup
+}
+
+// NewFloatingIP creates an IBM Cloud VPC floating IP.
+// RG may be nil to use the account default resource group.
+func NewFloatingIP(ctx *pulumi.Context, args *FloatingIPArgs) (*ibmcloud.IsFloatingIp, error) {
+	fipArgs := &ibmcloud.IsFloatingIpArgs{
+		Name: pulumi.String(args.Name),
+		Zone: args.Zone,
+	}
+	if args.RG != nil {
+		fipArgs.ResourceGroup = args.RG.ID()
+	}
+	return ibmcloud.NewIsFloatingIp(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "fip"),
+		fipArgs)
+}
+
 func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 	vpc, err := ibmcloud.NewIsVpc(ctx,
 		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "isvpc"),
@@ -79,49 +155,23 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 	if err != nil {
 		return nil, err
 	}
-	securityGroup, err := ibmcloud.NewIsSecurityGroup(ctx,
-		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "sg"),
-		&ibmcloud.IsSecurityGroupArgs{
-			Name:          pulumi.String(args.Name),
-			Vpc:           vpc.ID(),
-			ResourceGroup: args.RG.ID(),
-		})
+	securityGroup, err := NewSecurityGroupWithSSH(ctx, &SecurityGroupArgs{
+		Prefix:      args.Prefix,
+		ComponentID: args.ComponentID,
+		Name:        args.Name,
+		VPC:         vpc.ID(),
+		RG:          args.RG,
+	})
 	if err != nil {
 		return nil, err
 	}
-	_, err = ibmcloud.NewIsSecurityGroupRule(ctx,
-		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "ssh"),
-		&ibmcloud.IsSecurityGroupRuleArgs{
-			Group:     securityGroup.ID(),
-			Direction: pulumi.String("inbound"),
-			Remote:    pulumi.String("0.0.0.0/0"),
-			Tcp: &ibmcloud.IsSecurityGroupRuleTcpArgs{
-				PortMin: pulumi.Int(22),
-				PortMax: pulumi.Int(22),
-			},
-		})
-	if err != nil {
-		return nil, err
-	}
-	_, err = ibmcloud.NewIsSecurityGroupRule(ctx,
-		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "outb"),
-		&ibmcloud.IsSecurityGroupRuleArgs{
-			Group:     securityGroup.ID(),
-			Direction: pulumi.String("outbound"),
-			Remote:    pulumi.String("0.0.0.0/0"),
-		},
-	)
-	if err != nil {
-		return nil, err
-	}
-	fip, err := ibmcloud.NewIsFloatingIp(ctx,
-		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "fip"),
-		&ibmcloud.IsFloatingIpArgs{
-			Name:          pulumi.String(args.Name),
-			Zone:          pulumi.String(*args.Zone),
-			ResourceGroup: args.RG.ID(),
-		},
-	)
+	fip, err := NewFloatingIP(ctx, &FloatingIPArgs{
+		Prefix:      args.Prefix,
+		ComponentID: args.ComponentID,
+		Name:        args.Name,
+		Zone:        pulumi.String(*args.Zone),
+		RG:          args.RG,
+	})
 	if err != nil {
 		return nil, err
 	}
