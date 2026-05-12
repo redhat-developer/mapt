@@ -148,8 +148,18 @@ jobs:
           merge-multiple: true
       - name: Create checksums
         run: sha256sum mapt-linux-* > mapt-checksums.txt
+      - name: Get previous release tag
+        id: prev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "tag=$(gh release list --repo "$GITHUB_REPOSITORY" --limit 1 --json tagName --jq '.[0].tagName')" >> "$GITHUB_OUTPUT"
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.ref_name }}
-        run: gh release create "$TAG" mapt-linux-* mapt-checksums.txt --generate-notes --repo "$GITHUB_REPOSITORY"
+        run: |
+          ARGS="--generate-notes"
+          if [ -n "${{ steps.prev.outputs.tag }}" ]; then
+            ARGS="$ARGS --notes-start-tag ${{ steps.prev.outputs.tag }}"
+          fi
+          gh release create "$TAG" mapt-linux-* mapt-checksums.txt $ARGS --repo "$GITHUB_REPOSITORY"
