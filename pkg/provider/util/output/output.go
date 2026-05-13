@@ -22,7 +22,7 @@ func Write(stackResult auto.UpResult, destinationFolder string, results map[stri
 func writeOutput(stackResult auto.UpResult, outputkey, destinationFolder, destinationFilename string) error {
 	value, ok := stackResult.Outputs[outputkey].Value.(string)
 	if ok {
-		err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value), 0600)
+		err := os.WriteFile(path.Join(destinationFolder, destinationFilename), []byte(value+"\n"), 0600)
 		if err != nil {
 			return err
 		}
