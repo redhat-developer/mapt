@@ -350,9 +350,9 @@ spec:
         cat <<EOF >> host-info.yaml
         type: Opaque
         data:
-          host: $(cat /opt/host-info/host | base64 -w0)
-          username: $(cat /opt/host-info/username | base64 -w0)
-          id_rsa: $(cat /opt/host-info/id_rsa | base64 -w0)
+          host: $(cat /opt/host-info/host | tr -d '\n\r' | base64 -w0)
+          username: $(cat /opt/host-info/username | tr -d '\n\r' | base64 -w0)
+          id_rsa: $(cat /opt/host-info/id_rsa | tr -d '\n\r' | base64 -w0)
         EOF
 
         if [[ "$(params.debug)" == "true" ]]; then
