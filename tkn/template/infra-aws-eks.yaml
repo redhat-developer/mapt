@@ -289,7 +289,7 @@ spec:
         cat <<EOF >> cluster-info.yaml
         type: Opaque
         data:
-          kubeconfig: $(cat /opt/cluster-info/kubeconfig | tr -d '\n\r' | base64 -w0)
+          kubeconfig: $(cat /opt/cluster-info/kubeconfig | base64 -w0)
         EOF
 
         if [[ $(params.debug) == "true" ]]; then
