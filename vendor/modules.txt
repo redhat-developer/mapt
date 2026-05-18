@@ -733,7 +733,7 @@ github.com/pulumi/pulumi-azure-native-sdk/v3/utilities
 ## explicit; go 1.24.7
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
-# github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.16
+# github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.17
 ## explicit; go 1.25.8
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
@@ -1173,7 +1173,7 @@ google.golang.org/genproto/googleapis/api/httpbody
 ## explicit; go 1.25.0
 google.golang.org/genproto/googleapis/rpc/errdetails
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.81.0
+# google.golang.org/grpc v1.81.1
 ## explicit; go 1.25.0
 google.golang.org/grpc
 google.golang.org/grpc/attributes
