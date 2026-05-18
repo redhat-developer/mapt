@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -32,7 +31,7 @@ type RoutingConfiguration struct {
 	// Unique identifier for this resource.
 	ResourceGuid pulumi.StringOutput `pulumi:"resourceGuid"`
 	// The system metadata related to this resource.
-	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource type.
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -212,8 +211,8 @@ func (o RoutingConfigurationOutput) ResourceGuid() pulumi.StringOutput {
 }
 
 // The system metadata related to this resource.
-func (o RoutingConfigurationOutput) SystemData() commontypesv5.SystemDataResponseOutput {
-	return o.ApplyT(func(v *RoutingConfiguration) commontypesv5.SystemDataResponseOutput { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
+func (o RoutingConfigurationOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *RoutingConfiguration) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // Resource type.

@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -32,7 +31,7 @@ type DiskAccessAPrivateEndpointConnection struct {
 	// The provisioning state of the private endpoint connection resource.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
@@ -212,10 +211,8 @@ func (o DiskAccessAPrivateEndpointConnectionOutput) ProvisioningState() pulumi.S
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o DiskAccessAPrivateEndpointConnectionOutput) SystemData() commontypesv3.SystemDataResponseOutput {
-	return o.ApplyT(func(v *DiskAccessAPrivateEndpointConnection) commontypesv3.SystemDataResponseOutput {
-		return v.SystemData
-	}).(commontypesv3.SystemDataResponseOutput)
+func (o DiskAccessAPrivateEndpointConnectionOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *DiskAccessAPrivateEndpointConnection) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

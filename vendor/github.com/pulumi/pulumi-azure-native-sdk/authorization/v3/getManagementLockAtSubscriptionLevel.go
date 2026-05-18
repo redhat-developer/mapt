@@ -7,7 +7,6 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv2"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -45,7 +44,7 @@ type LookupManagementLockAtSubscriptionLevelResult struct {
 	// The owners of the lock.
 	Owners []ManagementLockOwnerResponse `pulumi:"owners"`
 	// Metadata pertaining to creation and last modification of the resource.
-	SystemData commontypesv2.SystemDataResponse `pulumi:"systemData"`
+	SystemData SystemDataResponse `pulumi:"systemData"`
 	// The resource type of the lock - Microsoft.Authorization/locks.
 	Type string `pulumi:"type"`
 }
@@ -114,10 +113,8 @@ func (o LookupManagementLockAtSubscriptionLevelResultOutput) Owners() Management
 }
 
 // Metadata pertaining to creation and last modification of the resource.
-func (o LookupManagementLockAtSubscriptionLevelResultOutput) SystemData() commontypesv2.SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupManagementLockAtSubscriptionLevelResult) commontypesv2.SystemDataResponse {
-		return v.SystemData
-	}).(commontypesv2.SystemDataResponseOutput)
+func (o LookupManagementLockAtSubscriptionLevelResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupManagementLockAtSubscriptionLevelResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // The resource type of the lock - Microsoft.Authorization/locks.
