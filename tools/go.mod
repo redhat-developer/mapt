@@ -10,22 +10,29 @@ replace (
 
 require github.com/golangci/golangci-lint/v2 v2.12.2
 
-require github.com/golangci/golines v0.15.0 // indirect
+require (
+	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	github.com/golangci/golines v0.15.0 // indirect
+)
 
 require (
 	charm.land/lipgloss/v2 v2.0.3 // indirect
 	github.com/ClickHouse/clickhouse-go-linter v1.2.0 // indirect
+	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
 	github.com/bombsimon/wsl/v5 v5.8.0 // indirect
 	github.com/charmbracelet/ultraviolet v0.0.0-20251205161215-1948445e3318 // indirect
 	github.com/charmbracelet/x/termios v0.1.1 // indirect
 	github.com/charmbracelet/x/windows v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
+	github.com/dlclark/regexp2 v1.12.0 // indirect
 	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
 	github.com/golangci/rowserrcheck v0.0.0-20260419091836-c5f79b8a11ba // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
+	github.com/ryancurrah/gomodguard v1.4.1 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 	go-simpler.org/sloglint v0.12.0 // indirect
+	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 )
 
@@ -36,14 +43,12 @@ require (
 	github.com/MirrexOne/unqueryvet v1.5.4 // indirect
 	github.com/alexkohler/prealloc v1.1.0 // indirect
 	github.com/alfatraining/structtag v1.0.0 // indirect
-	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.2 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
 	// github.com/golangci/gofmt e7be49a5ab4d // indirect
 	github.com/gostaticanalysis/nilerr v0.1.2 // indirect
 	github.com/nunnatsa/ginkgolinter v0.23.0 // indirect
-	go.yaml.in/yaml/v2 v2.4.3 // indirect
 )
 
 require (
@@ -89,7 +94,7 @@ require (
 	github.com/dave/dst v0.27.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
-	github.com/dlclark/regexp2 v1.12.0 // indirect
+	// github.com/dlclark/regexp2/v2 v2.0.3 // indirect
 	github.com/ettle/strcase v0.2.0 // indirect
 	github.com/fatih/color v1.19.0 // indirect
 	github.com/fatih/structtag v1.2.0 // indirect
@@ -174,7 +179,6 @@ require (
 	github.com/raeperd/recvcheck v0.2.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
-	github.com/ryancurrah/gomodguard v1.4.1 // indirect
 	github.com/ryanrolds/sqlclosecheck v0.6.0 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/sanposhiho/wastedassign/v2 v2.1.0 // indirect
