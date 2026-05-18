@@ -54,7 +54,6 @@ require (
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pgavlin/fx/v2 v2.0.12 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.17.0 // indirect
-	github.com/pulumi/pulumi-docker/sdk/v4 v4.11.2 // indirect
 )
 
 require (
@@ -144,6 +143,7 @@ require (
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.23.0 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.17 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
 	github.com/skeema/knownhosts v1.3.2 // indirect
