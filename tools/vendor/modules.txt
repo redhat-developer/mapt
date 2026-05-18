@@ -1,4 +1,4 @@
-# 4d63.com/gocheckcompilerdirectives v1.3.0
+# 4d63.com/gocheckcompilerdirectives v1.4.0
 ## explicit; go 1.22.0
 4d63.com/gocheckcompilerdirectives/checkcompilerdirectives
 # 4d63.com/gochecknoglobals v0.2.2
@@ -162,8 +162,8 @@ github.com/charithe/durationcheck
 # github.com/charmbracelet/colorprofile v0.4.3
 ## explicit; go 1.25.0
 github.com/charmbracelet/colorprofile
-# github.com/charmbracelet/ultraviolet v0.0.0-20251205161215-1948445e3318
-## explicit; go 1.24.2
+# github.com/charmbracelet/ultraviolet v0.0.0-20260511121909-c840852527f3
+## explicit; go 1.25.0
 github.com/charmbracelet/ultraviolet
 # github.com/charmbracelet/x/ansi v0.11.7
 ## explicit; go 1.24.2
@@ -575,8 +575,8 @@ github.com/julz/importas
 # github.com/karamaru-alpha/copyloopvar v1.2.2
 ## explicit; go 1.24.0
 github.com/karamaru-alpha/copyloopvar
-# github.com/kisielk/errcheck v1.10.0
-## explicit; go 1.22.0
+# github.com/kisielk/errcheck v1.20.0
+## explicit; go 1.25.0
 github.com/kisielk/errcheck/errcheck
 # github.com/kkHAIKE/contextcheck v1.1.6
 ## explicit; go 1.23.0
@@ -763,8 +763,8 @@ github.com/quasilyte/regex/syntax
 # github.com/quasilyte/stdinfo v0.0.0-20220114132959-f7386bf02567
 ## explicit; go 1.17
 github.com/quasilyte/stdinfo
-# github.com/raeperd/recvcheck v0.2.0
-## explicit; go 1.22.0
+# github.com/raeperd/recvcheck v0.3.0
+## explicit; go 1.25.0
 github.com/raeperd/recvcheck
 # github.com/rivo/uniseg v0.4.7
 ## explicit; go 1.18
@@ -955,10 +955,10 @@ go.yaml.in/yaml/v2
 # go.yaml.in/yaml/v3 v3.0.4
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20260410095643-746e56fc9e2f
+# golang.org/x/exp/typeparams v0.0.0-20260508232706-74f9aab9d74a
 ## explicit; go 1.25.0
 golang.org/x/exp/typeparams
-# golang.org/x/mod v0.35.0
+# golang.org/x/mod v0.36.0
 ## explicit; go 1.25.0
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/modfile
@@ -969,11 +969,11 @@ golang.org/x/mod/sumdb/dirhash
 ## explicit; go 1.25.0
 golang.org/x/sync/errgroup
 golang.org/x/sync/semaphore
-# golang.org/x/sys v0.43.0
+# golang.org/x/sys v0.44.0
 ## explicit; go 1.25.0
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.36.0
+# golang.org/x/text v0.37.0
 ## explicit; go 1.25.0
 golang.org/x/text/encoding
 golang.org/x/text/encoding/internal
@@ -996,7 +996,7 @@ golang.org/x/text/runes
 golang.org/x/text/transform
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
-# golang.org/x/tools v0.44.0
+# golang.org/x/tools v0.45.0
 ## explicit; go 1.25.0
 golang.org/x/tools/go/analysis
 golang.org/x/tools/go/analysis/passes/appends

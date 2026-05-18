@@ -7,7 +7,6 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -47,7 +46,7 @@ type LookupJWTAuthenticatorResult struct {
 	// The properties of JWTAuthenticator. For details on how to configure the properties of a JWT authenticator, please refer to the Kubernetes documentation: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration. Please note that not all fields available in the Kubernetes documentation are supported by AKS. For troubleshooting, please see https://aka.ms/aks-external-issuers-docs.
 	Properties JWTAuthenticatorPropertiesResponse `pulumi:"properties"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData commontypesv5.SystemDataResponse `pulumi:"systemData"`
+	SystemData SystemDataResponse `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
@@ -110,8 +109,8 @@ func (o LookupJWTAuthenticatorResultOutput) Properties() JWTAuthenticatorPropert
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o LookupJWTAuthenticatorResultOutput) SystemData() commontypesv5.SystemDataResponseOutput {
-	return o.ApplyT(func(v LookupJWTAuthenticatorResult) commontypesv5.SystemDataResponse { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
+func (o LookupJWTAuthenticatorResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupJWTAuthenticatorResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"

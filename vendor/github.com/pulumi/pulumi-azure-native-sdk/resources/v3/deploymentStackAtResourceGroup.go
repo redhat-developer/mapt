@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv6"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -44,7 +43,7 @@ type DeploymentStackAtResourceGroup struct {
 	// The duration of the last successful Deployment stack update.
 	Duration pulumi.StringOutput `pulumi:"duration"`
 	// The error detail.
-	Error commontypesv6.ErrorDetailResponseOutput `pulumi:"error"`
+	Error ErrorDetailResponseOutput `pulumi:"error"`
 	// An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
 	FailedResources ResourceReferenceExtendedResponseArrayOutput `pulumi:"failedResources"`
 	// The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks.
@@ -62,7 +61,7 @@ type DeploymentStackAtResourceGroup struct {
 	// An array of resources currently managed by the deployment stack.
 	Resources ManagedResourceReferenceResponseArrayOutput `pulumi:"resources"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData commontypesv6.SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -291,8 +290,8 @@ func (o DeploymentStackAtResourceGroupOutput) Duration() pulumi.StringOutput {
 }
 
 // The error detail.
-func (o DeploymentStackAtResourceGroupOutput) Error() commontypesv6.ErrorDetailResponseOutput {
-	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) commontypesv6.ErrorDetailResponseOutput { return v.Error }).(commontypesv6.ErrorDetailResponseOutput)
+func (o DeploymentStackAtResourceGroupOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) ErrorDetailResponseOutput { return v.Error }).(ErrorDetailResponseOutput)
 }
 
 // An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
@@ -342,8 +341,8 @@ func (o DeploymentStackAtResourceGroupOutput) Resources() ManagedResourceReferen
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o DeploymentStackAtResourceGroupOutput) SystemData() commontypesv6.SystemDataResponseOutput {
-	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) commontypesv6.SystemDataResponseOutput { return v.SystemData }).(commontypesv6.SystemDataResponseOutput)
+func (o DeploymentStackAtResourceGroupOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *DeploymentStackAtResourceGroup) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // Resource tags.

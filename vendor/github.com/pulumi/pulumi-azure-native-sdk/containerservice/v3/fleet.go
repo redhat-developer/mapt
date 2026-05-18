@@ -8,8 +8,6 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv4"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -29,7 +27,7 @@ type Fleet struct {
 	// The FleetHubProfile configures the Fleet's hub.
 	HubProfile FleetHubProfileResponsePtrOutput `pulumi:"hubProfile"`
 	// Managed identity.
-	Identity commontypesv4.ManagedServiceIdentityResponsePtrOutput `pulumi:"identity"`
+	Identity ManagedServiceIdentityResponsePtrOutput `pulumi:"identity"`
 	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
 	// The name of the resource
@@ -37,7 +35,7 @@ type Fleet struct {
 	// The status of the last operation.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -134,7 +132,7 @@ type fleetArgs struct {
 	// The FleetHubProfile configures the Fleet's hub.
 	HubProfile *FleetHubProfile `pulumi:"hubProfile"`
 	// Managed identity.
-	Identity *commontypesv4.ManagedServiceIdentity `pulumi:"identity"`
+	Identity *ManagedServiceIdentity `pulumi:"identity"`
 	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
 	// The name of the resource group. The name is case insensitive.
@@ -150,7 +148,7 @@ type FleetArgs struct {
 	// The FleetHubProfile configures the Fleet's hub.
 	HubProfile FleetHubProfilePtrInput
 	// Managed identity.
-	Identity commontypesv4.ManagedServiceIdentityPtrInput
+	Identity ManagedServiceIdentityPtrInput
 	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
 	// The name of the resource group. The name is case insensitive.
@@ -212,8 +210,8 @@ func (o FleetOutput) HubProfile() FleetHubProfileResponsePtrOutput {
 }
 
 // Managed identity.
-func (o FleetOutput) Identity() commontypesv4.ManagedServiceIdentityResponsePtrOutput {
-	return o.ApplyT(func(v *Fleet) commontypesv4.ManagedServiceIdentityResponsePtrOutput { return v.Identity }).(commontypesv4.ManagedServiceIdentityResponsePtrOutput)
+func (o FleetOutput) Identity() ManagedServiceIdentityResponsePtrOutput {
+	return o.ApplyT(func(v *Fleet) ManagedServiceIdentityResponsePtrOutput { return v.Identity }).(ManagedServiceIdentityResponsePtrOutput)
 }
 
 // The geo-location where the resource lives
@@ -232,8 +230,8 @@ func (o FleetOutput) ProvisioningState() pulumi.StringOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o FleetOutput) SystemData() commontypesv3.SystemDataResponseOutput {
-	return o.ApplyT(func(v *Fleet) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
+func (o FleetOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *Fleet) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // Resource tags.

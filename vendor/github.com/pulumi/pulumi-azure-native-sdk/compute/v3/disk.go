@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv3"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -94,7 +93,7 @@ type Disk struct {
 	// Indicates the OS on a disk supports hibernation.
 	SupportsHibernation pulumi.BoolPtrOutput `pulumi:"supportsHibernation"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData commontypesv3.SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks.
@@ -568,8 +567,8 @@ func (o DiskOutput) SupportsHibernation() pulumi.BoolPtrOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o DiskOutput) SystemData() commontypesv3.SystemDataResponseOutput {
-	return o.ApplyT(func(v *Disk) commontypesv3.SystemDataResponseOutput { return v.SystemData }).(commontypesv3.SystemDataResponseOutput)
+func (o DiskOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *Disk) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // Resource tags.

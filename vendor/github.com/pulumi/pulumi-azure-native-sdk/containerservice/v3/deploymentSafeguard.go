@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv6"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -34,7 +33,7 @@ type DeploymentSafeguard struct {
 	// Provisioning State
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
-	SystemData commontypesv6.SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// System defined list of namespaces excluded from Deployment Safeguards. These are determined by the underlying provider (such as AKS), and cannot be changed. Deployments in these namespaces will not be checked
 	SystemExcludedNamespaces pulumi.StringArrayOutput `pulumi:"systemExcludedNamespaces"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -188,8 +187,8 @@ func (o DeploymentSafeguardOutput) ProvisioningState() pulumi.StringOutput {
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.
-func (o DeploymentSafeguardOutput) SystemData() commontypesv6.SystemDataResponseOutput {
-	return o.ApplyT(func(v *DeploymentSafeguard) commontypesv6.SystemDataResponseOutput { return v.SystemData }).(commontypesv6.SystemDataResponseOutput)
+func (o DeploymentSafeguardOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *DeploymentSafeguard) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // System defined list of namespaces excluded from Deployment Safeguards. These are determined by the underlying provider (such as AKS), and cannot be changed. Deployments in these namespaces will not be checked

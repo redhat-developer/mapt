@@ -8,7 +8,6 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/pulumi/pulumi-azure-native-sdk/v3/commontypesv5"
 	"github.com/pulumi/pulumi-azure-native-sdk/v3/utilities"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -30,7 +29,7 @@ type Namespace struct {
 	// Properties of a namespace.
 	Properties NamespacePropertiesResponseV1Output `pulumi:"properties"`
 	// The system metadata relating to this resource.
-	SystemData commontypesv5.SystemDataResponseOutput `pulumi:"systemData"`
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// The tags to be persisted on the managed cluster namespace.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Resource type
@@ -185,8 +184,8 @@ func (o NamespaceOutput) Properties() NamespacePropertiesResponseV1Output {
 }
 
 // The system metadata relating to this resource.
-func (o NamespaceOutput) SystemData() commontypesv5.SystemDataResponseOutput {
-	return o.ApplyT(func(v *Namespace) commontypesv5.SystemDataResponseOutput { return v.SystemData }).(commontypesv5.SystemDataResponseOutput)
+func (o NamespaceOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *Namespace) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
 
 // The tags to be persisted on the managed cluster namespace.
