@@ -387,8 +387,8 @@ github.com/pulumi/pulumi-azure-native-sdk/v3 v3.17.0 h1:CFtP/hsyGR2jSAm/Fz+4QW8d
 github.com/pulumi/pulumi-azure-native-sdk/v3 v3.17.0/go.mod h1:ELaNq3/fmYWdM6Y4vTQmheO9gGkeCrAMeiOD1XReDwA=
 github.com/pulumi/pulumi-command/sdk v1.2.1 h1:mAziZ91a/9U+5IjZH5Skcar80OSmpBSYljeQNRblTWQ=
 github.com/pulumi/pulumi-command/sdk v1.2.1/go.mod h1:hQxv9DXg6bFjcd9BEiNdMImQ/V1rnC9D115q5VXYNps=
-github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.16 h1:6OScn2bTpTo6nSE6AQOVtHTg688rHW0h3KMjNq+25uU=
-github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.16/go.mod h1:QgbLZb1Cd1yiX9GsIaZCRuFL/0ortNfUgsp/vx5YTws=
+github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.17 h1:XSz9LZ4Q0267DW09I1DLoJhLXWzSeR0uH4/hD3owGT4=
+github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.17/go.mod h1:QgbLZb1Cd1yiX9GsIaZCRuFL/0ortNfUgsp/vx5YTws=
 github.com/pulumi/pulumi-docker/sdk/v4 v4.11.2 h1:mc9IbrRi1pWSg9HWEFT6EcQ274WnZ97nyP2pmUEvSp4=
 github.com/pulumi/pulumi-docker/sdk/v4 v4.11.2/go.mod h1:gPNbbz+ywFqnRRQMDxQQbMp4nXJIk43QBUj0N+xWXbw=
 github.com/pulumi/pulumi-gitlab/sdk/v8 v8.11.0 h1:nR406lhXeltZVfLXH8E4J5JetflNZePBgXz2eyHT7RM=
@@ -576,8 +576,8 @@ google.golang.org/genproto/googleapis/api v0.0.0-20260504160031-60b97b32f348 h1:
 google.golang.org/genproto/googleapis/api v0.0.0-20260504160031-60b97b32f348/go.mod h1:Yzdzr5OOZFgSsEV2D/Xi9NL3bszpXFAg0hFJiRohcD8=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20260504160031-60b97b32f348 h1:pfIbyB44sWzHiCpRqIen67ZQnVXSfIxWrqUMk1qwODE=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20260504160031-60b97b32f348/go.mod h1:4Hqkh8ycfw05ld/3BWL7rJOSfebL2Q+DVDeRgYgxUU8=
-google.golang.org/grpc v1.81.0 h1:W3G9N3KQf3BU+YuCtGKJk0CmxQNbAISICD/9AORxLIw=
-google.golang.org/grpc v1.81.0/go.mod h1:xGH9GfzOyMTGIOXBJmXt+BX/V0kcdQbdcuwQ/zNw42I=
+google.golang.org/grpc v1.81.1 h1:VnnIIZ88UzOOKLukQi+ImGz8O1Wdp8nAGGnvOfEIWQQ=
+google.golang.org/grpc v1.81.1/go.mod h1:xGH9GfzOyMTGIOXBJmXt+BX/V0kcdQbdcuwQ/zNw42I=
 google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af h1:+5/Sw3GsDNlEmu7TfklWKPdQ0Ykja5VEmq2i817+jbI=
 google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
