@@ -77,6 +77,56 @@ Multiple profiles can be specified as a comma-separated list (e.g., `--profile v
 | `nvidia` | Installs the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/openshift/latest/install-gpu-ocp.html) on the cluster. Automatically installs [Node Feature Discovery](https://docs.redhat.com/en/documentation/openshift_container_platform/latest/html/specialized_hardware_and_driver_enablement/psap-node-feature-discovery-operator) (NFD) as a prerequisite and creates a ClusterPolicy with the recommended OpenShift defaults (CRI-O runtime, OCP driver toolkit). The cluster must run on a GPU-capable instance type (e.g. `g4dn`, `g5`, `p4d`).|
 
 
+### Operator overrides
+
+Profiles install operators using the default OLM channel (`stable`) and catalog (`redhat-operators`). Two flags allow overriding these per operator, which is useful for testing pre-release operator builds:
+
+#### `--operator-channel`
+
+Override the OLM subscription channel for a specific operator:
+
+```bash
+mapt aws openshift-snc create \
+    --profile serverless-serving \
+    --operator-channel serverless-operator=candidate
+```
+
+Multiple operators can be overridden at once:
+
+```bash
+--operator-channel serverless-operator=preview,nfd=4.17
+```
+
+#### `--catalog-source`
+
+Use a custom index image instead of the default catalog. This creates a `CatalogSource` CR in `openshift-marketplace` and points the operator's subscription to it:
+
+```bash
+mapt aws openshift-snc create \
+    --profile nvidia \
+    --catalog-source gpu-operator-certified=quay.io/my-team/gpu-operator-index:test-v1.0
+```
+
+Both flags can be combined:
+
+```bash
+mapt aws openshift-snc create \
+    --profile ai \
+    --operator-channel serverless-operator=candidate \
+    --catalog-source rhods-operator=quay.io/my-team/rhoai-index:nightly
+```
+
+When neither flag is provided, operators use the defaults: channel `stable` and catalog `redhat-operators` (unless overridden in the profile definition, e.g. `gpu-operator-certified` and `nfd` use `certified-operators`).
+
+The keys are operator package names as they appear in OLM. The operators installed by each profile are:
+
+| Profile | Operator package names |
+|---------|----------------------|
+| `serverless-serving` / `serverless-eventing` / `serverless` | `serverless-operator` |
+| `servicemesh` | `servicemeshoperator3` |
+| `ai` | `rhods-operator`, `servicemeshoperator`, `authorino-operator`, `serverless-operator` |
+| `nvidia` | `gpu-operator-certified`, `nfd` |
+
 ### Adding new profiles
 
 To add a new profile:

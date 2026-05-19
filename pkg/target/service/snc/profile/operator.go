@@ -59,8 +59,18 @@ func installOperator(ctx *pulumi.Context, args *DeployArgs, oi operatorInstall) 
 		catalogSource = catalogSourceRedHat
 	}
 
+	if override, ok := args.OperatorChannels[oi.packageName]; ok {
+		channel = override
+	}
+	if cs, ok := args.catalogSourceCRs[oi.packageName]; ok {
+		catalogSource = cs.Name
+	}
+
 	deps := append([]pulumi.Resource{}, args.Deps...)
 	deps = append(deps, oi.extraDeps...)
+	if cs, ok := args.catalogSourceCRs[oi.packageName]; ok {
+		deps = append(deps, cs.Resource)
+	}
 
 	// If ogName is provided, create a dedicated namespace and OperatorGroup.
 	if oi.ogName != "" {

@@ -1,11 +1,13 @@
 package profile
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"maps"
 	"slices"
 
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
+	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/apiextensions"
 	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -63,6 +65,18 @@ type DeployArgs struct {
 	// so that Pulumi skips deleting them individually during destroy — the
 	// resources disappear when the VM is terminated.
 	DeletedWith pulumi.Resource
+	// OperatorChannels maps operator packageName to an OLM channel override.
+	OperatorChannels map[string]string
+	// CatalogSources maps operator packageName to a custom index image URL.
+	CatalogSources map[string]string
+
+	// catalogSourceCRs maps packageName to the CatalogSource CR info.
+	catalogSourceCRs map[string]catalogSourceInfo
+}
+
+type catalogSourceInfo struct {
+	Name     string
+	Resource pulumi.Resource
 }
 
 // Validate checks that all requested profiles are supported and
@@ -88,6 +102,10 @@ func Validate(profiles []string) error {
 // The AI profile implicitly brings in Service Mesh v2 (Maistra) and
 // serverless-serving as prerequisites for Kserve.
 func Deploy(ctx *pulumi.Context, profiles []string, args *DeployArgs) error {
+	if err := args.ensureCatalogSources(ctx); err != nil {
+		return err
+	}
+
 	needServing := false
 	needEventing := false
 	needAI := false
@@ -192,6 +210,56 @@ func (a *DeployArgs) newNamespace(ctx *pulumi.Context, name string, nsName pulum
 			},
 		},
 		a.k8sOpts(extra...)...)
+}
+
+func ValidateOperatorOverrides(channels, catalogs map[string]string) error {
+	for pkg, ch := range channels {
+		if pkg == "" || ch == "" {
+			return fmt.Errorf("invalid --operator-channel: both package name and channel must be non-empty (got %q=%q)", pkg, ch)
+		}
+	}
+	for pkg, img := range catalogs {
+		if pkg == "" || img == "" {
+			return fmt.Errorf("invalid --catalog-source: both package name and index image must be non-empty (got %q=%q)", pkg, img)
+		}
+	}
+	return nil
+}
+
+// ensureCatalogSources creates CatalogSource CRs for any custom index images
+// specified via --catalog-source, so that operator subscriptions can reference them.
+func (a *DeployArgs) ensureCatalogSources(ctx *pulumi.Context) error {
+	if len(a.CatalogSources) == 0 {
+		return nil
+	}
+	a.catalogSourceCRs = make(map[string]catalogSourceInfo, len(a.CatalogSources))
+	for pkg, indexImage := range a.CatalogSources {
+		hash := fmt.Sprintf("%x", sha256.Sum256([]byte(indexImage)))[:8]
+		csName := fmt.Sprintf("mapt-cs-%s-%s", pkg, hash)
+		cs, err := apiextensions.NewCustomResource(ctx, csName,
+			&apiextensions.CustomResourceArgs{
+				ApiVersion: pulumi.String("operators.coreos.com/v1alpha1"),
+				Kind:       pulumi.String("CatalogSource"),
+				Metadata: &metav1.ObjectMetaArgs{
+					Name:      pulumi.String(csName),
+					Namespace: pulumi.String("openshift-marketplace"),
+				},
+				OtherFields: map[string]interface{}{
+					"spec": map[string]interface{}{
+						"sourceType":  "grpc",
+						"image":       indexImage,
+						"displayName": fmt.Sprintf("MAPT custom catalog for %s", pkg),
+						"publisher":   "MAPT",
+					},
+				},
+			},
+			a.k8sOpts(pulumi.DependsOn(a.Deps))...)
+		if err != nil {
+			return err
+		}
+		a.catalogSourceCRs[pkg] = catalogSourceInfo{Name: csName, Resource: cs}
+	}
+	return nil
 }
 
 // k8sOpts returns the common Pulumi resource options for K8s resources:
