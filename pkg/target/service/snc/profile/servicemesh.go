@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/apiextensions"
-	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -35,26 +34,12 @@ func deployServiceMesh(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource, 
 		return fmt.Sprintf("%s-smesh-%s", args.Prefix, suffix)
 	}
 
-	// Create istio-system namespace
-	nsSystem, err := corev1.NewNamespace(ctx, rn("ns-system"),
-		&corev1.NamespaceArgs{
-			Metadata: &metav1.ObjectMetaArgs{
-				Name: pulumi.String(istioSystemNamespace),
-			},
-		},
-		args.k8sOpts(pulumi.DependsOn(args.Deps))...)
+	nsSystem, err := args.newNamespace(ctx, rn("ns-system"), pulumi.String(istioSystemNamespace), pulumi.DependsOn(args.Deps))
 	if err != nil {
 		return nil, err
 	}
 
-	// Create istio-cni namespace
-	nsCNI, err := corev1.NewNamespace(ctx, rn("ns-cni"),
-		&corev1.NamespaceArgs{
-			Metadata: &metav1.ObjectMetaArgs{
-				Name: pulumi.String(istioCNINamespace),
-			},
-		},
-		args.k8sOpts(pulumi.DependsOn(args.Deps))...)
+	nsCNI, err := args.newNamespace(ctx, rn("ns-cni"), pulumi.String(istioCNINamespace), pulumi.DependsOn(args.Deps))
 	if err != nil {
 		return nil, err
 	}
