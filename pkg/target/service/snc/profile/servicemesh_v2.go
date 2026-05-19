@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/apiextensions"
-	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -29,14 +28,7 @@ func deployServiceMeshV2(ctx *pulumi.Context, args *DeployArgs) (pulumi.Resource
 		return fmt.Sprintf("%s-smeshv2-%s", args.Prefix, suffix)
 	}
 
-	// Create istio-system namespace
-	ns, err := corev1.NewNamespace(ctx, rn("ns"),
-		&corev1.NamespaceArgs{
-			Metadata: &metav1.ObjectMetaArgs{
-				Name: pulumi.String(istioSystemNamespace),
-			},
-		},
-		args.k8sOpts(pulumi.DependsOn(args.Deps))...)
+	ns, err := args.newNamespace(ctx, rn("ns"), pulumi.String(istioSystemNamespace), pulumi.DependsOn(args.Deps))
 	if err != nil {
 		return nil, pulumi.StringOutput{}, err
 	}

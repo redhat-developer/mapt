@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/apiextensions"
-	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -69,13 +68,7 @@ func installOperator(ctx *pulumi.Context, args *DeployArgs, oi operatorInstall) 
 		if nsName == nil {
 			nsName = pulumi.String(oi.namespace)
 		}
-		ns, err := corev1.NewNamespace(ctx, oi.resourcePrefix+"ns",
-			&corev1.NamespaceArgs{
-				Metadata: &metav1.ObjectMetaArgs{
-					Name: nsName,
-				},
-			},
-			args.k8sOpts(pulumi.DependsOn(deps))...)
+		ns, err := args.newNamespace(ctx, oi.resourcePrefix+"ns", nsName, pulumi.DependsOn(deps))
 		if err != nil {
 			return pulumi.StringOutput{}, err
 		}

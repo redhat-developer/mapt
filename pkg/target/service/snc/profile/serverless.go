@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/apiextensions"
-	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -96,14 +95,7 @@ func deployKnativeCR(ctx *pulumi.Context, args *DeployArgs, operatorReady pulumi
 		return cr.namespace
 	}).(pulumi.StringOutput)
 
-	// Create target namespace
-	ns, err := corev1.NewNamespace(ctx, rn(cr.suffix+"-ns"),
-		&corev1.NamespaceArgs{
-			Metadata: &metav1.ObjectMetaArgs{
-				Name: nsName,
-			},
-		},
-		args.k8sOpts(pulumi.DependsOn(args.Deps))...)
+	ns, err := args.newNamespace(ctx, rn(cr.suffix+"-ns"), nsName, pulumi.DependsOn(args.Deps))
 	if err != nil {
 		return nil, pulumi.StringOutput{}, err
 	}

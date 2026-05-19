@@ -6,6 +6,8 @@ import (
 	"slices"
 
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
+	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
+	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -178,6 +180,18 @@ func GPUManufacturer(profiles []string) string {
 		}
 	}
 	return ""
+}
+
+// newNamespace creates (or adopts) a Kubernetes namespace using server-side
+// apply so the call succeeds even if the namespace already exists.
+func (a *DeployArgs) newNamespace(ctx *pulumi.Context, name string, nsName pulumi.StringInput, extra ...pulumi.ResourceOption) (*corev1.NamespacePatch, error) {
+	return corev1.NewNamespacePatch(ctx, name,
+		&corev1.NamespacePatchArgs{
+			Metadata: &metav1.ObjectMetaPatchArgs{
+				Name: nsName,
+			},
+		},
+		a.k8sOpts(extra...)...)
 }
 
 // k8sOpts returns the common Pulumi resource options for K8s resources:
