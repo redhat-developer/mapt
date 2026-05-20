@@ -208,6 +208,7 @@ func (a *DeployArgs) k8sOpts(extra ...pulumi.ResourceOption) []pulumi.ResourceOp
 // NewK8sProvider creates a Pulumi Kubernetes provider from a kubeconfig string output.
 func NewK8sProvider(ctx *pulumi.Context, name string, kubeconfig pulumi.StringOutput) (*kubernetes.Provider, error) {
 	return kubernetes.NewProvider(ctx, name, &kubernetes.ProviderArgs{
-		Kubeconfig: kubeconfig,
+		Kubeconfig:        kubeconfig,
+		DeleteUnreachable: pulumi.Bool(true),
 	})
 }
