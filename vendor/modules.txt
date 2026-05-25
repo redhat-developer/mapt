@@ -262,11 +262,11 @@ github.com/aws/aws-sdk-go-v2/internal/timeconv
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream
 github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi
-# github.com/aws/aws-sdk-go-v2/config v1.32.17
+# github.com/aws/aws-sdk-go-v2/config v1.32.18
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/config
 github.com/aws/aws-sdk-go-v2/config/internal/ini
-# github.com/aws/aws-sdk-go-v2/credentials v1.19.16
+# github.com/aws/aws-sdk-go-v2/credentials v1.19.17
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/credentials
 github.com/aws/aws-sdk-go-v2/credentials/ec2rolecreds
@@ -756,7 +756,7 @@ github.com/leodido/go-urn/scim/schema
 # github.com/lucasb-eyer/go-colorful v1.4.0
 ## explicit; go 1.12
 github.com/lucasb-eyer/go-colorful
-# github.com/mapt-oss/pulumi-ibmcloud/sdk v0.0.9
+# github.com/mapt-oss/pulumi-ibmcloud/sdk v0.0.12
 ## explicit; go 1.24.0
 github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud
 github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud/internal
@@ -932,7 +932,7 @@ github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 ## explicit; go 1.22
 github.com/pulumi/pulumi-gitlab/sdk/v8/go/gitlab
 github.com/pulumi/pulumi-gitlab/sdk/v8/go/gitlab/internal
-# github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.31.0
+# github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.31.1
 ## explicit; go 1.25.6
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/admissionregistration/v1

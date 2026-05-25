@@ -47,7 +47,7 @@ ARG PULUMI_AWS_NATIVE_VERSION=v1.66.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
 ARG PULUMI_GITLAB_VERSION=v9.11.0
 # renovate: datasource=github-releases depName=mapt-oss/pulumi-ibmcloud
-ARG PULUMI_IBMCLOUD_VERSION=v0.0.9
+ARG PULUMI_IBMCLOUD_VERSION=v0.0.12
 ENV IBMCLOUD_PLUGIN_URL https://github.com/mapt-oss/pulumi-ibmcloud/releases/download/${PULUMI_IBMCLOUD_VERSION}/pulumi-resource-ibmcloud-${PULUMI_IBMCLOUD_VERSION}-linux-${TARGETARCH}.tar.gz
 
 ENV PULUMI_HOME "/opt/mapt/run" 
