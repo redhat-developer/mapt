@@ -45,7 +45,8 @@ type Route struct {
 	DestinationType *string `json:"destinationType"`
 
 	// Indicates if the route should be enabled in the fabric
-	Enabled bool `json:"enabled,omitempty"`
+	// Required: true
+	Enabled *bool `json:"enabled"`
 
 	// The unique route ID
 	// Required: true
@@ -96,6 +97,10 @@ func (m *Route) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateDestinationType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateEnabled(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -264,6 +269,15 @@ func (m *Route) validateDestinationType(formats strfmt.Registry) error {
 
 	// value enum
 	if err := m.validateDestinationTypeEnum("destinationType", "body", *m.DestinationType); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Route) validateEnabled(formats strfmt.Registry) error {
+
+	if err := validate.Required("enabled", "body", m.Enabled); err != nil {
 		return err
 	}
 

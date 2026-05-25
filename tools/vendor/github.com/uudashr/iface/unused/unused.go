@@ -14,7 +14,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
-// Analyzer detects unused interfaces in the package.
+// Analyzer detects interfaces which are not used anywhere in the same package where they are defined.
 var Analyzer = newAnalyzer()
 
 func newAnalyzer() *analysis.Analyzer {
@@ -82,6 +82,10 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 			return
 		}
 
+		if directive.ShouldIgnore(decl.Doc, pass.Analyzer.Name) {
+			return
+		}
+
 		for i, spec := range decl.Specs {
 			r.debugf(" spec[%d]: %v %T\n", i, spec, spec)
 
@@ -95,11 +99,9 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 				continue
 			}
 
-			r.debugln(" Interface type declaration:", ts.Name.Name, ts.Pos())
+			r.debugln("  -> Interface type declaration:", ts.Name.Name, ts.Pos())
 
-			dir := directive.ParseIgnore(decl.Doc)
-			if dir != nil && dir.ShouldIgnore(pass.Analyzer.Name) {
-				// skip due to ignore directive
+			if directive.ShouldIgnore(ts.Doc, pass.Analyzer.Name) {
 				continue
 			}
 

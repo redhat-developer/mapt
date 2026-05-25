@@ -18,6 +18,7 @@ import (
 	"github.com/IBM-Cloud/power-go-client/power/client/host_groups"
 	"github.com/IBM-Cloud/power-go-client/power/client/iaas_service_broker"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_capacity_management"
+	"github.com/IBM-Cloud/power-go-client/power/client/internal_networks"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_operations_dedicated_hosts"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_operations_images"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_operations_network_address_groups"
@@ -29,6 +30,7 @@ import (
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_operations_snapshots"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_operations_v_p_mem_volumes"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_operations_volumes"
+	"github.com/IBM-Cloud/power-go-client/power/client/internal_power_n_s"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_power_v_s_instances"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_power_v_s_locations"
 	"github.com/IBM-Cloud/power-go-client/power/client/internal_storage_regions"
@@ -127,6 +129,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *PowerIaasA
 	cli.HostGroups = host_groups.New(transport, formats)
 	cli.IaasServiceBroker = iaas_service_broker.New(transport, formats)
 	cli.InternalCapacityManagement = internal_capacity_management.New(transport, formats)
+	cli.InternalNetworks = internal_networks.New(transport, formats)
 	cli.InternalOperationsDedicatedHosts = internal_operations_dedicated_hosts.New(transport, formats)
 	cli.InternalOperationsImages = internal_operations_images.New(transport, formats)
 	cli.InternalOperationsNetworkAddressGroups = internal_operations_network_address_groups.New(transport, formats)
@@ -138,6 +141,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *PowerIaasA
 	cli.InternalOperationsSnapshots = internal_operations_snapshots.New(transport, formats)
 	cli.InternalOperationsvpMemVolumes = internal_operations_v_p_mem_volumes.New(transport, formats)
 	cli.InternalOperationsVolumes = internal_operations_volumes.New(transport, formats)
+	cli.InternalPowerns = internal_power_n_s.New(transport, formats)
 	cli.InternalPowervsInstances = internal_power_v_s_instances.New(transport, formats)
 	cli.InternalPowervsLocations = internal_power_v_s_locations.New(transport, formats)
 	cli.InternalStorageRegions = internal_storage_regions.New(transport, formats)
@@ -244,6 +248,8 @@ type PowerIaasAPI struct {
 
 	InternalCapacityManagement internal_capacity_management.ClientService
 
+	InternalNetworks internal_networks.ClientService
+
 	InternalOperationsDedicatedHosts internal_operations_dedicated_hosts.ClientService
 
 	InternalOperationsImages internal_operations_images.ClientService
@@ -265,6 +271,8 @@ type PowerIaasAPI struct {
 	InternalOperationsvpMemVolumes internal_operations_v_p_mem_volumes.ClientService
 
 	InternalOperationsVolumes internal_operations_volumes.ClientService
+
+	InternalPowerns internal_power_n_s.ClientService
 
 	InternalPowervsInstances internal_power_v_s_instances.ClientService
 
@@ -372,6 +380,7 @@ func (c *PowerIaasAPI) SetTransport(transport runtime.ClientTransport) {
 	c.HostGroups.SetTransport(transport)
 	c.IaasServiceBroker.SetTransport(transport)
 	c.InternalCapacityManagement.SetTransport(transport)
+	c.InternalNetworks.SetTransport(transport)
 	c.InternalOperationsDedicatedHosts.SetTransport(transport)
 	c.InternalOperationsImages.SetTransport(transport)
 	c.InternalOperationsNetworkAddressGroups.SetTransport(transport)
@@ -383,6 +392,7 @@ func (c *PowerIaasAPI) SetTransport(transport runtime.ClientTransport) {
 	c.InternalOperationsSnapshots.SetTransport(transport)
 	c.InternalOperationsvpMemVolumes.SetTransport(transport)
 	c.InternalOperationsVolumes.SetTransport(transport)
+	c.InternalPowerns.SetTransport(transport)
 	c.InternalPowervsInstances.SetTransport(transport)
 	c.InternalPowervsLocations.SetTransport(transport)
 	c.InternalStorageRegions.SetTransport(transport)

@@ -46,7 +46,7 @@ type VPMemVolumeReference struct {
 	// Reason for error
 	Reason string `json:"reason,omitempty"`
 
-	// Volume Size (GB)
+	// Volume Size (GiB)
 	// Required: true
 	Size *float64 `json:"size"`
 

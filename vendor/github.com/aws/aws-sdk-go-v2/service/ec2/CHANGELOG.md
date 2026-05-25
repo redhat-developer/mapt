@@ -1,3 +1,11 @@
+# v1.304.0 (2026-05-22)
+
+* **Feature**: The ModifyInstanceAttribute API now supports modification of EnclaveOptions for the instance as a typed parameter.
+
+# v1.303.0 (2026-05-18)
+
+* **Feature**: Amazon VPC IP Address Manager (IPAM) now supports tags on IPAM pool allocations, enabling all standard tagging features for allocations including tag-on-create.
+
 # v1.302.0 (2026-05-13)
 
 * **Feature**: Include length limits in the SDK and documentation for text fields in Image (AMI) APIs such as the image name and description

@@ -53,7 +53,7 @@ type CreateDataVolume struct {
 	// Indicates if the volume is shareable between VMs
 	Shareable *bool `json:"shareable,omitempty"`
 
-	// Volume Size (GB)
+	// Volume Size (GiB)
 	// Required: true
 	Size *float64 `json:"size"`
 

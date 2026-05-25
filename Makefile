@@ -11,7 +11,7 @@ CIRRUS_CLI ?= v0.165.2
 # renovate: datasource=github-releases depName=actions/runner
 GITHUB_RUNNER ?= 2.334.0
 # renovate: datasource=gitlab-releases depName=gitlab-org/gitlab-runner
-GITLAB_RUNNER ?= 18.11.3
+GITLAB_RUNNER ?= 19.0.0
 # renovate: datasource=github-releases depName=open-telemetry/opentelemetry-collector-releases
 OTELCOL_VERSION ?= 0.151.0
 

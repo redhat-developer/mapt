@@ -23,7 +23,7 @@ type PVMInstanceConfiguration struct {
 	// Console language and code
 	ConsoleLanguage *ConsoleLanguage `json:"consoleLanguage,omitempty"`
 
-	// The VTL license repository capacity TB value
+	// The VTL license repository capacity TiB value
 	LicenseRepositoryCapacity int64 `json:"licenseRepositoryCapacity,omitempty"`
 
 	// If this is an SAP pvm-instance the profile reference will link to the SAP profile

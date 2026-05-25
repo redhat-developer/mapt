@@ -3,6 +3,7 @@ package opaque
 import (
 	"fmt"
 	"go/ast"
+	"go/token"
 	"go/types"
 	"os"
 	"strings"
@@ -13,7 +14,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
-// Analyzer is the analysis pass for detecting opaque interface returns.
+// Analyzer detects functions that return an interface type, but only ever return a single concrete implementation.
 var Analyzer = newAnalyzer()
 
 func newAnalyzer() *analysis.Analyzer {
@@ -49,7 +50,10 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 		funcDecl := n.(*ast.FuncDecl)
 
 		if funcDecl.Recv != nil {
-			// skip methods
+			// Skip methods because their return types may be dictated by interface
+			// contracts that the receiver type satisfies. Unlike standalone functions,
+			// methods are often created to fulfill an interface, so the return type
+			// is not a free design choice. Flagging these would produce false positives.
 			return
 		}
 
@@ -68,34 +72,48 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 			fmt.Fprintf(os.Stderr, " Results len=%d\n", len(funcDecl.Type.Results.List))
 		}
 
-		dir := directive.ParseIgnore(funcDecl.Doc)
-		if dir != nil && dir.ShouldIgnore(pass.Analyzer.Name) {
-			// skip ignored function
+		if directive.ShouldIgnore(funcDecl.Doc, pass.Analyzer.Name) {
 			return
 		}
 
-		// Pre-check, only function that has interface return type will be processed
-		var hasInterfaceReturnType bool
+		var (
+			hasInterfaceReturnType bool
+			outCount               int
+		)
 
-		var outCount int
+		namedReturnObjs := make(map[*types.Var]int)
+		{
+			idx := 0
 
-		for i, result := range funcDecl.Type.Results.List {
-			outInc := 1
-			if namesLen := len(result.Names); namesLen > 0 {
-				outInc = namesLen
-			}
+			for i, result := range funcDecl.Type.Results.List {
+				if r.debug {
+					fmt.Fprintf(os.Stderr, "  result[%d] %v %T names=%v\n", i, result.Type, result.Type, result.Names)
+				}
 
-			outCount += outInc
+				for j, name := range result.Names {
+					if obj := pass.TypesInfo.Defs[name]; obj != nil {
+						r.debugf("   name[%d] %v def=%v defAddr=%p\n", j, name, obj, obj)
 
-			resType := result.Type
-			typ := pass.TypesInfo.TypeOf(resType)
+						if v, ok := obj.(*types.Var); ok {
+							namedReturnObjs[v] = idx
+						}
+					} else {
+						r.debugf("   name[%d] %v def=unknown\n", j, name)
+					}
 
-			if r.debug {
-				fmt.Fprintf(os.Stderr, "  [%d] len=%d %v %v %T | %v %T interface=%t\n", i, len(result.Names), result.Names, resType, resType, typ, typ, types.IsInterface(typ))
-			}
+					idx++
+				}
 
-			if types.IsInterface(typ) && !hasInterfaceReturnType {
-				hasInterfaceReturnType = true
+				if len(result.Names) == 0 {
+					idx++
+				}
+
+				outCount += max(1, len(result.Names))
+
+				if !hasInterfaceReturnType {
+					typ := pass.TypesInfo.TypeOf(result.Type)
+					hasInterfaceReturnType = typ != nil && types.IsInterface(typ)
+				}
 			}
 		}
 
@@ -112,14 +130,87 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 			retStmtTypes[i] = make(map[types.Type]struct{})
 		}
 
+		r.debugln(" Body")
 		ast.Inspect(funcDecl.Body, func(n ast.Node) bool {
 			switch n := n.(type) {
 			case *ast.FuncLit:
-				// ignore nested functions
+				r.debugln("  FuncLit")
+
 				return false
+			case *ast.AssignStmt:
+				if n.Tok != token.ASSIGN {
+					return true
+				}
+
+				if r.debug {
+					r.debugf("  AssignStmt token %q lhsLen=%d rhsLen=%d\n", n.Tok, len(n.Lhs), len(n.Rhs))
+				}
+
+				for i, lhs := range n.Lhs {
+					r.debugf("   lhs[%d] %v %T\n", i, lhs, lhs)
+
+					ident, ok := lhs.(*ast.Ident)
+					if !ok {
+						continue
+					}
+
+					obj := pass.TypesInfo.Uses[ident]
+					r.debugf("    -> typeObj %v\n", obj)
+
+					if obj == nil {
+						continue
+					}
+
+					v, ok := obj.(*types.Var)
+					r.debugf("    -> types.Var=%t\n", ok)
+
+					if !ok {
+						continue
+					}
+
+					pos, found := namedReturnObjs[v]
+					r.debugf("    -> namedFound=%t\n", found)
+
+					if !found {
+						continue
+					}
+
+					var typ types.Type
+
+					if r.debug {
+						fmt.Fprintf(os.Stderr, "    -> rhsLen=%d\n", len(n.Rhs))
+					}
+
+					switch {
+					case len(n.Rhs) == 1:
+						typ = pass.TypesInfo.TypeOf(n.Rhs[0])
+						if tuple, ok := typ.(*types.Tuple); ok {
+							if i < tuple.Len() {
+								typ = tuple.At(i).Type()
+							} else {
+								typ = nil
+							}
+						}
+
+						r.debugf("     -> rhs[0] typ %v %T\n", typ, typ)
+					case i < len(n.Rhs):
+						typ = pass.TypesInfo.TypeOf(n.Rhs[i])
+						r.debugf("     -> rhs[%d] typ %v %T\n", i, typ, typ)
+					default:
+						typ = nil
+
+						r.debugf("    -> rhs default\n")
+					}
+
+					if typ != nil && !isUntypedNil(typ) {
+						retStmtTypes[pos][typ] = struct{}{}
+					}
+				}
+
+				return true
 			case *ast.ReturnStmt:
 				if r.debug {
-					fmt.Fprintf(os.Stderr, "  Return statements %v len=%d\n", n.Results, len(n.Results))
+					fmt.Fprintf(os.Stderr, "  ReturnStmt results %v len=%d\n", n.Results, len(n.Results))
 				}
 
 				for i, result := range n.Results {
@@ -127,18 +218,20 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 
 					switch res := result.(type) {
 					case *ast.CallExpr:
+						// Multi-return calls produce a Tuple; unwrap each element to
+						// record types by position. Single-value calls fall to default.
 						r.debugf("       CallExpr Fun: %v %T\n", res.Fun, res.Fun)
 
 						typ := pass.TypesInfo.TypeOf(res)
 						switch typ := typ.(type) {
 						case *types.Tuple:
-							for i := range typ.Len() {
-								v := typ.At(i)
+							for j := range typ.Len() {
+								v := typ.At(j)
 								vTyp := v.Type()
-								retStmtTypes[i][vTyp] = struct{}{}
+								retStmtTypes[j][vTyp] = struct{}{}
 
 								if r.debug {
-									fmt.Fprintf(os.Stderr, "          Tuple [%d]: %v %T | %v %T interface=%t\n", i, v, v, vTyp, vTyp, types.IsInterface(vTyp))
+									fmt.Fprintf(os.Stderr, "          Tuple [%d]: %v %T | %v %T interface=%t\n", j, v, v, vTyp, vTyp, types.IsInterface(vTyp))
 								}
 							}
 						default:
@@ -146,7 +239,17 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 						}
 
 					case *ast.Ident:
+						// Skip untyped nil — not a concrete type. All other identifiers
+						// (variables, constants, etc.) are recorded as-is.
 						r.debugf("       Ident: %v %T\n", res, res)
+
+						if obj := pass.TypesInfo.Uses[res]; obj != nil {
+							if v, ok := obj.(*types.Var); ok {
+								if _, found := namedReturnObjs[v]; found {
+									break
+								}
+							}
+						}
 
 						typ := pass.TypesInfo.TypeOf(res)
 						isNilStmt := isUntypedNil(typ)
@@ -158,18 +261,11 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 						if !isNilStmt {
 							retStmtTypes[i][typ] = struct{}{}
 						}
-					case *ast.UnaryExpr:
-						r.debugf("       UnaryExpr X: %v \n", res.X)
-
-						typ := pass.TypesInfo.TypeOf(res)
-
-						if r.debug {
-							fmt.Fprintf(os.Stderr, "        UnaryExpr type: %v %T interface=%t\n", typ, typ, types.IsInterface(typ))
-						}
-
-						retStmtTypes[i][typ] = struct{}{}
 					default:
-						r.debugf("       Unknown: %v %T\n", res, res)
+						// Catches everything else: UnaryExpr (`&foo`), SelectorExpr,
+						// TypeAssertExpr, CompositeLit, etc. pass.TypesInfo.TypeOf(res)
+						// resolves the type correctly regardless of AST node kind.
+						r.debugf("       OtherExpr: %v %T\n", res, res)
 
 						typ := pass.TypesInfo.TypeOf(res)
 						retStmtTypes[i][typ] = struct{}{}
@@ -203,8 +299,10 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 				continue
 			}
 
-			if typ.String() == "error" {
-				// very common case to have return type error
+			errorType := types.Universe.Lookup("error").Type()
+			anyType := types.Universe.Lookup("any").Type()
+
+			if types.Identical(typ, errorType) || types.Identical(typ, anyType) {
 				continue
 			}
 
@@ -272,15 +370,15 @@ func (r *runner) run(pass *analysis.Pass) (any, error) {
 				stmtTypName)
 
 			pass.Report(analysis.Diagnostic{
-				Pos:     result.Pos(),
+				Pos:     result.Type.Pos(),
 				Message: msg,
 				SuggestedFixes: []analysis.SuggestedFix{
 					{
 						Message: "Replace the interface return type with the concrete type",
 						TextEdits: []analysis.TextEdit{
 							{
-								Pos:     result.Pos(),
-								End:     result.End(),
+								Pos:     result.Type.Pos(),
+								End:     result.Type.End(),
 								NewText: []byte(stmtTypName),
 							},
 						},
@@ -329,6 +427,10 @@ func fromSamePackage(pass *analysis.Pass, typ types.Type) bool {
 }
 
 func removePkgPrefix(typeStr string) string {
+	if len(typeStr) == 0 {
+		return typeStr
+	}
+
 	if typeStr[0] == '*' {
 		return "*" + removePkgPrefix(typeStr[1:])
 	}
@@ -343,5 +445,11 @@ func removePkgPrefix(typeStr string) string {
 func (r *runner) debugf(format string, a ...any) {
 	if r.debug {
 		fmt.Fprintf(os.Stderr, format, a...)
+	}
+}
+
+func (r *runner) debugln(a ...any) {
+	if r.debug {
+		fmt.Fprintln(os.Stderr, a...)
 	}
 }

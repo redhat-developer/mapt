@@ -21,6 +21,9 @@ import (
 // swagger:model SAPProfile
 type SAPProfile struct {
 
+	// Accelerated SAP Application Performance Standard
+	Asaps int64 `json:"asaps"`
+
 	// Has certification been performed on profile
 	// Required: true
 	Certified *bool `json:"certified"`
@@ -35,7 +38,7 @@ type SAPProfile struct {
 	// Requires full system for deployment
 	FullSystemProfile bool `json:"fullSystemProfile"`
 
-	// Amount of memory (in GB)
+	// Amount of memory (in GiB)
 	// Required: true
 	Memory *int64 `json:"memory"`
 
