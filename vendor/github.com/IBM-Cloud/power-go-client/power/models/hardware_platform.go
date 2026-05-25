@@ -26,10 +26,10 @@ type HardwarePlatform struct {
 	// The DataCenter list of servers and their available resources
 	HostsResources []*HostResources `json:"hostsResources"`
 
-	// Configured Memory GB
+	// Configured Memory GiB
 	Memory float64 `json:"memory,omitempty"`
 
-	// Processor to Memory (GB) Ratio
+	// Processor to Memory (GiB) Ratio
 	ProcessorMemoryRatio float64 `json:"processorMemoryRatio,omitempty"`
 
 	// Configured Processors

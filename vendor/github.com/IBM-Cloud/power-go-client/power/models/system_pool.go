@@ -20,16 +20,16 @@ import (
 // swagger:model SystemPool
 type SystemPool struct {
 
-	// Advertised capacity cores and memory (GB)
+	// Advertised capacity cores and memory (GiB)
 	Capacity *System `json:"capacity,omitempty"`
 
 	// Core allocation increment
 	CoreIncrement float64 `json:"coreIncrement,omitempty"`
 
-	// Processor to Memory (GB) Ratio
+	// Processor to Memory (GiB) Ratio
 	CoreMemoryRatio float64 `json:"coreMemoryRatio,omitempty"`
 
-	// Maximum configurable cores and memory (GB) (aggregated from all hosts)
+	// Maximum configurable cores and memory (GiB) (aggregated from all hosts)
 	MaxAvailable *System `json:"maxAvailable,omitempty"`
 
 	// Maximum configurable cores available combined with available memory of that host

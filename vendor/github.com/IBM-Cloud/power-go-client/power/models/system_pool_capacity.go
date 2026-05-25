@@ -25,7 +25,7 @@ type SystemPoolCapacity struct {
 	// Required: true
 	Cores *float64 `json:"cores"`
 
-	// Amount of available memory in the System Pool (GB)
+	// Amount of available memory in the System Pool (GiB)
 	// Required: true
 	Memory *int64 `json:"memory"`
 
@@ -36,7 +36,7 @@ type SystemPoolCapacity struct {
 	// Required: true
 	TotalCores *float64 `json:"totalCores"`
 
-	// Total amount of memory in the System Pool (GB)
+	// Total amount of memory in the System Pool (GiB)
 	// Required: true
 	TotalMemory *int64 `json:"totalMemory"`
 
@@ -44,7 +44,7 @@ type SystemPoolCapacity struct {
 	// Required: true
 	TotalPhysCores *float64 `json:"totalPhysCores"`
 
-	// Total amount of physical memory in the Pod (GB)
+	// Total amount of physical memory in the Pod (GiB)
 	// Required: true
 	TotalPhysMemory *int64 `json:"totalPhysMemory"`
 }

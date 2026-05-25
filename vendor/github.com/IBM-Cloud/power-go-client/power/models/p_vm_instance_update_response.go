@@ -21,11 +21,17 @@ import (
 // swagger:model PVMInstanceUpdateResponse
 type PVMInstanceUpdateResponse struct {
 
-	// The VTL license repository capacity TB value
+	// default IAM trusted profile to use for this virtual server instance
+	DefaultTrustedProfile *UpdateTrustedProfile `json:"defaultTrustedProfile,omitempty"`
+
+	// The VTL license repository capacity TiB value
 	LicenseRepositoryCapacity int64 `json:"licenseRepositoryCapacity,omitempty"`
 
-	// Amount of memory allocated (in GB)
+	// Amount of memory allocated (in GiB)
 	Memory float64 `json:"memory,omitempty"`
+
+	// The metadata service configuration
+	MetadataService *UpdateMetadataService `json:"metadataService,omitempty"`
 
 	// pin policy
 	PinPolicy PinPolicy `json:"pinPolicy,omitempty"`
@@ -39,6 +45,12 @@ type PVMInstanceUpdateResponse struct {
 
 	// Number of processors allocated
 	Processors float64 `json:"processors,omitempty"`
+
+	// Defines the enforcement action when NUMA affinity for the PVM instance is not satisfied
+	SapHANAAffinityAction *string `json:"sapHANAAffinityAction,omitempty"`
+
+	// Indicates whether the SAP HANA PVM instance is adhering to the specified NUMA affinity requirement
+	SapHANAAffinityComplianceStatus *string `json:"sapHANAAffinityComplianceStatus,omitempty"`
 
 	// Name of the server
 	ServerName string `json:"serverName,omitempty"`
@@ -57,6 +69,14 @@ type PVMInstanceUpdateResponse struct {
 func (m *PVMInstanceUpdateResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateDefaultTrustedProfile(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMetadataService(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validatePinPolicy(formats); err != nil {
 		res = append(res, err)
 	}
@@ -72,6 +92,52 @@ func (m *PVMInstanceUpdateResponse) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *PVMInstanceUpdateResponse) validateDefaultTrustedProfile(formats strfmt.Registry) error {
+	if swag.IsZero(m.DefaultTrustedProfile) { // not required
+		return nil
+	}
+
+	if m.DefaultTrustedProfile != nil {
+		if err := m.DefaultTrustedProfile.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("defaultTrustedProfile")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("defaultTrustedProfile")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *PVMInstanceUpdateResponse) validateMetadataService(formats strfmt.Registry) error {
+	if swag.IsZero(m.MetadataService) { // not required
+		return nil
+	}
+
+	if m.MetadataService != nil {
+		if err := m.MetadataService.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("metadataService")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("metadataService")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -168,6 +234,14 @@ func (m *PVMInstanceUpdateResponse) validateVirtualCores(formats strfmt.Registry
 func (m *PVMInstanceUpdateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDefaultTrustedProfile(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMetadataService(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidatePinPolicy(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -179,6 +253,56 @@ func (m *PVMInstanceUpdateResponse) ContextValidate(ctx context.Context, formats
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *PVMInstanceUpdateResponse) contextValidateDefaultTrustedProfile(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DefaultTrustedProfile != nil {
+
+		if swag.IsZero(m.DefaultTrustedProfile) { // not required
+			return nil
+		}
+
+		if err := m.DefaultTrustedProfile.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("defaultTrustedProfile")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("defaultTrustedProfile")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *PVMInstanceUpdateResponse) contextValidateMetadataService(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MetadataService != nil {
+
+		if swag.IsZero(m.MetadataService) { // not required
+			return nil
+		}
+
+		if err := m.MetadataService.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("metadataService")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("metadataService")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 

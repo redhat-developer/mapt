@@ -12,6 +12,7 @@ require github.com/golangci/golangci-lint/v2 v2.12.2
 
 require (
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
 	github.com/golangci/golines v0.15.0 // indirect
 )
 
@@ -26,8 +27,7 @@ require (
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
 	github.com/dlclark/regexp2 v1.12.0 // indirect
-	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
-	github.com/golangci/rowserrcheck v0.0.0-20260419091836-c5f79b8a11ba // indirect
+	github.com/golangci/rowserrcheck v0.0.0-20260430141503-8d53bbc4a7d3 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/ryancurrah/gomodguard v1.4.1 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
@@ -208,7 +208,7 @@ require (
 	github.com/ultraware/funlen v0.2.0 // indirect
 	github.com/ultraware/whitespace v0.2.0 // indirect
 	github.com/uudashr/gocognit v1.2.1 // indirect
-	github.com/uudashr/iface v1.4.3 // indirect
+	github.com/uudashr/iface v1.5.0 // indirect
 	github.com/xen0n/gosmopolitan v1.3.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/yagipy/maintidx v1.0.0 // indirect
@@ -223,7 +223,7 @@ require (
 	golang.org/x/exp/typeparams v0.0.0-20260508232706-74f9aab9d74a // indirect
 	golang.org/x/mod v0.36.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
 	golang.org/x/tools v0.45.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect

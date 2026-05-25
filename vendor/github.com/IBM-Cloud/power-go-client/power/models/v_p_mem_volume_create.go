@@ -26,7 +26,7 @@ type VPMemVolumeCreate struct {
 	// Pattern: ^[a-zA-Z0-9][a-zA-Z0-9-_]*$
 	Name *string `json:"name"`
 
-	// Volume size (GB)
+	// Volume size (GiB)
 	// Required: true
 	// Minimum: 1
 	Size *int64 `json:"size"`

@@ -89,7 +89,7 @@ PcloudCloudinstancesSharedImagesPutOK describes a response with status code 200,
 OK
 */
 type PcloudCloudinstancesSharedImagesPutOK struct {
-	Payload *models.CloudInstanceSharedImages
+	Payload *models.CloudInstanceSharedImagesResponse
 }
 
 // IsSuccess returns true when this pcloud cloudinstances shared images put o k response has a 2xx status code
@@ -132,13 +132,13 @@ func (o *PcloudCloudinstancesSharedImagesPutOK) String() string {
 	return fmt.Sprintf("[PUT /pcloud/v1/cloud-instances/{cloud_instance_id}/shared-images][%d] pcloudCloudinstancesSharedImagesPutOK %s", 200, payload)
 }
 
-func (o *PcloudCloudinstancesSharedImagesPutOK) GetPayload() *models.CloudInstanceSharedImages {
+func (o *PcloudCloudinstancesSharedImagesPutOK) GetPayload() *models.CloudInstanceSharedImagesResponse {
 	return o.Payload
 }
 
 func (o *PcloudCloudinstancesSharedImagesPutOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.CloudInstanceSharedImages)
+	o.Payload = new(models.CloudInstanceSharedImagesResponse)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && !stderrors.Is(err, io.EOF) {

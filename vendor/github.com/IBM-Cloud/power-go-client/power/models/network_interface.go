@@ -24,6 +24,9 @@ type NetworkInterface struct {
 	// Required: true
 	Crn *string `json:"crn"`
 
+	// The external ip address (for pub-vlan networks)
+	ExternalIP string `json:"externalIP,omitempty"`
+
 	// The unique Network Interface ID
 	// Required: true
 	ID *string `json:"id"`

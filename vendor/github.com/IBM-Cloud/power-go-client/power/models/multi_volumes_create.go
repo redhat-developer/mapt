@@ -56,7 +56,7 @@ type MultiVolumesCreate struct {
 	// Indicates if the volume is shareable between VMs
 	Shareable *bool `json:"shareable,omitempty"`
 
-	// Volume Size (GB)
+	// Volume Size (GiB)
 	// Required: true
 	Size *int64 `json:"size"`
 

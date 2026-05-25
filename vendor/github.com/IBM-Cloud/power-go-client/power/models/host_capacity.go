@@ -22,7 +22,7 @@ type HostCapacity struct {
 	// Core capacity of the host
 	Cores *HostResourceCapacity `json:"cores,omitempty"`
 
-	// Memory capacity of the host (in GB)
+	// Memory capacity of the host (in GiB)
 	Memory *HostResourceCapacity `json:"memory,omitempty"`
 }
 

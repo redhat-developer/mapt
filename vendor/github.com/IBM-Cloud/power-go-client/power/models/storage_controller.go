@@ -28,11 +28,11 @@ type StorageController struct {
 	// Required: true
 	Health *string `json:"health"`
 
-	// Free storage in user pools on this storage controller (GB)
+	// Free storage in user pools on this storage controller (GiB)
 	// Required: true
 	PoolStorage *float64 `json:"poolStorage"`
 
-	// Total storage capacity of user pools in this storage controller (GB)
+	// Total storage capacity of user pools in this storage controller (GiB)
 	// Required: true
 	PoolTotalStorage *float64 `json:"poolTotalStorage"`
 

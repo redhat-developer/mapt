@@ -25,7 +25,7 @@ type PVMInstanceClone struct {
 	// The name of the SSH key pair provided to the server for authenticating users (looked up in the tenant's list of keys)
 	KeyPairName string `json:"keyPairName,omitempty"`
 
-	// Amount of memory allocated (in GB)
+	// Amount of memory allocated (in GiB)
 	Memory *float64 `json:"memory,omitempty"`
 
 	// Name of the server to create
