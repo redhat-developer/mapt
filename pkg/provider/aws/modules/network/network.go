@@ -76,7 +76,9 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 	}
 	result.Eip, err = ec2.NewEip(ctx,
 		resourcesUtil.GetResourceName(args.Prefix, args.ID, "lbeip"),
-		&ec2.EipArgs{})
+		&ec2.EipArgs{
+			Tags: mCtx.ResourceTags(),
+		})
 	if err != nil {
 		return nil, err
 	}
@@ -84,6 +86,7 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 		lba := &loadBalancerArgs{
 			prefix: &args.Prefix,
 			id:     &args.ID,
+			mCtx:   mCtx,
 			subnet: result.Subnet,
 		}
 		if !args.Airgap {
@@ -139,6 +142,7 @@ func airgapNetworking(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) 
 
 type loadBalancerArgs struct {
 	prefix, id *string
+	mCtx       *mc.Context
 	subnet     *ec2.Subnet
 	// If eip != nil it means it is not airgap
 	eip *ec2.Eip
@@ -150,6 +154,7 @@ func loadBalancer(ctx *pulumi.Context, args *loadBalancerArgs) (*lb.LoadBalancer
 	lbArgs := &lb.LoadBalancerArgs{
 		LoadBalancerType:         pulumi.String("network"),
 		EnableDeletionProtection: pulumi.Bool(false),
+		Tags:                     args.mCtx.ResourceTags(),
 	}
 	snMapping := &lb.LoadBalancerSubnetMappingArgs{
 		SubnetId: args.subnet.ID()}
