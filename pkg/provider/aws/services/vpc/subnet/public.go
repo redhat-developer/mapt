@@ -49,6 +49,7 @@ func (r PublicSubnetRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*Pub
 			fmt.Sprintf("%s-%s", "eip", r.Name),
 			&ec2.EipArgs{
 				Domain: pulumi.String("vpc"),
+				Tags:   mCtx.ResourceTags(),
 			})
 		if err != nil {
 			return nil, err

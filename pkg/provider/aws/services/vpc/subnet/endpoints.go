@@ -5,11 +5,13 @@ import (
 
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 )
 
 var validEndpoints = map[string]bool{"s3": true, "ecr": true, "ssm": true}
 
 type EndpointsRequest struct {
+	MCtx             *mc.Context
 	VPC              *ec2.Vpc
 	Subnets          []*ec2.Subnet
 	RouteTables      []*ec2.RouteTable
@@ -51,6 +53,7 @@ func (r EndpointsRequest) Create(ctx *pulumi.Context) error {
 						CidrBlocks: pulumi.StringArray{r.VPC.CidrBlock},
 					},
 				},
+				Tags: r.MCtx.ResourceTags(),
 			})
 		if err != nil {
 			return err
@@ -76,6 +79,7 @@ func (r EndpointsRequest) Create(ctx *pulumi.Context) error {
 					ServiceName:     pulumi.Sprintf("com.amazonaws.%s.s3", r.Region),
 					VpcEndpointType: pulumi.String("Gateway"),
 					RouteTableIds:   routeTableIds,
+					Tags:            r.MCtx.ResourceTags(),
 				})
 			if err != nil {
 				return err
@@ -89,6 +93,7 @@ func (r EndpointsRequest) Create(ctx *pulumi.Context) error {
 					VpcEndpointType:  pulumi.String("Interface"),
 					SubnetIds:        subnetIds,
 					SecurityGroupIds: pulumi.StringArray{sg.ID()},
+					Tags:             r.MCtx.ResourceTags(),
 				})
 			if err != nil {
 				return err
@@ -102,6 +107,7 @@ func (r EndpointsRequest) Create(ctx *pulumi.Context) error {
 					VpcEndpointType:  pulumi.String("Interface"),
 					SubnetIds:        subnetIds,
 					SecurityGroupIds: pulumi.StringArray{sg.ID()},
+					Tags:             r.MCtx.ResourceTags(),
 				})
 			if err != nil {
 				return err

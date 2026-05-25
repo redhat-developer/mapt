@@ -53,6 +53,7 @@ func (r AirgapNetworkRequest) CreateNetwork(ctx *pulumi.Context, mCtx *mc.Contex
 	}
 	// Create VPC endpoints for the public subnet
 	err = subnet.EndpointsRequest{
+		MCtx:             mCtx,
 		VPC:              result.VPCResources.VPC,
 		Subnets:          []*ec2.Subnet{result.PublicSubnet.Subnet},
 		RouteTables:      []*ec2.RouteTable{result.PublicSubnet.RouteTable},

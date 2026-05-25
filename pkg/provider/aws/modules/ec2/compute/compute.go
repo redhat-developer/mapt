@@ -368,6 +368,7 @@ func (r ComputeRequest) createForwardTargetGRoups(ctx *pulumi.Context, port int)
 			// Set to 0 for instant deregistration on destroy;
 			// these are ephemeral machines with no live connections to drain.
 			DeregistrationDelay: pulumi.Int(0),
+			Tags:                r.MCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -384,6 +385,7 @@ func (r ComputeRequest) createForwardTargetGRoups(ctx *pulumi.Context, port int)
 					TargetGroupArn: tg.Arn,
 				},
 			},
+			Tags: r.MCtx.ResourceTags(),
 		}); err != nil {
 		return nil, err
 	}

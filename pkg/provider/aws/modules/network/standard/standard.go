@@ -128,6 +128,7 @@ func (r NetworkRequest) CreateNetwork(ctx *pulumi.Context) (*NetworkResources, e
 			routeTables[i] = snr.RouteTable
 		}
 		err = subnet.EndpointsRequest{
+			MCtx:             r.MCtx,
 			VPC:              vpcResult.VPC,
 			Subnets:          subnets,
 			RouteTables:      routeTables,
