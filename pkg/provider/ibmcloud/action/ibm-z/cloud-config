@@ -1,145 +1,46 @@
 #cloud-config
-{{- if and .AppCode .OtelAuthToken .OtelIndex}}
+{{- if or .OtelColScript .GitLabRunnerScript}}
 write_files:
-  - path: /etc/otelcol-contrib/config.yaml
-    permissions: '0640'
+{{- if .OtelColScript}}
+  - path: /opt/install-otelcol.sh
+    permissions: '0700'
+    owner: root:root
     content: |
-      receivers:
-        filelog/syslog:
-          include:
-          - /var/log/syslog
-          start_at: end
-          include_file_path: true
-          include_file_name: true
-          exclude_older_than: 24h
-          operators:
-          - type: move
-            id: move_to_source_name
-            from: attributes["log.file.path"]
-            to: attributes["_sourceName"]
-          - type: remove
-            id: remove_file_name
-            field: attributes["log.file.name"]
-          - type: time_parser
-            id: parse_timestamp
-            layout: '%b %e %H:%M:%S'
-            parse_from: body
-            on_error: send
-          attributes:
-            index: "{{.OtelIndex}}"
-            _sourceCategory: syslog
-            _sourceHost: ${env:HOSTNAME}
-        filelog/secure:
-          include:
-          - /var/log/auth.log
-          start_at: end
-          include_file_path: true
-          include_file_name: true
-          exclude_older_than: 24h
-          operators:
-          - type: move
-            id: move_to_source_name
-            from: attributes["log.file.path"]
-            to: attributes["_sourceName"]
-          - type: remove
-            id: remove_file_name
-            field: attributes["log.file.name"]
-          - type: time_parser
-            id: parse_timestamp
-            layout: '%b %e %H:%M:%S'
-            parse_from: body
-            on_error: send
-          attributes:
-            index: "{{.OtelIndex}}"
-            _sourceCategory: secure
-            _sourceHost: ${env:HOSTNAME}
-        filelog/audit:
-          include:
-          - /var/log/audit/audit.log
-          start_at: end
-          include_file_path: true
-          include_file_name: true
-          exclude_older_than: 24h
-          operators:
-          - type: move
-            id: move_to_source_name
-            from: attributes["log.file.path"]
-            to: attributes["_sourceName"]
-          - type: remove
-            id: remove_file_name
-            field: attributes["log.file.name"]
-          attributes:
-            index: "{{.OtelIndex}}"
-            _sourceCategory: audit
-            _sourceHost: ${env:HOSTNAME}
-      processors:
-        filter/drop_null_bytes:
-          logs:
-            log_record:
-              - 'IsMatch(body, "^\x00+$")'
-        batch:
-          timeout: "1s"
-          send_batch_size: 1024
-        resource:
-          attributes:
-            - key: appcode
-              value: "{{.AppCode}}"
-              action: upsert
-            - key: com.redhat.otel.auth_token
-              value: "${env:OTEL_AUTH_TOKEN}"
-              action: upsert
-            - key: arch
-              value: "{{.OtelArch}}"
-              action: upsert
-{{- range $k, $v := .OtelExtraAttrs}}
-            - key: {{$k}}
-              value: "{{$v}}"
-              action: upsert
+{{.OtelColScript}}
 {{- end}}
-      exporters:
-        otlphttp:
-          endpoint: "{{.OtelEndpoint}}"
-          tls:
-            insecure_skip_verify: true
-      service:
-        telemetry:
-          logs:
-            level: "fatal"
-          metrics:
-            level: "basic"
-        pipelines:
-          logs:
-            receivers: [filelog/syslog, filelog/secure, filelog/audit]
-            processors: [filter/drop_null_bytes, resource, batch]
-            exporters: [otlphttp]
-  - path: /etc/otelcol-contrib/auth_token
-    permissions: '0600'
-    content: |
-      OTEL_AUTH_TOKEN={{.OtelAuthToken}}
-  - path: /etc/systemd/system/otelcol-contrib.service.d/capabilities.conf
+{{- if .GitLabRunnerScript}}
+  - path: /etc/systemd/system/gitlab-runner.service.d/logging.conf
     permissions: '0644'
     content: |
       [Service]
-      AmbientCapabilities=CAP_DAC_READ_SEARCH
-      Environment="HOSTNAME=%H"
-      EnvironmentFile=/etc/otelcol-contrib/auth_token
+      StandardOutput=append:/var/log/gitlab-runner/runner.log
+      StandardError=append:/var/log/gitlab-runner/runner.log
+  - path: /etc/logrotate.d/gitlab-runner
+    permissions: '0644'
+    content: |
+      /var/log/gitlab-runner/runner.log {
+          daily
+          rotate 7
+          compress
+          delaycompress
+          missingok
+          notifempty
+          copytruncate
+      }
+  - path: /opt/install-glrunner.sh
+    permissions: '0700'
+    owner: root:root
+    content: |
+{{.GitLabRunnerScript}}
 {{- end}}
-{{- if and .AppCode .OtelAuthToken .OtelIndex}}
+{{- end}}
 runcmd:
-  - |
-    PROXY_URL=""
-    if ! curl -sf --connect-timeout 5 --head {{.OtelEndpoint}} > /dev/null 2>&1; then
-      PROXY_URL="http://squid.corp.redhat.com:3128"
-    fi
-    DEB_URL="https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v{{.OtelColVersion}}/otelcol-contrib_{{.OtelColVersion}}_linux_s390x.deb"
-    HTTPS_PROXY="$PROXY_URL" curl -fsSL -o /tmp/otelcol-contrib.deb "$DEB_URL"
-    dpkg -i --force-confold /tmp/otelcol-contrib.deb
-    rm -f /tmp/otelcol-contrib.deb
-    chown -R otelcol-contrib:otelcol-contrib /etc/otelcol-contrib
-    if [ -n "$PROXY_URL" ]; then
-      printf '[Service]\nEnvironment="HTTPS_PROXY=%s/"\nEnvironment="NO_PROXY=10.*,192.168.*,localhost,127.0.0.1"\n' "$PROXY_URL" \
-        > /etc/systemd/system/otelcol-contrib.service.d/proxy.conf
-    fi
-    systemctl daemon-reload
-    systemctl enable --now otelcol-contrib
+  - apt-get update -y
+  - apt-get install -y git podman
+{{- if .OtelColScript}}
+  - bash /opt/install-otelcol.sh
+{{- end}}
+{{- if .GitLabRunnerScript}}
+  - mkdir -p /var/log/gitlab-runner
+  - bash /opt/install-glrunner.sh
 {{- end}}

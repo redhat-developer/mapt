@@ -11,6 +11,9 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
+	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	ibmcloudp "github.com/redhat-developer/mapt/pkg/provider/ibmcloud"
@@ -27,17 +30,9 @@ import (
 //go:embed cloud-config
 var CloudConfig []byte
 
-// otelColVersion is overridden at build time via -ldflags.
-var otelColVersion = "0.151.0"
-
 type userDataValues struct {
-	AppCode        string
-	OtelAuthToken  string
-	OtelEndpoint   string
-	OtelColVersion string
-	OtelIndex      string
-	OtelArch       string
-	OtelExtraAttrs map[string]string
+	OtelColScript      string
+	GitLabRunnerScript string
 }
 
 const (
@@ -55,6 +50,9 @@ type ZArgs struct {
 	// instead of provisioning a new VPC and subnet. IC_ZONE is not required
 	// when this field is provided.
 	SubnetID string
+	// Instance sizing
+	Profile  string
+	DiskSize int
 	// OtelAppCode, OtelAuthToken, and OtelEndpoint are optional. When AppCode
 	// and AuthToken are both set, the otelcol-contrib filelog collector is
 	// installed and started, shipping logs to OtelEndpoint.
@@ -66,15 +64,19 @@ type ZArgs struct {
 }
 
 type zRequest struct {
-	mCtx          *mc.Context
-	prefix        *string
-	zone          *string
-	subnetID      *string
-	otelAppCode    string
-	otelAuthToken  string
-	otelEndpoint   string
-	otelIndex      string
-	otelExtraAttrs map[string]string
+	mCtx             *mc.Context
+	prefix           *string
+	zone             *string
+	subnetID         *string
+	profile          string
+	diskSize         int
+	otelAppCode      string
+	otelAuthToken    string
+	otelEndpoint     string
+	otelIndex        string
+	otelExtraAttrs   map[string]string
+	glAuthToken      *pulumi.StringOutput
+	glRunnerArgsCopy *gitlab.GitLabRunnerArgs
 }
 
 // New provisions an IBM Z (s390x) VPC instance. When SubnetID is set the
@@ -106,10 +108,12 @@ func New(ctx *mc.ContextArgs, args *ZArgs) error {
 	}
 
 	r := &zRequest{
-		mCtx:          mCtx,
-		prefix:        &prefix,
-		zone:          zone,
-		subnetID:      subnetID,
+		mCtx:           mCtx,
+		prefix:         &prefix,
+		zone:           zone,
+		subnetID:       subnetID,
+		profile:        args.Profile,
+		diskSize:       args.DiskSize,
 		otelAppCode:    args.OtelAppCode,
 		otelAuthToken:  args.OtelAuthToken,
 		otelEndpoint:   args.OtelEndpoint,
@@ -143,6 +147,15 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 }
 
 func (r *zRequest) deploy(ctx *pulumi.Context) error {
+	if glRunnerArgs := gitlab.GetRunnerArgs(); glRunnerArgs != nil && r.glAuthToken == nil {
+		authToken, err := gitlab.CreateRunner(ctx, glRunnerArgs)
+		if err != nil {
+			return err
+		}
+		r.glAuthToken = &authToken
+		argsCopy := *glRunnerArgs
+		r.glRunnerArgsCopy = &argsCopy
+	}
 	if r.subnetID != nil {
 		return r.deployWithExistingSubnet(ctx)
 	}
@@ -173,18 +186,21 @@ func (r *zRequest) deploy(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey), pk.PrivateKeyPem)
 	imageId, err := icdata.GetVPCImage(&icdata.VPCImageArgs{
-		Name: "ibm-ubuntu-22-04",
+		Name: "ibm-ubuntu-24-04",
 		Arch: icdata.VPC_ARCH_IBMZ,
 	})
 	if err != nil {
 		return err
 	}
 	instanceArgs := &ibmcloud.IsInstanceArgs{
-		Name:          pulumi.String(r.mCtx.ProjectName()),
-		Image:         pulumi.String(*imageId),
-		Profile:       pulumi.String("bz2-16x64"),
-		Vpc:           n.VPC.ID(),
-		Zone:          pulumi.String(zone),
+		Name:    pulumi.String(r.mCtx.ProjectName()),
+		Image:   pulumi.String(*imageId),
+		Profile: pulumi.String(r.profile),
+		Vpc:     n.VPC.ID(),
+		Zone:    pulumi.String(zone),
+		BootVolume: &ibmcloud.IsInstanceBootVolumeArgs{
+			Size: pulumi.Int(r.diskSize),
+		},
 		ResourceGroup: rg.ID(),
 		Keys:          pulumi.StringArray{pik.ID()},
 		PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
@@ -194,13 +210,11 @@ func (r *zRequest) deploy(ctx *pulumi.Context) error {
 			},
 		},
 	}
-	if r.otelAppCode != "" && r.otelAuthToken != "" {
-		ud, err := izUserData(r.otelAppCode, r.otelAuthToken, r.otelEndpoint, r.otelIndex, r.otelExtraAttrs)
-		if err != nil {
-			return fmt.Errorf("failed to render user data: %w", err)
-		}
-		instanceArgs.UserData = pulumi.StringPtr(ud)
+	userData, err := r.buildUserDataInput()
+	if err != nil {
+		return err
 	}
+	instanceArgs.UserData = userData
 	// https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui&q=s390x&tags=vpc
 	i, err := ibmcloud.NewIsInstance(ctx,
 		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "is"),
@@ -264,7 +278,7 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey), pk.PrivateKeyPem)
 	imageId, err := icdata.GetVPCImage(&icdata.VPCImageArgs{
-		Name: "ibm-ubuntu-22-04",
+		Name: "ibm-ubuntu-24-04",
 		Arch: icdata.VPC_ARCH_IBMZ,
 	})
 	if err != nil {
@@ -273,22 +287,23 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 	existingSubnetInstanceArgs := &ibmcloud.IsInstanceArgs{
 		Name:    pulumi.String(r.mCtx.ProjectName()),
 		Image:   pulumi.String(*imageId),
-		Profile: pulumi.String("bz2-16x64"),
+		Profile: pulumi.String(r.profile),
 		Vpc:     pulumi.String(subnetInfo.Vpc),
 		Zone:    pulumi.String(subnetInfo.Zone),
-		Keys:    pulumi.StringArray{pik.ID()},
+		BootVolume: &ibmcloud.IsInstanceBootVolumeArgs{
+			Size: pulumi.Int(r.diskSize),
+		},
+		Keys: pulumi.StringArray{pik.ID()},
 		PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
 			Subnet:         pulumi.String(*r.subnetID),
 			SecurityGroups: pulumi.StringArray{sg.ID()},
 		},
 	}
-	if r.otelAppCode != "" && r.otelAuthToken != "" {
-		ud, err := izUserData(r.otelAppCode, r.otelAuthToken, r.otelEndpoint, r.otelIndex, r.otelExtraAttrs)
-		if err != nil {
-			return fmt.Errorf("failed to render user data: %w", err)
-		}
-		existingSubnetInstanceArgs.UserData = pulumi.StringPtr(ud)
+	existingSubnetUserData, err := r.buildUserDataInput()
+	if err != nil {
+		return err
 	}
+	existingSubnetInstanceArgs.UserData = existingSubnetUserData
 	// https://cloud.ibm.com/docs/vpc?topic=vpc-profiles&interface=ui&q=s390x&tags=vpc
 	i, err := ibmcloud.NewIsInstance(ctx,
 		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "is"),
@@ -330,16 +345,77 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 	return err
 }
 
-func izUserData(otelAppCode, otelAuthToken, otelEndpoint, otelIndex string, otelExtraAttrs map[string]string) (string, error) {
+// buildUserDataInput returns a pulumi.StringPtrInput for the IBM Z instance
+// UserData field. If a GitLab runner token output is available it uses ApplyT
+// to embed the runner setup script after the token is resolved; otherwise it
+// renders the cloud-config synchronously.
+func (r *zRequest) buildUserDataInput() (pulumi.StringPtrInput, error) {
+	otelSet := 0
+	for _, f := range []string{r.otelAppCode, r.otelAuthToken, r.otelIndex} {
+		if f != "" {
+			otelSet++
+		}
+	}
+	if otelSet > 0 && otelSet < 3 {
+		return nil, fmt.Errorf("partial otel configuration: --otel-app-code, --otel-auth-token, and --otel-index must all be set together")
+	}
+	hasOtel := otelSet == 3
+	if r.glAuthToken != nil {
+		localArgs := *r.glRunnerArgsCopy
+		return r.glAuthToken.ApplyT(func(token string) (*string, error) {
+			localArgs.AuthToken = token
+			glSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(&localArgs, defaultUser)
+			if err != nil {
+				return nil, err
+			}
+			var otelArgs *otelcol.OtelcolArgs
+			if hasOtel {
+				otelArgs = r.otelArgs(true)
+			}
+			ud, err := izUserData(otelArgs, *glSnippet)
+			if err != nil {
+				return nil, err
+			}
+			return &ud, nil
+		}).(pulumi.StringPtrOutput), nil
+	}
+	if hasOtel {
+		ud, err := izUserData(r.otelArgs(false), "")
+		if err != nil {
+			return nil, fmt.Errorf("failed to render user data: %w", err)
+		}
+		return pulumi.StringPtr(ud), nil
+	}
+	return nil, nil
+}
+
+func (r *zRequest) otelArgs(monitorGitLabRunner bool) *otelcol.OtelcolArgs {
+	return &otelcol.OtelcolArgs{
+		AppCode:             r.otelAppCode,
+		AuthToken:           r.otelAuthToken,
+		Index:               r.otelIndex,
+		Endpoint:            r.otelEndpoint,
+		Arch:                otelcol.S390x,
+		SyslogPath:          "/var/log/syslog",
+		SecurePath:          "/var/log/auth.log",
+		ExtraAttrs:          r.otelExtraAttrs,
+		MonitorGitLabRunner: monitorGitLabRunner,
+	}
+}
+
+func izUserData(otelArgs *otelcol.OtelcolArgs, glRunnerScript string) (string, error) {
+	otelScript := ""
+	if otelArgs != nil {
+		s, err := otelcol.GetSnippetAsCloudInitWritableFile(otelArgs)
+		if err != nil {
+			return "", err
+		}
+		otelScript = *s
+	}
 	script, err := file.Template(
 		userDataValues{
-			AppCode:        otelAppCode,
-			OtelAuthToken:  otelAuthToken,
-			OtelEndpoint:   otelEndpoint,
-			OtelColVersion: otelColVersion,
-			OtelIndex:      otelIndex,
-			OtelArch:       "s390x",
-			OtelExtraAttrs: otelExtraAttrs,
+			OtelColScript:      otelScript,
+			GitLabRunnerScript: glRunnerScript,
 		},
 		string(CloudConfig))
 	if err != nil {

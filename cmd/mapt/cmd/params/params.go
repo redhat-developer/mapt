@@ -7,6 +7,7 @@ import (
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -82,7 +83,7 @@ const (
 	cirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
 
 	glRunnerToken         string = "glrunner-token"
-	glRunnerTokenDesc     string = "GitLab Personal Access Token with api scope"
+	glRunnerTokenDesc     string = "GitLab token with create_runner scope (personal access token, group/project access token, or service account token)"
 	glRunnerProjectID     string = "glrunner-project-id"
 	glRunnerProjectIDDesc string = "GitLab project ID for project runner registration"
 	glRunnerGroupID       string = "glrunner-group-id"
@@ -92,6 +93,13 @@ const (
 	glRunnerURLDefault    string = "https://gitlab.com"
 	glRunnerTags          string = "glrunner-tags"
 	glRunnerTagsDesc      string = "List of tags separated by comma to be added to the self-hosted runner"
+	glRunnerUnsecure string = "glrunner-unsecure"
+	glRunnerUnsecureDesc string = "when set, the runner service runs as the default OS user instead of a dedicated system account; by default a locked-down gitlab-runner system user is created"
+
+	GlRunnerConcurrent             string = "glrunner-concurrent"
+	GlRunnerConcurrentDesc         string = "maximum number of jobs the runner executes concurrently"
+	GlRunnerConcurrentPowerDefault int    = 2
+	GlRunnerConcurrentS390xDefault int    = 3
 
 	//RHEL
 	SubsUsername              string = "rh-subscription-username"
@@ -133,6 +141,34 @@ const (
 	PIPrivateSubnetIDDesc string = "ID of an existing Power VS private subnet to attach the instance to"
 	VPCPublicSubnetID     string = "vpc-public-subnet-id"
 	VPCPublicSubnetIDDesc string = "ID of an existing VPC subnet (with public gateway, connected to Transit Gateway) for the SSH bastion"
+
+	// IBM Power instance sizing
+	PIMemory             string  = "pi-memory"
+	PIMemoryDesc         string  = "PowerVS instance memory in GB"
+	PIMemoryDefault      float64 = 96.0
+	PIProcessors         string  = "pi-processors"
+	PIProcessorsDesc     string  = "PowerVS instance processor count (shared cores)"
+	PIProcessorsDefault  float64 = 24.0
+	PIProcType           string  = "pi-proc-type"
+	PIProcTypeDesc       string  = "PowerVS processor type (shared, dedicated, capped)"
+	PIProcTypeDefault    string  = "shared"
+	PISysType            string  = "pi-sys-type"
+	PISysTypeDesc        string  = "PowerVS system type (s922, s1022, e880, e980)"
+	PISysTypeDefault     string  = "s1022"
+	PIStorageType        string  = "pi-storage-type"
+	PIStorageTypeDesc    string  = "PowerVS storage tier for instance and data volume (tier1, tier3)"
+	PIStorageTypeDefault string  = "tier1"
+	PIDiskSize           string  = "pi-disk-size"
+	PIDiskSizeDesc       string  = "data volume size in GB attached to the PowerVS instance"
+	PIDiskSizeDefault    int     = 300
+
+	// IBM Z instance sizing
+	IZProfile         string = "iz-profile"
+	IZProfileDesc     string = "IBM Z VPC instance profile name"
+	IZProfileDefault  string = "mz2-16x128"
+	IZDiskSize        string = "iz-disk-size"
+	IZDiskSizeDesc    string = "boot volume size in GB for the IBM Z instance (10-250 for general-purpose profile)"
+	IZDiskSizeDefault int    = 250
 
 	OtelAppCode       string = "otel-app-code"
 	OtelAppCodeDesc   string = "OpenTelemetry appcode identifier (e.g. MAPT-001); when set together with --otel-auth-token, installs the otelcol-contrib filelog collector on the instance"
@@ -269,7 +305,9 @@ func AddGitLabRunnerFlags(fs *pflag.FlagSet) {
 	fs.StringP(glRunnerGroupID, "", "", glRunnerGroupIDDesc)
 	fs.StringP(glRunnerURL, "", glRunnerURLDefault, glRunnerURLDesc)
 	fs.StringSlice(glRunnerTags, nil, glRunnerTagsDesc)
+	fs.Bool(glRunnerUnsecure, false, glRunnerUnsecureDesc)
 }
+
 
 func CirrusPersistentWorkerArgs() *cirrus.PersistentWorkerArgs {
 	if viper.IsSet(cirrusPWToken) {
@@ -284,19 +322,29 @@ func CirrusPersistentWorkerArgs() *cirrus.PersistentWorkerArgs {
 	return nil
 }
 
-func GitLabRunnerArgs() *gitlab.GitLabRunnerArgs {
+func GitLabRunnerArgs(arch *gitlab.Arch) *gitlab.GitLabRunnerArgs {
 	if viper.IsSet(glRunnerToken) {
+		if viper.IsSet(glRunnerProjectID) && viper.IsSet(glRunnerGroupID) {
+			logging.Error("--glrunner-project-id and --glrunner-group-id are mutually exclusive; ignoring GitLab runner configuration")
+			return nil
+		}
 		return &gitlab.GitLabRunnerArgs{
-			GitLabPAT: viper.GetString(glRunnerToken),
-			ProjectID: viper.GetString(glRunnerProjectID),
-			GroupID:   viper.GetString(glRunnerGroupID),
-			URL:       viper.GetString(glRunnerURL),
-			Tags:      viper.GetStringSlice(glRunnerTags),
-			Platform:  &gitlab.Linux,
-			Arch:      linuxArchAsGitLabArch(viper.GetString(LinuxArch)),
+			GitLabToken: viper.GetString(glRunnerToken),
+			ProjectID:   viper.GetString(glRunnerProjectID),
+			GroupID:     viper.GetString(glRunnerGroupID),
+			URL:         viper.GetString(glRunnerURL),
+			Tags:        viper.GetStringSlice(glRunnerTags),
+			Platform:    &gitlab.Linux,
+			Arch:        arch,
+			Unsecure:    viper.GetBool(glRunnerUnsecure),
+			Concurrent:  viper.GetInt(GlRunnerConcurrent),
 		}
 	}
 	return nil
+}
+
+func LinuxGitLabArch() *gitlab.Arch {
+	return linuxArchAsGitLabArch(viper.GetString(LinuxArch))
 }
 
 func linuxArchAsCirrusArch(arch string) *cirrus.Arch {
@@ -338,3 +386,4 @@ func MACArchAsGitLabArch(arch string) *gitlab.Arch {
 	}
 	return &gitlab.Arm64
 }
+

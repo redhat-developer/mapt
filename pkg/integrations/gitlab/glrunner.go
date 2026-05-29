@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/pulumi/pulumi-gitlab/sdk/v8/go/gitlab"
+	"github.com/pulumi/pulumi-gitlab/sdk/v9/go/gitlab"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/util"
@@ -44,10 +44,12 @@ func (args *GitLabRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 		return nil
 	}
 	return &integrations.UserDataValues{
-		Name:    args.Name,
-		Token:   args.AuthToken, // Use auth token (set by Pulumi during deployment)
-		CliURL:  downloadURL(),
-		RepoURL: args.URL,
+		Name:       args.Name,
+		Token:      args.AuthToken, // Use auth token (set by Pulumi during deployment)
+		CliURL:     downloadURL(),
+		RepoURL:    args.URL,
+		Unsecure:   args.Unsecure,
+		Concurrent: args.Concurrent,
 	}
 }
 
@@ -147,7 +149,7 @@ func CreateRunner(ctx *pulumi.Context, args *GitLabRunnerArgs) (pulumi.StringOut
 
 	// Configure GitLab provider with PAT
 	provider, err := gitlab.NewProvider(ctx, "gitlab-provider", &gitlab.ProviderArgs{
-		Token:   pulumi.String(args.GitLabPAT),
+		Token:   pulumi.String(args.GitLabToken),
 		BaseUrl: pulumi.String(args.URL),
 	})
 	if err != nil {

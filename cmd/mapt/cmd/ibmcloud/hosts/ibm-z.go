@@ -2,6 +2,7 @@ package hosts
 
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	ibmz "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/action/ibm-z"
 	"github.com/spf13/cobra"
@@ -52,14 +53,17 @@ func ibmZCreate() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.S390x),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&ibmz.ZArgs{
 					SubnetID:      viper.GetString(params.SubnetID),
+					Profile:       viper.GetString(params.IZProfile),
+					DiskSize:      viper.GetInt(params.IZDiskSize),
 					OtelAppCode:   viper.GetString(params.OtelAppCode),
 					OtelAuthToken: viper.GetString(params.OtelAuthToken),
 					OtelEndpoint:  viper.GetString(params.OtelEndpoint),
-					OtelIndex:      viper.GetString(params.OtelIndex),
+					OtelIndex:     viper.GetString(params.OtelIndex),
 					OtelExtraAttrs: viper.GetStringMapString(params.OtelExtraAttrs),
 				})
 		},
@@ -73,8 +77,12 @@ func ibmZCreate() *cobra.Command {
 	flagSet.StringP(params.OtelEndpoint, "", "https://otel-input.corp.redhat.com", params.OtelEndpointDesc)
 	flagSet.StringP(params.OtelIndex, "", "", params.OtelIndexDesc)
 	flagSet.StringToStringP(params.OtelExtraAttrs, "", nil, params.OtelExtraAttrsDesc)
+	flagSet.String(params.IZProfile, params.IZProfileDefault, params.IZProfileDesc)
+	flagSet.Int(params.IZDiskSize, params.IZDiskSizeDefault, params.IZDiskSizeDesc)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
+	params.AddGitLabRunnerFlags(flagSet)
+	flagSet.Int(params.GlRunnerConcurrent, params.GlRunnerConcurrentS390xDefault, params.GlRunnerConcurrentDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

@@ -4,11 +4,15 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"fmt"
+	"strings"
 
 	"github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
+	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	ibmcloudp "github.com/redhat-developer/mapt/pkg/provider/ibmcloud"
@@ -24,18 +28,10 @@ import (
 //go:embed cloud-config
 var CloudConfig []byte
 
-// otelColVersion is overridden at build time via -ldflags.
-var otelColVersion = "0.151.0"
-
 type userDataValues struct {
-	Gateway        string
-	AppCode        string
-	OtelAuthToken  string
-	OtelEndpoint   string
-	OtelColVersion string
-	OtelIndex      string
-	OtelArch       string
-	OtelExtraAttrs map[string]string
+	Gateway            string
+	OtelColScript      string
+	GitLabRunnerScript string
 }
 
 const (
@@ -56,12 +52,6 @@ const (
 	bastionProfile = "cx2-2x4"
 	bastionImage   = "ibm-ubuntu-24-04"
 
-	// Standard large build-host sizing on an s1022 (Power10) frame with shared processors and tier1 SSD.
-	instanceMemory      = 256.0
-	instanceProcs       = 8.0
-	instanceProcType    = "shared"
-	instanceSysType     = "s1022"
-	instanceStorageType = "tier1"
 )
 
 type PWArgs struct {
@@ -72,6 +62,13 @@ type PWArgs struct {
 	// with a floating IP is created in this subnet to provide SSH access to
 	// the PowerVS instance over the Transit Gateway private network.
 	VPCPublicSubnetID string
+	// Instance sizing
+	Memory      float64
+	Processors  float64
+	ProcType    string
+	SysType     string
+	StorageType string
+	DiskSize    int
 	// OtelAppCode, OtelAuthToken, and OtelEndpoint are optional. When AppCode
 	// and AuthToken are both set, the otelcol-contrib filelog collector is
 	// installed and started, shipping logs to OtelEndpoint.
@@ -88,6 +85,12 @@ type pwRequest struct {
 	piPrivateSubnetID string
 	workspaceID       string
 	vpcPublicSubnetID string
+	memory            float64
+	processors        float64
+	procType          string
+	sysType           string
+	storageType       string
+	diskSize          int
 	otelAppCode       string
 	otelAuthToken     string
 	otelEndpoint      string
@@ -116,6 +119,12 @@ func New(ctx *mc.ContextArgs, args *PWArgs) error {
 		piPrivateSubnetID: args.PIPrivateSubnetID,
 		workspaceID:       args.WorkspaceID,
 		vpcPublicSubnetID: args.VPCPublicSubnetID,
+		memory:            args.Memory,
+		processors:        args.Processors,
+		procType:          args.ProcType,
+		sysType:           args.SysType,
+		storageType:       args.StorageType,
+		diskSize:          args.DiskSize,
 		otelAppCode:       args.OtelAppCode,
 		otelAuthToken:     args.OtelAuthToken,
 		otelEndpoint:      args.OtelEndpoint,
@@ -163,9 +172,52 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		return fmt.Errorf("failed to look up private subnet: %w", err)
 	}
 
-	userData, err := piUserData(subnetInfo.Gateway, r.otelAppCode, r.otelAuthToken, r.otelEndpoint, r.otelIndex, r.otelExtraAttrs)
-	if err != nil {
-		return fmt.Errorf("failed to render user data: %w", err)
+	otelSet := 0
+	for _, f := range []string{r.otelAppCode, r.otelAuthToken, r.otelIndex} {
+		if f != "" {
+			otelSet++
+		}
+	}
+	if otelSet > 0 && otelSet < 3 {
+		return fmt.Errorf("partial otel configuration: --otel-app-code, --otel-auth-token, and --otel-index must all be set together")
+	}
+	hasOtel := otelSet == 3
+
+	var piUserDataInput pulumi.StringPtrInput
+	glRunnerArgs := gitlab.GetRunnerArgs()
+	if glRunnerArgs != nil {
+		authToken, err := gitlab.CreateRunner(ctx, glRunnerArgs)
+		if err != nil {
+			return err
+		}
+		gateway := subnetInfo.Gateway
+		localArgs := *glRunnerArgs
+		piUserDataInput = authToken.ApplyT(func(token string) (*string, error) {
+			localArgs.AuthToken = token
+			glSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(&localArgs, defaultUser)
+			if err != nil {
+				return nil, err
+			}
+			var otelArgs *otelcol.OtelcolArgs
+			if hasOtel {
+				otelArgs = r.otelArgs(true)
+			}
+			ud, err := piUserData(gateway, otelArgs, *glSnippet)
+			if err != nil {
+				return nil, err
+			}
+			return &ud, nil
+		}).(pulumi.StringPtrOutput)
+	} else {
+		var otelArgs *otelcol.OtelcolArgs
+		if hasOtel {
+			otelArgs = r.otelArgs(false)
+		}
+		ud, err := piUserData(subnetInfo.Gateway, otelArgs, "")
+		if err != nil {
+			return fmt.Errorf("failed to render user data: %w", err)
+		}
+		piUserDataInput = pulumi.StringPtr(ud)
 	}
 
 	imageId, err := icdata.GetImage(r.mCtx,
@@ -181,21 +233,55 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "pii"),
 		&ibmcloud.PiInstanceArgs{
 			PiInstanceName:    pulumi.String(r.mCtx.ProjectName()),
-			PiMemory:          pulumi.Float64(instanceMemory),
-			PiProcessors:      pulumi.Float64(instanceProcs),
-			PiProcType:        pulumi.String(instanceProcType),
-			PiSysType:         pulumi.String(instanceSysType),
+			PiMemory:          pulumi.Float64(r.memory),
+			PiProcessors:      pulumi.Float64(r.processors),
+			PiProcType:        pulumi.String(r.procType),
+			PiSysType:         pulumi.String(r.sysType),
 			PiImageId:         pulumi.String(*imageId),
 			PiHealthStatus:    pulumi.String("WARNING"),
 			PiCloudInstanceId: pulumi.String(r.workspaceID),
-			PiStorageType:     pulumi.String(instanceStorageType),
+			PiStorageType:     pulumi.String(r.storageType),
 			PiKeyPairName:     pki.PiKeyName,
-			PiUserData:        pulumi.StringPtr(userData),
+			PiUserData:        piUserDataInput,
 			PiNetworks: ibmcloud.PiInstancePiNetworkArray{
 				&ibmcloud.PiInstancePiNetworkArgs{
 					NetworkId: pulumi.String(r.piPrivateSubnetID),
 				},
 			},
+		})
+	if err != nil {
+		return err
+	}
+
+	// Both i.ID() and piv.ID() return "cloudInstanceId/resourceId" — extract just the resource ID
+	splitID := func(id string) (string, error) {
+		if parts := strings.SplitN(id, "/", 2); len(parts) == 2 {
+			return parts[1], nil
+		}
+		return id, nil
+	}
+	piInstanceId := i.ID().ApplyT(splitID).(pulumi.StringOutput)
+	piv, err := ibmcloud.NewPiVolume(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "piv"),
+		&ibmcloud.PiVolumeArgs{
+			PiCloudInstanceId:  pulumi.String(r.workspaceID),
+			PiVolumeName:       pulumi.String(r.mCtx.ProjectName()),
+			PiVolumeSize:       pulumi.Float64(float64(r.diskSize)),
+			PiVolumeType:       pulumi.String(r.storageType),
+			PiVolumeShareable:  pulumi.Bool(false),
+			PiAffinityPolicy:   pulumi.String("affinity"),
+			PiAffinityInstance: piInstanceId.ToStringPtrOutput(),
+		})
+	if err != nil {
+		return err
+	}
+	pivVolumeId := piv.ID().ApplyT(splitID).(pulumi.StringOutput)
+	_, err = ibmcloud.NewPiVolumeAttach(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "piva"),
+		&ibmcloud.PiVolumeAttachArgs{
+			PiCloudInstanceId: pulumi.String(r.workspaceID),
+			PiInstanceId:      piInstanceId,
+			PiVolumeId:        pivVolumeId,
 		})
 	if err != nil {
 		return err
@@ -353,19 +439,36 @@ func piKey(ctx *pulumi.Context, mCtx *mc.Context, prefix, cId string, cloudInsta
 	return pk, pik, err
 }
 
+func (r *pwRequest) otelArgs(monitorGitLabRunner bool) *otelcol.OtelcolArgs {
+	return &otelcol.OtelcolArgs{
+		AppCode:             r.otelAppCode,
+		AuthToken:           r.otelAuthToken,
+		Index:               r.otelIndex,
+		Endpoint:            r.otelEndpoint,
+		Arch:                otelcol.Ppc64le,
+		SyslogPath:          "/var/log/messages",
+		SecurePath:          "/var/log/secure",
+		ExtraAttrs:          r.otelExtraAttrs,
+		MonitorGitLabRunner: monitorGitLabRunner,
+	}
+}
+
 // piUserData renders the cloud-config template and returns it base64-encoded
 // for use as PiUserData on a PowerVS instance.
-func piUserData(gateway, otelAppCode, otelAuthToken, otelEndpoint, otelIndex string, otelExtraAttrs map[string]string) (string, error) {
+func piUserData(gateway string, otelArgs *otelcol.OtelcolArgs, glRunnerScript string) (string, error) {
+	otelScript := ""
+	if otelArgs != nil {
+		s, err := otelcol.GetSnippetAsCloudInitWritableFile(otelArgs)
+		if err != nil {
+			return "", err
+		}
+		otelScript = *s
+	}
 	script, err := file.Template(
 		userDataValues{
-			Gateway:        gateway,
-			AppCode:        otelAppCode,
-			OtelAuthToken:  otelAuthToken,
-			OtelEndpoint:   otelEndpoint,
-			OtelColVersion: otelColVersion,
-			OtelIndex:      otelIndex,
-			OtelArch:       "ppc64le",
-			OtelExtraAttrs: otelExtraAttrs,
+			Gateway:            gateway,
+			OtelColScript:      otelScript,
+			GitLabRunnerScript: glRunnerScript,
 		},
 		string(CloudConfig))
 	if err != nil {
