@@ -2,6 +2,7 @@ package hosts
 
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	ibmpower "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/action/ibm-power"
 	"github.com/spf13/cobra"
@@ -52,17 +53,24 @@ func ibmPowerCreate() *cobra.Command {
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Ppc64le),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&ibmpower.PWArgs{
 					PIPrivateSubnetID: viper.GetString(params.PIPrivateSubnetID),
 					WorkspaceID:       viper.GetString(params.WorkspaceID),
 					VPCPublicSubnetID: viper.GetString(params.VPCPublicSubnetID),
+					Memory:            viper.GetFloat64(params.PIMemory),
+					Processors:        viper.GetFloat64(params.PIProcessors),
+					ProcType:          viper.GetString(params.PIProcType),
+					SysType:           viper.GetString(params.PISysType),
+					StorageType:       viper.GetString(params.PIStorageType),
+					DiskSize:          viper.GetInt(params.PIDiskSize),
 					OtelAppCode:       viper.GetString(params.OtelAppCode),
 					OtelAuthToken:     viper.GetString(params.OtelAuthToken),
 					OtelEndpoint:      viper.GetString(params.OtelEndpoint),
-					OtelIndex:          viper.GetString(params.OtelIndex),
-					OtelExtraAttrs:     viper.GetStringMapString(params.OtelExtraAttrs),
+					OtelIndex:         viper.GetString(params.OtelIndex),
+					OtelExtraAttrs:    viper.GetStringMapString(params.OtelExtraAttrs),
 				})
 		},
 	}
@@ -77,8 +85,16 @@ func ibmPowerCreate() *cobra.Command {
 	flagSet.StringP(params.OtelEndpoint, "", "https://otel-input.corp.redhat.com", params.OtelEndpointDesc)
 	flagSet.StringP(params.OtelIndex, "", "", params.OtelIndexDesc)
 	flagSet.StringToStringP(params.OtelExtraAttrs, "", nil, params.OtelExtraAttrsDesc)
+	flagSet.Float64(params.PIMemory, params.PIMemoryDefault, params.PIMemoryDesc)
+	flagSet.Float64(params.PIProcessors, params.PIProcessorsDefault, params.PIProcessorsDesc)
+	flagSet.String(params.PIProcType, params.PIProcTypeDefault, params.PIProcTypeDesc)
+	flagSet.String(params.PISysType, params.PISysTypeDefault, params.PISysTypeDesc)
+	flagSet.String(params.PIStorageType, params.PIStorageTypeDefault, params.PIStorageTypeDesc)
+	flagSet.Int(params.PIDiskSize, params.PIDiskSizeDefault, params.PIDiskSizeDesc)
 	params.AddGHActionsFlags(flagSet)
 	params.AddCirrusFlags(flagSet)
+	params.AddGitLabRunnerFlags(flagSet)
+	flagSet.Int(params.GlRunnerConcurrent, params.GlRunnerConcurrentPowerDefault, params.GlRunnerConcurrentDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	_ = c.MarkPersistentFlagRequired(params.PIPrivateSubnetID)
 	_ = c.MarkPersistentFlagRequired(params.WorkspaceID)

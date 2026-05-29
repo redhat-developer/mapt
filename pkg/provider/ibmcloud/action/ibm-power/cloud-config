@@ -1,149 +1,100 @@
 #cloud-config
-{{- if and .AppCode .OtelAuthToken .OtelIndex}}
 write_files:
-  - path: /etc/otelcol-contrib/config.yaml
-    permissions: '0640'
+  - path: /usr/local/bin/mount-data-home.sh
+    permissions: '0700'
+    owner: root:root
     content: |
-      receivers:
-        filelog/syslog:
-          include:
-          - /var/log/messages
-          start_at: end
-          include_file_path: true
-          include_file_name: true
-          exclude_older_than: 24h
-          operators:
-          - type: move
-            id: move_to_source_name
-            from: attributes["log.file.path"]
-            to: attributes["_sourceName"]
-          - type: remove
-            id: remove_file_name
-            field: attributes["log.file.name"]
-          - type: time_parser
-            id: parse_timestamp
-            layout: '%b %e %H:%M:%S'
-            parse_from: body
-            on_error: send
-          attributes:
-            index: "{{.OtelIndex}}"
-            _sourceCategory: syslog
-            _sourceHost: ${env:HOSTNAME}
-        filelog/secure:
-          include:
-          - /var/log/secure
-          start_at: end
-          include_file_path: true
-          include_file_name: true
-          exclude_older_than: 24h
-          operators:
-          - type: move
-            id: move_to_source_name
-            from: attributes["log.file.path"]
-            to: attributes["_sourceName"]
-          - type: remove
-            id: remove_file_name
-            field: attributes["log.file.name"]
-          - type: time_parser
-            id: parse_timestamp
-            layout: '%b %e %H:%M:%S'
-            parse_from: body
-            on_error: send
-          attributes:
-            index: "{{.OtelIndex}}"
-            _sourceCategory: secure
-            _sourceHost: ${env:HOSTNAME}
-        filelog/audit:
-          include:
-          - /var/log/audit/audit.log
-          start_at: end
-          include_file_path: true
-          include_file_name: true
-          exclude_older_than: 24h
-          operators:
-          - type: move
-            id: move_to_source_name
-            from: attributes["log.file.path"]
-            to: attributes["_sourceName"]
-          - type: remove
-            id: remove_file_name
-            field: attributes["log.file.name"]
-          attributes:
-            index: "{{.OtelIndex}}"
-            _sourceCategory: audit
-            _sourceHost: ${env:HOSTNAME}
-      processors:
-        filter/drop_null_bytes:
-          logs:
-            log_record:
-              - 'IsMatch(body, "^\x00+$")'
-        batch:
-          timeout: "1s"
-          send_batch_size: 1024
-        resource:
-          attributes:
-            - key: appcode
-              value: "{{.AppCode}}"
-              action: upsert
-            - key: com.redhat.otel.auth_token
-              value: "${env:OTEL_AUTH_TOKEN}"
-              action: upsert
-            - key: arch
-              value: "{{.OtelArch}}"
-              action: upsert
-{{- range $k, $v := .OtelExtraAttrs}}
-            - key: {{$k}}
-              value: "{{$v}}"
-              action: upsert
+      #!/bin/bash
+      set -euo pipefail
+      mkdir -p /var/lib/containers/storage
+      if mountpoint -q /home; then
+        mkdir -p /home/containers/storage
+      else
+        DATA_DEV=""
+        while true; do
+          DATA_DEV=$(lsblk -rnpo NAME,TYPE | awk '$2=="mpath"{mpath[$1]=1} $2=="part"{p=$1; sub(/p?[0-9]+$/,"",p); has_part[p]=1} END{for(d in mpath) if(!has_part[d]&&d!~/control/) print d}' | head -1)
+          [ -n "$DATA_DEV" ] && break
+          udevadm trigger --subsystem-match=block 2>/dev/null || true
+          udevadm settle 2>/dev/null || true
+          multipathd reconfigure 2>/dev/null || true
+          sleep 10
+        done
+        udevadm settle 2>/dev/null || true
+        sleep 10
+        mkfs.xfs -f -K "$DATA_DEV"
+        UUID=$(blkid -s UUID -o value "$DATA_DEV")
+        mkdir -p /mnt/home-tmp
+        cp -a /home/. /mnt/home-tmp/
+        mount "$DATA_DEV" /home
+        cp -a /mnt/home-tmp/. /home/
+        rm -rf /mnt/home-tmp
+        echo "UUID=$UUID /home xfs defaults 0 2" >> /etc/fstab
+        mkdir -p /home/containers/storage
+      fi
+      if ! mountpoint -q /var/lib/containers/storage; then
+        mount --bind /home/containers/storage /var/lib/containers/storage
+      fi
+  - path: /etc/systemd/system/mount-data-home.service
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Mount data volume at /home
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/bin/mount-data-home.sh
+      RemainAfterExit=yes
+      TimeoutStartSec=0
+
+      [Install]
+      WantedBy=multi-user.target
+{{- if .OtelColScript}}
+  - path: /opt/install-otelcol.sh
+    permissions: '0700'
+    owner: root:root
+    content: |
+{{.OtelColScript}}
 {{- end}}
-      exporters:
-        otlphttp:
-          endpoint: "{{.OtelEndpoint}}"
-          tls:
-            insecure_skip_verify: true
-      service:
-        telemetry:
-          logs:
-            level: "fatal"
-          metrics:
-            level: "basic"
-        pipelines:
-          logs:
-            receivers: [filelog/syslog, filelog/secure, filelog/audit]
-            processors: [filter/drop_null_bytes, resource, batch]
-            exporters: [otlphttp]
-  - path: /etc/otelcol-contrib/auth_token
-    permissions: '0600'
-    content: |
-      OTEL_AUTH_TOKEN={{.OtelAuthToken}}
-  - path: /etc/systemd/system/otelcol-contrib.service.d/capabilities.conf
+{{- if .GitLabRunnerScript}}
+  - path: /etc/systemd/system/gitlab-runner.service.d/logging.conf
     permissions: '0644'
     content: |
       [Service]
-      AmbientCapabilities=CAP_DAC_READ_SEARCH
-      Environment="HOSTNAME=%H"
-      EnvironmentFile=/etc/otelcol-contrib/auth_token
+      StandardOutput=append:/var/log/gitlab-runner/runner.log
+      StandardError=append:/var/log/gitlab-runner/runner.log
+  - path: /etc/logrotate.d/gitlab-runner
+    permissions: '0644'
+    content: |
+      /var/log/gitlab-runner/runner.log {
+          daily
+          rotate 7
+          compress
+          delaycompress
+          missingok
+          notifempty
+          copytruncate
+      }
+  - path: /opt/install-glrunner.sh
+    permissions: '0700'
+    owner: root:root
+    content: |
+{{.GitLabRunnerScript}}
 {{- end}}
 runcmd:
+  - systemctl enable mount-data-home.service
+  - dnf install -y git podman policycoreutils-python-utils
+  - semanage fcontext -a -e /var/lib/containers/storage /home/containers/storage
   - |
     IFACE=$(ip route show default | awk '/default/ {print $5; exit}')
     ip route add 10.0.0.0/8 via {{.Gateway}} dev "$IFACE" 2>/dev/null || true
     echo "10.0.0.0/8 via {{.Gateway}}" > "/etc/sysconfig/network-scripts/route-$IFACE"
-{{- if and .AppCode .OtelAuthToken .OtelIndex}}
-  - |
-    PROXY_URL=""
-    if ! curl -sf --connect-timeout 5 --head {{.OtelEndpoint}} > /dev/null 2>&1; then
-      PROXY_URL="http://squid.corp.redhat.com:3128"
-    fi
-    RPM_URL="https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v{{.OtelColVersion}}/otelcol-contrib_{{.OtelColVersion}}_linux_ppc64le.rpm"
-    HTTPS_PROXY="$PROXY_URL" curl -fsSL -o /tmp/otelcol-contrib.rpm "$RPM_URL"
-    rpm -i /tmp/otelcol-contrib.rpm
-    rm -f /tmp/otelcol-contrib.rpm
-    chown -R otelcol-contrib:otelcol-contrib /etc/otelcol-contrib
-    if [ -n "$PROXY_URL" ]; then
-      printf '[Service]\nEnvironment="HTTPS_PROXY=%s/"\nEnvironment="NO_PROXY=10.*,192.168.*,localhost,127.0.0.1"\n' "$PROXY_URL" \
-        > /etc/systemd/system/otelcol-contrib.service.d/proxy.conf
-    fi
-    systemctl daemon-reload
-    systemctl enable --now otelcol-contrib
+  - systemctl start mount-data-home.service
+  - restorecon -R /home/containers/storage
+  - podman system reset --force
+{{- if .OtelColScript}}
+  - bash /opt/install-otelcol.sh
+{{- end}}
+{{- if .GitLabRunnerScript}}
+  - mkdir -p /var/log/gitlab-runner
+  - bash /opt/install-glrunner.sh
 {{- end}}
