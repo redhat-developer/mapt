@@ -11,33 +11,34 @@ replace (
 require github.com/golangci/golangci-lint/v2 v2.12.2
 
 require (
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
+	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
+	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
+	github.com/dlclark/regexp2 v1.12.0 // indirect
 	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
-	github.com/golangci/golines v0.15.0 // indirect
+	// github.com/golangci/golines v0.15.0 // indirect
+	github.com/ryancurrah/gomodguard v1.4.1 // indirect
+	go.yaml.in/yaml/v2 v2.4.3 // indirect
 )
 
 require (
 	charm.land/lipgloss/v2 v2.0.3 // indirect
 	github.com/ClickHouse/clickhouse-go-linter v1.2.1 // indirect
-	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
 	github.com/bombsimon/wsl/v5 v5.8.0 // indirect
 	github.com/charmbracelet/ultraviolet v0.0.0-20260511121909-c840852527f3 // indirect
 	github.com/charmbracelet/x/termios v0.1.1 // indirect
 	github.com/charmbracelet/x/windows v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
-	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
-	github.com/dlclark/regexp2 v1.12.0 // indirect
+	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	github.com/golangci/golines v0.15.0 // indirect
 	github.com/golangci/rowserrcheck v0.0.0-20260430141503-8d53bbc4a7d3 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
-	github.com/ryancurrah/gomodguard v1.4.1 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 	go-simpler.org/sloglint v0.12.0 // indirect
-	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 )
 
 require (
-	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
 	dev.gaijin.team/go/golib v0.8.1 // indirect
 	github.com/AdminBenni/iota-mixing v1.0.0 // indirect
 	github.com/MirrexOne/unqueryvet v1.5.4 // indirect

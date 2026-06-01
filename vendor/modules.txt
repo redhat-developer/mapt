@@ -924,8 +924,8 @@ github.com/pulumi/pulumi-command/sdk/go/command/remote
 ## explicit; go 1.25.8
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
-# github.com/pulumi/pulumi-docker/sdk/v4 v4.11.2
-## explicit; go 1.25.6
+# github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8
+## explicit; go 1.21
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
 # github.com/pulumi/pulumi-gitlab/sdk/v8 v8.11.0
