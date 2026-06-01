@@ -1,7 +1,7 @@
-
 FROM registry.access.redhat.com/ubi9/go-toolset@sha256:d36470d5258da00f618b7aca9bdaab8e05134aa938bd6c42d9bd17d50ed45e76 as builder
 ARG TARGETARCH
 USER root
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 WORKDIR /workspace
 COPY . .
 
@@ -15,21 +15,10 @@ RUN unset VERSION \
     && GOARCH=${TARGETARCH} make build \
     && if [ "$TARGETARCH" = "arm64" ]; then export PULUMI_URL="${PULUMI_BASE_URL}-linux-arm64.tar.gz"; fi \
     && echo ${PULUMI_URL} \
-    && curl -L ${PULUMI_URL} -o pulumicli.tar.gz \
-    && tar -xzvf pulumicli.tar.gz 
+    && curl -fSL ${PULUMI_URL} -o pulumicli.tar.gz \
+    && tar -xzvf pulumicli.tar.gz
 
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:d36470d5258da00f618b7aca9bdaab8e05134aa938bd6c42d9bd17d50ed45e76
-ARG TARGETARCH
-LABEL org.opencontainers.image.authors="Redhat Developer"
-
-COPY --from=builder /workspace/out/mapt /workspace/pulumi/pulumi /usr/local/bin/
-
-ENV PULUMI_CONFIG_PASSPHRASE "passphrase" 
-
-ENV AWS_SDK_LOAD_CONFIG=1 \
-    ARCH_N=x86_64
-
-# Pulumi plugins
+# Pulumi plugins — installed in build stage, copied into runtime
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
 ARG PULUMI_AWS_VERSION=v7.32.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
@@ -50,11 +39,10 @@ ARG PULUMI_GITLAB_VERSION=v9.11.0
 ARG PULUMI_IBMCLOUD_VERSION=v0.0.12
 ENV IBMCLOUD_PLUGIN_URL https://github.com/mapt-oss/pulumi-ibmcloud/releases/download/${PULUMI_IBMCLOUD_VERSION}/pulumi-resource-ibmcloud-${PULUMI_IBMCLOUD_VERSION}-linux-${TARGETARCH}.tar.gz
 
-ENV PULUMI_HOME "/opt/mapt/run" 
-WORKDIR ${PULUMI_HOME}
-
-RUN mkdir -p /opt/mapt/run \
-    && curl -L ${IBMCLOUD_PLUGIN_URL} -o pulumi-resource-ibmcloud.tar.gz \
+ENV PULUMI_HOME "/opt/pulumi-plugins"
+ENV PATH="/workspace/pulumi:${PATH}"
+RUN mkdir -p ${PULUMI_HOME} \
+    && curl -fSL ${IBMCLOUD_PLUGIN_URL} -o pulumi-resource-ibmcloud.tar.gz \
     && tar -xzvf pulumi-resource-ibmcloud.tar.gz \
     && pulumi plugin install resource ibmcloud ${PULUMI_IBMCLOUD_VERSION} --file pulumi-resource-ibmcloud \
     && rm pulumi-resource-ibmcloud  pulumi-resource-ibmcloud.tar.gz \
@@ -65,11 +53,28 @@ RUN mkdir -p /opt/mapt/run \
     && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION} \
     && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
     && pulumi plugin install resource aws-native ${PULUMI_AWS_NATIVE_VERSION} \
-    && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION} \
-    && chown -R 1001:0 /opt/mapt/run \
+    && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION}
+
+# Stage 2: Red Hat Hardened minimal runtime (glibc + coreutils, no toolchain)
+FROM registry.access.redhat.com/hi/core-runtime@sha256:c85f5e01b7f638cb30e75a8a79d06b0cbeb44209945f62572166448bb56b53e9
+USER 0
+ARG TARGETARCH
+LABEL org.opencontainers.image.authors="Redhat Developer"
+
+COPY --from=builder /workspace/out/mapt /workspace/pulumi/pulumi /usr/local/bin/
+
+ENV PULUMI_CONFIG_PASSPHRASE "passphrase"
+
+ENV AWS_SDK_LOAD_CONFIG=1 \
+    ARCH_N=x86_64
+
+ENV PULUMI_HOME "/opt/mapt/run"
+WORKDIR ${PULUMI_HOME}
+
+COPY --from=builder /opt/pulumi-plugins/ /opt/mapt/run/
+RUN chown -R 65532:0 /opt/mapt/run \
     && chmod -R ug+rwx /opt/mapt/run
 
-USER 1001
+USER 65532
 ENTRYPOINT ["mapt"]
 CMD ["-h"]
-
