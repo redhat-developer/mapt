@@ -124,7 +124,7 @@ import (
 //
 //	"fmt"
 //
-//	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ecr"
+//	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ecr"
 //	"github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 //
@@ -234,7 +234,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := dockerbuild.NewImage(ctx, "image", &dockerbuild.ImageArgs{
+//			image, err := dockerbuild.NewImage(ctx, "image", &dockerbuild.ImageArgs{
 //				Context: &dockerbuild.BuildContextArgs{
 //					Location: pulumi.String("app"),
 //				},
@@ -253,7 +253,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			ctx.Export("ref", myImage.Ref)
+//			ctx.Export("ref", image.Ref)
 //			return nil
 //		})
 //	}

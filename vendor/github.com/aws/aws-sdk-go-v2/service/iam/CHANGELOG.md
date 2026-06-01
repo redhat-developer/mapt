@@ -1,3 +1,12 @@
+# v1.53.12 (2026-05-29)
+
+* **Dependency Update**: Update to smithy-go v1.26.0.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.53.11 (2026-05-28)
+
+* **Dependency Update**: Updated to the latest SDK module versions
+
 # v1.53.10 (2026-05-01)
 
 * **Documentation**: Added guidance for CreateOpenIDConnectProvider to include multiple thumbprints when OIDC discovery and JWKS endpoints use different hosts or certificates
