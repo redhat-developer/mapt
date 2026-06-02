@@ -24,6 +24,9 @@ On first boot, cloud-init automatically configures the PowerVS instance for on-p
 | `IBMCLOUD_ACCOUNT` | yes | IBM Cloud account ID |
 | `IBMCLOUD_API_KEY` | yes | IBM Cloud API key |
 | `IC_REGION` | yes | IBM Cloud region (e.g. `us-south`, `us-east`) |
+| `IBMCLOUD_COS_ACCESS_KEY_ID` | only with S3 `--backed-url` | HMAC access key for IBM Cloud Object Storage |
+| `IBMCLOUD_COS_SECRET_ACCESS_KEY` | only with S3 `--backed-url` | HMAC secret key for IBM Cloud Object Storage |
+| `IBMCLOUD_COS_ENDPOINT` | no | COS S3 endpoint (defaults to `s3.<region>.cloud-object-storage.appdomain.cloud`) |
 
 ## Create
 
@@ -134,6 +137,34 @@ podman run -d --name ibm-power \
             --otel-auth-token <uuid-token>
 ```
 
+## Using IBM Cloud Object Storage as S3 backend
+
+To store Pulumi state in IBM COS instead of a local file, create [HMAC credentials](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-uhc-hmac-credentials-main) for your COS instance and pass an `s3://` backed URL:
+
+```bash
+podman run -d --name ibm-power \
+        -v ${PWD}:/workspace:z \
+        -e IBMCLOUD_API_KEY=XXX \
+        -e IBMCLOUD_ACCOUNT=XXX \
+        -e IC_REGION=us-south \
+        -e IBMCLOUD_COS_ACCESS_KEY_ID=XXX \
+        -e IBMCLOUD_COS_SECRET_ACCESS_KEY=XXX \
+        quay.io/redhat-developer/mapt:v0.8.0 ibmcloud ibm-power create \
+            --project-name ibm-power \
+            --backed-url s3://my-cos-bucket \
+            --conn-details-output /workspace \
+            --workspace-id <workspace-id> \
+            --pi-private-subnet-id <private-subnet-id>
+```
+
+An HTTPS endpoint URL is also supported as `--backed-url`, with the bucket name in the path:
+
+```
+--backed-url https://s3.us-south.cloud-object-storage.appdomain.cloud/my-cos-bucket
+```
+
+The COS endpoint and `PULUMI_BACKEND_URL` are constructed automatically from the region and bucket name.
+
 ## Destroy
 
 ```bash
@@ -144,4 +175,20 @@ podman run -d --name ibm-power \
         quay.io/redhat-developer/mapt:v0.8.0 ibmcloud ibm-power destroy \
             --project-name ibm-power \
             --backed-url file:///workspace
+```
+
+By default, destroy removes the Pulumi state files from the backend after a successful destroy. Use `--keep-state` to preserve them:
+
+```bash
+podman run -d --name ibm-power \
+        -v ${PWD}:/workspace:z \
+        -e IBMCLOUD_API_KEY=XXX \
+        -e IBMCLOUD_ACCOUNT=XXX \
+        -e IC_REGION=us-south \
+        -e IBMCLOUD_COS_ACCESS_KEY_ID=XXX \
+        -e IBMCLOUD_COS_SECRET_ACCESS_KEY=XXX \
+        quay.io/redhat-developer/mapt:v0.8.0 ibmcloud ibm-power destroy \
+            --project-name ibm-power \
+            --backed-url s3://my-cos-bucket \
+            --keep-state
 ```

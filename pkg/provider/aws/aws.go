@@ -25,11 +25,11 @@ const pulumiLocksPath = ".pulumi/locks"
 
 type AWS struct{}
 
-func (a *AWS) Init(ctx context.Context, backedURL string) error {
+func (a *AWS) Init(ctx context.Context, backedURL string) (string, error) {
 	// Manage remote state requirements, if backedURL
 	// is on a different region we need to change to that region
 	// in order to interact with the state
-	return manageRemoteState(ctx, backedURL)
+	return "", manageRemoteState(ctx, backedURL)
 }
 
 func (a *AWS) DefaultHostingPlace() (*string, error) {
@@ -217,6 +217,9 @@ func parseS3BackedURL(mCtx *mc.Context) (*string, *string, error) {
 		return nil, nil, fmt.Errorf("failed to parse S3 URI: %w", err)
 	}
 	key := strings.TrimPrefix(u.Path, "/")
+	if key == "" {
+		return nil, nil, fmt.Errorf("invalid S3 URI %q: missing object key after bucket name", mCtx.BackedURL())
+	}
 	return &u.Host, &key, nil
 }
 
