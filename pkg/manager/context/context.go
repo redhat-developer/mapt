@@ -74,7 +74,7 @@ type Context struct {
 }
 
 type Provider interface {
-	Init(ctx context.Context, backedURL string) error
+	Init(ctx context.Context, backedURL string) (string, error)
 	DefaultHostingPlace() (*string, error)
 }
 
@@ -110,8 +110,12 @@ func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 		c.targetHostingPlace = *hp
 	}
 	// Manage
-	if err := provider.Init(ctx, ca.BackedURL); err != nil {
+	resolvedURL, err := provider.Init(ctx, ca.BackedURL)
+	if err != nil {
 		return nil, err
+	}
+	if resolvedURL != "" {
+		c.backedURL = resolvedURL
 	}
 	// Manage integrations
 	if err := manageIntegration(c, ca); err != nil {

@@ -101,12 +101,14 @@ func ibmPowerDestroy() *cobra.Command {
 				DebugLevel:   viper.GetUint(params.DebugLevel),
 				Serverless:   viper.IsSet(params.Serverless),
 				ForceDestroy: viper.IsSet(params.ForceDestroy),
+				KeepState:    viper.IsSet(params.KeepState),
 			})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
+	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

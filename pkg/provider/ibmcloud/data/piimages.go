@@ -11,6 +11,7 @@ import (
 
 	"github.com/IBM/go-sdk-core/v5/core"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	icConstants "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/constants"
 )
 
 const powerURLRegex = "%s.power-iaas.cloud.ibm.com"
@@ -45,9 +46,9 @@ func GetImage(mCtx *mc.Context, args *PiImageArgs) (*string, error) {
 func piImagesClient(mCtx *mc.Context, cloudInstanceId string) (*v.IBMPIImageClient, error) {
 	options := &ps.IBMPIOptions{
 		Authenticator: &core.IamAuthenticator{
-			ApiKey: os.Getenv("IBMCLOUD_API_KEY"),
+			ApiKey: os.Getenv(icConstants.EnvIBMCloudAPIKey),
 		},
-		UserAccount: os.Getenv("IBMCLOUD_ACCOUNT"),
+		UserAccount: os.Getenv(icConstants.EnvIBMCloudAccount),
 		Zone:        os.Getenv("IC_ZONE"),
 		URL:         powerURL(os.Getenv("IC_REGION")),
 		Debug:       mCtx.Debug(),

@@ -28,9 +28,9 @@ func Provider() *Azure {
 	return &Azure{}
 }
 
-func (a *Azure) Init(ctx context.Context, backedURL string) error {
+func (a *Azure) Init(ctx context.Context, backedURL string) (string, error) {
 	setAZIdentityEnvs()
-	return nil
+	return "", nil
 }
 
 func (a *Azure) DefaultHostingPlace() (*string, error) {

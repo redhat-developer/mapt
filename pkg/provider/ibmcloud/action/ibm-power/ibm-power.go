@@ -142,7 +142,10 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	return ibmcloudp.Destroy(mCtx, stackIBMPowerVS)
+	if err := ibmcloudp.DestroyStack(mCtx, stackIBMPowerVS); err != nil {
+		return err
+	}
+	return ibmcloudp.CleanupState(mCtx)
 }
 
 func (r *pwRequest) deploy(ctx *pulumi.Context) error {

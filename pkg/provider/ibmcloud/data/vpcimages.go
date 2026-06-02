@@ -9,6 +9,7 @@ import (
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 
 	"github.com/IBM/go-sdk-core/v5/core"
+	icConstants "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/constants"
 )
 
 const (
@@ -64,7 +65,7 @@ func vpcService() (*vpcv1.VpcV1, error) {
 	}
 	return vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
 		Authenticator: &core.IamAuthenticator{
-			ApiKey: os.Getenv("IBMCLOUD_API_KEY"),
+			ApiKey: os.Getenv(icConstants.EnvIBMCloudAPIKey),
 		},
 		URL: serviceURL,
 	})

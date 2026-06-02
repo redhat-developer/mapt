@@ -10,6 +10,7 @@ import (
 	"github.com/IBM-Cloud/power-go-client/power/models"
 	"github.com/IBM/go-sdk-core/v5/core"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
+	icConstants "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/constants"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
@@ -70,9 +71,9 @@ func waitForInstance(mCtx *mc.Context, pc *v.IBMPIInstanceClient, instanceId str
 func client(mCtx *mc.Context, cloudInstanceId string) (*v.IBMPIInstanceClient, error) {
 	options := &ps.IBMPIOptions{
 		Authenticator: &core.IamAuthenticator{
-			ApiKey: os.Getenv("IBMCLOUD_API_KEY"),
+			ApiKey: os.Getenv(icConstants.EnvIBMCloudAPIKey),
 		},
-		UserAccount: os.Getenv("IBMCLOUD_ACCOUNT"),
+		UserAccount: os.Getenv(icConstants.EnvIBMCloudAccount),
 		Zone:        os.Getenv("IC_ZONE"),
 		URL:         powerURL(os.Getenv("IC_REGION")),
 		Debug:       mCtx.Debug(),
