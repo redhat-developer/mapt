@@ -1,6 +1,8 @@
 package allocation
 
 import (
+	"fmt"
+
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
@@ -55,15 +57,26 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 		}, nil
 
 	} else {
+		location := args.Location
+		if location == nil || *location == "" {
+			hp := mCtx.TargetHostingPlace()
+			if hp == "" {
+				return nil, fmt.Errorf("location is required for non-spot allocation: set ARM_LOCATION_NAME or AZURE_DEFAULTS_LOCATION environment variable")
+			}
+			location = &hp
+		}
 		// Filter for current location the computesizes
 		supportedComputeSizes, err := data.FilterComputeSizesByLocation(
-			mCtx.Context(), args.Location, computeSizes)
+			mCtx.Context(), location, computeSizes)
 		if err != nil {
 			return nil, err
 		}
+		if len(supportedComputeSizes) == 0 {
+			return nil, fmt.Errorf("no compute sizes available for location %q", *location)
+		}
 		return &AllocationResult{
 			ImageRef:     args.ImageRef,
-			Location:     args.Location,
+			Location:     location,
 			ComputeSizes: supportedComputeSizes,
 		}, nil
 

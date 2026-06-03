@@ -42,8 +42,7 @@ func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err 
 	}
 	azureLinuxRequest :=
 		&azureLinux.LinuxArgs{
-			Prefix: args.Prefix,
-			// Location:         args.Location,
+			Prefix:         args.Prefix,
 			ComputeRequest: args.ComputeRequest,
 			Spot:           args.Spot,
 			ImageRef: &data.ImageReference{
