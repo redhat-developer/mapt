@@ -42,8 +42,7 @@ func (a *Azure) DefaultHostingPlace() (*string, error) {
 	if len(hp) > 0 {
 		return &hp, nil
 	}
-	logging.Infof("missing default value for Azure Location, if needed it should set using ARM_LOCATION_NAME or AZURE_DEFAULTS_LOCATION")
-	return nil, nil
+	return nil, fmt.Errorf("missing default value for Azure Location, set ARM_LOCATION_NAME or AZURE_DEFAULTS_LOCATION environment variable")
 }
 
 // Envs required for auth with go sdk
