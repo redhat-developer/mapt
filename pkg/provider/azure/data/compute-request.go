@@ -109,6 +109,7 @@ type virtualMachine struct {
 	// Spot capable
 	LowPriorityCapable  bool
 	MaxResourceVolumeMB int32
+	GPUs                int32
 	// IaaS or PaaS
 	VMDeploymentTypes []string
 	// Fast SSD
@@ -219,6 +220,12 @@ func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
 				return nil
 			}
 			vm.MaxResourceVolumeMB = int32(disk)
+		case "GPUs":
+			gpus, err := strconv.ParseInt(*capability.Value, 10, 32)
+			if err != nil {
+				return nil
+			}
+			vm.GPUs = int32(gpus)
 		case "VMDeploymentTypes":
 			vm.VMDeploymentTypes = strings.Split(*capability.Value, ",")
 		default:
@@ -239,6 +246,9 @@ func filterCPUsAndMemory(args *cr.ComputeRequestArgs) filterFunc {
 				return
 			}
 			if args.NestedVirt && !vm.nestedVirtSupported() {
+				return
+			}
+			if args.GPUs > 0 && vm.GPUs < args.GPUs {
 				return
 			}
 			if vm.VCPUs >= args.CPUs &&
