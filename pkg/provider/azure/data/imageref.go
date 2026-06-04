@@ -28,8 +28,11 @@ type ImageReference struct {
 	Sku       string
 	// Community
 	CommunityImageID string
-	// // Private Shared
+	// Private Shared
 	SharedImageID string
+	// Required disk controller type for this image (e.g. "SCSI", "NVMe").
+	// Empty means no specific requirement; Azure uses the VM size default.
+	DiskControllerType string
 }
 
 var (

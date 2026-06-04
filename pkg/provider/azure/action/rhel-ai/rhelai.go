@@ -47,6 +47,11 @@ func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err 
 			Spot:           args.Spot,
 			ImageRef: &data.ImageReference{
 				SharedImageID: sharedImageID,
+				// Belt-and-suspenders: set SCSI explicitly so Azure never infers a
+				// conflicting default. resolveImageRef will also derive this from the
+				// gallery image's Features, but the static value protects against API
+				// failures or future images with multiple supported types.
+				DiskControllerType: "SCSI",
 			},
 			Username:         username,
 			ReadinessCommand: command.CommandPing}

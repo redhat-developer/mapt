@@ -85,6 +85,40 @@ func getSharedImage(ctx context.Context, c *armcompute.ClientFactory, id *string
 	return &res, nil
 }
 
+// GetSharedImageDiskControllerTypes returns the disk controller types listed in the
+// gallery image definition's features (e.g. ["SCSI"] for RHEL AI images). Returns nil
+// when the feature is absent. Uses the gallery owner's subscription (parts[2] of the
+// ARM resource ID) so the API path resolves to where the resource actually lives.
+// The image ID must be a full ARM resource ID with 13 slash-separated parts.
+func GetSharedImageDiskControllerTypes(ctx context.Context, id *string) ([]string, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	parts := strings.Split(*id, "/")
+	if len(parts) != 13 {
+		return nil, fmt.Errorf("invalid shared image ID: %s", *id)
+	}
+	c, err := armcompute.NewClientFactory(parts[2], cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	// Query the image definition, not the version — Features live on the definition.
+	res, err := c.NewGalleryImagesClient().Get(ctx, parts[4], parts[8], parts[10], nil)
+	if err != nil {
+		return nil, err
+	}
+	if res.Properties == nil {
+		return nil, nil
+	}
+	for _, f := range res.Properties.Features {
+		if f.Name != nil && *f.Name == "DiskControllerTypes" && f.Value != nil {
+			return splitDiskControllerTypes(*f.Value), nil
+		}
+	}
+	return nil, nil
+}
+
 func SkuG2Support(ctx context.Context, location string, publisher string, offer string, sku string) (string, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
