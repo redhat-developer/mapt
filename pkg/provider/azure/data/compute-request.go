@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"fmt"
-	"os"
 	"regexp"
 	"slices"
 	"strconv"
@@ -13,6 +12,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v7"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 const (
@@ -112,12 +112,77 @@ func diskControllerTypeSupported(supported []string, requiredType string) bool {
 	return false
 }
 
+// FilterNoLocalStorageSizes returns only the sizes from computeSizes that have no
+// NVMe-only local storage (L-series). Temp disks (MaxResourceVolumeMB > 0) are allowed
+// — they are ephemeral scratch space that does not interfere with RHEL AI's OS disk.
+// Sizes not found in the Azure SKU catalog (typo or restricted SKU) are logged as
+// warnings and excluded.
+func FilterNoLocalStorageSizes(ctx context.Context, computeSizes []string) ([]string, error) {
+	creds, subscriptionID, err := getCredentials()
+	if err != nil {
+		return nil, err
+	}
+	client, err := armcompute.NewResourceSKUsClient(*subscriptionID, creds, nil)
+	if err != nil {
+		return nil, err
+	}
+	pager := client.NewListPager(nil)
+	capabilities := make(map[string]*virtualMachine, len(computeSizes))
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, sku := range page.Value {
+			if sku.ResourceType == nil || *sku.ResourceType != string(RTVirtualMachines) {
+				continue
+			}
+			if sku.Name == nil || !slices.Contains(computeSizes, *sku.Name) {
+				continue
+			}
+			if _, seen := capabilities[*sku.Name]; seen {
+				continue
+			}
+			if vm := resourceSKUToVirtualMachine(sku); vm != nil {
+				capabilities[*sku.Name] = vm
+			}
+		}
+	}
+	valid, dropped, unknown := filterNVMeStorage(computeSizes, capabilities)
+	for _, size := range dropped {
+		logging.Warnf("dropping compute size %q: has NVMe-only local storage, incompatible with RHEL AI", size)
+	}
+	for _, size := range unknown {
+		logging.Warnf("dropping compute size %q: not found in Azure SKU catalog (typo or restricted SKU)", size)
+	}
+	return valid, nil
+}
+
+// filterNVMeStorage classifies each size into valid (no NVMe-only local storage),
+// dropped (has NVMe local storage — e.g. L-series), or unknown (absent from capabilities).
+func filterNVMeStorage(computeSizes []string, capabilities map[string]*virtualMachine) (valid, dropped, unknown []string) {
+	for _, size := range computeSizes {
+		vm, ok := capabilities[size]
+		if !ok {
+			unknown = append(unknown, size)
+			continue
+		}
+		if vm.NvmeDiskSizeInMiB > 0 {
+			dropped = append(dropped, size)
+		} else {
+			valid = append(valid, size)
+		}
+	}
+	return valid, dropped, unknown
+}
+
 func getAzureVMSKUs(ctx context.Context, args *cr.ComputeRequestArgs) ([]string, error) {
+	ensureAzureEnvs()
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
+	subscriptionId := SubscriptionID()
 	clientFactory, err := armcompute.NewClientFactory(
 		subscriptionId, cred, nil)
 	if err != nil {
@@ -156,6 +221,10 @@ type virtualMachine struct {
 	LowPriorityCapable  bool
 	MaxResourceVolumeMB int32
 	GPUs                int32
+	// L-series VMs expose NVMe storage separately from the temp disk
+	NvmeDiskSizeInMiB int32
+	// Used by the disk-controller-type fix (PR #823) to cross-reference SKU capabilities
+	DiskControllerTypes []string
 	// IaaS or PaaS
 	VMDeploymentTypes []string
 	// Fast SSD
@@ -191,17 +260,17 @@ func (vm *virtualMachine) hypervGen2Supported() bool {
 	return slices.Contains(vm.HyperVGenerations, "V2")
 }
 
-func (vm *virtualMachine) emptyDiskSupported() bool {
-	return vm.MaxResourceVolumeMB == 0
+func (vm *virtualMachine) noLocalStorageAttached() bool {
+	return vm.MaxResourceVolumeMB == 0 && vm.NvmeDiskSizeInMiB == 0
 }
 
 func (vm *virtualMachine) baseFeaturesSupported() bool {
 	return vm.AcceleratedNetworkingEnabled && vm.PremiumIO && vm.EncryptionAtHostSupported &&
-		vm.emptyDiskSupported() && vm.hypervGen2Supported()
+		vm.noLocalStorageAttached() && vm.hypervGen2Supported()
 }
 
 func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
-	if res.ResourceType != nil && *res.ResourceType != "virtualMachines" {
+	if res.ResourceType != nil && *res.ResourceType != string(RTVirtualMachines) {
 		return nil
 	}
 	// If Machine type has any type of restriccions discard
@@ -272,6 +341,14 @@ func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
 				return nil
 			}
 			vm.GPUs = int32(gpus)
+		case "NvmeDiskSizeInMiB":
+			nvme, err := strconv.ParseUint(*capability.Value, 10, 32)
+			if err != nil {
+				return nil
+			}
+			vm.NvmeDiskSizeInMiB = int32(nvme)
+		case "DiskControllerTypes":
+			vm.DiskControllerTypes = strings.Split(*capability.Value, ",")
 		case "VMDeploymentTypes":
 			vm.VMDeploymentTypes = strings.Split(*capability.Value, ",")
 		default:

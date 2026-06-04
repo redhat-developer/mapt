@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -16,11 +15,12 @@ type ImageRequest struct {
 }
 
 func IsImageOffered(ctx context.Context, req ImageRequest) error {
+	ensureAzureEnvs()
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return err
 	}
-	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
+	subscriptionId := SubscriptionID()
 	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
 	if err != nil {
 		return err
@@ -53,11 +53,12 @@ func getCommunityImage(ctx context.Context, c *armcompute.ClientFactory, id, reg
 }
 
 func GetSharedImage(ctx context.Context, id *string) (*armcompute.GalleryImageVersionsClientGetResponse, error) {
+	ensureAzureEnvs()
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
+	subscriptionId := SubscriptionID()
 	c, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
 	if err != nil {
 		return nil, err
@@ -120,11 +121,12 @@ func GetSharedImageDiskControllerTypes(ctx context.Context, id *string) ([]strin
 }
 
 func SkuG2Support(ctx context.Context, location string, publisher string, offer string, sku string) (string, error) {
+	ensureAzureEnvs()
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return "", err
 	}
-	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
+	subscriptionId := SubscriptionID()
 
 	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
 	if err != nil {
