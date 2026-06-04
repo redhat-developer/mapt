@@ -251,10 +251,19 @@ func filterCPUsAndMemory(args *cr.ComputeRequestArgs) filterFunc {
 			if args.GPUs > 0 && vm.GPUs < args.GPUs {
 				return
 			}
+			// GPU VMs (ND/NC-series) have large temp disks, so skip the
+			// local-storage check that would otherwise reject them.
+			featuresOK := false
+			if args.GPUs > 0 {
+				featuresOK = vm.AcceleratedNetworkingEnabled && vm.PremiumIO &&
+					vm.EncryptionAtHostSupported && vm.hypervGen2Supported()
+			} else {
+				featuresOK = vm.baseFeaturesSupported()
+			}
 			if vm.VCPUs >= args.CPUs &&
 				vm.Memory >= args.MemoryGib &&
 				vm.Arch == args.Arch.String() &&
-				vm.baseFeaturesSupported() {
+				featuresOK {
 				dSeries := regexp.MustCompile(lowerCpuPattern)
 				if !dSeries.Match([]byte(vm.Name)) {
 					vmCh <- vm.Name
