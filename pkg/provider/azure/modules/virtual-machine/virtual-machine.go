@@ -82,6 +82,7 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 					StorageAccountType: pulumi.String("Standard_LRS"),
 				},
 			},
+			DiskControllerType: diskControllerTypePtr(args.Image.DiskControllerType),
 		},
 		// Try to improve provisioning time
 		DiagnosticsProfile: compute.DiagnosticsProfileArgs{
@@ -162,4 +163,11 @@ func convertImageRef(mCtx *mc.Context, i data.ImageReference, location string) (
 func isSelfOwned(sharedImageId *string) bool {
 	sharedImageParams := strings.Split(*sharedImageId, "/")
 	return os.Getenv("AZURE_SUBSCRIPTION_ID") == sharedImageParams[2]
+}
+
+func diskControllerTypePtr(t string) pulumi.StringPtrInput {
+	if t == "" {
+		return nil
+	}
+	return pulumi.StringPtr(t)
 }

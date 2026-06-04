@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"regexp"
 	"slices"
@@ -33,7 +34,13 @@ func (c *ComputeSelector) Select(ctx context.Context, args *cr.ComputeRequestArg
 	return getAzureVMSKUs(ctx, args)
 }
 
-func FilterComputeSizesByLocation(ctx context.Context, location *string, computeSizes []string) ([]string, error) {
+// FilterComputeSizesByDiskControllerType returns the subset of computeSizes that are
+// available in location AND support requiredType. Sizes without a DiskControllerTypes
+// capability are assumed to support only SCSI (Azure historical default).
+func FilterComputeSizesByDiskControllerType(ctx context.Context, location *string, computeSizes []string, requiredType string) ([]string, error) {
+	if location == nil {
+		return nil, fmt.Errorf("location cannot be nil")
+	}
 	creds, subscriptionID, err := getCredentials()
 	if err != nil {
 		return nil, err
@@ -43,27 +50,66 @@ func FilterComputeSizesByLocation(ctx context.Context, location *string, compute
 		return nil, err
 	}
 	pager := client.NewListPager(nil)
-	supportedSizes := []string{}
+	supported := []string{}
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, sku := range page.Value {
-			if sku.ResourceType != nil &&
-				*sku.ResourceType == string(RTVirtualMachines) {
-				if sku.Name != nil && slices.Contains(computeSizes, *sku.Name) {
-					for _, loc := range sku.Locations {
-						if strings.EqualFold(*loc, *location) {
-							supportedSizes = append(supportedSizes, *sku.Name)
-							break
-						}
-					}
+			if sku.ResourceType == nil || *sku.ResourceType != string(RTVirtualMachines) {
+				continue
+			}
+			if sku.Name == nil || !slices.Contains(computeSizes, *sku.Name) {
+				continue
+			}
+			inLocation := false
+			for _, loc := range sku.Locations {
+				if loc != nil && strings.EqualFold(*loc, *location) {
+					inLocation = true
+					break
 				}
+			}
+			if !inLocation {
+				continue
+			}
+			diskTypes := diskControllerTypesFromCapabilities(sku.Capabilities)
+			if diskControllerTypeSupported(diskTypes, requiredType) && !slices.Contains(supported, *sku.Name) {
+				supported = append(supported, *sku.Name)
 			}
 		}
 	}
-	return supportedSizes, nil
+	return supported, nil
+}
+
+// diskControllerTypesFromCapabilities extracts the DiskControllerTypes value from SKU
+// capabilities. Returns nil when the capability is absent.
+func diskControllerTypesFromCapabilities(caps []*armcompute.ResourceSKUCapabilities) []string {
+	for _, c := range caps {
+		if c.Name != nil && *c.Name == "DiskControllerTypes" && c.Value != nil {
+			return splitDiskControllerTypes(*c.Value)
+		}
+	}
+	return nil
+}
+
+// diskControllerTypeSupported reports whether requiredType is satisfied by the supported
+// set. Empty requiredType means no restriction (always passes). A nil/empty supported
+// set means the capability is absent; Azure sizes that predate NVMe default to SCSI, so
+// absence is treated as SCSI-only.
+func diskControllerTypeSupported(supported []string, requiredType string) bool {
+	if requiredType == "" {
+		return true
+	}
+	if len(supported) == 0 {
+		return strings.EqualFold(requiredType, "SCSI")
+	}
+	for _, t := range supported {
+		if strings.EqualFold(t, requiredType) {
+			return true
+		}
+	}
+	return false
 }
 
 func getAzureVMSKUs(ctx context.Context, args *cr.ComputeRequestArgs) ([]string, error) {
