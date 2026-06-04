@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"os"
 	"slices"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -17,12 +16,12 @@ func IsVMSizeOfferedByLocation(ctx context.Context, vmSize, location string) (bo
 
 // Get InstanceTypes offerings on current location
 func FilterVMSizeOfferedByLocation(ctx context.Context, vmSizes []string, location string) ([]string, error) {
-	// Create a new Azure credential (uses environment variables or managed identity)
+	ensureAzureEnvs()
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-	subscriptionId := os.Getenv("AZURE_SUBSCRIPTION_ID")
+	subscriptionId := SubscriptionID()
 	clientFactory, err := armcompute.NewClientFactory(subscriptionId, cred, nil)
 	if err != nil {
 		return nil, err

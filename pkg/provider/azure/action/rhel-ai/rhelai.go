@@ -1,6 +1,7 @@
 package rhelai
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -35,7 +36,22 @@ func imageId(accelerator, version string) string {
 }
 
 func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
-	logging.Debug("Creating RHEL Server")
+	logging.Debug("Creating RHEL AI Server")
+	computeReq := *args.ComputeRequest
+	if len(computeReq.ComputeSizes) > 0 {
+		ctx := mCtxArgs.Context
+		if ctx == nil {
+			ctx = context.Background()
+		}
+		computeReq.ComputeSizes, err = data.FilterNoLocalStorageSizes(
+			ctx, computeReq.ComputeSizes)
+		if err != nil {
+			return err
+		}
+		if len(computeReq.ComputeSizes) == 0 {
+			return fmt.Errorf("no valid compute sizes: all provided sizes have NVMe-only local storage, incompatible with RHEL AI")
+		}
+	}
 	sharedImageID := imageId(args.Accelerator, args.Version)
 	if args.CustomImage != "" {
 		sharedImageID = imageIdFromName(args.CustomImage)
@@ -43,7 +59,7 @@ func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err 
 	azureLinuxRequest :=
 		&azureLinux.LinuxArgs{
 			Prefix:         args.Prefix,
-			ComputeRequest: args.ComputeRequest,
+			ComputeRequest: &computeReq,
 			Spot:           args.Spot,
 			ImageRef: &data.ImageReference{
 				SharedImageID: sharedImageID,

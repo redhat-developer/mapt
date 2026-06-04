@@ -2,7 +2,6 @@ package virtualmachine
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/pulumi/pulumi-azure-native-sdk/compute/v3"
@@ -161,5 +160,5 @@ func convertImageRef(mCtx *mc.Context, i data.ImageReference, location string) (
 
 func isSelfOwned(sharedImageId *string) bool {
 	sharedImageParams := strings.Split(*sharedImageId, "/")
-	return os.Getenv("AZURE_SUBSCRIPTION_ID") == sharedImageParams[2]
+	return data.SubscriptionID() == sharedImageParams[2]
 }
