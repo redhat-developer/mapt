@@ -155,6 +155,7 @@ type virtualMachine struct {
 	// Spot capable
 	LowPriorityCapable  bool
 	MaxResourceVolumeMB int32
+	GPUs                int32
 	// IaaS or PaaS
 	VMDeploymentTypes []string
 	// Fast SSD
@@ -265,6 +266,12 @@ func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
 				return nil
 			}
 			vm.MaxResourceVolumeMB = int32(disk)
+		case "GPUs":
+			gpus, err := strconv.ParseInt(*capability.Value, 10, 32)
+			if err != nil {
+				return nil
+			}
+			vm.GPUs = int32(gpus)
 		case "VMDeploymentTypes":
 			vm.VMDeploymentTypes = strings.Split(*capability.Value, ",")
 		default:
@@ -287,10 +294,22 @@ func filterCPUsAndMemory(args *cr.ComputeRequestArgs) filterFunc {
 			if args.NestedVirt && !vm.nestedVirtSupported() {
 				return
 			}
+			if args.GPUs > 0 && vm.GPUs < args.GPUs {
+				return
+			}
+			// GPU VMs (ND/NC-series) have large temp disks, so skip the
+			// local-storage check that would otherwise reject them.
+			featuresOK := false
+			if args.GPUs > 0 {
+				featuresOK = vm.AcceleratedNetworkingEnabled && vm.PremiumIO &&
+					vm.EncryptionAtHostSupported && vm.hypervGen2Supported()
+			} else {
+				featuresOK = vm.baseFeaturesSupported()
+			}
 			if vm.VCPUs >= args.CPUs &&
 				vm.Memory >= args.MemoryGib &&
 				vm.Arch == args.Arch.String() &&
-				vm.baseFeaturesSupported() {
+				featuresOK {
 				dSeries := regexp.MustCompile(lowerCpuPattern)
 				if !dSeries.Match([]byte(vm.Name)) {
 					vmCh <- vm.Name

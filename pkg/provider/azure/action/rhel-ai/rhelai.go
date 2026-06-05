@@ -34,16 +34,41 @@ func imageId(accelerator, version string) string {
 	return imageIdFromName(fmt.Sprintf(imageNameRegex, accelerator, version))
 }
 
+// isGPUCapableSize returns true for ND-series and NC-series Azure VM sizes,
+// which are the compute GPU families supported for RHEL AI workloads.
+// NV-series (visualization GPUs) is intentionally excluded.
+func isGPUCapableSize(vmSize string) bool {
+	lower := strings.ToLower(vmSize)
+	return strings.HasPrefix(lower, "standard_nd") || strings.HasPrefix(lower, "standard_nc")
+}
+
 func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
-	logging.Debug("Creating RHEL Server")
+	if args == nil || args.ComputeRequest == nil {
+		return fmt.Errorf("RHEL AI: args and ComputeRequest must not be nil")
+	}
+	logging.Debug("Creating RHEL AI Server")
 	sharedImageID := imageId(args.Accelerator, args.Version)
 	if args.CustomImage != "" {
 		sharedImageID = imageIdFromName(args.CustomImage)
 	}
+	// Shallow-copy to avoid mutating the caller's ComputeRequestArgs.
+	computeReq := *args.ComputeRequest
+	// Ensure GPU-capable instance selection for auto-selection paths.
+	if computeReq.GPUs == 0 {
+		logging.Debug("RHEL AI: GPUs not set, defaulting to 1 for GPU-capable instance selection")
+		computeReq.GPUs = 1
+	}
+	// All explicitly specified sizes must be GPU-capable; a single non-GPU entry
+	// could get allocated and vllm would fail silently.
+	for _, s := range computeReq.ComputeSizes {
+		if !isGPUCapableSize(s) {
+			return fmt.Errorf("RHEL AI: %q is not GPU-capable (expected ND-series or NC-series for vllm)", s)
+		}
+	}
 	azureLinuxRequest :=
 		&azureLinux.LinuxArgs{
 			Prefix:         args.Prefix,
-			ComputeRequest: args.ComputeRequest,
+			ComputeRequest: &computeReq,
 			Spot:           args.Spot,
 			ImageRef: &data.ImageReference{
 				SharedImageID: sharedImageID,
@@ -55,7 +80,10 @@ func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err 
 			},
 			Username:         username,
 			ReadinessCommand: command.CommandPing}
-	return azureLinux.Create(mCtxArgs, azureLinuxRequest)
+	if err = azureLinux.Create(mCtxArgs, azureLinuxRequest); err != nil && len(computeReq.ComputeSizes) == 0 {
+		return fmt.Errorf("RHEL AI: failed to provision a GPU-capable instance (ND/NC-series required for vllm); verify GPU quota in the target location/subscription: %w", err)
+	}
+	return err
 }
 
 func Destroy(mCtxArgs *maptContext.ContextArgs) error {
