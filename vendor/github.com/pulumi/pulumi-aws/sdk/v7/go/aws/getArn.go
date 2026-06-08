@@ -51,8 +51,9 @@ func GetArn(ctx *pulumi.Context, args *GetArnArgs, opts ...pulumi.InvokeOption) 
 // A collection of arguments for invoking getArn.
 type GetArnArgs struct {
 	// ARN to parse.
-	Arn string  `pulumi:"arn"`
-	Id  *string `pulumi:"id"`
+	Arn string `pulumi:"arn"`
+	// Deprecated: Use 'arn' instead. This attribute will be removed in a future version of the provider.
+	Id *string `pulumi:"id"`
 }
 
 // A collection of values returned by getArn.
@@ -60,7 +61,8 @@ type GetArnResult struct {
 	// The [ID](https://docs.aws.amazon.com/general/latest/gr/acct-identifiers.html) of the AWS account that owns the resource, without the hyphens.
 	Account string `pulumi:"account"`
 	Arn     string `pulumi:"arn"`
-	Id      string `pulumi:"id"`
+	// Deprecated: Use 'arn' instead. This attribute will be removed in a future version of the provider.
+	Id string `pulumi:"id"`
 	// Partition that the resource is in.
 	Partition string `pulumi:"partition"`
 	// Region the resource resides in.
@@ -85,8 +87,9 @@ func GetArnOutput(ctx *pulumi.Context, args GetArnOutputArgs, opts ...pulumi.Inv
 // A collection of arguments for invoking getArn.
 type GetArnOutputArgs struct {
 	// ARN to parse.
-	Arn pulumi.StringInput    `pulumi:"arn"`
-	Id  pulumi.StringPtrInput `pulumi:"id"`
+	Arn pulumi.StringInput `pulumi:"arn"`
+	// Deprecated: Use 'arn' instead. This attribute will be removed in a future version of the provider.
+	Id pulumi.StringPtrInput `pulumi:"id"`
 }
 
 func (GetArnOutputArgs) ElementType() reflect.Type {
@@ -117,6 +120,7 @@ func (o GetArnResultOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v GetArnResult) string { return v.Arn }).(pulumi.StringOutput)
 }
 
+// Deprecated: Use 'arn' instead. This attribute will be removed in a future version of the provider.
 func (o GetArnResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v GetArnResult) string { return v.Id }).(pulumi.StringOutput)
 }

@@ -10,6 +10,8 @@ replace (
 
 require github.com/golangci/golangci-lint/v2 v2.12.2
 
+require github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
+
 require (
 	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
 	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
@@ -27,10 +29,10 @@ require (
 	github.com/charmbracelet/x/windows v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
-	github.com/dlclark/regexp2/v2 v2.1.1 // indirect
-	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
+	github.com/dlclark/regexp2/v2 v2.2.1 // indirect
+	// github.com/golangci/gofmt v0.0.0-20251215234548-e7be49a5ab4d // indirect
 	github.com/golangci/golines v0.15.0 // indirect
-	github.com/golangci/rowserrcheck v0.0.0-20260430141503-8d53bbc4a7d3 // indirect
+	github.com/golangci/rowserrcheck v0.0.0-20260602201336-0ec5bd2741d7 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 	go-simpler.org/sloglint v0.12.0 // indirect
@@ -142,7 +144,7 @@ require (
 	github.com/kunwardeep/paralleltest v1.0.15 // indirect
 	github.com/lasiar/canonicalheader v1.1.2 // indirect
 	github.com/ldez/exptostd v0.4.5 // indirect
-	github.com/ldez/gomoddirectives v0.8.0 // indirect
+	github.com/ldez/gomoddirectives v0.9.0 // indirect
 	github.com/ldez/grignotin v0.10.1 // indirect
 	github.com/ldez/structtags v0.6.1 // indirect
 	github.com/ldez/tagliatelle v0.7.2 // indirect
@@ -220,7 +222,7 @@ require (
 	go.augendre.info/fatcontext v0.9.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.28.0 // indirect
-	golang.org/x/exp/typeparams v0.0.0-20260529124908-c761662dc8c9 // indirect
+	golang.org/x/exp/typeparams v0.0.0-20260603202125-055de637280b // indirect
 	golang.org/x/mod v0.36.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
