@@ -217,7 +217,7 @@ github.com/davecgh/go-spew/spew
 # github.com/denis-tingaikin/go-header v0.5.0
 ## explicit; go 1.21
 github.com/denis-tingaikin/go-header
-# github.com/dlclark/regexp2/v2 v2.1.1
+# github.com/dlclark/regexp2/v2 v2.2.1
 ## explicit; go 1.25
 github.com/dlclark/regexp2/v2
 github.com/dlclark/regexp2/v2/helpers
@@ -514,7 +514,7 @@ github.com/golangci/plugin-module-register/register
 # github.com/golangci/revgrep v0.8.0
 ## explicit; go 1.21
 github.com/golangci/revgrep
-# github.com/golangci/rowserrcheck v0.0.0-20260430141503-8d53bbc4a7d3
+# github.com/golangci/rowserrcheck v0.0.0-20260602201336-0ec5bd2741d7
 ## explicit; go 1.25.0
 github.com/golangci/rowserrcheck/passes/rowserr
 # github.com/golangci/swaggoswag v0.0.0-20250504205917-77f2aca3143e
@@ -594,8 +594,8 @@ github.com/lasiar/canonicalheader
 # github.com/ldez/exptostd v0.4.5
 ## explicit; go 1.24.0
 github.com/ldez/exptostd
-# github.com/ldez/gomoddirectives v0.8.0
-## explicit; go 1.24.0
+# github.com/ldez/gomoddirectives v0.9.0
+## explicit; go 1.25.0
 github.com/ldez/gomoddirectives
 # github.com/ldez/grignotin v0.10.1
 ## explicit; go 1.24.0
@@ -953,7 +953,7 @@ go.uber.org/zap/zapcore
 # go.yaml.in/yaml/v3 v3.0.4
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20260529124908-c761662dc8c9
+# golang.org/x/exp/typeparams v0.0.0-20260603202125-055de637280b
 ## explicit; go 1.25.0
 golang.org/x/exp/typeparams
 # golang.org/x/mod v0.36.0
