@@ -2,6 +2,7 @@ package hosts
 
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	ibmpower "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/action/ibm-power"
@@ -43,6 +44,10 @@ func ibmPowerCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
+			ghRunnerArgs := params.GithubRunnerArgs()
+			if ghRunnerArgs != nil {
+				ghRunnerArgs.Arch = &github.Ppc64le
+			}
 			return ibmpower.New(
 				&maptContext.ContextArgs{
 					Context:       cmd.Context(),
@@ -52,7 +57,7 @@ func ibmPowerCreate() *cobra.Command {
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GHRunnerArgs:  ghRunnerArgs,
 					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Ppc64le),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},

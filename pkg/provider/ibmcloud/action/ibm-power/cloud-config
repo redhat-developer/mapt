@@ -80,6 +80,13 @@ write_files:
     content: |
 {{.GitLabRunnerScript}}
 {{- end}}
+{{- if .GHActionsRunnerScript}}
+  - path: /opt/install-ghrunner.sh
+    permissions: '0700'
+    owner: root:root
+    content: |
+{{.GHActionsRunnerScript}}
+{{- end}}
 runcmd:
   - systemctl enable mount-data-home.service
   - dnf install -y git podman policycoreutils-python-utils
@@ -97,4 +104,7 @@ runcmd:
 {{- if .GitLabRunnerScript}}
   - mkdir -p /var/log/gitlab-runner
   - bash /opt/install-glrunner.sh
+{{- end}}
+{{- if .GHActionsRunnerScript}}
+  - bash /opt/install-ghrunner.sh
 {{- end}}

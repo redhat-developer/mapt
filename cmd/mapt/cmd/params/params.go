@@ -73,9 +73,14 @@ const (
 	CreateCmdName  string = "create"
 	DestroyCmdName string = "destroy"
 
-	ghActionsRunnerToken  string = "ghactions-runner-token"
-	ghActionsRunnerRepo   string = "ghactions-runner-repo"
-	ghActionsRunnerLabels string = "ghactions-runner-labels"
+	ghActionsRunnerToken    string = "ghactions-runner-token"
+	ghActionsRunnerRepo     string = "ghactions-runner-repo"
+	ghActionsRunnerLabels   string = "ghactions-runner-labels"
+	ghActionsRunnerImageRepo string = "ghactions-runner-image-repo"
+	// TODO: once the RHEL script is merged to https://github.com/IBM/action-runner-image-pz,
+	// switch default from deekay2310 fork to IBM upstream.
+	ghActionsRunnerImageRepoDefault string = "https://github.com/deekay2310/action-runner-image-pz.git"
+	GHActionsRunnerImageRepoDesc    string = "Git clone URL for the action-runner-image-pz repository, used to build the GitHub Actions runner from source on ppc64le/s390x (no official binaries exist for these architectures)"
 
 	cirrusPWToken      string = "it-cirrus-pw-token"
 	cirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
@@ -278,17 +283,18 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 	fs.StringP(ghActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
 	fs.StringP(ghActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
 	fs.StringSlice(ghActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)
+	fs.StringP(ghActionsRunnerImageRepo, "", ghActionsRunnerImageRepoDefault, GHActionsRunnerImageRepoDesc)
 }
 
 func GithubRunnerArgs() *github.GithubRunnerArgs {
 	if viper.IsSet(ghActionsRunnerToken) {
 		return &github.GithubRunnerArgs{
-			Token:    viper.GetString(ghActionsRunnerToken),
-			RepoURL:  viper.GetString(ghActionsRunnerRepo),
-			Labels:   viper.GetStringSlice(ghActionsRunnerLabels),
-			Platform: &github.Linux,
-			Arch: linuxArchAsGithubActionsArch(
-				viper.GetString(LinuxArch)),
+			Token:           viper.GetString(ghActionsRunnerToken),
+			RepoURL:         viper.GetString(ghActionsRunnerRepo),
+			Labels:          viper.GetStringSlice(ghActionsRunnerLabels),
+			Platform:        &github.Linux,
+			Arch:            linuxArchAsGithubActionsArch(viper.GetString(LinuxArch)),
+			RunnerImageRepo: viper.GetString(ghActionsRunnerImageRepo),
 		}
 	}
 	return nil
@@ -359,6 +365,10 @@ func linuxArchAsGithubActionsArch(arch string) *github.Arch {
 	switch arch {
 	case "x86_64":
 		return &github.Amd64
+	case "ppc64le":
+		return &github.Ppc64le
+	case "s390x":
+		return &github.S390x
 	}
 	return &github.Arm64
 }

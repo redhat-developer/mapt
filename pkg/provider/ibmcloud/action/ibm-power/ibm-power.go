@@ -11,6 +11,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -29,9 +30,10 @@ import (
 var CloudConfig []byte
 
 type userDataValues struct {
-	Gateway            string
-	OtelColScript      string
-	GitLabRunnerScript string
+	Gateway                string
+	OtelColScript          string
+	GitLabRunnerScript     string
+	GHActionsRunnerScript  string
 }
 
 const (
@@ -183,6 +185,15 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 	}
 	hasOtel := otelSet == 3
 
+	ghRunnerScript := ""
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		s, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(ghRunnerArgs, defaultUser)
+		if err != nil {
+			return err
+		}
+		ghRunnerScript = *s
+	}
+
 	var piUserDataInput pulumi.StringPtrInput
 	glRunnerArgs := gitlab.GetRunnerArgs()
 	if glRunnerArgs != nil {
@@ -192,6 +203,7 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		}
 		gateway := subnetInfo.Gateway
 		localArgs := *glRunnerArgs
+		localGHScript := ghRunnerScript
 		piUserDataInput = authToken.ApplyT(func(token string) (*string, error) {
 			localArgs.AuthToken = token
 			glSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(&localArgs, defaultUser)
@@ -202,7 +214,7 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 			if hasOtel {
 				otelArgs = r.otelArgs(true)
 			}
-			ud, err := piUserData(gateway, otelArgs, *glSnippet)
+			ud, err := piUserData(gateway, otelArgs, *glSnippet, localGHScript)
 			if err != nil {
 				return nil, err
 			}
@@ -213,7 +225,7 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		if hasOtel {
 			otelArgs = r.otelArgs(false)
 		}
-		ud, err := piUserData(subnetInfo.Gateway, otelArgs, "")
+		ud, err := piUserData(subnetInfo.Gateway, otelArgs, "", ghRunnerScript)
 		if err != nil {
 			return fmt.Errorf("failed to render user data: %w", err)
 		}
@@ -455,7 +467,7 @@ func (r *pwRequest) otelArgs(monitorGitLabRunner bool) *otelcol.OtelcolArgs {
 
 // piUserData renders the cloud-config template and returns it base64-encoded
 // for use as PiUserData on a PowerVS instance.
-func piUserData(gateway string, otelArgs *otelcol.OtelcolArgs, glRunnerScript string) (string, error) {
+func piUserData(gateway string, otelArgs *otelcol.OtelcolArgs, glRunnerScript, ghRunnerScript string) (string, error) {
 	otelScript := ""
 	if otelArgs != nil {
 		s, err := otelcol.GetSnippetAsCloudInitWritableFile(otelArgs)
@@ -466,9 +478,10 @@ func piUserData(gateway string, otelArgs *otelcol.OtelcolArgs, glRunnerScript st
 	}
 	script, err := file.Template(
 		userDataValues{
-			Gateway:            gateway,
-			OtelColScript:      otelScript,
-			GitLabRunnerScript: glRunnerScript,
+			Gateway:               gateway,
+			OtelColScript:         otelScript,
+			GitLabRunnerScript:    glRunnerScript,
+			GHActionsRunnerScript: ghRunnerScript,
 		},
 		string(CloudConfig))
 	if err != nil {

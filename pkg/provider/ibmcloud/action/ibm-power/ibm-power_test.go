@@ -9,7 +9,7 @@ import (
 )
 
 func TestPiUserData_noRunner(t *testing.T) {
-	out, err := piUserData("10.0.0.1", nil, "")
+	out, err := piUserData("10.0.0.1", nil, "", "")
 	if err != nil {
 		t.Fatalf("piUserData returned error: %v", err)
 	}
@@ -31,7 +31,7 @@ func TestPiUserData_noRunner(t *testing.T) {
 
 func TestPiUserData_withRunner(t *testing.T) {
 	script := "      #!/bin/bash\n      echo hello"
-	out, err := piUserData("10.0.0.1", nil, script)
+	out, err := piUserData("10.0.0.1", nil, script, "")
 	if err != nil {
 		t.Fatalf("piUserData returned error: %v", err)
 	}
@@ -63,7 +63,7 @@ func TestPiUserData_withOtelAndRunner(t *testing.T) {
 		SecurePath:          "/var/log/secure",
 		MonitorGitLabRunner: true,
 	}
-	out, err := piUserData("10.0.0.1", args, script)
+	out, err := piUserData("10.0.0.1", args, script, "")
 	if err != nil {
 		t.Fatalf("piUserData returned error: %v", err)
 	}

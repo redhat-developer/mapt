@@ -1,5 +1,5 @@
 #cloud-config
-{{- if or .OtelColScript .GitLabRunnerScript}}
+{{- if or .OtelColScript .GitLabRunnerScript .GHActionsRunnerScript}}
 write_files:
 {{- if .OtelColScript}}
   - path: /opt/install-otelcol.sh
@@ -33,6 +33,13 @@ write_files:
     content: |
 {{.GitLabRunnerScript}}
 {{- end}}
+{{- if .GHActionsRunnerScript}}
+  - path: /opt/install-ghrunner.sh
+    permissions: '0700'
+    owner: root:root
+    content: |
+{{.GHActionsRunnerScript}}
+{{- end}}
 {{- end}}
 runcmd:
   - apt-get update -y
@@ -43,4 +50,7 @@ runcmd:
 {{- if .GitLabRunnerScript}}
   - mkdir -p /var/log/gitlab-runner
   - bash /opt/install-glrunner.sh
+{{- end}}
+{{- if .GHActionsRunnerScript}}
+  - bash /opt/install-ghrunner.sh
 {{- end}}

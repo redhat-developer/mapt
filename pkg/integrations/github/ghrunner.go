@@ -23,10 +23,21 @@ var snippetLinux []byte
 //go:embed snippet-windows.ps1
 var snippetWindows []byte
 
+//go:embed snippet-linux-ppc64le.sh
+var snippetLinuxPpc64le []byte
+
+//go:embed snippet-linux-s390x.sh
+var snippetLinuxS390x []byte
+
 var snippets map[Platform][]byte = map[Platform][]byte{
 	Darwin:  snippetDarwin,
 	Linux:   snippetLinux,
 	Windows: snippetWindows,
+}
+
+var archSnippets map[Arch][]byte = map[Arch][]byte{
+	Ppc64le: snippetLinuxPpc64le,
+	S390x:   snippetLinuxS390x,
 }
 
 var runnerArgs *GithubRunnerArgs
@@ -40,17 +51,22 @@ func (args *GithubRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 		return nil
 	}
 	return &integrations.UserDataValues{
-		Name:    args.Name,
-		Token:   args.Token,
-		Labels:  getLabels(),
-		RepoURL: args.RepoURL,
-		CliURL:  downloadURL(),
+		Name:            args.Name,
+		Token:           args.Token,
+		Labels:          getLabels(),
+		RepoURL:         args.RepoURL,
+		CliURL:          downloadURL(),
+		RunnerImageRepo: args.RunnerImageRepo,
 	}
 }
 
 func (args *GithubRunnerArgs) GetSetupScriptTemplate() string {
-	templateConfig := string(snippets[*runnerArgs.Platform][:])
-	return templateConfig
+	if *runnerArgs.Platform == Linux && runnerArgs.Arch != nil {
+		if archSnippet, ok := archSnippets[*runnerArgs.Arch]; ok {
+			return string(archSnippet[:])
+		}
+	}
+	return string(snippets[*runnerArgs.Platform][:])
 }
 
 func GetRunnerArgs() *GithubRunnerArgs {
