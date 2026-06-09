@@ -1,6 +1,9 @@
 package params
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
@@ -288,14 +291,28 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 
 func GithubRunnerArgs() *github.GithubRunnerArgs {
 	if viper.IsSet(ghActionsRunnerToken) {
+		imageRepo := viper.GetString(ghActionsRunnerImageRepo)
+		if imageRepo != "" {
+			if err := validateRunnerImageRepo(imageRepo); err != nil {
+				logging.Errorf("invalid --ghactions-runner-image-repo: %v", err)
+				return nil
+			}
+		}
 		return &github.GithubRunnerArgs{
 			Token:           viper.GetString(ghActionsRunnerToken),
 			RepoURL:         viper.GetString(ghActionsRunnerRepo),
 			Labels:          viper.GetStringSlice(ghActionsRunnerLabels),
 			Platform:        &github.Linux,
 			Arch:            linuxArchAsGithubActionsArch(viper.GetString(LinuxArch)),
-			RunnerImageRepo: viper.GetString(ghActionsRunnerImageRepo),
+			RunnerImageRepo: imageRepo,
 		}
+	}
+	return nil
+}
+
+func validateRunnerImageRepo(repo string) error {
+	if !strings.HasPrefix(repo, "https://") {
+		return fmt.Errorf("only HTTPS URLs are allowed, got: %s", repo)
 	}
 	return nil
 }

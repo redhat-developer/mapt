@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-git clone {{ .RunnerImageRepo }} /opt/action-runner-image-pz
+git clone --depth=1 "{{ .RunnerImageRepo }}" /opt/action-runner-image-pz
 
 cd /opt/action-runner-image-pz
 bash -c '. scripts/vm.sh rhel 9 minimal --skip-snap-lxd'
