@@ -2,6 +2,7 @@ package params
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
@@ -290,24 +291,45 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 }
 
 func GithubRunnerArgs() *github.GithubRunnerArgs {
-	if viper.IsSet(ghActionsRunnerToken) {
-		imageRepo := viper.GetString(ghActionsRunnerImageRepo)
-		if imageRepo != "" {
-			if err := validateRunnerImageRepo(imageRepo); err != nil {
-				logging.Errorf("invalid --ghactions-runner-image-repo: %v", err)
-				return nil
-			}
+	token := viper.GetString(ghActionsRunnerToken)
+	repoURL := viper.GetString(ghActionsRunnerRepo)
+	pat := os.Getenv("GITHUB_TOKEN")
+
+	if token == "" && pat == "" {
+		return nil
+	}
+
+	if token == "" && repoURL == "" {
+		logging.Error("--ghactions-runner-repo is required for GitHub Actions runner setup")
+		return nil
+	}
+
+	if token == "" {
+		logging.Info("no --ghactions-runner-token provided, auto-generating from GITHUB_TOKEN")
+		var err error
+		token, err = github.GenerateRegistrationToken(pat, repoURL)
+		if err != nil {
+			logging.Errorf("failed to auto-generate runner registration token: %v", err)
+			return nil
 		}
-		return &github.GithubRunnerArgs{
-			Token:           viper.GetString(ghActionsRunnerToken),
-			RepoURL:         viper.GetString(ghActionsRunnerRepo),
-			Labels:          viper.GetStringSlice(ghActionsRunnerLabels),
-			Platform:        &github.Linux,
-			Arch:            linuxArchAsGithubActionsArch(viper.GetString(LinuxArch)),
-			RunnerImageRepo: imageRepo,
+		logging.Info("runner registration token generated successfully")
+	}
+
+	imageRepo := viper.GetString(ghActionsRunnerImageRepo)
+	if imageRepo != "" {
+		if err := validateRunnerImageRepo(imageRepo); err != nil {
+			logging.Errorf("invalid --ghactions-runner-image-repo: %v", err)
+			return nil
 		}
 	}
-	return nil
+	return &github.GithubRunnerArgs{
+		Token:           token,
+		RepoURL:         repoURL,
+		Labels:          viper.GetStringSlice(ghActionsRunnerLabels),
+		Platform:        &github.Linux,
+		Arch:            linuxArchAsGithubActionsArch(viper.GetString(LinuxArch)),
+		RunnerImageRepo: imageRepo,
+	}
 }
 
 func validateRunnerImageRepo(repo string) error {
