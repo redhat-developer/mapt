@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+apt-get update -y && apt-get install -y software-properties-common
+
 git clone --depth=1 "{{ .RunnerImageRepo }}" /opt/action-runner-image-pz
 
 cd /opt/action-runner-image-pz

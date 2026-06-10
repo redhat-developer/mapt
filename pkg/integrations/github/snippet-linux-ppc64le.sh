@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+dnf install -y git-core
+
 git clone --depth=1 "{{ .RunnerImageRepo }}" /opt/action-runner-image-pz
 
 cd /opt/action-runner-image-pz
