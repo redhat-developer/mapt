@@ -161,8 +161,8 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 			ID:                 awsRHELDedicatedID,
 			Region:             *r.allocationData.Region,
 			AZ:                 *r.allocationData.AZ,
-			CreateLoadBalancer: true,
-			ServiceEndpoints:          r.serviceEndpoints,
+			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
+			ServiceEndpoints:   r.serviceEndpoints,
 		})
 	if err != nil {
 		return err
