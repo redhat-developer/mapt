@@ -14,17 +14,22 @@ if [ ! -f /opt/runner-cache/config.sh ]; then
     exit 1
 fi
 
-cd /opt/runner-cache
-export DOTNET_ROOT=/opt/dotnet
-export PATH=$PATH:$DOTNET_ROOT
+id -u runner &>/dev/null || useradd -m -s /bin/bash runner
+chown -R runner:runner /opt/runner-cache /opt/dotnet
 
-./config.sh \
-    --unattended \
-    --disableupdate \
-    --ephemeral \
-    --name "{{ .Name }}" \
-    --labels "{{ .Labels }}" \
-    --url "{{ .RepoURL }}" \
-    --token "{{ .Token }}"
+sudo -u runner bash -c '
+    cd /opt/runner-cache
+    export DOTNET_ROOT=/opt/dotnet
+    export PATH=$PATH:$DOTNET_ROOT
 
-nohup ./run.sh > /var/log/gh-runner.log 2>&1 &
+    ./config.sh \
+        --unattended \
+        --disableupdate \
+        --ephemeral \
+        --name "{{ .Name }}" \
+        --labels "{{ .Labels }}" \
+        --url "{{ .RepoURL }}" \
+        --token "{{ .Token }}"
+
+    nohup ./run.sh > /tmp/gh-runner.log 2>&1 &
+'
