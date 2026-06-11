@@ -68,6 +68,10 @@ func getRHELAICreate() *cobra.Command {
 					Spot:             params.SpotArgs(),
 					Timeout:          viper.GetString(params.Timeout),
 					ServiceEndpoints: params.NetworkServiceEndpoints(),
+					Model:            viper.GetString(params.RhelAIModel),
+					HFToken:          viper.GetString(params.RhelAIHFToken),
+					APIKey:           viper.GetString(params.RhelAIAPIKey),
+					AutoStart:        viper.IsSet(params.RhelAIAutoStart),
 				})
 		},
 	}
@@ -77,6 +81,10 @@ func getRHELAICreate() *cobra.Command {
 	flagSet.StringP(params.RhelAIVersion, "", params.RhelAIVersionDefault, params.RhelAIVersionDesc)
 	flagSet.StringP(params.RhelAIAccelerator, "", params.RhelAIAccelearatorDefault, params.RhelAIAccelearatorDesc)
 	flagSet.StringP(params.RhelAICustomImage, "", "", params.RhelAICustomImageDesc)
+	flagSet.StringP(params.RhelAIModel, "", "", params.RhelAIModelDesc)
+	flagSet.StringP(params.RhelAIHFToken, "", "", params.RhelAIHFTokenDesc)
+	flagSet.StringP(params.RhelAIAPIKey, "", "", params.RhelAIAPIKeyDesc)
+	flagSet.Bool(params.RhelAIAutoStart, false, params.RhelAIAutoStartDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
