@@ -121,6 +121,14 @@ const (
 	RhelAICustomImageDesc     string = "custom image name to spin RHEL AI OS (AMI name for AWS, image name for Azure)"
 	RhelAIMarketplace         string = "marketplace"
 	RhelAIMarketplaceDesc     string = "use the cloud provider's marketplace RHEL AI image instead of a shared gallery or custom image"
+	RhelAIModel               string = "model"
+	RhelAIModelDesc           string = "Hugging Face model ID for RHAIIS (e.g. meta-llama/Llama-3.2-1B-Instruct)"
+	RhelAIHFToken             string = "hf-token"
+	RhelAIHFTokenDesc         string = "Hugging Face Hub token for model download"
+	RhelAIAPIKey              string = "api-key"
+	RhelAIAPIKeyDesc          string = "API key to enforce secure connections to vLLM"
+	RhelAIAutoStart           string = "auto-start"
+	RhelAIAutoStartDesc       string = "automatically configure and start RHAIIS after provisioning"
 
 	// Serverless
 	Timeout        string = "timeout"

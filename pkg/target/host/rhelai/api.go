@@ -6,15 +6,19 @@ import (
 )
 
 type RHELAIArgs struct {
-	Prefix         string
-	Accelerator    string
-	Version        string
-	CustomImage    string
-	Marketplace    bool
-	Arch           string
-	ComputeRequest *cr.ComputeRequestArgs
-	Spot           *spotTypes.SpotArgs
-	ServiceEndpoints      []string
+	Prefix           string
+	Accelerator      string
+	Version          string
+	CustomImage      string
+	Marketplace      bool
+	Arch             string
+	ComputeRequest   *cr.ComputeRequestArgs
+	Spot             *spotTypes.SpotArgs
+	ServiceEndpoints []string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
-	Timeout string
+	Timeout   string
+	Model     string
+	HFToken   string
+	APIKey    string
+	AutoStart bool
 }

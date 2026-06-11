@@ -42,6 +42,10 @@ type rhelAIRequest struct {
 	serviceEndpoints []string
 	allocationData   *allocation.AllocationResult
 	diskSize         *int
+	model            *string
+	hfToken          *string
+	apiKey           *string
+	autoStart        bool
 }
 
 func (r *rhelAIRequest) validate() error {
@@ -75,7 +79,11 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 		arch:             &args.Arch,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
-		diskSize:         args.ComputeRequest.DiskSize}
+		diskSize:         args.ComputeRequest.DiskSize,
+		model:            &args.Model,
+		hfToken:          &args.HFToken,
+		apiKey:           &args.APIKey,
+		autoStart:        args.AutoStart}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -277,8 +285,26 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
-	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsRHELDedicatedID,
-		keyResources.PrivateKey, amiUserDefault, nil, c.Dependencies)
+	if !r.autoStart {
+		return c.Readiness(ctx, command.CommandPing, *r.prefix, awsRHELDedicatedID,
+			keyResources.PrivateKey, amiUserDefault, nil, c.Dependencies)
+	}
+	readinessCmd, err := c.RunCommand(ctx,
+		command.CommandPing,
+		compute.LoggingCmdStd,
+		fmt.Sprintf("%s-readiness", *r.prefix), awsRHELDedicatedID,
+		keyResources.PrivateKey, amiUserDefault,
+		nil, c.Dependencies)
+	if err != nil {
+		return err
+	}
+	_, err = c.RunCommand(ctx,
+		r.rhaiisSetupScript(),
+		compute.NoLoggingCmdStd,
+		fmt.Sprintf("%s-rhaiis-setup", *r.prefix), awsRHELDedicatedID,
+		keyResources.PrivateKey, amiUserDefault,
+		nil, []pulumi.Resource{readinessCmd})
+	return err
 }
 
 // Write exported values in context to files o a selected target folder
@@ -314,6 +340,30 @@ func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
 			return sg.ID()
 		})
 	return pulumi.StringArray(sgs[:]), nil
+}
+
+func (r *rhelAIRequest) rhaiisSetupScript() string {
+	confDir := "/etc/containers/systemd/rhaiis.container.d"
+	script := fmt.Sprintf(
+		"sudo cp %s/install.conf.example %s/install.conf",
+		confDir, confDir)
+	if len(*r.hfToken) > 0 {
+		script += fmt.Sprintf(
+			" && sudo sed -i 's|HUGGING_FACE_HUB_TOKEN=.*|HUGGING_FACE_HUB_TOKEN=%s|' %s/install.conf",
+			*r.hfToken, confDir)
+	}
+	if len(*r.model) > 0 {
+		script += fmt.Sprintf(
+			` && sudo sed -i 's|--model .*|--model %s \\|' %s/install.conf`,
+			*r.model, confDir)
+	}
+	if len(*r.apiKey) > 0 {
+		script += fmt.Sprintf(
+			" && sudo sed -i '/\\[Install\\]/i Environment=VLLM_API_KEY=%s' %s/install.conf",
+			*r.apiKey, confDir)
+	}
+	script += " && sudo systemctl daemon-reload && sudo systemctl start rhaiis"
+	return script
 }
 
 func checkAMIExists(ctx context.Context, amiName, region, arch *string) error {
