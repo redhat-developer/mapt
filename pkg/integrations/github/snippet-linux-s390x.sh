@@ -6,8 +6,18 @@ apt-get update -y && apt-get install -y software-properties-common
 git clone --depth=1 "{{ .RunnerImageRepo }}" /opt/action-runner-image-pz
 
 cd /opt/action-runner-image-pz
-# Allow build to continue past flaky upstream test failures
+# Snapshot the runner binary as soon as it is built; a later installer
+# failure (e.g. Docker GPG key) can trigger cleanup that deletes it.
+(while [ ! -f /opt/runner-cache/config.sh ]; do sleep 10; done
+ cp -a /opt/runner-cache /opt/runner-backup) &
+WATCHER_PID=$!
+
 bash -c '. scripts/vm.sh ubuntu 22.04 minimal --skip-snap-lxd' || true
+kill $WATCHER_PID 2>/dev/null || true
+
+if [ ! -f /opt/runner-cache/config.sh ] && [ -d /opt/runner-backup ]; then
+    mv /opt/runner-backup /opt/runner-cache
+fi
 
 if [ ! -f /opt/runner-cache/config.sh ]; then
     echo "Runner binary not found after build — check build logs" >&2
