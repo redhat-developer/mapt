@@ -106,5 +106,9 @@ runcmd:
   - bash /opt/install-glrunner.sh
 {{- end}}
 {{- if .GHActionsRunnerScript}}
-  - bash /opt/install-ghrunner.sh
+  - |
+    export COS_KEY_ID="{{ .COSAccessKeyID }}"
+    export COS_SECRET="{{ .COSSecretAccessKey }}"
+    export COS_ENDPOINT="{{ .COSEndpoint }}"
+    bash /opt/install-ghrunner.sh
 {{- end}}

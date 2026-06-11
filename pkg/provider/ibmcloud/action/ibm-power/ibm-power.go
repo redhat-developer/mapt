@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud"
@@ -34,6 +35,9 @@ type userDataValues struct {
 	OtelColScript          string
 	GitLabRunnerScript     string
 	GHActionsRunnerScript  string
+	COSAccessKeyID         string
+	COSSecretAccessKey     string
+	COSEndpoint            string
 }
 
 const (
@@ -482,6 +486,9 @@ func piUserData(gateway string, otelArgs *otelcol.OtelcolArgs, glRunnerScript, g
 			OtelColScript:         otelScript,
 			GitLabRunnerScript:    glRunnerScript,
 			GHActionsRunnerScript: ghRunnerScript,
+			COSAccessKeyID:        os.Getenv("IBMCLOUD_COS_ACCESS_KEY_ID"),
+			COSSecretAccessKey:    os.Getenv("IBMCLOUD_COS_SECRET_ACCESS_KEY"),
+			COSEndpoint:           os.Getenv("IBMCLOUD_COS_ENDPOINT"),
 		},
 		string(CloudConfig))
 	if err != nil {
