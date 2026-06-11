@@ -9,6 +9,15 @@ cd /opt/action-runner-image-pz
 # Allow build to continue past flaky upstream test failures
 bash -c '. scripts/vm.sh rhel 9 minimal --skip-snap-lxd' || true
 
+# The upstream configure-limits.sh appends duplicate pam_limits.so entries
+# which breaks sshd (connection drops before banner). Deduplicate them.
+for f in /etc/pam.d/system-auth /etc/pam.d/password-auth; do
+    if [ -f "$f" ]; then
+        awk '!seen[$0]++' "$f" > "${f}.tmp" && mv "${f}.tmp" "$f"
+    fi
+done
+systemctl restart sshd 2>/dev/null || true
+
 if [ ! -f /opt/runner-cache/config.sh ]; then
     echo "Runner binary not found after build — check build logs" >&2
     exit 1
