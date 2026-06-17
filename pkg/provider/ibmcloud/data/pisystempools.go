@@ -110,10 +110,23 @@ func poolHasCapacity(pool *models.SystemPool, cores float64, memory int64) bool 
 }
 
 func poolAvailableMemory(pool *models.SystemPool) int64 {
-	if pool.MaxAvailable != nil && pool.MaxAvailable.Memory != nil {
-		return *pool.MaxAvailable.Memory
+	var maxMem int64
+	if pool.MaxCoresAvailable != nil && pool.MaxCoresAvailable.Memory != nil {
+		if *pool.MaxCoresAvailable.Memory > maxMem {
+			maxMem = *pool.MaxCoresAvailable.Memory
+		}
 	}
-	return 0
+	if pool.MaxMemoryAvailable != nil && pool.MaxMemoryAvailable.Memory != nil {
+		if *pool.MaxMemoryAvailable.Memory > maxMem {
+			maxMem = *pool.MaxMemoryAvailable.Memory
+		}
+	}
+	if pool.MaxAvailable != nil && pool.MaxAvailable.Memory != nil {
+		if *pool.MaxAvailable.Memory > maxMem {
+			maxMem = *pool.MaxAvailable.Memory
+		}
+	}
+	return maxMem
 }
 
 func logPoolSummary(pools models.SystemPools) {

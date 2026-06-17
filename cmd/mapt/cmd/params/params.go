@@ -299,7 +299,7 @@ func GithubRunnerArgs() *github.GithubRunnerArgs {
 		return nil
 	}
 
-	if token == "" && repoURL == "" {
+	if repoURL == "" {
 		logging.Error("--ghactions-runner-repo is required for GitHub Actions runner setup")
 		return nil
 	}
