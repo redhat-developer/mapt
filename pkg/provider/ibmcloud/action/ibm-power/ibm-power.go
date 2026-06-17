@@ -119,6 +119,21 @@ func New(ctx *mc.ContextArgs, args *PWArgs) error {
 	}
 
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
+
+	sysTypeResult, err := icdata.SelectSystemType(mCtx, &icdata.SystemPoolRequirements{
+		CloudInstanceId: args.WorkspaceID,
+		Memory:          args.Memory,
+		Processors:      args.Processors,
+		PreferredType:   args.SysType,
+	})
+	if err != nil {
+		return fmt.Errorf("system type selection failed: %w", err)
+	}
+	if !sysTypeResult.IsPreferred {
+		logging.Warnf("using system type %s instead of requested %s due to capacity constraints",
+			sysTypeResult.SelectedType, args.SysType)
+	}
+
 	r := &pwRequest{
 		mCtx:              mCtx,
 		prefix:            &prefix,
@@ -128,7 +143,7 @@ func New(ctx *mc.ContextArgs, args *PWArgs) error {
 		memory:            args.Memory,
 		processors:        args.Processors,
 		procType:          args.ProcType,
-		sysType:           args.SysType,
+		sysType:           sysTypeResult.SelectedType,
 		storageType:       args.StorageType,
 		diskSize:          args.DiskSize,
 		otelAppCode:       args.OtelAppCode,
