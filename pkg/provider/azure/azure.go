@@ -22,10 +22,16 @@ var azIdentityEnvs = []string{
 	"AZURE_CLIENT_SECRET",
 }
 
-type Azure struct{}
+type Azure struct {
+	locationOptional bool
+}
 
 func Provider() *Azure {
 	return &Azure{}
+}
+
+func ProviderOptionalLocation() *Azure {
+	return &Azure{locationOptional: true}
 }
 
 func (a *Azure) Init(ctx context.Context, backedURL string) (string, error) {
@@ -34,6 +40,9 @@ func (a *Azure) Init(ctx context.Context, backedURL string) (string, error) {
 }
 
 func (a *Azure) DefaultHostingPlace() (*string, error) {
+	if a.locationOptional {
+		return nil, nil
+	}
 	hp := os.Getenv("ARM_LOCATION_NAME")
 	if len(hp) > 0 {
 		return &hp, nil
