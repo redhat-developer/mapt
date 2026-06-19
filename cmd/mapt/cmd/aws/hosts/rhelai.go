@@ -1,6 +1,8 @@
 package hosts
 
 import (
+	"fmt"
+
 	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
@@ -14,6 +16,9 @@ import (
 const (
 	cmdRHELAI     = "rhel-ai"
 	cmdRHELAIDesc = "manage rhel ai host"
+
+	cmdRHELAIListVersions     = "list-versions"
+	cmdRHELAIListVersionsDesc = "list available RHEL AI versions"
 )
 
 func GetRHELAICmd() *cobra.Command {
@@ -32,7 +37,7 @@ func GetRHELAICmd() *cobra.Command {
 	params.AddCommonFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 
-	c.AddCommand(getRHELAICreate(), getRHELAIDestroy())
+	c.AddCommand(getRHELAICreate(), getRHELAIDestroy(), getRHELAIListVersions())
 	return c
 }
 
@@ -104,6 +109,30 @@ func getRHELAIDestroy() *cobra.Command {
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	return c
+}
+
+func getRHELAIListVersions() *cobra.Command {
+	c := &cobra.Command{
+		Use:   cmdRHELAIListVersions,
+		Short: cmdRHELAIListVersionsDesc,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := viper.BindPFlags(cmd.Flags()); err != nil {
+				return err
+			}
+			versions, err := rhelai.ListVersions(cmd.Context(), viper.GetString(params.RhelAIAccelerator))
+			if err != nil {
+				return err
+			}
+			for _, v := range versions {
+				fmt.Println(v)
+			}
+			return nil
+		},
+	}
+	flagSet := pflag.NewFlagSet(cmdRHELAIListVersions, pflag.ExitOnError)
+	flagSet.StringP(params.RhelAIAccelerator, "", params.RhelAIAccelearatorDefault, params.RhelAIAccelearatorDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
