@@ -103,6 +103,55 @@ func GetAMI(ctx context.Context, r ImageRequest) (*ImageInfo, error) {
 		nil
 }
 
+// ListAMIs returns all AMIs matching the request filters.
+// Unlike GetAMI which returns only the newest, this returns the full set.
+func ListAMIs(ctx context.Context, r ImageRequest) ([]ec2Types.Image, error) {
+	var cfgOpts config.LoadOptionsFunc
+	if r.Region != nil && len(*r.Region) > 0 {
+		cfgOpts = config.WithRegion(*r.Region)
+	}
+	cfg, err := config.LoadDefaultConfig(ctx, cfgOpts)
+	if err != nil {
+		return nil, err
+	}
+	client := ec2.NewFromConfig(cfg)
+	var filterName = "name"
+	filters := []ec2Types.Filter{
+		{
+			Name:   &filterName,
+			Values: []string{*r.Name},
+		},
+	}
+	if r.Arch != nil && len(*r.Arch) > 0 {
+		filter := "architecture"
+		filters = append(filters, ec2Types.Filter{
+			Name:   &filter,
+			Values: []string{*r.Arch},
+		})
+	}
+	input := &ec2.DescribeImagesInput{
+		Filters: filters,
+	}
+	if r.Owner != nil && len(*r.Owner) > 0 {
+		input.Owners = []string{*r.Owner}
+		aId, err := accountId(ctx)
+		if err != nil {
+			return nil, err
+		}
+		if *aId != *r.Owner {
+			input.ExecutableUsers = []string{"self"}
+		}
+	}
+	result, err := client.DescribeImages(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	if result == nil {
+		return nil, nil
+	}
+	return result.Images, nil
+}
+
 // IsAMIOffered checks if an ami based on its Name is offered on a specific region
 func IsAMIOffered(ctx context.Context, r ImageRequest) (bool, *ImageInfo, error) {
 	ami, err := GetAMI(ctx, r)
