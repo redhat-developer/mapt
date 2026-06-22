@@ -214,7 +214,22 @@ func (r *gaudiRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputHost), n.Floatingip.Address)
-	return nil
+	_, err = remote.NewCommand(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, stackGaudi, "readiness-cmd"),
+		&remote.CommandArgs{
+			Connection: remote.ConnectionArgs{
+				Host:       n.Floatingip.Address,
+				User:       pulumi.String(defaultUser),
+				PrivateKey: pk.PrivateKeyOpenssh,
+			},
+			Create: pulumi.String(command.CommandPing),
+			Update: pulumi.String(command.CommandPing),
+		}, pulumi.Timeouts(
+			&pulumi.CustomTimeouts{
+				Create: command.RemoteTimeout,
+				Update: command.RemoteTimeout}),
+		pulumi.DependsOn([]pulumi.Resource{i}))
+	return err
 }
 
 func (r *gaudiRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
