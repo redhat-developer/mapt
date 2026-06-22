@@ -15,12 +15,10 @@ if [ ! -f /opt/runner-cache/config.sh ]; then
 fi
 
 id -u runner &>/dev/null || useradd -m -s /bin/bash runner
-chown -R runner:runner /opt/runner-cache /opt/dotnet
+chown -R runner:runner /opt/runner-cache
 
 sudo -u runner bash -c '
     cd /opt/runner-cache
-    export DOTNET_ROOT=/opt/dotnet
-    export PATH=$PATH:$DOTNET_ROOT
 
     ./config.sh \
         --unattended \
