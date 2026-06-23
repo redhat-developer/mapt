@@ -14,7 +14,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
-var DefaultSystemTypePriority = []string{"s1022", "s1122", "e1080", "e1050", "e980", "s922"}
+var DefaultSystemTypePriority = []string{"e1080", "e1050", "s1122", "s1022", "e980", "s922"}
 
 type SystemTypeRequirements struct {
 	CloudInstanceId string
@@ -67,6 +67,12 @@ func filterAndPrioritize(preferred, procType string, general, dedicated []string
 	var filtered []string
 	for _, t := range priority {
 		if slices.Contains(supported, t) {
+			filtered = append(filtered, t)
+		}
+	}
+
+	for _, t := range supported {
+		if !slices.Contains(filtered, t) {
 			filtered = append(filtered, t)
 		}
 	}

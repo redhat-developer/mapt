@@ -321,6 +321,11 @@ func GithubRunnerArgs() *github.GithubRunnerArgs {
 			logging.Errorf("invalid --ghactions-runner-image-repo: %v", err)
 			return nil
 		}
+		if imageRepo != ghActionsRunnerImageRepoDefault {
+			logging.Infof("using custom runner image repo: %s", imageRepo)
+		} else {
+			logging.Debugf("using temporary fork %s; will switch to IBM upstream once RHEL script is merged", imageRepo)
+		}
 	}
 	return &github.GithubRunnerArgs{
 		Token:           token,

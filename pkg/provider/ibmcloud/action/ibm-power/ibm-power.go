@@ -180,7 +180,7 @@ func New(ctx *mc.ContextArgs, args *PWArgs) error {
 		if i < len(sysTypes.Types)-1 {
 			logging.Infof("destroying partial stack before retry...")
 			if dErr := destroyForRetry(mCtx); dErr != nil {
-				logging.Warnf("failed to destroy partial stack: %v", dErr)
+				return fmt.Errorf("failed to destroy partial stack before retry: %w", dErr)
 			}
 		}
 	}
