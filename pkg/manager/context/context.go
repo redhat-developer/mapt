@@ -191,7 +191,7 @@ func manageIntegration(c *Context, ca *ContextArgs) error {
 		cirrus.Init(ca.CirrusPWArgs)
 	}
 	if ca.GLRunnerArgs != nil {
-		ca.GLRunnerArgs.Name = c.RunID()
+		ca.GLRunnerArgs.Name = c.ProjectName()
 		gitlab.Init(ca.GLRunnerArgs)
 	}
 	return nil

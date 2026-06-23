@@ -44,12 +44,13 @@ func (args *GitLabRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 		return nil
 	}
 	return &integrations.UserDataValues{
-		Name:       args.Name,
-		Token:      args.AuthToken, // Use auth token (set by Pulumi during deployment)
-		CliURL:     downloadURL(),
-		RepoURL:    args.URL,
-		Unsecure:   args.Unsecure,
-		Concurrent: args.Concurrent,
+		Name:          args.Name,
+		Token:         args.AuthToken, // Use auth token (set by Pulumi during deployment)
+		CliURL:        downloadURL(),
+		RepoURL:       args.URL,
+		Unsecure:      args.Unsecure,
+		Concurrent:    args.Concurrent,
+		LogToJournald: args.LogToJournald,
 	}
 }
 
