@@ -56,20 +56,6 @@ func Create(mCtxArgs *maptContext.ContextArgs, args *apiRHELAI.RHELAIArgs) (err 
 	}
 	// Shallow-copy to avoid mutating the caller's ComputeRequestArgs.
 	computeReq := *args.ComputeRequest
-	if len(computeReq.ComputeSizes) > 0 {
-		ctx := mCtxArgs.Context
-		if ctx == nil {
-			ctx = context.Background()
-		}
-		computeReq.ComputeSizes, err = data.FilterNoLocalStorageSizes(
-			ctx, computeReq.ComputeSizes)
-		if err != nil {
-			return err
-		}
-		if len(computeReq.ComputeSizes) == 0 {
-			return fmt.Errorf("no valid compute sizes: all provided sizes have NVMe-only local storage, incompatible with RHEL AI")
-		}
-	}
 	// Ensure GPU-capable instance selection for auto-selection paths.
 	if computeReq.GPUs == 0 {
 		logging.Debug("RHEL AI: GPUs not set, defaulting to 1 for GPU-capable instance selection")
