@@ -6,16 +6,17 @@ import (
 )
 
 type UserDataValues struct {
-	CliURL     string
-	User       string
-	Name       string
-	Token      string
-	Labels     string
-	Port       string
-	RepoURL    string
-	Executor   string
-	Unsecure   bool
-	Concurrent int
+	CliURL         string
+	User           string
+	Name           string
+	Token          string
+	Labels         string
+	Port           string
+	RepoURL        string
+	Executor       string
+	Unsecure       bool
+	Concurrent     int
+	LogToJournald  bool
 }
 
 type IntegrationConfig interface {

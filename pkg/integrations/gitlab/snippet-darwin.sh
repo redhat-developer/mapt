@@ -8,6 +8,7 @@ sudo gitlab-runner register \
   --non-interactive \
   --url "{{ .RepoURL }}" \
   --token "{{ .Token }}" \
+  --name "{{ .Name }}" \
   --executor "shell"
 
 # Install and start as LaunchDaemon

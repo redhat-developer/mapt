@@ -26,6 +26,7 @@ type GitLabRunnerArgs struct {
 	Arch        *Arch     // Target architecture
 	User        string    // OS user to run as (only used when Unsecure is true)
 	AuthToken   string    // Runner authentication token (set by Pulumi during deployment)
-	Unsecure    bool      // When false (default) a dedicated gitlab-runner system user is created; when true the runner service runs as User
-	Concurrent  int       // Maximum number of concurrent jobs (written to config.toml; 0 means leave at default of 1)
+	Unsecure      bool // When false (default) a dedicated gitlab-runner system user is created; when true the runner service runs as User
+	Concurrent    int  // Maximum number of concurrent jobs (written to config.toml; 0 means leave at default of 1)
+	LogToJournald bool // When true, sets Podman log_driver=journald so CI job output is captured by systemd journal for OTel correlation
 }
