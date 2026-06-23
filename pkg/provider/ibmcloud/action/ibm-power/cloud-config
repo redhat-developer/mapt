@@ -10,25 +10,31 @@ write_files:
       if mountpoint -q /home; then
         mkdir -p /home/containers/storage
       else
+        systemctl start multipathd 2>/dev/null || true
         DATA_DEV=""
+        _attempts=0
         while true; do
           DATA_DEV=$(lsblk -rnpo NAME,TYPE | awk '$2=="mpath"{mpath[$1]=1} $2=="part"{p=$1; sub(/p?[0-9]+$/,"",p); has_part[p]=1} END{for(d in mpath) if(!has_part[d]&&d!~/control/) print d}' | head -1)
           [ -n "$DATA_DEV" ] && break
+          _attempts=$((_attempts + 1))
+          [ "$_attempts" -ge 60 ] && break
           udevadm trigger --subsystem-match=block 2>/dev/null || true
           udevadm settle 2>/dev/null || true
           multipathd reconfigure 2>/dev/null || true
           sleep 10
         done
-        udevadm settle 2>/dev/null || true
-        sleep 10
-        mkfs.xfs -f -K "$DATA_DEV"
-        UUID=$(blkid -s UUID -o value "$DATA_DEV")
-        mkdir -p /mnt/home-tmp
-        cp -a /home/. /mnt/home-tmp/
-        mount "$DATA_DEV" /home
-        cp -a /mnt/home-tmp/. /home/
-        rm -rf /mnt/home-tmp
-        echo "UUID=$UUID /home xfs defaults 0 2" >> /etc/fstab
+        if [ -n "$DATA_DEV" ]; then
+          udevadm settle 2>/dev/null || true
+          sleep 10
+          mkfs.xfs -f -K "$DATA_DEV"
+          UUID=$(blkid -s UUID -o value "$DATA_DEV")
+          mkdir -p /mnt/home-tmp
+          cp -a /home/. /mnt/home-tmp/
+          mount "$DATA_DEV" /home
+          cp -a /mnt/home-tmp/. /home/
+          rm -rf /mnt/home-tmp
+          echo "UUID=$UUID /home xfs defaults 0 2" >> /etc/fstab
+        fi
         mkdir -p /home/containers/storage
       fi
       if ! mountpoint -q /var/lib/containers/storage; then

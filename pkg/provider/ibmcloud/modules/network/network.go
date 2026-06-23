@@ -17,6 +17,7 @@ type NetworkArgs struct {
 	Name        string
 	RG          *ibmcloud.ResourceGroup
 	Zone        *string
+	Tags        pulumi.StringArray
 }
 
 type Network struct {
@@ -33,6 +34,7 @@ type SecurityGroupArgs struct {
 	Name        string
 	VPC         pulumi.StringInput
 	RG          *ibmcloud.ResourceGroup
+	Tags        pulumi.StringArray
 }
 
 // NewSecurityGroupWithSSH creates a security group with inbound SSH (port 22)
@@ -41,6 +43,7 @@ func NewSecurityGroupWithSSH(ctx *pulumi.Context, args *SecurityGroupArgs) (*ibm
 	sgArgs := &ibmcloud.IsSecurityGroupArgs{
 		Name: pulumi.String(args.Name),
 		Vpc:  args.VPC,
+		Tags: args.Tags,
 	}
 	if args.RG != nil {
 		sgArgs.ResourceGroup = args.RG.ID()
@@ -85,6 +88,7 @@ type FloatingIPArgs struct {
 	Name        string
 	Zone        pulumi.StringInput
 	RG          *ibmcloud.ResourceGroup
+	Tags        pulumi.StringArray
 }
 
 // NewFloatingIP creates an IBM Cloud VPC floating IP.
@@ -93,6 +97,7 @@ func NewFloatingIP(ctx *pulumi.Context, args *FloatingIPArgs) (*ibmcloud.IsFloat
 	fipArgs := &ibmcloud.IsFloatingIpArgs{
 		Name: pulumi.String(args.Name),
 		Zone: args.Zone,
+		Tags: args.Tags,
 	}
 	if args.RG != nil {
 		fipArgs.ResourceGroup = args.RG.ID()
@@ -108,6 +113,7 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 		&ibmcloud.IsVpcArgs{
 			Name:          pulumi.String(args.Name),
 			ResourceGroup: args.RG.ID(),
+			Tags:          args.Tags,
 		})
 	if err != nil {
 		return nil, err
@@ -131,6 +137,7 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 			Zone:          pulumi.String(*args.Zone),
 			Ipv4CidrBlock: pulumi.String(cidrSN),
 			ResourceGroup: args.RG.ID(),
+			Tags:          args.Tags,
 		}, pulumi.DependsOn([]pulumi.Resource{vpcap}))
 	if err != nil {
 		return nil, err
@@ -142,6 +149,7 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 			Vpc:           vpc.ID(),
 			Zone:          pulumi.String(*args.Zone),
 			ResourceGroup: args.RG.ID(),
+			Tags:          args.Tags,
 		})
 	if err != nil {
 		return nil, err
@@ -161,6 +169,7 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 		Name:        args.Name,
 		VPC:         vpc.ID(),
 		RG:          args.RG,
+		Tags:        args.Tags,
 	})
 	if err != nil {
 		return nil, err
@@ -171,6 +180,7 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 		Name:        args.Name,
 		Zone:        pulumi.String(*args.Zone),
 		RG:          args.RG,
+		Tags:        args.Tags,
 	})
 	if err != nil {
 		return nil, err

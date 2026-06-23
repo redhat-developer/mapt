@@ -160,11 +160,14 @@ func (r *zRequest) deploy(ctx *pulumi.Context) error {
 		return r.deployWithExistingSubnet(ctx)
 	}
 	zone := *r.zone
+	userTags := ibmcloudp.TagsAsStringArray(r.mCtx.GetTags())
+
 	rg, err := ibmcloud.NewResourceGroup(
 		ctx,
 		resourcesUtil.GetResourceName(*r.prefix, stackIBMS390, "rg"),
 		&ibmcloud.ResourceGroupArgs{
 			Name: pulumi.String(r.mCtx.ProjectName()),
+			Tags: userTags,
 		})
 	if err != nil {
 		return err
@@ -176,11 +179,12 @@ func (r *zRequest) deploy(ctx *pulumi.Context) error {
 			RG:          rg,
 			ComponentID: stackIBMS390,
 			Name:        fmt.Sprintf("%s-%s", *r.prefix, r.mCtx.ProjectName()),
+			Tags:        userTags,
 		})
 	if err != nil {
 		return err
 	}
-	pk, pik, err := isKey(ctx, r.mCtx, *r.prefix, stackIBMS390, rg)
+	pk, pik, err := isKey(ctx, r.mCtx, *r.prefix, stackIBMS390, rg, userTags)
 	if err != nil {
 		return err
 	}
@@ -203,6 +207,7 @@ func (r *zRequest) deploy(ctx *pulumi.Context) error {
 		},
 		ResourceGroup: rg.ID(),
 		Keys:          pulumi.StringArray{pik.ID()},
+		Tags:          userTags,
 		PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
 			Subnet: n.Subnet.ID(),
 			SecurityGroups: pulumi.StringArray{
@@ -253,11 +258,14 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 		return err
 	}
 	name := fmt.Sprintf("%s-%s", *r.prefix, r.mCtx.ProjectName())
+	userTags := ibmcloudp.TagsAsStringArray(r.mCtx.GetTags())
+
 	sg, err := network.NewSecurityGroupWithSSH(ctx, &network.SecurityGroupArgs{
 		Prefix:      *r.prefix,
 		ComponentID: stackIBMS390,
 		Name:        name,
 		VPC:         pulumi.String(subnetInfo.Vpc),
+		Tags:        userTags,
 	})
 	if err != nil {
 		return err
@@ -267,12 +275,13 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 		ComponentID: stackIBMS390,
 		Name:        name,
 		Zone:        pulumi.String(subnetInfo.Zone),
+		Tags:        userTags,
 	})
 	if err != nil {
 		return err
 	}
 	// rg is nil: the SSH key is placed in the account default resource group.
-	pk, pik, err := isKey(ctx, r.mCtx, *r.prefix, stackIBMS390, nil)
+	pk, pik, err := isKey(ctx, r.mCtx, *r.prefix, stackIBMS390, nil, userTags)
 	if err != nil {
 		return err
 	}
@@ -294,6 +303,7 @@ func (r *zRequest) deployWithExistingSubnet(ctx *pulumi.Context) error {
 			Size: pulumi.Int(r.diskSize),
 		},
 		Keys: pulumi.StringArray{pik.ID()},
+		Tags: userTags,
 		PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
 			Subnet:         pulumi.String(*r.subnetID),
 			SecurityGroups: pulumi.StringArray{sg.ID()},
@@ -362,6 +372,7 @@ func (r *zRequest) buildUserDataInput() (pulumi.StringPtrInput, error) {
 	hasOtel := otelSet == 3
 	if r.glAuthToken != nil {
 		localArgs := *r.glRunnerArgsCopy
+		localArgs.LogToJournald = hasOtel
 		return r.glAuthToken.ApplyT(func(token string) (*string, error) {
 			localArgs.AuthToken = token
 			glSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(&localArgs, defaultUser)
@@ -452,7 +463,7 @@ func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix string) e
 // isKey creates a 4096-bit RSA TLS key pair and registers the public key as
 // an IBM Cloud VPC SSH key. Pass rg=nil to place the key in the account
 // default resource group.
-func isKey(ctx *pulumi.Context, mCtx *mc.Context, prefix, cId string, rg *ibmcloud.ResourceGroup) (*tls.PrivateKey, *ibmcloud.IsSshKey, error) {
+func isKey(ctx *pulumi.Context, mCtx *mc.Context, prefix, cId string, rg *ibmcloud.ResourceGroup, tags pulumi.StringArray) (*tls.PrivateKey, *ibmcloud.IsSshKey, error) {
 	pk, err := tls.NewPrivateKey(
 		ctx,
 		resourcesUtil.GetResourceName(prefix, cId, "pk"),
@@ -473,6 +484,7 @@ func isKey(ctx *pulumi.Context, mCtx *mc.Context, prefix, cId string, rg *ibmclo
 	sshKeyArgs := &ibmcloud.IsSshKeyArgs{
 		Name:      pulumi.String(mCtx.ProjectName()),
 		PublicKey: pk.PublicKeyOpenssh,
+		Tags:      tags,
 	}
 	if rg != nil {
 		sshKeyArgs.ResourceGroup = rg.ID()
