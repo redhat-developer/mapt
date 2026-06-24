@@ -201,6 +201,7 @@ func isCapacityError(err error) bool {
 		"resource capacity",
 		"no hosts available",
 		"maximum capacity",
+		"context deadline exceeded",
 	} {
 		if strings.Contains(errStr, pattern) {
 			return true
