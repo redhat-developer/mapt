@@ -21,6 +21,12 @@ const fedoraImageGalleryBase = "/CommunityGalleries/Fedora-5e266ba4-2250-406d-ad
 
 // /subscriptions/02db6bd4-035c-4074-b699-468f3d914744/resourceGroups/RHEL-AI-CUDA-AZURE-3.0.0/providers/Microsoft.Compute/galleries/rhel_ai_cuda_azure_3.0.0/images/rhel-ai-cuda-azure-3.0.0/versions/1.0.0
 
+type MarketplacePlan struct {
+	Name      string
+	Product   string
+	Publisher string
+}
+
 type ImageReference struct {
 	// Market Place
 	Publisher string
@@ -33,6 +39,8 @@ type ImageReference struct {
 	// Required disk controller type for this image (e.g. "SCSI", "NVMe").
 	// Empty means no specific requirement; Azure uses the VM size default.
 	DiskControllerType string
+	// Non-nil when the image requires a purchase plan (e.g. marketplace images).
+	Plan *MarketplacePlan
 }
 
 var (

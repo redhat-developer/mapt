@@ -119,6 +119,8 @@ const (
 	RhelAIAccelearatorDefault string = "cuda"
 	RhelAICustomImage         string = "custom-image"
 	RhelAICustomImageDesc     string = "custom image name to spin RHEL AI OS (AMI name for AWS, image name for Azure)"
+	RhelAIMarketplace         string = "marketplace"
+	RhelAIMarketplaceDesc     string = "use the cloud provider's marketplace RHEL AI image instead of a shared gallery or custom image"
 
 	// Serverless
 	Timeout        string = "timeout"

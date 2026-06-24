@@ -63,6 +63,7 @@ func getRHELAICreate() *cobra.Command {
 					Version:        viper.GetString(params.RhelAIVersion),
 					Accelerator:    viper.GetString(params.RhelAIAccelerator),
 					CustomImage:    viper.GetString(params.RhelAICustomImage),
+					Marketplace:    viper.GetBool(params.RhelAIMarketplace),
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
 					Timeout:        viper.GetString(params.Timeout),
@@ -75,6 +76,7 @@ func getRHELAICreate() *cobra.Command {
 	flagSet.StringP(params.RhelAIVersion, "", params.RhelAIVersionDefault, params.RhelAIVersionDesc)
 	flagSet.StringP(params.RhelAIAccelerator, "", params.RhelAIAccelearatorDefault, params.RhelAIAccelearatorDesc)
 	flagSet.StringP(params.RhelAICustomImage, "", "", params.RhelAICustomImageDesc)
+	flagSet.Bool(params.RhelAIMarketplace, false, params.RhelAIMarketplaceDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
