@@ -49,8 +49,8 @@ import (
 //			}
 //			_, err = ec2.NewVpnConnection(ctx, "transit", &ec2.VpnConnectionArgs{
 //				VpnGatewayId:      main.ID(),
-//				CustomerGatewayId: pulumi.String(pulumi.String(foo.Id)),
-//				Type:              pulumi.String(pulumi.String(foo.Type)),
+//				CustomerGatewayId: pulumi.String(foo.Id),
+//				Type:              pulumi.String(foo.Type),
 //				StaticRoutesOnly:  pulumi.Bool(false),
 //			})
 //			if err != nil {
@@ -73,9 +73,7 @@ func LookupCustomerGateway(ctx *pulumi.Context, args *LookupCustomerGatewayArgs,
 
 // A collection of arguments for invoking getCustomerGateway.
 type LookupCustomerGatewayArgs struct {
-	// One or more [name-value pairs][dcg-filters] to filter by.
-	//
-	// [dcg-filters]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeCustomerGateways.html
+	// One or more [name-value pairs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeCustomerGateways.html) to filter by.
 	Filters []GetCustomerGatewayFilter `pulumi:"filters"`
 	// ID of the gateway.
 	Id *string `pulumi:"id"`
@@ -119,9 +117,7 @@ func LookupCustomerGatewayOutput(ctx *pulumi.Context, args LookupCustomerGateway
 
 // A collection of arguments for invoking getCustomerGateway.
 type LookupCustomerGatewayOutputArgs struct {
-	// One or more [name-value pairs][dcg-filters] to filter by.
-	//
-	// [dcg-filters]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeCustomerGateways.html
+	// One or more [name-value pairs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeCustomerGateways.html) to filter by.
 	Filters GetCustomerGatewayFilterArrayInput `pulumi:"filters"`
 	// ID of the gateway.
 	Id pulumi.StringPtrInput `pulumi:"id"`

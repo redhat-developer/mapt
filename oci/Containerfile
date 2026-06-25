@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:d36470d5258da00f618b7aca9bdaab8e05134aa938bd6c42d9bd17d50ed45e76 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:6fdc004bff119315ee4f19363ac1dec934fc40270d9aa1e6b4fbfa2467757570 as builder
 ARG TARGETARCH
 USER root
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.245.0
+ENV PULUMI_VERSION 3.248.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -20,7 +20,7 @@ RUN unset VERSION \
 
 # Pulumi plugins — installed in build stage, copied into runtime
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v7.32.0
+ARG PULUMI_AWS_VERSION=v7.34.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
 ARG PULUMI_AWSX_VERSION=v3.6.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
@@ -32,7 +32,7 @@ ARG PULUMI_TLS_VERSION=v5.5.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.21.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.68.0
+ARG PULUMI_AWS_NATIVE_VERSION=v1.70.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
 ARG PULUMI_GITLAB_VERSION=v9.11.1
 # renovate: datasource=github-releases depName=mapt-oss/pulumi-ibmcloud
@@ -56,7 +56,7 @@ RUN mkdir -p ${PULUMI_HOME} \
     && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION}
 
 # Stage 2: Red Hat Hardened minimal runtime (glibc + coreutils, no toolchain)
-FROM registry.access.redhat.com/hi/core-runtime@sha256:c85f5e01b7f638cb30e75a8a79d06b0cbeb44209945f62572166448bb56b53e9
+FROM registry.access.redhat.com/hi/core-runtime@sha256:02ca768db83eda71f60e3dec80ec31438a78a38b376975390cd332a3658f7478
 USER 0
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
