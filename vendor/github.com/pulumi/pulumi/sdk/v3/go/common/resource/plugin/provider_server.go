@@ -152,6 +152,9 @@ func (p *providerServer) Handshake(
 		SupportsViews:               req.SupportsViews,
 		SupportsRefreshBeforeUpdate: req.SupportsRefreshBeforeUpdate,
 		InvokeWithPreview:           req.InvokeWithPreview,
+		MapperTarget:                req.MapperTarget,
+		LoaderTarget:                req.LoaderTarget,
+		ResolverTarget:              req.ResolverTarget,
 	})
 	if err != nil {
 		return nil, err
@@ -621,6 +624,7 @@ func (p *providerServer) Read(ctx context.Context, req *pulumirpc.ReadRequest) (
 		ID:                    requestID,
 		Inputs:                inputs,
 		State:                 state,
+		Timeout:               req.GetTimeout(),
 		ResourceStatusAddress: req.GetResourceStatusAddress(),
 		ResourceStatusToken:   req.GetResourceStatusToken(),
 		OldViews:              oldViews,
@@ -934,7 +938,7 @@ func (p *providerServer) Construct(ctx context.Context,
 		ResourceHooks:        hooks,
 		DeletedWith:          resource.URN(req.DeletedWith),
 		ReplaceWith:          replaceWith,
-		ReplacementTrigger:   replacementTrigger,
+		ReplacementTrigger:   resource.FromResourcePropertyValue(replacementTrigger),
 		IgnoreChanges:        req.GetIgnoreChanges(),
 		ReplaceOnChanges:     req.GetReplaceOnChanges(),
 	}

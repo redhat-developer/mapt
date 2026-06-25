@@ -25,6 +25,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/config"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
+	"github.com/pulumi/pulumi/sdk/v3/go/property"
 )
 
 type GetSchemaRequest struct {
@@ -66,6 +67,18 @@ type ProviderHandshakeRequest struct {
 	// If true the engine will send `Preview` to `Invoke` methods to let them know if the current operation is a preview
 	// or up.
 	InvokeWithPreview bool
+
+	// The target of a codegen.Mapper service the provider can use to retrieve mappings from other ecosystems to
+	// Pulumi. May be nil on older engines.
+	MapperTarget *string
+
+	// The target of a codegen.Loader service the provider can use to load the schemas of other Pulumi packages.
+	// May be nil on older engines.
+	LoaderTarget *string
+
+	// The target of a PackageResolver service the provider can use to resolve package specifications to concrete
+	// package dependencies. May be nil on older engines.
+	ResolverTarget *string
 }
 
 // The type of responses sent as part of a Handshake call.
@@ -283,6 +296,8 @@ type ReadRequest struct {
 	Type          tokens.Type
 	ID            resource.ID
 	Inputs, State resource.PropertyMap
+	// Timeout is the time, in seconds, that the caller is prepared to wait for the operation to complete.
+	Timeout float64
 	// The gRPC address of the ResourceStatus service which can be used to read view resources.
 	ResourceStatusAddress string
 	// The ResourceStatus service token to pass when calling methods on the service.
@@ -920,7 +935,7 @@ type ConstructOptions struct {
 
 	// ReplacementTrigger specifies that if set, the engine will diff this with
 	// the last recorded value, and trigger a replace if they are not equal.
-	ReplacementTrigger resource.PropertyValue
+	ReplacementTrigger property.Value
 
 	// RetainOnDelete is true if deletion of the resource should not
 	// delete the resource in the provider.
@@ -937,6 +952,7 @@ type CustomTimeouts struct {
 	Create string
 	Update string
 	Delete string
+	Read   string
 }
 
 // ConstructResult is the result of a call to Construct.

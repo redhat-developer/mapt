@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/manager/credentials"
@@ -85,22 +86,26 @@ func requireEnv(name string) (string, error) {
 	return v, nil
 }
 
-func extractBucket(backedURL string) (string, error) {
-	u, err := url.Parse(backedURL)
-	if err != nil {
-		return "", fmt.Errorf("failed to parse backed URL %q: %w", backedURL, err)
+func extractBucketAndPath(backedURL string) (bucket, path string, err error) {
+	u, parseErr := url.Parse(backedURL)
+	if parseErr != nil {
+		return "", "", fmt.Errorf("failed to parse backed URL %q: %w", backedURL, parseErr)
 	}
 	if strings.HasPrefix(backedURL, "s3://") {
 		if u.Host == "" {
-			return "", fmt.Errorf("backed URL %q missing bucket name (expected s3://bucket-name)", backedURL)
+			return "", "", fmt.Errorf("backed URL %q missing bucket name (expected s3://bucket-name)", backedURL)
 		}
-		return u.Host, nil
+		return u.Host, strings.TrimPrefix(u.Path, "/"), nil
 	}
-	bucket := strings.TrimPrefix(u.Path, "/")
-	if bucket == "" {
-		return "", fmt.Errorf("backed URL %q missing bucket name in path (expected https://<endpoint>/<bucket>)", backedURL)
+	rest := strings.TrimPrefix(u.Path, "/")
+	if rest == "" {
+		return "", "", fmt.Errorf("backed URL %q missing bucket name in path (expected https://<endpoint>/<bucket>)", backedURL)
 	}
-	return strings.SplitN(bucket, "/", 2)[0], nil
+	parts := strings.SplitN(rest, "/", 2)
+	if len(parts) == 2 {
+		return parts[0], parts[1], nil
+	}
+	return parts[0], "", nil
 }
 
 func initCOSBackend(backedURL string) (string, error) {
@@ -122,13 +127,17 @@ func initCOSBackend(backedURL string) (string, error) {
 		endpoint = fmt.Sprintf("s3.%s.cloud-object-storage.appdomain.cloud", region)
 	}
 
-	bucket, err := extractBucket(backedURL)
+	bucket, path, err := extractBucketAndPath(backedURL)
 	if err != nil {
 		return "", err
 	}
 
+	resolvedBase := bucket
+	if path != "" {
+		resolvedBase = bucket + "/" + path
+	}
 	resolvedURL := fmt.Sprintf("s3://%s?endpoint=%s&s3ForcePathStyle=true",
-		bucket, endpoint)
+		resolvedBase, ensureHTTPS(endpoint))
 
 	for k, v := range map[string]string{
 		"AWS_ACCESS_KEY_ID":     accessKey,
@@ -210,6 +219,17 @@ func CleanupState(mCtx *mc.Context) error {
 	}
 
 	return nil
+}
+
+// TagsAsStringArray converts the map[string]string tags supplied via the
+// --tags CLI flag to the key:value string format expected by IBM Cloud
+// resource user tags (PiUserTags / Tags fields on Pulumi resources).
+func TagsAsStringArray(tags map[string]string) pulumi.StringArray {
+	result := make(pulumi.StringArray, 0, len(tags))
+	for k, v := range tags {
+		result = append(result, pulumi.String(fmt.Sprintf("%s:%s", k, v)))
+	}
+	return result
 }
 
 func Destroy(mCtx *mc.Context, stackName string) error {

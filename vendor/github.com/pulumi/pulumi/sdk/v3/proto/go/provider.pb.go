@@ -234,8 +234,17 @@ type ProviderHandshakeRequest struct {
 	SupportsRefreshBeforeUpdate bool `protobuf:"varint,6,opt,name=supports_refresh_before_update,json=supportsRefreshBeforeUpdate,proto3" json:"supports_refresh_before_update,omitempty"`
 	// If true the engine will send `preview` to `Invoke` methods to let them know if the current operation is a preview or up.
 	InvokeWithPreview bool `protobuf:"varint,7,opt,name=invoke_with_preview,json=invokeWithPreview,proto3" json:"invoke_with_preview,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// The target of a [](codegen.Mapper) service the provider can use to retrieve mappings from other ecosystems to
+	// Pulumi. May be empty on older engines.
+	MapperTarget *string `protobuf:"bytes,8,opt,name=mapper_target,json=mapperTarget,proto3,oneof" json:"mapper_target,omitempty"`
+	// The target of a [](codegen.Loader) service the provider can use to load the schemas of other Pulumi packages.
+	// May be empty on older engines.
+	LoaderTarget *string `protobuf:"bytes,9,opt,name=loader_target,json=loaderTarget,proto3,oneof" json:"loader_target,omitempty"`
+	// The target of a [](pulumirpc.PackageResolver) service the provider can use to resolve package specifications to
+	// concrete package dependencies. May be empty on older engines.
+	ResolverTarget *string `protobuf:"bytes,10,opt,name=resolver_target,json=resolverTarget,proto3,oneof" json:"resolver_target,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ProviderHandshakeRequest) Reset() {
@@ -315,6 +324,27 @@ func (x *ProviderHandshakeRequest) GetInvokeWithPreview() bool {
 		return x.InvokeWithPreview
 	}
 	return false
+}
+
+func (x *ProviderHandshakeRequest) GetMapperTarget() string {
+	if x != nil && x.MapperTarget != nil {
+		return *x.MapperTarget
+	}
+	return ""
+}
+
+func (x *ProviderHandshakeRequest) GetLoaderTarget() string {
+	if x != nil && x.LoaderTarget != nil {
+		return *x.LoaderTarget
+	}
+	return ""
+}
+
+func (x *ProviderHandshakeRequest) GetResolverTarget() string {
+	if x != nil && x.ResolverTarget != nil {
+		return *x.ResolverTarget
+	}
+	return ""
 }
 
 // `ProviderHandshakeResponse` is the type of responses sent by a [](pulumirpc.ResourceProvider.Handshake) call.
@@ -2043,7 +2073,9 @@ type ReadRequest struct {
 	ResourceStatusToken string `protobuf:"bytes,8,opt,name=resource_status_token,json=resourceStatusToken,proto3" json:"resource_status_token,omitempty"`
 	// The old views for the resource being read. These will only be populated when the
 	// [](pulumirpc.ResourceProvider.Read) call is being made as part of a refresh operation.
-	OldViews      []*View `protobuf:"bytes,9,rep,name=old_views,json=oldViews,proto3" json:"old_views,omitempty"`
+	OldViews []*View `protobuf:"bytes,9,rep,name=old_views,json=oldViews,proto3" json:"old_views,omitempty"`
+	// A timeout in seconds that the caller is prepared to wait for the operation to complete.
+	Timeout       float64 `protobuf:"fixed64,10,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2139,6 +2171,13 @@ func (x *ReadRequest) GetOldViews() []*View {
 		return x.OldViews
 	}
 	return nil
+}
+
+func (x *ReadRequest) GetTimeout() float64 {
+	if x != nil {
+		return x.Timeout
+	}
+	return 0
 }
 
 // `ReadResponse` is the type of responses sent by a [](pulumirpc.ResourceProvider.Read) call. A `ReadResponse` contains
@@ -4034,7 +4073,10 @@ type ConstructRequest_CustomTimeouts struct {
 	Update string `protobuf:"bytes,2,opt,name=update,proto3" json:"update,omitempty"`
 	// How long a caller is prepared to wait for a nested resource's [](pulumirpc.ResourceProvider.Delete) operation
 	// to complete.
-	Delete        string `protobuf:"bytes,3,opt,name=delete,proto3" json:"delete,omitempty"`
+	Delete string `protobuf:"bytes,3,opt,name=delete,proto3" json:"delete,omitempty"`
+	// How long a caller is prepared to wait for a nested resource's [](pulumirpc.ResourceProvider.Read) operation
+	// to complete.
+	Read          string `protobuf:"bytes,4,opt,name=read,proto3" json:"read,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4086,6 +4128,13 @@ func (x *ConstructRequest_CustomTimeouts) GetUpdate() string {
 func (x *ConstructRequest_CustomTimeouts) GetDelete() string {
 	if x != nil {
 		return x.Delete
+	}
+	return ""
+}
+
+func (x *ConstructRequest_CustomTimeouts) GetRead() string {
+	if x != nil {
+		return x.Read
 	}
 	return ""
 }
@@ -4232,7 +4281,7 @@ var File_pulumi_provider_proto protoreflect.FileDescriptor
 
 const file_pulumi_provider_proto_rawDesc = "" +
 	"\n" +
-	"\x15pulumi/provider.proto\x12\tpulumirpc\x1a\x12pulumi/alias.proto\x1a\x13pulumi/plugin.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/protobuf/struct.proto\"\x92\x03\n" +
+	"\x15pulumi/provider.proto\x12\tpulumirpc\x1a\x12pulumi/alias.proto\x1a\x13pulumi/plugin.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xcc\x04\n" +
 	"\x18ProviderHandshakeRequest\x12%\n" +
 	"\x0eengine_address\x18\x01 \x01(\tR\rengineAddress\x12*\n" +
 	"\x0eroot_directory\x18\x02 \x01(\tH\x00R\rrootDirectory\x88\x01\x01\x120\n" +
@@ -4240,9 +4289,16 @@ const file_pulumi_provider_proto_rawDesc = "" +
 	"\x12configure_with_urn\x18\x04 \x01(\bR\x10configureWithUrn\x12%\n" +
 	"\x0esupports_views\x18\x05 \x01(\bR\rsupportsViews\x12C\n" +
 	"\x1esupports_refresh_before_update\x18\x06 \x01(\bR\x1bsupportsRefreshBeforeUpdate\x12.\n" +
-	"\x13invoke_with_preview\x18\a \x01(\bR\x11invokeWithPreviewB\x11\n" +
+	"\x13invoke_with_preview\x18\a \x01(\bR\x11invokeWithPreview\x12(\n" +
+	"\rmapper_target\x18\b \x01(\tH\x02R\fmapperTarget\x88\x01\x01\x12(\n" +
+	"\rloader_target\x18\t \x01(\tH\x03R\floaderTarget\x88\x01\x01\x12,\n" +
+	"\x0fresolver_target\x18\n" +
+	" \x01(\tH\x04R\x0eresolverTarget\x88\x01\x01B\x11\n" +
 	"\x0f_root_directoryB\x14\n" +
-	"\x12_program_directory\"\xfc\x01\n" +
+	"\x12_program_directoryB\x10\n" +
+	"\x0e_mapper_targetB\x10\n" +
+	"\x0e_loader_targetB\x12\n" +
+	"\x10_resolver_target\"\xfc\x01\n" +
 	"\x19ProviderHandshakeResponse\x12%\n" +
 	"\x0eaccept_secrets\x18\x01 \x01(\bR\racceptSecrets\x12)\n" +
 	"\x10accept_resources\x18\x02 \x01(\bR\x0facceptResources\x12%\n" +
@@ -4416,7 +4472,7 @@ const file_pulumi_provider_proto_rawDesc = "" +
 	"\n" +
 	"properties\x18\x02 \x01(\v2\x17.google.protobuf.StructR\n" +
 	"properties\x122\n" +
-	"\x15refresh_before_update\x18\x03 \x01(\bR\x13refreshBeforeUpdate\"\xdb\x02\n" +
+	"\x15refresh_before_update\x18\x03 \x01(\bR\x13refreshBeforeUpdate\"\xf5\x02\n" +
 	"\vReadRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03urn\x18\x02 \x01(\tR\x03urn\x127\n" +
@@ -4428,7 +4484,9 @@ const file_pulumi_provider_proto_rawDesc = "" +
 	"\x04type\x18\x06 \x01(\tR\x04type\x126\n" +
 	"\x17resource_status_address\x18\a \x01(\tR\x15resourceStatusAddress\x122\n" +
 	"\x15resource_status_token\x18\b \x01(\tR\x13resourceStatusToken\x12,\n" +
-	"\told_views\x18\t \x03(\v2\x0f.pulumirpc.ViewR\boldViews\"\xbc\x01\n" +
+	"\told_views\x18\t \x03(\v2\x0f.pulumirpc.ViewR\boldViews\x12\x18\n" +
+	"\atimeout\x18\n" +
+	" \x01(\x01R\atimeout\"\xbc\x01\n" +
 	"\fReadResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x127\n" +
 	"\n" +
@@ -4490,7 +4548,7 @@ const file_pulumi_provider_proto_rawDesc = "" +
 	"\x17resource_status_address\x18\b \x01(\tR\x15resourceStatusAddress\x122\n" +
 	"\x15resource_status_token\x18\t \x01(\tR\x13resourceStatusToken\x12,\n" +
 	"\told_views\x18\n" +
-	" \x03(\v2\x0f.pulumirpc.ViewR\boldViews\"\xa2\x10\n" +
+	" \x03(\v2\x0f.pulumirpc.ViewR\boldViews\"\xb6\x10\n" +
 	"\x10ConstructRequest\x12\x18\n" +
 	"\aproject\x18\x01 \x01(\tR\aproject\x12\x14\n" +
 	"\x05stack\x18\x02 \x01(\tR\x05stack\x12?\n" +
@@ -4523,11 +4581,12 @@ const file_pulumi_provider_proto_rawDesc = "" +
 	"\aaliases\x18\x1d \x03(\v2\x10.pulumirpc.AliasR\aaliases\x12G\n" +
 	"\x13replacement_trigger\x18\x1e \x01(\v2\x16.google.protobuf.ValueR\x12replacementTrigger\x1a*\n" +
 	"\x14PropertyDependencies\x12\x12\n" +
-	"\x04urns\x18\x01 \x03(\tR\x04urns\x1aX\n" +
+	"\x04urns\x18\x01 \x03(\tR\x04urns\x1al\n" +
 	"\x0eCustomTimeouts\x12\x16\n" +
 	"\x06create\x18\x01 \x01(\tR\x06create\x12\x16\n" +
 	"\x06update\x18\x02 \x01(\tR\x06update\x12\x16\n" +
-	"\x06delete\x18\x03 \x01(\tR\x06delete\x1a9\n" +
+	"\x06delete\x18\x03 \x01(\tR\x06delete\x12\x12\n" +
+	"\x04read\x18\x04 \x01(\tR\x04read\x1a9\n" +
 	"\vConfigEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1av\n" +

@@ -10,6 +10,7 @@ type RHELAIArgs struct {
 	Accelerator    string
 	Version        string
 	CustomImage    string
+	Marketplace    bool
 	Arch           string
 	ComputeRequest *cr.ComputeRequestArgs
 	Spot           *spotTypes.SpotArgs

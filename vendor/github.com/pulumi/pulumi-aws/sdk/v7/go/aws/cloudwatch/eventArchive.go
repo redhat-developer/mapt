@@ -49,7 +49,7 @@ import (
 //
 // ```
 //
-// ### Optional Arguments
+// ### Example Usage Optional Arguments
 //
 // ```go
 // package main
@@ -85,7 +85,7 @@ import (
 //				Description:    pulumi.String("Archived events from order service"),
 //				EventSourceArn: order.Arn,
 //				RetentionDays:  pulumi.Int(7),
-//				EventPattern:   pulumi.String(pulumi.String(json0)),
+//				EventPattern:   pulumi.String(json0),
 //			})
 //			if err != nil {
 //				return err
@@ -96,7 +96,7 @@ import (
 //
 // ```
 //
-// ### CMK Encryption
+// ### Example Usage CMK Encryption
 //
 // ```go
 // package main

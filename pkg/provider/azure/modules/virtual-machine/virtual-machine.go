@@ -47,7 +47,7 @@ type VirtualMachine = *compute.VirtualMachine
 // Create virtual machine based on request + export to context
 // adminusername and adminuserpassword
 func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (VirtualMachine, error) {
-	ira, err := convertImageRef(mCtx, *args.Image, args.Location)
+	ira, err := convertImageRef(mCtx, args.Image, args.Location)
 	if err != nil {
 		return nil, err
 	}
@@ -99,6 +99,13 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *VirtualMachineArgs) (Vi
 			MaxPrice: pulumi.Float64(*args.SpotPrice),
 		}
 	}
+	if args.Image.Plan != nil {
+		vmArgs.Plan = compute.PlanArgs{
+			Name:      pulumi.String(args.Image.Plan.Name),
+			Product:   pulumi.String(args.Image.Plan.Product),
+			Publisher: pulumi.String(args.Image.Plan.Publisher),
+		}
+	}
 	logging.Debug("About to create the VM with compute.NewVirtualMachine")
 	return compute.NewVirtualMachine(ctx,
 		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "vm"),
@@ -130,7 +137,7 @@ func osProfile(computerName string, args *VirtualMachineArgs) compute.OSProfileA
 	return osProfile
 }
 
-func convertImageRef(mCtx *mc.Context, i data.ImageReference, location string) (*compute.ImageReferenceArgs, error) {
+func convertImageRef(mCtx *mc.Context, i *data.ImageReference, location string) (*compute.ImageReferenceArgs, error) {
 	if len(i.CommunityImageID) > 0 {
 		return &compute.ImageReferenceArgs{
 			CommunityGalleryImageId: pulumi.String(i.CommunityImageID),
@@ -150,6 +157,9 @@ func convertImageRef(mCtx *mc.Context, i data.ImageReference, location string) (
 	finalSku, err := data.SkuG2Support(mCtx.Context(), location, i.Publisher, i.Offer, i.Sku)
 	if err != nil {
 		return nil, err
+	}
+	if i.Plan != nil && finalSku != i.Sku {
+		i.Plan.Name = finalSku
 	}
 	return &compute.ImageReferenceArgs{
 		Publisher: pulumi.String(i.Publisher),

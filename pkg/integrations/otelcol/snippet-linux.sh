@@ -143,9 +143,30 @@ receivers:
     - type: remove
       id: remove_file_name
       field: attributes["log.file.name"]
+    - type: regex_parser
+      id: parse_job_id
+      parse_from: body
+      regex: '\bjob=(?P<job_id>\d+)'
+      on_error: send
+    - type: regex_parser
+      id: parse_runner_token
+      parse_from: body
+      regex: '\brunner=(?P<runner_token>\w+)'
+      on_error: send
     attributes:
       index: "{{.Index}}"
       _sourceCategory: gitlab-runner
+      _sourceHost: ${env:HOSTNAME}
+  journald/gitlab-jobs:
+    operators:
+    - type: regex_parser
+      id: parse_container_name
+      parse_from: attributes["CONTAINER_NAME"]
+      regex: '^runner-(?P<runner_token>.+?)-project-(?P<project_id>\d+)-concurrent-(?P<concurrent_id>\d+)-(?P<job_id>\d+)$'
+      on_error: send
+    attributes:
+      index: "{{.Index}}"
+      _sourceCategory: gitlab-runner-jobs
       _sourceHost: ${env:HOSTNAME}
 {{- end}}
 processors:
@@ -185,7 +206,7 @@ service:
       level: "basic"
   pipelines:
     logs:
-      receivers: [filelog/syslog, filelog/secure, filelog/audit{{if .MonitorGitLabRunner}}, filelog/gitlab-runner{{end}}]
+      receivers: [filelog/syslog, filelog/secure, filelog/audit{{if .MonitorGitLabRunner}}, filelog/gitlab-runner, journald/gitlab-jobs{{end}}]
       processors: [filter/drop_null_bytes, resource, batch]
       exporters: [otlphttp]
 OTELEOF

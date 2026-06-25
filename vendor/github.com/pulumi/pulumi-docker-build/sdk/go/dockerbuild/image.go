@@ -633,6 +633,13 @@ type Image struct {
 	//
 	// Equivalent to Docker's `--output` flag.
 	Exports ExportArrayOutput `pulumi:"exports"`
+	// A list of secret names to ignore when calculating diffs.
+	//
+	// These secrets will not be considered when calculating diffs, even if they
+	// are changed. Note: only applicable if the secret is present in both the old and the new state.
+	//
+	// This is useful when you want to avoid unnecessary rebuilds caused by short-lived secrets that change on every run.
+	IgnoreSecretsInDiffCalculation pulumi.StringArrayOutput `pulumi:"ignoreSecretsInDiffCalculation"`
 	// Attach arbitrary key/value metadata to the image.
 	//
 	// Equivalent to Docker's `--label` flag.
@@ -843,6 +850,13 @@ type imageArgs struct {
 	//
 	// Equivalent to Docker's `--output` flag.
 	Exports []Export `pulumi:"exports"`
+	// A list of secret names to ignore when calculating diffs.
+	//
+	// These secrets will not be considered when calculating diffs, even if they
+	// are changed. Note: only applicable if the secret is present in both the old and the new state.
+	//
+	// This is useful when you want to avoid unnecessary rebuilds caused by short-lived secrets that change on every run.
+	IgnoreSecretsInDiffCalculation []string `pulumi:"ignoreSecretsInDiffCalculation"`
 	// Attach arbitrary key/value metadata to the image.
 	//
 	// Equivalent to Docker's `--label` flag.
@@ -991,6 +1005,13 @@ type ImageArgs struct {
 	//
 	// Equivalent to Docker's `--output` flag.
 	Exports ExportArrayInput
+	// A list of secret names to ignore when calculating diffs.
+	//
+	// These secrets will not be considered when calculating diffs, even if they
+	// are changed. Note: only applicable if the secret is present in both the old and the new state.
+	//
+	// This is useful when you want to avoid unnecessary rebuilds caused by short-lived secrets that change on every run.
+	IgnoreSecretsInDiffCalculation pulumi.StringArrayInput
 	// Attach arbitrary key/value metadata to the image.
 	//
 	// Equivalent to Docker's `--label` flag.
@@ -1232,6 +1253,16 @@ func (o ImageOutput) Exec() pulumi.BoolPtrOutput {
 // Equivalent to Docker's `--output` flag.
 func (o ImageOutput) Exports() ExportArrayOutput {
 	return o.ApplyT(func(v *Image) ExportArrayOutput { return v.Exports }).(ExportArrayOutput)
+}
+
+// A list of secret names to ignore when calculating diffs.
+//
+// These secrets will not be considered when calculating diffs, even if they
+// are changed. Note: only applicable if the secret is present in both the old and the new state.
+//
+// This is useful when you want to avoid unnecessary rebuilds caused by short-lived secrets that change on every run.
+func (o ImageOutput) IgnoreSecretsInDiffCalculation() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *Image) pulumi.StringArrayOutput { return v.IgnoreSecretsInDiffCalculation }).(pulumi.StringArrayOutput)
 }
 
 // Attach arbitrary key/value metadata to the image.

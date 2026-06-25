@@ -1,6 +1,8 @@
 package hosts
 
 import (
+	"fmt"
+
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	rhelai "github.com/redhat-developer/mapt/pkg/provider/azure/action/rhel-ai"
@@ -13,6 +15,9 @@ import (
 const (
 	cmdRHELAI     = "rhel-ai"
 	cmdRHELAIDesc = "manage rhel ai host"
+
+	cmdRHELAIListVersions     = "list-versions"
+	cmdRHELAIListVersionsDesc = "list available RHEL AI versions in the Azure Compute Gallery"
 )
 
 func GetRHELAICmd() *cobra.Command {
@@ -31,7 +36,7 @@ func GetRHELAICmd() *cobra.Command {
 	params.AddCommonFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 
-	c.AddCommand(getRHELAICreate(), getRHELAIDestroy())
+	c.AddCommand(getRHELAICreate(), getRHELAIDestroy(), getRHELAIListVersions())
 	return c
 }
 
@@ -58,6 +63,7 @@ func getRHELAICreate() *cobra.Command {
 					Version:        viper.GetString(params.RhelAIVersion),
 					Accelerator:    viper.GetString(params.RhelAIAccelerator),
 					CustomImage:    viper.GetString(params.RhelAICustomImage),
+					Marketplace:    viper.GetBool(params.RhelAIMarketplace),
 					ComputeRequest: params.ComputeRequestArgs(),
 					Spot:           params.SpotArgs(),
 					Timeout:        viper.GetString(params.Timeout),
@@ -70,6 +76,7 @@ func getRHELAICreate() *cobra.Command {
 	flagSet.StringP(params.RhelAIVersion, "", params.RhelAIVersionDefault, params.RhelAIVersionDesc)
 	flagSet.StringP(params.RhelAIAccelerator, "", params.RhelAIAccelearatorDefault, params.RhelAIAccelearatorDesc)
 	flagSet.StringP(params.RhelAICustomImage, "", "", params.RhelAICustomImageDesc)
+	flagSet.Bool(params.RhelAIMarketplace, false, params.RhelAIMarketplaceDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
@@ -101,6 +108,30 @@ func getRHELAIDestroy() *cobra.Command {
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	return c
+}
+
+func getRHELAIListVersions() *cobra.Command {
+	c := &cobra.Command{
+		Use:   cmdRHELAIListVersions,
+		Short: cmdRHELAIListVersionsDesc,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := viper.BindPFlags(cmd.Flags()); err != nil {
+				return err
+			}
+			versions, err := rhelai.ListVersions(cmd.Context(), viper.GetString(params.RhelAIAccelerator))
+			if err != nil {
+				return err
+			}
+			for _, v := range versions {
+				fmt.Println(v)
+			}
+			return nil
+		},
+	}
+	flagSet := pflag.NewFlagSet(cmdRHELAIListVersions, pflag.ExitOnError)
+	flagSet.StringP(params.RhelAIAccelerator, "", params.RhelAIAccelearatorDefault, params.RhelAIAccelearatorDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }

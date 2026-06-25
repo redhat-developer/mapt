@@ -277,6 +277,7 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		gateway := subnetInfo.Gateway
 		localArgs := *glRunnerArgs
 		localGHScript := ghRunnerScript
+		localArgs.LogToJournald = hasOtel
 		piUserDataInput = authToken.ApplyT(func(token string) (*string, error) {
 			localArgs.AuthToken = token
 			glSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(&localArgs, defaultUser)
@@ -314,6 +315,38 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 
+	// piv.ID() returns "cloudInstanceId/resourceId" — extract just the resource ID
+	splitID := func(id string) (string, error) {
+		if parts := strings.SplitN(id, "/", 2); len(parts) == 2 {
+			return parts[1], nil
+		}
+		return id, nil
+	}
+	// Create the data volume before the instance so we can pass it via
+	// PiVolumeIds at instance-creation time.  This bypasses the separate
+	// PiVolumeAttach resource whose Terraform provider polls
+	// GET /volumes/{id} without retrying on HTTP 500, causing consistent
+	// failures on IBM Cloud PowerVS.  Attaching via PiVolumeIds lets IBM
+	// Cloud handle the attachment internally during instance creation, which
+	// also gives the correct destroy order: instance is destroyed before
+	// volume, so IBM Cloud auto-detaches the volume before we delete it.
+	userTags := ibmcloudp.TagsAsStringArray(r.mCtx.GetTags())
+
+	piv, err := ibmcloud.NewPiVolume(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "piv"),
+		&ibmcloud.PiVolumeArgs{
+			PiCloudInstanceId: pulumi.String(r.workspaceID),
+			PiVolumeName:      pulumi.String(r.mCtx.ProjectName()),
+			PiVolumeSize:      pulumi.Float64(float64(r.diskSize)),
+			PiVolumeType:      pulumi.String(r.storageType),
+			PiVolumeShareable: pulumi.Bool(false),
+			PiUserTags:        userTags,
+		})
+	if err != nil {
+		return err
+	}
+	pivVolumeId := piv.ID().ApplyT(splitID).(pulumi.StringOutput)
+
 	i, err := ibmcloud.NewPiInstance(ctx,
 		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "pii"),
 		&ibmcloud.PiInstanceArgs{
@@ -328,45 +361,13 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 			PiStorageType:     pulumi.String(r.storageType),
 			PiKeyPairName:     pki.PiKeyName,
 			PiUserData:        piUserDataInput,
+			PiVolumeIds:       pulumi.StringArray{pivVolumeId},
+			PiUserTags:        userTags,
 			PiNetworks: ibmcloud.PiInstancePiNetworkArray{
 				&ibmcloud.PiInstancePiNetworkArgs{
 					NetworkId: pulumi.String(r.piPrivateSubnetID),
 				},
 			},
-		})
-	if err != nil {
-		return err
-	}
-
-	// Both i.ID() and piv.ID() return "cloudInstanceId/resourceId" — extract just the resource ID
-	splitID := func(id string) (string, error) {
-		if parts := strings.SplitN(id, "/", 2); len(parts) == 2 {
-			return parts[1], nil
-		}
-		return id, nil
-	}
-	piInstanceId := i.ID().ApplyT(splitID).(pulumi.StringOutput)
-	piv, err := ibmcloud.NewPiVolume(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "piv"),
-		&ibmcloud.PiVolumeArgs{
-			PiCloudInstanceId:  pulumi.String(r.workspaceID),
-			PiVolumeName:       pulumi.String(r.mCtx.ProjectName()),
-			PiVolumeSize:       pulumi.Float64(float64(r.diskSize)),
-			PiVolumeType:       pulumi.String(r.storageType),
-			PiVolumeShareable:  pulumi.Bool(false),
-			PiAffinityPolicy:   pulumi.String("affinity"),
-			PiAffinityInstance: piInstanceId.ToStringPtrOutput(),
-		})
-	if err != nil {
-		return err
-	}
-	pivVolumeId := piv.ID().ApplyT(splitID).(pulumi.StringOutput)
-	_, err = ibmcloud.NewPiVolumeAttach(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, stackIBMPowerVS, "piva"),
-		&ibmcloud.PiVolumeAttachArgs{
-			PiCloudInstanceId: pulumi.String(r.workspaceID),
-			PiInstanceId:      piInstanceId,
-			PiVolumeId:        pivVolumeId,
 		})
 	if err != nil {
 		return err
@@ -406,12 +407,14 @@ func (r *pwRequest) deployBastion(ctx *pulumi.Context) error {
 	}
 
 	name := fmt.Sprintf("%s-%s-bastion", *r.prefix, r.mCtx.ProjectName())
+	userTags := ibmcloudp.TagsAsStringArray(r.mCtx.GetTags())
 
 	sg, err := network.NewSecurityGroupWithSSH(ctx, &network.SecurityGroupArgs{
 		Prefix:      *r.prefix,
 		ComponentID: bastionComponentID,
 		Name:        name,
 		VPC:         pulumi.String(subnetInfo.Vpc),
+		Tags:        userTags,
 	})
 	if err != nil {
 		return err
@@ -432,6 +435,7 @@ func (r *pwRequest) deployBastion(ctx *pulumi.Context) error {
 		&ibmcloud.IsSshKeyArgs{
 			Name:      pulumi.String(name),
 			PublicKey: bpk.PublicKeyOpenssh,
+			Tags:      userTags,
 		})
 	if err != nil {
 		return err
@@ -454,6 +458,7 @@ func (r *pwRequest) deployBastion(ctx *pulumi.Context) error {
 			Vpc:     pulumi.String(subnetInfo.Vpc),
 			Zone:    pulumi.String(subnetInfo.Zone),
 			Keys:    pulumi.StringArray{bsshKey.ID()},
+			Tags:    userTags,
 			PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
 				Subnet:         pulumi.String(r.vpcPublicSubnetID),
 				SecurityGroups: pulumi.StringArray{sg.ID()},
@@ -468,6 +473,7 @@ func (r *pwRequest) deployBastion(ctx *pulumi.Context) error {
 		ComponentID: bastionComponentID,
 		Name:        name,
 		Zone:        pulumi.String(subnetInfo.Zone),
+		Tags:        userTags,
 	})
 	if err != nil {
 		return err

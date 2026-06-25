@@ -120,6 +120,34 @@ func GetSharedImageDiskControllerTypes(ctx context.Context, id *string) ([]strin
 	return nil, nil
 }
 
+// ListGalleriesByPrefix returns the names of galleries in resourceGroup (within
+// subscriptionID) whose names start with namePrefix.
+func ListGalleriesByPrefix(ctx context.Context, subscriptionID, resourceGroup, namePrefix string) ([]string, error) {
+	ensureAzureEnvs()
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	c, err := armcompute.NewClientFactory(subscriptionID, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	pager := c.NewGalleriesClient().NewListByResourceGroupPager(resourceGroup, nil)
+	var names []string
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, g := range page.Value {
+			if g.Name != nil && strings.HasPrefix(*g.Name, namePrefix) {
+				names = append(names, *g.Name)
+			}
+		}
+	}
+	return names, nil
+}
+
 func SkuG2Support(ctx context.Context, location string, publisher string, offer string, sku string) (string, error) {
 	ensureAzureEnvs()
 	cred, err := azidentity.NewDefaultAzureCredential(nil)

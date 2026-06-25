@@ -3,6 +3,8 @@ package rhelai
 import (
 	"context"
 	"fmt"
+	"sort"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
@@ -119,6 +121,57 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 	return aws.CleanupState(mCtx)
 }
 
+const listVersionsRegion = "us-east-1"
+
+// ListVersions returns available RHEL AI version strings for the given accelerator,
+// sorted in ascending order. Versions are derived from AMI names in a reference
+// region (us-east-1) matching the pattern "rhel-ai-{accelerator}-aws-{version}*".
+func ListVersions(ctx context.Context, accelerator string) ([]string, error) {
+	acc := strings.ToLower(strings.TrimSpace(accelerator))
+	switch acc {
+	case "cuda", "rocm":
+	default:
+		return nil, fmt.Errorf("unsupported accelerator %q (expected: cuda or rocm)", accelerator)
+	}
+	nameFilter := fmt.Sprintf("rhel-ai-%s-aws-*", acc)
+	region := listVersionsRegion
+	images, err := data.ListAMIs(ctx, data.ImageRequest{
+		Name:   &nameFilter,
+		Arch:   &amiArch,
+		Owner:  &amiOwner,
+		Region: &region,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("listing RHEL AI AMIs for accelerator %q: %w", acc, err)
+	}
+	prefix := fmt.Sprintf("rhel-ai-%s-aws-", acc)
+	seen := make(map[string]struct{})
+	for _, img := range images {
+		if img.Name == nil {
+			continue
+		}
+		raw := strings.TrimPrefix(*img.Name, prefix)
+		// AMI names may have trailing qualifiers (e.g. "-x86_64-..."); take only the version part
+		if idx := strings.Index(raw, "-x86_64"); idx > 0 {
+			raw = raw[:idx]
+		}
+		if idx := strings.Index(raw, "-arm64"); idx > 0 {
+			raw = raw[:idx]
+		}
+		if len(raw) > 0 {
+			// Normalize underscores to dashes (e.g. "3.4.0_ea.2" → "3.4.0-ea.2")
+			version := strings.ReplaceAll(raw, "_", "-")
+			seen[version] = struct{}{}
+		}
+	}
+	versions := make([]string, 0, len(seen))
+	for v := range seen {
+		versions = append(versions, v)
+	}
+	sort.Strings(versions)
+	return versions, nil
+}
+
 func (r *rhelAIRequest) createMachine() error {
 	cs := manager.Stack{
 		StackName:   r.mCtx.StackNameByProject(stackName),
@@ -161,8 +214,8 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 			ID:                 awsRHELDedicatedID,
 			Region:             *r.allocationData.Region,
 			AZ:                 *r.allocationData.AZ,
-			CreateLoadBalancer: true,
-			ServiceEndpoints:          r.serviceEndpoints,
+			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
+			ServiceEndpoints:   r.serviceEndpoints,
 		})
 	if err != nil {
 		return err

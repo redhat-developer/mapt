@@ -46,7 +46,11 @@ func (r *kindRequest) validate() error {
 
 func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (*utilKind.KindResults, error) {
 	// Create mapt Context
-	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
+	provider := azure.Provider()
+	if args.Spot != nil && args.Spot.Spot {
+		provider = azure.ProviderOptionalLocation()
+	}
+	mCtx, err := mc.Init(mCtxArgs, provider)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +101,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (*utilKind.KindRe
 }
 
 func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
-	mCtx, err := mc.Init(mCtxArgs, azure.Provider())
+	mCtx, err := mc.Init(mCtxArgs, azure.ProviderOptionalLocation())
 	if err != nil {
 		return err
 	}
