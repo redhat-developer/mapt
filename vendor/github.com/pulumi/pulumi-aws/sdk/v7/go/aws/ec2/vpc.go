@@ -105,7 +105,7 @@ import (
 //			testVpcIpamPool, err := ec2.NewVpcIpamPool(ctx, "test", &ec2.VpcIpamPoolArgs{
 //				AddressFamily: pulumi.String("ipv4"),
 //				IpamScopeId:   test.PrivateDefaultScopeId,
-//				Locale:        pulumi.String(pulumi.String(current.Region)),
+//				Locale:        pulumi.String(current.Region),
 //			})
 //			if err != nil {
 //				return err
@@ -131,10 +131,6 @@ import (
 //	}
 //
 // ```
-//
-// ## GuardDuty Cleanup Permissions
-//
-// The following IAM permissions are optional but recommended for automatic cleanup of GuardDuty-managed resources during VPC deletion:
 //
 // ## Import
 //
