@@ -140,7 +140,22 @@ spec:
     - name: version
       description: Version of RHEL AI OS (default 3.0.0)
       default: "3.0.0"
-    
+    - name: auto-start
+      description: Automatically configure and start RHAIIS (vLLM) after provisioning.
+      default: "false"
+    - name: model
+      description: HuggingFace model ID for RHAIIS (e.g. meta-llama/Llama-3.2-1B-Instruct)
+      default: ""
+    - name: hf-token
+      description: HuggingFace Hub token for model download. Read from secret if not set directly.
+      default: ""
+    - name: api-key
+      description: API key to enforce secure connections to vLLM.
+      default: ""
+    - name: expose-ports
+      description: Comma-separated list of ports to expose through the load balancer and security group (e.g. 8000,8080).
+      default: ""
+
     # Network params
     - name: service-endpoints
       description: |
@@ -286,6 +301,21 @@ spec:
           fi
           if [[ "$(params.service-endpoints)" != "" ]]; then
             cmd+="--service-endpoints '$(params.service-endpoints)' "
+          fi
+          if [[ "$(params.auto-start)" == "true" ]]; then
+            cmd+="--auto-start "
+          fi
+          if [[ "$(params.model)" != "" ]]; then
+            cmd+="--model '$(params.model)' "
+          fi
+          if [[ "$(params.hf-token)" != "" ]]; then
+            cmd+="--hf-token '$(params.hf-token)' "
+          fi
+          if [[ "$(params.api-key)" != "" ]]; then
+            cmd+="--api-key '$(params.api-key)' "
+          fi
+          if [[ "$(params.expose-ports)" != "" ]]; then
+            cmd+="--expose-ports '$(params.expose-ports)' "
           fi
           cmd+="--tags '$(params.tags)' "
         fi

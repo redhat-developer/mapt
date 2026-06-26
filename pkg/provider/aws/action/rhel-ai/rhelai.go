@@ -46,6 +46,7 @@ type rhelAIRequest struct {
 	hfToken          *string
 	apiKey           *string
 	autoStart        bool
+	exposePorts      []int
 }
 
 func (r *rhelAIRequest) validate() error {
@@ -83,7 +84,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 		model:            &args.Model,
 		hfToken:          &args.HFToken,
 		apiKey:           &args.APIKey,
-		autoStart:        args.AutoStart}
+		autoStart:        args.AutoStart,
+		exposePorts:      args.ExposePorts}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -260,7 +262,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		DiskSize:       &effectiveDiskSize,
 		LB:             nw.LoadBalancer,
 		Eip:            nw.Eip,
-		LBTargetGroups: []int{22}}
+		LBTargetGroups: r.lbTargetGroups()}
 	if r.allocationData.SpotPrice != nil {
 		cr.Spot = true
 		cr.SpotPrice = *r.allocationData.SpotPrice
@@ -323,13 +325,23 @@ func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
 	// ingress for ssh access from 0.0.0.0
 	sshIngressRule := securityGroup.SSH_TCP
 	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+	ingressRules := []securityGroup.IngressRules{sshIngressRule}
+	for _, port := range r.exposePorts {
+		rule := securityGroup.IngressRules{
+			Description: fmt.Sprintf("port-%d", port),
+			FromPort:    port,
+			ToPort:      port,
+			Protocol:    "tcp",
+			CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
+		}
+		ingressRules = append(ingressRules, rule)
+	}
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
 		Name:        resourcesUtil.GetResourceName(*r.prefix, awsRHELDedicatedID, "sg"),
 		VPC:         vpc,
 		Description: fmt.Sprintf("sg for %s", awsRHELDedicatedID),
-		IngressRules: []securityGroup.IngressRules{
-			sshIngressRule},
+		IngressRules: ingressRules,
 	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
@@ -340,6 +352,10 @@ func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
 			return sg.ID()
 		})
 	return pulumi.StringArray(sgs[:]), nil
+}
+
+func (r *rhelAIRequest) lbTargetGroups() []int {
+	return append([]int{22}, r.exposePorts...)
 }
 
 func (r *rhelAIRequest) rhaiisSetupScript() string {
