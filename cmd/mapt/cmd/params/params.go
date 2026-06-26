@@ -129,6 +129,8 @@ const (
 	RhelAIAPIKeyDesc          string = "API key to enforce secure connections to vLLM"
 	RhelAIAutoStart           string = "auto-start"
 	RhelAIAutoStartDesc       string = "automatically configure and start RHAIIS after provisioning"
+	RhelAIExposePorts         string = "expose-ports"
+	RhelAIExposePortsDesc     string = "comma-separated list of ports to expose through the load balancer and security group (e.g. 8000,8080)"
 
 	// Serverless
 	Timeout        string = "timeout"
