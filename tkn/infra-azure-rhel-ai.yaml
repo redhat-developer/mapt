@@ -85,6 +85,12 @@ spec:
     - name: disk-size
       description: Disk size in GB for the cloud instance
       default: "200"
+    - name: gpus
+      description: Number of GPUs for the cloud instance (valid marketplace values are 1, 2, 4, 8)
+      default: "8"
+    - name: gpu-manufacturer
+      description: GPU manufacturer name for instance filtering (e.g. NVIDIA, AMD)
+      default: ""
     - name: compute-sizes
       description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
       default: "Standard_ND96is_MI300X_v5,Standard_ND96isr_MI300X_v5"
@@ -228,6 +234,12 @@ spec:
 
           if [[ "$(params.compute-sizes)" != "" ]]; then
             cmd+="--compute-sizes '$(params.compute-sizes)' "
+          fi
+          if [[ "$(params.gpus)" != "" ]]; then
+            cmd+="--gpus '$(params.gpus)' "
+          fi
+          if [[ "$(params.gpu-manufacturer)" != "" ]]; then
+            cmd+="--gpu-manufacturer '$(params.gpu-manufacturer)' "
           fi
           if [[ "$(params.marketplace)" == "true" ]]; then
             cmd+="--marketplace "

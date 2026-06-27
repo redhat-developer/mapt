@@ -131,6 +131,8 @@ const (
 	RhelAIAutoStartDesc       string = "automatically configure and start RHAIIS after provisioning"
 	RhelAIExposePorts         string = "expose-ports"
 	RhelAIExposePortsDesc     string = "comma-separated list of ports to expose through the load balancer and security group (e.g. 8000,8080)"
+	RhelAIVLLMExtraArgs      string = "vllm-extra-args"
+	RhelAIVLLMExtraArgsDesc  string = "extra vLLM arguments appended to the RHAIIS Exec line (e.g. '--enable-auto-tool-choice --tool-call-parser llama3_json --max-model-len 16384')"
 
 	// Serverless
 	Timeout        string = "timeout"
