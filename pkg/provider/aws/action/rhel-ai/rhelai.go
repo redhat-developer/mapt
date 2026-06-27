@@ -46,6 +46,7 @@ type rhelAIRequest struct {
 	hfToken          *string
 	apiKey           *string
 	autoStart        bool
+	vllmExtraArgs    *string
 	exposePorts      []int
 }
 
@@ -85,6 +86,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 		hfToken:          &args.HFToken,
 		apiKey:           &args.APIKey,
 		autoStart:        args.AutoStart,
+		vllmExtraArgs:    &args.VLLMExtraArgs,
 		exposePorts:      args.ExposePorts}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
@@ -359,7 +361,7 @@ func (r *rhelAIRequest) lbTargetGroups() []int {
 }
 
 func (r *rhelAIRequest) rhaiisSetupScript() string {
-	confDir := "/etc/containers/systemd/rhaiis.container.d"
+	confDir := "/etc/containers/systemd/rhaii.container.d"
 	script := fmt.Sprintf(
 		"sudo cp %s/install.conf.example %s/install.conf",
 		confDir, confDir)
@@ -373,12 +375,27 @@ func (r *rhelAIRequest) rhaiisSetupScript() string {
 			` && sudo sed -i 's|--model .*|--model %s \\|' %s/install.conf`,
 			*r.model, confDir)
 	}
+	script += fmt.Sprintf(
+		` && GPU_COUNT=$(nvidia-smi -L 2>/dev/null | wc -l) && [ "$GPU_COUNT" -gt 0 ] && sudo sed -i "s|--tensor-parallel-size 1|--tensor-parallel-size $GPU_COUNT|" %s/install.conf`,
+		confDir)
+	if len(*r.vllmExtraArgs) > 0 {
+		extraArgs := *r.vllmExtraArgs
+		if strings.Contains(extraArgs, "--max-model-len") {
+			script += fmt.Sprintf(
+				` && sudo sed -i 's|--max-model-len [0-9]*|%s|' %s/install.conf`,
+				extraArgs, confDir)
+		} else {
+			script += fmt.Sprintf(
+				` && sudo sed -i 's|--max-model-len 4096|--max-model-len 4096 \\\n     %s|' %s/install.conf`,
+				extraArgs, confDir)
+		}
+	}
 	if len(*r.apiKey) > 0 {
 		script += fmt.Sprintf(
 			" && sudo sed -i '/\\[Install\\]/i Environment=VLLM_API_KEY=%s' %s/install.conf",
 			*r.apiKey, confDir)
 	}
-	script += " && sudo systemctl daemon-reload && sudo systemctl start rhaiis"
+	script += " && sudo systemctl daemon-reload && sudo systemctl start rhaii"
 	return script
 }
 

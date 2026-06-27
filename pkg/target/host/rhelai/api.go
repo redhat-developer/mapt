@@ -19,7 +19,8 @@ type RHELAIArgs struct {
 	Timeout   string
 	Model     string
 	HFToken   string
-	APIKey      string
-	AutoStart   bool
-	ExposePorts []int
+	APIKey         string
+	AutoStart     bool
+	VLLMExtraArgs string
+	ExposePorts   []int
 }

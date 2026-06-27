@@ -155,6 +155,9 @@ spec:
     - name: expose-ports
       description: Comma-separated list of ports to expose through the load balancer and security group (e.g. 8000,8080).
       default: ""
+    - name: vllm-extra-args
+      description: Extra vLLM arguments appended to the RHAIIS Exec line (e.g. '--enable-auto-tool-choice --tool-call-parser llama3_json --max-model-len 16384').
+      default: ""
 
     # Network params
     - name: service-endpoints
@@ -316,6 +319,9 @@ spec:
           fi
           if [[ "$(params.expose-ports)" != "" ]]; then
             cmd+="--expose-ports '$(params.expose-ports)' "
+          fi
+          if [[ "$(params.vllm-extra-args)" != "" ]]; then
+            cmd+="--vllm-extra-args '$(params.vllm-extra-args)' "
           fi
           cmd+="--tags '$(params.tags)' "
         fi
