@@ -119,105 +119,36 @@ func New(ctx *mc.ContextArgs, args *PWArgs) error {
 	}
 
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
-
-	sysTypes, err := icdata.GetAvailableSystemTypes(mCtx, &icdata.SystemTypeRequirements{
-		CloudInstanceId: args.WorkspaceID,
-		Zone:            os.Getenv("IC_ZONE"),
-		ProcType:        args.ProcType,
-		PreferredType:   args.SysType,
-	})
-	if err != nil {
-		return fmt.Errorf("system type discovery failed: %w", err)
+	r := &pwRequest{
+		mCtx:              mCtx,
+		prefix:            &prefix,
+		piPrivateSubnetID: args.PIPrivateSubnetID,
+		workspaceID:       args.WorkspaceID,
+		vpcPublicSubnetID: args.VPCPublicSubnetID,
+		memory:            args.Memory,
+		processors:        args.Processors,
+		procType:          args.ProcType,
+		sysType:           args.SysType,
+		storageType:       args.StorageType,
+		diskSize:          args.DiskSize,
+		otelAppCode:       args.OtelAppCode,
+		otelAuthToken:     args.OtelAuthToken,
+		otelEndpoint:      args.OtelEndpoint,
+		otelIndex:         args.OtelIndex,
+		otelExtraAttrs:    args.OtelExtraAttrs,
 	}
-
-	var lastErr error
-	for i, sysType := range sysTypes.Types {
-		if i > 0 {
-			logging.Warnf("retrying with system type %s (%d/%d) after capacity failure",
-				sysType, i+1, len(sysTypes.Types))
-		}
-
-		r := &pwRequest{
-			mCtx:              mCtx,
-			prefix:            &prefix,
-			piPrivateSubnetID: args.PIPrivateSubnetID,
-			workspaceID:       args.WorkspaceID,
-			vpcPublicSubnetID: args.VPCPublicSubnetID,
-			memory:            args.Memory,
-			processors:        args.Processors,
-			procType:          args.ProcType,
-			sysType:           sysType,
-			storageType:       args.StorageType,
-			diskSize:          args.DiskSize,
-			otelAppCode:       args.OtelAppCode,
-			otelAuthToken:     args.OtelAuthToken,
-			otelEndpoint:      args.OtelEndpoint,
-			otelIndex:         args.OtelIndex,
-			otelExtraAttrs:    args.OtelExtraAttrs,
-		}
-		cs := manager.Stack{
-			StackName:           mCtx.StackNameByProject(stackIBMPowerVS),
-			ProjectName:         mCtx.ProjectName(),
-			BackedURL:           mCtx.BackedURL(),
-			ProviderCredentials: ibmcloudp.DefaultCredentials,
-			DeployFunc:          r.deploy,
-		}
-		sr, err := manager.UpStack(r.mCtx, cs)
-		if err == nil {
-			if i > 0 {
-				logging.Infof("provisioning succeeded with system type %s (attempt %d)", sysType, i+1)
-			}
-			return manageResults(mCtx, sr, prefix, r.vpcPublicSubnetID != "")
-		}
-
-		lastErr = err
-		if !isCapacityError(err) {
-			return fmt.Errorf("stack creation failed: %w", err)
-		}
-
-		logging.Warnf("capacity error with system type %s: %v", sysType, err)
-
-		if i < len(sysTypes.Types)-1 {
-			logging.Infof("destroying partial stack before retry...")
-			if dErr := destroyForRetry(mCtx); dErr != nil {
-				return fmt.Errorf("failed to destroy partial stack before retry: %w", dErr)
-			}
-		}
-	}
-
-	return fmt.Errorf("all system types exhausted; last error: %w", lastErr)
-}
-
-func isCapacityError(err error) bool {
-	if err == nil {
-		return false
-	}
-	errStr := strings.ToLower(err.Error())
-	for _, pattern := range []string{
-		"insufficient resources",
-		"no available host",
-		"capacity is not available",
-		"not enough resources",
-		"resource capacity",
-		"no hosts available",
-		"maximum capacity",
-		"context deadline exceeded",
-	} {
-		if strings.Contains(errStr, pattern) {
-			return true
-		}
-	}
-	return false
-}
-
-func destroyForRetry(mCtx *mc.Context) error {
 	cs := manager.Stack{
 		StackName:           mCtx.StackNameByProject(stackIBMPowerVS),
 		ProjectName:         mCtx.ProjectName(),
 		BackedURL:           mCtx.BackedURL(),
 		ProviderCredentials: ibmcloudp.DefaultCredentials,
+		DeployFunc:          r.deploy,
 	}
-	return manager.DestroyStack(mCtx, cs)
+	sr, err := manager.UpStack(r.mCtx, cs)
+	if err != nil {
+		return err
+	}
+	return manageResults(mCtx, sr, prefix, r.vpcPublicSubnetID != "")
 }
 
 // Destroy tears down the Power VS stack identified by mCtxArgs.
