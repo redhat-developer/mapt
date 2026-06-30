@@ -14,7 +14,7 @@ var runnerVersion = "2.317.0"
 // 1 is version, 2 is platform: (win, linux, osx), 3 is arch: (arm64, x64, arm)
 const runnerBaseURL = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-%[2]s-%[3]s-%[1]s"
 
-const runnerImageRepo = "https://github.com/deekay2310/action-runner-image-pz.git"
+const runnerImageRepo = "https://github.com/aipcc-cicd/action-runner-image-pz.git"
 
 //go:embed snippet-darwin.sh
 var snippetDarwin []byte
