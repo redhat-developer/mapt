@@ -16,12 +16,11 @@ var (
 )
 
 type GithubRunnerArgs struct {
-	Token          string
-	RepoURL        string
-	Name           string
-	Platform       *Platform
-	Arch           *Arch
-	Labels         []string
-	User           string
-	RunnerImageRepo string
+	Token    string
+	RepoURL  string
+	Name     string
+	Platform *Platform
+	Arch     *Arch
+	Labels   []string
+	User     string
 }

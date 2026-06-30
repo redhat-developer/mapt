@@ -44,10 +44,6 @@ func ibmZCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			ghRunnerArgs := params.GithubRunnerArgs()
-			if ghRunnerArgs != nil {
-				ghRunnerArgs.Arch = &github.S390x
-			}
 			return ibmz.New(
 				&maptContext.ContextArgs{
 					Context:       cmd.Context(),
@@ -57,7 +53,7 @@ func ibmZCreate() *cobra.Command {
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-					GHRunnerArgs:  ghRunnerArgs,
+					GHRunnerArgs:  params.GithubRunnerArgs(&github.S390x),
 					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.S390x),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},

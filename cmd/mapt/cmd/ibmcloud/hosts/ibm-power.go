@@ -44,10 +44,6 @@ func ibmPowerCreate() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
-			ghRunnerArgs := params.GithubRunnerArgs()
-			if ghRunnerArgs != nil {
-				ghRunnerArgs.Arch = &github.Ppc64le
-			}
 			return ibmpower.New(
 				&maptContext.ContextArgs{
 					Context:       cmd.Context(),
@@ -57,7 +53,7 @@ func ibmPowerCreate() *cobra.Command {
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-					GHRunnerArgs:  ghRunnerArgs,
+					GHRunnerArgs:  params.GithubRunnerArgs(&github.Ppc64le),
 					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Ppc64le),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},

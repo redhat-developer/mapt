@@ -1,9 +1,7 @@
 package params
 
 import (
-	"fmt"
 	"os"
-	"strings"
 
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
@@ -77,14 +75,9 @@ const (
 	CreateCmdName  string = "create"
 	DestroyCmdName string = "destroy"
 
-	ghActionsRunnerToken    string = "ghactions-runner-token"
-	ghActionsRunnerRepo     string = "ghactions-runner-repo"
-	ghActionsRunnerLabels   string = "ghactions-runner-labels"
-	ghActionsRunnerImageRepo string = "ghactions-runner-image-repo"
-	// TODO: once the RHEL script is merged to https://github.com/IBM/action-runner-image-pz,
-	// switch default from deekay2310 fork to IBM upstream.
-	ghActionsRunnerImageRepoDefault string = "https://github.com/deekay2310/action-runner-image-pz.git"
-	GHActionsRunnerImageRepoDesc    string = "Git clone URL for the action-runner-image-pz repository, used to build the GitHub Actions runner from source on ppc64le/s390x (no official binaries exist for these architectures)"
+	ghActionsRunnerToken  string = "ghactions-runner-token"
+	ghActionsRunnerRepo   string = "ghactions-runner-repo"
+	ghActionsRunnerLabels string = "ghactions-runner-labels"
 
 	cirrusPWToken      string = "it-cirrus-pw-token"
 	cirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
@@ -289,10 +282,9 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 	fs.StringP(ghActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
 	fs.StringP(ghActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
 	fs.StringSlice(ghActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)
-	fs.StringP(ghActionsRunnerImageRepo, "", ghActionsRunnerImageRepoDefault, GHActionsRunnerImageRepoDesc)
 }
 
-func GithubRunnerArgs() *github.GithubRunnerArgs {
+func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 	token := viper.GetString(ghActionsRunnerToken)
 	repoURL := viper.GetString(ghActionsRunnerRepo)
 	pat := os.Getenv("GITHUB_TOKEN")
@@ -317,33 +309,16 @@ func GithubRunnerArgs() *github.GithubRunnerArgs {
 		logging.Info("runner registration token generated successfully")
 	}
 
-	imageRepo := viper.GetString(ghActionsRunnerImageRepo)
-	if imageRepo != "" {
-		if err := validateRunnerImageRepo(imageRepo); err != nil {
-			logging.Errorf("invalid --ghactions-runner-image-repo: %v", err)
-			return nil
-		}
-		if imageRepo != ghActionsRunnerImageRepoDefault {
-			logging.Infof("using custom runner image repo: %s", imageRepo)
-		} else {
-			logging.Debugf("using temporary fork %s; will switch to IBM upstream once RHEL script is merged", imageRepo)
-		}
+	if arch == nil {
+		arch = linuxArchAsGithubActionsArch(viper.GetString(LinuxArch))
 	}
 	return &github.GithubRunnerArgs{
-		Token:           token,
-		RepoURL:         repoURL,
-		Labels:          viper.GetStringSlice(ghActionsRunnerLabels),
-		Platform:        &github.Linux,
-		Arch:            linuxArchAsGithubActionsArch(viper.GetString(LinuxArch)),
-		RunnerImageRepo: imageRepo,
+		Token:    token,
+		RepoURL:  repoURL,
+		Labels:   viper.GetStringSlice(ghActionsRunnerLabels),
+		Platform: &github.Linux,
+		Arch:     arch,
 	}
-}
-
-func validateRunnerImageRepo(repo string) error {
-	if !strings.HasPrefix(repo, "https://") {
-		return fmt.Errorf("only HTTPS URLs are allowed, got: %s", repo)
-	}
-	return nil
 }
 
 func AddCirrusFlags(fs *pflag.FlagSet) {
