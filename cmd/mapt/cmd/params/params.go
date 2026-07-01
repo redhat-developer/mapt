@@ -309,9 +309,6 @@ func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 		logging.Info("runner registration token generated successfully")
 	}
 
-	if arch == nil {
-		arch = linuxArchAsGithubActionsArch(viper.GetString(LinuxArch))
-	}
 	return &github.GithubRunnerArgs{
 		Token:    token,
 		RepoURL:  repoURL,
@@ -380,6 +377,10 @@ func linuxArchAsCirrusArch(arch string) *cirrus.Arch {
 		return &cirrus.Amd64
 	}
 	return &cirrus.Arm64
+}
+
+func LinuxGithubArch() *github.Arch {
+	return linuxArchAsGithubActionsArch(viper.GetString(LinuxArch))
 }
 
 func linuxArchAsGithubActionsArch(arch string) *github.Arch {

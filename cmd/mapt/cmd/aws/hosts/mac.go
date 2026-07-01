@@ -47,7 +47,7 @@ func getMacRequest() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					GHRunnerArgs:  params.GithubRunnerArgs(nil),
+					GHRunnerArgs:  params.GithubRunnerArgs(params.LinuxGithubArch()),
 					GLRunnerArgs:  params.GitLabRunnerArgs(params.LinuxGitLabArch()),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},

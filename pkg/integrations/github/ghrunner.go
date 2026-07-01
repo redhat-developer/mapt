@@ -15,6 +15,7 @@ var runnerVersion = "2.317.0"
 const runnerBaseURL = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-%[2]s-%[3]s-%[1]s"
 
 const runnerImageRepo = "https://github.com/aipcc-cicd/action-runner-image-pz.git"
+const runnerImageRepoVersion = "v2.0.0"
 
 //go:embed snippet-darwin.sh
 var snippetDarwin []byte
@@ -58,7 +59,8 @@ func (args *GithubRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 		Labels:          getLabels(),
 		RepoURL:         args.RepoURL,
 		CliURL:          downloadURL(),
-		RunnerImageRepo: runnerImageRepo,
+		RunnerImageRepo:        runnerImageRepo,
+		RunnerImageRepoVersion: runnerImageRepoVersion,
 	}
 }
 

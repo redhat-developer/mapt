@@ -3,7 +3,7 @@ set -euo pipefail
 
 apt-get update -y && apt-get install -y software-properties-common
 
-git clone --depth=1 "{{ .RunnerImageRepo }}" /opt/action-runner-image-pz
+git clone --branch "{{ .RunnerImageRepoVersion }}" --depth=1 "{{ .RunnerImageRepo }}" /opt/action-runner-image-pz
 
 cd /opt/action-runner-image-pz
 # Allow build to continue past flaky upstream test failures

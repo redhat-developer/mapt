@@ -17,7 +17,8 @@ type UserDataValues struct {
 	Unsecure       bool
 	Concurrent     int
 	LogToJournald  bool
-  RunnerImageRepo string
+	RunnerImageRepo        string
+	RunnerImageRepoVersion string
 }
 
 type IntegrationConfig interface {
