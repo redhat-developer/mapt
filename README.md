@@ -10,11 +10,11 @@ Mapt is a swiss army knife for provisioning environments, the project is focused
 
 ### Instances
 
-Mapt offers a set of instances categorize by the OS, instances can benefit from spot module which will allocate the machine on a region with a good relationship beetween cost / availability. Also and depending on the type of instances it will use specific best practices to boost the provisioning time (i.e Fast Launch, Root Volume Replacement, ...). 
+Mapt offers a set of instances categorize by the OS, instances can benefit from spot module which will allocate the machine on a region with a good relationship between cost / availability. Also and depending on the type of instances it will use specific best practices to boost the provisioning time (i.e Fast Launch, Root Volume Replacement, ...). 
 
 Instances can be wrapped on specific topologies like airgap, in this case mapt will set the target isolated and will create a bastion to allow access to it. 
 
-Instances can also define a timeout to avoid leftovers in case destoy operation is missing. Using this approach mapt will be execute as an unateneded execution using servless technologies. 
+Instances can also define a timeout to avoid leftovers in case destroy operation is missing. Using this approach mapt will be execute as an unattended execution using serverless technologies. 
 
 [MacOS](docs/aws/mac.md) - [Windows Server](docs/aws/windows.md) - [Windows Desktop](docs/azure/windows.md) - [RHEL](docs/aws/rhel.md) - [Fedora](docs/azure/fedora.md) - [Ubuntu](docs/azure/ubuntu.md)
 
@@ -41,4 +41,4 @@ The integrations allow to provision the machine and link to different CI/CD syst
 * [Cirrus Persistent Worker](https://cirrus-ci.org/guide/persistent-workers/)
 * [GitLab Runner](docs/gitlab-runner.md)
 
-And [Tekton taks](tkn) are offered to dynamically provision the remote target to use within tekton pipelines
+And [Tekton tasks](tkn) are offered to dynamically provision the remote target to use within tekton pipelines
