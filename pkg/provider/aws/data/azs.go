@@ -42,12 +42,13 @@ type AvailabilityZonesResult struct {
 	Err               error
 }
 
-func describeAvailabilityZonesAsync(ctx context.Context, regionName string, c chan AvailabilityZonesResult) {
-	data, err := DescribeAvailabilityZones(ctx, regionName)
-	c <- AvailabilityZonesResult{
-		AvailabilityZones: data,
-		Err:               err}
-
+func describeAvailabilityZonesAllAsync(ctx context.Context, regionName string, c chan AvailabilityZonesResult) {
+	data, err := describeAvailabilityZonesAll(ctx, regionName)
+	if err != nil || len(data) == 0 {
+		// AllAvailabilityZones: true may be SCP-blocked or unsupported; fall back.
+		data, err = describeAvailabilityZones(ctx, regionName, nil)
+	}
+	c <- AvailabilityZonesResult{AvailabilityZones: data, Err: err}
 }
 
 func DescribeAvailabilityZones(ctx context.Context, regionName string) ([]ec2Types.AvailabilityZone, error) {
@@ -55,6 +56,18 @@ func DescribeAvailabilityZones(ctx context.Context, regionName string) ([]ec2Typ
 }
 
 func describeAvailabilityZones(ctx context.Context, regionName string, excludedZoneIDs []string) ([]ec2Types.AvailabilityZone, error) {
+	return describeAvailabilityZonesOpts(ctx, regionName, excludedZoneIDs, false)
+}
+
+// describeAvailabilityZonesAll is like describeAvailabilityZones but includes AZs not
+// normally visible to the account (AllAvailabilityZones: true). Used only for AZ ID→name
+// resolution during spot placement score lookups, where the scores API can return AZ IDs
+// for zones not yet opted-in to by the account.
+func describeAvailabilityZonesAll(ctx context.Context, regionName string) ([]ec2Types.AvailabilityZone, error) {
+	return describeAvailabilityZonesOpts(ctx, regionName, nil, true)
+}
+
+func describeAvailabilityZonesOpts(ctx context.Context, regionName string, excludedZoneIDs []string, allZones bool) ([]ec2Types.AvailabilityZone, error) {
 	var cfgOpts config.LoadOptionsFunc
 	if len(regionName) > 0 {
 		cfgOpts = config.WithRegion(regionName)
@@ -64,9 +77,8 @@ func describeAvailabilityZones(ctx context.Context, regionName string, excludedZ
 		return nil, err
 	}
 	client := ec2.NewFromConfig(cfg)
-	// TODO check what happen when true and region name
 	input := ec2.DescribeAvailabilityZonesInput{
-		// AllAvailabilityZones: aws.Bool(true),
+		AllAvailabilityZones: aws.Bool(allZones),
 	}
 	input.Filters = []ec2Types.Filter{
 		{
@@ -112,19 +124,26 @@ func getZoneName(azID string, azDescriptions []ec2Types.AvailabilityZone) (strin
 // user 1 Name: us-west-1a ID: us-west-11, Name: us-west-1b ID: us-west-12
 // user 2 Name: us-west-1a ID: us-west-12, Name: us-west-1b ID: us-west-11
 // This allowsa a better distribution among users
+// describeAvailabilityZonesByRegions fetches all AZs (including non-opted-in ones) so
+// that AZ IDs returned by GetSpotPlacementScores can always be resolved to names.
 func describeAvailabilityZonesByRegions(ctx context.Context, regions []string) map[string][]ec2Types.AvailabilityZone {
 	result := make(map[string][]ec2Types.AvailabilityZone)
 	c := make(chan AvailabilityZonesResult)
 	for _, region := range regions {
 		lRegion := region
-		go describeAvailabilityZonesAsync(ctx, lRegion, c)
+		go describeAvailabilityZonesAllAsync(ctx, lRegion, c)
 	}
 	for i := 0; i < len(regions); i++ {
 		availabilityZonesResult := <-c
-		if availabilityZonesResult.Err == nil {
-			region := availabilityZonesResult.AvailabilityZones[0].RegionName
-			result[*region] = append(result[*region], availabilityZonesResult.AvailabilityZones...)
+		if availabilityZonesResult.Err != nil {
+			logging.Debugf("could not describe AZs: %v", availabilityZonesResult.Err)
+			continue
 		}
+		if len(availabilityZonesResult.AvailabilityZones) == 0 {
+			continue
+		}
+		region := availabilityZonesResult.AvailabilityZones[0].RegionName
+		result[*region] = append(result[*region], availabilityZonesResult.AvailabilityZones...)
 	}
 	close(c)
 	return result

@@ -8,6 +8,7 @@ import (
 	bastion "github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	na "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/airgap"
 	ns "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	utilNetwork "github.com/redhat-developer/mapt/pkg/util/network"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -36,7 +37,10 @@ type NetworkArgs struct {
 	CreateLoadBalancer      bool
 	Airgap                  bool
 	AirgapPhaseConnectivity Connectivity
-	ServiceEndpoints []string
+	ServiceEndpoints        []string
+	// VpcID deploys into an existing VPC instead of creating one.
+	// Airgap is not supported when VpcID is set.
+	VpcID *string
 }
 
 type NetworkResult struct {
@@ -47,23 +51,28 @@ type NetworkResult struct {
 	LoadBalancer                *lb.LoadBalancer
 	// If Airgap true on args
 	Bastion *bastion.BastionResult
+	// IsPublic is false when the selected subnet has no internet gateway route
+	// (private subnet in an existing VPC). In that case no EIP or LB is created;
+	// the machine connects outbound only and SSH readiness checks are skipped.
+	IsPublic bool
 }
 
 func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, error) {
 	var err error
-	result := &NetworkResult{}
-	if !args.Airgap {
-		result, err = standardNetwork(ctx, mCtx, args)
+	var result *NetworkResult
+	switch {
+	case args.VpcID != nil:
+		result, err = existingVPCNetwork(ctx, mCtx, args)
 		if err != nil {
 			return nil, err
 		}
-	} else {
+	case args.Airgap:
 		var publicSubnet *ec2.Subnet
-		result, publicSubnet, err =
-			airgapNetworking(ctx, mCtx, args)
+		result, publicSubnet, err = airgapNetworking(ctx, mCtx, args)
 		if err != nil {
 			return nil, err
 		}
+		result.IsPublic = true
 		result.Bastion, err = bastion.Create(ctx, mCtx,
 			&bastion.BastionArgs{
 				Prefix: args.Prefix,
@@ -73,31 +82,72 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 		if err != nil {
 			return nil, err
 		}
-	}
-	result.Eip, err = ec2.NewEip(ctx,
-		resourcesUtil.GetResourceName(args.Prefix, args.ID, "lbeip"),
-		&ec2.EipArgs{
-			Tags: mCtx.ResourceTags(),
-		})
-	if err != nil {
-		return nil, err
-	}
-	if args.CreateLoadBalancer {
-		lba := &loadBalancerArgs{
-			prefix: &args.Prefix,
-			id:     &args.ID,
-			mCtx:   mCtx,
-			subnet: result.Subnet,
-		}
-		if !args.Airgap {
-			lba.eip = result.Eip
-		}
-		result.LoadBalancer, err = loadBalancer(ctx, lba)
+	default:
+		result, err = standardNetwork(ctx, mCtx, args)
 		if err != nil {
 			return nil, err
 		}
+		result.IsPublic = true
+	}
+	// Only create an EIP and load balancer for public-facing deployments.
+	// Private subnets in an existing VPC use outbound-only connectivity.
+	if result.IsPublic {
+		result.Eip, err = ec2.NewEip(ctx,
+			resourcesUtil.GetResourceName(args.Prefix, args.ID, "lbeip"),
+			&ec2.EipArgs{
+				Tags: mCtx.ResourceTags(),
+			})
+		if err != nil {
+			return nil, err
+		}
+		if args.CreateLoadBalancer {
+			lba := &loadBalancerArgs{
+				prefix: &args.Prefix,
+				id:     &args.ID,
+				mCtx:   mCtx,
+				subnet: result.Subnet,
+			}
+			if !args.Airgap {
+				lba.eip = result.Eip
+			}
+			result.LoadBalancer, err = loadBalancer(ctx, lba)
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 	return result, nil
+}
+
+func existingVPCNetwork(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, error) {
+	subnetID, err := data.GetPublicSubnetIDInAZ(ctx.Context(), args.Region, *args.VpcID, args.AZ)
+	isPublic := true
+	if err != nil {
+		// No public subnet in this AZ. Fall back to any available subnet so the
+		// machine can still run as an outbound-only workload (e.g. a GitLab runner).
+		subnetID, err = data.GetAnySubnetIDInAZ(ctx.Context(), args.Region, *args.VpcID, args.AZ)
+		if err != nil {
+			return nil, err
+		}
+		isPublic = false
+	}
+	vpc, err := ec2.GetVpc(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ID, "vpc"),
+		pulumi.ID(*args.VpcID), nil)
+	if err != nil {
+		return nil, err
+	}
+	subnet, err := ec2.GetSubnet(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ID, "subnet"),
+		pulumi.ID(*subnetID), nil)
+	if err != nil {
+		return nil, err
+	}
+	return &NetworkResult{
+		Vpc:      vpc,
+		Subnet:   subnet,
+		IsPublic: isPublic,
+	}, nil
 }
 
 func standardNetwork(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, error) {

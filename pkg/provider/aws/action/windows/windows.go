@@ -46,10 +46,11 @@ type WindowsServerArgs struct {
 	AMILang     string
 	AMIKeepCopy bool
 	// Machine params
-	ComputeRequest *cr.ComputeRequestArgs
-	Spot           *spotTypes.SpotArgs
-	Airgap         bool
+	ComputeRequest   *cr.ComputeRequestArgs
+	Spot             *spotTypes.SpotArgs
+	Airgap           bool
 	ServiceEndpoints []string
+	VpcID            *string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -64,12 +65,13 @@ type windowsServerRequest struct {
 	amiLang     *string
 	amiKeepCopy *bool
 
-	spot           bool
-	timeout        *string
+	spot             bool
+	timeout          *string
 	serviceEndpoints []string
-	allocationData *allocation.AllocationResult
-	airgap         *bool
-	diskSize       *int
+	vpcID            *string
+	allocationData   *allocation.AllocationResult
+	airgap           *bool
+	diskSize         *int
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -104,6 +106,9 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 		args.AMIName = amiNonEngNameDefault
 	}
 	// Compose request
+	if args.VpcID != nil && args.Airgap {
+		return fmt.Errorf("--vpc-id and --airgap are mutually exclusive")
+	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := windowsServerRequest{
 		mCtx:             mCtx,
@@ -115,6 +120,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 		amiLang:          &args.AMILang,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
+		vpcID:            args.VpcID,
 		airgap:           &args.Airgap,
 	}
 	if args.ComputeRequest != nil {
@@ -129,6 +135,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 			ComputeRequest:        args.ComputeRequest,
 			AMIProductDescription: &amiProduct,
 			Spot:                  args.Spot,
+			VpcID:                 args.VpcID,
 		})
 	if err != nil {
 		return err
@@ -259,7 +266,8 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 			CreateLoadBalancer:      r.spot,
 			Airgap:                  *r.airgap,
 			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-			ServiceEndpoints:               r.serviceEndpoints,
+			ServiceEndpoints:        r.serviceEndpoints,
+			VpcID:                   r.vpcID,
 		})
 	if err != nil {
 		return err
@@ -275,7 +283,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc, nw.IsPublic)
 	if err != nil {
 		return err
 	}
@@ -339,6 +347,9 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
+	if !nw.IsPublic {
+		return nil
+	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsWindowsDedicatedID,
 		keyResources.PrivateKey, *r.amiUser, nw.Bastion, c.Dependencies)
 }
@@ -360,26 +371,25 @@ func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix *string, 
 	return output.Write(stackResult, mCtx.GetResultsOutputPath(), results)
 }
 
-// security group for mac machine with ingress rules for ssh and vnc
 func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
-	vpc *ec2.Vpc) (pulumi.StringArray, error) {
-	// ingress for ssh access from 0.0.0.0
-	sshIngressRule := securityGroup.SSH_TCP
-	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
-	rdpIngressRule := securityGroup.RDP_TCP
-	rdpIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
-	// Create SG with ingress rules
+	vpc *ec2.Vpc, public bool) (pulumi.StringArray, error) {
+	var ingressRules []securityGroup.IngressRules
+	if public {
+		sshIngressRule := securityGroup.SSH_TCP
+		sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+		rdpIngressRule := securityGroup.RDP_TCP
+		rdpIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+		ingressRules = []securityGroup.IngressRules{sshIngressRule, rdpIngressRule}
+	}
 	sg, err := securityGroup.SGRequest{
-		Name:        resourcesUtil.GetResourceName(*prefix, awsWindowsDedicatedID, "sg"),
-		VPC:         vpc,
-		Description: fmt.Sprintf("sg for %s", awsWindowsDedicatedID),
-		IngressRules: []securityGroup.IngressRules{
-			sshIngressRule, rdpIngressRule},
+		Name:         resourcesUtil.GetResourceName(*prefix, awsWindowsDedicatedID, "sg"),
+		VPC:          vpc,
+		Description:  fmt.Sprintf("sg for %s", awsWindowsDedicatedID),
+		IngressRules: ingressRules,
 	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
-	// Convert to an array of IDs
 	sgs := util.ArrayConvert([]*ec2.SecurityGroup{sg.SG},
 		func(sg *ec2.SecurityGroup) pulumi.StringInput {
 			return sg.ID()

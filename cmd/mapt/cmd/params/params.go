@@ -205,7 +205,9 @@ const (
 	KindExtraPortMappingsDesc = "Additional port mappings for the Kind cluster. Value should be a JSON array of objects with containerPort, hostPort, and protocol properties. Example: '[{\"containerPort\": 8080, \"hostPort\": 8080, \"protocol\": \"TCP\"}]'"
 
 	// Network
-	ServiceEndpoints = "service-endpoints"
+	ServiceEndpoints    = "service-endpoints"
+	VpcID               = "vpc-id"
+	VpcIDDesc           = "ID of an existing VPC to deploy the instance into. When set, airgap is not supported and spot search is restricted to AZs with subnets in that VPC."
 
 	// Spot
 	spot                         = "spot"
@@ -222,10 +224,19 @@ const (
 
 func AddNetworkFlags(fs *pflag.FlagSet, desc string) {
 	fs.StringSliceP(ServiceEndpoints, "", []string{}, desc)
+	fs.StringP(VpcID, "", "", VpcIDDesc)
 }
 
 func NetworkServiceEndpoints() []string {
 	return viper.GetStringSlice(ServiceEndpoints)
+}
+
+func NetworkVpcID() *string {
+	if viper.IsSet(VpcID) {
+		v := viper.GetString(VpcID)
+		return &v
+	}
+	return nil
 }
 
 func AddSpotFlags(fs *pflag.FlagSet) {
