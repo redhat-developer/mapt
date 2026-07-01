@@ -24,6 +24,7 @@ type SpotStackArgs struct {
 	AMIOwner           string
 	AMIPublic          bool
 	Spot               *spotTypes.SpotArgs
+	AllowedAZs         []string
 }
 
 type SpotStackResult struct {
@@ -44,6 +45,7 @@ type spotStackRequest struct {
 	amiOwner           string
 	amiPublic          bool
 	spot               *spotTypes.SpotArgs
+	allowedAZs         []string
 }
 
 func (r *SpotStackArgs) validate() error {
@@ -61,6 +63,7 @@ func (r *SpotStackArgs) toRequest(mCtx *mc.Context) *spotStackRequest {
 		amiOwner:           r.AMIOwner,
 		amiPublic:          r.AMIPublic,
 		spot:               r.Spot,
+		allowedAZs:         r.AllowedAZs,
 	}
 }
 
@@ -138,6 +141,7 @@ func (r *spotStackRequest) deployer(ctx *pulumi.Context) error {
 		AMIName:            &r.amiName,
 		AMIArch:            &r.amiArch,
 		AMIPublic:          r.amiPublic,
+		AllowedAZs:         r.allowedAZs,
 	}
 	if len(r.amiOwner) > 0 {
 		sia.AMIOwner = &r.amiOwner

@@ -43,6 +43,7 @@ type RHELArgs struct {
 	Spot           *spotTypes.SpotArgs
 	Airgap         bool
 	ServiceEndpoints []string
+	VpcID *string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -58,6 +59,7 @@ type rhelRequest struct {
 	profileSNC     *bool
 	timeout        *string
 	serviceEndpoints []string
+	vpcID          *string
 	allocationData *allocation.AllocationResult
 	airgap         *bool
 	diskSize       *int
@@ -87,6 +89,9 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELArgs) (err error) {
 		return err
 	}
 	// Compose request
+	if args.VpcID != nil && args.Airgap {
+		return fmt.Errorf("--vpc-id and --airgap are mutually exclusive")
+	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelRequest{
 		mCtx:             mCtx,
@@ -98,6 +103,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELArgs) (err error) {
 		subsUserpass:     &args.SubsUserpass,
 		profileSNC:       &args.ProfileSNC,
 		serviceEndpoints: args.ServiceEndpoints,
+		vpcID:            args.VpcID,
 		airgap:           &args.Airgap,
 		diskSize:         args.ComputeRequest.DiskSize}
 	if args.Spot != nil {
@@ -109,6 +115,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELArgs) (err error) {
 			ComputeRequest:        args.ComputeRequest,
 			AMIProductDescription: &amiProduct,
 			Spot:                  args.Spot,
+			VpcID:                 args.VpcID,
 		})
 	if err != nil {
 		return err
@@ -224,7 +231,8 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 			CreateLoadBalancer:      r.allocationData.SpotPrice != nil,
 			Airgap:                  *r.airgap,
 			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-			ServiceEndpoints:               r.serviceEndpoints,
+			ServiceEndpoints:        r.serviceEndpoints,
+			VpcID:                   r.vpcID,
 		})
 	if err != nil {
 		return err

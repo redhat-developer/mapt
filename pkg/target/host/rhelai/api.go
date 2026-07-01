@@ -16,11 +16,12 @@ type RHELAIArgs struct {
 	Spot             *spotTypes.SpotArgs
 	ServiceEndpoints []string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
-	Timeout   string
-	Model     string
-	HFToken   string
-	APIKey         string
+	Timeout       string
+	Model         string
+	HFToken       string
+	APIKey        string
 	AutoStart     bool
 	VLLMExtraArgs string
 	ExposePorts   []int
+	VpcID         *string
 }
