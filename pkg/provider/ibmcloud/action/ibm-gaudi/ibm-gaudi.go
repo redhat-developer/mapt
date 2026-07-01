@@ -47,7 +47,7 @@ const (
 
 	defaultProfile = "gx3d-160x1792x8gaudi3"
 	defaultImage   = "ibm-redhat-ai-intel"
-	defaultUser    = "root"
+	defaultUser    = "cloud-user"
 )
 
 type GaudiArgs struct {
