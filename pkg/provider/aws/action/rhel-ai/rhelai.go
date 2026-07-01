@@ -42,6 +42,7 @@ type rhelAIRequest struct {
 	marketplace      bool
 	timeout          *string
 	serviceEndpoints []string
+	vpcID            *string
 	allocationData   *allocation.AllocationResult
 	diskSize         *int
 	model            *string
@@ -106,6 +107,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 		marketplace:      args.Marketplace,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
+		vpcID:            args.VpcID,
 		diskSize:         args.ComputeRequest.DiskSize,
 		model:            &args.Model,
 		hfToken:          &args.HFToken,
@@ -122,6 +124,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 		AMIProductDescription: &amiProduct,
 		AMIName:               &amiName,
 		Spot:                  args.Spot,
+		VpcID:                 args.VpcID,
 	}
 	if args.Marketplace {
 		owner := marketplaceOwner
@@ -312,6 +315,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 			AZ:                 *r.allocationData.AZ,
 			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
 			ServiceEndpoints:   r.serviceEndpoints,
+			VpcID:              r.vpcID,
 		})
 	if err != nil {
 		return err

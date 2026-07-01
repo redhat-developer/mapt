@@ -67,6 +67,7 @@ func getRHELCreate() *cobra.Command {
 					Timeout:          viper.GetString(params.Timeout),
 					Airgap:           viper.IsSet(airgap),
 					ServiceEndpoints: params.NetworkServiceEndpoints(),
+					VpcID:            params.NetworkVpcID(),
 				})
 		},
 	}
