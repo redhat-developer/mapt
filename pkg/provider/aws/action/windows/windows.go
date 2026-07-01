@@ -283,7 +283,7 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc, nw.IsPublic)
 	if err != nil {
 		return err
 	}
@@ -347,6 +347,9 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
+	if !nw.IsPublic {
+		return nil
+	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsWindowsDedicatedID,
 		keyResources.PrivateKey, *r.amiUser, nw.Bastion, c.Dependencies)
 }
@@ -368,26 +371,25 @@ func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix *string, 
 	return output.Write(stackResult, mCtx.GetResultsOutputPath(), results)
 }
 
-// security group for mac machine with ingress rules for ssh and vnc
 func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
-	vpc *ec2.Vpc) (pulumi.StringArray, error) {
-	// ingress for ssh access from 0.0.0.0
-	sshIngressRule := securityGroup.SSH_TCP
-	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
-	rdpIngressRule := securityGroup.RDP_TCP
-	rdpIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
-	// Create SG with ingress rules
+	vpc *ec2.Vpc, public bool) (pulumi.StringArray, error) {
+	var ingressRules []securityGroup.IngressRules
+	if public {
+		sshIngressRule := securityGroup.SSH_TCP
+		sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+		rdpIngressRule := securityGroup.RDP_TCP
+		rdpIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+		ingressRules = []securityGroup.IngressRules{sshIngressRule, rdpIngressRule}
+	}
 	sg, err := securityGroup.SGRequest{
-		Name:        resourcesUtil.GetResourceName(*prefix, awsWindowsDedicatedID, "sg"),
-		VPC:         vpc,
-		Description: fmt.Sprintf("sg for %s", awsWindowsDedicatedID),
-		IngressRules: []securityGroup.IngressRules{
-			sshIngressRule, rdpIngressRule},
+		Name:         resourcesUtil.GetResourceName(*prefix, awsWindowsDedicatedID, "sg"),
+		VPC:          vpc,
+		Description:  fmt.Sprintf("sg for %s", awsWindowsDedicatedID),
+		IngressRules: ingressRules,
 	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
-	// Convert to an array of IDs
 	sgs := util.ArrayConvert([]*ec2.SecurityGroup{sg.SG},
 		func(sg *ec2.SecurityGroup) pulumi.StringInput {
 			return sg.ID()

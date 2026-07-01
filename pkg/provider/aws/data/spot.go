@@ -462,9 +462,23 @@ type placementScoreResult struct {
 // skipped. Returns a map of region → AZ scores filtered to those meeting minPlacementScore.
 func getPlacementScores(args placementScoreArgs, regions []string) (map[string][]placementScoreResult, error) {
 	azsByRegion := describeAvailabilityZonesByRegions(args.ctx, regions)
+	// Restrict placement score request to regions where AZ IDs can be resolved.
+	// If DescribeAvailabilityZones failed for a region (SCP restriction, region not
+	// enabled, etc.) scores returned for that region cannot be matched to an AZ name.
+	resolvedRegions := make([]string, 0, len(regions))
+	for _, r := range regions {
+		if _, ok := azsByRegion[r]; ok {
+			resolvedRegions = append(resolvedRegions, r)
+		} else {
+			logging.Debugf("excluding region %s from spot search: AZ information unavailable", r)
+		}
+	}
+	if len(resolvedRegions) == 0 {
+		return nil, fmt.Errorf("no regions with resolvable AZ information available for spot search")
+	}
 	var lastErr error
 	for _, apiRegion := range args.apiRegions {
-		result, err := placementScoresViaRegion(apiRegion, args, regions, azsByRegion)
+		result, err := placementScoresViaRegion(apiRegion, args, resolvedRegions, azsByRegion)
 		if err != nil {
 			logging.Debugf("placement score API unavailable in region %s: %v, trying next", apiRegion, err)
 			lastErr = err

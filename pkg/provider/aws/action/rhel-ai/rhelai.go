@@ -247,7 +247,7 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := r.securityGroups(ctx, r.mCtx, nw.Vpc)
+	securityGroups, err := r.securityGroups(ctx, r.mCtx, nw.Vpc, nw.IsPublic)
 	if err != nil {
 		return err
 	}
@@ -293,6 +293,9 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
+	if !nw.IsPublic {
+		return nil
+	}
 	if !r.autoStart {
 		return c.Readiness(ctx, command.CommandPing, *r.prefix, awsRHELDedicatedID,
 			keyResources.PrivateKey, amiUserDefault, nil, c.Dependencies)
@@ -325,22 +328,22 @@ func (r *rhelAIRequest) manageResults(stackResult auto.UpResult) error {
 	return output.Write(stackResult, r.mCtx.GetResultsOutputPath(), results)
 }
 
-// security group for mac machine with ingress rules for ssh and vnc
 func (r *rhelAIRequest) securityGroups(ctx *pulumi.Context, mCtx *mc.Context,
-	vpc *ec2.Vpc) (pulumi.StringArray, error) {
-	// ingress for ssh access from 0.0.0.0
-	sshIngressRule := securityGroup.SSH_TCP
-	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
-	ingressRules := []securityGroup.IngressRules{sshIngressRule}
-	for _, port := range r.exposePorts {
-		rule := securityGroup.IngressRules{
-			Description: fmt.Sprintf("port-%d", port),
-			FromPort:    port,
-			ToPort:      port,
-			Protocol:    "tcp",
-			CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
+	vpc *ec2.Vpc, public bool) (pulumi.StringArray, error) {
+	var ingressRules []securityGroup.IngressRules
+	if public {
+		sshIngressRule := securityGroup.SSH_TCP
+		sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+		ingressRules = []securityGroup.IngressRules{sshIngressRule}
+		for _, port := range r.exposePorts {
+			ingressRules = append(ingressRules, securityGroup.IngressRules{
+				Description: fmt.Sprintf("port-%d", port),
+				FromPort:    port,
+				ToPort:      port,
+				Protocol:    "tcp",
+				CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
+			})
 		}
-		ingressRules = append(ingressRules, rule)
 	}
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{

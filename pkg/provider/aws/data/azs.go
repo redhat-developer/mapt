@@ -44,6 +44,10 @@ type AvailabilityZonesResult struct {
 
 func describeAvailabilityZonesAllAsync(ctx context.Context, regionName string, c chan AvailabilityZonesResult) {
 	data, err := describeAvailabilityZonesAll(ctx, regionName)
+	if err != nil || len(data) == 0 {
+		// AllAvailabilityZones: true may be SCP-blocked or unsupported; fall back.
+		data, err = describeAvailabilityZones(ctx, regionName, nil)
+	}
 	c <- AvailabilityZonesResult{AvailabilityZones: data, Err: err}
 }
 
@@ -131,10 +135,15 @@ func describeAvailabilityZonesByRegions(ctx context.Context, regions []string) m
 	}
 	for i := 0; i < len(regions); i++ {
 		availabilityZonesResult := <-c
-		if availabilityZonesResult.Err == nil {
-			region := availabilityZonesResult.AvailabilityZones[0].RegionName
-			result[*region] = append(result[*region], availabilityZonesResult.AvailabilityZones...)
+		if availabilityZonesResult.Err != nil {
+			logging.Debugf("could not describe AZs: %v", availabilityZonesResult.Err)
+			continue
 		}
+		if len(availabilityZonesResult.AvailabilityZones) == 0 {
+			continue
+		}
+		region := availabilityZonesResult.AvailabilityZones[0].RegionName
+		result[*region] = append(result[*region], availabilityZonesResult.AvailabilityZones...)
 	}
 	close(c)
 	return result

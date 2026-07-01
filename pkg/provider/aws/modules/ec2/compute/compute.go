@@ -86,17 +86,28 @@ type Compute struct {
 func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 	if r.Spot {
 		asg, err := r.spotInstance(ctx)
+		deps := []pulumi.Resource{asg}
+		if r.LB != nil {
+			deps = append(deps, r.LB)
+		}
+		if r.Eip != nil {
+			deps = append(deps, r.Eip)
+		}
 		return &Compute{
 			AutoscalingGroup: asg,
 			LB:               r.LB,
 			Eip:              r.Eip,
-			Dependencies:     []pulumi.Resource{asg, r.LB, r.Eip}}, err
+			Dependencies:     deps}, err
 	}
 	i, err := r.onDemandInstance(ctx)
+	deps := []pulumi.Resource{i}
+	if r.Eip != nil {
+		deps = append(deps, r.Eip)
+	}
 	return &Compute{
 		Instance:     i,
 		Eip:          r.Eip,
-		Dependencies: []pulumi.Resource{i, r.Eip}}, err
+		Dependencies: deps}, err
 }
 
 // Create on demand instance
@@ -112,7 +123,7 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		Ami:                      pulumi.String(r.AMI.Id),
 		InstanceType:             pulumi.String(instanceType),
 		KeyName:                  r.KeyResources.AWSKeyPair.KeyName,
-		AssociatePublicIpAddress: pulumi.Bool(true),
+		AssociatePublicIpAddress: pulumi.Bool(r.Eip != nil && !r.Airgap),
 		VpcSecurityGroupIds:      r.SecurityGroups,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(volSize),
@@ -125,9 +136,6 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 	if r.UserDataAsBase64 != nil {
 		args.UserDataBase64 = r.UserDataAsBase64
 	}
-	if r.Airgap {
-		args.AssociatePublicIpAddress = pulumi.Bool(false)
-	}
 	instance, err := ec2.NewInstance(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance"),
 		&args,
@@ -135,14 +143,16 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 	if err != nil {
 		return nil, err
 	}
-	_, err = ec2.NewEipAssociation(ctx,
-		resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance-eip"),
-		&ec2.EipAssociationArgs{
-			InstanceId:   instance.ID(),
-			AllocationId: r.Eip.ID(),
-		})
-	if err != nil {
-		return nil, err
+	if r.Eip != nil {
+		_, err = ec2.NewEipAssociation(ctx,
+			resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance-eip"),
+			&ec2.EipAssociationArgs{
+				InstanceId:   instance.ID(),
+				AllocationId: r.Eip.ID(),
+			})
+		if err != nil {
+			return nil, err
+		}
 	}
 	return instance, nil
 }
@@ -167,7 +177,7 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 		NetworkInterfaces: ec2.LaunchTemplateNetworkInterfaceArray{
 			&ec2.LaunchTemplateNetworkInterfaceArgs{
 				SecurityGroups:           r.SecurityGroups,
-				AssociatePublicIpAddress: pulumi.String(strconv.FormatBool(!r.Airgap)),
+				AssociatePublicIpAddress: pulumi.String(strconv.FormatBool(r.Eip != nil && !r.Airgap)),
 				SubnetId:                 r.Subnet.ID(),
 			},
 		},
@@ -213,14 +223,16 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 	if err != nil {
 		return nil, err
 	}
-	// Create target groups
+	// Create target groups (only when a load balancer is present)
 	var tgGroupsARNs []pulumi.StringOutput
-	for _, tgPort := range r.LBTargetGroups {
-		tg, err := r.createForwardTargetGRoups(ctx, tgPort)
-		if err != nil {
-			return nil, err
+	if r.LB != nil {
+		for _, tgPort := range r.LBTargetGroups {
+			tg, err := r.createForwardTargetGRoups(ctx, tgPort)
+			if err != nil {
+				return nil, err
+			}
+			tgGroupsARNs = append(tgGroupsARNs, tg.Arn)
 		}
-		tgGroupsARNs = append(tgGroupsARNs, tg.Arn)
 	}
 	overrides := autoscaling.GroupMixedInstancesPolicyLaunchTemplateOverrideArray{}
 	for _, instanceType := range r.InstaceTypes {
@@ -276,11 +288,18 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 }
 
 // function returns the ip to access the target host
-func (c *Compute) GetHostDnsName(public bool) (ip pulumi.StringInput) {
+func (c *Compute) GetHostDnsName(public bool) pulumi.StringInput {
 	if c.LB != nil {
 		return c.LB.DnsName
 	}
-	return util.If(public, c.Eip.PublicDns, c.Eip.PrivateDns)
+	if c.Eip != nil {
+		return util.If(public, c.Eip.PublicDns, c.Eip.PrivateDns)
+	}
+	// Private subnet: no EIP or LB — return the instance's private IP.
+	if c.Instance != nil {
+		return c.Instance.PrivateIp
+	}
+	return pulumi.String("")
 }
 
 func (c *Compute) GetHostIP(public bool) (ip pulumi.StringOutput) {
