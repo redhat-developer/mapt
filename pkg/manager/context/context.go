@@ -183,7 +183,7 @@ func addCommonTags(c *Context) {
 
 func manageIntegration(c *Context, ca *ContextArgs) error {
 	if ca.GHRunnerArgs != nil {
-		ca.GHRunnerArgs.Name = c.RunID()
+		ca.GHRunnerArgs.Name = c.ProjectName()
 		github.Init(ca.GHRunnerArgs)
 	}
 	if ca.CirrusPWArgs != nil {

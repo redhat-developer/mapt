@@ -8,9 +8,11 @@ var (
 	Linux   Platform = "linux"
 	Darwin  Platform = "osx"
 
-	Arm64 Arch = "arm64"
-	Amd64 Arch = "x64"
-	Arm   Arch = "arm"
+	Arm64   Arch = "arm64"
+	Amd64   Arch = "x64"
+	Arm     Arch = "arm"
+	Ppc64le Arch = "ppc64le"
+	S390x   Arch = "s390x"
 )
 
 type GithubRunnerArgs struct {

@@ -12,6 +12,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -31,8 +32,9 @@ import (
 var CloudConfig []byte
 
 type userDataValues struct {
-	OtelColScript      string
-	GitLabRunnerScript string
+	OtelColScript         string
+	GitLabRunnerScript    string
+	GHActionsRunnerScript string
 }
 
 const (
@@ -370,8 +372,19 @@ func (r *zRequest) buildUserDataInput() (pulumi.StringPtrInput, error) {
 		return nil, fmt.Errorf("partial otel configuration: --otel-app-code, --otel-auth-token, and --otel-index must all be set together")
 	}
 	hasOtel := otelSet == 3
+
+	ghRunnerScript := ""
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		s, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(ghRunnerArgs, defaultUser)
+		if err != nil {
+			return nil, err
+		}
+		ghRunnerScript = *s
+	}
+
 	if r.glAuthToken != nil {
 		localArgs := *r.glRunnerArgsCopy
+		localGHScript := ghRunnerScript
 		localArgs.LogToJournald = hasOtel
 		return r.glAuthToken.ApplyT(func(token string) (*string, error) {
 			localArgs.AuthToken = token
@@ -383,15 +396,19 @@ func (r *zRequest) buildUserDataInput() (pulumi.StringPtrInput, error) {
 			if hasOtel {
 				otelArgs = r.otelArgs(true)
 			}
-			ud, err := izUserData(otelArgs, *glSnippet)
+			ud, err := izUserData(otelArgs, *glSnippet, localGHScript)
 			if err != nil {
 				return nil, err
 			}
 			return &ud, nil
 		}).(pulumi.StringPtrOutput), nil
 	}
-	if hasOtel {
-		ud, err := izUserData(r.otelArgs(false), "")
+	if hasOtel || ghRunnerScript != "" {
+		var otelArgs *otelcol.OtelcolArgs
+		if hasOtel {
+			otelArgs = r.otelArgs(false)
+		}
+		ud, err := izUserData(otelArgs, "", ghRunnerScript)
 		if err != nil {
 			return nil, fmt.Errorf("failed to render user data: %w", err)
 		}
@@ -414,7 +431,7 @@ func (r *zRequest) otelArgs(monitorGitLabRunner bool) *otelcol.OtelcolArgs {
 	}
 }
 
-func izUserData(otelArgs *otelcol.OtelcolArgs, glRunnerScript string) (string, error) {
+func izUserData(otelArgs *otelcol.OtelcolArgs, glRunnerScript, ghRunnerScript string) (string, error) {
 	otelScript := ""
 	if otelArgs != nil {
 		s, err := otelcol.GetSnippetAsCloudInitWritableFile(otelArgs)
@@ -425,8 +442,9 @@ func izUserData(otelArgs *otelcol.OtelcolArgs, glRunnerScript string) (string, e
 	}
 	script, err := file.Template(
 		userDataValues{
-			OtelColScript:      otelScript,
-			GitLabRunnerScript: glRunnerScript,
+			OtelColScript:         otelScript,
+			GitLabRunnerScript:    glRunnerScript,
+			GHActionsRunnerScript: ghRunnerScript,
 		},
 		string(CloudConfig))
 	if err != nil {

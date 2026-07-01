@@ -1,6 +1,8 @@
 package params
 
 import (
+	"os"
+
 	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
@@ -167,8 +169,8 @@ const (
 	PIProcTypeDesc       string  = "PowerVS processor type (shared, dedicated, capped)"
 	PIProcTypeDefault    string  = "shared"
 	PISysType            string  = "pi-sys-type"
-	PISysTypeDesc        string  = "PowerVS system type (s922, s1022, e880, e980)"
-	PISysTypeDefault     string  = "s1022"
+	PISysTypeDesc        string  = "PowerVS system type (e.g. e1080, s1022, s1122)"
+	PISysTypeDefault     string  = "e1080"
 	PIStorageType        string  = "pi-storage-type"
 	PIStorageTypeDesc    string  = "PowerVS storage tier for instance and data volume (tier1, tier3)"
 	PIStorageTypeDefault string  = "tier1"
@@ -294,18 +296,38 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 	fs.StringSlice(ghActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)
 }
 
-func GithubRunnerArgs() *github.GithubRunnerArgs {
-	if viper.IsSet(ghActionsRunnerToken) {
-		return &github.GithubRunnerArgs{
-			Token:    viper.GetString(ghActionsRunnerToken),
-			RepoURL:  viper.GetString(ghActionsRunnerRepo),
-			Labels:   viper.GetStringSlice(ghActionsRunnerLabels),
-			Platform: &github.Linux,
-			Arch: linuxArchAsGithubActionsArch(
-				viper.GetString(LinuxArch)),
-		}
+func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
+	token := viper.GetString(ghActionsRunnerToken)
+	repoURL := viper.GetString(ghActionsRunnerRepo)
+	pat := os.Getenv("GITHUB_TOKEN")
+
+	if token == "" && pat == "" {
+		return nil
 	}
-	return nil
+
+	if repoURL == "" {
+		logging.Error("--ghactions-runner-repo is required for GitHub Actions runner setup")
+		return nil
+	}
+
+	if token == "" {
+		logging.Info("no --ghactions-runner-token provided, auto-generating from GITHUB_TOKEN")
+		var err error
+		token, err = github.GenerateRegistrationToken(pat, repoURL)
+		if err != nil {
+			logging.Errorf("failed to auto-generate runner registration token: %v", err)
+			return nil
+		}
+		logging.Info("runner registration token generated successfully")
+	}
+
+	return &github.GithubRunnerArgs{
+		Token:    token,
+		RepoURL:  repoURL,
+		Labels:   viper.GetStringSlice(ghActionsRunnerLabels),
+		Platform: &github.Linux,
+		Arch:     arch,
+	}
 }
 
 func AddCirrusFlags(fs *pflag.FlagSet) {
@@ -369,10 +391,18 @@ func linuxArchAsCirrusArch(arch string) *cirrus.Arch {
 	return &cirrus.Arm64
 }
 
+func LinuxGithubArch() *github.Arch {
+	return linuxArchAsGithubActionsArch(viper.GetString(LinuxArch))
+}
+
 func linuxArchAsGithubActionsArch(arch string) *github.Arch {
 	switch arch {
 	case "x86_64":
 		return &github.Amd64
+	case "ppc64le":
+		return &github.Ppc64le
+	case "s390x":
+		return &github.S390x
 	}
 	return &github.Arm64
 }

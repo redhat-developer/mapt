@@ -1,0 +1,11 @@
+name: s390x Runner Smoke Test
+on: workflow_dispatch
+jobs:
+  smoke-test:
+    runs-on: [self-hosted, S390X]
+    steps:
+      - name: Check architecture
+        run: |
+          echo "Architecture: $(uname -m)"
+          cat /etc/os-release | grep PRETTY_NAME
+          echo "Runner is alive on $(arch)"
