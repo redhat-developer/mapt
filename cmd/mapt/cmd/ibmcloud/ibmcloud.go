@@ -29,6 +29,7 @@ func GetCmd() *cobra.Command {
 	params.AddCommonFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	c.AddCommand(
+		hosts.IBMGaudiCmd(),
 		hosts.IBMPowerCmd(),
 		hosts.IBMZCmd())
 	return c
