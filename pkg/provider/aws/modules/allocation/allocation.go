@@ -8,6 +8,8 @@ import (
 	spotTypes "github.com/redhat-developer/mapt/pkg/provider/api/spot"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/spot"
+	"github.com/redhat-developer/mapt/pkg/util"
+	"golang.org/x/exp/slices"
 )
 
 var ErrNoSupportedInstaceTypes = fmt.Errorf("the current region does not support any of the requested instance types")
@@ -17,7 +19,8 @@ type AllocationArgs struct {
 	Prefix,
 	AMIProductDescription,
 	AMIName *string
-	Spot *spotTypes.SpotArgs
+	Spot  *spotTypes.SpotArgs
+	VpcID *string
 }
 
 type AllocationResult struct {
@@ -37,11 +40,20 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 			return nil, err
 		}
 	}
+	var allowedAZs []string
+	if args.VpcID != nil {
+		region := mCtx.TargetHostingPlace()
+		allowedAZs, err = data.GetSubnetAZsForVPC(mCtx.Context(), region, *args.VpcID)
+		if err != nil {
+			return nil, err
+		}
+	}
 	if args.Spot != nil && args.Spot.Spot {
 		sr := &spot.SpotStackArgs{
 			Prefix:       *args.Prefix,
 			InstaceTypes: instancesTypes,
 			Spot:         args.Spot,
+			AllowedAZs:   allowedAZs,
 		}
 		if args.AMIName != nil {
 			sr.AMIName = *args.AMIName
@@ -51,7 +63,7 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 		}
 		return allocationSpot(mCtx, sr)
 	}
-	return allocationOnDemand(mCtx, instancesTypes)
+	return allocationOnDemand(mCtx, instancesTypes, allowedAZs)
 }
 
 func allocationSpot(mCtx *mc.Context,
@@ -68,18 +80,25 @@ func allocationSpot(mCtx *mc.Context,
 	}, nil
 }
 
-func allocationOnDemand(mCtx *mc.Context, instancesTypes []string) (*AllocationResult, error) {
+func allocationOnDemand(mCtx *mc.Context, instancesTypes []string, allowedAZs []string) (*AllocationResult, error) {
 	region := mCtx.TargetHostingPlace()
+	candidateAZs := allowedAZs
+	if len(candidateAZs) == 0 {
+		candidateAZs = data.GetAvailabilityZones(mCtx.Context(), region, nil)
+	}
 	excludedAZs := []string{}
 	var err error
 	var az *string
 	var supportedInstancesType []string
-	azs := data.GetAvailabilityZones(mCtx.Context(), region, nil)
 	for {
-		az, err = data.GetRandomAvailabilityZone(mCtx.Context(), region, excludedAZs)
-		if err != nil {
-			return nil, err
+		remaining := util.ArrayFilter(candidateAZs, func(a string) bool {
+			return !slices.Contains(excludedAZs, a)
+		})
+		if len(remaining) == 0 {
+			return nil, ErrNoSupportedInstaceTypes
 		}
+		azName := remaining[util.Random(len(remaining)-1, 0)]
+		az = &azName
 		supportedInstancesType, err =
 			data.FilterInstaceTypesOfferedByLocation(mCtx.Context(), instancesTypes, &data.LocationArgs{
 				Region: &region,
@@ -92,9 +111,6 @@ func allocationOnDemand(mCtx *mc.Context, instancesTypes []string) (*AllocationR
 			break
 		}
 		excludedAZs = append(excludedAZs, *az)
-		if len(excludedAZs) == len(azs) {
-			return nil, ErrNoSupportedInstaceTypes
-		}
 	}
 	return &AllocationResult{
 		Region:        &region,

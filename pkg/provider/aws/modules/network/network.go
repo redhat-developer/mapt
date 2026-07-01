@@ -8,6 +8,7 @@ import (
 	bastion "github.com/redhat-developer/mapt/pkg/provider/aws/modules/bastion"
 	na "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/airgap"
 	ns "github.com/redhat-developer/mapt/pkg/provider/aws/modules/network/standard"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	utilNetwork "github.com/redhat-developer/mapt/pkg/util/network"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
@@ -36,7 +37,10 @@ type NetworkArgs struct {
 	CreateLoadBalancer      bool
 	Airgap                  bool
 	AirgapPhaseConnectivity Connectivity
-	ServiceEndpoints []string
+	ServiceEndpoints        []string
+	// VpcID deploys into an existing VPC instead of creating one.
+	// Airgap is not supported when VpcID is set.
+	VpcID *string
 }
 
 type NetworkResult struct {
@@ -51,16 +55,16 @@ type NetworkResult struct {
 
 func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, error) {
 	var err error
-	result := &NetworkResult{}
-	if !args.Airgap {
-		result, err = standardNetwork(ctx, mCtx, args)
+	var result *NetworkResult
+	switch {
+	case args.VpcID != nil:
+		result, err = existingVPCNetwork(ctx, mCtx, args)
 		if err != nil {
 			return nil, err
 		}
-	} else {
+	case args.Airgap:
 		var publicSubnet *ec2.Subnet
-		result, publicSubnet, err =
-			airgapNetworking(ctx, mCtx, args)
+		result, publicSubnet, err = airgapNetworking(ctx, mCtx, args)
 		if err != nil {
 			return nil, err
 		}
@@ -70,6 +74,11 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 				VPC:    result.Vpc,
 				Subnet: publicSubnet,
 			})
+		if err != nil {
+			return nil, err
+		}
+	default:
+		result, err = standardNetwork(ctx, mCtx, args)
 		if err != nil {
 			return nil, err
 		}
@@ -98,6 +107,29 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 		}
 	}
 	return result, nil
+}
+
+func existingVPCNetwork(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, error) {
+	subnetID, err := data.GetPublicSubnetIDInAZ(ctx.Context(), args.Region, *args.VpcID, args.AZ)
+	if err != nil {
+		return nil, err
+	}
+	vpc, err := ec2.GetVpc(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ID, "vpc"),
+		pulumi.ID(*args.VpcID), nil)
+	if err != nil {
+		return nil, err
+	}
+	subnet, err := ec2.GetSubnet(ctx,
+		resourcesUtil.GetResourceName(args.Prefix, args.ID, "subnet"),
+		pulumi.ID(*subnetID), nil)
+	if err != nil {
+		return nil, err
+	}
+	return &NetworkResult{
+		Vpc:    vpc,
+		Subnet: subnet,
+	}, nil
 }
 
 func standardNetwork(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkResult, error) {

@@ -115,6 +115,9 @@ type SpotInfoArgs struct {
 	ExcludedRegions       []string
 	SpotTolerance         *spot.Tolerance
 	SpotPriceIncreaseRate *int
+	// AllowedAZs restricts spot selection to specific availability zones.
+	// Used when deploying into a fixed VPC to only consider AZs with subnets in that VPC.
+	AllowedAZs []string
 }
 
 type SpotInfoResult struct {
@@ -193,6 +196,18 @@ func SpotInfo(mCtx *mc.Context, args *SpotInfoArgs) (*spot.SpotResults, error) {
 		regions)
 	if err != nil {
 		return nil, err
+	}
+	if len(args.AllowedAZs) > 0 {
+		for region, scores := range placementScores {
+			filtered := util.ArrayFilter(scores, func(s placementScoreResult) bool {
+				return slices.Contains(args.AllowedAZs, s.azName)
+			})
+			if len(filtered) == 0 {
+				delete(placementScores, region)
+			} else {
+				placementScores[region] = filtered
+			}
+		}
 	}
 	regionsWithPlacementScore := utilMaps.Keys(placementScores)
 	spotPricing, err := hostingPlaces.RunOnHostingPlaces(regionsWithPlacementScore,

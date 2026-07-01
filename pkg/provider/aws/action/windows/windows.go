@@ -46,10 +46,11 @@ type WindowsServerArgs struct {
 	AMILang     string
 	AMIKeepCopy bool
 	// Machine params
-	ComputeRequest *cr.ComputeRequestArgs
-	Spot           *spotTypes.SpotArgs
-	Airgap         bool
+	ComputeRequest   *cr.ComputeRequestArgs
+	Spot             *spotTypes.SpotArgs
+	Airgap           bool
 	ServiceEndpoints []string
+	VpcID            *string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -64,12 +65,13 @@ type windowsServerRequest struct {
 	amiLang     *string
 	amiKeepCopy *bool
 
-	spot           bool
-	timeout        *string
+	spot             bool
+	timeout          *string
 	serviceEndpoints []string
-	allocationData *allocation.AllocationResult
-	airgap         *bool
-	diskSize       *int
+	vpcID            *string
+	allocationData   *allocation.AllocationResult
+	airgap           *bool
+	diskSize         *int
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -104,6 +106,9 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 		args.AMIName = amiNonEngNameDefault
 	}
 	// Compose request
+	if args.VpcID != nil && args.Airgap {
+		return fmt.Errorf("--vpc-id and --airgap are mutually exclusive")
+	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := windowsServerRequest{
 		mCtx:             mCtx,
@@ -115,6 +120,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 		amiLang:          &args.AMILang,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
+		vpcID:            args.VpcID,
 		airgap:           &args.Airgap,
 	}
 	if args.ComputeRequest != nil {
@@ -129,6 +135,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 			ComputeRequest:        args.ComputeRequest,
 			AMIProductDescription: &amiProduct,
 			Spot:                  args.Spot,
+			VpcID:                 args.VpcID,
 		})
 	if err != nil {
 		return err
@@ -259,7 +266,8 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 			CreateLoadBalancer:      r.spot,
 			Airgap:                  *r.airgap,
 			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-			ServiceEndpoints:               r.serviceEndpoints,
+			ServiceEndpoints:        r.serviceEndpoints,
+			VpcID:                   r.vpcID,
 		})
 	if err != nil {
 		return err
