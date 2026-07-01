@@ -27,6 +27,11 @@ const (
 
 	sncProfile     = "profile"
 	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai, nvidia. The ai profile automatically includes servicemesh and serverless-serving as prerequisites and raises the minimum instance size to 16 vCPUs. The nvidia profile installs NFD and the NVIDIA GPU Operator"
+
+	operatorChannel     = "operator-channel"
+	operatorChannelDesc = "override the OLM subscription channel for an operator (--operator-channel serverless-operator=preview,nfd=4.17)"
+	catalogSource       = "catalog-source"
+	catalogSourceDesc   = "override the OLM catalog source with a custom index image (--catalog-source serverless-operator=quay.io/my-org/my-index:latest)"
 )
 
 func GetOpenshiftSNCCmd() *cobra.Command {
@@ -92,7 +97,9 @@ func createSNC() *cobra.Command {
 					PullSecretFile:          viper.GetString(pullSecretFile),
 					Timeout:                 viper.GetString(params.Timeout),
 					ServiceEndpoints:        params.NetworkServiceEndpoints(),
-					Profiles:                profiles}); err != nil {
+					Profiles:         profiles,
+					OperatorChannels: viper.GetStringMapString(operatorChannel),
+					CatalogSources:   viper.GetStringMapString(catalogSource)}); err != nil {
 				return err
 			}
 			return nil
@@ -107,6 +114,8 @@ func createSNC() *cobra.Command {
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringSliceP(sncProfile, "", []string{}, sncProfileDesc)
+	flagSet.StringToStringP(operatorChannel, "", nil, operatorChannelDesc)
+	flagSet.StringToStringP(catalogSource, "", nil, catalogSourceDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
 	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)

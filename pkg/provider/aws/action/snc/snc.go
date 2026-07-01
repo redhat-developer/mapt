@@ -45,8 +45,10 @@ type openshiftSNCRequest struct {
 	pullSecretFile          *string
 	serviceEndpoints        []string
 	allocationData          *allocation.AllocationResult
-	profiles                []string
-	diskSize                *int
+	profiles         []string
+	operatorChannels map[string]string
+	catalogSources   map[string]string
+	diskSize         *int
 }
 
 func (r *openshiftSNCRequest) validate() error {
@@ -67,8 +69,11 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 	if err != nil {
 		return nil, err
 	}
-	// Validate profiles
+	// Validate profiles and operator overrides
 	if err := profile.Validate(args.Profiles); err != nil {
+		return nil, err
+	}
+	if err := profile.ValidateOperatorOverrides(args.OperatorChannels, args.CatalogSources); err != nil {
 		return nil, err
 	}
 	// Compose request
@@ -82,8 +87,10 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 		pullSecretFile:          &args.PullSecretFile,
 		timeout:                 &args.Timeout,
 		serviceEndpoints:        args.ServiceEndpoints,
-		profiles:                args.Profiles,
-		diskSize:                args.ComputeRequest.DiskSize}
+		profiles:         args.Profiles,
+		operatorChannels: args.OperatorChannels,
+		catalogSources:   args.CatalogSources,
+		diskSize:         args.ComputeRequest.DiskSize}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -290,10 +297,12 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 			deletedWith = c.AutoscalingGroup
 		}
 		if err := profile.Deploy(ctx, r.profiles, &profile.DeployArgs{
-			K8sProvider: k8sProvider,
-			Kubeconfig:  kubeconfig,
-			Prefix:      *r.prefix,
-			DeletedWith: deletedWith,
+			K8sProvider:      k8sProvider,
+			Kubeconfig:       kubeconfig,
+			Prefix:           *r.prefix,
+			DeletedWith:      deletedWith,
+			OperatorChannels: r.operatorChannels,
+			CatalogSources:   r.catalogSources,
 		}); err != nil {
 			return err
 		}
