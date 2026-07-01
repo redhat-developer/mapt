@@ -242,7 +242,7 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc, nw.IsPublic)
 	if err != nil {
 		return err
 	}
@@ -274,7 +274,7 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		Eip:              nw.Eip,
 		LBTargetGroups:   []int{22},
 	}
-	if r.spot {
+	if r.spot && nw.IsPublic {
 		cr.Spot = true
 		cr.SpotPrice = *r.allocationData.SpotPrice
 	}
@@ -298,6 +298,11 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
+	// Skip SSH readiness check for private subnets: the machine has no inbound
+	// connectivity and is expected to register itself outbound (e.g. GitLab runner).
+	if !nw.IsPublic {
+		return nil
+	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsFedoraDedicatedID,
 		keyResources.PrivateKey, amiUserDefault, nw.Bastion, c.Dependencies)
 }
@@ -318,15 +323,18 @@ func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix *string, 
 	return output.Write(stackResult, mCtx.GetResultsOutputPath(), results)
 }
 
-// security group for mac machine with ingress rules for ssh and vnc
+// securityGroups builds the security group for the Fedora machine.
+// When public is true the SG allows SSH (and optional Cirrus) inbound from anywhere.
+// When false (private subnet, outbound-only workload) no inbound rules are added;
+// the default egress rule permits all outbound traffic so the runner can reach GitLab.
 func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
-	vpc *ec2.Vpc) (pulumi.StringArray, error) {
-	// ingress for ssh access from 0.0.0.0
+	vpc *ec2.Vpc, public bool) (pulumi.StringArray, error) {
 	var ingressRules []securityGroup.IngressRules
-	sshIngressRule := securityGroup.SSH_TCP
-	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
-	ingressRules = []securityGroup.IngressRules{sshIngressRule}
-	// Create SG with ingress rules
+	if public {
+		sshIngressRule := securityGroup.SSH_TCP
+		sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+		ingressRules = []securityGroup.IngressRules{sshIngressRule}
+	}
 	sg, err := securityGroup.SGRequest{
 		Name:         resourcesUtil.GetResourceName(*prefix, awsFedoraDedicatedID, "sg"),
 		VPC:          vpc,
@@ -336,7 +344,6 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	if err != nil {
 		return nil, err
 	}
-	// Convert to an array of IDs
 	sgs := util.ArrayConvert([]*ec2.SecurityGroup{sg.SG},
 		func(sg *ec2.SecurityGroup) pulumi.StringInput {
 			return sg.ID()
