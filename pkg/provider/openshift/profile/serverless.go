@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/apiextensions"
+	networkingv1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/networking/v1"
 	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -97,6 +98,36 @@ func deployKnativeCR(ctx *pulumi.Context, args *DeployArgs, operatorReady pulumi
 
 	ns, err := args.newNamespace(ctx, rn(cr.suffix+"-ns"), nsName, pulumi.DependsOn(args.Deps))
 	if err != nil {
+		return nil, pulumi.StringOutput{}, err
+	}
+
+	// When ServiceMesh enrolls this namespace, it creates a deny-all
+	// NetworkPolicy that blocks API server → webhook traffic on multi-node
+	// clusters. Allow ingress to webhook pods so admission webhooks work.
+	if _, err := networkingv1.NewNetworkPolicy(ctx, rn(cr.suffix+"-webhook-np"),
+		&networkingv1.NetworkPolicyArgs{
+			Metadata: &metav1.ObjectMetaArgs{
+				Name:      pulumi.Sprintf("allow-webhook-%s", cr.suffix),
+				Namespace: pulumi.String(cr.namespace),
+			},
+			Spec: &networkingv1.NetworkPolicySpecArgs{
+				PodSelector: &metav1.LabelSelectorArgs{
+					MatchLabels: pulumi.StringMap{"app": pulumi.String("webhook")},
+				},
+				Ingress: networkingv1.NetworkPolicyIngressRuleArray{
+					&networkingv1.NetworkPolicyIngressRuleArgs{
+						Ports: networkingv1.NetworkPolicyPortArray{
+							&networkingv1.NetworkPolicyPortArgs{
+								Port:     pulumi.Int(8443),
+								Protocol: pulumi.String("TCP"),
+							},
+						},
+					},
+				},
+				PolicyTypes: pulumi.StringArray{pulumi.String("Ingress")},
+			},
+		},
+		args.k8sOpts(pulumi.DependsOn([]pulumi.Resource{ns}))...); err != nil {
 		return nil, pulumi.StringOutput{}, err
 	}
 
