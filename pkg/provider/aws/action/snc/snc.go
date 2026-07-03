@@ -28,7 +28,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	apiSNC "github.com/redhat-developer/mapt/pkg/target/service/snc"
-	"github.com/redhat-developer/mapt/pkg/target/service/snc/profile"
+	"github.com/redhat-developer/mapt/pkg/provider/openshift/profile"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"

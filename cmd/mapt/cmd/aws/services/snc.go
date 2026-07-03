@@ -6,7 +6,7 @@ import (
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/aws/action/snc"
 	sncApi "github.com/redhat-developer/mapt/pkg/target/service/snc"
-	"github.com/redhat-developer/mapt/pkg/target/service/snc/profile"
+	"github.com/redhat-developer/mapt/pkg/provider/openshift/profile"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"

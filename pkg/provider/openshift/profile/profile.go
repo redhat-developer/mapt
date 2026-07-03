@@ -70,7 +70,7 @@ type DeployArgs struct {
 func Validate(profiles []string) error {
 	for _, p := range profiles {
 		if _, ok := profileRegistry[p]; !ok {
-			return fmt.Errorf("profile %q is not supported for SNC. Supported profiles: %v",
+			return fmt.Errorf("profile %q is not supported. Supported profiles: %v",
 				p, slices.Sorted(maps.Keys(profileRegistry)))
 		}
 	}

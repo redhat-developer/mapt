@@ -6,6 +6,7 @@ import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/ibmcloud"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/openshift"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
@@ -63,7 +64,8 @@ func init() {
 	rootCmd.AddCommand(
 		aws.GetCmd(),
 		azure.GetCmd(),
-		ibmcloud.GetCmd())
+		ibmcloud.GetCmd(),
+		openshift.GetCmd())
 }
 
 func Execute() {
