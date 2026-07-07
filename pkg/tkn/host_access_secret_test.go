@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestAWSHostAccessSecretEncoding(t *testing.T) {
+func TestHostAccessSecretEncoding(t *testing.T) {
 	root := moduleRoot(t)
 
 	for _, dir := range []string{"tkn", filepath.Join("tkn", "template")} {
@@ -18,7 +18,7 @@ func TestAWSHostAccessSecretEncoding(t *testing.T) {
 		}
 		for _, entry := range entries {
 			name := entry.Name()
-			if !strings.HasPrefix(name, "infra-aws-") || !strings.HasSuffix(name, ".yaml") {
+			if !isInfraTask(name) {
 				continue
 			}
 			checkFile(t, filepath.Join(root, dir, name))
@@ -26,14 +26,37 @@ func TestAWSHostAccessSecretEncoding(t *testing.T) {
 	}
 }
 
+func isInfraTask(name string) bool {
+	return strings.HasSuffix(name, ".yaml") &&
+		(strings.HasPrefix(name, "infra-aws-") || strings.HasPrefix(name, "infra-azure-"))
+}
+
 func checkFile(t *testing.T, path string) {
 	t.Helper()
+
+	sanitizeFields := map[string]struct{}{
+		"host":             {},
+		"username":         {},
+		"bastion-host":     {},
+		"bastion-username": {},
+		"adminusername":    {},
+	}
+	preserveFields := map[string]struct{}{
+		"id_rsa":            {},
+		"bastion-id_rsa":    {},
+		"userpassword":      {},
+		"adminuserpassword": {},
+	}
 
 	f, err := os.Open(path)
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer f.Close()
+	defer func() {
+		if err := f.Close(); err != nil {
+			t.Fatal(err)
+		}
+	}()
 
 	sc := bufio.NewScanner(f)
 	for sc.Scan() {
@@ -41,19 +64,32 @@ func checkFile(t *testing.T, path string) {
 		if !strings.Contains(line, "$(cat /opt/host-info/") {
 			continue
 		}
-		if strings.Contains(line, "id_rsa:") {
+		field, ok := hostInfoField(line)
+		if !ok {
+			continue
+		}
+		if _, ok := preserveFields[field]; ok {
 			if strings.Contains(line, "tr -d") {
-				t.Errorf("%s: id_rsa must not use tr -d: %s", path, strings.TrimSpace(line))
+				t.Errorf("%s: %s must not use tr -d: %s", path, field, strings.TrimSpace(line))
 			}
 			continue
 		}
-		if !strings.Contains(line, `tr -d '\n\r'`) {
-			t.Errorf("%s: host/username must use tr -d: %s", path, strings.TrimSpace(line))
+		if _, ok := sanitizeFields[field]; ok && !strings.Contains(line, `tr -d '\n\r'`) {
+			t.Errorf("%s: %s must use tr -d: %s", path, field, strings.TrimSpace(line))
 		}
 	}
 	if err := sc.Err(); err != nil {
 		t.Fatal(err)
 	}
+}
+
+func hostInfoField(line string) (string, bool) {
+	line = strings.TrimSpace(line)
+	field, _, ok := strings.Cut(line, ":")
+	if !ok {
+		return "", false
+	}
+	return field, true
 }
 
 func moduleRoot(t *testing.T) string {
