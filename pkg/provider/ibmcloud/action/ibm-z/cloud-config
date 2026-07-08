@@ -15,6 +15,9 @@ write_files:
       [Service]
       StandardOutput=append:/var/log/gitlab-runner/runner.log
       StandardError=append:/var/log/gitlab-runner/runner.log
+      # Unlimited task/process ceiling so ccache->gcc->cc1->as chains during
+      # compilation-heavy builds do not hit the systemd default TasksMax.
+      TasksMax=infinity
   - path: /etc/logrotate.d/gitlab-runner
     permissions: '0644'
     content: |

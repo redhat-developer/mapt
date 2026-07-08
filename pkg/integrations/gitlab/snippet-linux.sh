@@ -104,6 +104,21 @@ if [ ! -f /etc/containers/containers.conf ]; then
     sudo chmod 644 /etc/containers/containers.conf
 fi
 
+# Remove the per-container PID cap so compilation-heavy builds (e.g. Pillow
+# compiling 60+ C files through a ccache->gcc->cc1->as chain) do not exhaust
+# the cgroup pids.max and trigger EAGAIN on fork.
+if grep -q '^\[containers\]' /etc/containers/containers.conf; then
+    if awk '/^\[containers\]/{f=1;next} /^\[/{f=0} f && /^pids_limit/{found=1} END{exit !found}' \
+            /etc/containers/containers.conf; then
+        sudo sed -i 's|^pids_limit.*|pids_limit = -1|' /etc/containers/containers.conf
+    else
+        sudo sed -i '/^\[containers\]/a pids_limit = -1' /etc/containers/containers.conf
+    fi
+else
+    printf '\n[containers]\npids_limit = -1\n' | sudo tee -a /etc/containers/containers.conf > /dev/null
+fi
+sudo chmod 644 /etc/containers/containers.conf
+
 {{- if .LogToJournald}}
 # Set journald as the container log driver so CI job output is captured by the
 # systemd journal and can be correlated with runner daemon logs via job_id.
@@ -197,5 +212,7 @@ sudo sed -i "s/^concurrent = .*/concurrent = {{.Concurrent}}/" /etc/gitlab-runne
 {{- end}}
 # Increase per-runner log limit (default 4 MB is too small for long builds like PyTorch)
 sudo sed -i '/^\[\[runners\]\]/a\  output_limit = 65536' /etc/gitlab-runner/config.toml
+# Remove the docker executor's per-container PID cap (complements pids_limit=-1 in containers.conf)
+sudo sed -i '/^\s*\[runners\.docker\]/a\    pids_limit = -1' /etc/gitlab-runner/config.toml
 sudo systemctl daemon-reload
 sudo systemctl enable --now gitlab-runner
