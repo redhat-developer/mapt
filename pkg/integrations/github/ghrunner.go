@@ -14,6 +14,9 @@ var runnerVersion = "2.317.0"
 // 1 is version, 2 is platform: (win, linux, osx), 3 is arch: (arm64, x64, arm)
 const runnerBaseURL = "https://github.com/actions/runner/releases/download/v%[1]s/actions-runner-%[2]s-%[3]s-%[1]s"
 
+const runnerImageRepo = "https://github.com/aipcc-cicd/action-runner-image-pz.git"
+const runnerImageRepoVersion = "v2.0.0"
+
 //go:embed snippet-darwin.sh
 var snippetDarwin []byte
 
@@ -23,10 +26,21 @@ var snippetLinux []byte
 //go:embed snippet-windows.ps1
 var snippetWindows []byte
 
+//go:embed snippet-linux-ppc64le.sh
+var snippetLinuxPpc64le []byte
+
+//go:embed snippet-linux-s390x.sh
+var snippetLinuxS390x []byte
+
 var snippets map[Platform][]byte = map[Platform][]byte{
 	Darwin:  snippetDarwin,
 	Linux:   snippetLinux,
 	Windows: snippetWindows,
+}
+
+var archSnippets map[Arch][]byte = map[Arch][]byte{
+	Ppc64le: snippetLinuxPpc64le,
+	S390x:   snippetLinuxS390x,
 }
 
 var runnerArgs *GithubRunnerArgs
@@ -40,17 +54,23 @@ func (args *GithubRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 		return nil
 	}
 	return &integrations.UserDataValues{
-		Name:    args.Name,
-		Token:   args.Token,
-		Labels:  getLabels(),
-		RepoURL: args.RepoURL,
-		CliURL:  downloadURL(),
+		Name:            args.Name,
+		Token:           args.Token,
+		Labels:          getLabels(),
+		RepoURL:         args.RepoURL,
+		CliURL:          downloadURL(),
+		RunnerImageRepo:        runnerImageRepo,
+		RunnerImageRepoVersion: runnerImageRepoVersion,
 	}
 }
 
 func (args *GithubRunnerArgs) GetSetupScriptTemplate() string {
-	templateConfig := string(snippets[*runnerArgs.Platform][:])
-	return templateConfig
+	if *runnerArgs.Platform == Linux && runnerArgs.Arch != nil {
+		if archSnippet, ok := archSnippets[*runnerArgs.Arch]; ok {
+			return string(archSnippet[:])
+		}
+	}
+	return string(snippets[*runnerArgs.Platform][:])
 }
 
 func GetRunnerArgs() *GithubRunnerArgs {

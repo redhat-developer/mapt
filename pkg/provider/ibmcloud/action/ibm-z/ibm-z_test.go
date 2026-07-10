@@ -38,7 +38,7 @@ func decodeIzOutput(t *testing.T, out string) string {
 }
 
 func TestIzUserData_noRunner(t *testing.T) {
-	out, err := izUserData(nil, "")
+	out, err := izUserData(nil, "", "")
 	if err != nil {
 		t.Fatalf("izUserData returned error: %v", err)
 	}
@@ -56,7 +56,7 @@ func TestIzUserData_noRunner(t *testing.T) {
 
 func TestIzUserData_withRunner(t *testing.T) {
 	script := "      #!/bin/bash\n      echo hello"
-	out, err := izUserData(nil, script)
+	out, err := izUserData(nil, script, "")
 	if err != nil {
 		t.Fatalf("izUserData returned error: %v", err)
 	}
@@ -81,7 +81,7 @@ func TestIzUserData_withOtelAndRunner(t *testing.T) {
 		SecurePath:          "/var/log/auth.log",
 		MonitorGitLabRunner: true,
 	}
-	out, err := izUserData(args, script)
+	out, err := izUserData(args, script, "")
 	if err != nil {
 		t.Fatalf("izUserData returned error: %v", err)
 	}

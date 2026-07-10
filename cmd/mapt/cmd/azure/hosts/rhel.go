@@ -48,7 +48,7 @@ func getCreateRHEL() *cobra.Command {
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(params.LinuxGithubArch()),
 					GLRunnerArgs:  params.GitLabRunnerArgs(params.LinuxGitLabArch()),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},

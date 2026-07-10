@@ -2,6 +2,7 @@ package hosts
 
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	ibmz "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/action/ibm-z"
@@ -52,7 +53,7 @@ func ibmZCreate() *cobra.Command {
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
 					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
-					GHRunnerArgs:  params.GithubRunnerArgs(),
+					GHRunnerArgs:  params.GithubRunnerArgs(&github.S390x),
 					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.S390x),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
