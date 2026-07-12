@@ -742,6 +742,13 @@ func NewImage(ctx *pulumi.Context,
 	if args.Network == nil {
 		args.Network = NetworkMode("default")
 	}
+	if args.Secrets != nil {
+		args.Secrets = pulumi.ToSecret(args.Secrets).(pulumi.StringMapInput)
+	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"secrets",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Image
 	err := ctx.RegisterResource("docker-build:index:Image", name, args, &resource, opts...)
