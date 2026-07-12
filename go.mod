@@ -3,9 +3,9 @@ module github.com/redhat-developer/mapt
 go 1.26.0
 
 replace (
-	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.0
-	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.7
-	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.4
+	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.1
+	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.8
+	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.5
 )
 
 require (
@@ -25,14 +25,14 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.10.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources v1.2.0
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.8.0
-	github.com/IBM/go-sdk-core/v5 v5.22.0
+	github.com/IBM/go-sdk-core/v5 v5.22.1
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
-	github.com/aws/aws-sdk-go-v2 v1.42.0
-	github.com/aws/aws-sdk-go-v2/config v1.32.25
+	github.com/aws/aws-sdk-go-v2 v1.42.1
+	github.com/aws/aws-sdk-go-v2/config v1.32.29
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.308.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.104.0
-	github.com/aws/aws-sdk-go-v2/service/sts v1.43.3
-	github.com/pulumi/pulumi-aws-native/sdk v1.70.0
+	github.com/aws/aws-sdk-go-v2/service/sts v1.44.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.70.1
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.34.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.6.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.19.0
@@ -97,10 +97,10 @@ require (
 )
 
 require (
-	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.13 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.30 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.22 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.29 // indirect
+	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.14 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.31 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.23 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.31 // indirect
 	github.com/aws/aws-sdk-go-v2/service/pricing v1.42.7 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/evertras/bubble-table v0.19.2 // indirect
@@ -123,16 +123,16 @@ require (
 	github.com/IBM/platform-services-go-sdk v0.99.2 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.19.24 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.29 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.29 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.29 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.12 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.29 // indirect
-	github.com/aws/aws-sdk-go-v2/service/signin v1.2.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.31.3 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.36.6 // indirect
-	github.com/aws/smithy-go v1.27.2 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.19.28 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.30 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.30 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.30 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.13 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.30 // indirect
+	github.com/aws/aws-sdk-go-v2/service/signin v1.4.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.32.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.37.0 // indirect
+	github.com/aws/smithy-go v1.27.3 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	// github.com/charmbracelet/bubbles v1.0.0 // indirect
@@ -150,7 +150,7 @@ require (
 	github.com/fxamacker/cbor/v2 v2.9.2 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/go-openapi/analysis v0.25.2 // indirect
+	github.com/go-openapi/analysis v0.25.3 // indirect
 	github.com/go-openapi/errors v0.22.8 // indirect
 	github.com/go-openapi/jsonpointer v0.23.1 // indirect
 	github.com/go-openapi/jsonreference v0.21.6 // indirect
@@ -158,7 +158,7 @@ require (
 	github.com/go-openapi/runtime v0.32.4 // indirect
 	github.com/go-openapi/runtime/server-middleware v0.32.4 // indirect
 	github.com/go-openapi/spec v0.22.6 // indirect
-	github.com/go-openapi/strfmt v0.26.3 // indirect
+	github.com/go-openapi/strfmt v0.26.4 // indirect
 	github.com/go-openapi/swag v0.26.1 // indirect
 	github.com/go-openapi/swag/cmdutils v0.26.1 // indirect
 	github.com/go-openapi/swag/conv v0.26.1 // indirect
@@ -196,12 +196,12 @@ require (
 	github.com/muesli/termenv v0.16.0 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/oklog/ulid/v2 v2.1.1 // indirect
-	github.com/pelletier/go-toml/v2 v2.4.2 // indirect
+	github.com/pelletier/go-toml/v2 v2.4.3 // indirect
 	github.com/pjbgf/sha1cd v0.6.0 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.25.0 // indirect
-	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.19 // indirect
+	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.20 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
@@ -233,7 +233,7 @@ require (
 	k8s.io/utils v0.0.0-20260617174310-a95e086a2553 // indirect
 	sigs.k8s.io/json v0.0.0-20250730193827-2d320260d730 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect
-	sigs.k8s.io/structured-merge-diff/v6 v6.4.0 // indirect
+	sigs.k8s.io/structured-merge-diff/v6 v6.4.2 // indirect
 	sigs.k8s.io/yaml v1.6.0 // indirect
 )
 
