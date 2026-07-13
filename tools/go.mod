@@ -10,20 +10,22 @@ replace (
 
 require github.com/golangci/golangci-lint/v2 v2.12.2
 
-require github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
+require (
+	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
+)
 
 require (
 	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
 	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
-	// github.com/golangci/gofmt v0.0.0-20251215234548-e7be49a5ab4d // indirect
+	// github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
 	github.com/ryancurrah/gomodguard v1.4.1 // indirect
 )
 
 require (
 	github.com/bombsimon/wsl/v5 v5.8.0 // indirect
+	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
 	// github.com/golangci/gofmt v0.0.0-20251215234548-e7be49a5ab4d // indirect
-	// github.com/golangci/golines v0.15.0 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 )
 
