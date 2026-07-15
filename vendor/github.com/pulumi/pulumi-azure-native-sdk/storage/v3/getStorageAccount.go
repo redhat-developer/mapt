@@ -15,7 +15,7 @@ import (
 //
 // Uses Azure REST API version 2024-01-01.
 //
-// Other available API versions: 2022-09-01, 2023-01-01, 2023-04-01, 2023-05-01, 2025-01-01, 2025-06-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native storage [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2022-09-01, 2023-01-01, 2023-04-01, 2023-05-01, 2025-01-01, 2025-06-01, 2025-08-01, 2026-04-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native storage [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupStorageAccount(ctx *pulumi.Context, args *LookupStorageAccountArgs, opts ...pulumi.InvokeOption) (*LookupStorageAccountResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupStorageAccountResult
@@ -103,7 +103,7 @@ type LookupStorageAccountResult struct {
 	LastGeoFailoverTime string `pulumi:"lastGeoFailoverTime"`
 	// The geo-location where the resource lives
 	Location string `pulumi:"location"`
-	// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+	// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 	MinimumTlsVersion *string `pulumi:"minimumTlsVersion"`
 	// The name of the resource
 	Name string `pulumi:"name"`
@@ -361,7 +361,7 @@ func (o LookupStorageAccountResultOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupStorageAccountResult) string { return v.Location }).(pulumi.StringOutput)
 }
 
-// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 func (o LookupStorageAccountResultOutput) MinimumTlsVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupStorageAccountResult) *string { return v.MinimumTlsVersion }).(pulumi.StringPtrOutput)
 }

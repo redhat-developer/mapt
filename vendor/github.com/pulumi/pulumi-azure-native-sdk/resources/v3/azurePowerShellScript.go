@@ -37,12 +37,12 @@ type AzurePowerShellScript struct {
 	// Type of the script.
 	// Expected value is 'AzurePowerShell'.
 	Kind pulumi.StringOutput `pulumi:"kind"`
-	// The location of the ACI and the storage account for the deployment script.
+	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
-	// Name of this resource.
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// List of script outputs.
-	Outputs pulumi.MapOutput `pulumi:"outputs"`
+	Outputs pulumi.AnyOutput `pulumi:"outputs"`
 	// Uri for the script. This is the entry point for the external script.
 	PrimaryScriptUri pulumi.StringPtrOutput `pulumi:"primaryScriptUri"`
 	// State of the script execution. This only appears in the response.
@@ -57,13 +57,13 @@ type AzurePowerShellScript struct {
 	StorageAccountSettings StorageAccountConfigurationResponsePtrOutput `pulumi:"storageAccountSettings"`
 	// Supporting files for the external script.
 	SupportingScriptUris pulumi.StringArrayOutput `pulumi:"supportingScriptUris"`
-	// The system metadata related to this resource.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D
 	Timeout pulumi.StringPtrOutput `pulumi:"timeout"`
-	// Type of this resource.
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -167,7 +167,7 @@ type azurePowerShellScriptArgs struct {
 	// Type of the script.
 	// Expected value is 'AzurePowerShell'.
 	Kind string `pulumi:"kind"`
-	// The location of the ACI and the storage account for the deployment script.
+	// The geo-location where the resource lives
 	Location *string `pulumi:"location"`
 	// Uri for the script. This is the entry point for the external script.
 	PrimaryScriptUri *string `pulumi:"primaryScriptUri"`
@@ -208,7 +208,7 @@ type AzurePowerShellScriptArgs struct {
 	// Type of the script.
 	// Expected value is 'AzurePowerShell'.
 	Kind pulumi.StringInput
-	// The location of the ACI and the storage account for the deployment script.
+	// The geo-location where the resource lives
 	Location pulumi.StringPtrInput
 	// Uri for the script. This is the entry point for the external script.
 	PrimaryScriptUri pulumi.StringPtrInput
@@ -313,19 +313,19 @@ func (o AzurePowerShellScriptOutput) Kind() pulumi.StringOutput {
 	return o.ApplyT(func(v *AzurePowerShellScript) pulumi.StringOutput { return v.Kind }).(pulumi.StringOutput)
 }
 
-// The location of the ACI and the storage account for the deployment script.
+// The geo-location where the resource lives
 func (o AzurePowerShellScriptOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *AzurePowerShellScript) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
 
-// Name of this resource.
+// The name of the resource
 func (o AzurePowerShellScriptOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *AzurePowerShellScript) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
 // List of script outputs.
-func (o AzurePowerShellScriptOutput) Outputs() pulumi.MapOutput {
-	return o.ApplyT(func(v *AzurePowerShellScript) pulumi.MapOutput { return v.Outputs }).(pulumi.MapOutput)
+func (o AzurePowerShellScriptOutput) Outputs() pulumi.AnyOutput {
+	return o.ApplyT(func(v *AzurePowerShellScript) pulumi.AnyOutput { return v.Outputs }).(pulumi.AnyOutput)
 }
 
 // Uri for the script. This is the entry point for the external script.
@@ -365,7 +365,7 @@ func (o AzurePowerShellScriptOutput) SupportingScriptUris() pulumi.StringArrayOu
 	return o.ApplyT(func(v *AzurePowerShellScript) pulumi.StringArrayOutput { return v.SupportingScriptUris }).(pulumi.StringArrayOutput)
 }
 
-// The system metadata related to this resource.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
 func (o AzurePowerShellScriptOutput) SystemData() SystemDataResponseOutput {
 	return o.ApplyT(func(v *AzurePowerShellScript) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
 }
@@ -380,7 +380,7 @@ func (o AzurePowerShellScriptOutput) Timeout() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *AzurePowerShellScript) pulumi.StringPtrOutput { return v.Timeout }).(pulumi.StringPtrOutput)
 }
 
-// Type of this resource.
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o AzurePowerShellScriptOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *AzurePowerShellScript) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

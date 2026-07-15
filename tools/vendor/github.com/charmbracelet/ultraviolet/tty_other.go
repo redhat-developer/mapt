@@ -3,11 +3,7 @@
 
 package uv
 
-import (
-	"context"
-	"os"
-	"os/signal"
-)
+import "os"
 
 func openTTY() (*os.File, *os.File, error) {
 	return nil, nil, ErrPlatformNotSupported
@@ -15,12 +11,4 @@ func openTTY() (*os.File, *os.File, error) {
 
 func suspend() error {
 	return ErrPlatformNotSupported
-}
-
-func notifyWinch(c chan os.Signal, sigs ...os.Signal) {
-	signal.Notify(c, sigs...)
-}
-
-func notifyWinchContext(ctx context.Context, sigs ...os.Signal) (context.Context, context.CancelFunc) {
-	return signal.NotifyContext(ctx, sigs...)
 }

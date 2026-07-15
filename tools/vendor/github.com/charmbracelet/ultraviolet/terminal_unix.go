@@ -5,52 +5,73 @@ package uv
 
 import (
 	"github.com/charmbracelet/x/term"
-	"github.com/charmbracelet/x/termios"
 )
 
-func makeRaw(inTty, outTty term.File) (inTtyState, outTtyState *term.State, err error) {
-	if inTty == nil && outTty == nil {
-		return nil, nil, ErrNotTerminal
+func (t *Terminal) makeRaw() error {
+	var err error
+
+	if t.inTty == nil && t.outTty == nil {
+		return ErrNotTerminal
 	}
 
 	// Check if we have a terminal.
-	for _, f := range []term.File{inTty, outTty} {
+	for _, f := range []term.File{t.inTty, t.outTty} {
 		if f == nil {
 			continue
 		}
-		inTtyState, err = term.MakeRaw(f.Fd())
+		t.inTtyState, err = term.MakeRaw(f.Fd())
 		if err == nil {
 			break
 		}
 	}
 
 	if err != nil {
-		return nil, nil, err //nolint:wrapcheck
+		return err //nolint:wrapcheck
 	}
 
-	return inTtyState, outTtyState, nil
+	return nil
 }
 
-func getWinsize(inTty, outTty term.File) (ws Winsize, err error) {
+func (t *Terminal) getSize() (w, h int, err error) {
 	// Try both inTty and outTty to get the size.
 	err = ErrNotTerminal
-	for _, f := range []term.File{inTty, outTty} {
+	for _, f := range []term.File{t.inTty, t.outTty} {
 		if f == nil {
 			continue
 		}
-		size, err := termios.GetWinsize(int(f.Fd()))
+		w, h, err = term.GetSize(f.Fd())
 		if err == nil {
-			return Winsize(*size), nil
+			return w, h, nil
 		}
 	}
 	return
 }
 
-func getSize(inTty, outTty term.File) (w, h int, err error) {
-	ws, err := getWinsize(inTty, outTty)
-	return int(ws.Col), int(ws.Row), err
-}
-
-func optimizeMovements(state *term.State) (useTabs, useBspace bool) {
-	return supportsHardTabs(uint64(state.Oflag)), supportsBackspace(uint64(state.Lflag)) //nolint:unconvert,nolintlint
+func (t *Terminal) optimizeMovements() {
+	// Try both inTty and outTty to get the size.
+	var state *term.State
+	var err error
+	for _, s := range []*term.State{t.inTtyState, t.outTtyState} {
+		if s == nil {
+			continue
+		}
+		state = s
+		break
+	}
+	if state == nil {
+		for _, f := range []term.File{t.inTty, t.outTty} {
+			if f == nil {
+				continue
+			}
+			state, err = term.GetState(f.Fd())
+			if err == nil {
+				break
+			}
+		}
+	}
+	if state == nil {
+		return
+	}
+	t.useTabs = supportsHardTabs(uint64(state.Oflag))    //nolint:unconvert,nolintlint
+	t.useBspace = supportsBackspace(uint64(state.Lflag)) //nolint:unconvert,nolintlint
 }

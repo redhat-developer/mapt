@@ -98,6 +98,9 @@ func NewUserRuleCollection(ctx *pulumi.Context,
 			Type: pulumi.String("azure-native:network/v20250501:UserRuleCollection"),
 		},
 		{
+			Type: pulumi.String("azure-native:network/v20250701:UserRuleCollection"),
+		},
+		{
 			Type: pulumi.String("azure-native:network:SecurityUserRuleCollection"),
 		},
 	})

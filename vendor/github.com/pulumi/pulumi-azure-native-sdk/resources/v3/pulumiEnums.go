@@ -14,8 +14,11 @@ import (
 type CleanupOptions string
 
 const (
-	CleanupOptionsAlways       = CleanupOptions("Always")
-	CleanupOptionsOnSuccess    = CleanupOptions("OnSuccess")
+	// Always clean up the resources created by the script execution.
+	CleanupOptionsAlways = CleanupOptions("Always")
+	// Clean up the resources created by the script execution only if the script execution is successful.
+	CleanupOptionsOnSuccess = CleanupOptions("OnSuccess")
+	// Clean up the resources created by the script execution only on expiration.
 	CleanupOptionsOnExpiration = CleanupOptions("OnExpiration")
 )
 
@@ -851,6 +854,7 @@ func (in *extendedLocationTypePtr) ToExtendedLocationTypePtrOutputWithContext(ct
 type ManagedServiceIdentityType string
 
 const (
+	// User assigned identity.
 	ManagedServiceIdentityTypeUserAssigned = ManagedServiceIdentityType("UserAssigned")
 )
 
@@ -1519,8 +1523,10 @@ func (in *resourcesWithoutDeleteSupportActionPtr) ToResourcesWithoutDeleteSuppor
 type ScriptType string
 
 const (
+	// Azure PowerShell script.
 	ScriptTypeAzurePowerShell = ScriptType("AzurePowerShell")
-	ScriptTypeAzureCLI        = ScriptType("AzureCLI")
+	// Azure CLI script.
+	ScriptTypeAzureCLI = ScriptType("AzureCLI")
 )
 
 // Specifies an action for a newly unmanaged resource management group.

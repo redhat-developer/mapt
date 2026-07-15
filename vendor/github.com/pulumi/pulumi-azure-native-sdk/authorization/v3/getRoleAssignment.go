@@ -29,7 +29,7 @@ func LookupRoleAssignment(ctx *pulumi.Context, args *LookupRoleAssignmentArgs, o
 type LookupRoleAssignmentArgs struct {
 	// The name of the role assignment. It can be any valid GUID.
 	RoleAssignmentName string `pulumi:"roleAssignmentName"`
-	// The scope of the operation or resource. Valid scopes are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+	// The fully qualified Azure Resource manager identifier of the resource.
 	Scope string `pulumi:"scope"`
 	// Tenant ID for cross-tenant request
 	TenantId *string `pulumi:"tenantId"`
@@ -51,9 +51,9 @@ type LookupRoleAssignmentResult struct {
 	DelegatedManagedIdentityResourceId *string `pulumi:"delegatedManagedIdentityResourceId"`
 	// Description of role assignment
 	Description *string `pulumi:"description"`
-	// The role assignment ID.
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// The role assignment name.
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The principal ID.
 	PrincipalId string `pulumi:"principalId"`
@@ -63,7 +63,9 @@ type LookupRoleAssignmentResult struct {
 	RoleDefinitionId string `pulumi:"roleDefinitionId"`
 	// The role assignment scope.
 	Scope string `pulumi:"scope"`
-	// The role assignment type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// Id of the user who updated the assignment
 	UpdatedBy string `pulumi:"updatedBy"`
@@ -95,7 +97,7 @@ func LookupRoleAssignmentOutput(ctx *pulumi.Context, args LookupRoleAssignmentOu
 type LookupRoleAssignmentOutputArgs struct {
 	// The name of the role assignment. It can be any valid GUID.
 	RoleAssignmentName pulumi.StringInput `pulumi:"roleAssignmentName"`
-	// The scope of the operation or resource. Valid scopes are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+	// The fully qualified Azure Resource manager identifier of the resource.
 	Scope pulumi.StringInput `pulumi:"scope"`
 	// Tenant ID for cross-tenant request
 	TenantId pulumi.StringPtrInput `pulumi:"tenantId"`
@@ -155,12 +157,12 @@ func (o LookupRoleAssignmentResultOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupRoleAssignmentResult) *string { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// The role assignment ID.
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupRoleAssignmentResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleAssignmentResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// The role assignment name.
+// The name of the resource
 func (o LookupRoleAssignmentResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleAssignmentResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -185,7 +187,12 @@ func (o LookupRoleAssignmentResultOutput) Scope() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleAssignmentResult) string { return v.Scope }).(pulumi.StringOutput)
 }
 
-// The role assignment type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupRoleAssignmentResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupRoleAssignmentResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupRoleAssignmentResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleAssignmentResult) string { return v.Type }).(pulumi.StringOutput)
 }

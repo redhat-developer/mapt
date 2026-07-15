@@ -2669,6 +2669,17 @@ type DeploymentCircuitBreaker struct {
 	// This member is required.
 	Rollback bool
 
+	// Specifies whether the deployment circuit breaker resets its failure count when
+	// a task reaches a healthy state. When set to true , a task that reaches a healthy
+	// state resets the failure count to 0 . When set to false , Amazon ECS does not
+	// reset the failure count. The default is true .
+	ResetOnHealthyTask *bool
+
+	// The threshold configuration that controls when the deployment circuit breaker
+	// triggers. The type and value together determine how many task failures are
+	// tolerated before the circuit breaker activates.
+	ThresholdConfiguration *ThresholdConfiguration
+
 	noSmithyDocumentSerde
 }
 
@@ -6089,6 +6100,26 @@ type RuntimePlatform struct {
 	noSmithyDocumentSerde
 }
 
+// The runtime platform that Amazon ECS applies to a service revision. This value
+// overrides the runtime platform specified in the task definition. You can't set
+// this value.
+type RuntimePlatformOverride struct {
+
+	// The CPU architecture that tasks in this service revision run on. This value
+	// might differ from the architecture declared in the task definition—for example,
+	// when Amazon ECS detects an architecture mismatch during an Amazon ECS Express
+	// deployment and runs tasks on a different architecture. You can't set this value.
+	//
+	// Valid values:
+	//
+	//   - X86_64 - The x86 64-bit architecture.
+	//
+	//   - ARM64 - The 64-bit ARM architecture.
+	CpuArchitecture *string
+
+	noSmithyDocumentSerde
+}
+
 // This parameter is specified when you're using an Amazon S3 Files file system
 // for task storage. For more information, see [Amazon S3 Files volumes]in the Amazon Elastic Container
 // Service Developer Guide.
@@ -7276,6 +7307,11 @@ type ServiceRevision struct {
 	// The network configuration for a task or service.
 	NetworkConfiguration *NetworkConfiguration
 
+	// The effective runtime overrides that Amazon ECS applies to this service
+	// revision. This value is present only when Amazon ECS detects a difference
+	// between the task definition and the actual runtime configuration.
+	Overrides *ServiceRevisionOverrides
+
 	// The platform family the service revision uses.
 	PlatformFamily *string
 
@@ -7333,6 +7369,18 @@ type ServiceRevisionLoadBalancer struct {
 	// The Amazon Resource Name (ARN) of the target group associated with the service
 	// revision.
 	TargetGroupArn *string
+
+	noSmithyDocumentSerde
+}
+
+// Contains the runtime overrides that Amazon ECS automatically applies to a
+// service revision when the effective runtime configuration differs from the task
+// definition. This value is read-only.
+type ServiceRevisionOverrides struct {
+
+	// The runtime platform override that Amazon ECS automatically applies to the
+	// service revision. You can't set this value.
+	RuntimePlatform *RuntimePlatformOverride
 
 	noSmithyDocumentSerde
 }
@@ -8463,6 +8511,33 @@ type TaskVolumeConfiguration struct {
 	// one volume created for each task. The Amazon EBS volumes are visible in your
 	// account in the Amazon EC2 console once they are created.
 	ManagedEBSVolume *TaskManagedEBSVolumeConfiguration
+
+	noSmithyDocumentSerde
+}
+
+// Defines the failure threshold that the deployment circuit breaker uses to
+// monitor a deployment. The type and value together determine the number of task
+// failures that are tolerated before the circuit breaker triggers.
+//
+// By default, the threshold configuration uses a type of BOUNDED_PERCENT with a
+// value of 50 .
+type ThresholdConfiguration struct {
+
+	// Determines how Amazon ECS uses value to calculate the failure threshold. For
+	// the percentage types ( BOUNDED_PERCENT and UNBOUNDED_PERCENT ), Amazon ECS
+	// multiplies value by the latest service desired count. For COUNT , Amazon ECS
+	// uses value directly as the threshold. The default is BOUNDED_PERCENT .
+	//
+	// This member is required.
+	Type ThresholdType
+
+	// Specifies the integer that Amazon ECS uses to calculate the failure threshold.
+	// When type is COUNT , this value is the failure threshold itself. When type is a
+	// percentage type, Amazon ECS multiplies this value by the latest service desired
+	// count to produce the failure threshold. The default is 50 .
+	//
+	// This member is required.
+	Value int32
 
 	noSmithyDocumentSerde
 }

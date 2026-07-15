@@ -45,7 +45,7 @@ type AccessReviewScheduleDefinitionById struct {
 	JustificationRequiredOnApproval pulumi.BoolPtrOutput `pulumi:"justificationRequiredOnApproval"`
 	// Flag to indicate whether sending mails to reviewers and the review creator is enabled.
 	MailNotificationsEnabled pulumi.BoolPtrOutput `pulumi:"mailNotificationsEnabled"`
-	// The access review schedule definition unique id.
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The identity id
 	PrincipalId pulumi.StringOutput `pulumi:"principalId"`
@@ -69,7 +69,9 @@ type AccessReviewScheduleDefinitionById struct {
 	Scope AccessReviewScopeResponseOutput `pulumi:"scope"`
 	// This read-only field specifies the status of an accessReview.
 	Status pulumi.StringOutput `pulumi:"status"`
-	// The resource type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// The user principal name(if valid)
 	UserPrincipalName pulumi.StringOutput `pulumi:"userPrincipalName"`
@@ -347,7 +349,7 @@ func (o AccessReviewScheduleDefinitionByIdOutput) MailNotificationsEnabled() pul
 	return o.ApplyT(func(v *AccessReviewScheduleDefinitionById) pulumi.BoolPtrOutput { return v.MailNotificationsEnabled }).(pulumi.BoolPtrOutput)
 }
 
-// The access review schedule definition unique id.
+// The name of the resource
 func (o AccessReviewScheduleDefinitionByIdOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *AccessReviewScheduleDefinitionById) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -415,7 +417,12 @@ func (o AccessReviewScheduleDefinitionByIdOutput) Status() pulumi.StringOutput {
 	return o.ApplyT(func(v *AccessReviewScheduleDefinitionById) pulumi.StringOutput { return v.Status }).(pulumi.StringOutput)
 }
 
-// The resource type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o AccessReviewScheduleDefinitionByIdOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *AccessReviewScheduleDefinitionById) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o AccessReviewScheduleDefinitionByIdOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *AccessReviewScheduleDefinitionById) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

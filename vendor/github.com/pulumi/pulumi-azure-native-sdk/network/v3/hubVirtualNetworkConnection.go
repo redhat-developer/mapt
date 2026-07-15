@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-05-01. In version 2.x of the Azure Native provider, it used API version 2023-02-01.
 //
-// Other available API versions: 2020-05-01, 2020-06-01, 2020-07-01, 2020-08-01, 2020-11-01, 2021-02-01, 2021-03-01, 2021-05-01, 2021-08-01, 2022-01-01, 2022-05-01, 2022-07-01, 2022-09-01, 2022-11-01, 2023-02-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01, 2024-07-01, 2024-10-01, 2025-01-01, 2025-03-01, 2025-05-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2020-05-01, 2020-06-01, 2020-07-01, 2020-08-01, 2020-11-01, 2021-02-01, 2021-03-01, 2021-05-01, 2021-08-01, 2022-01-01, 2022-05-01, 2022-07-01, 2022-09-01, 2022-11-01, 2023-02-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01, 2024-07-01, 2024-10-01, 2025-01-01, 2025-03-01, 2025-05-01, 2025-07-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type HubVirtualNetworkConnection struct {
 	pulumi.CustomResourceState
 
@@ -37,7 +37,7 @@ type HubVirtualNetworkConnection struct {
 	// Reference to the remote virtual network.
 	RemoteVirtualNetwork SubResourceResponsePtrOutput `pulumi:"remoteVirtualNetwork"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationResponsePtrOutput `pulumi:"routingConfiguration"`
+	RoutingConfiguration RoutingConfigurationResponseV3PtrOutput `pulumi:"routingConfiguration"`
 }
 
 // NewHubVirtualNetworkConnection registers a new resource with the given unique name, arguments, and options.
@@ -138,6 +138,9 @@ func NewHubVirtualNetworkConnection(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:network/v20250501:HubVirtualNetworkConnection"),
 		},
+		{
+			Type: pulumi.String("azure-native:network/v20250701:HubVirtualNetworkConnection"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)
@@ -190,7 +193,7 @@ type hubVirtualNetworkConnectionArgs struct {
 	// The resource group name of the HubVirtualNetworkConnection.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationV3 `pulumi:"routingConfiguration"`
 	// The name of the VirtualHub.
 	VirtualHubName string `pulumi:"virtualHubName"`
 }
@@ -214,7 +217,7 @@ type HubVirtualNetworkConnectionArgs struct {
 	// The resource group name of the HubVirtualNetworkConnection.
 	ResourceGroupName pulumi.StringInput
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationTypePtrInput
+	RoutingConfiguration RoutingConfigurationV3PtrInput
 	// The name of the VirtualHub.
 	VirtualHubName pulumi.StringInput
 }
@@ -299,10 +302,10 @@ func (o HubVirtualNetworkConnectionOutput) RemoteVirtualNetwork() SubResourceRes
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o HubVirtualNetworkConnectionOutput) RoutingConfiguration() RoutingConfigurationResponsePtrOutput {
-	return o.ApplyT(func(v *HubVirtualNetworkConnection) RoutingConfigurationResponsePtrOutput {
+func (o HubVirtualNetworkConnectionOutput) RoutingConfiguration() RoutingConfigurationResponseV3PtrOutput {
+	return o.ApplyT(func(v *HubVirtualNetworkConnection) RoutingConfigurationResponseV3PtrOutput {
 		return v.RoutingConfiguration
-	}).(RoutingConfigurationResponsePtrOutput)
+	}).(RoutingConfigurationResponseV3PtrOutput)
 }
 
 func init() {

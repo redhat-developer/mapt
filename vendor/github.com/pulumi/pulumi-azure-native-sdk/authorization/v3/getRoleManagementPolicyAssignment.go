@@ -29,7 +29,7 @@ func LookupRoleManagementPolicyAssignment(ctx *pulumi.Context, args *LookupRoleM
 type LookupRoleManagementPolicyAssignmentArgs struct {
 	// The name of format {guid_guid} the role management policy assignment to get.
 	RoleManagementPolicyAssignmentName string `pulumi:"roleManagementPolicyAssignmentName"`
-	// The scope of the role management policy.
+	// The fully qualified Azure Resource manager identifier of the resource.
 	Scope string `pulumi:"scope"`
 }
 
@@ -39,9 +39,9 @@ type LookupRoleManagementPolicyAssignmentResult struct {
 	AzureApiVersion string `pulumi:"azureApiVersion"`
 	// The readonly computed rule applied to the policy.
 	EffectiveRules []interface{} `pulumi:"effectiveRules"`
-	// The role management policy Id.
+	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id string `pulumi:"id"`
-	// The role management policy name.
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Additional properties of scope, role definition and policy
 	PolicyAssignmentProperties PolicyAssignmentPropertiesResponse `pulumi:"policyAssignmentProperties"`
@@ -51,7 +51,9 @@ type LookupRoleManagementPolicyAssignmentResult struct {
 	RoleDefinitionId *string `pulumi:"roleDefinitionId"`
 	// The role management policy scope.
 	Scope *string `pulumi:"scope"`
-	// The role management policy type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -67,7 +69,7 @@ func LookupRoleManagementPolicyAssignmentOutput(ctx *pulumi.Context, args Lookup
 type LookupRoleManagementPolicyAssignmentOutputArgs struct {
 	// The name of format {guid_guid} the role management policy assignment to get.
 	RoleManagementPolicyAssignmentName pulumi.StringInput `pulumi:"roleManagementPolicyAssignmentName"`
-	// The scope of the role management policy.
+	// The fully qualified Azure Resource manager identifier of the resource.
 	Scope pulumi.StringInput `pulumi:"scope"`
 }
 
@@ -100,12 +102,12 @@ func (o LookupRoleManagementPolicyAssignmentResultOutput) EffectiveRules() pulum
 	return o.ApplyT(func(v LookupRoleManagementPolicyAssignmentResult) []interface{} { return v.EffectiveRules }).(pulumi.ArrayOutput)
 }
 
-// The role management policy Id.
+// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 func (o LookupRoleManagementPolicyAssignmentResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleManagementPolicyAssignmentResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// The role management policy name.
+// The name of the resource
 func (o LookupRoleManagementPolicyAssignmentResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleManagementPolicyAssignmentResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -132,7 +134,12 @@ func (o LookupRoleManagementPolicyAssignmentResultOutput) Scope() pulumi.StringP
 	return o.ApplyT(func(v LookupRoleManagementPolicyAssignmentResult) *string { return v.Scope }).(pulumi.StringPtrOutput)
 }
 
-// The role management policy type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupRoleManagementPolicyAssignmentResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupRoleManagementPolicyAssignmentResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupRoleManagementPolicyAssignmentResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleManagementPolicyAssignmentResult) string { return v.Type }).(pulumi.StringOutput)
 }

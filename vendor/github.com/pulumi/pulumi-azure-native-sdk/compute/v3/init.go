@@ -27,8 +27,6 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &CapacityReservation{}
 	case "azure-native:compute:CapacityReservationGroup":
 		r = &CapacityReservationGroup{}
-	case "azure-native:compute:CloudService":
-		r = &CloudService{}
 	case "azure-native:compute:DedicatedHost":
 		r = &DedicatedHost{}
 	case "azure-native:compute:DedicatedHostGroup":

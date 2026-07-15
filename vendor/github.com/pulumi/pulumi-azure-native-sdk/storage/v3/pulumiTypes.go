@@ -3328,6 +3328,226 @@ func (o CustomDomainResponseOutput) UseSubDomainName() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v CustomDomainResponse) *bool { return v.UseSubDomainName }).(pulumi.BoolPtrOutput)
 }
 
+// The connection details for Data Share source
+type DataShareConnection struct {
+	// The URI of the backing DataShare. Must be in the format: azds://<region>:<DataShareName>:<DataShareIdentifier>
+	DataShareUri string `pulumi:"dataShareUri"`
+	// The connection type for bucket connection in storage connector.
+	// Expected value is 'DataShare'.
+	Type string `pulumi:"type"`
+}
+
+// DataShareConnectionInput is an input type that accepts DataShareConnectionArgs and DataShareConnectionOutput values.
+// You can construct a concrete instance of `DataShareConnectionInput` via:
+//
+//	DataShareConnectionArgs{...}
+type DataShareConnectionInput interface {
+	pulumi.Input
+
+	ToDataShareConnectionOutput() DataShareConnectionOutput
+	ToDataShareConnectionOutputWithContext(context.Context) DataShareConnectionOutput
+}
+
+// The connection details for Data Share source
+type DataShareConnectionArgs struct {
+	// The URI of the backing DataShare. Must be in the format: azds://<region>:<DataShareName>:<DataShareIdentifier>
+	DataShareUri pulumi.StringInput `pulumi:"dataShareUri"`
+	// The connection type for bucket connection in storage connector.
+	// Expected value is 'DataShare'.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (DataShareConnectionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*DataShareConnection)(nil)).Elem()
+}
+
+func (i DataShareConnectionArgs) ToDataShareConnectionOutput() DataShareConnectionOutput {
+	return i.ToDataShareConnectionOutputWithContext(context.Background())
+}
+
+func (i DataShareConnectionArgs) ToDataShareConnectionOutputWithContext(ctx context.Context) DataShareConnectionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DataShareConnectionOutput)
+}
+
+// The connection details for Data Share source
+type DataShareConnectionOutput struct{ *pulumi.OutputState }
+
+func (DataShareConnectionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DataShareConnection)(nil)).Elem()
+}
+
+func (o DataShareConnectionOutput) ToDataShareConnectionOutput() DataShareConnectionOutput {
+	return o
+}
+
+func (o DataShareConnectionOutput) ToDataShareConnectionOutputWithContext(ctx context.Context) DataShareConnectionOutput {
+	return o
+}
+
+// The URI of the backing DataShare. Must be in the format: azds://<region>:<DataShareName>:<DataShareIdentifier>
+func (o DataShareConnectionOutput) DataShareUri() pulumi.StringOutput {
+	return o.ApplyT(func(v DataShareConnection) string { return v.DataShareUri }).(pulumi.StringOutput)
+}
+
+// The connection type for bucket connection in storage connector.
+// Expected value is 'DataShare'.
+func (o DataShareConnectionOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v DataShareConnection) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// The connection details for Data Share source
+type DataShareConnectionResponse struct {
+	// The URI of the backing DataShare. Must be in the format: azds://<region>:<DataShareName>:<DataShareIdentifier>
+	DataShareUri string `pulumi:"dataShareUri"`
+	// The connection type for bucket connection in storage connector.
+	// Expected value is 'DataShare'.
+	Type string `pulumi:"type"`
+}
+
+// The connection details for Data Share source
+type DataShareConnectionResponseOutput struct{ *pulumi.OutputState }
+
+func (DataShareConnectionResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DataShareConnectionResponse)(nil)).Elem()
+}
+
+func (o DataShareConnectionResponseOutput) ToDataShareConnectionResponseOutput() DataShareConnectionResponseOutput {
+	return o
+}
+
+func (o DataShareConnectionResponseOutput) ToDataShareConnectionResponseOutputWithContext(ctx context.Context) DataShareConnectionResponseOutput {
+	return o
+}
+
+// The URI of the backing DataShare. Must be in the format: azds://<region>:<DataShareName>:<DataShareIdentifier>
+func (o DataShareConnectionResponseOutput) DataShareUri() pulumi.StringOutput {
+	return o.ApplyT(func(v DataShareConnectionResponse) string { return v.DataShareUri }).(pulumi.StringOutput)
+}
+
+// The connection type for bucket connection in storage connector.
+// Expected value is 'DataShare'.
+func (o DataShareConnectionResponseOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v DataShareConnectionResponse) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// The properties of data share source
+type DataShareSource struct {
+	// Details for how to authenticate to the backing data store.
+	AuthProperties ManagedIdentityAuthProperties `pulumi:"authProperties"`
+	// Details for how to connect to the backing data store.
+	Connection DataShareConnection `pulumi:"connection"`
+	// The type of the backing data source for storage connector
+	// Expected value is 'DataShare'.
+	Type string `pulumi:"type"`
+}
+
+// DataShareSourceInput is an input type that accepts DataShareSourceArgs and DataShareSourceOutput values.
+// You can construct a concrete instance of `DataShareSourceInput` via:
+//
+//	DataShareSourceArgs{...}
+type DataShareSourceInput interface {
+	pulumi.Input
+
+	ToDataShareSourceOutput() DataShareSourceOutput
+	ToDataShareSourceOutputWithContext(context.Context) DataShareSourceOutput
+}
+
+// The properties of data share source
+type DataShareSourceArgs struct {
+	// Details for how to authenticate to the backing data store.
+	AuthProperties ManagedIdentityAuthPropertiesInput `pulumi:"authProperties"`
+	// Details for how to connect to the backing data store.
+	Connection DataShareConnectionInput `pulumi:"connection"`
+	// The type of the backing data source for storage connector
+	// Expected value is 'DataShare'.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (DataShareSourceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*DataShareSource)(nil)).Elem()
+}
+
+func (i DataShareSourceArgs) ToDataShareSourceOutput() DataShareSourceOutput {
+	return i.ToDataShareSourceOutputWithContext(context.Background())
+}
+
+func (i DataShareSourceArgs) ToDataShareSourceOutputWithContext(ctx context.Context) DataShareSourceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DataShareSourceOutput)
+}
+
+// The properties of data share source
+type DataShareSourceOutput struct{ *pulumi.OutputState }
+
+func (DataShareSourceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DataShareSource)(nil)).Elem()
+}
+
+func (o DataShareSourceOutput) ToDataShareSourceOutput() DataShareSourceOutput {
+	return o
+}
+
+func (o DataShareSourceOutput) ToDataShareSourceOutputWithContext(ctx context.Context) DataShareSourceOutput {
+	return o
+}
+
+// Details for how to authenticate to the backing data store.
+func (o DataShareSourceOutput) AuthProperties() ManagedIdentityAuthPropertiesOutput {
+	return o.ApplyT(func(v DataShareSource) ManagedIdentityAuthProperties { return v.AuthProperties }).(ManagedIdentityAuthPropertiesOutput)
+}
+
+// Details for how to connect to the backing data store.
+func (o DataShareSourceOutput) Connection() DataShareConnectionOutput {
+	return o.ApplyT(func(v DataShareSource) DataShareConnection { return v.Connection }).(DataShareConnectionOutput)
+}
+
+// The type of the backing data source for storage connector
+// Expected value is 'DataShare'.
+func (o DataShareSourceOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v DataShareSource) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// The properties of data share source
+type DataShareSourceResponse struct {
+	// Details for how to authenticate to the backing data store.
+	AuthProperties ManagedIdentityAuthPropertiesResponse `pulumi:"authProperties"`
+	// Details for how to connect to the backing data store.
+	Connection DataShareConnectionResponse `pulumi:"connection"`
+	// The type of the backing data source for storage connector
+	// Expected value is 'DataShare'.
+	Type string `pulumi:"type"`
+}
+
+// The properties of data share source
+type DataShareSourceResponseOutput struct{ *pulumi.OutputState }
+
+func (DataShareSourceResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DataShareSourceResponse)(nil)).Elem()
+}
+
+func (o DataShareSourceResponseOutput) ToDataShareSourceResponseOutput() DataShareSourceResponseOutput {
+	return o
+}
+
+func (o DataShareSourceResponseOutput) ToDataShareSourceResponseOutputWithContext(ctx context.Context) DataShareSourceResponseOutput {
+	return o
+}
+
+// Details for how to authenticate to the backing data store.
+func (o DataShareSourceResponseOutput) AuthProperties() ManagedIdentityAuthPropertiesResponseOutput {
+	return o.ApplyT(func(v DataShareSourceResponse) ManagedIdentityAuthPropertiesResponse { return v.AuthProperties }).(ManagedIdentityAuthPropertiesResponseOutput)
+}
+
+// Details for how to connect to the backing data store.
+func (o DataShareSourceResponseOutput) Connection() DataShareConnectionResponseOutput {
+	return o.ApplyT(func(v DataShareSourceResponse) DataShareConnectionResponse { return v.Connection }).(DataShareConnectionResponseOutput)
+}
+
+// The type of the backing data source for storage connector
+// Expected value is 'DataShare'.
+func (o DataShareSourceResponseOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v DataShareSourceResponse) string { return v.Type }).(pulumi.StringOutput)
+}
+
 // Object to define snapshot and version action conditions.
 type DateAfterCreation struct {
 	// Value indicating the age in days after creation
@@ -8327,6 +8547,108 @@ func (o LegalHoldPropertiesResponseOutput) ProtectedAppendWritesHistory() Protec
 // The list of LegalHold tags of a blob container.
 func (o LegalHoldPropertiesResponseOutput) Tags() TagPropertyResponseArrayOutput {
 	return o.ApplyT(func(v LegalHoldPropertiesResponse) []TagPropertyResponse { return v.Tags }).(TagPropertyResponseArrayOutput)
+}
+
+// The managed identity auth properties for dataShare connection.
+type ManagedIdentityAuthProperties struct {
+	// ARM ResourceId of the managed identity that should be used to authenticate to the backing data source.
+	IdentityResourceId *string `pulumi:"identityResourceId"`
+	// The auth type supported for bucket connection in storage connector.
+	// Expected value is 'ManagedIdentity'.
+	Type string `pulumi:"type"`
+}
+
+// ManagedIdentityAuthPropertiesInput is an input type that accepts ManagedIdentityAuthPropertiesArgs and ManagedIdentityAuthPropertiesOutput values.
+// You can construct a concrete instance of `ManagedIdentityAuthPropertiesInput` via:
+//
+//	ManagedIdentityAuthPropertiesArgs{...}
+type ManagedIdentityAuthPropertiesInput interface {
+	pulumi.Input
+
+	ToManagedIdentityAuthPropertiesOutput() ManagedIdentityAuthPropertiesOutput
+	ToManagedIdentityAuthPropertiesOutputWithContext(context.Context) ManagedIdentityAuthPropertiesOutput
+}
+
+// The managed identity auth properties for dataShare connection.
+type ManagedIdentityAuthPropertiesArgs struct {
+	// ARM ResourceId of the managed identity that should be used to authenticate to the backing data source.
+	IdentityResourceId pulumi.StringPtrInput `pulumi:"identityResourceId"`
+	// The auth type supported for bucket connection in storage connector.
+	// Expected value is 'ManagedIdentity'.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (ManagedIdentityAuthPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedIdentityAuthProperties)(nil)).Elem()
+}
+
+func (i ManagedIdentityAuthPropertiesArgs) ToManagedIdentityAuthPropertiesOutput() ManagedIdentityAuthPropertiesOutput {
+	return i.ToManagedIdentityAuthPropertiesOutputWithContext(context.Background())
+}
+
+func (i ManagedIdentityAuthPropertiesArgs) ToManagedIdentityAuthPropertiesOutputWithContext(ctx context.Context) ManagedIdentityAuthPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ManagedIdentityAuthPropertiesOutput)
+}
+
+// The managed identity auth properties for dataShare connection.
+type ManagedIdentityAuthPropertiesOutput struct{ *pulumi.OutputState }
+
+func (ManagedIdentityAuthPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedIdentityAuthProperties)(nil)).Elem()
+}
+
+func (o ManagedIdentityAuthPropertiesOutput) ToManagedIdentityAuthPropertiesOutput() ManagedIdentityAuthPropertiesOutput {
+	return o
+}
+
+func (o ManagedIdentityAuthPropertiesOutput) ToManagedIdentityAuthPropertiesOutputWithContext(ctx context.Context) ManagedIdentityAuthPropertiesOutput {
+	return o
+}
+
+// ARM ResourceId of the managed identity that should be used to authenticate to the backing data source.
+func (o ManagedIdentityAuthPropertiesOutput) IdentityResourceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedIdentityAuthProperties) *string { return v.IdentityResourceId }).(pulumi.StringPtrOutput)
+}
+
+// The auth type supported for bucket connection in storage connector.
+// Expected value is 'ManagedIdentity'.
+func (o ManagedIdentityAuthPropertiesOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v ManagedIdentityAuthProperties) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// The managed identity auth properties for dataShare connection.
+type ManagedIdentityAuthPropertiesResponse struct {
+	// ARM ResourceId of the managed identity that should be used to authenticate to the backing data source.
+	IdentityResourceId *string `pulumi:"identityResourceId"`
+	// The auth type supported for bucket connection in storage connector.
+	// Expected value is 'ManagedIdentity'.
+	Type string `pulumi:"type"`
+}
+
+// The managed identity auth properties for dataShare connection.
+type ManagedIdentityAuthPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (ManagedIdentityAuthPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ManagedIdentityAuthPropertiesResponse)(nil)).Elem()
+}
+
+func (o ManagedIdentityAuthPropertiesResponseOutput) ToManagedIdentityAuthPropertiesResponseOutput() ManagedIdentityAuthPropertiesResponseOutput {
+	return o
+}
+
+func (o ManagedIdentityAuthPropertiesResponseOutput) ToManagedIdentityAuthPropertiesResponseOutputWithContext(ctx context.Context) ManagedIdentityAuthPropertiesResponseOutput {
+	return o
+}
+
+// ARM ResourceId of the managed identity that should be used to authenticate to the backing data source.
+func (o ManagedIdentityAuthPropertiesResponseOutput) IdentityResourceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ManagedIdentityAuthPropertiesResponse) *string { return v.IdentityResourceId }).(pulumi.StringPtrOutput)
+}
+
+// The auth type supported for bucket connection in storage connector.
+// Expected value is 'ManagedIdentity'.
+func (o ManagedIdentityAuthPropertiesResponseOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v ManagedIdentityAuthPropertiesResponse) string { return v.Type }).(pulumi.StringOutput)
 }
 
 // Actions are applied to the filtered blobs when the execution condition is met.
@@ -14117,6 +14439,729 @@ func (o StorageAccountSkuConversionStatusResponsePtrOutput) TargetSkuName() pulu
 	}).(pulumi.StringPtrOutput)
 }
 
+// The storage connector properties
+type StorageConnectorProperties struct {
+	// The type of backing data source for this Storage Connector.
+	DataSourceType string `pulumi:"dataSourceType"`
+	// Arbitrary description of this Storage Connector. Max 250 characters.
+	Description *string `pulumi:"description"`
+	// Information about how to communicate with and authenticate to the backing data store.
+	Source DataShareSource `pulumi:"source"`
+	// State - Active or Inactive. Whether or not the Storage Connector should start as active (default: Active)
+	// (While set to false on the Storage Connector, all data plane requests using this Storage Connector fail, and this Storage Connector is not billed if it would be otherwise.
+	State *string `pulumi:"state"`
+	// Test connection to backing data source before creating the storage connector.
+	TestConnection *bool `pulumi:"testConnection"`
+}
+
+// Defaults sets the appropriate defaults for StorageConnectorProperties
+func (val *StorageConnectorProperties) Defaults() *StorageConnectorProperties {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.State == nil {
+		state_ := "Active"
+		tmp.State = &state_
+	}
+	if tmp.TestConnection == nil {
+		testConnection_ := false
+		tmp.TestConnection = &testConnection_
+	}
+	return &tmp
+}
+
+// StorageConnectorPropertiesInput is an input type that accepts StorageConnectorPropertiesArgs and StorageConnectorPropertiesOutput values.
+// You can construct a concrete instance of `StorageConnectorPropertiesInput` via:
+//
+//	StorageConnectorPropertiesArgs{...}
+type StorageConnectorPropertiesInput interface {
+	pulumi.Input
+
+	ToStorageConnectorPropertiesOutput() StorageConnectorPropertiesOutput
+	ToStorageConnectorPropertiesOutputWithContext(context.Context) StorageConnectorPropertiesOutput
+}
+
+// The storage connector properties
+type StorageConnectorPropertiesArgs struct {
+	// The type of backing data source for this Storage Connector.
+	DataSourceType pulumi.StringInput `pulumi:"dataSourceType"`
+	// Arbitrary description of this Storage Connector. Max 250 characters.
+	Description pulumi.StringPtrInput `pulumi:"description"`
+	// Information about how to communicate with and authenticate to the backing data store.
+	Source DataShareSourceInput `pulumi:"source"`
+	// State - Active or Inactive. Whether or not the Storage Connector should start as active (default: Active)
+	// (While set to false on the Storage Connector, all data plane requests using this Storage Connector fail, and this Storage Connector is not billed if it would be otherwise.
+	State pulumi.StringPtrInput `pulumi:"state"`
+	// Test connection to backing data source before creating the storage connector.
+	TestConnection pulumi.BoolPtrInput `pulumi:"testConnection"`
+}
+
+// Defaults sets the appropriate defaults for StorageConnectorPropertiesArgs
+func (val *StorageConnectorPropertiesArgs) Defaults() *StorageConnectorPropertiesArgs {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.State == nil {
+		tmp.State = pulumi.StringPtr("Active")
+	}
+	if tmp.TestConnection == nil {
+		tmp.TestConnection = pulumi.BoolPtr(false)
+	}
+	return &tmp
+}
+func (StorageConnectorPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageConnectorProperties)(nil)).Elem()
+}
+
+func (i StorageConnectorPropertiesArgs) ToStorageConnectorPropertiesOutput() StorageConnectorPropertiesOutput {
+	return i.ToStorageConnectorPropertiesOutputWithContext(context.Background())
+}
+
+func (i StorageConnectorPropertiesArgs) ToStorageConnectorPropertiesOutputWithContext(ctx context.Context) StorageConnectorPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(StorageConnectorPropertiesOutput)
+}
+
+// The storage connector properties
+type StorageConnectorPropertiesOutput struct{ *pulumi.OutputState }
+
+func (StorageConnectorPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageConnectorProperties)(nil)).Elem()
+}
+
+func (o StorageConnectorPropertiesOutput) ToStorageConnectorPropertiesOutput() StorageConnectorPropertiesOutput {
+	return o
+}
+
+func (o StorageConnectorPropertiesOutput) ToStorageConnectorPropertiesOutputWithContext(ctx context.Context) StorageConnectorPropertiesOutput {
+	return o
+}
+
+// The type of backing data source for this Storage Connector.
+func (o StorageConnectorPropertiesOutput) DataSourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageConnectorProperties) string { return v.DataSourceType }).(pulumi.StringOutput)
+}
+
+// Arbitrary description of this Storage Connector. Max 250 characters.
+func (o StorageConnectorPropertiesOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v StorageConnectorProperties) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// Information about how to communicate with and authenticate to the backing data store.
+func (o StorageConnectorPropertiesOutput) Source() DataShareSourceOutput {
+	return o.ApplyT(func(v StorageConnectorProperties) DataShareSource { return v.Source }).(DataShareSourceOutput)
+}
+
+// State - Active or Inactive. Whether or not the Storage Connector should start as active (default: Active)
+// (While set to false on the Storage Connector, all data plane requests using this Storage Connector fail, and this Storage Connector is not billed if it would be otherwise.
+func (o StorageConnectorPropertiesOutput) State() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v StorageConnectorProperties) *string { return v.State }).(pulumi.StringPtrOutput)
+}
+
+// Test connection to backing data source before creating the storage connector.
+func (o StorageConnectorPropertiesOutput) TestConnection() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v StorageConnectorProperties) *bool { return v.TestConnection }).(pulumi.BoolPtrOutput)
+}
+
+// The storage connector properties
+type StorageConnectorPropertiesResponse struct {
+	// System-generated creation time of the Storage Connector in ISO 8601 date-time format (YYYY-MM-DDTHH:mm:ssZ).
+	// Not a valid input parameter during creating.
+	CreationTime string `pulumi:"creationTime"`
+	// The type of backing data source for this Storage Connector.
+	DataSourceType string `pulumi:"dataSourceType"`
+	// Arbitrary description of this Storage Connector. Max 250 characters.
+	Description *string `pulumi:"description"`
+	// Represents the provisioning state of the storage connector.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// Information about how to communicate with and authenticate to the backing data store.
+	Source DataShareSourceResponse `pulumi:"source"`
+	// State - Active or Inactive. Whether or not the Storage Connector should start as active (default: Active)
+	// (While set to false on the Storage Connector, all data plane requests using this Storage Connector fail, and this Storage Connector is not billed if it would be otherwise.
+	State *string `pulumi:"state"`
+	// System-generated GUID identifier for the Storage Connector. Not a valid input parameter when creating.
+	UniqueId string `pulumi:"uniqueId"`
+}
+
+// Defaults sets the appropriate defaults for StorageConnectorPropertiesResponse
+func (val *StorageConnectorPropertiesResponse) Defaults() *StorageConnectorPropertiesResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	if tmp.State == nil {
+		state_ := "Active"
+		tmp.State = &state_
+	}
+	return &tmp
+}
+
+// The storage connector properties
+type StorageConnectorPropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (StorageConnectorPropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageConnectorPropertiesResponse)(nil)).Elem()
+}
+
+func (o StorageConnectorPropertiesResponseOutput) ToStorageConnectorPropertiesResponseOutput() StorageConnectorPropertiesResponseOutput {
+	return o
+}
+
+func (o StorageConnectorPropertiesResponseOutput) ToStorageConnectorPropertiesResponseOutputWithContext(ctx context.Context) StorageConnectorPropertiesResponseOutput {
+	return o
+}
+
+// System-generated creation time of the Storage Connector in ISO 8601 date-time format (YYYY-MM-DDTHH:mm:ssZ).
+// Not a valid input parameter during creating.
+func (o StorageConnectorPropertiesResponseOutput) CreationTime() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageConnectorPropertiesResponse) string { return v.CreationTime }).(pulumi.StringOutput)
+}
+
+// The type of backing data source for this Storage Connector.
+func (o StorageConnectorPropertiesResponseOutput) DataSourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageConnectorPropertiesResponse) string { return v.DataSourceType }).(pulumi.StringOutput)
+}
+
+// Arbitrary description of this Storage Connector. Max 250 characters.
+func (o StorageConnectorPropertiesResponseOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v StorageConnectorPropertiesResponse) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// Represents the provisioning state of the storage connector.
+func (o StorageConnectorPropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageConnectorPropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// Information about how to communicate with and authenticate to the backing data store.
+func (o StorageConnectorPropertiesResponseOutput) Source() DataShareSourceResponseOutput {
+	return o.ApplyT(func(v StorageConnectorPropertiesResponse) DataShareSourceResponse { return v.Source }).(DataShareSourceResponseOutput)
+}
+
+// State - Active or Inactive. Whether or not the Storage Connector should start as active (default: Active)
+// (While set to false on the Storage Connector, all data plane requests using this Storage Connector fail, and this Storage Connector is not billed if it would be otherwise.
+func (o StorageConnectorPropertiesResponseOutput) State() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v StorageConnectorPropertiesResponse) *string { return v.State }).(pulumi.StringPtrOutput)
+}
+
+// System-generated GUID identifier for the Storage Connector. Not a valid input parameter when creating.
+func (o StorageConnectorPropertiesResponseOutput) UniqueId() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageConnectorPropertiesResponse) string { return v.UniqueId }).(pulumi.StringOutput)
+}
+
+// Policy that specify the permission allowed to a managed identity
+type StorageDataShareAccessPolicy struct {
+	// Allowed permissions. Currently, only supported value is Read.
+	Permission string `pulumi:"permission"`
+	// The AAD principal ID of the Managed Identity.
+	PrincipalId string `pulumi:"principalId"`
+	// The AAD tenant ID of the Managed Identity.
+	TenantId string `pulumi:"tenantId"`
+}
+
+// StorageDataShareAccessPolicyInput is an input type that accepts StorageDataShareAccessPolicyArgs and StorageDataShareAccessPolicyOutput values.
+// You can construct a concrete instance of `StorageDataShareAccessPolicyInput` via:
+//
+//	StorageDataShareAccessPolicyArgs{...}
+type StorageDataShareAccessPolicyInput interface {
+	pulumi.Input
+
+	ToStorageDataShareAccessPolicyOutput() StorageDataShareAccessPolicyOutput
+	ToStorageDataShareAccessPolicyOutputWithContext(context.Context) StorageDataShareAccessPolicyOutput
+}
+
+// Policy that specify the permission allowed to a managed identity
+type StorageDataShareAccessPolicyArgs struct {
+	// Allowed permissions. Currently, only supported value is Read.
+	Permission pulumi.StringInput `pulumi:"permission"`
+	// The AAD principal ID of the Managed Identity.
+	PrincipalId pulumi.StringInput `pulumi:"principalId"`
+	// The AAD tenant ID of the Managed Identity.
+	TenantId pulumi.StringInput `pulumi:"tenantId"`
+}
+
+func (StorageDataShareAccessPolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareAccessPolicy)(nil)).Elem()
+}
+
+func (i StorageDataShareAccessPolicyArgs) ToStorageDataShareAccessPolicyOutput() StorageDataShareAccessPolicyOutput {
+	return i.ToStorageDataShareAccessPolicyOutputWithContext(context.Background())
+}
+
+func (i StorageDataShareAccessPolicyArgs) ToStorageDataShareAccessPolicyOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(StorageDataShareAccessPolicyOutput)
+}
+
+// StorageDataShareAccessPolicyArrayInput is an input type that accepts StorageDataShareAccessPolicyArray and StorageDataShareAccessPolicyArrayOutput values.
+// You can construct a concrete instance of `StorageDataShareAccessPolicyArrayInput` via:
+//
+//	StorageDataShareAccessPolicyArray{ StorageDataShareAccessPolicyArgs{...} }
+type StorageDataShareAccessPolicyArrayInput interface {
+	pulumi.Input
+
+	ToStorageDataShareAccessPolicyArrayOutput() StorageDataShareAccessPolicyArrayOutput
+	ToStorageDataShareAccessPolicyArrayOutputWithContext(context.Context) StorageDataShareAccessPolicyArrayOutput
+}
+
+type StorageDataShareAccessPolicyArray []StorageDataShareAccessPolicyInput
+
+func (StorageDataShareAccessPolicyArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]StorageDataShareAccessPolicy)(nil)).Elem()
+}
+
+func (i StorageDataShareAccessPolicyArray) ToStorageDataShareAccessPolicyArrayOutput() StorageDataShareAccessPolicyArrayOutput {
+	return i.ToStorageDataShareAccessPolicyArrayOutputWithContext(context.Background())
+}
+
+func (i StorageDataShareAccessPolicyArray) ToStorageDataShareAccessPolicyArrayOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(StorageDataShareAccessPolicyArrayOutput)
+}
+
+// Policy that specify the permission allowed to a managed identity
+type StorageDataShareAccessPolicyOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAccessPolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareAccessPolicy)(nil)).Elem()
+}
+
+func (o StorageDataShareAccessPolicyOutput) ToStorageDataShareAccessPolicyOutput() StorageDataShareAccessPolicyOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyOutput) ToStorageDataShareAccessPolicyOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyOutput {
+	return o
+}
+
+// Allowed permissions. Currently, only supported value is Read.
+func (o StorageDataShareAccessPolicyOutput) Permission() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAccessPolicy) string { return v.Permission }).(pulumi.StringOutput)
+}
+
+// The AAD principal ID of the Managed Identity.
+func (o StorageDataShareAccessPolicyOutput) PrincipalId() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAccessPolicy) string { return v.PrincipalId }).(pulumi.StringOutput)
+}
+
+// The AAD tenant ID of the Managed Identity.
+func (o StorageDataShareAccessPolicyOutput) TenantId() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAccessPolicy) string { return v.TenantId }).(pulumi.StringOutput)
+}
+
+type StorageDataShareAccessPolicyArrayOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAccessPolicyArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]StorageDataShareAccessPolicy)(nil)).Elem()
+}
+
+func (o StorageDataShareAccessPolicyArrayOutput) ToStorageDataShareAccessPolicyArrayOutput() StorageDataShareAccessPolicyArrayOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyArrayOutput) ToStorageDataShareAccessPolicyArrayOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyArrayOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyArrayOutput) Index(i pulumi.IntInput) StorageDataShareAccessPolicyOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) StorageDataShareAccessPolicy {
+		return vs[0].([]StorageDataShareAccessPolicy)[vs[1].(int)]
+	}).(StorageDataShareAccessPolicyOutput)
+}
+
+// Policy that specify the permission allowed to a managed identity
+type StorageDataShareAccessPolicyResponse struct {
+	// Allowed permissions. Currently, only supported value is Read.
+	Permission string `pulumi:"permission"`
+	// The AAD principal ID of the Managed Identity.
+	PrincipalId string `pulumi:"principalId"`
+	// The AAD tenant ID of the Managed Identity.
+	TenantId string `pulumi:"tenantId"`
+}
+
+// Policy that specify the permission allowed to a managed identity
+type StorageDataShareAccessPolicyResponseOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAccessPolicyResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareAccessPolicyResponse)(nil)).Elem()
+}
+
+func (o StorageDataShareAccessPolicyResponseOutput) ToStorageDataShareAccessPolicyResponseOutput() StorageDataShareAccessPolicyResponseOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyResponseOutput) ToStorageDataShareAccessPolicyResponseOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyResponseOutput {
+	return o
+}
+
+// Allowed permissions. Currently, only supported value is Read.
+func (o StorageDataShareAccessPolicyResponseOutput) Permission() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAccessPolicyResponse) string { return v.Permission }).(pulumi.StringOutput)
+}
+
+// The AAD principal ID of the Managed Identity.
+func (o StorageDataShareAccessPolicyResponseOutput) PrincipalId() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAccessPolicyResponse) string { return v.PrincipalId }).(pulumi.StringOutput)
+}
+
+// The AAD tenant ID of the Managed Identity.
+func (o StorageDataShareAccessPolicyResponseOutput) TenantId() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAccessPolicyResponse) string { return v.TenantId }).(pulumi.StringOutput)
+}
+
+type StorageDataShareAccessPolicyResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAccessPolicyResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]StorageDataShareAccessPolicyResponse)(nil)).Elem()
+}
+
+func (o StorageDataShareAccessPolicyResponseArrayOutput) ToStorageDataShareAccessPolicyResponseArrayOutput() StorageDataShareAccessPolicyResponseArrayOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyResponseArrayOutput) ToStorageDataShareAccessPolicyResponseArrayOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyResponseArrayOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyResponseArrayOutput) Index(i pulumi.IntInput) StorageDataShareAccessPolicyResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) StorageDataShareAccessPolicyResponse {
+		return vs[0].([]StorageDataShareAccessPolicyResponse)[vs[1].(int)]
+	}).(StorageDataShareAccessPolicyResponseOutput)
+}
+
+// Properties of a shared resource.
+type StorageDataShareAsset struct {
+	// Source Path to be shared. It can be a folder or a blob.
+	// The asset path should contain container name followed by path within the container, e.g. /container1/logs/external.
+	AssetPath string `pulumi:"assetPath"`
+	// Consumer visible name of the original path.
+	DisplayName string `pulumi:"displayName"`
+}
+
+// StorageDataShareAssetInput is an input type that accepts StorageDataShareAssetArgs and StorageDataShareAssetOutput values.
+// You can construct a concrete instance of `StorageDataShareAssetInput` via:
+//
+//	StorageDataShareAssetArgs{...}
+type StorageDataShareAssetInput interface {
+	pulumi.Input
+
+	ToStorageDataShareAssetOutput() StorageDataShareAssetOutput
+	ToStorageDataShareAssetOutputWithContext(context.Context) StorageDataShareAssetOutput
+}
+
+// Properties of a shared resource.
+type StorageDataShareAssetArgs struct {
+	// Source Path to be shared. It can be a folder or a blob.
+	// The asset path should contain container name followed by path within the container, e.g. /container1/logs/external.
+	AssetPath pulumi.StringInput `pulumi:"assetPath"`
+	// Consumer visible name of the original path.
+	DisplayName pulumi.StringInput `pulumi:"displayName"`
+}
+
+func (StorageDataShareAssetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareAsset)(nil)).Elem()
+}
+
+func (i StorageDataShareAssetArgs) ToStorageDataShareAssetOutput() StorageDataShareAssetOutput {
+	return i.ToStorageDataShareAssetOutputWithContext(context.Background())
+}
+
+func (i StorageDataShareAssetArgs) ToStorageDataShareAssetOutputWithContext(ctx context.Context) StorageDataShareAssetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(StorageDataShareAssetOutput)
+}
+
+// StorageDataShareAssetArrayInput is an input type that accepts StorageDataShareAssetArray and StorageDataShareAssetArrayOutput values.
+// You can construct a concrete instance of `StorageDataShareAssetArrayInput` via:
+//
+//	StorageDataShareAssetArray{ StorageDataShareAssetArgs{...} }
+type StorageDataShareAssetArrayInput interface {
+	pulumi.Input
+
+	ToStorageDataShareAssetArrayOutput() StorageDataShareAssetArrayOutput
+	ToStorageDataShareAssetArrayOutputWithContext(context.Context) StorageDataShareAssetArrayOutput
+}
+
+type StorageDataShareAssetArray []StorageDataShareAssetInput
+
+func (StorageDataShareAssetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]StorageDataShareAsset)(nil)).Elem()
+}
+
+func (i StorageDataShareAssetArray) ToStorageDataShareAssetArrayOutput() StorageDataShareAssetArrayOutput {
+	return i.ToStorageDataShareAssetArrayOutputWithContext(context.Background())
+}
+
+func (i StorageDataShareAssetArray) ToStorageDataShareAssetArrayOutputWithContext(ctx context.Context) StorageDataShareAssetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(StorageDataShareAssetArrayOutput)
+}
+
+// Properties of a shared resource.
+type StorageDataShareAssetOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAssetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareAsset)(nil)).Elem()
+}
+
+func (o StorageDataShareAssetOutput) ToStorageDataShareAssetOutput() StorageDataShareAssetOutput {
+	return o
+}
+
+func (o StorageDataShareAssetOutput) ToStorageDataShareAssetOutputWithContext(ctx context.Context) StorageDataShareAssetOutput {
+	return o
+}
+
+// Source Path to be shared. It can be a folder or a blob.
+// The asset path should contain container name followed by path within the container, e.g. /container1/logs/external.
+func (o StorageDataShareAssetOutput) AssetPath() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAsset) string { return v.AssetPath }).(pulumi.StringOutput)
+}
+
+// Consumer visible name of the original path.
+func (o StorageDataShareAssetOutput) DisplayName() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAsset) string { return v.DisplayName }).(pulumi.StringOutput)
+}
+
+type StorageDataShareAssetArrayOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAssetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]StorageDataShareAsset)(nil)).Elem()
+}
+
+func (o StorageDataShareAssetArrayOutput) ToStorageDataShareAssetArrayOutput() StorageDataShareAssetArrayOutput {
+	return o
+}
+
+func (o StorageDataShareAssetArrayOutput) ToStorageDataShareAssetArrayOutputWithContext(ctx context.Context) StorageDataShareAssetArrayOutput {
+	return o
+}
+
+func (o StorageDataShareAssetArrayOutput) Index(i pulumi.IntInput) StorageDataShareAssetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) StorageDataShareAsset {
+		return vs[0].([]StorageDataShareAsset)[vs[1].(int)]
+	}).(StorageDataShareAssetOutput)
+}
+
+// Properties of a shared resource.
+type StorageDataShareAssetResponse struct {
+	// Source Path to be shared. It can be a folder or a blob.
+	// The asset path should contain container name followed by path within the container, e.g. /container1/logs/external.
+	AssetPath string `pulumi:"assetPath"`
+	// Consumer visible name of the original path.
+	DisplayName string `pulumi:"displayName"`
+}
+
+// Properties of a shared resource.
+type StorageDataShareAssetResponseOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAssetResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareAssetResponse)(nil)).Elem()
+}
+
+func (o StorageDataShareAssetResponseOutput) ToStorageDataShareAssetResponseOutput() StorageDataShareAssetResponseOutput {
+	return o
+}
+
+func (o StorageDataShareAssetResponseOutput) ToStorageDataShareAssetResponseOutputWithContext(ctx context.Context) StorageDataShareAssetResponseOutput {
+	return o
+}
+
+// Source Path to be shared. It can be a folder or a blob.
+// The asset path should contain container name followed by path within the container, e.g. /container1/logs/external.
+func (o StorageDataShareAssetResponseOutput) AssetPath() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAssetResponse) string { return v.AssetPath }).(pulumi.StringOutput)
+}
+
+// Consumer visible name of the original path.
+func (o StorageDataShareAssetResponseOutput) DisplayName() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataShareAssetResponse) string { return v.DisplayName }).(pulumi.StringOutput)
+}
+
+type StorageDataShareAssetResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAssetResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]StorageDataShareAssetResponse)(nil)).Elem()
+}
+
+func (o StorageDataShareAssetResponseArrayOutput) ToStorageDataShareAssetResponseArrayOutput() StorageDataShareAssetResponseArrayOutput {
+	return o
+}
+
+func (o StorageDataShareAssetResponseArrayOutput) ToStorageDataShareAssetResponseArrayOutputWithContext(ctx context.Context) StorageDataShareAssetResponseArrayOutput {
+	return o
+}
+
+func (o StorageDataShareAssetResponseArrayOutput) Index(i pulumi.IntInput) StorageDataShareAssetResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) StorageDataShareAssetResponse {
+		return vs[0].([]StorageDataShareAssetResponse)[vs[1].(int)]
+	}).(StorageDataShareAssetResponseOutput)
+}
+
+// The storage datashare properties
+type StorageDataShareProperties struct {
+	// List of access policies that specify the permission allowed to a managed identity.
+	// For Create - This property is required and cannot be null. If no access policies are provided at creation time, specify an empty array.
+	// For Update - This property is optional. If set to null or not passed, the existing access policies are left unchanged.
+	// If provided with a non-null value, the existing access policies are replaced with the specified list.
+	AccessPolicies []StorageDataShareAccessPolicy `pulumi:"accessPolicies"`
+	// List of assets that specify the properties of the shared resources.
+	// For Create - This property is required and cannot be null. If no assets are provided at creation time, specify an empty array.
+	// For Update - This property is optional. If set to null or not passed, the existing assets are left unchanged.
+	// If provided with a non-null value, the existing assets are replaced with the specified list.
+	Assets []StorageDataShareAsset `pulumi:"assets"`
+	// Arbitrary description of this Data Share. Max 250 characters.
+	Description *string `pulumi:"description"`
+}
+
+// StorageDataSharePropertiesInput is an input type that accepts StorageDataSharePropertiesArgs and StorageDataSharePropertiesOutput values.
+// You can construct a concrete instance of `StorageDataSharePropertiesInput` via:
+//
+//	StorageDataSharePropertiesArgs{...}
+type StorageDataSharePropertiesInput interface {
+	pulumi.Input
+
+	ToStorageDataSharePropertiesOutput() StorageDataSharePropertiesOutput
+	ToStorageDataSharePropertiesOutputWithContext(context.Context) StorageDataSharePropertiesOutput
+}
+
+// The storage datashare properties
+type StorageDataSharePropertiesArgs struct {
+	// List of access policies that specify the permission allowed to a managed identity.
+	// For Create - This property is required and cannot be null. If no access policies are provided at creation time, specify an empty array.
+	// For Update - This property is optional. If set to null or not passed, the existing access policies are left unchanged.
+	// If provided with a non-null value, the existing access policies are replaced with the specified list.
+	AccessPolicies StorageDataShareAccessPolicyArrayInput `pulumi:"accessPolicies"`
+	// List of assets that specify the properties of the shared resources.
+	// For Create - This property is required and cannot be null. If no assets are provided at creation time, specify an empty array.
+	// For Update - This property is optional. If set to null or not passed, the existing assets are left unchanged.
+	// If provided with a non-null value, the existing assets are replaced with the specified list.
+	Assets StorageDataShareAssetArrayInput `pulumi:"assets"`
+	// Arbitrary description of this Data Share. Max 250 characters.
+	Description pulumi.StringPtrInput `pulumi:"description"`
+}
+
+func (StorageDataSharePropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareProperties)(nil)).Elem()
+}
+
+func (i StorageDataSharePropertiesArgs) ToStorageDataSharePropertiesOutput() StorageDataSharePropertiesOutput {
+	return i.ToStorageDataSharePropertiesOutputWithContext(context.Background())
+}
+
+func (i StorageDataSharePropertiesArgs) ToStorageDataSharePropertiesOutputWithContext(ctx context.Context) StorageDataSharePropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(StorageDataSharePropertiesOutput)
+}
+
+// The storage datashare properties
+type StorageDataSharePropertiesOutput struct{ *pulumi.OutputState }
+
+func (StorageDataSharePropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareProperties)(nil)).Elem()
+}
+
+func (o StorageDataSharePropertiesOutput) ToStorageDataSharePropertiesOutput() StorageDataSharePropertiesOutput {
+	return o
+}
+
+func (o StorageDataSharePropertiesOutput) ToStorageDataSharePropertiesOutputWithContext(ctx context.Context) StorageDataSharePropertiesOutput {
+	return o
+}
+
+// List of access policies that specify the permission allowed to a managed identity.
+// For Create - This property is required and cannot be null. If no access policies are provided at creation time, specify an empty array.
+// For Update - This property is optional. If set to null or not passed, the existing access policies are left unchanged.
+// If provided with a non-null value, the existing access policies are replaced with the specified list.
+func (o StorageDataSharePropertiesOutput) AccessPolicies() StorageDataShareAccessPolicyArrayOutput {
+	return o.ApplyT(func(v StorageDataShareProperties) []StorageDataShareAccessPolicy { return v.AccessPolicies }).(StorageDataShareAccessPolicyArrayOutput)
+}
+
+// List of assets that specify the properties of the shared resources.
+// For Create - This property is required and cannot be null. If no assets are provided at creation time, specify an empty array.
+// For Update - This property is optional. If set to null or not passed, the existing assets are left unchanged.
+// If provided with a non-null value, the existing assets are replaced with the specified list.
+func (o StorageDataSharePropertiesOutput) Assets() StorageDataShareAssetArrayOutput {
+	return o.ApplyT(func(v StorageDataShareProperties) []StorageDataShareAsset { return v.Assets }).(StorageDataShareAssetArrayOutput)
+}
+
+// Arbitrary description of this Data Share. Max 250 characters.
+func (o StorageDataSharePropertiesOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v StorageDataShareProperties) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// The storage datashare properties
+type StorageDataSharePropertiesResponse struct {
+	// List of access policies that specify the permission allowed to a managed identity.
+	// For Create - This property is required and cannot be null. If no access policies are provided at creation time, specify an empty array.
+	// For Update - This property is optional. If set to null or not passed, the existing access policies are left unchanged.
+	// If provided with a non-null value, the existing access policies are replaced with the specified list.
+	AccessPolicies []StorageDataShareAccessPolicyResponse `pulumi:"accessPolicies"`
+	// List of assets that specify the properties of the shared resources.
+	// For Create - This property is required and cannot be null. If no assets are provided at creation time, specify an empty array.
+	// For Update - This property is optional. If set to null or not passed, the existing assets are left unchanged.
+	// If provided with a non-null value, the existing assets are replaced with the specified list.
+	Assets []StorageDataShareAssetResponse `pulumi:"assets"`
+	// System-generated GUID identifier for the Storage DataShare. Not a valid input parameter when creating.
+	DataShareIdentifier string `pulumi:"dataShareIdentifier"`
+	// The DataShare URI to be shared with the consumer.
+	// URI Format - 'azds://<location>:<dataShareName>:<dataShareIdentifier>'.
+	DataShareUri string `pulumi:"dataShareUri"`
+	// Arbitrary description of this Data Share. Max 250 characters.
+	Description *string `pulumi:"description"`
+	// Represents the provisioning state of the storage datashare.
+	ProvisioningState string `pulumi:"provisioningState"`
+}
+
+// The storage datashare properties
+type StorageDataSharePropertiesResponseOutput struct{ *pulumi.OutputState }
+
+func (StorageDataSharePropertiesResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataSharePropertiesResponse)(nil)).Elem()
+}
+
+func (o StorageDataSharePropertiesResponseOutput) ToStorageDataSharePropertiesResponseOutput() StorageDataSharePropertiesResponseOutput {
+	return o
+}
+
+func (o StorageDataSharePropertiesResponseOutput) ToStorageDataSharePropertiesResponseOutputWithContext(ctx context.Context) StorageDataSharePropertiesResponseOutput {
+	return o
+}
+
+// List of access policies that specify the permission allowed to a managed identity.
+// For Create - This property is required and cannot be null. If no access policies are provided at creation time, specify an empty array.
+// For Update - This property is optional. If set to null or not passed, the existing access policies are left unchanged.
+// If provided with a non-null value, the existing access policies are replaced with the specified list.
+func (o StorageDataSharePropertiesResponseOutput) AccessPolicies() StorageDataShareAccessPolicyResponseArrayOutput {
+	return o.ApplyT(func(v StorageDataSharePropertiesResponse) []StorageDataShareAccessPolicyResponse {
+		return v.AccessPolicies
+	}).(StorageDataShareAccessPolicyResponseArrayOutput)
+}
+
+// List of assets that specify the properties of the shared resources.
+// For Create - This property is required and cannot be null. If no assets are provided at creation time, specify an empty array.
+// For Update - This property is optional. If set to null or not passed, the existing assets are left unchanged.
+// If provided with a non-null value, the existing assets are replaced with the specified list.
+func (o StorageDataSharePropertiesResponseOutput) Assets() StorageDataShareAssetResponseArrayOutput {
+	return o.ApplyT(func(v StorageDataSharePropertiesResponse) []StorageDataShareAssetResponse { return v.Assets }).(StorageDataShareAssetResponseArrayOutput)
+}
+
+// System-generated GUID identifier for the Storage DataShare. Not a valid input parameter when creating.
+func (o StorageDataSharePropertiesResponseOutput) DataShareIdentifier() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataSharePropertiesResponse) string { return v.DataShareIdentifier }).(pulumi.StringOutput)
+}
+
+// The DataShare URI to be shared with the consumer.
+// URI Format - 'azds://<location>:<dataShareName>:<dataShareIdentifier>'.
+func (o StorageDataSharePropertiesResponseOutput) DataShareUri() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataSharePropertiesResponse) string { return v.DataShareUri }).(pulumi.StringOutput)
+}
+
+// Arbitrary description of this Data Share. Max 250 characters.
+func (o StorageDataSharePropertiesResponseOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v StorageDataSharePropertiesResponse) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// Represents the provisioning state of the storage datashare.
+func (o StorageDataSharePropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v StorageDataSharePropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
 // Execution context of the storage task assignment.
 type StorageTaskAssignmentExecutionContext struct {
 	// Execution target of the storage task assignment
@@ -16048,6 +17093,10 @@ func init() {
 	pulumi.RegisterOutputType(CustomDomainOutput{})
 	pulumi.RegisterOutputType(CustomDomainPtrOutput{})
 	pulumi.RegisterOutputType(CustomDomainResponseOutput{})
+	pulumi.RegisterOutputType(DataShareConnectionOutput{})
+	pulumi.RegisterOutputType(DataShareConnectionResponseOutput{})
+	pulumi.RegisterOutputType(DataShareSourceOutput{})
+	pulumi.RegisterOutputType(DataShareSourceResponseOutput{})
 	pulumi.RegisterOutputType(DateAfterCreationOutput{})
 	pulumi.RegisterOutputType(DateAfterCreationPtrOutput{})
 	pulumi.RegisterOutputType(DateAfterCreationResponseOutput{})
@@ -16125,6 +17174,8 @@ func init() {
 	pulumi.RegisterOutputType(LastAccessTimeTrackingPolicyResponseOutput{})
 	pulumi.RegisterOutputType(LastAccessTimeTrackingPolicyResponsePtrOutput{})
 	pulumi.RegisterOutputType(LegalHoldPropertiesResponseOutput{})
+	pulumi.RegisterOutputType(ManagedIdentityAuthPropertiesOutput{})
+	pulumi.RegisterOutputType(ManagedIdentityAuthPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(ManagementPolicyActionOutput{})
 	pulumi.RegisterOutputType(ManagementPolicyActionResponseOutput{})
 	pulumi.RegisterOutputType(ManagementPolicyBaseBlobOutput{})
@@ -16223,6 +17274,18 @@ func init() {
 	pulumi.RegisterOutputType(StorageAccountMicrosoftEndpointsResponsePtrOutput{})
 	pulumi.RegisterOutputType(StorageAccountSkuConversionStatusResponseOutput{})
 	pulumi.RegisterOutputType(StorageAccountSkuConversionStatusResponsePtrOutput{})
+	pulumi.RegisterOutputType(StorageConnectorPropertiesOutput{})
+	pulumi.RegisterOutputType(StorageConnectorPropertiesResponseOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAccessPolicyOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAccessPolicyArrayOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAccessPolicyResponseOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAccessPolicyResponseArrayOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAssetOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAssetArrayOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAssetResponseOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAssetResponseArrayOutput{})
+	pulumi.RegisterOutputType(StorageDataSharePropertiesOutput{})
+	pulumi.RegisterOutputType(StorageDataSharePropertiesResponseOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentExecutionContextOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentExecutionContextResponseOutput{})
 	pulumi.RegisterOutputType(StorageTaskAssignmentPropertiesOutput{})

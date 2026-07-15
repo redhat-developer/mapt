@@ -407,9 +407,9 @@ type AccessReviewInstanceResponse struct {
 	BackupReviewers []AccessReviewReviewerResponse `pulumi:"backupReviewers"`
 	// The DateTime when the review instance is scheduled to end.
 	EndDateTime *string `pulumi:"endDateTime"`
-	// The access review instance id.
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// The access review instance name.
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// This is the collection of reviewers.
 	Reviewers []AccessReviewReviewerResponse `pulumi:"reviewers"`
@@ -419,7 +419,9 @@ type AccessReviewInstanceResponse struct {
 	StartDateTime *string `pulumi:"startDateTime"`
 	// This read-only field specifies the status of an access review instance.
 	Status string `pulumi:"status"`
-	// The resource type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 }
 
@@ -448,12 +450,12 @@ func (o AccessReviewInstanceResponseOutput) EndDateTime() pulumi.StringPtrOutput
 	return o.ApplyT(func(v AccessReviewInstanceResponse) *string { return v.EndDateTime }).(pulumi.StringPtrOutput)
 }
 
-// The access review instance id.
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o AccessReviewInstanceResponseOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v AccessReviewInstanceResponse) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// The access review instance name.
+// The name of the resource
 func (o AccessReviewInstanceResponseOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v AccessReviewInstanceResponse) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -478,7 +480,12 @@ func (o AccessReviewInstanceResponseOutput) Status() pulumi.StringOutput {
 	return o.ApplyT(func(v AccessReviewInstanceResponse) string { return v.Status }).(pulumi.StringOutput)
 }
 
-// The resource type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o AccessReviewInstanceResponseOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v AccessReviewInstanceResponse) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o AccessReviewInstanceResponseOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v AccessReviewInstanceResponse) string { return v.Type }).(pulumi.StringOutput)
 }
@@ -1788,6 +1795,394 @@ func (o ApprovalStageResponseArrayOutput) Index(i pulumi.IntInput) ApprovalStage
 	}).(ApprovalStageResponseOutput)
 }
 
+// Deny assignment permissions.
+type DenyAssignmentPermission struct {
+	// Actions to which the deny assignment does not grant access.
+	Actions []string `pulumi:"actions"`
+	// The conditions on the Deny assignment permission. This limits the resources it applies to.
+	Condition *string `pulumi:"condition"`
+	// Version of the condition.
+	ConditionVersion *string `pulumi:"conditionVersion"`
+	// Data actions to which the deny assignment does not grant access.
+	DataActions []string `pulumi:"dataActions"`
+	// Actions to exclude from that the deny assignment does not grant access.
+	NotActions []string `pulumi:"notActions"`
+	// Data actions to exclude from that the deny assignment does not grant access.
+	NotDataActions []string `pulumi:"notDataActions"`
+}
+
+// DenyAssignmentPermissionInput is an input type that accepts DenyAssignmentPermissionArgs and DenyAssignmentPermissionOutput values.
+// You can construct a concrete instance of `DenyAssignmentPermissionInput` via:
+//
+//	DenyAssignmentPermissionArgs{...}
+type DenyAssignmentPermissionInput interface {
+	pulumi.Input
+
+	ToDenyAssignmentPermissionOutput() DenyAssignmentPermissionOutput
+	ToDenyAssignmentPermissionOutputWithContext(context.Context) DenyAssignmentPermissionOutput
+}
+
+// Deny assignment permissions.
+type DenyAssignmentPermissionArgs struct {
+	// Actions to which the deny assignment does not grant access.
+	Actions pulumi.StringArrayInput `pulumi:"actions"`
+	// The conditions on the Deny assignment permission. This limits the resources it applies to.
+	Condition pulumi.StringPtrInput `pulumi:"condition"`
+	// Version of the condition.
+	ConditionVersion pulumi.StringPtrInput `pulumi:"conditionVersion"`
+	// Data actions to which the deny assignment does not grant access.
+	DataActions pulumi.StringArrayInput `pulumi:"dataActions"`
+	// Actions to exclude from that the deny assignment does not grant access.
+	NotActions pulumi.StringArrayInput `pulumi:"notActions"`
+	// Data actions to exclude from that the deny assignment does not grant access.
+	NotDataActions pulumi.StringArrayInput `pulumi:"notDataActions"`
+}
+
+func (DenyAssignmentPermissionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenyAssignmentPermission)(nil)).Elem()
+}
+
+func (i DenyAssignmentPermissionArgs) ToDenyAssignmentPermissionOutput() DenyAssignmentPermissionOutput {
+	return i.ToDenyAssignmentPermissionOutputWithContext(context.Background())
+}
+
+func (i DenyAssignmentPermissionArgs) ToDenyAssignmentPermissionOutputWithContext(ctx context.Context) DenyAssignmentPermissionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DenyAssignmentPermissionOutput)
+}
+
+// DenyAssignmentPermissionArrayInput is an input type that accepts DenyAssignmentPermissionArray and DenyAssignmentPermissionArrayOutput values.
+// You can construct a concrete instance of `DenyAssignmentPermissionArrayInput` via:
+//
+//	DenyAssignmentPermissionArray{ DenyAssignmentPermissionArgs{...} }
+type DenyAssignmentPermissionArrayInput interface {
+	pulumi.Input
+
+	ToDenyAssignmentPermissionArrayOutput() DenyAssignmentPermissionArrayOutput
+	ToDenyAssignmentPermissionArrayOutputWithContext(context.Context) DenyAssignmentPermissionArrayOutput
+}
+
+type DenyAssignmentPermissionArray []DenyAssignmentPermissionInput
+
+func (DenyAssignmentPermissionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]DenyAssignmentPermission)(nil)).Elem()
+}
+
+func (i DenyAssignmentPermissionArray) ToDenyAssignmentPermissionArrayOutput() DenyAssignmentPermissionArrayOutput {
+	return i.ToDenyAssignmentPermissionArrayOutputWithContext(context.Background())
+}
+
+func (i DenyAssignmentPermissionArray) ToDenyAssignmentPermissionArrayOutputWithContext(ctx context.Context) DenyAssignmentPermissionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DenyAssignmentPermissionArrayOutput)
+}
+
+// Deny assignment permissions.
+type DenyAssignmentPermissionOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentPermissionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenyAssignmentPermission)(nil)).Elem()
+}
+
+func (o DenyAssignmentPermissionOutput) ToDenyAssignmentPermissionOutput() DenyAssignmentPermissionOutput {
+	return o
+}
+
+func (o DenyAssignmentPermissionOutput) ToDenyAssignmentPermissionOutputWithContext(ctx context.Context) DenyAssignmentPermissionOutput {
+	return o
+}
+
+// Actions to which the deny assignment does not grant access.
+func (o DenyAssignmentPermissionOutput) Actions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v DenyAssignmentPermission) []string { return v.Actions }).(pulumi.StringArrayOutput)
+}
+
+// The conditions on the Deny assignment permission. This limits the resources it applies to.
+func (o DenyAssignmentPermissionOutput) Condition() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DenyAssignmentPermission) *string { return v.Condition }).(pulumi.StringPtrOutput)
+}
+
+// Version of the condition.
+func (o DenyAssignmentPermissionOutput) ConditionVersion() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DenyAssignmentPermission) *string { return v.ConditionVersion }).(pulumi.StringPtrOutput)
+}
+
+// Data actions to which the deny assignment does not grant access.
+func (o DenyAssignmentPermissionOutput) DataActions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v DenyAssignmentPermission) []string { return v.DataActions }).(pulumi.StringArrayOutput)
+}
+
+// Actions to exclude from that the deny assignment does not grant access.
+func (o DenyAssignmentPermissionOutput) NotActions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v DenyAssignmentPermission) []string { return v.NotActions }).(pulumi.StringArrayOutput)
+}
+
+// Data actions to exclude from that the deny assignment does not grant access.
+func (o DenyAssignmentPermissionOutput) NotDataActions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v DenyAssignmentPermission) []string { return v.NotDataActions }).(pulumi.StringArrayOutput)
+}
+
+type DenyAssignmentPermissionArrayOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentPermissionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]DenyAssignmentPermission)(nil)).Elem()
+}
+
+func (o DenyAssignmentPermissionArrayOutput) ToDenyAssignmentPermissionArrayOutput() DenyAssignmentPermissionArrayOutput {
+	return o
+}
+
+func (o DenyAssignmentPermissionArrayOutput) ToDenyAssignmentPermissionArrayOutputWithContext(ctx context.Context) DenyAssignmentPermissionArrayOutput {
+	return o
+}
+
+func (o DenyAssignmentPermissionArrayOutput) Index(i pulumi.IntInput) DenyAssignmentPermissionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) DenyAssignmentPermission {
+		return vs[0].([]DenyAssignmentPermission)[vs[1].(int)]
+	}).(DenyAssignmentPermissionOutput)
+}
+
+// Deny assignment permissions.
+type DenyAssignmentPermissionResponse struct {
+	// Actions to which the deny assignment does not grant access.
+	Actions []string `pulumi:"actions"`
+	// The conditions on the Deny assignment permission. This limits the resources it applies to.
+	Condition *string `pulumi:"condition"`
+	// Version of the condition.
+	ConditionVersion *string `pulumi:"conditionVersion"`
+	// Data actions to which the deny assignment does not grant access.
+	DataActions []string `pulumi:"dataActions"`
+	// Actions to exclude from that the deny assignment does not grant access.
+	NotActions []string `pulumi:"notActions"`
+	// Data actions to exclude from that the deny assignment does not grant access.
+	NotDataActions []string `pulumi:"notDataActions"`
+}
+
+// Deny assignment permissions.
+type DenyAssignmentPermissionResponseOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentPermissionResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenyAssignmentPermissionResponse)(nil)).Elem()
+}
+
+func (o DenyAssignmentPermissionResponseOutput) ToDenyAssignmentPermissionResponseOutput() DenyAssignmentPermissionResponseOutput {
+	return o
+}
+
+func (o DenyAssignmentPermissionResponseOutput) ToDenyAssignmentPermissionResponseOutputWithContext(ctx context.Context) DenyAssignmentPermissionResponseOutput {
+	return o
+}
+
+// Actions to which the deny assignment does not grant access.
+func (o DenyAssignmentPermissionResponseOutput) Actions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v DenyAssignmentPermissionResponse) []string { return v.Actions }).(pulumi.StringArrayOutput)
+}
+
+// The conditions on the Deny assignment permission. This limits the resources it applies to.
+func (o DenyAssignmentPermissionResponseOutput) Condition() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DenyAssignmentPermissionResponse) *string { return v.Condition }).(pulumi.StringPtrOutput)
+}
+
+// Version of the condition.
+func (o DenyAssignmentPermissionResponseOutput) ConditionVersion() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DenyAssignmentPermissionResponse) *string { return v.ConditionVersion }).(pulumi.StringPtrOutput)
+}
+
+// Data actions to which the deny assignment does not grant access.
+func (o DenyAssignmentPermissionResponseOutput) DataActions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v DenyAssignmentPermissionResponse) []string { return v.DataActions }).(pulumi.StringArrayOutput)
+}
+
+// Actions to exclude from that the deny assignment does not grant access.
+func (o DenyAssignmentPermissionResponseOutput) NotActions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v DenyAssignmentPermissionResponse) []string { return v.NotActions }).(pulumi.StringArrayOutput)
+}
+
+// Data actions to exclude from that the deny assignment does not grant access.
+func (o DenyAssignmentPermissionResponseOutput) NotDataActions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v DenyAssignmentPermissionResponse) []string { return v.NotDataActions }).(pulumi.StringArrayOutput)
+}
+
+type DenyAssignmentPermissionResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentPermissionResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]DenyAssignmentPermissionResponse)(nil)).Elem()
+}
+
+func (o DenyAssignmentPermissionResponseArrayOutput) ToDenyAssignmentPermissionResponseArrayOutput() DenyAssignmentPermissionResponseArrayOutput {
+	return o
+}
+
+func (o DenyAssignmentPermissionResponseArrayOutput) ToDenyAssignmentPermissionResponseArrayOutputWithContext(ctx context.Context) DenyAssignmentPermissionResponseArrayOutput {
+	return o
+}
+
+func (o DenyAssignmentPermissionResponseArrayOutput) Index(i pulumi.IntInput) DenyAssignmentPermissionResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) DenyAssignmentPermissionResponse {
+		return vs[0].([]DenyAssignmentPermissionResponse)[vs[1].(int)]
+	}).(DenyAssignmentPermissionResponseOutput)
+}
+
+// Deny assignment principal.
+type DenyAssignmentPrincipal struct {
+	// The object ID of the principal.
+	Id *string `pulumi:"id"`
+	// The type of the principal such as user, group, servicePrincipal, etc.
+	Type *string `pulumi:"type"`
+}
+
+// DenyAssignmentPrincipalInput is an input type that accepts DenyAssignmentPrincipalArgs and DenyAssignmentPrincipalOutput values.
+// You can construct a concrete instance of `DenyAssignmentPrincipalInput` via:
+//
+//	DenyAssignmentPrincipalArgs{...}
+type DenyAssignmentPrincipalInput interface {
+	pulumi.Input
+
+	ToDenyAssignmentPrincipalOutput() DenyAssignmentPrincipalOutput
+	ToDenyAssignmentPrincipalOutputWithContext(context.Context) DenyAssignmentPrincipalOutput
+}
+
+// Deny assignment principal.
+type DenyAssignmentPrincipalArgs struct {
+	// The object ID of the principal.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// The type of the principal such as user, group, servicePrincipal, etc.
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (DenyAssignmentPrincipalArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenyAssignmentPrincipal)(nil)).Elem()
+}
+
+func (i DenyAssignmentPrincipalArgs) ToDenyAssignmentPrincipalOutput() DenyAssignmentPrincipalOutput {
+	return i.ToDenyAssignmentPrincipalOutputWithContext(context.Background())
+}
+
+func (i DenyAssignmentPrincipalArgs) ToDenyAssignmentPrincipalOutputWithContext(ctx context.Context) DenyAssignmentPrincipalOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DenyAssignmentPrincipalOutput)
+}
+
+// DenyAssignmentPrincipalArrayInput is an input type that accepts DenyAssignmentPrincipalArray and DenyAssignmentPrincipalArrayOutput values.
+// You can construct a concrete instance of `DenyAssignmentPrincipalArrayInput` via:
+//
+//	DenyAssignmentPrincipalArray{ DenyAssignmentPrincipalArgs{...} }
+type DenyAssignmentPrincipalArrayInput interface {
+	pulumi.Input
+
+	ToDenyAssignmentPrincipalArrayOutput() DenyAssignmentPrincipalArrayOutput
+	ToDenyAssignmentPrincipalArrayOutputWithContext(context.Context) DenyAssignmentPrincipalArrayOutput
+}
+
+type DenyAssignmentPrincipalArray []DenyAssignmentPrincipalInput
+
+func (DenyAssignmentPrincipalArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]DenyAssignmentPrincipal)(nil)).Elem()
+}
+
+func (i DenyAssignmentPrincipalArray) ToDenyAssignmentPrincipalArrayOutput() DenyAssignmentPrincipalArrayOutput {
+	return i.ToDenyAssignmentPrincipalArrayOutputWithContext(context.Background())
+}
+
+func (i DenyAssignmentPrincipalArray) ToDenyAssignmentPrincipalArrayOutputWithContext(ctx context.Context) DenyAssignmentPrincipalArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(DenyAssignmentPrincipalArrayOutput)
+}
+
+// Deny assignment principal.
+type DenyAssignmentPrincipalOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentPrincipalOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenyAssignmentPrincipal)(nil)).Elem()
+}
+
+func (o DenyAssignmentPrincipalOutput) ToDenyAssignmentPrincipalOutput() DenyAssignmentPrincipalOutput {
+	return o
+}
+
+func (o DenyAssignmentPrincipalOutput) ToDenyAssignmentPrincipalOutputWithContext(ctx context.Context) DenyAssignmentPrincipalOutput {
+	return o
+}
+
+// The object ID of the principal.
+func (o DenyAssignmentPrincipalOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DenyAssignmentPrincipal) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The type of the principal such as user, group, servicePrincipal, etc.
+func (o DenyAssignmentPrincipalOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DenyAssignmentPrincipal) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type DenyAssignmentPrincipalArrayOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentPrincipalArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]DenyAssignmentPrincipal)(nil)).Elem()
+}
+
+func (o DenyAssignmentPrincipalArrayOutput) ToDenyAssignmentPrincipalArrayOutput() DenyAssignmentPrincipalArrayOutput {
+	return o
+}
+
+func (o DenyAssignmentPrincipalArrayOutput) ToDenyAssignmentPrincipalArrayOutputWithContext(ctx context.Context) DenyAssignmentPrincipalArrayOutput {
+	return o
+}
+
+func (o DenyAssignmentPrincipalArrayOutput) Index(i pulumi.IntInput) DenyAssignmentPrincipalOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) DenyAssignmentPrincipal {
+		return vs[0].([]DenyAssignmentPrincipal)[vs[1].(int)]
+	}).(DenyAssignmentPrincipalOutput)
+}
+
+// Deny assignment principal.
+type DenyAssignmentPrincipalResponse struct {
+	// The object ID of the principal.
+	Id *string `pulumi:"id"`
+	// The type of the principal such as user, group, servicePrincipal, etc.
+	Type *string `pulumi:"type"`
+}
+
+// Deny assignment principal.
+type DenyAssignmentPrincipalResponseOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentPrincipalResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenyAssignmentPrincipalResponse)(nil)).Elem()
+}
+
+func (o DenyAssignmentPrincipalResponseOutput) ToDenyAssignmentPrincipalResponseOutput() DenyAssignmentPrincipalResponseOutput {
+	return o
+}
+
+func (o DenyAssignmentPrincipalResponseOutput) ToDenyAssignmentPrincipalResponseOutputWithContext(ctx context.Context) DenyAssignmentPrincipalResponseOutput {
+	return o
+}
+
+// The object ID of the principal.
+func (o DenyAssignmentPrincipalResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DenyAssignmentPrincipalResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The type of the principal such as user, group, servicePrincipal, etc.
+func (o DenyAssignmentPrincipalResponseOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DenyAssignmentPrincipalResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type DenyAssignmentPrincipalResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentPrincipalResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]DenyAssignmentPrincipalResponse)(nil)).Elem()
+}
+
+func (o DenyAssignmentPrincipalResponseArrayOutput) ToDenyAssignmentPrincipalResponseArrayOutput() DenyAssignmentPrincipalResponseArrayOutput {
+	return o
+}
+
+func (o DenyAssignmentPrincipalResponseArrayOutput) ToDenyAssignmentPrincipalResponseArrayOutputWithContext(ctx context.Context) DenyAssignmentPrincipalResponseArrayOutput {
+	return o
+}
+
+func (o DenyAssignmentPrincipalResponseArrayOutput) Index(i pulumi.IntInput) DenyAssignmentPrincipalResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) DenyAssignmentPrincipalResponse {
+		return vs[0].([]DenyAssignmentPrincipalResponse)[vs[1].(int)]
+	}).(DenyAssignmentPrincipalResponseOutput)
+}
+
 // Expanded info of resource, role and principal
 type ExpandedPropertiesResponse struct {
 	// Details of the principal
@@ -2640,6 +3035,117 @@ func (o ManagementLockOwnerResponseArrayOutput) Index(i pulumi.IntInput) Managem
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ManagementLockOwnerResponse {
 		return vs[0].([]ManagementLockOwnerResponse)[vs[1].(int)]
 	}).(ManagementLockOwnerResponseOutput)
+}
+
+// The name of the entity last modified it
+type MicrosoftCommonPrincipalResponse struct {
+	// The name of the principal made changes
+	DisplayName *string `pulumi:"displayName"`
+	// Email of principal
+	Email *string `pulumi:"email"`
+	// The id of the principal made changes
+	Id *string `pulumi:"id"`
+	// Type of principal such as user , group etc
+	Type *string `pulumi:"type"`
+}
+
+// The name of the entity last modified it
+type MicrosoftCommonPrincipalResponseOutput struct{ *pulumi.OutputState }
+
+func (MicrosoftCommonPrincipalResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*MicrosoftCommonPrincipalResponse)(nil)).Elem()
+}
+
+func (o MicrosoftCommonPrincipalResponseOutput) ToMicrosoftCommonPrincipalResponseOutput() MicrosoftCommonPrincipalResponseOutput {
+	return o
+}
+
+func (o MicrosoftCommonPrincipalResponseOutput) ToMicrosoftCommonPrincipalResponseOutputWithContext(ctx context.Context) MicrosoftCommonPrincipalResponseOutput {
+	return o
+}
+
+// The name of the principal made changes
+func (o MicrosoftCommonPrincipalResponseOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v MicrosoftCommonPrincipalResponse) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+}
+
+// Email of principal
+func (o MicrosoftCommonPrincipalResponseOutput) Email() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v MicrosoftCommonPrincipalResponse) *string { return v.Email }).(pulumi.StringPtrOutput)
+}
+
+// The id of the principal made changes
+func (o MicrosoftCommonPrincipalResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v MicrosoftCommonPrincipalResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// Type of principal such as user , group etc
+func (o MicrosoftCommonPrincipalResponseOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v MicrosoftCommonPrincipalResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type MicrosoftCommonPrincipalResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (MicrosoftCommonPrincipalResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**MicrosoftCommonPrincipalResponse)(nil)).Elem()
+}
+
+func (o MicrosoftCommonPrincipalResponsePtrOutput) ToMicrosoftCommonPrincipalResponsePtrOutput() MicrosoftCommonPrincipalResponsePtrOutput {
+	return o
+}
+
+func (o MicrosoftCommonPrincipalResponsePtrOutput) ToMicrosoftCommonPrincipalResponsePtrOutputWithContext(ctx context.Context) MicrosoftCommonPrincipalResponsePtrOutput {
+	return o
+}
+
+func (o MicrosoftCommonPrincipalResponsePtrOutput) Elem() MicrosoftCommonPrincipalResponseOutput {
+	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) MicrosoftCommonPrincipalResponse {
+		if v != nil {
+			return *v
+		}
+		var ret MicrosoftCommonPrincipalResponse
+		return ret
+	}).(MicrosoftCommonPrincipalResponseOutput)
+}
+
+// The name of the principal made changes
+func (o MicrosoftCommonPrincipalResponsePtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DisplayName
+	}).(pulumi.StringPtrOutput)
+}
+
+// Email of principal
+func (o MicrosoftCommonPrincipalResponsePtrOutput) Email() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Email
+	}).(pulumi.StringPtrOutput)
+}
+
+// The id of the principal made changes
+func (o MicrosoftCommonPrincipalResponsePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// Type of principal such as user , group etc
+func (o MicrosoftCommonPrincipalResponsePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
 }
 
 // A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results.
@@ -4128,14 +4634,110 @@ func (o PermissionResponseArrayOutput) Index(i pulumi.IntInput) PermissionRespon
 	}).(PermissionResponseOutput)
 }
 
+// Details of the policy
+type PolicyAssignmentPropertiesPolicyResponse struct {
+	// Id of the policy
+	Id *string `pulumi:"id"`
+	// The name of the entity last modified it
+	LastModifiedBy MicrosoftCommonPrincipalResponse `pulumi:"lastModifiedBy"`
+	// The last modified date time.
+	LastModifiedDateTime *string `pulumi:"lastModifiedDateTime"`
+}
+
+// Details of the policy
+type PolicyAssignmentPropertiesPolicyResponseOutput struct{ *pulumi.OutputState }
+
+func (PolicyAssignmentPropertiesPolicyResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PolicyAssignmentPropertiesPolicyResponse)(nil)).Elem()
+}
+
+func (o PolicyAssignmentPropertiesPolicyResponseOutput) ToPolicyAssignmentPropertiesPolicyResponseOutput() PolicyAssignmentPropertiesPolicyResponseOutput {
+	return o
+}
+
+func (o PolicyAssignmentPropertiesPolicyResponseOutput) ToPolicyAssignmentPropertiesPolicyResponseOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesPolicyResponseOutput {
+	return o
+}
+
+// Id of the policy
+func (o PolicyAssignmentPropertiesPolicyResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesPolicyResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The name of the entity last modified it
+func (o PolicyAssignmentPropertiesPolicyResponseOutput) LastModifiedBy() MicrosoftCommonPrincipalResponseOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesPolicyResponse) MicrosoftCommonPrincipalResponse {
+		return v.LastModifiedBy
+	}).(MicrosoftCommonPrincipalResponseOutput)
+}
+
+// The last modified date time.
+func (o PolicyAssignmentPropertiesPolicyResponseOutput) LastModifiedDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesPolicyResponse) *string { return v.LastModifiedDateTime }).(pulumi.StringPtrOutput)
+}
+
+type PolicyAssignmentPropertiesPolicyResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PolicyAssignmentPropertiesPolicyResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PolicyAssignmentPropertiesPolicyResponse)(nil)).Elem()
+}
+
+func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) ToPolicyAssignmentPropertiesPolicyResponsePtrOutput() PolicyAssignmentPropertiesPolicyResponsePtrOutput {
+	return o
+}
+
+func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) ToPolicyAssignmentPropertiesPolicyResponsePtrOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesPolicyResponsePtrOutput {
+	return o
+}
+
+func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) Elem() PolicyAssignmentPropertiesPolicyResponseOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesPolicyResponse) PolicyAssignmentPropertiesPolicyResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PolicyAssignmentPropertiesPolicyResponse
+		return ret
+	}).(PolicyAssignmentPropertiesPolicyResponseOutput)
+}
+
+// Id of the policy
+func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesPolicyResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// The name of the entity last modified it
+func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) LastModifiedBy() MicrosoftCommonPrincipalResponsePtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesPolicyResponse) *MicrosoftCommonPrincipalResponse {
+		if v == nil {
+			return nil
+		}
+		return &v.LastModifiedBy
+	}).(MicrosoftCommonPrincipalResponsePtrOutput)
+}
+
+// The last modified date time.
+func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) LastModifiedDateTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesPolicyResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.LastModifiedDateTime
+	}).(pulumi.StringPtrOutput)
+}
+
 // Expanded info of resource scope, role definition and policy
 type PolicyAssignmentPropertiesResponse struct {
 	// Details of the policy
-	Policy *PolicyAssignmentPropertiesResponsePolicy `pulumi:"policy"`
+	Policy *PolicyAssignmentPropertiesPolicyResponse `pulumi:"policy"`
 	// Details of role definition
-	RoleDefinition *PolicyAssignmentPropertiesResponseRoleDefinition `pulumi:"roleDefinition"`
+	RoleDefinition *PolicyAssignmentPropertiesRoleDefinitionResponse `pulumi:"roleDefinition"`
 	// Details of the resource scope
-	Scope *PolicyAssignmentPropertiesResponseScope `pulumi:"scope"`
+	Scope *PolicyAssignmentPropertiesScopeResponse `pulumi:"scope"`
 }
 
 // Expanded info of resource scope, role definition and policy
@@ -4154,118 +4756,24 @@ func (o PolicyAssignmentPropertiesResponseOutput) ToPolicyAssignmentPropertiesRe
 }
 
 // Details of the policy
-func (o PolicyAssignmentPropertiesResponseOutput) Policy() PolicyAssignmentPropertiesResponsePolicyPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponse) *PolicyAssignmentPropertiesResponsePolicy { return v.Policy }).(PolicyAssignmentPropertiesResponsePolicyPtrOutput)
+func (o PolicyAssignmentPropertiesResponseOutput) Policy() PolicyAssignmentPropertiesPolicyResponsePtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesResponse) *PolicyAssignmentPropertiesPolicyResponse { return v.Policy }).(PolicyAssignmentPropertiesPolicyResponsePtrOutput)
 }
 
 // Details of role definition
-func (o PolicyAssignmentPropertiesResponseOutput) RoleDefinition() PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponse) *PolicyAssignmentPropertiesResponseRoleDefinition {
+func (o PolicyAssignmentPropertiesResponseOutput) RoleDefinition() PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesResponse) *PolicyAssignmentPropertiesRoleDefinitionResponse {
 		return v.RoleDefinition
-	}).(PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput)
+	}).(PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput)
 }
 
 // Details of the resource scope
-func (o PolicyAssignmentPropertiesResponseOutput) Scope() PolicyAssignmentPropertiesResponseScopePtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponse) *PolicyAssignmentPropertiesResponseScope { return v.Scope }).(PolicyAssignmentPropertiesResponseScopePtrOutput)
-}
-
-// Details of the policy
-type PolicyAssignmentPropertiesResponsePolicy struct {
-	// Id of the policy
-	Id *string `pulumi:"id"`
-	// The name of the entity last modified it
-	LastModifiedBy PrincipalResponse `pulumi:"lastModifiedBy"`
-	// The last modified date time.
-	LastModifiedDateTime *string `pulumi:"lastModifiedDateTime"`
-}
-
-// Details of the policy
-type PolicyAssignmentPropertiesResponsePolicyOutput struct{ *pulumi.OutputState }
-
-func (PolicyAssignmentPropertiesResponsePolicyOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PolicyAssignmentPropertiesResponsePolicy)(nil)).Elem()
-}
-
-func (o PolicyAssignmentPropertiesResponsePolicyOutput) ToPolicyAssignmentPropertiesResponsePolicyOutput() PolicyAssignmentPropertiesResponsePolicyOutput {
-	return o
-}
-
-func (o PolicyAssignmentPropertiesResponsePolicyOutput) ToPolicyAssignmentPropertiesResponsePolicyOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesResponsePolicyOutput {
-	return o
-}
-
-// Id of the policy
-func (o PolicyAssignmentPropertiesResponsePolicyOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponsePolicy) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The name of the entity last modified it
-func (o PolicyAssignmentPropertiesResponsePolicyOutput) LastModifiedBy() PrincipalResponseOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponsePolicy) PrincipalResponse { return v.LastModifiedBy }).(PrincipalResponseOutput)
-}
-
-// The last modified date time.
-func (o PolicyAssignmentPropertiesResponsePolicyOutput) LastModifiedDateTime() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponsePolicy) *string { return v.LastModifiedDateTime }).(pulumi.StringPtrOutput)
-}
-
-type PolicyAssignmentPropertiesResponsePolicyPtrOutput struct{ *pulumi.OutputState }
-
-func (PolicyAssignmentPropertiesResponsePolicyPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PolicyAssignmentPropertiesResponsePolicy)(nil)).Elem()
-}
-
-func (o PolicyAssignmentPropertiesResponsePolicyPtrOutput) ToPolicyAssignmentPropertiesResponsePolicyPtrOutput() PolicyAssignmentPropertiesResponsePolicyPtrOutput {
-	return o
-}
-
-func (o PolicyAssignmentPropertiesResponsePolicyPtrOutput) ToPolicyAssignmentPropertiesResponsePolicyPtrOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesResponsePolicyPtrOutput {
-	return o
-}
-
-func (o PolicyAssignmentPropertiesResponsePolicyPtrOutput) Elem() PolicyAssignmentPropertiesResponsePolicyOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponsePolicy) PolicyAssignmentPropertiesResponsePolicy {
-		if v != nil {
-			return *v
-		}
-		var ret PolicyAssignmentPropertiesResponsePolicy
-		return ret
-	}).(PolicyAssignmentPropertiesResponsePolicyOutput)
-}
-
-// Id of the policy
-func (o PolicyAssignmentPropertiesResponsePolicyPtrOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponsePolicy) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Id
-	}).(pulumi.StringPtrOutput)
-}
-
-// The name of the entity last modified it
-func (o PolicyAssignmentPropertiesResponsePolicyPtrOutput) LastModifiedBy() PrincipalResponsePtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponsePolicy) *PrincipalResponse {
-		if v == nil {
-			return nil
-		}
-		return &v.LastModifiedBy
-	}).(PrincipalResponsePtrOutput)
-}
-
-// The last modified date time.
-func (o PolicyAssignmentPropertiesResponsePolicyPtrOutput) LastModifiedDateTime() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponsePolicy) *string {
-		if v == nil {
-			return nil
-		}
-		return v.LastModifiedDateTime
-	}).(pulumi.StringPtrOutput)
+func (o PolicyAssignmentPropertiesResponseOutput) Scope() PolicyAssignmentPropertiesScopeResponsePtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesResponse) *PolicyAssignmentPropertiesScopeResponse { return v.Scope }).(PolicyAssignmentPropertiesScopeResponsePtrOutput)
 }
 
 // Details of role definition
-type PolicyAssignmentPropertiesResponseRoleDefinition struct {
+type PolicyAssignmentPropertiesRoleDefinitionResponse struct {
 	// Display name of the role definition
 	DisplayName *string `pulumi:"displayName"`
 	// Id of the role definition
@@ -4275,62 +4783,62 @@ type PolicyAssignmentPropertiesResponseRoleDefinition struct {
 }
 
 // Details of role definition
-type PolicyAssignmentPropertiesResponseRoleDefinitionOutput struct{ *pulumi.OutputState }
+type PolicyAssignmentPropertiesRoleDefinitionResponseOutput struct{ *pulumi.OutputState }
 
-func (PolicyAssignmentPropertiesResponseRoleDefinitionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PolicyAssignmentPropertiesResponseRoleDefinition)(nil)).Elem()
+func (PolicyAssignmentPropertiesRoleDefinitionResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PolicyAssignmentPropertiesRoleDefinitionResponse)(nil)).Elem()
 }
 
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionOutput) ToPolicyAssignmentPropertiesResponseRoleDefinitionOutput() PolicyAssignmentPropertiesResponseRoleDefinitionOutput {
+func (o PolicyAssignmentPropertiesRoleDefinitionResponseOutput) ToPolicyAssignmentPropertiesRoleDefinitionResponseOutput() PolicyAssignmentPropertiesRoleDefinitionResponseOutput {
 	return o
 }
 
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionOutput) ToPolicyAssignmentPropertiesResponseRoleDefinitionOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesResponseRoleDefinitionOutput {
+func (o PolicyAssignmentPropertiesRoleDefinitionResponseOutput) ToPolicyAssignmentPropertiesRoleDefinitionResponseOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesRoleDefinitionResponseOutput {
 	return o
 }
 
 // Display name of the role definition
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponseRoleDefinition) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+func (o PolicyAssignmentPropertiesRoleDefinitionResponseOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesRoleDefinitionResponse) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
 }
 
 // Id of the role definition
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponseRoleDefinition) *string { return v.Id }).(pulumi.StringPtrOutput)
+func (o PolicyAssignmentPropertiesRoleDefinitionResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesRoleDefinitionResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
 }
 
 // Type of the role definition
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponseRoleDefinition) *string { return v.Type }).(pulumi.StringPtrOutput)
+func (o PolicyAssignmentPropertiesRoleDefinitionResponseOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesRoleDefinitionResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
 }
 
-type PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput struct{ *pulumi.OutputState }
+type PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput struct{ *pulumi.OutputState }
 
-func (PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PolicyAssignmentPropertiesResponseRoleDefinition)(nil)).Elem()
+func (PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PolicyAssignmentPropertiesRoleDefinitionResponse)(nil)).Elem()
 }
 
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) ToPolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput() PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput {
+func (o PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput) ToPolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput() PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput {
 	return o
 }
 
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) ToPolicyAssignmentPropertiesResponseRoleDefinitionPtrOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput {
+func (o PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput) ToPolicyAssignmentPropertiesRoleDefinitionResponsePtrOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput {
 	return o
 }
 
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) Elem() PolicyAssignmentPropertiesResponseRoleDefinitionOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponseRoleDefinition) PolicyAssignmentPropertiesResponseRoleDefinition {
+func (o PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput) Elem() PolicyAssignmentPropertiesRoleDefinitionResponseOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesRoleDefinitionResponse) PolicyAssignmentPropertiesRoleDefinitionResponse {
 		if v != nil {
 			return *v
 		}
-		var ret PolicyAssignmentPropertiesResponseRoleDefinition
+		var ret PolicyAssignmentPropertiesRoleDefinitionResponse
 		return ret
-	}).(PolicyAssignmentPropertiesResponseRoleDefinitionOutput)
+	}).(PolicyAssignmentPropertiesRoleDefinitionResponseOutput)
 }
 
 // Display name of the role definition
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponseRoleDefinition) *string {
+func (o PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesRoleDefinitionResponse) *string {
 		if v == nil {
 			return nil
 		}
@@ -4339,8 +4847,8 @@ func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) DisplayName()
 }
 
 // Id of the role definition
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponseRoleDefinition) *string {
+func (o PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesRoleDefinitionResponse) *string {
 		if v == nil {
 			return nil
 		}
@@ -4349,8 +4857,8 @@ func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) Id() pulumi.S
 }
 
 // Type of the role definition
-func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponseRoleDefinition) *string {
+func (o PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesRoleDefinitionResponse) *string {
 		if v == nil {
 			return nil
 		}
@@ -4359,7 +4867,7 @@ func (o PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput) Type() pulumi
 }
 
 // Details of the resource scope
-type PolicyAssignmentPropertiesResponseScope struct {
+type PolicyAssignmentPropertiesScopeResponse struct {
 	// Display name of the resource
 	DisplayName *string `pulumi:"displayName"`
 	// Scope id of the resource
@@ -4369,62 +4877,62 @@ type PolicyAssignmentPropertiesResponseScope struct {
 }
 
 // Details of the resource scope
-type PolicyAssignmentPropertiesResponseScopeOutput struct{ *pulumi.OutputState }
+type PolicyAssignmentPropertiesScopeResponseOutput struct{ *pulumi.OutputState }
 
-func (PolicyAssignmentPropertiesResponseScopeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PolicyAssignmentPropertiesResponseScope)(nil)).Elem()
+func (PolicyAssignmentPropertiesScopeResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PolicyAssignmentPropertiesScopeResponse)(nil)).Elem()
 }
 
-func (o PolicyAssignmentPropertiesResponseScopeOutput) ToPolicyAssignmentPropertiesResponseScopeOutput() PolicyAssignmentPropertiesResponseScopeOutput {
+func (o PolicyAssignmentPropertiesScopeResponseOutput) ToPolicyAssignmentPropertiesScopeResponseOutput() PolicyAssignmentPropertiesScopeResponseOutput {
 	return o
 }
 
-func (o PolicyAssignmentPropertiesResponseScopeOutput) ToPolicyAssignmentPropertiesResponseScopeOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesResponseScopeOutput {
+func (o PolicyAssignmentPropertiesScopeResponseOutput) ToPolicyAssignmentPropertiesScopeResponseOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesScopeResponseOutput {
 	return o
 }
 
 // Display name of the resource
-func (o PolicyAssignmentPropertiesResponseScopeOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponseScope) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+func (o PolicyAssignmentPropertiesScopeResponseOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesScopeResponse) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
 }
 
 // Scope id of the resource
-func (o PolicyAssignmentPropertiesResponseScopeOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponseScope) *string { return v.Id }).(pulumi.StringPtrOutput)
+func (o PolicyAssignmentPropertiesScopeResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesScopeResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
 }
 
 // Type of the resource
-func (o PolicyAssignmentPropertiesResponseScopeOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesResponseScope) *string { return v.Type }).(pulumi.StringPtrOutput)
+func (o PolicyAssignmentPropertiesScopeResponseOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesScopeResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
 }
 
-type PolicyAssignmentPropertiesResponseScopePtrOutput struct{ *pulumi.OutputState }
+type PolicyAssignmentPropertiesScopeResponsePtrOutput struct{ *pulumi.OutputState }
 
-func (PolicyAssignmentPropertiesResponseScopePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PolicyAssignmentPropertiesResponseScope)(nil)).Elem()
+func (PolicyAssignmentPropertiesScopeResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PolicyAssignmentPropertiesScopeResponse)(nil)).Elem()
 }
 
-func (o PolicyAssignmentPropertiesResponseScopePtrOutput) ToPolicyAssignmentPropertiesResponseScopePtrOutput() PolicyAssignmentPropertiesResponseScopePtrOutput {
+func (o PolicyAssignmentPropertiesScopeResponsePtrOutput) ToPolicyAssignmentPropertiesScopeResponsePtrOutput() PolicyAssignmentPropertiesScopeResponsePtrOutput {
 	return o
 }
 
-func (o PolicyAssignmentPropertiesResponseScopePtrOutput) ToPolicyAssignmentPropertiesResponseScopePtrOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesResponseScopePtrOutput {
+func (o PolicyAssignmentPropertiesScopeResponsePtrOutput) ToPolicyAssignmentPropertiesScopeResponsePtrOutputWithContext(ctx context.Context) PolicyAssignmentPropertiesScopeResponsePtrOutput {
 	return o
 }
 
-func (o PolicyAssignmentPropertiesResponseScopePtrOutput) Elem() PolicyAssignmentPropertiesResponseScopeOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponseScope) PolicyAssignmentPropertiesResponseScope {
+func (o PolicyAssignmentPropertiesScopeResponsePtrOutput) Elem() PolicyAssignmentPropertiesScopeResponseOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesScopeResponse) PolicyAssignmentPropertiesScopeResponse {
 		if v != nil {
 			return *v
 		}
-		var ret PolicyAssignmentPropertiesResponseScope
+		var ret PolicyAssignmentPropertiesScopeResponse
 		return ret
-	}).(PolicyAssignmentPropertiesResponseScopeOutput)
+	}).(PolicyAssignmentPropertiesScopeResponseOutput)
 }
 
 // Display name of the resource
-func (o PolicyAssignmentPropertiesResponseScopePtrOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponseScope) *string {
+func (o PolicyAssignmentPropertiesScopeResponsePtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesScopeResponse) *string {
 		if v == nil {
 			return nil
 		}
@@ -4433,8 +4941,8 @@ func (o PolicyAssignmentPropertiesResponseScopePtrOutput) DisplayName() pulumi.S
 }
 
 // Scope id of the resource
-func (o PolicyAssignmentPropertiesResponseScopePtrOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponseScope) *string {
+func (o PolicyAssignmentPropertiesScopeResponsePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesScopeResponse) *string {
 		if v == nil {
 			return nil
 		}
@@ -4443,8 +4951,8 @@ func (o PolicyAssignmentPropertiesResponseScopePtrOutput) Id() pulumi.StringPtrO
 }
 
 // Type of the resource
-func (o PolicyAssignmentPropertiesResponseScopePtrOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesResponseScope) *string {
+func (o PolicyAssignmentPropertiesScopeResponsePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesScopeResponse) *string {
 		if v == nil {
 			return nil
 		}
@@ -5027,7 +5535,7 @@ func (o PolicyDefinitionVersionResponseArrayOutput) Index(i pulumi.IntInput) Pol
 // Expanded info of resource scope
 type PolicyPropertiesResponse struct {
 	// Details of the resource scope
-	Scope PolicyPropertiesResponseScope `pulumi:"scope"`
+	Scope PolicyPropertiesScopeResponse `pulumi:"scope"`
 }
 
 // Expanded info of resource scope
@@ -5046,12 +5554,12 @@ func (o PolicyPropertiesResponseOutput) ToPolicyPropertiesResponseOutputWithCont
 }
 
 // Details of the resource scope
-func (o PolicyPropertiesResponseOutput) Scope() PolicyPropertiesResponseScopeOutput {
-	return o.ApplyT(func(v PolicyPropertiesResponse) PolicyPropertiesResponseScope { return v.Scope }).(PolicyPropertiesResponseScopeOutput)
+func (o PolicyPropertiesResponseOutput) Scope() PolicyPropertiesScopeResponseOutput {
+	return o.ApplyT(func(v PolicyPropertiesResponse) PolicyPropertiesScopeResponse { return v.Scope }).(PolicyPropertiesScopeResponseOutput)
 }
 
 // Details of the resource scope
-type PolicyPropertiesResponseScope struct {
+type PolicyPropertiesScopeResponse struct {
 	// Display name of the resource
 	DisplayName *string `pulumi:"displayName"`
 	// Scope id of the resource
@@ -5061,33 +5569,33 @@ type PolicyPropertiesResponseScope struct {
 }
 
 // Details of the resource scope
-type PolicyPropertiesResponseScopeOutput struct{ *pulumi.OutputState }
+type PolicyPropertiesScopeResponseOutput struct{ *pulumi.OutputState }
 
-func (PolicyPropertiesResponseScopeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PolicyPropertiesResponseScope)(nil)).Elem()
+func (PolicyPropertiesScopeResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PolicyPropertiesScopeResponse)(nil)).Elem()
 }
 
-func (o PolicyPropertiesResponseScopeOutput) ToPolicyPropertiesResponseScopeOutput() PolicyPropertiesResponseScopeOutput {
+func (o PolicyPropertiesScopeResponseOutput) ToPolicyPropertiesScopeResponseOutput() PolicyPropertiesScopeResponseOutput {
 	return o
 }
 
-func (o PolicyPropertiesResponseScopeOutput) ToPolicyPropertiesResponseScopeOutputWithContext(ctx context.Context) PolicyPropertiesResponseScopeOutput {
+func (o PolicyPropertiesScopeResponseOutput) ToPolicyPropertiesScopeResponseOutputWithContext(ctx context.Context) PolicyPropertiesScopeResponseOutput {
 	return o
 }
 
 // Display name of the resource
-func (o PolicyPropertiesResponseScopeOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyPropertiesResponseScope) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+func (o PolicyPropertiesScopeResponseOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyPropertiesScopeResponse) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
 }
 
 // Scope id of the resource
-func (o PolicyPropertiesResponseScopeOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyPropertiesResponseScope) *string { return v.Id }).(pulumi.StringPtrOutput)
+func (o PolicyPropertiesScopeResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyPropertiesScopeResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
 }
 
 // Type of the resource
-func (o PolicyPropertiesResponseScopeOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PolicyPropertiesResponseScope) *string { return v.Type }).(pulumi.StringPtrOutput)
+func (o PolicyPropertiesScopeResponseOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PolicyPropertiesScopeResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
 }
 
 // The policy set definition version.
@@ -5525,117 +6033,6 @@ func (o PolicyVariableValueColumnValueResponseArrayOutput) Index(i pulumi.IntInp
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PolicyVariableValueColumnValueResponse {
 		return vs[0].([]PolicyVariableValueColumnValueResponse)[vs[1].(int)]
 	}).(PolicyVariableValueColumnValueResponseOutput)
-}
-
-// The name of the entity last modified it
-type PrincipalResponse struct {
-	// The name of the principal made changes
-	DisplayName *string `pulumi:"displayName"`
-	// Email of principal
-	Email *string `pulumi:"email"`
-	// The id of the principal made changes
-	Id *string `pulumi:"id"`
-	// Type of principal such as user , group etc
-	Type *string `pulumi:"type"`
-}
-
-// The name of the entity last modified it
-type PrincipalResponseOutput struct{ *pulumi.OutputState }
-
-func (PrincipalResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PrincipalResponse)(nil)).Elem()
-}
-
-func (o PrincipalResponseOutput) ToPrincipalResponseOutput() PrincipalResponseOutput {
-	return o
-}
-
-func (o PrincipalResponseOutput) ToPrincipalResponseOutputWithContext(ctx context.Context) PrincipalResponseOutput {
-	return o
-}
-
-// The name of the principal made changes
-func (o PrincipalResponseOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PrincipalResponse) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
-}
-
-// Email of principal
-func (o PrincipalResponseOutput) Email() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PrincipalResponse) *string { return v.Email }).(pulumi.StringPtrOutput)
-}
-
-// The id of the principal made changes
-func (o PrincipalResponseOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PrincipalResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// Type of principal such as user , group etc
-func (o PrincipalResponseOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PrincipalResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
-}
-
-type PrincipalResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PrincipalResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PrincipalResponse)(nil)).Elem()
-}
-
-func (o PrincipalResponsePtrOutput) ToPrincipalResponsePtrOutput() PrincipalResponsePtrOutput {
-	return o
-}
-
-func (o PrincipalResponsePtrOutput) ToPrincipalResponsePtrOutputWithContext(ctx context.Context) PrincipalResponsePtrOutput {
-	return o
-}
-
-func (o PrincipalResponsePtrOutput) Elem() PrincipalResponseOutput {
-	return o.ApplyT(func(v *PrincipalResponse) PrincipalResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PrincipalResponse
-		return ret
-	}).(PrincipalResponseOutput)
-}
-
-// The name of the principal made changes
-func (o PrincipalResponsePtrOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PrincipalResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.DisplayName
-	}).(pulumi.StringPtrOutput)
-}
-
-// Email of principal
-func (o PrincipalResponsePtrOutput) Email() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PrincipalResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Email
-	}).(pulumi.StringPtrOutput)
-}
-
-// The id of the principal made changes
-func (o PrincipalResponsePtrOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PrincipalResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Id
-	}).(pulumi.StringPtrOutput)
-}
-
-// Type of principal such as user , group etc
-func (o PrincipalResponsePtrOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PrincipalResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Type
-	}).(pulumi.StringPtrOutput)
 }
 
 type PrivateLinkAssociationProperties struct {
@@ -8917,6 +9314,14 @@ func init() {
 	pulumi.RegisterOutputType(ApprovalStageArrayOutput{})
 	pulumi.RegisterOutputType(ApprovalStageResponseOutput{})
 	pulumi.RegisterOutputType(ApprovalStageResponseArrayOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentPermissionOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentPermissionArrayOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentPermissionResponseOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentPermissionResponseArrayOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentPrincipalOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentPrincipalArrayOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentPrincipalResponseOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentPrincipalResponseArrayOutput{})
 	pulumi.RegisterOutputType(ExpandedPropertiesResponseOutput{})
 	pulumi.RegisterOutputType(ExpandedPropertiesResponsePrincipalOutput{})
 	pulumi.RegisterOutputType(ExpandedPropertiesResponsePrincipalPtrOutput{})
@@ -8936,6 +9341,8 @@ func init() {
 	pulumi.RegisterOutputType(ManagementLockOwnerArrayOutput{})
 	pulumi.RegisterOutputType(ManagementLockOwnerResponseOutput{})
 	pulumi.RegisterOutputType(ManagementLockOwnerResponseArrayOutput{})
+	pulumi.RegisterOutputType(MicrosoftCommonPrincipalResponseOutput{})
+	pulumi.RegisterOutputType(MicrosoftCommonPrincipalResponsePtrOutput{})
 	pulumi.RegisterOutputType(NonComplianceMessageOutput{})
 	pulumi.RegisterOutputType(NonComplianceMessageArrayOutput{})
 	pulumi.RegisterOutputType(NonComplianceMessageResponseOutput{})
@@ -8964,13 +9371,13 @@ func init() {
 	pulumi.RegisterOutputType(PermissionArrayOutput{})
 	pulumi.RegisterOutputType(PermissionResponseOutput{})
 	pulumi.RegisterOutputType(PermissionResponseArrayOutput{})
+	pulumi.RegisterOutputType(PolicyAssignmentPropertiesPolicyResponseOutput{})
+	pulumi.RegisterOutputType(PolicyAssignmentPropertiesPolicyResponsePtrOutput{})
 	pulumi.RegisterOutputType(PolicyAssignmentPropertiesResponseOutput{})
-	pulumi.RegisterOutputType(PolicyAssignmentPropertiesResponsePolicyOutput{})
-	pulumi.RegisterOutputType(PolicyAssignmentPropertiesResponsePolicyPtrOutput{})
-	pulumi.RegisterOutputType(PolicyAssignmentPropertiesResponseRoleDefinitionOutput{})
-	pulumi.RegisterOutputType(PolicyAssignmentPropertiesResponseRoleDefinitionPtrOutput{})
-	pulumi.RegisterOutputType(PolicyAssignmentPropertiesResponseScopeOutput{})
-	pulumi.RegisterOutputType(PolicyAssignmentPropertiesResponseScopePtrOutput{})
+	pulumi.RegisterOutputType(PolicyAssignmentPropertiesRoleDefinitionResponseOutput{})
+	pulumi.RegisterOutputType(PolicyAssignmentPropertiesRoleDefinitionResponsePtrOutput{})
+	pulumi.RegisterOutputType(PolicyAssignmentPropertiesScopeResponseOutput{})
+	pulumi.RegisterOutputType(PolicyAssignmentPropertiesScopeResponsePtrOutput{})
 	pulumi.RegisterOutputType(PolicyDefinitionGroupOutput{})
 	pulumi.RegisterOutputType(PolicyDefinitionGroupArrayOutput{})
 	pulumi.RegisterOutputType(PolicyDefinitionGroupResponseOutput{})
@@ -8982,7 +9389,7 @@ func init() {
 	pulumi.RegisterOutputType(PolicyDefinitionVersionResponseOutput{})
 	pulumi.RegisterOutputType(PolicyDefinitionVersionResponseArrayOutput{})
 	pulumi.RegisterOutputType(PolicyPropertiesResponseOutput{})
-	pulumi.RegisterOutputType(PolicyPropertiesResponseScopeOutput{})
+	pulumi.RegisterOutputType(PolicyPropertiesScopeResponseOutput{})
 	pulumi.RegisterOutputType(PolicySetDefinitionVersionResponseOutput{})
 	pulumi.RegisterOutputType(PolicySetDefinitionVersionResponseArrayOutput{})
 	pulumi.RegisterOutputType(PolicyVariableColumnOutput{})
@@ -8993,8 +9400,6 @@ func init() {
 	pulumi.RegisterOutputType(PolicyVariableValueColumnValueArrayOutput{})
 	pulumi.RegisterOutputType(PolicyVariableValueColumnValueResponseOutput{})
 	pulumi.RegisterOutputType(PolicyVariableValueColumnValueResponseArrayOutput{})
-	pulumi.RegisterOutputType(PrincipalResponseOutput{})
-	pulumi.RegisterOutputType(PrincipalResponsePtrOutput{})
 	pulumi.RegisterOutputType(PrivateLinkAssociationPropertiesOutput{})
 	pulumi.RegisterOutputType(PrivateLinkAssociationPropertiesPtrOutput{})
 	pulumi.RegisterOutputType(PrivateLinkAssociationPropertiesExpandedResponseOutput{})

@@ -121,6 +121,9 @@ func NewDefaultUserRule(ctx *pulumi.Context,
 			Type: pulumi.String("azure-native:network/v20250501:DefaultUserRule"),
 		},
 		{
+			Type: pulumi.String("azure-native:network/v20250701:DefaultUserRule"),
+		},
+		{
 			Type: pulumi.String("azure-native:network:SecurityUserRule"),
 		},
 		{

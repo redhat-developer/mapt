@@ -14,7 +14,9 @@ import (
 type AccessReviewRecurrencePatternType string
 
 const (
-	AccessReviewRecurrencePatternTypeWeekly          = AccessReviewRecurrencePatternType("weekly")
+	// weekly
+	AccessReviewRecurrencePatternTypeWeekly = AccessReviewRecurrencePatternType("weekly")
+	// absoluteMonthly
 	AccessReviewRecurrencePatternTypeAbsoluteMonthly = AccessReviewRecurrencePatternType("absoluteMonthly")
 )
 
@@ -180,8 +182,11 @@ func (in *accessReviewRecurrencePatternTypePtr) ToAccessReviewRecurrencePatternT
 type AccessReviewRecurrenceRangeType string
 
 const (
-	AccessReviewRecurrenceRangeTypeEndDate  = AccessReviewRecurrenceRangeType("endDate")
-	AccessReviewRecurrenceRangeTypeNoEnd    = AccessReviewRecurrenceRangeType("noEnd")
+	// endDate
+	AccessReviewRecurrenceRangeTypeEndDate = AccessReviewRecurrenceRangeType("endDate")
+	// noEnd
+	AccessReviewRecurrenceRangeTypeNoEnd = AccessReviewRecurrenceRangeType("noEnd")
+	// numbered
 	AccessReviewRecurrenceRangeTypeNumbered = AccessReviewRecurrenceRangeType("numbered")
 )
 
@@ -348,10 +353,15 @@ func (in *accessReviewRecurrenceRangeTypePtr) ToAccessReviewRecurrenceRangeTypeP
 type AccessReviewResult string
 
 const (
-	AccessReviewResultApprove     = AccessReviewResult("Approve")
-	AccessReviewResultDeny        = AccessReviewResult("Deny")
+	// Approve
+	AccessReviewResultApprove = AccessReviewResult("Approve")
+	// Deny
+	AccessReviewResultDeny = AccessReviewResult("Deny")
+	// NotReviewed
 	AccessReviewResultNotReviewed = AccessReviewResult("NotReviewed")
-	AccessReviewResultDontKnow    = AccessReviewResult("DontKnow")
+	// DontKnow
+	AccessReviewResultDontKnow = AccessReviewResult("DontKnow")
+	// NotNotified
 	AccessReviewResultNotNotified = AccessReviewResult("NotNotified")
 )
 
@@ -520,10 +530,14 @@ func (in *accessReviewResultPtr) ToAccessReviewResultPtrOutputWithContext(ctx co
 type ApprovalMode string
 
 const (
+	// SingleStage
 	ApprovalModeSingleStage = ApprovalMode("SingleStage")
-	ApprovalModeSerial      = ApprovalMode("Serial")
-	ApprovalModeParallel    = ApprovalMode("Parallel")
-	ApprovalModeNoApproval  = ApprovalMode("NoApproval")
+	// Serial
+	ApprovalModeSerial = ApprovalMode("Serial")
+	// Parallel
+	ApprovalModeParallel = ApprovalMode("Parallel")
+	// NoApproval
+	ApprovalModeNoApproval = ApprovalMode("NoApproval")
 )
 
 func (ApprovalMode) ElementType() reflect.Type {
@@ -1028,8 +1042,11 @@ func (in *assignmentTypePtr) ToAssignmentTypePtrOutputWithContext(ctx context.Co
 type DefaultDecisionType string
 
 const (
-	DefaultDecisionTypeApprove        = DefaultDecisionType("Approve")
-	DefaultDecisionTypeDeny           = DefaultDecisionType("Deny")
+	// Approve
+	DefaultDecisionTypeApprove = DefaultDecisionType("Approve")
+	// Deny
+	DefaultDecisionTypeDeny = DefaultDecisionType("Deny")
+	// Recommendation
 	DefaultDecisionTypeRecommendation = DefaultDecisionType("Recommendation")
 )
 
@@ -1192,13 +1209,184 @@ func (in *defaultDecisionTypePtr) ToDefaultDecisionTypePtrOutputWithContext(ctx 
 	return pulumi.ToOutputWithContext(ctx, in).(DefaultDecisionTypePtrOutput)
 }
 
+// The effect of the deny assignment. 'enforced' blocks access, 'audit' logs without blocking.
+type DenyAssignmentEffect string
+
+const (
+	// enforced
+	DenyAssignmentEffectEnforced = DenyAssignmentEffect("enforced")
+	// audit
+	DenyAssignmentEffectAudit = DenyAssignmentEffect("audit")
+)
+
+func (DenyAssignmentEffect) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenyAssignmentEffect)(nil)).Elem()
+}
+
+func (e DenyAssignmentEffect) ToDenyAssignmentEffectOutput() DenyAssignmentEffectOutput {
+	return pulumi.ToOutput(e).(DenyAssignmentEffectOutput)
+}
+
+func (e DenyAssignmentEffect) ToDenyAssignmentEffectOutputWithContext(ctx context.Context) DenyAssignmentEffectOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(DenyAssignmentEffectOutput)
+}
+
+func (e DenyAssignmentEffect) ToDenyAssignmentEffectPtrOutput() DenyAssignmentEffectPtrOutput {
+	return e.ToDenyAssignmentEffectPtrOutputWithContext(context.Background())
+}
+
+func (e DenyAssignmentEffect) ToDenyAssignmentEffectPtrOutputWithContext(ctx context.Context) DenyAssignmentEffectPtrOutput {
+	return DenyAssignmentEffect(e).ToDenyAssignmentEffectOutputWithContext(ctx).ToDenyAssignmentEffectPtrOutputWithContext(ctx)
+}
+
+func (e DenyAssignmentEffect) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DenyAssignmentEffect) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e DenyAssignmentEffect) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e DenyAssignmentEffect) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type DenyAssignmentEffectOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentEffectOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DenyAssignmentEffect)(nil)).Elem()
+}
+
+func (o DenyAssignmentEffectOutput) ToDenyAssignmentEffectOutput() DenyAssignmentEffectOutput {
+	return o
+}
+
+func (o DenyAssignmentEffectOutput) ToDenyAssignmentEffectOutputWithContext(ctx context.Context) DenyAssignmentEffectOutput {
+	return o
+}
+
+func (o DenyAssignmentEffectOutput) ToDenyAssignmentEffectPtrOutput() DenyAssignmentEffectPtrOutput {
+	return o.ToDenyAssignmentEffectPtrOutputWithContext(context.Background())
+}
+
+func (o DenyAssignmentEffectOutput) ToDenyAssignmentEffectPtrOutputWithContext(ctx context.Context) DenyAssignmentEffectPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v DenyAssignmentEffect) *DenyAssignmentEffect {
+		return &v
+	}).(DenyAssignmentEffectPtrOutput)
+}
+
+func (o DenyAssignmentEffectOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o DenyAssignmentEffectOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DenyAssignmentEffect) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o DenyAssignmentEffectOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DenyAssignmentEffectOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e DenyAssignmentEffect) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type DenyAssignmentEffectPtrOutput struct{ *pulumi.OutputState }
+
+func (DenyAssignmentEffectPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**DenyAssignmentEffect)(nil)).Elem()
+}
+
+func (o DenyAssignmentEffectPtrOutput) ToDenyAssignmentEffectPtrOutput() DenyAssignmentEffectPtrOutput {
+	return o
+}
+
+func (o DenyAssignmentEffectPtrOutput) ToDenyAssignmentEffectPtrOutputWithContext(ctx context.Context) DenyAssignmentEffectPtrOutput {
+	return o
+}
+
+func (o DenyAssignmentEffectPtrOutput) Elem() DenyAssignmentEffectOutput {
+	return o.ApplyT(func(v *DenyAssignmentEffect) DenyAssignmentEffect {
+		if v != nil {
+			return *v
+		}
+		var ret DenyAssignmentEffect
+		return ret
+	}).(DenyAssignmentEffectOutput)
+}
+
+func (o DenyAssignmentEffectPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o DenyAssignmentEffectPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *DenyAssignmentEffect) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// DenyAssignmentEffectInput is an input type that accepts values of the DenyAssignmentEffect enum
+// A concrete instance of `DenyAssignmentEffectInput` can be one of the following:
+//
+//	DenyAssignmentEffectEnforced
+//	DenyAssignmentEffectAudit
+type DenyAssignmentEffectInput interface {
+	pulumi.Input
+
+	ToDenyAssignmentEffectOutput() DenyAssignmentEffectOutput
+	ToDenyAssignmentEffectOutputWithContext(context.Context) DenyAssignmentEffectOutput
+}
+
+var denyAssignmentEffectPtrType = reflect.TypeOf((**DenyAssignmentEffect)(nil)).Elem()
+
+type DenyAssignmentEffectPtrInput interface {
+	pulumi.Input
+
+	ToDenyAssignmentEffectPtrOutput() DenyAssignmentEffectPtrOutput
+	ToDenyAssignmentEffectPtrOutputWithContext(context.Context) DenyAssignmentEffectPtrOutput
+}
+
+type denyAssignmentEffectPtr string
+
+func DenyAssignmentEffectPtr(v string) DenyAssignmentEffectPtrInput {
+	return (*denyAssignmentEffectPtr)(&v)
+}
+
+func (*denyAssignmentEffectPtr) ElementType() reflect.Type {
+	return denyAssignmentEffectPtrType
+}
+
+func (in *denyAssignmentEffectPtr) ToDenyAssignmentEffectPtrOutput() DenyAssignmentEffectPtrOutput {
+	return pulumi.ToOutput(in).(DenyAssignmentEffectPtrOutput)
+}
+
+func (in *denyAssignmentEffectPtr) ToDenyAssignmentEffectPtrOutputWithContext(ctx context.Context) DenyAssignmentEffectPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(DenyAssignmentEffectPtrOutput)
+}
+
 // The type of enablement rule
 type EnablementRules string
 
 const (
+	// MultiFactorAuthentication
 	EnablementRulesMultiFactorAuthentication = EnablementRules("MultiFactorAuthentication")
-	EnablementRulesJustification             = EnablementRules("Justification")
-	EnablementRulesTicketing                 = EnablementRules("Ticketing")
+	// Justification
+	EnablementRulesJustification = EnablementRules("Justification")
+	// Ticketing
+	EnablementRulesTicketing = EnablementRules("Ticketing")
 )
 
 func (EnablementRules) ElementType() reflect.Type {
@@ -1534,7 +1722,9 @@ func (in *enforcementModePtr) ToEnforcementModePtrOutputWithContext(ctx context.
 type ExcludedPrincipalTypes string
 
 const (
-	ExcludedPrincipalTypesServicePrincipalsAsTarget    = ExcludedPrincipalTypes("ServicePrincipalsAsTarget")
+	// ServicePrincipalsAsTarget
+	ExcludedPrincipalTypesServicePrincipalsAsTarget = ExcludedPrincipalTypes("ServicePrincipalsAsTarget")
+	// ServicePrincipalsAsRequestor
 	ExcludedPrincipalTypesServicePrincipalsAsRequestor = ExcludedPrincipalTypes("ServicePrincipalsAsRequestor")
 )
 
@@ -2036,6 +2226,7 @@ func (in *lockLevelPtr) ToLockLevelPtrOutputWithContext(ctx context.Context) Loc
 type NotificationDeliveryMechanism string
 
 const (
+	// Email
 	NotificationDeliveryMechanismEmail = NotificationDeliveryMechanism("Email")
 )
 
@@ -2200,9 +2391,12 @@ func (in *notificationDeliveryMechanismPtr) ToNotificationDeliveryMechanismPtrOu
 type NotificationLevel string
 
 const (
-	NotificationLevelNone     = NotificationLevel("None")
+	// None
+	NotificationLevelNone = NotificationLevel("None")
+	// Critical
 	NotificationLevelCritical = NotificationLevel("Critical")
-	NotificationLevelAll      = NotificationLevel("All")
+	// All
+	NotificationLevelAll = NotificationLevel("All")
 )
 
 func (NotificationLevel) ElementType() reflect.Type {
@@ -2536,8 +2730,11 @@ func (in *overrideKindPtr) ToOverrideKindPtrOutputWithContext(ctx context.Contex
 type PIMOnlyMode string
 
 const (
-	PIMOnlyModeDisabled   = PIMOnlyMode("Disabled")
-	PIMOnlyModeEnabled    = PIMOnlyMode("Enabled")
+	// Disabled
+	PIMOnlyModeDisabled = PIMOnlyMode("Disabled")
+	// Enabled
+	PIMOnlyModeEnabled = PIMOnlyMode("Enabled")
+	// ReportOnly
 	PIMOnlyModeReportOnly = PIMOnlyMode("ReportOnly")
 )
 
@@ -3050,11 +3247,16 @@ func (in *policyTypePtr) ToPolicyTypePtrOutputWithContext(ctx context.Context) P
 type PrincipalType string
 
 const (
-	PrincipalTypeUser             = PrincipalType("User")
-	PrincipalTypeGroup            = PrincipalType("Group")
+	// User
+	PrincipalTypeUser = PrincipalType("User")
+	// Group
+	PrincipalTypeGroup = PrincipalType("Group")
+	// ServicePrincipal
 	PrincipalTypeServicePrincipal = PrincipalType("ServicePrincipal")
-	PrincipalTypeForeignGroup     = PrincipalType("ForeignGroup")
-	PrincipalTypeDevice           = PrincipalType("Device")
+	// ForeignGroup
+	PrincipalTypeForeignGroup = PrincipalType("ForeignGroup")
+	// Device
+	PrincipalTypeDevice = PrincipalType("Device")
 )
 
 func (PrincipalType) ElementType() reflect.Type {
@@ -3387,9 +3589,12 @@ func (in *publicNetworkAccessOptionsPtr) ToPublicNetworkAccessOptionsPtrOutputWi
 type RecipientType string
 
 const (
+	// Requestor
 	RecipientTypeRequestor = RecipientType("Requestor")
-	RecipientTypeApprover  = RecipientType("Approver")
-	RecipientTypeAdmin     = RecipientType("Admin")
+	// Approver
+	RecipientTypeApprover = RecipientType("Approver")
+	// Admin
+	RecipientTypeAdmin = RecipientType("Admin")
 )
 
 func (RecipientType) ElementType() reflect.Type {
@@ -3741,12 +3946,18 @@ func (in *resourceIdentityTypePtr) ToResourceIdentityTypePtrOutputWithContext(ct
 type RoleManagementPolicyRuleType string
 
 const (
-	RoleManagementPolicyRuleTypeRoleManagementPolicyApprovalRule              = RoleManagementPolicyRuleType("RoleManagementPolicyApprovalRule")
+	// RoleManagementPolicyApprovalRule
+	RoleManagementPolicyRuleTypeRoleManagementPolicyApprovalRule = RoleManagementPolicyRuleType("RoleManagementPolicyApprovalRule")
+	// RoleManagementPolicyAuthenticationContextRule
 	RoleManagementPolicyRuleTypeRoleManagementPolicyAuthenticationContextRule = RoleManagementPolicyRuleType("RoleManagementPolicyAuthenticationContextRule")
-	RoleManagementPolicyRuleTypeRoleManagementPolicyEnablementRule            = RoleManagementPolicyRuleType("RoleManagementPolicyEnablementRule")
-	RoleManagementPolicyRuleTypeRoleManagementPolicyExpirationRule            = RoleManagementPolicyRuleType("RoleManagementPolicyExpirationRule")
-	RoleManagementPolicyRuleTypeRoleManagementPolicyNotificationRule          = RoleManagementPolicyRuleType("RoleManagementPolicyNotificationRule")
-	RoleManagementPolicyRuleTypeRoleManagementPolicyPimOnlyModeRule           = RoleManagementPolicyRuleType("RoleManagementPolicyPimOnlyModeRule")
+	// RoleManagementPolicyEnablementRule
+	RoleManagementPolicyRuleTypeRoleManagementPolicyEnablementRule = RoleManagementPolicyRuleType("RoleManagementPolicyEnablementRule")
+	// RoleManagementPolicyExpirationRule
+	RoleManagementPolicyRuleTypeRoleManagementPolicyExpirationRule = RoleManagementPolicyRuleType("RoleManagementPolicyExpirationRule")
+	// RoleManagementPolicyNotificationRule
+	RoleManagementPolicyRuleTypeRoleManagementPolicyNotificationRule = RoleManagementPolicyRuleType("RoleManagementPolicyNotificationRule")
+	// RoleManagementPolicyPimOnlyModeRule
+	RoleManagementPolicyRuleTypeRoleManagementPolicyPimOnlyModeRule = RoleManagementPolicyRuleType("RoleManagementPolicyPimOnlyModeRule")
 )
 
 // The selector kind.
@@ -4095,9 +4306,10 @@ func (in *typePtr) ToTypePtrOutputWithContext(ctx context.Context) TypePtrOutput
 type UserType string
 
 const (
-	UserTypeUser             = UserType("User")
-	UserTypeGroup            = UserType("Group")
-	UserTypeServicePrincipal = UserType("ServicePrincipal")
+	// User
+	UserTypeUser = UserType("User")
+	// Group
+	UserTypeGroup = UserType("Group")
 )
 
 func (UserType) ElementType() reflect.Type {
@@ -4224,7 +4436,6 @@ func (o UserTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pul
 //
 //	UserTypeUser
 //	UserTypeGroup
-//	UserTypeServicePrincipal
 type UserTypeInput interface {
 	pulumi.Input
 
@@ -4259,6 +4470,177 @@ func (in *userTypePtr) ToUserTypePtrOutputWithContext(ctx context.Context) UserT
 	return pulumi.ToOutputWithContext(ctx, in).(UserTypePtrOutput)
 }
 
+// The type of user.
+type UsersOrServicePrincipalSetUserType string
+
+const (
+	// User
+	UsersOrServicePrincipalSetUserTypeUser = UsersOrServicePrincipalSetUserType("User")
+	// Group
+	UsersOrServicePrincipalSetUserTypeGroup = UsersOrServicePrincipalSetUserType("Group")
+	// ServicePrincipal
+	UsersOrServicePrincipalSetUserTypeServicePrincipal = UsersOrServicePrincipalSetUserType("ServicePrincipal")
+)
+
+func (UsersOrServicePrincipalSetUserType) ElementType() reflect.Type {
+	return reflect.TypeOf((*UsersOrServicePrincipalSetUserType)(nil)).Elem()
+}
+
+func (e UsersOrServicePrincipalSetUserType) ToUsersOrServicePrincipalSetUserTypeOutput() UsersOrServicePrincipalSetUserTypeOutput {
+	return pulumi.ToOutput(e).(UsersOrServicePrincipalSetUserTypeOutput)
+}
+
+func (e UsersOrServicePrincipalSetUserType) ToUsersOrServicePrincipalSetUserTypeOutputWithContext(ctx context.Context) UsersOrServicePrincipalSetUserTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(UsersOrServicePrincipalSetUserTypeOutput)
+}
+
+func (e UsersOrServicePrincipalSetUserType) ToUsersOrServicePrincipalSetUserTypePtrOutput() UsersOrServicePrincipalSetUserTypePtrOutput {
+	return e.ToUsersOrServicePrincipalSetUserTypePtrOutputWithContext(context.Background())
+}
+
+func (e UsersOrServicePrincipalSetUserType) ToUsersOrServicePrincipalSetUserTypePtrOutputWithContext(ctx context.Context) UsersOrServicePrincipalSetUserTypePtrOutput {
+	return UsersOrServicePrincipalSetUserType(e).ToUsersOrServicePrincipalSetUserTypeOutputWithContext(ctx).ToUsersOrServicePrincipalSetUserTypePtrOutputWithContext(ctx)
+}
+
+func (e UsersOrServicePrincipalSetUserType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UsersOrServicePrincipalSetUserType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e UsersOrServicePrincipalSetUserType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e UsersOrServicePrincipalSetUserType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type UsersOrServicePrincipalSetUserTypeOutput struct{ *pulumi.OutputState }
+
+func (UsersOrServicePrincipalSetUserTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*UsersOrServicePrincipalSetUserType)(nil)).Elem()
+}
+
+func (o UsersOrServicePrincipalSetUserTypeOutput) ToUsersOrServicePrincipalSetUserTypeOutput() UsersOrServicePrincipalSetUserTypeOutput {
+	return o
+}
+
+func (o UsersOrServicePrincipalSetUserTypeOutput) ToUsersOrServicePrincipalSetUserTypeOutputWithContext(ctx context.Context) UsersOrServicePrincipalSetUserTypeOutput {
+	return o
+}
+
+func (o UsersOrServicePrincipalSetUserTypeOutput) ToUsersOrServicePrincipalSetUserTypePtrOutput() UsersOrServicePrincipalSetUserTypePtrOutput {
+	return o.ToUsersOrServicePrincipalSetUserTypePtrOutputWithContext(context.Background())
+}
+
+func (o UsersOrServicePrincipalSetUserTypeOutput) ToUsersOrServicePrincipalSetUserTypePtrOutputWithContext(ctx context.Context) UsersOrServicePrincipalSetUserTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v UsersOrServicePrincipalSetUserType) *UsersOrServicePrincipalSetUserType {
+		return &v
+	}).(UsersOrServicePrincipalSetUserTypePtrOutput)
+}
+
+func (o UsersOrServicePrincipalSetUserTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o UsersOrServicePrincipalSetUserTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UsersOrServicePrincipalSetUserType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o UsersOrServicePrincipalSetUserTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UsersOrServicePrincipalSetUserTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e UsersOrServicePrincipalSetUserType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type UsersOrServicePrincipalSetUserTypePtrOutput struct{ *pulumi.OutputState }
+
+func (UsersOrServicePrincipalSetUserTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**UsersOrServicePrincipalSetUserType)(nil)).Elem()
+}
+
+func (o UsersOrServicePrincipalSetUserTypePtrOutput) ToUsersOrServicePrincipalSetUserTypePtrOutput() UsersOrServicePrincipalSetUserTypePtrOutput {
+	return o
+}
+
+func (o UsersOrServicePrincipalSetUserTypePtrOutput) ToUsersOrServicePrincipalSetUserTypePtrOutputWithContext(ctx context.Context) UsersOrServicePrincipalSetUserTypePtrOutput {
+	return o
+}
+
+func (o UsersOrServicePrincipalSetUserTypePtrOutput) Elem() UsersOrServicePrincipalSetUserTypeOutput {
+	return o.ApplyT(func(v *UsersOrServicePrincipalSetUserType) UsersOrServicePrincipalSetUserType {
+		if v != nil {
+			return *v
+		}
+		var ret UsersOrServicePrincipalSetUserType
+		return ret
+	}).(UsersOrServicePrincipalSetUserTypeOutput)
+}
+
+func (o UsersOrServicePrincipalSetUserTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o UsersOrServicePrincipalSetUserTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *UsersOrServicePrincipalSetUserType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// UsersOrServicePrincipalSetUserTypeInput is an input type that accepts values of the UsersOrServicePrincipalSetUserType enum
+// A concrete instance of `UsersOrServicePrincipalSetUserTypeInput` can be one of the following:
+//
+//	UsersOrServicePrincipalSetUserTypeUser
+//	UsersOrServicePrincipalSetUserTypeGroup
+//	UsersOrServicePrincipalSetUserTypeServicePrincipal
+type UsersOrServicePrincipalSetUserTypeInput interface {
+	pulumi.Input
+
+	ToUsersOrServicePrincipalSetUserTypeOutput() UsersOrServicePrincipalSetUserTypeOutput
+	ToUsersOrServicePrincipalSetUserTypeOutputWithContext(context.Context) UsersOrServicePrincipalSetUserTypeOutput
+}
+
+var usersOrServicePrincipalSetUserTypePtrType = reflect.TypeOf((**UsersOrServicePrincipalSetUserType)(nil)).Elem()
+
+type UsersOrServicePrincipalSetUserTypePtrInput interface {
+	pulumi.Input
+
+	ToUsersOrServicePrincipalSetUserTypePtrOutput() UsersOrServicePrincipalSetUserTypePtrOutput
+	ToUsersOrServicePrincipalSetUserTypePtrOutputWithContext(context.Context) UsersOrServicePrincipalSetUserTypePtrOutput
+}
+
+type usersOrServicePrincipalSetUserTypePtr string
+
+func UsersOrServicePrincipalSetUserTypePtr(v string) UsersOrServicePrincipalSetUserTypePtrInput {
+	return (*usersOrServicePrincipalSetUserTypePtr)(&v)
+}
+
+func (*usersOrServicePrincipalSetUserTypePtr) ElementType() reflect.Type {
+	return usersOrServicePrincipalSetUserTypePtrType
+}
+
+func (in *usersOrServicePrincipalSetUserTypePtr) ToUsersOrServicePrincipalSetUserTypePtrOutput() UsersOrServicePrincipalSetUserTypePtrOutput {
+	return pulumi.ToOutput(in).(UsersOrServicePrincipalSetUserTypePtrOutput)
+}
+
+func (in *usersOrServicePrincipalSetUserTypePtr) ToUsersOrServicePrincipalSetUserTypePtrOutputWithContext(ctx context.Context) UsersOrServicePrincipalSetUserTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(UsersOrServicePrincipalSetUserTypePtrOutput)
+}
+
 func init() {
 	pulumi.RegisterOutputType(AccessReviewRecurrencePatternTypeOutput{})
 	pulumi.RegisterOutputType(AccessReviewRecurrencePatternTypePtrOutput{})
@@ -4274,6 +4656,8 @@ func init() {
 	pulumi.RegisterOutputType(AssignmentTypePtrOutput{})
 	pulumi.RegisterOutputType(DefaultDecisionTypeOutput{})
 	pulumi.RegisterOutputType(DefaultDecisionTypePtrOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentEffectOutput{})
+	pulumi.RegisterOutputType(DenyAssignmentEffectPtrOutput{})
 	pulumi.RegisterOutputType(EnablementRulesOutput{})
 	pulumi.RegisterOutputType(EnablementRulesPtrOutput{})
 	pulumi.RegisterOutputType(EnforcementModeOutput{})
@@ -4310,4 +4694,6 @@ func init() {
 	pulumi.RegisterOutputType(TypePtrOutput{})
 	pulumi.RegisterOutputType(UserTypeOutput{})
 	pulumi.RegisterOutputType(UserTypePtrOutput{})
+	pulumi.RegisterOutputType(UsersOrServicePrincipalSetUserTypeOutput{})
+	pulumi.RegisterOutputType(UsersOrServicePrincipalSetUserTypePtrOutput{})
 }

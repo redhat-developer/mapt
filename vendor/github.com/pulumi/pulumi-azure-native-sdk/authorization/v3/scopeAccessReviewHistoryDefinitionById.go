@@ -30,7 +30,7 @@ type ScopeAccessReviewHistoryDefinitionById struct {
 	Instances AccessReviewHistoryInstanceResponseArrayOutput `pulumi:"instances"`
 	// The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly.
 	Interval pulumi.IntPtrOutput `pulumi:"interval"`
-	// The access review history definition unique id.
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The identity id
 	PrincipalId pulumi.StringOutput `pulumi:"principalId"`
@@ -48,7 +48,9 @@ type ScopeAccessReviewHistoryDefinitionById struct {
 	Scopes AccessReviewScopeResponseArrayOutput `pulumi:"scopes"`
 	// This read-only field specifies the of the requested review history data. This is either requested, in-progress, done or error.
 	Status pulumi.StringOutput `pulumi:"status"`
-	// The resource type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// The user principal name(if valid)
 	UserPrincipalName pulumi.StringOutput `pulumi:"userPrincipalName"`
@@ -214,7 +216,7 @@ func (o ScopeAccessReviewHistoryDefinitionByIdOutput) Interval() pulumi.IntPtrOu
 	return o.ApplyT(func(v *ScopeAccessReviewHistoryDefinitionById) pulumi.IntPtrOutput { return v.Interval }).(pulumi.IntPtrOutput)
 }
 
-// The access review history definition unique id.
+// The name of the resource
 func (o ScopeAccessReviewHistoryDefinitionByIdOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *ScopeAccessReviewHistoryDefinitionById) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -265,7 +267,12 @@ func (o ScopeAccessReviewHistoryDefinitionByIdOutput) Status() pulumi.StringOutp
 	return o.ApplyT(func(v *ScopeAccessReviewHistoryDefinitionById) pulumi.StringOutput { return v.Status }).(pulumi.StringOutput)
 }
 
-// The resource type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o ScopeAccessReviewHistoryDefinitionByIdOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *ScopeAccessReviewHistoryDefinitionById) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o ScopeAccessReviewHistoryDefinitionByIdOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *ScopeAccessReviewHistoryDefinitionById) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

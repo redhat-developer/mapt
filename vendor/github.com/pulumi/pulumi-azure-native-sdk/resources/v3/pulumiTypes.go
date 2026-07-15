@@ -5071,6 +5071,80 @@ func (o ErrorDetailResponseOutput) Target() pulumi.StringOutput {
 	return o.ApplyT(func(v ErrorDetailResponse) string { return v.Target }).(pulumi.StringOutput)
 }
 
+type ErrorDetailResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ErrorDetailResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ErrorDetailResponse)(nil)).Elem()
+}
+
+func (o ErrorDetailResponsePtrOutput) ToErrorDetailResponsePtrOutput() ErrorDetailResponsePtrOutput {
+	return o
+}
+
+func (o ErrorDetailResponsePtrOutput) ToErrorDetailResponsePtrOutputWithContext(ctx context.Context) ErrorDetailResponsePtrOutput {
+	return o
+}
+
+func (o ErrorDetailResponsePtrOutput) Elem() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) ErrorDetailResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ErrorDetailResponse
+		return ret
+	}).(ErrorDetailResponseOutput)
+}
+
+// The error additional info.
+func (o ErrorDetailResponsePtrOutput) AdditionalInfo() ErrorAdditionalInfoResponseArrayOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) []ErrorAdditionalInfoResponse {
+		if v == nil {
+			return nil
+		}
+		return v.AdditionalInfo
+	}).(ErrorAdditionalInfoResponseArrayOutput)
+}
+
+// The error code.
+func (o ErrorDetailResponsePtrOutput) Code() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Code
+	}).(pulumi.StringPtrOutput)
+}
+
+// The error details.
+func (o ErrorDetailResponsePtrOutput) Details() ErrorDetailResponseArrayOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) []ErrorDetailResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Details
+	}).(ErrorDetailResponseArrayOutput)
+}
+
+// The error message.
+func (o ErrorDetailResponsePtrOutput) Message() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Message
+	}).(pulumi.StringPtrOutput)
+}
+
+// The error target.
+func (o ErrorDetailResponsePtrOutput) Target() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ErrorDetailResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Target
+	}).(pulumi.StringPtrOutput)
+}
+
 type ErrorDetailResponseArrayOutput struct{ *pulumi.OutputState }
 
 func (ErrorDetailResponseArrayOutput) ElementType() reflect.Type {
@@ -5143,80 +5217,6 @@ func (o ErrorResponseResponseOutput) Message() pulumi.StringOutput {
 // The error target.
 func (o ErrorResponseResponseOutput) Target() pulumi.StringOutput {
 	return o.ApplyT(func(v ErrorResponseResponse) string { return v.Target }).(pulumi.StringOutput)
-}
-
-type ErrorResponseResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (ErrorResponseResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**ErrorResponseResponse)(nil)).Elem()
-}
-
-func (o ErrorResponseResponsePtrOutput) ToErrorResponseResponsePtrOutput() ErrorResponseResponsePtrOutput {
-	return o
-}
-
-func (o ErrorResponseResponsePtrOutput) ToErrorResponseResponsePtrOutputWithContext(ctx context.Context) ErrorResponseResponsePtrOutput {
-	return o
-}
-
-func (o ErrorResponseResponsePtrOutput) Elem() ErrorResponseResponseOutput {
-	return o.ApplyT(func(v *ErrorResponseResponse) ErrorResponseResponse {
-		if v != nil {
-			return *v
-		}
-		var ret ErrorResponseResponse
-		return ret
-	}).(ErrorResponseResponseOutput)
-}
-
-// The error additional info.
-func (o ErrorResponseResponsePtrOutput) AdditionalInfo() ErrorAdditionalInfoResponseArrayOutput {
-	return o.ApplyT(func(v *ErrorResponseResponse) []ErrorAdditionalInfoResponse {
-		if v == nil {
-			return nil
-		}
-		return v.AdditionalInfo
-	}).(ErrorAdditionalInfoResponseArrayOutput)
-}
-
-// The error code.
-func (o ErrorResponseResponsePtrOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *ErrorResponseResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Code
-	}).(pulumi.StringPtrOutput)
-}
-
-// The error details.
-func (o ErrorResponseResponsePtrOutput) Details() ErrorResponseResponseArrayOutput {
-	return o.ApplyT(func(v *ErrorResponseResponse) []ErrorResponseResponse {
-		if v == nil {
-			return nil
-		}
-		return v.Details
-	}).(ErrorResponseResponseArrayOutput)
-}
-
-// The error message.
-func (o ErrorResponseResponsePtrOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *ErrorResponseResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Message
-	}).(pulumi.StringPtrOutput)
-}
-
-// The error target.
-func (o ErrorResponseResponsePtrOutput) Target() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *ErrorResponseResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Target
-	}).(pulumi.StringPtrOutput)
 }
 
 type ErrorResponseResponseArrayOutput struct{ *pulumi.OutputState }
@@ -6645,7 +6645,7 @@ func (o ManagedResourceReferenceResponseArrayOutput) Index(i pulumi.IntInput) Ma
 	}).(ManagedResourceReferenceResponseOutput)
 }
 
-// Managed identity generic object.
+// Describes the managed identities for an Azure resource.
 type ManagedServiceIdentity struct {
 	// Type of the managed identity.
 	Type *string `pulumi:"type"`
@@ -6664,7 +6664,7 @@ type ManagedServiceIdentityInput interface {
 	ToManagedServiceIdentityOutputWithContext(context.Context) ManagedServiceIdentityOutput
 }
 
-// Managed identity generic object.
+// Describes the managed identities for an Azure resource.
 type ManagedServiceIdentityArgs struct {
 	// Type of the managed identity.
 	Type pulumi.StringPtrInput `pulumi:"type"`
@@ -6725,7 +6725,7 @@ func (i *managedServiceIdentityPtrType) ToManagedServiceIdentityPtrOutputWithCon
 	return pulumi.ToOutputWithContext(ctx, i).(ManagedServiceIdentityPtrOutput)
 }
 
-// Managed identity generic object.
+// Describes the managed identities for an Azure resource.
 type ManagedServiceIdentityOutput struct{ *pulumi.OutputState }
 
 func (ManagedServiceIdentityOutput) ElementType() reflect.Type {
@@ -6804,9 +6804,9 @@ func (o ManagedServiceIdentityPtrOutput) UserAssignedIdentities() pulumi.StringA
 	}).(pulumi.StringArrayOutput)
 }
 
-// Managed identity generic object.
+// Describes the managed identities for an Azure resource.
 type ManagedServiceIdentityResponse struct {
-	// ID of the Azure Active Directory.
+	// The tenant id of the managed identity.
 	TenantId string `pulumi:"tenantId"`
 	// Type of the managed identity.
 	Type *string `pulumi:"type"`
@@ -6814,7 +6814,7 @@ type ManagedServiceIdentityResponse struct {
 	UserAssignedIdentities map[string]UserAssignedIdentityResponse `pulumi:"userAssignedIdentities"`
 }
 
-// Managed identity generic object.
+// Describes the managed identities for an Azure resource.
 type ManagedServiceIdentityResponseOutput struct{ *pulumi.OutputState }
 
 func (ManagedServiceIdentityResponseOutput) ElementType() reflect.Type {
@@ -6829,7 +6829,7 @@ func (o ManagedServiceIdentityResponseOutput) ToManagedServiceIdentityResponseOu
 	return o
 }
 
-// ID of the Azure Active Directory.
+// The tenant id of the managed identity.
 func (o ManagedServiceIdentityResponseOutput) TenantId() pulumi.StringOutput {
 	return o.ApplyT(func(v ManagedServiceIdentityResponse) string { return v.TenantId }).(pulumi.StringOutput)
 }
@@ -6870,7 +6870,7 @@ func (o ManagedServiceIdentityResponsePtrOutput) Elem() ManagedServiceIdentityRe
 	}).(ManagedServiceIdentityResponseOutput)
 }
 
-// ID of the Azure Active Directory.
+// The tenant id of the managed identity.
 func (o ManagedServiceIdentityResponsePtrOutput) TenantId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ManagedServiceIdentityResponse) *string {
 		if v == nil {
@@ -8015,7 +8015,7 @@ type ScriptStatusResponse struct {
 	// End time of the script execution.
 	EndTime string `pulumi:"endTime"`
 	// Error that is relayed from the script execution.
-	Error *ErrorResponseResponse `pulumi:"error"`
+	Error *ErrorDetailResponse `pulumi:"error"`
 	// Time the deployment script resource will expire.
 	ExpirationTime string `pulumi:"expirationTime"`
 	// Start time of the script execution.
@@ -8050,8 +8050,8 @@ func (o ScriptStatusResponseOutput) EndTime() pulumi.StringOutput {
 }
 
 // Error that is relayed from the script execution.
-func (o ScriptStatusResponseOutput) Error() ErrorResponseResponsePtrOutput {
-	return o.ApplyT(func(v ScriptStatusResponse) *ErrorResponseResponse { return v.Error }).(ErrorResponseResponsePtrOutput)
+func (o ScriptStatusResponseOutput) Error() ErrorDetailResponsePtrOutput {
+	return o.ApplyT(func(v ScriptStatusResponse) *ErrorDetailResponse { return v.Error }).(ErrorDetailResponsePtrOutput)
 }
 
 // Time the deployment script resource will expire.
@@ -9387,9 +9387,9 @@ func init() {
 	pulumi.RegisterOutputType(ErrorAdditionalInfoResponseOutput{})
 	pulumi.RegisterOutputType(ErrorAdditionalInfoResponseArrayOutput{})
 	pulumi.RegisterOutputType(ErrorDetailResponseOutput{})
+	pulumi.RegisterOutputType(ErrorDetailResponsePtrOutput{})
 	pulumi.RegisterOutputType(ErrorDetailResponseArrayOutput{})
 	pulumi.RegisterOutputType(ErrorResponseResponseOutput{})
-	pulumi.RegisterOutputType(ErrorResponseResponsePtrOutput{})
 	pulumi.RegisterOutputType(ErrorResponseResponseArrayOutput{})
 	pulumi.RegisterOutputType(ExpressionEvaluationOptionsOutput{})
 	pulumi.RegisterOutputType(ExpressionEvaluationOptionsPtrOutput{})

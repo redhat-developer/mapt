@@ -34,7 +34,7 @@ type RoleAssignment struct {
 	DelegatedManagedIdentityResourceId pulumi.StringPtrOutput `pulumi:"delegatedManagedIdentityResourceId"`
 	// Description of role assignment
 	Description pulumi.StringPtrOutput `pulumi:"description"`
-	// The role assignment name.
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The principal ID.
 	PrincipalId pulumi.StringOutput `pulumi:"principalId"`
@@ -44,7 +44,9 @@ type RoleAssignment struct {
 	RoleDefinitionId pulumi.StringOutput `pulumi:"roleDefinitionId"`
 	// The role assignment scope.
 	Scope pulumi.StringOutput `pulumi:"scope"`
-	// The role assignment type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// Id of the user who updated the assignment
 	UpdatedBy pulumi.StringOutput `pulumi:"updatedBy"`
@@ -150,7 +152,7 @@ type roleAssignmentArgs struct {
 	RoleAssignmentName *string `pulumi:"roleAssignmentName"`
 	// The role definition ID.
 	RoleDefinitionId string `pulumi:"roleDefinitionId"`
-	// The scope of the operation or resource. Valid scopes are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+	// The fully qualified Azure Resource manager identifier of the resource.
 	Scope string `pulumi:"scope"`
 }
 
@@ -172,7 +174,7 @@ type RoleAssignmentArgs struct {
 	RoleAssignmentName pulumi.StringPtrInput
 	// The role definition ID.
 	RoleDefinitionId pulumi.StringInput
-	// The scope of the operation or resource. Valid scopes are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+	// The fully qualified Azure Resource manager identifier of the resource.
 	Scope pulumi.StringInput
 }
 
@@ -248,7 +250,7 @@ func (o RoleAssignmentOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *RoleAssignment) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// The role assignment name.
+// The name of the resource
 func (o RoleAssignmentOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *RoleAssignment) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -273,7 +275,12 @@ func (o RoleAssignmentOutput) Scope() pulumi.StringOutput {
 	return o.ApplyT(func(v *RoleAssignment) pulumi.StringOutput { return v.Scope }).(pulumi.StringOutput)
 }
 
-// The role assignment type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o RoleAssignmentOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *RoleAssignment) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o RoleAssignmentOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *RoleAssignment) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

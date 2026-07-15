@@ -14,6 +14,8 @@ import (
 // Get a FleetManagedNamespace
 //
 // Uses Azure REST API version 2025-08-01-preview.
+//
+// Other available API versions: 2026-02-01-preview, 2026-03-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupFleetManagedNamespace(ctx *pulumi.Context, args *LookupFleetManagedNamespaceArgs, opts ...pulumi.InvokeOption) (*LookupFleetManagedNamespaceResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupFleetManagedNamespaceResult

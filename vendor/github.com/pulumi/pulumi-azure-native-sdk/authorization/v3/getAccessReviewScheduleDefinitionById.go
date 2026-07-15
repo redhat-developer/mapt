@@ -49,7 +49,7 @@ type LookupAccessReviewScheduleDefinitionByIdResult struct {
 	DescriptionForReviewers *string `pulumi:"descriptionForReviewers"`
 	// The display name for the schedule definition.
 	DisplayName *string `pulumi:"displayName"`
-	// The access review schedule definition id.
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// The duration in days for an instance.
 	InstanceDurationInDays *int `pulumi:"instanceDurationInDays"`
@@ -61,7 +61,7 @@ type LookupAccessReviewScheduleDefinitionByIdResult struct {
 	JustificationRequiredOnApproval *bool `pulumi:"justificationRequiredOnApproval"`
 	// Flag to indicate whether sending mails to reviewers and the review creator is enabled.
 	MailNotificationsEnabled *bool `pulumi:"mailNotificationsEnabled"`
-	// The access review schedule definition unique id.
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The identity id
 	PrincipalId string `pulumi:"principalId"`
@@ -85,7 +85,9 @@ type LookupAccessReviewScheduleDefinitionByIdResult struct {
 	Scope AccessReviewScopeResponse `pulumi:"scope"`
 	// This read-only field specifies the status of an accessReview.
 	Status string `pulumi:"status"`
-	// The resource type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// The user principal name(if valid)
 	UserPrincipalName string `pulumi:"userPrincipalName"`
@@ -166,7 +168,7 @@ func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) DisplayName() pulu
 	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
 }
 
-// The access review schedule definition id.
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -198,7 +200,7 @@ func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) MailNotificationsE
 	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) *bool { return v.MailNotificationsEnabled }).(pulumi.BoolPtrOutput)
 }
 
-// The access review schedule definition unique id.
+// The name of the resource
 func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -264,7 +266,12 @@ func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) Status() pulumi.St
 	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) string { return v.Status }).(pulumi.StringOutput)
 }
 
-// The resource type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) string { return v.Type }).(pulumi.StringOutput)
 }
