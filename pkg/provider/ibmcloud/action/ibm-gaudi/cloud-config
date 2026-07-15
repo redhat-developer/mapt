@@ -1,0 +1,11 @@
+#cloud-config
+{{- if .OtelColScript}}
+write_files:
+  - path: /opt/install-otelcol.sh
+    permissions: '0700'
+    owner: root:root
+    content: |
+{{.OtelColScript}}
+runcmd:
+  - bash /opt/install-otelcol.sh
+{{- end}}
