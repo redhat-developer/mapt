@@ -53,8 +53,6 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &MeshMembership{}
 	case "azure-native:containerservice:Namespace":
 		r = &Namespace{}
-	case "azure-native:containerservice:NodeCustomization":
-		r = &NodeCustomization{}
 	case "azure-native:containerservice:PrivateEndpointConnection":
 		r = &PrivateEndpointConnection{}
 	case "azure-native:containerservice:Snapshot":

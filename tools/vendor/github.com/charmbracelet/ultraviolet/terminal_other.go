@@ -3,20 +3,15 @@
 
 package uv
 
-import "github.com/charmbracelet/x/term"
-
-func makeRaw(_, _ term.File) (inTtyState, outTtyState *term.State, err error) {
-	return nil, nil, ErrPlatformNotSupported
+func (*Terminal) makeRaw() error {
+	return ErrPlatformNotSupported
 }
 
-func getSize(_, _ term.File) (w, h int, err error) {
+func (*Terminal) getSize() (int, int, error) {
 	return 0, 0, ErrPlatformNotSupported
 }
 
-func getWinsize(_, _ term.File) (ws Winsize, err error) {
-	return Winsize{}, ErrPlatformNotSupported
-}
+func (t *Terminal) optimizeMovements() {}
 
-func optimizeMovements(*term.State) (useTabs, useBspace bool) {
-	return false, false
-}
+func (*Terminal) enableWindowsMouse() error  { return ErrPlatformNotSupported }
+func (*Terminal) disableWindowsMouse() error { return ErrPlatformNotSupported }

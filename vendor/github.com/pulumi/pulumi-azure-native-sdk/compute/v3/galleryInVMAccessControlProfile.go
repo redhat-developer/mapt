@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-03-03. In version 2.x of the Azure Native provider, it used API version 2024-03-03.
 //
-// Other available API versions: 2025-03-03. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2025-03-03, 2025-12-03. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type GalleryInVMAccessControlProfile struct {
 	pulumi.CustomResourceState
 
@@ -55,6 +55,9 @@ func NewGalleryInVMAccessControlProfile(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:compute/v20250303:GalleryInVMAccessControlProfile"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20251203:GalleryInVMAccessControlProfile"),
 		},
 	})
 	opts = append(opts, aliases)

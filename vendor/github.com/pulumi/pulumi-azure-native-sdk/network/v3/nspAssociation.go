@@ -83,6 +83,9 @@ func NewNspAssociation(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:network/v20250501:NspAssociation"),
 		},
+		{
+			Type: pulumi.String("azure-native:network/v20250701:NspAssociation"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)

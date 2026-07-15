@@ -14,6 +14,8 @@ import (
 // Gets the specified service gateway.
 //
 // Uses Azure REST API version 2025-05-01.
+//
+// Other available API versions: 2025-07-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupServiceGateway(ctx *pulumi.Context, args *LookupServiceGatewayArgs, opts ...pulumi.InvokeOption) (*LookupServiceGatewayResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupServiceGatewayResult
@@ -60,7 +62,7 @@ type LookupServiceGatewayResult struct {
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// Reference to an existing virtual network.
-	VirtualNetwork *VirtualNetworkResponse `pulumi:"virtualNetwork"`
+	VirtualNetwork *CommonVirtualNetworkResponse `pulumi:"virtualNetwork"`
 	// A list of availability zones denoting the zone in which service gateway should be deployed.
 	//
 	// - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.
@@ -186,8 +188,8 @@ func (o LookupServiceGatewayResultOutput) Type() pulumi.StringOutput {
 }
 
 // Reference to an existing virtual network.
-func (o LookupServiceGatewayResultOutput) VirtualNetwork() VirtualNetworkResponsePtrOutput {
-	return o.ApplyT(func(v LookupServiceGatewayResult) *VirtualNetworkResponse { return v.VirtualNetwork }).(VirtualNetworkResponsePtrOutput)
+func (o LookupServiceGatewayResultOutput) VirtualNetwork() CommonVirtualNetworkResponsePtrOutput {
+	return o.ApplyT(func(v LookupServiceGatewayResult) *CommonVirtualNetworkResponse { return v.VirtualNetwork }).(CommonVirtualNetworkResponsePtrOutput)
 }
 
 // A list of availability zones denoting the zone in which service gateway should be deployed.

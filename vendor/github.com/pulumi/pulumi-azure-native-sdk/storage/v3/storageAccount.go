@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-01-01. In version 2.x of the Azure Native provider, it used API version 2022-09-01.
 //
-// Other available API versions: 2022-09-01, 2023-01-01, 2023-04-01, 2023-05-01, 2025-01-01, 2025-06-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native storage [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2022-09-01, 2023-01-01, 2023-04-01, 2023-05-01, 2025-01-01, 2025-06-01, 2025-08-01, 2026-04-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native storage [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type StorageAccount struct {
 	pulumi.CustomResourceState
 
@@ -84,7 +84,7 @@ type StorageAccount struct {
 	LastGeoFailoverTime pulumi.StringOutput `pulumi:"lastGeoFailoverTime"`
 	// The geo-location where the resource lives
 	Location pulumi.StringOutput `pulumi:"location"`
-	// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+	// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 	MinimumTlsVersion pulumi.StringPtrOutput `pulumi:"minimumTlsVersion"`
 	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
@@ -232,6 +232,12 @@ func NewStorageAccount(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:storage/v20250601:StorageAccount"),
 		},
+		{
+			Type: pulumi.String("azure-native:storage/v20250801:StorageAccount"),
+		},
+		{
+			Type: pulumi.String("azure-native:storage/v20260401:StorageAccount"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)
@@ -315,7 +321,7 @@ type storageAccountArgs struct {
 	LargeFileSharesState *string `pulumi:"largeFileSharesState"`
 	// Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update, the request will succeed.
 	Location *string `pulumi:"location"`
-	// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+	// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 	MinimumTlsVersion *string `pulumi:"minimumTlsVersion"`
 	// Network rule set
 	NetworkRuleSet *NetworkRuleSet `pulumi:"networkRuleSet"`
@@ -383,7 +389,7 @@ type StorageAccountArgs struct {
 	LargeFileSharesState pulumi.StringPtrInput
 	// Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update, the request will succeed.
 	Location pulumi.StringPtrInput
-	// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+	// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 	MinimumTlsVersion pulumi.StringPtrInput
 	// Network rule set
 	NetworkRuleSet NetworkRuleSetPtrInput
@@ -602,7 +608,7 @@ func (o StorageAccountOutput) Location() pulumi.StringOutput {
 	return o.ApplyT(func(v *StorageAccount) pulumi.StringOutput { return v.Location }).(pulumi.StringOutput)
 }
 
-// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 func (o StorageAccountOutput) MinimumTlsVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *StorageAccount) pulumi.StringPtrOutput { return v.MinimumTlsVersion }).(pulumi.StringPtrOutput)
 }

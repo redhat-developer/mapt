@@ -29,7 +29,7 @@ func LookupRoleDefinition(ctx *pulumi.Context, args *LookupRoleDefinitionArgs, o
 type LookupRoleDefinitionArgs struct {
 	// The ID of the role definition.
 	RoleDefinitionId string `pulumi:"roleDefinitionId"`
-	// The scope of the operation or resource. Valid scopes are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+	// The fully qualified Azure Resource manager identifier of the resource.
 	Scope string `pulumi:"scope"`
 }
 
@@ -45,9 +45,9 @@ type LookupRoleDefinitionResult struct {
 	CreatedOn string `pulumi:"createdOn"`
 	// The role definition description.
 	Description *string `pulumi:"description"`
-	// The role definition ID.
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
-	// The role definition name.
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// Role definition permissions.
 	Permissions []PermissionResponse `pulumi:"permissions"`
@@ -55,7 +55,9 @@ type LookupRoleDefinitionResult struct {
 	RoleName *string `pulumi:"roleName"`
 	// The role type.
 	RoleType *string `pulumi:"roleType"`
-	// The role definition type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// Id of the user who updated the assignment
 	UpdatedBy string `pulumi:"updatedBy"`
@@ -75,7 +77,7 @@ func LookupRoleDefinitionOutput(ctx *pulumi.Context, args LookupRoleDefinitionOu
 type LookupRoleDefinitionOutputArgs struct {
 	// The ID of the role definition.
 	RoleDefinitionId pulumi.StringInput `pulumi:"roleDefinitionId"`
-	// The scope of the operation or resource. Valid scopes are: subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+	// The fully qualified Azure Resource manager identifier of the resource.
 	Scope pulumi.StringInput `pulumi:"scope"`
 }
 
@@ -123,12 +125,12 @@ func (o LookupRoleDefinitionResultOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupRoleDefinitionResult) *string { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// The role definition ID.
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupRoleDefinitionResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleDefinitionResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-// The role definition name.
+// The name of the resource
 func (o LookupRoleDefinitionResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleDefinitionResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -148,7 +150,12 @@ func (o LookupRoleDefinitionResultOutput) RoleType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupRoleDefinitionResult) *string { return v.RoleType }).(pulumi.StringPtrOutput)
 }
 
-// The role definition type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupRoleDefinitionResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupRoleDefinitionResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupRoleDefinitionResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleDefinitionResult) string { return v.Type }).(pulumi.StringOutput)
 }

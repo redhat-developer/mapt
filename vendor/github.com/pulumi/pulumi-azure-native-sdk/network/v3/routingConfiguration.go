@@ -84,6 +84,9 @@ func NewRoutingConfiguration(ctx *pulumi.Context,
 			Type: pulumi.String("azure-native:network/v20250501:RoutingConfiguration"),
 		},
 		{
+			Type: pulumi.String("azure-native:network/v20250701:RoutingConfiguration"),
+		},
+		{
 			Type: pulumi.String("azure-native:network:NetworkManagerRoutingConfiguration"),
 		},
 	})

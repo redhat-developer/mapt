@@ -14909,6 +14909,174 @@ func (in *ikeIntegrityPtr) ToIkeIntegrityPtrOutputWithContext(ctx context.Contex
 	return pulumi.ToOutputWithContext(ctx, in).(IkeIntegrityPtrOutput)
 }
 
+// Scope of interconnect group resource.
+type InterconnectGroupScope string
+
+const (
+	// No interconnect group scope.
+	InterconnectGroupScopeNone = InterconnectGroupScope("None")
+	// InfiniBand interconnect group scope.
+	InterconnectGroupScopeInfiniBand = InterconnectGroupScope("InfiniBand")
+)
+
+func (InterconnectGroupScope) ElementType() reflect.Type {
+	return reflect.TypeOf((*InterconnectGroupScope)(nil)).Elem()
+}
+
+func (e InterconnectGroupScope) ToInterconnectGroupScopeOutput() InterconnectGroupScopeOutput {
+	return pulumi.ToOutput(e).(InterconnectGroupScopeOutput)
+}
+
+func (e InterconnectGroupScope) ToInterconnectGroupScopeOutputWithContext(ctx context.Context) InterconnectGroupScopeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(InterconnectGroupScopeOutput)
+}
+
+func (e InterconnectGroupScope) ToInterconnectGroupScopePtrOutput() InterconnectGroupScopePtrOutput {
+	return e.ToInterconnectGroupScopePtrOutputWithContext(context.Background())
+}
+
+func (e InterconnectGroupScope) ToInterconnectGroupScopePtrOutputWithContext(ctx context.Context) InterconnectGroupScopePtrOutput {
+	return InterconnectGroupScope(e).ToInterconnectGroupScopeOutputWithContext(ctx).ToInterconnectGroupScopePtrOutputWithContext(ctx)
+}
+
+func (e InterconnectGroupScope) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e InterconnectGroupScope) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e InterconnectGroupScope) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e InterconnectGroupScope) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type InterconnectGroupScopeOutput struct{ *pulumi.OutputState }
+
+func (InterconnectGroupScopeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*InterconnectGroupScope)(nil)).Elem()
+}
+
+func (o InterconnectGroupScopeOutput) ToInterconnectGroupScopeOutput() InterconnectGroupScopeOutput {
+	return o
+}
+
+func (o InterconnectGroupScopeOutput) ToInterconnectGroupScopeOutputWithContext(ctx context.Context) InterconnectGroupScopeOutput {
+	return o
+}
+
+func (o InterconnectGroupScopeOutput) ToInterconnectGroupScopePtrOutput() InterconnectGroupScopePtrOutput {
+	return o.ToInterconnectGroupScopePtrOutputWithContext(context.Background())
+}
+
+func (o InterconnectGroupScopeOutput) ToInterconnectGroupScopePtrOutputWithContext(ctx context.Context) InterconnectGroupScopePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v InterconnectGroupScope) *InterconnectGroupScope {
+		return &v
+	}).(InterconnectGroupScopePtrOutput)
+}
+
+func (o InterconnectGroupScopeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o InterconnectGroupScopeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e InterconnectGroupScope) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o InterconnectGroupScopeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o InterconnectGroupScopeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e InterconnectGroupScope) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type InterconnectGroupScopePtrOutput struct{ *pulumi.OutputState }
+
+func (InterconnectGroupScopePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**InterconnectGroupScope)(nil)).Elem()
+}
+
+func (o InterconnectGroupScopePtrOutput) ToInterconnectGroupScopePtrOutput() InterconnectGroupScopePtrOutput {
+	return o
+}
+
+func (o InterconnectGroupScopePtrOutput) ToInterconnectGroupScopePtrOutputWithContext(ctx context.Context) InterconnectGroupScopePtrOutput {
+	return o
+}
+
+func (o InterconnectGroupScopePtrOutput) Elem() InterconnectGroupScopeOutput {
+	return o.ApplyT(func(v *InterconnectGroupScope) InterconnectGroupScope {
+		if v != nil {
+			return *v
+		}
+		var ret InterconnectGroupScope
+		return ret
+	}).(InterconnectGroupScopeOutput)
+}
+
+func (o InterconnectGroupScopePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o InterconnectGroupScopePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *InterconnectGroupScope) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// InterconnectGroupScopeInput is an input type that accepts values of the InterconnectGroupScope enum
+// A concrete instance of `InterconnectGroupScopeInput` can be one of the following:
+//
+//	InterconnectGroupScopeNone
+//	InterconnectGroupScopeInfiniBand
+type InterconnectGroupScopeInput interface {
+	pulumi.Input
+
+	ToInterconnectGroupScopeOutput() InterconnectGroupScopeOutput
+	ToInterconnectGroupScopeOutputWithContext(context.Context) InterconnectGroupScopeOutput
+}
+
+var interconnectGroupScopePtrType = reflect.TypeOf((**InterconnectGroupScope)(nil)).Elem()
+
+type InterconnectGroupScopePtrInput interface {
+	pulumi.Input
+
+	ToInterconnectGroupScopePtrOutput() InterconnectGroupScopePtrOutput
+	ToInterconnectGroupScopePtrOutputWithContext(context.Context) InterconnectGroupScopePtrOutput
+}
+
+type interconnectGroupScopePtr string
+
+func InterconnectGroupScopePtr(v string) InterconnectGroupScopePtrInput {
+	return (*interconnectGroupScopePtr)(&v)
+}
+
+func (*interconnectGroupScopePtr) ElementType() reflect.Type {
+	return interconnectGroupScopePtrType
+}
+
+func (in *interconnectGroupScopePtr) ToInterconnectGroupScopePtrOutput() InterconnectGroupScopePtrOutput {
+	return pulumi.ToOutput(in).(InterconnectGroupScopePtrOutput)
+}
+
+func (in *interconnectGroupScopePtr) ToInterconnectGroupScopePtrOutputWithContext(ctx context.Context) InterconnectGroupScopePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(InterconnectGroupScopePtrOutput)
+}
+
 // The type for the IpAllocation.
 type IpAllocationType string
 
@@ -24381,6 +24549,7 @@ func (in *sensitivityTypePtr) ToSensitivityTypePtrOutputWithContext(ctx context.
 type ServiceGatewaySkuName string
 
 const (
+	// Standard
 	ServiceGatewaySkuNameStandard = ServiceGatewaySkuName("Standard")
 )
 
@@ -24545,6 +24714,7 @@ func (in *serviceGatewaySkuNamePtr) ToServiceGatewaySkuNamePtrOutputWithContext(
 type ServiceGatewaySkuTier string
 
 const (
+	// Regional
 	ServiceGatewaySkuTierRegional = ServiceGatewaySkuTier("Regional")
 )
 
@@ -25039,6 +25209,174 @@ func (in *sharingScopePtr) ToSharingScopePtrOutput() SharingScopePtrOutput {
 
 func (in *sharingScopePtr) ToSharingScopePtrOutputWithContext(ctx context.Context) SharingScopePtrOutput {
 	return pulumi.ToOutputWithContext(ctx, in).(SharingScopePtrOutput)
+}
+
+// Scope of the subgroup profile.
+type SubgroupProfileScope string
+
+const (
+	// No subgroup profile scope.
+	SubgroupProfileScopeNone = SubgroupProfileScope("None")
+	// VerticalConnect subgroup profile scope.
+	SubgroupProfileScopeVerticalConnect = SubgroupProfileScope("VerticalConnect")
+)
+
+func (SubgroupProfileScope) ElementType() reflect.Type {
+	return reflect.TypeOf((*SubgroupProfileScope)(nil)).Elem()
+}
+
+func (e SubgroupProfileScope) ToSubgroupProfileScopeOutput() SubgroupProfileScopeOutput {
+	return pulumi.ToOutput(e).(SubgroupProfileScopeOutput)
+}
+
+func (e SubgroupProfileScope) ToSubgroupProfileScopeOutputWithContext(ctx context.Context) SubgroupProfileScopeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(SubgroupProfileScopeOutput)
+}
+
+func (e SubgroupProfileScope) ToSubgroupProfileScopePtrOutput() SubgroupProfileScopePtrOutput {
+	return e.ToSubgroupProfileScopePtrOutputWithContext(context.Background())
+}
+
+func (e SubgroupProfileScope) ToSubgroupProfileScopePtrOutputWithContext(ctx context.Context) SubgroupProfileScopePtrOutput {
+	return SubgroupProfileScope(e).ToSubgroupProfileScopeOutputWithContext(ctx).ToSubgroupProfileScopePtrOutputWithContext(ctx)
+}
+
+func (e SubgroupProfileScope) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e SubgroupProfileScope) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e SubgroupProfileScope) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e SubgroupProfileScope) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type SubgroupProfileScopeOutput struct{ *pulumi.OutputState }
+
+func (SubgroupProfileScopeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SubgroupProfileScope)(nil)).Elem()
+}
+
+func (o SubgroupProfileScopeOutput) ToSubgroupProfileScopeOutput() SubgroupProfileScopeOutput {
+	return o
+}
+
+func (o SubgroupProfileScopeOutput) ToSubgroupProfileScopeOutputWithContext(ctx context.Context) SubgroupProfileScopeOutput {
+	return o
+}
+
+func (o SubgroupProfileScopeOutput) ToSubgroupProfileScopePtrOutput() SubgroupProfileScopePtrOutput {
+	return o.ToSubgroupProfileScopePtrOutputWithContext(context.Background())
+}
+
+func (o SubgroupProfileScopeOutput) ToSubgroupProfileScopePtrOutputWithContext(ctx context.Context) SubgroupProfileScopePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SubgroupProfileScope) *SubgroupProfileScope {
+		return &v
+	}).(SubgroupProfileScopePtrOutput)
+}
+
+func (o SubgroupProfileScopeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o SubgroupProfileScopeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e SubgroupProfileScope) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o SubgroupProfileScopeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o SubgroupProfileScopeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e SubgroupProfileScope) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type SubgroupProfileScopePtrOutput struct{ *pulumi.OutputState }
+
+func (SubgroupProfileScopePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SubgroupProfileScope)(nil)).Elem()
+}
+
+func (o SubgroupProfileScopePtrOutput) ToSubgroupProfileScopePtrOutput() SubgroupProfileScopePtrOutput {
+	return o
+}
+
+func (o SubgroupProfileScopePtrOutput) ToSubgroupProfileScopePtrOutputWithContext(ctx context.Context) SubgroupProfileScopePtrOutput {
+	return o
+}
+
+func (o SubgroupProfileScopePtrOutput) Elem() SubgroupProfileScopeOutput {
+	return o.ApplyT(func(v *SubgroupProfileScope) SubgroupProfileScope {
+		if v != nil {
+			return *v
+		}
+		var ret SubgroupProfileScope
+		return ret
+	}).(SubgroupProfileScopeOutput)
+}
+
+func (o SubgroupProfileScopePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o SubgroupProfileScopePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *SubgroupProfileScope) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// SubgroupProfileScopeInput is an input type that accepts values of the SubgroupProfileScope enum
+// A concrete instance of `SubgroupProfileScopeInput` can be one of the following:
+//
+//	SubgroupProfileScopeNone
+//	SubgroupProfileScopeVerticalConnect
+type SubgroupProfileScopeInput interface {
+	pulumi.Input
+
+	ToSubgroupProfileScopeOutput() SubgroupProfileScopeOutput
+	ToSubgroupProfileScopeOutputWithContext(context.Context) SubgroupProfileScopeOutput
+}
+
+var subgroupProfileScopePtrType = reflect.TypeOf((**SubgroupProfileScope)(nil)).Elem()
+
+type SubgroupProfileScopePtrInput interface {
+	pulumi.Input
+
+	ToSubgroupProfileScopePtrOutput() SubgroupProfileScopePtrOutput
+	ToSubgroupProfileScopePtrOutputWithContext(context.Context) SubgroupProfileScopePtrOutput
+}
+
+type subgroupProfileScopePtr string
+
+func SubgroupProfileScopePtr(v string) SubgroupProfileScopePtrInput {
+	return (*subgroupProfileScopePtr)(&v)
+}
+
+func (*subgroupProfileScopePtr) ElementType() reflect.Type {
+	return subgroupProfileScopePtrType
+}
+
+func (in *subgroupProfileScopePtr) ToSubgroupProfileScopePtrOutput() SubgroupProfileScopePtrOutput {
+	return pulumi.ToOutput(in).(SubgroupProfileScopePtrOutput)
+}
+
+func (in *subgroupProfileScopePtr) ToSubgroupProfileScopePtrOutputWithContext(ctx context.Context) SubgroupProfileScopePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(SubgroupProfileScopePtrOutput)
 }
 
 // Backend address synchronous mode for the backend pool
@@ -30846,6 +31184,8 @@ func init() {
 	pulumi.RegisterOutputType(IkeEncryptionPtrOutput{})
 	pulumi.RegisterOutputType(IkeIntegrityOutput{})
 	pulumi.RegisterOutputType(IkeIntegrityPtrOutput{})
+	pulumi.RegisterOutputType(InterconnectGroupScopeOutput{})
+	pulumi.RegisterOutputType(InterconnectGroupScopePtrOutput{})
 	pulumi.RegisterOutputType(IpAllocationTypeOutput{})
 	pulumi.RegisterOutputType(IpAllocationTypePtrOutput{})
 	pulumi.RegisterOutputType(IpsecEncryptionOutput{})
@@ -30966,6 +31306,8 @@ func init() {
 	pulumi.RegisterOutputType(ServiceProviderProvisioningStatePtrOutput{})
 	pulumi.RegisterOutputType(SharingScopeOutput{})
 	pulumi.RegisterOutputType(SharingScopePtrOutput{})
+	pulumi.RegisterOutputType(SubgroupProfileScopeOutput{})
+	pulumi.RegisterOutputType(SubgroupProfileScopePtrOutput{})
 	pulumi.RegisterOutputType(SyncModeOutput{})
 	pulumi.RegisterOutputType(SyncModePtrOutput{})
 	pulumi.RegisterOutputType(TransportProtocolOutput{})

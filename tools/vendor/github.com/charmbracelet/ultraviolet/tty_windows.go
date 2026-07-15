@@ -3,11 +3,7 @@
 
 package uv
 
-import (
-	"context"
-	"os"
-	"os/signal"
-)
+import "os"
 
 func openTTY() (inTty, outTty *os.File, err error) {
 	// On Windows, when the input/output is redirected or piped, we need to
@@ -28,12 +24,4 @@ func suspend() (err error) {
 	// On Windows, suspending the process group is not supported in the same
 	// way as Unix-like systems.
 	return nil
-}
-
-func notifyWinch(c chan os.Signal, sigs ...os.Signal) {
-	signal.Notify(c, sigs...)
-}
-
-func notifyWinchContext(ctx context.Context, sigs ...os.Signal) (context.Context, context.CancelFunc) {
-	return signal.NotifyContext(ctx, sigs...)
 }

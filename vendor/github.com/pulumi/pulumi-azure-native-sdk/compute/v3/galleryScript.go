@@ -15,6 +15,8 @@ import (
 // Specifies information about the gallery Script Definition that you want to create or update.
 //
 // Uses Azure REST API version 2025-03-03.
+//
+// Other available API versions: 2025-12-03. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native compute [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type GalleryScript struct {
 	pulumi.CustomResourceState
 
@@ -50,6 +52,9 @@ func NewGalleryScript(ctx *pulumi.Context,
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:compute/v20250303:GalleryScript"),
+		},
+		{
+			Type: pulumi.String("azure-native:compute/v20251203:GalleryScript"),
 		},
 	})
 	opts = append(opts, aliases)

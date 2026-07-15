@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-05-02-preview. In version 2.x of the Azure Native provider, it used API version 2024-05-02-preview.
 //
-// Other available API versions: 2025-03-01, 2025-04-01-preview, 2025-08-01-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2025-03-01, 2025-04-01-preview, 2025-08-01-preview, 2026-02-01-preview, 2026-03-02-preview. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native containerservice [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type AutoUpgradeProfile struct {
 	pulumi.CustomResourceState
 
@@ -73,6 +73,12 @@ func NewAutoUpgradeProfile(ctx *pulumi.Context,
 		},
 		{
 			Type: pulumi.String("azure-native:containerservice/v20250801preview:AutoUpgradeProfile"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20260201preview:AutoUpgradeProfile"),
+		},
+		{
+			Type: pulumi.String("azure-native:containerservice/v20260302preview:AutoUpgradeProfile"),
 		},
 	})
 	opts = append(opts, aliases)

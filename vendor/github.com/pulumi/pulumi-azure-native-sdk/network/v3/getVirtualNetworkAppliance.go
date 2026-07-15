@@ -14,6 +14,8 @@ import (
 // Gets information about the specified virtual network appliance.
 //
 // Uses Azure REST API version 2025-05-01.
+//
+// Other available API versions: 2025-07-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 func LookupVirtualNetworkAppliance(ctx *pulumi.Context, args *LookupVirtualNetworkApplianceArgs, opts ...pulumi.InvokeOption) (*LookupVirtualNetworkApplianceResult, error) {
 	opts = utilities.PkgInvokeDefaultOpts(opts)
 	var rv LookupVirtualNetworkApplianceResult
@@ -25,7 +27,7 @@ func LookupVirtualNetworkAppliance(ctx *pulumi.Context, args *LookupVirtualNetwo
 }
 
 type LookupVirtualNetworkApplianceArgs struct {
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The name of the virtual network appliance.
 	VirtualNetworkApplianceName string `pulumi:"virtualNetworkApplianceName"`
@@ -52,7 +54,7 @@ type LookupVirtualNetworkApplianceResult struct {
 	// The resource GUID property of the virtual network appliance resource.
 	ResourceGuid string `pulumi:"resourceGuid"`
 	// The reference to the subnet resource.
-	Subnet *SubnetResponse `pulumi:"subnet"`
+	Subnet *CommonSubnetResponse `pulumi:"subnet"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Resource type.
@@ -79,7 +81,7 @@ func LookupVirtualNetworkApplianceOutput(ctx *pulumi.Context, args LookupVirtual
 }
 
 type LookupVirtualNetworkApplianceOutputArgs struct {
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput `pulumi:"resourceGroupName"`
 	// The name of the virtual network appliance.
 	VirtualNetworkApplianceName pulumi.StringInput `pulumi:"virtualNetworkApplianceName"`
@@ -152,8 +154,8 @@ func (o LookupVirtualNetworkApplianceResultOutput) ResourceGuid() pulumi.StringO
 }
 
 // The reference to the subnet resource.
-func (o LookupVirtualNetworkApplianceResultOutput) Subnet() SubnetResponsePtrOutput {
-	return o.ApplyT(func(v LookupVirtualNetworkApplianceResult) *SubnetResponse { return v.Subnet }).(SubnetResponsePtrOutput)
+func (o LookupVirtualNetworkApplianceResultOutput) Subnet() CommonSubnetResponsePtrOutput {
+	return o.ApplyT(func(v LookupVirtualNetworkApplianceResult) *CommonSubnetResponse { return v.Subnet }).(CommonSubnetResponsePtrOutput)
 }
 
 // Resource tags.

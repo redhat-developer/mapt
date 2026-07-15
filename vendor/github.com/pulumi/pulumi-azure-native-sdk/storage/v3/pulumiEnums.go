@@ -4534,7 +4534,7 @@ func (in *largeFileSharesStatePtr) ToLargeFileSharesStatePtrOutputWithContext(ct
 	return pulumi.ToOutputWithContext(ctx, in).(LargeFileSharesStatePtrOutput)
 }
 
-// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+// Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. Minimum TLS version 1.3 version is not supported.
 type MinimumTlsVersion string
 
 const (
@@ -7420,6 +7420,532 @@ func (in *statePtr) ToStatePtrOutputWithContext(ctx context.Context) StatePtrOut
 	return pulumi.ToOutputWithContext(ctx, in).(StatePtrOutput)
 }
 
+// Type of the authentication properties. Controls the type of the authProperties object
+type StorageConnectorAuthType string
+
+const (
+	// Managed Identity auth type
+	StorageConnectorAuthTypeManagedIdentity = StorageConnectorAuthType("ManagedIdentity")
+)
+
+// Type of the connection. Controls the type of the connection object. Not mutable once the Storage Connector is created.
+type StorageConnectorConnectionType string
+
+const (
+	// DataShare connection type
+	StorageConnectorConnectionTypeDataShare = StorageConnectorConnectionType("DataShare")
+)
+
+// The type of backing data source for this Storage Connector.
+type StorageConnectorDataSourceType string
+
+const (
+	// Azure DataShare data source type.
+	StorageConnectorDataSourceType_Azure_DataShare = StorageConnectorDataSourceType("Azure_DataShare")
+)
+
+func (StorageConnectorDataSourceType) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageConnectorDataSourceType)(nil)).Elem()
+}
+
+func (e StorageConnectorDataSourceType) ToStorageConnectorDataSourceTypeOutput() StorageConnectorDataSourceTypeOutput {
+	return pulumi.ToOutput(e).(StorageConnectorDataSourceTypeOutput)
+}
+
+func (e StorageConnectorDataSourceType) ToStorageConnectorDataSourceTypeOutputWithContext(ctx context.Context) StorageConnectorDataSourceTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(StorageConnectorDataSourceTypeOutput)
+}
+
+func (e StorageConnectorDataSourceType) ToStorageConnectorDataSourceTypePtrOutput() StorageConnectorDataSourceTypePtrOutput {
+	return e.ToStorageConnectorDataSourceTypePtrOutputWithContext(context.Background())
+}
+
+func (e StorageConnectorDataSourceType) ToStorageConnectorDataSourceTypePtrOutputWithContext(ctx context.Context) StorageConnectorDataSourceTypePtrOutput {
+	return StorageConnectorDataSourceType(e).ToStorageConnectorDataSourceTypeOutputWithContext(ctx).ToStorageConnectorDataSourceTypePtrOutputWithContext(ctx)
+}
+
+func (e StorageConnectorDataSourceType) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e StorageConnectorDataSourceType) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e StorageConnectorDataSourceType) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e StorageConnectorDataSourceType) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type StorageConnectorDataSourceTypeOutput struct{ *pulumi.OutputState }
+
+func (StorageConnectorDataSourceTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageConnectorDataSourceType)(nil)).Elem()
+}
+
+func (o StorageConnectorDataSourceTypeOutput) ToStorageConnectorDataSourceTypeOutput() StorageConnectorDataSourceTypeOutput {
+	return o
+}
+
+func (o StorageConnectorDataSourceTypeOutput) ToStorageConnectorDataSourceTypeOutputWithContext(ctx context.Context) StorageConnectorDataSourceTypeOutput {
+	return o
+}
+
+func (o StorageConnectorDataSourceTypeOutput) ToStorageConnectorDataSourceTypePtrOutput() StorageConnectorDataSourceTypePtrOutput {
+	return o.ToStorageConnectorDataSourceTypePtrOutputWithContext(context.Background())
+}
+
+func (o StorageConnectorDataSourceTypeOutput) ToStorageConnectorDataSourceTypePtrOutputWithContext(ctx context.Context) StorageConnectorDataSourceTypePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v StorageConnectorDataSourceType) *StorageConnectorDataSourceType {
+		return &v
+	}).(StorageConnectorDataSourceTypePtrOutput)
+}
+
+func (o StorageConnectorDataSourceTypeOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o StorageConnectorDataSourceTypeOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e StorageConnectorDataSourceType) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o StorageConnectorDataSourceTypeOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o StorageConnectorDataSourceTypeOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e StorageConnectorDataSourceType) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type StorageConnectorDataSourceTypePtrOutput struct{ *pulumi.OutputState }
+
+func (StorageConnectorDataSourceTypePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**StorageConnectorDataSourceType)(nil)).Elem()
+}
+
+func (o StorageConnectorDataSourceTypePtrOutput) ToStorageConnectorDataSourceTypePtrOutput() StorageConnectorDataSourceTypePtrOutput {
+	return o
+}
+
+func (o StorageConnectorDataSourceTypePtrOutput) ToStorageConnectorDataSourceTypePtrOutputWithContext(ctx context.Context) StorageConnectorDataSourceTypePtrOutput {
+	return o
+}
+
+func (o StorageConnectorDataSourceTypePtrOutput) Elem() StorageConnectorDataSourceTypeOutput {
+	return o.ApplyT(func(v *StorageConnectorDataSourceType) StorageConnectorDataSourceType {
+		if v != nil {
+			return *v
+		}
+		var ret StorageConnectorDataSourceType
+		return ret
+	}).(StorageConnectorDataSourceTypeOutput)
+}
+
+func (o StorageConnectorDataSourceTypePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o StorageConnectorDataSourceTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *StorageConnectorDataSourceType) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// StorageConnectorDataSourceTypeInput is an input type that accepts values of the StorageConnectorDataSourceType enum
+// A concrete instance of `StorageConnectorDataSourceTypeInput` can be one of the following:
+//
+//	StorageConnectorDataSourceType_Azure_DataShare
+type StorageConnectorDataSourceTypeInput interface {
+	pulumi.Input
+
+	ToStorageConnectorDataSourceTypeOutput() StorageConnectorDataSourceTypeOutput
+	ToStorageConnectorDataSourceTypeOutputWithContext(context.Context) StorageConnectorDataSourceTypeOutput
+}
+
+var storageConnectorDataSourceTypePtrType = reflect.TypeOf((**StorageConnectorDataSourceType)(nil)).Elem()
+
+type StorageConnectorDataSourceTypePtrInput interface {
+	pulumi.Input
+
+	ToStorageConnectorDataSourceTypePtrOutput() StorageConnectorDataSourceTypePtrOutput
+	ToStorageConnectorDataSourceTypePtrOutputWithContext(context.Context) StorageConnectorDataSourceTypePtrOutput
+}
+
+type storageConnectorDataSourceTypePtr string
+
+func StorageConnectorDataSourceTypePtr(v string) StorageConnectorDataSourceTypePtrInput {
+	return (*storageConnectorDataSourceTypePtr)(&v)
+}
+
+func (*storageConnectorDataSourceTypePtr) ElementType() reflect.Type {
+	return storageConnectorDataSourceTypePtrType
+}
+
+func (in *storageConnectorDataSourceTypePtr) ToStorageConnectorDataSourceTypePtrOutput() StorageConnectorDataSourceTypePtrOutput {
+	return pulumi.ToOutput(in).(StorageConnectorDataSourceTypePtrOutput)
+}
+
+func (in *storageConnectorDataSourceTypePtr) ToStorageConnectorDataSourceTypePtrOutputWithContext(ctx context.Context) StorageConnectorDataSourceTypePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(StorageConnectorDataSourceTypePtrOutput)
+}
+
+// Type of the Storage Connector. Not mutable once the Storage Connector is created."
+type StorageConnectorSourceType string
+
+const (
+	// Source type - DataShare
+	StorageConnectorSourceTypeDataShare = StorageConnectorSourceType("DataShare")
+)
+
+// State - Active or Inactive. Whether or not the Storage Connector should start as active (default: Active)
+// (While set to false on the Storage Connector, all data plane requests using this Storage Connector fail, and this Storage Connector is not billed if it would be otherwise.
+type StorageConnectorState string
+
+const (
+	// Whether the connector is active
+	StorageConnectorStateActive = StorageConnectorState("Active")
+	// Whether the connector is inactive
+	StorageConnectorStateInactive = StorageConnectorState("Inactive")
+)
+
+func (StorageConnectorState) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageConnectorState)(nil)).Elem()
+}
+
+func (e StorageConnectorState) ToStorageConnectorStateOutput() StorageConnectorStateOutput {
+	return pulumi.ToOutput(e).(StorageConnectorStateOutput)
+}
+
+func (e StorageConnectorState) ToStorageConnectorStateOutputWithContext(ctx context.Context) StorageConnectorStateOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(StorageConnectorStateOutput)
+}
+
+func (e StorageConnectorState) ToStorageConnectorStatePtrOutput() StorageConnectorStatePtrOutput {
+	return e.ToStorageConnectorStatePtrOutputWithContext(context.Background())
+}
+
+func (e StorageConnectorState) ToStorageConnectorStatePtrOutputWithContext(ctx context.Context) StorageConnectorStatePtrOutput {
+	return StorageConnectorState(e).ToStorageConnectorStateOutputWithContext(ctx).ToStorageConnectorStatePtrOutputWithContext(ctx)
+}
+
+func (e StorageConnectorState) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e StorageConnectorState) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e StorageConnectorState) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e StorageConnectorState) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type StorageConnectorStateOutput struct{ *pulumi.OutputState }
+
+func (StorageConnectorStateOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageConnectorState)(nil)).Elem()
+}
+
+func (o StorageConnectorStateOutput) ToStorageConnectorStateOutput() StorageConnectorStateOutput {
+	return o
+}
+
+func (o StorageConnectorStateOutput) ToStorageConnectorStateOutputWithContext(ctx context.Context) StorageConnectorStateOutput {
+	return o
+}
+
+func (o StorageConnectorStateOutput) ToStorageConnectorStatePtrOutput() StorageConnectorStatePtrOutput {
+	return o.ToStorageConnectorStatePtrOutputWithContext(context.Background())
+}
+
+func (o StorageConnectorStateOutput) ToStorageConnectorStatePtrOutputWithContext(ctx context.Context) StorageConnectorStatePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v StorageConnectorState) *StorageConnectorState {
+		return &v
+	}).(StorageConnectorStatePtrOutput)
+}
+
+func (o StorageConnectorStateOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o StorageConnectorStateOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e StorageConnectorState) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o StorageConnectorStateOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o StorageConnectorStateOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e StorageConnectorState) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type StorageConnectorStatePtrOutput struct{ *pulumi.OutputState }
+
+func (StorageConnectorStatePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**StorageConnectorState)(nil)).Elem()
+}
+
+func (o StorageConnectorStatePtrOutput) ToStorageConnectorStatePtrOutput() StorageConnectorStatePtrOutput {
+	return o
+}
+
+func (o StorageConnectorStatePtrOutput) ToStorageConnectorStatePtrOutputWithContext(ctx context.Context) StorageConnectorStatePtrOutput {
+	return o
+}
+
+func (o StorageConnectorStatePtrOutput) Elem() StorageConnectorStateOutput {
+	return o.ApplyT(func(v *StorageConnectorState) StorageConnectorState {
+		if v != nil {
+			return *v
+		}
+		var ret StorageConnectorState
+		return ret
+	}).(StorageConnectorStateOutput)
+}
+
+func (o StorageConnectorStatePtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o StorageConnectorStatePtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *StorageConnectorState) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// StorageConnectorStateInput is an input type that accepts values of the StorageConnectorState enum
+// A concrete instance of `StorageConnectorStateInput` can be one of the following:
+//
+//	StorageConnectorStateActive
+//	StorageConnectorStateInactive
+type StorageConnectorStateInput interface {
+	pulumi.Input
+
+	ToStorageConnectorStateOutput() StorageConnectorStateOutput
+	ToStorageConnectorStateOutputWithContext(context.Context) StorageConnectorStateOutput
+}
+
+var storageConnectorStatePtrType = reflect.TypeOf((**StorageConnectorState)(nil)).Elem()
+
+type StorageConnectorStatePtrInput interface {
+	pulumi.Input
+
+	ToStorageConnectorStatePtrOutput() StorageConnectorStatePtrOutput
+	ToStorageConnectorStatePtrOutputWithContext(context.Context) StorageConnectorStatePtrOutput
+}
+
+type storageConnectorStatePtr string
+
+func StorageConnectorStatePtr(v string) StorageConnectorStatePtrInput {
+	return (*storageConnectorStatePtr)(&v)
+}
+
+func (*storageConnectorStatePtr) ElementType() reflect.Type {
+	return storageConnectorStatePtrType
+}
+
+func (in *storageConnectorStatePtr) ToStorageConnectorStatePtrOutput() StorageConnectorStatePtrOutput {
+	return pulumi.ToOutput(in).(StorageConnectorStatePtrOutput)
+}
+
+func (in *storageConnectorStatePtr) ToStorageConnectorStatePtrOutputWithContext(ctx context.Context) StorageConnectorStatePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(StorageConnectorStatePtrOutput)
+}
+
+// Allowed permissions. Currently, only supported value is Read.
+type StorageDataShareAccessPolicyPermission string
+
+const (
+	// No permission
+	StorageDataShareAccessPolicyPermissionNone = StorageDataShareAccessPolicyPermission("None")
+	// Read permission
+	StorageDataShareAccessPolicyPermissionRead = StorageDataShareAccessPolicyPermission("Read")
+)
+
+func (StorageDataShareAccessPolicyPermission) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareAccessPolicyPermission)(nil)).Elem()
+}
+
+func (e StorageDataShareAccessPolicyPermission) ToStorageDataShareAccessPolicyPermissionOutput() StorageDataShareAccessPolicyPermissionOutput {
+	return pulumi.ToOutput(e).(StorageDataShareAccessPolicyPermissionOutput)
+}
+
+func (e StorageDataShareAccessPolicyPermission) ToStorageDataShareAccessPolicyPermissionOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyPermissionOutput {
+	return pulumi.ToOutputWithContext(ctx, e).(StorageDataShareAccessPolicyPermissionOutput)
+}
+
+func (e StorageDataShareAccessPolicyPermission) ToStorageDataShareAccessPolicyPermissionPtrOutput() StorageDataShareAccessPolicyPermissionPtrOutput {
+	return e.ToStorageDataShareAccessPolicyPermissionPtrOutputWithContext(context.Background())
+}
+
+func (e StorageDataShareAccessPolicyPermission) ToStorageDataShareAccessPolicyPermissionPtrOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyPermissionPtrOutput {
+	return StorageDataShareAccessPolicyPermission(e).ToStorageDataShareAccessPolicyPermissionOutputWithContext(ctx).ToStorageDataShareAccessPolicyPermissionPtrOutputWithContext(ctx)
+}
+
+func (e StorageDataShareAccessPolicyPermission) ToStringOutput() pulumi.StringOutput {
+	return pulumi.ToOutput(pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e StorageDataShareAccessPolicyPermission) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return pulumi.ToOutputWithContext(ctx, pulumi.String(e)).(pulumi.StringOutput)
+}
+
+func (e StorageDataShareAccessPolicyPermission) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringPtrOutputWithContext(context.Background())
+}
+
+func (e StorageDataShareAccessPolicyPermission) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return pulumi.String(e).ToStringOutputWithContext(ctx).ToStringPtrOutputWithContext(ctx)
+}
+
+type StorageDataShareAccessPolicyPermissionOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAccessPolicyPermissionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*StorageDataShareAccessPolicyPermission)(nil)).Elem()
+}
+
+func (o StorageDataShareAccessPolicyPermissionOutput) ToStorageDataShareAccessPolicyPermissionOutput() StorageDataShareAccessPolicyPermissionOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyPermissionOutput) ToStorageDataShareAccessPolicyPermissionOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyPermissionOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyPermissionOutput) ToStorageDataShareAccessPolicyPermissionPtrOutput() StorageDataShareAccessPolicyPermissionPtrOutput {
+	return o.ToStorageDataShareAccessPolicyPermissionPtrOutputWithContext(context.Background())
+}
+
+func (o StorageDataShareAccessPolicyPermissionOutput) ToStorageDataShareAccessPolicyPermissionPtrOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyPermissionPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v StorageDataShareAccessPolicyPermission) *StorageDataShareAccessPolicyPermission {
+		return &v
+	}).(StorageDataShareAccessPolicyPermissionPtrOutput)
+}
+
+func (o StorageDataShareAccessPolicyPermissionOutput) ToStringOutput() pulumi.StringOutput {
+	return o.ToStringOutputWithContext(context.Background())
+}
+
+func (o StorageDataShareAccessPolicyPermissionOutput) ToStringOutputWithContext(ctx context.Context) pulumi.StringOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e StorageDataShareAccessPolicyPermission) string {
+		return string(e)
+	}).(pulumi.StringOutput)
+}
+
+func (o StorageDataShareAccessPolicyPermissionOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o StorageDataShareAccessPolicyPermissionOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e StorageDataShareAccessPolicyPermission) *string {
+		v := string(e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+type StorageDataShareAccessPolicyPermissionPtrOutput struct{ *pulumi.OutputState }
+
+func (StorageDataShareAccessPolicyPermissionPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**StorageDataShareAccessPolicyPermission)(nil)).Elem()
+}
+
+func (o StorageDataShareAccessPolicyPermissionPtrOutput) ToStorageDataShareAccessPolicyPermissionPtrOutput() StorageDataShareAccessPolicyPermissionPtrOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyPermissionPtrOutput) ToStorageDataShareAccessPolicyPermissionPtrOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyPermissionPtrOutput {
+	return o
+}
+
+func (o StorageDataShareAccessPolicyPermissionPtrOutput) Elem() StorageDataShareAccessPolicyPermissionOutput {
+	return o.ApplyT(func(v *StorageDataShareAccessPolicyPermission) StorageDataShareAccessPolicyPermission {
+		if v != nil {
+			return *v
+		}
+		var ret StorageDataShareAccessPolicyPermission
+		return ret
+	}).(StorageDataShareAccessPolicyPermissionOutput)
+}
+
+func (o StorageDataShareAccessPolicyPermissionPtrOutput) ToStringPtrOutput() pulumi.StringPtrOutput {
+	return o.ToStringPtrOutputWithContext(context.Background())
+}
+
+func (o StorageDataShareAccessPolicyPermissionPtrOutput) ToStringPtrOutputWithContext(ctx context.Context) pulumi.StringPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, e *StorageDataShareAccessPolicyPermission) *string {
+		if e == nil {
+			return nil
+		}
+		v := string(*e)
+		return &v
+	}).(pulumi.StringPtrOutput)
+}
+
+// StorageDataShareAccessPolicyPermissionInput is an input type that accepts values of the StorageDataShareAccessPolicyPermission enum
+// A concrete instance of `StorageDataShareAccessPolicyPermissionInput` can be one of the following:
+//
+//	StorageDataShareAccessPolicyPermissionNone
+//	StorageDataShareAccessPolicyPermissionRead
+type StorageDataShareAccessPolicyPermissionInput interface {
+	pulumi.Input
+
+	ToStorageDataShareAccessPolicyPermissionOutput() StorageDataShareAccessPolicyPermissionOutput
+	ToStorageDataShareAccessPolicyPermissionOutputWithContext(context.Context) StorageDataShareAccessPolicyPermissionOutput
+}
+
+var storageDataShareAccessPolicyPermissionPtrType = reflect.TypeOf((**StorageDataShareAccessPolicyPermission)(nil)).Elem()
+
+type StorageDataShareAccessPolicyPermissionPtrInput interface {
+	pulumi.Input
+
+	ToStorageDataShareAccessPolicyPermissionPtrOutput() StorageDataShareAccessPolicyPermissionPtrOutput
+	ToStorageDataShareAccessPolicyPermissionPtrOutputWithContext(context.Context) StorageDataShareAccessPolicyPermissionPtrOutput
+}
+
+type storageDataShareAccessPolicyPermissionPtr string
+
+func StorageDataShareAccessPolicyPermissionPtr(v string) StorageDataShareAccessPolicyPermissionPtrInput {
+	return (*storageDataShareAccessPolicyPermissionPtr)(&v)
+}
+
+func (*storageDataShareAccessPolicyPermissionPtr) ElementType() reflect.Type {
+	return storageDataShareAccessPolicyPermissionPtrType
+}
+
+func (in *storageDataShareAccessPolicyPermissionPtr) ToStorageDataShareAccessPolicyPermissionPtrOutput() StorageDataShareAccessPolicyPermissionPtrOutput {
+	return pulumi.ToOutput(in).(StorageDataShareAccessPolicyPermissionPtrOutput)
+}
+
+func (in *storageDataShareAccessPolicyPermissionPtr) ToStorageDataShareAccessPolicyPermissionPtrOutputWithContext(ctx context.Context) StorageDataShareAccessPolicyPermissionPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, in).(StorageDataShareAccessPolicyPermissionPtrOutput)
+}
+
 // The trigger type of the storage task assignment execution
 type TriggerType string
 
@@ -7675,6 +8201,12 @@ func init() {
 	pulumi.RegisterOutputType(SkuNamePtrOutput{})
 	pulumi.RegisterOutputType(StateOutput{})
 	pulumi.RegisterOutputType(StatePtrOutput{})
+	pulumi.RegisterOutputType(StorageConnectorDataSourceTypeOutput{})
+	pulumi.RegisterOutputType(StorageConnectorDataSourceTypePtrOutput{})
+	pulumi.RegisterOutputType(StorageConnectorStateOutput{})
+	pulumi.RegisterOutputType(StorageConnectorStatePtrOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAccessPolicyPermissionOutput{})
+	pulumi.RegisterOutputType(StorageDataShareAccessPolicyPermissionPtrOutput{})
 	pulumi.RegisterOutputType(TriggerTypeOutput{})
 	pulumi.RegisterOutputType(TriggerTypePtrOutput{})
 }

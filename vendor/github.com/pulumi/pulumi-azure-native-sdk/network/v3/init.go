@@ -35,10 +35,14 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &AzureFirewall{}
 	case "azure-native:network:BastionHost":
 		r = &BastionHost{}
+	case "azure-native:network:Commit":
+		r = &Commit{}
 	case "azure-native:network:ConfigurationPolicyGroup":
 		r = &ConfigurationPolicyGroup{}
 	case "azure-native:network:ConnectionMonitor":
 		r = &ConnectionMonitor{}
+	case "azure-native:network:ConnectionPolicy":
+		r = &ConnectionPolicy{}
 	case "azure-native:network:ConnectivityConfiguration":
 		r = &ConnectivityConfiguration{}
 	case "azure-native:network:CustomIPPrefix":
@@ -89,6 +93,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &HubVirtualNetworkConnection{}
 	case "azure-native:network:InboundNatRule":
 		r = &InboundNatRule{}
+	case "azure-native:network:InterconnectGroup":
+		r = &InterconnectGroup{}
 	case "azure-native:network:InterfaceEndpoint":
 		r = &InterfaceEndpoint{}
 	case "azure-native:network:IpAllocation":

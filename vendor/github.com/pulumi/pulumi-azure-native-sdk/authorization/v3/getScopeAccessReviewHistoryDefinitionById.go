@@ -41,13 +41,13 @@ type LookupScopeAccessReviewHistoryDefinitionByIdResult struct {
 	Decisions []string `pulumi:"decisions"`
 	// The display name for the history definition.
 	DisplayName *string `pulumi:"displayName"`
-	// The access review history definition id.
+	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id string `pulumi:"id"`
 	// Set of access review history instances for this history definition.
 	Instances []AccessReviewHistoryInstanceResponse `pulumi:"instances"`
 	// The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly.
 	Interval *int `pulumi:"interval"`
-	// The access review history definition unique id.
+	// The name of the resource
 	Name string `pulumi:"name"`
 	// The identity id
 	PrincipalId string `pulumi:"principalId"`
@@ -65,7 +65,9 @@ type LookupScopeAccessReviewHistoryDefinitionByIdResult struct {
 	Scopes []AccessReviewScopeResponse `pulumi:"scopes"`
 	// This read-only field specifies the of the requested review history data. This is either requested, in-progress, done or error.
 	Status string `pulumi:"status"`
-	// The resource type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponse `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// The user principal name(if valid)
 	UserPrincipalName string `pulumi:"userPrincipalName"`
@@ -126,7 +128,7 @@ func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) DisplayName() 
 	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
 }
 
-// The access review history definition id.
+// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -143,7 +145,7 @@ func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) Interval() pul
 	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) *int { return v.Interval }).(pulumi.IntPtrOutput)
 }
 
-// The access review history definition unique id.
+// The name of the resource
 func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) string { return v.Name }).(pulumi.StringOutput)
 }
@@ -196,7 +198,12 @@ func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) Status() pulum
 	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) string { return v.Status }).(pulumi.StringOutput)
 }
 
-// The resource type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) SystemDataResponse { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) string { return v.Type }).(pulumi.StringOutput)
 }

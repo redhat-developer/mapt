@@ -15,6 +15,8 @@ import (
 // ServiceGateway resource.
 //
 // Uses Azure REST API version 2025-05-01.
+//
+// Other available API versions: 2025-07-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type ServiceGateway struct {
 	pulumi.CustomResourceState
 
@@ -43,7 +45,7 @@ type ServiceGateway struct {
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// Reference to an existing virtual network.
-	VirtualNetwork VirtualNetworkResponsePtrOutput `pulumi:"virtualNetwork"`
+	VirtualNetwork CommonVirtualNetworkResponsePtrOutput `pulumi:"virtualNetwork"`
 	// A list of availability zones denoting the zone in which service gateway should be deployed.
 	//
 	// - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.
@@ -67,11 +69,14 @@ func NewServiceGateway(ctx *pulumi.Context,
 		args.RouteTargetAddressV6 = args.RouteTargetAddressV6.ToRouteTargetAddressPropertiesFormatPtrOutput().ApplyT(func(v *RouteTargetAddressPropertiesFormat) *RouteTargetAddressPropertiesFormat { return v.Defaults() }).(RouteTargetAddressPropertiesFormatPtrOutput)
 	}
 	if args.VirtualNetwork != nil {
-		args.VirtualNetwork = args.VirtualNetwork.ToVirtualNetworkTypePtrOutput().ApplyT(func(v *VirtualNetworkType) *VirtualNetworkType { return v.Defaults() }).(VirtualNetworkTypePtrOutput)
+		args.VirtualNetwork = args.VirtualNetwork.ToCommonVirtualNetworkPtrOutput().ApplyT(func(v *CommonVirtualNetwork) *CommonVirtualNetwork { return v.Defaults() }).(CommonVirtualNetworkPtrOutput)
 	}
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:network/v20250501:ServiceGateway"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20250701:ServiceGateway"),
 		},
 	})
 	opts = append(opts, aliases)
@@ -123,7 +128,7 @@ type serviceGatewayArgs struct {
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Reference to an existing virtual network.
-	VirtualNetwork *VirtualNetworkType `pulumi:"virtualNetwork"`
+	VirtualNetwork *CommonVirtualNetwork `pulumi:"virtualNetwork"`
 	// A list of availability zones denoting the zone in which service gateway should be deployed.
 	//
 	// - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.
@@ -147,7 +152,7 @@ type ServiceGatewayArgs struct {
 	// Resource tags.
 	Tags pulumi.StringMapInput
 	// Reference to an existing virtual network.
-	VirtualNetwork VirtualNetworkTypePtrInput
+	VirtualNetwork CommonVirtualNetworkPtrInput
 	// A list of availability zones denoting the zone in which service gateway should be deployed.
 	//
 	// - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.
@@ -256,8 +261,8 @@ func (o ServiceGatewayOutput) Type() pulumi.StringOutput {
 }
 
 // Reference to an existing virtual network.
-func (o ServiceGatewayOutput) VirtualNetwork() VirtualNetworkResponsePtrOutput {
-	return o.ApplyT(func(v *ServiceGateway) VirtualNetworkResponsePtrOutput { return v.VirtualNetwork }).(VirtualNetworkResponsePtrOutput)
+func (o ServiceGatewayOutput) VirtualNetwork() CommonVirtualNetworkResponsePtrOutput {
+	return o.ApplyT(func(v *ServiceGateway) CommonVirtualNetworkResponsePtrOutput { return v.VirtualNetwork }).(CommonVirtualNetworkResponsePtrOutput)
 }
 
 // A list of availability zones denoting the zone in which service gateway should be deployed.

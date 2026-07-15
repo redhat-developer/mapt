@@ -15,6 +15,8 @@ import (
 // A virtual network appliance in a resource group.
 //
 // Uses Azure REST API version 2025-05-01.
+//
+// Other available API versions: 2025-07-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type VirtualNetworkAppliance struct {
 	pulumi.CustomResourceState
 
@@ -35,7 +37,7 @@ type VirtualNetworkAppliance struct {
 	// The resource GUID property of the virtual network appliance resource.
 	ResourceGuid pulumi.StringOutput `pulumi:"resourceGuid"`
 	// The reference to the subnet resource.
-	Subnet SubnetResponseV3PtrOutput `pulumi:"subnet"`
+	Subnet CommonSubnetResponsePtrOutput `pulumi:"subnet"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Resource type.
@@ -53,11 +55,14 @@ func NewVirtualNetworkAppliance(ctx *pulumi.Context,
 		return nil, errors.New("invalid value for required argument 'ResourceGroupName'")
 	}
 	if args.Subnet != nil {
-		args.Subnet = args.Subnet.ToSubnetTypePtrOutput().ApplyT(func(v *SubnetType) *SubnetType { return v.Defaults() }).(SubnetTypePtrOutput)
+		args.Subnet = args.Subnet.ToCommonSubnetPtrOutput().ApplyT(func(v *CommonSubnet) *CommonSubnet { return v.Defaults() }).(CommonSubnetPtrOutput)
 	}
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
 			Type: pulumi.String("azure-native:network/v20250501:VirtualNetworkAppliance"),
+		},
+		{
+			Type: pulumi.String("azure-native:network/v20250701:VirtualNetworkAppliance"),
 		},
 	})
 	opts = append(opts, aliases)
@@ -100,10 +105,10 @@ type virtualNetworkApplianceArgs struct {
 	Id *string `pulumi:"id"`
 	// Resource location.
 	Location *string `pulumi:"location"`
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The reference to the subnet resource.
-	Subnet *SubnetType `pulumi:"subnet"`
+	Subnet *CommonSubnet `pulumi:"subnet"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The name of the virtual network appliance.
@@ -118,10 +123,10 @@ type VirtualNetworkApplianceArgs struct {
 	Id pulumi.StringPtrInput
 	// Resource location.
 	Location pulumi.StringPtrInput
-	// The name of the resource group.
+	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// The reference to the subnet resource.
-	Subnet SubnetTypePtrInput
+	Subnet CommonSubnetPtrInput
 	// Resource tags.
 	Tags pulumi.StringMapInput
 	// The name of the virtual network appliance.
@@ -208,8 +213,8 @@ func (o VirtualNetworkApplianceOutput) ResourceGuid() pulumi.StringOutput {
 }
 
 // The reference to the subnet resource.
-func (o VirtualNetworkApplianceOutput) Subnet() SubnetResponseV3PtrOutput {
-	return o.ApplyT(func(v *VirtualNetworkAppliance) SubnetResponseV3PtrOutput { return v.Subnet }).(SubnetResponseV3PtrOutput)
+func (o VirtualNetworkApplianceOutput) Subnet() CommonSubnetResponsePtrOutput {
+	return o.ApplyT(func(v *VirtualNetworkAppliance) CommonSubnetResponsePtrOutput { return v.Subnet }).(CommonSubnetResponsePtrOutput)
 }
 
 // Resource tags.

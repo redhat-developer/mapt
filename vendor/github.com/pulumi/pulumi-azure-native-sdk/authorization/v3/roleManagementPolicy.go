@@ -31,10 +31,10 @@ type RoleManagementPolicy struct {
 	// The role management policy is default policy.
 	IsOrganizationDefault pulumi.BoolPtrOutput `pulumi:"isOrganizationDefault"`
 	// The name of the entity last modified it
-	LastModifiedBy PrincipalResponseOutput `pulumi:"lastModifiedBy"`
+	LastModifiedBy MicrosoftCommonPrincipalResponseOutput `pulumi:"lastModifiedBy"`
 	// The last modified date time.
 	LastModifiedDateTime pulumi.StringOutput `pulumi:"lastModifiedDateTime"`
-	// The role management policy name.
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Additional properties of scope
 	PolicyProperties PolicyPropertiesResponseOutput `pulumi:"policyProperties"`
@@ -42,7 +42,9 @@ type RoleManagementPolicy struct {
 	Rules pulumi.ArrayOutput `pulumi:"rules"`
 	// The role management policy scope.
 	Scope pulumi.StringPtrOutput `pulumi:"scope"`
-	// The role management policy type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -110,7 +112,7 @@ type roleManagementPolicyArgs struct {
 	DisplayName *string `pulumi:"displayName"`
 	// The role management policy is default policy.
 	IsOrganizationDefault *bool `pulumi:"isOrganizationDefault"`
-	// The name (guid) of the role management policy to upsert.
+	// The name (guid) of the role management policy to get.
 	RoleManagementPolicyName *string `pulumi:"roleManagementPolicyName"`
 	// The rule applied to the policy.
 	Rules []interface{} `pulumi:"rules"`
@@ -126,7 +128,7 @@ type RoleManagementPolicyArgs struct {
 	DisplayName pulumi.StringPtrInput
 	// The role management policy is default policy.
 	IsOrganizationDefault pulumi.BoolPtrInput
-	// The name (guid) of the role management policy to upsert.
+	// The name (guid) of the role management policy to get.
 	RoleManagementPolicyName pulumi.StringPtrInput
 	// The rule applied to the policy.
 	Rules pulumi.ArrayInput
@@ -197,8 +199,8 @@ func (o RoleManagementPolicyOutput) IsOrganizationDefault() pulumi.BoolPtrOutput
 }
 
 // The name of the entity last modified it
-func (o RoleManagementPolicyOutput) LastModifiedBy() PrincipalResponseOutput {
-	return o.ApplyT(func(v *RoleManagementPolicy) PrincipalResponseOutput { return v.LastModifiedBy }).(PrincipalResponseOutput)
+func (o RoleManagementPolicyOutput) LastModifiedBy() MicrosoftCommonPrincipalResponseOutput {
+	return o.ApplyT(func(v *RoleManagementPolicy) MicrosoftCommonPrincipalResponseOutput { return v.LastModifiedBy }).(MicrosoftCommonPrincipalResponseOutput)
 }
 
 // The last modified date time.
@@ -206,7 +208,7 @@ func (o RoleManagementPolicyOutput) LastModifiedDateTime() pulumi.StringOutput {
 	return o.ApplyT(func(v *RoleManagementPolicy) pulumi.StringOutput { return v.LastModifiedDateTime }).(pulumi.StringOutput)
 }
 
-// The role management policy name.
+// The name of the resource
 func (o RoleManagementPolicyOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *RoleManagementPolicy) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -226,7 +228,12 @@ func (o RoleManagementPolicyOutput) Scope() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *RoleManagementPolicy) pulumi.StringPtrOutput { return v.Scope }).(pulumi.StringPtrOutput)
 }
 
-// The role management policy type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o RoleManagementPolicyOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *RoleManagementPolicy) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o RoleManagementPolicyOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *RoleManagementPolicy) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }

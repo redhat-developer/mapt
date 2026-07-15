@@ -16,7 +16,7 @@ import (
 //
 // Uses Azure REST API version 2024-05-01. In version 2.x of the Azure Native provider, it used API version 2023-02-01.
 //
-// Other available API versions: 2018-08-01, 2018-10-01, 2018-11-01, 2018-12-01, 2019-02-01, 2019-04-01, 2019-06-01, 2019-07-01, 2019-08-01, 2019-09-01, 2019-11-01, 2019-12-01, 2020-03-01, 2020-04-01, 2020-05-01, 2020-06-01, 2020-07-01, 2020-08-01, 2020-11-01, 2021-02-01, 2021-03-01, 2021-05-01, 2021-08-01, 2022-01-01, 2022-05-01, 2022-07-01, 2022-09-01, 2022-11-01, 2023-02-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01, 2024-07-01, 2024-10-01, 2025-01-01, 2025-03-01, 2025-05-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
+// Other available API versions: 2018-08-01, 2018-10-01, 2018-11-01, 2018-12-01, 2019-02-01, 2019-04-01, 2019-06-01, 2019-07-01, 2019-08-01, 2019-09-01, 2019-11-01, 2019-12-01, 2020-03-01, 2020-04-01, 2020-05-01, 2020-06-01, 2020-07-01, 2020-08-01, 2020-11-01, 2021-02-01, 2021-03-01, 2021-05-01, 2021-08-01, 2022-01-01, 2022-05-01, 2022-07-01, 2022-09-01, 2022-11-01, 2023-02-01, 2023-04-01, 2023-05-01, 2023-06-01, 2023-09-01, 2023-11-01, 2024-01-01, 2024-03-01, 2024-07-01, 2024-10-01, 2025-01-01, 2025-03-01, 2025-05-01, 2025-07-01. These can be accessed by generating a local SDK package using the CLI command `pulumi package add azure-native network [ApiVersion]`. See the [version guide](../../../version-guide/#accessing-any-api-version-via-local-packages) for details.
 type ExpressRouteConnection struct {
 	pulumi.CustomResourceState
 
@@ -37,7 +37,7 @@ type ExpressRouteConnection struct {
 	// The provisioning state of the express route connection resource.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationResponsePtrOutput `pulumi:"routingConfiguration"`
+	RoutingConfiguration RoutingConfigurationResponseV1PtrOutput `pulumi:"routingConfiguration"`
 	// The routing weight associated to the connection.
 	RoutingWeight pulumi.IntPtrOutput `pulumi:"routingWeight"`
 }
@@ -188,6 +188,9 @@ func NewExpressRouteConnection(ctx *pulumi.Context,
 		{
 			Type: pulumi.String("azure-native:network/v20250501:ExpressRouteConnection"),
 		},
+		{
+			Type: pulumi.String("azure-native:network/v20250701:ExpressRouteConnection"),
+		},
 	})
 	opts = append(opts, aliases)
 	opts = utilities.PkgResourceDefaultOpts(opts)
@@ -244,7 +247,7 @@ type expressRouteConnectionArgs struct {
 	// The name of the resource group.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationV1 `pulumi:"routingConfiguration"`
 	// The routing weight associated to the connection.
 	RoutingWeight *int `pulumi:"routingWeight"`
 }
@@ -272,7 +275,7 @@ type ExpressRouteConnectionArgs struct {
 	// The name of the resource group.
 	ResourceGroupName pulumi.StringInput
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationTypePtrInput
+	RoutingConfiguration RoutingConfigurationV1PtrInput
 	// The routing weight associated to the connection.
 	RoutingWeight pulumi.IntPtrInput
 }
@@ -357,8 +360,8 @@ func (o ExpressRouteConnectionOutput) ProvisioningState() pulumi.StringOutput {
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o ExpressRouteConnectionOutput) RoutingConfiguration() RoutingConfigurationResponsePtrOutput {
-	return o.ApplyT(func(v *ExpressRouteConnection) RoutingConfigurationResponsePtrOutput { return v.RoutingConfiguration }).(RoutingConfigurationResponsePtrOutput)
+func (o ExpressRouteConnectionOutput) RoutingConfiguration() RoutingConfigurationResponseV1PtrOutput {
+	return o.ApplyT(func(v *ExpressRouteConnection) RoutingConfigurationResponseV1PtrOutput { return v.RoutingConfiguration }).(RoutingConfigurationResponseV1PtrOutput)
 }
 
 // The routing weight associated to the connection.

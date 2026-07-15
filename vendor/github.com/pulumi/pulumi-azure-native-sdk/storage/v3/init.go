@@ -33,6 +33,10 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &BlobInventoryPolicy{}
 	case "azure-native:storage:BlobServiceProperties":
 		r = &BlobServiceProperties{}
+	case "azure-native:storage:Connector":
+		r = &Connector{}
+	case "azure-native:storage:DataShare":
+		r = &DataShare{}
 	case "azure-native:storage:EncryptionScope":
 		r = &EncryptionScope{}
 	case "azure-native:storage:FileServiceProperties":

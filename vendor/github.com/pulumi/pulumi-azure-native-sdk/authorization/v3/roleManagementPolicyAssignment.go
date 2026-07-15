@@ -24,7 +24,7 @@ type RoleManagementPolicyAssignment struct {
 	AzureApiVersion pulumi.StringOutput `pulumi:"azureApiVersion"`
 	// The readonly computed rule applied to the policy.
 	EffectiveRules pulumi.ArrayOutput `pulumi:"effectiveRules"`
-	// The role management policy name.
+	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Additional properties of scope, role definition and policy
 	PolicyAssignmentProperties PolicyAssignmentPropertiesResponseOutput `pulumi:"policyAssignmentProperties"`
@@ -34,7 +34,9 @@ type RoleManagementPolicyAssignment struct {
 	RoleDefinitionId pulumi.StringPtrOutput `pulumi:"roleDefinitionId"`
 	// The role management policy scope.
 	Scope pulumi.StringPtrOutput `pulumi:"scope"`
-	// The role management policy type.
+	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+	SystemData SystemDataResponseOutput `pulumi:"systemData"`
+	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 }
 
@@ -100,7 +102,7 @@ type roleManagementPolicyAssignmentArgs struct {
 	PolicyId *string `pulumi:"policyId"`
 	// The role definition of management policy assignment.
 	RoleDefinitionId *string `pulumi:"roleDefinitionId"`
-	// The name of format {guid_guid} the role management policy assignment to upsert.
+	// The name of format {guid_guid} the role management policy assignment to get.
 	RoleManagementPolicyAssignmentName *string `pulumi:"roleManagementPolicyAssignmentName"`
 	// The role management policy scope.
 	Scope string `pulumi:"scope"`
@@ -112,7 +114,7 @@ type RoleManagementPolicyAssignmentArgs struct {
 	PolicyId pulumi.StringPtrInput
 	// The role definition of management policy assignment.
 	RoleDefinitionId pulumi.StringPtrInput
-	// The name of format {guid_guid} the role management policy assignment to upsert.
+	// The name of format {guid_guid} the role management policy assignment to get.
 	RoleManagementPolicyAssignmentName pulumi.StringPtrInput
 	// The role management policy scope.
 	Scope pulumi.StringInput
@@ -165,7 +167,7 @@ func (o RoleManagementPolicyAssignmentOutput) EffectiveRules() pulumi.ArrayOutpu
 	return o.ApplyT(func(v *RoleManagementPolicyAssignment) pulumi.ArrayOutput { return v.EffectiveRules }).(pulumi.ArrayOutput)
 }
 
-// The role management policy name.
+// The name of the resource
 func (o RoleManagementPolicyAssignmentOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *RoleManagementPolicyAssignment) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -192,7 +194,12 @@ func (o RoleManagementPolicyAssignmentOutput) Scope() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *RoleManagementPolicyAssignment) pulumi.StringPtrOutput { return v.Scope }).(pulumi.StringPtrOutput)
 }
 
-// The role management policy type.
+// Azure Resource Manager metadata containing createdBy and modifiedBy information.
+func (o RoleManagementPolicyAssignmentOutput) SystemData() SystemDataResponseOutput {
+	return o.ApplyT(func(v *RoleManagementPolicyAssignment) SystemDataResponseOutput { return v.SystemData }).(SystemDataResponseOutput)
+}
+
+// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 func (o RoleManagementPolicyAssignmentOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v *RoleManagementPolicyAssignment) pulumi.StringOutput { return v.Type }).(pulumi.StringOutput)
 }
