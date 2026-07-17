@@ -1,59 +1,84 @@
 # Overview
 
-This feature of `mapt` allows to setup hosts deployed by it as a GitHub Self Hosted Runner, which can then be directly used for running GitHub actions jobs.
+This feature of `mapt` allows to setup hosts deployed by it as a GitHub Self Hosted Runner, which can then be directly used for running GitHub Actions jobs.
 It benefits from all the existing features that `mapt` already provides, allowing to create self-hosted runners that can be used for different QE scenarios.
 
 ## Providers and Platforms
 
-Currently, it allows to create self-hosted runners on AWS (Windows Server, RHEL) and Azure (Windows Desktop)
+Currently, it allows to create self-hosted runners on:
 
-### Prerequisite
+* AWS: Windows Server, RHEL, Fedora, macOS
+* Azure: Windows Desktop, RHEL
+* IBM Cloud: IBM Power (ppc64le), IBM Z (s390x)
 
-To register a Self Hosted Runner for a repository or a GitHub organization, the runner program needs a registration token, which can be obtained by requesting the
-GitHub API.
+## Authentication
 
-* [Information for requesting a token to register a runner for an Organization](https://docs.github.com/en/rest/actions/self-hosted-runners#create-a-registration-token-for-an-organization)
-* [Information for requesting a token to register a runner for a repository](https://docs.github.com/en/rest/actions/self-hosted-runners#create-a-registration-token-for-a-repository)
+Registering a Self Hosted Runner requires a short-lived registration token from GitHub. `mapt` supports three ways to supply it, in order of preference:
 
-After obtaining the token we can invoke `mapt` with it to deploy a VM as a Self hosted runner.
+### Option A — GitHub App (recommended)
 
-For example to add a runner to this repository, we can use the following `curl` command to request a token:
+Using a GitHub App avoids long-lived credentials. `mapt` exchanges the App's private key for a short-lived installation access token inside the Pulumi deployment, then uses it to fetch a fresh runner registration token automatically.
 
+**Prerequisites:**
+
+1. Create a GitHub App with the `administration:write` permission on the target repository (or `organization_self_hosted_runners:write` for org-level runners).
+2. Install the App on the target repository or organisation and note the **Installation ID**.
+3. Generate and download the App's **private key** (`.pem` file).
+
+**Flags:**
+
+| Flag | Description |
+|------|-------------|
+| `--ghactions-app-id` | GitHub App ID (numeric, shown on the App settings page) |
+| `--ghactions-app-installation-id` | Installation ID for the target org or repository |
+| `--ghactions-app-private-key` | Path to the App RSA private key PEM file |
+| `--ghactions-runner-repo` | Full URL of the repository, e.g. `https://github.com/org/repo` |
+| `--ghactions-runner-labels` | Comma-separated labels to attach to the runner (optional) |
+
+**Example:**
+
+```bash
+mapt aws rhel create \
+    --ghactions-runner-repo "https://github.com/redhat-developer/mapt" \
+    --ghactions-app-id "123456" \
+    --ghactions-app-installation-id "789012" \
+    --ghactions-app-private-key "/path/to/app-private-key.pem" \
+    --project-name mapt-rhel-aws \
+    --backed-url file:///workspace/state \
+    --conn-details-output /workspace/conn-details
 ```
-% curl -L \
-  -X POST \
+
+### Option B — Personal Access Token (PAT)
+
+Set the `GITHUB_TOKEN` environment variable to a PAT with `repo` admin scope. `mapt` will call the GitHub API to generate a registration token automatically before deployment.
+
+```bash
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
+mapt aws rhel create \
+    --ghactions-runner-repo "https://github.com/redhat-developer/mapt" \
+    --project-name mapt-rhel-aws \
+    --backed-url file:///workspace/state \
+    --conn-details-output /workspace/conn-details
+```
+
+### Option C — Pre-generated registration token
+
+Pass a registration token obtained manually from the GitHub API directly via `--ghactions-runner-token`. Tokens expire after 1 hour.
+
+```bash
+# Obtain a token via the GitHub API:
+curl -L -X POST \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer <github_personal_access_token>" \
+  -H "Authorization: Bearer <pat>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/repos/redhat-developer/mapt/actions/runners/registration-token
-```
-The Response from this `POST` request will be:
 
-```
-{
-  "token": "ACDZL3QXEIC73UXBDGSEYEI",
-  "expires_at": "2024-07-12T19:01:48.478+05:30"
-}
-```
-
-### Operations
-
-After getting the required token, we need to also decide what we are going to call this runner, the desired name can be passed to the `mapt` command using the
-`--ghactions-runner-name` flag.
-
-The full URL of the repository or the GitHub organization also needs to be passed using the `--ghactions-runner-repo` flag.
-
-To deploy a Windows runner on the Azure provider, we can use the following command:
-
-```
-% mapt azure windows create --spot \
-    --install-ghactions-runner \
-    --ghcations-runner-token="ACDZL3QXEIC73UXBDGSEYEI" \
-    --ghcations-runner-name "az-win-11" \
-    --ghcations-runner-repo "https://github.com/redhat-developer/mapt" \
+mapt azure windows create --spot \
+    --ghactions-runner-repo "https://github.com/redhat-developer/mapt" \
+    --ghactions-runner-token "ACDZL3QXEIC73UXBDGSEYEI" \
     --project-name mapt-windows-azure \
-    --backed-url file:///Users/tester/workspace \
-    --conn-details-output /Users/tester/workspace/conn-details
+    --backed-url file:///workspace/state \
+    --conn-details-output /workspace/conn-details
 ```
-> *NOTE:* additional _labels_ can be added to the runner using the flag `--ghactions-runner-labels`, e.g `--ghactions-runner-lables="azure,mapt,windows"`
 
+> **Note:** Additional labels can be added to the runner with `--ghactions-runner-labels`, e.g. `--ghactions-runner-labels="azure,mapt,windows"`.

@@ -87,6 +87,12 @@ func UserdataWithGitLabToken(amiUser string, gitlabAuthToken string) (string, er
 // If GitLab runner args are present, it creates the runner via Pulumi first and uses the auth token.
 // Otherwise, it generates normal userdata without GitLab integration.
 func GenerateUserdata(ctx *pulumi.Context, amiUser string, runID string) (pulumi.StringPtrInput, error) {
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return nil, err
+		}
+	}
+
 	glRunnerArgs := gitlab.GetRunnerArgs()
 
 	if glRunnerArgs != nil {

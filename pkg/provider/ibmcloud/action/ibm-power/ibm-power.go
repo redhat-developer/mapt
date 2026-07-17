@@ -189,6 +189,12 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 	}
 	hasOtel := otelSet == 3
 
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return err
+		}
+	}
+
 	ghRunnerScript := ""
 	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
 		s, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(ghRunnerArgs, defaultUser)

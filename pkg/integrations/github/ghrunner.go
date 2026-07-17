@@ -3,10 +3,14 @@ package github
 import (
 	_ "embed"
 	"fmt"
+	"os"
 	"strings"
 
+	pulgithub "github.com/pulumi/pulumi-github/sdk/v6/go/github"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 var runnerVersion = "2.317.0"
@@ -105,4 +109,46 @@ func getLabels() string {
 		return ""
 	}
 	return util.IfNillable(runnerArgs != nil, labels, "")
+}
+
+// SetupRunner fetches a runner registration token from the GitHub App and
+// sets it on args. It is a no-op when args is nil, Token is already set,
+// or AppID is empty (PAT / plain-token paths are handled in params).
+func SetupRunner(ctx *pulumi.Context, args *GithubRunnerArgs) error {
+	if args == nil || args.AppID == "" || args.Token != "" {
+		return nil
+	}
+
+	pemBytes, err := os.ReadFile(args.PrivateKeyPath)
+	if err != nil {
+		return fmt.Errorf("reading GitHub App private key: %w", err)
+	}
+
+	owner, repo, err := splitOwnerRepo(args.RepoURL)
+	if err != nil {
+		return err
+	}
+
+	provider, err := pulgithub.NewProvider(ctx, "github-app-provider", &pulgithub.ProviderArgs{
+		Owner: pulumi.String(owner),
+		AppAuth: pulgithub.ProviderAppAuthPtr(&pulgithub.ProviderAppAuthArgs{
+			Id:             pulumi.String(args.AppID),
+			InstallationId: pulumi.String(args.InstallationID),
+			PemFile:        pulumi.String(string(pemBytes)),
+		}),
+	})
+	if err != nil {
+		return fmt.Errorf("creating GitHub App provider: %w", err)
+	}
+
+	result, err := pulgithub.GetActionsRegistrationToken(ctx,
+		&pulgithub.GetActionsRegistrationTokenArgs{Repository: repo},
+		pulumi.Provider(provider))
+	if err != nil {
+		return fmt.Errorf("fetching runner registration token: %w", err)
+	}
+
+	logging.Info("runner registration token generated from GitHub App successfully")
+	args.Token = result.Token
+	return nil
 }

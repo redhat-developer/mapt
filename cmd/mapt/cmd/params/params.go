@@ -79,6 +79,13 @@ const (
 	ghActionsRunnerRepo   string = "ghactions-runner-repo"
 	ghActionsRunnerLabels string = "ghactions-runner-labels"
 
+	ghActionsAppID                 string = "ghactions-app-id"
+	ghActionsAppIDDesc             string = "GitHub App ID used to authenticate and generate a runner registration token"
+	ghActionsAppInstallationID     string = "ghactions-app-installation-id"
+	ghActionsAppInstallationIDDesc string = "GitHub App installation ID for the target organization or repository"
+	ghActionsAppPrivateKey         string = "ghactions-app-private-key"
+	ghActionsAppPrivateKeyDesc     string = "Path to the GitHub App RSA private key PEM file"
+
 	cirrusPWToken      string = "it-cirrus-pw-token"
 	cirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
 	cirrusPWLabels     string = "it-cirrus-pw-labels"
@@ -294,14 +301,20 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 	fs.StringP(ghActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
 	fs.StringP(ghActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
 	fs.StringSlice(ghActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)
+	fs.StringP(ghActionsAppID, "", "", ghActionsAppIDDesc)
+	fs.StringP(ghActionsAppInstallationID, "", "", ghActionsAppInstallationIDDesc)
+	fs.StringP(ghActionsAppPrivateKey, "", "", ghActionsAppPrivateKeyDesc)
 }
 
 func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 	token := viper.GetString(ghActionsRunnerToken)
 	repoURL := viper.GetString(ghActionsRunnerRepo)
+	appID := viper.GetString(ghActionsAppID)
+	installationID := viper.GetString(ghActionsAppInstallationID)
+	privateKeyPath := viper.GetString(ghActionsAppPrivateKey)
 	pat := os.Getenv("GITHUB_TOKEN")
 
-	if token == "" && pat == "" {
+	if token == "" && appID == "" && pat == "" {
 		return nil
 	}
 
@@ -310,6 +323,29 @@ func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 		return nil
 	}
 
+	// App auth: validate required companion flags; token is fetched later inside
+	// the Pulumi context via github.SetupRunner.
+	if appID != "" {
+		if installationID == "" {
+			logging.Error("--ghactions-app-installation-id is required when --ghactions-app-id is set")
+			return nil
+		}
+		if privateKeyPath == "" {
+			logging.Error("--ghactions-app-private-key is required when --ghactions-app-id is set")
+			return nil
+		}
+		return &github.GithubRunnerArgs{
+			RepoURL:        repoURL,
+			Labels:         viper.GetStringSlice(ghActionsRunnerLabels),
+			Platform:       &github.Linux,
+			Arch:           arch,
+			AppID:          appID,
+			InstallationID: installationID,
+			PrivateKeyPath: privateKeyPath,
+		}
+	}
+
+	// PAT path: auto-generate registration token before Pulumi runs.
 	if token == "" {
 		logging.Info("no --ghactions-runner-token provided, auto-generating from GITHUB_TOKEN")
 		var err error

@@ -33,6 +33,8 @@ ARG PULUMI_TLS_VERSION=v5.5.0
 ARG PULUMI_RANDOM_VERSION=v4.21.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
 ARG PULUMI_AWS_NATIVE_VERSION=v1.71.0
+# renovate: datasource=github-releases depName=pulumi/pulumi-github
+ARG PULUMI_GITHUB_VERSION=v6.14.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
 ARG PULUMI_GITLAB_VERSION=v10.0.0
 # renovate: datasource=github-releases depName=mapt-oss/pulumi-ibmcloud
@@ -53,6 +55,7 @@ RUN mkdir -p ${PULUMI_HOME} \
     && pulumi plugin install resource random ${PULUMI_RANDOM_VERSION} \
     && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
     && pulumi plugin install resource aws-native ${PULUMI_AWS_NATIVE_VERSION} \
+    && pulumi plugin install resource github ${PULUMI_GITHUB_VERSION} \
     && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION}
 
 # Stage 2: Red Hat Hardened minimal runtime (glibc + coreutils, no toolchain)
