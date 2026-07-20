@@ -28,6 +28,48 @@ func splitOwnerRepo(repoURL string) (owner, repo string, err error) {
 	return parts[0], parts[1], nil
 }
 
+// GenerateOrgRegistrationToken calls the GitHub API to create a short-lived
+// runner registration token for the given organization.
+// pat is a Personal Access Token with admin:org scope.
+func GenerateOrgRegistrationToken(pat, org string) (string, error) {
+	url := fmt.Sprintf("https://api.github.com/orgs/%s/actions/runners/registration-token", org)
+
+	req, err := http.NewRequest(http.MethodPost, url, nil)
+	if err != nil {
+		return "", fmt.Errorf("creating request: %w", err)
+	}
+	req.Header.Set("Authorization", "token "+pat)
+	req.Header.Set("Accept", "application/vnd.github+json")
+	req.Header.Set("X-GitHub-Api-Version", "2022-11-28")
+
+	client := &http.Client{Timeout: 30 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("calling GitHub API: %w", err)
+	}
+	defer func() { _ = resp.Body.Close() }()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("reading response: %w", err)
+	}
+
+	if resp.StatusCode != http.StatusCreated {
+		return "", fmt.Errorf("GitHub API returned %d: %s (ensure GITHUB_TOKEN has admin:org scope)", resp.StatusCode, string(body))
+	}
+
+	var tokenResp registrationTokenResponse
+	if err := json.Unmarshal(body, &tokenResp); err != nil {
+		return "", fmt.Errorf("parsing response: %w", err)
+	}
+
+	if tokenResp.Token == "" {
+		return "", fmt.Errorf("empty token in GitHub API response")
+	}
+
+	return tokenResp.Token, nil
+}
+
 // GenerateRegistrationToken calls the GitHub API to create a short-lived
 // runner registration token for the given repository.
 // pat is a Personal Access Token with repo admin scope.

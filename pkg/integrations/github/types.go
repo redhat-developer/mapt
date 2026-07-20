@@ -18,6 +18,7 @@ var (
 type GithubRunnerArgs struct {
 	Token          string
 	RepoURL        string
+	Org            string
 	Name           string
 	Platform       *Platform
 	Arch           *Arch

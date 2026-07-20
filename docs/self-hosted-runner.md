@@ -32,7 +32,8 @@ Using a GitHub App avoids long-lived credentials. `mapt` exchanges the App's pri
 | `--ghactions-app-id` | GitHub App ID (numeric, shown on the App settings page) |
 | `--ghactions-app-installation-id` | Installation ID for the target org or repository |
 | `--ghactions-app-private-key` | Path to the App RSA private key PEM file |
-| `--ghactions-runner-repo` | Full URL of the repository, e.g. `https://github.com/org/repo` |
+| `--ghactions-runner-repo` | Full URL of the repository (mutually exclusive with `--ghactions-runner-org`) |
+| `--ghactions-runner-org` | GitHub organization name for an org-level runner (mutually exclusive with `--ghactions-runner-repo`) |
 | `--ghactions-runner-labels` | Comma-separated labels to attach to the runner (optional) |
 
 **Example:**

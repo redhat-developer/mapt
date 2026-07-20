@@ -53,6 +53,7 @@ const (
 	TagsDesc                    string = "tags to add on each resource (--tags name1=value1,name2=value2)"
 	GHActionsRunnerTokenDesc    string = "Token needed for registering the Github Actions Runner token"
 	GHActionsRunnerRepoDesc     string = "Full URL of the repository where the Github Actions Runner should be registered"
+	GHActionsRunnerOrgDesc      string = "GitHub organization name where the runner should be registered (mutually exclusive with --ghactions-runner-repo)"
 	GHActionsRunnerLabelsDesc   string = "List of labels separated by comma to be added to the self-hosted runner"
 
 	// Compute request
@@ -77,6 +78,7 @@ const (
 
 	ghActionsRunnerToken  string = "ghactions-runner-token"
 	ghActionsRunnerRepo   string = "ghactions-runner-repo"
+	ghActionsRunnerOrg    string = "ghactions-runner-org"
 	ghActionsRunnerLabels string = "ghactions-runner-labels"
 
 	ghActionsAppID                 string = "ghactions-app-id"
@@ -300,6 +302,7 @@ func AddDebugFlags(fs *pflag.FlagSet) {
 func AddGHActionsFlags(fs *pflag.FlagSet) {
 	fs.StringP(ghActionsRunnerToken, "", "", GHActionsRunnerTokenDesc)
 	fs.StringP(ghActionsRunnerRepo, "", "", GHActionsRunnerRepoDesc)
+	fs.StringP(ghActionsRunnerOrg, "", "", GHActionsRunnerOrgDesc)
 	fs.StringSlice(ghActionsRunnerLabels, nil, GHActionsRunnerLabelsDesc)
 	fs.StringP(ghActionsAppID, "", "", ghActionsAppIDDesc)
 	fs.StringP(ghActionsAppInstallationID, "", "", ghActionsAppInstallationIDDesc)
@@ -309,6 +312,7 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 	token := viper.GetString(ghActionsRunnerToken)
 	repoURL := viper.GetString(ghActionsRunnerRepo)
+	org := viper.GetString(ghActionsRunnerOrg)
 	appID := viper.GetString(ghActionsAppID)
 	installationID := viper.GetString(ghActionsAppInstallationID)
 	privateKeyPath := viper.GetString(ghActionsAppPrivateKey)
@@ -318,8 +322,13 @@ func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 		return nil
 	}
 
-	if repoURL == "" {
-		logging.Error("--ghactions-runner-repo is required for GitHub Actions runner setup")
+	if repoURL != "" && org != "" {
+		logging.Error("--ghactions-runner-repo and --ghactions-runner-org are mutually exclusive")
+		return nil
+	}
+
+	if repoURL == "" && org == "" {
+		logging.Error("one of --ghactions-runner-repo or --ghactions-runner-org is required for GitHub Actions runner setup")
 		return nil
 	}
 
@@ -336,6 +345,7 @@ func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 		}
 		return &github.GithubRunnerArgs{
 			RepoURL:        repoURL,
+			Org:            org,
 			Labels:         viper.GetStringSlice(ghActionsRunnerLabels),
 			Platform:       &github.Linux,
 			Arch:           arch,
@@ -349,7 +359,11 @@ func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 	if token == "" {
 		logging.Info("no --ghactions-runner-token provided, auto-generating from GITHUB_TOKEN")
 		var err error
-		token, err = github.GenerateRegistrationToken(pat, repoURL)
+		if org != "" {
+			token, err = github.GenerateOrgRegistrationToken(pat, org)
+		} else {
+			token, err = github.GenerateRegistrationToken(pat, repoURL)
+		}
 		if err != nil {
 			logging.Errorf("failed to auto-generate runner registration token: %v", err)
 			return nil
@@ -360,6 +374,7 @@ func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 	return &github.GithubRunnerArgs{
 		Token:    token,
 		RepoURL:  repoURL,
+		Org:      org,
 		Labels:   viper.GetStringSlice(ghActionsRunnerLabels),
 		Platform: &github.Linux,
 		Arch:     arch,

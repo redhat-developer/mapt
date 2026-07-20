@@ -57,12 +57,16 @@ func (args *GithubRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 	if args == nil {
 		return nil
 	}
+	repoURL := args.RepoURL
+	if args.Org != "" {
+		repoURL = "https://github.com/" + args.Org
+	}
 	return &integrations.UserDataValues{
-		Name:            args.Name,
-		Token:           args.Token,
-		Labels:          getLabels(),
-		RepoURL:         args.RepoURL,
-		CliURL:          downloadURL(),
+		Name:                   args.Name,
+		Token:                  args.Token,
+		Labels:                 getLabels(),
+		RepoURL:                repoURL,
+		CliURL:                 downloadURL(),
 		RunnerImageRepo:        runnerImageRepo,
 		RunnerImageRepoVersion: runnerImageRepoVersion,
 	}
@@ -124,9 +128,14 @@ func SetupRunner(ctx *pulumi.Context, args *GithubRunnerArgs) error {
 		return fmt.Errorf("reading GitHub App private key: %w", err)
 	}
 
-	owner, repo, err := splitOwnerRepo(args.RepoURL)
-	if err != nil {
-		return err
+	var owner string
+	if args.Org != "" {
+		owner = args.Org
+	} else {
+		owner, _, err = splitOwnerRepo(args.RepoURL)
+		if err != nil {
+			return err
+		}
 	}
 
 	provider, err := pulgithub.NewProvider(ctx, "github-app-provider", &pulgithub.ProviderArgs{
@@ -141,14 +150,23 @@ func SetupRunner(ctx *pulumi.Context, args *GithubRunnerArgs) error {
 		return fmt.Errorf("creating GitHub App provider: %w", err)
 	}
 
-	result, err := pulgithub.GetActionsRegistrationToken(ctx,
-		&pulgithub.GetActionsRegistrationTokenArgs{Repository: repo},
-		pulumi.Provider(provider))
-	if err != nil {
-		return fmt.Errorf("fetching runner registration token: %w", err)
+	if args.Org != "" {
+		result, err := pulgithub.GetActionsOrganizationRegistrationToken(ctx, pulumi.Provider(provider))
+		if err != nil {
+			return fmt.Errorf("fetching org runner registration token: %w", err)
+		}
+		args.Token = result.Token
+	} else {
+		_, repo, _ := splitOwnerRepo(args.RepoURL)
+		result, err := pulgithub.GetActionsRegistrationToken(ctx,
+			&pulgithub.GetActionsRegistrationTokenArgs{Repository: repo},
+			pulumi.Provider(provider))
+		if err != nil {
+			return fmt.Errorf("fetching runner registration token: %w", err)
+		}
+		args.Token = result.Token
 	}
 
 	logging.Info("runner registration token generated from GitHub App successfully")
-	args.Token = result.Token
 	return nil
 }
