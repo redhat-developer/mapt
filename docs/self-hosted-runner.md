@@ -13,7 +13,7 @@ Currently, it allows to create self-hosted runners on:
 
 ## Authentication
 
-Registering a Self Hosted Runner requires a short-lived registration token from GitHub. `mapt` supports three ways to supply it, in order of preference:
+Registering a Self Hosted Runner requires a short-lived registration token from GitHub. `mapt` supports three ways to supply it. Precedence order: GitHub App credentials → explicit registration token → GITHUB_TOKEN (PAT auto-generate).
 
 ### Option A — GitHub App (recommended)
 
@@ -21,8 +21,8 @@ Using a GitHub App avoids long-lived credentials. `mapt` exchanges the App's pri
 
 **Prerequisites:**
 
-1. Create a GitHub App with the `administration:write` permission on the target repository (or `organization_self_hosted_runners:write` for org-level runners).
-2. Install the App on the target repository or organisation and note the **Installation ID**.
+1. Create a GitHub App with the `administration:write` permission on the target repository.
+2. Install the App on the target repository and note the **Installation ID**.
 3. Generate and download the App's **private key** (`.pem` file).
 
 **Flags:**
