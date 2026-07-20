@@ -21,10 +21,10 @@ require (
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.22.0
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.14.0
-	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v7 v7.3.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v8 v8.1.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.10.0
-	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources v1.2.0
-	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources/v4 v4.0.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions/v2 v2.0.0
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.8.0
 	github.com/IBM/go-sdk-core/v5 v5.22.1
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
@@ -43,7 +43,7 @@ require (
 	github.com/pulumi/pulumi-azure-native-sdk/network/v3 v3.20.0
 	github.com/pulumi/pulumi-azure-native-sdk/resources/v3 v3.20.0
 	github.com/pulumi/pulumi-azure-native-sdk/storage/v3 v3.20.0
-	github.com/pulumi/pulumi-gitlab/sdk/v9 v9.11.1
+	github.com/pulumi/pulumi-gitlab/sdk/v10 v10.0.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.5.0
 	golang.org/x/exp v0.0.0-20260709172345-9ea1abe57597
 	k8s.io/apimachinery v0.36.2
@@ -51,18 +51,18 @@ require (
 )
 
 require (
-	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
-	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
-	github.com/charmbracelet/bubbles v1.0.0 // indirect
-	github.com/charmbracelet/bubbletea v1.3.10 // indirect
-	github.com/charmbracelet/lipgloss v1.1.0 // indirect
+	github.com/apparentlymart/go-textseg/v17 v17.0.1 // indirect
+	github.com/cenkalti/backoff/v7 v7.0.0 // indirect
+	github.com/charmbracelet/bubbles/v2 v2.1.1 // indirect
+	github.com/charmbracelet/bubbletea/v2 v2.0.8 // indirect
+	github.com/charmbracelet/lipgloss/v2 v2.0.5 // indirect
 )
 
 require (
-	github.com/pgavlin/fx v0.1.6 // indirect
-	github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8 // indirect
-	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
-	go.yaml.in/yaml/v2 v2.4.4 // indirect
+	github.com/pgavlin/fx/v2 v2.0.12 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v5 v5.1.0 // indirect
+	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 // indirect
+	go.yaml.in/yaml/v3 v3.0.4 // indirect
 )
 
 require (
