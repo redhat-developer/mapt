@@ -268,11 +268,11 @@ github.com/aws/aws-sdk-go-v2/internal/timeconv
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream
 github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi
-# github.com/aws/aws-sdk-go-v2/config v1.32.29
+# github.com/aws/aws-sdk-go-v2/config v1.32.30
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/config
 github.com/aws/aws-sdk-go-v2/config/internal/ini
-# github.com/aws/aws-sdk-go-v2/credentials v1.19.28
+# github.com/aws/aws-sdk-go-v2/credentials v1.19.29
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/credentials
 github.com/aws/aws-sdk-go-v2/credentials/ec2rolecreds
@@ -333,34 +333,34 @@ github.com/aws/aws-sdk-go-v2/service/internal/s3shared/config
 github.com/aws/aws-sdk-go-v2/service/pricing
 github.com/aws/aws-sdk-go-v2/service/pricing/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/pricing/types
-# github.com/aws/aws-sdk-go-v2/service/s3 v1.105.1
+# github.com/aws/aws-sdk-go-v2/service/s3 v1.105.2
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/service/s3
 github.com/aws/aws-sdk-go-v2/service/s3/internal/arn
 github.com/aws/aws-sdk-go-v2/service/s3/internal/customizations
 github.com/aws/aws-sdk-go-v2/service/s3/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/s3/types
-# github.com/aws/aws-sdk-go-v2/service/signin v1.4.0
+# github.com/aws/aws-sdk-go-v2/service/signin v1.4.1
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/service/signin
 github.com/aws/aws-sdk-go-v2/service/signin/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/signin/types
-# github.com/aws/aws-sdk-go-v2/service/sso v1.32.0
+# github.com/aws/aws-sdk-go-v2/service/sso v1.32.1
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/service/sso
 github.com/aws/aws-sdk-go-v2/service/sso/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/sso/types
-# github.com/aws/aws-sdk-go-v2/service/ssooidc v1.37.0
+# github.com/aws/aws-sdk-go-v2/service/ssooidc v1.37.1
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/service/ssooidc
 github.com/aws/aws-sdk-go-v2/service/ssooidc/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/ssooidc/types
-# github.com/aws/aws-sdk-go-v2/service/sts v1.44.0
+# github.com/aws/aws-sdk-go-v2/service/sts v1.44.1
 ## explicit; go 1.24
 github.com/aws/aws-sdk-go-v2/service/sts
 github.com/aws/aws-sdk-go-v2/service/sts/internal/endpoints
 github.com/aws/aws-sdk-go-v2/service/sts/types
-# github.com/aws/smithy-go v1.27.3
+# github.com/aws/smithy-go v1.27.4
 ## explicit; go 1.24
 github.com/aws/smithy-go
 github.com/aws/smithy-go/auth
@@ -607,7 +607,7 @@ github.com/go-openapi/jsonreference/internal
 # github.com/go-openapi/loads v0.24.0
 ## explicit; go 1.25.0
 github.com/go-openapi/loads
-# github.com/go-openapi/runtime v0.32.4
+# github.com/go-openapi/runtime v0.32.5
 ## explicit; go 1.25.0
 github.com/go-openapi/runtime
 github.com/go-openapi/runtime/client
@@ -618,7 +618,7 @@ github.com/go-openapi/runtime/middleware/denco
 github.com/go-openapi/runtime/middleware/untyped
 github.com/go-openapi/runtime/security
 github.com/go-openapi/runtime/yamlpc
-# github.com/go-openapi/runtime/server-middleware v0.32.4
+# github.com/go-openapi/runtime/server-middleware v0.32.5
 ## explicit; go 1.25.0
 github.com/go-openapi/runtime/server-middleware/docui
 github.com/go-openapi/runtime/server-middleware/mediatype
@@ -631,43 +631,46 @@ github.com/go-openapi/spec
 ## explicit; go 1.25.0
 github.com/go-openapi/strfmt
 github.com/go-openapi/strfmt/internal/bsonlite
-# github.com/go-openapi/swag v0.27.0
+# github.com/go-openapi/swag v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag
-# github.com/go-openapi/swag/cmdutils v0.27.0
+# github.com/go-openapi/swag/cmdutils v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/cmdutils
-# github.com/go-openapi/swag/conv v0.27.0
+# github.com/go-openapi/swag/conv v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/conv
-# github.com/go-openapi/swag/fileutils v0.27.0
+# github.com/go-openapi/swag/fileutils v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/fileutils
-# github.com/go-openapi/swag/jsonname v0.27.0
+# github.com/go-openapi/swag/jsonname v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/jsonname
-# github.com/go-openapi/swag/jsonutils v0.27.0
+# github.com/go-openapi/swag/jsonutils v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/jsonutils
 github.com/go-openapi/swag/jsonutils/adapters
 github.com/go-openapi/swag/jsonutils/adapters/ifaces
 github.com/go-openapi/swag/jsonutils/adapters/stdlib/json
-# github.com/go-openapi/swag/loading v0.27.0
+# github.com/go-openapi/swag/loading v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/loading
-# github.com/go-openapi/swag/mangling v0.27.0
+# github.com/go-openapi/swag/mangling v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/mangling
-# github.com/go-openapi/swag/netutils v0.27.0
+# github.com/go-openapi/swag/netutils v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/netutils
-# github.com/go-openapi/swag/stringutils v0.27.0
+# github.com/go-openapi/swag/pools v0.27.1
+## explicit; go 1.25.0
+github.com/go-openapi/swag/pools
+# github.com/go-openapi/swag/stringutils v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/stringutils
-# github.com/go-openapi/swag/typeutils v0.27.0
+# github.com/go-openapi/swag/typeutils v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/typeutils
-# github.com/go-openapi/swag/yamlutils v0.27.0
+# github.com/go-openapi/swag/yamlutils v0.27.1
 ## explicit; go 1.25.0
 github.com/go-openapi/swag/yamlutils
 # github.com/go-openapi/validate v0.26.0
@@ -770,8 +773,8 @@ github.com/lucasb-eyer/go-colorful
 ## explicit; go 1.24.0
 github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud
 github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud/internal
-# github.com/mattn/go-isatty v0.0.22
-## explicit; go 1.21
+# github.com/mattn/go-isatty v0.0.23
+## explicit; go 1.20
 github.com/mattn/go-isatty
 # github.com/mattn/go-localereader v0.0.1
 ## explicit
@@ -919,7 +922,7 @@ github.com/pulumi/pulumi-azure-native-sdk/v3/utilities
 ## explicit; go 1.24.7
 github.com/pulumi/pulumi-command/sdk/go/command/internal
 github.com/pulumi/pulumi-command/sdk/go/command/remote
-# github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.20
+# github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.21
 ## explicit; go 1.25.8
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild
 github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
@@ -1399,7 +1402,7 @@ google.golang.org/genproto/googleapis/api/httpbody
 ## explicit; go 1.25.0
 google.golang.org/genproto/googleapis/rpc/errdetails
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.82.0
+# google.golang.org/grpc v1.82.1
 ## explicit; go 1.25.0
 google.golang.org/grpc
 google.golang.org/grpc/attributes
