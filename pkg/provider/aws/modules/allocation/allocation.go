@@ -16,8 +16,10 @@ type AllocationArgs struct {
 	ComputeRequest *cr.ComputeRequestArgs
 	Prefix,
 	AMIProductDescription,
-	AMIName *string
-	Spot *spotTypes.SpotArgs
+	AMIName,
+	AMIOwner *string
+	AMIPublic bool
+	Spot      *spotTypes.SpotArgs
 }
 
 type AllocationResult struct {
@@ -49,6 +51,10 @@ func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, erro
 		if args.AMIProductDescription != nil {
 			sr.ProductDescription = *args.AMIProductDescription
 		}
+		if args.AMIOwner != nil {
+			sr.AMIOwner = *args.AMIOwner
+		}
+		sr.AMIPublic = args.AMIPublic
 		return allocationSpot(mCtx, sr)
 	}
 	return allocationOnDemand(mCtx, instancesTypes)

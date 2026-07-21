@@ -24,6 +24,7 @@ type ImageRequest struct {
 	Name, Arch, Owner *string
 	Region            *string
 	BlockDeviceType   *string
+	Public            bool
 }
 
 const ERROR_NO_AMI = "no AMI"
@@ -62,12 +63,14 @@ func GetAMI(ctx context.Context, r ImageRequest) (*ImageInfo, error) {
 
 	if r.Owner != nil && len(*r.Owner) > 0 {
 		input.Owners = []string{*r.Owner}
-		aId, err := accountId(ctx)
-		if err != nil {
-			return nil, err
-		}
-		if *aId != *r.Owner {
-			input.ExecutableUsers = []string{"self"}
+		if !r.Public {
+			aId, err := accountId(ctx)
+			if err != nil {
+				return nil, err
+			}
+			if *aId != *r.Owner {
+				input.ExecutableUsers = []string{"self"}
+			}
 		}
 	}
 	result, err := client.DescribeImages(
@@ -134,12 +137,14 @@ func ListAMIs(ctx context.Context, r ImageRequest) ([]ec2Types.Image, error) {
 	}
 	if r.Owner != nil && len(*r.Owner) > 0 {
 		input.Owners = []string{*r.Owner}
-		aId, err := accountId(ctx)
-		if err != nil {
-			return nil, err
-		}
-		if *aId != *r.Owner {
-			input.ExecutableUsers = []string{"self"}
+		if !r.Public {
+			aId, err := accountId(ctx)
+			if err != nil {
+				return nil, err
+			}
+			if *aId != *r.Owner {
+				input.ExecutableUsers = []string{"self"}
+			}
 		}
 	}
 	result, err := client.DescribeImages(ctx, input)
