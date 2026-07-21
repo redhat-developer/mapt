@@ -137,6 +137,9 @@ spec:
       default: "20"
 
     # RHEL AI params
+    - name: marketplace
+      description: Use the AWS Marketplace RHEL AI image instead of a shared AMI
+      default: "false"
     - name: version
       description: Version of RHEL AI OS (default 3.0.0)
       default: "3.0.0"
@@ -285,6 +288,9 @@ spec:
             cmd+="--nested-virt "
           fi
           cmd+="--disk-size '$(params.disk-size)' "
+          if [[ "$(params.marketplace)" == "true" ]]; then
+            cmd+="--marketplace "
+          fi
           if [[ "$(params.custom-image)" != "" ]]; then
             cmd+="--custom-image '$(params.custom-image)' "
           else
