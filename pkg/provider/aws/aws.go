@@ -75,7 +75,8 @@ var envCredentials = map[string]string{
 	awsConstants.CONFIG_AWS_REGION:        "AWS_DEFAULT_REGION",
 	awsConstants.CONFIG_AWS_NATIVE_REGION: "AWS_DEFAULT_REGION",
 	awsConstants.CONFIG_AWS_ACCESS_KEY:    "AWS_ACCESS_KEY_ID",
-	awsConstants.CONFIG_AWS_SECRET_KEY:    "AWS_SECRET_ACCESS_KEY"}
+	awsConstants.CONFIG_AWS_SECRET_KEY:    "AWS_SECRET_ACCESS_KEY",
+	awsConstants.CONFIG_AWS_SESSION_TOKEN: "AWS_SESSION_TOKEN"}
 
 var DefaultCredentials = GetClouProviderCredentials(nil)
 
