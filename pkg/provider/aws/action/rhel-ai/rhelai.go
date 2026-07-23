@@ -26,6 +26,7 @@ import (
 	securityGroup "github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/security-group"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	apiRHELAI "github.com/redhat-developer/mapt/pkg/target/host/rhelai"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -38,6 +39,7 @@ type rhelAIRequest struct {
 	amiName          *string
 	arch             *string
 	spot             bool
+	marketplace      bool
 	timeout          *string
 	serviceEndpoints []string
 	allocationData   *allocation.AllocationResult
@@ -63,15 +65,37 @@ func (r *rhelAIRequest) validate() error {
 // If spot is enable it will run best spot option to get the best option to spin the machine
 // Then it will run the stack for windows dedicated host
 func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
+	if args.Marketplace && len(args.CustomImage) != 0 {
+		return fmt.Errorf("RHEL AI: --marketplace and --custom-image are mutually exclusive")
+	}
+	if args.Marketplace {
+		if err := validateMarketplaceComputeSizes(args.ComputeRequest.ComputeSizes); err != nil {
+			return err
+		}
+		if len(args.ComputeRequest.ComputeSizes) == 0 {
+			args.ComputeRequest.ComputeSizes = marketplaceSupportedTypes
+		}
+	}
 	// Create mapt Context
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
 	}
 	// Compose request
-	amiName := amiName(&args.Accelerator, &args.Version)
-	if len(args.CustomImage) != 0 {
+	var amiName string
+	switch {
+	case args.Marketplace:
+		v := &args.Version
+		// When no explicit --version is given, ignore the default shared-AMI version
+		// and use a wildcard so the latest marketplace AMI is selected.
+		if args.Version == params.RhelAIVersionDefault {
+			v = nil
+		}
+		amiName = marketplaceAMIName(&args.Accelerator, v)
+	case len(args.CustomImage) != 0:
 		amiName = fmt.Sprintf("%s*", args.CustomImage)
+	default:
+		amiName = amiNameFromVersion(&args.Accelerator, &args.Version)
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelAIRequest{
@@ -79,6 +103,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 		prefix:           &prefix,
 		amiName:          &amiName,
 		arch:             &args.Arch,
+		marketplace:      args.Marketplace,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
 		diskSize:         args.ComputeRequest.DiskSize,
@@ -91,18 +116,30 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
-	r.allocationData, err = allocation.Allocation(mCtx,
-		&allocation.AllocationArgs{
-			Prefix:                &args.Prefix,
-			ComputeRequest:        args.ComputeRequest,
-			AMIProductDescription: &amiProduct,
-			Spot:                  args.Spot,
-		})
+	allocArgs := &allocation.AllocationArgs{
+		Prefix:                &args.Prefix,
+		ComputeRequest:        args.ComputeRequest,
+		AMIProductDescription: &amiProduct,
+		AMIName:               &amiName,
+		Spot:                  args.Spot,
+	}
+	if args.Marketplace {
+		owner := marketplaceOwner
+		allocArgs.AMIOwner = &owner
+		allocArgs.AMIPublic = true
+	}
+	r.allocationData, err = allocation.Allocation(mCtx, allocArgs)
 	if err != nil {
 		return err
 	}
-	if err = checkAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &amiArch); err != nil {
-		return err
+	if args.Marketplace {
+		if err = checkMarketplaceAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &amiArch); err != nil {
+			return err
+		}
+	} else {
+		if err = checkAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &amiArch); err != nil {
+			return err
+		}
 	}
 	return r.createMachine()
 }
@@ -136,9 +173,14 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 const listVersionsRegion = "us-east-1"
 
 // ListVersions returns available RHEL AI version strings for the given accelerator,
-// sorted in ascending order. Versions are derived from AMI names in a reference
-// region (us-east-1) matching the pattern "rhel-ai-{accelerator}-aws-{version}*".
-func ListVersions(ctx context.Context, accelerator string) ([]string, error) {
+// sorted in ascending order. When marketplace is false, versions are derived from
+// AMI names in a reference region (us-east-1) matching "rhel-ai-{accelerator}-aws-{version}*".
+// When marketplace is true, versions are derived from marketplace AMI names
+// filtered by product code.
+func ListVersions(ctx context.Context, accelerator string, marketplace bool) ([]string, error) {
+	if marketplace {
+		return listMarketplaceVersions(ctx, accelerator)
+	}
 	acc := strings.ToLower(strings.TrimSpace(accelerator))
 	switch acc {
 	case "cuda", "rocm":
@@ -184,6 +226,35 @@ func ListVersions(ctx context.Context, accelerator string) ([]string, error) {
 	return versions, nil
 }
 
+func listMarketplaceVersions(ctx context.Context, accelerator string) ([]string, error) {
+	nameFilter := marketplaceAMIName(&accelerator, nil)
+	owner := marketplaceOwner
+	region := listVersionsRegion
+	images, err := data.ListAMIs(ctx, data.ImageRequest{
+		Name:   &nameFilter,
+		Arch:   &amiArch,
+		Owner:  &owner,
+		Region: &region,
+		Public: true,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("listing marketplace RHEL AI AMIs: %w", err)
+	}
+	seen := make(map[string]struct{})
+	for _, img := range images {
+		if img.Name == nil {
+			continue
+		}
+		seen[*img.Name] = struct{}{}
+	}
+	versions := make([]string, 0, len(seen))
+	for v := range seen {
+		versions = append(versions, v)
+	}
+	sort.Strings(versions)
+	return versions, nil
+}
+
 func (r *rhelAIRequest) createMachine() error {
 	cs := manager.Stack{
 		StackName:   r.mCtx.StackNameByProject(stackName),
@@ -211,12 +282,25 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Get AMI
-	ami, err := amiSVC.GetAMIByName(ctx,
-		*r.amiName,
-		[]string{amiOwner},
-		map[string]string{
-			"architecture": amiArch})
+	var ami *ec2.LookupAmiResult
+	var err error
+	if r.marketplace {
+		ami, err = amiSVC.GetAMIByName(ctx,
+			*r.amiName,
+			[]string{marketplaceOwner},
+			map[string]string{
+				"architecture": amiArch})
+	} else {
+		ami, err = amiSVC.GetAMIByName(ctx,
+			*r.amiName,
+			[]string{amiOwner},
+			map[string]string{
+				"architecture": amiArch})
+	}
 	if err != nil {
+		if r.marketplace && strings.Contains(err.Error(), "OptInRequired") {
+			return fmt.Errorf("RHEL AI marketplace: subscription required; accept terms at the AWS Marketplace console for RHEL AI before retrying\n%w", err)
+		}
 		return err
 	}
 	// Networking
@@ -414,4 +498,48 @@ func checkAMIExists(ctx context.Context, amiName, region, arch *string) error {
 		return fmt.Errorf("AMI %s could not be found in region: %s", *amiName, *region)
 	}
 	return nil
+}
+
+func checkMarketplaceAMIExists(ctx context.Context, amiName, region, arch *string) error {
+	owner := marketplaceOwner
+	isAMIOffered, _, err := data.IsAMIOffered(
+		ctx,
+		data.ImageRequest{
+			Name:   amiName,
+			Arch:   arch,
+			Region: region,
+			Owner:  &owner,
+			Public: true,
+		})
+	if err != nil {
+		return err
+	}
+	if !isAMIOffered {
+		return fmt.Errorf("marketplace RHEL AI AMI %q could not be found in region: %s", *amiName, *region)
+	}
+	return nil
+}
+
+func validateMarketplaceComputeSizes(sizes []string) error {
+	for _, s := range sizes {
+		supported := false
+		for _, ms := range marketplaceSupportedTypes {
+			if s == ms {
+				supported = true
+				break
+			}
+		}
+		if !supported {
+			return fmt.Errorf("instance type %q is not supported by AWS Marketplace RHEL AI; supported types: %s",
+				s, strings.Join(marketplaceSupportedTypes, ", "))
+		}
+	}
+	return nil
+}
+
+func marketplaceAMIName(accelerator, version *string) string {
+	if version == nil || len(*version) == 0 {
+		return fmt.Sprintf("rhel-ai-%s-*-prod-usfzkgvxvt65w", *accelerator)
+	}
+	return fmt.Sprintf("rhel-ai-%s-%s*-prod-usfzkgvxvt65w", *accelerator, *version)
 }

@@ -15,6 +15,9 @@ var (
 
 	// amiProduct     = "Red Hat Enterprise Linux"
 	amiProduct = "Linux/UNIX"
+
+	marketplaceOwner          = "679593333241"
+	marketplaceSupportedTypes = []string{"p4d.24xlarge", "p5.48xlarge", "g6e.48xlarge"}
 	amiV1Regex = "rhel-ai-nvidia-aws-%s*"
 	amiRegex   = "rhel-ai-%s-aws-%s*"
 	amiOwner   = "610952687893"
@@ -48,7 +51,7 @@ var (
 	outputUserPrivateKey = "ardPrivatekey"
 )
 
-func amiName(accelerator, version *string) string {
+func amiNameFromVersion(accelerator, version *string) string {
 	return util.If(strings.HasPrefix(*version, "1"),
 		fmt.Sprintf(amiV1Regex, *version),
 		fmt.Sprintf(amiRegex, *accelerator, *version))

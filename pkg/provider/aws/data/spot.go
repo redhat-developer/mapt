@@ -111,6 +111,8 @@ type SpotInfoArgs struct {
 	// AMI information
 	ProductDescription *string
 	AMIName, AMIArch   *string
+	AMIOwner           *string
+	AMIPublic          bool
 
 	ExcludedRegions       []string
 	SpotTolerance         *spot.Tolerance
@@ -146,7 +148,9 @@ func filterRegions(mCtx *mc.Context, args *SpotInfoArgs) ([]string, error) {
 					ImageRequest{
 						Name:   args.AMIName,
 						Arch:   args.AMIArch,
-						Region: &region})
+						Region: &region,
+						Owner:  args.AMIOwner,
+						Public: args.AMIPublic})
 				if err != nil {
 					if mCtx.Debug() {
 						logging.Warn(err.Error())

@@ -21,6 +21,8 @@ type SpotStackArgs struct {
 	InstaceTypes       []string
 	AMIName            string
 	AMIArch            string
+	AMIOwner           string
+	AMIPublic          bool
 	Spot               *spotTypes.SpotArgs
 }
 
@@ -39,6 +41,8 @@ type spotStackRequest struct {
 	instaceTypes       []string
 	amiName            string
 	amiArch            string
+	amiOwner           string
+	amiPublic          bool
 	spot               *spotTypes.SpotArgs
 }
 
@@ -54,6 +58,8 @@ func (r *SpotStackArgs) toRequest(mCtx *mc.Context) *spotStackRequest {
 		instaceTypes:       r.InstaceTypes,
 		amiName:            r.AMIName,
 		amiArch:            r.AMIArch,
+		amiOwner:           r.AMIOwner,
+		amiPublic:          r.AMIPublic,
 		spot:               r.Spot,
 	}
 }
@@ -131,6 +137,10 @@ func (r *spotStackRequest) deployer(ctx *pulumi.Context) error {
 		InstaceTypes:       r.instaceTypes,
 		AMIName:            &r.amiName,
 		AMIArch:            &r.amiArch,
+		AMIPublic:          r.amiPublic,
+	}
+	if len(r.amiOwner) > 0 {
+		sia.AMIOwner = &r.amiOwner
 	}
 	if r.spot != nil {
 		sia.ExcludedRegions = r.spot.ExcludedHostingPlaces
