@@ -301,6 +301,12 @@ func (r *windowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 		return nil, nil, err
 	}
 
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return nil, nil, err
+		}
+	}
+
 	// Check if GitLab runner args exist and create runner if needed
 	glRunnerArgs := gitlab.GetRunnerArgs()
 	var setupCommand pulumi.StringOutput

@@ -124,6 +124,12 @@ func (r *CloudConfigArgs) CloudConfigWithGitLabToken(gitlabAuthToken string) (st
 // If GitLab runner args are present, it creates the runner via Pulumi first and uses the auth token.
 // Otherwise, it generates normal cloud config without GitLab integration.
 func (r *CloudConfigArgs) GenerateCloudConfig(ctx *pulumi.Context, runID string) (pulumi.StringInput, error) {
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return nil, err
+		}
+	}
+
 	glRunnerArgs := gitlab.GetRunnerArgs()
 
 	if glRunnerArgs != nil {

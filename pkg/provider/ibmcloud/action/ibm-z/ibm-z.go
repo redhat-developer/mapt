@@ -149,6 +149,12 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 }
 
 func (r *zRequest) deploy(ctx *pulumi.Context) error {
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return err
+		}
+	}
+
 	if glRunnerArgs := gitlab.GetRunnerArgs(); glRunnerArgs != nil && r.glAuthToken == nil {
 		authToken, err := gitlab.CreateRunner(ctx, glRunnerArgs)
 		if err != nil {

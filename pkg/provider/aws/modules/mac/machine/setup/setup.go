@@ -80,6 +80,12 @@ func GenerateBootstrapScript(
 	currentPassword string,
 	username string,
 ) (pulumi.StringOutput, error) {
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return pulumi.StringOutput{}, err
+		}
+	}
+
 	glRunnerArgs := gitlab.GetRunnerArgs()
 
 	if glRunnerArgs != nil {

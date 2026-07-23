@@ -118,6 +118,12 @@ func UserdataWithGitLabToken(ctx *pulumi.Context, amiUser *string, password *ran
 // Otherwise, it generates normal userdata without GitLab integration.
 func GenerateUserdata(ctx *pulumi.Context, amiUser *string, password *random.RandomPassword,
 	keypair *keypair.KeyPairResources, runID string) (pulumi.StringPtrInput, error) {
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return nil, err
+		}
+	}
+
 	glRunnerArgs := gitlab.GetRunnerArgs()
 
 	if glRunnerArgs != nil {
