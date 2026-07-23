@@ -74,6 +74,7 @@ func getRHELAICreate() *cobra.Command {
 					AutoStart:        viper.IsSet(params.RhelAIAutoStart),
 					VLLMExtraArgs:    viper.GetString(params.RhelAIVLLMExtraArgs),
 					ExposePorts:      viper.GetIntSlice(params.RhelAIExposePorts),
+					VpcID:            params.NetworkVpcID(),
 				})
 		},
 	}

@@ -68,7 +68,8 @@ func getFedoraCreate() *cobra.Command {
 					Spot:             params.SpotArgs(),
 					Timeout:          viper.GetString(params.Timeout),
 					Airgap:           viper.IsSet(airgap),
-					ServiceEndpoints: params.NetworkServiceEndpoints()})
+					ServiceEndpoints: params.NetworkServiceEndpoints(),
+					VpcID:            params.NetworkVpcID()})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)

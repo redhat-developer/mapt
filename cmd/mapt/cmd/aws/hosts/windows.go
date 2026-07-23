@@ -81,6 +81,7 @@ func getWindowsCreate() *cobra.Command {
 					Airgap:           viper.IsSet(airgap),
 					Timeout:          viper.GetString(params.Timeout),
 					ServiceEndpoints: params.NetworkServiceEndpoints(),
+					VpcID:            params.NetworkVpcID(),
 				})
 		},
 	}

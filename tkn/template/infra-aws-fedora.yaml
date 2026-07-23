@@ -138,6 +138,11 @@ spec:
       default: "false"
     
     # Network params
+    - name: vpc-id
+      description: |
+        ID of an existing VPC to deploy into. When set, mapt reuses the VPC
+        instead of creating a new one. Mutually exclusive with airgap.
+      default: ""
     - name: service-endpoints
       description: |
         Comma-separated list of VPC service endpoints to create.
@@ -276,6 +281,9 @@ spec:
           fi
           if [[ "$(params.airgap)" == "true" ]]; then
             cmd+="--airgap "
+          fi
+          if [[ "$(params.vpc-id)" != "" ]]; then
+            cmd+="--vpc-id '$(params.vpc-id)' "
           fi
           if [[ "$(params.service-endpoints)" != "" ]]; then
             cmd+="--service-endpoints '$(params.service-endpoints)' "

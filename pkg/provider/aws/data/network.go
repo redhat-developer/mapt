@@ -13,6 +13,7 @@ import (
 
 const (
 	filterVPCID               = "vpc-id"
+	filterAvailabilityZone    = "availability-zone"
 	filterAssociationSubnetID = "association.subnet-id"
 )
 
@@ -90,6 +91,87 @@ func getPublicSubnets(ctx context.Context, client *ec2.Client, vpcID string) (su
 	return
 }
 
+// GetSubnetAZsForVPC returns the unique AZ names of all subnets in the specified VPC.
+// Both public and private subnets are included; callers that need public-only access
+// should use GetPublicSubnetIDInAZ and handle the private-subnet fallback themselves.
+func GetSubnetAZsForVPC(ctx context.Context, region, vpcID string) ([]string, error) {
+	cfg, err := getConfig(ctx, region)
+	if err != nil {
+		return nil, err
+	}
+	client := ec2.NewFromConfig(cfg)
+	subnetsOutput, err := client.DescribeSubnets(ctx, &ec2.DescribeSubnetsInput{
+		Filters: []ec2types.Filter{
+			{Name: aws.String(filterVPCID), Values: []string{vpcID}},
+		},
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to describe subnets for VPC %s: %w", vpcID, err)
+	}
+	seen := map[string]struct{}{}
+	var azs []string
+	for _, s := range subnetsOutput.Subnets {
+		if s.AvailabilityZone != nil {
+			az := *s.AvailabilityZone
+			if _, ok := seen[az]; !ok {
+				seen[az] = struct{}{}
+				azs = append(azs, az)
+			}
+		}
+	}
+	if len(azs) == 0 {
+		return nil, fmt.Errorf("no subnets found in VPC %s", vpcID)
+	}
+	return azs, nil
+}
+
+// GetAnySubnetIDInAZ returns the first available subnet (public or private) in the
+// given AZ within the specified VPC. Used as a fallback when no public subnet exists.
+func GetAnySubnetIDInAZ(ctx context.Context, region, vpcID, az string) (*string, error) {
+	cfg, err := getConfig(ctx, region)
+	if err != nil {
+		return nil, err
+	}
+	client := ec2.NewFromConfig(cfg)
+	subnetsOutput, err := client.DescribeSubnets(ctx, &ec2.DescribeSubnetsInput{
+		Filters: []ec2types.Filter{
+			{Name: aws.String(filterVPCID), Values: []string{vpcID}},
+			{Name: aws.String(filterAvailabilityZone), Values: []string{az}},
+		},
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to describe subnets in VPC %s AZ %s: %w", vpcID, az, err)
+	}
+	if len(subnetsOutput.Subnets) == 0 {
+		return nil, fmt.Errorf("no subnet found in VPC %s AZ %s", vpcID, az)
+	}
+	return subnetsOutput.Subnets[0].SubnetId, nil
+}
+
+// GetPublicSubnetIDInAZ returns a public subnet ID in the given AZ within the specified VPC.
+func GetPublicSubnetIDInAZ(ctx context.Context, region, vpcID, az string) (*string, error) {
+	cfg, err := getConfig(ctx, region)
+	if err != nil {
+		return nil, err
+	}
+	client := ec2.NewFromConfig(cfg)
+	subnetsOutput, err := client.DescribeSubnets(ctx, &ec2.DescribeSubnetsInput{
+		Filters: []ec2types.Filter{
+			{Name: aws.String(filterVPCID), Values: []string{vpcID}},
+			{Name: aws.String(filterAvailabilityZone), Values: []string{az}},
+		},
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to describe subnets in VPC %s AZ %s: %w", vpcID, az, err)
+	}
+	for _, s := range subnetsOutput.Subnets {
+		if err := isPublic(ctx, client, *s.SubnetId); err == nil {
+			return s.SubnetId, nil
+		}
+	}
+	return nil, fmt.Errorf("no public subnet found in VPC %s AZ %s", vpcID, az)
+}
+
 func isPublic(ctx context.Context, client *ec2.Client, subnetID string) error {
 	routeTablesOutput, err := client.DescribeRouteTables(
 		ctx,
@@ -109,9 +191,11 @@ func isPublic(ctx context.Context, client *ec2.Client, subnetID string) error {
 	}
 	for _, routeTable := range routeTablesOutput.RouteTables {
 		for _, route := range routeTable.Routes {
-			gwID := *route.GatewayId
-			if route.GatewayId != nil && len(gwID) > 0 && gwID[:2] == "igw" {
-				return nil
+			if route.GatewayId != nil {
+				gwID := *route.GatewayId
+				if len(gwID) > 0 && gwID[:2] == "igw" {
+					return nil
+				}
 			}
 		}
 	}

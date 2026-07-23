@@ -33,28 +33,30 @@ import (
 )
 
 type FedoraArgs struct {
-	Prefix         string
-	Version        string
-	Arch           string
-	ComputeRequest *cr.ComputeRequestArgs
-	Spot           *spotTypes.SpotArgs
-	Airgap         bool
+	Prefix           string
+	Version          string
+	Arch             string
+	ComputeRequest   *cr.ComputeRequestArgs
+	Spot             *spotTypes.SpotArgs
+	Airgap           bool
 	ServiceEndpoints []string
+	VpcID            *string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
 
 type fedoraRequest struct {
-	mCtx           *mc.Context
-	prefix         *string
-	version        *string
-	arch           *string
-	spot           bool
-	timeout        *string
+	mCtx             *mc.Context
+	prefix           *string
+	version          *string
+	arch             *string
+	spot             bool
+	timeout          *string
 	serviceEndpoints []string
-	allocationData *allocation.AllocationResult
-	airgap         *bool
-	diskSize       *int
+	vpcID            *string
+	allocationData   *allocation.AllocationResult
+	airgap           *bool
+	diskSize         *int
 	// internal management
 	// For airgap scenario there is an orchestation of
 	// a phase with connectivity on the machine (allowing bootstraping)
@@ -81,6 +83,9 @@ func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) (err error) {
 		return err
 	}
 	// Compose request
+	if args.VpcID != nil && args.Airgap {
+		return fmt.Errorf("--vpc-id and --airgap are mutually exclusive")
+	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := fedoraRequest{
 		mCtx:             mCtx,
@@ -89,6 +94,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) (err error) {
 		arch:             &args.Arch,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
+		vpcID:            args.VpcID,
 		airgap:           &args.Airgap,
 		diskSize:         args.ComputeRequest.DiskSize}
 	if args.Spot != nil {
@@ -100,6 +106,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) (err error) {
 			ComputeRequest:        args.ComputeRequest,
 			AMIProductDescription: &amiProduct,
 			Spot:                  args.Spot,
+			VpcID:                 args.VpcID,
 		})
 	if err != nil {
 		return err
@@ -201,7 +208,8 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		CreateLoadBalancer:      r.spot,
 		Airgap:                  *r.airgap,
 		AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-		ServiceEndpoints:               r.serviceEndpoints,
+		ServiceEndpoints:        r.serviceEndpoints,
+		VpcID:                   r.vpcID,
 	})
 	if err != nil {
 		return err
@@ -217,7 +225,7 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc, nw.IsPublic)
 	if err != nil {
 		return err
 	}
@@ -249,7 +257,7 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		Eip:              nw.Eip,
 		LBTargetGroups:   []int{22},
 	}
-	if r.spot {
+	if r.spot && nw.IsPublic {
 		cr.Spot = true
 		cr.SpotPrice = *r.allocationData.SpotPrice
 	}
@@ -273,6 +281,11 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
+	// Skip SSH readiness check for private subnets: the machine has no inbound
+	// connectivity and is expected to register itself outbound (e.g. GitLab runner).
+	if !nw.IsPublic {
+		return nil
+	}
 	return c.Readiness(ctx, command.CommandPing, *r.prefix, awsFedoraDedicatedID,
 		keyResources.PrivateKey, amiUserDefault, nw.Bastion, c.Dependencies)
 }
@@ -293,31 +306,32 @@ func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix *string, 
 	return output.Write(stackResult, mCtx.GetResultsOutputPath(), results)
 }
 
-// security group for mac machine with ingress rules for ssh and vnc
+// securityGroups builds the security group for the Fedora machine.
+// When public is true the SG allows SSH (and optional Cirrus) inbound from anywhere.
+// When false (private subnet, outbound-only workload) no inbound rules are added;
+// the default egress rule permits all outbound traffic so the runner can reach GitLab.
 func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
-	vpc *ec2.Vpc) (pulumi.StringArray, error) {
-	// ingress for ssh access from 0.0.0.0
+	vpc *ec2.Vpc, public bool) (pulumi.StringArray, error) {
 	var ingressRules []securityGroup.IngressRules
-	sshIngressRule := securityGroup.SSH_TCP
-	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
-	ingressRules = []securityGroup.IngressRules{sshIngressRule}
-	// Integration ports
-	cirrusPort, err := cirrus.CirrusPort()
-	if err != nil {
-		return nil, err
+	if public {
+		sshIngressRule := securityGroup.SSH_TCP
+		sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+		ingressRules = []securityGroup.IngressRules{sshIngressRule}
+		cirrusPort, err := cirrus.CirrusPort()
+		if err != nil {
+			return nil, err
+		}
+		if cirrusPort != nil {
+			ingressRules = append(ingressRules,
+				securityGroup.IngressRules{
+					Description: fmt.Sprintf("Cirrus port for %s", awsFedoraDedicatedID),
+					FromPort:    *cirrusPort,
+					ToPort:      *cirrusPort,
+					Protocol:    "tcp",
+					CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
+				})
+		}
 	}
-	if cirrusPort != nil {
-		ingressRules = append(ingressRules,
-			securityGroup.IngressRules{
-				Description: fmt.Sprintf("Cirrus port for %s", awsFedoraDedicatedID),
-				FromPort:    *cirrusPort,
-				ToPort:      *cirrusPort,
-				Protocol:    "tcp",
-				CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
-			})
-	}
-
-	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
 		Name:         resourcesUtil.GetResourceName(*prefix, awsFedoraDedicatedID, "sg"),
 		VPC:          vpc,
@@ -327,7 +341,6 @@ func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
 	if err != nil {
 		return nil, err
 	}
-	// Convert to an array of IDs
 	sgs := util.ArrayConvert([]*ec2.SecurityGroup{sg.SG},
 		func(sg *ec2.SecurityGroup) pulumi.StringInput {
 			return sg.ID()

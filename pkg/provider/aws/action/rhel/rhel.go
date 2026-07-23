@@ -42,6 +42,7 @@ type RHELArgs struct {
 	Spot           *spotTypes.SpotArgs
 	Airgap         bool
 	ServiceEndpoints []string
+	VpcID *string
 	// If timeout is set a severless scheduled task will be created to self destroy the resources
 	Timeout string
 }
@@ -57,6 +58,7 @@ type rhelRequest struct {
 	profileSNC     *bool
 	timeout        *string
 	serviceEndpoints []string
+	vpcID          *string
 	allocationData *allocation.AllocationResult
 	airgap         *bool
 	diskSize       *int
@@ -86,6 +88,9 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELArgs) (err error) {
 		return err
 	}
 	// Compose request
+	if args.VpcID != nil && args.Airgap {
+		return fmt.Errorf("--vpc-id and --airgap are mutually exclusive")
+	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := rhelRequest{
 		mCtx:             mCtx,
@@ -97,6 +102,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELArgs) (err error) {
 		subsUserpass:     &args.SubsUserpass,
 		profileSNC:       &args.ProfileSNC,
 		serviceEndpoints: args.ServiceEndpoints,
+		vpcID:            args.VpcID,
 		airgap:           &args.Airgap,
 		diskSize:         args.ComputeRequest.DiskSize}
 	if args.Spot != nil {
@@ -108,6 +114,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *RHELArgs) (err error) {
 			ComputeRequest:        args.ComputeRequest,
 			AMIProductDescription: &amiProduct,
 			Spot:                  args.Spot,
+			VpcID:                 args.VpcID,
 		})
 	if err != nil {
 		return err
@@ -206,7 +213,8 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 			CreateLoadBalancer:      r.allocationData.SpotPrice != nil,
 			Airgap:                  *r.airgap,
 			AirgapPhaseConnectivity: r.airgapPhaseConnectivity,
-			ServiceEndpoints:               r.serviceEndpoints,
+			ServiceEndpoints:        r.serviceEndpoints,
+			VpcID:                   r.vpcID,
 		})
 	if err != nil {
 		return err
@@ -222,7 +230,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	// Security groups
-	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc)
+	securityGroups, err := securityGroups(ctx, r.mCtx, r.prefix, nw.Vpc, nw.IsPublic)
 	if err != nil {
 		return err
 	}
@@ -259,7 +267,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		LB:               nw.LoadBalancer,
 		Eip:              nw.Eip,
 		LBTargetGroups:   []int{22}}
-	if r.allocationData.SpotPrice != nil {
+	if r.allocationData.SpotPrice != nil && nw.IsPublic {
 		cr.Spot = true
 		cr.SpotPrice = *r.allocationData.SpotPrice
 	}
@@ -283,6 +291,9 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 			return err
 		}
 	}
+	if !nw.IsPublic {
+		return nil
+	}
 	return c.Readiness(ctx, command.CommandCloudInitWait, *r.prefix, awsRHELDedicatedID,
 		keyResources.PrivateKey, amiUserDefault, nw.Bastion, c.Dependencies)
 }
@@ -303,24 +314,23 @@ func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix *string, 
 	return output.Write(stackResult, mCtx.GetResultsOutputPath(), results)
 }
 
-// security group for mac machine with ingress rules for ssh and vnc
 func securityGroups(ctx *pulumi.Context, mCtx *mc.Context, prefix *string,
-	vpc *ec2.Vpc) (pulumi.StringArray, error) {
-	// ingress for ssh access from 0.0.0.0
-	sshIngressRule := securityGroup.SSH_TCP
-	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
-	// Create SG with ingress rules
+	vpc *ec2.Vpc, public bool) (pulumi.StringArray, error) {
+	var ingressRules []securityGroup.IngressRules
+	if public {
+		sshIngressRule := securityGroup.SSH_TCP
+		sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
+		ingressRules = []securityGroup.IngressRules{sshIngressRule}
+	}
 	sg, err := securityGroup.SGRequest{
-		Name:        resourcesUtil.GetResourceName(*prefix, awsRHELDedicatedID, "sg"),
-		VPC:         vpc,
-		Description: fmt.Sprintf("sg for %s", awsRHELDedicatedID),
-		IngressRules: []securityGroup.IngressRules{
-			sshIngressRule},
+		Name:         resourcesUtil.GetResourceName(*prefix, awsRHELDedicatedID, "sg"),
+		VPC:          vpc,
+		Description:  fmt.Sprintf("sg for %s", awsRHELDedicatedID),
+		IngressRules: ingressRules,
 	}.Create(ctx, mCtx)
 	if err != nil {
 		return nil, err
 	}
-	// Convert to an array of IDs
 	sgs := util.ArrayConvert([]*ec2.SecurityGroup{sg.SG},
 		func(sg *ec2.SecurityGroup) pulumi.StringInput {
 			return sg.ID()
