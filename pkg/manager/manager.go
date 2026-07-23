@@ -83,7 +83,7 @@ func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) e
 	logging.Debugf("destroying stack %s", targetStack.StackName)
 	ctx := mCtx.Context()
 
-	objectStack, err := getStack(ctx, mCtx, targetStack)
+	objectStack, err := getStackForDestroy(ctx, mCtx, targetStack)
 	if err != nil {
 		logging.Error(err)
 		if len(opts) == 1 && opts[0].Background {
