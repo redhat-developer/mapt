@@ -56,11 +56,36 @@ func getOpts(target Stack) []auto.LocalWorkspaceOption {
 	}
 }
 
-func postStack(ctx context.Context, mCtx *mc.Context, target Stack, stack *auto.Stack) (err error) {
-	// Set credentails
-	if err = credentials.SetProviderCredentials(ctx, mCtx, stack, target.ProviderCredentials); err != nil {
-		return
+func setStackCredentials(ctx context.Context, mCtx *mc.Context, target Stack, stack *auto.Stack) error {
+	return credentials.SetProviderCredentials(ctx, mCtx, stack, target.ProviderCredentials)
+}
+
+func postStack(ctx context.Context, mCtx *mc.Context, target Stack, stack *auto.Stack) error {
+	if err := setStackCredentials(ctx, mCtx, target, stack); err != nil {
+		return err
 	}
-	_, err = stack.Refresh(ctx)
-	return
+	_, err := stack.Refresh(ctx)
+	return err
+}
+
+// getStackForDestroy prepares a stack for destroy without running a refresh.
+// Skipping refresh avoids loading Pulumi provider plugins twice, which can
+// consume excessive memory (26+ GB for AWS stacks).
+func getStackForDestroy(ctx context.Context, mCtx *mc.Context, target Stack) (auto.Stack, error) {
+	s, err := auto.UpsertStackInlineSource(ctx,
+		target.StackName,
+		target.ProjectName,
+		target.DeployFunc,
+		getOpts(target)...)
+	if err != nil {
+		logging.Errorf("Failed to create or select stack: %v", err)
+		return auto.Stack{}, err
+	}
+
+	if err = setStackCredentials(ctx, mCtx, target, &s); err != nil {
+		logging.Error(err)
+		return auto.Stack{}, err
+	}
+
+	return s, nil
 }
