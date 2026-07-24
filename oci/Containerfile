@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:c6b19c92a8613bcfdf69ef00a6ea94ac689ec76d07758d71416c1faa6f35f431 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:5f5c97d7e6d917b8328321bcf2c9d5700de65b72d434ecdbbba6f35aaebaad40 as builder
 ARG TARGETARCH
 USER root
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.252.0
+ENV PULUMI_VERSION 3.254.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -20,11 +20,11 @@ RUN unset VERSION \
 
 # Pulumi plugins — installed in build stage, copied into runtime
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v7.36.0
+ARG PULUMI_AWS_VERSION=v7.39.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
-ARG PULUMI_AWSX_VERSION=v3.7.0
+ARG PULUMI_AWSX_VERSION=v3.8.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v3.20.0
+ARG PULUMI_AZURE_NATIVE_VERSION=v3.23.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v1.2.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
@@ -32,9 +32,9 @@ ARG PULUMI_TLS_VERSION=v5.5.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.21.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.71.0
+ARG PULUMI_AWS_NATIVE_VERSION=v1.72.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
-ARG PULUMI_GITLAB_VERSION=v10.0.0
+ARG PULUMI_GITLAB_VERSION=v10.1.1
 # renovate: datasource=github-releases depName=mapt-oss/pulumi-ibmcloud
 ARG PULUMI_IBMCLOUD_VERSION=v0.0.12
 ENV IBMCLOUD_PLUGIN_URL https://github.com/mapt-oss/pulumi-ibmcloud/releases/download/${PULUMI_IBMCLOUD_VERSION}/pulumi-resource-ibmcloud-${PULUMI_IBMCLOUD_VERSION}-linux-${TARGETARCH}.tar.gz
@@ -56,7 +56,7 @@ RUN mkdir -p ${PULUMI_HOME} \
     && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION}
 
 # Stage 2: Red Hat Hardened minimal runtime (glibc + coreutils, no toolchain)
-FROM registry.access.redhat.com/hi/core-runtime@sha256:809fd66403145e6e98be0f8cce601f4fd0a685ff9cd3d11795aa987250d15c42
+FROM registry.access.redhat.com/hi/core-runtime@sha256:a46b9b10e04844b0f5363b308e0dfc83a13499219dbf96042567986c2cda56ba
 USER 0
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
