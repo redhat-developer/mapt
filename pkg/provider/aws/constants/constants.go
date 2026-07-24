@@ -3,9 +3,6 @@ package constants
 const (
 	CONFIG_AWS_REGION        string = "aws:region"
 	CONFIG_AWS_NATIVE_REGION string = "aws-native:region"
-	CONFIG_AWS_ACCESS_KEY    string = "aws:accessKey"
-	CONFIG_AWS_SECRET_KEY    string = "aws:secretKey"
-	CONFIG_AWS_SESSION_TOKEN string = "aws:token"
 )
 
 const (
