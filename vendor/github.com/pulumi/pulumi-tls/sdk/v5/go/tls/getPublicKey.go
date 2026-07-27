@@ -41,10 +41,14 @@ import (
 //				PrivateKeyPem: ed25519_example.PrivateKeyPem,
 //			}, nil)
 //			// Public key loaded from filesystem, using the Open SSH (RFC 4716) format
+//			invokeFile, err := std.File(ctx, &std.FileArgs{
+//				Input: "~/.ssh/id_rsa_rfc4716",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
 //			_, err = tls.GetPublicKey(ctx, &tls.GetPublicKeyArgs{
-//				PrivateKeyOpenssh: pulumi.StringRef(std.File(ctx, &std.FileArgs{
-//					Input: "~/.ssh/id_rsa_rfc4716",
-//				}, nil).Result),
+//				PrivateKeyOpenssh: pulumi.StringRef(invokeFile.Result),
 //			}, nil)
 //			if err != nil {
 //				return err
