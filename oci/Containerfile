@@ -28,9 +28,9 @@ ARG PULUMI_AZURE_NATIVE_VERSION=v3.20.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v1.2.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
-ARG PULUMI_TLS_VERSION=v5.5.0
+ARG PULUMI_TLS_VERSION=v5.5.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
-ARG PULUMI_RANDOM_VERSION=v4.21.0
+ARG PULUMI_RANDOM_VERSION=v4.21.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
 ARG PULUMI_AWS_NATIVE_VERSION=v1.71.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab

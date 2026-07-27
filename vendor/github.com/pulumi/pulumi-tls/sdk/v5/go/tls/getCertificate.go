@@ -75,10 +75,14 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
+//			invokeFile, err := std.File(ctx, &std.FileArgs{
+//				Input: "example.pem",
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
 //			_, err := tls.GetCertificate(ctx, &tls.GetCertificateArgs{
-//				Content: pulumi.StringRef(std.File(ctx, &std.FileArgs{
-//					Input: "example.pem",
-//				}, nil).Result),
+//				Content: pulumi.StringRef(invokeFile.Result),
 //			}, nil)
 //			if err != nil {
 //				return err
