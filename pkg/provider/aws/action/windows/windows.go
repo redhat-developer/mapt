@@ -46,6 +46,7 @@ type WindowsServerArgs struct {
 	AMIOwner    string
 	AMILang     string
 	AMIKeepCopy bool
+	AMIID       string
 	// Machine params
 	ComputeRequest *cr.ComputeRequestArgs
 	Spot           *spotTypes.SpotArgs
@@ -64,6 +65,7 @@ type windowsServerRequest struct {
 	amiOwner    *string
 	amiLang     *string
 	amiKeepCopy *bool
+	amiID       *string
 
 	spot           bool
 	timeout        *string
@@ -114,6 +116,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 		amiOwner:         &args.AMIOwner,
 		amiKeepCopy:      &args.AMIKeepCopy,
 		amiLang:          &args.AMILang,
+		amiID:            &args.AMIID,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
 		airgap:           &args.Airgap,
@@ -134,29 +137,31 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsServerArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	isAMIOffered, _, err := data.IsAMIOffered(
-		mCtx.Context(),
-		data.ImageRequest{
-			Name:   r.amiName,
-			Region: r.allocationData.Region})
-	if err != nil {
-		return err
-	}
-	// If it is not offered need to create a copy on the target region
-	if !isAMIOffered {
-		acr := amiCopy.CopyAMIRequest{
-			MCtx:            mCtx,
-			Prefix:          *r.prefix,
-			ID:              awsWindowsDedicatedID,
-			AMISourceName:   r.amiName,
-			AMISourceArch:   nil,
-			AMITargetRegion: r.allocationData.Region,
-			AMIKeepCopy:     *r.amiKeepCopy,
-			FastLaunch:      amiFastLaunch,
-			MaxParallel:     int32(amiFastLaunchMaxParallel),
-		}
-		if err := acr.Create(); err != nil {
+	if len(*r.amiID) == 0 {
+		isAMIOffered, _, err := data.IsAMIOffered(
+			mCtx.Context(),
+			data.ImageRequest{
+				Name:   r.amiName,
+				Region: r.allocationData.Region})
+		if err != nil {
 			return err
+		}
+		// If it is not offered need to create a copy on the target region
+		if !isAMIOffered {
+			acr := amiCopy.CopyAMIRequest{
+				MCtx:            mCtx,
+				Prefix:          *r.prefix,
+				ID:              awsWindowsDedicatedID,
+				AMISourceName:   r.amiName,
+				AMISourceArch:   nil,
+				AMITargetRegion: r.allocationData.Region,
+				AMIKeepCopy:     *r.amiKeepCopy,
+				FastLaunch:      amiFastLaunch,
+				MaxParallel:     int32(amiFastLaunchMaxParallel),
+			}
+			if err := acr.Create(); err != nil {
+				return err
+			}
 		}
 	}
 	// if not only host the mac machine will be created
@@ -258,11 +263,15 @@ func (r *windowsServerRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Get AMI ref
-	// ami, err := amiSVC.GetAMIByName(ctx, r.AMIName, r.AMIOwner, nil)
-	ami, err := amiSVC.GetAMIByName(ctx,
-		fmt.Sprintf("%s*", *r.amiName),
-		[]string{*r.amiOwner}, nil)
-
+	var ami *ec2.LookupAmiResult
+	var err error
+	if len(*r.amiID) > 0 {
+		ami, err = amiSVC.GetAMIByID(ctx, *r.amiID)
+	} else {
+		ami, err = amiSVC.GetAMIByName(ctx,
+			fmt.Sprintf("%s*", *r.amiName),
+			[]string{*r.amiOwner}, nil)
+	}
 	if err != nil {
 		return err
 	}
