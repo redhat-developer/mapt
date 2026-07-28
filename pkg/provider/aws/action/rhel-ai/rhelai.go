@@ -37,6 +37,7 @@ type rhelAIRequest struct {
 	prefix           *string
 	amiName          *string
 	arch             *string
+	amiID            *string
 	spot             bool
 	timeout          *string
 	serviceEndpoints []string
@@ -79,6 +80,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 		prefix:           &prefix,
 		amiName:          &amiName,
 		arch:             &args.Arch,
+		amiID:            &args.AMIID,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
 		diskSize:         args.ComputeRequest.DiskSize,
@@ -101,8 +103,10 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiRHELAI.RHELAIArgs) (err error) {
 	if err != nil {
 		return err
 	}
-	if err = checkAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &amiArch); err != nil {
-		return err
+	if len(args.AMIID) == 0 {
+		if err = checkAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &amiArch); err != nil {
+			return err
+		}
 	}
 	return r.createMachine()
 }
@@ -211,11 +215,17 @@ func (r *rhelAIRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Get AMI
-	ami, err := amiSVC.GetAMIByName(ctx,
-		*r.amiName,
-		[]string{amiOwner},
-		map[string]string{
-			"architecture": amiArch})
+	var ami *ec2.LookupAmiResult
+	var err error
+	if len(*r.amiID) > 0 {
+		ami, err = amiSVC.GetAMIByID(ctx, *r.amiID)
+	} else {
+		ami, err = amiSVC.GetAMIByName(ctx,
+			*r.amiName,
+			[]string{amiOwner},
+			map[string]string{
+				"architecture": amiArch})
+	}
 	if err != nil {
 		return err
 	}

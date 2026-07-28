@@ -36,6 +36,7 @@ type FedoraArgs struct {
 	Prefix         string
 	Version        string
 	Arch           string
+	AMIID          string
 	ComputeRequest *cr.ComputeRequestArgs
 	Spot           *spotTypes.SpotArgs
 	Airgap         bool
@@ -49,6 +50,7 @@ type fedoraRequest struct {
 	prefix         *string
 	version        *string
 	arch           *string
+	amiID          *string
 	spot           bool
 	timeout        *string
 	serviceEndpoints []string
@@ -87,6 +89,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) (err error) {
 		prefix:           &prefix,
 		version:          &args.Version,
 		arch:             &args.Arch,
+		amiID:            &args.AMIID,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
 		airgap:           &args.Airgap,
@@ -184,11 +187,17 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Get AMI
-	ami, err := amiSVC.GetAMIByName(ctx,
-		fmt.Sprintf(amiRegex[*r.arch], *r.version),
-		[]string{amiOwner},
-		map[string]string{
-			"architecture": *r.arch})
+	var ami *ec2.LookupAmiResult
+	var err error
+	if len(*r.amiID) > 0 {
+		ami, err = amiSVC.GetAMIByID(ctx, *r.amiID)
+	} else {
+		ami, err = amiSVC.GetAMIByName(ctx,
+			fmt.Sprintf(amiRegex[*r.arch], *r.version),
+			[]string{amiOwner},
+			map[string]string{
+				"architecture": *r.arch})
+	}
 	if err != nil {
 		return err
 	}
