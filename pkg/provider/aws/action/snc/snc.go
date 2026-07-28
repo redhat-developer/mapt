@@ -40,6 +40,7 @@ type openshiftSNCRequest struct {
 	version                 *string
 	disableClusterReadiness bool
 	arch                    *string
+	amiID                   *string
 	spot                    bool
 	timeout                 *string
 	pullSecretFile          *string
@@ -84,6 +85,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 		version:                 &args.Version,
 		disableClusterReadiness: args.DisableClusterReadiness,
 		arch:                    &args.Arch,
+		amiID:                   &args.AMIID,
 		pullSecretFile:          &args.PullSecretFile,
 		timeout:                 &args.Timeout,
 		serviceEndpoints:        args.ServiceEndpoints,
@@ -105,9 +107,11 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (_ *apiSNC.SNCResult
 		return nil, err
 	}
 	// check if AMI exists
-	amiName := amiName(&args.Version, &args.Arch)
-	if err = checkAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &args.Arch); err != nil {
-		return nil, err
+	if len(args.AMIID) == 0 {
+		amiName := amiName(&args.Version, &args.Arch)
+		if err = checkAMIExists(mCtx.Context(), &amiName, r.allocationData.Region, &args.Arch); err != nil {
+			return nil, err
+		}
 	}
 	return r.createCluster()
 }
@@ -169,11 +173,17 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Get AMI
-	ami, err := amiSVC.GetAMIByName(ctx,
-		fmt.Sprintf("%s*", amiName(r.version, r.arch)),
-		[]string{"self", amiOwner},
-		map[string]string{
-			"architecture": *r.arch})
+	var ami *ec2.LookupAmiResult
+	var err error
+	if len(*r.amiID) > 0 {
+		ami, err = amiSVC.GetAMIByID(ctx, *r.amiID)
+	} else {
+		ami, err = amiSVC.GetAMIByName(ctx,
+			fmt.Sprintf("%s*", amiName(r.version, r.arch)),
+			[]string{"self", amiOwner},
+			map[string]string{
+				"architecture": *r.arch})
+	}
 	if err != nil {
 		return err
 	}

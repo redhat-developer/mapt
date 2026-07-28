@@ -12,6 +12,7 @@ type RHELAIArgs struct {
 	CustomImage      string
 	Marketplace      bool
 	Arch             string
+	AMIID            string
 	ComputeRequest   *cr.ComputeRequestArgs
 	Spot             *spotTypes.SpotArgs
 	ServiceEndpoints []string

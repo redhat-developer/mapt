@@ -94,6 +94,7 @@ func createSNC() *cobra.Command {
 					Version:                 viper.GetString(ocpVersion),
 					DisableClusterReadiness: viper.IsSet(disableClusterReadiness),
 					Arch:                    viper.GetString(params.LinuxArch),
+					AMIID:                   viper.GetString(params.AMIIDName),
 					PullSecretFile:          viper.GetString(pullSecretFile),
 					Timeout:                 viper.GetString(params.Timeout),
 					ServiceEndpoints:        params.NetworkServiceEndpoints(),
@@ -110,6 +111,7 @@ func createSNC() *cobra.Command {
 	flagSet.StringP(ocpVersion, "", ocpDefaultVersion, ocpVersionDesc)
 	flagSet.Bool(disableClusterReadiness, false, disableClusterReadinessDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
+	flagSet.StringP(params.AMIIDName, "", "", params.AMIIDDesc)
 	flagSet.StringP(pullSecretFile, "", "", pullSecretFileDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)

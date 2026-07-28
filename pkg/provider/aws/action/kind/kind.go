@@ -32,6 +32,7 @@ type kindRequest struct {
 	prefix            *string
 	version           *string
 	arch              *string
+	amiID             *string
 	spot              bool
 	timeout           *string
 	serviceEndpoints  []string
@@ -64,6 +65,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (kr *utilKind.Kin
 		prefix:            &prefix,
 		version:           &args.Version,
 		arch:              &args.Arch,
+		amiID:             &args.AMIID,
 		timeout:           &args.Timeout,
 		serviceEndpoints:  args.ServiceEndpoints,
 		extraPortMappings: args.ExtraPortMappings,
@@ -138,10 +140,16 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 			pulumi.Float64(*r.allocationData.SpotPrice))
 	}
 	// Get AMI
-	ami, err := amiSVC.GetAMIByName(ctx,
-		amiName(r.arch),
-		[]string{amiOwner},
-		map[string]string{"architecture": *r.arch})
+	var ami *ec2.LookupAmiResult
+	var err error
+	if len(*r.amiID) > 0 {
+		ami, err = amiSVC.GetAMIByID(ctx, *r.amiID)
+	} else {
+		ami, err = amiSVC.GetAMIByName(ctx,
+			amiName(r.arch),
+			[]string{amiOwner},
+			map[string]string{"architecture": *r.arch})
+	}
 	if err != nil {
 		return err
 	}
