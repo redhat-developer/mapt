@@ -157,6 +157,22 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	if err != nil {
 		return err
 	}
+	if pat, err := github.GetManagementToken(); err == nil {
+		if stack, err := manager.CheckStack(mCtx, manager.Stack{
+			StackName:           mCtx.StackNameByProject(stackIBMPowerVS),
+			ProjectName:         mCtx.ProjectName(),
+			BackedURL:           mCtx.BackedURL(),
+			ProviderCredentials: ibmcloudp.DefaultCredentials,
+		}); err == nil {
+			if stackOutputs, err := manager.GetOutputs(mCtx, stack); err == nil {
+				raw := make(map[string]interface{}, len(stackOutputs))
+				for k, v := range stackOutputs {
+					raw[k] = v.Value
+				}
+				github.TryDeregister(pat, raw)
+			}
+		}
+	}
 	if err := ibmcloudp.DestroyStack(mCtx, stackIBMPowerVS); err != nil {
 		return err
 	}
@@ -188,6 +204,13 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		return fmt.Errorf("partial otel configuration: --otel-app-code, --otel-auth-token, and --otel-index must all be set together")
 	}
 	hasOtel := otelSet == 3
+
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return err
+		}
+		github.ExportRunnerOutputs(ctx)
+	}
 
 	ghRunnerScript := ""
 	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {

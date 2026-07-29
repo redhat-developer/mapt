@@ -1,7 +1,7 @@
 mkdir ~/actions-runner && cd ~/actions-runner
 curl -o actions-runner-osx.tar.gz -L {{ .CliURL }}
 tar xzf ./actions-runner-osx.tar.gz
-./config.sh --token {{ .Token }} --url {{ .RepoURL }} --name {{ .Name }} --unattended --replace --labels {{ .Labels }}
+./config.sh --token {{ .Token }} --url {{ .RepoURL }} --name {{ .Name }} --unattended --replace --labels {{ .Labels }}{{ if .Ephemeral }} --ephemeral{{ end }}
 ./svc.sh install
 plistName=$(basename $(./svc.sh status | grep "plist$"))
 mkdir -p /Library/LaunchDaemons

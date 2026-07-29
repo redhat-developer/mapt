@@ -142,6 +142,22 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 	if err != nil {
 		return err
 	}
+	if pat, err := github.GetManagementToken(); err == nil {
+		if stack, err := manager.CheckStack(mCtx, manager.Stack{
+			StackName:           mCtx.StackNameByProject(stackIBMS390),
+			ProjectName:         mCtx.ProjectName(),
+			BackedURL:           mCtx.BackedURL(),
+			ProviderCredentials: ibmcloudp.DefaultCredentials,
+		}); err == nil {
+			if stackOutputs, err := manager.GetOutputs(mCtx, stack); err == nil {
+				raw := make(map[string]interface{}, len(stackOutputs))
+				for k, v := range stackOutputs {
+					raw[k] = v.Value
+				}
+				github.TryDeregister(pat, raw)
+			}
+		}
+	}
 	if err := ibmcloudp.DestroyStack(mCtx, stackIBMS390); err != nil {
 		return err
 	}
@@ -149,6 +165,13 @@ func Destroy(mCtxArgs *mc.ContextArgs) (err error) {
 }
 
 func (r *zRequest) deploy(ctx *pulumi.Context) error {
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return err
+		}
+		github.ExportRunnerOutputs(ctx)
+	}
+
 	if glRunnerArgs := gitlab.GetRunnerArgs(); glRunnerArgs != nil && r.glAuthToken == nil {
 		authToken, err := gitlab.CreateRunner(ctx, glRunnerArgs)
 		if err != nil {

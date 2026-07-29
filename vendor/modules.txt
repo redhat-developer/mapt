@@ -930,6 +930,10 @@ github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild/internal
 ## explicit; go 1.21
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker
 github.com/pulumi/pulumi-docker/sdk/v4/go/docker/internal
+# github.com/pulumi/pulumi-github/sdk/v6 v6.14.0
+## explicit; go 1.25.8
+github.com/pulumi/pulumi-github/sdk/v6/go/github
+github.com/pulumi/pulumi-github/sdk/v6/go/github/internal
 # github.com/pulumi/pulumi-gitlab/sdk/v9 v9.11.1
 ## explicit; go 1.25.8
 github.com/pulumi/pulumi-gitlab/sdk/v9/go/gitlab
