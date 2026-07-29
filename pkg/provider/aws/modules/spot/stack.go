@@ -22,6 +22,7 @@ type SpotStackArgs struct {
 	AMIName            string
 	AMIArch            string
 	Spot               *spotTypes.SpotArgs
+	AllowedAZs         []string
 }
 
 type SpotStackResult struct {
@@ -40,6 +41,7 @@ type spotStackRequest struct {
 	amiName            string
 	amiArch            string
 	spot               *spotTypes.SpotArgs
+	allowedAZs         []string
 }
 
 func (r *SpotStackArgs) validate() error {
@@ -55,6 +57,7 @@ func (r *SpotStackArgs) toRequest(mCtx *mc.Context) *spotStackRequest {
 		amiName:            r.AMIName,
 		amiArch:            r.AMIArch,
 		spot:               r.Spot,
+		allowedAZs:         r.AllowedAZs,
 	}
 }
 
@@ -131,6 +134,7 @@ func (r *spotStackRequest) deployer(ctx *pulumi.Context) error {
 		InstaceTypes:       r.instaceTypes,
 		AMIName:            &r.amiName,
 		AMIArch:            &r.amiArch,
+		AllowedAZs:         r.allowedAZs,
 	}
 	if r.spot != nil {
 		sia.ExcludedRegions = r.spot.ExcludedHostingPlaces
