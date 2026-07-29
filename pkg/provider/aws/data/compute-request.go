@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"strings"
 
 	"github.com/aws/amazon-ec2-instance-selector/v3/pkg/bytequantity"
 	"github.com/aws/amazon-ec2-instance-selector/v3/pkg/selector"
@@ -48,6 +49,7 @@ func getInstanceTypes(ctx context.Context, args *computerequest.ComputeRequestAr
 			result = append(result, string(d.InstanceType))
 		}
 	}
+	result = filterByFamily(result, args.InstanceFamilies)
 	return result, nil
 }
 
@@ -96,3 +98,21 @@ func arch(ca computerequest.Arch) *ec2types.ArchitectureType {
 	return &arch
 }
 
+// filterByFamily returns only instance types whose family prefix (the part
+// before the first ".") is in the families allowlist.
+// If families is empty, all types are returned unchanged.
+func filterByFamily(types []string, families []string) []string {
+	if len(families) == 0 {
+		return types
+	}
+	var out []string
+	for _, t := range types {
+		for _, fam := range families {
+			if strings.HasPrefix(t, fam+".") {
+				out = append(out, t)
+				break
+			}
+		}
+	}
+	return out
+}
