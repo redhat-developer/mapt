@@ -7,6 +7,7 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -127,6 +128,23 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 	mCtx, err := mc.Init(mCtxArgs, aws.Provider())
 	if err != nil {
 		return err
+	}
+
+	if pat, err := github.GetManagementToken(); err == nil {
+		if stack, err := manager.CheckStack(mCtx, manager.Stack{
+			StackName:           mCtx.StackNameByProject(stackName),
+			ProjectName:         mCtx.ProjectName(),
+			BackedURL:           mCtx.BackedURL(),
+			ProviderCredentials: aws.DefaultCredentials,
+		}); err == nil {
+			if stackOutputs, err := manager.GetOutputs(mCtx, stack); err == nil {
+				raw := make(map[string]interface{}, len(stackOutputs))
+				for k, v := range stackOutputs {
+					raw[k] = v.Value
+				}
+				github.TryDeregister(pat, raw)
+			}
+		}
 	}
 
 	if err := aws.DestroyStack(

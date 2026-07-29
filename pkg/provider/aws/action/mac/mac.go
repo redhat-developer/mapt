@@ -1,6 +1,8 @@
 package mac
 
 import (
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
@@ -116,6 +118,22 @@ func Destroy(mCtxArgs *mc.ContextArgs, hostID string) error {
 		return err
 	}
 	if !machineLocked {
+		if pat, err := github.GetManagementToken(); err == nil {
+			if stack, err := manager.CheckStack(mCtx, manager.Stack{
+				StackName:           mCtx.StackNameByProject(mac.StackMacMachine),
+				ProjectName:         mCtx.ProjectName(),
+				BackedURL:           mCtx.BackedURL(),
+				ProviderCredentials: aws.DefaultCredentials,
+			}); err == nil {
+				if stackOutputs, err := manager.GetOutputs(mCtx, stack); err == nil {
+					raw := make(map[string]interface{}, len(stackOutputs))
+					for k, v := range stackOutputs {
+						raw[k] = v.Value
+					}
+					github.TryDeregister(pat, raw)
+				}
+			}
+		}
 		if err := aws.DestroyStack(
 			mCtx,
 			aws.DestroyStackRequest{

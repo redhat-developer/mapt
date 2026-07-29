@@ -20,6 +20,12 @@ for f in /etc/pam.d/system-auth /etc/pam.d/password-auth; do
 done
 systemctl restart sshd 2>/dev/null || true
 
+# vm.sh may fail on a flaky test but still produce a complete layout; copy it if needed
+if [ ! -f /opt/runner-cache/config.sh ] && [ -f /tmp/runner/_layout/config.sh ]; then
+    mkdir -p /opt/runner-cache
+    cp -a /tmp/runner/_layout/. /opt/runner-cache/
+fi
+
 if [ ! -f /opt/runner-cache/config.sh ]; then
     echo "Runner binary not found after build" >&2
     exit 1
@@ -34,11 +40,11 @@ sudo -u runner bash -c '
     ./config.sh \
         --unattended \
         --disableupdate \
-        --ephemeral \
         --name "{{ .Name }}" \
         --labels "{{ .Labels }}" \
         --url "{{ .RepoURL }}" \
-        --token "{{ .Token }}"
+        --token "{{ .Token }}"{{ if .Ephemeral }} \
+        --ephemeral{{ end }}
 
     nohup ./run.sh > /tmp/gh-runner.log 2>&1 &
 '

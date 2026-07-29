@@ -128,6 +128,22 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 	if err != nil {
 		return err
 	}
+	if pat, err := github.GetManagementToken(); err == nil {
+		if stack, err := manager.CheckStack(mCtx, manager.Stack{
+			StackName:           mCtx.StackNameByProject(stackCreateWindowsDesktop),
+			ProjectName:         mCtx.ProjectName(),
+			BackedURL:           mCtx.BackedURL(),
+			ProviderCredentials: azure.DefaultCredentials,
+		}); err == nil {
+			if stackOutputs, err := manager.GetOutputs(mCtx, stack); err == nil {
+				raw := make(map[string]interface{}, len(stackOutputs))
+				for k, v := range stackOutputs {
+					raw[k] = v.Value
+				}
+				github.TryDeregister(pat, raw)
+			}
+		}
+	}
 	if err := azure.DestroyStack(mCtx, azure.DestroyStackRequest{
 		Stackname: stackCreateWindowsDesktop,
 	}); err != nil {
@@ -299,6 +315,13 @@ func (r *windowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 	b, err := r.uploadScript(ctx, rg, location)
 	if err != nil {
 		return nil, nil, err
+	}
+
+	if ghRunnerArgs := github.GetRunnerArgs(); ghRunnerArgs != nil {
+		if err := github.SetupRunner(ctx, ghRunnerArgs); err != nil {
+			return nil, nil, err
+		}
+		github.ExportRunnerOutputs(ctx)
 	}
 
 	// Check if GitLab runner args exist and create runner if needed

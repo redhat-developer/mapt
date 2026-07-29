@@ -9,6 +9,7 @@ import (
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -133,6 +134,22 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 	mCtx, err := mc.Init(mCtxArgs, azure.ProviderOptionalLocation())
 	if err != nil {
 		return err
+	}
+	if pat, err := github.GetManagementToken(); err == nil {
+		if stack, err := manager.CheckStack(mCtx, manager.Stack{
+			StackName:           mCtx.StackNameByProject(stackAzureLinux),
+			ProjectName:         mCtx.ProjectName(),
+			BackedURL:           mCtx.BackedURL(),
+			ProviderCredentials: azure.DefaultCredentials,
+		}); err == nil {
+			if stackOutputs, err := manager.GetOutputs(mCtx, stack); err == nil {
+				raw := make(map[string]interface{}, len(stackOutputs))
+				for k, v := range stackOutputs {
+					raw[k] = v.Value
+				}
+				github.TryDeregister(pat, raw)
+			}
+		}
 	}
 	if err := azure.DestroyStack(mCtx, azure.DestroyStackRequest{
 		Stackname: stackAzureLinux,

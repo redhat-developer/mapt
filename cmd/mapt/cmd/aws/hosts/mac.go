@@ -116,6 +116,7 @@ func getMacDestroy() *cobra.Command {
 					DebugLevel:   viper.GetUint(params.DebugLevel),
 					ForceDestroy: viper.IsSet(params.ForceDestroy),
 					KeepState:    viper.IsSet(params.KeepState),
+					GHRunnerArgs: params.GithubRunnerDeregisterArgs(nil),
 				},
 				viper.GetString(awsParams.MACDHID))
 		},
@@ -124,6 +125,7 @@ func getMacDestroy() *cobra.Command {
 	flagSet.StringP(awsParams.MACDHID, "", "", awsParams.MACDHIDDesc)
 	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
+	params.AddGHActionsFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	err := c.MarkPersistentFlagRequired(awsParams.MACDHID)
 	if err != nil {

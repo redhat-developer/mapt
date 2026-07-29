@@ -3,10 +3,14 @@ package github
 import (
 	_ "embed"
 	"fmt"
+	"os"
 	"strings"
 
+	"github.com/pulumi/pulumi-github/sdk/v6/go/github"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
 	"github.com/redhat-developer/mapt/pkg/util"
+	"github.com/redhat-developer/mapt/pkg/util/logging"
 )
 
 var runnerVersion = "2.317.0"
@@ -53,12 +57,17 @@ func (args *GithubRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 	if args == nil {
 		return nil
 	}
+	repoURL := args.RepoURL
+	if args.Org != "" {
+		repoURL = "https://github.com/" + args.Org
+	}
 	return &integrations.UserDataValues{
-		Name:            args.Name,
-		Token:           args.Token,
-		Labels:          getLabels(),
-		RepoURL:         args.RepoURL,
-		CliURL:          downloadURL(),
+		Name:                   args.Name,
+		Token:                  args.Token,
+		Labels:                 getLabels(),
+		RepoURL:                repoURL,
+		CliURL:                 downloadURL(),
+		Ephemeral:              args.Ephemeral,
 		RunnerImageRepo:        runnerImageRepo,
 		RunnerImageRepoVersion: runnerImageRepoVersion,
 	}
@@ -105,4 +114,129 @@ func getLabels() string {
 		return ""
 	}
 	return util.IfNillable(runnerArgs != nil, labels, "")
+}
+
+const (
+	outputRunnerName = "gh-runner-name"
+	outputRunnerOrg  = "gh-runner-org"
+	outputRunnerRepo = "gh-runner-repo"
+)
+
+// GetManagementToken returns a GitHub token suitable for runner management.
+// For GitHub App auth it generates a fresh installation access token.
+// For PAT auth it reads GITHUB_TOKEN from the environment.
+func GetManagementToken() (string, error) {
+	if runnerArgs != nil && runnerArgs.AppID != "" {
+		return GenerateInstallationToken(runnerArgs.AppID, runnerArgs.InstallationID, runnerArgs.PrivateKeyPath)
+	}
+	if pat := os.Getenv("GITHUB_TOKEN"); pat != "" {
+		return pat, nil
+	}
+	return "", fmt.Errorf("no GitHub credentials: set GITHUB_TOKEN or use --ghactions-app-* flags")
+}
+
+// ExportRunnerOutputs writes the runner name and target (org or repo URL) as
+// Pulumi stack outputs. Call this from deploy() after SetupRunner so the
+// destroy path can read them back without re-parsing CLI flags.
+func ExportRunnerOutputs(ctx *pulumi.Context) {
+	if runnerArgs == nil {
+		return
+	}
+	ctx.Export(outputRunnerName, pulumi.String(runnerArgs.Name))
+	if runnerArgs.Org != "" {
+		ctx.Export(outputRunnerOrg, pulumi.String(runnerArgs.Org))
+	} else {
+		ctx.Export(outputRunnerRepo, pulumi.String(runnerArgs.RepoURL))
+	}
+}
+
+// TryDeregister removes the runner from GitHub using pat and the stack outputs
+// previously written by ExportRunnerOutputs. It is best-effort: errors are
+// logged as warnings so the caller's destroy always proceeds.
+// outputs is the raw value map from auto.OutputMap (key → output.Value).
+func TryDeregister(pat string, outputs map[string]interface{}) {
+	if pat == "" {
+		logging.Warn("GITHUB_TOKEN not set, skipping GitHub runner deregistration")
+		return
+	}
+	name, _ := outputs[outputRunnerName].(string)
+	if name == "" {
+		return
+	}
+	if org, _ := outputs[outputRunnerOrg].(string); org != "" {
+		if err := DeleteOrgRunner(pat, org, name); err != nil {
+			logging.Warnf("GitHub runner deregistration failed: %v", err)
+			return
+		}
+		logging.Infof("GitHub runner %q deregistered from org %q", name, org)
+		return
+	}
+	if repo, _ := outputs[outputRunnerRepo].(string); repo != "" {
+		if err := DeleteRepoRunner(pat, repo, name); err != nil {
+			logging.Warnf("GitHub runner deregistration failed: %v", err)
+			return
+		}
+		logging.Infof("GitHub runner %q deregistered from repo %q", name, repo)
+	}
+}
+
+// SetupRunner fetches a runner registration token from the GitHub App and
+// sets it on args. It is a no-op when args is nil, Token is already set,
+// or AppID is empty (PAT / plain-token paths are handled in params).
+func SetupRunner(ctx *pulumi.Context, args *GithubRunnerArgs) error {
+	if args == nil || args.AppID == "" || args.Token != "" {
+		return nil
+	}
+
+	pemBytes, err := os.ReadFile(args.PrivateKeyPath)
+	if err != nil {
+		return fmt.Errorf("reading GitHub App private key: %w", err)
+	}
+
+	var owner string
+	if args.Org != "" {
+		owner = args.Org
+	} else {
+		owner, _, err = splitOwnerRepo(args.RepoURL)
+		if err != nil {
+			return err
+		}
+	}
+
+	provider, err := github.NewProvider(ctx, "github-app-provider",
+		&github.ProviderArgs{
+			Owner: pulumi.String(owner),
+			AppAuth: github.ProviderAppAuthArgs{
+				Id:             pulumi.String(args.AppID),
+				InstallationId: pulumi.String(args.InstallationID),
+				PemFile:        pulumi.ToSecret(pulumi.String(string(pemBytes))).(pulumi.StringInput),
+			},
+		})
+
+	if err != nil {
+		return fmt.Errorf("creating GitHub App provider: %w", err)
+	}
+
+	if args.Org != "" {
+		result, err := github.GetActionsOrganizationRegistrationToken(ctx, pulumi.Provider(provider))
+		if err != nil {
+			return fmt.Errorf("fetching org runner registration token: %w", err)
+		}
+		args.Token = result.Token
+	} else {
+		_, repo, err := splitOwnerRepo(args.RepoURL)
+		if err != nil {
+			return err
+		}
+		result, err := github.GetActionsRegistrationToken(ctx,
+			&github.GetActionsRegistrationTokenArgs{Repository: repo},
+			pulumi.Provider(provider))
+		if err != nil {
+			return fmt.Errorf("fetching runner registration token: %w", err)
+		}
+		args.Token = result.Token
+	}
+
+	logging.Info("runner registration token generated from GitHub App successfully")
+	return nil
 }

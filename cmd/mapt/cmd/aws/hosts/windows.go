@@ -121,6 +121,7 @@ func getWindowsDestroy() *cobra.Command {
 				Serverless:   viper.IsSet(params.Serverless),
 				ForceDestroy: viper.IsSet(params.ForceDestroy),
 				KeepState:    viper.IsSet(params.KeepState),
+				GHRunnerArgs: params.GithubRunnerDeregisterArgs(nil),
 			})
 		},
 	}
@@ -128,6 +129,7 @@ func getWindowsDestroy() *cobra.Command {
 	flagSet.Bool(params.Serverless, false, params.ServerlessDesc)
 	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
 	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
+	params.AddGHActionsFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c
 }
