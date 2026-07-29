@@ -32,6 +32,10 @@ type ComputeRequestArgs struct {
 	// In case we want an specific type / size
 	// we can set them directly
 	ComputeSizes []string
+	// InstanceFamilies is an optional allowlist of AWS instance family prefixes
+	// (e.g. ["m5", "m6i"]). Empty means no restriction.
+	// Only used when ComputeSizes is empty.
+	InstanceFamilies []string
 	// Disk size in GB, nil means use provider default
 	DiskSize *int
 }
