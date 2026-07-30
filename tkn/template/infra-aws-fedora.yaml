@@ -91,6 +91,9 @@ spec:
     - name: cpus
       description: Number of CPUs for the cloud instance (default 8)
       default: "8"
+    - name: disk-size
+      description: Disk size in GB for the cloud instance
+      default: "200"
     - name: gpu-manufacturer
       description: Manufacturer company name for GPU. (i.e. NVIDIA)
       default: ""
@@ -103,15 +106,12 @@ spec:
     - name: nested-virt
       description: Use cloud instance that has nested virtualization support
       default: "false"
-    - name: disk-size
-      description: Disk size in GB for the cloud instance
-      default: "200"
     - name: spot
       description: Check best spot option to spin the machine and will create resources on that region.
       default: "true"
     - name: spot-eviction-tolerance
-      description: | 
-        If spot is enabled we can define the minimum tolerance level of eviction. 
+      description: |
+        If spot is enabled we can define the minimum tolerance level of eviction.
         Allowed value are: lowest, low, medium, high or highest
       default: "lowest"
     - name: spot-excluded-regions

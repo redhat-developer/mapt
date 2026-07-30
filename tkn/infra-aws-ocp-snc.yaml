@@ -103,6 +103,9 @@ spec:
     - name: cpus
       description: Number of CPUs for the cloud instance (default 8)
       default: '8'
+    - name: disk-size
+      description: Disk size in GB for the cloud instance
+      default: '200'
     - name: gpu-manufacturer
       description: Manufacturer company name for GPU. (i.e. NVIDIA)
       default: ""
@@ -115,15 +118,9 @@ spec:
     - name: nested-virt
       description: Use cloud instance that has nested virtualization support
       default: 'false'
-    - name: disk-size
-      description: Disk size in GB for the cloud instance
-      default: '200'
     - name: spot
       description: Check best spot option to spin the machine and will create resources on that region.
       default: 'true'
-    - name: spot-increase-rate
-      description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
-      default: '20'
     - name: spot-eviction-tolerance
       description: |
         if spot is enable we can define the minimum tolerance level of eviction.
@@ -132,6 +129,9 @@ spec:
     - name: spot-excluded-regions
       description: Comma-separated list of zone IDs to exclude from spot selection
       default: ""
+    - name: spot-increase-rate
+      description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
+      default: '20'
 
     # OCP params
     - name: version
@@ -140,6 +140,12 @@ spec:
     - name: disable-cluster-readiness
       description: If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated.
       default: 'false'
+    - name: operator-channel
+      description: |
+        Comma-separated list of operator channel overrides in the form package=channel
+        (e.g. rhods-operator=stable-3.x). Overrides the default OLM channel for the
+        named operator. Multiple overrides can be separated by commas.
+      default: ""
     - name: profile
       description: Comma-separated list of profiles to install on the cluster (e.g. virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai). When virtualization is selected, a bare metal instance is used.
       default: "''"
@@ -244,7 +250,7 @@ spec:
         fi
 
         # Run mapt
-        cmd="mapt aws ocp-snc $(params.operation) "
+        cmd="mapt aws openshift-snc $(params.operation) "
         cmd+="--project-name ocp-snc-$(params.id) "
         cmd+="--backed-url s3://${BUCKET}/mapt/ocp-snc/$(params.id) "
 
@@ -279,7 +285,17 @@ spec:
           if [[ $(params.profile) != "" ]]; then
             cmd+="--profile $(params.profile) "
           fi
-          
+          if [[ "$(params.operator-channel)" != "" ]]; then
+            IFS=',' read -ra channels <<< "$(params.operator-channel)"
+            for ch in "${channels[@]}"; do
+              if [[ ! "${ch}" =~ ^[a-zA-Z0-9_-]+=[a-zA-Z0-9._-]+$ ]]; then
+                echo "ERROR: invalid operator-channel value: ${ch}" >&2
+                exit 1
+              fi
+              cmd+="--operator-channel $(printf '%q' "${ch}") "
+            done
+          fi
+
           if [[ "$(params.spot)" == "true" ]]; then
             cmd+="--spot "
             cmd+="--spot-increase-rate '$(params.spot-increase-rate)' "
