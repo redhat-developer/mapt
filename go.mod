@@ -51,23 +51,19 @@ require (
 	k8s.io/client-go v0.36.3
 )
 
+require github.com/apparentlymart/go-textseg/v17 v17.0.1 // indirect
+
+require (
+	github.com/pgavlin/fx/v2 v2.0.12 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
+)
+
 require (
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/charmbracelet/bubbles v1.0.0 // indirect
 	github.com/charmbracelet/bubbletea v1.3.10 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
-)
-
-require (
-	github.com/pgavlin/fx v0.1.6 // indirect
-	github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8 // indirect
-	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
-	go.yaml.in/yaml/v2 v2.4.4 // indirect
-)
-
-require (
-	github.com/apparentlymart/go-textseg/v17 v17.0.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.15 // indirect
 	github.com/go-git/gcfg/v2 v2.0.2 // indirect
 	github.com/go-git/go-billy/v6 v6.0.0-alpha.2 // indirect
@@ -77,13 +73,15 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
-	github.com/pgavlin/fx/v2 v2.0.12 // indirect
+	github.com/pgavlin/fx v0.1.6 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.20.0 // indirect
+	github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8 // indirect
+	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
 	go.opentelemetry.io/contrib/bridges/otelslog v0.19.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc v0.20.0 // indirect
 	go.opentelemetry.io/otel/log v0.20.0 // indirect
 	go.opentelemetry.io/otel/sdk/log v0.20.0 // indirect
-	go.yaml.in/yaml/v3 v3.0.5 // indirect
+	go.yaml.in/yaml/v2 v2.4.4 // indirect
 )
 
 require (
