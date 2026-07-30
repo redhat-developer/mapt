@@ -82,29 +82,29 @@ spec:
     - name: arch
       description: Architecture for the machine. Allowed x86_64 or arm64 (default "x86_64")
       default: 'x86_64'
-    - name: cpus 
+    - name: cpus
       description: Number of CPUs for the cloud instance (default 8)
       default: '8'
+    - name: disk-size
+      description: Disk size in GB for the cloud instance
+      default: '200'
     - name: memory
       description: Amount of RAM for the cloud instance in GiB (default 64)
       default: '64'
     - name: nested-virt
       description: Use cloud instance that has nested virtualization support
       default: 'false'
-    - name: disk-size
-      description: Disk size in GB for the cloud instance
-      default: '200'
     - name: spot
       description: Check best spot option to spin the machine and will create resources on that region.
       default: 'true'
+    - name: spot-eviction-tolerance
+      description: |
+        if spot is enable we can define the minimum tolerance level of eviction.
+        Allowed value are: lowest, low, medium, high or highest
+      default: 'lowest'
     - name: spot-increase-rate
       description: Percentage to be added on top of the current calculated spot price to increase chances to get the machine.
       default: '20'
-    - name: spot-eviction-tolerance
-      description: | 
-        if spot is enable we can define the minimum tolerance level of eviction. 
-        Allowed value are: lowest, low, medium, high or highest
-      default: 'lowest'
 
     # OCP params
     - name: version
